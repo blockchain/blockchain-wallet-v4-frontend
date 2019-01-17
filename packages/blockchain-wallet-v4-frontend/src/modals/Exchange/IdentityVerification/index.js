@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys, pickBy } from 'ramda'
+import { contains, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -13,9 +13,12 @@ import media from 'services/ResponsiveService'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
+import DataError from 'components/DataError'
+import Loading from './template.loading'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
+import MoreInfo from './MoreInfo'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -26,29 +29,59 @@ const HeaderWrapper = styled.div`
 `
 
 const StepHeader = styled(ModalHeader)`
+  padding: 12px !important;
   > div {
     width: 100%;
     > div {
       width: 100%;
     }
   }
+  & > :first-child {
+    margin-right: 42px;
+  }
 `
 const IdentityVerificationTray = styled(Tray)`
+  margin-top: 0;
+  border-radius: 0;
   > div:first-child {
     padding: 20px;
+    > span:last-child {
+      top: 0;
+      right: 0;
+      margin: 20px;
+    }
   }
   > div:last-child {
     overflow: hidden;
-    padding: 28px 50px;
-    height: calc(100% - 91px);
-    ${media.tablet`
-      padding: 18px;
-      height: calc(100% - 151px);
-    `};
-    ${media.mobile`
-      padding: 18px;
-      height: calc(100% - 215px);
-    `};
+    padding: 0;
+    height: calc(100% - 57px);
+  }
+`
+
+const KycStepIndicator = styled(StepIndicator)`
+  justify-content: space-between;
+  span {
+    display: none;
+  }
+  > img {
+    margin-left: 0;
+    margin-right: 10px;
+    height: 32px;
+  }
+  > div {
+    flex: 1;
+    height: 8px;
+    max-width: 840px;
+    margin: auto;
+    padding: 0;
+    border-radius: 4px;
+    border: none;
+    background-color: ${props => props.theme['gray-2']};
+    &:after {
+      bottom: 0px;
+      border-radius: 4px;
+      background-color: ${props => props.theme['brand-secondary']};
+    }
   }
 `
 
@@ -59,6 +92,12 @@ const stepMap = {
     <FormattedMessage
       id='modals.identityverification.steps.personal'
       defaultMessage='Personal'
+    />
+  ),
+  [STEPS.moreInfo]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.more_info'
+      defaultMessage='Info'
     />
   ),
   [STEPS.mobile]: (
@@ -75,9 +114,6 @@ const stepMap = {
   )
 }
 
-const filterSteps = smsVerified => (stepText, step) =>
-  step !== STEPS.mobile || !smsVerified
-
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -85,55 +121,47 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    const { actions, smsVerified } = this.props
-    actions.initializeStep()
-    this.steps = pickBy(filterSteps(smsVerified), stepMap)
+    this.initializeVerification()
   }
 
-  steps = {}
+  getSteps = steps => pickBy((_, step) => contains(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
   }
 
+  initializeVerification = () => {
+    const { tier, isCoinify, needMoreInfo } = this.props
+    this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
+  }
+
   getStepComponent = step => {
-    const { actions, modalActions, position, total } = this.props
+    const { actions } = this.props
     if (step === STEPS.personal)
-      return <Personal handleSubmit={actions.savePersonalData} />
+      return (
+        <Personal
+          handleSubmit={actions.savePersonalData}
+          onBack={actions.goToPrevStep}
+        />
+      )
+
+    if (step === STEPS.moreInfo) return <MoreInfo />
 
     if (step === STEPS.mobile)
       return (
         <VerifyMobile
           handleSubmit={actions.verifySmsNumber}
-          onBack={actions.setVerificationStep.bind(null, STEPS.personal)}
+          onBack={actions.goToPrevStep}
         />
       )
 
-    if (step === STEPS.verify)
-      return (
-        <Verify
-          handleSubmit={modalActions.showModal.bind(
-            null,
-            'Onfido',
-            {
-              position: position + 1,
-              total: total + 1
-            },
-            {}
-          )}
-          onBack={
-            this.steps.mobile
-              ? actions.setVerificationStep.bind(null, STEPS.mobile)
-              : actions.setVerificationStep.bind(null, STEPS.personal)
-          }
-        />
-      )
+    if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
   }
 
   render () {
     const { show } = this.state
-    const { step, position, total } = this.props
+    const { step, steps, position, total } = this.props
 
     return (
       <IdentityVerificationTray
@@ -142,20 +170,35 @@ class IdentityVerification extends React.PureComponent {
         position={position}
         total={total}
         onClose={this.handleClose}
+        data-e2e='identityVerificationModal'
       >
-        <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
-          <HeaderWrapper>
-            <StepIndicator
-              adjuster={0.1667}
-              barFullWidth
-              flexEnd
-              maxWidth='none'
-              step={step}
-              stepMap={this.steps}
-            />
-          </HeaderWrapper>
-        </StepHeader>
-        <ModalBody>{this.getStepComponent(step)}</ModalBody>
+        {steps.cata({
+          Success: steps => (
+            <React.Fragment>
+              <StepHeader
+                tray
+                paddingHorizontal='15%'
+                onClose={this.handleClose}
+              >
+                <HeaderWrapper>
+                  <KycStepIndicator
+                    adjuster={0.1667}
+                    barFullWidth
+                    horizontalMobile
+                    flexEnd
+                    maxWidth='none'
+                    step={step}
+                    stepMap={this.getSteps(steps)}
+                  />
+                </HeaderWrapper>
+              </StepHeader>
+              <ModalBody>{this.getStepComponent(step)}</ModalBody>
+            </React.Fragment>
+          ),
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />,
+          Failure: () => <DataError onClick={this.initializeVerification} />
+        })}
       </IdentityVerificationTray>
     )
   }
@@ -171,15 +214,11 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(KYC_MODAL),
+  modalEnhancer(KYC_MODAL, { preventEscapeClose: true }),
   connect(
     getData,
     mapDispatchToProps

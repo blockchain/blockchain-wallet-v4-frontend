@@ -15,7 +15,7 @@ const SettingStatus = styled.div`
 `
 
 SettingStatus.propTypes = {
-  active: PropTypes.bool.isRequired
+  active: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]).isRequired
 }
 
 export default SettingStatus

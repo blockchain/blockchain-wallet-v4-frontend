@@ -193,7 +193,7 @@ const getDeviceInfo = transport => {
         const { targetId, mcuVersion, flags } = res
         const parsedVersion =
           seVersion.match(
-            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
+            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+)([0-9]+))?(-osu)?/
           ) || []
         const isOSU = typeof parsedVersion[5] !== 'undefined'
         const providerName = parsedVersion[4] || ''
@@ -202,7 +202,7 @@ const getDeviceInfo = transport => {
         const majMin = parsedVersion[1]
         const patch = parsedVersion[2] || '.0'
         const fullVersion = `${majMin}${patch}${
-          providerName ? `-${providerName}` : ''
+          providerName ? `${parsedVersion[3]}` : ''
         }`
         resolve({
           targetId,
@@ -213,7 +213,7 @@ const getDeviceInfo = transport => {
           providerName,
           providerId,
           flags,
-          fullVersion
+          fullVersion: providerName === 'bc' ? seVersion : fullVersion
         })
       },
       err => {
@@ -257,7 +257,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.storagespace'
-              defaultMessage='Insufficient storage space on device'
+              defaultMessage='Insufficient storage space on device. Remove other applications to free up space.'
             />
           )
         }
@@ -267,7 +267,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.appalreadyinstalled'
-              defaultMessage='App already installed'
+              defaultMessage='Application is already installed on device.'
             />
           )
         }
@@ -386,7 +386,7 @@ export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
 
 /**
  * Creates and returns a new BTC/BCH app connection
- * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {String} app - The app to connect to (BTC or BCH)
  * @param {String} deviceType - Either 'ledger' or 'blockchain'
  * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
  * @returns {Btc} Returns a BTC/BCH connection

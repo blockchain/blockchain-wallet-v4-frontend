@@ -1,9 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore, persistCombineReducers } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-import appConfig from 'config'
+import { head } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinCash from 'bitcoinforksjs-lib'
+
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   createWalletApi,
@@ -21,9 +26,6 @@ import {
   webSocketEth,
   webSocketRates
 } from '../middleware'
-import { head } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinCash from 'bitcoinforksjs-lib'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -37,21 +39,18 @@ const devToolsConfig = {
     // '@@redux-form/FOCUS',
     // '@@redux-form/BLUR',
     // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET',
-    // '@@redux-ui/MOUNT_UI_STATE',
-    // '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/RESET'
   ]
 }
 
 const configureStore = () => {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-  // TODO: should these tools be allowed in upper environments!?
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
     : compose
-  const walletPath = appConfig.WALLET_PAYLOAD_PATH
-  const kvStorePath = appConfig.WALLET_KVSTORE_PATH
+  const walletPath = 'wallet.payload'
+  const kvStorePath = 'wallet.kvstore'
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options-v4.json')
@@ -84,9 +83,10 @@ const configureStore = () => {
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
       const networks = {
-        btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
-        bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
-        eth: options.platforms.web.ethereum.config.network,
+        btc: Bitcoin.networks[options.platforms.web.btc.config.network],
+        bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
+        bsv: BitcoinCash.networks[options.platforms.web.btc.config.network],
+        eth: options.platforms.web.eth.config.network,
         xlm: options.platforms.web.xlm.config.network
       }
       const api = createWalletApi({
@@ -95,9 +95,23 @@ const configureStore = () => {
         getAuthCredentials,
         networks
       })
+      const persistWhitelist = ['session', 'preferences', 'cache']
 
+      // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
       const store = createStore(
-        connectRouter(history)(rootReducer),
+        connectRouter(history)(
+          persistCombineReducers(
+            {
+              getStoredState: getStoredStateMigrateV4({
+                whitelist: persistWhitelist
+              }),
+              key: 'root',
+              storage,
+              whitelist: persistWhitelist
+            },
+            rootReducer
+          )
+        ),
         composeEnhancers(
           applyMiddleware(
             sagaMiddleware,
@@ -110,11 +124,11 @@ const configureStore = () => {
             webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
-          ),
-          autoRehydrate()
+          )
         )
       )
-      persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
+      const persistor = persistStore(store, null)
+
       sagaMiddleware.run(rootSaga, {
         api,
         bchSocket,
@@ -125,14 +139,17 @@ const configureStore = () => {
         options
       })
 
-      // TODO: remove in production
+      // expose globals here
       window.createTestXlmAccounts = () => {
         store.dispatch(actions.core.data.xlm.createTestAccounts())
       }
 
+      store.dispatch(actions.goals.defineGoals())
+
       return {
         store,
-        history
+        history,
+        persistor
       }
     })
 }

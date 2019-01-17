@@ -4,13 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import * as bowser from 'bowser'
 
 import { Banner, Text } from 'blockchain-info-components'
+import AddDevice from './AddDevice'
+import AppManager from './AppManager'
+import AuthenticateDevice from './AuthenticateDevice'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
-import ExportXPub from './ExportXPub'
-import AddDevice from './AddDevice'
 import RestoreDevice from './RestoreDevice'
+import ShowXPubs from './ShowXPubs'
 import UpdateDevice from './UpdateDevice'
-import InstallApps from './InstallApps'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;
@@ -32,23 +33,27 @@ export default class LockboxSettings extends React.PureComponent {
             <Text color='warning' size='14px'>
               <FormattedMessage
                 id='scenes.lockbox.settings.browserwarn'
-                defaultMessage='Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.'
+                defaultMessage='Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.'
               />
             </Text>
           </BrowserWarning>
         )}
+        <AppManager
+          deviceIndex={deviceIndex}
+          isBrowserChrome={isBrowserChrome}
+        />
         <RenameDevice deviceIndex={deviceIndex} />
         <UpdateDevice
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />
-        <InstallApps
+        <AuthenticateDevice
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />
         <AddDevice isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
-        <ExportXPub deviceIndex={deviceIndex} />
+        <ShowXPubs deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />
       </SettingsContainer>
     )

@@ -1,37 +1,23 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, BUYSELL } from '../config'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
-  const createBuysell = function*(kv) {
-    const newBuysellEntry = {
+  const createBuySell = function*(kv) {
+    const newBuySellEntry = {
       sfox: {
         trades: []
       },
       coinify: {
         trades: []
-      },
-      unocoin: {
-        trades: []
       }
     }
-    const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
+    const newkv = set(KVStoreEntry.value, newBuySellEntry, kv)
     yield put(A.createMetadataBuySell(newkv))
   }
 
@@ -43,7 +29,7 @@ export default ({ api, networks }) => {
       yield put(A.fetchMetadataBuySellLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
-        yield call(createBuysell, newkv)
+        yield call(createBuySell, newkv)
       } else {
         yield put(A.fetchMetadataBuySellSuccess(newkv))
       }
@@ -53,6 +39,7 @@ export default ({ api, networks }) => {
   }
 
   return {
+    createBuySell,
     fetchMetadataBuySell
   }
 }

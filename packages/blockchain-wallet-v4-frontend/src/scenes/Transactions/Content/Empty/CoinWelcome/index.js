@@ -4,20 +4,25 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { coinProps } from './model'
 import { actions } from 'data'
-import { getCanBuyBtc, getCanAirdrop, getDomains } from './selectors'
+import {
+  getAvailability,
+  getCanBuyBtc,
+  getCanAirdrop,
+  getDomains
+} from './selectors'
 import Welcome from './template'
-import Airdrop from './template.airdrop'
+import WelcomeAirdrop from './template.airdrop'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
-    const { coin, canAirdrop, domains, partner } = this.props
+    const { availability, coin, canAirdrop, domains, partner } = this.props
 
     return canAirdrop ? (
-      <Airdrop coin={coin} domains={domains} />
+      <WelcomeAirdrop coin={coin} domains={domains} />
     ) : (
       <Welcome
+        availability={availability}
         coin={coin}
-        domains={domains}
         partner={partner}
         handleRequest={() =>
           this.props.modalActions.showModal(coinProps[coin].request)
@@ -30,7 +35,8 @@ class CoinWelcomeContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   canAirdrop: getCanAirdrop(state, ownProps),
   partner: getCanBuyBtc(state, ownProps),
-  domains: getDomains(state)
+  domains: getDomains(state),
+  availability: getAvailability(state, ownProps)
 })
 
 const mapDispatchToProps = dispatch => ({

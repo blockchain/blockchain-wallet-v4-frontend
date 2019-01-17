@@ -23,7 +23,6 @@ export const EXCHANGE_STEPS = {
 
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
-export const SHAPESHIFT_FORM = '@EXCHANGE.SHAPESHIFT_FORM'
 
 export const SHAPESHIFT_PAIRS = Remote.of([
   'BTC-BCH',
@@ -56,7 +55,7 @@ export const CREATE_ACCOUNT_ERROR = 'Not enough funds to create new account'
 export const NO_ACCOUNT_ERROR = 'Account does not exist'
 export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
 
-const currenciesOrder = ['BTC', 'BCH', 'ETH', 'XLM']
+const currenciesOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'BSV']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
 
 const getPairedCoins = curry(

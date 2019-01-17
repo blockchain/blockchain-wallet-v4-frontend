@@ -35,12 +35,6 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       }
     })
 
-  const fetchUploadData = token =>
-    get({
-      url: nabuUrl,
-      endPoint: `/upload/data/${token}`
-    })
-
   const syncOnfido = (applicantId, isSelfie) => {
     return authorizedPost({
       url: nabuUrl,
@@ -53,6 +47,28 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     })
   }
 
+  const fetchUploadData = token =>
+    get({
+      url: nabuUrl,
+      endPoint: `/upload/data/${token}`
+    })
+
+  const fetchVeriffUrl = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/kyc/credentials/veriff',
+      headers: { 'x-client-type': 'WEB' }
+    })
+
+  const syncVeriff = applicantId =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/kyc/verifications',
+      contentType: 'application/json',
+      data: { applicantId },
+      headers: { 'x-client-type': 'WEB' }
+    })
+
   const uploadDocuments = (token, data) =>
     post({
       contentType: 'application/json',
@@ -61,14 +77,51 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const fetchKycConfig = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/configuration',
+      headers: { 'x-client-type': 'WEB' }
+    })
+
+  const fetchTiers = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/tiers'
+    })
+
+  const selectTier = selectedTier =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/tiers',
+      ignoreQueryParams: true,
+      data: { selectedTier }
+    })
+
+  const sendDeeplink = () =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/verifications/mobile-email'
+    })
+
   return {
     getSupportedCountries,
     getSupportedDocuments,
     getStates,
     fetchKycAddresses,
+    fetchKycConfig,
     fetchOnfidoSDKKey,
     fetchUploadData,
+    fetchTiers,
+    fetchVeriffUrl,
+    selectTier,
+    sendDeeplink,
     syncOnfido,
+    syncVeriff,
     uploadDocuments
   }
 }

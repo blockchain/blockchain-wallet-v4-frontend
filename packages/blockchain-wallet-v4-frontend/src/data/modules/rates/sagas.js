@@ -1,9 +1,10 @@
+import { and, compose, head, last, prop } from 'ramda'
 import { put, select, call } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { configEquals } from './model'
+import { configEquals, splitPair } from './model'
 
 export default ({ api }) => {
   const subscribeToAdvice = function*({ payload }) {
@@ -41,7 +42,25 @@ export default ({ api }) => {
     try {
       yield put(A.availablePairsLoading())
       const { pairs } = yield call(api.fetchAvailablePairs)
-      yield put(A.availablePairsSuccess(pairs))
+      const getCoinAvailability = yield select(
+        selectors.core.walletOptions.getCoinAvailability
+      )
+      const getExchangeTypeAvailability = (type, coin) =>
+        getCoinAvailability(coin)
+          .map(prop(type))
+          .getOrElse(false)
+
+      const walletAvailablePairs = pairs.filter(
+        compose(
+          coins =>
+            and(
+              getExchangeTypeAvailability('exchangeTo', last(coins)),
+              getExchangeTypeAvailability('exchangeFrom', head(coins))
+            ),
+          splitPair
+        )
+      )
+      yield put(A.availablePairsSuccess(walletAvailablePairs))
     } catch (e) {
       yield put(A.availablePairsError(e))
     }

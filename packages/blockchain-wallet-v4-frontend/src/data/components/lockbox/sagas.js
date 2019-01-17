@@ -1,5 +1,21 @@
-import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { head, contains, find, length, prop, propEq } from 'ramda'
+import {
+  call,
+  cancelled,
+  put,
+  take,
+  select,
+  takeEvery
+} from 'redux-saga/effects'
+import {
+  head,
+  contains,
+  filter,
+  find,
+  length,
+  prop,
+  propEq,
+  values
+} from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
 import { actionTypes, actions, selectors } from 'data'
 import * as A from './actions'
@@ -11,6 +27,7 @@ import * as Lockbox from 'services/LockboxService'
 import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
+const sagaCancelledMsg = 'Saga cancelled from user modal close'
 
 export default ({ api }) => {
   // variables for deviceType and app polling during new device setup
@@ -58,13 +75,16 @@ export default ({ api }) => {
   const pollForDeviceApp = function*(action) {
     try {
       let { appRequested, deviceIndex, deviceType, timeout } = action.payload
-      if (!deviceIndex && !deviceType) {
-        throw new Error('deviceIndex or deviceType is required')
-      }
+
       // close previous transport and reset old connection info
       try {
-        const { transport } = yield select(S.getCurrentConnection)
-        if (transport) transport.close()
+        const previousConnection = yield select(S.getCurrentConnection)
+        if (!deviceIndex && !deviceType) {
+          deviceType = previousConnection.deviceType
+        }
+        if (previousConnection.transport) {
+          previousConnection.transport.close()
+        }
       } finally {
         yield put(A.resetConnectionStatus())
       }
@@ -92,19 +112,34 @@ export default ({ api }) => {
       closePoll = true
     } catch (e) {
       yield put(A.setConnectionError(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForDeviceApp', e)
+      )
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'pollForDeviceApp',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*() {
+  const checkDeviceAuthenticity = function*(action) {
     try {
-      yield put(A.checkDeviceAuthenticityLoading())
-      const { deviceType } = yield select(S.getCurrentConnection)
-      // reset connection with default timeout
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      // poll for device connection on dashboard
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      // take new transport
+      // device connection made
       yield take(AT.SET_CONNECTION_INFO)
+      yield put(A.checkDeviceAuthenticityLoading())
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -135,11 +170,9 @@ export default ({ api }) => {
           perso: firmware.perso
         }
       )
-
       yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
-      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
-      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(A.checkDeviceAuthenticityFailure(false))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
       )
@@ -214,6 +247,7 @@ export default ({ api }) => {
     }
   }
 
+  // saves xPubs/addresses for requested coin to kvStore
   const saveCoinMD = function*(action) {
     try {
       const { deviceIndex, coin } = action.payload
@@ -233,6 +267,7 @@ export default ({ api }) => {
             deviceType,
             transport
           )
+          if (!publicKey) throw new Error('No XLM public key found')
           entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
           yield put(actions.components.lockbox.setConnectionSuccess())
           yield delay(2000)
@@ -308,6 +343,45 @@ export default ({ api }) => {
     }
   }
 
+  // fetches info on the latest applications for device
+  const deriveLatestAppInfo = function*() {
+    try {
+      yield put(A.setLatestAppInfosLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      yield put(A.setDeviceTargetId(deviceInfo.targetId))
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      // limit apps to only the ones we support
+      const appList = filter(
+        item => contains(item.name, values(Lockbox.constants.supportedApps)),
+        appInfos.application_versions
+      )
+      yield put(A.setLatestAppInfosSuccess(appList))
+    } catch (e) {
+      yield put(A.setLatestAppInfosFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'deriveLatestAppInfo', e)
+      )
+    }
+  }
+
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
@@ -324,9 +398,15 @@ export default ({ api }) => {
       const { payload } = yield take(AT.SET_CONNECTION_INFO)
       const { deviceType } = payload
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-      // check device authenticity
-      yield put(A.checkDeviceAuthenticity())
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      // prefetch app infos for future step
+      yield call(deriveLatestAppInfo)
+      const setupType = yield select(S.getNewDeviceSetupType)
+      if (setupType === 'new') {
+        // installing btc app, wait for confirmation of install
+        yield take(AT.NEW_DEVICE_BTC_INSTALL)
+        yield put(A.installApplication('BTC'))
+        yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      }
       // quick poll for BTC connection in case user cancels setup to install BTC
       pollLength = 5000
       closePoll = false
@@ -338,16 +418,8 @@ export default ({ api }) => {
       yield takeEvery(btcAppChannel, function*(app) {
         yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
       })
-      const resp = yield take([
-        AT.SET_CONNECTION_INFO,
-        AT.INSTALL_BLOCKCHAIN_APPS
-      ])
-      // user requested to install apps, close polling and break
-      if (resp.type === AT.INSTALL_BLOCKCHAIN_APPS) {
-        btcAppChannel.close()
-        return
-      }
       // BTC app connection
+      yield take(AT.SET_CONNECTION_INFO)
       const connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
@@ -378,10 +450,19 @@ export default ({ api }) => {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }
     } catch (e) {
-      // TODO: better error handling, display error, close modal
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
+    } finally {
+      if (yield cancelled()) {
+        yield put(A.resetConnectionStatus())
+        yield put(A.resetDeviceAuthenticity())
+        actions.logs.logInfoMessage(
+          logLocation,
+          'initializeNewDeviceSetup',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
@@ -497,21 +578,17 @@ export default ({ api }) => {
           })
         )
         // uninstall apps to ensure room for firmware
+        // TODO: this is gross and wont work once all apps dont fit onto device
+        // should just show user not enough space error and have them remove
+        // desired apps themselves
         yield put(A.uninstallApplication('BCH'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         yield put(A.uninstallApplication('ETH'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
+        yield put(A.uninstallApplication('XLM'))
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         yield put(A.uninstallApplication('BTC'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         // fetch base socket domain
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({
@@ -570,117 +647,22 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
-    }
-  }
-
-  // installs requested application on device
-  const installApplication = function*(action) {
-    const { app } = action.payload
-    try {
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // get latest info on applications
-      const appInfos = yield call(api.getApplications, {
-        provider: deviceInfo.providerId,
-        current_se_firmware_final_version: seFirmwareVersion.id,
-        device_version: deviceVersion.id
-      })
-      // fetch base socket domain
-      const domainsR = yield select(selectors.core.walletOptions.getDomains)
-      const domains = domainsR.getOrElse({
-        ledgerSocket: 'wss://api.ledgerwallet.com'
-      })
-      // install application
-      yield call(
-        Lockbox.apps.installApp,
-        transport,
-        domains.ledgerSocket,
-        deviceInfo.targetId,
-        app,
-        appInfos.application_versions
-      )
-      yield put(A.installApplicationSuccess(app))
-    } catch (e) {
-      yield put(A.installApplicationFailure(app, e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'installApplication', e)
-      )
-    }
-  }
-
-  // uninstalls requested application on device
-  const uninstallApplication = function*(action) {
-    const { app } = action.payload
-    try {
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // get latest info on applications
-      const appInfos = yield call(api.getApplications, {
-        provider: deviceInfo.providerId,
-        current_se_firmware_final_version: seFirmwareVersion.id,
-        device_version: deviceVersion.id
-      })
-      const appNameMap = {
-        BTC: 'Bitcoin',
-        BCH: 'Bitcoin Cash',
-        ETH: 'Ethereum'
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'updateDeviceFirmware',
+          sagaCancelledMsg
+        )
       }
-      const appInfo = find(propEq('name', appNameMap[app]))(
-        prop('application_versions', appInfos)
-      )
-      // fetch base socket domain
-      const domainsR = yield select(selectors.core.walletOptions.getDomains)
-      const domains = domainsR.getOrElse({
-        ledgerSocket: 'wss://api.ledgerwallet.com'
-      })
-      // uninstall application
-      yield call(
-        Lockbox.apps.uninstallApp,
-        transport,
-        domains.ledgerSocket,
-        deviceInfo.targetId,
-        appInfo
-      )
-      yield put(A.uninstallApplicationSuccess(app))
-    } catch (e) {
-      yield put(A.uninstallApplicationFailure(app, e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
-      )
     }
   }
 
-  // installs blockchain standard apps (BTC, BCH, ETH)
-  // TODO: remove Blockchain install saga once app store is introduced
-  const installBlockchainApps = function*(action) {
+  // initializes the app manager to add and remove apps
+  const initializeAppManager = function*(action) {
+    const { deviceIndex } = action.payload
+
     try {
-      const { deviceIndex } = action.payload
-      yield put(A.resetAppsInstallStatus())
-      yield put(A.installBlockchainAppsLoading())
       if (deviceIndex) {
         // derive device type
         const deviceR = yield select(
@@ -691,8 +673,7 @@ export default ({ api }) => {
         // poll for device connection on dashboard
         yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
       } else {
-        // no device index passed, user is still in device setup
-        // poll for device type
+        // no device index passed, user may be in device setup. quick poll for device type
         closePoll = false
         let pollLength = 2500
         pollPosition = 0
@@ -709,37 +690,76 @@ export default ({ api }) => {
       }
       // device connection made
       yield take(AT.SET_CONNECTION_INFO)
-      // wait for user to continue
-      yield take(AT.CONTINUE_APP_INSTALL)
-      // install BTC app
-      yield put(A.installApplication('BTC'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install BCH app
-      yield put(A.installApplication('BCH'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install ETH app
-      yield put(A.installApplication('ETH'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install XLM app
-      yield put(A.installApplication('XLM'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      yield put(A.installBlockchainAppsSuccess())
+      yield call(deriveLatestAppInfo)
     } catch (e) {
-      yield put(A.installBlockchainAppsFailure(e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
+        actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
+      )
+    }
+  }
+
+  // installs requested application on device
+  const installApplication = function*(action) {
+    const { appName } = action.payload
+    try {
+      yield put(A.appChangeLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      const targetId = (yield select(S.getDeviceTargetId)).getOrFail()
+      const latestAppVersions = (yield select(
+        S.getLatestApplicationVersions
+      )).getOrFail(6)
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // install application
+      yield call(
+        Lockbox.apps.installApp,
+        transport,
+        domains.ledgerSocket,
+        targetId,
+        appName,
+        latestAppVersions
+      )
+      yield put(A.appChangeSuccess(appName, 'install'))
+    } catch (e) {
+      yield put(A.appChangeFailure(appName, 'install', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
+  }
+
+  // uninstalls requested application on device
+  const uninstallApplication = function*(action) {
+    const { appName } = action.payload
+    try {
+      yield put(A.appChangeLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      const targetId = (yield select(S.getDeviceTargetId)).getOrFail()
+      const latestAppVersions = (yield select(
+        S.getLatestApplicationVersions
+      )).getOrFail()
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      const appInfo = find(propEq('name', appName), latestAppVersions)
+      // uninstall application
+      yield call(
+        Lockbox.apps.uninstallApp,
+        transport,
+        domains.ledgerSocket,
+        targetId,
+        appInfo
+      )
+      yield put(A.appChangeSuccess(appName, 'uninstall'))
+    } catch (e) {
+      yield put(A.appChangeFailure(appName, 'uninstall', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
       )
     }
   }
@@ -747,14 +767,15 @@ export default ({ api }) => {
   return {
     checkDeviceAuthenticity,
     deleteDevice,
-    pollForDeviceTypeChannel,
-    pollForDeviceAppChannel,
+    deriveLatestAppInfo,
     determineLockboxRoute,
     initializeDashboard,
+    initializeAppManager,
     initializeNewDeviceSetup,
     installApplication,
-    installBlockchainApps,
     pollForDeviceApp,
+    pollForDeviceAppChannel,
+    pollForDeviceTypeChannel,
     saveNewDeviceKvStore,
     saveCoinMD,
     uninstallApplication,

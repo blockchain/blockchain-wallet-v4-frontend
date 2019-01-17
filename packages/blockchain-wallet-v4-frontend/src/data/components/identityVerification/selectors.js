@@ -10,6 +10,11 @@ export const getSmsStep = path([
   'identityVerification',
   'smsStep'
 ])
+export const getEmailStep = path([
+  'components',
+  'identityVerification',
+  'emailStep'
+])
 
 export const getSupportedCountries = path([
   'components',
@@ -25,14 +30,10 @@ export const getSupportedDocuments = path([
 
 export const getStates = path(['components', 'identityVerification', 'states'])
 
-export const getPossibleAddresses = path([
+export const getKycFlowConfig = path([
   'components',
   'identityVerification',
-  'possibleAddresses'
+  'flowConfig'
 ])
 
-export const isAddressRefetchVisible = path([
-  'components',
-  'identityVerification',
-  'addressRefetchVisible'
-])
+export const getSteps = path(['components', 'identityVerification', 'steps'])

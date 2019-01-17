@@ -1,20 +1,30 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeLatest, race, take, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
-  return function*() {
+  return function* lockboxSaga () {
+    yield takeLatest(AT.INITIALIZE_NEW_DEVICE_SETUP, function*(...args) {
+      yield race({
+        task: call(lockboxSagas.initializeNewDeviceSetup, ...args),
+        cancel: take(AT.LOCKBOX_MODAL_CLOSE)
+      })
+    })
+    yield takeLatest(AT.POLL_FOR_DEVICE_APP, function*(...args) {
+      yield race({
+        task: call(lockboxSagas.pollForDeviceApp, ...args),
+        cancel: take(AT.LOCKBOX_MODAL_CLOSE)
+      })
+    })
+    yield takeLatest(AT.UPDATE_DEVICE_FIRMWARE, function*(...args) {
+      yield race({
+        task: call(lockboxSagas.updateDeviceFirmware, ...args),
+        cancel: take(AT.LOCKBOX_MODAL_CLOSE)
+      })
+    })
     yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
-    yield takeLatest(
-      AT.INITIALIZE_NEW_DEVICE_SETUP,
-      lockboxSagas.initializeNewDeviceSetup
-    )
-    yield takeLatest(
-      AT.UPDATE_DEVICE_FIRMWARE,
-      lockboxSagas.updateDeviceFirmware
-    )
     yield takeLatest(
       AT.UPDATE_TRANSACTION_LIST,
       lockboxSagas.updateTransactionList
@@ -28,18 +38,17 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.saveNewDeviceKvStore
     )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
-    yield takeLatest(AT.POLL_FOR_DEVICE_APP, lockboxSagas.pollForDeviceApp)
     yield takeLatest(
       AT.CHECK_DEVICE_AUTHENTICITY,
       lockboxSagas.checkDeviceAuthenticity
     )
     yield takeLatest(
-      AT.INSTALL_BLOCKCHAIN_APPS,
-      lockboxSagas.installBlockchainApps
-    )
-    yield takeLatest(
       AT.UNINSTALL_APPLICATION,
       lockboxSagas.uninstallApplication
+    )
+    yield takeLatest(
+      AT.INITIALIZE_APP_MANAGER,
+      lockboxSagas.initializeAppManager
     )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
     yield takeLatest(AT.SAVE_COIN_MD, lockboxSagas.saveCoinMD)

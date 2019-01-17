@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { assoc, find, path, prop, propEq, is } from 'ramda'
+import { assoc, path, prop, is } from 'ramda'
 
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
@@ -13,7 +13,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -40,27 +40,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
-
-  const welcomeSaga = function*(firstLogin) {
-    const goals = yield select(selectors.goals.getGoals)
-    const referralGoal = find(propEq('name', 'referral'))(goals)
-    if (referralGoal) {
-      // referral modal was displayed in goals saga, now delete
-      yield put(actions.goals.deleteGoal(referralGoal.id))
-    } else if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(actions.modals.showModal('Welcome', { walletMillions }))
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success')
-      )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-    }
-  }
-
   const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -132,6 +111,7 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())
@@ -155,8 +135,12 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, firstLogin)
-      yield fork(reportStats, mobileLogin)
+      // TODO @analytics.logEvent login flow
+      // yield fork(reportStats, mobileLogin)
+      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('swapUpgrade'))
+      yield put(actions.goals.saveGoal('kyc'))
+      yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -169,18 +153,6 @@ export default ({ api, coreSagas }) => {
       )
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-    }
-  }
-
-  const reportStats = function*(mobileLogin) {
-    if (mobileLogin) {
-      yield call(api.incrementLoginViaQrStats)
-    } else {
-      const wallet = yield select(selectors.core.wallet.getWallet)
-      yield call(
-        api.incrementSecPasswordStats,
-        Types.Wallet.isDoubleEncrypted(wallet)
-      )
     }
   }
 
@@ -543,12 +515,10 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    reportStats,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeAddressLabelsSaga
   }
 }

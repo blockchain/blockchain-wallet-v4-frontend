@@ -1,23 +1,12 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty } from 'ramda'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, CONTACTS } from '../config'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
   const createContacts = function*(kv) {
     // TOOD : empty contacts implementation
     // const newEntry = {}
@@ -25,13 +14,13 @@ export default ({ api, networks }) => {
     // yield put(A.createMetadataContacts(newkv))
   }
 
-  const fetchContacts = function*() {
-    const typeId = derivationMap[CONTACTS]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setContacts(newkv))
-  }
+  // const fetchContacts = function*() {
+  //   const typeId = derivationMap[CONTACTS]
+  //   const mxpriv = yield select(getMetadataXpriv)
+  //   const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
+  //   const newkv = yield callTask(api.fetchKVStore(kv))
+  //   yield put(A.setContacts(newkv))
+  // }
 
   const fetchMetadataContacts = function*() {
     try {
@@ -51,7 +40,6 @@ export default ({ api, networks }) => {
   }
 
   return {
-    fetchContacts,
     fetchMetadataContacts
   }
 }

@@ -1,13 +1,14 @@
 import { curry, compose, lensProp, forEach, addIndex, over } from 'ramda'
 import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
-import * as Coin from '../coinSelection/coin.js'
+import * as Coin from '../coinSelection/coin'
+import { addressToScript } from '../utils/btc'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
 import Btc from '@ledgerhq/hw-app-btc'
 import * as crypto from '../walletCrypto'
 
-export const signSelection = curry((network, selection) => {
+export const signSelection = curry((network, coinDust, selection) => {
   const hashType =
     BitcoinCash.Transaction.SIGHASH_ALL |
     BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
@@ -27,8 +28,15 @@ export const signSelection = curry((network, selection) => {
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
+  // add dust input and output after original selection
+  tx.addInput(
+    coinDust.txHash,
+    coinDust.index,
+    BitcoinCash.Transaction.DEFAULT_SEQUENCE
+  )
+  tx.addOutput(coinDust.address, coinDust.value)
   addIndex(forEach)(sign, selection.inputs)
-  const signedTx = tx.build()
+  const signedTx = tx.buildIncomplete()
   return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
@@ -40,17 +48,18 @@ export const sortSelection = selection => ({
 
 // signHDWallet :: network -> password -> wrapper -> selection -> Task selection
 export const signHDWallet = curry(
-  (network, secondPassword, wrapper, selection) =>
+  (network, secondPassword, wrapper, selection, coinDust) =>
     addHDWalletWIFS(network, secondPassword, wrapper, selection).map(
-      signWithWIF(network)
+      signWithWIF(network, coinDust)
     )
 )
 
 // signLegacy :: network -> password -> wrapper -> selection -> Task selection
-export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
-  addLegacyWIFS(network, secondPassword, wrapper, selection).map(
-    signWithWIF(network)
-  )
+export const signLegacy = curry(
+  (network, secondPassword, wrapper, selection, coinDust) =>
+    addLegacyWIFS(network, secondPassword, wrapper, selection).map(
+      signWithWIF(network, coinDust)
+    )
 )
 
 export const wifToKeys = curry((network, selection) =>
@@ -66,9 +75,9 @@ export const wifToKeys = curry((network, selection) =>
 )
 
 // signWithWIF :: network -> selection -> selection
-export const signWithWIF = curry((network, selection) =>
+export const signWithWIF = curry((network, coinDust, selection) =>
   compose(
-    signSelection(network),
+    signSelection(network, coinDust),
     sortSelection,
     wifToKeys(network)
   )(selection)
@@ -76,12 +85,14 @@ export const signWithWIF = curry((network, selection) =>
 
 export const signWithLockbox = function*(
   selection,
+  coinDust,
   transport,
   scrambleKey,
   changeIndex,
   api
 ) {
   const BTC = new Btc(transport, scrambleKey)
+  let multisigInputs = []
   let inputs = []
   let paths = []
   const changePath = `44'/145'/0'/M/1/${changeIndex}`
@@ -97,15 +108,23 @@ export const signWithLockbox = function*(
     return hex.length > 1 ? hex : '0' + hex
   }
 
+  selection.outputs.push(coinDust)
   let outputs = intToHex(selection.outputs.length)
   selection.outputs.map(coin => {
     let amount = Buffer.alloc(8)
+    let script =
+      typeof coin.script === 'string'
+        ? addressToScript(coin.address)
+        : coin.script
     amount.writeUInt32LE(coin.value)
     outputs +=
       amount.toString('hex') +
-      intToHex(coin.script.length) +
+      intToHex(script.length) +
       coin.script.toString('hex')
   })
+
+  const dustTxHex = yield api.getBchRawTx(coinDust.txHash)
+  multisigInputs.push([BTC.splitTransaction(dustTxHex), coinDust.index])
 
   const hashType =
     BitcoinCash.Transaction.SIGHASH_ALL |
@@ -120,7 +139,9 @@ export const signWithLockbox = function*(
     hashType,
     undefined,
     undefined,
-    ['abc']
+    ['abc'],
+    undefined,
+    multisigInputs
   )
   const txId = crypto
     .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))

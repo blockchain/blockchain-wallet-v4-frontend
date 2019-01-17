@@ -14,10 +14,9 @@ const checkDeviceAuthenticity = (transport, baseUrl, params) => {
     const res = await utils.mapSocketError(
       utils.createDeviceSocket(transport, url).toPromise()
     )
-
-    !res || res !== '0000' || res.errMsg
-      ? reject(res.errMsg ? res.errMsg : 'Device authenticity check failed')
-      : resolve(res)
+    /* eslint-disable  prefer-promise-reject-errors */
+    !res || res !== '0000' || res.errMsg ? reject(false) : resolve(true)
+    /* eslint-enable  prefer-promise-reject-errors */
   })
 }
 

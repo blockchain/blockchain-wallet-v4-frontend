@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   cursor: pointer;
   position: relative;
   min-width: 160px;
-  padding: 15px 20px 0px 20px;
+  padding: 15px 20px 0 20px;
   > div:not(:last-child) {
     margin-bottom: 5px;
   }

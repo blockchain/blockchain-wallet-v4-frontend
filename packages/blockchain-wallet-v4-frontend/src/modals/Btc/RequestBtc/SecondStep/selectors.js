@@ -10,7 +10,7 @@ export const getData = (state, ownProps) => {
     fromUnit: 'BTC',
     toUnit: 'SAT'
   }).value
-  const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${
+  const link = `https://blockchain.com/btc/payment_request?address=${receiveAddress}&amount=${
     amount.coin
   }&message=${message}`
   return Remote.of({ satoshis, link, amount, message, receiveAddress })

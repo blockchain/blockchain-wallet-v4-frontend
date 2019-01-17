@@ -350,6 +350,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='IP whitelist has been successfully updated'
         />
       )
+    case C.KYC_START_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.kyc_start_error'
+          defaultMessage='Failed to update a tier. Please try again'
+        />
+      )
     case C.LANGUAGE_UPDATE_ERROR:
       return (
         <FormattedMessage
@@ -525,6 +532,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='PBKDF2 iterations changed successfully'
         />
       )
+    case C.PLEASE_LOGIN:
+      return (
+        <FormattedMessage
+          id='components.alerts.please_login'
+          defaultMessage='Please login to your wallet to proceed'
+        />
+      )
     case C.QR_SCANNER_NOT_ALLOWED:
       return (
         <FormattedMessage
@@ -649,6 +663,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.send_bch_success'
           defaultMessage='Your bitcoin cash transaction is now pending'
+        />
+      )
+    case C.SEND_BSV_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_error'
+          defaultMessage='Your Bitcoin SV transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_BSV_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_success'
+          defaultMessage='Your Bitcoin SV transaction is now pending'
         />
       )
     case C.SEND_BTC_ERROR:
@@ -985,7 +1013,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
-          defaultMessage='Not a valid Bitcoin Private Key or Address.'
+          defaultMessage='Not a valid bitcoin private key or address.'
         />
       )
     case C.LOCKBOX_SETUP_SUCCESS:

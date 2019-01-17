@@ -176,11 +176,10 @@ export default ({ api }) => {
       throw new Error('missing_change_address')
     }
 
-    let targets = zip(to, amount).map(
-      ([target, value]) =>
-        target.type === ADDRESS_TYPES.SCRIPT
-          ? Coin.fromJS({ script: target.script, value })
-          : Coin.fromJS({ address: target.address, value })
+    let targets = zip(to, amount).map(([target, value]) =>
+      target.type === ADDRESS_TYPES.SCRIPT
+        ? Coin.fromJS({ script: target.script, value })
+        : Coin.fromJS({ address: target.address, value })
     )
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
@@ -236,7 +235,9 @@ export default ({ api }) => {
     scrambleKey,
     fromType,
     selection,
-    changeIndex
+    changeIndex,
+    lockSecret,
+    coinDust
   ) {
     if (!selection) {
       throw new Error('missing_selection')
@@ -245,11 +246,15 @@ export default ({ api }) => {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         return yield call(() =>
-          taskToPromise(bch.signHDWallet(network, password, wrapper, selection))
+          taskToPromise(
+            bch.signHDWallet(network, password, wrapper, selection, coinDust)
+          )
         )
       case ADDRESS_TYPES.LEGACY:
         return yield call(() =>
-          taskToPromise(bch.signLegacy(network, password, wrapper, selection))
+          taskToPromise(
+            bch.signLegacy(network, password, wrapper, selection, coinDust)
+          )
         )
       case ADDRESS_TYPES.WATCH_ONLY:
       case ADDRESS_TYPES.EXTERNAL:
@@ -258,6 +263,7 @@ export default ({ api }) => {
         return yield call(
           bch.signWithLockbox,
           selection,
+          coinDust,
           transport,
           scrambleKey,
           changeIndex,
@@ -269,11 +275,11 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculatePublish = function*(txHex) {
+  const calculatePublish = function*(txHex, lockSecret) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
+    return yield call(() => taskToPromise(pushBitcoinTx(txHex, lockSecret)))
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -333,7 +339,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
+      *getCoinDust () {
+        const dust = yield call(api.getBchDust)
+        const script = prop('output_script', dust)
+        const lockSecret = prop('lock_secret', dust)
+        const coinDust = Coin.fromJS({ ...dust, script })
+
+        return { coinDust, lockSecret }
+      },
+
       *sign (password, transport, scrambleKey) {
+        // collect coin dust
+        const { coinDust, lockSecret } = yield call(this.getCoinDust)
         let signed = yield call(
           calculateSignature,
           network,
@@ -342,13 +359,16 @@ export default ({ api }) => {
           scrambleKey,
           prop('fromType', p),
           prop('selection', p),
-          prop('changeIndex', p)
+          prop('changeIndex', p),
+          lockSecret,
+          coinDust
         )
-        return makePayment(merge(p, { ...signed }))
+        return makePayment(merge(p, { ...signed, lockSecret }))
       },
 
       *publish () {
-        let result = yield call(calculatePublish, p.txHex)
+        // call pushtx with incompleteTx and lockSecret
+        let result = yield call(calculatePublish, p.txHex, p.lockSecret)
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
       },

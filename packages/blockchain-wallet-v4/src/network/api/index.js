@@ -1,8 +1,9 @@
 import analytics from './analytics'
-import bitcoin from './btc'
-import delegate from './delegate'
-import ethereum from './eth'
 import bch from './bch'
+import btc from './btc'
+import bsv from './bsv'
+import delegate from './delegate'
+import eth from './eth'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import lockbox from './lockbox'
@@ -30,10 +31,11 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
 
   return {
     ...analytics({ rootUrl, apiUrl, ...http }),
-    ...bitcoin({ rootUrl, apiUrl, ...http }),
-    ...delegate({ rootUrl, apiUrl, ...http }),
-    ...ethereum({ rootUrl, apiUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
+    ...btc({ rootUrl, apiUrl, ...http }),
+    ...bsv({ rootUrl, apiUrl, ...http }),
+    ...delegate({ rootUrl, apiUrl, ...http }),
+    ...eth({ rootUrl, apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,

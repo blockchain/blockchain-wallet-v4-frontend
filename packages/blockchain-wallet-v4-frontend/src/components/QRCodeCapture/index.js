@@ -11,6 +11,7 @@ import * as C from 'services/AlertService'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 
 const { FORM: BTC_FORM } = model.components.sendBtc
+const { FORM: BSV_FORM } = model.components.sendBsv
 const { FORM: BCH_FORM } = model.components.sendBch
 const { FORM: ETH_FORM } = model.components.sendEth
 const { FORM: XLM_FORM } = model.components.sendXlm
@@ -60,7 +61,6 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBchAddress (data) {
-    // try bitcoincash:qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
     try {
       const { address, options } = bip21.decode(data, 'bitcoincash')
       const { amount, message } = options
@@ -70,7 +70,6 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.setState({ bchAddressToggled: false })
     } catch (e) {
       try {
-        // try qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
         if (utils.bch.isCashAddr(data)) {
           this.props.formActions.change(BCH_FORM, 'to', data)
           return
@@ -78,6 +77,33 @@ class QRCodeCaptureContainer extends React.PureComponent {
         // try legacy addr
         if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
           this.props.formActions.change(BCH_FORM, 'to', data)
+          return
+        }
+        // throw error
+        throw Error('invalid_bch_addr')
+      } catch (e) {
+        this.props.alertActions.displayError(C.BCH_ADDRESS_INVALID)
+      }
+    }
+  }
+
+  handleScanBsvAddress (data) {
+    try {
+      const { address, options } = bip21.decode(data, 'bitcoincash')
+      const { amount, message } = options
+      this.props.formActions.change(BSV_FORM, 'to', address)
+      this.props.formActions.change(BSV_FORM, 'amount', amount)
+      this.props.formActions.change(BSV_FORM, 'description', message)
+      this.setState({ bchAddressToggled: false })
+    } catch (e) {
+      try {
+        if (utils.bch.isCashAddr(data)) {
+          this.props.formActions.change(BSV_FORM, 'to', data)
+          return
+        }
+        // try legacy addr
+        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
+          this.props.formActions.change(BSV_FORM, 'to', data)
           return
         }
         // throw error
@@ -206,6 +232,7 @@ QRCodeCaptureContainer.defaultProps = {
     'btcAddress',
     'ethAddress',
     'bchAddress',
+    'bsvAddress',
     'xlmAddress',
     'btcPriv',
     'btcPrivOrAddress'

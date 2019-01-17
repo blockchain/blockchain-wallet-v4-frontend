@@ -5,30 +5,65 @@ import {
   compose,
   concat,
   filter,
+  has,
   isNil,
   lift,
   map,
   not,
   path,
   prop,
+  prepend,
   sequence,
   reduce
 } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+
+const allWallets = {
+  label: 'All',
+  options: [
+    {
+      label: 'All Bitcoin Cash Wallets',
+      value: 'all'
+    }
+  ]
+}
+
+const allImportedAddresses = {
+  label: 'Imported Addresses',
+  options: [
+    {
+      label: 'All Imported Bitcoin Cash Addresses',
+      value: 'allImportedAddresses'
+    }
+  ]
+}
 
 export const getData = (state, ownProps) => {
   const {
     coin,
     exclude = [],
-    excludeImported,
+    excludeHDWallets,
     excludeWatchOnly,
-    excludeLockbox
+    excludeImported,
+    excludeLockbox,
+    includeAll = true
   } = ownProps
+  const buildDisplay = wallet => {
+    if (has('balance', wallet)) {
+      let bchDisplay = Exchange.displayBchToBch({
+        value: wallet.balance,
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
+      })
+      return wallet.label + ` (${bchDisplay})`
+    }
+    return wallet.label
+  }
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ label: x.label, value: x }))
+  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
 
   const formatAddress = addressData => {
@@ -81,7 +116,16 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox'))
-    ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
+    ]).map(([b1, b2, b3]) => {
+      const data = reduce(concat, [], [b1, b2, b3])
+      if (includeAll) {
+        return { data: prepend(allWallets, data) }
+      } else if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
+      } else {
+        return { data }
+      }
+    })
   }
 
   return getAddressesData()

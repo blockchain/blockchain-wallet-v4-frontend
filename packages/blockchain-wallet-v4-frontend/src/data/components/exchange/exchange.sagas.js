@@ -1,4 +1,13 @@
-import { call, put, select, all, take } from 'redux-saga/effects'
+import {
+  call,
+  cancel,
+  fork,
+  put,
+  select,
+  all,
+  spawn,
+  take
+} from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import {
   compose,
@@ -51,8 +60,11 @@ import {
 } from './services'
 
 export const logLocation = 'exchange/sagas'
+export const renewLimitsDelay = 30 * 1000
 
-export default ({ api, coreSagas, options, networks }) => {
+let renewLimitsTask = null
+export default ({ api, coreSagas, networks }) => {
+  const { SECOND_STEP_SUBMIT, SECOND_STEP_ERROR } = model.analytics.EXCHANGE
   const {
     RESULTS_MODAL,
     formatExchangeTrade
@@ -76,9 +88,7 @@ export default ({ api, coreSagas, options, networks }) => {
     validateXlmCreateAccount,
     validateXlmAccountExists
   } = utils({
-    api,
     coreSagas,
-    options,
     networks
   })
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
@@ -103,7 +113,6 @@ export default ({ api, coreSagas, options, networks }) => {
         ['payload', 'limits', currency],
         yield take(AT.FETCH_LIMITS_SUCCESS)
       )
-
     return limitsR.map(prop(currency)).getOrFail(NO_LIMITS_ERROR)
   }
 
@@ -244,6 +253,8 @@ export default ({ api, coreSagas, options, networks }) => {
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
       )
+      if (!renewLimitsTask)
+        renewLimitsTask = yield spawn(renewLimits, renewLimitsDelay)
     } catch (e) {
       yield put(A.fetchLimitsError(e))
       yield put(
@@ -251,6 +262,25 @@ export default ({ api, coreSagas, options, networks }) => {
           _error: NO_LIMITS_ERROR
         })
       )
+    }
+  }
+
+  const renewLimits = function*(renewIn) {
+    try {
+      yield delay(renewIn)
+      const fiatCurrency = yield call(getFiatCurrency)
+      const fiatLimits = yield call(api.fetchLimits, fiatCurrency)
+      const limits = formatLimits(fiatLimits)
+      const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
+      yield put(
+        A.fetchLimitsSuccess({
+          [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
+        })
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'renewLimits', e))
+    } finally {
+      yield fork(renewLimits, renewLimitsDelay)
     }
   }
 
@@ -662,7 +692,7 @@ export default ({ api, coreSagas, options, networks }) => {
           scrambleKey
         )).publish()
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         yield put(actions.modals.closeAllModals())
       }
       // Update metadat
@@ -678,15 +708,17 @@ export default ({ api, coreSagas, options, networks }) => {
       }
 
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
-      yield put(actions.router.push('/exchange/history'))
+      yield put(actions.router.push('/swap/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.analytics.logEvent(SECOND_STEP_SUBMIT))
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
+      yield put(actions.analytics.logEvent(SECOND_STEP_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(e))
       )
@@ -704,8 +736,10 @@ export default ({ api, coreSagas, options, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
+      yield put(A.setSourceFee({ source: 0, target: 0 }))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield put(actions.form.reset(EXCHANGE_FORM))
+      yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'clearSubscriptions', e)

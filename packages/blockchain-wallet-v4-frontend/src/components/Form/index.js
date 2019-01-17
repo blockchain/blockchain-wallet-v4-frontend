@@ -7,6 +7,7 @@ import CreatableInputField from './CreatableInputField'
 import DateBox from './DateBox'
 import DateBoxDebounced from './DateBoxDebounced'
 import DateInputBox from './DateInputBox'
+import EmailVerification from './EmailVerification'
 import FaqMessage from './FaqMessage'
 import FiatConvertor from './FiatConvertor'
 import FooterShadowWrapper from './FooterShadowWrapper'
@@ -24,6 +25,7 @@ import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBtcAddresses from './SelectBoxBtcAddresses'
 import SelectBoxBchAddresses from './SelectBoxBchAddresses'
+import SelectBoxBsvAddresses from './SelectBoxBsvAddresses'
 import SelectBoxEthAddresses from './SelectBoxEthAddresses'
 import SelectBoxXlmAddresses from './SelectBoxXlmAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
@@ -51,6 +53,7 @@ export {
   DateBox,
   DateBoxDebounced,
   DateInputBox,
+  EmailVerification,
   FaqMessage,
   FiatConvertor,
   FooterShadowWrapper,
@@ -68,6 +71,7 @@ export {
   SelectBox,
   SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
+  SelectBoxBsvAddresses,
   SelectBoxEthAddresses,
   SelectBoxXlmAddresses,
   SelectBoxCoin,

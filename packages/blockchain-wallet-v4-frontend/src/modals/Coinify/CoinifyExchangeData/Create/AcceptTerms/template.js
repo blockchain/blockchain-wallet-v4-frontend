@@ -112,7 +112,7 @@ const AcceptTerms = props => {
     invalid,
     handleSubmit,
     signupError,
-    updateUI,
+    updateState,
     emailVerified,
     editEmail,
     clearError
@@ -138,7 +138,7 @@ const AcceptTerms = props => {
             <FieldContainer>
               <VerifiedText>
                 <FormattedMessage
-                  id='sfoxexchangedata.create.createaccount.partner.verifiedemail'
+                  id='coinifyexchangedata.create.createaccount.partner.verifiedemail'
                   defaultMessage='Verified Email Address'
                 />
               </VerifiedText>
@@ -150,12 +150,12 @@ const AcceptTerms = props => {
                   <EditLink onClick={editEmail} weight={300}>
                     {window.outerWidth > 480 ? (
                       <FormattedMessage
-                        id='sfoxexchangedata.create.createaccount.partner.edit'
+                        id='coinifyexchangedata.create.createaccount.partner.edit'
                         defaultMessage='edit'
                       />
                     ) : (
                       <FormattedMessage
-                        id='sfoxexchangedata.create.createaccount.partner.editemail'
+                        id='coinifyexchangedata.create.createaccount.partner.editemail'
                         defaultMessage='edit email'
                       />
                     )}
@@ -218,7 +218,7 @@ const AcceptTerms = props => {
                   color='brand-secondary'
                   cursor='pointer'
                   weight={300}
-                  onClick={() => updateUI({ create: 'change_email' })}
+                  onClick={() => updateState({ create: 'change_email' })}
                 >
                   <FormattedMessage
                     id='coinifyexchangedata.create.accept.error2'
@@ -241,10 +241,16 @@ const AcceptTerms = props => {
                   />
                 </Text>
                 <Link size='12px' weight={300} onClick={() => clearError()}>
-                  <FormattedMessage id='tryagain' defaultMessage='try again' />
+                  <FormattedMessage
+                    id='coinifyexchangedata.create.accept.tryagain'
+                    defaultMessage='try again'
+                  />
                 </Link>
                 <Text size='12px' color='error' weight={300}>
-                  <FormattedMessage id='or' defaultMessage='or' />
+                  <FormattedMessage
+                    id='coinifyexchangedata.create.accept.or'
+                    defaultMessage='or'
+                  />
                 </Text>
                 <Link
                   target='_blank'
@@ -253,7 +259,7 @@ const AcceptTerms = props => {
                   weight={300}
                 >
                   <FormattedMessage
-                    id='contactsupport'
+                    id='coinifyexchangedata.create.accept.contactsupport'
                     defaultMessage='contact support.'
                   />
                 </Link>

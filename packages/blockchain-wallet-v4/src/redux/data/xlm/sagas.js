@@ -13,7 +13,7 @@ export const TX_PER_PAGE = 10
 export const OPERATIONS_PER_TX = 1
 
 export const sumBigNumbers = reduce(
-  (num1, num2) => new BigNumber(num1).add(num2).toString(),
+  (num1, num2) => new BigNumber.sum(num1, num2).toString(),
   '0'
 )
 
@@ -99,7 +99,11 @@ export default ({ api, networks }) => {
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
-      if (statusCode === 404) return yield put(A.fetchTransactionsSuccess([]))
+      if (statusCode === 404) {
+        yield put(A.fetchTransactionsSuccess([]))
+        yield put(A.transactionsAtBound(true))
+        return
+      }
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }

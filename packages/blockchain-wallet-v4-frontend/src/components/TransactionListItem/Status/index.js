@@ -10,6 +10,7 @@ const Status = props => (
     weight={500}
     color={props.type}
     style={{ marginBottom: '5px' }}
+    data-e2e='transactionListItemStatus'
   >
     {props.type === 'sent' && (
       <FormattedMessage

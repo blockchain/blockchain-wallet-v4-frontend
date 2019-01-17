@@ -7,10 +7,15 @@ export const getNewDeviceSetupStep = path([
   'newDeviceSetup',
   'currentStep'
 ])
-export const getNewDeviceAuthenticity = path([
+export const getNewDeviceSetupType = path([
   'components',
   'lockbox',
   'newDeviceSetup',
+  'setupType'
+])
+export const getNewDeviceAuthenticity = path([
+  'components',
+  'lockbox',
   'isAuthentic'
 ])
 export const getNewDeviceInfo = path([
@@ -31,17 +36,21 @@ export const getCurrentConnection = path([
 export const getFirmwareUpdateStep = path(['components', 'lockbox', 'firmware'])
 
 // Application Installs
-export const getApplicationInstalls = path([
+export const getDeviceTargetId = path([
   'components',
   'lockbox',
-  'installs',
-  'apps'
+  'appManager',
+  'targetId'
 ])
-
-// TODO: remove once app store is introduced
-export const getBlockchainInstall = path([
+export const getLatestApplicationVersions = path([
   'components',
   'lockbox',
-  'installs',
-  'blockchain'
+  'appManager',
+  'latestAppInfos'
+])
+export const getAppChangeStatus = path([
+  'components',
+  'lockbox',
+  'appManager',
+  'appChangeStatus'
 ])

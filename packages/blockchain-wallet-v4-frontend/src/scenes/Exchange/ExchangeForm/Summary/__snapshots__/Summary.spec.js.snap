@@ -1,0 +1,3841 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<Fragment>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.summary.swap"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.summary.to"
+        values={Object {}}
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__Delimiter />
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Fees"
+        id="scenes.exchange.exchangeform.summary.fees"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      1.00 BTC
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+  <Exchange__TableRow>
+    <Exchange__ExchangeText>
+      <FormattedMessage
+        defaultMessage="Swap Value"
+        id="scenes.exchange.exchangeform.summary.swapvalue"
+        values={Object {}}
+      />
+    </Exchange__ExchangeText>
+    <Exchange__ExchangeAmount>
+      <StringDisplayContainer>
+        <Component />
+      </StringDisplayContainer>
+    </Exchange__ExchangeAmount>
+  </Exchange__TableRow>
+</Fragment>
+`;

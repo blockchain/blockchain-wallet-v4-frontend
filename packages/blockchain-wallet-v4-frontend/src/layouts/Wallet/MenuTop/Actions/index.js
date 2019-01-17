@@ -3,22 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
+import { getData } from './selectors'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSend = this.handleSend.bind(this)
-    this.handleRequest = this.handleRequest.bind(this)
-  }
+  handleSend = () => {
+    const { coin, lockboxPath, lockboxDeviceId } = this.props
 
-  handleSend () {
-    this.props.analytics.logClick('send')
-    const { pathname } = this.props.router.location
-
-    const paths = pathname.split('/')
-
-    switch (paths[1]) {
+    switch (coin) {
       case 'eth':
         return this.props.modalActions.showModal(model.components.sendEth.MODAL)
       case 'bch':
@@ -29,19 +21,16 @@ class ActionsContainer extends React.PureComponent {
         return this.props.modalActions.showModal(
           model.components.sendBtc.MODAL,
           {
-            lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
+            lockboxIndex: lockboxPath ? lockboxDeviceId : null
           }
         )
     }
   }
 
-  handleRequest () {
-    this.props.analytics.logClick('request')
-    const { pathname } = this.props.router.location
+  handleRequest = () => {
+    const { coin, lockboxPath, lockboxDeviceId } = this.props
 
-    const paths = pathname.split('/')
-
-    switch (paths[1]) {
+    switch (coin) {
       case 'bch':
         return this.props.modalActions.showModal('RequestBch')
       case 'eth':
@@ -50,14 +39,17 @@ class ActionsContainer extends React.PureComponent {
         return this.props.modalActions.showModal('RequestXlm')
       default:
         return this.props.modalActions.showModal('RequestBtc', {
-          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
+          lockboxIndex: lockboxPath ? lockboxDeviceId : null
         })
     }
   }
 
   render () {
+    const { sendAvailable, requestAvailable } = this.props
     return (
       <Actions
+        sendAvailable={sendAvailable}
+        requestAvailable={requestAvailable}
         handleSend={this.handleSend}
         handleRequest={this.handleRequest}
       />
@@ -65,16 +57,12 @@ class ActionsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  router: state.router
-})
-
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(ActionsContainer)

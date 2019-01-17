@@ -1,7 +1,11 @@
 import { assocPath, merge } from 'ramda'
 import Remote from '../../../remote'
 import * as selectors from './selectors'
-import { createMockState, walletV3, walletV3WithLegacy } from '../../../../data'
+import {
+  createMockWalletState,
+  walletV3,
+  walletV3WithLegacy
+} from '../../../../data'
 
 describe('kvstore bch selectors', () => {
   const accounts = [
@@ -26,9 +30,9 @@ describe('kvstore bch selectors', () => {
     }
   }
 
-  const mockState = merge(createMockState(walletV3), successState)
+  const mockState = merge(createMockWalletState(walletV3), successState)
   const mockStateLegacy = merge(
-    createMockState(walletV3WithLegacy),
+    createMockWalletState(walletV3WithLegacy),
     successState
   )
 
@@ -36,7 +40,8 @@ describe('kvstore bch selectors', () => {
     it('should return the context', () => {
       let context = selectors.getSpendableContext(mockState)
       expect(context).toEqual([
-        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM'
+        'xpub6Cm98DdxftzzTxpUhj4CsiGRpFgLuxV33FsmjCreD9MtKY5NHeTyvhMw82aANb5GWaBGvGcey7skgcY9ZHk42KhyBXr23yYP5QYcAJzVz7D',
+        'xpub6Cm98DdxftzzVidwASrWNe2Hg7WNXZ8nUvjZx6QveVH4d8Gaqx31NozqrupnCxGPqzVcatEJ8aDKfNfUuHxmfKD8dRDZ6NSFtXiWiwtW2Xh'
       ])
     })
 

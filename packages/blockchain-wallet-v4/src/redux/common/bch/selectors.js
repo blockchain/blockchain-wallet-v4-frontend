@@ -20,11 +20,11 @@ import {
   getReceiveIndex,
   getHeight,
   getTransactions
-} from '../../data/bch/selectors.js'
+} from '../../data/bch/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors'
 import {
   getLockboxBchAccounts,
   getLockboxBchAccount
@@ -34,7 +34,7 @@ import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const transformTx = transactions.bitcoin.transformTx
+const transformTx = transactions.bch.transformTx
 
 export const getLockboxBchBalances = state => {
   const digest = (addresses, account) => ({

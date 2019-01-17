@@ -4,13 +4,11 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { fromCashAddr, isCashAddr } from '../../../utils/bch'
-
-const convertFromCashAddrIfCashAddr = addr =>
-  isCashAddr(addr) ? fromCashAddr(addr) : addr
-
-const TX_PER_PAGE = 10
-const BCH_FORK_TIME = 1501590000
+import {
+  convertFromCashAddrIfCashAddr,
+  TX_PER_PAGE,
+  BCH_FORK_TIME
+} from '../../../utils/bch'
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -64,7 +62,7 @@ export default ({ api }) => {
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
+      const walletContext = yield select(S.getWalletContext)
       const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
       const data = yield call(api.fetchBchData, context, {

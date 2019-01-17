@@ -24,18 +24,13 @@ import {
   EmailHelper,
   FaqFormMessage,
   FaqFormGroup,
-  Label
+  Label,
+  Footer
 } from 'components/IdentityVerification'
 
 const FormContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 198px;
-`
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `
 const ButtonFormItem = styled(FormItem)`
   display: flex;
@@ -94,6 +89,7 @@ const VerifyMobile = ({
   error,
   step,
   activeField,
+  activeFieldError,
   countryCode,
   smsNumber,
   editSmsNumber,
@@ -102,11 +98,15 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
+  <IdentityVerificationForm
+    activeFieldError={activeFieldError}
+    activeField={activeField}
+    onSubmit={handleSubmit}
+  >
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
-          {({ mobile }) => (
+          {({ mobile, tablet }) => (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -123,7 +123,7 @@ const VerifyMobile = ({
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Label>
+                    <Label for='smsNumber'>
                       <FormattedMessage
                         id='identityverification.personal.mobile.entermobilenumber'
                         defaultMessage='Enter your mobile number here'
@@ -139,24 +139,23 @@ const VerifyMobile = ({
                       errorBottom
                     />
                   </FormItem>
-                  {activeField === 'smsNumber' &&
-                    !mobile && (
-                      <FaqFormMessage
-                        icon='phone-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.title'
-                            defaultMessage='Please add your phone'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.text'
-                            defaultMessage='We will send you a SMS with verification code.'
-                          />
-                        }
-                      />
-                    )}
+                  {activeField === 'smsNumber' && !mobile && !tablet && (
+                    <FaqFormMessage
+                      icon='phone-regular'
+                      title={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.title'
+                          defaultMessage='Please add your phone'
+                        />
+                      }
+                      text={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.text'
+                          defaultMessage='We will send you a SMS with verification code.'
+                        />
+                      }
+                    />
+                  )}
                 </FaqFormGroup>
                 {step === SMS_STEPS.edit && (
                   <FaqFormGroup>
@@ -177,9 +176,9 @@ const VerifyMobile = ({
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label>
+                      <Label for='code'>
                         <FormattedMessage
-                          id='identityverification.personal.mobile.entercode'
+                          id='identityverification.personal.mobile.entercode.verification_code'
                           defaultMessage='Verification code'
                         />
                       </Label>
@@ -193,24 +192,23 @@ const VerifyMobile = ({
                         {smsHelper(error, resendCode)}
                       </EmailHelper>
                     </FormItem>
-                    {activeField === 'code' &&
-                      !mobile && (
-                        <FaqFormMessage
-                          icon='comment-alt-regular'
-                          title={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.title'
-                              defaultMessage='We sent you a text message'
-                            />
-                          }
-                          text={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.text'
-                              defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
-                            />
-                          }
-                        />
-                      )}
+                    {activeField === 'code' && !mobile && !tablet && (
+                      <FaqFormMessage
+                        icon='comment-alt-regular'
+                        title={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.title'
+                            defaultMessage='We sent you a text message'
+                          />
+                        }
+                        text={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.text'
+                            defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                          />
+                        }
+                      />
+                    )}
                   </FaqFormGroup>
                 )}
               </FormContainer>
@@ -233,7 +231,7 @@ const VerifyMobile = ({
           >
             {!submitting ? (
               <FormattedMessage
-                id='identityverification.personal.continue'
+                id='identityverification.mobile.personal.continue'
                 defaultMessage='Continue'
               />
             ) : (

@@ -29,6 +29,8 @@ class FirstStep extends React.Component {
           totalFee={value.totalFee}
           onSubmit={actions.sendBchFirstStepSubmitClicked}
           handleToToggle={this.handleToToggle}
+          excludeLockbox={value.excludeLockbox}
+          excludeHDWallets={this.props.excludeHDWallets}
         />
       ),
       Failure: message => <Error>{message}</Error>,

@@ -21,7 +21,7 @@ export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
   getMetadata(state)
-    .map(path(['value', 'devices']))
+    .map(pathOr([], ['value', 'devices']))
     .map(devices => {
       const mapIndexed = addIndex(map)
       const deviceIndexLens = lensProp('device_index')
@@ -97,6 +97,9 @@ export const getLockboxBchContext = state => {
     return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
+
+export const getLockboxBchXpub = (state, deviceIndex) =>
+  getDevice(state, deviceIndex).map(path(['bch', 'accounts', 0, 'xpub']))
 
 export const getBchContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)

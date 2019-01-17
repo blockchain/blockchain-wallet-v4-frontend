@@ -3,6 +3,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
 import { path, prop } from 'ramda'
 import { call } from 'redux-saga-test-plan/matchers'
+import { combineReducers } from 'redux'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
@@ -199,7 +200,7 @@ describe('sendBtc sagas', () => {
 
       beforeEach(async () => {
         resultingState = await expectSaga(initialized, { payload })
-          .withReducer(rootReducer)
+          .withReducer(combineReducers(rootReducer))
           .provide([
             [
               select(selectors.core.common.btc.getAccountsBalances),
@@ -267,6 +268,10 @@ describe('sendBtc sagas', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+        .next()
+        .put(
+          actions.analytics.logEvent(['send_btc', 'click', 'first_step_submit'])
+        )
         .save(beforeError)
         .next()
         .isDone()
@@ -369,6 +374,14 @@ describe('sendBtc sagas', () => {
       saga
         .next()
         .put(actions.modals.closeAllModals())
+        .next()
+        .put(
+          actions.analytics.logEvent([
+            'send_btc',
+            'click',
+            'second_step_submit'
+          ])
+        )
         .next()
         .isDone()
     })

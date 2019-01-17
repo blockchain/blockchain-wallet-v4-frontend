@@ -1,6 +1,7 @@
 import * as activityList from './activityList/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as btcTransactions from './btcTransactions/actionTypes'
+import * as bsvTransactions from './bsvTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
 import * as exchange from './exchange/actionTypes'
@@ -21,17 +22,21 @@ import * as requestEth from './requestEth/actionTypes'
 import * as requestXlm from './requestXlm/actionTypes'
 import * as sendBch from './sendBch/actionTypes'
 import * as sendBtc from './sendBtc/actionTypes'
+import * as sendBsv from './sendBsv/actionTypes'
 import * as sendEth from './sendEth/actionTypes'
 import * as sendXlm from './sendXlm/actionTypes'
 import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
+import * as swapGetStarted from './swapGetStarted/actionTypes'
 import * as transactionReport from './transactionReport/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
+import * as veriff from './veriff/actionTypes'
 
 export {
   activityList,
   bchTransactions,
   btcTransactions,
+  bsvTransactions,
   ethTransactions,
   xlmTransactions,
   exchange,
@@ -52,10 +57,13 @@ export {
   requestXlm,
   sendBch,
   sendBtc,
+  sendBsv,
   sendEth,
   sendXlm,
   settings,
   signMessage,
+  swapGetStarted,
   transactionReport,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 }

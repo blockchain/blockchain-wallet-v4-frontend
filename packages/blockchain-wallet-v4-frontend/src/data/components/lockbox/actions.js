@@ -1,10 +1,5 @@
 import * as AT from './actionTypes'
 
-// ROUTING
-export const determineLockboxRoute = () => ({
-  type: AT.DETERMINE_LOCKBOX_ROUTE
-})
-
 // CONNECTIONS
 export const pollForDeviceApp = (
   appRequested,
@@ -32,31 +27,24 @@ export const setConnectionReady = () => ({
 export const setConnectionSuccess = () => ({
   type: AT.SET_CONNECTION_SUCCESS
 })
+export const setDeviceTargetId = targetId => ({
+  type: AT.SET_DEVICE_TARGET_ID,
+  payload: targetId
+})
 
 // NEW DEVICE SETUP
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
-
-// CREATE
 export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step, done, error }
 })
-export const checkDeviceAuthenticity = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY
+export const setDeviceSetupType = type => ({
+  type: AT.SET_DEVICE_SETUP_TYPE,
+  payload: type
 })
-export const checkDeviceAuthenticityLoading = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
-})
-export const checkDeviceAuthenticityFailure = failure => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
-  payload: { failure }
-})
-export const checkDeviceAuthenticitySuccess = isAuthentic => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
-  payload: { isAuthentic }
-})
+
 export const setNewDeviceInfo = deviceInfo => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }
@@ -74,6 +62,26 @@ export const saveNewDeviceKvStoreSuccess = () => ({
 export const saveNewDeviceKvStoreFailure = payload => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_FAILURE,
   payload
+})
+
+// NEW DEVICE AUTHENTICITY
+export const checkDeviceAuthenticity = deviceIndex => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY,
+  payload: { deviceIndex }
+})
+export const checkDeviceAuthenticityLoading = () => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
+})
+export const checkDeviceAuthenticityFailure = isAuthentic => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
+  payload: { isAuthentic }
+})
+export const checkDeviceAuthenticitySuccess = isAuthentic => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
+  payload: { isAuthentic }
+})
+export const resetDeviceAuthenticity = () => ({
+  type: AT.RESET_DEVICE_AUTHENTICITY
 })
 
 // UPDATE
@@ -128,61 +136,54 @@ export const updateTransactionList = deviceIndex => ({
 })
 
 // APPLICATIONS
-export const continueAppInstall = () => ({
-  type: AT.CONTINUE_APP_INSTALL
-})
-export const installApplication = app => ({
-  type: AT.INSTALL_APPLICATION,
-  payload: { app }
-})
-export const installApplicationLoading = app => ({
-  type: AT.INSTALL_APPLICATION_LOADING,
-  payload: { app }
-})
-export const installApplicationSuccess = app => ({
-  type: AT.INSTALL_APPLICATION_SUCCESS,
-  payload: { app }
-})
-export const installApplicationFailure = (app, error) => ({
-  type: AT.INSTALL_APPLICATION_FAILURE,
-  payload: { app, error }
-})
-export const uninstallApplication = app => ({
-  type: AT.UNINSTALL_APPLICATION,
-  payload: { app }
-})
-export const uninstallApplicationLoading = app => ({
-  type: AT.UNINSTALL_APPLICATION_LOADING,
-  payload: { app }
-})
-export const uninstallApplicationSuccess = app => ({
-  type: AT.UNINSTALL_APPLICATION_SUCCESS,
-  payload: { app }
-})
-export const uninstallApplicationFailure = (app, error) => ({
-  type: AT.UNINSTALL_APPLICATION_FAILURE,
-  payload: { app, error }
-})
-// TODO: remove blockchain actions once app store is introduced
-export const installBlockchainApps = deviceIndex => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS,
+export const initializeAppManager = deviceIndex => ({
+  type: AT.INITIALIZE_APP_MANAGER,
   payload: { deviceIndex }
 })
-export const installBlockchainAppsLoading = () => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_LOADING
+export const setLatestAppInfosLoading = () => ({
+  type: AT.SET_LATEST_APP_INFOS_LOADING
 })
-export const installBlockchainAppsSuccess = () => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS
+export const setLatestAppInfosFailure = () => ({
+  type: AT.SET_LATEST_APP_INFOS_FAILURE
 })
-export const installBlockchainAppsFailure = error => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_FAILURE,
-  payload: { error }
+export const setLatestAppInfosSuccess = appInfos => ({
+  type: AT.SET_LATEST_APP_INFOS_SUCCESS,
+  payload: appInfos
 })
-export const resetAppsInstallStatus = () => ({
-  type: AT.RESET_APPS_INSTALL_STATUS
+export const installApplication = appName => ({
+  type: AT.INSTALL_APPLICATION,
+  payload: { appName }
 })
-// new coins
+export const uninstallApplication = appName => ({
+  type: AT.UNINSTALL_APPLICATION,
+  payload: { appName }
+})
+export const appChangeLoading = () => ({
+  type: AT.APP_CHANGE_LOADING
+})
+export const appChangeSuccess = (appName, changeType) => ({
+  type: AT.APP_CHANGE_SUCCESS,
+  payload: { appName, changeType }
+})
+export const appChangeFailure = (appName, changeType, error) => ({
+  type: AT.APP_CHANGE_FAILURE,
+  payload: { appName, changeType, error }
+})
+export const newDeviceBtcInstall = () => ({
+  type: AT.NEW_DEVICE_BTC_INSTALL
+})
+export const resetAppChangeStatus = () => ({
+  type: AT.RESET_APP_CHANGE_STATUS
+})
+
+// MISC
+export const determineLockboxRoute = () => ({
+  type: AT.DETERMINE_LOCKBOX_ROUTE
+})
 export const saveCoinMD = (deviceIndex, coin) => ({
   type: AT.SAVE_COIN_MD,
   payload: { deviceIndex, coin }
+})
+export const lockboxModalClose = () => ({
+  type: AT.LOCKBOX_MODAL_CLOSE
 })

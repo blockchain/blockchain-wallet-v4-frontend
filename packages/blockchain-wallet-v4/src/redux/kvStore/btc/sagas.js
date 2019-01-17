@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty } from 'ramda'
 import { delay } from 'redux-saga'
 import { set } from 'ramda-lens'
 import * as A from './actions'
@@ -7,20 +7,9 @@ import { KVStoreEntry, HDAccount, Wallet } from '../../../types'
 import { derivationMap, BTC } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getWallet } from '../../wallet/selectors'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
   const createMetadataBtc = function*() {
     yield call(delay, 1000)
     const addressLabels = {}
@@ -53,9 +42,11 @@ export default ({ api, networks }) => {
     const accounts = Wallet.selectHDAccounts(wallet)
 
     let labelSize = 0
-    accounts.map(account => account.address_labels).map(l => {
-      labelSize += l.size
-    })
+    accounts
+      .map(account => account.address_labels)
+      .map(l => {
+        labelSize += l.size
+      })
 
     return labelSize
   }

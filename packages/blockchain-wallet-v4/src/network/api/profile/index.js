@@ -25,17 +25,13 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, campaignName, campaignData) => {
-    const headers = campaignName ? { 'X-CAMPAIGN': campaignName } : null
-    const metaData = campaignName ? { ...campaignData } : {}
+  const createUser = retailToken => {
     return post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
-      headers,
       data: {
-        jwt: retailToken,
-        metaData
+        jwt: retailToken
       }
     })
   }
@@ -45,7 +41,7 @@ export default ({
     campaignName,
     campaignData,
     newUser = false
-  ) => {
+  ) =>
     put({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
@@ -61,7 +57,6 @@ export default ({
         newUser
       }
     })
-  }
 
   const recoverUser = (userId, lifetimeToken, retailToken) =>
     post({

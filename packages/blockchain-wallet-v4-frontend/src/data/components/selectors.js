@@ -9,10 +9,12 @@ import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
+import * as sendBsv from './sendBsv/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
+import * as veriff from './veriff/selectors'
 
 export {
   identityVerification,
@@ -26,8 +28,10 @@ export {
   priceTicker,
   sendBch,
   sendBtc,
+  sendBsv,
   sendEth,
   sendXlm,
   signMessage,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 }

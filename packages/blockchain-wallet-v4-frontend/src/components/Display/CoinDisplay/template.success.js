@@ -30,22 +30,18 @@ const CoinDisplay = props => {
   } = props
   return (
     <Wrapper {...rest}>
-      {showIcon &&
-        coin === 'BTC' && (
-          <Icon name='btc' size={size} weight={weight} color={color} />
-        )}
-      {showIcon &&
-        coin === 'ETH' && (
-          <Icon name='eth' size={size} weight={weight} color={color} />
-        )}
-      {showIcon &&
-        coin === 'BCH' && (
-          <Icon name='bch' size={size} weight={weight} color={color} />
-        )}
-      {showIcon &&
-        coin === 'XLM' && (
-          <Icon name='xlm' size={size} weight={weight} color={color} />
-        )}
+      {showIcon && coin === 'BTC' && (
+        <Icon name='btc' size={size} weight={weight} color={color} />
+      )}
+      {showIcon && coin === 'ETH' && (
+        <Icon name='eth' size={size} weight={weight} color={color} />
+      )}
+      {showIcon && coin === 'BCH' && (
+        <Icon name='bch' size={size} weight={weight} color={color} />
+      )}
+      {showIcon && coin === 'XLM' && (
+        <Icon name='xlm' size={size} weight={weight} color={color} />
+      )}
       <CoinText
         mobileSize={mobileSize}
         size={size}
@@ -61,7 +57,7 @@ const CoinDisplay = props => {
 }
 
 CoinDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,

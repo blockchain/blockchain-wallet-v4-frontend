@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
 
+import { getCoins } from './selectors'
+
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -68,12 +70,7 @@ class SelectBoxCoin extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  coins: [
-    { text: 'Bitcoin', value: 'BTC' },
-    { text: 'Ether', value: 'ETH' },
-    { text: 'Bitcoin Cash', value: 'BCH' },
-    { text: 'Stellar', value: 'XLM' }
-  ]
+  coins: getCoins(state, ownProps)
 })
 
 export default connect(mapStateToProps)(SelectBoxCoin)

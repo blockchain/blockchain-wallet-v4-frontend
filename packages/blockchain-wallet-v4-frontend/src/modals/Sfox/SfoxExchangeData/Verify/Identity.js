@@ -3,13 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text,
-  Link
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 import {
@@ -31,18 +25,13 @@ import {
 } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
-const LockIcon = styled(Icon)`
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  margin-left: 7px;
-`
 const FormContainer = styled.div`
   margin-top: 25px;
 `
 const IconHeader = styled(PartnerHeader)`
   display: flex;
   flex-direction: row;
+  margin-bottom: 12px;
 `
 const IdentityForm = styled(Form)`
   ${media.mobile`
@@ -55,6 +44,7 @@ const IdentityForm = styled(Form)`
 
 const Identity = props => {
   const {
+    busy,
     handleReset,
     handleSubmit,
     invalid,
@@ -64,7 +54,6 @@ const Identity = props => {
     viewSSN,
     toggleSSN
   } = props
-  const { busy } = props.ui
 
   return (
     <IdentityForm onSubmit={handleSubmit}>
@@ -72,14 +61,13 @@ const Identity = props => {
         <InputWrapper>
           <IconHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.header'
+              id='sfoxexchangedata.verify.identity.header'
               defaultMessage='The Hidden Details'
             />
-            <LockIcon name='lock' />
           </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.subheader'
+              id='sfoxexchangedata.verify.identity.subheader'
               defaultMessage="We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet."
             />
           </PartnerSubHeader>
@@ -169,7 +157,7 @@ const Identity = props => {
           >
             {!busy ? (
               <FormattedMessage
-                id='sfoxexchangedata.verify.continue'
+                id='sfoxexchangedata.verify.identity.continue'
                 defaultMessage='Continue'
               />
             ) : (

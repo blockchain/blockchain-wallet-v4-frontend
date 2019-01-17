@@ -1,40 +1,18 @@
 import { call, cancel, fork, join, put, select } from 'redux-saga/effects'
-import {
-  always,
-  contains,
-  equals,
-  identity,
-  head,
-  path,
-  pathOr,
-  prop,
-  toLower
-} from 'ramda'
+import { always, contains, equals, head, prop, toLower } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { selectors, actions } from 'data'
 import * as S from './selectors'
-import settings from 'config'
-import {
-  getPairFromCoin,
-  convertFiatToCoin,
-  convertCoinToFiat,
-  convertStandardToBase,
-  isUndefinedOrEqualsToZero
-} from './services'
-import { selectRates } from '../utils/sagas'
-import {
-  SHAPESHIFT_FORM,
-  CREATE_ACCOUNT_ERROR,
-  NO_ACCOUNT_ERROR,
-  RESERVE_ERROR
-} from './model'
+import { convertStandardToBase } from './services'
+import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
-export default ({ api, coreSagas, networks, options }) => {
+const PROVISIONAL_BSV_SCRIPT = '0000000000000000000000000'
+export default ({ coreSagas, networks }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
   let prevPaymentSource
@@ -55,10 +33,10 @@ export default ({ api, coreSagas, networks, options }) => {
     }
     return prevPayment
   }
-
-  const btcOptions = [settings.NETWORK_BTC, PROVISIONAL_BTC_SCRIPT]
-  const bchOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
-  const ethOptions = [settings.NETWORK_ETH, null]
+  const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
+  const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
+  const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
+  const ethOptions = [networks.eth, null]
   const xlmOptions = [null, null]
   const calculateProvisionalPayment = function*(source, amount) {
     try {
@@ -68,6 +46,7 @@ export default ({ api, coreSagas, networks, options }) => {
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
+        BSV: bsvOptions,
         ETH: ethOptions,
         XLM: xlmOptions
       })
@@ -114,7 +93,16 @@ export default ({ api, coreSagas, networks, options }) => {
     switch (coin) {
       case 'BCH':
         payment = yield coreSagas.payment.bch
-          .create({ network: settings.NETWORK_BCH })
+          .create({ network: networks.bch })
+          .chain()
+          .init()
+          .fee('priority')
+          .from(addressOrIndex, addressType)
+          .done()
+        break
+      case 'BSV':
+        payment = yield coreSagas.payment.bsv
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
@@ -132,7 +120,7 @@ export default ({ api, coreSagas, networks, options }) => {
         break
       case 'ETH':
         payment = yield coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETH })
+          .create({ network: networks.eth })
           .chain()
           .init()
           .fee('priority')
@@ -172,7 +160,15 @@ export default ({ api, coreSagas, networks, options }) => {
     switch (coin) {
       case 'BCH':
         payment = coreSagas.payment.bch
-          .create({ network: settings.NETWORK_BCH })
+          .create({ network: networks.bch })
+          .chain()
+          .init()
+          .fee('priority')
+          .amount(parseInt(amount))
+        break
+      case 'BSV':
+        payment = coreSagas.payment.bsv
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
@@ -188,7 +184,7 @@ export default ({ api, coreSagas, networks, options }) => {
         break
       case 'ETH':
         payment = coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETH })
+          .create({ network: networks.eth })
           .chain()
           .init()
           .fee('priority')
@@ -225,195 +221,14 @@ export default ({ api, coreSagas, networks, options }) => {
     return payment
   }
 
-  const resumePayment = function (coin, payment) {
-    switch (coin) {
-      case 'BCH':
-        return coreSagas.payment.bch.create({
-          payment,
-          network: settings.NETWORK_BCH
-        })
-      case 'BTC':
-        return coreSagas.payment.btc.create({
-          payment,
-          network: networks.btc
-        })
-      case 'ETH':
-        return coreSagas.payment.eth.create({
-          payment,
-          network: settings.NETWORK_ETH
-        })
-      default:
-        throw new Error('Could not resume payment.')
-    }
-  }
-
-  const getShapeshiftMinimum = function*(source, target) {
-    const coinSource = prop('coin', source)
-    const coinTarget = prop('coin', target)
-    const pair = getPairFromCoin(coinSource, coinTarget)
-    const shapeshiftPairR = yield select(
-      selectors.core.data.shapeShift.getPair(pair)
-    )
-    const shapeshiftPair = shapeshiftPairR.getOrFail(
-      'Could not find shapeshift pair.'
-    )
-    const minimumStandard = prop('minimum', shapeshiftPair)
-    return convertStandardToBase(coinSource, minimumStandard)
-  }
-
-  const getShapeshiftMaximum = function*(source, target) {
-    const coinSource = prop('coin', source)
-    const coinTarget = prop('coin', target)
-    const pair = getPairFromCoin(coinSource, coinTarget)
-    const shapeshiftPairR = yield select(
-      selectors.core.data.shapeShift.getPair(pair)
-    )
-    const shapeshiftPair = shapeshiftPairR.getOrFail(
-      'Could not find shapeshift pair.'
-    )
-    const maximumStandard = prop('limit', shapeshiftPair)
-    return convertStandardToBase(coinSource, maximumStandard)
-  }
-
-  const getRegulationLimit = function*(source) {
-    const sourceCoin = prop('coin', source)
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const upperLimit =
-      path(
-        ['platforms', 'web', 'shapeshift', 'config', 'upperLimit'],
-        options
-      ) || 750
-    switch (sourceCoin) {
-      case 'BCH':
-        return convertFiatToCoin(upperLimit, 'USD', 'BCH', 'SAT', sourceRates)
-          .value
-      case 'BTC':
-        return convertFiatToCoin(upperLimit, 'USD', 'BTC', 'SAT', sourceRates)
-          .value
-      case 'ETH':
-        return convertFiatToCoin(upperLimit, 'USD', 'ETH', 'WEI', sourceRates)
-          .value
-      default:
-        throw new Error('getRegulationLimit: coin not found.')
-    }
-  }
-
-  const convertValues = function*(type) {
-    const currencyR = yield select(selectors.core.settings.getCurrency)
-    const currency = currencyR.getOrElse('USD')
-    const form = yield select(selectors.form.getFormValues(SHAPESHIFT_FORM))
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const targetRates = yield call(selectRates, targetCoin)
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    const defaultResult = {
-      sourceAmount: 0,
-      sourceFiat: 0,
-      targetAmount: 0,
-      targetFiat: 0
-    }
-
-    switch (type) {
-      case 'sourceFiat': {
-        const sourceFiat = prop('sourceFiat', form)
-        if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
-        const sourceAmount = convertFiatToCoin(
-          sourceFiat,
-          currency,
-          sourceCoin,
-          sourceCoin,
-          sourceRates
-        ).value
-        const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = pathOr(
-          0,
-          ['success', 'withdrawalAmount'],
-          quotation
-        )
-        const targetFiat = convertCoinToFiat(
-          targetAmount,
-          targetCoin,
-          targetCoin,
-          currency,
-          targetRates
-        ).value
-        return { sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'targetAmount': {
-        const targetAmount = prop('targetAmount', form)
-        if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
-        const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
-        const sourceFiat = convertCoinToFiat(
-          sourceAmount,
-          sourceCoin,
-          sourceCoin,
-          currency,
-          sourceRates
-        ).value
-        const targetFiat = convertCoinToFiat(
-          targetAmount,
-          targetCoin,
-          targetCoin,
-          currency,
-          targetRates
-        ).value
-        return { sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'targetFiat': {
-        const targetFiat = prop('targetFiat', form)
-        if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
-        const targetAmount = convertFiatToCoin(
-          targetFiat,
-          currency,
-          targetCoin,
-          targetCoin,
-          targetRates
-        ).value
-        const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
-        const sourceFiat = convertCoinToFiat(
-          sourceAmount,
-          sourceCoin,
-          sourceCoin,
-          currency,
-          sourceRates
-        ).value
-        return { sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'sourceAmount':
-      default: {
-        const sourceAmount = prop('sourceAmount', form)
-        if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
-        const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = pathOr(
-          0,
-          ['success', 'withdrawalAmount'],
-          quotation
-        )
-        const sourceFiat = convertCoinToFiat(
-          sourceAmount,
-          sourceCoin,
-          sourceCoin,
-          currency,
-          sourceRates
-        ).value
-        const targetFiat = convertCoinToFiat(
-          targetAmount,
-          targetCoin,
-          targetCoin,
-          currency,
-          targetRates
-        ).value
-        return { sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-    }
-  }
-
   const getDefaultBchAccountValue = function*() {
     const bchAccounts = yield select(S.getActiveBchAccounts)
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
+  }
+
+  const getDefaultBsvAccountValue = function*() {
+    const bsvAccounts = yield select(S.getActiveBsvAccounts)
+    return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
   }
 
   const getDefaultBtcAccountValue = function*() {
@@ -431,18 +246,12 @@ export default ({ api, coreSagas, networks, options }) => {
     return head(xlmAccounts.getOrFail('Could not get XLM accounts.'))
   }
 
-  const selectOtherAccount = function*(coin) {
-    if (equals('BTC', coin)) {
-      return yield call(getDefaultEthAccountValue)
-    } else {
-      return yield call(getDefaultBtcAccountValue)
-    }
-  }
-
   const getDefaultAccount = function*(coin) {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
+      case 'BSV':
+        return yield call(getDefaultBsvAccountValue)
       case 'BTC':
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':
@@ -452,35 +261,6 @@ export default ({ api, coreSagas, networks, options }) => {
       default:
         return yield call(getDefaultBtcAccountValue)
     }
-  }
-
-  const selectLabel = function*(coin, value) {
-    const appState = yield select(identity)
-    switch (coin) {
-      case 'BTC':
-        return (
-          selectors.core.wallet.getAccountLabel(appState)(value) ||
-          selectors.core.wallet.getLegacyAddressLabel(appState)(value)
-        )
-      case 'BCH':
-        return selectors.core.kvStore.bch
-          .getAccountLabel(appState)(value)
-          .getOrElse(value)
-      case 'ETH':
-        return selectors.core.kvStore.ethereum
-          .getAccountLabel(appState, value)
-          .getOrElse(value)
-      default:
-        return value
-    }
-  }
-
-  const resetForm = function*() {
-    yield put(actions.form.change2(SHAPESHIFT_FORM, 'sourceAmount', ''))
-    yield put(actions.form.change2(SHAPESHIFT_FORM, 'sourceFiat', ''))
-    yield put(actions.form.change2(SHAPESHIFT_FORM, 'targetAmount', ''))
-    yield put(actions.form.change2(SHAPESHIFT_FORM, 'targetFiat', ''))
-    yield put(actions.components.exchange.firstStepFormUnvalidated('initial'))
   }
 
   const validateXlm = function*(volume, account) {
@@ -517,7 +297,7 @@ export default ({ api, coreSagas, networks, options }) => {
       coin: 'XLM',
       baseToStandard: false
     }).value
-    if (new BigNumber(baseReserve).mul(2).greaterThan(volumeStroops))
+    if (new BigNumber(baseReserve).multipliedBy(2).isGreaterThan(volumeStroops))
       throw CREATE_ACCOUNT_ERROR
   }
 
@@ -525,17 +305,8 @@ export default ({ api, coreSagas, networks, options }) => {
     calculatePaymentMemo,
     calculateProvisionalPayment,
     calculateEffectiveBalanceMemo,
-    calculateEffectiveBalance,
     createPayment,
-    resumePayment,
     getDefaultAccount,
-    getShapeshiftMinimum,
-    getShapeshiftMaximum,
-    getRegulationLimit,
-    convertValues,
-    selectLabel,
-    selectOtherAccount,
-    resetForm,
     validateXlm,
     validateXlmAccountExists,
     validateXlmCreateAccount

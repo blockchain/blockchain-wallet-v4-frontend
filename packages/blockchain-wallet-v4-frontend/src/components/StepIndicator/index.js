@@ -10,10 +10,6 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   justify-content: ${props => (props.flexEnd ? 'flex-end' : '')};
-
-  @media (max-width: 991px) {
-    flex-direction: row-reverse;
-  }
 `
 
 const Steps = styled.div`
@@ -40,20 +36,22 @@ const Steps = styled.div`
     padding-bottom: 0px;
     flex-direction: column;
     border-left: 8px solid ${props => props.theme['gray-2']};
-    &:after {
+    ${props =>
+      !props.horizontalMobile &&
+      `&:after {
       top: 0;
       left: -8px;
       width: 8px;
       bottom: initial;
       height: ${props => props.width * 100}%;
       background: ${props => props.theme['brand-primary']};
-    }
+    `}}
   `};
 `
 
 const Step = styled.span`
   font-size: 14px;
-  min-width: ${props => props.minWidth || '70px'};
+  min-width: ${props => props.minWidth || '80px'};
   max-width: ${props => props.maxWidth || '80px'};
   width: calc(100% / ${props => props.totalSteps});
   margin: 0 50px;
@@ -78,22 +76,31 @@ const Logo = styled(Image)`
 `
 
 const StepIndicator = props => {
-  const { step, stepMap, minWidth, maxWidth, flexEnd } = props
+  const {
+    className,
+    step,
+    stepMap,
+    minWidth,
+    maxWidth,
+    flexEnd,
+    horizontalMobile
+  } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
   const width = (index - 0.5) / steps.length
 
   return (
-    <Wrapper flexEnd={flexEnd}>
+    <Wrapper className={className} flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
-      <Steps width={width}>
-        {steps.map(s => (
+      <Steps width={width} horizontalMobile={horizontalMobile}>
+        {steps.map(step => (
           <Step
+            key={step}
             minWidth={minWidth}
             maxWidth={maxWidth}
             totalSteps={steps.length}
           >
-            {stepMap[s]}
+            {stepMap[step]}
           </Step>
         ))}
       </Steps>

@@ -14,6 +14,9 @@ const INITIAL_STATE = {
   },
   showKycCompleted: true,
   showBackupReminder: true,
+  showKycGetStarted: true,
+  showSwapBanner: true,
+  showSwapUpgradeModal: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -58,6 +61,15 @@ const preferences = (state = INITIAL_STATE, action) => {
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
       return assocPath(['priceChart', 'time'], time, state)
+    }
+    case AT.HIDE_KYC_GET_STARTED: {
+      return assoc('showKycGetStarted', false, state)
+    }
+    case AT.HIDE_SWAP_BANNER: {
+      return assoc('showSwapBanner', false, state)
+    }
+    case AT.HIDE_SWAP_UPGRADE_MODAL: {
+      return assoc('showSwapUpgradeModal', false, state)
     }
     default:
       return state

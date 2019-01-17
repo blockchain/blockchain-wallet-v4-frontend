@@ -4,8 +4,8 @@ import { fork, call } from 'redux-saga-test-plan/matchers'
 
 import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
-import * as selectors from '../selectors.js'
-import * as actions from '../actions.js'
+import * as selectors from '../selectors'
+import * as actions from '../actions'
 import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
@@ -340,11 +340,9 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
-      reportStats,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
-      welcomeSaga,
       upgradeAddressLabelsSaga
     } = authSagas({
       api,
@@ -396,6 +394,10 @@ describe('authSagas', () => {
 
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
+    })
+
+    it('should fetch bsv metadata', () => {
+      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
     })
 
     it('should fetch lockbox metadata', () => {
@@ -480,12 +482,20 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch welcomeSaga', () => {
-      saga.next().fork(welcomeSaga, firstLogin)
+    it('should add welcome goal', () => {
+      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
     })
 
-    it('should launch reportStats saga', () => {
-      saga.next().fork(reportStats, mobileLogin)
+    it('should add swap upgrade goal', () => {
+      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
+    })
+
+    it('should add kyc goal', () => {
+      saga.next().put(actions.goals.saveGoal('kyc'))
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
     })
 
     it('should check for data errors', () => {
@@ -526,8 +536,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(welcomeSaga), jest.fn],
-          [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
         ])
@@ -1192,7 +1200,7 @@ describe('authSagas', () => {
         title: 'archive_vulnerable_address_title',
         message: 'archive_vulnerable_address_msg',
         confirm: 'archive_vulnerable_address_confirm',
-        cancel: undefined,
+        cancel: 'archive_vulnerable_address_cancel',
         messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
       })
     })

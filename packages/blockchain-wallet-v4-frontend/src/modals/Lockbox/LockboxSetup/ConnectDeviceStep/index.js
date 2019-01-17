@@ -7,17 +7,20 @@ import Template from './template'
 class ConnectDeviceStepContainer extends React.PureComponent {
   componentDidMount () {
     this.props.lockboxActions.initializeNewDeviceSetup()
-    this.props.analytics.logLockboxSetup('connect')
+    this.props.analytics.logEvent(['lockbox', 'setup', 'lockbox_connected'])
   }
 
   changeDeviceSetupStep = () => {
-    this.props.lockboxActions.changeDeviceSetupStep('auth-check')
+    this.props.setupType === 'new'
+      ? this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')
+      : this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
 
   render () {
     return (
       <Template
         isConnected={this.props.connection.app}
+        isNewSetup={this.props.setupType === 'new'}
         handleStepChange={this.changeDeviceSetupStep}
       />
     )
@@ -25,7 +28,8 @@ class ConnectDeviceStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  connection: selectors.components.lockbox.getCurrentConnection(state)
+  connection: selectors.components.lockbox.getCurrentConnection(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

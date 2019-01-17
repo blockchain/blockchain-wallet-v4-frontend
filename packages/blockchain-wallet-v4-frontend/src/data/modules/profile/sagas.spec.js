@@ -1,13 +1,14 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, fork, spawn } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { tail } from 'ramda'
 
 import { selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import sagas, { userRequiresRestoreError, renewUserDelay } from './sagas'
-import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES, INITIAL_TIERS } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -16,6 +17,7 @@ const coreSagas = coreSagasFactory()
 const api = {
   generateRetailToken: jest.fn(),
   createUser: jest.fn(),
+  fetchTiers: jest.fn(),
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
@@ -29,6 +31,7 @@ const api = {
 const {
   signIn,
   fetchUser,
+  fetchTiers,
   updateUser,
   updateUserAddress,
   createUser,
@@ -107,6 +110,7 @@ const stubbedSignin = expectSaga(signIn).provide([
   ],
   [fork.fn(renewSession), jest.fn()]
 ])
+
 const stubbedCreateUser = expectSaga(createUser).provide([
   [select(S.getApiToken), Remote.NotAsked],
   [select(selectors.core.wallet.getGuid), stubGuid],
@@ -199,6 +203,7 @@ describe('fetch user saga', () => {
       .provide([[spawn.fn(renewUser), jest.fn()]])
       .not.spawn(renewUser)
       .put(A.fetchUserDataSuccess(newUserData))
+      .call(fetchTiers)
       .returns(newUserData)
       .run()
       .then(() => {
@@ -217,6 +222,28 @@ describe('fetch user saga', () => {
         ...newUserData,
         kycState: KYC_STATES.PENDING
       })
+      .run()
+  })
+})
+
+describe('fetch tiers saga', () => {
+  it('should call fetchTiers api and update state', () => {
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
+    return expectSaga(fetchTiers)
+      .provide([[select(S.getTiers), Remote.NotAsked]])
+      .put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
+      .run()
+  })
+
+  it("shouldn't set tiers as loading if tiers are in success state", () => {
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
+    return expectSaga(fetchTiers)
+      .provide([[select(S.getTiers), Remote.of(INITIAL_TIERS)]])
+      .not.put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
       .run()
   })
 })
@@ -360,7 +387,7 @@ describe('create user credentials saga', () => {
         ],
         [call.fn(setSession), jest.fn()]
       ])
-      .call(generateAuthCredentials, null, null)
+      .call(generateAuthCredentials)
       .call(generateRetailToken)
       .select(selectors.core.wallet.getSharedKey)
       .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
@@ -372,7 +399,7 @@ describe('create user credentials saga', () => {
           stubSharedKey
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken, null, null)
+        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
       })
   })
 })

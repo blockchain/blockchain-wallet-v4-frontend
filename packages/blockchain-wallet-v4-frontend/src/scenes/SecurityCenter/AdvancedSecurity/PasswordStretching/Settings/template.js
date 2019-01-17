@@ -1,0 +1,82 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { NumberBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { validPasswordStretchingNumber } from 'services/FormHelper'
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  & > :first-child {
+    margin-right: 5px;
+  }
+`
+const CurrentText = styled(Text)`
+  margin-bottom: 10px;
+`
+
+const Settings = props => {
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    submitting,
+    invalid,
+    currentStretch
+  } = props
+  return (
+    <SettingWrapper>
+      {currentStretch && <CurrentText>{currentStretch}</CurrentText>}
+      {!updateToggled && (
+        <Button nature='primary' onClick={handleToggle}>
+          <FormattedMessage
+            id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change'
+            defaultMessage='Change'
+          />
+        </Button>
+      )}
+      {updateToggled && (
+        <SettingForm onSubmit={handleSubmit}>
+          <Field
+            name='passwordStretching'
+            component={NumberBox}
+            validate={validPasswordStretchingNumber}
+          />
+          <ButtonWrapper>
+            <Button nature='empty' capitalize onClick={handleToggle}>
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel'
+                defaultMessage='Cancel'
+              />
+            </Button>
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save'
+                defaultMessage='Change'
+              />
+            </Button>
+          </ButtonWrapper>
+        </SettingForm>
+      )}
+    </SettingWrapper>
+  )
+}
+
+Settings.propTypes = {
+  updateToggled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
+}
+
+export default reduxForm({ form: 'settingPasswordStretching' })(Settings)

@@ -8,8 +8,7 @@ import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
-import Announcements from './Announcements'
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import Announcements from 'components/Announcements'
 import {
   Navbar,
   NavbarBrand,
@@ -29,44 +28,47 @@ const BlockchainLogoImage = styled(Image)`
   }
 `
 
-const Header = props => (
-  <React.Fragment>
-    <ServiceAnnouncement alertArea='wallet' />
-    <Navbar height='60px'>
-      <NavbarHeader>
-        <NavbarBrand>
-          <Icon
-            name='hamburger-menu'
-            color='white'
-            size='16px'
-            onClick={props.handleToggle}
-          />
-          <NavLink to='/home' data-e2e='homeLink'>
-            <BlockchainLogoImage name='blockchain-vector' />
-          </NavLink>
-        </NavbarBrand>
-      </NavbarHeader>
-      <NavbarMenu>
-        <div />
-        <NavbarNav>
-          <NavbarNavItem>
-            <WhatsNewIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <RefreshIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <FaqIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Logout />
-          </NavbarNavItem>
-        </NavbarNav>
-      </NavbarMenu>
-    </Navbar>
-    <Announcements />
-  </React.Fragment>
-)
+const Header = props => {
+  const { handleToggle } = props
+  return (
+    <React.Fragment>
+      <Navbar height='60px'>
+        <NavbarHeader>
+          <NavbarBrand>
+            <Icon
+              name='hamburger-menu'
+              color='white'
+              size='16px'
+              onClick={handleToggle}
+            />
+            <NavLink to='/home' data-e2e='homeLink'>
+              <BlockchainLogoImage name='blockchain-vector' />
+            </NavLink>
+          </NavbarBrand>
+        </NavbarHeader>
+        <NavbarMenu>
+          <div />
+          <NavbarNav>
+            <NavbarNavItem>
+              <WhatsNewIcon />
+            </NavbarNavItem>
+            <NavbarNavItem>
+              <RefreshIcon />
+            </NavbarNavItem>
+            <NavbarNavItem>
+              <FaqIcon />
+            </NavbarNavItem>
+            <NavbarNavItem>
+              <Logout />
+            </NavbarNavItem>
+          </NavbarNav>
+        </NavbarMenu>
+      </Navbar>
+      <Announcements type='service' alertArea='wallet' />
+      <Announcements type='static' />
+    </React.Fragment>
+  )
+}
 
 Header.propTypes = {
   handleToggle: PropTypes.func.isRequired

@@ -8,7 +8,6 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
-import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
@@ -26,6 +25,10 @@ import renderFaq from 'components/FaqDropdown'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
 
+const Wrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-1']};
+`
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
@@ -79,15 +82,15 @@ const faqQuestions = [
     ),
     answer: (
       <FormattedMessage
-        id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer'
-        defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.'
+        id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer1'
+        defaultMessage='Once you submit your trade here, it will move into a pending state. With that said, please be sure to verify the information here carefully before submitting. Once pending, your trade cannot be reversed, cancelled or changed.'
       />
     )
   }
 ]
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
-  <ExchangeCheckoutWrapper>
+  <Wrapper>
     <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
         id='buy.sfoxcheckout.almostthere'
@@ -148,14 +151,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         {type === 'buy' ? (
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.amounttopurchase'
+              id='buy.sfoxcheckout.orderdetails.amounttopurchase'
               defaultMessage='BTC Amount to Purchase'
             />
           </Text>
         ) : (
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.amounttosell'
+              id='buy.sfoxcheckout.orderdetails.amounttosell'
               defaultMessage='BTC Amount to Sell'
             />
           </Text>
@@ -170,7 +173,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <ToolTipWrapper>
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.tradingfee'
+              id='buy.sfoxcheckout.orderdetails.tradingfee'
               defaultMessage='Trading Fee'
             />
             <TooltipHost id='tradingfee.tooltip'>
@@ -188,14 +191,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         {type === 'buy' ? (
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.totalcost'
+              id='buy.sfoxcheckout.orderdetails.totalcost'
               defaultMessage='Total Cost'
             />
           </Text>
         ) : (
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.totaltobereceived'
+              id='buy.sfoxcheckout.orderdetails.totaltobereceived'
               defaultMessage='Total to be Received'
             />
           </Text>
@@ -209,7 +212,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       <OrderDetailsRow>
         <Text size='13px' weight={300}>
           <FormattedMessage
-            id='orderdetails.fundsdelivery'
+            id='buy.sfoxcheckout.orderdetails.fundsdelivery'
             defaultMessage='Estimated Delivery of Funds'
           />
         </Text>
@@ -228,7 +231,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         />
       ))
       .getOrElse(null)}
-  </ExchangeCheckoutWrapper>
+  </Wrapper>
 )
 
 export const OrderSubmit = ({
@@ -246,7 +249,10 @@ export const OrderSubmit = ({
         </Text>
         <span onClick={() => clearTradeError()}>
           <StepTransition prev Component={Link} weight={300} size='13px'>
-            <FormattedMessage id='try_again' defaultMessage='Try again' />
+            <FormattedMessage
+              id='buy.sfoxcheckout.orderdetails.try_again'
+              defaultMessage='Try again'
+            />
           </StepTransition>
         </span>
       </div>

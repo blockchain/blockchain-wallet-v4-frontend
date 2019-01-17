@@ -26,8 +26,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   }
 
   const getBchFee = () => {
-    // TODO :: this should come from wallet options
-    return Promise.resolve({ priority: 2, regular: 2 })
+    return Promise.resolve({ priority: 5, regular: 4 })
   }
 
   const getBchTicker = () =>
@@ -48,11 +47,11 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }
     })
 
-  const pushBchTx = txHex =>
+  const pushBchTx = (tx, lock_secret) =>
     post({
       url: apiUrl,
       endPoint: '/bch/pushtx',
-      data: { tx: txHex, format: 'plain' }
+      data: { tx, lock_secret, format: 'plain' }
     })
 
   const getBchRawTx = txHex =>
@@ -65,12 +64,19 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }
     })
 
+  const getBchDust = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/bch/dust'
+    })
+
   return {
     fetchBchData,
     getBchFee,
     getBchTicker,
     getBchUnspents,
     getBchRawTx,
+    getBchDust,
     pushBchTx
   }
 }

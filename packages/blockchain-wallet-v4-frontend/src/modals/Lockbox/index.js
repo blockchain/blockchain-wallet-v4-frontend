@@ -1,6 +1,15 @@
-import LockboxAppInstall from './LockboxAppInstall'
+import LockboxAppManager from './LockboxAppManager'
 import LockboxFirmware from './LockboxFirmware'
 import LockboxSetup from './LockboxSetup'
-import PromptLockbox from './PromptLockbox'
+import LockboxShowXPubs from './LockboxShowXPubs'
+import LockboxConnectionPrompt from './LockboxConnectionPrompt'
+import LockboxAuthenticityCheck from './LockboxAuthenticityCheck'
 
-export { LockboxAppInstall, LockboxFirmware, LockboxSetup, PromptLockbox }
+export {
+  LockboxAppManager,
+  LockboxAuthenticityCheck,
+  LockboxConnectionPrompt,
+  LockboxFirmware,
+  LockboxSetup,
+  LockboxShowXPubs
+}

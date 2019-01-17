@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HighFlow should render correctly 1`] = `
+<IdentityVerification__IdentityVerificationForm>
+  <FooterShadowWrapper
+    fields={
+      <ForwardRef>
+        <ForwardRef>
+          <ForwardRef>
+            <FormattedMessage
+              defaultMessage="Last Step. Verify Your ID"
+              id="identityverification.verify.header"
+              values={Object {}}
+            />
+          </ForwardRef>
+          <ForwardRef
+            name="identity-verification"
+          />
+          <ForwardRef>
+            <FormattedMessage
+              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
+              id="identityverification.verify.message"
+              values={Object {}}
+            />
+          </ForwardRef>
+          <ForwardRef>
+            <FormattedMessage
+              defaultMessage="Government Issued Passport"
+              id="identityverification.verify.passport"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="Driver’s License"
+              id="identityverification.verify.driverslicense"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="National Identity Card"
+              id="identityverification.verify.natitionalidcard"
+              values={Object {}}
+            />
+          </ForwardRef>
+        </ForwardRef>
+      </ForwardRef>
+    }
+    footer={
+      <ForwardRef>
+        <ForwardRef
+          data-e2e="lowflowBackButton"
+          onClick={[MockFunction]}
+        >
+          <FormattedMessage
+            defaultMessage="Back"
+            id="identityverification.lowflow.personal.back"
+            values={Object {}}
+          />
+        </ForwardRef>
+        <Button
+          bold={false}
+          capitalize={false}
+          data-e2e="lowflowContinueButton"
+          disabled={false}
+          fullwidth={false}
+          height="40px"
+          nature="primary"
+          onClick={[MockFunction]}
+          rounded={false}
+          size="14px"
+          small={false}
+          uppercase={false}
+        >
+          <FormattedMessage
+            defaultMessage="Continue"
+            id="identityverification.lowflow.personal.continue"
+            values={Object {}}
+          />
+        </Button>
+      </ForwardRef>
+    }
+  />
+</IdentityVerification__IdentityVerificationForm>
+`;

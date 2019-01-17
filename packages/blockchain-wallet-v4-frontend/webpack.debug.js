@@ -52,7 +52,7 @@ try {
 module.exports = {
   mode: 'production',
   entry: {
-    app: ['babel-polyfill', PATHS.src + '/index.js']
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
     path: PATHS.ciBuild,
@@ -191,6 +191,7 @@ module.exports = {
           api: envConfig.API_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          veriff: envConfig.VERIFF_URL,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
@@ -198,7 +199,7 @@ module.exports = {
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'
@@ -257,6 +258,7 @@ module.exports = {
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.LEDGER_URL,
+          envConfig.VERIFF_URL,
           envConfig.LEDGER_SOCKET_URL,
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',

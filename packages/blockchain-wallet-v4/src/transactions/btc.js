@@ -162,7 +162,7 @@ const reduceCoins = (acc, taggedCoin) => {
   }
 }
 
-var appender = curry((tagger, acc, coin) => {
+let appender = curry((tagger, acc, coin) => {
   const taggedCoin = tagger(coin)
   return [reduceCoins(acc, taggedCoin), taggedCoin]
 })
@@ -276,6 +276,7 @@ export const _transformTx = (
 
   return {
     double_spend: tx.double_spend,
+    rbf: tx.rbf,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),

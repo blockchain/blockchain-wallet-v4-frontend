@@ -13,9 +13,9 @@ import {
 } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import {
-  getPossibleAddresses,
   getSupportedCountries,
   getStates,
+  getSteps,
   getVerificationStep,
   getSmsStep
 } from 'data/components/identityVerification/selectors'
@@ -36,6 +36,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
 import {
   getEmail,
+  getEmailVerified,
   getSmsVerified,
   getCountryCode,
   getSmsNumber
@@ -109,13 +110,14 @@ getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
 getSmsNumber.mockImplementation(() => Remote.of(''))
 getEmail.mockImplementation(() => Remote.of('email@email.com'))
+getEmailVerified.mockImplementation(() => Remote.of(true))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
-getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
 getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
 getStates.mockImplementation(() => Remote.Success([]))
+getSteps.mockReturnValue(Remote.of(['personal', 'mobile', 'verify']))
 
 profileSagas.createUser = jest.fn()
 
@@ -241,12 +243,6 @@ describe('IdentityVerification Modal', () => {
           .simulate('change', {
             target: { value: '75002' }
           })
-        wrapper.unmount().mount()
-        wrapper
-          .find('Field[name="address"]')
-          .find('SelectBox')
-          .prop('input')
-          .onChange(POSSIBLE_ADDRESSES[0])
         wrapper.unmount().mount()
         wrapper
           .find('Field[name="line1"]')

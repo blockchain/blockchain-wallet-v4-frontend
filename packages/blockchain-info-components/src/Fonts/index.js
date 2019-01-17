@@ -1,2 +1,2 @@
-import './Icomoon'
-import './Montserrat'
+export { IconGlobalStyles } from './Icomoon'
+export { FontGlobalStyles } from './Montserrat'

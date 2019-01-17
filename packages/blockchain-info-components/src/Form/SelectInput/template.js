@@ -10,6 +10,18 @@ const StyledSelect = styled(Select)`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
+  .bc__menu {
+    background-color: ${props => props.theme['white']};
+  }
+
+  .bc__group-heading {
+    color: ${props => props.theme['gray-3']};
+  }
+
+  .bc__placeholder {
+    color: ${props => props.theme['gray-2']};
+  }
+
   .bc__control {
     box-shadow: none;
     color: ${props => props.theme['gray-5']};
@@ -31,6 +43,10 @@ const StyledSelect = styled(Select)`
     }
     .bc__value-container {
       overflow: hidden;
+    }
+
+    input {
+      border: none !important;
     }
   }
 
@@ -59,6 +75,10 @@ const StyledSelect = styled(Select)`
     * {
       color: ${props => props.theme['gray-5']};
     }
+  }
+
+  .bc__single-value {
+    color: ${props => props.theme['gray-5']};
   }
 `
 
@@ -140,6 +160,7 @@ const SelectInput = props => {
     onFocus,
     grouped,
     onBlur,
+    onKeyDown,
     getRef,
     filterOption
   } = props
@@ -174,9 +195,10 @@ const SelectInput = props => {
       onChange={handleChange}
       onFocus={onFocus}
       onBlur={onBlur}
+      onKeyDown={onKeyDown}
       menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
-      innerRef={getRef}
+      ref={getRef}
       menuPlacement={menuPlacement}
       isDisabled={disabled}
       value={defaultValue}

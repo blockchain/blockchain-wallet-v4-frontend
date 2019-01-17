@@ -5,38 +5,42 @@ import {
   ShowUsedAddresses,
   UpgradeAddressLabels
 } from './Addresses'
-import AutoDisconnection from './AutoDisconnection'
 import { RequestBch, SendBch } from './Bch'
 import {
   AddBtcWallet,
   ImportBtcAddress,
   RequestBtc,
   SendBtc,
-  ShowBtcPrivateKey
+  ShowBtcPrivateKey,
+  VerifyMessage
 } from './Btc'
+import { SendBsv } from './Bsv'
 import {
   CoinifyDeleteBank,
   CoinifyExchangeData,
   CoinifyTradeDetails
 } from './Coinify'
-import Confirm from './Confirm'
-import EditTxDescription from './EditTxDescription'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeDetails,
   ExchangeResults,
   IdentityVerification,
-  UserExists
+  SwapGetStarted,
+  SwapUpgrade,
+  UserExists,
+  SunRiverLinkError
 } from './Exchange'
+import { Confirm, PromptInput } from './Generic'
 import {
-  LockboxAppInstall,
+  LockboxAppManager,
+  LockboxAuthenticityCheck,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt,
+  LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
-import PromptInput from './PromptInput'
 import QRCode from './QRCode'
 import {
   SfoxEnterMicroDeposits,
@@ -44,8 +48,9 @@ import {
   SfoxTradeDetails
 } from './Sfox'
 import SignMessage from './SignMessage'
-import TransactionReport from './TransactionReport'
+import { EditTxDescription, TransactionReport } from './Transactions'
 import {
+  AutoDisconnection,
   ConfirmDisable2FA,
   SecondPassword,
   TwoStepGoogleAuthenticator,
@@ -62,7 +67,7 @@ import {
   XlmReserveLearn
 } from './Xlm'
 
-const Modals = props => (
+const Modals = () => (
   <div>
     <AddBtcWallet />
     <AutoDisconnection />
@@ -77,16 +82,18 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAppInstall />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxAuthenticityCheck disableOutsideClose />
+    <LockboxAppManager disableOutsideClose />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
+    <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
@@ -95,6 +102,7 @@ const Modals = props => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
+    <SendBsv />
     <SendEth />
     <SendXlm />
     <ShowBtcPrivateKey />
@@ -106,6 +114,9 @@ const Modals = props => (
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
+    <SunRiverLinkError />
+    <SwapGetStarted />
+    <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />
@@ -118,6 +129,7 @@ const Modals = props => (
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
+    <VerifyMessage />
   </div>
 )
 
