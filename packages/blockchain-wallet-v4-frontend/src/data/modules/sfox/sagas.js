@@ -41,7 +41,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.sfoxSuccess())
         yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
-        yield api.logSfoxAccountCreation()
       } else {
         yield put(A.sfoxNotAsked())
         throw new Error(JSON.parse(profile.error).error)
@@ -158,7 +157,6 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
-      yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
@@ -239,7 +237,6 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
       yield put(A.initializePayment())
-      yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))

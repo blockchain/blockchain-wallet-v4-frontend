@@ -15,12 +15,12 @@ import {
 import RecordBackupPhrase from './RecordBackupPhrase'
 import styled from 'styled-components'
 
-const SecurityGridContainer = SecurityContainer.extend`
+const SecurityGridContainer = styled(SecurityContainer)`
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   grid-template-columns: 85% 15%;
 `
-const SecurityTipContainer = SecurityTip.extend`
+const SecurityTipContainer = styled(SecurityTip)`
   width: auto;
 `
 const IconAndHeaderContainer = styled.div`

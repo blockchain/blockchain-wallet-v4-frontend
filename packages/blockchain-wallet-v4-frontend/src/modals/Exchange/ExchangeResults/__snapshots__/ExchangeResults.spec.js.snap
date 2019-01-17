@@ -44,24 +44,22 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="Receive {coin}"
-          id="modals.exchangeresults.receive"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        <ExchangeResults__StrikeThrough>
-          0.1337 ETH
-        </ExchangeResults__StrikeThrough>
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <ExchangeResults__StrikeThrough>
+        0.1337 ETH
+      </ExchangeResults__StrikeThrough>
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>
@@ -157,24 +155,22 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="Receive {coin}"
-          id="modals.exchangeresults.receive"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        <ExchangeResults__StrikeThrough>
-          0.1337 ETH
-        </ExchangeResults__StrikeThrough>
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      <ExchangeResults__StrikeThrough>
+        0.1337 ETH
+      </ExchangeResults__StrikeThrough>
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>
@@ -254,22 +250,20 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="{coin} Received"
-          id="modals.exchangeresults.received"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="{coin} Received"
+        id="modals.exchangeresults.received"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        0.1337 ETH
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>
@@ -278,14 +272,12 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
           id="modals.exchangeresults.value"
           values={Object {}}
         />
-        <React.Fragment>
-           
-          <FormattedMessage
-            defaultMessage="(when exchanged)"
-            id="modals.exchangeresults.valuenotcie"
-            values={Object {}}
-          />
-        </React.Fragment>
+         
+        <FormattedMessage
+          defaultMessage="(when exchanged)"
+          id="modals.exchangeresults.valuenotcie"
+          values={Object {}}
+        />
       </Exchange__ExchangeText>
       <Exchange__ExchangeText
         weight={300}
@@ -390,22 +382,20 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="Receive {coin}"
-          id="modals.exchangeresults.receive"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        0.1337 ETH
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>
@@ -518,22 +508,20 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="Receive {coin}"
-          id="modals.exchangeresults.receive"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        0.1337 ETH
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>
@@ -744,22 +732,20 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <React.Fragment>
-      <Exchange__AmountHeader>
-        <FormattedMessage
-          defaultMessage="Receive {coin}"
-          id="modals.exchangeresults.receive"
-          values={
-            Object {
-              "coin": "ETH",
-            }
+    <Exchange__AmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
           }
-        />
-      </Exchange__AmountHeader>
-      <Exchange__ExchangeAmount>
-        0.1337 ETH
-      </Exchange__ExchangeAmount>
-    </React.Fragment>
+        }
+      />
+    </Exchange__AmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
     <Exchange__TableRow>
       <Exchange__ExchangeText>

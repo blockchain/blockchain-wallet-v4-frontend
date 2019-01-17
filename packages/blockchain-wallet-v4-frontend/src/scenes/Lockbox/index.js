@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 class LockboxContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.lockboxActions.determineLockboxRoute()
   }
 

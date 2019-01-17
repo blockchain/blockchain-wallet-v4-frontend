@@ -14,22 +14,22 @@ export const calculateEffectiveBalance = (balance, reserve, fee) =>
 export const calculateReserve = (baseReserve, entries) =>
   new BigNumber(entries)
     .plus(2)
-    .mul(baseReserve)
+    .multipliedBy(baseReserve)
     .toString()
 
 export const calculateFee = (baseFee, operations) =>
-  new BigNumber(baseFee).mul(operations).toString()
+  new BigNumber(baseFee).multipliedBy(operations).toString()
 
 export const overflowsFullBalance = (amount, effectiveBalance, reserve) =>
-  new BigNumber(effectiveBalance).plus(reserve).lessThan(amount)
+  new BigNumber(effectiveBalance).plus(reserve).isLessThan(amount)
 
 export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
-  new BigNumber(effectiveBalance).lessThan(amount)
+  new BigNumber(effectiveBalance).isLessThan(amount)
 
 export const isValidAddress = StellarSdk.StrKey.isValidEd25519PublicKey
 
 export const calculateTransactionAmount = (amount, fee) =>
-  new BigNumber(amount).add(fee).toString()
+  new BigNumber.sum(amount, fee).toString()
 
 export const encodeXlmURI = (address, memo, amount, note) => {
   let data = {}

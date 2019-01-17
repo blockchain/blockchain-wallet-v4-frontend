@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SecurityGauge component default renders correctly 1`] = `
-<styled.div>
-  <Styled(Icon)
+<SecurityGauge__Progress>
+  <SecurityGauge__SecurityIcon
     name="checkmark-in-circle"
     size="16px"
   />
-  <styled.div />
-  <styled.div />
-</styled.div>
+  <SecurityGauge__Empty />
+  <SecurityGauge__Empty />
+</SecurityGauge__Progress>
 `;

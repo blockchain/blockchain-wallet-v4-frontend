@@ -108,19 +108,18 @@ const Convertor = props => {
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched &&
-        meta.error && (
-          <Error
-            errorBottom={errorBottom}
-            size='13px'
-            weight={300}
-            color='error'
-            className='error'
-            data-e2e='fiatConvertorError'
-          >
-            {meta.error}
-          </Error>
-        )}
+      {meta.touched && meta.error && (
+        <Error
+          errorBottom={errorBottom}
+          size='13px'
+          weight={300}
+          color='error'
+          className='error'
+          data-e2e='fiatConvertorError'
+        >
+          {meta.error}
+        </Error>
+      )}
     </Wrapper>
   )
 }

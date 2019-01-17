@@ -48,6 +48,6 @@ describe('syncVeriff', () => {
       .call(api.syncVeriff, applicantId)
       .put(actions.modals.closeAllModals())
       .put(actions.router.push('/swap'))
-      .put(actions.analytics.logKycEvent(COMPLETE))
+      .put(actions.analytics.logEvent(COMPLETE))
       .run())
 })
