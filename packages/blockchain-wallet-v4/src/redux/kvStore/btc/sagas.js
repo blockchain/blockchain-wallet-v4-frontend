@@ -42,9 +42,11 @@ export default ({ api, networks }) => {
     const accounts = Wallet.selectHDAccounts(wallet)
 
     let labelSize = 0
-    accounts.map(account => account.address_labels).map(l => {
-      labelSize += l.size
-    })
+    accounts
+      .map(account => account.address_labels)
+      .map(l => {
+        labelSize += l.size
+      })
 
     return labelSize
   }

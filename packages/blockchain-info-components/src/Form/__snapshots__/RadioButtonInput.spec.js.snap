@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RadioButtonInput component default renders correctly 1`] = `
-<styled.div>
-  <styled.input
+<RadioButtonInput__Wrapper>
+  <RadioButtonInput__BaseRadioButtonInput
     checked={true}
     disabled="false"
     name="test"
     props={Object {}}
   />
-  <styled.label>
+  <RadioButtonInput__Label>
     <span>
       test
     </span>
-  </styled.label>
-</styled.div>
+  </RadioButtonInput__Label>
+</RadioButtonInput__Wrapper>
 `;

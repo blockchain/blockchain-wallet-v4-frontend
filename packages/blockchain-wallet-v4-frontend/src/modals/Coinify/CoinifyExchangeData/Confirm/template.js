@@ -34,8 +34,7 @@ const RateContainer = styled.div`
   flex-direction: row;
   justify-content: flex-end;
 `
-const EditContainer = RateContainer.extend``
-const EditAmountContainer = RateContainer.extend``
+const EditAmountContainer = styled(RateContainer)
 const Unit = styled.div`
   position: absolute;
   font-size: 11px;
@@ -178,7 +177,7 @@ const Confirm = props => {
             </Text>
           </SummaryRow>
         </SummaryWrapper>
-        <EditContainer style={spacing('mt-10')}>
+        <RateContainer style={spacing('mt-10')}>
           <Link size='12px' weight={300} onClick={toggleEdit}>
             {!isEditing ? (
               <FormattedMessage
@@ -192,7 +191,7 @@ const Confirm = props => {
               />
             )}
           </Link>
-        </EditContainer>
+        </RateContainer>
       </ColLeft>
       <ColRight>
         <Button

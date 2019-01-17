@@ -141,7 +141,7 @@ describe('authSagas', () => {
         it('should display info that authorization is required', () => {
           const message = 'error'
           saga
-            .throw(JSON.stringify({ authorization_required: message }))
+            .throw({ authorization_required: message })
             .put(
               actions.alerts.displayInfo(
                 C.AUTHORIZATION_REQUIRED_INFO,
@@ -227,7 +227,7 @@ describe('authSagas', () => {
         it('should trigger login failure', () => {
           const message = 'error'
           saga
-            .throw(JSON.stringify({ initial_error: message }))
+            .throw({ initial_error: message })
             .put(actions.auth.loginFailure(message))
             .next()
             .isDone()
@@ -1200,7 +1200,7 @@ describe('authSagas', () => {
         title: 'archive_vulnerable_address_title',
         message: 'archive_vulnerable_address_msg',
         confirm: 'archive_vulnerable_address_confirm',
-        cancel: undefined,
+        cancel: 'archive_vulnerable_address_cancel',
         messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
       })
     })

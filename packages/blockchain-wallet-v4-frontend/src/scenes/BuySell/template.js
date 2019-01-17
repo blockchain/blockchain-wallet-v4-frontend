@@ -63,10 +63,10 @@ const Intro = styled.div`
   flex-direction: column;
   width: 100%;
 `
-const SelectionContainer = Intro.extend`
+const SelectionContainer = styled(Intro)`
   margin-top: 25px;
 `
-const FieldWrapper = Intro.extend`
+const FieldWrapper = styled(Intro)`
   margin-top: 5px;
   width: 50%;
 `

@@ -15,7 +15,7 @@ module.exports = {
     fs: 'empty'
   },
   entry: {
-    app: ['babel-polyfill', PATHS.src + '/index.js']
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
     path: PATHS.ciBuild,

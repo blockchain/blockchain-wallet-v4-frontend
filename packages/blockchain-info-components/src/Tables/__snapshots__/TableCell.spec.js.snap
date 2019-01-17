@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableCell component renders correctly 1`] = `
-<styled.div
+<TableCell__Wrapper
   width="100%"
 >
   <span>
     Default
   </span>
-</styled.div>
+</TableCell__Wrapper>
 `;

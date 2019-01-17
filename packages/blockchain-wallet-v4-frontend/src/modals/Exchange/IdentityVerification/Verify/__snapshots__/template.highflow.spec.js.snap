@@ -9,8 +9,8 @@ exports[`HighFlow should render correctly 1`] = `
       </Context.Consumer>
     }
     footer={
-      <IdentityVerification__Footer>
-        <IdentityVerification__BackButton
+      <ForwardRef>
+        <ForwardRef
           data-e2e="highflowBackButton"
           onClick={[MockFunction]}
         >
@@ -19,7 +19,7 @@ exports[`HighFlow should render correctly 1`] = `
             id="identityverification.highflow.personal.back"
             values={Object {}}
           />
-        </IdentityVerification__BackButton>
+        </ForwardRef>
         <Button
           bold={false}
           capitalize={false}
@@ -40,7 +40,7 @@ exports[`HighFlow should render correctly 1`] = `
             values={Object {}}
           />
         </Button>
-      </IdentityVerification__Footer>
+      </ForwardRef>
     }
   />
 </IdentityVerification__IdentityVerificationForm>

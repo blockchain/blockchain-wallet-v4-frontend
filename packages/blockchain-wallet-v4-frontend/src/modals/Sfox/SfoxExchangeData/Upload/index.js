@@ -9,21 +9,31 @@ import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
   state = {
-    file: null,
+    files: [],
     camera: false,
     photo: '',
     busy: false
   }
 
   resetUpload = () => {
-    this.setState({ file: null, camera: false, photo: '' })
+    this.setState({ files: [], camera: false, photo: '' })
+  }
+
+  handleDrop = files => {
+    this.setState({
+      files: files.map(file =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })
+      )
+    })
   }
 
   submitForUpload = () => {
     const { verificationStatus } = this.props.data.getOrElse({})
     if (!verificationStatus) return
 
-    const file = this.state.file || this.state.photo
+    const file = this.state.files[0] || this.state.photo
     const idType = verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({ file, idType })
     this.resetUpload() // TODO replace with setting to busy and show loader
@@ -37,13 +47,13 @@ class UploadContainer extends Component {
         <Upload
           data={value}
           handleSubmit={e => e.preventDefault()}
-          onDrop={file => this.setState({ file: file[0] })}
+          onDrop={this.handleDrop}
           onClickUpload={e => e.preventDefault()}
           toggleCamera={() => this.setState({ camera: true })}
-          file={this.state.file}
+          file={this.state.files[0]}
           showCamera={this.state.camera}
           photo={this.state.photo}
-          setPhoto={() => this.setState({ photo: data })}
+          setPhoto={data => this.setState({ photo: data })}
           resetUpload={this.resetUpload}
           submitForUpload={this.submitForUpload}
         />

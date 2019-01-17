@@ -14,7 +14,7 @@ references:
       - image: circleci/node:10.12.0-jessie-browsers
 
   npm_cache_key: &npm_cache_key
-      v4-dependency-npm-{{ checksum "yarn.lock" }}
+      v7-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
@@ -25,9 +25,9 @@ references:
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v4-repo-{{ .Branch }}-{{ .Revision }}
-        - v4-repo-{{ .Branch }}
-        - v4-repo
+        - v7-repo-{{ .Branch }}-{{ .Revision }}
+        - v7-repo-{{ .Branch }}
+        - v7-repo
 
 jobs:
   pull_code:
@@ -36,7 +36,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v4-repo-{{ .Branch }}-{{ .Revision }}
+          key: v7-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
