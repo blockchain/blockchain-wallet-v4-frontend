@@ -1,17 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper, Title, Note } from 'components/Exchange'
 import Volume from './Volume'
+import DemoSummary from './Demo'
 import RatesBox from '../RatesBox'
 
 export default class Summary extends React.PureComponent {
   render () {
     const { showDemoSummary, sourceCoin, targetCoin, currency } = this.props
     return showDemoSummary ? (
-      ''
+      <DemoSummary />
     ) : (
-      <BorderWrapper>
+      <Wrapper>
         <Title>
           <FormattedMessage
             id='scenes.exchange.exchangeform.summary.title'
@@ -34,7 +35,7 @@ export default class Summary extends React.PureComponent {
           targetCoin={targetCoin}
           currency={currency}
         />
-      </BorderWrapper>
+      </Wrapper>
     )
   }
 }

@@ -79,3 +79,16 @@ const getAvailableCoin = headOrLast => availablePairs =>
   )(availablePairs)
 export const getAvailableSourceCoins = getAvailableCoin(head)
 export const getAvailableTargetCoins = getAvailableCoin(last)
+
+export const getDemoLimits = symbol => ({
+  minOrder: {
+    amount: '1.30',
+    fiat: true,
+    symbol
+  },
+  maxPossibleOrder: {
+    amount: '1500',
+    fiat: true,
+    symbol
+  }
+})

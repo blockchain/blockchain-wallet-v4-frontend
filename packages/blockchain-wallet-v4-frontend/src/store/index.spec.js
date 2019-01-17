@@ -41,6 +41,7 @@ jest.mock('../middleware', () => ({
   webSocketEth: jest.fn(),
   streamingXlm: jest.fn(),
   webSocketRates: jest.fn(),
+  webSocketPublicRates: jest.fn(),
   autoDisconnection: jest.fn()
 }))
 

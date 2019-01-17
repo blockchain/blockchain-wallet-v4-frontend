@@ -36,7 +36,8 @@ import {
   LATEST_TX_FETCH_FAILED_ERROR,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget,
-  EXCHANGE_STEPS
+  EXCHANGE_STEPS,
+  getDemoLimits
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -245,8 +246,21 @@ export default ({ api, coreSagas, networks }) => {
       yield call(startValidation)
       yield put(A.fetchLimitsLoading())
       const fiatCurrency = yield call(getFiatCurrency)
+
+      const userCreated = (yield select(
+        selectors.modules.profile.isUserCreated
+      )).getOrElse(false)
+      if (!userCreated) {
+        return yield put(
+          A.fetchLimitsSuccess({
+            [fiatCurrency]: getDemoLimits(currencySymbolMap[fiatCurrency])
+          })
+        )
+      }
+
       const fiatLimits = yield call(api.fetchLimits, fiatCurrency)
       const limits = formatLimits(fiatLimits)
+
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
         A.fetchLimitsSuccess({
@@ -391,6 +405,10 @@ export default ({ api, coreSagas, networks }) => {
 
   const updateBalanceLimit = function*() {
     try {
+      const userCreated = (yield select(
+        selectors.modules.profile.isUserCreated
+      )).getOrElse(false)
+      if (!userCreated) return
       const fiatCurrency = yield call(getFiatCurrency)
       const limits = yield call(getLimits, fiatCurrency)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)

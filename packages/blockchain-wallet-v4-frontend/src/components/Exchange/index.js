@@ -4,6 +4,8 @@ import { Text, Button } from 'blockchain-info-components'
 export const Wrapper = styled.div`
   padding: 32px;
   max-width: 440px;
+  height: 100%;
+  box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']}};
   border-radius: 8px;
   display: flex;

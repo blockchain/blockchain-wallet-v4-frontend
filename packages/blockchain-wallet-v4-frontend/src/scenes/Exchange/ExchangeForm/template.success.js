@@ -63,6 +63,7 @@ const ColumnLeft = styled.div`
   max-width: 450px;
   width: 60%;
   border-radius: 8px;
+  align-self: stretch;
   ${media.mobile`
     margin-right: 0;
     margin-bottom: 20px;
@@ -74,7 +75,7 @@ const ColumnRight = styled.div`
   width: 100%;
   align-self: center;
   @media (min-width: 992px) {
-    align-self: flex-start;
+    align-self: stretch;
     max-width: 345px;
     width: 40%;
   }
@@ -343,7 +344,7 @@ const Success = ({
         </ColumnLeft>
         <ColumnRight>
           <Summary
-            showDemoSummary={!volume && isDemo}
+            showDemoSummary={isDemo && (!volume || volume === '0')}
             sourceCoin={sourceCoin}
             targetCoin={targetCoin}
             currency={currency}

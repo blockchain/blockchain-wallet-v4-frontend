@@ -37,7 +37,7 @@ export class ExchangeScene extends React.PureComponent {
           <Exchange
             from={path(['state', 'from'], location)}
             to={path(['state', 'to'], location)}
-            isDemo={!userCreated}
+            isDemo={true}
           />
         </Wrapper>
       ),
