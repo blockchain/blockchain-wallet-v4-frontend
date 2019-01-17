@@ -1,7 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { assoc, is, path, prop } from 'ramda'
-import Either from 'data.either'
+import { assoc, path, prop, is } from 'ramda'
 
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
@@ -209,7 +208,6 @@ export default ({ api, coreSagas }) => {
 
   const login = function*(action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
-    const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -226,10 +224,10 @@ export default ({ api, coreSagas }) => {
       })
       yield call(loginRoutineSaga, mobileLogin)
     } catch (error) {
-      const initialError = safeParse(error).map(prop('initial_error'))
-      const authRequired = safeParse(error).map(prop('authorization_required'))
+      const initialError = prop('initial_error', error)
+      const authRequired = prop('authorization_required', error)
 
-      if (authRequired.isRight && authRequired.value) {
+      if (authRequired) {
         // auth errors (polling)
         const authRequiredAlert = yield put(
           actions.alerts.displayInfo(
@@ -263,9 +261,9 @@ export default ({ api, coreSagas }) => {
         } else {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
-      } else if (initialError.isRight && initialError.value) {
+      } else if (initialError) {
         // general error
-        yield put(actions.auth.loginFailure(initialError.value))
+        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
