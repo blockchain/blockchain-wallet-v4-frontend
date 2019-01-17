@@ -92,6 +92,10 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
+  const formErrorSelector = selectors.form.getFormError(EXCHANGE_FORM)
+  const asyncValidatingSelector = selectors.form.isAsyncValidating(
+    EXCHANGE_FORM
+  )
   const getActiveFieldName = compose(
     mapFixToFieldName,
     prop('fix')
@@ -197,7 +201,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const validateForm = function*() {
-    yield call(startValidation)
+    const currentError = yield select(formErrorSelector)
+    const isAsyncValidating = yield select(asyncValidatingSelector)
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const target = prop('target', form)
@@ -220,13 +225,15 @@ export default ({ api, coreSagas, networks }) => {
         yield call(validateXlm, sourceCryptoVolume, source)
       if (targetCoin === 'XLM')
         yield call(validateXlmCreateAccount, targetCryptoVolume, target)
-      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
+      if (currentError || isAsyncValidating)
+        yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (error) {
-      yield put(
-        actions.form.stopAsyncValidation(EXCHANGE_FORM, {
-          _error: error
-        })
-      )
+      if (currentError !== error)
+        yield put(
+          actions.form.stopAsyncValidation(EXCHANGE_FORM, {
+            _error: error
+          })
+        )
     }
   }
 
@@ -547,10 +554,10 @@ export default ({ api, coreSagas, networks }) => {
       const { amount } = payload
       const form = yield select(formValueSelector)
 
+      yield call(startValidation)
       yield put(
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
-      yield call(startValidation)
       yield call(checkLatestTx, path(['source', 'coin'], form))
       yield put(A.setShowError(true))
       yield call(changeSubscription)
