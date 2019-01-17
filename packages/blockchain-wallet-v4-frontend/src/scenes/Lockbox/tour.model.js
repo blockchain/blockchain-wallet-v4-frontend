@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 export const TOUR_STEPS = [
   {
@@ -128,30 +128,32 @@ export const TOUR_STEPS = [
 ]
 
 const TooltipBody = styled.div`
-  background-color: #daa588;
-  min-width: 290px;
-  max-width: 420px;
   position: relative;
+  min-width: 300px;
+  max-width: 400px;
+  background-color: ${props => props.theme['white']};
+  border-radius: 4px;
 `
 const TooltipContent = styled.div`
-  color: #fff;
+  color: ${props => props.theme['white']};
   padding: 20px;
 `
 const TooltipFooter = styled.div`
-  background-color: #f56960;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  padding: 5px;
-  * + * {
-    margin-left: 0.5rem;
-  }
+  flex-direction: row;
+  justify-content: ${props =>
+    props.isLastStep ? 'flex-end' : 'space-between'};
+  align-content: center;
+  align-items: center;
+  color: ${props => props.theme['white']};
+  padding: 6px 20px 20px;
 `
-
-const Button = styled.button`
-  background-color: #e11b0e;
-  color: #fff;
-  margin-right: auto;
+const StepChangeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const ClickableText = styled(Text)`
+  cursor: pointer;
 `
 
 export const TourTooltip = ({
@@ -169,36 +171,49 @@ export const TourTooltip = ({
     <div {...tooltipProps}>
       <TooltipBody>
         {step.content && <TooltipContent>{step.content}</TooltipContent>}
-        <TooltipFooter>
+        <TooltipFooter isLastStep={isLastStep}>
           {!isLastStep && (
-            <Button {...skipProps} spacer={true}>
+            <ClickableText size='13px' weight={300} {...skipProps}>
               <FormattedMessage
                 id='scenes.lockbox.tour.skip'
-                defaultMessage='Skip'
+                defaultMessage='Skip Tour'
               />
-            </Button>
+            </ClickableText>
           )}
-          {index > 0 && (
-            <Button {...backProps}>
-              <FormattedMessage
-                id='scenes.lockbox.tour.back'
-                defaultMessage='Back'
-              />
-            </Button>
-          )}
-          <Button {...primaryProps}>
-            {isLastStep ? (
-              <FormattedMessage
-                id='scenes.lockbox.tour.finish'
-                defaultMessage='Finish'
-              />
-            ) : (
-              <FormattedMessage
-                id='scenes.lockbox.tour.next'
-                defaultMessage='Next'
-              />
+          <StepChangeWrapper>
+            {index > 0 && (
+              <Button
+                width='70px'
+                height='38px'
+                nature='empty-secondary'
+                style={{ marginRight: '8px' }}
+                {...backProps}
+              >
+                <FormattedMessage
+                  id='scenes.lockbox.tour.back'
+                  defaultMessage='Back'
+                />
+              </Button>
             )}
-          </Button>
+            <Button
+              width='70px'
+              height='38px'
+              nature='primary'
+              {...primaryProps}
+            >
+              {isLastStep ? (
+                <FormattedMessage
+                  id='scenes.lockbox.tour.finish'
+                  defaultMessage='Finish'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.lockbox.tour.next'
+                  defaultMessage='Next'
+                />
+              )}
+            </Button>
+          </StepChangeWrapper>
         </TooltipFooter>
       </TooltipBody>
     </div>
