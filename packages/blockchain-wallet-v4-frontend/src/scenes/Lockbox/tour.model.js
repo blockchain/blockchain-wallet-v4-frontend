@@ -4,129 +4,6 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 
-export const TOUR_STEPS = [
-  {
-    target: '.tour-step1',
-    content: (
-      <React.Fragment>
-        <Text size='20px' weight={400} style={{ marginBottom: '16px' }}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepone.title'
-            defaultMessage='Welcome to your Lockbox!'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepone.content'
-            defaultMessage="Lockbox is organized by asset. Select an asset to view it's transaction history."
-          />
-        </Text>
-      </React.Fragment>
-    ),
-    placement: 'bottom',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    hideCloseButton: true,
-    showSkipButton: true
-  },
-  {
-    target: '.tour-step2',
-    content: (
-      <React.Fragment>
-        <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.steptwo.title'
-            defaultMessage='Asset List'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.steptwo.content'
-            defaultMessage='These are the assets available to your Lockbox.  Your balances are shown by default.  Clicking on an asset with filter the transaction list to show just that asset.'
-          />
-        </Text>
-      </React.Fragment>
-    ),
-    placement: 'bottom',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    hideCloseButton: true,
-    showSkipButton: true
-  },
-  {
-    target: '.tour-step3',
-    content: (
-      <React.Fragment>
-        <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepthree.title'
-            defaultMessage='Transaction Search'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepthree.content'
-            defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions.'
-          />
-        </Text>
-      </React.Fragment>
-    ),
-    placement: 'bottom',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    hideCloseButton: true,
-    showSkipButton: true
-  },
-  {
-    target: '.tour-step4',
-    content: (
-      <React.Fragment>
-        <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepfour.title'
-            defaultMessage='App Manager'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepfour.content'
-            defaultMessage='Want to add, update or remove applications?  Click here to manage all applications on your device.'
-          />
-        </Text>
-      </React.Fragment>
-    ),
-    placement: 'bottom-end',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    hideCloseButton: true,
-    showSkipButton: true
-  },
-  {
-    target: '.tour-step5',
-    content: (
-      <React.Fragment>
-        <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepfive.title'
-            defaultMessage='Lockbox Settings'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepfive.content'
-            defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
-          />
-        </Text>
-      </React.Fragment>
-    ),
-    placement: 'bottom-end',
-    disableBeacon: true,
-    disableOverlayClose: true,
-    hideCloseButton: true,
-    showSkipButton: true
-  }
-]
-
 const TooltipBody = styled.div`
   position: relative;
   min-width: 300px;
@@ -155,7 +32,11 @@ const StepChangeWrapper = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-
+const StepTitle = styled(Text)`
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+`
 export const TourTooltip = ({
   continuous,
   index,
@@ -196,7 +77,7 @@ export const TourTooltip = ({
               </Button>
             )}
             <Button
-              width='70px'
+              width='110px'
               height='38px'
               nature='primary'
               {...primaryProps}
@@ -204,7 +85,7 @@ export const TourTooltip = ({
               {isLastStep ? (
                 <FormattedMessage
                   id='scenes.lockbox.tour.finish'
-                  defaultMessage='Finish'
+                  defaultMessage='Finish Tour'
                 />
               ) : (
                 <FormattedMessage
@@ -219,3 +100,131 @@ export const TourTooltip = ({
     </div>
   )
 }
+
+export const TOUR_STEPS = [
+  {
+    target: '.tour-step1',
+    content: (
+      <React.Fragment>
+        <StepTitle weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepone.title'
+            defaultMessage='Welcome to your Lockbox!'
+          />
+        </StepTitle>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepone.content'
+            defaultMessage="This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets."
+          />
+        </Text>
+      </React.Fragment>
+    ),
+    placement: 'bottom',
+    offset: 4,
+    disableBeacon: true,
+    disableOverlayClose: true,
+    hideCloseButton: true,
+    showSkipButton: true
+  },
+  {
+    target: '.tour-step2',
+    content: (
+      <React.Fragment>
+        <StepTitle weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.steptwo.title'
+            defaultMessage='Asset List'
+          />
+        </StepTitle>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.steptwo.content'
+            defaultMessage='Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.'
+          />
+        </Text>
+      </React.Fragment>
+    ),
+    placement: 'bottom',
+    offset: 4,
+    disableBeacon: true,
+    disableOverlayClose: true,
+    hideCloseButton: true,
+    showSkipButton: true
+  },
+  {
+    target: '.tour-step3',
+    content: (
+      <React.Fragment>
+        <StepTitle weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepthree.title'
+            defaultMessage='Transaction Search'
+          />
+        </StepTitle>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepthree.content'
+            defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters applied by click the asset cards above will also show here.'
+          />
+        </Text>
+      </React.Fragment>
+    ),
+    placement: 'bottom',
+    offset: 4,
+    disableBeacon: true,
+    disableOverlayClose: true,
+    hideCloseButton: true,
+    showSkipButton: true
+  },
+  {
+    target: '.tour-step4',
+    content: (
+      <React.Fragment>
+        <StepTitle weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepfour.title'
+            defaultMessage='App Manager'
+          />
+        </StepTitle>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepfour.content'
+            defaultMessage='Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.'
+          />
+        </Text>
+      </React.Fragment>
+    ),
+    placement: 'bottom-end',
+    offset: 4,
+    disableBeacon: true,
+    disableOverlayClose: true,
+    hideCloseButton: true,
+    showSkipButton: true
+  },
+  {
+    target: '.tour-step5',
+    content: (
+      <React.Fragment>
+        <StepTitle weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepfive.title'
+            defaultMessage='Lockbox Settings'
+          />
+        </StepTitle>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.lockbox.tour.stepfive.content'
+            defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
+          />
+        </Text>
+      </React.Fragment>
+    ),
+    placement: 'bottom-end',
+    offset: 4,
+    disableBeacon: true,
+    disableOverlayClose: true,
+    hideCloseButton: true,
+    showSkipButton: true
+  }
+]
