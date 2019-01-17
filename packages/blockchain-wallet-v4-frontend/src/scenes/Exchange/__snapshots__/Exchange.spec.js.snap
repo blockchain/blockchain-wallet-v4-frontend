@@ -8,7 +8,7 @@ exports[`ExchangeScene renders exchange correctly 1`] = `
 <Exchange__Wrapper>
   <Connect(ExchangeContainer)
     from="BTC"
-    isDemo={true}
+    isDemo={false}
     to="ETH"
   />
 </Exchange__Wrapper>

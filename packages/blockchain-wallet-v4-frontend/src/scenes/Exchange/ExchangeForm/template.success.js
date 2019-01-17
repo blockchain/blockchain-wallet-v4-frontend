@@ -336,6 +336,7 @@ const Success = ({
                 blockLockbox={blockLockbox}
                 volume={volume}
                 handleSubmit={handleSubmit}
+                isDemo={isDemo}
               />
               <LimitInfo />
             </Form>
