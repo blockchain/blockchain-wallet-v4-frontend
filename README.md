@@ -20,8 +20,7 @@ This repo contains the three codebases/packages listed below.
 
 ## Local Development
 1. Ensure Node version >= 10.2 and Yarn version >= 1.12 are installed
-2. Run the following command to install necessary global packages: `npm install -g yarn @babel/cli rimraf cross-env`
-3. Install, link and hoist packages: `yarn`
+2. From the project root, run the following command to install dependencies: `chmod +x ./setup.sh && ./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
