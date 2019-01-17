@@ -66,7 +66,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     toUnit: 'XLM'
   }).value
   const effectiveBalanceXlm = Exchange.convertXlmToXlm({
-    value: new BigNumber(effectiveBalance).add(fee),
+    value: new BigNumber.sum(effectiveBalance, fee),
     fromUnit: 'STROOP',
     toUnit: 'XLM'
   }).value
