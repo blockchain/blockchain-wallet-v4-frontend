@@ -96,7 +96,7 @@
     "redux-saga": "0.16.2",
     "reselect": "4.0.0",
     "scryptsy": "2.0.0",
-    "seedrandom": "2.4.4",
+    "seedrandom": "2.4.3",
     "stellar-sdk": "0.11.0",
     "unorm": "1.4.1"
   }
