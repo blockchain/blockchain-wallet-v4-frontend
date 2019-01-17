@@ -18,6 +18,10 @@ const Wrapper = styled.div`
 `
 
 class SecurityCenterContainer extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.settingsActions.removeRecoveryPhrase()
+  }
+
   render () {
     return (
       <Wrapper>

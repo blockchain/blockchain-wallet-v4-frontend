@@ -120,7 +120,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logExchangeClick: () =>
-    dispatch(actions.analytics.logExchangeEvent(FIRST_STEP_SUBMIT)),
+    dispatch(actions.analytics.logEvent(FIRST_STEP_SUBMIT)),
   actions: bindActionCreators(actions.components.exchange, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

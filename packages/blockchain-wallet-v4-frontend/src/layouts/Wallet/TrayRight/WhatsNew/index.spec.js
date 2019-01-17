@@ -2,9 +2,7 @@ import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-import {
-  Remote
-} from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import layoutWalletReducer from 'data/components/layoutWallet/reducers'
 import WhatsNew, { Wrapper } from './index'
@@ -39,7 +37,7 @@ describe('WhatsNew', () => {
   beforeEach(() => {
     store = createTestStore(reducers, sagas)
     wrapper = mount(
-      <TestBed withRouter={true} store={store} >
+      <TestBed withRouter={true} store={store}>
         <WhatsNew />
       </TestBed>
     )

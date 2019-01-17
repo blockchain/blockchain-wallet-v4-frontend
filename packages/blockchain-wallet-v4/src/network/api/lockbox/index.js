@@ -12,7 +12,7 @@ export default ({ ledgerUrl, get, post }) => {
       url: ledgerUrl,
       endPoint: `/api/firmware_final_versions/${id}`,
       contentType: 'application/json',
-      ignoreKey: true
+      ignoreQueryParams: true
     })
 
   const getDeviceVersion = req =>
@@ -52,7 +52,7 @@ export default ({ ledgerUrl, get, post }) => {
       url: ledgerUrl,
       endPoint: '/api/mcu_versions',
       contentType: 'application/json',
-      ignoreKey: true
+      ignoreQueryParams: true
     })
 
   const getNextMcu = bootLoaderVersion =>

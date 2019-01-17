@@ -91,12 +91,11 @@ class TextAreaDebounced extends React.Component {
           data-e2e={this.props['data-e2e']}
           {...rest}
         />
-        {meta.touched &&
-          meta.error && (
-            <Error size='12px' weight={300} color='error'>
-              {meta.error}
-            </Error>
-          )}
+        {meta.touched && meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {meta.error}
+          </Error>
+        )}
       </Container>
     )
   }

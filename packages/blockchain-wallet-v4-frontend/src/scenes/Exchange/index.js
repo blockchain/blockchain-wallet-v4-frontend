@@ -58,7 +58,7 @@ export class ExchangeScene extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
-  logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
+  logEnterExchange: () => dispatch(actions.analytics.logEvent(ENTERED))
 })
 
 export default connect(

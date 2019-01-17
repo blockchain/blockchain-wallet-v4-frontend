@@ -63,10 +63,10 @@ const Intro = styled.div`
   flex-direction: column;
   width: 100%;
 `
-const SelectionContainer = Intro.extend`
+const SelectionContainer = styled(Intro)`
   margin-top: 25px;
 `
-const FieldWrapper = Intro.extend`
+const FieldWrapper = styled(Intro)`
   margin-top: 5px;
   width: 50%;
 `
@@ -81,7 +81,14 @@ const SubmittedWrapper = styled.span`
 `
 
 const SelectPartner = props => {
-  const { invalid, options, pristine, submitEmail, ui, fields } = props
+  const {
+    invalid,
+    options,
+    pristine,
+    submitEmail,
+    emailSubmitted,
+    fields
+  } = props
   const { country, stateSelection, email } = fields
   const sfoxStates = path(['platforms', 'web', 'sfox', 'states'], options)
   const sfoxCountries = path(['platforms', 'web', 'sfox', 'countries'], options)
@@ -118,7 +125,7 @@ const SelectPartner = props => {
     ) {
       return (
         <UnavailableContainer>
-          {!ui.submittedEmail ? (
+          {!emailSubmitted ? (
             <Text size='14px' weight={300} style={spacing('mb-15')}>
               {equals(country, 'US') ? (
                 <FormattedMessage
@@ -133,7 +140,7 @@ const SelectPartner = props => {
               )}
             </Text>
           ) : null}
-          {!ui.submittedEmail ? (
+          {!emailSubmitted ? (
             <span>
               <Field
                 name='email'

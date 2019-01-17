@@ -1,9 +1,7 @@
 import {
-  and,
   any,
   compose,
   complement,
-  converge,
   curry,
   equals,
   find,
@@ -62,15 +60,7 @@ export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
 export const invitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const countrySupportsKyc = state =>
-  converge(lift(isCountrySupported), [
-    selectors.core.settings.getCountryCode,
-    selectors.components.identityVerification.getSupportedCountries
-  ])(state)
-export const userFlowSupported = converge(lift(and), [
-  invitedToKyc,
-  countrySupportsKyc
-])
+export const userFlowSupported = invitedToKyc
 
 export const getApiToken = path(['profile', 'apiToken'])
 

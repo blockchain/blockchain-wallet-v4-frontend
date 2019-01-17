@@ -198,7 +198,7 @@ const SelectInput = props => {
       onKeyDown={onKeyDown}
       menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
-      innerRef={getRef}
+      ref={getRef}
       menuPlacement={menuPlacement}
       isDisabled={disabled}
       value={defaultValue}

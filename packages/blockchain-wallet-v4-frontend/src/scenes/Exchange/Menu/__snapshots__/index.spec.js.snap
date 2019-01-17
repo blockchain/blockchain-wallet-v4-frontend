@@ -2,7 +2,7 @@
 
 exports[`MenuTop Component matches snapshot 1`] = `
 <Menu__Wrapper>
-  <>
+  <Component>
     <LinkContainer
       activeClassName="active"
       exact={true}
@@ -39,6 +39,6 @@ exports[`MenuTop Component matches snapshot 1`] = `
         />
       </Menu__LinkItem>
     </LinkContainer>
-  </>
+  </Component>
 </Menu__Wrapper>
 `;

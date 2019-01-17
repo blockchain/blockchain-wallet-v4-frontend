@@ -126,8 +126,6 @@ const isUsZipcode = val => {
   return val
 }
 
-const formatPhone = val => val.replace(/[^\d]/g, '')
-
 const cryptoDecimals = 8
 const fiatDecimals = 2
 
@@ -155,6 +153,5 @@ export {
   formatDOB,
   formatUSZipcode,
   isOverEighteen,
-  formatPhone,
   formatTextAmount
 }
