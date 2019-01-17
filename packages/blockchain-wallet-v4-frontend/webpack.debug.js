@@ -51,6 +51,9 @@ try {
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
@@ -195,7 +198,8 @@ module.exports = {
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          ledger: localhostUrl + '/ledger' // will trigger reverse proxy
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          horizon: envConfig.HORIZON_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
