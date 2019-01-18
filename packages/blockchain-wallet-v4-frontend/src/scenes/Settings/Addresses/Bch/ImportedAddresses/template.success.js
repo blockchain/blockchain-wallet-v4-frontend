@@ -70,14 +70,16 @@ const Success = props => {
             </WarningWrapper>
           </SettingDescription>
         </div>
-        <ImportedActions>
-          <Button onClick={onTransferAll} nature='primary'>
-            <FormattedMessage
-              id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
-              defaultMessage='Transfer All'
-            />
-          </Button>
-        </ImportedActions>
+        {importedAddressesTableRows.length > 0 && (
+          <ImportedActions>
+            <Button onClick={onTransferAll} nature='primary'>
+              <FormattedMessage
+                id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
+                defaultMessage='Transfer All'
+              />
+            </Button>
+          </ImportedActions>
+        )}
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
         <Table>

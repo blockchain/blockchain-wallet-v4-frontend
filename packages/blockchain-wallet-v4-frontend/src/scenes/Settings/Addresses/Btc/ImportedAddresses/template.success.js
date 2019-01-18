@@ -130,12 +130,14 @@ const Success = ({
               defaultMessage='Verify Message'
             />
           </Button>
-          <Button onClick={onTransferAll} nature='primary'>
-            <FormattedMessage
-              id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
-              defaultMessage='Transfer All'
-            />
-          </Button>
+          {importedAddressesTableRows.length > 0 && (
+            <Button onClick={onTransferAll} nature='primary'>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
+                defaultMessage='Transfer All'
+              />
+            </Button>
+          )}
         </ImportedActions>
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
