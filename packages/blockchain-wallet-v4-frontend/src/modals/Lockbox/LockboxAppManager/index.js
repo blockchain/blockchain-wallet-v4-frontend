@@ -28,12 +28,12 @@ class LockboxAppManagerModal extends React.PureComponent {
         <ModalBody style={{ padding: '18px' }}>
           <AppManager
             deviceIndex={deviceIndex}
-            mainButtonText={() => (
+            mainButtonText={
               <FormattedMessage
                 id='modals.lockbox.appmanager.close'
                 defaultMessage='Close App Manager'
               />
-            )}
+            }
             onClose={this.onClose}
           />
         </ModalBody>
