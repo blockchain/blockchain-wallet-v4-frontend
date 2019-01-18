@@ -51,6 +51,12 @@ const ClickableText = styled(Text)`
   }
 `
 
+const Pipeline = styled.span`
+  background: ${props => props.theme['gray-2']};
+  margin-right: 8px;
+  width: 2px;
+`
+
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
   const { search, onSendBsv, onSwapBsv, onUnarchiveWallet } = props
@@ -68,8 +74,8 @@ const Success = props => {
       </BchWalletsAddressesSettingHeader>
       <SettingDescription>
         <FormattedMessage
-          id='scenes.settings.addresses.bsv.wallets.desc'
-          defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.'
+          id='scenes.settings.addresses.bsv.wallets.desc2'
+          defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.'
         />
       </SettingDescription>
       <Table>
@@ -179,6 +185,7 @@ const Success = props => {
                           defaultMessage='Send'
                         />
                       </ClickableText>
+                      <Pipeline />
                       <ClickableText
                         weight={400}
                         size='13px'
