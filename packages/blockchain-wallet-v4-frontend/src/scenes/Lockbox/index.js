@@ -6,7 +6,7 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
 
 import { actions, selectors } from 'data'
-import { TourTooltip, TOUR_STEPS } from './tour.model'
+import { TourTooltip, TOUR_STEPS } from './model'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
 
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 class LockboxContainer extends React.PureComponent {
   state = { run: false, steps: TOUR_STEPS }
 
-  componentWillMount () {
+  componentDidMount () {
     // only find route on entry from side menu click
     if (this.props.location.pathname === '/lockbox') {
       this.props.lockboxActions.determineLockboxRoute()

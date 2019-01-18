@@ -11,6 +11,7 @@ import {
   Image,
   Text
 } from 'blockchain-info-components'
+import { FAIL_STATUS_TIMEOUT, SUCCESS_STATUS_TIMEOUT } from './model'
 import { actions, selectors } from 'data'
 import * as Lockbox from 'services/LockboxService'
 import LockboxAppManager from './template'
@@ -108,7 +109,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           this.setState({
             [AppName]: { status: null }
           })
-        }, 5000)
+        }, SUCCESS_STATUS_TIMEOUT)
       },
       Failure: val => {
         // install/uninstall APIs use different keys for appName
@@ -124,7 +125,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           this.setState({
             [AppName]: { changeType: '', status: null }
           })
-        }, 10000)
+        }, FAIL_STATUS_TIMEOUT)
       },
       Loading: () => {},
       NotAsked: () => {}
@@ -158,7 +159,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
             <AllowManagerText size='11px' weight={300}>
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.prompt'
-                defaultMessage='If prompted, be sure to allow the &quot;Device Manager&quot; onto the device during app updates.'
+                defaultMessage='If prompted, be sure to allow the "Device Manager" onto the device during app updates.'
               />
             </AllowManagerText>
             {this.props.newDevice && (

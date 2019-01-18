@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
 
+import { OPEN_BTC_TIMEOUT } from './../model'
 import PairDeviceStep from './template'
 import { actions, selectors } from 'data'
 
@@ -32,7 +33,7 @@ class PairDeviceStepContainer extends React.PureComponent {
   startBtcOpenTimeout = () => {
     setTimeout(() => {
       this.setState({ btcOpenTimeout: true })
-    }, 120000)
+    }, OPEN_BTC_TIMEOUT)
   }
 
   render () {

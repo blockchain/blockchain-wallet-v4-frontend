@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
+import { SETUP_TIMEOUT } from './../model'
 import { actions, selectors } from 'data'
 import Template from './template'
 
@@ -29,7 +30,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   startConnectionTimeout = () => {
     setTimeout(() => {
       this.setState({ connectTimeout: true })
-    }, 900000)
+    }, SETUP_TIMEOUT)
   }
 
   render () {

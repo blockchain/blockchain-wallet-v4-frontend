@@ -5,14 +5,15 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import { FormattedMessage } from 'react-intl'
 
+import { SUPPORT_LINK } from './model'
 import modalEnhancer from 'providers/ModalEnhancer'
+import LockboxSetup from './template'
 import AppManagerStep from './AppManagerStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import CustomizeStep from './CustomizeStep'
 import DeviceSelectStep from './DeviceSelectStep'
 import ErrorStep from './ErrorStep'
 import FinishSetupStep from './FinishSetupStep'
-import LockboxSetup from './template'
 import PairDeviceStep from './PairDeviceStep'
 import SetupTypeStep from './SetupTypeStep'
 
@@ -28,8 +29,6 @@ class LockboxSetupContainer extends React.PureComponent {
 
   render () {
     const { currentStep, position, total } = this.props
-    const supportLink =
-      'https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000154811'
     const steps = {
       'device-select': {
         title: () => (
@@ -56,7 +55,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Connect Your Device'
           />
         ),
-        template: () => <ConnectDeviceStep supportLink={supportLink} />
+        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />
       },
       'customize-device': {
         title: () => (
@@ -83,7 +82,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Pair Device'
           />
         ),
-        template: () => <PairDeviceStep supportLink={supportLink} />
+        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />
       },
       'finish-step': {
         title: () => (

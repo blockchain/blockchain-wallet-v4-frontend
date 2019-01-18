@@ -83,6 +83,65 @@ const NameContainer = styled.div`
   align-items: center;
   margin-bottom: 5px;
 `
+
+class CoinActions extends React.PureComponent {
+  render () {
+    const { coinState, disableUpdates, installApp, uninstallApp } = this.props
+    switch (prop('status', coinState)) {
+      case 'Updating':
+        return (
+          <AppActions>
+            <HeartbeatLoader
+              style={{ marginRight: '8px' }}
+              height='36px'
+              width='36px'
+            />
+          </AppActions>
+        )
+      case 'Error':
+        return (
+          <AppActions>
+            <StatusIcon name='alert-filled' color='error' size='40px' />
+          </AppActions>
+        )
+      case 'Success':
+        return (
+          <AppActions>
+            <StatusIcon
+              color='bch'
+              name='checkmark-in-circle-filled'
+              size='40px'
+            />
+          </AppActions>
+        )
+      default:
+        return (
+          <AppActions>
+            <InstallButton
+              nature='empty-secondary'
+              width='80px'
+              onClick={!disableUpdates ? installApp : undefined}
+              disabled={disableUpdates}
+            >
+              <FormattedHTMLMessage
+                id='components.lockbox.appmanager.install'
+                defaultMessage='Install'
+              />
+            </InstallButton>
+            <UninstallButton
+              nature='empty'
+              width='50px'
+              onClick={!disableUpdates ? uninstallApp : undefined}
+              disabled={disableUpdates}
+            >
+              <Icon name='trash' size='18px' />
+            </UninstallButton>
+          </AppActions>
+        )
+    }
+  }
+}
+
 const LockboxAppManager = props => {
   const {
     app,
@@ -107,19 +166,18 @@ const LockboxAppManager = props => {
             <Text size='14px' weight={400} color={'gray-5'}>
               {name}
             </Text>
-            {equals('btc', coinLower) &&
-              requireBtc && (
-                <RequiredBadge
-                  label='true'
-                  type='informational'
-                  style={{ margin: '4px 0' }}
-                >
-                  <FormattedHTMLMessage
-                    id='components.lockbox.appmanager.required'
-                    defaultMessage='Required'
-                  />
-                </RequiredBadge>
-              )}
+            {equals('btc', coinLower) && requireBtc && (
+              <RequiredBadge
+                label='true'
+                type='informational'
+                style={{ margin: '4px 0' }}
+              >
+                <FormattedHTMLMessage
+                  id='components.lockbox.appmanager.required'
+                  defaultMessage='Required'
+                />
+              </RequiredBadge>
+            )}
           </NameContainer>
           <Text size='11px' weight={300}>
             {equals('Updating', prop('status', coinState)) ? (
@@ -138,60 +196,12 @@ const LockboxAppManager = props => {
           </Text>
         </div>
       </AppDetails>
-      {(function () {
-        switch (prop('status', coinState)) {
-          case 'Updating':
-            return (
-              <AppActions>
-                <HeartbeatLoader
-                  style={{ marginRight: '8px' }}
-                  height='36px'
-                  width='36px'
-                />
-              </AppActions>
-            )
-          case 'Error':
-            return (
-              <AppActions>
-                <StatusIcon name='alert-filled' color='error' size='40px' />
-              </AppActions>
-            )
-          case 'Success':
-            return (
-              <AppActions>
-                <StatusIcon
-                  color='bch'
-                  name='checkmark-in-circle-filled'
-                  size='40px'
-                />
-              </AppActions>
-            )
-          default:
-            return (
-              <AppActions>
-                <InstallButton
-                  nature='empty-secondary'
-                  width='80px'
-                  onClick={!disableUpdates ? installApp : undefined}
-                  disabled={disableUpdates}
-                >
-                  <FormattedHTMLMessage
-                    id='components.lockbox.appmanager.install'
-                    defaultMessage='Install'
-                  />
-                </InstallButton>
-                <UninstallButton
-                  nature='empty'
-                  width='50px'
-                  onClick={!disableUpdates ? uninstallApp : undefined}
-                  disabled={disableUpdates}
-                >
-                  <Icon name='trash' size='18px' />
-                </UninstallButton>
-              </AppActions>
-            )
-        }
-      })()}
+      <CoinActions
+        coinState={coinState}
+        disableUpdates={disableUpdates}
+        installApp={installApp}
+        uninstallApp={uninstallApp}
+      />
     </Row>
   )
 }
