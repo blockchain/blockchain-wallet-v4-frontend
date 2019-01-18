@@ -3,15 +3,10 @@ import { selectors, actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import DeviceStatus from './template.js'
+import DeviceStatus from './template'
 
 class RemoveDeviceContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.deleteDevice = this.deleteDevice.bind(this)
-  }
-
-  deleteDevice () {
+  deleteDevice = () => {
     this.props.lockboxActions.deleteDevice(this.props.deviceIndex)
   }
 

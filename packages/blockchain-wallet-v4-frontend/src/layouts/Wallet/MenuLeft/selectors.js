@@ -1,4 +1,4 @@
-import { lift, prop } from 'ramda'
+import { lift } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -8,29 +8,19 @@ export const getData = createDeepEqualSelector(
     selectors.components.layoutWallet.getLockboxOpened,
     selectors.exchange.getCanTrade,
     selectors.router.getPathname,
-    selectors.core.settings.getInvitations,
     selectors.core.kvStore.lockbox.getDevices
   ],
-  (
-    menuOpened,
-    lockboxOpened,
-    canTradeR,
-    pathname,
-    invitationsR,
-    lockboxDevicesR
-  ) => {
-    const transform = (canTrade, lockboxDevices, invitations) => {
-      const lockboxEnabled = prop('lockbox', invitations)
+  (menuOpened, lockboxOpened, canTradeR, pathname, lockboxDevicesR) => {
+    const transform = (canTrade, lockboxDevices) => {
       return {
         canTrade,
         pathname,
         menuOpened,
         lockboxOpened,
-        lockboxDevices,
-        lockboxEnabled
+        lockboxDevices
       }
     }
 
-    return lift(transform)(canTradeR, lockboxDevicesR, invitationsR)
+    return lift(transform)(canTradeR, lockboxDevicesR)
   }
 )

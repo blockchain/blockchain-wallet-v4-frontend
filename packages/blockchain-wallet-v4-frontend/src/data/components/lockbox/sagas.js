@@ -9,6 +9,7 @@ import {
 import {
   head,
   contains,
+  equals,
   filter,
   find,
   length,
@@ -182,17 +183,8 @@ export default ({ api }) => {
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
-      const invitationsR = yield select(selectors.core.settings.getInvitations)
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
-
-      const invitations = invitationsR.getOrElse({})
       const devices = devicesR.getOrElse([])
-
-      // for invited users only, sorry!
-      if (!prop('lockbox', invitations)) {
-        yield put(actions.router.push('/home'))
-        return
-      }
 
       if (length(devices)) {
         // always go to the first device's dashboard
@@ -210,40 +202,38 @@ export default ({ api }) => {
   }
 
   // saves new device to KvStore
-  const saveNewDeviceKvStore = function*(action) {
+  const saveNewDeviceKvStore = function*() {
     try {
-      const { deviceName } = action.payload
       yield put(A.saveNewDeviceKvStoreLoading())
-      const newDeviceR = yield select(S.getNewDeviceInfo)
-      const newDevice = newDeviceR.getOrFail('missing_device')
+      let newDeviceName = 'My Lockbox'
+      const deviceList = (yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )).getOrElse([])
+      const deviceCount = length(deviceList.map(d => d.device_name))
+      if (deviceCount > 0) {
+        newDeviceName = `My Lockbox ${deviceCount + 1}`
+      }
+      const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
       const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
-        deviceName
+        newDeviceName
       )
       // store device in kvStore
       yield put(
         actions.core.kvStore.lockbox.createNewDeviceEntry(mdAccountsEntry)
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
-      yield put(actions.modals.closeModal())
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
-      const devices = (yield select(
-        selectors.core.kvStore.lockbox.getDevices
-      )).getOrElse([])
-      const index = length(devices) - 1
-      yield put(A.initializeDashboard(index))
-      yield put(actions.router.push(`/lockbox/dashboard/${index}`))
     } catch (e) {
-      yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
-      yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
-    } finally {
-      // reset new device setup to step 1
-      yield put(A.changeDeviceSetupStep('setup-type'))
+      yield put(A.saveNewDeviceKvStoreFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'saveNewDeviceKvStore', e)
+      )
     }
   }
 
@@ -294,7 +284,7 @@ export default ({ api }) => {
       const { deviceIndex, deviceName } = action.payload
       yield put(A.updateDeviceNameLoading())
       yield put(
-        actions.core.kvStore.lockbox.storeDeviceName(deviceIndex, deviceName)
+        actions.core.kvStore.lockbox.updateDeviceName(deviceIndex, deviceName)
       )
       yield put(A.updateDeviceNameSuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
@@ -323,7 +313,7 @@ export default ({ api }) => {
           yield put(
             actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
           )
-          yield put(actions.router.push('/lockbox'))
+          yield put(actions.router.push('/lockbox/onboard'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
@@ -382,33 +372,38 @@ export default ({ api }) => {
     }
   }
 
-  // new device setup saga
+  // device connection polling for device setup
   const initializeNewDeviceSetup = function*() {
     try {
       closePoll = false
       let pollLength = 2500
       pollPosition = 0
-      yield put(A.changeDeviceSetupStep('connect-device'))
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
       yield takeEvery(deviceTypeChannel, function*(deviceType) {
         yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
       })
-      // device connection made
-      const { payload } = yield take(AT.SET_CONNECTION_INFO)
-      const { deviceType } = payload
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-      // prefetch app infos for future step
-      yield call(deriveLatestAppInfo)
-      const setupType = yield select(S.getNewDeviceSetupType)
-      if (setupType === 'new') {
-        // installing btc app, wait for confirmation of install
-        yield take(AT.NEW_DEVICE_BTC_INSTALL)
-        yield put(A.installApplication('BTC'))
-        yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
+      )
+    } finally {
+      if (yield cancelled()) {
+        yield put(A.resetConnectionStatus())
+        actions.logs.logInfoMessage(
+          logLocation,
+          'initializeNewDeviceSetup',
+          sagaCancelledMsg
+        )
       }
-      // quick poll for BTC connection in case user cancels setup to install BTC
-      pollLength = 5000
+    }
+  }
+
+  // finalize new device setup
+  const finalizeNewDeviceSetup = function*() {
+    try {
+      let connection = yield select(S.getCurrentConnection)
+      let pollLength = 2500
       closePoll = false
       const btcAppChannel = yield call(
         pollForDeviceAppChannel,
@@ -416,11 +411,13 @@ export default ({ api }) => {
         pollLength
       )
       yield takeEvery(btcAppChannel, function*(app) {
-        yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
+        yield put(
+          A.pollForDeviceApp(app, null, connection.deviceType, pollLength)
+        )
       })
       // BTC app connection
       yield take(AT.SET_CONNECTION_INFO)
-      const connection = yield select(S.getCurrentConnection)
+      connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
         connection.app,
@@ -435,34 +432,55 @@ export default ({ api }) => {
       yield put(
         A.setNewDeviceInfo({
           info: newDeviceInfo,
-          type: deviceType
+          type: connection.deviceType
         })
       )
-      const storedDevicesBtcContextR = yield select(
+      const storedDevicesBtcContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
-      )
-      const storedDevicesBtcContext = storedDevicesBtcContextR.getOrElse([])
+      )).getOrElse([])
       const newDeviceBtcContext = prop('btc', newDeviceInfo)
       // check if device has already been added
       if (contains(newDeviceBtcContext, storedDevicesBtcContext)) {
-        yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
-      } else {
-        yield put(A.changeDeviceSetupStep('open-btc-app', true))
+        return yield put(
+          A.changeDeviceSetupStep('error-step', true, 'duplicate')
+        )
       }
+      yield put(A.changeDeviceSetupStep('finish-step'))
     } catch (e) {
+      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
+        actions.logs.logErrorMessage(logLocation, 'finalizeNewDeviceSetup', e)
       )
     } finally {
       if (yield cancelled()) {
-        yield put(A.resetConnectionStatus())
-        yield put(A.resetDeviceAuthenticity())
         actions.logs.logInfoMessage(
           logLocation,
-          'initializeNewDeviceSetup',
+          'finalizeNewDeviceSetup',
           sagaCancelledMsg
         )
       }
+    }
+  }
+
+  // routes new device to dashboard
+  const routeNewDeviceToDashboard = function*(action) {
+    try {
+      const { startTour } = action.payload
+      const devices = (yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )).getOrElse([])
+      const index = length(devices) - 1
+      yield put(A.initializeDashboard(index))
+      yield put(A.setProductTourVisibility(startTour))
+      yield put(actions.router.push(`/lockbox/dashboard/${index}`))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'routeNewDeviceToDashboard',
+          e
+        )
+      )
     }
   }
 
@@ -660,37 +678,42 @@ export default ({ api }) => {
 
   // initializes the app manager to add and remove apps
   const initializeAppManager = function*(action) {
-    const { deviceIndex } = action.payload
-
     try {
-      if (deviceIndex) {
-        // derive device type
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDevice,
-          deviceIndex
-        )
-        const deviceType = prop('device_type', deviceR.getOrFail())
-        // poll for device connection on dashboard
-        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      const { deviceIndex } = action.payload
+      const connection = yield select(S.getCurrentConnection)
+      // device might already be on dashboard if user went back to previous setup steps
+      if (equals('DASHBOARD', connection.app)) {
+        return yield call(deriveLatestAppInfo)
       } else {
-        // no device index passed, user may be in device setup. quick poll for device type
-        closePoll = false
-        let pollLength = 2500
-        pollPosition = 0
-        // poll for device type via channel
-        const deviceTypeChannel = yield call(
-          pollForDeviceTypeChannel,
-          pollLength
-        )
-        yield takeEvery(deviceTypeChannel, function*(deviceType) {
-          yield put(
-            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+        if (deviceIndex) {
+          // derive device type
+          const deviceR = yield select(
+            selectors.core.kvStore.lockbox.getDevice,
+            deviceIndex
           )
-        })
+          const deviceType = prop('device_type', deviceR.getOrFail())
+          // poll for device connection on dashboard
+          yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+        } else {
+          // no deviceId means device is being setup, poll for device type
+          closePoll = false
+          let pollLength = 2500
+          pollPosition = 0
+          // poll for device type via channel
+          const deviceTypeChannel = yield call(
+            pollForDeviceTypeChannel,
+            pollLength
+          )
+          yield takeEvery(deviceTypeChannel, function*(deviceType) {
+            yield put(
+              A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+            )
+          })
+        }
+        // device connection made
+        yield take(AT.SET_CONNECTION_INFO)
+        yield call(deriveLatestAppInfo)
       }
-      // device connection made
-      yield take(AT.SET_CONNECTION_INFO)
-      yield call(deriveLatestAppInfo)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
@@ -773,9 +796,11 @@ export default ({ api }) => {
     initializeAppManager,
     initializeNewDeviceSetup,
     installApplication,
+    finalizeNewDeviceSetup,
     pollForDeviceApp,
     pollForDeviceAppChannel,
     pollForDeviceTypeChannel,
+    routeNewDeviceToDashboard,
     saveNewDeviceKvStore,
     saveCoinMD,
     uninstallApplication,

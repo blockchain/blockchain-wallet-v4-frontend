@@ -32,13 +32,13 @@ export const InfoBanner = props => {
   const currency = prop('currency', props)
   const rates = prop('rates', props)
   const effectiveBalanceFiat = Exchange.convertXlmToFiat({
-    value: new BigNumber(effectiveBalance).add(fee),
+    value: new BigNumber.sum(effectiveBalance, fee),
     fromUnit: 'STROOP',
     toCurrency: currency,
     rates
   }).value
   const effectiveBalanceXlm = Exchange.convertXlmToXlm({
-    value: new BigNumber(effectiveBalance).add(fee),
+    value: new BigNumber.sum(effectiveBalance, fee),
     fromUnit: 'STROOP',
     toUnit: 'XLM'
   }).value

@@ -12,9 +12,11 @@ const INITIAL_STATE = {
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
-    setupType: null
+    deviceType: null,
+    newOrExisting: null
   },
-  isAuthentic: Remote.NotAsked
+  isAuthentic: Remote.NotAsked,
+  showProductTour: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,8 +33,11 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SET_DEVICE_SETUP_TYPE: {
-      return assocPath(['newDeviceSetup', 'setupType'], payload, state)
+    case AT.SET_SETUP_NEW_OR_EXISTING: {
+      return assocPath(['newDeviceSetup', 'newOrExisting'], payload, state)
+    }
+    case AT.SET_SETUP_DEVICE_TYPE: {
+      return assocPath(['newDeviceSetup', 'deviceType'], payload, state)
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       const { done, error, step } = payload
@@ -100,6 +105,9 @@ export default (state = INITIAL_STATE, action) => {
         Remote.NotAsked,
         state
       )
+    }
+    case AT.SET_PRODUCT_TOUR_VISIBILITY: {
+      return assoc('showProductTour', payload, state)
     }
     case AT.SET_CONNECTION_INFO: {
       return assoc('connection', payload, state)
