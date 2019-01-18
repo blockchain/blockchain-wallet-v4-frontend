@@ -2404,6 +2404,14 @@
         "id": "scenes.faq.group.walletfunctionality.answer12.two"
       },
       {
+        "defaultMessage": "What is Bitcoin Cash ABC vs. BSV?",
+        "id": "scenes.faq.group.walletfunctionality.abcvsbsvq"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.",
+        "id": "scenes.faq.group.walletfunctionality.abcvsbsva"
+      },
+      {
         "defaultMessage": "Wallet Security",
         "id": "scenes.faq.group.walletsecurity.title"
       },
@@ -10001,8 +10009,8 @@
         "id": "scenes.settings.addresses.bsv.wallets.title"
       },
       {
-        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.",
-        "id": "scenes.settings.addresses.bsv.wallets.desc"
+        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.",
+        "id": "scenes.settings.addresses.bsv.wallets.desc2"
       },
       {
         "defaultMessage": "Wallet Name",
