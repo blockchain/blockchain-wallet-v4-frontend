@@ -12,15 +12,9 @@ const createOption = label => ({
 })
 
 class CreatableInputContainer extends React.PureComponent {
-  constructor () {
-    super()
-    this.state = {
-      inputValue: '',
-      value: []
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
+  state = {
+    inputValue: '',
+    value: []
   }
 
   componentDidMount () {
@@ -40,18 +34,18 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  handleChange (value, actionMeta) {
+  handleChange = value => {
     this.setState({ value })
     if (this.props.onChange) {
       this.props.onChange({ value })
     }
   }
 
-  handleInputChange (inputValue) {
+  handleInputChange = inputValue => {
     this.setState({ inputValue })
   }
 
-  handleKeyDown (event) {
+  handleKeyDown = event => {
     const { inputValue, value } = this.state
     if (!inputValue) return
     switch (event.key) {
@@ -68,6 +62,21 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
+  handleBlur = event => {
+    const { inputValue, value } = this.state
+    if (!inputValue) return
+    switch (event.type) {
+      case 'blur':
+        this.setState({
+          inputValue: '',
+          value: [...value, createOption(inputValue)]
+        })
+        if (this.props.onChange) {
+          this.props.onChange({ value: [...value, createOption(inputValue)] })
+        }
+    }
+  }
+
   render () {
     const { inputValue, value } = this.state
     return (
@@ -75,6 +84,7 @@ class CreatableInputContainer extends React.PureComponent {
         isClearable
         isMulti
         menuIsOpen={false}
+        handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleKeyDown={this.handleKeyDown}
         handleInputChange={this.handleInputChange}
