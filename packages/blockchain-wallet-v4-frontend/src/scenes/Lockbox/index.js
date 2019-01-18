@@ -20,15 +20,22 @@ class LockboxContainer extends React.PureComponent {
   state = { run: false, steps: TOUR_STEPS }
 
   componentDidMount () {
-    // only find route on entry from side menu click
-    if (this.props.location.pathname === '/lockbox') {
-      this.props.lockboxActions.determineLockboxRoute()
-    }
+    this.checkForcedRouting()
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props !== prevProps && this.props.showProductTour) {
-      this.onStartTour()
+    if (this.props !== prevProps) {
+      if (this.props.showProductTour) {
+        this.onStartTour()
+      }
+      this.checkForcedRouting()
+    }
+  }
+
+  // need to force route match on all entries from side menu click
+  checkForcedRouting = () => {
+    if (this.props.location.pathname === '/lockbox') {
+      this.props.lockboxActions.determineLockboxRoute()
     }
   }
 
