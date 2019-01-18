@@ -62,6 +62,50 @@ class LockboxAppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.appChangeStatus !== prevProps.appChangeStatus) {
+      this.props.appChangeStatus.cata({
+        Success: val => {
+          // install/uninstall APIs use different keys for appName
+          const AppName = Lockbox.constants.supportedApps[val.appName]
+            ? Lockbox.constants.supportedApps[val.appName]
+            : val.appName
+          this.props.lockboxActions.resetAppChangeStatus()
+          this.setState({
+            [AppName]: {
+              changeType: '',
+              status: 'Success'
+            }
+          })
+          // clears the status text after 5 seconds
+          setTimeout(() => {
+            this.setState({
+              [AppName]: { status: null }
+            })
+          }, SUCCESS_STATUS_TIMEOUT)
+        },
+        Failure: val => {
+          // install/uninstall APIs use different keys for appName
+          const AppName = Lockbox.constants.supportedApps[val.appName]
+            ? Lockbox.constants.supportedApps[val.appName]
+            : val.appName
+          this.props.lockboxActions.resetAppChangeStatus()
+          this.setState({
+            [AppName]: { status: 'Error' }
+          })
+          // clears the status text after 10 seconds
+          setTimeout(() => {
+            this.setState({
+              [AppName]: { changeType: '', status: null }
+            })
+          }, FAIL_STATUS_TIMEOUT)
+        },
+        Loading: () => {},
+        NotAsked: () => {}
+      })
+    }
+  }
+
   componentWillUnmount () {
     this.props.lockboxActions.resetAppChangeStatus()
   }
@@ -91,46 +135,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
   render () {
     const { appChangeStatus, appVersionInfos, connection } = this.props
     const disableButtons = !Remote.NotAsked.is(appChangeStatus)
-
-    appChangeStatus.cata({
-      Success: val => {
-        // install/uninstall APIs use different keys for appName
-        const AppName = Lockbox.constants.supportedApps[val.appName]
-          ? Lockbox.constants.supportedApps[val.appName]
-          : val.appName
-        this.props.lockboxActions.resetAppChangeStatus()
-        this.setState({
-          [AppName]: {
-            changeType: '',
-            status: 'Success'
-          }
-        })
-        // clears the status text after 5 seconds
-        setTimeout(() => {
-          this.setState({
-            [AppName]: { status: null }
-          })
-        }, SUCCESS_STATUS_TIMEOUT)
-      },
-      Failure: val => {
-        // install/uninstall APIs use different keys for appName
-        const AppName = Lockbox.constants.supportedApps[val.appName]
-          ? Lockbox.constants.supportedApps[val.appName]
-          : val.appName
-        this.props.lockboxActions.resetAppChangeStatus()
-        this.setState({
-          [AppName]: { status: 'Error' }
-        })
-        // clears the status text after 10 seconds
-        setTimeout(() => {
-          this.setState({
-            [AppName]: { changeType: '', status: null }
-          })
-        }, FAIL_STATUS_TIMEOUT)
-      },
-      Loading: () => {},
-      NotAsked: () => {}
-    })
     const appListView = appVersionInfos.cata({
       Success: apps => {
         const appList = apps.map(app => {
