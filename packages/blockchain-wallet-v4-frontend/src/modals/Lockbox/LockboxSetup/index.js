@@ -3,21 +3,24 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
-import { merge } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 
+import { SUPPORT_LINK } from './model'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
-import SetupTypeStep from './SetupTypeStep'
+import AppManagerStep from './AppManagerStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
-import NameDeviceStep from './NameDeviceStep'
-import InstallBtcAppStep from './InstallBtcAppStep'
-import OpenBtcAppStep from './OpenBtcAppStep'
+import CustomizeStep from './CustomizeStep'
+import DeviceSelectStep from './DeviceSelectStep'
 import ErrorStep from './ErrorStep'
+import FinishSetupStep from './FinishSetupStep'
+import PairDeviceStep from './PairDeviceStep'
+import SetupTypeStep from './SetupTypeStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
-    this.props.lockboxActions.changeDeviceSetupStep('setup-type')
+    this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
   onClose = () => {
     this.props.lockboxActions.lockboxModalClose()
@@ -25,41 +28,92 @@ class LockboxSetupContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, position, total, setupType } = this.props
-    let steps = {
-      'setup-type': { num: 0, template: () => <SetupTypeStep /> },
-      'connect-device': { num: 1, template: () => <ConnectDeviceStep /> },
-      'install-btc-app': { num: 2, template: () => <InstallBtcAppStep /> },
-      'open-btc-app': {
-        num: 3,
-        template: () => <OpenBtcAppStep done={currentStep.done} />
+    const { currentStep, position, total } = this.props
+    const steps = {
+      'device-select': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.deviceselect.title'
+            defaultMessage='Select Your Device'
+          />
+        ),
+        template: () => <DeviceSelectStep />
       },
-      'name-device': { num: 4, template: () => <NameDeviceStep /> },
-      'error-step': { num: 5, template: () => <ErrorStep /> }
+      'setup-type': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.setuptype.title'
+            defaultMessage="Let's Get Started"
+          />
+        ),
+        template: () => <SetupTypeStep />
+      },
+      'connect-device': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.connect.title'
+            defaultMessage='Connect Your Device'
+          />
+        ),
+        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />
+      },
+      'customize-device': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.customize.title'
+            defaultMessage='Customize Your Device'
+          />
+        ),
+        template: () => <CustomizeStep />
+      },
+      'app-manager-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.appmanager.title'
+            defaultMessage='App Manager'
+          />
+        ),
+        template: () => <AppManagerStep />
+      },
+      'pair-device': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.connectdevice.title'
+            defaultMessage='Pair Device'
+          />
+        ),
+        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />
+      },
+      'finish-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.finish.title'
+            defaultMessage='Setup Complete'
+          />
+        ),
+        template: () => <FinishSetupStep onClose={this.props.closeAll} />
+      },
+      'error-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.error.title'
+            defaultMessage='Error'
+          />
+        ),
+        template: () => <ErrorStep onClose={this.onClose} />
+      }
     }
-    if (setupType === 'existing') {
-      steps = merge(steps, {
-        'install-btc-app': { num: 2, template: () => <InstallBtcAppStep /> },
-        'open-btc-app': {
-          num: 2,
-          template: () => <OpenBtcAppStep done={currentStep.done} />
-        },
-        'name-device': { num: 3, template: () => <NameDeviceStep /> }
-      })
-    }
-
     const step =
       currentStep && currentStep.step
         ? steps[currentStep.step]
-        : steps['setup-type']
+        : steps['device-select']
 
     return (
       <LockboxSetup
         total={total}
         position={position}
         onClose={this.onClose}
-        totalSteps={setupType === 'existing' ? 3 : 4}
-        step={step.num}
+        title={step.title}
       >
         {step.template()}
       </LockboxSetup>

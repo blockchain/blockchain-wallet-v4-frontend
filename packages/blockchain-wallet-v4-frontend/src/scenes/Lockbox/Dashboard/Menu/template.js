@@ -11,10 +11,12 @@ import DeviceTitle from './DeviceTitle'
 
 const Container = styled.div`
   width: 100%;
+  position: fixed;
+  background-color: ${props => props.theme['white']};
+  z-index: 99;
 `
 const TitleBar = styled.div`
   width: 100%;
-  background-color: ${props => props.theme['white']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const TitleBarWrapper = styled.div`
@@ -22,14 +24,19 @@ const TitleBarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
   min-height: 40px;
-  padding: 15px 30px;
+  padding: 10px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 500px;
   > div:last-child {
     width: 100%;
   }
@@ -42,6 +49,7 @@ const StyledCreatableInputContainer = styled.div`
   .bc__placeholder {
     font-size: 13px;
     font-style: italic;
+    padding-top: 2px;
   }
   .bc__multi-value {
     cursor: auto;
@@ -66,7 +74,6 @@ const SearchLabel = styled.div`
         : props.theme['gray-5']};
   }
 `
-const CurrencyListContainer = styled.div``
 
 const multiValueContainer = props => {
   return (
@@ -91,43 +98,45 @@ const Menu = props => {
         </TitleBarWrapper>
       </TitleBar>
       {onDashboard && (
-        <CurrencyListContainer>
+        <div>
           <CurrencyList
             deviceIndex={deviceIndex}
             deviceInfo={deviceInfo}
             formValues={formValues}
           />
-        </CurrencyListContainer>
+        </div>
       )}
       {deviceInfo && (
         <StyledCreatableInputContainer>
-          <Text size='20px' weight={400}>
-            {onDashboard ? (
-              <FormattedMessage
-                id='scenes.lockbox.menu.transactions'
-                defaultMessage='Transactions'
+          {onDashboard ? (
+            <SearchContainer className='tour-step3'>
+              <Text size='20px' weight={400}>
+                <FormattedMessage
+                  id='scenes.lockbox.menu.transactions'
+                  defaultMessage='Transactions'
+                />
+              </Text>
+              <Field
+                name='search'
+                autoFocus
+                defaultValue={formValues}
+                component={CreatableInputField}
+                multiValueContainer={multiValueContainer}
+                placeholder={
+                  <FormattedMessage
+                    id='scenes.lockbox.menu.transactions.search.placeholder'
+                    defaultMessage='Search by coin, address, or description'
+                  />
+                }
               />
-            ) : (
+            </SearchContainer>
+          ) : (
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='scenes.lockbox.menu.settings'
                 defaultMessage='Settings'
               />
-            )}
-          </Text>
-          {onDashboard && (
-            <Field
-              name='search'
-              autoFocus
-              defaultValue={formValues}
-              component={CreatableInputField}
-              multiValueContainer={multiValueContainer}
-              placeholder={
-                <FormattedMessage
-                  id='scenes.lockbox.menu.transactions.search.placeholder'
-                  defaultMessage='Search by coin, address, or description'
-                />
-              }
-            />
+            </Text>
           )}
         </StyledCreatableInputContainer>
       )}
