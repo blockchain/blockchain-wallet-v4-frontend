@@ -124,6 +124,7 @@
     "react-highcharts": "16.0.2",
     "react-intl": "2.7.2",
     "react-intl-tel-input": "5.0.7",
+    "react-joyride": "2.0.2",
     "react-onclickoutside": "6.7.1",
     "react-qr-reader": "2.1.1",
     "react-redux": "5.1.1",

@@ -4,11 +4,11 @@ import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
-import Navigation from './template.js'
+import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { actions, analytics, ...props } = this.props
+    const { actions, ...props } = this.props
     return (
       <Navigation
         {...props}
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   withRouter,
   connect(
-    undefined,
+    null,
     mapDispatchToProps
   )
 )

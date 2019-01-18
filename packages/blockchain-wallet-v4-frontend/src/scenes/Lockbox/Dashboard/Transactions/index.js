@@ -8,12 +8,7 @@ import Success from './template.success'
 import Loading from './template.loading'
 
 class TransactionsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.loadMore = this.loadMore.bind(this)
-  }
-
-  loadMore () {
+  loadMore = () => {
     this.props.lockboxActions.updateTransactionList(this.props.deviceIndex)
   }
 

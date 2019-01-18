@@ -32,8 +32,8 @@ class CurrencyListContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, deviceInfo, formValues, ...rest } = this.props
-    const { coinContexts } = rest
+    const { data, deviceInfo, formValues, coinContexts } = this.props
+
     return deviceInfo
       ? data.cata({
           Success: val => (
