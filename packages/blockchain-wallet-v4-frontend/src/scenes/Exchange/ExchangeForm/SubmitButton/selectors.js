@@ -13,7 +13,6 @@ const {
 } = model.profile
 
 const getFormError = selectors.form.getFormError(EXCHANGE_FORM)
-const isDirty = selectors.form.isDirty(EXCHANGE_FORM)
 const isSubmitting = selectors.form.isSubmitting(EXCHANGE_FORM)
 const isAsyncValidating = selectors.form.isAsyncValidating(EXCHANGE_FORM)
 
@@ -26,21 +25,11 @@ export const getData = createDeepEqualSelector(
     getFormError,
     getTxError,
     isAsyncValidating,
-    isDirty,
     isSubmitting,
     state => selectors.modules.profile.getUserTiers(state).getOrElse({}),
     state => selectors.modules.profile.getTiers(state).getOrElse([])
   ],
-  (
-    disabled,
-    error,
-    txError,
-    asyncValidating,
-    dirty,
-    submitting,
-    userTiers,
-    tiers
-  ) => {
+  (disabled, error, txError, asyncValidating, submitting, userTiers, tiers) => {
     const { next, selected } = userTiers
 
     const lastAttemptedTier = getLastAttemptedTier(tiers) || {
@@ -69,7 +58,6 @@ export const getData = createDeepEqualSelector(
       error,
       txError,
       asyncValidating,
-      dirty,
       submitting
     }
   }
