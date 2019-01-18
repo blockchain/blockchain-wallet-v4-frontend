@@ -46,11 +46,13 @@ export const getLastAttemptedTier = compose(
   getTiers
 )
 
-export const isUserCreated = compose(
-  lift(complement(equals(TIERS_STATES.NONE))),
-  lift(path([0, 'state'])),
-  getTiers
-)
+export const isUserCreated = state =>
+  compose(
+    lift(complement(equals(TIERS_STATES.NONE))),
+    lift(path([0, 'state']))
+    // only do user created check when both tiers and user are loaded
+  )(lift((userData, tiers) => tiers)(getUserData(state), getTiers(state)))
+
 export const isUserVerified = compose(
   lift(any(propEq('state', TIERS_STATES.VERIFIED))),
   getTiers
