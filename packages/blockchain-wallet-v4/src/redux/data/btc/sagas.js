@@ -6,9 +6,8 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
-import { Wallet, HDAccountList, TXNotes } from '../../../types'
-import { getAddressLabel } from '../../kvStore/btc/selectors'
-import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
+import { MISSING_WALLET } from '../utils'
+import { HDAccountList } from '../../../types'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
@@ -79,41 +78,7 @@ export default ({ api }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      // PROCESS TXS
-      // Page == Remote ([Tx])
-      // Remote(wallet)
-      const wallet = yield select(walletSelectors.getWallet)
-      const walletR = Remote.of(wallet)
-      // Remote(blockHeight)
-      const blockHeightR = yield select(S.getLatestBlock)
-      // Remote(lockboxXpubs)
-      const accountListR = (yield select(getLockboxBtcAccounts))
-        .map(HDAccountList.fromJS)
-        .getOrElse([])
-      // [Remote([tx])] == [Page] == Pages
-      const state = yield select()
-      const getDescription = (hash, to) =>
-        TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) ||
-        getAddressLabel(to, state).getOrElse('')
-
-      const getPartnerLabel = hash => getBuySellTxHashMatch(state, hash)
-
-      // transformTx :: wallet -> blockHeight -> Tx
-      // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-      const ProcessTxs = (wallet, block, accountList, txList) =>
-        map(
-          transformTx.bind(
-            undefined,
-            wallet.getOrFail('no_wallet'),
-            block.getOrElse(0),
-            accountList,
-            getDescription,
-            getPartnerLabel
-          ),
-          txList
-        )
-      // ProcessRemotePage :: Page -> Page
-      const page = ProcessTxs(walletR, blockHeightR, accountListR, data.txs)
+      const page = yield call(processTxs, data.txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -151,6 +116,34 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
     }
+  }
+
+  const processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(blockHeight)
+    const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(lockboxXpubs)
+    const accountListR = (yield select(getLockboxBtcAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+
+    // transformTx :: wallet -> blockHeight -> Tx
+    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, block, accountList, txList) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          block.getOrElse(0),
+          accountList
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
   }
 
   const fetchFiatAtTime = function*(action) {
