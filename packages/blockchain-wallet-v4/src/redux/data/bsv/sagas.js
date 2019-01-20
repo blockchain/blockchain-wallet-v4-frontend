@@ -9,9 +9,11 @@ import {
   convertFromCashAddrIfCashAddr
 } from '../../../utils/bsv'
 import { MISSING_WALLET } from '../utils'
+import { addFromToAccountNames } from '../../../utils/accounts'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import * as transactions from '../../../transactions'
+import { getAccountsList } from '../../kvStore/bsv/selectors'
 
 const transformTx = transactions.bsv.transformTx
 
@@ -91,23 +93,32 @@ export default ({ api }) => {
     const walletR = Remote.of(wallet)
     // Remote(blockHeight)
     const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(kvStoreAccountList)
+    const accountListR = yield select(getAccountsList)
+    const accountList = accountListR.getOrElse([])
     // Remote(lockboxXpubs)
-    const accountListR = []
+    const lockboxAccountListR = []
 
     // transformTx :: wallet -> blockHeight -> Tx
     // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, accountList, txList) =>
+    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
           block.getOrElse(0),
-          accountList
+          lockboxAccountList
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
+    const processedTxs = ProcessTxs(
+      walletR,
+      blockHeightR,
+      lockboxAccountListR,
+      txs
+    )
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   return {

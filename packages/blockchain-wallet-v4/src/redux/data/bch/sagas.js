@@ -9,10 +9,12 @@ import {
   TX_PER_PAGE,
   BCH_FORK_TIME
 } from '../../../utils/bch'
+import { addFromToAccountNames } from '../../../utils/accounts'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import { MISSING_WALLET } from '../utils'
 import { HDAccountList } from '../../../types'
+import { getAccountsList } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
@@ -95,25 +97,34 @@ export default ({ api }) => {
     const walletR = Remote.of(wallet)
     // Remote(blockHeight)
     const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(kvStoreAccountList)
+    const accountListR = yield select(getAccountsList)
+    const accountList = accountListR.getOrElse([])
     // Remote(lockboxXpubs)
-    const accountListR = (yield select(getLockboxBchAccounts))
+    const lockboxAccountListR = (yield select(getLockboxBchAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
 
     // transformTx :: wallet -> blockHeight -> Tx
     // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, accountList, txList) =>
+    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
           block.getOrElse(0),
-          accountList
+          lockboxAccountList
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
+    const processedTxs = ProcessTxs(
+      walletR,
+      blockHeightR,
+      lockboxAccountListR,
+      txs
+    )
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   const fetchTransactionHistory = function*({ payload }) {
