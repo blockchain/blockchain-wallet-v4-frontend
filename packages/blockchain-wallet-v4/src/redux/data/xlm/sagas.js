@@ -1,11 +1,28 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { compose, last, length, map, path, prop, reduce, values } from 'ramda'
+import {
+  concat,
+  compose,
+  filter,
+  last,
+  length,
+  map,
+  path,
+  prop,
+  reduce,
+  values,
+  unnest
+} from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import * as A from './actions'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import Remote from '../../../remote'
+import { xlm } from '../../../transactions'
+import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
+
+const { transformTx, decodeOperations, isLumenOperation } = xlm
 
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
@@ -96,7 +113,8 @@ export default ({ api, networks }) => {
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(txs, reset))
+      const page = yield call(processTxs, txs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
       if (statusCode === 404) {
@@ -106,6 +124,24 @@ export default ({ api, networks }) => {
       }
       yield put(A.fetchTransactionsFailure(e.message))
     }
+  }
+
+  const processTxs = function*(txList) {
+    const walletAccountsR = yield select(getAccounts)
+    const walletAccounts = walletAccountsR.getOrElse([])
+    const lockboxAccountsR = yield select(getLockboxXlmAccounts)
+    const lockboxAccounts = lockboxAccountsR.getOrElse([])
+    const accounts = concat(walletAccounts, lockboxAccounts)
+    return unnest(
+      map(tx => {
+        const operations = decodeOperations(tx)
+        return compose(
+          filter(prop('belongsToWallet')),
+          map(transformTx(accounts, tx)),
+          filter(isLumenOperation)
+        )(operations)
+      }, txList)
+    )
   }
 
   return {

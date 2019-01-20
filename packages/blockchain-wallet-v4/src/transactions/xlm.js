@@ -45,7 +45,7 @@ export const belongsToCurrentWallet = (accounts, from, to) => {
   return !isEmpty(intersection([from, to], accountIds))
 }
 
-export const transformTx = curry((accounts, tx, txNotes, operation) => {
+export const transformTx = curry((accounts, tx, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const operationAmount = getAmount(operation)
   const to = getDestination(operation)
@@ -64,7 +64,6 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   return {
     amount,
     confirmations: 1,
-    description: prop(hash, txNotes),
     fee,
     from: getLabel(accounts, from),
     hash,
