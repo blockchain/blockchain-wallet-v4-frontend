@@ -12,6 +12,7 @@ import { getAreThereBsvTransactions } from './selectors'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
+  height: 100%;
 `
 const Title = styled(SettingHeader)`
   justify-content: flex-start;
@@ -36,7 +37,11 @@ const TableCell = styled.div``
 const NoBsv = styled.div`
   margin: 20px;
 `
-
+const TxListScrollWrap = styled.div`
+  height: 350px;
+  max-height: 350px;
+  overflow: scroll;
+`
 class BsvTransactionsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.txActions.initialized()
@@ -85,7 +90,9 @@ class BsvTransactionsContainer extends React.PureComponent {
             </TableCell>
           </TableHeader>
           {this.props.areThereBsvTransactions ? (
-            <TransactionList coin='BSV' />
+            <TxListScrollWrap>
+              <TransactionList coin='BSV' />
+            </TxListScrollWrap>
           ) : (
             <NoBsv>
               <Text size='14px'>
