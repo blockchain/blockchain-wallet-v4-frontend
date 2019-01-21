@@ -1241,6 +1241,52 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "If prompted, be sure to allow the \"Device Manager\" onto the device during app updates.",
+        "id": "components.lockbox.appmanager.prompt"
+      },
+      {
+        "defaultMessage": "The Bitcoin app is needed to connect your Lockbox to your wallet.",
+        "id": "components.lockbox.appmanager.btcrequired"
+      },
+      {
+        "defaultMessage": "Failed to load application list. Please try again later.",
+        "id": "components.lockbox.appmanager.appfailure"
+      },
+      {
+        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
+        "id": "components.lockbox.appmanager.connectdevice"
+      },
+      {
+        "defaultMessage": "Waiting...",
+        "id": "components.lockbox.appmanager.waiting"
+      }
+    ],
+    "path": "src/components/Lockbox/AppManager/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Install",
+        "id": "components.lockbox.appmanager.install"
+      },
+      {
+        "defaultMessage": "Required",
+        "id": "components.lockbox.appmanager.required"
+      },
+      {
+        "defaultMessage": "{changeType}...",
+        "id": "components.lockbox.appmanager.changeType"
+      },
+      {
+        "defaultMessage": "Version {version}",
+        "id": "components.lockbox.appmanager.successmsg"
+      }
+    ],
+    "path": "src/components/Lockbox/AppManager/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Complete",
         "id": "scenes.exchangehistory.list.orderstatus.complete"
       },
@@ -2631,6 +2677,72 @@
       }
     ],
     "path": "src/layouts/Wallet/TrayRight/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/EmptyContent.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We've Improved Your Exchange",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+      },
+      {
+        "defaultMessage": "November 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $1,000-$25,000",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
   },
   {
     "descriptors": [
@@ -4455,16 +4567,28 @@
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
-        "id": "identityverification.verify.message"
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
+        "id": "identityverification.verify.message_with_cam"
+      },
+      {
+        "defaultMessage": "You're camera or microphone is blocked. You must enable access before continuing in your browser's settings.",
+        "id": "identityverification.verify.camera_mic_blocked"
+      },
+      {
+        "defaultMessage": "How do I enable my camera and microphone?",
+        "id": "identityverification.verify.how_to_camera_mic"
+      },
+      {
+        "defaultMessage": "Click allow when prompted above or enable in your browser settings.",
+        "id": "identityverification.verify.instructions"
       },
       {
         "defaultMessage": "Back",
         "id": "identityverification.lowflow.personal.back"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "identityverification.lowflow.personal.continue"
+        "defaultMessage": "Enable Camera/Microphone & Continue",
+        "id": "identityverification.lowflow.personal.enable_and_continue"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
@@ -4994,6 +5118,36 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.appmanagerstep.continue"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/AppManagerStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Device Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.title"
+      },
+      {
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
+        "id": "modals.lockboxsetup.authenticitystep.content"
+      },
+      {
+        "defaultMessage": "Checking Your Device’s Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.authenticating"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.authenticitystep.success"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Connect Your Lockbox",
         "id": "modals.lockboxsetup.connectdevice.connect"
       },
@@ -5039,6 +5193,56 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.",
+        "id": "modals.lockboxsetup.pairdevice.intro"
+      },
+      {
+        "defaultMessage": "Don't worry you can always change them later.",
+        "id": "modals.lockboxsetup.customizestep.reminder"
+      },
+      {
+        "defaultMessage": "Add Apps",
+        "id": "modals.lockboxsetup.customizestep.addapps"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/CustomizeStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your Blockchain wallet works with Lockbox and Ledger Nano S devices.",
+        "id": "modals.lockboxsetup.deviceselect.intro"
+      },
+      {
+        "defaultMessage": "Lockbox",
+        "id": "modals.lockboxsetup.deviceselect.lockbox"
+      },
+      {
+        "defaultMessage": "Blockchain",
+        "id": "modals.lockboxsetup.deviceselect.blockchain"
+      },
+      {
+        "defaultMessage": "Nano S",
+        "id": "modals.lockboxsetup.deviceselect.nanos"
+      },
+      {
+        "defaultMessage": "Ledger",
+        "id": "modals.lockboxsetup.deviceselect.ledger"
+      },
+      {
+        "defaultMessage": "Restore a device",
+        "id": "modals.lockboxsetup.deviceselect.restore"
+      },
+      {
+        "defaultMessage": "Learn How",
+        "id": "modals.lockboxsetup.deviceselect.learhow"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/DeviceSelectStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Whoops!",
         "id": "modals.lockboxsetup.authenticityerrorstep.title"
       },
@@ -5069,6 +5273,77 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/duplicate.template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.lockboxsetup.duplicatedevice.title"
+      },
+      {
+        "defaultMessage": "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.lockboxsetup.duplicatedevice.continue"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds.",
+        "id": "modals.lockboxsetup.finishstep.intro"
+      },
+      {
+        "defaultMessage": "Skip Tour",
+        "id": "modals.lockboxsetup.finishstep.skiptour"
+      },
+      {
+        "defaultMessage": "Start Tour",
+        "id": "modals.lockboxsetup.finishstep.starttour"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/FinishSetupStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Select Your Device",
+        "id": "modals.lockbox.setup.deviceselect.title"
+      },
+      {
+        "defaultMessage": "Let's Get Started",
+        "id": "modals.lockbox.setup.setuptype.title"
+      },
+      {
+        "defaultMessage": "Connect Your Device",
+        "id": "modals.lockbox.setup.connect.title"
+      },
+      {
+        "defaultMessage": "Customize Your Device",
+        "id": "modals.lockbox.setup.customize.title"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "modals.lockbox.setup.appmanager.title"
+      },
+      {
+        "defaultMessage": "Pair Device",
+        "id": "modals.lockbox.setup.connectdevice.title"
+      },
+      {
+        "defaultMessage": "Setup Complete",
+        "id": "modals.lockbox.setup.finish.title"
+      },
+      {
+        "defaultMessage": "Error",
+        "id": "modals.lockbox.setup.error.title"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/index.json"
   },
   {
     "descriptors": [
@@ -5149,6 +5424,67 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Are you having issues?",
+        "id": "modals.lockboxsetup.pairdevice.timeout.header"
+      },
+      {
+        "defaultMessage": "Check the following errors:",
+        "id": "modals.lockboxsetup.pairdevice.timeout.subheader"
+      },
+      {
+        "defaultMessage": "My device is connected with the supplied USB cable.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue1"
+      },
+      {
+        "defaultMessage": "I have installed the Bitcoin app. If you do not have the app installed, click",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part1"
+      },
+      {
+        "defaultMessage": "here",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part2"
+      },
+      {
+        "defaultMessage": "to install it.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part3"
+      },
+      {
+        "defaultMessage": "The Bitcoin app is open on my device. Use the top buttons to scroll left or right to the Bitcoin app. Then press the top two buttons to open the app.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue3"
+      },
+      {
+        "defaultMessage": "Completed the above and still having issues?",
+        "id": "modals.lockboxsetup.pairdevice.timeout.support"
+      },
+      {
+        "defaultMessage": "Contact Support",
+        "id": "modals.lockboxsetup.pairdevice.timeout.supportlink"
+      },
+      {
+        "defaultMessage": "Retry Pairing",
+        "id": "modals.lockboxsetup.pairdevice.timeout.retry"
+      },
+      {
+        "defaultMessage": "Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.",
+        "id": "modals.lockboxsetup.pairdevice.intro"
+      },
+      {
+        "defaultMessage": "Don't have the Bitcoin app on your {deviceType}? Install it",
+        "id": "modals.lockboxsetup.pairdevice.install"
+      },
+      {
+        "defaultMessage": "here.",
+        "id": "modals.lockboxsetup.pairdevice.here"
+      },
+      {
+        "defaultMessage": "Waiting...",
+        "id": "modals.lockboxsetup.openbtcappstep.waiting"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/PairDeviceStep/template.json"
   },
   {
     "descriptors": [
@@ -7514,6 +7850,51 @@
         "id": "scenes.buysell.selectpartner.getstarted"
       }
     ],
+    "path": "src/scenes/BuySell/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.",
+        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelystate"
+      },
+      {
+        "defaultMessage": "Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.",
+        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelycountry"
+      },
+      {
+        "defaultMessage": "Notify Me When This Becomes Available",
+        "id": "scenes.buysell.selectpartner.unavailable.notifyme"
+      },
+      {
+        "defaultMessage": "Thanks!",
+        "id": "scenes.buysell.selectpartner.unavailable.thanks"
+      },
+      {
+        "defaultMessage": "We will send an email to {email} once buy & sell are available for your area.",
+        "id": "scenes.buysell.selectpartner.unavailable.sendemail"
+      },
+      {
+        "defaultMessage": "Introducing Buy & Sell",
+        "id": "scenes.buysell.selectpartner.header"
+      },
+      {
+        "defaultMessage": "You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.",
+        "id": "scenes.buysell.selectpartner.subheader"
+      },
+      {
+        "defaultMessage": "Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!",
+        "id": "scenes.buysell.selectpartner.subheader2"
+      },
+      {
+        "defaultMessage": "Select your country:",
+        "id": "scenes.buysell.selectpartner.selectcountry"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.buysell.selectpartner.getstarted"
+      }
+    ],
     "path": "src/scenes/BuySell/template.success.json"
   },
   {
@@ -8414,6 +8795,41 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Oops. Something went wrong. Click <span class=\"link\">here</span> to refresh.",
+        "id": "scenes.lockbox.menu.currencylist.error"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Menu/CurrencyList/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.menu.devicetitle.apps"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Menu/DeviceTitle/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Transactions",
+        "id": "scenes.lockbox.menu.transactions"
+      },
+      {
+        "defaultMessage": "Search by coin, address, or description",
+        "id": "scenes.lockbox.menu.transactions.search.placeholder"
+      },
+      {
+        "defaultMessage": "Settings",
+        "id": "scenes.lockbox.menu.settings"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Setup New Device",
         "id": "scenes.lockbox.settings.adddevice.title"
       },
@@ -8546,6 +8962,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Product Tour",
+        "id": "scenes.lockbox.settings.taketour.title"
+      },
+      {
+        "defaultMessage": "Take a quick, interactive tour of the features of Lockbox.",
+        "id": "scenes.lockbox.settings.taketour.description"
+      },
+      {
+        "defaultMessage": "Take Tour",
+        "id": "scenes.lockbox.settings.taketour.take"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/TakeTour/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Firmware Update",
         "id": "scenes.lockbox.settings.updatedevice.title"
       },
@@ -8594,6 +9027,67 @@
       }
     ],
     "path": "src/scenes/Lockbox/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Skip Tour",
+        "id": "scenes.lockbox.tour.skip"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "scenes.lockbox.tour.back"
+      },
+      {
+        "defaultMessage": "Finish Tour",
+        "id": "scenes.lockbox.tour.finish"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "scenes.lockbox.tour.next"
+      },
+      {
+        "defaultMessage": "Welcome to your Lockbox!",
+        "id": "scenes.lockbox.tour.stepone.title"
+      },
+      {
+        "defaultMessage": "This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets.",
+        "id": "scenes.lockbox.tour.stepone.content"
+      },
+      {
+        "defaultMessage": "Asset List",
+        "id": "scenes.lockbox.tour.steptwo.title"
+      },
+      {
+        "defaultMessage": "Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.",
+        "id": "scenes.lockbox.tour.steptwo.content"
+      },
+      {
+        "defaultMessage": "Transaction Search",
+        "id": "scenes.lockbox.tour.stepthree.title"
+      },
+      {
+        "defaultMessage": "Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters applied by click the asset cards above will also show here.",
+        "id": "scenes.lockbox.tour.stepthree.content"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "scenes.lockbox.tour.stepfour.title"
+      },
+      {
+        "defaultMessage": "Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.",
+        "id": "scenes.lockbox.tour.stepfour.content"
+      },
+      {
+        "defaultMessage": "Lockbox Settings",
+        "id": "scenes.lockbox.tour.stepfive.title"
+      },
+      {
+        "defaultMessage": "Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!",
+        "id": "scenes.lockbox.tour.stepfive.content"
+      }
+    ],
+    "path": "src/scenes/Lockbox/model.json"
   },
   {
     "descriptors": [
