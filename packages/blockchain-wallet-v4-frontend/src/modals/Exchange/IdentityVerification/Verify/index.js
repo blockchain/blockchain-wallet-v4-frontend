@@ -30,7 +30,10 @@ class VerifyContainer extends React.PureComponent {
       case KYC_PROVIDERS.VERIFF:
         getMedia(
           { video: true, audio: true },
-          () => this.setState({ showVeriff: true }),
+          stream => {
+            this.setState({ showVeriff: true })
+            stream.getTracks().forEach(track => track.stop())
+          },
           () => this.setState({ isCameraBlocked: true })
         )
         break
