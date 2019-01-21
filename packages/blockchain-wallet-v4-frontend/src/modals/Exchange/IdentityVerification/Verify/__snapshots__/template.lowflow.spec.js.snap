@@ -54,8 +54,8 @@ exports[`HighFlow should render correctly 1`] = `
                 weight={400}
               >
                 <FormattedMessage
-                  defaultMessage="How do I enable my camera?"
-                  id="identityverification.verify.howtocamera"
+                  defaultMessage="How do I enable my camera and microphone?"
+                  id="identityverification.verify.how_to_camera_mic"
                   values={Object {}}
                 />
               </Text>
@@ -120,7 +120,7 @@ exports[`HighFlow should render correctly 1`] = `
           uppercase={false}
         >
           <FormattedMessage
-            defaultMessage="Enable Camera & Continue"
+            defaultMessage="Enable Camera/Microphone & Continue"
             id="identityverification.lowflow.personal.enable_and_continue"
             values={Object {}}
           />
