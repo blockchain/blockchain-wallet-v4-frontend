@@ -31,7 +31,7 @@ class VerifyContainer extends React.PureComponent {
         getMedia(
           { video: true, audio: true },
           () => this.setState({ showVeriff: true }),
-          this.setState({ isCameraBlocked: true })
+          () => this.setState({ isCameraBlocked: true })
         )
         break
       case KYC_PROVIDERS.ONFIDO:
