@@ -17,7 +17,7 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 const ImportedAddressesSettingHeader = styled(SettingHeader)`
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   margin-top: 30px;
 `
@@ -43,7 +43,7 @@ const Success = props => {
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin='BCH' />
+      return <AddressRow key={address.addr} address={address} coin='BSV' />
     }
   )
 
@@ -52,8 +52,8 @@ const Success = props => {
       <ImportedAddressesSettingHeader>
         <div>
           <FormattedMessage
-            id='scenes.settings.addresses.bch.importedaddresses.title'
-            defaultMessage='Imported Bitcoin Cash Addresses'
+            id='scenes.settings.addresses.bsv.importedaddresses.title'
+            defaultMessage='Imported Bitcoin SV Addresses'
           />
           <SettingDescription>
             <WarningWrapper>
@@ -64,7 +64,7 @@ const Success = props => {
                 color='brand-yellow'
               />
               <FormattedMessage
-                id='scenes.settings.addresses.bch.importedaddresses.description'
+                id='scenes.settings.addresses.bsv.importedaddresses.description'
                 defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
               />
             </WarningWrapper>
@@ -85,7 +85,7 @@ const Success = props => {
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
-                  id='scenes.settings.addresses.bch.importedaddresses.address'
+                  id='scenes.settings.addresses.bsv.importedaddresses.address'
                   defaultMessage='Address'
                 />
               </Text>
@@ -93,7 +93,7 @@ const Success = props => {
             <TableCell width='30%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
-                  id='scenes.settings.addresses.bch.importedaddresses.balance'
+                  id='scenes.settings.addresses.bsv.importedaddresses.balance'
                   defaultMessage='Balance'
                 />
               </Text>
