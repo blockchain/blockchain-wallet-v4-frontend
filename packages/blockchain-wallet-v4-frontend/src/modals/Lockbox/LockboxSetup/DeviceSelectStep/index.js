@@ -14,7 +14,9 @@ class DeviceSelectStepContainer extends React.PureComponent {
   }
 
   handleRestoreClick = () => {
-    const restoreWindow = window.open(this.props.restoreDeviceLink, '_blank')
+    let restoreWindow = window.open('', '_blank')
+    restoreWindow.opener = null
+    restoreWindow.location = this.props.restoreDeviceLink
     restoreWindow.focus()
   }
 
