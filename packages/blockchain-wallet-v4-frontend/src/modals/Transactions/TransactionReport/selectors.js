@@ -63,7 +63,8 @@ export const getBtcData = createSelector(
         .map(transform)
         .getOrElse(undefined),
       isValidStartDate: date => isValidBtcStartDate(date, end),
-      isValidEndDate: date => isValidBtcEndDate(date, start)
+      isValidEndDate: date => isValidBtcEndDate(date, start),
+      formValues
     }
   }
 )
