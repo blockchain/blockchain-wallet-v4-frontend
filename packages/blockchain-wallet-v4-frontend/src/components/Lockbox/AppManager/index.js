@@ -71,17 +71,10 @@ class LockboxAppManagerContainer extends React.PureComponent {
             ? Lockbox.constants.supportedApps[val.appName]
             : val.appName
           this.props.lockboxActions.resetAppChangeStatus()
-          this.setState({
-            [AppName]: {
-              changeType: '',
-              status: 'Success'
-            }
-          })
+          this.setState({ [AppName]: { changeType: '', status: 'Success' } })
           // clears the status text after 5 seconds
           setTimeout(() => {
-            this.setState({
-              [AppName]: { status: null }
-            })
+            this.setState({ [AppName]: { status: null } })
           }, SUCCESS_STATUS_TIMEOUT)
         },
         Failure: val => {
@@ -91,13 +84,11 @@ class LockboxAppManagerContainer extends React.PureComponent {
             : val.appName
           this.props.lockboxActions.resetAppChangeStatus()
           this.setState({
-            [AppName]: { status: 'Error' }
+            [AppName]: { status: 'Error', error: val.error }
           })
           // clears the status text after 10 seconds
           setTimeout(() => {
-            this.setState({
-              [AppName]: { changeType: '', status: null }
-            })
+            this.setState({ [AppName]: { changeType: '', status: null } })
           }, FAIL_STATUS_TIMEOUT)
         },
         Loading: () => {},
