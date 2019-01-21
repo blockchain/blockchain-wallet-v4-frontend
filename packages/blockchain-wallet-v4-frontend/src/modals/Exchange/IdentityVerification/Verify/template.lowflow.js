@@ -165,7 +165,7 @@ const Verify = ({
             >
               <FormattedMessage
                 id='identityverification.lowflow.personal.enable_and_continue'
-                defaultMessage='Enable Camera & Continue'
+                defaultMessage='Enable Camera/Microphone & Continue'
               />
             </Button>
           )}
