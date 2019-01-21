@@ -2681,72 +2681,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "🎉 You're all caught up!",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
-      },
-      {
-        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/EmptyContent.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "We've Improved Your Exchange",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
-      },
-      {
-        "defaultMessage": "November 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
-      },
-      {
-        "defaultMessage": "The faster, smarter way to trade your crypto.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
-      },
-      {
-        "defaultMessage": "Upgrade now to enjoy the following benefits:",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
-      },
-      {
-        "defaultMessage": "Lower cost",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
-      },
-      {
-        "defaultMessage": "Super competitive crypto exchange prices",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
-      },
-      {
-        "defaultMessage": "Live rates",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
-      },
-      {
-        "defaultMessage": "You always get the most up to date price",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
-      },
-      {
-        "defaultMessage": "Higher limits",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
-      },
-      {
-        "defaultMessage": "Limits from $1,000-$25,000",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Remove Label?",
         "id": "modal.deleteaddresslabel.title"
       },
@@ -5123,27 +5057,6 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/AppManagerStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Verify Device Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.title"
-      },
-      {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
-        "id": "modals.lockboxsetup.authenticitystep.content"
-      },
-      {
-        "defaultMessage": "Checking Your Device’s Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.authenticating"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.authenticitystep.success"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
   },
   {
     "descriptors": [
