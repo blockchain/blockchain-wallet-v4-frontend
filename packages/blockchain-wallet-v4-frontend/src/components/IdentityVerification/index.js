@@ -178,6 +178,7 @@ export const IdentityVerificationHeader = styled(PartnerHeader)`
 
 export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
   font-weight: 300;
+  margin-top: 10px;
   ${media.mobile`
     font-size: 16px;
   `};

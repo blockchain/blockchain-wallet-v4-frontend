@@ -27,6 +27,18 @@ const VerifyWrapper = styled.div`
     flex-direction: column;
   `};
 `
+const VerifyIdentityVerificationSubHeader = styled(
+  IdentityVerificationSubHeader
+)`
+  margin-top: 30px;
+`
+const VerifyInputWrapper = styled(InputWrapper)`
+  display: flex;
+  align-items: start;
+`
+const VerifyIdentityVerificationImage = styled(IdentityVerificationImage)`
+  margin-left: 70px;
+`
 const ContentWrapper = styled.div`
   max-width: 600px;
 `
@@ -48,12 +60,12 @@ const DocumentsWrapper = styled.div`
   }
 `
 const SubInstructions = styled.div`
-  margin-top: 25px;
+  margin-top: 44px;
   > div {
-    margin-bottom: 5px;
+    margin-bottom: 12px;
   }
   img {
-    margin-top: 20px;
+    margin-top: 16px;
   }
 `
 
@@ -96,7 +108,7 @@ const Verify = ({
         <VerifyWrapper>
           {showVeriff && <Veriff />}
           {!showVeriff && (
-            <InputWrapper>
+            <VerifyInputWrapper>
               <ContentWrapper>
                 <IdentityVerificationHeader>
                   <FormattedMessage
@@ -104,13 +116,12 @@ const Verify = ({
                     defaultMessage='Last Step. Verify Your ID'
                   />
                 </IdentityVerificationHeader>
-                <IdentityVerificationImage name='identity-verification' />
-                <IdentityVerificationSubHeader>
+                <VerifyIdentityVerificationSubHeader>
                   <FormattedMessage
                     id='identityverification.verify.message_with_cam'
                     defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
                   />
-                </IdentityVerificationSubHeader>
+                </VerifyIdentityVerificationSubHeader>
                 <DocumentsWrapper>
                   {map(flip(prop)(docMap), supportedDocuments)}
                 </DocumentsWrapper>
@@ -145,7 +156,8 @@ const Verify = ({
                   />
                 </SubInstructions>
               </ContentWrapper>
-            </InputWrapper>
+              <VerifyIdentityVerificationImage name='identity-verification' />
+            </VerifyInputWrapper>
           )}
         </VerifyWrapper>
       }
