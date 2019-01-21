@@ -118,13 +118,13 @@ const Verify = ({
                   <Text size='18px' color={isCameraBlocked && 'error'}>
                     {isCameraBlocked ? (
                       <FormattedMessage
-                        id='identityverification.verify.camerablocked'
-                        defaultMessage="You're camera is blocked. You must enable access before continuing in your browser's settings."
+                        id='identityverification.verify.camera_mic_blocked'
+                        defaultMessage="You're camera or microphone is blocked. You must enable access before continuing in your browser's settings."
                       />
                     ) : (
                       <FormattedMessage
-                        id='identityverification.verify.howtocamera'
-                        defaultMessage='How do I enable my camera?'
+                        id='identityverification.verify.how_to_camera_mic'
+                        defaultMessage='How do I enable my camera and microphone?'
                       />
                     )}
                   </Text>
