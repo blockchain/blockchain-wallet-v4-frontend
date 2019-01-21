@@ -5,7 +5,7 @@ exports[`HighFlow should render correctly 1`] = `
   <FooterShadowWrapper
     fields={
       <templatelowflow__VerifyWrapper>
-        <IdentityVerification__InputWrapper>
+        <templatelowflow__VerifyInputWrapper>
           <templatelowflow__ContentWrapper>
             <IdentityVerification__IdentityVerificationHeader>
               <FormattedMessage
@@ -14,16 +14,13 @@ exports[`HighFlow should render correctly 1`] = `
                 values={Object {}}
               />
             </IdentityVerification__IdentityVerificationHeader>
-            <IdentityVerification__IdentityVerificationImage
-              name="identity-verification"
-            />
-            <IdentityVerification__IdentityVerificationSubHeader>
+            <templatelowflow__VerifyIdentityVerificationSubHeader>
               <FormattedMessage
                 defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
                 id="identityverification.verify.message_with_cam"
                 values={Object {}}
               />
-            </IdentityVerification__IdentityVerificationSubHeader>
+            </templatelowflow__VerifyIdentityVerificationSubHeader>
             <templatelowflow__DocumentsWrapper>
               <FormattedMessage
                 defaultMessage="Government Issued Passport"
@@ -90,7 +87,10 @@ exports[`HighFlow should render correctly 1`] = `
               />
             </templatelowflow__SubInstructions>
           </templatelowflow__ContentWrapper>
-        </IdentityVerification__InputWrapper>
+          <templatelowflow__VerifyIdentityVerificationImage
+            name="identity-verification"
+          />
+        </templatelowflow__VerifyInputWrapper>
       </templatelowflow__VerifyWrapper>
     }
     footer={
