@@ -9,12 +9,14 @@ import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
+import { hasWebcam, getMedia } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 
 class VerifyContainer extends React.PureComponent {
   state = {
-    showVeriff: false
+    showVeriff: false,
+    isCameraBlocked: false
   }
 
   componentDidMount () {
@@ -26,7 +28,11 @@ class VerifyContainer extends React.PureComponent {
   showKycProvider = kycProvider => {
     switch (kycProvider) {
       case KYC_PROVIDERS.VERIFF:
-        this.setState({ showVeriff: true })
+        getMedia(
+          { video: true, audio: true },
+          () => this.setState({ showVeriff: true }),
+          this.setState({ isCameraBlocked: true })
+        )
         break
       case KYC_PROVIDERS.ONFIDO:
         this.props.modalActions.showModal(
@@ -52,7 +58,7 @@ class VerifyContainer extends React.PureComponent {
         return (
           <MediaContextConsumer>
             {({ mobile }) =>
-              flowType === FLOW_TYPES.HIGH && mobile ? (
+              (flowType === FLOW_TYPES.HIGH && mobile) || !hasWebcam ? (
                 <HighFlow
                   email={email}
                   deeplink={deeplink}
@@ -64,6 +70,7 @@ class VerifyContainer extends React.PureComponent {
                 <LowFlow
                   supportedDocuments={docTypes}
                   showVeriff={this.state.showVeriff}
+                  isCameraBlocked={this.state.isCameraBlocked}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
                   {...rest}
                 />
