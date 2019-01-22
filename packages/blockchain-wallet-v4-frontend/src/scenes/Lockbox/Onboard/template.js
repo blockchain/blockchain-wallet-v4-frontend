@@ -166,12 +166,6 @@ const Onboard = props => {
                     defaultMessage='Setup Guide'
                   />
                 </SetupGuideText>
-                <Icon
-                  name='short-right-arrow'
-                  color='brand-secondary'
-                  size='13px'
-                  style={{ marginTop: '2px' }}
-                />
               </LearnMoreLink>
             </SetupGuideContainer>
           </GetStartedContent>
