@@ -2681,6 +2681,59 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We've Improved Your Exchange",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+      },
+      {
+        "defaultMessage": "November 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $1,000-$25,000",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Remove Label?",
         "id": "modal.deleteaddresslabel.title"
       },
@@ -4505,10 +4558,6 @@
         "id": "identityverification.verify.message_with_cam"
       },
       {
-        "defaultMessage": "You're camera or microphone is blocked. You must enable access before continuing in your browser's settings.",
-        "id": "identityverification.verify.camera_mic_blocked"
-      },
-      {
         "defaultMessage": "How do I enable my camera and microphone?",
         "id": "identityverification.verify.how_to_camera_mic"
       },
@@ -4521,8 +4570,8 @@
         "id": "identityverification.lowflow.personal.back"
       },
       {
-        "defaultMessage": "Enable Camera/Microphone & Continue",
-        "id": "identityverification.lowflow.personal.enable_and_continue"
+        "defaultMessage": "Continue",
+        "id": "identityverification.lowflow.personal.continue"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
@@ -5057,6 +5106,27 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/AppManagerStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Device Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.title"
+      },
+      {
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
+        "id": "modals.lockboxsetup.authenticitystep.content"
+      },
+      {
+        "defaultMessage": "Checking Your Device’s Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.authenticating"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.authenticitystep.success"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
   },
   {
     "descriptors": [
@@ -10292,6 +10362,31 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.balance"
       }
     ],
+    "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Imported Bitcoin Cash Addresses",
+        "id": "scenes.settings.addresses.bch.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bch.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bch.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bch.importedaddresses.balance"
+      }
+    ],
     "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.success.json"
   },
   {
@@ -10358,6 +10453,31 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Imported Bitcoin SV Addresses",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10503,6 +10623,55 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Btc/ArchivedAddresses/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Archive",
+        "id": "scenes.settings.addresses.archive"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "scenes.settings.addresses.show_priv"
+      },
+      {
+        "defaultMessage": "Sign Message",
+        "id": "scenes.settings.addresses.sign_message"
+      },
+      {
+        "defaultMessage": "Imported Bitcoin Addresses",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.description"
+      },
+      {
+        "defaultMessage": "Verify Message",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.actions"
+      },
+      {
+        "defaultMessage": "Import Bitcoin Address",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.json"
   },
   {
     "descriptors": [

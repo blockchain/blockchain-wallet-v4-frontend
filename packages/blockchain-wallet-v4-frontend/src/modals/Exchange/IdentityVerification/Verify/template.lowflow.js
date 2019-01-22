@@ -95,13 +95,7 @@ const docMap = {
   )
 }
 
-const Verify = ({
-  handleSubmit,
-  onBack,
-  isCameraBlocked,
-  supportedDocuments,
-  showVeriff
-}) => (
+const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
@@ -126,27 +120,18 @@ const Verify = ({
                   {map(flip(prop)(docMap), supportedDocuments)}
                 </DocumentsWrapper>
                 <SubInstructions>
-                  <Text size='18px' color={isCameraBlocked && 'error'}>
-                    {isCameraBlocked ? (
-                      <FormattedMessage
-                        id='identityverification.verify.camera_mic_blocked'
-                        defaultMessage="You're camera or microphone is blocked. You must enable access before continuing in your browser's settings."
-                      />
-                    ) : (
-                      <FormattedMessage
-                        id='identityverification.verify.how_to_camera_mic'
-                        defaultMessage='How do I enable my camera and microphone?'
-                      />
-                    )}
+                  <Text size='18px'>
+                    <FormattedMessage
+                      id='identityverification.verify.how_to_camera_mic'
+                      defaultMessage='How do I enable my camera and microphone?'
+                    />
                   </Text>
-                  {!isCameraBlocked && (
-                    <Text weight={300}>
-                      <FormattedMessage
-                        id='identityverification.verify.instructions'
-                        defaultMessage='Click allow when prompted above or enable in your browser settings.'
-                      />
-                    </Text>
-                  )}
+                  <Text weight={300}>
+                    <FormattedMessage
+                      id='identityverification.verify.instructions'
+                      defaultMessage='Click allow when prompted above or enable in your browser settings.'
+                    />
+                  </Text>
                   <Image
                     name='allow-camera'
                     srcset={{
@@ -176,8 +161,8 @@ const Verify = ({
               onClick={handleSubmit}
             >
               <FormattedMessage
-                id='identityverification.lowflow.personal.enable_and_continue'
-                defaultMessage='Enable Camera/Microphone & Continue'
+                id='identityverification.lowflow.personal.continue'
+                defaultMessage='Continue'
               />
             </Button>
           )}
