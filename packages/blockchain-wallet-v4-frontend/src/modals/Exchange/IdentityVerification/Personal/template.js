@@ -199,7 +199,6 @@ const Personal = ({
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
-                            label
                           />
                         </FormItem>
                       </FaqFormGroup>
