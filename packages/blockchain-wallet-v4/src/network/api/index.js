@@ -19,9 +19,15 @@ import xlm from './xlm'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
 
-export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
+export default ({
+  options,
+  apiKey,
+  getAuthCredentials,
+  reauthenticate,
+  networks
+} = {}) => {
   const http = httpService({ apiKey })
-  const authorizedHttp = apiAuthorize(http, getAuthCredentials)
+  const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger

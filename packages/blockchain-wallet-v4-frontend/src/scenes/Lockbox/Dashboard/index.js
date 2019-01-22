@@ -22,9 +22,10 @@ const Header = styled(Menu)`
   width: 100%;
 `
 const TransactionsWrapper = styled.div`
-  height: 100%;
+  height: calc(100% - 206px);
   position: relative;
   top: 206px;
+  overflow: scroll;
 `
 const SettingsWrapper = styled.div`
   height: calc(100% - 300px);

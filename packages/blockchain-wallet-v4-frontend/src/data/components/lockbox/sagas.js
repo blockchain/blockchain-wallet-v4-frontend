@@ -402,7 +402,8 @@ export default ({ api }) => {
   // finalize new device setup
   const finalizeNewDeviceSetup = function*() {
     try {
-      let connection = yield select(S.getCurrentConnection)
+      const { deviceType } = yield select(S.getCurrentConnection)
+      yield put(A.resetConnectionStatus())
       let pollLength = 2500
       closePoll = false
       const btcAppChannel = yield call(
@@ -411,13 +412,11 @@ export default ({ api }) => {
         pollLength
       )
       yield takeEvery(btcAppChannel, function*(app) {
-        yield put(
-          A.pollForDeviceApp(app, null, connection.deviceType, pollLength)
-        )
+        yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
       })
       // BTC app connection
       yield take(AT.SET_CONNECTION_INFO)
-      connection = yield select(S.getCurrentConnection)
+      const connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
         connection.app,

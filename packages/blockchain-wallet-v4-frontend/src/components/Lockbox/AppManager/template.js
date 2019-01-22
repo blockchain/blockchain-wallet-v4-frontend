@@ -101,6 +101,9 @@ class CoinActions extends React.PureComponent {
       case 'Error':
         return (
           <AppActions>
+            <Text size='11px' weight={400}>
+              {coinState.error}
+            </Text>
             <StatusIcon name='alert-filled' color='error' size='40px' />
           </AppActions>
         )

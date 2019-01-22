@@ -19,7 +19,7 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 const ImportedAddressesSettingHeader = styled(SettingHeader)`
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   margin-top: 30px;
 `
