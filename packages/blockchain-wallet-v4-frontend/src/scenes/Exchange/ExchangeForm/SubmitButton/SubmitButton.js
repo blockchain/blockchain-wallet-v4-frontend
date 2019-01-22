@@ -79,7 +79,6 @@ class SubmitButton extends React.PureComponent {
       txError,
       volume,
       asyncValidating,
-      dirty,
       error,
       submitting,
       handleSubmit
@@ -101,7 +100,6 @@ class SubmitButton extends React.PureComponent {
             blockLockbox ||
             asyncValidating ||
             submitting ||
-            !dirty ||
             volume === '0' ||
             !volume ||
             (volume && error) ||

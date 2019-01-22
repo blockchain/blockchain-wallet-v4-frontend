@@ -89,6 +89,8 @@ const configureStore = () => {
       })
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
+      const reauthenticate = () =>
+        store.dispatch(actions.modules.profile.signIn())
       const networks = {
         btc: Bitcoin.networks[options.platforms.web.btc.config.network],
         bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
@@ -100,6 +102,7 @@ const configureStore = () => {
         options,
         apiKey,
         getAuthCredentials,
+        reauthenticate,
         networks
       })
       const persistWhitelist = ['session', 'preferences', 'cache']

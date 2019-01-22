@@ -93,6 +93,10 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
+  const formErrorSelector = selectors.form.getFormError(EXCHANGE_FORM)
+  const asyncValidatingSelector = selectors.form.isAsyncValidating(
+    EXCHANGE_FORM
+  )
   const getActiveFieldName = compose(
     mapFixToFieldName,
     prop('fix')
@@ -168,7 +172,7 @@ export default ({ api, coreSagas, networks }) => {
   const getAmounts = function*(pair) {
     const amountsR = yield select(S.getAmounts(pair))
 
-    if (Remote.Loading.is(amountsR)) {
+    if (Remote.Loading.is(amountsR) || Remote.NotAsked.is(amountsR)) {
       const quote = yield take(actionTypes.modules.rates.SET_PAIR_QUOTE)
       return compose(
         S.adviceToAmount,
@@ -198,7 +202,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const validateForm = function*() {
-    yield call(startValidation)
+    const currentError = yield select(formErrorSelector)
+    const isAsyncValidating = yield select(asyncValidatingSelector)
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const target = prop('target', form)
@@ -221,13 +226,15 @@ export default ({ api, coreSagas, networks }) => {
         yield call(validateXlm, sourceCryptoVolume, source)
       if (targetCoin === 'XLM')
         yield call(validateXlmCreateAccount, targetCryptoVolume, target)
-      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
+      if (currentError || isAsyncValidating)
+        yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (error) {
-      yield put(
-        actions.form.stopAsyncValidation(EXCHANGE_FORM, {
-          _error: error
-        })
-      )
+      if (currentError !== error)
+        yield put(
+          actions.form.stopAsyncValidation(EXCHANGE_FORM, {
+            _error: error
+          })
+        )
     }
   }
 
@@ -337,13 +344,13 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const checkLatestTx = function*(coin) {
+    const currentError = yield select(formErrorSelector)
     try {
       yield put(A.setTxError(null))
       if (coin !== 'ETH') return
       yield put(actions.form.startAsyncValidation(EXCHANGE_FORM))
       const provisionalPayment = yield call(getProvisionalPayment, false)
       if (provisionalPayment.unconfirmedTx) throw LATEST_TX_ERROR
-      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (e) {
       if (e === MIN_ERROR) return
       yield put(
@@ -351,6 +358,9 @@ export default ({ api, coreSagas, networks }) => {
           e === LATEST_TX_ERROR ? LATEST_TX_ERROR : LATEST_TX_FETCH_FAILED_ERROR
         )
       )
+    } finally {
+      const errors = currentError ? { _error: currentError } : undefined
+      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM, errors))
     }
   }
 
@@ -518,10 +528,10 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield call(startValidation)
-      yield call(checkLatestTx, sourceCoin)
       yield call(clearMinMax)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(checkLatestTx, sourceCoin)
       yield call(updateSourceFee)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeSource', e))
@@ -551,9 +561,9 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield call(startValidation)
-      yield call(checkLatestTx, newSourceCoin || sourceCoin)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(checkLatestTx, newSourceCoin || sourceCoin)
       yield call(updateSourceFee)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeTarget', e))
@@ -565,11 +575,10 @@ export default ({ api, coreSagas, networks }) => {
       const { amount } = payload
       const form = yield select(formValueSelector)
 
+      yield call(startValidation)
       yield put(
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
-      yield call(startValidation)
-      yield call(checkLatestTx, path(['source', 'coin'], form))
       yield put(A.setShowError(true))
       yield call(changeSubscription)
       yield call(updateSourceFee)
@@ -592,8 +601,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.change(EXCHANGE_FORM, newInputField, newInputAmount)
       )
       yield call(startValidation)
-      yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(changeSubscription)
+      yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(updateMinMax)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeFix', e))
@@ -623,9 +632,9 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.change(EXCHANGE_FORM, oppositeField, currentFieldAmount)
       )
       yield call(startValidation)
-      yield call(checkLatestTx, prop('source', target))
       yield call(unsubscribeFromCurrentAdvice, { source, target })
       yield call(changeSubscription, true)
+      yield call(checkLatestTx, prop('source', target))
       yield call(clearMinMax)
       yield call(updateSourceFee)
     } catch (e) {

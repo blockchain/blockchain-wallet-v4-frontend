@@ -9,7 +9,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 15px;
+  padding: 10px;
   max-width: 200px;
   margin-right: 25px;
   flex-direction: row;
@@ -23,6 +23,12 @@ const Wrapper = styled.div`
   cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
   * {
     cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
+  }
+  @media (max-width: 770px) {
+    margin-right: 15px;
+  }
+  &:last-child {
+    margin-right: 0;
   }
 `
 const IconBox = styled.div`

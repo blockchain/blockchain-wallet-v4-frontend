@@ -2,108 +2,105 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
 
-const Title = styled.div`
-  text-align: center;
-  margin-bottom: 25px;
-`
-const Content = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 375px;
-`
-const Row = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  padding: 25px 0;
-  & :nth-child(2) {
-    border-top: 1px solid ${props => props.theme['gray-2']};
-    border-bottom: 1px solid ${props => props.theme['gray-2']};
-  }
-  &:hover {
-    cursor: pointer;
-    & > :last-child {
-      & > :last-child {
-        color: ${props => props.theme['info']};
-      }
-    }
-  }
 `
-const LeftColumn = styled.div`
+const DeviceWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: 0 20px;
-  & > :last-child {
-    padding-left: 20px;
-  }
+  height: 175px;
+  width: 100%;
 `
-const RightColumn = styled.div`
-  margin-right: 20px;
+const NewButton = styled(Button)`
+  position: relative;
+  height: 55px;
+  margin: 30px 0 12px;
+`
+const ExistingButton = styled(Button)`
+  height: 55px;
 `
 
 const SetupTypeStep = props => {
-  const { handleStepChange, openSupportLink } = props
+  const { handleStepChange, deviceType } = props
   return (
-    <React.Fragment>
-      <Title>
-        <Text size='16px'>
-          <FormattedMessage
-            id='modals.lockboxsetup.firststep.connect'
-            defaultMessage='Connect Your Lockbox'
+    <Wrapper>
+      {deviceType === 'Lockbox' ? (
+        <DeviceWrapper>
+          <Image
+            width='60%'
+            name='lockbox-device'
+            srcset={{ 'lockbox-device': '1x' }}
           />
-        </Text>
-      </Title>
-      <Content>
-        <Row onClick={() => handleStepChange('new')}>
-          <LeftColumn>
-            <Icon name='plus' size='22px' color='info' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.newdevice'
-                defaultMessage='Setup a brand new device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-        <Row onClick={() => handleStepChange('existing')}>
-          <LeftColumn>
-            <Image width='22px' height='22px' name='link-lockbox-icon' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.existingdevice'
-                defaultMessage='Link an existing device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-        <Row onClick={() => openSupportLink()}>
-          <LeftColumn>
-            <Icon name='open-in-new-tab' size='22px' color='info' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.restoredevice'
-                defaultMessage='Restore a previous device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-      </Content>
-    </React.Fragment>
+          <Text size='16px' weight={500} style={{ marginTop: '20px' }}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.connectlockbox'
+              defaultMessage='Connect your Blockchain Lockbox'
+            />
+          </Text>
+        </DeviceWrapper>
+      ) : (
+        <DeviceWrapper>
+          <Image
+            width='55%'
+            name='ledger-nano-s'
+            srcset={{ 'ledger-nano-s': '1x' }}
+          />
+          <Text size='16px' weight={500} style={{ marginTop: '24px' }}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.connectnanos'
+              defaultMessage='Connect your Ledger Nano S'
+            />
+          </Text>
+        </DeviceWrapper>
+      )}
+      <NewButton
+        nature='primary'
+        fullwidth
+        onClick={() => handleStepChange('new')}
+      >
+        <TextGroup>
+          <Text size='14px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.new'
+              defaultMessage='Set up new device'
+            />
+          </Text>
+          <Text size='10px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.newlength'
+              defaultMessage='10-15 Minutes'
+            />
+          </Text>
+        </TextGroup>
+      </NewButton>
+      <ExistingButton
+        nature='received'
+        fullwidth
+        onClick={() => handleStepChange('existing')}
+      >
+        <TextGroup>
+          <Text size='14px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.existing'
+              defaultMessage='Sign in with PIN'
+            />
+          </Text>
+          <Text size='10px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.existinglength'
+              defaultMessage='2-3 Minutes'
+            />
+          </Text>
+        </TextGroup>
+      </ExistingButton>
+    </Wrapper>
   )
 }
 

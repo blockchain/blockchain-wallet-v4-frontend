@@ -12,7 +12,10 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extractFieldValue = (e, value) => value
+const extractFieldValue = (e, value) => {
+  e.preventDefault()
+  return value
+}
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
@@ -57,7 +60,6 @@ class ExchangeForm extends React.Component {
   render () {
     const {
       actions,
-      formActions,
       logExchangeClick,
       data,
       isDemo,
@@ -89,7 +91,6 @@ class ExchangeForm extends React.Component {
               extractFieldValue
             )}
             handleAmountChange={compose(
-              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
               this.changeAmount,
               extractFieldValue
             )}
@@ -128,7 +129,8 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   reduxForm({
     form: EXCHANGE_FORM,
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
+    persistentSubmitErrors: true
   }),
   connect(
     mapStateToProps,
