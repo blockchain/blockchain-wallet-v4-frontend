@@ -4858,8 +4858,8 @@
         "id": "modals.lockbox.appmanager.appfailure"
       },
       {
-        "defaultMessage": "Loading application list",
-        "id": "modals.lockbox.appmanager.loadingapplist"
+        "defaultMessage": "Loading Application List",
+        "id": "modals.lockbox.appmanager.loadingapps"
       },
       {
         "defaultMessage": "App Manager",
@@ -7133,8 +7133,8 @@
         "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
       },
       {
-        "defaultMessage": "While your identity gets verified, you can buy up to",
-        "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy"
+        "defaultMessage": "Amount",
+        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.amount"
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/KYCNotification/template.json"
@@ -8281,6 +8281,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Preview",
+        "id": "exchange.preview"
+      },
+      {
+        "defaultMessage": "Looking to trade your Crypto straight from your Wallet? See how Swap works.",
+        "id": "exchange.demo_description"
+      }
+    ],
+    "path": "src/scenes/Exchange/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Swap",
         "id": "scenes.exchange.menutop.swap"
       },
@@ -8872,7 +8885,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
+        "defaultMessage": "Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.",
         "id": "scenes.lockbox.settings.browserwarn"
       }
     ],
@@ -10358,35 +10371,6 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.description"
       },
       {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "scenes.settings.addresses.bch.importedaddresses.address"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bch.importedaddresses.balance"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Imported Bitcoin Cash Addresses",
-        "id": "scenes.settings.addresses.bch.importedaddresses.title"
-      },
-      {
-        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
-        "id": "scenes.settings.addresses.bch.importedaddresses.description"
-      },
-      {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
-      },
-      {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
       },
@@ -10408,10 +10392,6 @@
         "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
       },
       {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
-      },
-      {
         "defaultMessage": "Manage Wallet",
         "id": "scenes.settings.addresses.bch.wallets.manage"
       },
@@ -10424,6 +10404,10 @@
         "id": "scenes.settings.addresses.bch.make_default"
       },
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
         "defaultMessage": "Archive",
         "id": "scenes.settings.addresses.bch.archive"
       },
@@ -10434,39 +10418,6 @@
       {
         "defaultMessage": "Show Change Addresses",
         "id": "scenes.settings.addresses.bch.showchangeaddrs"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash Wallets",
-        "id": "scenes.settings.addresses.bch.wallets.title"
-      },
-      {
-        "defaultMessage": "Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.",
-        "id": "scenes.settings.addresses.bch.wallets.description"
-      },
-      {
-        "defaultMessage": "Wallet Name",
-        "id": "scenes.settings.addresses.bch.wallets.walletname"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bch.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.bch.wallets.actions"
-      },
-      {
-        "defaultMessage": "No wallets matched your search",
-        "id": "scenes.settings.addresses.bch.wallets.nomatch"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Imported Bitcoin SV Addresses",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
       },
       {
         "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
@@ -10485,7 +10436,7 @@
         "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
+    "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
   },
   {
     "descriptors": [
@@ -10680,55 +10631,6 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Archive",
-        "id": "scenes.settings.addresses.archive"
-      },
-      {
-        "defaultMessage": "Private Key",
-        "id": "scenes.settings.addresses.show_priv"
-      },
-      {
-        "defaultMessage": "Sign Message",
-        "id": "scenes.settings.addresses.sign_message"
-      },
-      {
-        "defaultMessage": "Imported Bitcoin Addresses",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
-      },
-      {
-        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.description"
-      },
-      {
-        "defaultMessage": "Verify Message",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
-      },
-      {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.actions"
-      },
-      {
-        "defaultMessage": "Import Bitcoin Address",
-        "id": "scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.success.json"
   },
   {
     "descriptors": [
@@ -11907,6 +11809,27 @@
       }
     ],
     "path": "src/services/SfoxService/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
+      },
+      {
+        "defaultMessage": "January 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
+      },
+      {
+        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
+      },
+      {
+        "defaultMessage": "Check it out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
   },
   {
     "descriptors": [
