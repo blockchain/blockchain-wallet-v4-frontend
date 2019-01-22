@@ -14,13 +14,13 @@ export default ({ api, networks }) => {
     // yield put(A.createMetadataContacts(newkv))
   }
 
-  const fetchContacts = function*() {
-    const typeId = derivationMap[CONTACTS]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setContacts(newkv))
-  }
+  // const fetchContacts = function*() {
+  //   const typeId = derivationMap[CONTACTS]
+  //   const mxpriv = yield select(getMetadataXpriv)
+  //   const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
+  //   const newkv = yield callTask(api.fetchKVStore(kv))
+  //   yield put(A.setContacts(newkv))
+  // }
 
   const fetchMetadataContacts = function*() {
     try {
@@ -40,7 +40,6 @@ export default ({ api, networks }) => {
   }
 
   return {
-    fetchContacts,
     fetchMetadataContacts
   }
 }

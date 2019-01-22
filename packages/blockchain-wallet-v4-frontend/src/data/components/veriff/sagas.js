@@ -32,7 +32,7 @@ export default ({ api, coreSagas }) => {
       yield call(fetchUser)
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/swap'))
-      yield put(actions.analytics.logKycEvent(COMPLETE))
+      yield put(actions.analytics.logEvent(COMPLETE))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'syncVeriff', e))
     }

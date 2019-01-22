@@ -43,6 +43,7 @@ const IdentityForm = styled(Form)`
 
 const Identity = props => {
   const {
+    busy,
     handleReset,
     handleSubmit,
     invalid,
@@ -52,7 +53,6 @@ const Identity = props => {
     viewSSN,
     toggleSSN
   } = props
-  const { busy } = props.ui
 
   return (
     <IdentityForm onSubmit={handleSubmit}>

@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import ui from 'redux-ui'
 import { path, prop } from 'ramda'
 import Media from 'services/ResponsiveService'
 import { TabMenuBuySellStatus } from 'components/Form'
@@ -13,7 +12,7 @@ import { hasAccount } from 'services/ExchangeService'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
-import SelectPartner from './template.success'
+import SelectPartner from './template'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,11 +39,7 @@ const CheckoutWrapper = styled.div`
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.selectPartner = this.selectPartner.bind(this)
-    this.submitEmail = this.submitEmail.bind(this)
-  }
+  state = {}
 
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
@@ -62,8 +57,7 @@ class BuySellContainer extends React.PureComponent {
    * If there is a token (evidence of signup), show the Checkout view.
    * If not, open the tray and send user through the signup flow.
    */
-
-  selectPartner (buySell, options, type) {
+  selectPartner = (buySell, options, type) => {
     if (path(['sfox', 'account_token'], buySell)) {
       return {
         component: (
@@ -88,6 +82,7 @@ class BuySellContainer extends React.PureComponent {
           value={buySell}
           onSubmit={this.onSubmit}
           submitEmail={this.submitEmail}
+          emailSubmitted={this.state.emailSubmitted}
           {...this.props}
         />
       ),
@@ -95,8 +90,8 @@ class BuySellContainer extends React.PureComponent {
     }
   }
 
-  submitEmail () {
-    this.props.updateUI({ submittedEmail: true })
+  submitEmail = () => {
+    this.setState({ emailSubmitted: true })
     let email = encodeURIComponent(path(['fields', 'email'], this.props))
     let country = path(['fields', 'country'], this.props)
     let state =
@@ -156,12 +151,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { submittedEmail: false } })
-)
-
-export default enhance(BuySellContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BuySellContainer)

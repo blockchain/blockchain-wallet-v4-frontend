@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import styled, { ThemeProvider, injectGlobal } from 'styled-components'
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 
 import Button from './Button'
@@ -42,26 +42,25 @@ const darkTheme = {
   headerScroll: 'white'
 }
 
-injectGlobal`
-    :root {
-      --siteMaxWidth: 75rem;
-      --contentMaxWidth: 62rem;
-      --copyMaxWidth: 42rem;
+const GlobalStyles = createGlobalStyle`
+  :root {
+    --siteMaxWidth: 75rem;
+    --contentMaxWidth: 62rem;
+    --copyMaxWidth: 42rem;
 
-      --smScreen: 48rem;
-      --mdScreen: 62rem;
-      --lgScreen: 75rem;
+    --smScreen: 48rem;
+    --mdScreen: 62rem;
+    --lgScreen: 75rem;
 
-      --smBorderRadius: 2px;
-      --lgBorderRadius: 4px;
-    }
-    .flex-container {
-      display: flex;
-      margin: 0px auto;
-      width: 100%;
-      min-height: 2rem;
-    } 
-}
+    --smBorderRadius: 2px;
+    --lgBorderRadius: 4px;
+  }
+  .flex-container {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    min-height: 2rem;
+  }
 `
 
 const GlobalNav = styled.div.attrs({
@@ -472,10 +471,10 @@ class Header extends PureComponent {
       let scrollTop = supportScrollY
         ? window.scrollY
         : supportPageOffset
-          ? window.pageYOffset
-          : isCSS1Compat
-            ? document.documentElement.scrollTop
-            : document.body.scrollTop
+        ? window.pageYOffset
+        : isCSS1Compat
+        ? document.documentElement.scrollTop
+        : document.body.scrollTop
 
       return scrollTop
     }
@@ -638,6 +637,7 @@ class Header extends PureComponent {
             {position === 'fixed' && <Spacer />}
           </div>
         </IntlProvider>
+        <GlobalStyles />
       </ThemeProvider>
     )
   }

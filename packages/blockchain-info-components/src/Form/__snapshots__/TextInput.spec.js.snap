@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextInput component default renders correctly 1`] = `
-<styled.input
+<TextInput__BaseTextInput
   borderColor="red"
   disabled={false}
   height="40px"
-  innerRef={[Function]}
   minHeight="40px"
   onKeyDown={[Function]}
 />

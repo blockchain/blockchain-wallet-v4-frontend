@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import ui from 'redux-ui'
-import { actions, selectors } from 'data'
 import { formValueSelector, Field } from 'redux-form'
 import Media from 'services/ResponsiveService'
+
+import { actions, selectors } from 'data'
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-import {
-  required,
-  normalizePhone,
-  validMobileNumber
-} from 'services/FormHelper'
+import { required, validMobileNumber } from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -32,7 +28,7 @@ const MobileInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
-const MobileCodeContainer = MobileInput.extend`
+const MobileCodeContainer = styled(MobileInput)`
   margin-top: 25px;
 `
 const VerifyMobileForm = styled(Form)`
@@ -43,41 +39,36 @@ const VerifyMobileForm = styled(Form)`
 `
 
 class VerifyMobile extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-
-    this.onSubmit = this.onSubmit.bind(this)
-    this.resendCode = this.resendCode.bind(this)
-    this.updateMobileNumber = this.updateMobileNumber.bind(this)
-  }
+  state = {}
 
   componentDidMount () {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
+  /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.props.updateStep('create_account')
     }
     if (this.props.smsVerified && !this.props.editVerifiedMobile) {
-      this.props.updateUI({ create: 'create_account' })
+      this.props.updateStep('create_account')
     }
   }
+  /* eslint-enable react/no-did-update-set-state */
 
-  updateMobileNumber () {
-    this.props.updateUI({ create: 'enter_mobile_code' })
+  updateMobileNumber = () => {
+    this.props.updateStep('enter_mobile_code')
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
-  resendCode () {
-    this.props.updateUI({ smsCodeResent: true })
+  resendCode = () => {
+    this.setState({ smsCodeResent: true })
     this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
-  onSubmit (e) {
+  onSubmit = e => {
     e.preventDefault()
-    if (this.props.ui.create !== 'enter_mobile_code') {
+    if (this.props.create !== 'enter_mobile_code') {
       this.props.settingsActions.clearMobileFailure()
       this.updateMobileNumber()
     } else {
@@ -87,7 +78,6 @@ class VerifyMobile extends Component {
 
   render () {
     const {
-      ui,
       mobileCode,
       mobileNumber,
       mobileVerifiedError,
@@ -105,25 +95,21 @@ class VerifyMobile extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeNumber: (
-                  <a
-                    onClick={() =>
-                      this.props.updateUI({ create: 'change_mobile' })
-                    }
-                  >
+                  <a onClick={() => this.props.updateStep('change_mobile')}>
                     change number
                   </a>
                 )
               }}
             />
           )
-        case ui.smsCodeResent:
+        case this.state.smsCodeResent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.mobile.helper.sentanothercode'
               defaultMessage='Another code has been sent!'
             />
           )
-        case !ui.smsCodeResent:
+        case !this.state.smsCodeResent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.mobile.helper.didntreceive'
@@ -162,11 +148,10 @@ class VerifyMobile extends Component {
                 defaultValue={smsNumber}
                 component={PhoneNumberBox}
                 validate={[required, validMobileNumber]}
-                normalize={normalizePhone}
                 countryCode={countryCode}
                 errorBottom
               />
-              {ui.create === 'change_mobile' && (
+              {this.props.create === 'change_mobile' && (
                 <Button
                   nature='primary'
                   type='submit'
@@ -180,7 +165,7 @@ class VerifyMobile extends Component {
                 </Button>
               )}
             </MobileInput>
-            {ui.create === 'enter_mobile_code' && (
+            {this.props.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
                 <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
@@ -203,7 +188,7 @@ class VerifyMobile extends Component {
         </ColLeft>
         <ColRight>
           <ColRightInner>
-            {ui.create !== 'enter_mobile_code' ? null : (
+            {this.props.create !== 'enter_mobile_code' ? null : (
               <ButtonWrapper>
                 <Button
                   type='submit'
@@ -237,12 +222,7 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { smsCodeResent: false } })
-)
-
-export default enhance(VerifyMobile)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyMobile)

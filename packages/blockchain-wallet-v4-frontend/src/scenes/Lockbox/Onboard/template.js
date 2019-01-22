@@ -19,7 +19,7 @@ const marginContent = '25px'
 const Wrapper = styled.div`
   width: 100%;
   height: 90%;
-  padding: 30px;
+  padding: 10px;
   box-sizing: border-box;
 `
 const IntroContainer = styled.div`
@@ -28,7 +28,7 @@ const IntroContainer = styled.div`
 
 const GetStartedContainer = styled.div`
   position: relative;
-  margin: 0 auto ${marginContent};
+  margin: 0 auto 10px;
   padding: ${containerPadding};
   width: ${containerWidth};
   box-sizing: border-box;
@@ -60,6 +60,7 @@ const GetStartedHeader = styled(Text)`
   `};
 `
 const GetStartedButton = styled(Button)`
+<<<<<<< HEAD
   width: 250px;
   margin: 45px 0 0 35px;
   ${Media.mobile`
@@ -71,6 +72,14 @@ const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
   ${Media.mobile`
+=======
+  width: 100%;
+  margin: 25px 0 15px;
+`
+const GetStartedText = styled(Text)`
+  width: 350px;
+  ${media.mobile`
+>>>>>>> development
     width: 100%;
   `};
 `
@@ -90,7 +99,6 @@ const WarningContent = styled.div`
   width: ${containerWidth};
   margin: 0 auto;
 `
-
 const LearnMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -105,22 +113,26 @@ const LearnMoreContainer = styled.div`
     flex-direction: column;
   `};
 `
-
+const SetupGuideContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
-
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
   color: ${props => props.theme['brand-secondary']};
 `
-
+const SetupGuideText = styled(Text)`
+  margin: 0 4px;
+  color: ${props => props.theme['brand-secondary']};
+`
 const BrowserWarning = styled(Banner)``
-
 const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
 const Onboard = props => {
-  const { domains, launchLockboxSetup } = props
+  const { launchLockboxSetup } = props
 
   return (
     <Wrapper>
@@ -149,6 +161,27 @@ const Onboard = props => {
                 defaultMessage='Get Started'
               />
             </GetStartedButton>
+            <SetupGuideContainer>
+              <Text size='13px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.trouble'
+                  defaultMessage='Having trouble? View our'
+                />
+              </Text>
+              <LearnMoreLink
+                href={
+                  'https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                }
+                target='_blank'
+              >
+                <SetupGuideText size='13px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.lockbox.welcome.setupguide'
+                    defaultMessage='Setup Guide'
+                  />
+                </SetupGuideText>
+              </LearnMoreLink>
+            </SetupGuideContainer>
           </GetStartedContent>
           <PoweredByContainer>
             <PoweredByText size='11px' weight={300} color='brand-primary'>
@@ -174,7 +207,10 @@ const Onboard = props => {
               defaultMessage="Don't have a Lockbox? Secure your crypto now."
             />
           </Text>
-          <LearnMoreLink href={domains['comRoot'] + '/lockbox'} target='_blank'>
+          <LearnMoreLink
+            href={'https://www.blockchain.com/lockbox'}
+            target='_blank'
+          >
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.learnmore'

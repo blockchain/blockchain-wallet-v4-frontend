@@ -58,7 +58,7 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const memoType = prop('memo_type', tx)
   const amount =
     type === 'sent'
-      ? new BigNumber(operationAmount).add(fee).toString()
+      ? new BigNumber.sum(operationAmount, fee).toString()
       : operationAmount
 
   return {

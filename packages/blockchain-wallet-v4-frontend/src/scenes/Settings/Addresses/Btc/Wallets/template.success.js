@@ -20,7 +20,7 @@ import Media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
+const BitcoinWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`

@@ -41,7 +41,10 @@ export const accountCreationAmount = (errors, allValues, props) => {
   }).value
   const destinationAccountExists = prop('destinationAccountExists', props)
 
-  if (!destinationAccountExists && new BigNumber(valueXlm).lessThan(reserveXlm))
+  if (
+    !destinationAccountExists &&
+    new BigNumber(valueXlm).isLessThan(reserveXlm)
+  )
     errors._error = { message: ACCOUNT_CREATION_ERROR, reserveXlm }
 
   return errors
@@ -63,7 +66,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     toUnit: 'XLM'
   }).value
   const effectiveBalanceXlm = Exchange.convertXlmToXlm({
-    value: new BigNumber(effectiveBalance).add(fee),
+    value: new BigNumber.sum(effectiveBalance, fee),
     fromUnit: 'STROOP',
     toUnit: 'XLM'
   }).value

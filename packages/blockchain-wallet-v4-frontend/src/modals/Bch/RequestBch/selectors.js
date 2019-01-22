@@ -12,8 +12,8 @@ const extractAddress = (walletSelector, lockboxSelector, value) => {
     ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? walletSelector(value.index)
-        : lockboxSelector(value.xpub)
+      ? walletSelector(value.index)
+      : lockboxSelector(value.xpub)
     : Remote.Loading
 }
 
@@ -48,9 +48,8 @@ export const getData = (state, ownProps) => {
     getReceiveAddressWallet,
     getReceiveAddressLockbox,
     to
-  ).map(
-    address =>
-      address && isCashAddr(address) ? address : toCashAddr(address, true)
+  ).map(address =>
+    address && isCashAddr(address) ? address : toCashAddr(address, true)
   )
 
   const transform = (receiveAddress, initialValues) => ({

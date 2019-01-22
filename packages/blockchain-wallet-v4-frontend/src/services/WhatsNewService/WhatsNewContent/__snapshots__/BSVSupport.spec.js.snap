@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmptyContent renders correctly 1`] = `
+<WhatsNew__Container>
+  <WhatsNew__Row
+    marginBottom="10px"
+  >
+    <text
+      color="brand-primary"
+      size="24px"
+      weight={600}
+    >
+      <FormattedMessage
+        defaultMessage="Now Supporting Bitcoin SV (BSV)!"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
+        values={Object {}}
+      />
+    </text>
+  </WhatsNew__Row>
+  <WhatsNew__Row
+    marginBottom="24px"
+  >
+    <BSVSupport__DarkText
+      size="14px"
+    >
+      <FormattedMessage
+        defaultMessage="January 2019"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
+        values={Object {}}
+      />
+    </BSVSupport__DarkText>
+  </WhatsNew__Row>
+  <WhatsNew__Row
+    marginBottom="24px"
+  >
+    <BSVSupport__DarkText>
+      <FormattedMessage
+        defaultMessage="Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address."
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
+        values={Object {}}
+      />
+    </BSVSupport__DarkText>
+  </WhatsNew__Row>
+  <WhatsNew__Row>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/settings/addresses/bsv"
+    >
+      <BSVSupport__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Check it out!"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+          values={Object {}}
+        />
+      </BSVSupport__GetStartedButton>
+    </LinkContainer>
+  </WhatsNew__Row>
+</WhatsNew__Container>
+`;

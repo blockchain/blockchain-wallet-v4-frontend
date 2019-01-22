@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-
-import { Media, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import Actions from './Actions'
 import Balance from './Balance'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

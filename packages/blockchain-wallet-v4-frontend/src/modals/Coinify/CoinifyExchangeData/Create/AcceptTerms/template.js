@@ -112,7 +112,7 @@ const AcceptTerms = props => {
     invalid,
     handleSubmit,
     signupError,
-    updateUI,
+    updateState,
     emailVerified,
     editEmail,
     clearError
@@ -218,7 +218,7 @@ const AcceptTerms = props => {
                   color='brand-secondary'
                   cursor='pointer'
                   weight={300}
-                  onClick={() => updateUI({ create: 'change_email' })}
+                  onClick={() => updateState({ create: 'change_email' })}
                 >
                   <FormattedMessage
                     id='coinifyexchangedata.create.accept.error2'

@@ -148,7 +148,7 @@ const UploadDocuments = ({
         accept='image/jpeg, application/pdf, image/png'
         disableClick
         onDropAccepted={onDropAccepted}
-        innerRef={setDropzoneRef}
+        ref={setDropzoneRef}
       >
         {files.length === 0 ? (
           <Fragment>

@@ -10,8 +10,8 @@ const extractAddress = (walletSelector, lockboxSelector, value) =>
     ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? walletSelector(value.index)
-        : lockboxSelector(value.xpub)
+      ? walletSelector(value.index)
+      : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
 const extractAddressIdx = (walletSelector, lockboxSelector, value) =>
@@ -19,8 +19,8 @@ const extractAddressIdx = (walletSelector, lockboxSelector, value) =>
     ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? walletSelector(value.index)
-        : lockboxSelector(value.xpub)
+      ? walletSelector(value.index)
+      : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
 const extractAccountIdx = value =>
@@ -28,8 +28,8 @@ const extractAccountIdx = value =>
     ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? Remote.of(value.index)
-        : Remote.of(value.xpub)
+      ? Remote.of(value.index)
+      : Remote.of(value.xpub)
     : Remote.NotAsked
 
 export const getData = state => {

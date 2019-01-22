@@ -8,13 +8,18 @@ const getAuthOptions = ({ email, guid, token }) => ({
   }
 })
 
-const injectAuthCredentials = curry((getAuthCredentials, request, options) =>
-  compose(
-    request,
-    mergeDeepLeft(options),
-    getAuthOptions
-  )(getAuthCredentials())
+const injectAuthCredentials = curry(
+  (getAuthCredentials, reauthenticate, request, options) =>
+    compose(
+      request,
+      mergeDeepLeft(options),
+      getAuthOptions
+    )(getAuthCredentials()).catch(error => {
+      if (error.status !== 401) throw error
+
+      return reauthenticate()
+    })
 )
 
-export default (http, getAuthCredentials) =>
-  map(injectAuthCredentials(getAuthCredentials), http)
+export default (http, getAuthCredentials, reauthenticate) =>
+  map(injectAuthCredentials(getAuthCredentials, reauthenticate), http)

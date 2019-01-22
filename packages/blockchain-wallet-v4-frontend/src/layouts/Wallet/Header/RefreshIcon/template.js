@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
@@ -9,9 +9,12 @@ const rotation = keyframes`
   to { transform: rotate(360deg); }
 `
 
+const animationRule = css`
+  ${rotation} ${props => props.animateTime}s linear;
+`
+
 export const SpinningIcon = styled(Icon)`
-  animation: ${({ rotating, animateTime }) =>
-    rotating && `${rotation} ${animateTime}s linear`};
+  animation: ${({ rotating }) => rotating && animationRule};
 `
 
 const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (

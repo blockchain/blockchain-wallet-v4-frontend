@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
 
