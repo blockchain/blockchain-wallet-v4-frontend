@@ -36,13 +36,13 @@ const PaymentOption = styled.div`
   opacity: ${props => (props.disabled ? 0.3 : 1)};
   margin-right: ${props => props.marginRight};
   :hover {
-    background-color: ${props => props.theme['brand-secondary']};
+    background-color: ${props => !props.disabled && props.theme['brand-secondary']};
     label {
       > span {
-        color: ${props => props.theme['white']};
+        color: ${props => !props.disabled && props.theme['white']};
       }
       > div {
-        color: ${props => props.theme['white']};
+        color: ${props => !props.disabled && props.theme['white']};
       }
     }
   }

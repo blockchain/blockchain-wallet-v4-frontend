@@ -10,14 +10,6 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import {
-  Wrapper,
-  IntroContainer,
-  GetStartedContainer,
-  GetStartedContent,
-  GetStartedHeader,
-  GetStartedText
-} from 'components/FeatureLandingPage'
 import media from 'services/ResponsiveService'
 
 const containerWidth = '650px'
