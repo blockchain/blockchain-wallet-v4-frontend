@@ -48,12 +48,12 @@ const Container = styled.div`
 `
 const Header = styled(Text)`
   display: flex;
+  text-align: center;
   align-items: center
-  letter-spacing: 2px;
   width: 50%;
   font-weight: 500;
   font-size: 14px;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   ${Wrapper}.column & {
     width: 100%;
     justify-content: center;
