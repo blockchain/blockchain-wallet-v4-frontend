@@ -1,4 +1,4 @@
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 import MontserratBlackEot from './fonts/Montserrat-Black.eot'
 import MontserratBlackSvg from './fonts/Montserrat-Black.svg'
@@ -33,8 +33,8 @@ const FontFace = (name, eot, svg, ttf, weight) => `
     font-family: '${name}';
     src: url(${eot});
     src: url('${eot}?#iefix') format('embedded-opentype'),
-         url('${ttf}') format('truetype'),
-         url('${svg}') format('svg');
+      url('${ttf}') format('truetype'),
+      url('${svg}') format('svg');
     font-weight: ${weight};
     font-style: normal;
     font-stretch: normal;
@@ -105,8 +105,7 @@ const MontserratBlack = FontFace(
   '900'
 )
 
-// Fonts management
-injectGlobal`
+export const FontGlobalStyles = createGlobalStyle`
   ${MontserratThin}
   ${MontserratExtraLight}
   ${MontserratLight}

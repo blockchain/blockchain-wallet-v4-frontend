@@ -13,7 +13,6 @@ import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Menu from 'scenes/Transactions/Menu'
-import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
@@ -101,7 +100,6 @@ const WalletLayout = props => {
             {location.pathname.includes('/settings/profile') && (
               <ExchangeProfileMenu />
             )}
-            {location.pathname.includes('/lockbox') && <LockboxMenu />}
             <Page>{children}</Page>
           </Content>
         </Container>

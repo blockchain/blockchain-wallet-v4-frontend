@@ -4,7 +4,7 @@ import { path, prop } from 'ramda'
 import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 
-export class ExchangeDelegate {
+export default class ExchangeDelegate {
   constructor (state, api, partner) {
     this._trades = []
     this._debug = false
@@ -133,5 +133,3 @@ export class ExchangeDelegate {
     return ''
   }
 }
-
-module.exports = ExchangeDelegate

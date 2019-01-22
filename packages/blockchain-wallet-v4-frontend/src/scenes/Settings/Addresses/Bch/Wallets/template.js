@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BchWalletsAddressesSettingHeader = SettingHeader.extend`
+const BchWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -131,7 +131,7 @@ const Success = props => {
                     defaultMessage='Edit Wallet Name'
                   />
                 </ClickableText>,
-                !isDefault && (
+                !isDefault && !isArchived && (
                   <ClickableText
                     size='small'
                     onClick={() => onMakeDefault(wallet.value)}
@@ -142,36 +142,51 @@ const Success = props => {
                     />
                   </ClickableText>
                 ),
-                !isDefault && (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onSetArchived(wallet.value, true)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.archive'
-                      defaultMessage='Archive'
-                    />
-                  </ClickableText>
-                ),
-                <ClickableText
-                  size='small'
-                  onClick={() => onShowXPub(wallet.value)}
-                >
-                  <FormattedMessage
-                    id='scenes.settings.addresses.bch.show_xpub'
-                    defaultMessage='Show xPub'
-                  />
-                </ClickableText>,
-                <ClickableText
-                  size='small'
-                  onClick={() => onShowChangeAddrs(wallet.value)}
-                >
-                  <FormattedMessage
-                    id='scenes.settings.addresses.bch.showchangeaddrs'
-                    defaultMessage='Show Change Addresses'
-                  />
-                </ClickableText>
-              ].filter(x => x)}
+                !isDefault &&
+                  (isArchived ? (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, false)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.unarchive'
+                        defaultMessage='Unarchive'
+                      />
+                    </ClickableText>
+                  ) : (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, true)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.archive'
+                        defaultMessage='Archive'
+                      />
+                    </ClickableText>
+                  ),
+                  (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onShowXPub(wallet.value)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.show_xpub'
+                        defaultMessage='Show xPub'
+                      />
+                    </ClickableText>
+                  ),
+                  (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onShowChangeAddrs(wallet.value)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.showchangeaddrs'
+                        defaultMessage='Show Change Addresses'
+                      />
+                    </ClickableText>
+                  ))
+              ]}
             />
           )}
         </TableCell>

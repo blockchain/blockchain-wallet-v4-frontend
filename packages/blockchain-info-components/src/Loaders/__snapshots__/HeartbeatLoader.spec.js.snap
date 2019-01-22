@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeartbeatLoader component default renders correctly 1`] = `
-<styled.div
+<HeartbeatLoader__Container
   height="10px"
   width="10px"
 >
-  <styled.div
+  <HeartbeatLoader__Circle1
     color="brand-primary"
   />
-  <Styled(styled.div)
+  <HeartbeatLoader__Circle2
     color="brand-primary"
   />
-</styled.div>
+</HeartbeatLoader__Container>
 `;

@@ -126,7 +126,7 @@ const EmailAddress = props => {
             <EmailExplanation>
               <FormattedHTMLMessage
                 id='scenes.security.email.verifieddescription.success'
-                defaultMessage='You’ve verified <b>{email}</b>. Select &quot;Change Email&quot; to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+                defaultMessage='You’ve verified <b>{email}</b>. Select "Change Email" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
                 values={{ email }}
               />
             </EmailExplanation>

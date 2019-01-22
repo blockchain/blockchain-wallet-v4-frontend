@@ -38,8 +38,8 @@ const DefaultButton = styled('button', 'input[type=submit]')`
     props.outline
       ? 'transparent'
       : props.bgColor
-        ? props.bgColor
-        : Color('brand-secondary')};
+      ? props.bgColor
+      : Color('brand-secondary')};
 
   line-height: ${props => (props.outline ? '2rem' : '2.5rem')};
 
@@ -64,7 +64,7 @@ const handleClick = props => {
   }
 }
 
-const SecondaryButton = DefaultButton.extend`
+const SecondaryButton = styled(DefaultButton)`
   background-color: rgba(1, 1, 1, 0.1);
   color: white;
 `

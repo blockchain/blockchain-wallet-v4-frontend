@@ -217,71 +217,69 @@ const TransactionListItem = ({
               />
             </React.Fragment>
           )}
-          {coin === 'XLM' &&
-            transaction.memo && (
-              <React.Fragment>
-                <Text
-                  size='14px'
-                  capitalize
-                  weight={400}
-                  style={{ marginBottom: '5px', marginTop: '15px' }}
-                >
-                  <FormattedMessage
-                    id='components.txlistitem.memo'
-                    defaultMessage='Memo'
-                  />
-                  &nbsp;
-                  {transaction.memoType}
-                </Text>
-                <Text size='14px' capitalize weight={300}>
-                  {transaction.memo}
-                </Text>
-              </React.Fragment>
-            )}
-        </DetailsColumn>
-        {prop('inputs', transaction) &&
-          prop('outputs', transaction) && (
-            <DetailsColumn>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-                <FormattedMessage
-                  id='components.txlistitem.sentfrom'
-                  defaultMessage='Sent From'
-                />
-              </Text>
-              {prop('inputs', transaction).map(input => (
-                <Text size='14px' weight={300}>
-                  {input.address}
-                </Text>
-              ))}
+          {coin === 'XLM' && transaction.memo && (
+            <React.Fragment>
               <Text
                 size='14px'
+                capitalize
                 weight={400}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
-                  id='components.txlistitem.receivedby'
-                  defaultMessage='Received By'
+                  id='components.txlistitem.memo'
+                  defaultMessage='Memo'
                 />
+                &nbsp;
+                {transaction.memoType}
               </Text>
-              {prop('outputs', transaction).map(output => (
-                <IOAddressText size='14px' weight={300}>
-                  {output.address}
-                  {output.change && (
-                    <React.Fragment>
-                      <span>&nbsp;</span>
-                      <FormattedMessage
-                        id='components.txlistitem.change'
-                        defaultMessage='(Change Address)'
-                      />
-                      <TooltipHost id='txlist.change.tooltip'>
-                        <TooltipIcon name='question-in-circle' />
-                      </TooltipHost>
-                    </React.Fragment>
-                  )}
-                </IOAddressText>
-              ))}
-            </DetailsColumn>
+              <Text size='14px' capitalize weight={300}>
+                {transaction.memo}
+              </Text>
+            </React.Fragment>
           )}
+        </DetailsColumn>
+        {prop('inputs', transaction) && prop('outputs', transaction) && (
+          <DetailsColumn>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='components.txlistitem.sentfrom'
+                defaultMessage='Sent From'
+              />
+            </Text>
+            {prop('inputs', transaction).map(input => (
+              <Text size='14px' weight={300}>
+                {input.address}
+              </Text>
+            ))}
+            <Text
+              size='14px'
+              weight={400}
+              style={{ marginBottom: '5px', marginTop: '15px' }}
+            >
+              <FormattedMessage
+                id='components.txlistitem.receivedby'
+                defaultMessage='Received By'
+              />
+            </Text>
+            {prop('outputs', transaction).map(output => (
+              <IOAddressText size='14px' weight={300}>
+                {output.address}
+                {output.change && (
+                  <React.Fragment>
+                    <span>&nbsp;</span>
+                    <FormattedMessage
+                      id='components.txlistitem.change'
+                      defaultMessage='(Change Address)'
+                    />
+                    <TooltipHost id='txlist.change.tooltip'>
+                      <TooltipIcon name='question-in-circle' />
+                    </TooltipHost>
+                  </React.Fragment>
+                )}
+              </IOAddressText>
+            ))}
+          </DetailsColumn>
+        )}
         <DetailsColumn>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage

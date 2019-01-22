@@ -255,11 +255,10 @@ export const importLegacyAddress = curry(
   (wallet, key, createdTime, password, bipPass, { network, api }) => {
     let checkIfExists = address =>
       getAddress(address.addr, wallet)
-        .map(
-          existing =>
-            Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
-              ? Task.of(existing)
-              : Task.rejected(new Error('present_in_wallet'))
+        .map(existing =>
+          Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
+            ? Task.of(existing)
+            : Task.rejected(new Error('present_in_wallet'))
         )
         .map(aE => aE.map(set(Address.priv, address.priv)))
         .getOrElse(Task.of(address))
@@ -508,11 +507,10 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
 })
 
 // validateSecondPwd :: (a -> m a) -> (a -> m b) -> String -> Wallet
-const validateSecondPwd = curry(
-  (pass, fail, password, wallet) =>
-    isValidSecondPwd(password, wallet)
-      ? pass(wallet)
-      : fail(new Error('INVALID_SECOND_PASSWORD'))
+const validateSecondPwd = curry((pass, fail, password, wallet) =>
+  isValidSecondPwd(password, wallet)
+    ? pass(wallet)
+    : fail(new Error('INVALID_SECOND_PASSWORD'))
 )
 
 // decrypt :: String -> Wallet -> Task Error Wallet

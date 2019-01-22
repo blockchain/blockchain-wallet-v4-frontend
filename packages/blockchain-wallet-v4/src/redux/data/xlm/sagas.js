@@ -13,7 +13,7 @@ export const TX_PER_PAGE = 10
 export const OPERATIONS_PER_TX = 1
 
 export const sumBigNumbers = reduce(
-  (num1, num2) => new BigNumber(num1).add(num2).toString(),
+  (num1, num2) => new BigNumber.sum(num1, num2).toString(),
   '0'
 )
 

@@ -45,7 +45,7 @@ const PoweredByContainer = styled.div`
     right: 5px;
   `};
 `
-const FieldWrapper = Intro.extend`
+const FieldWrapper = styled(Intro)`
   margin-top: 5px;
   width: 75%;
 `
