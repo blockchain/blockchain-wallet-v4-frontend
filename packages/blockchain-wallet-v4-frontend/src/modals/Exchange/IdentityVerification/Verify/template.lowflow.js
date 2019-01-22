@@ -6,7 +6,13 @@ import styled from 'styled-components'
 import media from 'services/ResponsiveService'
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
-import { Button, Image, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Image,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
@@ -15,6 +21,7 @@ import {
   IdentityVerificationImage,
   IdentityVerificationHeader,
   IdentityVerificationSubHeader,
+  FaqHeaderHelper,
   Footer
 } from 'components/IdentityVerification'
 import Veriff from '../Veriff'
@@ -31,16 +38,17 @@ const VerifyIdentityVerificationSubHeader = styled(
   IdentityVerificationSubHeader
 )`
   margin-top: 30px;
-`
-const VerifyInputWrapper = styled(InputWrapper)`
-  display: flex;
-  align-items: start;
+  max-width: 600px;
+  ${media.laptop`
+    max-width: 500px;
+  `};
 `
 const VerifyIdentityVerificationImage = styled(IdentityVerificationImage)`
-  margin-left: 70px;
-`
-const ContentWrapper = styled.div`
-  max-width: 600px;
+  margin: 0px;
+  display: block;
+  ${media.tablet`
+    display: none;
+  `};
 `
 const DocumentsWrapper = styled.div`
   display: flex;
@@ -102,47 +110,54 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
         <VerifyWrapper>
           {showVeriff && <Veriff />}
           {!showVeriff && (
-            <VerifyInputWrapper>
-              <ContentWrapper>
-                <IdentityVerificationHeader>
-                  <FormattedMessage
-                    id='identityverification.verify.header'
-                    defaultMessage='Last Step. Verify Your ID'
-                  />
-                </IdentityVerificationHeader>
-                <VerifyIdentityVerificationSubHeader>
-                  <FormattedMessage
-                    id='identityverification.verify.message_with_cam'
-                    defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
-                  />
-                </VerifyIdentityVerificationSubHeader>
-                <DocumentsWrapper>
-                  {map(flip(prop)(docMap), supportedDocuments)}
-                </DocumentsWrapper>
-                <SubInstructions>
-                  <Text size='18px'>
-                    <FormattedMessage
-                      id='identityverification.verify.how_to_camera_mic'
-                      defaultMessage='How do I enable my camera and microphone?'
+            <InputWrapper>
+              <IdentityVerificationHeader>
+                <FormattedMessage
+                  id='identityverification.verify.header'
+                  defaultMessage='Last Step. Verify Your ID'
+                />
+                <FaqHeaderHelper>
+                  <TooltipHost id='identityverification.headerhelper'>
+                    <TooltipIcon
+                      name='question-in-circle-filled'
+                      color='brand-primary'
+                      size='24px'
                     />
-                  </Text>
-                  <Text weight={300}>
-                    <FormattedMessage
-                      id='identityverification.verify.instructions'
-                      defaultMessage='Click allow when prompted above or enable in your browser settings.'
-                    />
-                  </Text>
-                  <Image
-                    name='allow-camera'
-                    srcset={{
-                      'allow-camera2': '2x',
-                      'allow-camera3': '3x'
-                    }}
+                  </TooltipHost>
+                  <VerifyIdentityVerificationImage name='identity-verification' />
+                </FaqHeaderHelper>
+              </IdentityVerificationHeader>
+              <VerifyIdentityVerificationSubHeader>
+                <FormattedMessage
+                  id='identityverification.verify.message_with_cam'
+                  defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
+                />
+              </VerifyIdentityVerificationSubHeader>
+              <DocumentsWrapper>
+                {map(flip(prop)(docMap), supportedDocuments)}
+              </DocumentsWrapper>
+              <SubInstructions>
+                <Text size='18px'>
+                  <FormattedMessage
+                    id='identityverification.verify.how_to_camera_mic'
+                    defaultMessage='How do I enable my camera and microphone?'
                   />
-                </SubInstructions>
-              </ContentWrapper>
-              <VerifyIdentityVerificationImage name='identity-verification' />
-            </VerifyInputWrapper>
+                </Text>
+                <Text weight={300}>
+                  <FormattedMessage
+                    id='identityverification.verify.instructions'
+                    defaultMessage='Click allow when prompted above or enable in your browser settings.'
+                  />
+                </Text>
+                <Image
+                  name='allow-camera'
+                  srcset={{
+                    'allow-camera2': '2x',
+                    'allow-camera3': '3x'
+                  }}
+                />
+              </SubInstructions>
+            </InputWrapper>
           )}
         </VerifyWrapper>
       }

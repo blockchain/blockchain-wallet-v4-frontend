@@ -170,6 +170,7 @@ export const IdentityVerificationForm = styled(Form)`
 export const IdentityVerificationHeader = styled(PartnerHeader)`
   margin-top: 40px;
   font-weight: 400;
+  position: relative;
   ${media.mobile`
     margin-top: 32px;
     font-size: 24px;
@@ -189,6 +190,13 @@ export const FaqFormMessage = styled(FaqMessage)`
   margin-top: 30px;
   width: 240px;
   left: 100%;
+`
+
+export const FaqHeaderHelper = styled.div`
+  position: absolute;
+  text-align: right;
+  right: 0px;
+  top: 0px;
 `
 
 export const FaqFormGroup = styled(FormGroup)`
