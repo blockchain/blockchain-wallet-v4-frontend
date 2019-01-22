@@ -60,7 +60,6 @@ const GetStartedHeader = styled(Text)`
   `};
 `
 const GetStartedButton = styled(Button)`
-<<<<<<< HEAD
   width: 250px;
   margin: 45px 0 0 35px;
   ${Media.mobile`
@@ -72,14 +71,6 @@ const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
   ${Media.mobile`
-=======
-  width: 100%;
-  margin: 25px 0 15px;
-`
-const GetStartedText = styled(Text)`
-  width: 350px;
-  ${media.mobile`
->>>>>>> development
     width: 100%;
   `};
 `
