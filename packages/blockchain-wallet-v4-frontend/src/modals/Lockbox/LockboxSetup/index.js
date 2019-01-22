@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import { FormattedMessage } from 'react-intl'
 
-import { SUPPORT_LINK } from './model'
+import { RESTORE_DEVICE_LINK, SUPPORT_LINK } from './model'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
 import AppManagerStep from './AppManagerStep'
@@ -37,7 +37,9 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Select Your Device'
           />
         ),
-        template: () => <DeviceSelectStep />
+        template: () => (
+          <DeviceSelectStep restoreDeviceLink={RESTORE_DEVICE_LINK} />
+        )
       },
       'setup-type': {
         title: () => (

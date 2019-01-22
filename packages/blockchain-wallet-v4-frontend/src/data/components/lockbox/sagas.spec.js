@@ -841,8 +841,11 @@ describe('lockbox sagas', () => {
   describe('finalizeNewDeviceSetup', () => {
     const saga = testSaga(finalizeNewDeviceSetup)
 
-    it('should get connection', () => {
+    it('should get device type from connection', () => {
       saga.next().select(S.getCurrentConnection)
+    })
+    it('should reset old connection', () => {
+      saga.next({ deviceType: 'ledger' }).put(A.resetConnectionStatus())
     })
     it('should poll for btc connection', () => {
       saga.next().call(pollForDeviceAppChannel, 'BTC', 2500)
