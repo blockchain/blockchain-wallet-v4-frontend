@@ -169,7 +169,7 @@ export const TierCard = ({
                     <Icon
                       style={{ marginLeft: '5px' }}
                       color='success'
-                      size='14px'
+                      size='12px'
                       name='check'
                     />
                   )}
