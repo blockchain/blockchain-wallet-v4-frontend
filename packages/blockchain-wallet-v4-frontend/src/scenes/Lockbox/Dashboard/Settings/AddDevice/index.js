@@ -8,8 +8,8 @@ import AddDevice from './template.js'
 
 class AddDeviceContainer extends React.PureComponent {
   onClick = () => {
+    this.props.lockboxActions.changeDeviceSetupStep('device-select')
     this.props.modalActions.showModal('LockboxSetup')
-    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
   }
 
   render () {

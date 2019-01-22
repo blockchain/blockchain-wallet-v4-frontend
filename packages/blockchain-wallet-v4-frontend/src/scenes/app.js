@@ -20,8 +20,6 @@ import ExchangeProfile from './ExchangeProfile'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
-import LockboxDashboard from './Lockbox/Dashboard'
-import LockboxOnboard from './Lockbox/Onboard'
 import Login from './Login'
 import Logout from './Logout'
 import Recover from './Recover'
@@ -135,22 +133,7 @@ class App extends React.PureComponent {
                       path='/settings/general'
                       component={General}
                     />
-                    <WalletLayout path='/lockbox' component={Lockbox} exact />
-                    <WalletLayout
-                      path='/lockbox/dashboard/:deviceIndex'
-                      component={LockboxDashboard}
-                      exact
-                    />
-                    <WalletLayout
-                      path='/lockbox/onboard'
-                      component={LockboxOnboard}
-                      exact
-                    />
-                    <WalletLayout
-                      path='/lockbox/settings/:deviceIndex'
-                      component={LockboxDashboard}
-                      exact
-                    />
+                    <WalletLayout path='/lockbox' component={Lockbox} />
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
