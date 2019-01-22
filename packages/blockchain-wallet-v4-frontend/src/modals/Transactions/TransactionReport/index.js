@@ -9,7 +9,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import TransactionReport from './template'
 
 class TransactionReportContainer extends React.PureComponent {
-  state = { generating: false }
+  state = { filename: '', generating: false }
 
   componentDidMount () {
     this.props.actions.initialized()
@@ -19,12 +19,12 @@ class TransactionReportContainer extends React.PureComponent {
     this.props.actions.destroyed()
   }
 
-  generateCSV = coin => {
-    const startDate = this.props.formValues.start.format('YYYY-MM-DD')
-    const endDate = this.props.formValues.end.format('YYYY-MM-DD')
-    const filename = `${coin}_${startDate}_${endDate}.csv`
+  generateCSV = () => {
+    const filename =
+      `${this.props.coin}_${this.props.formValues.start.format('YYYY-MM-DD')}` +
+      `_${this.props.formValues.end.format('YYYY-MM-DD')}.csv`
     this.setState({ generating: true, filename })
-    this.props.actions.submitClicked(coin)
+    this.props.actions.submitClicked(this.props.coin)
   }
 
   render () {
@@ -48,7 +48,7 @@ class TransactionReportContainer extends React.PureComponent {
         isValidEndDate={isValidEndDate}
         isValidStartDate={isValidStartDate}
         onDownload={() => this.setState({ generating: false })}
-        onSubmit={() => this.generateCSV(coin)}
+        onSubmit={this.generateCSV}
         position={position}
         total={total}
       />
