@@ -13,8 +13,20 @@ class DeviceSelectStepContainer extends React.PureComponent {
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
 
+  handleRestoreClick = () => {
+    let restoreWindow = window.open('', '_blank')
+    restoreWindow.opener = null
+    restoreWindow.location = this.props.restoreDeviceLink
+    restoreWindow.focus()
+  }
+
   render () {
-    return <SetupTypeStep handleStepChange={this.onChangeStep} />
+    return (
+      <SetupTypeStep
+        handleStepChange={this.onChangeStep}
+        handleRestoreClick={this.handleRestoreClick}
+      />
+    )
   }
 }
 

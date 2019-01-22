@@ -57,8 +57,9 @@ import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 
-const BrowserWarning = styled(Banner)`
-  margin: -4px 0 8px;
+const WarningBanners = styled(Banner)`
+  margin: -6px 0 12px;
+  padding: 8px;
 `
 const FirstStep = props => {
   const {
@@ -82,10 +83,9 @@ const FirstStep = props => {
     balanceStatus,
     excludeLockbox
   } = props
+  const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
-    from &&
-    from.type === 'LOCKBOX' &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -120,21 +120,31 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {disableLockboxSend && (
-        <BrowserWarning type='warning'>
-          <Text color='warning' size='12px'>
+      {isFromLockbox && (
+        <WarningBanners type='info'>
+          <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.lockboxwarn'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser'
+              id='modals.sendeth.firststep.warndevice'
+              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
             />
           </Text>
-        </BrowserWarning>
+        </WarningBanners>
+      )}
+      {disableLockboxSend && (
+        <WarningBanners type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendeth.firststep.warnbrowswer'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser!'
+            />
+          </Text>
+        </WarningBanners>
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendether.firststep.to'
+              id='modals.sendeth.firststep.to'
               defaultMessage='To:'
             />
           </FormLabel>
@@ -201,7 +211,7 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendether.firststep.amount'
+              id='modals.sendeth.firststep.amount'
               defaultMessage='Enter amount:'
             />
           </FormLabel>
@@ -224,10 +234,10 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='description'>
             <FormattedMessage
-              id='modals.sendether.firststep.description'
+              id='modals.sendeth.firststep.description'
               defaultMessage='Description: '
             />
-            <TooltipHost id='sendether.firststep.sharetooltip'>
+            <TooltipHost id='sendeth.firststep.sharetooltip'>
               <TooltipIcon name='question-in-circle' />
             </TooltipHost>
           </FormLabel>
@@ -245,7 +255,7 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendether.firststep.fee'
+                id='modals.sendeth.firststep.fee'
                 defaultMessage='Transaction Fee:'
               />
               <span>&nbsp;</span>
@@ -286,12 +296,12 @@ const FirstStep = props => {
           <Link size='13px' weight={300} capitalize onClick={handleFeeToggle}>
             {feeToggled ? (
               <FormattedMessage
-                id='modals.sendether.firststep.cancel'
+                id='modals.sendeth.firststep.cancel'
                 defaultMessage='Cancel'
               />
             ) : (
               <FormattedMessage
-                id='modals.sendether.firststep.edit'
+                id='modals.sendeth.firststep.edit'
                 defaultMessage='Customize fee'
               />
             )}
@@ -302,7 +312,7 @@ const FirstStep = props => {
         <CustomFeeAlertBanner type='alert'>
           <Text size='12px'>
             <FormattedMessage
-              id='modals.sendether.firststep.customfeeinfo'
+              id='modals.sendeth.firststep.customfeeinfo'
               defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
             />
           </Text>
@@ -321,7 +331,7 @@ const FirstStep = props => {
           }
         >
           <FormattedMessage
-            id='modals.sendether.firststep.continue'
+            id='modals.sendeth.firststep.continue'
             defaultMessage='Continue'
           />
         </Button>
