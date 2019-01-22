@@ -196,7 +196,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               color="success"
               cursor={false}
               name="check"
-              size="14px"
+              size="12px"
               style={
                 Object {
                   "marginLeft": "5px",
@@ -236,7 +236,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               color="success"
               cursor={false}
               name="check"
-              size="14px"
+              size="12px"
               style={
                 Object {
                   "marginLeft": "5px",
