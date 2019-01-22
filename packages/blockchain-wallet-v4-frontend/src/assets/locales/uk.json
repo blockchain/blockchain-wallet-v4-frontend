@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Ми повідомимо вас, коли ми розширимося до вашої області.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "ЗІП код",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Водійські права",
   "identityverification.verify.header": "Перевірте свою особу",
   "identityverification.verify.how_to_camera_mic": null,

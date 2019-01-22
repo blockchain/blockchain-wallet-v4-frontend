@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Мы уведомим вас, когда начнем работать в вашем регионе.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Почтовый индекс",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Водительские права",
   "identityverification.verify.header": "Подтвердите вашу личность",
   "identityverification.verify.how_to_camera_mic": null,

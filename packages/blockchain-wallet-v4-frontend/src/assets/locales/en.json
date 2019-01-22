@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "We will notify you when we expand to your area.",
   "identityverification.personal.verifyemail": "Verify Your Email Address",
   "identityverification.personal.zipcode": "Zip Code",
+  "identityverification.tooltip.headerhelper": "Need help verifying your identity?",
+  "identityverification.tooltip.headerhelper.contactsupport": "Contact support.",
   "identityverification.verify.driverslicense": "Driver’s License",
   "identityverification.verify.header": "Last Step. Verify Your ID",
   "identityverification.verify.how_to_camera_mic": "How do I enable my camera and microphone?",

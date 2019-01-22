@@ -1572,6 +1572,14 @@
       {
         "defaultMessage": "This change address belongs to your wallet",
         "id": "txlist.change.tooltip.description"
+      },
+      {
+        "defaultMessage": "Need help verifying your identity?",
+        "id": "identityverification.tooltip.headerhelper"
+      },
+      {
+        "defaultMessage": "Contact support.",
+        "id": "identityverification.tooltip.headerhelper.contactsupport"
       }
     ],
     "path": "src/components/Tooltips/index.json"

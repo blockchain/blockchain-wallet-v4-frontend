@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "如果我们扩展到您的所在地，我们会通知您。",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "邮政编码",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "驾驶执照",
   "identityverification.verify.header": "验证您的身份",
   "identityverification.verify.how_to_camera_mic": null,

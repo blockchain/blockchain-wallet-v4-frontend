@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Vi meddelar dig när vi utökar till ditt område.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Postnummer",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Körkort",
   "identityverification.verify.header": "Verifiera din identitet",
   "identityverification.verify.how_to_camera_mic": null,

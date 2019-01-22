@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "あなたの地域に広がったときに私たちはあなたに通知します。",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "郵便番号",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "運転免許証",
   "identityverification.verify.header": "あなたのアイデンティティを確認する",
   "identityverification.verify.how_to_camera_mic": null,

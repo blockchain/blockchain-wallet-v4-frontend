@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Wir werden Sie benachrichtigen, wenn wir in Ihre Region expandieren.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Postleitzahl",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Führerschein",
   "identityverification.verify.header": "Verifizieren Sie Ihre Identität",
   "identityverification.verify.how_to_camera_mic": null,

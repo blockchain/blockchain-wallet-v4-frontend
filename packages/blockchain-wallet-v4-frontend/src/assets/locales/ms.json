@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Kami akan memberitahu anda apabila kami meluaskan ke kawasan anda.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Kod Zip",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Lesen memandu",
   "identityverification.verify.header": "Sahkan identiti anda",
   "identityverification.verify.how_to_camera_mic": null,

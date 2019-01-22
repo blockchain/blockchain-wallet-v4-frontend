@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Powiadomimy Cię, gdy rozszerzymy obszar Twojej działalności.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Kod pocztowy",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Prawo jazdy",
   "identityverification.verify.header": "zweryfikować Twoją tożsamość",
   "identityverification.verify.how_to_camera_mic": null,

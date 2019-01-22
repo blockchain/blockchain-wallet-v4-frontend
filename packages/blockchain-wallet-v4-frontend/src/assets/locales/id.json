@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Kami akan memberi tahu Anda ketika kami memperluas ke wilayah Anda.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Kode Pos",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Surat izin Mengemudi",
   "identityverification.verify.header": "Verifikasi Identitas Anda",
   "identityverification.verify.how_to_camera_mic": null,

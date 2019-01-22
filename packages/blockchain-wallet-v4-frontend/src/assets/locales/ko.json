@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "우리는 귀하의 지역으로 확장 할 때 귀하에게 통보 할 것입니다.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "우편 번호",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "운전 면허증",
   "identityverification.verify.header": "신원 확인",
   "identityverification.verify.how_to_camera_mic": null,

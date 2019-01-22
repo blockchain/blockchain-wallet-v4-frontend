@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "Avisaremos quando expandirmos para a sua área.",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "Código postal",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "Carta de condução",
   "identityverification.verify.header": "Verifique a sua identidade",
   "identityverification.verify.how_to_camera_mic": null,

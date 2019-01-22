@@ -501,6 +501,8 @@
   "identityverification.personal.unavailablenotify": "เราจะแจ้งให้คุณทราบเมื่อเราขยายไปยังพื้นที่ของคุณ",
   "identityverification.personal.verifyemail": null,
   "identityverification.personal.zipcode": "รหัสไปรษณีย์",
+  "identityverification.tooltip.headerhelper": null,
+  "identityverification.tooltip.headerhelper.contactsupport": null,
   "identityverification.verify.driverslicense": "ใบขับขี่",
   "identityverification.verify.header": "ยืนยันตัวตนของคุณ",
   "identityverification.verify.how_to_camera_mic": null,
