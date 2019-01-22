@@ -7,15 +7,33 @@ export const getData = (state, ownProps) => {
   const ethRatesR = selectors.core.data.ethereum.getRates(state)
   const bchRatesR = selectors.core.data.bch.getRates(state)
   const xlmRatesR = selectors.core.data.xlm.getRates(state)
+  const bsvRatesR = selectors.core.data.bsv.getRates(state)
 
-  const transform = (currency, btcRates, ethRates, bchRates, xlmRates) => ({
-    unit: ownProps.coin,
+  const transform = (
     currency,
     btcRates,
     ethRates,
     bchRates,
-    xlmRates
-  })
+    xlmRates,
+    bsvRates
+  ) => {
+    return {
+      unit: ownProps.coin,
+      currency,
+      btcRates,
+      ethRates,
+      bchRates,
+      xlmRates,
+      bsvRates
+    }
+  }
 
-  return lift(transform)(currencyR, btcRatesR, ethRatesR, bchRatesR, xlmRatesR)
+  return lift(transform)(
+    currencyR,
+    btcRatesR,
+    ethRatesR,
+    bchRatesR,
+    xlmRatesR,
+    bsvRatesR
+  )
 }

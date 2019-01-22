@@ -43,7 +43,7 @@ FiatConvertorContainer.propTypes = {
       PropTypes.number.isRequired
     ])
   }).isRequired,
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

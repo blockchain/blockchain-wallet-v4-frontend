@@ -73,7 +73,6 @@ const PartnerLabel = props => {
 }
 
 PartnerLabel.propTypes = {
-  txHash: PropTypes.string.isRequired,
   txType: PropTypes.string.isRequired,
   buySellPartner: PropTypes.string
 }

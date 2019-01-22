@@ -4,18 +4,20 @@ import styled from 'styled-components'
 import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
 import Pages from './Pages'
+import LazyLoadContainer from 'components/LazyLoadContainer'
 
-const Wrapper = styled.div`
+const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  box-sizing: border-box;
   width: 100%;
 `
 
 const Success = props => {
   return (
-    <Wrapper>
+    <LazyLoadWrapper onLazyLoad={props.onLoadMore}>
       {props.empty ? (
         props.search ? (
           <EmptyTx />
@@ -30,12 +32,13 @@ const Success = props => {
             coin={props.coin}
             currency={props.currency}
             onRefresh={props.onRefresh}
+            onLoadMore={props.onLoadMore}
             buySellPartner={props.buySellPartner}
             onArchive={props.onArchive}
           />
         ))
       )}
-    </Wrapper>
+    </LazyLoadWrapper>
   )
 }
 

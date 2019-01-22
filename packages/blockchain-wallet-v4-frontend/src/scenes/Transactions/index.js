@@ -5,12 +5,12 @@ import Content from './Content'
 
 class TransactionsContainer extends React.PureComponent {
   render () {
-    return <Content coin={this.props.coin} />
+    return <Content coin={this.props.coin} location={this.props.location} />
   }
 }
 
 TransactionsContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM', 'BSV']).isRequired
 }
 
 export default TransactionsContainer

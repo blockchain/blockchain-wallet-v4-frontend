@@ -9,6 +9,7 @@ import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
+import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 
@@ -52,7 +53,7 @@ class VerifyContainer extends React.PureComponent {
         return (
           <MediaContextConsumer>
             {({ mobile }) =>
-              flowType === FLOW_TYPES.HIGH && mobile ? (
+              (flowType === FLOW_TYPES.HIGH && mobile) || !hasWebcam ? (
                 <HighFlow
                   email={email}
                   deeplink={deeplink}

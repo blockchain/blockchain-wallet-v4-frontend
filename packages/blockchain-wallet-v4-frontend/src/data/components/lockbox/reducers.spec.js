@@ -13,9 +13,9 @@ const INITIAL_STATE = {
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
-    isAuthentic: Remote.NotAsked,
     setupType: null
-  }
+  },
+  isAuthentic: Remote.NotAsked
 }
 
 describe('lockbox reducers', () => {
@@ -41,20 +41,15 @@ describe('lockbox reducers', () => {
 
   it('should set check device authenticity to loading', () => {
     const action = actions.checkDeviceAuthenticityLoading()
-    const expectedState = assocPath(
-      ['newDeviceSetup', 'isAuthentic'],
-      Remote.Loading,
-      INITIAL_STATE
-    )
+    const expectedState = assoc('isAuthentic', Remote.Loading, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
   it('should set check device authenticity to failure', () => {
-    const ERROR = 'authenticity-error'
-    const action = actions.checkDeviceAuthenticityFailure(ERROR)
-    const expectedState = assocPath(
-      ['newDeviceSetup', 'isAuthentic'],
-      Remote.Failure({ failure: ERROR }),
+    const action = actions.checkDeviceAuthenticityFailure(false)
+    const expectedState = assoc(
+      'isAuthentic',
+      Remote.Failure({ isAuthentic: false }),
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
@@ -62,8 +57,8 @@ describe('lockbox reducers', () => {
 
   it('should set check device authenticity to success', () => {
     const action = actions.checkDeviceAuthenticitySuccess(true)
-    const expectedState = assocPath(
-      ['newDeviceSetup', 'isAuthentic'],
+    const expectedState = assoc(
+      'isAuthentic',
       Remote.Success({ isAuthentic: true }),
       INITIAL_STATE
     )

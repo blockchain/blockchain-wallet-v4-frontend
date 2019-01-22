@@ -11,7 +11,10 @@ import SecondStep from './SecondStep'
 
 class SendBchContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized()
+    const { from } = this.props
+    this.props.actions.initialized({
+      from
+    })
   }
 
   componentWillUnmount () {
@@ -19,11 +22,11 @@ class SendBchContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll } = this.props
+    const { step, position, total, closeAll, excludeHDWallets } = this.props
 
     return (
       <SendBch position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep />}
+        {step === 1 && <FirstStep excludeHDWallets={excludeHDWallets} />}
         {step === 2 && <SecondStep />}
       </SendBch>
     )

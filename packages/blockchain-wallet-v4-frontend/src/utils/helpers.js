@@ -8,3 +8,15 @@ export const debounce = (func, wait) => {
     }, wait)
   }
 }
+
+export const hasWebcam =
+  (navigator.getUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.msGetUserMedia) !== void 0
+
+export const getMedia =
+  navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.msGetUserMedia

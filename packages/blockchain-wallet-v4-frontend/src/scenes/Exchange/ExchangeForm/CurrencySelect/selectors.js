@@ -21,6 +21,7 @@ const { formatPair } = model.rates
 const getCoinFullName = flip(prop)({
   BTC: 'Bitcoin',
   BCH: 'Bitcoin Cash',
+  BSV: 'Bitcoin SV',
   ETH: 'Ether',
   XLM: 'Stellar'
 })

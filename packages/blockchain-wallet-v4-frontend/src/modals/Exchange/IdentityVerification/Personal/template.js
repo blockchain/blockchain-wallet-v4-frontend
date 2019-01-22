@@ -22,7 +22,9 @@ import {
   Button,
   HeartbeatLoader,
   Separator,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   DateInputBox,
@@ -37,8 +39,8 @@ import {
   IdentityVerificationForm,
   InputWrapper,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
   FaqFormMessage,
+  FaqHeaderHelper,
   FaqFormGroup,
   Label,
   Footer
@@ -115,6 +117,11 @@ const KycSeparator = styled(Separator)`
   max-width: 576px;
   width: calc(100% - 260px);
   margin: 32px 0;
+  ${media.mobile`
+    width: 100%;
+  `} ${media.tablet`
+    width: 100%;
+  `};
 `
 
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
@@ -143,7 +150,7 @@ const Personal = ({
   supportedCountries,
   states,
   countryCode,
-  showStateSelect,
+  countryIsUS,
   showStateError,
   showPersonal,
   activeField,
@@ -171,13 +178,16 @@ const Personal = ({
                     id='identityverification.personal.header'
                     defaultMessage='Personal Details'
                   />
+                  <FaqHeaderHelper>
+                    <TooltipHost id='identityverification.headerhelper'>
+                      <TooltipIcon
+                        name='question-in-circle-filled'
+                        color='brand-primary'
+                        size='24px'
+                      />
+                    </TooltipHost>
+                  </FaqHeaderHelper>
                 </IdentityVerificationHeader>
-                <IdentityVerificationSubHeader>
-                  <FormattedMessage
-                    id='identityverification.personal.subheader'
-                    defaultMessage='To get started, we need to verify your identity. It should only take a few minutes.'
-                  />
-                </IdentityVerificationSubHeader>
                 <FormContainer>
                   {showEmail &&
                     !emailVerified && (
@@ -233,7 +243,7 @@ const Personal = ({
                       />
                     </FormItem>
                   </FaqFormGroup>
-                  {showStateSelect && (
+                  {countryIsUS && (
                     <FaqFormGroup>
                       <FormItem>
                         <Label htmlFor='state'>
@@ -344,6 +354,7 @@ const Personal = ({
                           fullwidth
                           label
                           errorBottom
+                          countryIsUS={countryIsUS}
                           parse={objectToDOB}
                           format={DOBToObject}
                         />
@@ -375,34 +386,42 @@ const Personal = ({
                       <FaqFormGroup>
                         <FormItem>
                           <Label htmlFor='line1'>
-                            <FormattedMessage
-                              id='identityverification.personal.streetline1'
-                              defaultMessage='Street Line 1'
-                            />
+                            {countryIsUS ? (
+                              <FormattedMessage
+                                id='identityverification.personal.address_line1'
+                                defaultMessage='Address Line 1'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.streetline1'
+                                defaultMessage='Street Line 1'
+                              />
+                            )}
                           </Label>
                           <Field
                             name='line1'
                             errorBottom
                             validate={required}
                             component={TextBox}
-                            placeholder='Street Address'
                           />
                         </FormItem>
                       </FaqFormGroup>
                       <FaqFormGroup>
                         <FormItem>
                           <Label htmlFor='line2'>
-                            <FormattedMessage
-                              id='identityverification.personal.streetline2'
-                              defaultMessage='Street Line 2'
-                            />
+                            {countryIsUS ? (
+                              <FormattedMessage
+                                id='identityverification.personal.address_line2'
+                                defaultMessage='Address Line 2'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.streetline2'
+                                defaultMessage='Street Line 2'
+                              />
+                            )}
                           </Label>
-                          <Field
-                            name='line2'
-                            errorBottom
-                            component={TextBox}
-                            placeholder='Apartment, unit, floor, etc..'
-                          />
+                          <Field name='line2' errorBottom component={TextBox} />
                         </FormItem>
                       </FaqFormGroup>
                       <FaqFormGroup>
@@ -421,48 +440,73 @@ const Personal = ({
                           />
                         </FormItem>
                       </FaqFormGroup>
-                      {!showStateSelect && (
+                      {!countryIsUS && (
+                        <FaqFormGroup>
+                          <PersonalItem>
+                            <PersonalField>
+                              <Label htmlFor='state'>
+                                <FormattedMessage
+                                  id='identityverification.personal.region'
+                                  defaultMessage='Region'
+                                />
+                              </Label>
+                              <Field
+                                name='state'
+                                errorBottom
+                                validate={required}
+                                countryCode={countryCode}
+                                component={TextBox}
+                              />
+                            </PersonalField>
+                            <PersonalField>
+                              <Label htmlFor='postCode'>
+                                {countryUsesZipcode(countryCode) ? (
+                                  <FormattedMessage
+                                    id='identityverification.personal.zipcode'
+                                    defaultMessage='Zip Code'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    id='identityverification.personal.postcode'
+                                    defaultMessage='Postcode'
+                                  />
+                                )}
+                              </Label>
+                              <Field
+                                name='postCode'
+                                errorBottom
+                                validate={requiredZipCode}
+                                component={TextBox}
+                              />
+                            </PersonalField>
+                          </PersonalItem>
+                        </FaqFormGroup>
+                      )}
+                      {countryIsUS && (
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='state'>
-                              <FormattedMessage
-                                id='identityverification.personal.region'
-                                defaultMessage='Region'
-                              />
+                            <Label htmlFor='postCode'>
+                              {countryUsesZipcode(countryCode) ? (
+                                <FormattedMessage
+                                  id='identityverification.personal.zipcode'
+                                  defaultMessage='Zip Code'
+                                />
+                              ) : (
+                                <FormattedMessage
+                                  id='identityverification.personal.postcode'
+                                  defaultMessage='Postcode'
+                                />
+                              )}
                             </Label>
                             <Field
-                              name='state'
+                              name='postCode'
                               errorBottom
-                              validate={required}
-                              countryCode={countryCode}
+                              validate={requiredZipCode}
                               component={TextBox}
                             />
                           </FormItem>
                         </FaqFormGroup>
                       )}
-                      <FaqFormGroup>
-                        <FormItem>
-                          <Label htmlFor='postCode'>
-                            {countryUsesZipcode(countryCode) ? (
-                              <FormattedMessage
-                                id='identityverification.personal.zipcode'
-                                defaultMessage='Zip Code'
-                              />
-                            ) : (
-                              <FormattedMessage
-                                id='identityverification.personal.postcode'
-                                defaultMessage='Postcode'
-                              />
-                            )}
-                          </Label>
-                          <Field
-                            name='postCode'
-                            errorBottom
-                            validate={requiredZipCode}
-                            component={TextBox}
-                          />
-                        </FormItem>
-                      </FaqFormGroup>
                     </AddressWrapper>
                   )}
                 </FormContainer>

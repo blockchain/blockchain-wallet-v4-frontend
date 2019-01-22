@@ -25,6 +25,7 @@ import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBtcAddresses from './SelectBoxBtcAddresses'
 import SelectBoxBchAddresses from './SelectBoxBchAddresses'
+import SelectBoxBsvAddresses from './SelectBoxBsvAddresses'
 import SelectBoxEthAddresses from './SelectBoxEthAddresses'
 import SelectBoxXlmAddresses from './SelectBoxXlmAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
@@ -70,6 +71,7 @@ export {
   SelectBox,
   SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
+  SelectBoxBsvAddresses,
   SelectBoxEthAddresses,
   SelectBoxXlmAddresses,
   SelectBoxCoin,

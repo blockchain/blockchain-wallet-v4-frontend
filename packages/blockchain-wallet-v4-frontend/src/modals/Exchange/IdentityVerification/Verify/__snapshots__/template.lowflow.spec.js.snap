@@ -12,17 +12,28 @@ exports[`HighFlow should render correctly 1`] = `
               id="identityverification.verify.header"
               values={Object {}}
             />
+            <IdentityVerification__FaqHeaderHelper>
+              <TooltipHost
+                id="identityverification.headerhelper"
+              >
+                <TooltipIcon
+                  color="brand-primary"
+                  name="question-in-circle-filled"
+                  size="24px"
+                />
+              </TooltipHost>
+              <templatelowflow__VerifyIdentityVerificationImage
+                name="identity-verification"
+              />
+            </IdentityVerification__FaqHeaderHelper>
           </IdentityVerification__IdentityVerificationHeader>
-          <IdentityVerification__IdentityVerificationImage
-            name="identity-verification"
-          />
-          <IdentityVerification__IdentityVerificationSubHeader>
+          <templatelowflow__VerifyIdentityVerificationSubHeader>
             <FormattedMessage
-              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
-              id="identityverification.verify.message"
+              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
+              id="identityverification.verify.message_with_cam"
               values={Object {}}
             />
-          </IdentityVerification__IdentityVerificationSubHeader>
+          </templatelowflow__VerifyIdentityVerificationSubHeader>
           <templatelowflow__DocumentsWrapper>
             <FormattedMessage
               defaultMessage="Government Issued Passport"
@@ -40,6 +51,54 @@ exports[`HighFlow should render correctly 1`] = `
               values={Object {}}
             />
           </templatelowflow__DocumentsWrapper>
+          <templatelowflow__SubInstructions>
+            <Text
+              altFont={false}
+              capitalize={false}
+              color="gray-5"
+              cursor="inherit"
+              italic={false}
+              opacity={1}
+              size="18px"
+              uppercase={false}
+              weight={400}
+            >
+              <FormattedMessage
+                defaultMessage="How do I enable my camera and microphone?"
+                id="identityverification.verify.how_to_camera_mic"
+                values={Object {}}
+              />
+            </Text>
+            <Text
+              altFont={false}
+              capitalize={false}
+              color="gray-5"
+              cursor="inherit"
+              italic={false}
+              opacity={1}
+              size="16px"
+              uppercase={false}
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="Click allow when prompted above or enable in your browser settings."
+                id="identityverification.verify.instructions"
+                values={Object {}}
+              />
+            </Text>
+            <Image
+              color="auto"
+              height="auto"
+              name="allow-camera"
+              srcset={
+                Object {
+                  "allow-camera2": "2x",
+                  "allow-camera3": "3x",
+                }
+              }
+              width="auto"
+            />
+          </templatelowflow__SubInstructions>
         </IdentityVerification__InputWrapper>
       </templatelowflow__VerifyWrapper>
     }

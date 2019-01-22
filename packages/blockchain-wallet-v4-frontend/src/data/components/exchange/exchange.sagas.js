@@ -113,7 +113,6 @@ export default ({ api, coreSagas, networks }) => {
         ['payload', 'limits', currency],
         yield take(AT.FETCH_LIMITS_SUCCESS)
       )
-
     return limitsR.map(prop(currency)).getOrFail(NO_LIMITS_ERROR)
   }
 

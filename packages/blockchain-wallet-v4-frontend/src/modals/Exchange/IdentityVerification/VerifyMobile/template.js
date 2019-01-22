@@ -8,7 +8,12 @@ import { model } from 'data'
 import { required, validMobileNumber } from 'services/FormHelper'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   FooterShadowWrapper,
   FormItem,
@@ -35,6 +40,11 @@ const FormContainer = styled.div`
 const ButtonFormItem = styled(FormItem)`
   display: flex;
   justify-content: flex-end;
+`
+const FaqHeaderHelper = styled.div`
+  position: absolute;
+  right: 0px;
+  top: 0px;
 `
 const {
   SMS_NUMBER_FORM,
@@ -113,6 +123,15 @@ const VerifyMobile = ({
                   id='identityverification.personal.mobile.header'
                   defaultMessage='Verify your Phone Number'
                 />
+                <FaqHeaderHelper>
+                  <TooltipHost id='identityverification.headerhelper'>
+                    <TooltipIcon
+                      name='question-in-circle-filled'
+                      color='brand-primary'
+                      size='24px'
+                    />
+                  </TooltipHost>
+                </FaqHeaderHelper>
               </IdentityVerificationHeader>
               <IdentityVerificationSubHeader>
                 <FormattedMessage

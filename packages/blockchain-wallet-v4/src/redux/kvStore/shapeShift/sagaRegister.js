@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, networks }) => {
   const kvStoreShapeshiftSagas = sagas({ api, networks })
 
-  return function*() {
+  return function* coreKvStoreShapeshiftSaga () {
     yield takeEvery(
       AT.FETCH_SHAPESHIFT_TRADE,
       kvStoreShapeshiftSagas.fetchShapeshiftTrade

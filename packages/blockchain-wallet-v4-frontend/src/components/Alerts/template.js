@@ -665,6 +665,20 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Your bitcoin cash transaction is now pending'
         />
       )
+    case C.SEND_BSV_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_error'
+          defaultMessage='Your Bitcoin SV transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_BSV_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_success'
+          defaultMessage='Your Bitcoin SV transaction is now pending'
+        />
+      )
     case C.SEND_BTC_ERROR:
       return (
         <FormattedMessage

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 
 import { model } from 'data'
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 import {
   Banner,
   Button,
@@ -51,7 +52,8 @@ const FirstStep = props => {
     handleSubmit,
     totalFee,
     pristine,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = props
   const disableLockboxSend =
     from &&
@@ -85,11 +87,12 @@ const FirstStep = props => {
           <Field
             name='from'
             coin='BCH'
-            component={SelectBoxBchAddresses}
             includeAll={false}
-            excludeWatchOnly
-            excludeLockbox={excludeLockbox}
             validate={[required]}
+            component={SelectBoxBchAddresses}
+            excludeHDWallets={excludeHDWallets}
+            excludeLockbox={excludeLockbox}
+            excludeWatchOnly
           />
         </FormItem>
       </FormGroup>
@@ -130,6 +133,7 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validBitcoinCashAddress]}
                 autoFocus
               />
@@ -200,8 +204,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendBch.firststep.fee'
-              defaultMessage='Transaction fee:'
+              id='modals.sendBch.firststep.txfee'
+              defaultMessage='Transaction Fee:'
             />
           </FormLabel>
           <ComboDisplay coin='BCH'>{totalFee}</ComboDisplay>

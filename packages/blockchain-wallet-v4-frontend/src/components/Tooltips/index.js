@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Tooltip, Link, TextGroup } from 'blockchain-info-components'
+import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
 class Tooltips extends React.PureComponent {
   render () {
@@ -194,6 +194,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendBsv.firststep.share_tooltip'>
+          <FormattedMessage
+            id='modals.sendBsv.firststep.share_tooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
         <Tooltip id='sendxlm.addr' maxWidth='initial' />
         <Tooltip id='signmessage.label.tooltip'>
           <FormattedMessage
@@ -202,11 +208,13 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='swaplimit.airdrops.tooltip'>
-          <TextGroup inline>
-            <FormattedMessage
-              id='scenes.profile.identityverification.swaplimit.airdrops'
-              defaultMessage='By completing Tier 2 you are automatically eligible for our airdrop program.'
-            />
+          <TextGroup size='12px' inline>
+            <Text color='white' weight={300} size='12px'>
+              <FormattedMessage
+                id='scenes.profile.identityverification.swaplimit.airdrops'
+                defaultMessage='By completing Tier 2 you are automatically eligible for our airdrop program.'
+              />
+            </Text>
             <Link
               size='12px'
               weight={300}
@@ -255,6 +263,27 @@ class Tooltips extends React.PureComponent {
             id='txlist.change.tooltip.description'
             defaultMessage='This change address belongs to your wallet'
           />
+        </Tooltip>
+        <Tooltip id='identityverification.headerhelper'>
+          <TextGroup inline>
+            <Text color='white' weight={300} size='12px'>
+              <FormattedMessage
+                id='identityverification.tooltip.headerhelper'
+                defaultMessage='Need help verifying your identity?'
+              />
+            </Text>
+            <Link
+              size='12px'
+              weight={300}
+              href='https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000186571'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='identityverification.tooltip.headerhelper.contactsupport'
+                defaultMessage='Contact support.'
+              />
+            </Link>
+          </TextGroup>
         </Tooltip>
       </div>
     )
