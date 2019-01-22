@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { equals, gt, not, prop } from 'ramda'
-
-import { Media, Icon, Link, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
 

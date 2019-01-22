@@ -6,10 +6,10 @@ import { connect } from 'react-redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { Button, Media, Text, TextGroup, Icon } from 'blockchain-info-components'
+import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-
 import { TIERS } from './model'
 import { messages, limits, status } from './services'
 

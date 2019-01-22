@@ -6,8 +6,8 @@ import { contains, head, last } from 'ramda'
 
 import { model } from 'data'
 import { formatTextAmount } from 'services/ValidationHelper'
-
-import { Banner, Icon, Media, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'

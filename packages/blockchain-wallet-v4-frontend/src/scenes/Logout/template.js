@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Button, Media, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 550px;

@@ -7,8 +7,8 @@ import { spacing } from 'services/StyleService'
 import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path } from 'ramda'
-
-import { Button, HeartbeatLoader, Link, Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import {
   Form,
   CancelWrapper,

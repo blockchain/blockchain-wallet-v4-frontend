@@ -8,11 +8,11 @@ import { prop } from 'ramda'
 import {
   Button,
   HeartbeatLoader,
-  Media,
   Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const FileContainer = styled.div`
   display: flex;

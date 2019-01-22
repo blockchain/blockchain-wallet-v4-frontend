@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;

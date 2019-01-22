@@ -17,7 +17,7 @@ import {
   ColRightInner,
   Row
 } from 'components/IdentityVerification'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;

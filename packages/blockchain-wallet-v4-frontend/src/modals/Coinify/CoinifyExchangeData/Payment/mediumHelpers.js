@@ -2,11 +2,12 @@ import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
-import { Media, Text, Icon, Link } from 'blockchain-info-components'
+import { Text, Icon, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path, prop } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;

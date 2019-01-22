@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Footer from './Footer'
 import Navigation from './Navigation'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 export const Container = styled.div`
   display: flex;

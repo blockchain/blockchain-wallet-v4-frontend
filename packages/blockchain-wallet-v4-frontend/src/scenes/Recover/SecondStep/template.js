@@ -13,8 +13,7 @@ import {
   Link,
   HeartbeatLoader,
   Separator,
-  Text,
-  Media
+  Text
 } from 'blockchain-info-components'
 import {
   CheckBox,
@@ -25,6 +24,7 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 40px;

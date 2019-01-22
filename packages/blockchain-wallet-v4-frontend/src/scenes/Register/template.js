@@ -17,8 +17,7 @@ import {
   HeartbeatLoader,
   Separator,
   Text,
-  TextGroup,
-  Media
+  TextGroup
 } from 'blockchain-info-components'
 import {
   CheckBox,
@@ -30,6 +29,7 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import Media from 'services/ResponsiveService'
 
 const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie

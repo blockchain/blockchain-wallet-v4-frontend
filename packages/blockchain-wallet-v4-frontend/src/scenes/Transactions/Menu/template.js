@@ -4,13 +4,14 @@ import { Field, reduxForm } from 'redux-form'
 import { contains, flatten, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { ComponentDropdown, Media, Icon, Link, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
+import Media from 'services/ResponsiveService'
 
 const { WALLET_TX_SEARCH } = model.form
 

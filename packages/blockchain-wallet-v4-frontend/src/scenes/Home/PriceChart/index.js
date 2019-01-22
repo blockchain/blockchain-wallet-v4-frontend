@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import { Media, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Text } from 'blockchain-info-components'
 import Chart from './Chart'
 import CoinFilters from './CoinFilters'
 import TimeFilters from './TimeFilters'

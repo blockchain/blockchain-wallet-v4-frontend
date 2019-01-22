@@ -5,11 +5,11 @@ import { LinkContainer } from 'react-router-bootstrap'
 import {
   Button,
   Link,
-  Media,
   Separator,
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 40px;

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;

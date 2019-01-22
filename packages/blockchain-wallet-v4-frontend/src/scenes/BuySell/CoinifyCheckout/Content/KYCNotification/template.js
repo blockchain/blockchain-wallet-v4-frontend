@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Text, Button, Media } from 'blockchain-info-components'
+import { Text, Button } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
   kycNotificationBodyHelper,
@@ -9,6 +9,7 @@ import {
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
 import { path } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 const ISXContainer = styled.div`
   display: flex;

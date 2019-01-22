@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media, Modal } from 'blockchain-info-components'
+import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
+import Media from 'services/ResponsiveService'
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
 export const duration = 500

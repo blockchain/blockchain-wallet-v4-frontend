@@ -7,12 +7,12 @@ import { required, validEmail, validWalletId } from 'services/FormHelper'
 import {
   Button,
   Link,
-  Media,
   Separator,
   Text,
   TextGroup
 } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 30px;

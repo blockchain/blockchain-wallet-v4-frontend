@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text, Media } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import { FormattedMessage } from 'react-intl'
 
 const reveal = keyframes`

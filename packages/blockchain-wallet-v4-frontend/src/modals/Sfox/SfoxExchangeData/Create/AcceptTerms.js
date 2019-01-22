@@ -11,7 +11,6 @@ import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
-  Media,
   Text,
   Link,
   Icon
@@ -31,6 +30,7 @@ import {
 } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
+import Media from 'services/ResponsiveService'
 
 const FaqWrapper = styled.div``
 

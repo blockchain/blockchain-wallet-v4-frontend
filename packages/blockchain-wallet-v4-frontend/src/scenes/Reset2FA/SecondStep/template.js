@@ -6,13 +6,13 @@ import { required } from 'services/FormHelper'
 import {
   Button,
   HeartbeatLoader,
-  Media,
   Link,
   Separator,
   Text
 } from 'blockchain-info-components'
 import { CaptchaBox, Form } from 'components/Form'
 import { FormGroup } from '../../../components/Form'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 40px;

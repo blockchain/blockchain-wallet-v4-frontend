@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { lighten } from 'polished'
-
-import { Button, Icon, Link, Media, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { coinProps } from './model'
 
 const Wrapper = styled.div`

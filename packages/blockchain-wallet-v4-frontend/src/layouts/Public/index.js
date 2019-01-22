@@ -9,7 +9,7 @@ import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 injectGlobal`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
   html, body {overflow: hidden;}

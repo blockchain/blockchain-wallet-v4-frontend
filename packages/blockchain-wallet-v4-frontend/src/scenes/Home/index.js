@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'

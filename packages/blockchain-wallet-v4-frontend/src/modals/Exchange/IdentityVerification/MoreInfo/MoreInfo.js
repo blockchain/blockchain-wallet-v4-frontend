@@ -2,9 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-
+import Media from 'services/ResponsiveService'
 import { actions } from 'data'
-import { Media, Button } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,

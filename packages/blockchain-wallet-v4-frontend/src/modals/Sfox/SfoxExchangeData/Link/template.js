@@ -2,14 +2,14 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Button, HeartbeatLoader, Link, Media, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
 import { Remote } from 'blockchain-wallet-v4/src'
-
+import Media from 'services/ResponsiveService'
 import renderFaq from 'components/FaqDropdown'
 import {
   ColLeft,

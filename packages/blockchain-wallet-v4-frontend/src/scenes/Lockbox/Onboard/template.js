@@ -8,9 +8,9 @@ import {
   Icon,
   Image,
   Link,
-  Text,
-  Media
+  Text
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const containerWidth = '650px'
 const containerPadding = '25px'

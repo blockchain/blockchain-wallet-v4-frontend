@@ -12,11 +12,11 @@ import {
   Text,
   Link,
   Icon,
-  HeartbeatLoader,
-  Media
+  HeartbeatLoader
 } from 'blockchain-info-components'
 import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import Media from 'services/ResponsiveService'
 
 const StatusContainer = styled(TableCell)`
   display: flex;

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Text, Media } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 export const HomeBalanceTable = styled.div`

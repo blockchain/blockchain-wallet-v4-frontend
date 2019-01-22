@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import { Media, Text, IconButton } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Text, IconButton } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 const Wrapper = styled.div`

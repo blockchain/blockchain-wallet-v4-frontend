@@ -4,13 +4,13 @@ import styled from 'styled-components'
 
 import {
   Icon,
-  Media,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import TierCard from 'components/IdentityVerification/TierCard'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

@@ -4,13 +4,13 @@ import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import {
   Banner,
-  Media,
   TableCell,
   TableRow,
   Text,
   Link,
   ComponentDropdown
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const AddressTableCell = styled(TableCell)`
   display: flex;

@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Text, Link, Media } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-
+import Media from 'services/ResponsiveService'
 import {
   requiredSSN,
   requiredDOB,

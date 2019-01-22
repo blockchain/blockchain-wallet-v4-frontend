@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import { Button, HeartbeatLoader, Icon, Text, Media } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import TextBox from '../TextBox'
 
 const Container = styled.div``

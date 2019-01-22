@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-
+import Media from 'services/ResponsiveService'
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
-import { Button, Media } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,

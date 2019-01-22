@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Media, Text, Button, Link } from 'blockchain-info-components'
+import { Text, Button, Link } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
 import { reduxForm } from 'redux-form'
 import {
@@ -20,6 +20,7 @@ import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from './Choices'
 import { spacing } from 'services/StyleService'
+import Media from 'services/ResponsiveService'
 
 const pulseAnimation = keyframes`${pulse}`
 

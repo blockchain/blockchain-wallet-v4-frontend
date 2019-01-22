@@ -6,13 +6,13 @@ import QRReader from 'components/QRReader'
 import {
   Badge,
   Link,
-  Media,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Text
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Container = styled.div`
   display: flex;

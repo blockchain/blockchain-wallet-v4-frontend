@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { contains, path, prop } from 'ramda'
 
-import { Button, Media } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-
+import Media from 'services/ResponsiveService'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'

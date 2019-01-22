@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
-  Media,
   Modal,
   ModalHeader,
   ModalBody,
@@ -12,6 +11,7 @@ import {
   TextGroup,
   Text
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;

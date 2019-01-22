@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-
+import Media from 'services/ResponsiveService'
 import { model } from 'data'
-import { Media, TableCell, TableRow, Text, Link } from 'blockchain-info-components'
+import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 

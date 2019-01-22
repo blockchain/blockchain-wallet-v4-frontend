@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import Tabs from './Tabs'
 import Table from './Table'
 
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   ${Media.mobile`
     height: 400px;
-  `}
+  `};
 `
 
 const BalancesTable = props => {

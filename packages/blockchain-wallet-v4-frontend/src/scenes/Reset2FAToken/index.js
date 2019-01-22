@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 550px;

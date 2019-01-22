@@ -14,7 +14,8 @@ import EthBalance from './WalletBalance/EthBalance'
 import XlmBalance from './WalletBalance/XlmBalance'
 import CurrencySwitch from './CurrencySwitch'
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Media, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

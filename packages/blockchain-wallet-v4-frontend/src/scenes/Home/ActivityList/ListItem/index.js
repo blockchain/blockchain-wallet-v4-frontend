@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {
   Icon,
-  Media,
   SkeletonCircle,
   Text,
   TooltipHost
 } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import Media from 'services/ResponsiveService'
 
 const Container = styled.div`
   position: relative;

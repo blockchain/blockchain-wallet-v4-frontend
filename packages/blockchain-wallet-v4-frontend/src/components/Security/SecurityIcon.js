@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Media } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Circle = styled.div`
   justify-content: center;

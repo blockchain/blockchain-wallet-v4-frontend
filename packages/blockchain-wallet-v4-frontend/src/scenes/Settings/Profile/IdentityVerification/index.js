@@ -3,12 +3,12 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
-  Media,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
 import TierCard from 'components/IdentityVerification/TierCard'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

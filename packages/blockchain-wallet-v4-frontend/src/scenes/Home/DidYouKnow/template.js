@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { Media, Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
+import { Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const DidYouKnowWrapper = styled.div`
   & > * {

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link, Icon, Text, Media } from 'blockchain-info-components'
+import { Link, Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Container = styled.div`
   display: flex;

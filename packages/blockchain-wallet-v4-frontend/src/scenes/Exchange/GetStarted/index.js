@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import { Image, Text, Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Image, Text } from 'blockchain-info-components'
 import StatusBar from './StatusBar'
 
 const Wrapper = styled.div`

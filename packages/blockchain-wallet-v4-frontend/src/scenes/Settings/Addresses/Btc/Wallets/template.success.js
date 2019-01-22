@@ -12,10 +12,10 @@ import {
   TableRow,
   Text,
   IconButton,
-  Link,
-  Media
+  Link
 } from 'blockchain-info-components'
 import { take, filter } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

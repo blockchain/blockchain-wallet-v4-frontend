@@ -8,7 +8,6 @@ import {
   Button,
   HeartbeatLoader,
   Link,
-  Media,
   Separator,
   Text,
   TextGroup
@@ -21,6 +20,7 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 40px;

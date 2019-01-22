@@ -12,10 +12,10 @@ import {
   TableRow,
   Text,
   Link,
-  Media,
   Icon,
   Button
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const ToggleIcon = styled(Icon)`
   cursor: pointer;

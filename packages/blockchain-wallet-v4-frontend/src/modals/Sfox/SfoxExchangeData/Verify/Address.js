@@ -7,10 +7,9 @@ import {
   Text,
   Button,
   HeartbeatLoader,
-  Banner,
-  Media
+  Banner
 } from 'blockchain-info-components'
-
+import Media from 'services/ResponsiveService'
 import {
   required,
   requiredUsZipcode,

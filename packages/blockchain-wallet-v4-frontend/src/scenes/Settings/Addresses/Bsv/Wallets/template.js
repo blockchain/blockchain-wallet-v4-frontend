@@ -8,13 +8,13 @@ import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
   Link,
-  Media,
   Table,
   TableHeader,
   TableCell,
   TableRow,
   Text
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

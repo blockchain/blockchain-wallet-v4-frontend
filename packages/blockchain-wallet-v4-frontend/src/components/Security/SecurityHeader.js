@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+
 const SecurityHeader = styled.div`
   display: flex;
   flex-direction: row;

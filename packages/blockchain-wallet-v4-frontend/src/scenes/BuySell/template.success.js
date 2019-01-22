@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { concat, equals, path, prop } from 'ramda'
-
-import { Text, Button, Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Text, Button } from 'blockchain-info-components'
 import {
   FormGroup,
   FormItem,

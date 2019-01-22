@@ -6,9 +6,9 @@ import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import { formValueSelector, Field } from 'redux-form'
-
+import Media from 'services/ResponsiveService'
 import { PhoneNumberBox, TextBox } from 'components/Form'
-import { Media, Text, Button } from 'blockchain-info-components'
+import { Text, Button } from 'blockchain-info-components'
 import {
   required,
   normalizePhone,

@@ -10,10 +10,11 @@ import { selectors } from 'data'
 import Create from './Create'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
-import { Media, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
+import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 const HeaderWrapper = styled.div`
   display: flex;

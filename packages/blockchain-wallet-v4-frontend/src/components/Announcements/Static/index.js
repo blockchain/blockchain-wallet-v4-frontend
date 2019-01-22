@@ -6,7 +6,7 @@ import { actions, model } from 'data'
 import { getData } from './selectors'
 import EmailReminder from './template.email'
 import SunRiverKycReminder from './template.sunriver'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;

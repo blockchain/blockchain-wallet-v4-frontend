@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Media } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const SecuritySummary = styled.div`
   display: flex;

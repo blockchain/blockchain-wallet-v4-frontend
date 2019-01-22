@@ -9,10 +9,10 @@ import {
   Link,
   Separator,
   Text,
-  TextGroup,
-  Media
+  TextGroup
 } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding: 40px;

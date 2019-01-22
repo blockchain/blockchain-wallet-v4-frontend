@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Media, Button, Link } from 'blockchain-info-components'
+import { Text, Button, Link } from 'blockchain-info-components'
 import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
-
+import Media from 'services/ResponsiveService'
 import CameraContainer from './camera'
 import TitleStrings from './strings'
 import {

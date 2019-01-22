@@ -9,8 +9,8 @@ import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
-import { Media, Text, Button } from 'blockchain-info-components'
-
+import { Text, Button } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import { required } from 'services/FormHelper'
 import {
   Form,

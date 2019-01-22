@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Toast, Media } from 'blockchain-info-components'
+import { Toast } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import * as C from 'services/AlertService'
 
 const Wrapper = styled.div`

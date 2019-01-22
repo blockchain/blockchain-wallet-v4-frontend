@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { prop, head } from 'ramda'
-import { Media, Text, TooltipHost, Icon } from 'blockchain-info-components'
+import { Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import Media from 'services/ResponsiveService'
 
 const RecurringTradeWrapper = styled.div`
   display: flex;

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media, SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const BalanceSkeleton = styled.div`
   flex: 1;

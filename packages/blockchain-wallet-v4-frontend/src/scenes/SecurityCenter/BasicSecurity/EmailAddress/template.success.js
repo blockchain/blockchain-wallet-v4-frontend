@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-import { Button, Media, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import {
   SecurityComponent,
   SecurityContainer,
@@ -12,7 +12,7 @@ import {
   SecuritySummary,
   IconContainer
 } from 'components/Security'
-
+import Media from 'services/ResponsiveService'
 import ChangeEmailSteps from './ChangeEmailSteps'
 
 const EmailExplanation = styled.div``

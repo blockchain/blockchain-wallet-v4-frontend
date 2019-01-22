@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-
-import { Media, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Text } from 'blockchain-info-components'
 import { CheckBox } from 'components/Form'
 
 const Wrapper = styled.div`

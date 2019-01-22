@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import { Media, Icon, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import Media from 'services/ResponsiveService'
 
 const Tabs = styled.div`
   display: flex;

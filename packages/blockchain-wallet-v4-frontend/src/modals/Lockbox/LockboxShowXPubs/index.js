@@ -5,14 +5,13 @@ import { keys } from 'ramda'
 import styled from 'styled-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { FormattedMessage } from 'react-intl'
-
+import Media from 'services/ResponsiveService'
 import { actions } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Banner,
   Icon,
-  Media,
   Modal,
   ModalHeader,
   ModalBody,

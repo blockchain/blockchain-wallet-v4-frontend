@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Link, Icon, Media, TooltipHost } from 'blockchain-info-components'
+import { Link, Icon, TooltipHost } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const FaqLink = styled(Link)`
   position: relative;

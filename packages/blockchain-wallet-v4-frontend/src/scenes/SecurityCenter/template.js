@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-
-import { Media, Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
+import { Icon, Text } from 'blockchain-info-components'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`

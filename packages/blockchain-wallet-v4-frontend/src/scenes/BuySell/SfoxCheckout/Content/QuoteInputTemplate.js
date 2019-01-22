@@ -7,7 +7,8 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { Icon, Media, TextInput, Text, Button } from 'blockchain-info-components'
+import { Icon, TextInput, Text, Button } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;

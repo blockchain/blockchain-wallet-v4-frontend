@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Media, Image, Text, Button } from 'blockchain-info-components'
+import { Image, Text, Button } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 import PropTypes from 'prop-types'
 import { PartnerHeader } from 'components/IdentityVerification'
 

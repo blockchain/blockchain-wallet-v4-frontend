@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Icon, Image, Link, Text, Media } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { coinProps } from './model'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   padding-top: 50px;
