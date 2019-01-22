@@ -13,9 +13,7 @@ const {
   formatPair,
   FIX_TYPES,
   coinActive,
-  fiatActive,
-  sourceActive,
-  targetActive
+  fiatActive
 } = model.rates
 const { BASE_IN_FIAT } = FIX_TYPES
 
@@ -73,9 +71,7 @@ export const getData = createDeepEqualSelector(
         fix,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
-        sourceActive: sourceActive(fix),
         sourceCoin,
-        targetActive: targetActive(fix),
         targetCoin,
         volume
       }
