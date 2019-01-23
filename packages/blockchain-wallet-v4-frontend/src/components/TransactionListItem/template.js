@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import moment from 'moment'
 import {
   Banner,
-  Media,
   Text,
   TooltipIcon,
   TooltipHost
@@ -22,6 +21,7 @@ import Status from './Status'
 import PartnerLabel from './PartnerLabel'
 import { prop } from 'ramda'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import Media from 'services/ResponsiveService'
 
 const TransactionRowContainer = styled.div`
   position: relative;

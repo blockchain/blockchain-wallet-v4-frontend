@@ -12,8 +12,7 @@ import {
   Text,
   TextGroup,
   Link,
-  Icon,
-  Media
+  Icon
 } from 'blockchain-info-components'
 import {
   Form,
@@ -28,6 +27,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import { prop } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 export const EMAIL_IN_USE_ERROR = 'email_address_and_partner_id_in_use'
 

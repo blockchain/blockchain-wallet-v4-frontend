@@ -6,6 +6,7 @@ import * as bowser from 'bowser'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,9 +25,9 @@ const Wrapper = styled.div`
   * {
     cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
   }
-  @media (max-width: 770px) {
+  ${Media.tablet`
     margin-right: 15px;
-  }
+  `};
   &:last-child {
     margin-right: 0;
   }

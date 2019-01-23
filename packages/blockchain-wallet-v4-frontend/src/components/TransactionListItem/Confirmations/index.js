@@ -6,11 +6,11 @@ import { toString } from 'ramda'
 import {
   Icon,
   Link,
-  Media,
   Text,
   TooltipHost,
   Tooltip
 } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
