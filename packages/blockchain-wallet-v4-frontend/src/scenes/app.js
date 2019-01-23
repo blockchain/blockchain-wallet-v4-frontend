@@ -3,6 +3,8 @@ import { Redirect, Switch } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
+import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
@@ -18,8 +20,6 @@ import ExchangeProfile from './ExchangeProfile'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
-import LockboxDashboard from './Lockbox/Dashboard'
-import LockboxOnboard from './Lockbox/Onboard'
 import Login from './Login'
 import Logout from './Logout'
 import Recover from './Recover'
@@ -36,6 +36,11 @@ import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import Transactions from './Transactions'
+
+const GlobalStyle = createGlobalStyle`
+  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
+  html, body {overflow: hidden;}
+`
 
 class App extends React.PureComponent {
   render () {
@@ -128,22 +133,7 @@ class App extends React.PureComponent {
                       path='/settings/general'
                       component={General}
                     />
-                    <WalletLayout path='/lockbox' component={Lockbox} exact />
-                    <WalletLayout
-                      path='/lockbox/dashboard/:deviceIndex'
-                      component={LockboxDashboard}
-                      exact
-                    />
-                    <WalletLayout
-                      path='/lockbox/onboard'
-                      component={LockboxOnboard}
-                      exact
-                    />
-                    <WalletLayout
-                      path='/lockbox/settings/:deviceIndex'
-                      component={LockboxDashboard}
-                      exact
-                    />
+                    <WalletLayout path='/lockbox' component={Lockbox} />
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
@@ -151,6 +141,9 @@ class App extends React.PureComponent {
                     )}
                   </Switch>
                 </ConnectedRouter>
+                <FontGlobalStyles />
+                <IconGlobalStyles />
+                <GlobalStyle />
               </MediaContextProvider>
             </ThemeProvider>
           </PersistGate>

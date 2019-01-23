@@ -20,7 +20,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
+const BitcoinWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -98,8 +98,8 @@ const Success = ({
         >
           {wallet.archived ? (
             <Link
-              weight={200}
-              size='small'
+              weight={400}
+              size='13px'
               onClick={() => onUnarchive(wallet.index)}
             >
               <FormattedMessage

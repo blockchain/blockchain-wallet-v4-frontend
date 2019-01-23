@@ -212,7 +212,7 @@ export const isValidBitcoinPrivateKey = (value, network) => {
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
   const effectiveBalance = propOr(0, 'value', head(outputs))
-  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
+  const balance = new BigNumber.sum(effectiveBalance, new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }
 

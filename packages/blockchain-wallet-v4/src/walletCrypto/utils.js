@@ -8,8 +8,8 @@ export const BLOCK_BIT_LEN = 128
 
 export const NoPadding = {
   /*
-  *   Does nothing
-  */
+   *   Does nothing
+   */
 
   pad: function (dataBytes) {
     return dataBytes
@@ -22,9 +22,9 @@ export const NoPadding = {
 
 export const ZeroPadding = {
   /*
-  *   Fills remaining block space with 0x00 bytes
-  *   May cause issues if data ends with any 0x00 bytes
-  */
+   *   Fills remaining block space with 0x00 bytes
+   *   May cause issues if data ends with any 0x00 bytes
+   */
 
   pad: function (dataBytes, nBytesPerBlock) {
     let nPaddingBytes = nBytesPerBlock - (dataBytes.length % nBytesPerBlock)
@@ -40,9 +40,9 @@ export const ZeroPadding = {
 
 export const Iso10126 = {
   /*
-  *   Fills remaining block space with random byte values, except for the
-  *   final byte, which denotes the byte length of the padding
-  */
+   *   Fills remaining block space with random byte values, except for the
+   *   final byte, which denotes the byte length of the padding
+   */
   pad: function (dataBytes, nBytesPerBlock) {
     let nPaddingBytes = nBytesPerBlock - (dataBytes.length % nBytesPerBlock)
     let paddingBytes = crypto.randomBytes(nPaddingBytes - 1)
@@ -59,9 +59,9 @@ export const Iso10126 = {
 
 export const Iso97971 = {
   /*
-  *   Fills remaining block space with 0x00 bytes following a 0x80 byte,
-  *   which serves as a mark for where the padding begins
-  */
+   *   Fills remaining block space with 0x00 bytes following a 0x80 byte,
+   *   which serves as a mark for where the padding begins
+   */
 
   pad: function (dataBytes, nBytesPerBlock) {
     let withStartByte = Buffer.concat([dataBytes, Buffer.from([0x80])])
@@ -80,10 +80,10 @@ export const AES = {
   ECB: 'aes-256-ecb',
 
   /*
-  *   Encrypt / Decrypt with aes-256
-  *   - dataBytes, key, and salt are expected to be buffers
-  *   - default options are mode=CBC and padding=auto (PKCS7)
-  */
+   *   Encrypt / Decrypt with aes-256
+   *   - dataBytes, key, and salt are expected to be buffers
+   *   - default options are mode=CBC and padding=auto (PKCS7)
+   */
 
   encrypt: function (dataBytes, key, salt, options) {
     options = options || {}

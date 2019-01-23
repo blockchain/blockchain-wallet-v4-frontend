@@ -3,7 +3,6 @@ import { indexBy, path, prop, append } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
 import { fromCashAddr } from '../../../utils/bsv'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -247,19 +246,15 @@ describe('bsv data sagas', () => {
       saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
     })
 
-    it('should select wallet context', () => {
-      saga.next().select(selectors.wallet.getWalletContext)
-    })
-
     it('should select full context', () => {
-      saga.next(mockContext).select(S.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should call fetchBsvData', () => {
       saga.next(mockContext).call(api.fetchBsvData, mockContext, {
-        n: 10,
+        n: 5,
         onlyShow: fromCashAddr(CASH_ADDR_ADDRESS),
-        offset: 10
+        offset: 5
       })
     })
 
@@ -307,7 +302,6 @@ describe('bsv data sagas', () => {
         })
           .withReducer(reducers)
           .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
             [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
@@ -334,7 +328,6 @@ describe('bsv data sagas', () => {
             }
           })
           .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
             [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])

@@ -3,7 +3,6 @@ import { indexBy, length, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
 import {
   TX_PER_PAGE,
   BSV_FORK_TIME,
@@ -62,12 +61,11 @@ export default ({ api }) => {
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
       const data = yield call(api.fetchBsvData, context, {
         n: TX_PER_PAGE,
-        onlyShow: convertedAddress || walletContext.join('|'),
+        onlyShow: convertedAddress || null,
         offset
       })
       const filteredTxs = data.txs.filter(tx => tx.time > BSV_FORK_TIME)

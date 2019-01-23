@@ -67,7 +67,8 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "config": {
           "network": "bitcoin"
@@ -78,7 +79,17 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
+        }
+      },
+      "bsv": {
+        "availability": {
+          "send": true,
+          "request": false,
+          "lockbox": false,
+          "exchangeTo": false,
+          "exchangeFrom": true
         }
       },
       "eth": {
@@ -86,11 +97,12 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "lastTxFuse": 86400,
         "config": {
-          "network": "mainnet"
+          "network": 1
         }
       },
       "xlm": {
@@ -98,7 +110,8 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "config": {
           "network": "public"
@@ -153,9 +166,9 @@
           "CH"
         ],
         "config": {
-          "partnerId": 19,
-          "production": true,
-          "iSignThisDomain": "https://verify.isignthis.com"
+          "partnerId": 24,
+          "production": false,
+          "iSignThisDomain": "https://stage-verify.isignthis.com"
         }
       },
       "sfox": {
@@ -191,7 +204,7 @@
         ],
         "config": {
           "production": false,
-          "apiKey": "6fbfb80536564af8bbedb7e3be4ec439",
+          "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
           "plaidEnv": "sandbox",
           "siftScience": "a19cc360a1"

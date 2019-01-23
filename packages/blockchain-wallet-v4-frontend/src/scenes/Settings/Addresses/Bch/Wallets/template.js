@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BchWalletsAddressesSettingHeader = SettingHeader.extend`
+const BchWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -97,20 +97,31 @@ const Success = props => {
           width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <ComponentDropdown
-            down
-            forceSelected
-            color={'gray-5'}
-            selectedComponent={
-              <Link weight={400} size='13px'>
-                <FormattedMessage
-                  id='scenes.settings.addresses.bch.wallets.manage'
-                  defaultMessage='Manage Wallet'
-                />
-              </Link>
-            }
-            components={[
-              !isArchived && (
+          {isArchived ? (
+            <Link
+              weight={400}
+              size='13px'
+              onClick={() => onSetArchived(wallet.value, false)}
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.bch.unarchive'
+                defaultMessage='Unarchive'
+              />
+            </Link>
+          ) : (
+            <ComponentDropdown
+              down
+              forceSelected
+              color={'gray-5'}
+              selectedComponent={
+                <Link weight={400} size='13px'>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.wallets.manage'
+                    defaultMessage='Manage Wallet'
+                  />
+                </Link>
+              }
+              components={[
                 <ClickableText
                   size='small'
                   onClick={() => onEditBchAccountLabel(wallet.value)}
@@ -119,10 +130,8 @@ const Success = props => {
                     id='scenes.settings.addresses.bch.edit_name'
                     defaultMessage='Edit Wallet Name'
                   />
-                </ClickableText>
-              ),
-              !isDefault &&
-                !isArchived && (
+                </ClickableText>,
+                !isDefault && !isArchived && (
                   <ClickableText
                     size='small'
                     onClick={() => onMakeDefault(wallet.value)}
@@ -133,52 +142,53 @@ const Success = props => {
                     />
                   </ClickableText>
                 ),
-              !isDefault &&
-                (isArchived ? (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onSetArchived(wallet.value, false)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.unarchive'
-                      defaultMessage='Unarchive'
-                    />
-                  </ClickableText>
-                ) : (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onSetArchived(wallet.value, true)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.archive'
-                      defaultMessage='Archive'
-                    />
-                  </ClickableText>
-                )),
-              !isArchived && (
-                <ClickableText
-                  size='small'
-                  onClick={() => onShowXPub(wallet.value)}
-                >
-                  <FormattedMessage
-                    id='scenes.settings.addresses.bch.show_xpub'
-                    defaultMessage='Show xPub'
-                  />
-                </ClickableText>
-              ),
-              !isArchived && (
-                <ClickableText
-                  size='small'
-                  onClick={() => onShowChangeAddrs(wallet.value)}
-                >
-                  <FormattedMessage
-                    id='scenes.settings.addresses.bch.showchangeaddrs'
-                    defaultMessage='Show Change Addresses'
-                  />
-                </ClickableText>
-              )
-            ].filter(x => x)}
-          />
+                !isDefault &&
+                  (isArchived ? (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, false)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.unarchive'
+                        defaultMessage='Unarchive'
+                      />
+                    </ClickableText>
+                  ) : (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, true)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.archive'
+                        defaultMessage='Archive'
+                      />
+                    </ClickableText>
+                  ),
+                  (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onShowXPub(wallet.value)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.show_xpub'
+                        defaultMessage='Show xPub'
+                      />
+                    </ClickableText>
+                  ),
+                  (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onShowChangeAddrs(wallet.value)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.showchangeaddrs'
+                        defaultMessage='Show Change Addresses'
+                      />
+                    </ClickableText>
+                  ))
+              ]}
+            />
+          )}
         </TableCell>
       </TableRow>
     )

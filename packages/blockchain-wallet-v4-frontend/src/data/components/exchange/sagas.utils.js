@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js'
 
 import { selectors, actions } from 'data'
 import * as S from './selectors'
-import settings from 'config'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -12,6 +11,7 @@ import { Exchange } from 'blockchain-wallet-v4'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
+const PROVISIONAL_BSV_SCRIPT = '0000000000000000000000000'
 export default ({ coreSagas, networks }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
@@ -33,10 +33,10 @@ export default ({ coreSagas, networks }) => {
     }
     return prevPayment
   }
-
-  const btcOptions = [settings.NETWORK_BTC, PROVISIONAL_BTC_SCRIPT]
-  const bchOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
-  const ethOptions = [settings.NETWORK_ETH, null]
+  const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
+  const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
+  const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
+  const ethOptions = [networks.eth, null]
   const xlmOptions = [null, null]
   const calculateProvisionalPayment = function*(source, amount) {
     try {
@@ -46,6 +46,7 @@ export default ({ coreSagas, networks }) => {
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
+        BSV: bsvOptions,
         ETH: ethOptions,
         XLM: xlmOptions
       })
@@ -92,7 +93,16 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         payment = yield coreSagas.payment.bch
-          .create({ network: settings.NETWORK_BCH })
+          .create({ network: networks.bch })
+          .chain()
+          .init()
+          .fee('priority')
+          .from(addressOrIndex, addressType)
+          .done()
+        break
+      case 'BSV':
+        payment = yield coreSagas.payment.bsv
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
@@ -110,7 +120,7 @@ export default ({ coreSagas, networks }) => {
         break
       case 'ETH':
         payment = yield coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETH })
+          .create({ network: networks.eth })
           .chain()
           .init()
           .fee('priority')
@@ -150,7 +160,15 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         payment = coreSagas.payment.bch
-          .create({ network: settings.NETWORK_BCH })
+          .create({ network: networks.bch })
+          .chain()
+          .init()
+          .fee('priority')
+          .amount(parseInt(amount))
+        break
+      case 'BSV':
+        payment = coreSagas.payment.bsv
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
@@ -166,7 +184,7 @@ export default ({ coreSagas, networks }) => {
         break
       case 'ETH':
         payment = coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETH })
+          .create({ network: networks.eth })
           .chain()
           .init()
           .fee('priority')
@@ -208,6 +226,11 @@ export default ({ coreSagas, networks }) => {
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
+  const getDefaultBsvAccountValue = function*() {
+    const bsvAccounts = yield select(S.getActiveBsvAccounts)
+    return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
+  }
+
   const getDefaultBtcAccountValue = function*() {
     const btcAccounts = yield select(S.getActiveBtcAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
@@ -227,6 +250,8 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
+      case 'BSV':
+        return yield call(getDefaultBsvAccountValue)
       case 'BTC':
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':
@@ -272,7 +297,7 @@ export default ({ coreSagas, networks }) => {
       coin: 'XLM',
       baseToStandard: false
     }).value
-    if (new BigNumber(baseReserve).mul(2).greaterThan(volumeStroops))
+    if (new BigNumber(baseReserve).multipliedBy(2).isGreaterThan(volumeStroops))
       throw CREATE_ACCOUNT_ERROR
   }
 

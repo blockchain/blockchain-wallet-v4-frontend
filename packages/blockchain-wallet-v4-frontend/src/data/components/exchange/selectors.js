@@ -18,7 +18,11 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
+import {
+  getTargetCoinsPairedToSource,
+  getAvailableSourceCoins,
+  EXCHANGE_FORM
+} from './model'
 
 export const canUseExchange = state =>
   selectors.modules.profile
@@ -91,6 +95,35 @@ export const getActiveBchAccounts = createDeepEqualSelector(
         .filter(isActive)
         .concat(lockboxBchAccounts)
     return lift(transform)(bchDataR, bchMetadataR, lockboxBchAccountsR)
+  }
+)
+
+export const getActiveBsvAccounts = createDeepEqualSelector(
+  [
+    coreSelectors.wallet.getHDAccounts,
+    coreSelectors.data.bsv.getAddresses,
+    coreSelectors.kvStore.bsv.getAccounts
+  ],
+  (bsvAccounts, bsvDataR, bsvMetadataR) => {
+    const transform = (bsvData, bsvMetadata) =>
+      bsvAccounts
+        .map(acc => {
+          const index = prop('index', acc)
+          const xpub = prop('xpub', acc)
+          const data = prop(xpub, bsvData)
+          const metadata = bsvMetadata[index]
+
+          return {
+            archived: prop('archived', metadata),
+            coin: 'BSV',
+            label: prop('label', metadata) || xpub,
+            address: index,
+            balance: prop('final_balance', data),
+            type: ADDRESS_TYPES.ACCOUNT
+          }
+        })
+        .filter(isActive)
+    return lift(transform)(bsvDataR, bsvMetadataR)
   }
 )
 
@@ -184,6 +217,7 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
 export const getActiveAccounts = state => ({
   BTC: getActiveBtcAccounts(state).getOrElse([]),
   BCH: getActiveBchAccounts(state).getOrElse([]),
+  BSV: getActiveBsvAccounts(state).getOrElse([]),
   ETH: getActiveEthAccounts(state).getOrElse([]),
   XLM: getActiveXlmAccounts(state).getOrElse([])
 })
@@ -227,29 +261,45 @@ const getInitialCoins = (
   return [initialSourceCoin, initialTargetCoin]
 }
 
-export const getInitialValues = (
-  state,
-  requestedFrom,
-  requestedTo,
-  availablePairs
-) => {
+const getInitialAccounts = (state, availablePairs, from, to) => {
+  if (!from || !to) return {}
+
   const accounts = getActiveAccounts(state)
   const availableSourceCoins = getAvailableSourceCoins(availablePairs)
 
   const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
-    requestedFrom,
-    requestedTo,
+    from,
+    to,
     availablePairs,
     availableSourceCoins
   )
 
-  const initialSourceAccount = head(accounts[initialSourceCoin])
-  const initialTargetAccount = head(accounts[initialTargetCoin])
-
   return {
-    source: initialSourceAccount,
-    target: initialTargetAccount,
+    source: head(accounts[initialSourceCoin]),
+    target: head(accounts[initialTargetCoin])
+  }
+}
+
+export const getInitialValues = (state, availablePairs, requested) => {
+  const defaultValues = {
+    ...getInitialAccounts(state, availablePairs, 'BTC', 'ETH'),
     sourceFiat: 0,
     fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+  }
+
+  const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+
+  const { from, to, fix, amount } = requested
+  const requestedValues = getInitialAccounts(state, availablePairs, from, to)
+
+  if (fix && amount) {
+    requestedValues.fix = fix
+    requestedValues[model.rates.mapFixToFieldName(fix)] = amount
+  }
+
+  return {
+    ...defaultValues,
+    ...prevValues,
+    ...requestedValues
   }
 }

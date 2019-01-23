@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SimpleDropdown component default renders correctly 1`] = `
-<styled.div
+<template__Wrapper
   uppercase={true}
 >
-  <styled.ul
+  <template__DropdownList
     down={false}
     toggled={false}
   >
-    <styled.li
+    <template__DropdownItem
       key="0"
       onClick={[Function]}
     >
       test
-    </styled.li>
-  </styled.ul>
-  <styled.div
+    </template__DropdownItem>
+  </template__DropdownList>
+  <template__ButtonContainer
     color="brand-secondary"
     onClick={[Function]}
   >
-    <styled.div>
+    <template__Button>
       test
-    </styled.div>
-    <Styled(Icon)
+    </template__Button>
+    <template__DropdownIcon
       name="down-arrow"
       size="8px"
     />
-  </styled.div>
-</styled.div>
+  </template__ButtonContainer>
+</template__Wrapper>
 `;

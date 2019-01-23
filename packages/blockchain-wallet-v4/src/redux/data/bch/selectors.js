@@ -1,15 +1,4 @@
-import {
-  concat,
-  curry,
-  filter,
-  keysIn,
-  map,
-  not,
-  path,
-  prop,
-  reduce,
-  unapply
-} from 'ramda'
+import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
 
 import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
@@ -17,14 +6,13 @@ import { createDeepEqualSelector } from '../../../utils'
 import * as walletSelectors from '../../wallet/selectors'
 import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
 
-export const getContext = createDeepEqualSelector(
+export const getWalletContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,
     walletSelectors.getActiveAddresses,
-    getLockboxBchContext,
     getAccounts
   ],
-  (btcHDAccounts, activeAddresses, lockboxContextR, metadataAccountsR) => {
+  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
     const transform = metadataAccounts => {
       const activeAccounts = filter(account => {
         const index = prop('index', account)
@@ -34,10 +22,16 @@ export const getContext = createDeepEqualSelector(
       return map(prop('xpub'), activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
     const addresses = keysIn(activeAddresses)
-    const concatAll = unapply(reduce(concat, []))
-    return concatAll(activeAccounts, addresses, lockboxContext)
+    return concat(activeAccounts, addresses)
+  }
+)
+
+export const getContext = createDeepEqualSelector(
+  [getWalletContext, getLockboxBchContext],
+  (walletContext, lockboxContextR) => {
+    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    return concat(walletContext, lockboxContext)
   }
 )
 

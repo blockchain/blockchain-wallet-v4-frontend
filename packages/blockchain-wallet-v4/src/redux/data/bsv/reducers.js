@@ -54,6 +54,9 @@ const bsvReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
+    case AT.RESET_BSV_DATA: {
+      return merge(state, INITIAL_STATE)
+    }
     case AT.FETCH_BSV_FEE_LOADING: {
       return assoc('fee', Remote.Loading, state)
     }

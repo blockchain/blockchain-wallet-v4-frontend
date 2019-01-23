@@ -118,7 +118,7 @@ const RequestBch = props => {
           <Banner type='alert'>
             <FormattedHTMLMessage
               id='modals.requestbch.firststep.lockbox'
-              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class=&quot;link&quot;>Click here</span> once the Bitcoin Cash app has been opened.'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class="link">Click here</span> once the Bitcoin Cash app has been opened.'
               values={{ legacyAddress }}
             />
           </Banner>

@@ -15,32 +15,29 @@ import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 
 class RequestBchContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    nextProps.data.map(x => {
+  componentDidUpdate (prevProps) {
+    this.props.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEth', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestBtc', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'XLM')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestXlm', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       }
     })
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)

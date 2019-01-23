@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
-export const initialized = index => ({
+export const initialized = payload => ({
   type: AT.SEND_BSV_INITIALIZED,
-  payload: { index }
+  payload
 })
 export const destroyed = () => ({ type: AT.SEND_BSV_DESTROYED })
 export const sendBsvPaymentUpdated = payment => ({

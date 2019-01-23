@@ -61,11 +61,12 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 
-const BrowserWarning = styled(Banner)`
-  margin: -4px 0 8px;
+const WarningBanners = styled(Banner)`
+  margin: -6px 0 12px;
+  padding: 8px;
 `
-
 const FirstStep = props => {
   const {
     invalid,
@@ -88,12 +89,12 @@ const FirstStep = props => {
     priorityFeePerByte,
     isPriorityFeePerByte,
     totalFee,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = rest
+  const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
-    from &&
-    from.type === 'LOCKBOX' &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -121,9 +122,10 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBtcAddresses}
-            validate={[required]}
             includeAll={false}
+            validate={[required]}
+            component={SelectBoxBtcAddresses}
+            excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
@@ -148,15 +150,25 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {disableLockboxSend && (
-        <BrowserWarning type='warning'>
-          <Text color='warning' size='12px'>
+      {isFromLockbox && (
+        <WarningBanners type='info'>
+          <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.lockboxwarn'
-              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser'
+              id='modals.sendbtc.firststep.warndevice'
+              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
             />
           </Text>
-        </BrowserWarning>
+        </WarningBanners>
+      )}
+      {disableLockboxSend && (
+        <WarningBanners type='warning'>
+          <Text color='warning' size='13px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.warnbrowser'
+              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser!'
+            />
+          </Text>
+        </WarningBanners>
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -184,6 +196,7 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
                 data-e2e='sendBtcAddressTextBox'
@@ -317,18 +330,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
-      {
-        feePerByteToggled
-          ? <CustomFeeAlertBanner type='alert'>
-            <Text size='12px'>
-              <FormattedMessage
-                id='modals.sendbtc.firststep.customfeeinfo'
-                defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
-              />
-            </Text>
-          </CustomFeeAlertBanner>
-          : null
-      }
+      {feePerByteToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && (

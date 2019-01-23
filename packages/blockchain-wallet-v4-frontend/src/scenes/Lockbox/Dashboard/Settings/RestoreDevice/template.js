@@ -10,7 +10,7 @@ import {
 
 import { Button, Link, Icon } from 'blockchain-info-components'
 
-const RestoreLockboxDevice = props => {
+const RestoreLockboxDevice = () => {
   return (
     <SettingContainer>
       <SettingSummary>

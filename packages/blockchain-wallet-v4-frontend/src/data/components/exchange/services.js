@@ -22,6 +22,9 @@ export const convertBaseToStandard = (coin, value) => {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
+        .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
         value,
@@ -49,6 +52,9 @@ export const convertStandardToBase = (coin, value) => {
   switch (coin) {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+        .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
@@ -79,15 +85,15 @@ export const getEffectiveBalanceStandard = (coin, effectiveBalance) => {
 }
 
 export const isAmountBelowMinimum = (value, minimum) => {
-  return new BigNumber(value).lessThan(new BigNumber(minimum))
+  return new BigNumber(value).isLessThan(new BigNumber(minimum))
 }
 
 export const isAmountAboveMaximum = (value, maximum) => {
-  return new BigNumber(value).greaterThan(new BigNumber(maximum))
+  return maximum && new BigNumber(value).isGreaterThan(new BigNumber(maximum))
 }
 
 export const calculateFinalAmount = (value, fee) => {
-  return new BigNumber(value).add(new BigNumber(fee)).toString()
+  return new BigNumber.sum(value, new BigNumber(fee)).toString()
 }
 
 export const divide = curry((dividend, divisor, decimals = 8) => {
@@ -109,12 +115,14 @@ export const toFixed = curry((decimals, roundDown, string) => {
 })
 
 export const minimum = (val1, val2) => {
-  return new BigNumber(val1).lessThan(val2) ? val1 : val2
+  return new BigNumber(val1).isLessThan(val2) ? val1 : val2
 }
 
 export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':
+      return path(['selection', 'fee'], payment)
+    case 'BSV':
       return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
@@ -169,14 +177,14 @@ export const addBalanceLimit = (balanceLimit, limits) => {
   const maxFiatLimit = prop('maxFiatLimit', limits)
 
   if (
-    new BigNumber(prop('amount', fiatBalance)).lessThan(
+    new BigNumber(prop('amount', fiatBalance)).isLessThan(
       path(['minOrder', 'amount'], limits)
     )
   )
     return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
 
   if (
-    new BigNumber(prop('amount', fiatBalance)).lessThan(
+    new BigNumber(prop('amount', fiatBalance)).isLessThan(
       prop('amount', maxFiatLimit)
     )
   )
