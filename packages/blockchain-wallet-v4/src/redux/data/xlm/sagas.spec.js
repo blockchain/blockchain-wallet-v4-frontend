@@ -235,6 +235,30 @@ describe('fetch transactions saga', () => {
       .not.put(A.fetchTransactionsSuccess(STUB_TXS))
       .run())
 
+  it('should not fetch txs if last page is Loading', () =>
+    expectSaga(fetchTransactions, { payload: {} })
+      .provide([
+        [
+          select(selectors.kvStore.xlm.getDefaultAccountId),
+          Remote.of(STUB_ACCOUNT_ID)
+        ],
+        [select(S.getTransactionsAtBound), false],
+        [select(S.getTransactions), [Remote.Loading()]]
+      ])
+      .select(selectors.kvStore.xlm.getDefaultAccountId)
+      .select(S.getTransactions)
+      .select(S.getTransactionsAtBound)
+      .not.put(A.fetchTransactionsLoading())
+      .not.call(api.getXlmTransactions, {
+        publicKey: STUB_ACCOUNT_ID,
+        limit: TX_PER_PAGE,
+        pagingToken: null,
+        reset: undefined
+      })
+      .not.put(A.transactionsAtBound(true))
+      .not.put(A.fetchTransactionsSuccess(STUB_TXS))
+      .run())
+
   it('should fetch txs if atBound is true and reset them', () =>
     expectSaga(fetchTransactions, { payload: { reset: true } })
       .provide([

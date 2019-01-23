@@ -100,14 +100,17 @@ export default ({ api, networks }) => {
       const pages = yield select(S.getTransactions)
       const pagingToken = (last(pages) || Remote.NotAsked)
         .map(last)
-        .map(prop('paging_token'))
+        .map(prop('pagingToken'))
         .getOrElse(null)
+      const offset = reset ? null : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
       const txs = yield call(api.getXlmTransactions, {
         publicKey,
         limit: TX_PER_PAGE,
+        cursor: offset,
         pagingToken,
         reset
       })

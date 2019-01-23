@@ -56,6 +56,7 @@ export const transformTx = curry((accounts, tx, operation) => {
   const hash = prop('hash', tx)
   const memo = prop('memo', tx)
   const memoType = prop('memo_type', tx)
+  const pagingToken = prop('paging_token', tx)
   const amount =
     type === 'sent'
       ? new BigNumber.sum(operationAmount, fee).toString()
@@ -72,6 +73,7 @@ export const transformTx = curry((accounts, tx, operation) => {
     time,
     to: getLabel(accounts, to),
     type,
+    pagingToken,
     belongsToWallet: belongsToCurrentWallet(accounts, from, to)
   }
 })
