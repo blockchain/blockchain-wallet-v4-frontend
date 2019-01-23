@@ -19,13 +19,13 @@
     "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
+    "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env ./../../node_modules/.bin/jest --silent",
-    "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
@@ -83,7 +83,7 @@
     }
   },
   "dependencies": {
-    "@blockchain-com/components": "3.2.0",
+    "@blockchain-com/components": "5.1.1",
     "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-btc": "4.30.0",
     "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",
@@ -115,7 +115,7 @@
     "qrcode.react": "0.8.0",
     "qs": "6.6.0",
     "ramda": "0.26.1",
-    "react": "16.6.3",
+    "react": "16.7.0",
     "react-animations": "1.0.0",
     "react-copy-to-clipboard": "5.0.1",
     "react-csv": "1.0.19",
@@ -142,7 +142,7 @@
     "reselect": "4.0.0",
     "rxjs": "6.3.3",
     "sanitize-html": "1.19.2",
-    "styled-components": "4.1.2",
+    "styled-components": "4.1.3",
     "zxcvbn": "4.4.2"
   }
 }
