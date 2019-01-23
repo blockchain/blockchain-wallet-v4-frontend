@@ -64,7 +64,7 @@ const LearnHowText = styled(Text)`
 `
 
 const DeviceSelectStep = props => {
-  const { handleStepChange } = props
+  const { handleStepChange, handleRestoreClick } = props
   return (
     <Wrapper>
       <IntroTextWrapper>
@@ -115,14 +115,14 @@ const DeviceSelectStep = props => {
           </Text>
         </DeviceWrapper>
       </SelectDeviceWrapper>
-      <RestoreDeviceWrapper>
+      <RestoreDeviceWrapper onClick={handleRestoreClick}>
         <Text size='16px'>
           <FormattedMessage
             id='modals.lockboxsetup.deviceselect.restore'
             defaultMessage='Restore a device'
           />
         </Text>
-        <LearnHowLink href={'/lockbox'} target='_blank'>
+        <LearnHowLink>
           <LearnHowText size='15px'>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.learhow'

@@ -45,7 +45,7 @@ import {
 import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
-  margin-top: 25px;
+  margin-top: 24px;
   margin-bottom: 25px;
   ${media.mobile`
     margin-bottom: 40px;
@@ -199,7 +199,6 @@ const Personal = ({
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
-                            label
                           />
                         </FormItem>
                       </FaqFormGroup>

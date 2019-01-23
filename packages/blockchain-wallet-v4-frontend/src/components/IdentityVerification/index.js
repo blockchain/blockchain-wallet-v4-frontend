@@ -170,9 +170,9 @@ export const IdentityVerificationForm = styled(Form)`
 export const IdentityVerificationHeader = styled(PartnerHeader)`
   margin-top: 40px;
   font-weight: 400;
+  font-size: 24px;
   ${media.mobile`
     margin-top: 32px;
-    font-size: 24px;
   `};
 `
 
