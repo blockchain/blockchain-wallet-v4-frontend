@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
 import { lighten } from 'polished'
 
+import { model } from 'data'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { coinProps } from './model'
 
@@ -127,7 +128,12 @@ const Welcome = props => {
             <LinkContainer
               to={{
                 pathname: '/swap',
-                state: { from: coin === 'BTC' ? 'ETH' : 'BTC', to: coin }
+                state: {
+                  from: coin === 'BTC' ? 'ETH' : 'BTC',
+                  to: coin,
+                  amount: '0',
+                  fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+                }
               }}
             >
               <Button
