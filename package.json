@@ -73,6 +73,7 @@
     "coverage:components": "yarn workspace blockchain-info-components coverage",
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
+    "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
@@ -80,6 +81,7 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
     "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
     "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
     "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
@@ -104,8 +106,6 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
-    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
     "release": "release-it"
   },
   "dependencies": {
