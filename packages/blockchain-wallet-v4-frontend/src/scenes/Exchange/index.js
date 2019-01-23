@@ -24,16 +24,15 @@ const Wrapper = styled.div`
 const Container = styled.section`
   overflow: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: start;
   width: 100%;
   padding: 30px;
   box-sizing: border-box;
-  @media (min-width: 992px) {
-    flex-direction: row;
-  }
-
+  ${Media.laptop`
+    flex-direction: column;
+  `};
   ${Media.mobile`
     align-items: center;
     padding: 10px;

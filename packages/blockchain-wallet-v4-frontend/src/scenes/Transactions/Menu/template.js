@@ -61,10 +61,10 @@ const Addresses = styled.div`
   `};
 `
 const Status = styled.div`
-  width: 100%;
-  @media (min-width: 1200px) {
-    width: 360px;
-  }
+  width: 360px;
+  ${Media.laptop`
+    width: 100%;
+  `};
 `
 const Search = styled.div`
   position: relative;

@@ -3,13 +3,14 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
+  width: 500px;
   padding: 16px;
   box-sizing: border-box;
   background-color: #f5a623;
@@ -18,10 +19,9 @@ const Wrapper = styled.div`
   & > :not(:first-child) {
     margin-top: 8px;
   }
-
-  @media (min-width: 960px) {
-    width: 500px;
-  }
+  ${Media.laptop`
+    width: 100%;
+  `};
 `
 
 export const Pending = () => (

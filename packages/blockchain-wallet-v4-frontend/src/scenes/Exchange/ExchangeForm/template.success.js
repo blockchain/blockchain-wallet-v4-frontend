@@ -52,14 +52,14 @@ const ColumnLeft = styled.div`
   `};
 `
 const ColumnRight = styled.div`
-  max-width: 350px;
-  width: 100%;
-  align-self: center;
-  @media (min-width: 992px) {
-    align-self: flex-start;
-    max-width: 345px;
-    width: 40%;
-  }
+  align-self: flex-start;
+  max-width: 345px;
+  width: 40%;
+  ${Media.laptop`
+    max-width: 350px;
+    width: 100%;
+    align-self: center; 
+  `};
 `
 const SwapReceiveRow = styled(Row)`
   padding-bottom: 0;
