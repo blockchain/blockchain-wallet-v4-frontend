@@ -3,7 +3,7 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
 
-import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import { coreReducers, paths, Remote } from 'blockchain-wallet-v4/src'
 import modalsReducer from 'data/modals/reducers'
 import AcceptTerms from './index'
 import { AcceptTermsForm } from './template'
@@ -26,7 +26,7 @@ describe('Coinify AcceptTerms Modal', () => {
     store = createTestStore(reducers)
     wrapper = mount(
       <TestBed store={store}>
-        <AcceptTerms />
+        <AcceptTerms coinifyBusy={Remote.Success({})} />
       </TestBed>
     )
   })

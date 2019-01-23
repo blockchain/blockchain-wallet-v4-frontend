@@ -19,7 +19,7 @@ describe('coinifySagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
   })
-
+ 
   const mockedLimits = Remote.of({
     bank: {
       inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
@@ -258,7 +258,7 @@ describe('coinifySagas', () => {
   })
 
   describe('coinify buy', () => {
-    const { buy, prepareAddress } = coinifySagas({
+    const { buy, prepareAddress, checkIfFirstTrade } = coinifySagas({
       coreSagas,
       networks
     })
@@ -280,6 +280,10 @@ describe('coinifySagas', () => {
       index: 0,
       accountIndex: 0
     }
+
+    it('should check if first trade', () => {
+      saga.next().call(checkIfFirstTrade)
+    })
 
     it('should call prepareAddress', () => {
       saga.next().call(prepareAddress)
@@ -907,7 +911,7 @@ describe('coinifySagas', () => {
   })
 
   describe('sell', () => {
-    let { sell } = coinifySagas({
+    let { sell, checkIfFirstTrade } = coinifySagas({
       coreSagas,
       networks
     })
@@ -915,6 +919,10 @@ describe('coinifySagas', () => {
     let saga = testSaga(sell)
 
     const beforeEnd = 'beforeEnd'
+
+    it('should check if first trade', () => {
+      saga.next().call(checkIfFirstTrade)
+    })
 
     it('should prompt for second password', () => {
       saga.next().call(promptForSecondPassword)

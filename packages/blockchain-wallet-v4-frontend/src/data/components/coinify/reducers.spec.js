@@ -31,18 +31,6 @@ describe('coinify reducers', () => {
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should handle COINIFY_SIGNUP_FAILURE', () => {
-    const action = actions.coinifySignupFailure(ERROR)
-    const expectedState = assoc('signupError', ERROR, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should handle COINIFY_CLEAR_SIGNUP_FAILURE', () => {
-    const action = actions.coinifyClearSignupError()
-    const expectedState = assoc('signupError', null, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
   it('should handle COINIFY_SET_MEDIUM', () => {
     const action = actions.setMedium('card')
     const expectedState = assoc('medium', 'card', INITIAL_STATE)

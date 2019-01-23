@@ -75,6 +75,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const checkIfFirstTrade = function*() {
+    // TODO: subject to change - this implemtation is for sending KYC docs upon first trade
     const trades = yield select(selectors.core.data.coinify.getTrades)
     if (length(trades) === 0) yield call(sendCoinifyKYC)
   }
@@ -553,6 +554,7 @@ export default ({ api, coreSagas, networks }) => {
     cancelISX,
     cancelSubscription,
     cancelTrade,
+    checkIfFirstTrade,
     coinifySignup,
     compareKyc,
     deleteBankAccount,

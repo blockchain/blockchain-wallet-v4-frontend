@@ -45,6 +45,7 @@ import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 import { getCountry, getProfile } from 'blockchain-wallet-v4/src/redux/data/coinify/selectors'
 import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
 import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
+import { getCoinifyBusy } from 'data/components/coinify/selectors'
 
 const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
@@ -57,6 +58,7 @@ jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('data/components/identityVerification/selectors')
+jest.mock('data/components/coinify/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/coinify/selectors')
 
 const POSSIBLE_ADDRESSES = [
@@ -123,6 +125,7 @@ getStates.mockImplementation(() => Remote.Success([]))
 getCountry.mockImplementation(() => Remote.of('FR'))
 getProfile.mockImplementation(() => Remote.of({ _country: 'FR' }))
 getSteps.mockReturnValue(Remote.of(['personal', 'mobile', 'verify']))
+getCoinifyBusy.mockImplementation(() => Remote.Success({}))
 
 profileSagas.createUser = jest.fn()
 
