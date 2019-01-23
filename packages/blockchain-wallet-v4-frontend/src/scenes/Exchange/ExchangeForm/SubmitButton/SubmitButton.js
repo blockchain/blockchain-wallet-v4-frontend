@@ -11,7 +11,7 @@ const ButtonRow = styled(Row)`
   padding: 0px 32px 23px 32px;
 `
 const BigButton = styled(Button)`
-  height: 72px;
+  height: 56px;
   border-radius: 6px;
   font-size: 17px;
   font-weight: 400;
