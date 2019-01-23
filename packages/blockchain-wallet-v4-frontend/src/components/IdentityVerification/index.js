@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { Button, Image, Media } from 'blockchain-info-components'
+import { Button, Image } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
+import Media from 'services/ResponsiveService'
 
 export const Form = styled.form`
   width: 100%;
@@ -172,7 +173,7 @@ export const IdentityVerificationHeader = styled(PartnerHeader)`
   ${Media.mobile`
     margin-top: 32px;
     font-size: 24px;
-  `};
+  `}
 `
 
 export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { all, head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
 import Media from 'services/ResponsiveService'
@@ -47,12 +47,12 @@ const Container = styled.div`
 `
 const Header = styled(Text)`
   display: flex;
+  text-align: center;
   align-items: center
-  letter-spacing: 2px;
   width: 50%;
   font-weight: 500;
   font-size: 14px;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
   ${Wrapper}.column & {
     width: 100%;
     justify-content: center;
@@ -95,18 +95,22 @@ const Announcement = styled(Text)`
 const Content = styled.div`
   margin-top: 10px;
 `
-const ActionButton = styled(Button)`
+export const ActionButton = styled(Button)`
   margin-top: 20px;
 `
+
+const { TIERS_STATES } = model.profile
 
 export const TierCard = ({
   userData,
   userTiers,
   emailVerified,
   mobileVerified,
-  ...rest
+  verifyIdentity,
+  column,
+  tier,
+  goToSwap
 }) => {
-  const { verifyIdentity, column, tier } = rest
   const tierData = head(userTiers.filter(propEq('index', tier)))
   const symbol =
     Exchange.getSymbol(tierData.limits.currency) +
@@ -116,7 +120,7 @@ export const TierCard = ({
     )
   const tierLimit = limits[path([tier, 'limit'], TIERS)]
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
-  const isRejected = all(propEq('state', 'rejected'), userTiers)
+  const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
 
   const tierStarted = path(['tiers', 'selected'], userData) >= tier
 
@@ -168,7 +172,7 @@ export const TierCard = ({
                     <Icon
                       style={{ marginLeft: '5px' }}
                       color='success'
-                      size='14px'
+                      size='12px'
                       name='check'
                     />
                   )}
@@ -177,7 +181,7 @@ export const TierCard = ({
             </Column>
           </Row>
         </Content>
-        {tierData.state === 'none' && (
+        {tierData.state === TIERS_STATES.NONE && (
           <ActionButton
             jumbo
             fullwidth
@@ -197,6 +201,14 @@ export const TierCard = ({
             )}
           </ActionButton>
         )}
+        {tierData.state === TIERS_STATES.VERIFIED && (
+          <ActionButton jumbo fullwidth nature='primary' onClick={goToSwap}>
+            <FormattedMessage
+              id='components.identityverification.tiercard.swap_now'
+              defaultMessage='Swap Now'
+            />
+          </ActionButton>
+        )}
       </Container>
     </Wrapper>
   )
@@ -208,7 +220,8 @@ TierCard.defaultProps = {
 
 const mapDispatchToProps = (dispatch, { tier }) => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(tier))
+    dispatch(actions.components.identityVerification.verifyIdentity(tier)),
+  goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 
 export default connect(

@@ -68,6 +68,8 @@ export class ExchangeScene extends React.PureComponent {
                 <Exchange
                   from={path(['state', 'from'], location)}
                   to={path(['state', 'to'], location)}
+                  fix={path(['state', 'fix'], location)}
+                  amount={path(['state', 'amount'], location)}
                 />
               </Column>
             </Container>

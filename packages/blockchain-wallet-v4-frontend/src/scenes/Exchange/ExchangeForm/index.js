@@ -23,8 +23,8 @@ const { FIRST_STEP_SUBMIT } = model.analytics.EXCHANGE
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
-    const { actions, from, to } = this.props
-    actions.initialize(from, to)
+    const { actions, from, to, fix, amount } = this.props
+    actions.initialize({ from, to, fix, amount })
   }
 
   shouldComponentUpdate (nextProps) {
@@ -39,8 +39,8 @@ class ExchangeForm extends React.Component {
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
-    const { actions, from, to } = this.props
-    actions.initialize(from, to)
+    const { actions, from, to, fix, amount } = this.props
+    actions.initialize({ from, to, fix, amount })
   }
 
   clearZero = e => {

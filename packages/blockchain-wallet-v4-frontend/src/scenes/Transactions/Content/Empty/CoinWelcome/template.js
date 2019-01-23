@@ -7,6 +7,7 @@ import { lighten } from 'polished'
 import Media from 'services/ResponsiveService'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { coinProps } from './model'
+import { model } from 'data'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -126,7 +127,12 @@ const Welcome = props => {
             <LinkContainer
               to={{
                 pathname: '/swap',
-                state: { from: coin === 'BTC' ? 'ETH' : 'BTC', to: coin }
+                state: {
+                  from: coin === 'BTC' ? 'ETH' : 'BTC',
+                  to: coin,
+                  amount: '0',
+                  fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+                }
               }}
             >
               <Button
