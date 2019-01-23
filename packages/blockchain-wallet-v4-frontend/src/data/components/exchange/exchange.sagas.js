@@ -185,13 +185,16 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeFormInitialized = function*({ payload }) {
-    const { from = 'BTC', to = 'ETH' } = payload
     yield put(actions.modules.rates.fetchAvailablePairs())
     const {
       payload: { pairs }
     } = yield take(actionTypes.modules.rates.AVAILABLE_PAIRS_SUCCESS)
 
-    const initialValues = yield select(S.getInitialValues, from, to, pairs)
+    const initialValues = yield select(
+      S.getInitialValues,
+      pairs,
+      payload.requestedValues
+    )
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     const sourceCoin = path(['source', 'coin'], initialValues)
     const targetCoin = path(['target', 'coin'], initialValues)
