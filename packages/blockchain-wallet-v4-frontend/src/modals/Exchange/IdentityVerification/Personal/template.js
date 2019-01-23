@@ -20,7 +20,6 @@ import {
   Banner,
   Button,
   HeartbeatLoader,
-  Media,
   Separator,
   Text
 } from 'blockchain-info-components'
@@ -43,6 +42,7 @@ import {
   Footer
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
+import Media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -114,9 +114,7 @@ const KycSeparator = styled(Separator)`
   max-width: 576px;
   width: calc(100% - 260px);
   margin: 32px 0;
-  ${Media.mobile`
-    width: 100%;
-  `} ${Media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

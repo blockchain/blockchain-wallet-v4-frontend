@@ -8,15 +8,15 @@ import Transactions from './Transactions'
 import Settings from './Settings'
 import { actions } from 'data'
 import Menu from './Menu'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   height: 100%;
   width: calc(100% - 270px);
   position: fixed;
-
-  @media (max-width: 770px) {
+  ${Media.tablet`
     width: 100%;
-  }
+  `};
 `
 const Header = styled(Menu)`
   width: 100%;

@@ -8,6 +8,7 @@ import * as bowser from 'bowser'
 
 import { actions } from 'data'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,10 +17,10 @@ const Wrapper = styled.div`
   align-items: center;
   width: calc(100% - 330px);
   padding: 10px 30px;
-  @media (max-width: 770px) {
+  ${Media.tablet`
     width: 100%;
     padding: 10px 15px;
-  }
+  `};
 `
 const ToggleIcon = styled(Icon)`
   transition: color 0.3s;

@@ -4,6 +4,7 @@ import * as bowser from 'bowser'
 import { any, equals, toLower, prop, isEmpty } from 'ramda'
 
 import { CurrencyItem } from 'components/Balances'
+import Media from 'services/ResponsiveService'
 
 const CurrencyList = styled.div`
   display: flex;
@@ -11,9 +12,9 @@ const CurrencyList = styled.div`
   padding: 10px 30px;
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-  @media (max-width: 770px) {
+  ${Media.tablet`
     padding: 4px;
-  }
+  `};
 `
 const TourWrapper = styled.div`
   display: flex;
@@ -22,9 +23,9 @@ const TourWrapper = styled.div`
 const Coin = styled(CurrencyItem)`
   padding: 10px;
   margin-right: 10px;
-  @media (max-width: 770px) {
+  ${Media.tablet`
     margin-right: 4px;
-  }
+  `};
 `
 const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
 const Success = props => {
