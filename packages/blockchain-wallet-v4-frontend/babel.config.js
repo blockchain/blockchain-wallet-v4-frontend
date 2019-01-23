@@ -18,7 +18,8 @@ module.exports = {
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
         'babel-plugin-styled-components',
-        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }]
+        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
+        ['react-intl', { messagesDir: './build/extractedMessages' }]
       ]
     },
     development: {
