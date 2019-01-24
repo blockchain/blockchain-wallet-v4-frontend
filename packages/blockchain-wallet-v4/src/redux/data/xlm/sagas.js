@@ -116,7 +116,7 @@ export default ({ api, networks }) => {
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(processTxs, txs)
+      const page = yield call(__processTxs, txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
@@ -129,7 +129,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const processTxs = function*(txList) {
+  const __processTxs = function*(txList) {
     const walletAccountsR = yield select(getAccounts)
     const walletAccounts = walletAccountsR.getOrElse([])
     const lockboxAccountsR = yield select(getLockboxXlmAccounts)
@@ -152,6 +152,7 @@ export default ({ api, networks }) => {
     fetchLedgerDetails,
     fetchData,
     fetchRates,
+    __processTxs,
     fetchTransactions
   }
 }

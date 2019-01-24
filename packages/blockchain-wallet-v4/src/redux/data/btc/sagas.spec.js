@@ -229,6 +229,7 @@ describe('bitcoin data sagas', () => {
     const blankPage = Remote.of([])
     const pages = [page]
     const conditional = 'conditional'
+    const processedTxs = dataBtcSagas.__processTxs(btcFetchData.txs)
 
     it('should get transactions', () => {
       saga.next().select(S.getTransactions)
@@ -267,7 +268,9 @@ describe('bitcoin data sagas', () => {
     it('should dispatch success with data', () => {
       saga
         .next(btcFetchData)
-        .put(A.fetchTransactionsSuccess(btcFetchData.txs, payload.reset))
+        .call(dataBtcSagas.__processTxs, btcFetchData.txs)
+        .next(processedTxs)
+        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
     })
 
     it('should finish', () => {

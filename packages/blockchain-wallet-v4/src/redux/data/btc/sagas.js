@@ -78,7 +78,7 @@ export default ({ api }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(processTxs, data.txs)
+      const page = yield call(__processTxs, data.txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -118,7 +118,7 @@ export default ({ api }) => {
     }
   }
 
-  const processTxs = function*(txs) {
+  const __processTxs = function*(txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -164,6 +164,7 @@ export default ({ api }) => {
     fetchFiatAtTime,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

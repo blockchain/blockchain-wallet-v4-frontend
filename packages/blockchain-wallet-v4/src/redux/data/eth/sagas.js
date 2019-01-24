@@ -114,14 +114,14 @@ export default ({ api }) => {
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(processTxs, txs)
+      const page = yield call(__processTxs, txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
-  const processTxs = function*(txs) {
+  const __processTxs = function*(txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
     const blockHeightR = yield select(S.getHeight)
@@ -152,6 +152,7 @@ export default ({ api }) => {
     fetchRates,
     fetchLatestBlock,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

@@ -83,14 +83,14 @@ export default ({ api }) => {
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(processTxs, filteredTxs)
+      const page = yield call(__processTxs, filteredTxs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
-  const processTxs = function*(txs) {
+  const __processTxs = function*(txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -167,6 +167,7 @@ export default ({ api }) => {
     fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

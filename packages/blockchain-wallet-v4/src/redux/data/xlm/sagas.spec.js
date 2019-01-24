@@ -57,7 +57,8 @@ const {
   createAccounts,
   fetchData,
   fetchLedgerDetails,
-  fetchTransactions
+  fetchTransactions,
+  __processTxs
 } = sagas({
   api,
   networks
@@ -172,6 +173,7 @@ describe('fetch transactions saga', () => {
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
         ],
+        [call(__processTxs)],
         [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
@@ -185,10 +187,11 @@ describe('fetch transactions saga', () => {
         reset: undefined
       })
       .put(A.transactionsAtBound(true))
+      .call(__processTxs, STUB_TXS)
       .put(A.fetchTransactionsSuccess(STUB_TXS))
       .run())
 
-  it('should fetch transactions for requested accountId', () =>
+  it('  ', () =>
     expectSaga(fetchTransactions, { payload: { accountId: OTHER_ACCOUNT_ID } })
       .provide([
         [
@@ -208,6 +211,7 @@ describe('fetch transactions saga', () => {
         reset: undefined
       })
       .put(A.transactionsAtBound(true))
+      .call(__processTxs, STUB_TXS)
       .put(A.fetchTransactionsSuccess(STUB_TXS))
       .run())
 
@@ -243,7 +247,7 @@ describe('fetch transactions saga', () => {
           Remote.of(STUB_ACCOUNT_ID)
         ],
         [select(S.getTransactionsAtBound), false],
-        [select(S.getTransactions), [Remote.Loading()]]
+        [select(S.getTransactions), [Remote.Loading]]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -280,6 +284,7 @@ describe('fetch transactions saga', () => {
         reset: true
       })
       .put(A.transactionsAtBound(true))
+      .call(__processTxs, STUB_TXS)
       .put(A.fetchTransactionsSuccess(STUB_TXS, true))
       .run())
 
@@ -348,6 +353,7 @@ describe('fetch transactions saga', () => {
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
+      .call(__processTxs, STUB_TXS)
       .select(S.getTransactionsAtBound)
       .put(A.fetchTransactionsLoading())
       .call(api.getXlmTransactions, {

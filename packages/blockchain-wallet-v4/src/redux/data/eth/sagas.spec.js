@@ -63,7 +63,7 @@ const api = {
 }
 
 describe('ethereum data sagas', () => {
-  const dataEthereumSagas = sagas({ api })
+  const dataEthSagas = sagas({ api })
 
   describe('fetchData', () => {
     const mockContext = Remote.of(
@@ -81,7 +81,7 @@ describe('ethereum data sagas', () => {
       latest_block: latest_block
     }
 
-    const saga = testSaga(dataEthereumSagas.fetchData)
+    const saga = testSaga(dataEthSagas.fetchData)
 
     it('should put loading state', () => {
       saga.next().put(A.fetchDataLoading())
@@ -123,7 +123,7 @@ describe('ethereum data sagas', () => {
 
     describe('state change', () => {
       it('should add ethereum data to the state', () => {
-        return expectSaga(dataEthereumSagas.fetchData)
+        return expectSaga(dataEthSagas.fetchData)
           .withReducer(reducers)
           .provide([[select(S.getContext), mockContext]])
           .run()
@@ -139,7 +139,7 @@ describe('ethereum data sagas', () => {
   })
 
   describe('fetchFee', () => {
-    const saga = testSaga(dataEthereumSagas.fetchFee)
+    const saga = testSaga(dataEthSagas.fetchFee)
     const weiData = convertFeeToWei(feeData)
 
     it('should put loading state', () => {
@@ -172,7 +172,7 @@ describe('ethereum data sagas', () => {
 
     describe('state change', () => {
       it('should add fee data to the state', () => {
-        return expectSaga(dataEthereumSagas.fetchFee)
+        return expectSaga(dataEthSagas.fetchFee)
           .withReducer(reducers)
           .run()
           .then(result => {
@@ -185,7 +185,7 @@ describe('ethereum data sagas', () => {
   })
 
   describe('fetchRates', () => {
-    const saga = testSaga(dataEthereumSagas.fetchRates)
+    const saga = testSaga(dataEthSagas.fetchRates)
 
     it('should put loading state', () => {
       saga.next().put(A.fetchRatesLoading())
@@ -217,7 +217,7 @@ describe('ethereum data sagas', () => {
 
     describe('state change', () => {
       it('should add rate data to the state', () => {
-        return expectSaga(dataEthereumSagas.fetchRates)
+        return expectSaga(dataEthSagas.fetchRates)
           .withReducer(reducers)
           .run()
           .then(result => {
@@ -230,7 +230,7 @@ describe('ethereum data sagas', () => {
   })
 
   describe('watchTransactions', () => {
-    const saga = testSaga(dataEthereumSagas.watchTransactions)
+    const saga = testSaga(dataEthSagas.watchTransactions)
     const action = {}
 
     it('should fetch tx', () => {
@@ -238,7 +238,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should call fetchTransactions', () => {
-      saga.next(action).call(dataEthereumSagas.fetchTransactions, action)
+      saga.next(action).call(dataEthSagas.fetchTransactions, action)
     })
 
     // Try again
@@ -247,7 +247,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should call fetchTransactions again', () => {
-      saga.next(action).call(dataEthereumSagas.fetchTransactions, action)
+      saga.next(action).call(dataEthSagas.fetchTransactions, action)
     })
   })
 
@@ -257,7 +257,7 @@ describe('ethereum data sagas', () => {
     )
     const mockContext = mockContextR.getOrFail()
     const payload = { reset: true }
-    const saga = testSaga(dataEthereumSagas.fetchTransactions, { payload })
+    const saga = testSaga(dataEthSagas.fetchTransactions, { payload })
     const page = Remote.of([
       {
         hash:
@@ -274,6 +274,8 @@ describe('ethereum data sagas', () => {
     ])
     const pages = [page]
     const isNil = 'isNil'
+    const txs = path([mockContext, 'txns'], ethTransactionData)
+    const processedTxs = dataEthSagas.__processTxs(txs)
 
     it('should get ethereum context', () => {
       saga.next().select(selectors.kvStore.ethereum.getContext)
@@ -303,12 +305,9 @@ describe('ethereum data sagas', () => {
     it('should dispatch success with data', () => {
       saga
         .next(ethTransactionData)
-        .put(
-          A.fetchTransactionsSuccess(
-            path([mockContext, 'txns'], ethTransactionData),
-            payload.reset
-          )
-        )
+        .call(dataEthSagas.__processTxs, txs)
+        .next(processedTxs)
+        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
     })
 
     it('should finish', () => {
@@ -316,7 +315,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should fetch with length of pages if reset is false', () => {
-      const saga = testSaga(dataEthereumSagas.fetchTransactions, {
+      const saga = testSaga(dataEthSagas.fetchTransactions, {
         payload: { reset: false }
       })
       saga.next().select(selectors.kvStore.ethereum.getContext)
@@ -347,7 +346,7 @@ describe('ethereum data sagas', () => {
 
     describe('state change', () => {
       it('should add transaction data to the state', () => {
-        return expectSaga(dataEthereumSagas.fetchTransactions, {
+        return expectSaga(dataEthSagas.fetchTransactions, {
           payload: {
             reset: true
           }
@@ -369,7 +368,7 @@ describe('ethereum data sagas', () => {
 
       it('should append transaction data to the state if reset is false', () => {
         const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
-        return expectSaga(dataEthereumSagas.fetchTransactions, {
+        return expectSaga(dataEthSagas.fetchTransactions, {
           payload: { reset: false }
         })
           .withReducer(reducers)

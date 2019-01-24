@@ -231,6 +231,7 @@ describe('bsv data sagas', () => {
     const blankPage = Remote.of([])
     const pages = [page]
     const conditional = 'conditional'
+    const processedTxs = dataBsvSagas.__processTxs(bsvFetchData.txs)
 
     it('should get transactions', () => {
       saga.next().select(S.getTransactions)
@@ -265,7 +266,9 @@ describe('bsv data sagas', () => {
     it('should dispatch success with data', () => {
       saga
         .next(bsvFetchData)
-        .put(A.fetchTransactionsSuccess(bsvFetchData.txs, payload.reset))
+        .call(dataBsvSagas.__processTxs, bsvFetchData.txs)
+        .next(processedTxs)
+        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
     })
 
     it('should finish', () => {
