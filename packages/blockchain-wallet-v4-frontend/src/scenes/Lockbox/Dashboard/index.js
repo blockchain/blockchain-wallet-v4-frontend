@@ -28,7 +28,7 @@ const TransactionsWrapper = styled.div`
   overflow: scroll;
 `
 const SettingsWrapper = styled.div`
-  height: calc(100% - 300px);
+  height: calc(100% - 330px);
   position: relative;
   top: 122px;
   overflow: scroll;
