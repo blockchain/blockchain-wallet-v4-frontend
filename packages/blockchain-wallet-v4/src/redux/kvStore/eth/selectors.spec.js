@@ -97,9 +97,9 @@ describe('kvstore ethereum selectors', () => {
     )
   })
 
-  it('getEthereumTxNote should return success of correct eth tx note', () => {
+  it('getEthTxNote should return success of correct eth tx note', () => {
     const expectedResult = Remote.Success('some someTxHash tx note')
-    expect(selectors.getEthereumTxNote(successState, 'someTxHash')).toEqual(
+    expect(selectors.getEthTxNote(successState, 'someTxHash')).toEqual(
       expectedResult
     )
   })

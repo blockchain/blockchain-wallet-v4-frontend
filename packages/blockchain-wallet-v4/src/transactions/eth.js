@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getEthereumTxNote
+  getEthTxNote
 } from '../redux/kvStore/eth/selectors.js'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors.js'
 
@@ -91,7 +91,7 @@ export const _transformTx = curry((addresses, latestBlock, state, tx) => {
     hash: tx.hash,
     to: getLabel(tx.to, state),
     from: getLabel(tx.from, state),
-    description: getEthereumTxNote(state, tx.hash).getOrElse(''),
+    description: getEthTxNote(state, tx.hash).getOrElse(''),
     confirmations: getConfirmations(tx.blockNumber, latestBlock),
     timeFormatted: getTime(tx),
     time: tx.timeStamp

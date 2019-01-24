@@ -265,7 +265,7 @@ export const _transformTx = (wallet, currentBlockHeight, accountList, tx) => {
     outs,
     oData
   )
-  const { from, to } = selectFromAndto(inputs, outputs, type)
+  const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
     double_spend: tx.double_spend,
@@ -281,6 +281,7 @@ export const _transformTx = (wallet, currentBlockHeight, accountList, tx) => {
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
+    toAddress,
     from,
     to
   }
