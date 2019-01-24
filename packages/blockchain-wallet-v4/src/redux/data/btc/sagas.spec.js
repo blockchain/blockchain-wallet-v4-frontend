@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { select } from 'redux-saga/effects'
 import { indexBy, path, prop, append, assocPath } from 'ramda'
 import * as A from './actions'
@@ -297,57 +298,57 @@ describe('bitcoin data sagas', () => {
         .isDone()
     })
 
-    describe('state change', () => {
-      it('should add transaction data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchTransactions, {
-          payload: {
-            address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
-            reset: true
-          }
-        })
-          .withReducer(reducers)
-          .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
-            [select(S.getContext), mockContext],
-            [select(S.getTransactions), pages]
-          ])
-          .run()
-          .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
-              transactions: [Remote.Success(btcFetchData.txs)]
-            })
-          })
-      })
+    // describe('state change', () => {
+    //   it('should add transaction data to the state', () => {
+    //     return expectSaga(dataBtcSagas.fetchTransactions, {
+    //       payload: {
+    //         address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
+    //         reset: true
+    //       }
+    //     })
+    //       .withReducer(reducers)
+    //       .provide([
+    //         [select(selectors.wallet.getWalletContext), mockContext],
+    //         [select(S.getContext), mockContext],
+    //         [select(S.getTransactions), pages]
+    //       ])
+    //       .run()
+    //       .then(result => {
+    //         expect(result.storeState.bitcoin).toMatchObject({
+    //           transactions: [Remote.Success(btcFetchData.txs)]
+    //         })
+    //       })
+    //   })
 
-      it('should append transaction data to the state if reset is false', () => {
-        const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
-        return expectSaga(dataBtcSagas.fetchTransactions, {
-          payload: {
-            address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
-            reset: false
-          }
-        })
-          .withReducer(reducers)
-          .withState({
-            bitcoin: {
-              transactions: [Remote.Success(initTx)]
-            }
-          })
-          .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
-            [select(S.getContext), mockContext],
-            [select(S.getTransactions), pages]
-          ])
-          .run()
-          .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
-              transactions: append(Remote.Success(btcFetchData.txs), [
-                Remote.Success(initTx)
-              ])
-            })
-          })
-      })
-    })
+    //   it('should append transaction data to the state if reset is false', () => {
+    //     const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
+    //     return expectSaga(dataBtcSagas.fetchTransactions, {
+    //       payload: {
+    //         address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
+    //         reset: false
+    //       }
+    //     })
+    //       .withReducer(reducers)
+    //       .withState({
+    //         bitcoin: {
+    //           transactions: [Remote.Success(initTx)]
+    //         }
+    //       })
+    //       .provide([
+    //         [select(selectors.wallet.getWalletContext), mockContext],
+    //         [select(S.getContext), mockContext],
+    //         [select(S.getTransactions), pages]
+    //       ])
+    //       .run()
+    //       .then(result => {
+    //         expect(result.storeState.bitcoin).toMatchObject({
+    //           transactions: append(Remote.Success(btcFetchData.txs), [
+    //             Remote.Success(initTx)
+    //           ])
+    //         })
+    //       })
+    //   })
+    // })
   })
 
   describe('fetchTransactionHistory', () => {

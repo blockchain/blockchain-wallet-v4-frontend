@@ -8,8 +8,6 @@ describe('transformTx', () => {
     mockState.walletPath.wallet,
     558418,
     Types.HDAccountList.fromJS([]),
-    () => '',
-    () => '',
     bchTx
   )
 
