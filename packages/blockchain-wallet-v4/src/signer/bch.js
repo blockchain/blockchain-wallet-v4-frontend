@@ -113,9 +113,10 @@ export const signWithLockbox = function*(
   selection.outputs.map(coin => {
     let amount = Buffer.alloc(8)
     let script =
-      typeof coin.script === 'string'
+      !coin.script || typeof coin.script === 'string'
         ? addressToScript(coin.address)
         : coin.script
+
     amount.writeUInt32LE(coin.value)
     outputs +=
       amount.toString('hex') +

@@ -11,7 +11,7 @@ import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 import * as bippath from 'bip32-path'
-import { fromCashAddr } from './bch'
+import { convertFromCashAddrIfCashAddr } from './bch'
 
 export const isValidBitcoinAddress = (value, network) => {
   try {
@@ -58,10 +58,8 @@ export const addressToScript = (value, network) => {
       )(words)
 
       return compile([OP[`OP_${version}`], program])
-    } else if (value.toLowerCase().startsWith('bitcoincash')) {
-      return address.toOutputScript(fromCashAddr(value), n)
     } else {
-      return address.toOutputScript(value, n)
+      return address.toOutputScript(convertFromCashAddrIfCashAddr(value), n)
     }
   } catch (e) {
     return undefined
