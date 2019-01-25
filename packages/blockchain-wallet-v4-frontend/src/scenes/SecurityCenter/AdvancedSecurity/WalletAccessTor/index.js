@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 
-import WalletAccessTor from './template.js'
+import WalletAccessTor from './template'
 
 class WalletAccessTorContainer extends React.PureComponent {
   handleClick = () => {

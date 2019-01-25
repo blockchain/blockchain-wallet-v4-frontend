@@ -14,13 +14,13 @@ const APIAccess = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.securitysettings.apiaccess.title'
+            id='scenes.securitycenter.advanced.apiaccess.title'
             defaultMessage='API Access'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.securitysettings.apiaccess.description1'
+            id='scenes.securitycenter.advanced.apiaccess.description.part1'
             defaultMessage='Use our API to interact with your wallet programmatically. Follow the steps'
           />
           <Link
@@ -32,12 +32,12 @@ const APIAccess = () => {
             weight={300}
           >
             <FormattedMessage
-              id='scenes.securitysettings.apiaccess.getstarted'
+              id='scenes.securitycenter.advanced.apiaccess.description.part2'
               defaultMessage='here'
             />
           </Link>
           <FormattedMessage
-            id='scenes.securitysettings.apiaccess.description2'
+            id='scenes.securitycenter.advanced.apiaccess.description.part3'
             defaultMessage='to get started.'
           />
         </SettingDescription>
