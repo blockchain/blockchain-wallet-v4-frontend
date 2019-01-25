@@ -4,27 +4,19 @@ import moment from 'moment'
 const emailRegex = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 )
-
 const guidRegex = new RegExp(
   /(^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/
 )
-
-const ipListRegex = new RegExp(
-  /(^$)|(^(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)(,(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)*)?$)/
+const IpRegex = new RegExp(
+  /^((?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%))$/
 )
 
 const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
-
 const isNumeric = value => value - 0 === value && ('' + value).trim().length > 0
-
 const isEmail = value => emailRegex.test(value)
-
 const isGuid = value => guidRegex.test(value)
-
-const isIpList = value => ipListRegex.test(value)
-
+const isIpValid = value => IpRegex.test(value.trim())
 const isAlphaNumeric = value => emailCodeRegex.test(value)
-
 const isBitcoinFiatAvailable = (country, currency, rates) => {
   if (isNil(country)) return false
   if (isNil(currency)) return false
@@ -142,7 +134,7 @@ export {
   isNumeric,
   isEmail,
   isGuid,
-  isIpList,
+  isIpValid,
   isAlphaNumeric,
   isBitcoinFiatAvailable,
   isDOB,
