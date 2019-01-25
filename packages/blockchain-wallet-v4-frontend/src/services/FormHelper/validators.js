@@ -55,7 +55,7 @@ export const validStrongPassword = value =>
   )
 
 export const validIpList = ipList => {
-  return ipList && all(isIpValid)(ipList.split(',')) ? (
+  return !ipList || all(isIpValid)(ipList.split(',')) ? (
     undefined
   ) : (
     <M.InvalidIpListMessage />

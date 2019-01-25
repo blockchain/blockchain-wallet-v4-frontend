@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { equals, isEmpty } from 'ramda'
+import { isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -16,12 +16,6 @@ class SettingsContainer extends React.PureComponent {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
       })
-    }
-  }
-
-  componentDidUpdate (prevProps) {
-    if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
-      this.props.updateUI({ updateToggled: false })
     }
   }
 
