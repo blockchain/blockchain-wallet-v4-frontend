@@ -3,15 +3,19 @@ import { getCoinAndTotalBalances as lockboxBalances } from 'components/Balances/
 import { getCoinAndTotalBalances as totalBalances } from 'components/Balances/total/selectors'
 import { getCoinAndTotalBalances as walletBalances } from 'components/Balances/wallet/selectors'
 
-export const getData = (state, ownProps) =>
-  createDeepEqualSelector(
-    [lockboxBalances, totalBalances, walletBalances],
-    (lockboxBalancesR, totalBalancesR, walletBalancesR) => {
-      if (ownProps.viewType === 'Wallet') {
-        return walletBalancesR
-      } else if (ownProps.viewType === 'Lockbox') {
-        return lockboxBalancesR
-      }
-      return totalBalancesR
+export const getData = createDeepEqualSelector(
+  [
+    lockboxBalances,
+    totalBalances,
+    walletBalances,
+    (state, { viewType }) => viewType
+  ],
+  (lockboxBalancesR, totalBalancesR, walletBalancesR, viewType) => {
+    if (viewType === 'Wallet') {
+      return walletBalancesR
+    } else if (viewType === 'Lockbox') {
+      return lockboxBalancesR
     }
-  )(state, ownProps)
+    return totalBalancesR
+  }
+)
