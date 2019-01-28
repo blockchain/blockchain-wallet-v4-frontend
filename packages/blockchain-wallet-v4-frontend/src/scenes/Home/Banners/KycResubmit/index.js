@@ -41,7 +41,7 @@ const Title = styled(Text)`
 
 const ResubmitBtn = styled(Button).attrs({
   nature: 'primary',
-  width: '140px',
+  width: '150px',
   height: '40px'
 })`
   font-weight: 500;
@@ -50,13 +50,13 @@ const ResubmitBtn = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <Title size='15px' weight={400}>
+      <Title size='16px' weight={400}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.title'
           defaultMessage='Documents Needed'
         />
       </Title>
-      <Text size='12px' weight={300}>
+      <Text size='13px' weight={300}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.subtitle'
           defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
