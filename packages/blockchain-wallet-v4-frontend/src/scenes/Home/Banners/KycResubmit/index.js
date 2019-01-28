@@ -3,42 +3,25 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { actions, model } from 'data'
 
 const { TIERS } = model.profile
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 150px;
-  background: none;
-  background-color: #0d0d42;
-  border-radius: 4px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-top: 15px;
+  align-items: flex-start;
+  height: 80px;
+  padding: 0 20px;
   box-sizing: border-box;
+  background-color: ${props => props.theme['white-blue']};
+  border-radius: 4px;
+  margin-top: 15px;
   overflow: hidden;
-
-  @media (min-width: 1200px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 88px;
-    background: #0d0d42 url(/img/swap-dashboard-left.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: -10px 0px;
-    padding-left: 124px;
-    padding-right: 30px;
-    box-sizing: border-box;
-  }
 `
+
 const Column = styled.div`
   display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
@@ -47,33 +30,18 @@ const Column = styled.div`
   height: 100%;
 
   & > :not(:first-child) {
-    margin-top: 10px;
+    margin-top: 4px;
+    margin-right: 15px;
   }
+`
+const Title = styled(Text)`
+  color: ${props => props.theme['marketing-primary']};
+  margin-bottom: 4px;
+`
 
-  @media (min-width: 1200px) {
-    display: flex;
-  }
-`
-const LargeText = styled(Text).attrs({
-  color: 'white',
-  size: '20px',
-  weight: 500
-})``
-const MediumText = styled(Text).attrs({
-  color: 'white',
-  size: '14px',
-  weight: 400
-})``
-const BackgroundImage = styled(Image)`
-  display: none;
-  height: 125%;
-  @media (min-width: 1200px) {
-    display: block;
-  }
-`
-const GetStartedButton = styled(Button).attrs({
+const ResubmitBtn = styled(Button).attrs({
   nature: 'primary',
-  width: '200px',
+  width: '140px',
   height: '40px'
 })`
   font-weight: 500;
@@ -82,29 +50,26 @@ const GetStartedButton = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <LargeText>
+      <Title size='15px' weight={400}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.title'
           defaultMessage='Documents Needed'
         />
-      </LargeText>
-      <MediumText>
+      </Title>
+      <Text size='12px' weight={300}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.subtitle'
           defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
         />
-      </MediumText>
-    </Column>
-    <Column hiddenOnMobile>
-      <BackgroundImage name='swap-dashboard-right' />
+      </Text>
     </Column>
     <Column>
-      <GetStartedButton onClick={verifyIdentity}>
+      <ResubmitBtn onClick={verifyIdentity}>
         <FormattedMessage
-          id='scenes.home.swapbanner.faster.started'
-          defaultMessage='Get Started'
+          id='scenes.home.banners.kycresubmit.resubmit'
+          defaultMessage='Resubmit Now'
         />
-      </GetStartedButton>
+      </ResubmitBtn>
     </Column>
   </Wrapper>
 )

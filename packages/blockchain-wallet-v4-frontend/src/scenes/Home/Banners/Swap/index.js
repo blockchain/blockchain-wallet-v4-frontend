@@ -15,7 +15,6 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 150px;
-  background: none;
   background-color: #0d0d42;
   border-radius: 4px;
   padding-left: 15px;
@@ -39,6 +38,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
   }
 `
+
 const Column = styled.div`
   display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
