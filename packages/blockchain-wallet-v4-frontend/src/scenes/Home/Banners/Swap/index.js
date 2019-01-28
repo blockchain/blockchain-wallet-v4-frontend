@@ -87,13 +87,13 @@ class SwapBanner extends React.PureComponent {
           <LargeText>
             <FormattedMessage
               defaultMessage='Swap Your Crypto'
-              id='scenes.home.swapbanner.swap_your_crypto'
+              id='scenes.home.banners.swap.title'
             />
           </LargeText>
           <MediumText>
             <FormattedMessage
               defaultMessage="Trading your crypto doesn't mean trading away control."
-              id='scenes.home.swapbanner.trading_your_crypto'
+              id='scenes.home.banners.swap.subtitle'
             />
           </MediumText>
         </Column>
@@ -104,7 +104,7 @@ class SwapBanner extends React.PureComponent {
           {kycNotFinished && (
             <GetStartedButton onClick={verifyIdentity}>
               <FormattedMessage
-                id='scenes.home.swapbanner.faster.started'
+                id='scenes.home.banners.swap.started'
                 defaultMessage='Get Started'
               />
             </GetStartedButton>
@@ -113,7 +113,7 @@ class SwapBanner extends React.PureComponent {
             <LinkContainer to='/swap'>
               <GetStartedButton onClick={hideSwapBanner}>
                 <FormattedMessage
-                  id='scenes.home.swapbanner.faster.makeswap'
+                  id='scenes.home.banners.swap.makeswap'
                   defaultMessage='Make Swap'
                 />
               </GetStartedButton>

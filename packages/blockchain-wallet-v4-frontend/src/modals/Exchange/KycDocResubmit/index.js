@@ -1,19 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { bindActionCreators, compose } from 'redux'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal, Text, Button } from 'blockchain-info-components'
+import { Button, Image, Modal, Text } from 'blockchain-info-components'
+const { TIERS } = model.profile
 
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  padding: 0 10px;
+  margin: 30px 0;
   overflow: hidden;
 `
 const Body = styled.div`
@@ -21,46 +23,42 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 120px;
-  padding: 20px;
+  padding: 0 15px;
   box-sizing: border-box;
   text-align: center;
+  margin: 14px 0;
+
+  & > :last-child {
+    margin: 15px 0;
+  }
 `
 const Footer = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: auto;
-  padding: 0 24px 32px 24px;
-  box-sizing: border-box;
+  padding: 0 10px;
 `
 const BottomImage = styled(Image)`
   width: 100%;
-  align-self: flex-end;
+  margin: 20px 0 0;
 `
-const FooterButton = styled(Button).attrs({
-  nature: 'primary',
-  fullwidth: true
-})`
-  height: auto;
-  font-size: 17px;
-  font-weight: 400;
-  padding: 15px 0;
-  margin-bottom: 32px;
+const FooterButton = styled(Button)`
+  height: 50px;
+  width: 325px;
+  padding: 0 10px;
+  font-size: 18px;
 `
 
-class DocResubmit extends React.PureComponent {
-  componentDidMount () {
-    this.props.actions.swapGetStartedInitialized()
-  }
-
+class KycDocResubmit extends React.PureComponent {
   render () {
-    const { position, total, actions } = this.props
+    const { position, total, verifyIdentity } = this.props
 
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <Text color='white' size='24px' weight={500}>
+          <Text size='20px' weight={400}>
             <FormattedMessage
               defaultMessage='Documents Needed'
               id='modals.exchange.docresubmit.title'
@@ -68,13 +66,13 @@ class DocResubmit extends React.PureComponent {
           </Text>
         </Header>
         <Body>
-          <Text size='18px' weight={400}>
+          <Text size='14px' weight={300}>
             <FormattedMessage
               defaultMessage="We had some issues with the documents you've supplied."
               id='modals.exchange.docresubmit.body1'
             />
           </Text>
-          <Text size='18px' weight={400}>
+          <Text size='14px' weight={300}>
             <FormattedMessage
               defaultMessage='Please try uploading the documents again to continue with your verification.'
               id='modals.exchange.docresubmit.body2'
@@ -82,12 +80,7 @@ class DocResubmit extends React.PureComponent {
           </Text>
         </Body>
         <Footer>
-          <FooterButton
-            nature='primary'
-            size='20px'
-            fullwidth
-            onClick={actions.swapGetStartedSubmitClicked}
-          >
+          <FooterButton nature='primary' onClick={verifyIdentity}>
             <FormattedMessage
               defaultMessage='Resubmit Now'
               id='modals.exchange.docresubmit.resubmit'
@@ -101,7 +94,8 @@ class DocResubmit extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.swapGetStarted, dispatch)
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
 })
 
 const enhance = compose(
@@ -109,7 +103,7 @@ const enhance = compose(
     null,
     mapDispatchToProps
   ),
-  modalEnhancer('DocResubmit')
+  modalEnhancer('KycDocResubmit')
 )
 
-export default enhance(DocResubmit)
+export default enhance(KycDocResubmit)

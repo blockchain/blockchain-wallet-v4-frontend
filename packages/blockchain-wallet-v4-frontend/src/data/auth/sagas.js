@@ -141,6 +141,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.saveGoal('swapUpgrade'))
       yield put(actions.goals.saveGoal('kyc'))
       yield put(actions.goals.saveGoal('bsv'))
+      yield put(actions.goals.saveGoal('kycDocResubmit'))
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())

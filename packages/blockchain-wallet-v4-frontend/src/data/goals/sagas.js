@@ -123,6 +123,32 @@ export default ({ api }) => {
       )
   }
 
+  const runKycDocResubmitGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    // const kycNotFinished = (yield select(
+    //   selectors.modules.profile.getUserKYCState
+    // ))
+    //   .map(equals(NONE))
+    //   .getOrElse(false)
+    //
+    // // console.info(kycNotFinished)
+    //
+    // // check if user needs to resubmit docs
+    // const showKycDocResubmitModal = (yield select(
+    //   selectors.modules.profile.getKycDocResubmissionStatus
+    // ))
+    //   // .map(equals(0)) // TODO: update and use a model
+    //   // .getOrElse(false)
+    //
+    // console.info('1212', showKycDocResubmitModal)
+
+    // if (kycNotFinished && showKycDocResubmitModal) {
+    yield put(actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit'))
+    // }
+  }
+
   const runKycGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -191,7 +217,17 @@ export default ({ api }) => {
 
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
-    const { sunriver, payment, swap, swapUpgrade, bsv, welcome } = initialModals
+    const {
+      bsv,
+      kycDocResubmit,
+      sunriver,
+      payment,
+      swap,
+      swapUpgrade,
+      welcome
+    } = initialModals
+    if (kycDocResubmit)
+      return yield put(actions.modals.showModal(kycDocResubmit.name))
     if (sunriver)
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
@@ -219,6 +255,9 @@ export default ({ api }) => {
           break
         case 'kyc':
           yield call(runKycGoal, goal)
+          break
+        case 'kycDocResubmit':
+          yield call(runKycDocResubmitGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
