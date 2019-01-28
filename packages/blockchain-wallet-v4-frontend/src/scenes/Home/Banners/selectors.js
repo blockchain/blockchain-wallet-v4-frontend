@@ -5,15 +5,24 @@ import { selectors, model } from 'data'
 const { NONE } = model.profile.KYC_STATES
 
 export const getData = state => {
-  const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
-  const showSwapBanner = selectors.preferences.getShowSwapBanner(state)
   const kycNotFinished = selectors.modules.profile
     .getUserKYCState(state)
     .map(equals(NONE))
     .getOrElse(false)
+  const showDocResubmitBanner = selectors.modules.profile
+    .getKycDocResubmissionStatus(state)
+    .map(equals(0)) // TODO: update and use a model
+    .getOrElse(false)
+  const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
+  const showSwapBannerPrefs = selectors.preferences.getShowSwapBanner(state)
+  const showSwapBanner = !showKycGetStarted && showSwapBannerPrefs
 
   return {
-    kycNotFinished,
-    showSwapBanner: !showKycGetStarted && showSwapBanner
+    bannerToShow: showDocResubmitBanner
+      ? 'resubmit'
+      : showSwapBanner
+      ? 'swap'
+      : null,
+    kycNotFinished
   }
 }

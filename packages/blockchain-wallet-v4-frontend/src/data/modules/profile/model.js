@@ -26,6 +26,12 @@ export const TIERS_STATES = {
   EXPIRED: 'expired'
 }
 
+export const DOC_RESUBMISSION_STATES = {
+  NONE: 'NONE',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  REJECTED: 'REJECTED'
+}
+
 export const TIERS = {
   0: 0,
   1: 1,

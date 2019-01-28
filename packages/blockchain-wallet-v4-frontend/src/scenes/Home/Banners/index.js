@@ -7,13 +7,16 @@ import Swap from './Swap'
 
 class Banners extends React.PureComponent {
   render () {
-    const { showSwapBanner, kycNotFinished } = this.props
+    const { bannerToShow, kycNotFinished } = this.props
 
-    return showSwapBanner ? (
-      <Swap kycNotFinished={kycNotFinished} />
-    ) : (
-      <KycResubmit />
-    )
+    switch (bannerToShow) {
+      case 'resubmit':
+        return <KycResubmit />
+      case 'swap':
+        return <Swap kycNotFinished={kycNotFinished} />
+      default:
+        return null
+    }
   }
 }
 
