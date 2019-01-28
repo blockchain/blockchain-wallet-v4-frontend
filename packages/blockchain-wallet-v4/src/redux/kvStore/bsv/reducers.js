@@ -1,4 +1,4 @@
-import { assocPath, compose } from 'ramda'
+import { assoc, assocPath, compose } from 'ramda'
 import { mapped, over } from 'ramda-lens'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
@@ -40,6 +40,14 @@ export default (state = INITIAL_STATE, action) => {
         archived
       )
       return over(valueLens, setAccountArchived, state)
+    }
+    case AT.SET_BSV_HAS_SEEN: {
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setHasSeen = assoc('has_seen', true)
+      return over(valueLens, setHasSeen, state)
     }
     default:
       return state

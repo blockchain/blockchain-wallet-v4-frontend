@@ -3,7 +3,7 @@ import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
@@ -147,8 +147,21 @@ export default ({ api }) => {
   const runBsvGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
+    yield put(actions.core.data.bsv.fetchData())
+    yield take(actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS)
 
-    yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
+    const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
+    const hasSeen = hasSeenR.getOrElse(false)
+    if (hasSeen) return
+
+    const balanceR = yield select(selectors.core.data.bsv.getBalance)
+    const balance = balanceR.getOrElse(0)
+
+    yield put(actions.core.data.bsv.resetData())
+    yield put(actions.core.kvStore.bsv.setHasSeen())
+    if (balance > 0) {
+      yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
+    }
   }
 
   const runWelcomeGoal = function*(goal) {

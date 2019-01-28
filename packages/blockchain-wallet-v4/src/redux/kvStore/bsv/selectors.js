@@ -58,3 +58,6 @@ export const getDefaultAccountIndex = state =>
 
 export const getBsvTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+
+export const getHasSeen = state =>
+  getMetadata(state).map(path(['value', 'has_seen']))
