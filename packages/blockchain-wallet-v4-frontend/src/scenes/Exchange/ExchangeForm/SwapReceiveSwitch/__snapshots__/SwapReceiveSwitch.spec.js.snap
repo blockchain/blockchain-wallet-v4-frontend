@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapReceiveSwitch should render correctly 1`] = `
+<SwapReceiveSwitch__SwapReceiveRow>
+  <Layout__Cell>
+    <SwapReceiveSwitch__ActiveCurrencyButton
+      checked={true}
+      coin="btc"
+      data-e2e="exchangeExchangeRadioButton"
+      onClick={[Function]}
+    />
+    <SwapReceiveSwitch__ClickableText
+      data-e2e="exchangeExchangeRadioText"
+      onClick={[Function]}
+      size="14px"
+      weight={400}
+    >
+      <FormattedMessage
+        defaultMessage="Swap"
+        id="scenes.exchange.exchangeform.swap"
+        values={Object {}}
+      />
+    </SwapReceiveSwitch__ClickableText>
+  </Layout__Cell>
+  <SwapReceiveSwitch__SwapReceiveGap
+    size="small"
+  />
+  <Layout__Cell>
+    <SwapReceiveSwitch__ActiveCurrencyButton
+      checked={false}
+      coin="xlm"
+      data-e2e="exchangeReceiveRadioButton"
+      onClick={[Function]}
+    />
+    <SwapReceiveSwitch__ClickableText
+      data-e2e="exchangeReceiveRadioText"
+      onClick={[Function]}
+      size="14px"
+      weight={400}
+    >
+      <FormattedMessage
+        defaultMessage="Receive"
+        id="scenes.exchange.exchangeform.to"
+        values={Object {}}
+      />
+    </SwapReceiveSwitch__ClickableText>
+  </Layout__Cell>
+</SwapReceiveSwitch__SwapReceiveRow>
+`;

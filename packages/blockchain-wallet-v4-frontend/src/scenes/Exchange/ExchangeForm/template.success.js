@@ -12,7 +12,7 @@ import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { Wrapper as BorderWrapper } from 'components/Exchange'
-import { Cell, Row } from './Layout'
+import { Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import DemoHeader from './DemoHeader'
@@ -22,6 +22,7 @@ import VerificationInfo from './VerificationInfo'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
+import SwapReceiveSwitch from './SwapReceiveSwitch'
 
 const { fiatActive, formatPair } = model.rates
 
@@ -80,12 +81,6 @@ const ColumnRight = styled.div`
     width: 40%;
   }
 `
-const SwapReceiveRow = styled(Row)`
-  padding-bottom: 0;
-`
-const SwapReceiveGap = styled(Cell)`
-  min-width: 50px;
-`
 const AmountRow = styled(Row)`
   position: relative;
   padding: 16px 32px 0 32px;
@@ -135,17 +130,6 @@ const CoinFiatSwapIcon = styled(Icon)`
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
   }
 `
-const ActiveCurrencyButton = styled.div`
-  cursor: pointer;
-  height: 11px;
-  width: 11px;
-  background-color: ${props => props.checked && props.theme[props.coin]};
-  border-radius: 8px;
-  margin-right: 8px;
-  border: 1px solid
-    ${props =>
-      props.checked ? props.theme[props.coin] : props.theme['gray-4']};
-`
 const FormWrapper = styled(BorderWrapper)`
   padding: 0;
   background-color: ${props => props.theme.white};
@@ -161,9 +145,6 @@ const CurrencyBox = styled(Text)`
   font-weight: 300;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
-`
-const ClickableText = styled(Text)`
-  cursor: pointer;
 `
 const LockboxWarning = styled(Row)`
   padding: 20px 30px 0;
@@ -189,12 +170,11 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
+  fix,
   inputField,
   inputSymbol,
   isDemo,
-  sourceActive,
   sourceCoin,
-  targetActive,
   targetCoin,
   volume,
   handleAmountChange,
@@ -215,57 +195,12 @@ const Success = ({
         <ColumnLeft>
           <FormWrapper>
             <Form>
-              <SwapReceiveRow>
-                <Cell>
-                  <ActiveCurrencyButton
-                    data-e2e='exchangeExchangeRadioButton'
-                    onClick={() => {
-                      if (!sourceActive) swapFix()
-                    }}
-                    checked={sourceActive}
-                    coin={sourceCoin.toLowerCase()}
-                  />
-                  <ClickableText
-                    data-e2e='exchangeExchangeRadioText'
-                    onClick={() => {
-                      if (!sourceActive) swapFix()
-                    }}
-                    size='14px'
-                    weight={400}
-                  >
-                    <FormattedMessage
-                      id='scenes.exchange.exchangeform.swap'
-                      defaultMessage='Swap'
-                    />
-                  </ClickableText>
-                </Cell>
-                <SwapReceiveGap size='small' />
-                <Cell>
-                  {
-                    <ActiveCurrencyButton
-                      data-e2e='exchangeReceiveRadioButton'
-                      onClick={() => {
-                        if (!targetActive) swapFix()
-                      }}
-                      checked={targetActive}
-                      coin={targetCoin.toLowerCase()}
-                    />
-                  }
-                  <ClickableText
-                    data-e2e='exchangeReceiveRadioText'
-                    onClick={() => {
-                      if (!targetActive) swapFix()
-                    }}
-                    size='14px'
-                    weight={400}
-                  >
-                    <FormattedMessage
-                      id='scenes.exchange.exchangeform.to'
-                      defaultMessage='Receive'
-                    />
-                  </ClickableText>
-                </Cell>
-              </SwapReceiveRow>
+              <SwapReceiveSwitch
+                fix={fix}
+                sourceCoin={sourceCoin}
+                targetCoin={targetCoin}
+                swapFix={swapFix}
+              />
               <CurrencySelect
                 sourceCoin={sourceCoin}
                 targetCoin={targetCoin}
