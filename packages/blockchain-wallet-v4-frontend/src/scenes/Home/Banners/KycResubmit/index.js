@@ -2,11 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { actions, model } from 'data'
-import { getData } from './selectors'
 
 const { TIERS } = model.profile
 
@@ -36,7 +34,7 @@ const Wrapper = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -10px 0px;
-    padding-left: 75px;
+    padding-left: 124px;
     padding-right: 30px;
     box-sizing: border-box;
   }
@@ -81,63 +79,42 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
 `
 
-export const SwapBanner = ({
-  showBanner,
-  kycNotFinished,
-  hideSwapBanner,
-  verifyIdentity
-}) =>
-  showBanner ? (
-    <Wrapper>
-      <Column>
-        <LargeText>
-          <FormattedMessage
-            defaultMessage='Swap Your Crypto'
-            id='scenes.home.swapbanner.swap_your_crypto'
-          />
-        </LargeText>
-        <MediumText>
-          <FormattedMessage
-            defaultMessage="Trading your crypto doesn't mean trading away control."
-            id='scenes.home.swapbanner.trading_your_crypto'
-          />
-        </MediumText>
-      </Column>
-      <Column hiddenOnMobile>
-        <BackgroundImage name='swap-dashboard-right' />
-      </Column>
-      <Column>
-        {kycNotFinished && (
-          <GetStartedButton onClick={verifyIdentity}>
-            <FormattedMessage
-              id='scenes.home.swapbanner.faster.started'
-              defaultMessage='Get Started'
-            />
-          </GetStartedButton>
-        )}
-        {!kycNotFinished && (
-          <LinkContainer to='/swap'>
-            <GetStartedButton onClick={hideSwapBanner}>
-              <FormattedMessage
-                id='scenes.home.swapbanner.faster.makeswap'
-                defaultMessage='Make Swap'
-              />
-            </GetStartedButton>
-          </LinkContainer>
-        )}
-      </Column>
-    </Wrapper>
-  ) : null
-
-const mapStateToProps = state => getData(state)
+const KycResubmit = ({ verifyIdentity }) => (
+  <Wrapper>
+    <Column>
+      <LargeText>
+        <FormattedMessage
+          id='scenes.home.banners.kycresubmit.title'
+          defaultMessage='Documents Needed'
+        />
+      </LargeText>
+      <MediumText>
+        <FormattedMessage
+          id='scenes.home.banners.kycresubmit.subtitle'
+          defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
+        />
+      </MediumText>
+    </Column>
+    <Column hiddenOnMobile>
+      <BackgroundImage name='swap-dashboard-right' />
+    </Column>
+    <Column>
+      <GetStartedButton onClick={verifyIdentity}>
+        <FormattedMessage
+          id='scenes.home.swapbanner.faster.started'
+          defaultMessage='Get Started'
+        />
+      </GetStartedButton>
+    </Column>
+  </Wrapper>
+)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2])),
-  hideSwapBanner: () => dispatch(actions.preferences.hideSwapBanner())
+    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(SwapBanner)
+)(KycResubmit)

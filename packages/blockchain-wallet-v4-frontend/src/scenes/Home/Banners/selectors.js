@@ -14,6 +14,6 @@ export const getData = state => {
 
   return {
     kycNotFinished,
-    showBanner: !showKycGetStarted && showSwapBanner
+    showSwapBanner: !showKycGetStarted && showSwapBanner
   }
 }
