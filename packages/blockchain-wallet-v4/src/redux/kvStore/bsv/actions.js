@@ -24,3 +24,6 @@ export const setAccountArchived = (accountIdx, archived) => ({
   type: AT.SET_BSV_ACCOUNT_ARCHIVED,
   payload: { accountIdx, archived }
 })
+export const setHasSeen = () => ({
+  type: AT.SET_BSV_HAS_SEEN
+})

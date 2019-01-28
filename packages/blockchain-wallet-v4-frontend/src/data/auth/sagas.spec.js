@@ -499,6 +499,10 @@ describe('authSagas', () => {
       saga.next().put(actions.goals.saveGoal('kyc'))
     })
 
+    it('should add bsv goal', () => {
+      saga.next().put(actions.goals.saveGoal('bsv'))
+    })
+
     it('should run goals', () => {
       saga.next().put(actions.goals.runGoals())
     })

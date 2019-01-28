@@ -14,7 +14,7 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
-import { SendBsv } from './Bsv'
+import { BsvGetStarted, SendBsv } from './Bsv'
 import {
   CoinifyDeleteBank,
   CoinifyExchangeData,
@@ -71,6 +71,7 @@ const Modals = () => (
   <div>
     <AddBtcWallet />
     <AutoDisconnection />
+    <BsvGetStarted />
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
