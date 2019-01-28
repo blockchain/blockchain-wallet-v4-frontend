@@ -144,6 +144,13 @@ export default ({ api }) => {
       yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
   }
 
+  const runBsvGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
+  }
+
   const runWelcomeGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -171,7 +178,7 @@ export default ({ api }) => {
 
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
-    const { sunriver, payment, swap, swapUpgrade, welcome } = initialModals
+    const { sunriver, payment, swap, swapUpgrade, bsv, welcome } = initialModals
     if (sunriver)
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
@@ -181,6 +188,9 @@ export default ({ api }) => {
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
       )
+    if (bsv) {
+      return yield put(actions.modals.showModal(bsv.name))
+    }
     if (welcome)
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
   }
@@ -188,20 +198,23 @@ export default ({ api }) => {
   const runGoal = function*(goal) {
     try {
       switch (goal.name) {
-        case 'payment':
-          yield call(runSendBtcGoal, goal)
-          break
         case 'referral':
           yield call(runReferralGoal, goal)
           break
-        case 'welcome':
-          yield call(runWelcomeGoal, goal)
+        case 'payment':
+          yield call(runSendBtcGoal, goal)
+          break
+        case 'kyc':
+          yield call(runKycGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
-        case 'kyc':
-          yield call(runKycGoal, goal)
+        case 'bsv':
+          yield call(runBsvGoal, goal)
+          break
+        case 'welcome':
+          yield call(runWelcomeGoal, goal)
           break
       }
     } catch (error) {
