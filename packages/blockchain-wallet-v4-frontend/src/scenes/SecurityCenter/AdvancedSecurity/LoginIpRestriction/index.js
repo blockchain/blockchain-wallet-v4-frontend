@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 
-import LoginIpRestriction from './template.js'
+import LoginIpRestriction from './template'
 
 class LoginIpRestrictionContainer extends React.PureComponent {
   handleClick = () => {
