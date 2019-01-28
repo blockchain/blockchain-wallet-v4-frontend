@@ -30,7 +30,7 @@ import {
   UserExists,
   SunRiverLinkError
 } from './Exchange'
-import { Confirm, PromptInput } from './Generic'
+import { Confirm, PromptInput, Support } from './Generic'
 import {
   LockboxAppManager,
   LockboxAuthenticityCheck,
@@ -115,6 +115,7 @@ const Modals = () => (
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
     <SunRiverLinkError />
+    <Support />
     <SwapGetStarted />
     <SwapUpgrade />
     <TransactionReport />

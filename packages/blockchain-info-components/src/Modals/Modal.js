@@ -87,8 +87,8 @@ const Modal = props => {
 }
 
 Modal.propTypes = {
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
+  position: PropTypes.number,
+  total: PropTypes.number,
   size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', ''])
 }
 
