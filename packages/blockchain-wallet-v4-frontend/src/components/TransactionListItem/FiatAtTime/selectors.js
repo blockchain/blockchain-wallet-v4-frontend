@@ -10,7 +10,7 @@ export const getData = curry((hash, currency, state) => {
     fiatR =>
       (fiatR || Remote.NotAsked).map(value =>
         Currency.fiatToString({
-          value: value.split(',').join(''),
+          value,
           unit: { currency, symbol: Exchange.getSymbol(currency) }
         })
       )
