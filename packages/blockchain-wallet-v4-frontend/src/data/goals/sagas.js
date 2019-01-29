@@ -1,6 +1,5 @@
 import { equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
@@ -127,10 +126,7 @@ export default ({ api }) => {
   const runKycDocResubmitGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-
-    // TODO: need to fetch nabu user data before this! how?
-    yield delay(5000)
-
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
     // check if user needs to resubmit docs
     const showKycDocResubmitModal = (yield select(
       selectors.modules.profile.getKycDocResubmissionStatus
