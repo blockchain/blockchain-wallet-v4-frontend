@@ -6,7 +6,7 @@ import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import Balances from './Balances'
-import SwapBanner from './SwapBanner'
+import Banners from './Banners'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -58,7 +58,7 @@ const ColumnRight = styled(Column)`
 
 const Home = () => (
   <Wrapper>
-    <SwapBanner />
+    <Banners />
     <ColumnWrapper>
       <ColumnLeft>
         <Balances />

@@ -24,6 +24,7 @@ import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeDetails,
   ExchangeResults,
+  KycDocResubmit,
   IdentityVerification,
   SwapGetStarted,
   SwapUpgrade,
@@ -81,6 +82,7 @@ const Modals = () => (
     <EditTxDescription />
     <ExchangeDetails />
     <ExchangeResults />
+    <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAuthenticityCheck disableOutsideClose />

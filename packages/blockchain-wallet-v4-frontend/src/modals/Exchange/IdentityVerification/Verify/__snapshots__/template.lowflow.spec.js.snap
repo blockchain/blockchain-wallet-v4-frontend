@@ -34,7 +34,7 @@ exports[`HighFlow should render correctly 1`] = `
               values={Object {}}
             />
           </templatelowflow__VerifyIdentityVerificationSubHeader>
-          <templatelowflow__DocumentsWrapper>
+          <templatelowflow__DocumentListWrapper>
             <FormattedMessage
               defaultMessage="Government Issued Passport"
               id="identityverification.verify.passport"
@@ -50,7 +50,7 @@ exports[`HighFlow should render correctly 1`] = `
               id="identityverification.verify.natitionalidcard"
               values={Object {}}
             />
-          </templatelowflow__DocumentsWrapper>
+          </templatelowflow__DocumentListWrapper>
           <templatelowflow__SubInstructions>
             <Text
               altFont={false}

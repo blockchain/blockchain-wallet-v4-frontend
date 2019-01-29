@@ -1,4 +1,4 @@
-import { equals, map, prop, startsWith, sum, values } from 'ramda'
+import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,8 +9,9 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { TIERS, KYC_STATES } = model.profile
+  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
+  const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
   const logLocation = 'goals/sagas'
 
@@ -123,6 +124,24 @@ export default ({ api }) => {
       )
   }
 
+  const runKycDocResubmitGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    // check if user needs to resubmit docs
+    const showKycDocResubmitModal = (yield select(
+      selectors.modules.profile.getKycDocResubmissionStatus
+    ))
+      .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
+      .getOrElse(false)
+
+    if (showKycDocResubmitModal) {
+      yield put(
+        actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit')
+      )
+    }
+  }
+
   const runKycGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -191,7 +210,17 @@ export default ({ api }) => {
 
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
-    const { sunriver, payment, swap, swapUpgrade, bsv, welcome } = initialModals
+    const {
+      bsv,
+      kycDocResubmit,
+      sunriver,
+      payment,
+      swap,
+      swapUpgrade,
+      welcome
+    } = initialModals
+    if (kycDocResubmit)
+      return yield put(actions.modals.showModal(kycDocResubmit.name))
     if (sunriver)
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
@@ -219,6 +248,9 @@ export default ({ api }) => {
           break
         case 'kyc':
           yield call(runKycGoal, goal)
+          break
+        case 'kycDocResubmit':
+          yield call(runKycDocResubmitGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
