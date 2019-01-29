@@ -2948,6 +2948,40 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
+        "id": "modals.bsvgetstarted.now_supporting_sv"
+      },
+      {
+        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
+        "id": "modals.bsvgetstarted.visitsettings"
+      },
+      {
+        "defaultMessage": "Check It Out!",
+        "id": "modals.bsvGetStarted.continue"
+      }
+    ],
+    "path": "src/modals/Bsv/BsvGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
+        "id": "modals.bsvgetstarted.now_supporting_sv"
+      },
+      {
+        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
+        "id": "modals.bsvgetstarted.visitsettings"
+      },
+      {
+        "defaultMessage": "Check It Out!",
+        "id": "modals.bsvGetStarted.continue"
+      }
+    ],
+    "path": "src/modals/Bsv/BsvGetStarted/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "maximum",
         "id": "modals.sendbsv.maximumamountlink.maximum"
       }
@@ -4558,8 +4592,40 @@
         "id": "identityverification.verify.natitionalidcard"
       },
       {
-        "defaultMessage": "Last Step. Verify Your ID",
-        "id": "identityverification.verify.header"
+        "defaultMessage": "The required photos are missing",
+        "id": "dentityverification.verify.resubmit.reason.missing"
+      },
+      {
+        "defaultMessage": "The document you submitted is incorrect",
+        "id": "identityverification.verify.resubmit.reason.incorrect"
+      },
+      {
+        "defaultMessage": "We were unable to read the images you submitted due to image quality",
+        "id": "identityverification.verify.resubmit.reason.quality"
+      },
+      {
+        "defaultMessage": "Resubmit your verification information.",
+        "id": "identityverification.verify.resubmit.header"
+      },
+      {
+        "defaultMessage": "Unfortunately we're having trouble verifying your identity and we need you to resubmit your verification information.",
+        "id": "identityverification.verify.resubmit.message"
+      },
+      {
+        "defaultMessage": "Main reasons for this to happen are",
+        "id": "identityverification.verify.resubmit.reason.intro"
+      },
+      {
+        "defaultMessage": "Remember to turn the camera on",
+        "id": "identityverification.verify.resubmit.camera.one"
+      },
+      {
+        "defaultMessage": "Click allow on the pop up that will appear on the next screen.",
+        "id": "identityverification.verify.resubmit.camera.two"
+      },
+      {
+        "defaultMessage": "Last Step. Let's Confirm It's You",
+        "id": "identityverification.verify.header.confirm"
       },
       {
         "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
@@ -4648,6 +4714,23 @@
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/VerifyMobile/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Documents Needed",
+        "id": "modals.exchange.docresubmit.title"
+      },
+      {
+        "defaultMessage": "We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification.",
+        "id": "modals.exchange.docresubmit.body1"
+      },
+      {
+        "defaultMessage": "Resubmit Now",
+        "id": "modals.exchange.docresubmit.resubmit"
+      }
+    ],
+    "path": "src/modals/Exchange/KycDocResubmit/index.json"
   },
   {
     "descriptors": [
@@ -4822,6 +4905,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Need some help?",
+        "id": "modals.support.need_some_help"
+      },
+      {
+        "defaultMessage": "Our Blockchain Support Team is standing by.",
+        "id": "modals.support.our_support"
+      },
+      {
+        "defaultMessage": "Contact Support",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/Generic/Support/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "{changeType} the {appName} application was successful!",
         "id": "modals.lockbox.appmanager.success"
       },
@@ -4858,8 +4958,8 @@
         "id": "modals.lockbox.appmanager.appfailure"
       },
       {
-        "defaultMessage": "Loading Application List",
-        "id": "modals.lockbox.appmanager.loadingapps"
+        "defaultMessage": "Loading application list",
+        "id": "modals.lockbox.appmanager.loadingapplist"
       },
       {
         "defaultMessage": "App Manager",
@@ -7133,8 +7233,8 @@
         "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
       },
       {
-        "defaultMessage": "Amount",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.amount"
+        "defaultMessage": "While your identity gets verified, you can buy up to",
+        "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy"
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/KYCNotification/template.json"
@@ -7940,6 +8040,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Preview",
+        "id": "scenes.exchange.exchangeform.demo_header.preview"
+      },
+      {
+        "defaultMessage": "Looking to trade your Crypto straight from your Wallet? See how Swap works.",
+        "id": "scenes.exchange.exchangeform.demo_header.demo_description"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/DemoHeader/DemoHeader.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Try again",
         "id": "scenes.exchange.exchangeform.tryagain"
       }
@@ -8128,6 +8241,43 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.exchange.exchangeform.summary.demo_title"
+      },
+      {
+        "defaultMessage": "Swap enables you to trade crypto with low fees, live rates, and quick settlement, all while maintaining full control of your funds.",
+        "id": "scenes.exchange.exchangeform.summary.demo_text"
+      },
+      {
+        "defaultMessage": "Low Fees",
+        "id": "scenes.exchange.exchangeform.summary.low_fees"
+      },
+      {
+        "defaultMessage": "Great news! You don't have to go to an exchange to get the best prices.",
+        "id": "scenes.exchange.exchangeform.summary.demo_note_1"
+      },
+      {
+        "defaultMessage": "Higher Limits",
+        "id": "scenes.exchange.exchangeform.summary.higher_limits"
+      },
+      {
+        "defaultMessage": "Like to trade big? Get access to limits of up to $25,000 per day.",
+        "id": "scenes.exchange.exchangeform.summary.demo_note_2"
+      },
+      {
+        "defaultMessage": "Easy to use",
+        "id": "scenes.exchange.exchangeform.summary.easy_to_use"
+      },
+      {
+        "defaultMessage": "Get started in just a few steps",
+        "id": "scenes.exchange.exchangeform.summary.demo_note_3"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/Summary/Demo.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Swap",
         "id": "scenes.exchange.exchangeform.summary.swap"
       },
@@ -8145,6 +8295,40 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/Summary/Summary.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Swap",
+        "id": "scenes.exchange.exchangeform.summary.swap"
+      },
+      {
+        "defaultMessage": "Receive",
+        "id": "scenes.exchange.exchangeform.summary.to"
+      },
+      {
+        "defaultMessage": "Fees",
+        "id": "scenes.exchange.exchangeform.summary.fees"
+      },
+      {
+        "defaultMessage": "Swap Value",
+        "id": "scenes.exchange.exchangeform.summary.swapvalue"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/Summary/Volume.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Swap",
+        "id": "scenes.exchange.exchangeform.swap"
+      },
+      {
+        "defaultMessage": "Receive",
+        "id": "scenes.exchange.exchangeform.to"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/SwapReceiveSwitch/SwapReceiveSwitch.json"
   },
   {
     "descriptors": [
@@ -8281,25 +8465,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Preview",
-        "id": "exchange.preview"
-      },
-      {
-        "defaultMessage": "Looking to trade your Crypto straight from your Wallet? See how Swap works.",
-        "id": "exchange.demo_description"
-      }
-    ],
-    "path": "src/scenes/Exchange/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Swap",
         "id": "scenes.exchange.menutop.swap"
       },
       {
         "defaultMessage": "Order History",
         "id": "scenes.exchange.menutop.history"
+      },
+      {
+        "defaultMessage": "Need Help?",
+        "id": "scenes.exchange.menutop.need_help"
       }
     ],
     "path": "src/scenes/Exchange/Menu/index.json"
@@ -8491,6 +8666,44 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Documents Needed",
+        "id": "scenes.home.banners.kycresubmit.title"
+      },
+      {
+        "defaultMessage": "We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification.",
+        "id": "scenes.home.banners.kycresubmit.subtitle"
+      },
+      {
+        "defaultMessage": "Resubmit Now",
+        "id": "scenes.home.banners.kycresubmit.resubmit"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/KycResubmit/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Swap Your Crypto",
+        "id": "scenes.home.banners.swap.title"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.banners.swap.subtitle"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.banners.swap.started"
+      },
+      {
+        "defaultMessage": "Swap Now",
+        "id": "scenes.home.banners.swap.swapnow"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/Swap/index.json"
   },
   {
     "descriptors": [
@@ -8885,7 +9098,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.",
+        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
         "id": "scenes.lockbox.settings.browserwarn"
       }
     ],
@@ -10371,6 +10584,35 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.description"
       },
       {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bch.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bch.importedaddresses.balance"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Imported Bitcoin Cash Addresses",
+        "id": "scenes.settings.addresses.bch.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bch.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
       },
@@ -10392,6 +10634,10 @@
         "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
       },
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
         "defaultMessage": "Manage Wallet",
         "id": "scenes.settings.addresses.bch.wallets.manage"
       },
@@ -10404,10 +10650,6 @@
         "id": "scenes.settings.addresses.bch.make_default"
       },
       {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
-      },
-      {
         "defaultMessage": "Archive",
         "id": "scenes.settings.addresses.bch.archive"
       },
@@ -10418,6 +10660,39 @@
       {
         "defaultMessage": "Show Change Addresses",
         "id": "scenes.settings.addresses.bch.showchangeaddrs"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash Wallets",
+        "id": "scenes.settings.addresses.bch.wallets.title"
+      },
+      {
+        "defaultMessage": "Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.",
+        "id": "scenes.settings.addresses.bch.wallets.description"
+      },
+      {
+        "defaultMessage": "Wallet Name",
+        "id": "scenes.settings.addresses.bch.wallets.walletname"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bch.wallets.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.bch.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.bch.wallets.nomatch"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Imported Bitcoin SV Addresses",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
       },
       {
         "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
@@ -10436,7 +10711,7 @@
         "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
+    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10631,6 +10906,55 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Archive",
+        "id": "scenes.settings.addresses.archive"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "scenes.settings.addresses.show_priv"
+      },
+      {
+        "defaultMessage": "Sign Message",
+        "id": "scenes.settings.addresses.sign_message"
+      },
+      {
+        "defaultMessage": "Imported Bitcoin Addresses",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.description"
+      },
+      {
+        "defaultMessage": "Verify Message",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.actions"
+      },
+      {
+        "defaultMessage": "Import Bitcoin Address",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.success.json"
   },
   {
     "descriptors": [
@@ -11813,8 +12137,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
       },
       {
         "defaultMessage": "January 2019",
@@ -11825,29 +12149,8 @@
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
       },
       {
-        "defaultMessage": "Check it out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
-      }
-    ],
-    "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
-      },
-      {
-        "defaultMessage": "January 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
-      },
-      {
-        "defaultMessage": "Check it out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+        "defaultMessage": "Check it Out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
@@ -11908,8 +12211,8 @@
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
       },
       {
-        "defaultMessage": "Make Swap",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
+        "defaultMessage": "Swap Now",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swapnow"
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/ExchangeByBlockchain.json"
