@@ -18,9 +18,7 @@ describe('walletOptions selectors', () => {
   it('getAnnouncements should return correct announcements', () => {
     const expected = {
       public: {},
-      wallet: {},
-      sendBch: {},
-      receiveBch: {}
+      wallet: {}
     }
     expect(selectors.getAnnouncements(successState)).toEqual(
       Remote.of(expected)

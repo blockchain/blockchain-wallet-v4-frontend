@@ -22,13 +22,13 @@ const Header = styled(Menu)`
   width: 100%;
 `
 const TransactionsWrapper = styled.div`
-  height: calc(100% - 206px);
+  height: calc(100% - 420px);
   position: relative;
   top: 206px;
   overflow: scroll;
 `
 const SettingsWrapper = styled.div`
-  height: calc(100% - 300px);
+  height: calc(100% - 330px);
   position: relative;
   top: 122px;
   overflow: scroll;
