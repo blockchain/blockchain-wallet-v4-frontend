@@ -3,10 +3,14 @@ import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Coin from '../coinSelection/coin'
 import { addressToScript } from '../utils/btc'
-import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
 import Btc from '@ledgerhq/hw-app-btc'
 import * as crypto from '../walletCrypto'
+import {
+  convertFromCashAddrIfCashAddr,
+  fromCashAddr,
+  isCashAddr
+} from '../utils/bch'
 
 export const signSelection = curry((network, coinDust, selection) => {
   const hashType =
@@ -114,7 +118,7 @@ export const signWithLockbox = function*(
     let amount = Buffer.alloc(8)
     let script =
       !coin.script || typeof coin.script === 'string'
-        ? addressToScript(coin.address)
+        ? addressToScript(convertFromCashAddrIfCashAddr(coin.address))
         : coin.script
 
     amount.writeUInt32LE(coin.value)
