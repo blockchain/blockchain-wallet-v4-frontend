@@ -198,7 +198,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validBitcoinAddress]}
-                autoFocus
                 data-e2e='sendBtcAddressTextBox'
               />
             )}

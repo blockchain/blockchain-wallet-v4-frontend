@@ -41,7 +41,7 @@ const MarqueeContainer = styled.marquee.attrs({
 
 const LockboxConnectionPrompt = props => {
   const { position, total, onClose, ...rest } = props
-  const { coin, currentConnection, marquees, isTx } = rest
+  const { appName, currentConnection, marquees, isTx } = rest
   const { error, ready, success } = currentConnection
 
   let step
@@ -61,17 +61,19 @@ const LockboxConnectionPrompt = props => {
     <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>
         <FormattedMessage
-          id='modals.promptforlockbox.title'
+          id='modals.lockbox.connectionprompt.title'
           defaultMessage='Lockbox Connection'
         />
       </ModalHeader>
       <ModalStepper currentStep={currentStep} totalSteps={isTx ? 3 : 2} />
       <ModalBody>
         <Title>
-          <Text>{CONFIRM_STEPS[step].title(coin, isTx)}</Text>
+          <Text>{CONFIRM_STEPS[step].title(appName, isTx)}</Text>
         </Title>
         <Content>
-          <Text color='gray-4'>{CONFIRM_STEPS[step].content(coin, isTx)}</Text>
+          <Text color='gray-4'>
+            {CONFIRM_STEPS[step].content(appName, isTx)}
+          </Text>
         </Content>
         <ImageContainer>
           <Image

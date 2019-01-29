@@ -80,7 +80,7 @@ const calculateBalance = memoizeWith(
     }).value
 )
 
-export const getBalance = curry(
+export const getBalance = curry((state, accountId) =>
   compose(
     lift(
       compose(
@@ -91,7 +91,7 @@ export const getBalance = curry(
       )
     ),
     getAccount
-  )
+  )(accountId, state)
 )
 
 export const getTotalBalance = state =>

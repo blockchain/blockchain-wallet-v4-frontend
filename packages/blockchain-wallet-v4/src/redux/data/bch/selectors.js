@@ -68,7 +68,7 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
   getAddresses(state).map(path([xpubOrAddress, 'n_tx']))
 )
 
-export const getFinalBalance = curry((address, state) =>
+export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
     .map(x => x || 0)

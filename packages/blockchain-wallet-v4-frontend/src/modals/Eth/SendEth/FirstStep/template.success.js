@@ -168,7 +168,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validEtherAddress]}
-                autoFocus
               />
             )}
             <QRCodeCapture
