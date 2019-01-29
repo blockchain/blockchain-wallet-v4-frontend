@@ -52,8 +52,13 @@ const FooterButton = styled(Button)`
 `
 
 class KycDocResubmit extends React.PureComponent {
+  onVerifyIdentity = () => {
+    this.props.closeModal()
+    this.props.verifyIdentity()
+  }
+
   render () {
-    const { position, total, verifyIdentity } = this.props
+    const { position, total } = this.props
 
     return (
       <Modal size='small' position={position} total={total}>
@@ -74,7 +79,7 @@ class KycDocResubmit extends React.PureComponent {
           </Text>
         </Body>
         <Footer>
-          <FooterButton nature='primary' onClick={verifyIdentity}>
+          <FooterButton nature='primary' onClick={this.onVerifyIdentity}>
             <FormattedMessage
               defaultMessage='Resubmit Now'
               id='modals.exchange.docresubmit.resubmit'
@@ -88,6 +93,7 @@ class KycDocResubmit extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  closeModal: () => dispatch(actions.modals.closeModal()),
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
 })

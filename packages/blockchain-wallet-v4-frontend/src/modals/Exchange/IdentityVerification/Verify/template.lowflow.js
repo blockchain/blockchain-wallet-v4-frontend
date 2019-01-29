@@ -52,7 +52,7 @@ const VerifyIdentityVerificationImage = styled(IdentityVerificationImage)`
 `
 const AllowCameraImage = styled(IdentityVerificationImage)`
   margin-top: 12px;
-  max-width: 425px;
+  max-width: 325px;
   ${media.tablet`
     display: none;
   `};
