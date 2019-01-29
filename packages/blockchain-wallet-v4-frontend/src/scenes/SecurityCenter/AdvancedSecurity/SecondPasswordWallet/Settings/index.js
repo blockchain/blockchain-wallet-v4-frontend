@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
-import Settings from './template.js'
+import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
   state = { updateToggled: false }
