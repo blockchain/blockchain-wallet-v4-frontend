@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
 import { TextBox } from 'components/Form'
-
 import { validEmail } from 'services/FormHelper'
+import Media from 'services/ResponsiveService'
 
 const ChangeEmailWrapper = styled.div`
   width: 100%;
@@ -15,6 +15,10 @@ const ChangeEmailInputWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  ${Media.mobile`
+    flex-direction: column;
+    align-items: flex-start
+  `};
 `
 const ButtonContainer = styled.div`
   display: flex;
@@ -24,6 +28,10 @@ const ButtonContainer = styled.div`
   button {
     margin-right: 5px;
   }
+  ${Media.mobile`
+    margin-top: 10px;
+    margin-left: 0px;
+  `};
 `
 
 function ChangeEmailSteps (props) {

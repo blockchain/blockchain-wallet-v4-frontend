@@ -14,6 +14,7 @@ import {
 import { spacing } from 'services/StyleService'
 import AddressRow from '../AddressRow'
 import { filter } from 'ramda'
+import Media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -22,12 +23,19 @@ const ImportedAddressesSettingHeader = styled(SettingHeader)`
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
+  ${Media.mobile`
+    flex-direction: column;
+    align-items: flex-start;
+  `};
 `
 const ImportedActions = styled.div`
   display: flex;
   > button {
     margin-left: 10px;
   }
+  ${Media.mobile`
+    margin-bottom: 10px;
+  `};
 `
 const WarningWrapper = styled.div`
   display: flex;
