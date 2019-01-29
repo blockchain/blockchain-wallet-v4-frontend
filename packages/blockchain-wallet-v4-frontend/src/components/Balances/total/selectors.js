@@ -1,63 +1,64 @@
-import { add, concat, lift, reduce } from 'ramda'
+import { add, concat, lift, map, reduce } from 'ramda'
 import { selectors } from 'data'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getBtcBalance = state =>
-  createDeepEqualSelector(
-    [
-      selectors.core.wallet.getSpendableContext,
-      selectors.core.kvStore.lockbox.getLockboxBtcContext
-    ],
-    (walletContext, lockboxBtcContextR) => {
-      const getBalance = address =>
-        selectors.core.data.bitcoin.getFinalBalance(address, state)
-      const transform = (walletContext, lockboxContext) => {
-        return concat(walletContext, lockboxContext).map(x =>
-          getBalance(x).getOrElse(0)
+export const getBtcBalance = createDeepEqualSelector(
+  [
+    state =>
+      map(
+        address =>
+          selectors.core.data.bitcoin
+            .getFinalBalance(state, address)
+            .getOrElse(0),
+        selectors.core.wallet.getSpendableContext(state)
+      ),
+    state =>
+      selectors.core.kvStore.lockbox
+        .getLockboxBtcContext(state)
+        .map(
+          map(address =>
+            selectors.core.data.bitcoin
+              .getFinalBalance(state, address)
+              .getOrElse(0)
+          )
         )
-      }
-      const balancesR = lift(transform)(
-        Remote.of(walletContext),
-        lockboxBtcContextR
-      )
-      return balancesR.map(reduce(add, 0))
-    }
-  )(state)
+  ],
+  (walletBalances, lockboxBalancesR) =>
+    lockboxBalancesR.map(concat(walletBalances)).map(reduce(add, 0))
+)
 
-export const getBchBalance = state =>
-  createDeepEqualSelector(
-    [
-      selectors.core.kvStore.bch.getSpendableContext,
-      selectors.core.kvStore.lockbox.getLockboxBchContext
-    ],
-    (walletContext, lockboxBchContextR) => {
-      const getBalance = address =>
-        selectors.core.data.bch.getFinalBalance(address, state)
-      const transform = (walletContext, lockboxContext) => {
-        return concat(walletContext, lockboxContext).map(x =>
-          getBalance(x).getOrElse(0)
+export const getBchBalance = createDeepEqualSelector(
+  [
+    state =>
+      map(
+        address =>
+          selectors.core.data.bch.getFinalBalance(state, address).getOrElse(0),
+        selectors.core.kvStore.bch.getSpendableContext(state)
+      ),
+    state =>
+      selectors.core.kvStore.lockbox
+        .getLockboxBchContext(state)
+        .map(
+          map(address =>
+            selectors.core.data.bch.getFinalBalance(state, address).getOrElse(0)
+          )
         )
-      }
-      const balancesR = lift(transform)(
-        Remote.of(walletContext),
-        lockboxBchContextR
-      )
-      return balancesR.map(reduce(add, 0))
-    }
-  )(state)
+  ],
+  (walletBalances, lockboxBalancesR) =>
+    lockboxBalancesR.map(concat(walletBalances)).map(reduce(add, 0))
+)
 
-export const getEthBalance = state =>
-  createDeepEqualSelector(
-    [selectors.core.data.ethereum.getBalance],
-    balance => {
-      return Remote.of(balance.getOrElse(0))
-    }
-  )(state)
+export const getEthBalance = createDeepEqualSelector(
+  [selectors.core.data.ethereum.getBalance],
+  balance => Remote.of(balance.getOrElse(0))
+)
 
-export const getXlmBalance = state =>
-  Remote.of(selectors.core.data.xlm.getTotalBalance(state).getOrElse(0))
+export const getXlmBalance = createDeepEqualSelector(
+  [selectors.core.data.xlm.getTotalBalance],
+  balance => Remote.of(balance.getOrElse(0))
+)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [

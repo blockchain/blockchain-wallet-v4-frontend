@@ -46,15 +46,19 @@ export const getLockboxEthBalance = createDeepEqualSelector(
   }
 )
 
-export const getLockboxXlmBalance = state =>
-  selectors.core.kvStore.lockbox
-    .getLockboxXlmContext(state)
-    .map(
-      map(accountId =>
-        selectors.core.data.xlm.getBalance(accountId, state).getOrElse(0)
-      )
-    )
-    .map(sum)
+export const getLockboxXlmBalance = createDeepEqualSelector(
+  [
+    state =>
+      selectors.core.kvStore.lockbox
+        .getLockboxXlmContext(state)
+        .map(
+          map(accountId =>
+            selectors.core.data.xlm.getBalance(state, accountId).getOrElse(0)
+          )
+        )
+  ],
+  lockboxXlmBalancesR => lockboxXlmBalancesR.map(sum)
+)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [

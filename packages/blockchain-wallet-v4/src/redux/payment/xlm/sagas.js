@@ -131,7 +131,7 @@ export default ({ api }) => {
   }
 
   const getEffectiveBalance = function*(accountId, fee, reserve) {
-    const balance = (yield select(S.data.xlm.getBalance(accountId))).getOrFail(
+    const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
       new Error(NO_ACCOUNT_ERROR)
     )
 
