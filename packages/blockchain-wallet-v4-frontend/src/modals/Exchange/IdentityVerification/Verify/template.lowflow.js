@@ -44,13 +44,20 @@ const VerifyIdentityVerificationSubHeader = styled(
   `};
 `
 const VerifyIdentityVerificationImage = styled(IdentityVerificationImage)`
-  margin: 0px;
+  margin: 0;
   display: block;
   ${media.tablet`
     display: none;
   `};
 `
-const DocumentsWrapper = styled.div`
+const AllowCameraImage = styled(IdentityVerificationImage)`
+  margin-top: 12px;
+  max-width: 425px;
+  ${media.tablet`
+    display: none;
+  `};
+`
+const DocumentListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -76,10 +83,42 @@ const SubInstructions = styled.div`
     margin-top: 16px;
   }
 `
-
+const ResubmitWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  & > :first-child {
+    flex-basis: max-content;
+    margin-right: 50px;
+  }
+`
+const ResubmissionGuidelines = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  height: 100%;
+`
+const ResubmissionSubHeader = styled(VerifyIdentityVerificationSubHeader)`
+  margin: 20px 0 30px;
+`
+const ResubmitChecklist = styled.div`
+  > div:not(:first-child) {
+    margin-top: 5px;
+    > span {
+      &:before {
+        content: '- ';
+      }
+    }
+  }
+`
+const ResubmitCameraReminder = styled.div`
+  margin-top: 30px;
+`
 const { SUPPORTED_DOCUMENTS } = model.components.identityVerification
 
-const docMap = {
+const supportedDocList = {
   [SUPPORTED_DOCUMENTS['PASSPORT']]: (
     <FormattedMessage
       key='passport'
@@ -102,14 +141,93 @@ const docMap = {
     />
   )
 }
+const resubmissionTipList = [
+  <FormattedMessage
+    key='missing'
+    id='dentityverification.verify.resubmit.reason.missing'
+    defaultMessage='The required photos are missing'
+  />,
+  <FormattedMessage
+    key='incorrect'
+    id='identityverification.verify.resubmit.reason.incorrect'
+    defaultMessage='The document you submitted is incorrect'
+  />,
+  <FormattedMessage
+    key='quality'
+    id='identityverification.verify.resubmit.reason.quality'
+    defaultMessage='We were unable to read the images you submitted due to image quality'
+  />
+]
 
-const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
+const Verify = ({
+  handleSubmit,
+  onBack,
+  supportedDocuments,
+  showVeriff,
+  needsDocResubmit
+}) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
         <VerifyWrapper>
-          {showVeriff && <Veriff />}
-          {!showVeriff && (
+          {showVeriff ? (
+            <Veriff />
+          ) : needsDocResubmit ? (
+            <InputWrapper>
+              <ResubmitWrapper>
+                <ResubmissionGuidelines>
+                  <IdentityVerificationHeader>
+                    <FormattedMessage
+                      id='identityverification.verify.resubmit.header'
+                      defaultMessage='Resubmit your verification information.'
+                    />
+                  </IdentityVerificationHeader>
+                  <ResubmissionSubHeader>
+                    <FormattedMessage
+                      id='identityverification.verify.resubmit.message'
+                      defaultMessage="Unfortunately we're having trouble verifying your identity and we need you to resubmit your verification information."
+                    />
+                  </ResubmissionSubHeader>
+                  <ResubmitChecklist>
+                    <Text size='16px' weight={300}>
+                      <FormattedMessage
+                        id='identityverification.verify.resubmit.reason.intro'
+                        defaultMessage='Main reasons for this to happen are'
+                      />
+                      :
+                    </Text>
+                    {resubmissionTipList.map(t => (
+                      <Text key={t.key} size='16px' weight={300}>
+                        {t}
+                      </Text>
+                    ))}
+                  </ResubmitChecklist>
+                  <ResubmitCameraReminder>
+                    <Text size='16px' weight={500}>
+                      <FormattedMessage
+                        id='identityverification.verify.resubmit.camera.one'
+                        defaultMessage='Remember to turn the camera on'
+                      />
+                    </Text>
+                    <Text size='16px' weight={300} style={{ margin: '5px 0' }}>
+                      <FormattedMessage
+                        id='identityverification.verify.resubmit.camera.two'
+                        defaultMessage='Click allow on the pop up that will appear on the next screen.'
+                      />
+                    </Text>
+                  </ResubmitCameraReminder>
+                  <AllowCameraImage
+                    name='allow-camera'
+                    srcset={{
+                      'allow-camera2': '2x',
+                      'allow-camera3': '3x'
+                    }}
+                  />
+                </ResubmissionGuidelines>
+                <IdentityVerificationImage name='identity-verification' />
+              </ResubmitWrapper>
+            </InputWrapper>
+          ) : (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -133,9 +251,9 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
                   defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
                 />
               </VerifyIdentityVerificationSubHeader>
-              <DocumentsWrapper>
-                {map(flip(prop)(docMap), supportedDocuments)}
-              </DocumentsWrapper>
+              <DocumentListWrapper>
+                {map(flip(prop)(supportedDocList), supportedDocuments)}
+              </DocumentListWrapper>
               <SubInstructions>
                 <Text size='18px'>
                   <FormattedMessage
@@ -188,7 +306,8 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
 )
 
 Verify.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  needsDocResubmit: PropTypes.bool
 }
 
 export default Verify
