@@ -26,6 +26,7 @@ export const TIERS_STATES = {
   EXPIRED: 'expired'
 }
 
+// TODO: update model with states
 export const DOC_RESUBMISSION_STATES = {
   NONE: 'NONE',
   UNDER_REVIEW: 'UNDER_REVIEW',

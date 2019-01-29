@@ -78,52 +78,51 @@ const GetStartedButton = styled(Button).attrs({
 })`
   font-weight: 500;
 `
-class SwapBanner extends React.PureComponent {
-  render () {
-    const { kycNotFinished, hideSwapBanner, verifyIdentity } = this.props
-    return (
-      <Wrapper>
-        <Column>
-          <LargeText>
+export const SwapBanner = ({
+  kycNotFinished,
+  hideSwapBanner,
+  verifyIdentity
+}) => (
+  <Wrapper>
+    <Column>
+      <LargeText>
+        <FormattedMessage
+          defaultMessage='Swap Your Crypto'
+          id='scenes.home.banners.swap.title'
+        />
+      </LargeText>
+      <MediumText>
+        <FormattedMessage
+          defaultMessage="Trading your crypto doesn't mean trading away control."
+          id='scenes.home.banners.swap.subtitle'
+        />
+      </MediumText>
+    </Column>
+    <Column hiddenOnMobile>
+      <BackgroundImage name='swap-dashboard-right' />
+    </Column>
+    <Column>
+      {kycNotFinished && (
+        <GetStartedButton onClick={verifyIdentity}>
+          <FormattedMessage
+            id='scenes.home.banners.swap.started'
+            defaultMessage='Get Started'
+          />
+        </GetStartedButton>
+      )}
+      {!kycNotFinished && (
+        <LinkContainer to='/swap'>
+          <GetStartedButton onClick={hideSwapBanner}>
             <FormattedMessage
-              defaultMessage='Swap Your Crypto'
-              id='scenes.home.banners.swap.title'
+              id='scenes.home.banners.swap.makeswap'
+              defaultMessage='Make Swap'
             />
-          </LargeText>
-          <MediumText>
-            <FormattedMessage
-              defaultMessage="Trading your crypto doesn't mean trading away control."
-              id='scenes.home.banners.swap.subtitle'
-            />
-          </MediumText>
-        </Column>
-        <Column hiddenOnMobile>
-          <BackgroundImage name='swap-dashboard-right' />
-        </Column>
-        <Column>
-          {kycNotFinished && (
-            <GetStartedButton onClick={verifyIdentity}>
-              <FormattedMessage
-                id='scenes.home.banners.swap.started'
-                defaultMessage='Get Started'
-              />
-            </GetStartedButton>
-          )}
-          {!kycNotFinished && (
-            <LinkContainer to='/swap'>
-              <GetStartedButton onClick={hideSwapBanner}>
-                <FormattedMessage
-                  id='scenes.home.banners.swap.makeswap'
-                  defaultMessage='Make Swap'
-                />
-              </GetStartedButton>
-            </LinkContainer>
-          )}
-        </Column>
-      </Wrapper>
-    )
-  }
-}
+          </GetStartedButton>
+        </LinkContainer>
+      )}
+    </Column>
+  </Wrapper>
+)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>

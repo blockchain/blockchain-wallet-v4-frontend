@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SwapBanner renders correctly with exchange link 1`] = `
-<SwapBanner__Wrapper>
-  <SwapBanner__Column>
-    <SwapBanner__LargeText>
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
       <FormattedMessage
         defaultMessage="Swap Your Crypto"
-        id="scenes.home.swapbanner.swap_your_crypto"
+        id="scenes.home.banners.swap.title"
         values={Object {}}
       />
-    </SwapBanner__LargeText>
-    <SwapBanner__MediumText>
+    </Swap__LargeText>
+    <Swap__MediumText>
       <FormattedMessage
         defaultMessage="Trading your crypto doesn't mean trading away control."
-        id="scenes.home.swapbanner.trading_your_crypto"
+        id="scenes.home.banners.swap.subtitle"
         values={Object {}}
       />
-    </SwapBanner__MediumText>
-  </SwapBanner__Column>
-  <SwapBanner__Column
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
     hiddenOnMobile={true}
   >
-    <SwapBanner__BackgroundImage
+    <Swap__BackgroundImage
       name="swap-dashboard-right"
     />
-  </SwapBanner__Column>
-  <SwapBanner__Column>
+  </Swap__Column>
+  <Swap__Column>
     <LinkContainer
       activeClassName="active"
       exact={false}
@@ -33,53 +33,96 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
       strict={false}
       to="/swap"
     >
-      <SwapBanner__GetStartedButton>
+      <Swap__GetStartedButton>
         <FormattedMessage
           defaultMessage="Make Swap"
-          id="scenes.home.swapbanner.faster.makeswap"
+          id="scenes.home.banners.swap.makeswap"
           values={Object {}}
         />
-      </SwapBanner__GetStartedButton>
+      </Swap__GetStartedButton>
     </LinkContainer>
-  </SwapBanner__Column>
-</SwapBanner__Wrapper>
+  </Swap__Column>
+</Swap__Wrapper>
 `;
 
 exports[`SwapBanner renders correctly with getstarted button 1`] = `
-<SwapBanner__Wrapper>
-  <SwapBanner__Column>
-    <SwapBanner__LargeText>
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
       <FormattedMessage
         defaultMessage="Swap Your Crypto"
-        id="scenes.home.swapbanner.swap_your_crypto"
+        id="scenes.home.banners.swap.title"
         values={Object {}}
       />
-    </SwapBanner__LargeText>
-    <SwapBanner__MediumText>
+    </Swap__LargeText>
+    <Swap__MediumText>
       <FormattedMessage
         defaultMessage="Trading your crypto doesn't mean trading away control."
-        id="scenes.home.swapbanner.trading_your_crypto"
+        id="scenes.home.banners.swap.subtitle"
         values={Object {}}
       />
-    </SwapBanner__MediumText>
-  </SwapBanner__Column>
-  <SwapBanner__Column
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
     hiddenOnMobile={true}
   >
-    <SwapBanner__BackgroundImage
+    <Swap__BackgroundImage
       name="swap-dashboard-right"
     />
-  </SwapBanner__Column>
-  <SwapBanner__Column>
-    <SwapBanner__GetStartedButton>
+  </Swap__Column>
+  <Swap__Column>
+    <Swap__GetStartedButton>
       <FormattedMessage
         defaultMessage="Get Started"
-        id="scenes.home.swapbanner.faster.started"
+        id="scenes.home.banners.swap.started"
         values={Object {}}
       />
-    </SwapBanner__GetStartedButton>
-  </SwapBanner__Column>
-</SwapBanner__Wrapper>
+    </Swap__GetStartedButton>
+  </Swap__Column>
+</Swap__Wrapper>
 `;
 
-exports[`SwapBanner renders null w/o showBanner 1`] = `""`;
+exports[`SwapBanner renders null w/o showBanner 1`] = `
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
+      <FormattedMessage
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.banners.swap.title"
+        values={Object {}}
+      />
+    </Swap__LargeText>
+    <Swap__MediumText>
+      <FormattedMessage
+        defaultMessage="Trading your crypto doesn't mean trading away control."
+        id="scenes.home.banners.swap.subtitle"
+        values={Object {}}
+      />
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
+    hiddenOnMobile={true}
+  >
+    <Swap__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </Swap__Column>
+  <Swap__Column>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/swap"
+    >
+      <Swap__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Make Swap"
+          id="scenes.home.banners.swap.makeswap"
+          values={Object {}}
+        />
+      </Swap__GetStartedButton>
+    </LinkContainer>
+  </Swap__Column>
+</Swap__Wrapper>
+`;
