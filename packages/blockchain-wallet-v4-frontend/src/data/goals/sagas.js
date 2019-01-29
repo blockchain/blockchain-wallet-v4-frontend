@@ -1,5 +1,6 @@
 import { equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
@@ -127,26 +128,21 @@ export default ({ api }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    // const kycNotFinished = (yield select(
-    //   selectors.modules.profile.getUserKYCState
-    // ))
-    //   .map(equals(NONE))
-    //   .getOrElse(false)
-    //
-    // // console.info(kycNotFinished)
-    //
-    // // check if user needs to resubmit docs
-    // const showKycDocResubmitModal = (yield select(
-    //   selectors.modules.profile.getKycDocResubmissionStatus
-    // ))
-    //   // .map(equals(0)) // TODO: update and use a model
-    //   // .getOrElse(false)
-    //
-    // console.info('1212', showKycDocResubmitModal)
+    // TODO: need to fetch nabu user data before this! how?
+    yield delay(5000)
 
-    // if (kycNotFinished && showKycDocResubmitModal) {
-    yield put(actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit'))
-    // }
+    // check if user needs to resubmit docs
+    const showKycDocResubmitModal = (yield select(
+      selectors.modules.profile.getKycDocResubmissionStatus
+    ))
+      .map(equals(0)) // TODO: update and use a model
+      .getOrElse(false)
+
+    if (showKycDocResubmitModal) {
+      yield put(
+        actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit')
+      )
+    }
   }
 
   const runKycGoal = function*(goal) {
