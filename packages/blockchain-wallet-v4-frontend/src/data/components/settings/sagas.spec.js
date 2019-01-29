@@ -19,10 +19,6 @@ describe('settings sagas', () => {
   describe('initializeBsv', () => {
     const saga = testSaga(initializeBsv)
 
-    it('should call to fetch bsvMetadata', () => {
-      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
-    })
-
     it('should call to fetch bsv data', () => {
       saga.next().call(coreSagas.data.bsv.fetchData)
     })

@@ -191,7 +191,10 @@ const TransactionListItem = ({
             />
           </Text>
           <Description
+            coin={coin}
+            hash={transaction.hash}
             value={transaction.description}
+            toAddress={transaction.toAddress}
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (

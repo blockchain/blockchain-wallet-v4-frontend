@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -9,6 +9,16 @@ import {
   TX_PER_PAGE,
   BCH_FORK_TIME
 } from '../../../utils/bch'
+import { addFromToAccountNames } from '../../../utils/accounts'
+import Remote from '../../../remote'
+import * as walletSelectors from '../../wallet/selectors'
+import { MISSING_WALLET } from '../utils'
+import { HDAccountList } from '../../../types'
+import { getAccountsList } from '../../kvStore/bch/selectors'
+import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
+import * as transactions from '../../../transactions'
+
+const transformTx = transactions.bch.transformTx
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -73,10 +83,48 @@ export default ({ api }) => {
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(filteredTxs, reset))
+      const page = yield call(__processTxs, filteredTxs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
+  }
+
+  const __processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(blockHeight)
+    const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(kvStoreAccountList)
+    const accountListR = yield select(getAccountsList)
+    const accountList = accountListR.getOrElse([])
+    // Remote(lockboxXpubs)
+    const lockboxAccountListR = (yield select(getLockboxBchAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+
+    // transformTx :: wallet -> blockHeight -> Tx
+    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          block.getOrElse(0),
+          lockboxAccountList
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    const processedTxs = ProcessTxs(
+      walletR,
+      blockHeightR,
+      lockboxAccountListR,
+      txs
+    )
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   const fetchTransactionHistory = function*({ payload }) {
@@ -119,6 +167,7 @@ export default ({ api }) => {
     fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }
