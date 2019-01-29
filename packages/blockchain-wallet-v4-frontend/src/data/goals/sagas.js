@@ -1,4 +1,4 @@
-import { equals, map, prop, startsWith, sum, values } from 'ramda'
+import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,8 +9,9 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { TIERS, KYC_STATES } = model.profile
+  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
+  const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
   const logLocation = 'goals/sagas'
 
@@ -131,7 +132,7 @@ export default ({ api }) => {
     const showKycDocResubmitModal = (yield select(
       selectors.modules.profile.getKycDocResubmissionStatus
     ))
-      .map(equals(0)) // TODO: update and use a model
+      .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
       .getOrElse(false)
 
     if (showKycDocResubmitModal) {

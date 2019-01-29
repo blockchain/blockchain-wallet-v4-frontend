@@ -15,7 +15,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0 10px;
-  margin: 30px 0;
+  margin: 30px 0 10px;
   overflow: hidden;
 `
 const Body = styled.div`
@@ -23,10 +23,10 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 20px;
   box-sizing: border-box;
   text-align: center;
-  margin: 14px 0;
+  margin: 4px 0 14px;
 
   & > :last-child {
     margin: 15px 0;
@@ -46,7 +46,7 @@ const BottomImage = styled(Image)`
 `
 const FooterButton = styled(Button)`
   height: 50px;
-  width: 325px;
+  width: 340px;
   padding: 0 10px;
   font-size: 18px;
 `
@@ -68,14 +68,8 @@ class KycDocResubmit extends React.PureComponent {
         <Body>
           <Text size='14px' weight={300}>
             <FormattedMessage
-              defaultMessage="We had some issues with the documents you've supplied."
+              defaultMessage="We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
               id='modals.exchange.docresubmit.body1'
-            />
-          </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              defaultMessage='Please try uploading the documents again to continue with your verification.'
-              id='modals.exchange.docresubmit.body2'
             />
           </Text>
         </Body>

@@ -1,8 +1,9 @@
-import { equals } from 'ramda'
+import { anyPass, equals } from 'ramda'
 
 import { selectors, model } from 'data'
 
 const { NONE } = model.profile.KYC_STATES
+const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
 
 export const getData = state => {
   const kycNotFinished = selectors.modules.profile
@@ -11,7 +12,7 @@ export const getData = state => {
     .getOrElse(false)
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
-    .map(equals(0)) // TODO: update and use a model
+    .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
   const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
   const showSwapBannerPrefs = selectors.preferences.getShowSwapBanner(state)
@@ -21,8 +22,8 @@ export const getData = state => {
     bannerToShow: showDocResubmitBanner
       ? 'resubmit'
       : showSwapBanner
-      ? 'swap'
-      : null,
+        ? 'swap'
+        : null,
     kycNotFinished
   }
 }
