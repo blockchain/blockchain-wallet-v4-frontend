@@ -114,8 +114,8 @@ export const SwapBanner = ({
         <LinkContainer to='/swap'>
           <GetStartedButton onClick={hideSwapBanner}>
             <FormattedMessage
-              id='scenes.home.banners.swap.makeswap'
-              defaultMessage='Make Swap'
+              id='scenes.home.banners.swap.swapnow'
+              defaultMessage='Swap Now'
             />
           </GetStartedButton>
         </LinkContainer>

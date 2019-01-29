@@ -8,8 +8,8 @@ exports[`HighFlow should render correctly 1`] = `
         <IdentityVerification__InputWrapper>
           <IdentityVerification__IdentityVerificationHeader>
             <FormattedMessage
-              defaultMessage="Last Step. Verify Your ID"
-              id="identityverification.verify.header"
+              defaultMessage="Last Step. Let's Confirm It's You"
+              id="identityverification.verify.header.confirm"
               values={Object {}}
             />
             <IdentityVerification__FaqHeaderHelper>

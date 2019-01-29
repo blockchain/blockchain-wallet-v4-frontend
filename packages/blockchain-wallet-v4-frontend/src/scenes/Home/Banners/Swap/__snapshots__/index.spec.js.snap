@@ -35,8 +35,8 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
     >
       <Swap__GetStartedButton>
         <FormattedMessage
-          defaultMessage="Make Swap"
-          id="scenes.home.banners.swap.makeswap"
+          defaultMessage="Swap Now"
+          id="scenes.home.banners.swap.swapnow"
           values={Object {}}
         />
       </Swap__GetStartedButton>
@@ -117,8 +117,8 @@ exports[`SwapBanner renders null w/o showBanner 1`] = `
     >
       <Swap__GetStartedButton>
         <FormattedMessage
-          defaultMessage="Make Swap"
-          id="scenes.home.banners.swap.makeswap"
+          defaultMessage="Swap Now"
+          id="scenes.home.banners.swap.swapnow"
           values={Object {}}
         />
       </Swap__GetStartedButton>

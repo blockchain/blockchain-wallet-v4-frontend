@@ -231,8 +231,8 @@ const Verify = ({
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
-                  id='identityverification.verify.header'
-                  defaultMessage='Last Step. Verify Your ID'
+                  id='identityverification.verify.header.confirm'
+                  defaultMessage="Last Step. Let's Confirm It's You"
                 />
                 <FaqHeaderHelper>
                   <TooltipHost id='identityverification.headerhelper'>
