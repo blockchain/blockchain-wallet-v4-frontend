@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   ${Media.mobile`
     flex-direction: column;
+    align-items: flex-start;
   `};
 `
 const ConfirmationsText = styled(Text)`

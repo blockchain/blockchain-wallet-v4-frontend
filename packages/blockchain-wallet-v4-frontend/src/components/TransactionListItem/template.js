@@ -53,6 +53,9 @@ const DetailsRow = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   padding: 25px 0;
+  ${Media.mobile`
+    flex-direction: column;
+  `};
 `
 const DetailsColumn = styled.div`
   display: flex;
@@ -63,6 +66,12 @@ const DetailsColumn = styled.div`
   &:last-child {
     align-items: flex-end;
   }
+  ${Media.mobile`
+    &:last-child {
+      align-items: flex-start;
+    }
+    width: 100%;
+  `};
 `
 const StatusColumn = styled.div`
   display: flex;

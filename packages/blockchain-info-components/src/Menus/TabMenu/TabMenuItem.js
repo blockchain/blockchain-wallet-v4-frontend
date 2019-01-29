@@ -30,6 +30,9 @@ const BaseTabMenuItem = styled.span`
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+      ${Media.mobile`
+        top: 30px;
+      `};
     }
   }
   ${Media.mobile`
