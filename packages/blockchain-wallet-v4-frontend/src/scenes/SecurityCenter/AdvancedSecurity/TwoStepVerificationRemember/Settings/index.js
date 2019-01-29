@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import Settings from './template.js'
+import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
   handleClick = () => {
