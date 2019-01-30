@@ -508,7 +508,7 @@
   "identityverification.verify.header.confirm": "Last Step. Let's Confirm It's You",
   "identityverification.verify.how_to_camera_mic": "How do I enable my camera and microphone?",
   "identityverification.verify.instructions": "Click allow when prompted above or enable in your browser settings.",
-  "identityverification.verify.message_with_cam": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
+  "identityverification.verify.messagewithcamera": "We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
   "identityverification.verify.natitionalidcard": "National Identity Card",
   "identityverification.verify.passport": "Government Issued Passport",
   "identityverification.verify.resubmit.camera.one": "Remember to turn the camera on",

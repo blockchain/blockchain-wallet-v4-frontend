@@ -508,7 +508,7 @@
   "identityverification.verify.header.confirm": null,
   "identityverification.verify.how_to_camera_mic": null,
   "identityverification.verify.instructions": null,
-  "identityverification.verify.message_with_cam": null,
+  "identityverification.verify.messagewithcamera": null,
   "identityverification.verify.natitionalidcard": "Cartão de identificação nacional",
   "identityverification.verify.passport": "Passaporte emitido pelo governo",
   "identityverification.verify.resubmit.camera.one": null,

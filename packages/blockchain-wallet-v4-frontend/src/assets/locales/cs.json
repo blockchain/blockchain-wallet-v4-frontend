@@ -508,7 +508,7 @@
   "identityverification.verify.header.confirm": null,
   "identityverification.verify.how_to_camera_mic": null,
   "identityverification.verify.instructions": null,
-  "identityverification.verify.message_with_cam": null,
+  "identityverification.verify.messagewithcamera": null,
   "identityverification.verify.natitionalidcard": "Občanský průkaz",
   "identityverification.verify.passport": "Vládní vydaný pas",
   "identityverification.verify.resubmit.camera.one": null,

@@ -508,7 +508,7 @@
   "identityverification.verify.header.confirm": null,
   "identityverification.verify.how_to_camera_mic": null,
   "identityverification.verify.instructions": null,
-  "identityverification.verify.message_with_cam": null,
+  "identityverification.verify.messagewithcamera": null,
   "identityverification.verify.natitionalidcard": "주민등록증",
   "identityverification.verify.passport": "정부 발급 여권",
   "identityverification.verify.resubmit.camera.one": null,

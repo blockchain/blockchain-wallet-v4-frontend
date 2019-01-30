@@ -508,7 +508,7 @@
   "identityverification.verify.header.confirm": null,
   "identityverification.verify.how_to_camera_mic": null,
   "identityverification.verify.instructions": null,
-  "identityverification.verify.message_with_cam": null,
+  "identityverification.verify.messagewithcamera": null,
   "identityverification.verify.natitionalidcard": "Thẻ Căn cước Quốc gia",
   "identityverification.verify.passport": "Hộ chiếu do Chính phủ Cấp",
   "identityverification.verify.resubmit.camera.one": null,
