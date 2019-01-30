@@ -221,8 +221,8 @@ export default ({ api }) => {
     const balance = balanceR.getOrElse(0)
 
     yield put(actions.core.data.bsv.resetData())
-    yield put(actions.core.kvStore.bsv.setHasSeen())
     if (balance > 0) {
+      yield put(actions.core.kvStore.bsv.setHasSeen())
       yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
     }
   }
