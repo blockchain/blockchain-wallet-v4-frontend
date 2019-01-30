@@ -3,8 +3,8 @@ import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
-import { actions, model, selectors } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { actions, actionTypes, model, selectors } from 'data'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
@@ -27,6 +27,12 @@ export default ({ api }) => {
     yield put(actions.router.push(destination))
   }
 
+  const defineKycGoal = function*(search) {
+    const params = new URLSearchParams(search)
+    yield put(actions.goals.saveGoal('kyc', { tier: params.get('tier') }))
+    yield put(actions.router.push('/login'))
+  }
+
   const defineSendBtcGoal = function*(pathname, search) {
     // Special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
@@ -40,17 +46,28 @@ export default ({ api }) => {
   }
 
   const defineActionGoal = function*(pathname, search) {
-    // Other scenarios with actions encoded in base64
-    const decoded = JSON.parse(base64.decode(pathname + search))
-    if (!prop('name', decoded) || !prop('data', decoded)) return
-    const { name, data } = decoded
-    yield put(actions.goals.saveGoal(name, data))
-    yield put(actions.router.push('/wallet'))
+    try {
+      // Other scenarios with actions encoded in base64
+      const decoded = JSON.parse(base64.decode(pathname + search))
+      if (!prop('name', decoded) || !prop('data', decoded)) return
+      const { name, data } = decoded
+      yield put(actions.goals.saveGoal(name, data))
+      yield put(actions.router.push('/wallet'))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'decodeGoal',
+          pathname + search
+        )
+      )
+    }
   }
 
   const defineDeepLinkGoals = function*(pathname, search) {
     if (startsWith('referral', pathname))
       return yield call(defineReferralGoal, search)
+    if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
     if (startsWith('bitcoin', pathname))
       return yield call(defineSendBtcGoal, pathname, search)
     yield call(defineActionGoal, pathname, search)
@@ -62,6 +79,12 @@ export default ({ api }) => {
     yield take('@@router/LOCATION_CHANGE')
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
+  }
+
+  const waitForUserData = function*() {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
   const runSendBtcGoal = function*(goal) {
@@ -103,6 +126,24 @@ export default ({ api }) => {
     }
   }
 
+  const runKycGoal = function*(goal) {
+    try {
+      const { id, data } = goal
+      const { tier = TIERS[2] } = data
+      yield put(actions.goals.deleteGoal(id))
+      yield call(waitForUserData)
+      const { current } = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 }) || { current: 0 }
+      if (current >= Number(tier)) return
+      yield put(actions.components.identityVerification.verifyIdentity(tier))
+    } catch (err) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message)
+      )
+    }
+  }
+
   const runSwapUpgradeGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -111,6 +152,7 @@ export default ({ api }) => {
       selectors.preferences.getShowSwapUpgrade
     )
     if (!showSwapUpgrade) return
+    yield call(waitForUserData)
     const closeToTier1Limit = (yield select(
       selectors.modules.profile.closeToTier1Limit
     )).getOrElse(false)
@@ -123,7 +165,7 @@ export default ({ api }) => {
       )
   }
 
-  const runKycGoal = function*(goal) {
+  const runKycCTAGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -135,12 +177,14 @@ export default ({ api }) => {
     // check/wait for balances to be available
     const balances = yield call(getAllBalances)
     const isFunded = sum(values(balances)) !== 0
+    if (!isFunded) return
+    yield call(waitForUserData)
     const kycNotFinished = (yield select(
       selectors.modules.profile.getUserKYCState
     ))
       .map(equals(NONE))
       .getOrElse(false)
-    if (isFunded && kycNotFinished)
+    if (kycNotFinished)
       yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
   }
 
@@ -194,14 +238,17 @@ export default ({ api }) => {
         case 'referral':
           yield call(runReferralGoal, goal)
           break
+        case 'kyc':
+          yield call(runKycGoal, goal)
+          break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
-        case 'kyc':
-          yield call(runKycGoal, goal)
+        case 'kycCTA':
+          yield call(runKycCTAGoal, goal)
           break
       }
     } catch (error) {
@@ -225,10 +272,12 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
+    runKycCTAGoal,
     runSwapUpgradeGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,
-    showInitialModal
+    showInitialModal,
+    waitForUserData
   }
 }
