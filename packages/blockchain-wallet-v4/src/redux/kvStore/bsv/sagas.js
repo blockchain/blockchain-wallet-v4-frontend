@@ -32,13 +32,14 @@ export default ({ api, networks }) => {
     )
   }
 
-  const createBsv = function*(kv, hdAccounts, bsvAccounts) {
+  const createBsv = function*(kv, hdAccounts, bsvAccounts, hasSeen) {
     const createAccountEntry = x => ({
       label: `My Bitcoin SV Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
     })
 
     const newBsvEntry = {
+      has_seen: hasSeen,
       default_account_idx: 0,
       accounts: concat(
         bsvAccounts,
@@ -60,12 +61,13 @@ export default ({ api, networks }) => {
       const newKv = yield callTask(api.fetchKVStore(kv))
       const hdAccounts = yield select(getHDAccounts)
       const bsvAccounts = propOr([], 'accounts', newKv.value)
+      const hasSeen = propOr(false, 'has_seen', newKv.value)
       if (
         isNil(newKv.value) ||
         isEmpty(newKv.value) ||
         gt(length(hdAccounts), length(bsvAccounts))
       ) {
-        return yield call(createBsv, newKv, hdAccounts, bsvAccounts)
+        return yield call(createBsv, newKv, hdAccounts, bsvAccounts, hasSeen)
       }
       yield put(A.fetchMetadataBsvSuccess(newKv))
     } catch (e) {
