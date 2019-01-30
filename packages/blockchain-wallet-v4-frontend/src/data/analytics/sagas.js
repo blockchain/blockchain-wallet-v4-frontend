@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-
+import { map, toLower } from 'ramda'
 import { actions, selectors } from 'data'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 
@@ -19,8 +19,12 @@ export default ({ api }) => {
 
   const logEvent = function*() {
     try {
-      yield console.log('LOG_EVENT')
-      // yield call(postMessage)
+      // yield console.log('LOG_EVENT')
+      const data = ['2', '2']
+      yield call(postMessage, {
+        method: 'trackEvent',
+        messageData: map(toLower, data)
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
     }
@@ -28,31 +32,31 @@ export default ({ api }) => {
 
   const logPageView = function*(action) {
     try {
-      let { routeInfo } = action.payload
-      yield call(postMessage, {
-        method: 'logPageView',
-        messageData: {
-          prevRoute: '',
-          nextRoute: '',
-          nextRouteName: ''
-        }
-      })
+      const { route } = action.payload
+      const isAuthenticated = yield select(selectors.auth.isAuthenticated)
+      // only log authenticated page views
+      if (isAuthenticated) {
+        yield call(postMessage, {
+          method: 'logPageView',
+          messageData: { route }
+        })
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }
   }
 
-  const logSiteSearch = function*() {
+  const logGoal = function*() {
     try {
-      yield console.log('LOG_SITE_SEARCH')
+      yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logSiteSearch', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logGoal', e))
     }
   }
 
   const startSession = function*(action) {
     try {
-      let { guid } = action.payload
+      const { guid } = action.payload
       yield call(postMessage, {
         method: 'setUserId',
         messageData: [
@@ -78,7 +82,7 @@ export default ({ api }) => {
   return {
     logEvent,
     logPageView,
-    logSiteSearch,
+    logGoal,
     postMessage,
     startSession,
     stopSession

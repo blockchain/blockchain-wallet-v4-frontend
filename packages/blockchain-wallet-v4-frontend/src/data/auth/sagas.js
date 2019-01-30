@@ -92,6 +92,7 @@ export default ({ api, coreSagas }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const guid = yield select(selectors.core.wallet.getGuid)
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
@@ -109,8 +110,6 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      const guid = yield select(selectors.core.wallet.getGuid)
-      yield put(actions.analytics.startSession(guid))
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())
       yield put(actions.middleware.webSocket.eth.startSocket())
@@ -123,7 +122,7 @@ export default ({ api, coreSagas }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
-      // store guid in cache for future logins
+      // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
@@ -131,6 +130,9 @@ export default ({ api, coreSagas }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
+      // start analytics
+      yield put(actions.analytics.startSession(guid))
+      yield put(actions.analytics.logPageView('/home'))
       yield fork(transferEthSaga)
       yield put(actions.goals.saveGoal('welcome', { firstLogin }))
       yield put(actions.goals.saveGoal('swapUpgrade'))

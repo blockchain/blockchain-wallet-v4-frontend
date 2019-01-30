@@ -5,9 +5,9 @@ export const logEvent = data => ({
   payload: { data }
 })
 
-export const logPageView = data => ({
+export const logPageView = route => ({
   type: AT.LOG_PAGE_VIEW,
-  payload: { data }
+  payload: { route }
 })
 
 export const logSiteSearch = data => ({
