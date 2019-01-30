@@ -169,7 +169,7 @@ export default ({ api }) => {
   const runKycDocResubmitGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    yield call(waitForUserData)
     // check if user needs to resubmit docs
     const showKycDocResubmitModal = (yield select(
       selectors.modules.profile.getKycDocResubmissionStatus
