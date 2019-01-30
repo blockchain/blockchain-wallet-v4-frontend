@@ -247,8 +247,8 @@ const Verify = ({
               </IdentityVerificationHeader>
               <VerifyIdentityVerificationSubHeader>
                 <FormattedMessage
-                  id='identityverification.verify.message_with_cam'
-                  defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
+                  id='identityverification.verify.messagewithcamera'
+                  defaultMessage='We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.'
                 />
               </VerifyIdentityVerificationSubHeader>
               <DocumentListWrapper>
