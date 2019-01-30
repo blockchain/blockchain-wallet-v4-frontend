@@ -20,7 +20,7 @@ export const resetSession = data => ({
   payload: { data }
 })
 
-export const setSession = data => ({
+export const setSession = guid => ({
   type: AT.SET_SESSION,
-  payload: { data }
+  payload: { guid }
 })

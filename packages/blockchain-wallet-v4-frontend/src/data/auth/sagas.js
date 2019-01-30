@@ -113,6 +113,8 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      const guid = yield select(selectors.core.wallet.getGuid)
+      yield put(actions.analytics.setSession(guid))
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())
       yield put(actions.middleware.webSocket.eth.startSocket())
@@ -126,7 +128,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       // store guid in cache for future logins
-      const guid = yield select(selectors.core.wallet.getGuid)
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
@@ -140,8 +141,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.saveGoal('kyc'))
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
-      // TODO: update to new analytics
-      // yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))

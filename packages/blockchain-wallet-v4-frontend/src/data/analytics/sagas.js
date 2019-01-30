@@ -1,6 +1,7 @@
 import { put, select, call } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
@@ -10,9 +11,7 @@ export default ({ api }) => {
         selectors.core.walletOptions.getWalletHelperUrl
       )).getOrFail('Missing target domain')
       const frame = document.getElementById('matomo-iframe')
-      console.info(targetDomain, frame, api)
-      debugger
-      // frame.contentWindow.postMessage(message, targetDomain)
+      frame.contentWindow.postMessage(message, targetDomain)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
     }
@@ -51,9 +50,18 @@ export default ({ api }) => {
     }
   }
 
-  const setSession = function*() {
+  const setSession = function*(action) {
     try {
-      yield console.log('SET_SESSION')
+      let { guid } = action.payload
+      yield call(postMessage, {
+        method: 'setUserId',
+        messageData: [
+          crypto
+            .sha256(guid)
+            .toString('hex')
+            .slice(0, 15)
+        ]
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setSession', e))
     }
