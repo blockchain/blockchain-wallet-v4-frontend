@@ -135,14 +135,13 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      // TODO @analytics.logEvent login flow
-      // yield fork(reportStats, mobileLogin)
       yield put(actions.goals.saveGoal('welcome', { firstLogin }))
       yield put(actions.goals.saveGoal('swapUpgrade'))
       yield put(actions.goals.saveGoal('kyc'))
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
-      yield put(actions.analytics.reportBalanceStats())
+      // TODO: update to new analytics
+      // yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))

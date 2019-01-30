@@ -1,24 +1,70 @@
-import { call, put } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 
-import { actions } from 'data'
-import { getAllBalances } from 'data/balance/sagas'
+import { actions, selectors } from 'data'
 
 export const logLocation = 'analytics/sagas'
-export const balancePath = ['payload', 'info', 'final_balance']
-
 export default ({ api }) => {
-  const reportBalanceStats = function*() {
+  const postMessage = function*(message) {
     try {
-      const { btc, eth, bch, xlm } = yield call(getAllBalances)
-      yield call(api.incrementCurrencyUsageStats, btc, eth, bch, xlm)
+      const targetDomain = (yield select(
+        selectors.core.walletOptions.getWalletHelperUrl
+      )).getOrFail('Missing target domain')
+      const frame = document.getElementById('matomo-iframe')
+      console.info(targetDomain, frame, api)
+      debugger
+      // frame.contentWindow.postMessage(message, targetDomain)
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
+    }
+  }
+
+  const logEvent = function*() {
+    try {
+      yield console.log('LOG_EVENT')
+      // yield call(postMessage)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
+    }
+  }
+
+  const logPageView = function*() {
+    try {
+      yield console.log('LOG_PAGE_VIEW')
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
+    }
+  }
+
+  const logSiteSearch = function*() {
+    try {
+      yield console.log('LOG_SITE_SEARCH')
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logSiteSearch', e))
+    }
+  }
+
+  const resetSession = function*() {
+    try {
+      yield console.log('RESET_SESSION')
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resetSession', e))
+    }
+  }
+
+  const setSession = function*() {
+    try {
+      yield console.log('SET_SESSION')
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'setSession', e))
     }
   }
 
   return {
-    reportBalanceStats
+    logEvent,
+    logPageView,
+    logSiteSearch,
+    postMessage,
+    resetSession,
+    setSession
   }
 }
