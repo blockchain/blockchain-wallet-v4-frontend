@@ -15,12 +15,12 @@ export const logSiteSearch = data => ({
   payload: { data }
 })
 
-export const resetSession = data => ({
-  type: AT.RESET_SESSION,
-  payload: { data }
+export const startSession = guid => ({
+  type: AT.START_SESSION,
+  payload: { guid }
 })
 
-export const setSession = guid => ({
-  type: AT.SET_SESSION,
-  payload: { guid }
+export const stopSession = data => ({
+  type: AT.STOP_SESSION,
+  payload: { data }
 })

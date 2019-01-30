@@ -26,9 +26,17 @@ export default ({ api }) => {
     }
   }
 
-  const logPageView = function*() {
+  const logPageView = function*(action) {
     try {
-      yield console.log('LOG_PAGE_VIEW')
+      let { routeInfo } = action.payload
+      yield call(postMessage, {
+        method: 'logPageView',
+        messageData: {
+          prevRoute: '',
+          nextRoute: '',
+          nextRouteName: ''
+        }
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }
@@ -42,15 +50,7 @@ export default ({ api }) => {
     }
   }
 
-  const resetSession = function*() {
-    try {
-      yield console.log('RESET_SESSION')
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'resetSession', e))
-    }
-  }
-
-  const setSession = function*(action) {
+  const startSession = function*(action) {
     try {
       let { guid } = action.payload
       yield call(postMessage, {
@@ -63,7 +63,15 @@ export default ({ api }) => {
         ]
       })
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'setSession', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'startSession', e))
+    }
+  }
+
+  const stopSession = function*() {
+    try {
+      yield call(postMessage, { method: 'resetUserId', messageData: [] })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'stopSession', e))
     }
   }
 
@@ -72,7 +80,7 @@ export default ({ api }) => {
     logPageView,
     logSiteSearch,
     postMessage,
-    resetSession,
-    setSession
+    startSession,
+    stopSession
   }
 }
