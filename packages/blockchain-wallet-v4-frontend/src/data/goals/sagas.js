@@ -1,4 +1,4 @@
-import { equals, map, prop, startsWith, sum, values } from 'ramda'
+import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,8 +9,9 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { TIERS, KYC_STATES } = model.profile
+  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
+  const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
   const logLocation = 'goals/sagas'
 
@@ -165,6 +166,24 @@ export default ({ api }) => {
       )
   }
 
+  const runKycDocResubmitGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    // check if user needs to resubmit docs
+    const showKycDocResubmitModal = (yield select(
+      selectors.modules.profile.getKycDocResubmissionStatus
+    ))
+      .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
+      .getOrElse(false)
+
+    if (showKycDocResubmitModal) {
+      yield put(
+        actions.goals.addInitialModal('kycDocResubmit', 'KycDocResubmit')
+      )
+    }
+  }
+
   const runKycCTAGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -186,6 +205,26 @@ export default ({ api }) => {
       .getOrElse(false)
     if (kycNotFinished)
       yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+  }
+
+  const runBsvGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield put(actions.core.data.bsv.fetchData())
+    yield take(actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS)
+
+    const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
+    const hasSeen = hasSeenR.getOrElse(false)
+    if (hasSeen) return
+
+    const balanceR = yield select(selectors.core.data.bsv.getBalance)
+    const balance = balanceR.getOrElse(0)
+
+    yield put(actions.core.data.bsv.resetData())
+    yield put(actions.core.kvStore.bsv.setHasSeen())
+    if (balance > 0) {
+      yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
+    }
   }
 
   const runWelcomeGoal = function*(goal) {
@@ -215,7 +254,17 @@ export default ({ api }) => {
 
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
-    const { sunriver, payment, swap, swapUpgrade, welcome } = initialModals
+    const {
+      bsv,
+      kycDocResubmit,
+      sunriver,
+      payment,
+      swap,
+      swapUpgrade,
+      welcome
+    } = initialModals
+    if (kycDocResubmit)
+      return yield put(actions.modals.showModal(kycDocResubmit.name))
     if (sunriver)
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
@@ -225,6 +274,9 @@ export default ({ api }) => {
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
       )
+    if (bsv) {
+      return yield put(actions.modals.showModal(bsv.name))
+    }
     if (welcome)
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
   }
@@ -232,23 +284,29 @@ export default ({ api }) => {
   const runGoal = function*(goal) {
     try {
       switch (goal.name) {
-        case 'payment':
-          yield call(runSendBtcGoal, goal)
-          break
         case 'referral':
           yield call(runReferralGoal, goal)
+          break
+        case 'payment':
+          yield call(runSendBtcGoal, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)
           break
-        case 'welcome':
-          yield call(runWelcomeGoal, goal)
+        case 'kycDocResubmit':
+          yield call(runKycDocResubmitGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
         case 'kycCTA':
           yield call(runKycCTAGoal, goal)
+          break
+        case 'bsv':
+          yield call(runBsvGoal, goal)
+          break
+        case 'welcome':
+          yield call(runWelcomeGoal, goal)
           break
       }
     } catch (error) {

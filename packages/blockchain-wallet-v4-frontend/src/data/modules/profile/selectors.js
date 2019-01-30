@@ -48,6 +48,10 @@ export const getUserLimits = compose(
   lift(prop('limits')),
   getUserData
 )
+export const getKycDocResubmissionStatus = compose(
+  lift(path(['resubmission', 'reason'])),
+  getUserData
+)
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((tierIndex, state) =>

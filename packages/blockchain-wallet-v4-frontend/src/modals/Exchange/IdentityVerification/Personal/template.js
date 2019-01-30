@@ -22,7 +22,9 @@ import {
   Button,
   HeartbeatLoader,
   Separator,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   DateInputBox,
@@ -38,6 +40,7 @@ import {
   InputWrapper,
   IdentityVerificationHeader,
   FaqFormMessage,
+  FaqHeaderHelper,
   FaqFormGroup,
   Label,
   Footer
@@ -175,6 +178,15 @@ const Personal = ({
                     id='identityverification.personal.header'
                     defaultMessage='Personal Details'
                   />
+                  <FaqHeaderHelper>
+                    <TooltipHost id='identityverification.headerhelper'>
+                      <TooltipIcon
+                        name='question-in-circle-filled'
+                        color='brand-primary'
+                        size='24px'
+                      />
+                    </TooltipHost>
+                  </FaqHeaderHelper>
                 </IdentityVerificationHeader>
                 <FormContainer>
                   {showEmail &&

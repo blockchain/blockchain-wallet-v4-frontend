@@ -151,6 +151,7 @@ const getRefundMessage = status => {
 const getButton = (status, close) => {
   switch (status) {
     case EXPIRED:
+    case FAILED:
       return (
         <Link
           target='_blank'
