@@ -82,19 +82,16 @@ class DateBoxDebounced extends React.Component {
           locale={locale()}
           {...rest}
         />
-        {meta.dirty &&
-          meta.error && (
-            <Error size='12px' weight={300} color='error'>
-              {meta.error}
-            </Error>
-          )}
-        {meta.dirty &&
-          !meta.error &&
-          meta.warning && (
-            <Error size='12px' weight={300} color='sent'>
-              {meta.warning}
-            </Error>
-          )}
+        {meta.dirty && meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {meta.error}
+          </Error>
+        )}
+        {meta.dirty && !meta.error && meta.warning && (
+          <Error size='12px' weight={300} color='sent'>
+            {meta.warning}
+          </Error>
+        )}
       </Container>
     )
   }

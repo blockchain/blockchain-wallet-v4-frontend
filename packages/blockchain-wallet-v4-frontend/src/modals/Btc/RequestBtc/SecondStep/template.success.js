@@ -69,7 +69,7 @@ const SecondStep = props => {
           <Text size='16px'>
             <FormattedMessage
               id='modals.requestbitcoin.secondstep.message'
-              defaultMessage='For &quot;{message}&quot;'
+              defaultMessage='For "{message}"'
               values={{ message: message }}
             />
           </Text>

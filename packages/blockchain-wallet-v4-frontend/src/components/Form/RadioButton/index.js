@@ -42,12 +42,11 @@ const RadioButton = ({ children, ...field }) => {
           {children}
         </RadioButtonInput>
       </Container>
-      {field.meta.touched &&
-        field.meta.error && (
-          <Error size='12px' weight={300} color='error'>
-            {field.meta.error}
-          </Error>
-        )}
+      {field.meta.touched && field.meta.error && (
+        <Error size='12px' weight={300} color='error'>
+          {field.meta.error}
+        </Error>
+      )}
     </Wrapper>
   )
 }
