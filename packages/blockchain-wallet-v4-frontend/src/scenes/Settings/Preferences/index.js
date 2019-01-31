@@ -11,7 +11,7 @@ import Themes from './Themes'
 
 const Wrapper = styled.section`
   width: 100%;
-  padding: 30px;
+  padding: 10px 30px 30px;
   box-sizing: border-box;
 `
 
