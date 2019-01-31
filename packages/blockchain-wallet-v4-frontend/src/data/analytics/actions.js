@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
-export const logEvent = data => ({
+export const logEvent = event => ({
   type: AT.LOG_EVENT,
-  payload: { data }
+  payload: { event }
 })
 
 export const logPageView = route => ({
@@ -10,8 +10,8 @@ export const logPageView = route => ({
   payload: { route }
 })
 
-export const logSiteSearch = data => ({
-  type: AT.LOG_SITE_SEARCH,
+export const logGoal = data => ({
+  type: AT.LOG_GOAL,
   payload: { data }
 })
 

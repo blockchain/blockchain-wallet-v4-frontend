@@ -17,13 +17,12 @@ export default ({ api }) => {
     }
   }
 
-  const logEvent = function*() {
+  const logEvent = function*(action) {
     try {
-      // yield console.log('LOG_EVENT')
-      const data = ['2', '2']
+      const { event } = action.payload
       yield call(postMessage, {
         method: 'trackEvent',
-        messageData: map(toLower, data)
+        messageData: map(toLower, event)
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))

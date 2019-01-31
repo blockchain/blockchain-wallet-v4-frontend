@@ -13,10 +13,6 @@ const Iframe = styled.iframe`
 `
 
 class AnalyticsTracker extends React.PureComponent {
-  componentDidMount () {
-    console.log('MOUNTED')
-  }
-
   render () {
     return (
       <Iframe
