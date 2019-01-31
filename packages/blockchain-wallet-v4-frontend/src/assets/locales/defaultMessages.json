@@ -2689,59 +2689,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've Improved Your Exchange",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
-      },
-      {
-        "defaultMessage": "November 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
-      },
-      {
-        "defaultMessage": "The faster, smarter way to trade your crypto.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
-      },
-      {
-        "defaultMessage": "Upgrade now to enjoy the following benefits:",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
-      },
-      {
-        "defaultMessage": "Lower cost",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
-      },
-      {
-        "defaultMessage": "Super competitive crypto exchange prices",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
-      },
-      {
-        "defaultMessage": "Live rates",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
-      },
-      {
-        "defaultMessage": "You always get the most up to date price",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
-      },
-      {
-        "defaultMessage": "Higher limits",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
-      },
-      {
-        "defaultMessage": "Limits from $1,000-$25,000",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Remove Label?",
         "id": "modal.deleteaddresslabel.title"
       },
@@ -4270,6 +4217,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Documents Needed",
+        "id": "modals.exchange.docresubmit.title"
+      },
+      {
+        "defaultMessage": "We had some issues with the documents you've supplied.",
+        "id": "modals.exchange.docresubmit.body1"
+      },
+      {
+        "defaultMessage": "Please try uploading the documents again to continue with your verification.",
+        "id": "modals.exchange.docresubmit.body2"
+      },
+      {
+        "defaultMessage": "Resubmit Now",
+        "id": "modals.exchange.docresubmit.resubmit"
+      }
+    ],
+    "path": "src/modals/Exchange/DocResubmit/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Exchange Completed",
         "id": "modals.exchangedetails.title.success"
       },
@@ -5214,27 +5182,6 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/AppManagerStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Verify Device Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.title"
-      },
-      {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
-        "id": "modals.lockboxsetup.authenticitystep.content"
-      },
-      {
-        "defaultMessage": "Checking Your Device’s Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.authenticating"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.authenticitystep.success"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
   },
   {
     "descriptors": [
@@ -8040,19 +7987,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Preview",
-        "id": "scenes.exchange.exchangeform.demo_header.preview"
-      },
-      {
-        "defaultMessage": "Looking to trade your Crypto straight from your Wallet? See how Swap works.",
-        "id": "scenes.exchange.exchangeform.demo_header.demo_description"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/DemoHeader/DemoHeader.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Try again",
         "id": "scenes.exchange.exchangeform.tryagain"
       }
@@ -8241,43 +8175,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "scenes.exchange.exchangeform.summary.demo_title"
-      },
-      {
-        "defaultMessage": "Swap enables you to trade crypto with low fees, live rates, and quick settlement, all while maintaining full control of your funds.",
-        "id": "scenes.exchange.exchangeform.summary.demo_text"
-      },
-      {
-        "defaultMessage": "Low Fees",
-        "id": "scenes.exchange.exchangeform.summary.low_fees"
-      },
-      {
-        "defaultMessage": "Great news! You don't have to go to an exchange to get the best prices.",
-        "id": "scenes.exchange.exchangeform.summary.demo_note_1"
-      },
-      {
-        "defaultMessage": "Higher Limits",
-        "id": "scenes.exchange.exchangeform.summary.higher_limits"
-      },
-      {
-        "defaultMessage": "Like to trade big? Get access to limits of up to $25,000 per day.",
-        "id": "scenes.exchange.exchangeform.summary.demo_note_2"
-      },
-      {
-        "defaultMessage": "Easy to use",
-        "id": "scenes.exchange.exchangeform.summary.easy_to_use"
-      },
-      {
-        "defaultMessage": "Get started in just a few steps",
-        "id": "scenes.exchange.exchangeform.summary.demo_note_3"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/Summary/Demo.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Swap",
         "id": "scenes.exchange.exchangeform.summary.swap"
       },
@@ -8295,40 +8192,6 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/Summary/Summary.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Swap",
-        "id": "scenes.exchange.exchangeform.summary.swap"
-      },
-      {
-        "defaultMessage": "Receive",
-        "id": "scenes.exchange.exchangeform.summary.to"
-      },
-      {
-        "defaultMessage": "Fees",
-        "id": "scenes.exchange.exchangeform.summary.fees"
-      },
-      {
-        "defaultMessage": "Swap Value",
-        "id": "scenes.exchange.exchangeform.summary.swapvalue"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/Summary/Volume.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Swap",
-        "id": "scenes.exchange.exchangeform.swap"
-      },
-      {
-        "defaultMessage": "Receive",
-        "id": "scenes.exchange.exchangeform.to"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/SwapReceiveSwitch/SwapReceiveSwitch.json"
   },
   {
     "descriptors": [
@@ -8666,6 +8529,48 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Swap Your Crypto",
+        "id": "scenes.home.swapbanner.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.swapbanner.trading_your_crypto"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.swapbanner.faster.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "scenes.home.swapbanner.faster.makeswap"
+      }
+    ],
+    "path": "src/scenes/Home/Banner/SwapBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Swap Your Crypto",
+        "id": "scenes.home.swapbanner.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.swapbanner.trading_your_crypto"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.swapbanner.faster.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "scenes.home.swapbanner.faster.makeswap"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/KycResubmission/index.json"
   },
   {
     "descriptors": [
