@@ -17,9 +17,7 @@ class EditTxDescriptionContainer extends React.PureComponent {
   onSubmit = () => {
     this.props.close()
     this.props.handleConfirm(this.props.description)
-    this.props.analyticsActions.logEvent(
-      TRANSACTION_EVENTS.ADD_EDIT_DESCRIPTION
-    )
+    this.props.analyticsActions.logEvent(TRANSACTION_EVENTS.EDIT_DESCRIPTION)
   }
 
   render () {
