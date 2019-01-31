@@ -491,7 +491,15 @@ describe('authSagas', () => {
     })
 
     it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kyc'))
+      saga.next().put(actions.goals.saveGoal('kycCTA'))
+    })
+
+    it('should add kyc doc resubmit goal', () => {
+      saga.next().put(actions.goals.saveGoal('kycDocResubmit'))
+    })
+
+    it('should add bsv goal', () => {
+      saga.next().put(actions.goals.saveGoal('bsv'))
     })
 
     it('should run goals', () => {

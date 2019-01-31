@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapBanner renders correctly with exchange link 1`] = `
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
+      <FormattedMessage
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.banners.swap.title"
+        values={Object {}}
+      />
+    </Swap__LargeText>
+    <Swap__MediumText>
+      <FormattedMessage
+        defaultMessage="Trading your crypto doesn't mean trading away control."
+        id="scenes.home.banners.swap.subtitle"
+        values={Object {}}
+      />
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
+    hiddenOnMobile={true}
+  >
+    <Swap__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </Swap__Column>
+  <Swap__Column>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/swap"
+    >
+      <Swap__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Swap Now"
+          id="scenes.home.banners.swap.swapnow"
+          values={Object {}}
+        />
+      </Swap__GetStartedButton>
+    </LinkContainer>
+  </Swap__Column>
+</Swap__Wrapper>
+`;
+
+exports[`SwapBanner renders correctly with getstarted button 1`] = `
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
+      <FormattedMessage
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.banners.swap.title"
+        values={Object {}}
+      />
+    </Swap__LargeText>
+    <Swap__MediumText>
+      <FormattedMessage
+        defaultMessage="Trading your crypto doesn't mean trading away control."
+        id="scenes.home.banners.swap.subtitle"
+        values={Object {}}
+      />
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
+    hiddenOnMobile={true}
+  >
+    <Swap__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </Swap__Column>
+  <Swap__Column>
+    <Swap__GetStartedButton>
+      <FormattedMessage
+        defaultMessage="Get Started"
+        id="scenes.home.banners.swap.started"
+        values={Object {}}
+      />
+    </Swap__GetStartedButton>
+  </Swap__Column>
+</Swap__Wrapper>
+`;
+
+exports[`SwapBanner renders null w/o showBanner 1`] = `
+<Swap__Wrapper>
+  <Swap__Column>
+    <Swap__LargeText>
+      <FormattedMessage
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.banners.swap.title"
+        values={Object {}}
+      />
+    </Swap__LargeText>
+    <Swap__MediumText>
+      <FormattedMessage
+        defaultMessage="Trading your crypto doesn't mean trading away control."
+        id="scenes.home.banners.swap.subtitle"
+        values={Object {}}
+      />
+    </Swap__MediumText>
+  </Swap__Column>
+  <Swap__Column
+    hiddenOnMobile={true}
+  >
+    <Swap__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </Swap__Column>
+  <Swap__Column>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/swap"
+    >
+      <Swap__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Swap Now"
+          id="scenes.home.banners.swap.swapnow"
+          values={Object {}}
+        />
+      </Swap__GetStartedButton>
+    </LinkContainer>
+  </Swap__Column>
+</Swap__Wrapper>
+`;

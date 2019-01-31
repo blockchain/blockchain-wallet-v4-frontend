@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MenuTop Component matches snapshot 1`] = `
+exports[`Menu Component matches snapshot 1`] = `
 <Menu__Wrapper>
   <Component>
     <LinkContainer
@@ -39,6 +39,15 @@ exports[`MenuTop Component matches snapshot 1`] = `
         />
       </Menu__LinkItem>
     </LinkContainer>
+    <Menu__SupportButton
+      nature="primary"
+    >
+      <FormattedMessage
+        defaultMessage="Need Help?"
+        id="scenes.exchange.menutop.need_help"
+        values={Object {}}
+      />
+    </Menu__SupportButton>
   </Component>
 </Menu__Wrapper>
 `;
