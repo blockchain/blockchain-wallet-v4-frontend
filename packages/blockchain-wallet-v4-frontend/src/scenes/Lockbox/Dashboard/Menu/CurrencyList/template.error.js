@@ -33,7 +33,7 @@ const Error = props => {
         <Text weight={300} size='14px'>
           <FormattedHTMLMessage
             id='scenes.lockbox.menu.currencylist.error'
-            defaultMessage='Oops. Something went wrong. Click <span class=&quot;link&quot;>here</span> to refresh.'
+            defaultMessage='Oops. Something went wrong. Click <span class="link">here</span> to refresh.'
           />
         </Text>
       </Refresh>
