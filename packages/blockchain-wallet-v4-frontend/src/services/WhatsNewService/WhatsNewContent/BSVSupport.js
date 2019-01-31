@@ -31,8 +31,8 @@ export const BSVSupport = () => (
     <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage='Now Supporting Bitcoin SV (BSV)!'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv'
+          defaultMessage='Now Supporting Bitcoin SV (BSV)'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv'
         />
       </Text>
     </Row>
@@ -56,8 +56,8 @@ export const BSVSupport = () => (
       <LinkContainer to='/settings/addresses/bsv'>
         <GetStartedButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout'
-            defaultMessage='Check it out!'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit'
+            defaultMessage='Check it Out!'
           />
         </GetStartedButton>
       </LinkContainer>

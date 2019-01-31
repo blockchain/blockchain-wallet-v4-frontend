@@ -1,4 +1,7 @@
 import airdropWelcome from './img/airdrop-welcome.png'
+import allowCamera from './img/allow-camera.png'
+import allowCamera2 from './img/allow-camera@2x.png'
+import allowCamera3 from './img/allow-camera@3x.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -86,6 +89,9 @@ import onboardPairDevice from './img/lockbox/onboarding_pairdevice.gif'
 
 export default {
   'airdrop-welcome': airdropWelcome,
+  'allow-camera': allowCamera,
+  'allow-camera2': allowCamera2,
+  'allow-camera3': allowCamera3,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'blockchain-blue': blockchainBlue,
