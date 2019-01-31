@@ -115,31 +115,28 @@ class NumberBoxDebounced extends React.Component {
           onBlur={this.handleBlur}
           {...rest}
         />
-        {meta.touched &&
-          meta.error && (
-            <Error
-              size='12px'
-              weight={300}
-              color='error'
-              errorBottom={errorBottom}
-              errorLeft={errorLeft}
-            >
-              {meta.error}
-            </Error>
-          )}
-        {meta.touched &&
-          !meta.error &&
-          meta.warning && (
-            <Error
-              size='12px'
-              weight={300}
-              color='sent'
-              errorBottom={errorBottom}
-              errorLeft={errorLeft}
-            >
-              {meta.warning}
-            </Error>
-          )}
+        {meta.touched && meta.error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+            errorLeft={errorLeft}
+          >
+            {meta.error}
+          </Error>
+        )}
+        {meta.touched && !meta.error && meta.warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+            errorLeft={errorLeft}
+          >
+            {meta.warning}
+          </Error>
+        )}
         {unit ? <Unit>{unit}</Unit> : null}
       </Container>
     )
