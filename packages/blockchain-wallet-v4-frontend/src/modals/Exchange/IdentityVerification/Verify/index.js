@@ -9,6 +9,7 @@ import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
+import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 
@@ -47,12 +48,18 @@ class VerifyContainer extends React.PureComponent {
     const { data, actions, modalActions, ...rest } = this.props
 
     return data.cata({
-      Success: ({ deeplink, docTypes, email, flowConfig }) => {
+      Success: ({
+        deeplink,
+        docTypes,
+        email,
+        flowConfig,
+        needsDocResubmit
+      }) => {
         const { flowType, kycProvider } = flowConfig
         return (
           <MediaContextConsumer>
             {({ mobile }) =>
-              flowType === FLOW_TYPES.HIGH && mobile ? (
+              (flowType === FLOW_TYPES.HIGH && mobile) || !hasWebcam ? (
                 <HighFlow
                   email={email}
                   deeplink={deeplink}
@@ -65,6 +72,7 @@ class VerifyContainer extends React.PureComponent {
                   supportedDocuments={docTypes}
                   showVeriff={this.state.showVeriff}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
+                  needsDocResubmit={needsDocResubmit}
                   {...rest}
                 />
               )
