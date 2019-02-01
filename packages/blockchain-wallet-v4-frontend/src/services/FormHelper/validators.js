@@ -6,7 +6,7 @@ import {
   isDOB,
   isGuid,
   isUsZipcode,
-  isIpList,
+  isIpValid,
   isAlphaNumeric,
   isOverEighteen,
   isSSN
@@ -19,7 +19,7 @@ import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { any, concat, equals, path, takeWhile, prop } from 'ramda'
+import { all, any, concat, equals, path, takeWhile, prop } from 'ramda'
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -54,8 +54,13 @@ export const validStrongPassword = value =>
     <M.InvalidStrongPasswordMessage />
   )
 
-export const validIpList = value =>
-  isIpList(value) ? undefined : <M.InvalidIpListMessage />
+export const validIpList = ipList => {
+  return !ipList || all(isIpValid)(ipList.split(',')) ? (
+    undefined
+  ) : (
+    <M.InvalidIpListMessage />
+  )
+}
 
 export const validPasswordConfirmation = passwordFieldName => (
   value,

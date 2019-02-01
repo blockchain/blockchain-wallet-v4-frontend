@@ -1,39 +1,18 @@
 import Task from 'data.task'
-import { compose, set, curry, prop } from 'ramda'
+import { compose, dissoc, set, curry, prop } from 'ramda'
 import * as KV from '../../../types/KVStoreEntry'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
-export default ({ apiUrl, networks }) => {
-  const request = (method, endpoint, data) => {
-    const checkStatus = response => {
-      if (response.status >= 200 && response.status < 300) {
-        return response.json()
-      } else if (method === 'GET' && response.status === 404) {
-        return null
-      } else {
-        return response.text().then(Promise.reject.bind(Promise))
-      }
-    }
+const parseError = error => {
+  if (prop('status', error) === 404) return null
+  throw error
+}
 
-    let url = apiUrl + '/metadata/' + endpoint
-    let options = {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'omit'
-    }
+const toTask = promise =>
+  new Task((reject, resolve) => promise.then(resolve, reject))
 
-    if (method !== 'GET') {
-      options.body = JSON.stringify(data)
-    }
-
-    return new Task((reject, resolve) => {
-      fetch(url, options)
-        .then(checkStatus)
-        .then(resolve, reject)
-    })
-  }
-
+export default ({ apiUrl, networks, get, put }) => {
   const updateKVStore = kv => {
     let createEncPayloadBuffer = kv.encKeyBuffer
       ? compose(
@@ -62,7 +41,18 @@ export default ({ apiUrl, networks }) => {
       type_id: kv.typeId
     }
 
-    return request('PUT', kv.address, body).map(res => {
+    const request = put({
+      url: apiUrl,
+      endPoint: `/metadata/${kv.address}`,
+      contentType: 'application/json',
+      data: body,
+      transformRequest: compose(
+        JSON.stringify,
+        dissoc('api_code'),
+        dissoc('ct')
+      )
+    }).catch(parseError)
+    return toTask(request).map(res => {
       let magicHash = KV.magic(encPayloadBuffer, kv.magicHash, networks.btc)
       return set(KV.magicHash, magicHash, kv)
     })
@@ -77,8 +67,13 @@ export default ({ apiUrl, networks }) => {
       )
       return setFromResponse(currentKv)
     })
-
-    return request('GET', kv.address)
+    const request = get({
+      url: apiUrl,
+      endPoint: `/metadata/${kv.address}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    }).catch(parseError)
+    return toTask(request)
       .map(KV.verifyResponse(kv.address, networks.btc))
       .chain(eitherToTask)
       .map(setKvFromResponse(kv))

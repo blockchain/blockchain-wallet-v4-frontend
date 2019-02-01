@@ -32,7 +32,12 @@ class BsvWalletsContainer extends React.Component {
     this.setState({ toSwap: true }, () => {
       this.props.routerActions.push({
         pathname: '/swap',
-        state: { from: 'BSV', to: 'BTC' }
+        state: {
+          from: 'BSV',
+          to: 'BTC',
+          amount: '0',
+          fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+        }
       })
     })
   }

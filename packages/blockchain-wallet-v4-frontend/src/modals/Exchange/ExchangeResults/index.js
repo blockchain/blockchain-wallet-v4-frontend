@@ -46,6 +46,11 @@ const ResultsHeader = styled(ModalHeader)`
   }
 `
 
+const ResultAmountHeader = styled(AmountHeader)`
+  margin-bottom: 0;
+  margin-top: 8px;
+`
+
 const OrderRow = styled(AmountHeader)`
   display: flex;
   flex-direction: column;
@@ -53,6 +58,7 @@ const OrderRow = styled(AmountHeader)`
   font-weight: 600;
   margin-bottom: 24px;
 `
+
 const StrikeThrough = styled.s`
   color: ${props => props.theme['brand-tertiary']};
 `
@@ -223,11 +229,15 @@ export const ExchangeResults = ({
           />
           {id}
         </OrderRow>
-        <AmountHeader>{getSourceMessage(status, sourceCoin)}</AmountHeader>
+        <ResultAmountHeader>
+          {getSourceMessage(status, sourceCoin)}
+        </ResultAmountHeader>
         <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
         {!contains(status, [REFUNDED, PENDING_REFUND]) && (
           <React.Fragment>
-            <AmountHeader>{getTargetMessage(status, targetCoin)}</AmountHeader>
+            <ResultAmountHeader>
+              {getTargetMessage(status, targetCoin)}
+            </ResultAmountHeader>
             <ExchangeAmount>
               {getTargetAmount(withdrawalAmount, targetCoin, status)}
             </ExchangeAmount>

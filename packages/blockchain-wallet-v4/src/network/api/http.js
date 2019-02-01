@@ -35,14 +35,16 @@ export default ({ apiKey }) => {
     headers,
     method,
     sessionToken,
-    url
+    url,
+    ...options
   }) =>
     axios({
       url: `${url}${endPoint}`,
       method,
       data: encodeData(data, contentType),
       headers: merge(getHeaders(sessionToken, contentType), headers),
-      cancelToken
+      cancelToken,
+      ...options
     })
       .catch(error => {
         const errorData = pathOr({}, ['response', 'data'], error)

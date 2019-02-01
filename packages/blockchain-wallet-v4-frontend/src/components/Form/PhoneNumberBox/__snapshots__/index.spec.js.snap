@@ -2,8 +2,8 @@
 
 exports[`PhoneNumberBox renders correctly 1`] = `
 <PhoneNumberBox__Container>
-  <mockConstructor
-    css={
+  <Styled(mockConstructor)
+    _css={
       Array [
         "intl-tel-input",
         "form-control",

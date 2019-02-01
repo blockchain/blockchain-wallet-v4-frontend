@@ -32,12 +32,13 @@ const CreateForm = styled(Form)`
 
 const VerifyEmail = props => {
   const {
+    create,
+    codeSent,
     emailVerifiedError,
     invalid,
     handleSubmit,
     resendCode,
-    ui,
-    updateUI,
+    updateState,
     newEmail
   } = props
 
@@ -51,21 +52,21 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: 'change_email' })}>
+                <a onClick={() => updateState({ create: 'change_email' })}>
                   change email
                 </a>
               )
             }}
           />
         )
-      case ui.codeSent:
+      case codeSent:
         return (
           <FormattedMessage
             id='coinifyexchangedata.create.verifyemail.helper.sentanothercode'
             defaultMessage='Another code has been sent!'
           />
         )
-      case !ui.codeSent:
+      case !codeSent:
         return (
           <FormattedMessage
             id='coinifyexchangedata.create.verifyemail.helper.didntreceive'
@@ -73,7 +74,7 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: 'change_email' })}>
+                <a onClick={() => updateState({ create: 'change_email' })}>
                   change email
                 </a>
               )
@@ -94,7 +95,7 @@ const VerifyEmail = props => {
             />
           </PartnerHeader>
           <PartnerSubHeader>
-            {ui.create === 'enter_email_code' ? (
+            {create === 'enter_email_code' ? (
               <FormattedMessage
                 id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode'
                 defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.'
@@ -107,7 +108,7 @@ const VerifyEmail = props => {
               />
             )}
           </PartnerSubHeader>
-          {ui.create === 'enter_email_code' ? (
+          {create === 'enter_email_code' ? (
             <EmailInput>
               <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
@@ -117,7 +118,7 @@ const VerifyEmail = props => {
               </Text>
               <Field
                 name='emailCode'
-                onChange={() => updateUI({ uniqueEmail: true })}
+                onChange={() => updateState({ uniqueEmail: true })}
                 component={TextBox}
                 validate={[required]}
               />
@@ -144,7 +145,7 @@ const VerifyEmail = props => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          {ui.create === 'enter_email_code' ? (
+          {create === 'enter_email_code' ? (
             <ButtonWrapper>
               <Button
                 type='submit'

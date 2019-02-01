@@ -69,6 +69,8 @@ export class ExchangeScene extends React.PureComponent {
                 <Exchange
                   from={path(['state', 'from'], location)}
                   to={path(['state', 'to'], location)}
+                  fix={path(['state', 'fix'], location)}
+                  amount={path(['state', 'amount'], location)}
                 />
               </Column>
             </Container>
@@ -94,7 +96,7 @@ export class ExchangeScene extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
-  logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
+  logEnterExchange: () => dispatch(actions.analytics.logEvent(ENTERED))
 })
 
 export default connect(

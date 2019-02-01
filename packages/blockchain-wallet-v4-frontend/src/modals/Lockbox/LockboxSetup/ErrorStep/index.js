@@ -1,42 +1,39 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { FormattedMessage } from 'react-intl'
 
-import { actions, selectors } from 'data'
-import AuthenticityError from './authenticity.template'
-import DuplicateError from './duplicate.template'
+import { Button, Text } from 'blockchain-info-components'
 
 class ErrorStepContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.analytics.logLockboxSetup('setup_error')
-  }
-
-  handleContinue = () => {
-    this.props.modalActions.closeModal()
-  }
-
   render () {
-    const { step } = this.props
-
-    return step.error === 'authenticity' ? (
-      <AuthenticityError handleContinue={this.handleContinue} />
-    ) : (
-      <DuplicateError handleContinue={this.handleContinue} />
+    return (
+      <React.Fragment>
+        <Text size='16px' weight={400}>
+          <FormattedMessage
+            id='modals.lockboxsetup.duplicatedevice.title'
+            defaultMessage='Whoops!'
+          />
+        </Text>
+        <Text size='13px' weight={300} style={{ marginTop: '10px' }}>
+          <FormattedMessage
+            id='modals.lockboxsetup.duplicatedevice.subtitle'
+            defaultMessage='This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.'
+          />
+        </Text>
+        <Button
+          style={{ marginTop: '25px' }}
+          fullwidth
+          type='submit'
+          nature='primary'
+          onClick={this.props.onClose}
+        >
+          <FormattedMessage
+            id='modals.lockboxsetup.duplicatedevice.continue'
+            defaultMessage='OK'
+          />
+        </Button>
+      </React.Fragment>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  step: selectors.components.lockbox.getNewDeviceSetupStep(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  analytics: bindActionCreators(actions.analytics, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ErrorStepContainer)
+export default ErrorStepContainer

@@ -1,30 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled, { injectGlobal } from 'styled-components'
+import styled from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
-
-injectGlobal`
-  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  html, body {overflow: hidden;}
-`
 
 const defaultDomains = {
   root: 'https://blockchain.info',
   comWalletApp: 'https://login.blockchain.com',
   comRoot: 'https://blockchain.com'
 }
-
-injectGlobal`
-  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  body {overflow: hidden;}
-`
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -105,25 +96,28 @@ class PublicLayoutContainer extends React.PureComponent {
   render () {
     const { component: Component, ...rest } = this.props
     return (
-      <Route
-        {...rest}
-        render={matchProps => (
-          <Wrapper>
-            <ErrorBoundary>
-              <Alerts />
-              <HeaderContainer>
-                <Header />
-              </HeaderContainer>
-              <ContentContainer>
-                <Component {...matchProps} />
-              </ContentContainer>
-              <FooterContainer>
-                <Footer />
-              </FooterContainer>
-            </ErrorBoundary>
-          </Wrapper>
-        )}
-      />
+      <React.Fragment>
+        <Route
+          {...rest}
+          render={matchProps => (
+            <Wrapper>
+              <AnalyticsTracker />
+              <ErrorBoundary>
+                <Alerts />
+                <HeaderContainer>
+                  <Header />
+                </HeaderContainer>
+                <ContentContainer>
+                  <Component {...matchProps} />
+                </ContentContainer>
+                <FooterContainer>
+                  <Footer />
+                </FooterContainer>
+              </ErrorBoundary>
+            </Wrapper>
+          )}
+        />
+      </React.Fragment>
     )
   }
 }

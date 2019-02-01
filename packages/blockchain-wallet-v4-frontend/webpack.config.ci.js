@@ -1,4 +1,6 @@
 /* eslint-disable */
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -8,6 +10,7 @@ const PATHS = require('./../../config/paths')
 
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
+const runBundleAnalyzer = process.env.ANALYZE
 
 module.exports = {
   mode: 'production',
@@ -15,7 +18,7 @@ module.exports = {
     fs: 'empty'
   },
   entry: {
-    app: ['babel-polyfill', PATHS.src + '/index.js']
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
     path: PATHS.ciBuild,
@@ -28,7 +31,10 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -73,7 +79,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
-    })
+    }),
+    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
     namedModules: true,

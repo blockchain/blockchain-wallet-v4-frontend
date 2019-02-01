@@ -4,7 +4,8 @@ import {
   find,
   lift,
   map,
-  memoize,
+  identity,
+  memoizeWith,
   path,
   prop,
   propOr,
@@ -69,7 +70,8 @@ export const getAccountBalance = compose(
   getAccount
 )
 
-const calculateBalance = memoize(
+const calculateBalance = memoizeWith(
+  identity,
   balance =>
     Exchange.convertCoinToCoin({
       value: balance,
@@ -78,7 +80,7 @@ const calculateBalance = memoize(
     }).value
 )
 
-export const getBalance = curry(
+export const getBalance = curry((state, accountId) =>
   compose(
     lift(
       compose(
@@ -89,7 +91,7 @@ export const getBalance = curry(
       )
     ),
     getAccount
-  )
+  )(accountId, state)
 )
 
 export const getTotalBalance = state =>

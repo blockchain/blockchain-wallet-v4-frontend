@@ -36,12 +36,23 @@ export const setDeviceTargetId = targetId => ({
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
+export const finalizeNewDeviceSetup = () => ({
+  type: AT.FINALIZE_NEW_DEVICE_SETUP
+})
+export const routeNewDeviceToDashboard = startTour => ({
+  type: AT.ROUTE_NEW_DEVICE_DASHBOARD,
+  payload: { startTour }
+})
 export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step, done, error }
 })
+export const setSetupNewOrExisting = type => ({
+  type: AT.SET_SETUP_NEW_OR_EXISTING,
+  payload: type
+})
 export const setDeviceSetupType = type => ({
-  type: AT.SET_DEVICE_SETUP_TYPE,
+  type: AT.SET_SETUP_DEVICE_TYPE,
   payload: type
 })
 
@@ -64,7 +75,7 @@ export const saveNewDeviceKvStoreFailure = payload => ({
   payload
 })
 
-// NEW DEVICE AUTHENTICITY
+// DEVICE AUTHENTICITY
 export const checkDeviceAuthenticity = deviceIndex => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY,
   payload: { deviceIndex }
@@ -169,9 +180,6 @@ export const appChangeFailure = (appName, changeType, error) => ({
   type: AT.APP_CHANGE_FAILURE,
   payload: { appName, changeType, error }
 })
-export const newDeviceBtcInstall = () => ({
-  type: AT.NEW_DEVICE_BTC_INSTALL
-})
 export const resetAppChangeStatus = () => ({
   type: AT.RESET_APP_CHANGE_STATUS
 })
@@ -186,4 +194,8 @@ export const saveCoinMD = (deviceIndex, coin) => ({
 })
 export const lockboxModalClose = () => ({
   type: AT.LOCKBOX_MODAL_CLOSE
+})
+export const setProductTourVisibility = visibility => ({
+  type: AT.SET_PRODUCT_TOUR_VISIBILITY,
+  payload: visibility
 })

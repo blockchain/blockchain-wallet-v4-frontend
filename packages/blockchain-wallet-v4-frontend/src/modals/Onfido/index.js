@@ -28,7 +28,7 @@ const OnfidoModal = styled(Modal)`
 class OnfidoContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
-    this.props.analytics.logKycEvent(ONFIDO_STARTED)
+    this.props.analytics.logEvent(ONFIDO_STARTED)
     window.addEventListener('message', this.handleOnfidoMessage, false)
   }
   componentWillUnmount () {

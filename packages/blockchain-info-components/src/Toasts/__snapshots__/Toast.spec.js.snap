@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Toast component default renders correctly 1`] = `
-<styled.div>
-  <styled.div
+<Toast__Wrapper>
+  <Toast__Container
     color="brand-secondary"
   >
-    <styled.div>
+    <Toast__Content>
       <span>
         Default
       </span>
-    </styled.div>
-    <Styled(Icon)
+    </Toast__Content>
+    <Toast__Close
       color="brand-secondary"
       cursor={true}
       name="close"
@@ -18,21 +18,21 @@ exports[`Toast component default renders correctly 1`] = `
       size="20px"
       weight={300}
     />
-  </styled.div>
-</styled.div>
+  </Toast__Container>
+</Toast__Wrapper>
 `;
 
 exports[`Toast component error renders correctly 1`] = `
-<styled.div>
-  <styled.div
+<Toast__Wrapper>
+  <Toast__Container
     color="error"
   >
-    <styled.div>
+    <Toast__Content>
       <span>
         Default
       </span>
-    </styled.div>
-    <Styled(Icon)
+    </Toast__Content>
+    <Toast__Close
       color="error"
       cursor={true}
       name="close"
@@ -40,21 +40,21 @@ exports[`Toast component error renders correctly 1`] = `
       size="20px"
       weight={300}
     />
-  </styled.div>
-</styled.div>
+  </Toast__Container>
+</Toast__Wrapper>
 `;
 
 exports[`Toast component success renders correctly 1`] = `
-<styled.div>
-  <styled.div
+<Toast__Wrapper>
+  <Toast__Container
     color="success"
   >
-    <styled.div>
+    <Toast__Content>
       <span>
         Default
       </span>
-    </styled.div>
-    <Styled(Icon)
+    </Toast__Content>
+    <Toast__Close
       color="success"
       cursor={true}
       name="close"
@@ -62,6 +62,6 @@ exports[`Toast component success renders correctly 1`] = `
       size="20px"
       weight={300}
     />
-  </styled.div>
-</styled.div>
+  </Toast__Container>
+</Toast__Wrapper>
 `;

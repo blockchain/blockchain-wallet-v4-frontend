@@ -3,12 +3,10 @@ import {
   prop,
   compose,
   assoc,
-  length,
   map,
   path,
   curry,
   split,
-  take,
   values,
   sequence,
   lift,
@@ -17,19 +15,13 @@ import {
 import {
   getAddresses,
   getChangeIndex,
-  getReceiveIndex,
-  getHeight,
-  getTransactions
+  getReceiveIndex
 } from '../../data/bsv/selectors'
-import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList, getBsvTxNote } from '../../kvStore/bsv/selectors'
+import { getAccountsList } from '../../kvStore/bsv/selectors'
 import { toCashAddr } from '../../../utils/bsv'
-import { isValidBitcoinAddress } from '../../../utils/btc'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
-
-const transformTx = transactions.bsv.transformTx
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
@@ -138,79 +130,8 @@ export const getAddressesInfo = state => {
   return map(digest, legacyAddresses)
 }
 
-const addFromToBsv = (wallet, bsvAccounts, txList) => {
-  const hdWallets = wallet.hd_wallets
-  map(
-    tx =>
-      hdWallets.map(hdWallet =>
-        take(length(bsvAccounts), hdWallet.accounts).map((account, index) => {
-          if (account) {
-            if (account.label === tx.from) {
-              tx.from = bsvAccounts[index].label
-            } else if (isValidBitcoinAddress(tx.from)) {
-              try {
-                tx.from = toCashAddr(tx.from, true)
-              } catch (e) {}
-            }
-            if (account.label === tx.to) {
-              tx.to = bsvAccounts[index].label
-            } else if (isValidBitcoinAddress(tx.to)) {
-              try {
-                tx.to = toCashAddr(tx.to, true)
-              } catch (e) {}
-            }
-          }
-        })
-      ),
-    txList
-  )
-
-  txList.map(tx => {
-    tx.inputs.map(input => {
-      input.address = toCashAddr(input.address, true)
-    })
-    tx.outputs.map(output => {
-      output.address = toCashAddr(output.address, true)
-    })
-  })
-
-  return txList
-}
-
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state => {
-  // Page == Remote ([Tx])
-  // Remote(wallet)
-  const walletR = Remote.of(walletSelectors.getWallet(state))
-  // Remote(blockHeight)
-  const blockHeightR = getHeight(state)
-  // [Remote([tx])] == [Page] == Pages
-  const getDescription = hash => getBsvTxNote(state, hash).getOrElse('')
-  const pages = getTransactions(state)
-  const getPartnerLabel = hash => false
-  // transformTx :: wallet -> blockHeight -> Tx
-  // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-
-  const ProcessTxs = (wallet, block, accountList, txList) =>
-    map(
-      transformTx.bind(
-        undefined,
-        wallet,
-        block,
-        accountList,
-        getDescription,
-        getPartnerLabel
-      ),
-      txList
-    )
-  // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, Remote.of([]))
-  const txs = map(ProcessPage, pages)
-  return map(
-    txListR => lift(addFromToBsv)(walletR, getAccountsList(state), txListR),
-    txs
-  )
-}
+export const getWalletTransactions = state => state.dataPath.bsv.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
 export const getAddress = curry((network, path, state) => {

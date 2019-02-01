@@ -45,7 +45,7 @@ export const belongsToCurrentWallet = (accounts, from, to) => {
   return !isEmpty(intersection([from, to], accountIds))
 }
 
-export const transformTx = curry((accounts, tx, txNotes, operation) => {
+export const transformTx = curry((accounts, tx, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const operationAmount = getAmount(operation)
   const to = getDestination(operation)
@@ -56,15 +56,15 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const hash = prop('hash', tx)
   const memo = prop('memo', tx)
   const memoType = prop('memo_type', tx)
+  const pagingToken = prop('paging_token', tx)
   const amount =
     type === 'sent'
-      ? new BigNumber(operationAmount).add(fee).toString()
+      ? new BigNumber.sum(operationAmount, fee).toString()
       : operationAmount
 
   return {
     amount,
     confirmations: 1,
-    description: prop(hash, txNotes),
     fee,
     from: getLabel(accounts, from),
     hash,
@@ -73,6 +73,7 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
     time,
     to: getLabel(accounts, to),
     type,
+    pagingToken,
     belongsToWallet: belongsToCurrentWallet(accounts, from, to)
   }
 })

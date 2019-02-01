@@ -220,29 +220,26 @@ class DateInputBox extends React.PureComponent {
           </RowWrapper>
         )}
 
-        {meta.touched &&
-          error && (
-            <Error
-              size='12px'
-              weight={300}
-              color='error'
-              errorBottom={errorBottom}
-            >
-              {meta.error}
-            </Error>
-          )}
-        {meta.touched &&
-          !error &&
-          meta.warning && (
-            <Error
-              size='12px'
-              weight={300}
-              color='sent'
-              errorBottom={errorBottom}
-            >
-              {meta.warning}
-            </Error>
-          )}
+        {meta.touched && error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+          >
+            {meta.error}
+          </Error>
+        )}
+        {meta.touched && !error && meta.warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+          >
+            {meta.warning}
+          </Error>
+        )}
       </Container>
     )
   }

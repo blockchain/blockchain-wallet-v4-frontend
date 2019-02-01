@@ -24,7 +24,7 @@ class Veriff extends React.PureComponent {
   }
   componentDidMount () {
     this.props.actions.fetchVeriffUrl()
-    this.props.analytics.logKycEvent(ONFIDO_STARTED)
+    this.props.analytics.logEvent(ONFIDO_STARTED)
     window.addEventListener('message', this.handleVeriffMessage, false)
   }
 

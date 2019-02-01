@@ -8,7 +8,12 @@ const WhatsNewLink = styled(Link)`
   position: relative;
   padding: 5px;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, ${props => props.highlighted ? '0.2' : '0'});
+  background-color: rgba(
+    0,
+    0,
+    0,
+    ${props => (props.highlighted ? '0.2' : '0')}
+  );
 `
 const NotificationBadge = styled.div`
   border-radius: 50%;
@@ -32,11 +37,9 @@ const WhatsNewIcon = props => {
         highlighted={highlighted}
         data-e2e='notificationsLink'
       >
-        {
-          numOfNewAnnouncements > 0
-            ? <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
-            : null
-        }
+        {numOfNewAnnouncements > 0 ? (
+          <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
+        ) : null}
         <Icon id='whatsnew-icon' name='bell' color='white' size='18px' cursor />
       </WhatsNewLink>
     </TooltipHost>

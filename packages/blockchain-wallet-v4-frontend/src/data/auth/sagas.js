@@ -1,7 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { assoc, is, path, prop } from 'ramda'
-import Either from 'data.either'
+import { assoc, path, prop, is } from 'ramda'
 
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
@@ -14,7 +13,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -136,7 +135,8 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(reportStats, mobileLogin)
+      // TODO @analytics.logEvent login flow
+      // yield fork(reportStats, mobileLogin)
       yield put(actions.goals.saveGoal('welcome', { firstLogin }))
       yield put(actions.goals.saveGoal('swapUpgrade'))
       yield put(actions.goals.saveGoal('kycCTA'))
@@ -156,18 +156,6 @@ export default ({ api, coreSagas }) => {
       )
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-    }
-  }
-
-  const reportStats = function*(mobileLogin) {
-    if (mobileLogin) {
-      yield call(api.incrementLoginViaQrStats)
-    } else {
-      const wallet = yield select(selectors.core.wallet.getWallet)
-      yield call(
-        api.incrementSecPasswordStats,
-        Types.Wallet.isDoubleEncrypted(wallet)
-      )
     }
   }
 
@@ -223,7 +211,6 @@ export default ({ api, coreSagas }) => {
 
   const login = function*(action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
-    const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -240,10 +227,10 @@ export default ({ api, coreSagas }) => {
       })
       yield call(loginRoutineSaga, mobileLogin)
     } catch (error) {
-      const initialError = safeParse(error).map(prop('initial_error'))
-      const authRequired = safeParse(error).map(prop('authorization_required'))
+      const initialError = prop('initial_error', error)
+      const authRequired = prop('authorization_required', error)
 
-      if (authRequired.isRight && authRequired.value) {
+      if (authRequired) {
         // auth errors (polling)
         const authRequiredAlert = yield put(
           actions.alerts.displayInfo(
@@ -277,9 +264,9 @@ export default ({ api, coreSagas }) => {
         } else {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
-      } else if (initialError.isRight && initialError.value) {
+      } else if (initialError) {
         // general error
-        yield put(actions.auth.loginFailure(initialError.value))
+        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
@@ -531,7 +518,6 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    reportStats,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,

@@ -62,9 +62,9 @@ class SelectBox extends React.PureComponent {
           getRef={this.getSelectRef}
           errorState={errorState}
         />
-        {(touched || !pristine) &&
-          error &&
-          !hideErrors && <Error errorBottom={errorBottom}>{error}</Error>}
+        {(touched || !pristine) && error && !hideErrors && (
+          <Error errorBottom={errorBottom}>{error}</Error>
+        )}
       </Container>
     )
   }

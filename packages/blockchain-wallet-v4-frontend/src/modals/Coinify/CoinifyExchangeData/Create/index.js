@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import ui from 'redux-ui'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
 import Create from './template'
 
 class CreateContainer extends Component {
+  state = { create: '', uniqueEmail: true, codeSent: false }
+
+  /* eslint-disable react/no-did-mount-set-state, react/no-did-update-set-state */
   componentDidMount () {
     if (this.props.emailVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.setState({ create: 'create_account' })
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
+      this.setState({ create: 'enter_email_code' })
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
       )
@@ -22,28 +24,32 @@ class CreateContainer extends Component {
 
   componentDidUpdate (prevProps) {
     if (!prevProps.emailVerified && this.props.emailVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.setState({ create: 'create_account' })
     }
+  }
+  /* eslint-enable react/no-did-mount-set-state, react/no-did-update-set-state */
+
+  updateState = newState => {
+    this.setState(newState)
   }
 
   render () {
-    const { handleSignup, oldEmail, signupError, ui, updateUI } = this.props
+    const { handleSignup, oldEmail, signupError } = this.props
     return (
       <Create
         handleSignup={handleSignup}
         oldEmail={oldEmail}
         signupError={signupError}
-        ui={ui}
-        updateUI={updateUI}
+        updateState={this.updateState}
         country={this.props.country}
+        create={this.state.create}
+        codeSent={this.state.codeSent}
       />
     )
   }
 }
 
 CreateContainer.propTypes = {
-  ui: PropTypes.object,
-  updateUI: PropTypes.function,
   smsVerified: PropTypes.number.isRequired,
   emailVerified: PropTypes.number.isRequired,
   country: PropTypes.string.isRequired
@@ -59,12 +65,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { create: '', uniqueEmail: true, codeSent: false } })
-)
-
-export default enhance(CreateContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateContainer)

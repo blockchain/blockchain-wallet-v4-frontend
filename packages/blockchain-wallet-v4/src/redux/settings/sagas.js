@@ -88,13 +88,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
-    try {
-      if (!prop('success', JSON.parse(response))) {
-        throw new Error(response)
-      }
-    } catch (e) {
-      throw new Error(response)
-    }
+    if (!prop('success', response)) throw new Error(JSON.stringify(response))
   }
 
   const setMobile = function*({ mobile }) {
@@ -186,7 +180,7 @@ export default ({ api }) => {
       api.updateIpLock,
       guid,
       sharedKey,
-      String(ipLock)
+      String(ipLock || '')
     )
     if (!contains('Ip Addresses Updated', response)) {
       throw new Error(response)

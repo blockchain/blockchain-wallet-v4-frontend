@@ -89,29 +89,26 @@ class PhoneNumberBox extends React.Component {
           utilsScript={'libphonenumber.js'}
           placeholder='555-555-5555'
         />
-        {touched &&
-          error && (
-            <Error
-              size='12px'
-              weight={300}
-              color='error'
-              errorBottom={errorBottom}
-            >
-              {error}
-            </Error>
-          )}
-        {touched &&
-          !error &&
-          warning && (
-            <Error
-              size='12px'
-              weight={300}
-              color='sent'
-              errorBottom={errorBottom}
-            >
-              {warning}
-            </Error>
-          )}
+        {touched && error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+          >
+            {error}
+          </Error>
+        )}
+        {touched && !error && warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+          >
+            {warning}
+          </Error>
+        )}
       </Container>
     )
   }

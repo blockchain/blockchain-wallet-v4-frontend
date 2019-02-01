@@ -51,8 +51,11 @@ try {
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty'
+  },
   entry: {
-    app: ['babel-polyfill', PATHS.src + '/index.js']
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
     path: PATHS.ciBuild,
@@ -64,7 +67,10 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -195,7 +201,8 @@ module.exports = {
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          ledger: localhostUrl + '/ledger' // will trigger reverse proxy
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          horizon: envConfig.HORIZON_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -260,6 +267,7 @@ module.exports = {
           envConfig.LEDGER_URL,
           envConfig.VERIFF_URL,
           envConfig.LEDGER_SOCKET_URL,
+          envConfig.HORIZON_URL,
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',

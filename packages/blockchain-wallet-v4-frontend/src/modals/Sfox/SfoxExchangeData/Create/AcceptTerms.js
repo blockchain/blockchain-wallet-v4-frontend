@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { path } from 'ramda'
 import { Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+
 import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
@@ -134,14 +135,9 @@ const EditLink = styled(Link)`
 `
 
 class AcceptTerms extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { acceptedTerms: false }
+  state = { acceptedTerms: false }
 
-    this.handleSignup = this.handleSignup.bind(this)
-  }
-
-  handleSignup (e) {
+  handleSignup = e => {
     e.preventDefault()
     this.props.sfoxFrontendActions.sfoxNotAsked()
     this.props.sfoxFrontendActions.sfoxSignup()
@@ -370,7 +366,6 @@ class AcceptTerms extends Component {
 
 AcceptTerms.propTypes = {
   invalid: PropTypes.bool,
-  ui: PropTypes.object,
   email: PropTypes.string.isRequired,
   smsNumber: PropTypes.string.isRequired
 }

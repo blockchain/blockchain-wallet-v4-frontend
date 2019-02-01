@@ -1,11 +1,28 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { compose, last, length, map, path, prop, reduce, values } from 'ramda'
+import {
+  concat,
+  compose,
+  filter,
+  last,
+  length,
+  map,
+  path,
+  prop,
+  reduce,
+  values,
+  unnest
+} from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import * as A from './actions'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import Remote from '../../../remote'
+import { xlm } from '../../../transactions'
+import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
+
+const { transformTx, decodeOperations, isLumenOperation } = xlm
 
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
@@ -13,7 +30,7 @@ export const TX_PER_PAGE = 10
 export const OPERATIONS_PER_TX = 1
 
 export const sumBigNumbers = reduce(
-  (num1, num2) => new BigNumber(num1).add(num2).toString(),
+  (num1, num2) => new BigNumber.sum(num1, num2).toString(),
   '0'
 )
 
@@ -83,20 +100,24 @@ export default ({ api, networks }) => {
       const pages = yield select(S.getTransactions)
       const pagingToken = (last(pages) || Remote.NotAsked)
         .map(last)
-        .map(prop('paging_token'))
+        .map(prop('pagingToken'))
         .getOrElse(null)
+      const offset = reset ? null : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
       const txs = yield call(api.getXlmTransactions, {
         publicKey,
         limit: TX_PER_PAGE,
+        cursor: offset,
         pagingToken,
         reset
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(txs, reset))
+      const page = yield call(__processTxs, txs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
       if (statusCode === 404) {
@@ -108,11 +129,30 @@ export default ({ api, networks }) => {
     }
   }
 
+  const __processTxs = function*(txList) {
+    const walletAccountsR = yield select(getAccounts)
+    const walletAccounts = walletAccountsR.getOrElse([])
+    const lockboxAccountsR = yield select(getLockboxXlmAccounts)
+    const lockboxAccounts = lockboxAccountsR.getOrElse([])
+    const accounts = concat(walletAccounts, lockboxAccounts)
+    return unnest(
+      map(tx => {
+        const operations = decodeOperations(tx)
+        return compose(
+          filter(prop('belongsToWallet')),
+          map(transformTx(accounts, tx)),
+          filter(isLumenOperation)
+        )(operations)
+      }, txList)
+    )
+  }
+
   return {
     createAccounts,
     fetchLedgerDetails,
     fetchData,
     fetchRates,
+    __processTxs,
     fetchTransactions
   }
 }

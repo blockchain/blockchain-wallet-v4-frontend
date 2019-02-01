@@ -97,7 +97,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validBitcoinCashAddress]}
-                autoFocus
               />
             )}
             <QRCodeCapture

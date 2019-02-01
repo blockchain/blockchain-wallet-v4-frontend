@@ -33,7 +33,7 @@ const Wrapper = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -10px 0px;
-    padding-left: 75px;
+    padding-left: 124px;
     padding-right: 30px;
     box-sizing: border-box;
   }
