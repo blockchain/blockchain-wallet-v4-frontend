@@ -35,7 +35,6 @@ export const userExistsError = 'User already exists'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
-export const noTokenError = 'User has not been created'
 export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
@@ -66,14 +65,9 @@ export default ({ api, coreSagas }) => {
     try {
       if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
       const campaignData = yield call(getCampaignData, campaign)
-      const token = (yield select(
-        selectors.modules.profile.getApiToken
-      )).getOrElse(null)
-      if (!token) throw new Error(noTokenError)
       try {
         yield call(
           api.registerUserCampaign,
-          token,
           campaign.name,
           campaignData,
           newUser

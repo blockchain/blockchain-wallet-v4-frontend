@@ -36,18 +36,12 @@ export default ({
     })
   }
 
-  const registerUserCampaign = (
-    token,
-    campaignName,
-    campaignData,
-    newUser = false
-  ) =>
-    put({
+  const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
+    authorizedPut({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
       contentType: 'application/json',
       headers: {
-        Authorization: `Bearer ${token}`,
         'X-CAMPAIGN': campaignName
       },
       data: {
