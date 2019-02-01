@@ -24,6 +24,10 @@ export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
 )
+export const getSunriverTag = compose(
+  lift(path(['tags', 'SUNRIVER'])),
+  getUserData
+)
 export const isUserCreated = compose(
   lift(equals(USER_ACTIVATION_STATES.CREATED)),
   getUserActivationState

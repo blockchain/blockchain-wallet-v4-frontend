@@ -20,18 +20,21 @@ const api = {
 describe('goals sagas', () => {
   const {
     defineGoals,
-    runGoal,
-    showInitialModal,
-    runSendBtcGoal,
-    runReferralGoal,
-    runWelcomeGoal,
-    runKycGoal,
-    runKycCTAGoal,
-    runSwapUpgradeGoal,
     defineDeepLinkGoals,
     defineActionGoal,
     defineSendBtcGoal,
     defineReferralGoal,
+    runGoal,
+    runBsvGoal,
+    runKycCTAGoal,
+    runKycDocResubmitGoal,
+    runKycGoal,
+    runRegisterSunriverGoal,
+    runReferralGoal,
+    runSendBtcGoal,
+    runSwapUpgradeGoal,
+    runWelcomeGoal,
+    showInitialModal,
     waitForUserData
   } = goalsSagas({ api })
   const mathCopy = global.Math
@@ -234,15 +237,6 @@ describe('goals sagas', () => {
   })
 
   describe('runGoal saga', () => {
-    describe('should run payment goal', () => {
-      const mockGoal = { name: 'payment', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runSendBtcGoal saga and end', () => {
-        saga.next().call(runSendBtcGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
     describe('should run referral goal', () => {
       const mockGoal = { name: 'referral', data: {} }
       const saga = testSaga(runGoal, mockGoal)
@@ -252,12 +246,39 @@ describe('goals sagas', () => {
         saga.next().isDone()
       })
     })
-    describe('should run welcome goal', () => {
-      const mockGoal = { name: 'welcome', data: {} }
+    describe('should run payment goal', () => {
+      const mockGoal = { name: 'payment', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runWelcomeGoal saga and end', () => {
-        saga.next().call(runWelcomeGoal, mockGoal)
+      it('should call runSendBtcGoal saga and end', () => {
+        saga.next().call(runSendBtcGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run kyc goal', () => {
+      const mockGoal = { name: 'kyc', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runKyc saga and end', () => {
+        saga.next().call(runKycGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run kycDocResubmit goal', () => {
+      const mockGoal = { name: 'kycDocResubmit', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runKycDocResubmitGoal saga and end', () => {
+        saga.next().call(runKycDocResubmitGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run swapUpgrade goal', () => {
+      const mockGoal = { name: 'swapUpgrade', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call swapUpgrade saga and end', () => {
+        saga.next().call(runSwapUpgradeGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -267,6 +288,33 @@ describe('goals sagas', () => {
 
       it('should call runKycCTAGoal saga and end', () => {
         saga.next().call(runKycCTAGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run bsv goal', () => {
+      const mockGoal = { name: 'bsv', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runBsv saga and end', () => {
+        saga.next().call(runBsvGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run registerSunriver goal', () => {
+      const mockGoal = { name: 'registerSunriver', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runRegisterSunriverGoal saga and end', () => {
+        saga.next().call(runRegisterSunriverGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run welcome goal', () => {
+      const mockGoal = { name: 'welcome', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runWelcomeGoal saga and end', () => {
+        saga.next().call(runWelcomeGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -374,6 +422,63 @@ describe('goals sagas', () => {
         .select(selectors.modules.profile.getUserTiers)
         .next(Remote.of({ current: 1 }))
         .put(actions.components.identityVerification.verifyIdentity(goalTier))
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('runRegisterSunriverGoal saga', () => {
+    it('should not register campaign if current tier is < 2', () => {
+      const saga = testSaga(runRegisterSunriverGoal, { id: mockGoalId })
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .call(waitForUserData)
+        .next()
+        .select(selectors.modules.profile.getUserTiers)
+        .next(Remote.of({ current: 1 }))
+        .select(selectors.modules.profile.getSunriverTag)
+        .next(Remote.of(null))
+        .isDone()
+    })
+
+    it('should not register campaign if sunriver tag is not null', () => {
+      const saga = testSaga(runRegisterSunriverGoal, { id: mockGoalId })
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .call(waitForUserData)
+        .next()
+        .select(selectors.modules.profile.getUserTiers)
+        .next(Remote.of({ current: 2 }))
+        .select(selectors.modules.profile.getSunriverTag)
+        .next(Remote.of(true))
+        .isDone()
+    })
+
+    it("should register campaign if current tier is >= 2 and there's no sunriver tag", () => {
+      const saga = testSaga(runRegisterSunriverGoal, {
+        id: mockGoalId
+      })
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .call(waitForUserData)
+        .next()
+        .select(selectors.modules.profile.getUserTiers)
+        .next(Remote.of({ current: 2 }))
+        .select(selectors.modules.profile.getSunriverTag)
+        .next(Remote.of(null))
+        .put(actions.modules.profile.setCampaign({ name: 'sunriver' }))
+        .next()
+        .put(
+          actions.components.identityVerification.registerUserCampaign(false)
+        )
         .next()
         .isDone()
     })
