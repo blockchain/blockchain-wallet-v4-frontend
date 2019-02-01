@@ -22,8 +22,8 @@ export const getData = state => {
     bannerToShow: showDocResubmitBanner
       ? 'resubmit'
       : showSwapBanner
-      ? 'swap'
-      : null,
+        ? 'swap'
+        : null,
     kycNotFinished
   }
 }
