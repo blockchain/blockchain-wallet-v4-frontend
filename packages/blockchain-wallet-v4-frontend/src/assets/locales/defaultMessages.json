@@ -1542,8 +1542,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing Tier 2 you are automatically eligible for our airdrop program.",
-        "id": "scenes.profile.identityverification.swaplimit.airdrops"
+        "defaultMessage": "By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.",
+        "id": "scenes.profile.identityverification.swaplimit.complete"
       },
       {
         "defaultMessage": "Learn more.",
