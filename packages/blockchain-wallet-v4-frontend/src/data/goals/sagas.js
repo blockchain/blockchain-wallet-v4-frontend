@@ -219,12 +219,15 @@ export default ({ api }) => {
   const runBsvGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-    yield put(actions.core.data.bsv.fetchData())
-    yield take(actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS)
-
     const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
     const hasSeen = hasSeenR.getOrElse(false)
     if (hasSeen) return
+
+    yield put(actions.core.data.bsv.fetchData())
+    yield take([
+      actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS,
+      actionTypes.core.data.bsv.FETCH_BSV_DATA_FAILURE
+    ])
 
     const balanceR = yield select(selectors.core.data.bsv.getBalance)
     const balance = balanceR.getOrElse(0)
