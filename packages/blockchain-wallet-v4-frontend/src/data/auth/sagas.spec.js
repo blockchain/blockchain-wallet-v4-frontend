@@ -507,10 +507,6 @@ describe('authSagas', () => {
       saga.next().put(actions.goals.saveGoal('bsv'))
     })
 
-    it('should add register sunriver goal', () => {
-      saga.next().put(actions.goals.saveGoal('registerSunriver'))
-    })
-
     it('should run goals', () => {
       saga.next().put(actions.goals.runGoals())
     })
