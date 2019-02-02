@@ -12,7 +12,7 @@ const digest = type => ({ label, publicKey }) => ({
   type
 })
 const addBalance = curry((state, account) =>
-  assoc('balance', getBalance(account.address, state).getOrElse(0), account)
+  assoc('balance', getBalance(state, account.address).getOrElse(0), account)
 )
 
 export const getAccountBalances = state =>

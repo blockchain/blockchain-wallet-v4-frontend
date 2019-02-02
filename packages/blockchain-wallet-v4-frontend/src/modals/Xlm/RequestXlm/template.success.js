@@ -87,7 +87,7 @@ const RequestXlm = ({
           component={SelectBoxXlmAddresses}
           includeAll={false}
           validate={[required]}
-          excludeLockbox
+          excludeLockbox={excludeLockbox}
         />
       </FormItem>
     </FormGroup>
