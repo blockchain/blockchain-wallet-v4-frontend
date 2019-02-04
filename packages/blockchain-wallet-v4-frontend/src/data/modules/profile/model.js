@@ -26,6 +26,11 @@ export const TIERS_STATES = {
   EXPIRED: 'expired'
 }
 
+export const DOC_RESUBMISSION_REASONS = {
+  GENERAL: 0,
+  EXPIRED: 1
+}
+
 export const TIERS = {
   0: 0,
   1: 1,

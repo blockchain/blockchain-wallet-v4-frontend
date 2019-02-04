@@ -48,7 +48,13 @@ class VerifyContainer extends React.PureComponent {
     const { data, actions, modalActions, ...rest } = this.props
 
     return data.cata({
-      Success: ({ deeplink, docTypes, email, flowConfig }) => {
+      Success: ({
+        deeplink,
+        docTypes,
+        email,
+        flowConfig,
+        needsDocResubmit
+      }) => {
         const { flowType, kycProvider } = flowConfig
         return (
           <MediaContextConsumer>
@@ -66,6 +72,7 @@ class VerifyContainer extends React.PureComponent {
                   supportedDocuments={docTypes}
                   showVeriff={this.state.showVeriff}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
+                  needsDocResubmit={needsDocResubmit}
                   {...rest}
                 />
               )

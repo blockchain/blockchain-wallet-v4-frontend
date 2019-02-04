@@ -8,8 +8,8 @@ exports[`HighFlow should render correctly 1`] = `
         <IdentityVerification__InputWrapper>
           <IdentityVerification__IdentityVerificationHeader>
             <FormattedMessage
-              defaultMessage="Last Step. Verify Your ID"
-              id="identityverification.verify.header"
+              defaultMessage="Last Step. Let's Confirm It's You"
+              id="identityverification.verify.header.confirm"
               values={Object {}}
             />
             <IdentityVerification__FaqHeaderHelper>
@@ -29,12 +29,12 @@ exports[`HighFlow should render correctly 1`] = `
           </IdentityVerification__IdentityVerificationHeader>
           <templatelowflow__VerifyIdentityVerificationSubHeader>
             <FormattedMessage
-              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
-              id="identityverification.verify.message_with_cam"
+              defaultMessage="We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
+              id="identityverification.verify.messagewithcamera"
               values={Object {}}
             />
           </templatelowflow__VerifyIdentityVerificationSubHeader>
-          <templatelowflow__DocumentsWrapper>
+          <templatelowflow__DocumentListWrapper>
             <FormattedMessage
               defaultMessage="Government Issued Passport"
               id="identityverification.verify.passport"
@@ -50,7 +50,7 @@ exports[`HighFlow should render correctly 1`] = `
               id="identityverification.verify.natitionalidcard"
               values={Object {}}
             />
-          </templatelowflow__DocumentsWrapper>
+          </templatelowflow__DocumentListWrapper>
           <templatelowflow__SubInstructions>
             <Text
               altFont={false}

@@ -24,6 +24,10 @@ export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
 )
+export const getSunriverTag = compose(
+  lift(path(['tags', 'SUNRIVER'])),
+  getUserData
+)
 export const isUserCreated = compose(
   lift(equals(USER_ACTIVATION_STATES.CREATED)),
   getUserActivationState
@@ -46,6 +50,10 @@ export const getUserTiers = compose(
 )
 export const getUserLimits = compose(
   lift(prop('limits')),
+  getUserData
+)
+export const getKycDocResubmissionStatus = compose(
+  lift(path(['resubmission', 'reason'])),
   getUserData
 )
 

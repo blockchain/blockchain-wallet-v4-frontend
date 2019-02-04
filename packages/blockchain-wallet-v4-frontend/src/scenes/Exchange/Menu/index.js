@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
+import { actions } from 'data'
 import { getData } from './selectors'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,8 +32,11 @@ const LinkItem = styled(TabMenuItem)`
     }
   }
 `
+const SupportButton = styled(Button)`
+  margin-left: auto;
+`
 
-export const MenuTop = ({ historySelected, showGetStarted }) =>
+export const Menu = ({ showGetStarted, showHelpModal }) =>
   !showGetStarted ? (
     <Wrapper>
       <TabMenu>
@@ -55,10 +59,23 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
             />
           </LinkItem>
         </LinkContainer>
+        <SupportButton nature='primary' onClick={showHelpModal}>
+          <FormattedMessage
+            id='scenes.exchange.menutop.need_help'
+            defaultMessage='Need Help?'
+          />
+        </SupportButton>
       </TabMenu>
     </Wrapper>
   ) : (
     <div />
   )
 
-export default connect(getData)(MenuTop)
+const mapDispatchToProps = dispatch => ({
+  showHelpModal: () => dispatch(actions.modals.showModal('Support'))
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(Menu)
