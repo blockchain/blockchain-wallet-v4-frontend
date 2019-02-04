@@ -1,13 +1,4 @@
-import {
-  anyPass,
-  equals,
-  map,
-  prop,
-  propOr,
-  startsWith,
-  sum,
-  values
-} from 'ramda'
+import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -264,25 +255,6 @@ export default ({ api }) => {
     }
   }
 
-  const runRegisterSunriverGoal = function*(goal) {
-    yield put(actions.goals.deleteGoal(goal.id))
-
-    yield call(waitForUserData)
-    const userTiers = (yield select(
-      selectors.modules.profile.getUserTiers
-    )).getOrElse({})
-    const current = propOr(0, 'current', userTiers)
-    const sunriverTag = (yield select(
-      selectors.modules.profile.getSunriverTag
-    )).getOrElse(null)
-    if (current >= TIERS[2] && !sunriverTag) {
-      yield put(actions.modules.profile.setCampaign({ name: 'sunriver' }))
-      yield put(
-        actions.components.identityVerification.registerUserCampaign(false)
-      )
-    }
-  }
-
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
@@ -336,9 +308,6 @@ export default ({ api }) => {
         case 'bsv':
           yield call(runBsvGoal, goal)
           break
-        case 'registerSunriver':
-          yield call(runRegisterSunriverGoal, goal)
-          break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
           break
@@ -368,7 +337,6 @@ export default ({ api }) => {
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
     runBsvGoal,
-    runRegisterSunriverGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,

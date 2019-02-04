@@ -2912,23 +2912,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
-        "id": "modals.bsvgetstarted.now_supporting_sv"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "modals.bsvgetstarted.visitsettings"
-      },
-      {
-        "defaultMessage": "Check It Out!",
-        "id": "modals.bsvGetStarted.continue"
-      }
-    ],
-    "path": "src/modals/Bsv/BsvGetStarted/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "maximum",
         "id": "modals.sendbsv.maximumamountlink.maximum"
       }
@@ -4213,27 +4196,6 @@
       }
     ],
     "path": "src/modals/Eth/TransferEth/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Documents Needed",
-        "id": "modals.exchange.docresubmit.title"
-      },
-      {
-        "defaultMessage": "We had some issues with the documents you've supplied.",
-        "id": "modals.exchange.docresubmit.body1"
-      },
-      {
-        "defaultMessage": "Please try uploading the documents again to continue with your verification.",
-        "id": "modals.exchange.docresubmit.body2"
-      },
-      {
-        "defaultMessage": "Resubmit Now",
-        "id": "modals.exchange.docresubmit.resubmit"
-      }
-    ],
-    "path": "src/modals/Exchange/DocResubmit/index.json"
   },
   {
     "descriptors": [
@@ -8533,48 +8495,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "scenes.home.swapbanner.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "scenes.home.swapbanner.trading_your_crypto"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.swapbanner.faster.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "scenes.home.swapbanner.faster.makeswap"
-      }
-    ],
-    "path": "src/scenes/Home/Banner/SwapBanner/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "scenes.home.swapbanner.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "scenes.home.swapbanner.trading_your_crypto"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.swapbanner.faster.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "scenes.home.swapbanner.faster.makeswap"
-      }
-    ],
-    "path": "src/scenes/Home/Banners/KycResubmission/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Documents Needed",
         "id": "scenes.home.banners.kycresubmit.title"
       },
@@ -8892,27 +8812,6 @@
       }
     ],
     "path": "src/scenes/Home/PriceChart/TimeFilters/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "scenes.home.swapbanner.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "scenes.home.swapbanner.trading_your_crypto"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.swapbanner.faster.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "scenes.home.swapbanner.faster.makeswap"
-      }
-    ],
-    "path": "src/scenes/Home/SwapBanner/index.json"
   },
   {
     "descriptors": [
