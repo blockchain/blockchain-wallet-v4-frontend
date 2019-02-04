@@ -49,24 +49,40 @@ const Setting = props => {
       ) : (
         <Fragment>
           {smsNumber && <Text>{smsNumber}</Text>}
-          <Button nature='primary' onClick={handleClick}>
-            {smsVerified === 1 ? (
+          {smsVerified === 1 ? (
+            <Button
+              nature='primary'
+              onClick={handleClick}
+              data-e2e='prefsMobileNumberChange'
+            >
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.change'
                 defaultMessage='Change'
               />
-            ) : smsNumber ? (
+            </Button>
+          ) : smsNumber ? (
+            <Button
+              nature='primary'
+              onClick={handleClick}
+              data-e2e='prefsMobileNumberVerify'
+            >
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.verify'
                 defaultMessage='Verify'
               />
-            ) : (
+            </Button>
+          ) : (
+            <Button
+              nature='primary'
+              onClick={handleClick}
+              data-e2e='prefsMobileNumberAdd'
+            >
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.addmobile'
                 defaultMessage='Add Mobile Number'
               />
-            )}
-          </Button>
+            </Button>
+          )}
         </Fragment>
       )}
     </SettingWrapper>
