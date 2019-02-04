@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import * as bowser from 'bowser'
 
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Separator,
   Text,
+  TextGroup,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
@@ -43,11 +45,20 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 const BannerContainer = styled.div`
-  margin-top: 5px;
-  .link {
+  margin-top: 8px;
+`
+const LockboxOpen = styled(TextGroup)`
+  font-size: 12px;
+  color: ${props => props.theme['warning']};
+  & > :last-child {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brrand-primary']};
+    color: ${props => props.theme['brand-primary']};
   }
 `
 
@@ -62,6 +73,11 @@ const RequestBch = props => {
     type,
     excludeLockbox
   } = props
+
+  const isLockboxAcct = type === 'LOCKBOX'
+  const warnLockboxReceive = !(
+    bowser.name === 'Chrome' || bowser.name === 'Chromium'
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -113,14 +129,26 @@ const RequestBch = props => {
           </AddressContainer>
         </FormItem>
       </FormGroup>
-      {type === 'LOCKBOX' && (
-        <BannerContainer onClick={handleOpenLockbox}>
-          <Banner type='alert'>
-            <FormattedHTMLMessage
-              id='modals.requestbch.firststep.lockbox'
-              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class="link">Click here</span> once the Bitcoin Cash app has been opened.'
-              values={{ legacyAddress }}
-            />
+      {isLockboxAcct && (
+        <BannerContainer>
+          <Banner type='info'>
+            {warnLockboxReceive ? (
+              <Text color='warning' size='12px'>
+                <FormattedHTMLMessage
+                  id='modals.requestbch.firststep.lockbox.confirm.warn'
+                  defaultMessage='You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.'
+                />
+              </Text>
+            ) : (
+              <LockboxOpen>
+                <FormattedHTMLMessage
+                  onClick={handleOpenLockbox}
+                  id='modals.requestbch.firststep.lockbox.confirm'
+                  defaultMessage='Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now. <span class="link">Click here</span> once the app has been opened.'
+                />
+                <Text color='warning'>{legacyAddress}</Text>
+              </LockboxOpen>
+            )}
           </Banner>
         </BannerContainer>
       )}
