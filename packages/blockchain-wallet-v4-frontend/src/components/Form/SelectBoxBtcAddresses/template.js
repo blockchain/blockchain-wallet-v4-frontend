@@ -29,7 +29,7 @@ const ItemWrapper = styled.div`
 
 const renderItem = item => {
   return (
-    <ItemWrapper>
+    <ItemWrapper data-e2e='btcAddressOption'>
       <Text weight={300} size='14px'>
         {item.text}
       </Text>

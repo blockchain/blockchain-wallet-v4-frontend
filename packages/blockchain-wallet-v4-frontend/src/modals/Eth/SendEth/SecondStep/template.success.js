@@ -74,7 +74,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='ethFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -85,7 +85,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='ethToAddress'>
           {toAddress}
         </Text>
       </Row>
@@ -97,7 +97,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={300} data-e2e='ethSendDescription'>
             {description}
           </Text>
         </Row>
@@ -144,6 +144,7 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
+          data-e2e='ethSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
@@ -159,6 +160,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
+          data-e2e='ethSendBackLink'
         >
           <FormattedMessage
             id='modals.sendeth.sendconfirm.back'

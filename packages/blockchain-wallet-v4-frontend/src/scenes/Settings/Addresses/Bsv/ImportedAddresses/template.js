@@ -43,7 +43,14 @@ const Success = props => {
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin='BSV' />
+      return (
+        <AddressRow
+          data-e2e='bsvImportedAddressRow'
+          key={address.addr}
+          address={address}
+          coin='BSV'
+        />
+      )
     }
   )
 
@@ -72,7 +79,11 @@ const Success = props => {
         </div>
         {importedAddressesTableRows.length > 0 && (
           <ImportedActions>
-            <Button onClick={onTransferAll} nature='primary'>
+            <Button
+              onClick={onTransferAll}
+              nature='primary'
+              data-e2e='bsvTransferAllButton'
+            >
               <FormattedMessage
                 id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
                 defaultMessage='Transfer All'
@@ -82,7 +93,7 @@ const Success = props => {
         )}
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
-        <Table>
+        <Table data-e2e='bsvImportedAddressesTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>

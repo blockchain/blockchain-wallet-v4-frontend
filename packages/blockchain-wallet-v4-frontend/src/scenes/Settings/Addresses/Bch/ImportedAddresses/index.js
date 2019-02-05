@@ -3,7 +3,7 @@ import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import ImportedAddresses from './template'
+import BchImportedAddresses from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 const { WALLET_TX_SEARCH } = model.form
@@ -25,7 +25,7 @@ class ImportedAddressesContainer extends React.Component {
     return data.cata({
       Success: addresses => {
         return addresses.length ? (
-          <ImportedAddresses
+          <BchImportedAddresses
             importedAddresses={addresses}
             onTransferAll={this.handleTransferAll}
             {...rest}

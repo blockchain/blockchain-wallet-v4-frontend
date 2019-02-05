@@ -66,7 +66,7 @@ const RequestBch = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.sendbch.coin'
@@ -80,7 +80,7 @@ const RequestBch = props => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestbch.firststep.to'
@@ -141,7 +141,11 @@ const RequestBch = props => {
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeWrapper value={receiveAddress} size={150} />
+        <QRCodeWrapper
+          value={receiveAddress}
+          size={150}
+          data-e2e='requestBchAddressQrCode'
+        />
       </QRCodeContainer>
       <Button
         type='submit'
