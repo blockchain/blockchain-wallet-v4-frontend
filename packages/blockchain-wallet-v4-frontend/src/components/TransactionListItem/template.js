@@ -119,7 +119,10 @@ const TransactionListItem = ({
   handleToggle,
   handleEditDescription
 }) => (
-  <TransactionRowContainer className={isToggled ? 'active' : ''}>
+  <TransactionRowContainer
+    className={isToggled ? 'active' : ''}
+    data-e2e='transactionRow'
+  >
     <TransactionRow onClick={() => handleToggle()}>
       <StatusColumn>
         <Status type={transaction.type} coin={coin} />

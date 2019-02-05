@@ -18,7 +18,7 @@ const Header = styled(Text)`
 class EmptyTxContainer extends React.PureComponent {
   render () {
     return (
-      <Wrapper>
+      <Wrapper data-e2e='noTransactionsFound'>
         <Image name='empty-tx' width='250px' />
         <Header size='16px' weight={500}>
           <FormattedMessage
