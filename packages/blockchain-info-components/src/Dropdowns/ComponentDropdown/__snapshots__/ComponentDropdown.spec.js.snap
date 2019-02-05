@@ -21,6 +21,7 @@ exports[`ComponentDropdown component default renders correctly 1`] = `
   >
     <template__Button />
     <template__DropdownIcon
+      data-e2e="dropdownToggleButton"
       name="down-arrow"
       size="12px"
     />

@@ -78,10 +78,14 @@ const Success = props => (
     </Header>
     <Content>
       {props.activities.length === 0 ? (
-        <Empty partner={props.partner} handleRequest={props.handleRequest} />
+        <Empty
+          data-e2e='noRecentActivity'
+          partner={props.partner}
+          handleRequest={props.handleRequest}
+        />
       ) : (
         props.activities.map((activity, index) => (
-          <ListItem key={index} {...activity} />
+          <ListItem key={index} {...activity} data-e2e='recentActivityRow' />
         ))
       )}
     </Content>

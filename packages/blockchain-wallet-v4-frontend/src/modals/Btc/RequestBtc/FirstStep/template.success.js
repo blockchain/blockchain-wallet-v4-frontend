@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains } from 'ramda'
+import { includes } from 'ramda'
 import { required } from 'services/FormHelper'
 import { invalidAmountMin, invalidAmountMax } from './validation'
 import {
@@ -71,7 +71,7 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.sendbitcoin.firststep.coin'
@@ -103,6 +103,7 @@ const FirstStep = props => {
               weight={300}
               color='brand-secondary'
               onClick={handleClickQRCode}
+              data-e2e='btcRequestAddressQrCode'
             >
               <FormattedMessage
                 id='modals.requestbitcoin.firststep.qrcode'
@@ -151,7 +152,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestbitcoin.firststep.to'
@@ -165,7 +166,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
           />
-          {contains(receiveAddress, importedAddresses) && (
+          {includes(receiveAddress, importedAddresses) && (
             <BannerContainer>
               <Banner type='warning'>
                 <FormattedMessage

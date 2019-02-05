@@ -4,15 +4,10 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import DeleteAddressLabel from './template.js'
+import DeleteAddressLabel from './template'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onDeleteConfirm = this.onDeleteConfirm.bind(this)
-  }
-
-  onDeleteConfirm () {
+  onDeleteConfirm = () => {
     const { accountIdx, walletIdx, addressIdx } = this.props
 
     this.props.componentActions.deleteAddressLabel(

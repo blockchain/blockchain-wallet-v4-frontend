@@ -37,7 +37,7 @@ const EditTxDescription = props => {
           </ModalHeader>
           <ModalBody>
             <FormGroup>
-              <FormItem>
+              <FormItem data-e2e='editTransactionDescriptionInput'>
                 <Label for='description'>
                   <FormattedMessage
                     id='modals.edittransactiondesc.description'
@@ -54,6 +54,7 @@ const EditTxDescription = props => {
               nature='primary'
               capitalize
               disabled={submitting || invalid}
+              data-e2e='saveTransactionDescriptionButton'
             >
               <FormattedMessage
                 id='modals.edittransactiondesc.button'
