@@ -57,7 +57,7 @@ const MenuTop = () => (
     <Container>
       <TabMenu>
         <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
-          <LinkItem>
+          <LinkItem data-e2e='btcWalletSettingsLink'>
             <FormattedMessage
               id='scenes.settings.addresses.menutop.btc'
               defaultMessage='Bitcoin'
@@ -65,7 +65,7 @@ const MenuTop = () => (
           </LinkItem>
         </LinkContainer>
         <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
-          <LinkItem>
+          <LinkItem data-e2e='bchWalletSettingsLink'>
             <FormattedMessage
               id='scenes.settings.addresses.menutop.bch'
               defaultMessage='Bitcoin Cash'
@@ -73,7 +73,7 @@ const MenuTop = () => (
           </LinkItem>
         </LinkContainer>
         <LinkContainer to='/settings/addresses/bsv' activeClassName='active'>
-          <LinkItem>
+          <LinkItem data-e2e='bsvWalletSettingsLink'>
             <FormattedMessage
               id='scenes.settings.addresses.menutop.bsv'
               defaultMessage='Bitcoin SV'
@@ -81,7 +81,7 @@ const MenuTop = () => (
           </LinkItem>
         </LinkContainer>
       </TabMenu>
-      <Search>
+      <Search data-e2e='walletSettingsSearch'>
         <Field name='search' component={TextBox} />
         <SearchIcon name='search' size='20px' />
       </Search>

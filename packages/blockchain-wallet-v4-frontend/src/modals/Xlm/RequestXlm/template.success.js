@@ -67,7 +67,7 @@ const RequestXlm = ({
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.requestxlm.coin'
@@ -81,7 +81,7 @@ const RequestXlm = ({
             validate={[required]}
           />
         </FormItem>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestxlm.firststep.to'
@@ -152,7 +152,11 @@ const RequestXlm = ({
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeWrapper value={xlmURI} size={150} />
+        <QRCodeWrapper
+          value={xlmURI}
+          size={150}
+          data-e2e='requestXlmAddressQrCode'
+        />
       </QRCodeContainer>
       <Button
         type='submit'

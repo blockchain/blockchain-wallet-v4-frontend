@@ -21,7 +21,7 @@ const TitleGroup = styled(TextGroup)`
   align-items: center;
 `
 
-const DeleteAdressLabel = props => {
+const DeleteAdresssLabel = props => {
   const { onDeleteConfirm, close } = props
 
   return (
@@ -48,7 +48,12 @@ const DeleteAdressLabel = props => {
         </TextGroup>
       </ModalBody>
       <ModalFooter align='right'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link
+          size='13px'
+          weight={300}
+          onClick={close}
+          data-e2e='cancelAddressDeleteLink'
+        >
           <FormattedMessage
             id='modals.deleteaddresslabel.cancel'
             defaultMessage='Cancel'
@@ -61,6 +66,7 @@ const DeleteAdressLabel = props => {
             onDeleteConfirm()
           }}
           style={{ marginLeft: '20px' }}
+          data-e2e='deleteAddressConfirmButton'
         >
           <FormattedMessage
             id='modal.deleteaddresslabel.delete'
@@ -72,4 +78,4 @@ const DeleteAdressLabel = props => {
   )
 }
 
-export default DeleteAdressLabel
+export default DeleteAdresssLabel

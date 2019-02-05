@@ -78,7 +78,7 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.sendbitcoin.firststep.coin'
@@ -110,6 +110,7 @@ const FirstStep = props => {
               weight={300}
               color='brand-secondary'
               onClick={handleClickQRCode}
+              data-e2e='btcRequestAddressQrCode'
             >
               <FormattedMessage
                 id='modals.requestbitcoin.firststep.qrcode'
@@ -170,7 +171,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestbitcoin.firststep.to'

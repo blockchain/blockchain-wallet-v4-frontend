@@ -68,7 +68,7 @@ const RequestEth = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.requestether.coin'
@@ -82,7 +82,7 @@ const RequestEth = props => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requesteth.firststep.to'
@@ -153,7 +153,11 @@ const RequestEth = props => {
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeWrapper value={address} size={150} />
+        <QRCodeWrapper
+          value={address}
+          size={150}
+          data-e2e='requestEthAddressQrCode'
+        />
       </QRCodeContainer>
       <Button
         type='submit'

@@ -81,7 +81,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='bsvFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -92,7 +92,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='bsvToAddress'>
           {toAddress}
         </Text>
       </Row>
@@ -104,7 +104,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={300} data-e2e='bsvSendDescription'>
             {description}
           </Text>
         </Row>
@@ -163,6 +163,7 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
+          data-e2e='bsvSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
@@ -178,6 +179,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
+          data-e2e='bsvSendBackLink'
         >
           <FormattedMessage
             id='modals.sendbsv.secondstep.back'

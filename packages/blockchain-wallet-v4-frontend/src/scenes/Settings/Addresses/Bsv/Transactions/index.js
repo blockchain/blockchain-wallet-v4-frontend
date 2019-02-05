@@ -56,7 +56,7 @@ class BsvTransactionsContainer extends React.PureComponent {
             defaultMessage='Bitcoin SV Transactions'
           />
         </Title>
-        <Table>
+        <Table data-e2e='bsvTransactionsTable'>
           <TableHeader>
             <TableCell style={{ flexBasis: '45%' }}>
               <Text size='13px' weight={500}>

@@ -32,7 +32,7 @@ const renderItem = props => {
       {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
       {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
       {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
-      <Text size='14px' weight={300} cursor='pointer'>
+      <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
         {text}
       </Text>
     </HeaderWrapper>
@@ -41,13 +41,16 @@ const renderItem = props => {
 
 const renderDisplay = (props, children) => {
   const { value, ...rest } = props
+  const e2eTag = value
+    ? value.toLowerCase() + 'CurrencyOption'
+    : 'currencyOption'
   return (
     <HeaderWrapper {...rest}>
       {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
       {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
       {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
       {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
-      <Text size='14px' weight={300} cursor='pointer'>
+      <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
         {children}
       </Text>
     </HeaderWrapper>
