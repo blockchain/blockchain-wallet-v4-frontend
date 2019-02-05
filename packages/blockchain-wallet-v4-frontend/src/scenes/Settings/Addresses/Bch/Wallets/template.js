@@ -66,11 +66,11 @@ const Success = props => {
     const isArchived = bchAccounts[i].archived
 
     return (
-      <TableRow key={i}>
+      <TableRow key={i} data-e2e='bchWalletRow'>
         <WalletTableCell width='50%'>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {isDefault && (
-            <Banner label>
+            <Banner label data-e2e='bchDefaultWalletBadge'>
               <FormattedMessage
                 id='scenes.settings.addresses.bch.wallets.defaultlabel'
                 defaultMessage='Default'
@@ -78,7 +78,11 @@ const Success = props => {
             </Banner>
           )}
           {isArchived && (
-            <Banner label type='informational'>
+            <Banner
+              label
+              type='informational'
+              data-e2e='bchArchivedWalletBadge'
+            >
               <FormattedMessage
                 id='scenes.settings.addresses.bch.wallets.archivedlabel'
                 defaultMessage='Archived'
@@ -102,6 +106,7 @@ const Success = props => {
               weight={400}
               size='13px'
               onClick={() => onSetArchived(wallet.value, false)}
+              data-e2e='bchUnarchiveWalletLink'
             >
               <FormattedMessage
                 id='scenes.settings.addresses.bch.unarchive'
@@ -114,7 +119,7 @@ const Success = props => {
               forceSelected
               color={'gray-5'}
               selectedComponent={
-                <Link weight={400} size='13px'>
+                <Link weight={400} size='13px' data-e2e='bchManageWalletLink'>
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.wallets.manage'
                     defaultMessage='Manage Wallet'
@@ -125,6 +130,7 @@ const Success = props => {
                 <ClickableText
                   size='small'
                   onClick={() => onEditBchAccountLabel(wallet.value)}
+                  data-e2e='bchEditWalletNameLink'
                 >
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.edit_name'
@@ -135,6 +141,7 @@ const Success = props => {
                   <ClickableText
                     size='small'
                     onClick={() => onMakeDefault(wallet.value)}
+                    data-e2e='bchMakeWalletDefaultLink'
                   >
                     <FormattedMessage
                       id='scenes.settings.addresses.bch.make_default'
@@ -147,6 +154,7 @@ const Success = props => {
                     <ClickableText
                       size='small'
                       onClick={() => onSetArchived(wallet.value, false)}
+                      data-e2e='bchUnarchiveWalletLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bch.unarchive'
@@ -157,6 +165,7 @@ const Success = props => {
                     <ClickableText
                       size='small'
                       onClick={() => onSetArchived(wallet.value, true)}
+                      data-e2e='bchArchiveWalletLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bch.archive'
@@ -168,6 +177,7 @@ const Success = props => {
                     <ClickableText
                       size='small'
                       onClick={() => onShowXPub(wallet.value)}
+                      data-e2e='bchShowWalletXpub'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bch.show_xpub'
@@ -179,6 +189,7 @@ const Success = props => {
                     <ClickableText
                       size='small'
                       onClick={() => onShowChangeAddrs(wallet.value)}
+                      data-e2e='bchShowChangeAddressesLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bch.showchangeaddrs'
@@ -239,7 +250,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow>
+          <TableRow data-e2e='noBchWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
