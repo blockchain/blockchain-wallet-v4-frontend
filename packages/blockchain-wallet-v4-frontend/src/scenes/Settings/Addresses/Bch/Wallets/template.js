@@ -172,31 +172,27 @@ const Success = props => {
                         defaultMessage='Archive'
                       />
                     </ClickableText>
-                  ),
-                  (
-                    <ClickableText
-                      size='small'
-                      onClick={() => onShowXPub(wallet.value)}
-                      data-e2e='bchShowWalletXpub'
-                    >
-                      <FormattedMessage
-                        id='scenes.settings.addresses.bch.show_xpub'
-                        defaultMessage='Show xPub'
-                      />
-                    </ClickableText>
-                  ),
-                  (
-                    <ClickableText
-                      size='small'
-                      onClick={() => onShowChangeAddrs(wallet.value)}
-                      data-e2e='bchShowChangeAddressesLink'
-                    >
-                      <FormattedMessage
-                        id='scenes.settings.addresses.bch.showchangeaddrs'
-                        defaultMessage='Show Change Addresses'
-                      />
-                    </ClickableText>
-                  ))
+                  )),
+                <ClickableText
+                  size='small'
+                  onClick={() => onShowXPub(wallet.value)}
+                  data-e2e='bchShowWalletXpub'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.show_xpub'
+                    defaultMessage='Show xPub'
+                  />
+                </ClickableText>,
+                <ClickableText
+                  size='small'
+                  onClick={() => onShowChangeAddrs(wallet.value)}
+                  data-e2e='bchShowChangeAddressesLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.showchangeaddrs'
+                    defaultMessage='Show Change Addresses'
+                  />
+                </ClickableText>
               ]}
             />
           )}
