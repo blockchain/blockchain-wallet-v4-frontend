@@ -14,7 +14,7 @@ const WalletLanguage = props => {
   const { language } = props
 
   return (
-    <SettingContainer>
+    <SettingContainer data-e2e='prefsWalletLanguage'>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage

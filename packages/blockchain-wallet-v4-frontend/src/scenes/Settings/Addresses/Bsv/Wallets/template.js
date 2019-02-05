@@ -78,7 +78,7 @@ const Success = props => {
           defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.'
         />
       </SettingDescription>
-      <Table>
+      <Table data-e2e='bsvWalletsTable'>
         <TableHeader>
           <TableCell style={{ flexBasis: '55%' }}>
             <Text size='13px' weight={500}>
@@ -112,7 +112,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow>
+          <TableRow data-e2e='bsvWalletNoResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
@@ -133,7 +133,7 @@ const Success = props => {
                 <WalletTableCell style={{ flexBasis: '55%' }}>
                   <LabelCell size='13px'>{wallet.label}</LabelCell>
                   {isDefault && (
-                    <Banner label>
+                    <Banner label data-e2e='bsvWalletDefaultBadge'>
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.defaultlabel'
                         defaultMessage='Default'
@@ -141,7 +141,11 @@ const Success = props => {
                     </Banner>
                   )}
                   {isArchived && (
-                    <Banner label type='informational'>
+                    <Banner
+                      label
+                      type='informational'
+                      data-e2e='bsvWalletArchivedBadge'
+                    >
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.archivedlabel'
                         defaultMessage='Archived'
@@ -166,6 +170,7 @@ const Success = props => {
                       weight={400}
                       size='13px'
                       onClick={() => onUnarchiveWallet(i)}
+                      data-e2e='bsvUnarchiveWalletLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.unarchive'
@@ -179,6 +184,7 @@ const Success = props => {
                         size='13px'
                         onClick={() => onSendBsv(i)}
                         style={{ marginRight: '8px' }}
+                        data-e2e='bsvSendLink'
                       >
                         <FormattedMessage
                           id='scenes.settings.addresses.bsv.wallets.send'
@@ -191,6 +197,7 @@ const Success = props => {
                         size='13px'
                         onClick={onSwapBsv}
                         style={{ marginRight: '8px' }}
+                        data-e2e='bsvSwapLink'
                       >
                         <Link weight={400} size='13px'>
                           <FormattedMessage
