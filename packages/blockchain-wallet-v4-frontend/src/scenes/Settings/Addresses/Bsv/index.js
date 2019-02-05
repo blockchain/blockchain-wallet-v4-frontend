@@ -7,6 +7,7 @@ import { actions } from 'data'
 import Wallets from './Wallets'
 import Transactions from './Transactions'
 import ImportedAddresses from './ImportedAddresses'
+import { getAreThereBsvTransactions } from './selectors'
 
 const Wrapper = styled.div`
   & > :last-child {
@@ -19,21 +20,26 @@ class BsvContainer extends React.PureComponent {
   }
 
   render () {
+    const { areThereBsvTransactions } = this.props
     return (
       <Wrapper>
         <Wallets />
         <ImportedAddresses />
-        <Transactions />
+        {areThereBsvTransactions && <Transactions />}
       </Wrapper>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  areThereBsvTransactions: getAreThereBsvTransactions(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   settings: bindActionCreators(actions.components.settings, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BsvContainer)
