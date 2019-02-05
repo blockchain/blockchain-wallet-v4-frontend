@@ -41,7 +41,9 @@ const renderItem = props => {
 
 const renderDisplay = (props, children) => {
   const { value, ...rest } = props
-  const e2eTag = value.toLowerCase() + 'CurrencyOption'
+  const e2eTag = value
+    ? value.toLowerCase() + 'CurrencyOption'
+    : 'currencyOption'
   return (
     <HeaderWrapper {...rest}>
       {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
