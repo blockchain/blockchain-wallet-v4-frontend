@@ -756,7 +756,7 @@ const FaqContent = [
             />
             <span>&nbsp;</span>
             <Link
-              href='https://blockchain.info'
+              href='https://blockchain.com/explorer'
               target='_blank'
               size='13px'
               weight={300}
