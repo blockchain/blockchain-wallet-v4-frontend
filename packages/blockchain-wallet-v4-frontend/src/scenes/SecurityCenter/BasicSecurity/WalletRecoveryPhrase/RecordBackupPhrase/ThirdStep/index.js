@@ -6,16 +6,10 @@ import { FormattedMessage } from 'react-intl'
 import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
 
 import { actions } from 'data'
-import ThirdStep from './template.js'
+import ThirdStep from './template'
 
 class ThirdStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      indexes: []
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-  }
+  state = { indexes: [] }
 
   componentDidMount () {
     const randomize = sortBy(prop(0))
@@ -31,7 +25,7 @@ class ThirdStepContainer extends React.PureComponent {
     /* eslint-enable */
   }
 
-  onSubmit (values, dispatch, props) {
+  onSubmit = (values, dispatch, props) => {
     const errors = {}
     compose(
       forEach(word => {
