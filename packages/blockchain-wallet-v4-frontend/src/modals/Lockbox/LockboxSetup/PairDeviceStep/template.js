@@ -58,7 +58,7 @@ const PairDeviceStep = props => {
     deviceType,
     invalid,
     onTimeoutAccept,
-    onStepChange,
+    onGoToAppManager,
     supportLink
   } = props
 
@@ -114,7 +114,7 @@ const PairDeviceStep = props => {
                 <AppManagerLink
                   size='12px'
                   weight={300}
-                  onClick={() => onStepChange('customize-device')}
+                  onClick={onGoToAppManager}
                 >
                   <FormattedHTMLMessage
                     id='modals.lockboxsetup.pairdevice.timeout.issue2.part2'
@@ -203,8 +203,9 @@ const PairDeviceStep = props => {
           />
         </Text>
         <ClickableText
+          style={{ marginLeft: '-2px' }}
           size='10px'
-          onClick={() => onStepChange('customize-device')}
+          onClick={onGoToAppManager}
         >
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.here'
