@@ -105,8 +105,6 @@ describe('lockbox sagas', () => {
     initializeNewDeviceSetup,
     initializeAppManager,
     installApplication,
-    finalizeNewDeviceSetup,
-    pollForDeviceAppChannel,
     pollForDeviceTypeChannel,
     routeNewDeviceToDashboard,
     saveCoinMD,
@@ -835,29 +833,6 @@ describe('lockbox sagas', () => {
         .next()
         .next()
         .isDone()
-    })
-  })
-
-  describe('finalizeNewDeviceSetup', () => {
-    const saga = testSaga(finalizeNewDeviceSetup)
-
-    it('should get device type from connection', () => {
-      saga.next().select(S.getCurrentConnection)
-    })
-    it('should reset old connection', () => {
-      saga.next({ deviceType: 'ledger' }).put(A.resetConnectionStatus())
-    })
-    it('should poll for btc connection', () => {
-      saga.next().call(pollForDeviceAppChannel, 'BTC', 2500)
-    })
-    it('waits for and takes the btc connection', () => {
-      saga
-        .next()
-        .next()
-        .take(AT.SET_CONNECTION_INFO)
-    })
-    it('should get transport from getCurrentConnection', () => {
-      saga.next().select(S.getCurrentConnection)
     })
   })
 

@@ -1,10 +1,10 @@
 {
   "name": "blockchain-wallet-v4",
   "version": "1.0.1",
-  "description": "Functional library for handling Blockchain.info wallets.",
+  "description": "Functional library for handling Blockchain.com wallets.",
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Blockchain.info",
+    "name": "Blockchain",
     "url": "https://blockchain.com"
   },
   "main": "lib/index.js",
