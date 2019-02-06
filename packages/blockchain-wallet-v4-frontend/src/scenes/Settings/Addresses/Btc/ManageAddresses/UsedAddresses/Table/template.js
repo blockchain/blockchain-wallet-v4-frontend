@@ -65,7 +65,7 @@ const UsedTableEntry = ({ address, search }) => {
     <TableRow data-e2e='btcUsedAddressesRow'>
       <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
         <Link
-          href={`https://blockchain.info/address/${address.address}`}
+          href={`https://blockchain.com/btc/address/${address.address}`}
           size='small'
           weight={300}
           target='_blank'

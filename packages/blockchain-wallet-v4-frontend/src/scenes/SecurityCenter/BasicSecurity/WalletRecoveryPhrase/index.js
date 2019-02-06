@@ -2,16 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
-import { getData } from './selectors'
-import WalletRecoveryPhrase from './template.success'
 
-import { actions } from 'data'
+import WalletRecoveryPhrase from './template'
+import { actions, selectors } from 'data'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
-  state = {
-    nextStepToggled: false,
-    descriptionToggled: false
-  }
+  state = { nextStepToggled: false, descriptionToggled: false }
 
   componentDidUpdate (prevProps) {
     if (!prevProps.recoveryPhrase && this.props.recoveryPhrase) {
@@ -38,12 +34,13 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { isMnemonicVerified, recoveryPhrase } = this.props
     return (
       <WalletRecoveryPhrase
-        {...rest}
-        ui={this.state}
-        data={data}
+        isMnemonicVerified={isMnemonicVerified}
+        recoveryPhrase={recoveryPhrase}
+        nextStepToggled={this.state.nextStepToggled}
+        descriptionToggled={this.state.descriptionToggled}
         toggleNextStep={this.toggleNextStep}
         handleClose={this.closeSteps}
         changeDescription={this.changeDescription}
@@ -53,7 +50,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
+  isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state),
   recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
