@@ -18,8 +18,7 @@ class PairDeviceStepContainer extends React.PureComponent {
     this.startBtcOpenTimeout()
   }
 
-  onGoToAppManager = requestedStep => {
-    this.props.lockboxActions.resetConnectionStatus()
+  onGoToAppManager = () => {
     this.props.lockboxActions.changeDeviceSetupStep('app-manager-step')
   }
 

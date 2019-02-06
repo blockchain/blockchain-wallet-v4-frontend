@@ -402,17 +402,17 @@ export default ({ api }) => {
   // finalize new device setup
   const finalizeNewDeviceSetup = function*() {
     try {
-      const { deviceType } = yield select(S.getCurrentConnection)
-      yield put(A.resetConnectionStatus())
-      let pollLength = 2500
+      // safeguard in case existing polling is still running
+      closePoll = true
+      yield delay(1000)
+      // setup for deviceType and btc app polling
       closePoll = false
-      const btcAppChannel = yield call(
-        pollForDeviceAppChannel,
-        'BTC',
-        pollLength
-      )
-      yield takeEvery(btcAppChannel, function*(app) {
-        yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
+      let pollLength = 2500
+      pollPosition = 0
+      // poll for device type via channel
+      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
+      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+        yield put(A.pollForDeviceApp('BTC', null, deviceType, pollLength))
       })
       // BTC app connection
       yield take(AT.SET_CONNECTION_INFO)
