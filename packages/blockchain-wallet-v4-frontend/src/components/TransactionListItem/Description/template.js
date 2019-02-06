@@ -42,7 +42,12 @@ const EditDescription = props => {
         </DisplayContainer>
       ) : (
         <DisplayContainer data-e2e='transactionListItemAddDescription'>
-          <Text size='14px' weight={300} cursor='pointer'>
+          <Text
+            size='14px'
+            weight={300}
+            cursor='pointer'
+            data-e2e='editTransactionDescriptionLink'
+          >
             <FormattedMessage
               id='components.editdescription.add'
               defaultMessage='Add a description'

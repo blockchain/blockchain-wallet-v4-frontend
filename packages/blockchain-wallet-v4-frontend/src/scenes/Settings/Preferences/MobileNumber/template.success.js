@@ -9,6 +9,7 @@ import {
   SettingSummary,
   SettingStatus
 } from 'components/Setting'
+
 import Settings from './Settings'
 
 const MobileNumber = props => {
@@ -17,7 +18,7 @@ const MobileNumber = props => {
   const isVerified = smsVerified === 1
 
   return (
-    <SettingContainer>
+    <SettingContainer data-e2e='prefsMobileNumber'>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage

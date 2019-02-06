@@ -60,8 +60,15 @@ const ConfirmTemplate = ({
           </Text>
         </ModalBody>
         <ModalFooter align='right'>
-          <Cancel onClick={close}>{selectCancel(cancel)}</Cancel>
-          <Button type='submit' nature={nature || 'primary'} capitalize>
+          <Cancel data-e2e='cancelConfirmModalLink' onClick={close}>
+            {selectCancel(cancel)}
+          </Cancel>
+          <Button
+            type='submit'
+            nature={nature || 'primary'}
+            capitalize
+            data-e2e='confirmModalSubmitButton'
+          >
             {selectConfirm(confirm)}
           </Button>
         </ModalFooter>

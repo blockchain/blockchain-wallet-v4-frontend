@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import * as bowser from 'bowser'
 
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
 import {
   Banner,
@@ -43,11 +44,11 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 const BannerContainer = styled.div`
-  margin-top: 5px;
-  .link {
+  margin-top: 8px;
+  *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brrand-primary']};
+    color: ${props => props.theme['brand-primary']};
   }
 `
 
@@ -59,11 +60,15 @@ const RequestEth = props => {
     type,
     excludeLockbox
   } = props
+  const isLockboxAcct = type === 'LOCKBOX'
+  const warnLockboxReceive = !(
+    bowser.name === 'Chrome' || bowser.name === 'Chromium'
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'20px'}>
-        <FormItem>
+        <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
               id='modals.requestether.coin'
@@ -77,7 +82,7 @@ const RequestEth = props => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem>
+        <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requesteth.firststep.to'
@@ -109,13 +114,25 @@ const RequestEth = props => {
           <CopyClipboard address={address} data-e2e='requestEth' />
         </AddressContainer>
       </FormGroup>
-      {type === 'LOCKBOX' && (
-        <BannerContainer onClick={handleOpenLockbox}>
-          <Banner type='alert'>
-            <FormattedHTMLMessage
-              id='modals.requestether.firststep.lockbox'
-              defaultMessage='Please confirm this address on your lockbox device by opening your Ethereum app. <span class="link">Click here</span> once the Ethereum app has been opened.'
-            />
+      {isLockboxAcct && (
+        <BannerContainer>
+          <Banner type='info'>
+            {warnLockboxReceive ? (
+              <Text color='warning' size='12px'>
+                <FormattedHTMLMessage
+                  id='modals.requesteth.firststep.lockbox.confirm.warn'
+                  defaultMessage='You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.'
+                />
+              </Text>
+            ) : (
+              <Text color='warning' size='12px'>
+                <FormattedHTMLMessage
+                  onClick={handleOpenLockbox}
+                  id='modals.requesteth.firststep.lockbox.confirm'
+                  defaultMessage='Please confirm the address above on your Lockbox by opening your Ethereum app now. <span class="link">Click here</span> once the app has been opened.'
+                />
+              </Text>
+            )}
           </Banner>
         </BannerContainer>
       )}
@@ -136,7 +153,11 @@ const RequestEth = props => {
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeWrapper value={address} size={150} />
+        <QRCodeWrapper
+          value={address}
+          size={150}
+          data-e2e='requestEthAddressQrCode'
+        />
       </QRCodeContainer>
       <Button
         type='submit'

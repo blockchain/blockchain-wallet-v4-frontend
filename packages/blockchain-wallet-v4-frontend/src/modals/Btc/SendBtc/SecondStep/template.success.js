@@ -73,7 +73,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='btcFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -84,7 +84,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='btcToAddress'>
           {toAddress}
         </Text>
       </Row>
@@ -96,7 +96,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={300} data-e2e='btcSendDescription'>
             {description}
           </Text>
         </Row>
@@ -143,6 +143,7 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
+          data-e2e='btcSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
@@ -158,6 +159,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
+          data-e2e='btcSendBackLink'
         >
           <FormattedMessage
             id='scenes.sendbtc.secondstep.back'
