@@ -203,6 +203,7 @@ const PairDeviceStep = props => {
           />
         </Text>
         <ClickableText
+          style={{ marginLeft: '-2px' }}
           size='10px'
           onClick={() => onStepChange('customize-device')}
         >
