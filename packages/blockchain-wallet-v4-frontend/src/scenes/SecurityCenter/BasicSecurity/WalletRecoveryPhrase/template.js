@@ -49,15 +49,20 @@ const BackupButton = styled(Button)`
 `
 
 const WalletRecoveryPhrase = props => {
-  const { ui, recoveryPhrase, changeDescription, data } = props
-  const { isMnemonicVerified } = data
+  const {
+    changeDescription,
+    descriptionToggled,
+    isMnemonicVerified,
+    nextStepToggled,
+    recoveryPhrase
+  } = props
 
   const buttonHelper = () => {
     const securityComponent = components => (
       <SecurityComponent>{components}</SecurityComponent>
     )
-    if (!ui.nextStepToggled) {
-      if (!ui.descriptionToggled && isMnemonicVerified) {
+    if (!nextStepToggled) {
+      if (!descriptionToggled && isMnemonicVerified) {
         const againBtn = (
           <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
@@ -67,7 +72,7 @@ const WalletRecoveryPhrase = props => {
           </BackupButton>
         )
         return securityComponent(againBtn)
-      } else if (!ui.descriptionToggled) {
+      } else if (!descriptionToggled) {
         const backupBtn = (
           <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
@@ -89,38 +94,31 @@ const WalletRecoveryPhrase = props => {
             <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
           </IconContainer>
           <SecuritySummary>
-            <SecurityHeader greyOut={isMnemonicVerified && ui.nextStepToggled}>
+            <SecurityHeader greyOut={isMnemonicVerified && nextStepToggled}>
               <FormattedMessage
                 id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
                 defaultMessage='Backup Phrase'
               />
             </SecurityHeader>
             <SecurityDescription
-              greyOut={isMnemonicVerified && ui.nextStepToggled}
+              greyOut={isMnemonicVerified && nextStepToggled}
             >
-              {!ui.descriptionToggled ? (
-                <span>
-                  <FormattedMessage
-                    id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
-                    defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.'
-                  />
-                  <span>&nbsp;</span>
-                  <FormattedMessage
-                    id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
-                    defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
-                  />
-                </span>
-              ) : (
+              <span>
                 <FormattedMessage
-                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase '
-                  defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.'
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
+                  defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.'
                 />
-              )}
+                <span>&nbsp;</span>
+                <FormattedMessage
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
+                  defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
+                />
+              </span>
             </SecurityDescription>
           </SecuritySummary>
         </IconAndHeaderContainer>
         {buttonHelper()}
-        {ui.nextStepToggled && (
+        {nextStepToggled && (
           <React.Fragment>
             <div />
             <RecordBackupPhrase
@@ -132,7 +130,7 @@ const WalletRecoveryPhrase = props => {
           </React.Fragment>
         )}
       </SecurityGridContainer>
-      {ui.nextStepToggled && (
+      {nextStepToggled && (
         <SecurityTipContainer>
           <Text
             color='brand-primary'
