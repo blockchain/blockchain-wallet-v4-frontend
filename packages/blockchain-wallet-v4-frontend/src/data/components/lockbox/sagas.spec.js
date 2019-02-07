@@ -103,7 +103,6 @@ describe('lockbox sagas', () => {
     deriveLatestAppInfo,
     determineLockboxRoute,
     initializeNewDeviceSetup,
-    initializeAppManager,
     installApplication,
     pollForDeviceTypeChannel,
     routeNewDeviceToDashboard,
@@ -833,52 +832,6 @@ describe('lockbox sagas', () => {
       saga
         .next()
         .next()
-        .next()
-        .isDone()
-    })
-  })
-
-  describe('initializeAppManager', () => {
-    const deviceIndex = 1
-    const mockDeviceType = 'ledger'
-    const error = new Error('error')
-    let payload = { deviceIndex }
-    const saga = testSaga(initializeAppManager, { payload })
-
-    it('should get transport from getCurrentConnection', () => {
-      saga.next().select(S.getCurrentConnection)
-    })
-    it('should get devices', () => {
-      saga
-        .next({ app: 'BTC' })
-        .select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
-    })
-    it('should poll for device connection', () => {
-      saga
-        .next(Remote.of({ device_type: mockDeviceType }))
-        .put(A.pollForDeviceApp('DASHBOARD', null, mockDeviceType))
-    })
-    it('should wait dashboard connection', () => {
-      saga.next().take(AT.SET_CONNECTION_INFO)
-    })
-    it('should call to fetch app info', () => {
-      saga.next().call(deriveLatestAppInfo)
-    })
-    it('should end', () => {
-      saga.next().isDone()
-    })
-    it('logs failure', () => {
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'initializeAppManager',
-            error
-          )
-        )
         .next()
         .isDone()
     })
