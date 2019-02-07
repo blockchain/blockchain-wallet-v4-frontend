@@ -39,9 +39,7 @@ const RightCol = styled.div`
 const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
 class DeviceTitle extends React.PureComponent {
   onOpenAppManager = () => {
-    this.props.modalActions.showModal('LockboxAppManager', {
-      deviceIndex: this.props.deviceIndex
-    })
+    this.props.modalActions.showModal('LockboxAppManager')
   }
 
   render () {

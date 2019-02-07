@@ -9,7 +9,6 @@ import {
 import {
   head,
   includes,
-  equals,
   filter,
   find,
   length,
@@ -679,43 +678,19 @@ export default ({ api }) => {
   }
 
   // initializes the app manager to add and remove apps
-  const initializeAppManager = function*(action) {
+  const initializeAppManager = function*() {
     try {
-      const { deviceIndex } = action.payload
-      const connection = yield select(S.getCurrentConnection)
-      // device might already be on dashboard if user went back to previous setup steps
-      if (equals('DASHBOARD', connection.app)) {
-        return yield call(deriveLatestAppInfo)
-      } else {
-        if (deviceIndex) {
-          // derive device type
-          const deviceR = yield select(
-            selectors.core.kvStore.lockbox.getDevice,
-            deviceIndex
-          )
-          const deviceType = prop('device_type', deviceR.getOrFail())
-          // poll for device connection on dashboard
-          yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-        } else {
-          // no deviceId means device is being setup, poll for device type
-          closePoll = false
-          let pollLength = 2500
-          pollPosition = 0
-          // poll for device type via channel
-          const deviceTypeChannel = yield call(
-            pollForDeviceTypeChannel,
-            pollLength
-          )
-          yield takeEvery(deviceTypeChannel, function*(deviceType) {
-            yield put(
-              A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
-            )
-          })
-        }
-        // device connection made
-        yield take(AT.SET_CONNECTION_INFO)
-        yield call(deriveLatestAppInfo)
-      }
+      closePoll = false
+      let pollLength = 2500
+      pollPosition = 0
+      // poll for device type and then dashboard via channel
+      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
+      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
+      })
+      // device connection made
+      yield take(AT.SET_CONNECTION_INFO)
+      yield call(deriveLatestAppInfo)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
