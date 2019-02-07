@@ -8,7 +8,7 @@ import {
 } from 'redux-saga/effects'
 import {
   head,
-  contains,
+  includes,
   equals,
   filter,
   find,
@@ -360,7 +360,7 @@ export default ({ api }) => {
       })
       // limit apps to only the ones we support
       const appList = filter(
-        item => contains(item.name, values(Lockbox.constants.supportedApps)),
+        item => includes(item.name, values(Lockbox.constants.supportedApps)),
         appInfos.application_versions
       )
       yield put(A.setLatestAppInfosSuccess(appList))
@@ -439,7 +439,7 @@ export default ({ api }) => {
       )).getOrElse([])
       const newDeviceBtcContext = prop('btc', newDeviceInfo)
       // check if device has already been added
-      if (contains(newDeviceBtcContext, storedDevicesBtcContext)) {
+      if (includes(newDeviceBtcContext, storedDevicesBtcContext)) {
         return yield put(
           A.changeDeviceSetupStep('error-step', true, 'duplicate')
         )

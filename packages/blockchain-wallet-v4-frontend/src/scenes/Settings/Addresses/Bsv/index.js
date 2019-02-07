@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 class BsvContainer extends React.PureComponent {
   componentDidMount () {
     this.props.settings.initializeBsv()
+    this.props.txActions.initialized()
   }
 
   render () {
@@ -36,7 +37,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  settings: bindActionCreators(actions.components.settings, dispatch)
+  settings: bindActionCreators(actions.components.settings, dispatch),
+  txActions: bindActionCreators(actions.components.bsvTransactions, dispatch)
 })
 
 export default connect(
