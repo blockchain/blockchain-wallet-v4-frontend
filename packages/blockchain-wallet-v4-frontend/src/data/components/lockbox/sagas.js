@@ -205,15 +205,18 @@ export default ({ api }) => {
   const saveNewDeviceKvStore = function*() {
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
-      let newDeviceName = 'My Lockbox'
+      let newDeviceName = 'My '
+      const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
+      newDevice.type === 'ledger'
+        ? (newDeviceName += 'Nano S')
+        : (newDeviceName += 'Lockbox')
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
       const deviceCount = length(deviceList.map(d => d.device_name))
       if (deviceCount > 0) {
-        newDeviceName = `My Lockbox ${deviceCount + 1}`
+        newDeviceName += ` ${deviceCount + 1}`
       }
-      const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
       const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
         newDeviceName
