@@ -1,10 +1,7 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
 import TransactionList from 'scenes/Transactions/Content'
 import { SettingHeader } from 'components/Setting'
 import { Text } from 'blockchain-info-components'
@@ -39,10 +36,6 @@ const TxListScrollWrap = styled.div`
   overflow: scroll;
 `
 class BsvTransactionsContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.txActions.initialized()
-  }
-
   render () {
     return (
       <Wrapper>
@@ -94,11 +87,4 @@ class BsvTransactionsContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  txActions: bindActionCreators(actions.components.bsvTransactions, dispatch)
-})
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(BsvTransactionsContainer)
+export default BsvTransactionsContainer

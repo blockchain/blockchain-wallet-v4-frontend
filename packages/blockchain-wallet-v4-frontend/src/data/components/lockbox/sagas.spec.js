@@ -45,11 +45,11 @@ const newDeviceInfoMock = {
 }
 const mdAccountsEntryMock = {
   device_type: 'ledger',
-  device_name: 'My Lockbox',
+  device_name: 'My Nano S',
   btc: {
     accounts: [
       {
-        label: 'My Lockbox - BTC Wallet',
+        label: 'My Nano S - BTC Wallet',
         archived: false,
         xpriv: '',
         xpub:
@@ -67,7 +67,7 @@ const mdAccountsEntryMock = {
   bch: {
     accounts: [
       {
-        label: 'My Lockbox - BCH Wallet',
+        label: 'My Nano S - BCH Wallet',
         archived: false,
         xpriv: '',
         xpub:
@@ -85,7 +85,7 @@ const mdAccountsEntryMock = {
   eth: {
     accounts: [
       {
-        label: 'My Lockbox - ETH Wallet',
+        label: 'My Nano S - ETH Wallet',
         archived: false,
         correct: true,
         addr: '0xd379c32a70A6e2D2698cA9890484340279e96DAA'
@@ -318,15 +318,17 @@ describe('lockbox sagas', () => {
     it('sets saveNewDeviceKvStore to loading', () => {
       saga.next().put(A.saveNewDeviceKvStoreLoading())
     })
-    it('selects devices list from state', () => {
-      saga.next().select(selectors.core.kvStore.lockbox.getDevices)
-    })
     it('gets new device info', () => {
-      saga.next(Remote.of([])).select(S.getNewDeviceInfo)
+      saga.next().select(S.getNewDeviceInfo)
+    })
+    it('selects devices list from state', () => {
+      saga
+        .next(Remote.of(newDeviceInfoMock))
+        .select(selectors.core.kvStore.lockbox.getDevices)
     })
     it('creates a new device entry', () => {
       saga
-        .next(Remote.of(newDeviceInfoMock))
+        .next(Remote.of([]))
         .put(
           actions.core.kvStore.lockbox.createNewDeviceEntry(mdAccountsEntryMock)
         )

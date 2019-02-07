@@ -113,7 +113,8 @@ export const getBchData = createSelector(
         .map(transform)
         .getOrElse(undefined),
       isValidStartDate: date => isValidBchStartDate(date, end),
-      isValidEndDate: date => isValidBchEndDate(date, start)
+      isValidEndDate: date => isValidBchEndDate(date, start),
+      formValues
     }
   }
 )

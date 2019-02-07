@@ -47,14 +47,17 @@ const ScanMessage = styled.div`
 const BannerContainer = styled.div`
   margin-top: 8px;
 `
-const LockboxOpen = styled(TextGroup)`
-  font-size: 12px;
-  color: ${props => props.theme['warning']};
+const LockboxInstructions = styled.div`
   & > :last-child {
+    margin-top: 4px;
     text-align: center;
     font-size: 13px;
     font-weight: 600;
   }
+`
+const LockboxOpen = styled(TextGroup)`
+  font-size: 12px;
+  color: ${props => props.theme['warning']};
   *.link {
     cursor: pointer;
     text-decoration: underline;
@@ -140,14 +143,31 @@ const RequestBch = props => {
                 />
               </Text>
             ) : (
-              <LockboxOpen>
-                <FormattedHTMLMessage
-                  onClick={handleOpenLockbox}
-                  id='modals.requestbch.firststep.lockbox.confirm'
-                  defaultMessage='Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now. <span class="link">Click here</span> once the app has been opened.'
-                />
+              <LockboxInstructions>
+                <LockboxOpen inline>
+                  <Text color='warning' size='12px'>
+                    <FormattedHTMLMessage
+                      id='modals.requestbch.firststep.lockbox.confirm1'
+                      defaultMessage='Please confirm the address above on your Lockbox by opening your Bitcoin Cash app now.'
+                    />
+                  </Text>
+                  <Text size='12px' onClick={handleOpenLockbox}>
+                    <span className='link'>
+                      <FormattedHTMLMessage
+                        id='modals.requestbch.firststep.lockbox.clickhere'
+                        defaultMessage='Click here'
+                      />
+                    </span>
+                  </Text>
+                  <Text color='warning' size='12px'>
+                    <FormattedHTMLMessage
+                      id='modals.requestbch.firststep.lockbox.confirm2'
+                      defaultMessage='once the app has been opened.'
+                    />
+                  </Text>
+                </LockboxOpen>
                 <Text color='warning'>{legacyAddress}</Text>
-              </LockboxOpen>
+              </LockboxInstructions>
             )}
           </Banner>
         </BannerContainer>
