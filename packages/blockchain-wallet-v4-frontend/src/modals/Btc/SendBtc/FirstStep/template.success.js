@@ -150,7 +150,7 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {isFromLockbox && (
+      {isFromLockbox && !disableLockboxSend && (
         <WarningBanners type='info'>
           <Text color='warning' size='13px'>
             <FormattedMessage
