@@ -274,9 +274,7 @@ class Footer extends PureComponent {
                     <NavBadge>Info</NavBadge>
                   </li>
                   <li>
-                    <Link href='https://bps.blockchain.com/'>
-                      Principal Strategies
-                    </Link>
+                    <Link href='/markets'>Markets</Link>
                   </li>
                   <li>
                     <Link locale={this.lang} href={'/api'}>
@@ -290,8 +288,8 @@ class Footer extends PureComponent {
                 <h5>Data</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/markets'}>
-                      Markets
+                    <Link locale={this.lang} href={'/prices'}>
+                      Prices
                     </Link>
                     <NavBadge>New</NavBadge>
                   </li>
