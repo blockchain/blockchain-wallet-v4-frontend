@@ -239,10 +239,7 @@ const productsList = [
   },
   {
     title: (
-      <FormattedMessage
-        id='header.products.bps'
-        defaultMessage='Principal Strategies'
-      />
+      <FormattedMessage id='header.products.markets' defaultMessage='Markets' />
     ),
     desc: (
       <FormattedMessage
@@ -250,7 +247,7 @@ const productsList = [
         defaultMessage='Institutional Portal'
       />
     ),
-    link: 'https://bps.blockchain.com',
+    link: '/markets',
     locale: LOCALE,
     event: 'header_principal'
   },
@@ -275,18 +272,16 @@ const productsList = [
 
 const dataList = [
   {
-    title: (
-      <FormattedMessage id='header.data.markets' defaultMessage='Markets' />
-    ),
+    title: <FormattedMessage id='header.data.prices' defaultMessage='Prices' />,
     desc: (
       <FormattedMessage
-        id='header.data.markets-desc'
-        defaultMessage='Prices, Quotes, and More'
+        id='header.data.prices-desc'
+        defaultMessage='Quotes, News, and More'
       />
     ),
-    link: '/markets',
+    link: '/prices',
     locale: LOCALE,
-    event: 'header_markets'
+    event: 'header_prices'
   },
   {
     title: <FormattedMessage id='header.data.charts' defaultMessage='Charts' />,
