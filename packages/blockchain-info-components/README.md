@@ -1,10 +1,11 @@
 # Blockchain-Info-Components
-
 A shared UI components library for blockchain.info applications.
 
+## Deprecation Warning
+This library will soon be fully dedicated and removed.  New and existing applications should now use/migrate to the new 
+components [library](https://github.com/blockchain/components).
 
 ## Adding New Icons
-
 1. Open an incognito window
 2. Navigate to https://icomoon.io/app/#/select
 3. Drag and drop src/Fonts/Icomoon/selection.json
