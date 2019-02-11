@@ -10,7 +10,9 @@ import {
   Image,
   Link,
   Text,
-  TextGroup
+  TextGroup,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -20,9 +22,14 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const IntroText = styled(Text)`
-  margin: 16px 0 40px;
+  margin-top: 16px;
   text-align: center;
 `
+const ExportKeysText = styled(Text)`
+  margin: 10px 0 40px;
+  text-align: center;
+`
+
 const ClickableText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
   cursor: pointer;
@@ -51,6 +58,11 @@ const SupportListItem = styled(FormItem)`
 const CheckboxLabel = styled.label`
   margin-top: 3px;
   margin-left: 12px;
+`
+const Tooltip = styled(TooltipHost)`
+  & > span {
+    font-size: 12px;
+  }
 `
 const PairDeviceStep = props => {
   const {
@@ -194,6 +206,19 @@ const PairDeviceStep = props => {
           values={{ deviceType }}
         />
       </IntroText>
+      <ExportKeysText size='12px' weight={300}>
+        <FormattedHTMLMessage
+          id='modals.lockboxsetup.pairdevice.exportkeys'
+          defaultMessage='After the app has been opened, check for instructions on the device as you may have to allow the export of your public keys multiple times.'
+        />
+        <Tooltip
+          id='lockbox.exportkeys'
+          data-place='right'
+          style={{ marginTop: '3px' }}
+        >
+          <TooltipIcon name='question-in-circle' />
+        </Tooltip>
+      </ExportKeysText>
       <TextGroup inline style={{ marginBottom: '14px' }}>
         <Text size='10px' weight={300}>
           <FormattedHTMLMessage
