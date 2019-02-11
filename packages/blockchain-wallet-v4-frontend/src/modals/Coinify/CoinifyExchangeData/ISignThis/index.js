@@ -263,13 +263,17 @@ class ISignThisContainer extends Component {
       ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
       walletOpts
     )
+    const coinifyPaymentDomain = path(
+      ['platforms', 'web', 'coinify', 'config', 'coinifyPaymentDomain'],
+      walletOpts
+    )
 
     const isxType = path(['data', 'constructor', 'name'], trade)
 
     const srcUrl =
       isxType !== 'Trade'
         ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC
-        : `${iSignThisId}` // Url for payment
+        : `${coinifyPaymentDomain}/${iSignThisId}?embed=true` // Url for payment
 
     return (
       <Fragment>

@@ -112,7 +112,7 @@
           "CH"
         ],
         "config": {
-          "partnerId": 24,
+          "partnerId": 35,
           "production": false,
           "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
           "iSignThisDomain": "https://stage-verify.isignthis.com"
