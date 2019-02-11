@@ -64,7 +64,6 @@ export const renewLimitsDelay = 30 * 1000
 
 let renewLimitsTask = null
 export default ({ api, coreSagas, networks }) => {
-  const { SECOND_STEP_SUBMIT, SECOND_STEP_ERROR } = model.analytics.EXCHANGE
   const {
     RESULTS_MODAL,
     formatExchangeTrade
@@ -726,11 +725,9 @@ export default ({ api, coreSagas, networks }) => {
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
       yield put(actions.components.refresh.refreshClicked())
-      yield put(actions.analytics.logEvent(SECOND_STEP_SUBMIT))
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
-      yield put(actions.analytics.logEvent(SECOND_STEP_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(e))
       )
