@@ -7,6 +7,12 @@ class Tooltips extends React.PureComponent {
     return (
       <div>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
+        <Tooltip id='lockbox.exportkeys'>
+          <FormattedMessage
+            id='modals.lockboxsetup.pairdevice.tooltip'
+            defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
+          />
+        </Tooltip>
         <Tooltip id='isx.expiredtooltip'>
           <FormattedMessage
             id='scenes.buysell.coinify.isx.expiredtooltip'
