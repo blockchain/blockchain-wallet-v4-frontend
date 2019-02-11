@@ -16,8 +16,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       sessionToken
     })
 
-  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) =>
-    post({
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
+    let error =
+      'No text error was returned by endpoint in api/wallet/index.js fetchPayloadWithTwoFactorAuth'
+    return post({
       url: rootUrl,
       endPoint: '/wallet',
       data: {
@@ -27,8 +29,28 @@ export default ({ rootUrl, apiUrl, get, post }) => {
         method: 'get-wallet',
         format: 'plain'
       },
+      /**
+       * FIXME: axios has problems with text responses - it tries to JSON.parse them
+       * also axios calls but not uses result of transformResponse when dealing with server errors
+       *
+       * fetchPayloadWithTwoFactorAuth successful response is josn, error is text
+       * Here axios tries to parse error and ignores transformResponse for it
+       *
+       * remove when @link https://github.com/axios/axios/issues/907 is fixed
+       */
+      transformResponse: data => {
+        try {
+          return JSON.parse(data)
+        } catch (parseError) {
+          error = data
+          return data
+        }
+      },
       sessionToken
+    }).catch(() => {
+      throw error
     })
+  }
 
   const savePayload = data =>
     post({
