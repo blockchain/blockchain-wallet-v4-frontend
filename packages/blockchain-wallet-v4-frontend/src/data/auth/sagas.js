@@ -92,7 +92,6 @@ export default ({ api, coreSagas }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
-      const guid = yield select(selectors.core.wallet.getGuid)
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
@@ -122,6 +121,7 @@ export default ({ api, coreSagas }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
+      const guid = yield select(selectors.core.wallet.getGuid)
       // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state

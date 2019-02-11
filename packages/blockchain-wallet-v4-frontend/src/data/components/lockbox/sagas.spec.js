@@ -11,6 +11,7 @@ import * as selectors from '../../selectors'
 import * as Lockbox from 'services/LockboxService'
 import lockboxSagas from './sagas'
 import * as SagaService from 'services/SagaService'
+import { model } from 'data'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 Lockbox.apps.installApp = jest.fn()
@@ -23,6 +24,7 @@ Lockbox.firmware.checkDeviceAuthenticity = jest.fn()
 SagaService.promptForLockbox = jest.fn()
 SagaService.confirm = jest.fn()
 
+const { INSTALL_APP, UNINSTALL_APP } = model.analytics.LOCKBOX_EVENTS
 const logLocation = 'components/lockbox/sagas'
 const api = {
   obtainSessionToken: jest.fn(),
@@ -159,6 +161,11 @@ describe('lockbox sagas', () => {
           mockState.latestAppInfos
         )
     })
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(actions.analytics.logEvent([...INSTALL_APP, payload.appName]))
+    })
     it('should mark install success', () => {
       saga.next().put(A.appChangeSuccess(payload.appName, 'install'))
     })
@@ -204,6 +211,22 @@ describe('lockbox sagas', () => {
           mockState.domains.ledgerSocket,
           mockState.targetId,
           mockState.latestAppInfos[0]
+        )
+    })
+    it('should log to analytics', () => {
+      const getCoinFromAppName = appName => {
+        return Object.keys(Lockbox.constants.supportedApps).find(
+          key => Lockbox.constants.supportedApps[key] === appName
+        )
+      }
+
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([
+            ...UNINSTALL_APP,
+            getCoinFromAppName(payload.appName)
+          ])
         )
     })
     it('should mark uninstall success', () => {
