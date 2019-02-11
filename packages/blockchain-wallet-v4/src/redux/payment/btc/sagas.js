@@ -326,6 +326,7 @@ export default ({ api }) => {
       },
 
       *sign (password, transport, scrambleKey) {
+        console.log(p)
         let signed = yield call(
           __calculateSignature,
           network,
