@@ -47,6 +47,7 @@ export default ({ api }) => {
 
   const logGoal = function*() {
     try {
+      // TODO
       yield
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logGoal', e))
