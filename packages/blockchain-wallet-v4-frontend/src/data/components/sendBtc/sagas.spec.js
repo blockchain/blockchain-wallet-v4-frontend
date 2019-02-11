@@ -76,7 +76,7 @@ describe('sendBtc sagas', () => {
     return paymentMock
   })
 
-  describe('btc send form intialize', () => {
+  describe('btc send form initialize', () => {
     const to = 'btcaddress'
     const description = 'message'
     const amount = {
@@ -269,10 +269,6 @@ describe('sendBtc sagas', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-        .next()
-        .put(
-          actions.analytics.logEvent(['send_btc', 'click', 'first_step_submit'])
-        )
         .save(beforeError)
         .next()
         .isDone()
