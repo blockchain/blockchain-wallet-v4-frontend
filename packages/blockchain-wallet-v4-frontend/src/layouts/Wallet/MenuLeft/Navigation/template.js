@@ -139,8 +139,8 @@ const Navigation = props => {
         <MenuItem data-e2e='lockboxLink'>
           <Icon name='lock' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.lockbox'
-            defaultMessage='Lockbox'
+            id='layouts.wallet.menuleft.navigation.hardwarewallet'
+            defaultMessage='Hardware Wallet'
           />
           <HelperTipContainer>
             <TooltipHost id='lockboxRequired'>

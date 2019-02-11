@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import media from 'services/ResponsiveService'
 import { Link, Icon, Text } from 'blockchain-info-components'
 
@@ -96,19 +97,20 @@ const Announcement = props => {
             </Text>
           </Title>
           <div style={{ display: collapsed ? 'none' : '' }}>
-            {sections.map((section, i) => {
-              return (
-                <Text
-                  color={textColor}
-                  key={i}
-                  size='13px'
-                  style={{ margin: '8px 0 0' }}
-                >
-                  {section.body[lang] ? section.body[lang] : section.body.en}
-                </Text>
-              )
-            })}
-            {action.title && (
+            {sections &&
+              sections.map((section, i) => {
+                return (
+                  <Text
+                    color={textColor}
+                    key={i}
+                    size='13px'
+                    style={{ margin: '8px 0 0' }}
+                  >
+                    {section.body[lang] ? section.body[lang] : section.body.en}
+                  </Text>
+                )
+              })}
+            {action && action.title && (
               <ActionLink href={action.link} color={textColor} target='_blank'>
                 <Text weight={400} color={textColor} size='14px'>
                   {action.title[lang] ? action.title[lang] : action.title.en}

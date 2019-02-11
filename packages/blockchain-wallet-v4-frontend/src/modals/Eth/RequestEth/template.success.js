@@ -12,6 +12,7 @@ import {
   Button,
   Separator,
   Text,
+  TextGroup,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
@@ -125,13 +126,28 @@ const RequestEth = props => {
                 />
               </Text>
             ) : (
-              <Text color='warning' size='12px'>
-                <FormattedHTMLMessage
-                  onClick={handleOpenLockbox}
-                  id='modals.requesteth.firststep.lockbox.confirm'
-                  defaultMessage='Please confirm the address above on your Lockbox by opening your Ethereum app now. <span class="link">Click here</span> once the app has been opened.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='warning' size='12px'>
+                  <FormattedHTMLMessage
+                    id='modals.requesteth.firststep.lockbox.confirm1'
+                    defaultMessage='Please confirm the address above on your Lockbox by opening your Ethereum app now.'
+                  />
+                </Text>
+                <Text size='12px' onClick={handleOpenLockbox}>
+                  <span className='link'>
+                    <FormattedHTMLMessage
+                      id='modals.requesteth.firststep.lockbox.clickhere'
+                      defaultMessage='Click here'
+                    />
+                  </span>
+                </Text>
+                <Text color='warning' size='12px'>
+                  <FormattedHTMLMessage
+                    id='modals.requesteth.firststep.lockbox.confirm2'
+                    defaultMessage='once the app has been opened.'
+                  />
+                </Text>
+              </TextGroup>
             )}
           </Banner>
         </BannerContainer>

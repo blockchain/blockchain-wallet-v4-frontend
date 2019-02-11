@@ -164,8 +164,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <Text size='14px' weight={300}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepthree.addfilter'
-            defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters can be applied by clicking the asset cards above will also show here.'
+            id='scenes.lockbox.tour.stepthree.addfilters'
+            defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.'
           />
         </Text>
       </React.Fragment>

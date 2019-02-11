@@ -131,7 +131,7 @@ const FirstStep = props => {
       {noAccount && <NoAccountTemplate />}
       {!noAccount && (
         <React.Fragment>
-          {isFromLockbox && (
+          {isFromLockbox && !disableLockboxSend && (
             <WarningBanners type='info'>
               <Text color='warning' size='13px'>
                 <FormattedMessage

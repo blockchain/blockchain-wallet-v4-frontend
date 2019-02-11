@@ -16,6 +16,8 @@ import constants from './constants'
 const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // ensure timeout is always ong enough for uninstall to complete
+      transport.exchangeTimeout = 60000
       // socket params
       const params = {
         targetId,
@@ -60,6 +62,8 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // ensure timeout is always ong enough for install to complete
+      transport.exchangeTimeout = 60000
       // derive latest app info
       const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
         appInfos

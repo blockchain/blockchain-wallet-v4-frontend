@@ -8,8 +8,7 @@ import {
 } from 'redux-saga/effects'
 import {
   head,
-  contains,
-  equals,
+  includes,
   filter,
   find,
   length,
@@ -205,15 +204,18 @@ export default ({ api }) => {
   const saveNewDeviceKvStore = function*() {
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
-      let newDeviceName = 'My Lockbox'
+      let newDeviceName = 'My '
+      const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
+      newDevice.type === 'ledger'
+        ? (newDeviceName += 'Nano S')
+        : (newDeviceName += 'Lockbox')
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
       const deviceCount = length(deviceList.map(d => d.device_name))
       if (deviceCount > 0) {
-        newDeviceName = `My Lockbox ${deviceCount + 1}`
+        newDeviceName += ` ${deviceCount + 1}`
       }
-      const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
       const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
         newDeviceName
@@ -360,7 +362,7 @@ export default ({ api }) => {
       })
       // limit apps to only the ones we support
       const appList = filter(
-        item => contains(item.name, values(Lockbox.constants.supportedApps)),
+        item => includes(item.name, values(Lockbox.constants.supportedApps)),
         appInfos.application_versions
       )
       yield put(A.setLatestAppInfosSuccess(appList))
@@ -439,7 +441,7 @@ export default ({ api }) => {
       )).getOrElse([])
       const newDeviceBtcContext = prop('btc', newDeviceInfo)
       // check if device has already been added
-      if (contains(newDeviceBtcContext, storedDevicesBtcContext)) {
+      if (includes(newDeviceBtcContext, storedDevicesBtcContext)) {
         return yield put(
           A.changeDeviceSetupStep('error-step', true, 'duplicate')
         )
@@ -676,43 +678,19 @@ export default ({ api }) => {
   }
 
   // initializes the app manager to add and remove apps
-  const initializeAppManager = function*(action) {
+  const initializeAppManager = function*() {
     try {
-      const { deviceIndex } = action.payload
-      const connection = yield select(S.getCurrentConnection)
-      // device might already be on dashboard if user went back to previous setup steps
-      if (equals('DASHBOARD', connection.app)) {
-        return yield call(deriveLatestAppInfo)
-      } else {
-        if (deviceIndex) {
-          // derive device type
-          const deviceR = yield select(
-            selectors.core.kvStore.lockbox.getDevice,
-            deviceIndex
-          )
-          const deviceType = prop('device_type', deviceR.getOrFail())
-          // poll for device connection on dashboard
-          yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-        } else {
-          // no deviceId means device is being setup, poll for device type
-          closePoll = false
-          let pollLength = 2500
-          pollPosition = 0
-          // poll for device type via channel
-          const deviceTypeChannel = yield call(
-            pollForDeviceTypeChannel,
-            pollLength
-          )
-          yield takeEvery(deviceTypeChannel, function*(deviceType) {
-            yield put(
-              A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
-            )
-          })
-        }
-        // device connection made
-        yield take(AT.SET_CONNECTION_INFO)
-        yield call(deriveLatestAppInfo)
-      }
+      closePoll = false
+      let pollLength = 2500
+      pollPosition = 0
+      // poll for device type and then dashboard via channel
+      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
+      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
+      })
+      // device connection made
+      yield take(AT.SET_CONNECTION_INFO)
+      yield call(deriveLatestAppInfo)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
