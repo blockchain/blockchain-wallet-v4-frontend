@@ -180,7 +180,6 @@ class ISignThisContainer extends Component {
             return
           }
 
-          // console.log(e)
           let frame = document.getElementById('isx-iframe')
           if (e.source !== prop('contentWindow', frame)) {
             // Source of message isn't from the iframe
