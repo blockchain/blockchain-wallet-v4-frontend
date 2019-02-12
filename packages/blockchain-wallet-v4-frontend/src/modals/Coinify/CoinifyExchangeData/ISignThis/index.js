@@ -51,7 +51,7 @@ const IframeWrapper = styled.div`
 `
 const ISignThisIframe = styled.iframe`
   width: 100%;
-  height: 400px;
+  height: 500px;
   border: ${props => `1px solid ${props.theme['gray-1']}`};
 `
 
@@ -110,6 +110,11 @@ class ISignThisContainer extends Component {
     var e = document.getElementById('isx-iframe')
     const iSignThisDomain = this.props.walletOptions
       .map(path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain']))
+      .getOrElse(null)
+    const coinifyPaymentDomain = this.props.walletOptions
+      .map(
+        path(['platforms', 'web', 'coinify', 'config', 'coinifyPaymentDomain'])
+      )
       .getOrElse(null)
 
     var _isx = {
@@ -170,8 +175,8 @@ class ISignThisContainer extends Component {
         function (e) {
           // Check for the domain who sent the messageEvent
           let origin = e.origin || e.originalEvent.origin
-          if (origin !== iSignThisDomain) {
-            // Event not generated from ISX, simply return
+          if (![iSignThisDomain, coinifyPaymentDomain].includes(origin)) {
+            // Event not generated from ISX or coinifyPaymentDomain, simply return
             return
           }
 
@@ -258,8 +263,13 @@ class ISignThisContainer extends Component {
       ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
       walletOpts
     )
-    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+
     const isxType = path(['data', 'constructor', 'name'], trade)
+
+    const srcUrl =
+      isxType !== 'Trade'
+        ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC
+        : `${iSignThisId}` // Url for payment
 
     return (
       <Fragment>
