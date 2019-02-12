@@ -270,7 +270,7 @@ class ISignThisContainer extends Component {
     const srcUrl =
       isxType !== 'Trade'
         ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC
-        : `${iSignThisId}?embed=true` // Url for payment
+        : `${iSignThisId}` // Url for payment
 
     return (
       <Fragment>
