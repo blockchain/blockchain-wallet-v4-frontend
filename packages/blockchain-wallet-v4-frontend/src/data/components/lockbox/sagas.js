@@ -425,9 +425,17 @@ export default ({ api }) => {
         connection.deviceType,
         connection.transport
       )
-      // increase transport timeout in case BTC app version > 1.3 as user will
-      // have to manually allow the export of pub keys on device
-      connection.transport.exchangeTimeout = 45000
+      // get BTC app version
+      const btcAppVersion = yield call(
+        Lockbox.apps.getBtcAppVersion,
+        connection.transport
+      )
+      if (btcAppVersion.minor > 2) {
+        // increase timeout since BTC app version > 1.3 and user must manually
+        // allow the export of pub keys on device
+        connection.transport.exchangeTimeout = 45000
+        yield put(A.setNewDeviceShowBtcWarning(true))
+      }
       // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
         Lockbox.utils.deriveDeviceInfo,

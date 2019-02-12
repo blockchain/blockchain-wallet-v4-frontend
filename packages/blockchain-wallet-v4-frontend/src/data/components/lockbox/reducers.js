@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   newDeviceSetup: {
     device: Remote.NotAsked,
     deviceType: null,
-    newOrExisting: null
+    newOrExisting: null,
+    showBtcWarning: false
   },
   isAuthentic: Remote.NotAsked,
   showProductTour: false
@@ -46,6 +47,9 @@ export default (state = INITIAL_STATE, action) => {
         { done, error, step },
         state
       )
+    }
+    case AT.SET_NEW_DEVICE_SHOW_BTC_WARNING: {
+      return assocPath(['newDeviceSetup', 'showBtcWarning'], payload, state)
     }
     case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
       return assoc('isAuthentic', Remote.Loading, state)
