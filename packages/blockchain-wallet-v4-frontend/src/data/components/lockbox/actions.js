@@ -36,6 +36,9 @@ export const setDeviceTargetId = targetId => ({
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
+export const resetNewDeviceSetup = () => ({
+  type: AT.RESET_NEW_DEVICE_SETUP
+})
 export const finalizeNewDeviceSetup = () => ({
   type: AT.FINALIZE_NEW_DEVICE_SETUP
 })

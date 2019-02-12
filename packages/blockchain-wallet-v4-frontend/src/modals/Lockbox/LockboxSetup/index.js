@@ -18,6 +18,10 @@ import PairDeviceStep from './PairDeviceStep'
 import SetupTypeStep from './SetupTypeStep'
 
 class LockboxSetupContainer extends React.PureComponent {
+  componentWillMount () {
+    this.props.lockboxActions.resetNewDeviceSetup()
+  }
+
   componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')

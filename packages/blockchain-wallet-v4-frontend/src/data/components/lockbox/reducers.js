@@ -27,6 +27,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.RESET_CONNECTION_STATUS: {
       return assoc('connection', {}, state)
     }
+    case AT.RESET_NEW_DEVICE_SETUP: {
+      return assoc('newDeviceSetup', INITIAL_STATE.newDeviceSetup, state)
+    }
     case AT.SET_NEW_DEVICE_INFO: {
       return assocPath(
         ['newDeviceSetup', 'device'],
