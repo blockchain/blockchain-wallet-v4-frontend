@@ -36,7 +36,7 @@ export default ({
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
-    ...analytics({ rootUrl, apiUrl, ...http }),
+    ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...bsv({ rootUrl, apiUrl, ...http }),
@@ -63,7 +63,7 @@ export default ({
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, ...http }),
+    ...wallet({ rootUrl, ...http }),
     ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
   }
 }
