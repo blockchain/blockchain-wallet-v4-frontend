@@ -211,12 +211,12 @@ const DropdownWrap = styled.div`
 const productsList = [
   {
     title: (
-      <FormattedMessage id="header.products.wallet" defaultMessage="Wallet" />
+      <FormattedMessage id='header.products.wallet' defaultMessage='Wallet' />
     ),
     desc: (
       <FormattedMessage
-        id="header.products.wallet-desc"
-        defaultMessage="Send, Receive, and Trade"
+        id='header.products.wallet-desc'
+        defaultMessage='Send, Receive, and Trade'
       />
     ),
     link: '/wallet',
@@ -226,14 +226,14 @@ const productsList = [
   {
     title: (
       <FormattedMessage
-        id="header.products.blockchain_markets"
-        defaultMessage="Blockchain Markets"
+        id='header.products.blockchain_markets'
+        defaultMessage='Blockchain Markets'
       />
     ),
     desc: (
       <FormattedMessage
-        id="header.products.bps-desc"
-        defaultMessage="Institutional Portal"
+        id='header.products.bps-desc'
+        defaultMessage='Institutional Portal'
       />
     ),
     link: '/markets',
@@ -242,12 +242,12 @@ const productsList = [
   },
   {
     title: (
-      <FormattedMessage id="header.products.lockbox" defaultMessage="Lockbox" />
+      <FormattedMessage id='header.products.lockbox' defaultMessage='Lockbox' />
     ),
     desc: (
       <FormattedMessage
-        id="header.data.lockbox-desc"
-        defaultMessage="Hardware Wallet"
+        id='header.data.lockbox-desc'
+        defaultMessage='Hardware Wallet'
       />
     ),
     link: '/lockbox',
@@ -257,14 +257,14 @@ const productsList = [
   {
     title: (
       <FormattedMessage
-        id="header.products.developers"
-        defaultMessage="Developers"
+        id='header.products.developers'
+        defaultMessage='Developers'
       />
     ),
     desc: (
       <FormattedMessage
-        id="header.products.developers-desc"
-        defaultMessage="Access our API"
+        id='header.products.developers-desc'
+        defaultMessage='Access our API'
       />
     ),
     link: '/api',
@@ -275,11 +275,11 @@ const productsList = [
 
 const dataList = [
   {
-    title: <FormattedMessage id="header.data.prices" defaultMessage="Prices" />,
+    title: <FormattedMessage id='header.data.prices' defaultMessage='Prices' />,
     desc: (
       <FormattedMessage
-        id="header.data.prices-desc"
-        defaultMessage="Quotes, News, and More"
+        id='header.data.prices-desc'
+        defaultMessage='Quotes, News, and More'
       />
     ),
     link: '/prices',
@@ -287,11 +287,11 @@ const dataList = [
     event: 'header_prices'
   },
   {
-    title: <FormattedMessage id="header.data.charts" defaultMessage="Charts" />,
+    title: <FormattedMessage id='header.data.charts' defaultMessage='Charts' />,
     desc: (
       <FormattedMessage
-        id="header.data.charts-desc"
-        defaultMessage="Stats and Network Activity"
+        id='header.data.charts-desc'
+        defaultMessage='Stats and Network Activity'
       />
     ),
     link: '/charts',
@@ -301,14 +301,14 @@ const dataList = [
   {
     title: (
       <FormattedMessage
-        id="header.data.explorer"
-        defaultMessage="Bitcoin Explorer"
+        id='header.data.explorer'
+        defaultMessage='Bitcoin Explorer'
       />
     ),
     desc: (
       <FormattedMessage
-        id="header.data.explorer-desc"
-        defaultMessage="Search BTC Blockchain"
+        id='header.data.explorer-desc'
+        defaultMessage='Search BTC Blockchain'
       />
     ),
     link: '/explorer',
@@ -318,14 +318,14 @@ const dataList = [
   {
     title: (
       <FormattedMessage
-        id="header.data.explorer-bch"
-        defaultMessage="Bitcoin Cash Explorer"
+        id='header.data.explorer-bch'
+        defaultMessage='Bitcoin Cash Explorer'
       />
     ),
     desc: (
       <FormattedMessage
-        id="header.data.explorer-bch-desc"
-        defaultMessage="Search BCH Blockchain"
+        id='header.data.explorer-bch-desc'
+        defaultMessage='Search BCH Blockchain'
       />
     ),
     link: '/explorer?currency=BCH',
@@ -335,14 +335,14 @@ const dataList = [
   {
     title: (
       <FormattedMessage
-        id="header.data.explorer-eth"
-        defaultMessage="Ethereum Explorer"
+        id='header.data.explorer-eth'
+        defaultMessage='Ethereum Explorer'
       />
     ),
     desc: (
       <FormattedMessage
-        id="header.data.explorer-eth-desc"
-        defaultMessage="Search ETH Blockchain"
+        id='header.data.explorer-eth-desc'
+        defaultMessage='Search ETH Blockchain'
       />
     ),
     link: '/explorer?currency=ETH',
@@ -358,8 +358,8 @@ const ListWrap = items => (
         return (
           <li key={index}>
             <Link href={item.link} event={item.event} locale={item.locale}>
-              <h5 className="title">{item.title}</h5>
-              <p className="desc">{item.desc}</p>
+              <h5 className='title'>{item.title}</h5>
+              <p className='desc'>{item.desc}</p>
             </Link>
           </li>
         )
@@ -372,8 +372,8 @@ const dropdownMap = {
   products: {
     linkText: (
       <FormattedMessage
-        id="header.dropdown.products"
-        defaultMessage="Products"
+        id='header.dropdown.products'
+        defaultMessage='Products'
       />
     ),
     component: ListWrap(productsList),
@@ -383,7 +383,7 @@ const dropdownMap = {
   },
   markets: {
     linkText: (
-      <FormattedMessage id="header.dropdown.data" defaultMessage="Data" />
+      <FormattedMessage id='header.dropdown.data' defaultMessage='Data' />
     ),
     component: ListWrap(dataList),
     onActive: () => {
@@ -443,25 +443,25 @@ const MobileMenu = props => {
   return (
     <MobileMenuContainer>
       <MobileMenuItem>
-        <Logomark color="white" />
+        <Logomark color='white' />
       </MobileMenuItem>
 
       <MobileMenuItem>
         <ButtonGroup>
           <Button
-            textColor="white"
-            bgColor="white"
+            textColor='white'
+            bgColor='white'
             outline
             href={publicRuntimeConfig.walletLoginURL}
-            event="header_login"
+            event='header_login'
           >
-            <FormattedMessage id="header.login" defaultMessage="Login" />
+            <FormattedMessage id='header.login' defaultMessage='Login' />
           </Button>
           <Button
             href={publicRuntimeConfig.walletSignupURL}
-            event="header_signup"
+            event='header_signup'
           >
-            <FormattedMessage id="header.signup" defaultMessage="Sign Up" />
+            <FormattedMessage id='header.signup' defaultMessage='Sign Up' />
           </Button>
         </ButtonGroup>
       </MobileMenuItem>
@@ -486,7 +486,7 @@ class Header extends PureComponent {
     searchURL: SEARCH_URL
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.previousScroll = 100
   }
@@ -498,21 +498,21 @@ class Header extends PureComponent {
     searchText: ''
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (window) {
       window.addEventListener('scroll', this.handleScroll, true)
       window.addEventListener('resize', this.handleResize, true)
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (window) {
       window.removeEventListener('scroll', this.handleScroll)
       window.removeEventListener('resize', this.handleResize)
     }
   }
 
-  getScrollTop() {
+  getScrollTop () {
     if (window && document) {
       let supportScrollY = window.scrollY !== undefined
       let supportPageOffset = window.pageYOffset !== undefined
@@ -520,10 +520,10 @@ class Header extends PureComponent {
       let scrollTop = supportScrollY
         ? window.scrollY
         : supportPageOffset
-          ? window.pageYOffset
-          : isCSS1Compat
-            ? document.documentElement.scrollTop
-            : document.body.scrollTop
+        ? window.pageYOffset
+        : isCSS1Compat
+        ? document.documentElement.scrollTop
+        : document.body.scrollTop
 
       return scrollTop
     }
@@ -596,7 +596,7 @@ class Header extends PureComponent {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 
-  render() {
+  render () {
     let themeObj = this.props.theme === 'light' ? darkTheme : lightTheme
     let searchActive = this.state.search ? 'search-active' : ''
     let navVisibility = this.state.showNav ? 'visible' : 'hidden'
@@ -618,8 +618,8 @@ class Header extends PureComponent {
             >
               <NavWrapper>
                 <NavInner>
-                  <Link href="https://blockchain.com" event="header_logo">
-                    <Logomark color="white" />
+                  <Link href='https://blockchain.com' event='header_logo'>
+                    <Logomark color='white' />
                   </Link>
                 </NavInner>
 
@@ -630,18 +630,18 @@ class Header extends PureComponent {
                 <NavInner
                   textColor={themeObj.main}
                   placeholderColor={themeObj.placeholder}
-                  className="search-default"
+                  className='search-default'
                 >
-                  <Image name="search" height="20px" width="20px" />
+                  <Image name='search' height='20px' width='20px' />
                   <input
                     onFocus={this.handleSearchFocus}
                     onBlur={this.handleSearchBlur}
                     onChange={this.handleSearchChange}
                     onKeyUp={this.handleSearchKey}
                     value={this.state.searchText}
-                    type="search"
-                    name="search"
-                    placeholder="Look up blocks, transactions, hash..."
+                    type='search'
+                    name='search'
+                    placeholder='Look up blocks, transactions, hash...'
                   />
                 </NavInner>
 
@@ -651,22 +651,22 @@ class Header extends PureComponent {
                       bgColor={themeObj.secondary}
                       textColor={themeObj.main}
                       href={publicRuntimeConfig.walletLoginURL}
-                      event="header_login"
+                      event='header_login'
                     >
                       <FormattedMessage
-                        id="header.login"
-                        defaultMessage="Login"
+                        id='header.login'
+                        defaultMessage='Login'
                       />
                     </Button>
                     <Button
                       bgColor={themeObj.secondary}
                       textColor={themeObj.main}
                       href={publicRuntimeConfig.walletSignupURL}
-                      event="header_signup"
+                      event='header_signup'
                     >
                       <FormattedMessage
-                        id="header.signup"
-                        defaultMessage="Sign Up"
+                        id='header.signup'
+                        defaultMessage='Sign Up'
                       />
                     </Button>
                   </ButtonGroup>
