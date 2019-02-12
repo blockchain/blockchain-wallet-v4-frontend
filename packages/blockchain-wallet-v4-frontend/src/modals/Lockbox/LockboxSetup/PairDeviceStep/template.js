@@ -71,6 +71,7 @@ const PairDeviceStep = props => {
     invalid,
     onTimeoutAccept,
     onGoToAppManager,
+    showBtcWarning,
     supportLink
   } = props
 
@@ -206,19 +207,21 @@ const PairDeviceStep = props => {
           values={{ deviceType }}
         />
       </IntroText>
-      <ExportKeysText size='12px' weight={300}>
-        <FormattedHTMLMessage
-          id='modals.lockboxsetup.pairdevice.exportkeys'
-          defaultMessage='After the app has been opened, check for instructions on the device as you may have to allow the export of your public keys multiple times.'
-        />
-        <Tooltip
-          id='lockbox.exportkeys'
-          data-place='right'
-          style={{ marginTop: '3px' }}
-        >
-          <TooltipIcon name='question-in-circle' />
-        </Tooltip>
-      </ExportKeysText>
+      {showBtcWarning && (
+        <ExportKeysText size='12px' weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxsetup.pairdevice.exportkeys'
+            defaultMessage='After the app has been opened, check for instructions on the device as you may have to allow the export of your public keys multiple times.'
+          />
+          <Tooltip
+            id='lockbox.exportkeys'
+            data-place='right'
+            style={{ marginTop: '3px' }}
+          >
+            <TooltipIcon name='question-in-circle' />
+          </Tooltip>
+        </ExportKeysText>
+      )}
       <TextGroup inline style={{ marginBottom: '14px' }}>
         <Text size='10px' weight={300}>
           <FormattedHTMLMessage

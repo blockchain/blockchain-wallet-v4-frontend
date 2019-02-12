@@ -36,7 +36,7 @@ class PairDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { deviceType, supportLink } = this.props
+    const { deviceType, showBtcWarning, supportLink } = this.props
 
     return (
       <PairDeviceStep
@@ -45,6 +45,7 @@ class PairDeviceStepContainer extends React.PureComponent {
         onTimeoutAccept={this.onTimeoutAccept}
         onGoToAppManager={this.onGoToAppManager}
         supportLink={supportLink}
+        showBtcWarning={showBtcWarning}
       />
     )
   }
@@ -55,6 +56,9 @@ PairDeviceStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  showBtcWarning: selectors.components.lockbox.getNewDeviceShowBtcWarning(
+    state
+  ),
   deviceType: selectors.components.lockbox.getNewDeviceType(state),
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })

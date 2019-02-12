@@ -55,7 +55,10 @@ export const setDeviceSetupType = type => ({
   type: AT.SET_SETUP_DEVICE_TYPE,
   payload: type
 })
-
+export const setNewDeviceShowBtcWarning = showWarning => ({
+  type: AT.SET_NEW_DEVICE_SHOW_BTC_WARNING,
+  payload: showWarning
+})
 export const setNewDeviceInfo = deviceInfo => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }

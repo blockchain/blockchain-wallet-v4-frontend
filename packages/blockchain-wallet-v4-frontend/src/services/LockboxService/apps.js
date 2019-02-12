@@ -4,6 +4,29 @@ import { find, propEq } from 'ramda'
 import utils from './utils'
 import constants from './constants'
 
+// gets version of btc application
+const getBtcAppVersion = transport => {
+  return new Promise((resolve, reject) => {
+    transport.send(...constants.apdus.get_btc_app_version).then(
+      res => {
+        const byteArray = [...res]
+        resolve({
+          full: byteArray
+            .slice(2, 5)
+            .join()
+            .replace(/,/g, '.'),
+          major: byteArray[2],
+          minor: byteArray[3],
+          patch: byteArray[4]
+        })
+      },
+      error => {
+        reject(error)
+      }
+    )
+  })
+}
+
 /**
  * Uninstalls an application from device
  * @async
@@ -100,6 +123,7 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
 }
 
 export default {
+  getBtcAppVersion,
   installApp,
   uninstallApp
 }
