@@ -101,7 +101,7 @@ const List = props => {
             <FormattedMessage
               padding-bottom='10px'
               id='scenes.exchangehistory.list.complete.exchanges'
-              defaultMessage='Completed Exchanges'
+              defaultMessage='Completed Orders'
             />
           </Text>
           <Table>

@@ -138,7 +138,7 @@ const ExchangeConfirm = ({
       <Title>
         <FormattedMessage
           id='scenes.exchange.confirm.title'
-          defaultMessage='Confirm Exchange'
+          defaultMessage='Confirm'
         />
       </Title>
       <Row>
@@ -177,7 +177,7 @@ const ExchangeConfirm = ({
           <ExchangeText>
             <FormattedMessage
               id='scenes.exchange.confirm.exchangevalue'
-              defaultMessage='Exchange Value'
+              defaultMessage='Value'
             />
           </ExchangeText>
           <ExchangeText
@@ -215,7 +215,7 @@ const ExchangeConfirm = ({
       {!submitting && (
         <FormattedMessage
           id='scenes.exchange.confirm.submit'
-          defaultMessage='Complete Order'
+          defaultMessage='Confirm'
         />
       )}
       {submitting && (
