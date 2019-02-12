@@ -51,7 +51,7 @@ const IframeWrapper = styled.div`
 `
 const ISignThisIframe = styled.iframe`
   width: 100%;
-  height: 400px;
+  height: 500px;
   border: ${props => `1px solid ${props.theme['gray-1']}`};
 `
 
@@ -180,6 +180,7 @@ class ISignThisContainer extends Component {
             return
           }
 
+          // console.log(e)
           let frame = document.getElementById('isx-iframe')
           if (e.source !== prop('contentWindow', frame)) {
             // Source of message isn't from the iframe
@@ -263,17 +264,13 @@ class ISignThisContainer extends Component {
       ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
       walletOpts
     )
-    const coinifyPaymentDomain = path(
-      ['platforms', 'web', 'coinify', 'config', 'coinifyPaymentDomain'],
-      walletOpts
-    )
 
     const isxType = path(['data', 'constructor', 'name'], trade)
 
     const srcUrl =
       isxType !== 'Trade'
         ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC
-        : `${coinifyPaymentDomain}/${iSignThisId}?embed=true` // Url for payment
+        : `${iSignThisId}?embed=true` // Url for payment
 
     return (
       <Fragment>
