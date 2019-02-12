@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendBtcSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 
@@ -22,6 +22,7 @@ const api = {
 }
 const coreSagas = coreSagasFactory({ api })
 const networks = { btc: 'bitcoin' }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendBtc sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -75,7 +76,7 @@ describe('sendBtc sagas', () => {
     return paymentMock
   })
 
-  describe('btc send form intialize', () => {
+  describe('btc send form initialize', () => {
     const to = 'btcaddress'
     const description = 'message'
     const amount = {
@@ -268,10 +269,6 @@ describe('sendBtc sagas', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-        .next()
-        .put(
-          actions.analytics.logEvent(['send_btc', 'click', 'first_step_submit'])
-        )
         .save(beforeError)
         .next()
         .isDone()
@@ -370,18 +367,18 @@ describe('sendBtc sagas', () => {
       saga.next().put(actions.form.destroy(FORM))
     })
 
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BTC', '0'])
+        )
+    })
+
     it('should put action to close all modals', () => {
       saga
         .next()
         .put(actions.modals.closeAllModals())
-        .next()
-        .put(
-          actions.analytics.logEvent([
-            'send_btc',
-            'click',
-            'second_step_submit'
-          ])
-        )
         .next()
         .isDone()
     })

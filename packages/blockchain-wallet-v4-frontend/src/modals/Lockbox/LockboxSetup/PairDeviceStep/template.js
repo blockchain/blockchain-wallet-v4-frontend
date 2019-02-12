@@ -21,13 +21,12 @@ const Wrapper = styled.div`
   width: 100%;
   align-items: center;
 `
-const IntroText = styled(Text)`
-  margin-top: 16px;
+const IntroWrapper = styled.div`
+  margin: 16px 0 40px;
   text-align: center;
 `
 const ExportKeysText = styled(Text)`
-  margin: 10px 0 40px;
-  text-align: center;
+  margin-top: 12px;
 `
 
 const ClickableText = styled(Text)`
@@ -71,6 +70,7 @@ const PairDeviceStep = props => {
     invalid,
     onTimeoutAccept,
     onGoToAppManager,
+    showBtcWarning,
     supportLink
   } = props
 
@@ -199,26 +199,30 @@ const PairDeviceStep = props => {
         name='lockbox-onboard-pairdevice'
         width='95%'
       />
-      <IntroText size='12px' weight={300}>
-        <FormattedHTMLMessage
-          id='modals.lockboxsetup.pairdevice.intro'
-          defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
-          values={{ deviceType }}
-        />
-      </IntroText>
-      <ExportKeysText size='12px' weight={300}>
-        <FormattedHTMLMessage
-          id='modals.lockboxsetup.pairdevice.exportkeys'
-          defaultMessage='After the app has been opened, check for instructions on the device as you may have to allow the export of your public keys multiple times.'
-        />
-        <Tooltip
-          id='lockbox.exportkeys'
-          data-place='right'
-          style={{ marginTop: '3px' }}
-        >
-          <TooltipIcon name='question-in-circle' />
-        </Tooltip>
-      </ExportKeysText>
+      <IntroWrapper>
+        <Text size='12px' weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxsetup.pairdevice.intro'
+            defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
+            values={{ deviceType }}
+          />
+        </Text>
+        {showBtcWarning && (
+          <ExportKeysText size='12px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.pairdevice.exportkeyswarning'
+              defaultMessage='Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.'
+            />
+            <Tooltip
+              id='lockbox.exportkeyswarning'
+              data-place='right'
+              style={{ marginTop: '3px' }}
+            >
+              <TooltipIcon name='question-in-circle' />
+            </Tooltip>
+          </ExportKeysText>
+        )}
+      </IntroWrapper>
       <TextGroup inline style={{ marginBottom: '14px' }}>
         <Text size='10px' weight={300}>
           <FormattedHTMLMessage

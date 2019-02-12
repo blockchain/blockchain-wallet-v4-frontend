@@ -49,6 +49,7 @@ export default ({ apiKey }) => {
       .catch(error => {
         const errorData = pathOr({}, ['response', 'data'], error)
         const status = path(['response', 'status'], error)
+        if (typeof errorData === 'string') throw errorData
         throw merge(errorData, { status })
       })
       .then(prop('data'))

@@ -225,21 +225,10 @@ const productsList = [
   },
   {
     title: (
-      <FormattedMessage id='header.data.explorer' defaultMessage='Explorer' />
-    ),
-    desc: (
       <FormattedMessage
-        id='header.data.explorer-desc'
-        defaultMessage='Search and Verify Transactions'
+        id='header.products.blockchain_markets'
+        defaultMessage='Blockchain Markets'
       />
-    ),
-    link: '/explorer',
-    locale: LOCALE,
-    event: 'header_explorer'
-  },
-  {
-    title: (
-      <FormattedMessage id='header.products.markets' defaultMessage='Markets' />
     ),
     desc: (
       <FormattedMessage
@@ -250,6 +239,20 @@ const productsList = [
     link: '/markets',
     locale: LOCALE,
     event: 'header_principal'
+  },
+  {
+    title: (
+      <FormattedMessage id='header.products.lockbox' defaultMessage='Lockbox' />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.lockbox-desc'
+        defaultMessage='Hardware Wallet'
+      />
+    ),
+    link: '/lockbox',
+    locale: LOCALE,
+    event: 'header_lockbox'
   },
   {
     title: (
@@ -294,6 +297,57 @@ const dataList = [
     link: '/charts',
     locale: LOCALE,
     event: 'header_charts'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer'
+        defaultMessage='Bitcoin Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-desc'
+        defaultMessage='Search BTC Blockchain'
+      />
+    ),
+    link: '/explorer',
+    locale: LOCALE,
+    event: 'header_explorer'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer-bch'
+        defaultMessage='Bitcoin Cash Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-bch-desc'
+        defaultMessage='Search BCH Blockchain'
+      />
+    ),
+    link: '/explorer?currency=BCH',
+    locale: LOCALE,
+    event: 'header_explorer_bch'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer-eth'
+        defaultMessage='Ethereum Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-eth-desc'
+        defaultMessage='Search ETH Blockchain'
+      />
+    ),
+    link: '/explorer?currency=ETH',
+    locale: LOCALE,
+    event: 'header_explorer_eth'
   }
 ]
 

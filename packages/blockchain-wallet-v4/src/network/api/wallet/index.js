@@ -1,6 +1,6 @@
 import { merge } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
       url: rootUrl,
@@ -16,8 +16,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       sessionToken
     })
 
-  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) =>
-    post({
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
+    return post({
       url: rootUrl,
       endPoint: '/wallet',
       data: {
@@ -29,6 +29,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       },
       sessionToken
     })
+  }
 
   const savePayload = data =>
     post({

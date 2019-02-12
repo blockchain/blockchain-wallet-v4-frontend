@@ -18,10 +18,9 @@ import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBch/sagas'
-// TODO: Check how to retrieve Bitcoin cash default fee
 export const bchDefaultFee = 4
-
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
@@ -278,7 +277,17 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
       }
       yield put(destroy(FORM))
-      // Close modals
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'BCH',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'BCH',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))

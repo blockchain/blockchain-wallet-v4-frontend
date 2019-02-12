@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { equals, prop } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { getData, getInitialValues } from './selectors'
 import Loading from './template.loading'
@@ -13,6 +13,7 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
+const { TRANSACTION_EVENTS } = model.analytics
 class RequestBchContainer extends React.PureComponent {
   componentDidMount () {
     this.init()
@@ -53,6 +54,7 @@ class RequestBchContainer extends React.PureComponent {
 
   handleSubmit = e => {
     e.preventDefault()
+    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'BCH'])
     this.props.modalActions.closeAllModals()
   }
 
@@ -111,6 +113,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   requestBchActions: bindActionCreators(
     actions.components.requestBch,
     dispatch

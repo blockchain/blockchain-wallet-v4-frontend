@@ -17,7 +17,7 @@ import {
   values
 } from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
-import { actionTypes, actions, selectors } from 'data'
+import { actionTypes, actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
@@ -28,7 +28,7 @@ import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 const sagaCancelledMsg = 'Saga cancelled from user modal close'
-
+const { INSTALL_APP, UNINSTALL_APP } = model.analytics.LOCKBOX_EVENTS
 export default ({ api }) => {
   // variables for deviceType and app polling during new device setup
   let pollPosition, closePoll
@@ -425,9 +425,17 @@ export default ({ api }) => {
         connection.deviceType,
         connection.transport
       )
-      // increase transport timeout in case BTC app version > 1.3 as user will
-      // have to manually allow the export of pub keys on device
-      connection.transport.exchangeTimeout = 45000
+      // get BTC app version
+      const btcAppVersion = yield call(
+        Lockbox.apps.getBtcAppVersion,
+        connection.transport
+      )
+      if (btcAppVersion.minor > 2) {
+        // increase timeout since BTC app version > 1.3 and user must manually
+        // allow the export of pub keys on device
+        connection.transport.exchangeTimeout = 45000
+        yield put(A.setNewDeviceShowBtcWarning(true))
+      }
       // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
         Lockbox.utils.deriveDeviceInfo,
@@ -725,6 +733,7 @@ export default ({ api }) => {
         appName,
         latestAppVersions
       )
+      yield put(actions.analytics.logEvent([...INSTALL_APP, appName]))
       yield put(A.appChangeSuccess(appName, 'install'))
     } catch (e) {
       yield put(A.appChangeFailure(appName, 'install', e))
@@ -757,6 +766,17 @@ export default ({ api }) => {
         domains.ledgerSocket,
         targetId,
         appInfo
+      )
+      const getCoinFromAppName = appName => {
+        return Object.keys(Lockbox.constants.supportedApps).find(
+          key => Lockbox.constants.supportedApps[key] === appName
+        )
+      }
+      yield put(
+        actions.analytics.logEvent([
+          ...UNINSTALL_APP,
+          getCoinFromAppName(appName)
+        ])
       )
       yield put(A.appChangeSuccess(appName, 'uninstall'))
     } catch (e) {

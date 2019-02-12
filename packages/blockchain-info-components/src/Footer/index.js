@@ -268,13 +268,14 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/explorer'}>
-                      Explorer
+                    <Link locale={this.lang} href='/markets'>
+                      Blockchain Markets
                     </Link>
-                    <NavBadge>Info</NavBadge>
                   </li>
                   <li>
-                    <Link href='/markets'>Markets</Link>
+                    <Link locale={this.lang} href={'/lockbox'}>
+                      Lockbox
+                    </Link>
                   </li>
                   <li>
                     <Link locale={this.lang} href={'/api'}>
@@ -291,11 +292,25 @@ class Footer extends PureComponent {
                     <Link locale={this.lang} href={'/prices'}>
                       Prices
                     </Link>
-                    <NavBadge>New</NavBadge>
                   </li>
                   <li>
                     <Link locale={this.lang} href={'/charts'}>
                       Charts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer'}>
+                      Bitcoin Explorer
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer?currency=BCH'}>
+                      Bitcoin Cash Explorer
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer?currency=ETH'}>
+                      Ethereum Explorer
                     </Link>
                   </li>
                 </ul>
@@ -327,6 +342,11 @@ class Footer extends PureComponent {
                   </li>
                   <li>
                     <Link href='https://blog.blockchain.com'>Blog</Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/research'}>
+                      Research
+                    </Link>
                   </li>
                 </ul>
               </Column>
