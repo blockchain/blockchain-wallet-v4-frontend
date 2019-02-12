@@ -18,8 +18,8 @@ import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendEth/sagas'
-
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
@@ -267,8 +267,18 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push('/eth/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       }
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'ETH',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'ETH',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(destroy(FORM))
-      // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))

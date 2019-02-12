@@ -56,8 +56,6 @@ class SfoxExchangeData extends React.PureComponent {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
     this.props.sfoxFrontendActions.handleModalClose()
-    // const step = this.props.signupStep || this.props.step
-    // TODO @analytics.logEvent sfox signup funnel
   }
 
   getStepComponent = step => {
@@ -118,8 +116,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(

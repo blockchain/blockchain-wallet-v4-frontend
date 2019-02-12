@@ -473,9 +473,17 @@ describe('authSagas', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
 
-    it('should trigger update language aciton with selected language', () => {
+    it('should trigger update language action with selected language', () => {
       const language = 'en'
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
+    })
+
+    it('should start analytics session', () => {
+      saga.next().put(actions.analytics.startSession('guid'))
+    })
+
+    it('should log home page view to analytics', () => {
+      saga.next().put(actions.analytics.logPageView('/home'))
     })
 
     it('should launch transferEth saga', () => {
@@ -508,10 +516,6 @@ describe('authSagas', () => {
 
     it('should check for data errors', () => {
       saga.next().fork(checkDataErrors)
-    })
-
-    it('should dispatch action for reportBalanceStats', () => {
-      saga.next().put(actions.analytics.reportBalanceStats())
     })
 
     it('should start listening for logout event', () => {

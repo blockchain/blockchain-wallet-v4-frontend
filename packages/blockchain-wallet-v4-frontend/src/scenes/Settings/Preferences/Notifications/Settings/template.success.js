@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   }
 
   & > * {
-    padding: 10px 0;
+    padding: 2px 0;
   }
 `
 
@@ -34,7 +34,7 @@ const Setting = props => (
       component={CheckBox}
       disabled={props.emailDisabled}
     >
-      <Text size='14' weight={300}>
+      <Text size='14' weight={300} style={{ marginLeft: '4px' }}>
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.email'
           defaultMessage='Email'
@@ -46,7 +46,7 @@ const Setting = props => (
       component={CheckBox}
       disabled={props.mobileDisabled}
     >
-      <Text size='14' weight={300}>
+      <Text size='14' weight={300} style={{ marginLeft: '12px' }}>
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.sms'
           defaultMessage='SMS'

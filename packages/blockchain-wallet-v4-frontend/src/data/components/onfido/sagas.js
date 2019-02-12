@@ -1,10 +1,9 @@
 import { put, call, select } from 'redux-saga/effects'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 export const logLocation = 'components/identityVerification/sagas'
 export default ({ api }) => {
-  const { COMPLETE } = model.analytics.KYC
   const fetchOnfidoSDKKey = function*() {
     try {
       yield put(A.fetchOnfidoSDKKeyLoading())
@@ -25,7 +24,6 @@ export default ({ api }) => {
       yield put(actions.modules.profile.fetchUser())
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/swap'))
-      yield put(actions.analytics.logEvent(COMPLETE))
     } catch (error) {
       yield put(A.syncOnfidoError(error))
     }

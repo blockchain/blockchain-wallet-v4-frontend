@@ -1,7 +1,7 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import sagas from './sagas'
@@ -18,8 +18,6 @@ const coreSagas = {}
 api.fetchVeriffUrl.mockReturnValue({ data: { url }, applicantId })
 
 const { fetchVeriffUrl, syncVeriff } = sagas({ api, coreSagas })
-
-const { COMPLETE } = model.analytics.KYC
 
 describe('fetchVeriffUrl', () => {
   it('should fetch veriff url, respecting loading states and set applicantId', () =>
@@ -48,6 +46,5 @@ describe('syncVeriff', () => {
       .call(api.syncVeriff, applicantId)
       .put(actions.modals.closeAllModals())
       .put(actions.router.push('/swap'))
-      .put(actions.analytics.logEvent(COMPLETE))
       .run())
 })
