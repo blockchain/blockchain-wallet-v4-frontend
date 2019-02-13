@@ -17,7 +17,6 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  USER_EXISTS_MODAL,
   FLOW_TYPES,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
@@ -44,7 +43,6 @@ export default ({ api, coreSagas }) => {
     fetchUser,
     createUser,
     updateUser,
-    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
@@ -104,27 +102,8 @@ export default ({ api, coreSagas }) => {
     yield call(fetchUser)
   }
 
-  const checkUserUniqueness = function*() {
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse('')
-
-    if (userId) return true
-    try {
-      const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistence, retailToken)
-      return false
-    } catch (e) {
-      return true
-    }
-  }
-
   const verifyIdentity = function*({ payload }) {
     const { tier, isCoinify, needMoreInfo } = payload
-    const unique = yield call(checkUserUniqueness)
-    if (!unique) {
-      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-    }
     yield put(
       actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
     )
