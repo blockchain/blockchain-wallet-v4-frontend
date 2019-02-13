@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   data: {},
   rates: Remote.NotAsked,
   transactions: [],
-  transactionsAtBound: false
+  transactions_at_bound: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -73,7 +73,7 @@ export default (state = INITIAL_STATE, action) => {
       return over(lensProp('transactions'), prepend(Remote.Success(txs)), state)
     }
     case AT.TRANSACTIONS_AT_BOUND: {
-      return assoc('transactionsAtBound', payload.atBound, state)
+      return assoc('transactions_at_bound', payload.atBound, state)
     }
     default:
       return state

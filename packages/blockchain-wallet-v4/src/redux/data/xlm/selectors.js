@@ -101,7 +101,7 @@ export const getRates = path([dataPath, 'xlm', 'rates'])
 export const getTransactionsAtBound = path([
   dataPath,
   'xlm',
-  'transactionsAtBound'
+  'transactions_at_bound'
 ])
 
 export const getTransactions = path([dataPath, 'xlm', 'transactions'])
