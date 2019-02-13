@@ -15,6 +15,10 @@ export const logGoal = data => ({
   payload: { data }
 })
 
+export const initUserSession = () => ({
+  type: AT.INIT_USER_SESSION
+})
+
 export const startSession = guid => ({
   type: AT.START_SESSION,
   payload: { guid }

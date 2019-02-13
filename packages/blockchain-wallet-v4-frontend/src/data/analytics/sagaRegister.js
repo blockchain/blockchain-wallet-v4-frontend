@@ -9,6 +9,7 @@ export default ({ api }) => {
     yield takeLatest(AT.LOG_EVENT, analyticsSagas.logEvent)
     yield takeLatest(AT.LOG_PAGE_VIEW, analyticsSagas.logPageView)
     yield takeLatest(AT.LOG_GOAL, analyticsSagas.logGoal)
+    yield takeLatest(AT.INIT_USER_SESSION, analyticsSagas.initUserSession)
     yield takeLatest(AT.START_SESSION, analyticsSagas.startSession)
     yield takeLatest(AT.STOP_SESSION, analyticsSagas.stopSession)
   }
