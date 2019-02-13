@@ -1,19 +1,48 @@
 import { put, select, call } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
-import { actions, selectors } from 'data'
+
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+import { actions, selectors } from 'data'
+import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
   const postMessage = function*(message) {
     try {
-      // const targetDomain = (yield select(
-      //   selectors.core.walletOptions.getWalletHelperUrl
-      // )).getOrFail('Missing target domain')
       const frame = document.getElementById('matomo-iframe')
-      frame.contentWindow.postMessage(message, '*')
+      if (frame) {
+        frame.contentWindow.postMessage(message, '*')
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'postMessage',
+            'matomo iframe missing'
+          )
+        )
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
+    }
+  }
+
+  const initUserSession = function*() {
+    try {
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const isCryptoDisplayed = yield select(
+        selectors.preferences.getCoinDisplayed
+      )
+      yield call(startSession, { guid })
+      yield call(postMessage, {
+        method: 'setCustomDimension',
+        messageData: {
+          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
+          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
+        }
+      })
+      yield call(logPageView, { route: '/home' })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
   }
 
@@ -83,6 +112,7 @@ export default ({ api }) => {
     logEvent,
     logPageView,
     logGoal,
+    initUserSession,
     postMessage,
     startSession,
     stopSession
