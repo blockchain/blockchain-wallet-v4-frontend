@@ -1,3 +1,6 @@
+export const CUSTOM_DIMENSIONS = {
+  CURRENCY_PREFERENCE: 1
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
@@ -11,7 +14,6 @@ export const LOCKBOX_EVENTS = {
     TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
   }
 }
-
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],
   REQUEST: ['transactions', 'request'],

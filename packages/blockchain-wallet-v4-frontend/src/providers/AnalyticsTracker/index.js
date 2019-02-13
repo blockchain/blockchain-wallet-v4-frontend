@@ -16,8 +16,7 @@ const Iframe = styled.iframe`
 
 class AnalyticsTracker extends React.PureComponent {
   componentDidMount () {
-    this.props.analyticsActions.startSession(this.props.walletGuid)
-    this.props.analyticsActions.logPageView('/home')
+    this.props.analyticsActions.initUserSession()
   }
 
   render () {
@@ -39,7 +38,6 @@ const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
-  walletGuid: selectors.core.wallet.getGuid(state),
   siteId: selectors.core.walletOptions.getAnalyticsSiteId(state).getOrElse(1)
 })
 
