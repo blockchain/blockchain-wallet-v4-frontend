@@ -1,7 +1,9 @@
 import { put, select, call } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
-import { actions, selectors } from 'data'
+
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+import { actions, selectors } from 'data'
+import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
@@ -19,8 +21,18 @@ export default ({ api }) => {
 
   const initUserSession = function*() {
     try {
-      const guid = yield select(selectors.wallet.getGuid)
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const isCryptoDisplayed = yield select(
+        selectors.preferences.getCoinDisplayed
+      )
       yield call(startSession, { guid })
+      yield call(postMessage, {
+        method: 'setCustomDimension',
+        messageData: {
+          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
+          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
+        }
+      })
       yield call(logPageView, { route: '/home' })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
