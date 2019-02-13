@@ -478,14 +478,6 @@ describe('authSagas', () => {
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
 
-    it('should start analytics session', () => {
-      saga.next().put(actions.analytics.startSession('guid'))
-    })
-
-    it('should log home page view to analytics', () => {
-      saga.next().put(actions.analytics.logPageView('/home'))
-    })
-
     it('should launch transferEth saga', () => {
       saga.next().fork(transferEthSaga)
     })
