@@ -270,8 +270,8 @@ const Personal = ({
                   {showStateError && (
                     <ErrorBanner type='warning'>
                       <FormattedMessage
-                        id='identityverification.personal.unavailable'
-                        defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                        id='identityverification.personal.unavailable_swap'
+                        defaultMessage='Unfortunately Swap is not available in your state at this time.'
                       />
                       <FormattedMessage
                         id='identityverification.personal.unavailablenotify'

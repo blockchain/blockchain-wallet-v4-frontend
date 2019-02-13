@@ -100,8 +100,8 @@ const List = props => {
           <Text style={spacing('mb-15')} size='16px' weight={500} capitalize>
             <FormattedMessage
               padding-bottom='10px'
-              id='scenes.exchangehistory.list.complete.exchanges'
-              defaultMessage='Completed Exchanges'
+              id='scenes.exchangehistory.list.complete.orders'
+              defaultMessage='Completed Orders'
             />
           </Text>
           <Table>
