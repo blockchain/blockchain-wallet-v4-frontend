@@ -195,10 +195,8 @@ export default ({ api, coreSagas, networks }) => {
       payload.requestedValues
     )
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
-    const sourceCoin = path(['source', 'coin'], initialValues)
-    const targetCoin = path(['target', 'coin'], initialValues)
-    const fiatCurrency = yield call(getFiatCurrency)
-    yield call(changeRatesSubscription, sourceCoin, targetCoin, fiatCurrency)
+    yield call(changeSubscription, true)
+    yield call(updateSourceFee)
     yield call(fetchLimits)
   }
 
@@ -747,7 +745,6 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee({ source: 0, target: 0 }))
       yield put(actions.modules.rates.unsubscribeFromRates())
-      yield put(actions.form.reset(EXCHANGE_FORM))
       yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
