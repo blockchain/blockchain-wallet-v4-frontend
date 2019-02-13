@@ -33,7 +33,7 @@ export const maximumAmount = (value, allValues, props) => {
       fromUnit: 'WEI',
       toUnit: 'ETH'
     }).value
-    return new BigNumber(valueEth).lessThanOrEqualTo(
+    return new BigNumber(valueEth).isLessThanOrEqualTo(
       new BigNumber(effectiveBalanceEth || 0)
     ) ? (
       undefined
