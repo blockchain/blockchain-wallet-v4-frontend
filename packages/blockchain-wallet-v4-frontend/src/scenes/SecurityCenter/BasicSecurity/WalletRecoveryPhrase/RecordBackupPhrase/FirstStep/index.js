@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-import recoveryPdf from './recovery.pdf'
+import recoveryPdf from './recovery_phrase.pdf'
 
 const PrintContainer = styled.div`
   display: flex;
@@ -67,7 +67,7 @@ const FirstStep = props => {
             defaultMessage='We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.'
           />
         </Text>
-        <Link href={recoveryPdf} download='recovery.pdf'>
+        <Link href={recoveryPdf} download='recovery_phrase.pdf'>
           <Button nature='empty'>
             <Image
               name='printer'
