@@ -100,21 +100,21 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a onClick={() => this.updateStep('change_email')}>
+                  <a onClick={() => this.props.updateStep('change_email')}>
                     change email
                   </a>
                 )
               }}
             />
           )
-        case this.props.codeSent:
+        case this.state.codeSent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.verifyemail.helper.sentanothercode'
               defaultMessage='Another code has been sent! {changeEmail}'
               values={{
                 changeEmail: (
-                  <a onClick={() => this.updateStep('change_email')}>
+                  <a onClick={() => this.props.updateStep('change_email')}>
                     change email
                   </a>
                 )
@@ -129,7 +129,7 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a onClick={() => this.updateStep('change_email')}>
+                  <a onClick={() => this.props.updateStep('change_email')}>
                     change email
                   </a>
                 )
