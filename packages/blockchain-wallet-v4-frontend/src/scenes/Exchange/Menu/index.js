@@ -25,7 +25,7 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 37px;
+      top: 40px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
@@ -34,6 +34,7 @@ const LinkItem = styled(TabMenuItem)`
 `
 const SupportButton = styled(Button)`
   margin-left: auto;
+  height: 36px;
 `
 
 export const Menu = ({ showGetStarted, showHelpModal }) =>
