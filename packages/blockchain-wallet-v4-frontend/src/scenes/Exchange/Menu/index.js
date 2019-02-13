@@ -25,16 +25,17 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 40px;
+      top: 42px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+      z-index: 99;
     }
   }
 `
 const SupportButton = styled(Button)`
   margin-left: auto;
-  height: 36px;
+  height: 38px;
 `
 
 export const Menu = ({ showGetStarted, showHelpModal }) =>
