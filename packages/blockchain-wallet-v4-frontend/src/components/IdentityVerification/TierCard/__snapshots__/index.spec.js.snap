@@ -22,13 +22,9 @@ exports[`TierCard renders correctly with column view 1`] = `
       uppercase={true}
     >
       <FormattedMessage
-        defaultMessage="Tier {tier} Verification"
-        id="components.identityverification.tiercard.tierheader"
-        values={
-          Object {
-            "tier": 2,
-          }
-        }
+        defaultMessage="Gold Level"
+        id="components.identityverification.tiercard.gold"
+        values={Object {}}
       />
     </TierCard__Header>
     <TierCard__Content>
@@ -131,8 +127,8 @@ exports[`TierCard renders correctly with column view 1`] = `
               weight={400}
             >
               <FormattedMessage
-                defaultMessage="Tier 1+"
-                id="components.identityverification.tiercard.tier1"
+                defaultMessage="Silver Level +"
+                id="components.identityverification.tiercard.silverplus"
                 values={Object {}}
               />
             </Text>
@@ -140,34 +136,6 @@ exports[`TierCard renders correctly with column view 1`] = `
           <TextGroup
             inline={true}
             key="1"
-            nowrap={false}
-            style={
-              Object {
-                "marginBottom": "8px",
-              }
-            }
-          >
-            <Text
-              altFont={false}
-              capitalize={false}
-              color="gray-5"
-              cursor="inherit"
-              italic={false}
-              opacity={1}
-              size="12px"
-              uppercase={false}
-              weight={400}
-            >
-              <FormattedMessage
-                defaultMessage="Verified Phone"
-                id="components.identityverification.tiercard.phone"
-                values={Object {}}
-              />
-            </Text>
-          </TextGroup>
-          <TextGroup
-            inline={true}
-            key="2"
             nowrap={false}
             style={
               Object {
@@ -207,7 +175,7 @@ exports[`TierCard renders correctly with column view 1`] = `
           </TextGroup>
           <TextGroup
             inline={true}
-            key="3"
+            key="2"
             nowrap={false}
             style={
               Object {
@@ -223,6 +191,12 @@ exports[`TierCard renders correctly with column view 1`] = `
               italic={false}
               opacity={1}
               size="12px"
+              style={
+                Object {
+                  "display": "inline-block",
+                  "marginBottom": "26px",
+                }
+              }
               uppercase={false}
               weight={400}
             >
@@ -254,8 +228,8 @@ exports[`TierCard renders correctly with column view 1`] = `
       nature="primary"
     >
       <FormattedMessage
-        defaultMessage="Get Started"
-        id="components.identityverification.tiercard.getstarted"
+        defaultMessage="Unlock Gold"
+        id="components.identityverification.tiercard.goldcta"
         values={Object {}}
       />
     </TierCard__ActionButton>
@@ -273,13 +247,9 @@ exports[`TierCard renders null w/o showBanner 1`] = `
       uppercase={true}
     >
       <FormattedMessage
-        defaultMessage="Tier {tier} Verification"
-        id="components.identityverification.tiercard.tierheader"
-        values={
-          Object {
-            "tier": 1,
-          }
-        }
+        defaultMessage="Silver Level"
+        id="components.identityverification.tiercard.silver"
+        values={Object {}}
       />
     </TierCard__Header>
     <TierCard__Content>
@@ -481,8 +451,8 @@ exports[`TierCard renders null w/o showBanner 1`] = `
       nature="primary"
     >
       <FormattedMessage
-        defaultMessage="Get Started"
-        id="components.identityverification.tiercard.getstarted"
+        defaultMessage="Unlock Silver"
+        id="components.identityverification.tiercard.silvercta"
         values={Object {}}
       />
     </TierCard__ActionButton>

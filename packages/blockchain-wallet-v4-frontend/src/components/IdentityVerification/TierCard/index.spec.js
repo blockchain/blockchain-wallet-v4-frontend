@@ -52,7 +52,7 @@ describe('TierCard', () => {
     )
     const button = component.find('TierCard__ActionButton')
     expect(button).toHaveLength(1)
-    expect(button.children().prop('defaultMessage')).toBe('Get Started')
+    expect(button.children().prop('defaultMessage')).toBe('Unlock Silver')
     button.simulate('click')
     expect(verifyIdentity).toHaveBeenCalledTimes(1)
   })

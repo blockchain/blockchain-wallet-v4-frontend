@@ -85,7 +85,7 @@ describe('Profile Settings', () => {
       expect(wrapper.html()).toBeNull()
     })
 
-    it('should render "Tier 1 - In Review" if Tier 1 is PENDING and next is 1', () => {
+    it('should render "Silver Level - In Review" if Tier 1 is PENDING and next is 1', () => {
       const userTiers = {
         current: 0,
         selected: 1,
@@ -105,10 +105,10 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.text().trim()).toBe('Tier 1 -  In Review')
+      expect(wrapper.text().trim()).toBe('Silver Level -  In Review')
     })
 
-    it('should render "Tier 1 - In Review" and "Upgrade" if Tier 1 is PENDING and next is 2', () => {
+    it('should render "Silver Level - In Review" and "Upgrade" if Tier 1 is PENDING and next is 2', () => {
       const userTiers = {
         current: 0,
         selected: 1,
@@ -128,10 +128,10 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.text().trim()).toBe('Tier 1 -  In Review Upgrade')
+      expect(wrapper.text().trim()).toBe('Silver Level -  In Review Upgrade')
     })
 
-    it('should render "Tier 2 - In Review" if Tier 1 is REJECTED and Tier 2 is PENDING', () => {
+    it('should render "Gold Level - In Review" if Tier 1 is REJECTED and Tier 2 is PENDING', () => {
       const userTiers = {
         current: 0,
         selected: 2,
@@ -151,7 +151,7 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.text().trim()).toBe('Tier 2 -  In Review')
+      expect(wrapper.text().trim()).toBe('Gold Level -  In Review')
     })
 
     it('should render "In Review - Documents Needed" if Tier 1 is REJECTED and Tier 2 is NONE', () => {
@@ -175,7 +175,7 @@ describe('Profile Settings', () => {
       const wrapper = render(store)
 
       expect(wrapper.text().trim()).toBe(
-        'Tier 1 -  In Review - Documents Needed Continue'
+        'Silver Level -  In Review - Documents Needed Continue'
       )
 
       const store2 = createStore(
@@ -186,7 +186,7 @@ describe('Profile Settings', () => {
       const wrapper2 = render(store2)
 
       expect(wrapper2.text().trim()).toBe(
-        'Tier 1 -  In Review - Documents Needed Continue'
+        'Silver Level -  In Review - Documents Needed Continue'
       )
     })
 
@@ -217,7 +217,7 @@ describe('Profile Settings', () => {
       const wrapper = render(store)
 
       expect(wrapper.text().trim()).toBe(
-        'Tier 1 -  $1,000.00 Available Upgrade'
+        'Silver Level -  $1,000.00 Available Upgrade'
       )
 
       const store2 = createStore(
@@ -228,7 +228,7 @@ describe('Profile Settings', () => {
       const wrapper2 = render(store2)
 
       expect(wrapper2.text().trim()).toBe(
-        'Tier 1 -  $1,000.00 Available Upgrade'
+        'Silver Level -  $1,000.00 Available Upgrade'
       )
     })
 
@@ -258,7 +258,7 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.text().trim()).toBe('Tier 1 -  $1,000.00 Available')
+      expect(wrapper.text().trim()).toBe('Silver Level -  $1,000.00 Available')
     })
 
     it('should render Tier 1 limit and "In Review" if Tier 1 is VERIFIED and Tier 2 is PENDING', () => {
@@ -288,7 +288,7 @@ describe('Profile Settings', () => {
       const wrapper = render(store)
 
       expect(wrapper.text().trim()).toBe(
-        'Tier 1 -  $1,000.00 Available Tier 2 In Review'
+        'Silver Level -  $1,000.00 Available Gold Level In Review'
       )
     })
 
@@ -323,7 +323,7 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.text().trim()).toBe('Tier 2 -  $10,000.00 Available')
+      expect(wrapper.text().trim()).toBe('Gold Level -  $10,000.00 Available')
     })
   })
 })

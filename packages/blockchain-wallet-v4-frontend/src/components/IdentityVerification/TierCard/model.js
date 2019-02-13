@@ -3,6 +3,7 @@ import { path, prop } from 'ramda'
 export const TIERS = {
   1: {
     time: '3',
+    level: 'SILVER',
     limit: 'ANNUAL',
     requirements: [
       {
@@ -29,15 +30,12 @@ export const TIERS = {
   },
   2: {
     time: '10',
+    level: 'GOLD',
     limit: 'DAILY',
     requirements: [
       {
         name: 'TIER1',
         complete: ({ userTiers }) => userTiers[1].state === 'verified'
-      },
-      {
-        name: 'MOBILE',
-        complete: ({ mobileVerified }) => mobileVerified === 1
       },
       {
         name: 'GOVID',
