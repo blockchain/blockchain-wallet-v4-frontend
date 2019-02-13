@@ -62,7 +62,7 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.swap'
+              id='scenes.exchange.exchangeform.exchange'
               defaultMessage='Exchange'
             />
           ) : (
