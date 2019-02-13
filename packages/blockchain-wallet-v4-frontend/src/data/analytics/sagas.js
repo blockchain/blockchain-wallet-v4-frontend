@@ -17,6 +17,16 @@ export default ({ api }) => {
     }
   }
 
+  const initUserSession = function*() {
+    try {
+      const guid = yield select(selectors.wallet.getGuid)
+      yield call(startSession, { guid })
+      yield call(logPageView, { route: '/home' })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
+    }
+  }
+
   const logEvent = function*(action) {
     try {
       const { event } = action.payload
@@ -83,6 +93,7 @@ export default ({ api }) => {
     logEvent,
     logPageView,
     logGoal,
+    initUserSession,
     postMessage,
     startSession,
     stopSession

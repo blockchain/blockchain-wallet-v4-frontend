@@ -1,3 +1,7 @@
+export const CUSTOM_DIMENSIONS = {
+  TOTAL_WALLET_BALANCE: 1,
+  CURRENCY_PREFERENCE: 2
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
