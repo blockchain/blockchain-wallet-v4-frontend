@@ -1163,16 +1163,8 @@
         "id": "components.identityverification.tiercard.getfreecrypto"
       },
       {
-        "defaultMessage": "Tier {tier} Verification",
-        "id": "components.identityverification.tiercard.tierheader"
-      },
-      {
         "defaultMessage": "Continue",
         "id": "components.identityverification.tiercard.continue"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "components.identityverification.tiercard.getstarted"
       },
       {
         "defaultMessage": "Swap Now",
@@ -1183,6 +1175,14 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Silver Level",
+        "id": "components.identityverification.tiercard.silver"
+      },
+      {
+        "defaultMessage": "Gold Level",
+        "id": "components.identityverification.tiercard.gold"
+      },
       {
         "defaultMessage": "Verified Email",
         "id": "components.identityverification.tiercard.email"
@@ -1200,12 +1200,8 @@
         "id": "components.identityverification.tiercard.address"
       },
       {
-        "defaultMessage": "Tier 1+",
-        "id": "components.identityverification.tiercard.tier1"
-      },
-      {
-        "defaultMessage": "Verified Phone",
-        "id": "components.identityverification.tiercard.phone"
+        "defaultMessage": "Silver Level +",
+        "id": "components.identityverification.tiercard.silverplus"
       },
       {
         "defaultMessage": "Gov't Issued ID",
@@ -1238,6 +1234,14 @@
       {
         "defaultMessage": "Takes {time} min",
         "id": "components.identityverification.tiercard.timing"
+      },
+      {
+        "defaultMessage": "Unlock Silver",
+        "id": "components.identityverification.tiercard.silvercta"
+      },
+      {
+        "defaultMessage": "Unlock Gold",
+        "id": "components.identityverification.tiercard.goldcta"
       }
     ],
     "path": "src/components/IdentityVerification/TierCard/services.json"
@@ -1423,7 +1427,7 @@
     "descriptors": [
       {
         "defaultMessage": "Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.",
-        "id": "modals.lockboxsetup.pairdevice.tooltip"
+        "id": "modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip"
       },
       {
         "defaultMessage": "This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.",
@@ -2773,8 +2777,8 @@
         "id": "modals.requestbch.firststep.lockbox.confirm.warn"
       },
       {
-        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin Cash app now.",
-        "id": "modals.requestbch.firststep.lockbox.confirm1"
+        "defaultMessage": "Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.",
+        "id": "modals.requestbch.firststep.lockbox.confirmfirst"
       },
       {
         "defaultMessage": "Click here",
@@ -2819,8 +2823,8 @@
         "id": "modals.sendBch.firststep.from"
       },
       {
-        "defaultMessage": "You will need to connect your Lockbox to complete to this transaction.",
-        "id": "modals.sendbch.firststep.warndevice"
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
+        "id": "modals.sendbch.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser!",
@@ -3292,8 +3296,8 @@
         "id": "modals.sendbtc.firststep.from"
       },
       {
-        "defaultMessage": "You will need to connect your Lockbox to complete to this transaction.",
-        "id": "modals.sendbtc.firststep.warndevice"
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
+        "id": "modals.sendbtc.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser!",
@@ -4054,8 +4058,8 @@
         "id": "modals.sendEther.firststep.from"
       },
       {
-        "defaultMessage": "You will need to connect your Lockbox to complete to this transaction.",
-        "id": "modals.sendeth.firststep.warndevice"
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
+        "id": "modals.sendeth.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser!",
@@ -4440,8 +4444,8 @@
         "id": "identityverification.personal.label.state"
       },
       {
-        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
-        "id": "identityverification.personal.unavailable"
+        "defaultMessage": "Unfortunately Swap is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable_swap"
       },
       {
         "defaultMessage": "We will notify you when we expand to your area.",
@@ -4763,7 +4767,7 @@
         "id": "modals.swap_upgrade.heads_up"
       },
       {
-        "defaultMessage": "Upgrade to Tier {tierIndex} and Swap up to {amount} every day.",
+        "defaultMessage": "Upgrade to {nextLevel} and Swap up to {amount} every day.",
         "id": "modals.swap_upgrade.amount_after_upgrade"
       },
       {
@@ -5401,8 +5405,8 @@
         "id": "modals.lockboxsetup.pairdevice.intro"
       },
       {
-        "defaultMessage": "After the app has been opened, check for instructions on the device as you may have to allow the export of your public keys multiple times.",
-        "id": "modals.lockboxsetup.pairdevice.exportkeys"
+        "defaultMessage": "Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.",
+        "id": "modals.lockboxsetup.pairdevice.exportkeyswarning"
       },
       {
         "defaultMessage": "Don't have the Bitcoin app on your {deviceType}? Install it",
@@ -6697,8 +6701,8 @@
         "id": "modals.sendxlm.firststep.from"
       },
       {
-        "defaultMessage": "You will need to connect your Lockbox to complete to this transaction.",
-        "id": "modals.sendxlm.firststep.warndevice"
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
+        "id": "modals.sendxlm.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser!",
@@ -7366,20 +7370,8 @@
         "id": "buy.quote_input.over_effective_max"
       },
       {
-        "defaultMessage": "buying",
-        "id": "buy.quote_input.effective_max_under_min3"
-      },
-      {
-        "defaultMessage": "swapping",
-        "id": "buy.quote_input.effective_max_under_min5swap"
-      },
-      {
-        "defaultMessage": "Your balance is less than the minimum sell amount minus priority fee {min} BTC.",
-        "id": "buy.quote_input.effective_max_under_min1"
-      },
-      {
-        "defaultMessage": "Fund your wallet by {buyLink} or {exchangeLink} before selling.",
-        "id": "buy.quote_input.effective_max_under_min2"
+        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min}.",
+        "id": "buy.quote_input.not_enough_funds_minimum"
       },
       {
         "defaultMessage": "Your remaining sell limit is {max}",
@@ -7802,8 +7794,8 @@
         "id": "scenes.exchange.confirm.tradefailed"
       },
       {
-        "defaultMessage": "Confirm Exchange",
-        "id": "scenes.exchange.confirm.title"
+        "defaultMessage": "Confirm",
+        "id": "scenes.exchange.confirm.header"
       },
       {
         "defaultMessage": "Rate",
@@ -7814,8 +7806,8 @@
         "id": "scenes.exchange.exchange.confirm.summary.sourceFee"
       },
       {
-        "defaultMessage": "Exchange Value",
-        "id": "scenes.exchange.confirm.exchangevalue"
+        "defaultMessage": "Value",
+        "id": "scenes.exchange.confirm.value"
       },
       {
         "defaultMessage": "Receive Value",
@@ -7826,8 +7818,8 @@
         "id": "scenes.exchange.confirm.summary.note"
       },
       {
-        "defaultMessage": "Complete Order",
-        "id": "scenes.exchange.confirm.submit"
+        "defaultMessage": "Confirm",
+        "id": "scenes.exchange.confirm.confirm"
       },
       {
         "defaultMessage": "Cancel",
@@ -7983,12 +7975,12 @@
         "id": "scenes.exchange.exchangeform.limit_info.upgrade"
       },
       {
-        "defaultMessage": "Tier {tierIndex} In Review",
-        "id": "scenes.exchange.exchangeform.limit_info.tier_in_review"
+        "defaultMessage": "{level} In Review",
+        "id": "scenes.exchange.exchangeform.limit_info.levelinreview"
       },
       {
-        "defaultMessage": "Tier {tierIndex}",
-        "id": "scenes.exchange.exchangeform.limit_info.tier"
+        "defaultMessage": "{level}",
+        "id": "scenes.exchange.exchangeform.limit_info.level"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/LimitInfo/LimitInfo.json"
@@ -8018,8 +8010,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Swap",
-        "id": "scenes.exchange.exchangeform.swap"
+        "defaultMessage": "Exchange",
+        "id": "scenes.exchange.exchangeform.exchange"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/SubmitButton/SubmitButton.json"
@@ -8230,8 +8222,8 @@
         "id": "scenes.exchangehistory.list.incomplete.received"
       },
       {
-        "defaultMessage": "Completed Exchanges",
-        "id": "scenes.exchangehistory.list.complete.exchanges"
+        "defaultMessage": "Completed Orders",
+        "id": "scenes.exchangehistory.list.complete.orders"
       },
       {
         "defaultMessage": "Status",
