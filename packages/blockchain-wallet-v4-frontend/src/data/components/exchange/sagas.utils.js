@@ -1,8 +1,8 @@
-import { call, cancel, fork, join, put, select } from 'redux-saga/effects'
+import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
 import { always, contains, equals, head, prop, toLower } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { selectors, actions } from 'data'
+import { selectors, actions, actionTypes } from 'data'
 import * as S from './selectors'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
@@ -301,12 +301,24 @@ export default ({ coreSagas, networks }) => {
       throw CREATE_ACCOUNT_ERROR
   }
 
+  const updateLatestEthTrade = function*(txId) {
+    // Update metadata
+    yield put(
+      actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+    )
+    yield take(
+      actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+    )
+    yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
+  }
+
   return {
     calculatePaymentMemo,
     calculateProvisionalPayment,
     calculateEffectiveBalanceMemo,
     createPayment,
     getDefaultAccount,
+    updateLatestEthTrade,
     validateXlm,
     validateXlmAccountExists,
     validateXlmCreateAccount
