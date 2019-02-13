@@ -13,28 +13,28 @@ describe('analyticsSagas', () => {
     stopSession
   } = analyticsSagas({})
 
-  describe('postMessage', () => {
-    let message = ['fake', 'event']
-    const saga = testSaga(postMessage, message)
+  // describe('postMessage', () => {
+  //   let message = ['fake', 'event']
+  //   const saga = testSaga(postMessage, message)
 
-    it('should select wallet helper url', () => {
-      saga
-        .next()
-        .select(selectors.core.walletOptions.getWalletHelperUrl)
-        .next()
-        .next()
-        .isDone()
-    })
+  //   it('should select wallet helper url', () => {
+  //     saga
+  //       .next()
+  //       .select(selectors.core.walletOptions.getWalletHelperUrl)
+  //       .next()
+  //       .next()
+  //       .isDone()
+  //   })
 
-    it('should handle errors', () => {
-      const error = new Error('ERROR')
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(actions.logs.logErrorMessage(logLocation, 'postMessage', error))
-    })
-  })
+  //   it('should handle errors', () => {
+  //     const error = new Error('ERROR')
+  //     saga
+  //       .restart()
+  //       .next()
+  //       .throw(error)
+  //       .put(actions.logs.logErrorMessage(logLocation, 'postMessage', error))
+  //   })
+  // })
 
   describe('logEvent', () => {
     let payload = { event: ['FAKE', 'EVENT'] }
