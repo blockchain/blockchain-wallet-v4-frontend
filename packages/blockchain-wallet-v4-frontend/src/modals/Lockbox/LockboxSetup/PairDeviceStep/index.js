@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
+import ReactTooltip from 'react-tooltip'
 
 import { OPEN_BTC_TIMEOUT } from './../model'
 import PairDeviceStep from './template'
@@ -16,6 +17,10 @@ class PairDeviceStepContainer extends React.PureComponent {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
     this.startBtcOpenTimeout()
+  }
+
+  componentWillUnmount () {
+    ReactTooltip.hide()
   }
 
   onGoToAppManager = () => {
