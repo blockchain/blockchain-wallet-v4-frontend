@@ -7,11 +7,11 @@ export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
   const postMessage = function*(message) {
     try {
-      const targetDomain = (yield select(
-        selectors.core.walletOptions.getWalletHelperUrl
-      )).getOrFail('Missing target domain')
+      // const targetDomain = (yield select(
+      //   selectors.core.walletOptions.getWalletHelperUrl
+      // )).getOrFail('Missing target domain')
       const frame = document.getElementById('matomo-iframe')
-      frame.contentWindow.postMessage(message, targetDomain)
+      frame.contentWindow.postMessage(message, '*')
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
     }
