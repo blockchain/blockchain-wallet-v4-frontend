@@ -5,6 +5,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: rootUrl,
       endPoint: '/kaptcha.jpg',
+      responseType: 'blob',
       data: { timestamp },
       sessionToken
     })
