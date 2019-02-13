@@ -9,11 +9,18 @@ export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
   const postMessage = function*(message) {
     try {
-      // const targetDomain = (yield select(
-      //   selectors.core.walletOptions.getWalletHelperUrl
-      // )).getOrFail('Missing target domain')
       const frame = document.getElementById('matomo-iframe')
-      frame.contentWindow.postMessage(message, '*')
+      if (frame) {
+        frame.contentWindow.postMessage(message, '*')
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'postMessage',
+            'matomo iframe missing'
+          )
+        )
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
     }
