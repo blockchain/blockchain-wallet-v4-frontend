@@ -13,7 +13,6 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 const extractFieldValue = (e, value) => {
-  e.preventDefault()
   return value
 }
 

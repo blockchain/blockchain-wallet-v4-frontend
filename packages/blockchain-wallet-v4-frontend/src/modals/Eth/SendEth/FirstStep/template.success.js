@@ -124,8 +124,8 @@ const FirstStep = props => {
         <WarningBanners type='info'>
           <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.warndevice'
-              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
+              id='modals.sendeth.firststep.lockboxwarn'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
         </WarningBanners>

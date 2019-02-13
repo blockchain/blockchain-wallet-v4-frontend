@@ -147,8 +147,8 @@ const RequestBch = props => {
                 <LockboxOpen inline>
                   <Text color='warning' size='12px'>
                     <FormattedHTMLMessage
-                      id='modals.requestbch.firststep.lockbox.confirm1'
-                      defaultMessage='Please confirm the address above on your Lockbox by opening your Bitcoin Cash app now.'
+                      id='modals.requestbch.firststep.lockbox.confirmfirst'
+                      defaultMessage='Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.'
                     />
                   </Text>
                   <Text size='12px' onClick={handleOpenLockbox}>
