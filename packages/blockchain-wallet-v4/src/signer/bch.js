@@ -123,9 +123,7 @@ export const signWithLockbox = function*(
 
     amount.writeUInt32LE(coin.value)
     outputs +=
-      amount.toString('hex') +
-      intToHex(script.length) +
-      coin.script.toString('hex')
+      amount.toString('hex') + intToHex(script.length) + script.toString('hex')
   })
 
   const dustTxHex = yield api.getBchRawTx(coinDust.txHash)
