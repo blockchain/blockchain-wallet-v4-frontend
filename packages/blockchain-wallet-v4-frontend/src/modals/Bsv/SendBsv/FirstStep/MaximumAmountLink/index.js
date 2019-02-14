@@ -11,6 +11,7 @@ const MaximumAmountLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendBsvFirstStepMaximumAmountClicked}
+    data-e2e='bsvMaximumAmountLink'
   >
     <FormattedMessage
       id='modals.sendbsv.maximumamountlink.maximum'
