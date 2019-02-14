@@ -48,6 +48,9 @@ const FooterButton = styled(Button).attrs({
   font-weight: 500;
   padding: 15px 0;
 `
+const CenteredText = styled(Text)`
+  text-align: center;
+`
 
 class SwapGetStarted extends React.PureComponent {
   componentDidMount () {
@@ -60,24 +63,18 @@ class SwapGetStarted extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <Text color='white' size='24px' weight={500}>
+          <CenteredText color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage="It's Your Crypto"
-              id='modals.swapgetstarted.its_your_crypto'
+              defaultMessage="Trading your crypto doesn't mean trading away control"
+              id='modals.swapgetstarted.trading_your_crypto'
             />
-          </Text>
-          <Text color='white' size='24px' weight={500}>
-            <FormattedMessage
-              defaultMessage='Swap Your Crypto'
-              id='modals.swapgetstarted.swap_your_crypto'
-            />
-          </Text>
+          </CenteredText>
         </Header>
         <Body data-e2e='swapGetStarted'>
           <Text size='18px' weight={400}>
             <FormattedMessage
-              defaultMessage='Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.'
-              id='modals.swapgetstarted.announcement'
+              defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices, and quick settlement, all while maintaining full control of your funds.'
+              id='modals.swapgetstarted.description'
             />
           </Text>
         </Body>
