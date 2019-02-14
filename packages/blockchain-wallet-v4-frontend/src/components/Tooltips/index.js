@@ -217,8 +217,8 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={300} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.complete'
-                defaultMessage='By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.'
+                id='scenes.profile.identityverification.swaplimit.goldcomplete'
+                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
               />
             </Text>
             <Link
