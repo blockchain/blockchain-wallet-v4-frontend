@@ -73,7 +73,7 @@ class SwapGetStarted extends React.PureComponent {
         <Body data-e2e='swapGetStarted'>
           <Text size='18px' weight={400}>
             <FormattedMessage
-              defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices, and quick settlement, all while maintaining full control of your funds.'
+              defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
               id='modals.swapgetstarted.description'
             />
           </Text>
