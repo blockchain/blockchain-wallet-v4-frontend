@@ -188,6 +188,7 @@ const Menu = props => {
                 size='28px'
                 cursor
                 onClick={handleClickReporting}
+                data-e2e='generateTxReport'
               />
             )}
             <Field

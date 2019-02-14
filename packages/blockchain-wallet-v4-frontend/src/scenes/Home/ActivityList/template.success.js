@@ -67,7 +67,7 @@ const Content = styled.div`
 `
 
 const Success = props => (
-  <Wrapper>
+  <Wrapper data-e2e='recentActivityList'>
     <Header>
       <Text uppercase size='24px' weight={300} color='brand-primary'>
         <FormattedMessage
