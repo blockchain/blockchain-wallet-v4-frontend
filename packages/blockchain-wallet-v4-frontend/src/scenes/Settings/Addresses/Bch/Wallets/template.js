@@ -66,9 +66,11 @@ const Success = props => {
     const isArchived = bchAccounts[i].archived
 
     return (
-      <TableRow key={i} data-e2e='bchWalletRow'>
+      <TableRow key={i} dataE2e='bchWalletRow'>
         <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          <LabelCell size='13px' data-e2e='bchWalletName'>
+            {wallet.label}
+          </LabelCell>
           {isDefault && (
             <Banner label data-e2e='bchDefaultWalletBadge'>
               <FormattedMessage
@@ -246,7 +248,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow data-e2e='noBchWalletResults'>
+          <TableRow dataE2e='noBchWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>

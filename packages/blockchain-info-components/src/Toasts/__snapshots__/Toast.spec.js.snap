@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Toast component default renders correctly 1`] = `
-<Toast__Wrapper>
+<Toast__Wrapper
+  data-e2e="infoToastMessage"
+>
   <Toast__Container
     color="brand-secondary"
   >
@@ -23,7 +25,9 @@ exports[`Toast component default renders correctly 1`] = `
 `;
 
 exports[`Toast component error renders correctly 1`] = `
-<Toast__Wrapper>
+<Toast__Wrapper
+  data-e2e="errorToastMessage"
+>
   <Toast__Container
     color="error"
   >
@@ -45,7 +49,9 @@ exports[`Toast component error renders correctly 1`] = `
 `;
 
 exports[`Toast component success renders correctly 1`] = `
-<Toast__Wrapper>
+<Toast__Wrapper
+  data-e2e="successToastMessage"
+>
   <Toast__Container
     color="success"
   >

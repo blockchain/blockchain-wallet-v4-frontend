@@ -340,20 +340,21 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       <FormGroup margin={'15px'}>
-        <Text size='13px' weight={300}>
-          {!isPriorityFeePerByte && (
-            <FormattedMessage
-              id='modals.sendbtc.firststep.estimated'
-              defaultMessage='Estimated confirmation time 1+ hour'
-            />
-          )}
-          {isPriorityFeePerByte && (
+        {isPriorityFeePerByte ? (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
               id='modals.sendbtc.firststep.estimated2'
               defaultMessage='Estimated confirmation time 0-60 minutes'
             />
-          )}
-        </Text>
+          </Text>
+        ) : (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeHourPlus'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.estimated'
+              defaultMessage='Estimated confirmation time 1+ hour'
+            />
+          </Text>
+        )}
       </FormGroup>
       <FormGroup>
         <Button

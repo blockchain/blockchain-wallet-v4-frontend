@@ -292,7 +292,13 @@ const FirstStep = props => {
           <ComboDisplay size='14px' coin='ETH'>
             {fee}
           </ComboDisplay>
-          <Link size='13px' weight={300} capitalize onClick={handleFeeToggle}>
+          <Link
+            size='13px'
+            weight={300}
+            capitalize
+            onClick={handleFeeToggle}
+            data-e2e='ethCustomizeFeeLink'
+          >
             {feeToggled ? (
               <FormattedMessage
                 id='modals.sendeth.firststep.cancel'
@@ -328,6 +334,7 @@ const FirstStep = props => {
             isContract ||
             Remote.Loading.is(balanceStatus)
           }
+          data-e2e='ethSendContinue'
         >
           <FormattedMessage
             id='modals.sendeth.firststep.continue'

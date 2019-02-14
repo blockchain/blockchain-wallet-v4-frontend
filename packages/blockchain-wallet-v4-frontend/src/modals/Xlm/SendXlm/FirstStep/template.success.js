@@ -303,6 +303,7 @@ const FirstStep = props => {
                 disableLockboxSend ||
                 Remote.Loading.is(balanceStatus)
               }
+              data-e2e='xlmSendContinue'
             >
               <FormattedMessage
                 id='modals.sendxlm.firststep.continue'

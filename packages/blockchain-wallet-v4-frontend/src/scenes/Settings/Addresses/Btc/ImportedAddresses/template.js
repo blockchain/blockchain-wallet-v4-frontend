@@ -58,7 +58,7 @@ const Success = ({
       <AddressRow
         key={address.addr}
         address={address}
-        data-e2e='btcImportedAddressRow'
+        dataE2e='btcImportedAddressRow'
         renderOptions={() =>
           [
             <ClickableText

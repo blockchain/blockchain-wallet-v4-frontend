@@ -225,6 +225,7 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           disabled={submitting || invalid || pristine || disableLockboxSend}
+          data-e2e='bchSendContinue'
         >
           <FormattedMessage
             id='modals.sendBch.firststep.continue'

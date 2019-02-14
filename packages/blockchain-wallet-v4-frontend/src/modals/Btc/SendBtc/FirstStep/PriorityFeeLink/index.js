@@ -12,6 +12,7 @@ const PriorityFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendBtcFirstStepPriorityFeeClicked}
+    data-e2e='btcPriorityFeeLink'
   >
     <FormattedMessage
       id='modals.sendbtc.priorityfeelink.priority'

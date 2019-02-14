@@ -78,7 +78,7 @@ const Success = props => {
           defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.'
         />
       </SettingDescription>
-      <Table data-e2e='bsvWalletsTable'>
+      <Table dataE2e='bsvWalletsTable'>
         <TableHeader>
           <TableCell style={{ flexBasis: '55%' }}>
             <Text size='13px' weight={500}>
@@ -112,7 +112,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow data-e2e='bsvWalletNoResults'>
+          <TableRow dataE2e='bsvWalletNoResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
@@ -129,9 +129,11 @@ const Success = props => {
             const isDefault = i === defaultIndex
             const isArchived = wallet.value.archived
             return (
-              <TableRow key={i}>
+              <TableRow key={i} dataE2e='bsvWalletRow'>
                 <WalletTableCell style={{ flexBasis: '55%' }}>
-                  <LabelCell size='13px'>{wallet.label}</LabelCell>
+                  <LabelCell size='13px' data-e2e='bsvWalletName'>
+                    {wallet.label}
+                  </LabelCell>
                   {isDefault && (
                     <Banner label data-e2e='bsvWalletDefaultBadge'>
                       <FormattedMessage
