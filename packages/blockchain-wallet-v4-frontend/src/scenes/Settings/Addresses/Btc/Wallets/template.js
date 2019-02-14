@@ -65,9 +65,11 @@ const Success = ({
 
   const walletTableRows = matchedWallets.map(wallet => {
     return (
-      <TableRow key={wallet.index} data-e2e='btcWalletRow'>
+      <TableRow key={wallet.index} dataE2e='btcWalletRow'>
         <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          <LabelCell size='13px' data-e2e='btcWalletName'>
+            {wallet.label}
+          </LabelCell>
           {wallet.default && (
             <Banner label='true' data-e2e='btcDefaultWalletBadge'>
               <FormattedMessage
@@ -205,7 +207,7 @@ const Success = ({
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow data-e2e='btcNoWalletResults'>
+          <TableRow dataE2e='btcNoWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>

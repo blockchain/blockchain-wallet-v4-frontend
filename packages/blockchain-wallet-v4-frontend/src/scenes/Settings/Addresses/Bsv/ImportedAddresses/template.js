@@ -45,7 +45,7 @@ const Success = props => {
     address => {
       return (
         <AddressRow
-          data-e2e='bsvImportedAddressRow'
+          dataE2e='bsvImportedAddressRow'
           key={address.addr}
           address={address}
           coin='BSV'
@@ -93,7 +93,7 @@ const Success = props => {
         )}
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
-        <Table data-e2e='bsvImportedAddressesTable'>
+        <Table dataE2e='bsvImportedAddressesTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>

@@ -101,7 +101,11 @@ class UnusedAddressesContainer extends React.PureComponent {
           }}
         >
           <WalletLabelCell>
-            <Text weight={400} style={{ marginRight: 10 }}>
+            <Text
+              weight={400}
+              style={{ marginRight: 10 }}
+              data-e2e='btcWalletName'
+            >
               {account.label}
             </Text>
             {isDefault && (

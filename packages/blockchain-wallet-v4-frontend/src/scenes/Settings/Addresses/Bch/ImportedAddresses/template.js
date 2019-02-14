@@ -48,7 +48,7 @@ const BchImportedAddresses = props => {
           key={address.addr}
           address={address}
           coin='BCH'
-          data-e2e='bchImportedAddressRow'
+          dataE2e='bchImportedAddressRow'
         />
       )
     }
@@ -93,7 +93,7 @@ const BchImportedAddresses = props => {
         )}
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
-        <Table data-e2e='bchImportedAddressesTable'>
+        <Table dataE2e='bchImportedAddressesTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
