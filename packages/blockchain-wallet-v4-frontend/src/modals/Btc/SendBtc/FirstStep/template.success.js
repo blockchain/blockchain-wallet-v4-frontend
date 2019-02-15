@@ -83,11 +83,11 @@ const FirstStep = props => {
     destination,
     toToggled,
     enableToggle,
+    feePerByte,
     feePerByteToggled,
     feePerByteElements,
     regularFeePerByte,
     priorityFeePerByte,
-    isPriorityFeePerByte,
     totalFee,
     excludeLockbox,
     excludeHDWallets
@@ -340,7 +340,7 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       <FormGroup margin={'15px'}>
-        {isPriorityFeePerByte ? (
+        {feePerByte > regularFeePerByte ? (
           <Text size='13px' weight={300} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
               id='modals.sendbtc.firststep.estimated2'
@@ -381,7 +381,6 @@ FirstStep.propTypes = {
   feePerByteElements: PropTypes.array.isRequired,
   regularFeePerByte: PropTypes.number.isRequired,
   priorityFeePerByte: PropTypes.number.isRequired,
-  isPriorityFeePerByte: PropTypes.bool.isRequired,
   handleFeePerByteToggle: PropTypes.func.isRequired,
   handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
