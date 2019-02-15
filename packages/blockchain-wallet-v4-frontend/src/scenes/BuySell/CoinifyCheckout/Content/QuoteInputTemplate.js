@@ -56,9 +56,7 @@ const FiatConvertor = props => {
     form,
     verified
   } = props
-  const {
-    canTrade
-  } = val
+  const { canTrade } = val
   const currency = 'BTC'
   const isSell = form === 'coinifyCheckoutSell'
 

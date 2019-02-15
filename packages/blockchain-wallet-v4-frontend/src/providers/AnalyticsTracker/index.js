@@ -1,85 +1,47 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { selectors } from 'data'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-import { head } from 'ramda'
-import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+
+import { actions, selectors } from 'data'
 
 const Iframe = styled.iframe`
   position: absolute;
   left: -1000px;
   top: -1000px;
   opacity: 0;
-  height: 0px;
-  width: 0px;
+  height: 0;
+  width: 0;
 `
 
 class AnalyticsTracker extends React.PureComponent {
-  constructor () {
-    super()
-    this.iframe = React.createRef()
-  }
-
-  componentDidUpdate (prevProps) {
-    if (!this.iframe.current) return
-    const { analytics, location, domains } = this.props
-    const { analytics: prevAnalytics, location: prevLocation } = prevProps
-    const targetOrigin = domains.walletHelper
-
-    // SET USER ID
-    this.iframe.current.contentWindow.postMessage(
-      {
-        method: 'setUserId',
-        trackingData: [
-          crypto
-            .sha256(this.props.guid)
-            .toString('hex')
-            .slice(0, 15)
-        ]
-      },
-      targetOrigin
-    )
-    // TRACK PAGEVIEW
-    if (location.pathname !== prevLocation.pathname) {
-      this.iframe.current.contentWindow.postMessage(
-        { method: 'trackPageView', trackingData: [location.pathname] },
-        targetOrigin
-      )
-    }
-    // TRACK EVENT
-    if (head(prevAnalytics) !== head(analytics)) {
-      const { trackingData } = head(analytics)
-      this.iframe.current.contentWindow.postMessage(
-        { method: 'trackEvent', trackingData },
-        targetOrigin
-      )
-    }
+  componentDidMount () {
+    this.props.analyticsActions.initUserSession()
   }
 
   render () {
-    const { domains } = this.props
-    const { walletHelper } = domains
+    const { domains, siteId } = this.props
     return (
       <Iframe
         id='matomo-iframe'
-        src={walletHelper + '/wallet-helper/matomo/#/'}
-        innerRef={this.iframe}
+        src={domains.walletHelper + '/wallet-helper/matomo/#/?siteId=' + siteId}
       />
     )
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
 const mapStateToProps = state => ({
-  guid: selectors.core.wallet.getGuid(state),
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
-  analytics: selectors.analytics.getAnalytics(state)
+  siteId: selectors.core.walletOptions.getAnalyticsSiteId(state).getOrElse(1)
 })
 
-export default compose(
-  withRouter,
-  connect(mapStateToProps)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(AnalyticsTracker)

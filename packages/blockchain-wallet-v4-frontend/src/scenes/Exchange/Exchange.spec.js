@@ -89,8 +89,4 @@ describe('ExchangeScene', () => {
     dataError.prop('onClick')()
     expect(props.fetchUser).toHaveBeenCalledTimes(1)
   })
-  it('logs enter events on mount', () => {
-    shallow(<ExchangeScene userCreated={Remote.Failure({})} {...props} />)
-    expect(props.logEnterExchange).toHaveBeenCalledTimes(1)
-  })
 })

@@ -13,6 +13,12 @@ export const getNewDeviceSetupType = path([
   'newDeviceSetup',
   'newOrExisting'
 ])
+export const getNewDeviceShowBtcWarning = path([
+  'components',
+  'lockbox',
+  'newDeviceSetup',
+  'showBtcWarning'
+])
 export const getNewDeviceType = path([
   'components',
   'lockbox',

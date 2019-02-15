@@ -16,32 +16,32 @@ export default props => {
       <SkeletonRectangle
         height='40px'
         width='100%'
-        style={{ 'margin-top': '15px' }}
+        style={{ marginTop: '15px' }}
       />
       <SkeletonRectangle
         height='20px'
         width='30%'
-        style={{ 'margin-top': '30px' }}
+        style={{ marginTop: '30px' }}
       />
       <SkeletonRectangle
         height='40px'
         width='100%'
-        style={{ 'margin-top': '15px' }}
+        style={{ marginTop: '15px' }}
       />
       <SkeletonRectangle
         height='20px'
         width='30%'
-        style={{ 'margin-top': '15px' }}
+        style={{ marginTop: '15px' }}
       />
       <SkeletonRectangle
         height='40px'
         width='100%'
-        style={{ 'margin-top': '15px' }}
+        style={{ marginTop: '15px' }}
       />
       <SkeletonRectangle
         height='80px'
         width='100%'
-        style={{ 'margin-top': '40px' }}
+        style={{ marginTop: '40px' }}
       />
     </Wrapper>
   )

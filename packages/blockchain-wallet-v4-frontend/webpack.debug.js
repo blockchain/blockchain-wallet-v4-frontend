@@ -69,7 +69,10 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,

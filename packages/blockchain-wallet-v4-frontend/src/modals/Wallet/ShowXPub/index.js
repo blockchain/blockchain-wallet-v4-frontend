@@ -53,14 +53,22 @@ class ShowXPubContainer extends Component {
             </Text>
           </WarningBanner>
           <Content>
-            <XPubText size='12px' weight='300'>
+            <XPubText size='12px' weight='300' data-e2e='walletXpub'>
               {xpub}
             </XPubText>
-            <QRCodeWrapper value={xpub} size={150} />
+            <QRCodeWrapper
+              value={xpub}
+              size={150}
+              data-e2e='walletXpubQrCode'
+            />
           </Content>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button nature='primary' onClick={closeAll}>
+          <Button
+            nature='primary'
+            onClick={closeAll}
+            data-e2e='closeShowXpubModalButton'
+          >
             <FormattedMessage
               id='modals.wallet.showxpub.close'
               defaultMessage='Close'

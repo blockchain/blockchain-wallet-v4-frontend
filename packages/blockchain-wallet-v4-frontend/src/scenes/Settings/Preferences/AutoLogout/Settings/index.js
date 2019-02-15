@@ -37,14 +37,18 @@ class SettingContainer extends React.PureComponent {
       />
     ) : (
       <SettingWrapper>
-        <Text>
+        <Text data-e2e='autoLogoutValue'>
           <FormattedMessage
             id='scenes.preferences.autologout.settings.minutes'
             defaultMessage='{time} minutes'
             values={{ time: logoutTime }}
           />
         </Text>
-        <Button nature='primary' onClick={this.handleToggle}>
+        <Button
+          nature='primary'
+          onClick={this.handleToggle}
+          data-e2e='changeAutoLogout'
+        >
           <FormattedMessage
             id='scenes.preferences.autologout.settings.updateform.change'
             defaultMessage='Change'

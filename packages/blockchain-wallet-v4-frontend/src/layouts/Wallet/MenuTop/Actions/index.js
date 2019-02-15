@@ -58,8 +58,7 @@ class ActionsContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

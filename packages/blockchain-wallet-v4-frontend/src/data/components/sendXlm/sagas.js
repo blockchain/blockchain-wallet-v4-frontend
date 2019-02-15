@@ -19,10 +19,9 @@ import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
-
 export const INITIAL_MEMO_TYPE = 'text'
-
 export default ({ coreSagas }) => {
   const initialized = function*(action) {
     try {
@@ -223,7 +222,17 @@ export default ({ coreSagas }) => {
         yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
       }
       yield put(destroy(FORM))
-      // Close modals
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'XLM',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'XLM',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))

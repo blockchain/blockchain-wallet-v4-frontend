@@ -5,14 +5,13 @@ import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 import { pathEq, toLower } from 'ramda'
 import { getData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import Loading from './template.loading'
 import { Modal } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4'
 import DataError from 'components/DataError'
 import modalEnhancer from 'providers/ModalEnhancer'
 export const MODAL_NAME = 'Onfido'
-export const { ONFIDO_STARTED } = model.analytics.KYC
 const OnfidoIframe = styled.iframe.attrs({
   allow: 'camera; microphone'
 })`
@@ -28,7 +27,6 @@ const OnfidoModal = styled(Modal)`
 class OnfidoContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
-    this.props.analytics.logEvent(ONFIDO_STARTED)
     window.addEventListener('message', this.handleOnfidoMessage, false)
   }
   componentWillUnmount () {
@@ -90,8 +88,7 @@ OnfidoContainer.propTypes = {
   onfidoSyncStatus: PropTypes.instanceOf(Remote).isRequired
 }
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onfido, dispatch),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  actions: bindActionCreators(actions.components.onfido, dispatch)
 })
 const enhance = compose(
   modalEnhancer(MODAL_NAME),

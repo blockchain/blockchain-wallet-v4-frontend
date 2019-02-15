@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { contains, flatten, prop } from 'ramda'
+import { flatten, includes, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
@@ -110,7 +110,7 @@ const Menu = props => {
     isLegacyEthAddr
   } = props
   const options =
-    contains(coin, ACCOUNT_FILTER_COINS) && accounts
+    includes(coin, ACCOUNT_FILTER_COINS) && accounts
       ? flatten(accounts.map(prop('options')))
       : []
 
@@ -139,7 +139,7 @@ const Menu = props => {
         </Controls>
         <Controls>
           <Search>
-            {contains(coin, PRIVATE_KEY_EXPORT_COINS) ? (
+            {includes(coin, PRIVATE_KEY_EXPORT_COINS) ? (
               <EthPrivateKeysWrapper>
                 {isLegacyEthAddr ? (
                   <ComponentDropdown
@@ -188,6 +188,7 @@ const Menu = props => {
                 size='28px'
                 cursor
                 onClick={handleClickReporting}
+                data-e2e='generateTxReport'
               />
             )}
             <Field

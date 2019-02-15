@@ -6,8 +6,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { actions, model } from 'data'
-import { getData } from './selectors'
-
 const { TIERS } = model.profile
 
 const Wrapper = styled.div`
@@ -17,7 +15,6 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 150px;
-  background: none;
   background-color: #0d0d42;
   border-radius: 4px;
   padding-left: 15px;
@@ -36,11 +33,12 @@ const Wrapper = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -10px 0px;
-    padding-left: 75px;
+    padding-left: 124px;
     padding-right: 30px;
     box-sizing: border-box;
   }
 `
+
 const Column = styled.div`
   display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
@@ -80,56 +78,51 @@ const GetStartedButton = styled(Button).attrs({
 })`
   font-weight: 500;
 `
-
 export const SwapBanner = ({
-  showBanner,
   kycNotFinished,
   hideSwapBanner,
   verifyIdentity
-}) =>
-  showBanner ? (
-    <Wrapper>
-      <Column>
-        <LargeText>
+}) => (
+  <Wrapper>
+    <Column>
+      <LargeText>
+        <FormattedMessage
+          defaultMessage="Trading Your Crypto Doesn't Mean Trading Away Control."
+          id='scenes.home.banners.swap.title_1'
+        />
+      </LargeText>
+      <MediumText>
+        <FormattedMessage
+          defaultMessage='Trade crypto straight from your Wallet.'
+          id='scenes.home.banners.swap.subtitle_1'
+        />
+      </MediumText>
+    </Column>
+    <Column hiddenOnMobile>
+      <BackgroundImage name='swap-dashboard-right' />
+    </Column>
+    <Column>
+      {kycNotFinished && (
+        <GetStartedButton onClick={verifyIdentity}>
           <FormattedMessage
-            defaultMessage='Swap Your Crypto'
-            id='scenes.home.swapbanner.swap_your_crypto'
+            id='scenes.home.banners.swap.started'
+            defaultMessage='Get Started'
           />
-        </LargeText>
-        <MediumText>
-          <FormattedMessage
-            defaultMessage="Trading your crypto doesn't mean trading away control."
-            id='scenes.home.swapbanner.trading_your_crypto'
-          />
-        </MediumText>
-      </Column>
-      <Column hiddenOnMobile>
-        <BackgroundImage name='swap-dashboard-right' />
-      </Column>
-      <Column>
-        {kycNotFinished && (
-          <GetStartedButton onClick={verifyIdentity}>
+        </GetStartedButton>
+      )}
+      {!kycNotFinished && (
+        <LinkContainer to='/swap'>
+          <GetStartedButton onClick={hideSwapBanner}>
             <FormattedMessage
-              id='scenes.home.swapbanner.faster.started'
-              defaultMessage='Get Started'
+              id='scenes.home.banners.swap.swapnow'
+              defaultMessage='Swap Now'
             />
           </GetStartedButton>
-        )}
-        {!kycNotFinished && (
-          <LinkContainer to='/swap'>
-            <GetStartedButton onClick={hideSwapBanner}>
-              <FormattedMessage
-                id='scenes.home.swapbanner.faster.makeswap'
-                defaultMessage='Make Swap'
-              />
-            </GetStartedButton>
-          </LinkContainer>
-        )}
-      </Column>
-    </Wrapper>
-  ) : null
-
-const mapStateToProps = state => getData(state)
+        </LinkContainer>
+      )}
+    </Column>
+  </Wrapper>
+)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
@@ -138,6 +131,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SwapBanner)

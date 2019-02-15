@@ -27,14 +27,23 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         key={address.addr}
         archived
         address={address}
+        dataE2e='btcArchivedAddressRow'
         renderOptions={() => [
-          <ClickableText size='small' onClick={() => onToggleArchived(address)}>
+          <ClickableText
+            size='small'
+            onClick={() => onToggleArchived(address)}
+            data-e2e='btcUnarchivedAddressLink'
+          >
             <FormattedMessage
               id='scenes.settings.addresses.unarchive'
               defaultMessage='Unarchive'
             />
           </ClickableText>,
-          <ClickableText size='small' onClick={() => onDelete(address)}>
+          <ClickableText
+            size='small'
+            onClick={() => onDelete(address)}
+            data-e2e='btcDeleteArchivedAddressLink'
+          >
             <FormattedMessage
               id='scenes.settings.addresses.delete_address'
               defaultMessage='Delete'
@@ -59,7 +68,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.'
         />
       </SettingDescription>
-      <Table>
+      <Table dataE2e='btcArchivedAddressesTable'>
         <TableHeader>
           <TableCell width='50%'>
             <Text size='13px' weight={500}>

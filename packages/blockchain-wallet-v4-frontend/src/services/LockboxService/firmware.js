@@ -61,6 +61,7 @@ const getDeviceFirmwareInfo = transport => {
             mcuVersion: ''
           })
         }
+
         resolve({ targetId, seVersion, flags, mcuVersion })
       },
       error => {

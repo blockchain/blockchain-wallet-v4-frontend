@@ -121,8 +121,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
         <LinkContainer to='/swap'>
           <GetStartedButton>
             <FormattedMessage
-              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap'
-              defaultMessage='Make Swap'
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swapnow'
+              defaultMessage='Swap Now'
             />
           </GetStartedButton>
         </LinkContainer>

@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
@@ -101,7 +100,6 @@ class PublicLayoutContainer extends React.PureComponent {
           {...rest}
           render={matchProps => (
             <Wrapper>
-              <AnalyticsTracker />
               <ErrorBoundary>
                 <Alerts />
                 <HeaderContainer>

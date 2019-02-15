@@ -65,11 +65,13 @@ const Success = ({
 
   const walletTableRows = matchedWallets.map(wallet => {
     return (
-      <TableRow key={wallet.index}>
+      <TableRow key={wallet.index} dataE2e='btcWalletRow'>
         <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          <LabelCell size='13px' data-e2e='btcWalletName'>
+            {wallet.label}
+          </LabelCell>
           {wallet.default && (
-            <Banner label='true'>
+            <Banner label='true' data-e2e='btcDefaultWalletBadge'>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.defaultlabel'
                 defaultMessage='Default'
@@ -77,7 +79,11 @@ const Success = ({
             </Banner>
           )}
           {wallet.archived && (
-            <Banner label={'true'} type='informational'>
+            <Banner
+              label={'true'}
+              type='informational'
+              data-e2e='btcArchivedWalletBadge'
+            >
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.archivedlabel'
                 defaultMessage='Archived'
@@ -101,6 +107,7 @@ const Success = ({
               weight={400}
               size='13px'
               onClick={() => onUnarchive(wallet.index)}
+              data-e2e='btcUnarchiveWalletLink'
             >
               <FormattedMessage
                 id='scenes.settings.addresses.btc.wallets.unarchive'
@@ -109,7 +116,7 @@ const Success = ({
             </Link>
           ) : (
             <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-              <Link weight={400} size='13px'>
+              <Link weight={400} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.manage'
                   defaultMessage='Manage'
@@ -200,7 +207,7 @@ const Success = ({
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow>
+          <TableRow dataE2e='btcNoWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
@@ -216,7 +223,12 @@ const Success = ({
           walletTableRows
         )}
       </Table>
-      <IconButton style={{ marginTop: 10 }} name='plus' onClick={handleClick}>
+      <IconButton
+        data-e2e='btcNewWalletButton'
+        style={{ marginTop: 10 }}
+        name='plus'
+        onClick={handleClick}
+      >
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.newhdaccount'
           defaultMessage='New Wallet'

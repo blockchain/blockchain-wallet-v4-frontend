@@ -473,7 +473,7 @@ describe('authSagas', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
 
-    it('should trigger update language aciton with selected language', () => {
+    it('should trigger update language action with selected language', () => {
       const language = 'en'
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
@@ -491,7 +491,15 @@ describe('authSagas', () => {
     })
 
     it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kyc'))
+      saga.next().put(actions.goals.saveGoal('kycCTA'))
+    })
+
+    it('should add kyc doc resubmit goal', () => {
+      saga.next().put(actions.goals.saveGoal('kycDocResubmit'))
+    })
+
+    it('should add bsv goal', () => {
+      saga.next().put(actions.goals.saveGoal('bsv'))
     })
 
     it('should run goals', () => {
@@ -500,10 +508,6 @@ describe('authSagas', () => {
 
     it('should check for data errors', () => {
       saga.next().fork(checkDataErrors)
-    })
-
-    it('should dispatch action for reportBalanceStats', () => {
-      saga.next().put(actions.analytics.reportBalanceStats())
     })
 
     it('should start listening for logout event', () => {

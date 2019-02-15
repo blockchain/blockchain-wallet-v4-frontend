@@ -22,7 +22,9 @@ import {
   Button,
   HeartbeatLoader,
   Separator,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   DateInputBox,
@@ -38,6 +40,7 @@ import {
   InputWrapper,
   IdentityVerificationHeader,
   FaqFormMessage,
+  FaqHeaderHelper,
   FaqFormGroup,
   Label,
   Footer
@@ -45,7 +48,7 @@ import {
 import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
-  margin-top: 25px;
+  margin-top: 24px;
   margin-bottom: 25px;
   ${media.mobile`
     margin-bottom: 40px;
@@ -175,6 +178,15 @@ const Personal = ({
                     id='identityverification.personal.header'
                     defaultMessage='Personal Details'
                   />
+                  <FaqHeaderHelper>
+                    <TooltipHost id='identityverification.headerhelper'>
+                      <TooltipIcon
+                        name='question-in-circle-filled'
+                        color='brand-primary'
+                        size='24px'
+                      />
+                    </TooltipHost>
+                  </FaqHeaderHelper>
                 </IdentityVerificationHeader>
                 <FormContainer>
                   {showEmail && !emailVerified && (
@@ -199,7 +211,6 @@ const Personal = ({
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
-                            label
                           />
                         </FormItem>
                       </FaqFormGroup>
@@ -259,8 +270,8 @@ const Personal = ({
                   {showStateError && (
                     <ErrorBanner type='warning'>
                       <FormattedMessage
-                        id='identityverification.personal.unavailable'
-                        defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                        id='identityverification.personal.unavailable_swap'
+                        defaultMessage='Unfortunately Swap is not available in your state at this time.'
                       />
                       <FormattedMessage
                         id='identityverification.personal.unavailablenotify'

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { BlockchainLoader } from 'blockchain-info-components'
 import { getData } from './selectors'
 import media from 'services/ResponsiveService'
@@ -48,13 +48,7 @@ const Column = styled.div`
   width: 100%;
 `
 
-const { ENTERED } = model.analytics.EXCHANGE
-
 export class ExchangeScene extends React.PureComponent {
-  componentDidMount () {
-    this.props.logEnterExchange()
-  }
-
   render () {
     const { userCreated, hasEmail, location } = this.props
 
@@ -69,6 +63,8 @@ export class ExchangeScene extends React.PureComponent {
                 <Exchange
                   from={path(['state', 'from'], location)}
                   to={path(['state', 'to'], location)}
+                  fix={path(['state', 'fix'], location)}
+                  amount={path(['state', 'amount'], location)}
                 />
               </Column>
             </Container>
@@ -93,8 +89,7 @@ export class ExchangeScene extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
-  logEnterExchange: () => dispatch(actions.analytics.logEvent(ENTERED))
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 
 export default connect(

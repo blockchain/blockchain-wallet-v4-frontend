@@ -51,6 +51,12 @@ const ClickableText = styled(Text)`
   }
 `
 
+const Pipeline = styled.span`
+  background: ${props => props.theme['gray-2']};
+  margin-right: 8px;
+  width: 2px;
+`
+
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
   const { search, onSendBsv, onSwapBsv, onUnarchiveWallet } = props
@@ -68,11 +74,11 @@ const Success = props => {
       </BchWalletsAddressesSettingHeader>
       <SettingDescription>
         <FormattedMessage
-          id='scenes.settings.addresses.bsv.wallets.desc'
-          defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.'
+          id='scenes.settings.addresses.bsv.wallets.desc2'
+          defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.'
         />
       </SettingDescription>
-      <Table>
+      <Table dataE2e='bsvWalletsTable'>
         <TableHeader>
           <TableCell style={{ flexBasis: '55%' }}>
             <Text size='13px' weight={500}>
@@ -106,7 +112,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow>
+          <TableRow dataE2e='bsvWalletNoResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
@@ -123,11 +129,13 @@ const Success = props => {
             const isDefault = i === defaultIndex
             const isArchived = wallet.value.archived
             return (
-              <TableRow key={i}>
+              <TableRow key={i} dataE2e='bsvWalletRow'>
                 <WalletTableCell style={{ flexBasis: '55%' }}>
-                  <LabelCell size='13px'>{wallet.label}</LabelCell>
+                  <LabelCell size='13px' data-e2e='bsvWalletName'>
+                    {wallet.label}
+                  </LabelCell>
                   {isDefault && (
-                    <Banner label>
+                    <Banner label data-e2e='bsvWalletDefaultBadge'>
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.defaultlabel'
                         defaultMessage='Default'
@@ -135,7 +143,11 @@ const Success = props => {
                     </Banner>
                   )}
                   {isArchived && (
-                    <Banner label type='informational'>
+                    <Banner
+                      label
+                      type='informational'
+                      data-e2e='bsvWalletArchivedBadge'
+                    >
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.archivedlabel'
                         defaultMessage='Archived'
@@ -160,6 +172,7 @@ const Success = props => {
                       weight={400}
                       size='13px'
                       onClick={() => onUnarchiveWallet(i)}
+                      data-e2e='bsvUnarchiveWalletLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.unarchive'
@@ -173,17 +186,20 @@ const Success = props => {
                         size='13px'
                         onClick={() => onSendBsv(i)}
                         style={{ marginRight: '8px' }}
+                        data-e2e='bsvSendLink'
                       >
                         <FormattedMessage
                           id='scenes.settings.addresses.bsv.wallets.send'
                           defaultMessage='Send'
                         />
                       </ClickableText>
+                      <Pipeline />
                       <ClickableText
                         weight={400}
                         size='13px'
                         onClick={onSwapBsv}
                         style={{ marginRight: '8px' }}
+                        data-e2e='bsvSwapLink'
                       >
                         <Link weight={400} size='13px'>
                           <FormattedMessage

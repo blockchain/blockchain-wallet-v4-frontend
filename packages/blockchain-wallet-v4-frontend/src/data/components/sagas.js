@@ -60,7 +60,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  swapGetStarted: swapGetStarted({ coreSagas }),
+  swapGetStarted: swapGetStarted(),
   transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas })

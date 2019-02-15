@@ -11,6 +11,7 @@ const MaximumAmountLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendEthFirstStepMaximumAmountClicked}
+    data-e2e='ethMaximumAmountLink'
   >
     <FormattedMessage
       id='modals.sendeth.maximumamountlink.maximum'

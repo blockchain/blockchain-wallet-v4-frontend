@@ -36,7 +36,7 @@ class CustomizeStepContainer extends React.PureComponent {
         />
         <IntroText size='13px' weight={300}>
           <FormattedMessage
-            id='modals.lockboxsetup.pairdevice.intro'
+            id='modals.lockboxsetup.customizestep.title'
             defaultMessage='Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.'
           />
         </IntroText>

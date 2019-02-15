@@ -12,6 +12,8 @@ export const getBtcNetwork = state =>
   getWebOptions(state).map(path(['btc', 'config', 'network']))
 export const getEthTxFuse = state =>
   getWebOptions(state).map(path(['eth', 'lastTxFuse']))
+export const getAnalyticsSiteId = state =>
+  getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = state =>
   getWebOptions(state).map(path(['application', 'announcements']))
 export const getMigrationRedirects = state =>
@@ -23,11 +25,16 @@ export const getCoinAvailability = curry((state, coin) =>
 )
 
 // partners
-export const getSFOXCountries = state => getWebOptions(state).map(path(['sfox', 'countries']))
-export const getSFOXStates = state => getWebOptions(state).map(path(['sfox', 'states']))
-export const getCoinifyCountries = state => getWebOptions(state).map(path(['coinify', 'countries']))
-export const getISignThisDomain = state => getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
-export const getCoinifyPaymentDomain = state => getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
+export const getSFOXCountries = state =>
+  getWebOptions(state).map(path(['sfox', 'countries']))
+export const getSFOXStates = state =>
+  getWebOptions(state).map(path(['sfox', 'states']))
+export const getCoinifyCountries = state =>
+  getWebOptions(state).map(path(['coinify', 'countries']))
+export const getISignThisDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
+export const getCoinifyPaymentDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
 export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 // wallet helper
 export const getWalletHelperUrl = state =>

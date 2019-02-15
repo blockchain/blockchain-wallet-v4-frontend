@@ -64,7 +64,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(sendXlm({ coreSagas }))
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
-    yield fork(swapGetStarted({ coreSagas }))
+    yield fork(swapGetStarted())
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
     yield fork(veriff({ api, coreSagas }))

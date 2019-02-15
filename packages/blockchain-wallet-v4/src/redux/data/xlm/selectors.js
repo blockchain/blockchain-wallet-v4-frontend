@@ -4,13 +4,12 @@ import {
   find,
   lift,
   map,
-  identity,
-  memoizeWith,
   path,
   prop,
   propOr,
   propEq,
-  sum
+  sum,
+  uniq
 } from 'ramda'
 
 import { dataPath } from '../../paths'
@@ -27,7 +26,7 @@ export const getContext = createDeepEqualSelector(
   (walletContextR, lockboxContextR) => {
     const walletContext = walletContextR.getOrElse([])
     const lockboxContext = lockboxContextR.getOrElse([])
-    return walletContext.concat(lockboxContext)
+    return uniq(walletContext.concat(lockboxContext))
   }
 )
 
@@ -62,7 +61,7 @@ export const getNumberOfEntries = curry(
 export const selectBalanceFromAccount = compose(
   prop('balance'),
   find(propEq('asset_type', 'native')),
-  prop('balances')
+  propOr([], 'balances')
 )
 
 export const getAccountBalance = compose(
@@ -70,35 +69,30 @@ export const getAccountBalance = compose(
   getAccount
 )
 
-const calculateBalance = memoizeWith(
-  identity,
-  balance =>
-    Exchange.convertCoinToCoin({
-      value: balance,
-      coin: 'XLM',
-      baseToStandard: false
-    }).value
-)
+const calculateBalance = balance =>
+  Exchange.convertCoinToCoin({
+    value: balance,
+    coin: 'XLM',
+    baseToStandard: false
+  }).value
 
-export const getBalance = curry(
+export const getBalance = curry((state, accountId) =>
   compose(
     lift(
       compose(
         calculateBalance,
-        prop('balance'),
-        find(propEq('asset_type', 'native')),
-        propOr([], 'balances')
+        selectBalanceFromAccount
       )
     ),
     getAccount
-  )
+  )(accountId, state)
 )
 
 export const getTotalBalance = state =>
   compose(
     Remote.of,
     sum,
-    map(accountId => getBalance(accountId, state).getOrElse(0)),
+    map(accountId => getBalance(state, accountId).getOrElse(0)),
     getContext
   )(state)
 
@@ -107,7 +101,7 @@ export const getRates = path([dataPath, 'xlm', 'rates'])
 export const getTransactionsAtBound = path([
   dataPath,
   'xlm',
-  'transactionsAtBound'
+  'transactions_at_bound'
 ])
 
 export const getTransactions = path([dataPath, 'xlm', 'transactions'])

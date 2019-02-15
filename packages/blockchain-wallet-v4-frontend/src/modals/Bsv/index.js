@@ -1,3 +1,4 @@
+import BsvGetStarted from './BsvGetStarted'
 import SendBsv from './SendBsv'
 
-export { SendBsv }
+export { BsvGetStarted, SendBsv }

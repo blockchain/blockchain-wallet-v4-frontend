@@ -1,14 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
 import TransactionList from 'scenes/Transactions/Content'
 import { SettingHeader } from 'components/Setting'
 import { Text } from 'blockchain-info-components'
-import { getAreThereBsvTransactions } from './selectors'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -34,19 +30,12 @@ const TableHeader = styled.div`
   background-color: ${props => props.theme['brand-quaternary']};
 `
 const TableCell = styled.div``
-const NoBsv = styled.div`
-  margin: 20px;
-`
 const TxListScrollWrap = styled.div`
   height: 350px;
   max-height: 350px;
   overflow: scroll;
 `
 class BsvTransactionsContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.txActions.initialized()
-  }
-
   render () {
     return (
       <Wrapper>
@@ -56,7 +45,7 @@ class BsvTransactionsContainer extends React.PureComponent {
             defaultMessage='Bitcoin SV Transactions'
           />
         </Title>
-        <Table>
+        <Table dataE2e='bsvTransactionsTable'>
           <TableHeader>
             <TableCell style={{ flexBasis: '45%' }}>
               <Text size='13px' weight={500}>
@@ -89,35 +78,13 @@ class BsvTransactionsContainer extends React.PureComponent {
               </Text>
             </TableCell>
           </TableHeader>
-          {this.props.areThereBsvTransactions ? (
-            <TxListScrollWrap>
-              <TransactionList coin='BSV' />
-            </TxListScrollWrap>
-          ) : (
-            <NoBsv>
-              <Text size='14px'>
-                <FormattedMessage
-                  id='scenes.settings.addresses.bsv.empty'
-                  defaultMessage='No Transactions Found'
-                />
-              </Text>
-            </NoBsv>
-          )}
+          <TxListScrollWrap>
+            <TransactionList coin='BSV' />
+          </TxListScrollWrap>
         </Table>
       </Wrapper>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  txActions: bindActionCreators(actions.components.bsvTransactions, dispatch)
-})
-
-const mapStateToProps = state => ({
-  areThereBsvTransactions: getAreThereBsvTransactions(state)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BsvTransactionsContainer)
+export default BsvTransactionsContainer

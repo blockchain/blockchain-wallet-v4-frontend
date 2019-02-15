@@ -14,7 +14,7 @@ const LocalCurrency = props => {
   const { currency } = props
 
   return (
-    <SettingContainer>
+    <SettingContainer data-e2e='prefsLocalCurrency'>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage

@@ -57,12 +57,17 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
-export const getXlmBalance = state =>
-  selectors.core.kvStore.xlm
-    .getDefaultAccountId(state)
-    .map(accountId =>
-      selectors.core.data.xlm.getBalance(accountId, state).getOrElse(0)
-    )
+export const getXlmBalance = createDeepEqualSelector(
+  [
+    state =>
+      selectors.core.kvStore.xlm
+        .getDefaultAccountId(state)
+        .map(accountId =>
+          selectors.core.data.xlm.getBalance(state, accountId).getOrElse(0)
+        )
+  ],
+  xlmBalanceR => xlmBalanceR
+)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [

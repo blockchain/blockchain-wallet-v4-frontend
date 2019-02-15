@@ -14,22 +14,20 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
-import { SendBsv } from './Bsv'
-import {
-  CoinifyDeleteBank,
-  CoinifyTradeDetails
-} from './Coinify'
+import { BsvGetStarted, SendBsv } from './Bsv'
+import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeDetails,
   ExchangeResults,
+  KycDocResubmit,
   IdentityVerification,
   SwapGetStarted,
   SwapUpgrade,
   UserExists,
   SunRiverLinkError
 } from './Exchange'
-import { Confirm, PromptInput } from './Generic'
+import { Confirm, PromptInput, Support } from './Generic'
 import {
   LockboxAppManager,
   LockboxAuthenticityCheck,
@@ -70,6 +68,7 @@ const Modals = () => (
   <div>
     <AddBtcWallet />
     <AutoDisconnection />
+    <BsvGetStarted />
     <CoinifyDeleteBank />
     <CoinifyTradeDetails />
     <Confirm />
@@ -78,6 +77,7 @@ const Modals = () => (
     <EditTxDescription />
     <ExchangeDetails />
     <ExchangeResults />
+    <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAuthenticityCheck disableOutsideClose />
@@ -113,6 +113,7 @@ const Modals = () => (
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
     <SunRiverLinkError />
+    <Support />
     <SwapGetStarted />
     <SwapUpgrade />
     <TransactionReport />

@@ -30,7 +30,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Exchange {coin}"
         id="modals.exchangeresults.exchange"
@@ -40,11 +40,11 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Receive {coin}"
         id="modals.exchangeresults.receive"
@@ -54,7 +54,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       <ExchangeResults__StrikeThrough>
         0.1337 ETH
@@ -141,7 +141,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Exchange {coin}"
         id="modals.exchangeresults.exchange"
@@ -151,11 +151,11 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Receive {coin}"
         id="modals.exchangeresults.receive"
@@ -165,7 +165,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       <ExchangeResults__StrikeThrough>
         0.1337 ETH
@@ -188,25 +188,36 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
     </Exchange__TableRow>
   </ModalBody>
   <ExchangeResults__ExchangeResultsFooter>
-    <Button
+    <Link
       bold={false}
       capitalize={false}
-      disabled={false}
-      fullwidth={false}
-      height="40px"
-      nature="primary"
-      rounded={false}
-      size="13px"
-      small={false}
+      color="brand-secondary"
+      href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
+      size="16px"
+      target="_blank"
       uppercase={false}
-      weight={300}
+      weight={400}
     >
-      <FormattedMessage
-        defaultMessage="Close"
-        id="modals.exchange.exchangeresults.close"
-        values={Object {}}
-      />
-    </Button>
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        size="13px"
+        small={false}
+        uppercase={false}
+        weight={300}
+      >
+        <FormattedMessage
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
+          values={Object {}}
+        />
+      </Button>
+    </Link>
   </ExchangeResults__ExchangeResultsFooter>
 </Modal>
 `;
@@ -236,7 +247,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="{coin} Deposited"
         id="modals.exchangeresults.deposited"
@@ -246,11 +257,11 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="{coin} Received"
         id="modals.exchangeresults.received"
@@ -260,7 +271,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.1337 ETH
     </Exchange__ExchangeAmount>
@@ -368,7 +379,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Exchange {coin}"
         id="modals.exchangeresults.exchange"
@@ -378,11 +389,11 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Receive {coin}"
         id="modals.exchangeresults.receive"
@@ -392,7 +403,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.1337 ETH
     </Exchange__ExchangeAmount>
@@ -494,7 +505,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Exchange {coin}"
         id="modals.exchangeresults.exchange"
@@ -504,11 +515,11 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Receive {coin}"
         id="modals.exchangeresults.receive"
@@ -518,7 +529,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.1337 ETH
     </Exchange__ExchangeAmount>
@@ -620,7 +631,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="{coin} Broadcast"
         id="modals.exchangeresults.broadcast"
@@ -630,7 +641,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
@@ -718,7 +729,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Exchange {coin}"
         id="modals.exchangeresults.exchange"
@@ -728,11 +739,11 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="Receive {coin}"
         id="modals.exchangeresults.receive"
@@ -742,7 +753,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.1337 ETH
     </Exchange__ExchangeAmount>
@@ -844,7 +855,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
       />
       ede39566-1f0d-4e48-96fa-b558b70e46b7
     </ExchangeResults__OrderRow>
-    <Exchange__AmountHeader>
+    <ExchangeResults__ResultAmountHeader>
       <FormattedMessage
         defaultMessage="{coin} Broadcast"
         id="modals.exchangeresults.broadcast"
@@ -854,7 +865,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
           }
         }
       />
-    </Exchange__AmountHeader>
+    </ExchangeResults__ResultAmountHeader>
     <Exchange__ExchangeAmount>
       0.008022 BTC
     </Exchange__ExchangeAmount>

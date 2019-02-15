@@ -8,7 +8,6 @@ export const logLocation = 'components/settings/sagas'
 export default ({ coreSagas }) => {
   const initializeBsv = function*() {
     try {
-      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.data.bsv.fetchData)
       yield call(coreSagas.data.bsv.fetchRates)
     } catch (e) {

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  & > :last-child {
+  &:last-child {
     > div {
       border: none;
     }
