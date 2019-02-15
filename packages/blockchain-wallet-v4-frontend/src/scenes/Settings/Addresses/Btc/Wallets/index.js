@@ -1,11 +1,13 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData, getWalletsWithoutRemoteData } from './selectors'
-import Template from './template.success'
+import Template from './template'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
+
+const { WALLET_TX_SEARCH } = model.form
 
 class BitcoinWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
@@ -13,7 +15,14 @@ class BitcoinWalletsContainer extends React.Component {
   }
 
   render () {
-    const { search, data, walletsWithoutRemoteData, modalActions, coreActions, ...rest } = this.props
+    const {
+      search,
+      data,
+      walletsWithoutRemoteData,
+      modalActions,
+      coreActions,
+      ...rest
+    } = this.props
 
     return data.cata({
       Success: value => (
@@ -22,7 +31,7 @@ class BitcoinWalletsContainer extends React.Component {
           search={search && search.toLowerCase()}
           onUnarchive={i => coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            modalActions.showModal('AddBitcoinWallet', {
+            modalActions.showModal('AddBtcWallet', {
               wallets: value
             })
           }
@@ -37,7 +46,7 @@ class BitcoinWalletsContainer extends React.Component {
           search={search && search.toLowerCase()}
           onUnarchive={i => coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            modalActions.showModal('AddBitcoinWallet', {
+            modalActions.showModal('AddBtcWallet', {
               wallets: walletsWithoutRemoteData
             })
           }
@@ -58,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search'),
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)
 })
 

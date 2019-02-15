@@ -11,13 +11,13 @@ const Container = styled.div`
 const Title = styled(Text)`
   line-height: 20px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 10px;
 `
 const Message = styled(Text)`
   font-size: 14px;
   line-height: 20px;
-  font-weight: 300;
+  font-weight: 200;
 `
 const FaqIcon = styled(Icon)`
   color: ${props => props.theme['brand-primary']};

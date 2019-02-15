@@ -1,22 +1,21 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 
 export const logLocation = 'components/btcTransactions/sagas'
 
-export default ({ coreSagas }) => {
+export default () => {
+  const { WALLET_TX_SEARCH } = model.form
   const initialized = function*() {
     try {
-      const defaultSource = ''
+      const defaultSource = 'all'
       const initialValues = {
         source: defaultSource,
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(
-        actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
-      )
+      yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -30,24 +29,18 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const scrollUpdated = function*(action) {
+  const loadMore = function*() {
     try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/btc/transactions')) return
       const formValues = yield select(
-        selectors.form.getFormValues('btcTransactions')
+        selectors.form.getFormValues(WALLET_TX_SEARCH)
       )
       const source = prop('source', formValues)
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-      if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all')
-          ? ''
-          : source.xpub || source.address
-        yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
-      }
+      const onlyShow = equals(source, 'all')
+        ? ''
+        : source.xpub || source.address
+      yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
   }
 
@@ -56,7 +49,7 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('btcTransactions', form)) return
+      if (!equals(WALLET_TX_SEARCH, form)) return
 
       switch (field) {
         case 'source':
@@ -74,6 +67,6 @@ export default ({ coreSagas }) => {
     initialized,
     reportClicked,
     formChanged,
-    scrollUpdated
+    loadMore
   }
 }

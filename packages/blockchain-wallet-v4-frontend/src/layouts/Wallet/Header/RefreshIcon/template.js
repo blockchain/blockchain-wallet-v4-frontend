@@ -1,18 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
-const RefreshIcon = props => (
+const rotation = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`
+
+const animationRule = css`
+  ${rotation} ${props => props.animateTime}s linear;
+`
+
+export const SpinningIcon = styled(Icon)`
+  animation: ${({ rotating }) => rotating && animationRule};
+`
+
+const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
   <TooltipHost id='refresh.tooltip'>
     <Link
       size='14px'
       weight={300}
       color='white'
       uppercase
-      onClick={props.handleRefresh}
+      onClick={handleRefresh}
+      data-e2e='refreshLink'
     >
-      <Icon name='refresh-filled' color='white' cursor />
+      <SpinningIcon
+        name='refresh'
+        size='16px'
+        color='white'
+        cursor
+        rotating={rotating}
+        animateTime={animateTime}
+      />
     </Link>
   </TooltipHost>
 )

@@ -8,6 +8,7 @@ import moment from 'services/MomentHelper'
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+jest.useFakeTimers()
 
 const MOCK_FORM_VALUES = {
   from: {
@@ -29,7 +30,7 @@ describe('transactionReport sagas', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
 
-    it('should initialize the transaciton report form', () => {
+    it('should initialize the transaction report form', () => {
       saga
         .next('ES')
         .put(actions.form.initialize('transactionReport', initialValues))

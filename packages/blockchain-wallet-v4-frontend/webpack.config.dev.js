@@ -1,8 +1,5 @@
 /* eslint-disable */
-/* prettier-ignore */
 const chalk = require('chalk')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -12,14 +9,20 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-
-const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-let sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+const coinifyPaymentDomain =
+  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
+
 let envConfig = {}
+let manifestCacheBust = new Date().getTime()
+let sslEnabled = process.env.DISABLE_SSL
+  ? false
+  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+    fs.existsSync(PATHS.sslConfig + '/cert.pem')
+let localhostUrl = sslEnabled
+  ? 'https://localhost:8080'
+  : 'http://localhost:8080'
 
 try {
   envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
@@ -50,9 +53,12 @@ try {
 
 module.exports = {
   mode: 'development',
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: [
-      'babel-polyfill',
+      '@babel/polyfill',
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:8080',
       'webpack/hot/only-dev-server',
@@ -70,7 +76,10 @@ module.exports = {
       {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -116,8 +125,7 @@ module.exports = {
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
-    new Webpack.HotModuleReplacementPlugin(),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
+    new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
     namedModules: true,
@@ -142,7 +150,7 @@ module.exports = {
     ],
     concatenateModules: false,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {
@@ -196,12 +204,16 @@ module.exports = {
           api: envConfig.API_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          veriff: envConfig.VERIFF_URL,
           comWalletApp: envConfig.COM_WALLET_APP,
-          comRoot: envConfig.COM_ROOT
+          comRoot: envConfig.COM_ROOT,
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          horizon: envConfig.HORIZON_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'
@@ -210,7 +222,7 @@ module.exports = {
         res.json(mockWalletOptions)
       })
 
-      // TODO:: DEPRECATE
+      // TODO: DEPRECATE
       // This is to locally test transferring cookies from transfer_stored_values.html
       app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
@@ -222,23 +234,18 @@ module.exports = {
       })
 
       app.get('/Resources/wallet-options.json', function(req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: sslEnabled
-            ? 'https://localhost:8080'
-            : 'http://localhost:8080'
-        }
-
+        mockWalletOptions.domains = { comWalletApp: localhostUrl }
         res.json(mockWalletOptions)
       })
     },
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function(req, res, proxyOptions) {
-          return '/index.html'
-        }
+    proxy: {
+      '/ledger': {
+        target: envConfig.LEDGER_URL,
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/ledger': '' }
       }
-    ],
+    },
     overlay: {
       warnings: true,
       errors: true
@@ -247,21 +254,32 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "script-src 'self'",
+        "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
+        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } ${
           envConfig.ROOT_URL
-        } https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        } https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `child-src ${iSignThisDomain} ${coinifyPaymentDomain}  ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } blob:`,
         [
           'connect-src',
           "'self'",
           'ws://localhost:8080',
           'wss://localhost:8080',
+          'wss://api.ledgerwallet.com',
+          'wss://ws.testnet.blockchain.info/inv',
           envConfig.WEB_SOCKET_URL,
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.LEDGER_URL,
+          envConfig.LEDGER_SOCKET_URL,
+          envConfig.HORIZON_URL,
+          envConfig.VERIFF_URL,
+          'https://friendbot.stellar.org',
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
@@ -272,7 +290,6 @@ module.exports = {
           'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'wss://ws.testnet.blockchain.info/inv',
           'https://shapeshift.io'
         ].join(' '),
         "object-src 'none'",

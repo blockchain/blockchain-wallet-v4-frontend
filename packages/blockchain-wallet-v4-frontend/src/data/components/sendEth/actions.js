@@ -21,6 +21,10 @@ export const sendEthSecondStepSubmitClicked = () => ({
 export const sendEthSecondStepCancelClicked = () => ({
   type: AT.SEND_ETH_SECOND_STEP_CANCEL_CLICKED
 })
+export const sendEthFirstStepToToggled = val => ({
+  type: AT.SEND_ETH_FIRST_STEP_TO_TOGGLED,
+  payload: val
+})
 export const sendEthFirstStepFeeToggled = () => ({
   type: AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED
 })

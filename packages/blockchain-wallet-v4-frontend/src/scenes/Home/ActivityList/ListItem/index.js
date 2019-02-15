@@ -98,15 +98,16 @@ const selectColor = action => {
 }
 
 const ActivityListItem = props => (
-  <Container>
+  <Container data-e2e='recentActivityRow'>
     <Circle>
       <Icon name={selectIcon(props.type)} color='brand-primary' />
     </Circle>
-    <Info
-      cursor={props.coin}
-      onClick={() => props.path && props.handleLink(props.path)}
-    >
-      <RecentActivityText capitalize color={selectColor(props.action)}>
+    <Info>
+      <RecentActivityText
+        capitalize
+        color={selectColor(props.action)}
+        data-e2e='recentActivityLabel'
+      >
         {props.action} {props.coin}
         {props.watchOnly && (
           <Label>
@@ -116,9 +117,11 @@ const ActivityListItem = props => (
           </Label>
         )}
       </RecentActivityText>
-      <RecentActivityText>{props.timeFormatted}</RecentActivityText>
+      <RecentActivityText data-e2e='recentActivityDate'>
+        {props.timeFormatted}
+      </RecentActivityText>
       {props.coin && (
-        <RecentActivityText>
+        <RecentActivityText data-e2e='recentActivityValue'>
           <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>
             {props.amount}
           </SwitchableDisplay>

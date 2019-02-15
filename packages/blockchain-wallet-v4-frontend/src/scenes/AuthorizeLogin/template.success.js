@@ -193,7 +193,7 @@ const Success = props => {
               </DeviceDiff>
             </DeviceInfoWrapper>
             <ApproveWrapper>
-              <Button nature='logout' onClick={props.onAccept}>
+              <Button nature='warning' onClick={props.onAccept}>
                 <FormattedMessage
                   id='scenes.authorizelogin.accept'
                   defaultMessage='Accept'

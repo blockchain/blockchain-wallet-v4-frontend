@@ -10,7 +10,7 @@ import {
 
 import Settings from './Settings'
 
-const AutoLogout = props => {
+const AutoLogout = () => {
   return (
     <SettingContainer>
       <SettingSummary>

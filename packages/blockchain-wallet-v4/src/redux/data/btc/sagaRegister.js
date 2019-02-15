@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const dataBtcSagas = sagas({ api })
 
-  return function*() {
+  return function* coreDataBtcSaga () {
     yield takeLatest(AT.FETCH_BITCOIN_DATA, dataBtcSagas.fetchData)
     yield takeLatest(AT.FETCH_BITCOIN_FEE, dataBtcSagas.fetchFee)
     yield takeLatest(AT.FETCH_BITCOIN_RATES, dataBtcSagas.fetchRates)

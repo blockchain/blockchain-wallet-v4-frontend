@@ -54,7 +54,11 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getRawTx = txHex =>
     get({
       url: rootUrl,
-      endPoint: '/rawtx/' + txHex
+      endPoint: '/rawtx/' + txHex,
+      data: {
+        format: 'hex',
+        cors: 'true'
+      }
     })
 
   const getBalances = addresses =>

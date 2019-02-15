@@ -1,11 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { has, path, prop } from 'ramda'
+import { path } from 'ramda'
 
 import { Banner, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -27,35 +26,17 @@ const ItemWrapper = styled.div`
     height: 0 !important;
   }
 `
-const BalanceContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
-`
 
 const renderItem = item => {
   return (
-    <ItemWrapper>
+    <ItemWrapper data-e2e='btcAddressOption'>
       <Text weight={300} size='14px'>
         {item.text}
       </Text>
-      {has('balance', prop('value', item)) && (
-        <BalanceContainer>
-          <Text weight={300} size='14px'>
-            (
-          </Text>
-          <SwitchableDisplay weight={300} size='14px' coin={item.value.coin}>
-            {item.value.balance}
-          </SwitchableDisplay>
-          <Text weight={300} size='14px'>
-            )
-          </Text>
-        </BalanceContainer>
-      )}
       {path(['value', 'watchOnly'], item) && (
         <Banner type='informational' inline>
           <FormattedMessage
-            id='components.selectboxbitcoin.watchonly'
+            id='components.selectboxbtcaddresses.watchonly'
             defaultMessage='Non-Spendable'
           />
         </Banner>
@@ -64,4 +45,6 @@ const renderItem = item => {
   )
 }
 
-export default props => <SelectBox {...props} templateItem={renderItem} />
+export default props => (
+  <SelectBox {...props} templateItem={renderItem} grouped />
+)

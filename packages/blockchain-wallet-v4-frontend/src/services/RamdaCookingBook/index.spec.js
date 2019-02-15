@@ -9,9 +9,9 @@ describe('RamdaCookingBook Service', () => {
         languagesSortedByName
       )
     ]
-    expect(items[0].value).toEqual('bg')
-    expect(items[0].text).toEqual('Bulgarian')
-    expect(items[4].value).toEqual('en')
-    expect(items[4].text).toEqual('English')
+    expect(items[0].value).toEqual('zh')
+    expect(items[0].text).toEqual('Chinese (simplified)')
+    expect(items[2].value).toEqual('nl')
+    expect(items[2].text).toEqual('Dutch')
   })
 })

@@ -103,9 +103,17 @@ export default ({ api, coreSagas }) => {
   const fetchNextPage = function*() {
     try {
       yield put(A.fetchTradesLoading())
+      const currency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrElse('USD')
       const trades = (yield select(S.getTrades)).getOrElse([])
       const lastTradeTime = prop('createdAt', last(trades))
-      let nextPageTrades = yield call(api.fetchTrades, PER_PAGE, lastTradeTime)
+      let nextPageTrades = yield call(
+        api.fetchTrades,
+        PER_PAGE,
+        currency,
+        lastTradeTime
+      )
       if (nextPageTrades.length < PER_PAGE) {
         const shapeShiftTrades = (yield select(
           selectors.core.kvStore.shapeShift.getTrades

@@ -9,22 +9,21 @@ import Convertor from './Convertor'
 
 class FiatConvertorContainer extends React.PureComponent {
   render () {
-    const { input, meta, data, disabled } = this.props
+    const { input, meta, data, disabled, errorBottom, className } = this.props
 
     return data.cata({
       Success: value => (
         <Convertor
-          unit={value.unit}
-          currency={value.currency}
-          btcRates={value.btcRates}
-          bchRates={value.bchRates}
-          ethRates={value.ethRates}
+          {...value}
+          className={className}
           meta={meta}
+          errorBottom={errorBottom}
           value={input.value}
           onChange={input.onChange}
           onBlur={input.onBlur}
           onFocus={input.onFocus}
           disabled={disabled}
+          data-e2e={this.props['data-e2e']}
         />
       ),
       Failure: message => <Error>{message}</Error>,
@@ -44,7 +43,7 @@ FiatConvertorContainer.propTypes = {
       PropTypes.number.isRequired
     ])
   }).isRequired,
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

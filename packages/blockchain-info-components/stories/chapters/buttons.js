@@ -34,7 +34,7 @@ const Code = styled.div`
   display: block;
   width: 100%;
   height: 25px;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #cdcdcd;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
@@ -54,32 +54,60 @@ const ButtonComponent = props => {
 }
 
 const ButtonLayout = props => {
-  return (
-    <ButtonWrapper>
-      {props.children}
-    </ButtonWrapper>
-  )
+  return <ButtonWrapper>{props.children}</ButtonWrapper>
 }
 
-const natures = ['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']
+const natures = [
+  'empty',
+  'primary',
+  'secondary',
+  'success',
+  'received',
+  'sent',
+  'transferred',
+  'logout',
+  'dark',
+  'gray'
+]
 
 storiesOf('Buttons', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
-  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('All buttons', () =>
+  .addDecorator(story => <Layout>{story()}</Layout>)
+  .addDecorator((story, context) =>
+    withInfo({ text: 'Documentation', inline: true })(story)(context)
+  )
+  .add('All buttons', () => (
     <ButtonLayout>
-      { natures.map((value, index) => {
-        return <ButtonComponent key={index} nature={value}>{`Button ${value}`}</ButtonComponent>
+      {natures.map((value, index) => {
+        return (
+          <ButtonComponent
+            key={index}
+            nature={value}
+          >{`Button ${value}`}</ButtonComponent>
+        )
       })}
-    </ButtonLayout>)
+    </ButtonLayout>
+  ))
   .add('Button', () => <Button>Button</Button>)
   .add('Button rounded', () => <Button rounded>Button rounded</Button>)
   .add('Button fullwidth', () => <Button fullwidth>Button fullwidth</Button>)
   .add('Button disabled', () => <Button disabled>Button disabled</Button>)
   .add('Button bold', () => <Button bold>Button bold</Button>)
   .add('Button uppercase', () => <Button uppercase>Button uppercase</Button>)
-  .add('Button capitalize', () => <Button capitalize>Button ca pi ta li ze</Button>)
-  .add('ButtonGroup with 2 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button></ButtonGroup>))
-  .add('ButtonGroup with 3 buttons', () => (<ButtonGroup><Button>Button 1</Button><Button>Button 2</Button><Button>Button 3</Button></ButtonGroup>))
+  .add('Button capitalize', () => (
+    <Button capitalize>Button ca pi ta li ze</Button>
+  ))
+  .add('ButtonGroup with 2 buttons', () => (
+    <ButtonGroup>
+      <Button>Button 1</Button>
+      <Button>Button 2</Button>
+    </ButtonGroup>
+  ))
+  .add('ButtonGroup with 3 buttons', () => (
+    <ButtonGroup>
+      <Button>Button 1</Button>
+      <Button>Button 2</Button>
+      <Button>Button 3</Button>
+    </ButtonGroup>
+  ))
   .add('IconButton', () => <IconButton name='send' />)
   .add('IconButton with text', () => <IconButton name='send'>Send</IconButton>)

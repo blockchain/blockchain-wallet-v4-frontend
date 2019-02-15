@@ -7,7 +7,7 @@ import CheckBoxInput from './CheckBoxInput'
 describe('CheckBoxInput component', () => {
   it('default renders correctly', () => {
     const component = shallow(
-      <CheckBoxInput name='check' checked disabled='false'>
+      <CheckBoxInput name='terms' checked disabled='false'>
         <span>test</span>
       </CheckBoxInput>
     )

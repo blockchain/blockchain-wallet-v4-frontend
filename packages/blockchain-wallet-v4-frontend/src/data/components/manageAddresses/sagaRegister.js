@@ -2,10 +2,10 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas, networks }) => {
-  const manageAddressesSagas = sagas({ api, coreSagas, networks })
+export default ({ api, networks }) => {
+  const manageAddressesSagas = sagas({ api, networks })
 
-  return function*() {
+  return function* manageAddressesSaga () {
     yield takeLatest(
       AT.DELETE_ADDRESS_LABEL,
       manageAddressesSagas.deleteAddressLabel

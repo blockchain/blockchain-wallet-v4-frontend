@@ -1,10 +1,12 @@
 import analytics from './analytics'
-import bitcoin from './btc'
-import delegate from './delegate'
-import ethereum from './eth'
 import bch from './bch'
+import btc from './btc'
+import bsv from './bsv'
+import delegate from './delegate'
+import eth from './eth'
 import kvStore from './kvStore'
 import kyc from './kyc'
+import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
@@ -13,46 +15,55 @@ import shapeShift from './shapeShift'
 import sfox from './sfox'
 import trades from './trades'
 import wallet from './wallet'
-import fetchService from './fetch'
+import xlm from './xlm'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
 
-export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
-  const { get, post } = fetchService({ apiKey })
+export default ({
+  options,
+  apiKey,
+  getAuthCredentials,
+  reauthenticate,
+  networks
+} = {}) => {
   const http = httpService({ apiKey })
-  const authorizedHttp = apiAuthorize(http, getAuthCredentials)
+  const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
+  const horizonUrl = options.domains.horizon
+  const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
-    ...analytics({ rootUrl, apiUrl, get, post }),
-    ...bitcoin({ rootUrl, apiUrl, get, post }),
-    ...delegate({ rootUrl, apiUrl, get, post }),
-    ...ethereum({ rootUrl, apiUrl, get, post }),
-    ...bch({ rootUrl, apiUrl, get, post }),
-    ...kvStore({ apiUrl, networks }),
+    ...analytics({ rootUrl, ...http }),
+    ...bch({ rootUrl, apiUrl, ...http }),
+    ...btc({ rootUrl, apiUrl, ...http }),
+    ...bsv({ rootUrl, apiUrl, ...http }),
+    ...delegate({ rootUrl, apiUrl, ...http }),
+    ...eth({ rootUrl, apiUrl, ...http }),
+    ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,
-      get: http.get,
       authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
+      authorizedPost: authorizedHttp.post,
+      ...http
     }),
-    ...misc({ rootUrl, apiUrl, get, post }),
+    ...lockbox({ ledgerUrl, ...http }),
+    ...misc({ rootUrl, apiUrl, ...http }),
     ...profile({
       rootUrl,
       nabuUrl,
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
-      get: http.get,
-      post: http.post
+      ...http
     }),
     ...sfox(),
-    ...settings({ rootUrl, apiUrl, get, post }),
+    ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, get, post })
+    ...wallet({ rootUrl, ...http }),
+    ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
   }
 }

@@ -11,9 +11,8 @@ Few examples:
 
 1. `CountdownTimer` is used in Exchange, Coinify and Sfox journeys, but behave in the same way for those 3.
 2. `Alerts` is used in the both Public and Wallet layouts
-3. `TransactionListItem` is used in scenes/Transactions/Btc , scenes/Transactions/Bch and scenes/Transactions/Eth to uniformize the way we display our list of transactions across our different coins
-4. All our Redux-Form compatible custom components (`Textbox`, `NumberBox`, `SelectBox` ...)
-5 `ExchangeTimeline` is used in scenes/Exchange/ThirdStep and ExchangeDetails modal
+3. All our Redux-Form compatible custom components (`Textbox`, `NumberBox`, `SelectBox` ...)
+4. `ExchangeTimeline` is used in scenes/Exchange/ThirdStep and ExchangeDetails modal
 5. Etc...
 
 ## What can I add here ?

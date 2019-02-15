@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ coreSagas, networks }) => {
   const sendBtcSagas = sagas({ coreSagas, networks })
 
-  return function*() {
+  return function* sendBtcSaga () {
     yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcSagas.initialized)
     yield takeLatest(AT.SEND_BTC_DESTROYED, sendBtcSagas.destroyed)
     yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, sendBtcSagas.toToggled)

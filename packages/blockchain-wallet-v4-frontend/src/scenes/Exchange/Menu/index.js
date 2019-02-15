@@ -3,80 +3,81 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
+import { actions } from 'data'
 import { getData } from './selectors'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import {
-  Image,
-  Link,
-  TabMenu,
-  TabMenuItem,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 0 30px;
+  padding: 12px 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-
-  > div > span:first-child {
-    padding-left: 0;
+`
+const LinkItem = styled(TabMenuItem)`
+  &.active {
+    & :after {
+      position: absolute;
+      content: '';
+      top: 42px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+      z-index: 99;
+    }
   }
 `
-const Shapeshift = styled(TextGroup)`
-  display: flex;
-  flex-direction: row;
-  padding-top: 11px;
-  align-self: flex-end;
-  align-items: center;
-  width: 170px;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
+const SupportButton = styled(Button)`
+  margin-left: auto;
+  height: 38px;
 `
 
-export const MenuTop = ({ useShapeShift }) => (
-  <Wrapper>
-    <TabMenu>
-      <LinkContainer to='/exchange' activeClassName='active' exact>
-        <TabMenuItem>
+export const Menu = ({ showGetStarted, showHelpModal }) =>
+  !showGetStarted ? (
+    <Wrapper>
+      <TabMenu>
+        <LinkContainer to='/swap' exact>
+          <LinkItem activeClassName='active' data-e2e='exchangeTabMenuExchange'>
+            <FormattedMessage
+              id='scenes.exchange.menutop.swap'
+              defaultMessage='Swap'
+            />
+          </LinkItem>
+        </LinkContainer>
+        <LinkContainer to='/swap/history'>
+          <LinkItem
+            activeClassName='active'
+            data-e2e='exchangeTabMenuOrderHistory'
+          >
+            <FormattedMessage
+              id='scenes.exchange.menutop.history'
+              defaultMessage='Order History'
+            />
+          </LinkItem>
+        </LinkContainer>
+        <SupportButton nature='primary' onClick={showHelpModal}>
           <FormattedMessage
-            id='scenes.exchange.menutop.exchange'
-            defaultMessage='Exchange'
+            id='scenes.exchange.menutop.need_help'
+            defaultMessage='Need Help?'
           />
-        </TabMenuItem>
-      </LinkContainer>
-      <LinkContainer to='/exchange/history' activeClassName='active'>
-        <TabMenuItem>
-          <FormattedMessage
-            id='scenes.exchange.menutop.history'
-            defaultMessage='Order History'
-          />
-        </TabMenuItem>
-      </LinkContainer>
-    </TabMenu>
-    {useShapeShift && (
-      <Shapeshift>
-        <Text size='12px' weight={300}>
-          <FormattedMessage
-            id='scenes.exchange.menutop.poweredby'
-            defaultMessage='Powered by'
-          />
-        </Text>
-        <Link href='https://www.shapeshift.io' target='_blank'>
-          <Image name='shapeshiftLogo' width='60px' height='25px' />
-        </Link>
-      </Shapeshift>
-    )}
-  </Wrapper>
-)
+        </SupportButton>
+      </TabMenu>
+    </Wrapper>
+  ) : (
+    <div />
+  )
 
-export default connect(getData)(MenuTop)
+const mapDispatchToProps = dispatch => ({
+  showHelpModal: () => dispatch(actions.modals.showModal('Support'))
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(Menu)

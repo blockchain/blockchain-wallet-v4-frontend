@@ -79,6 +79,19 @@ export const getEthTransactions = createDeepEqualSelector(
       : Remote.of([])
 )
 
+export const getXlmTransactions = createDeepEqualSelector(
+  [selectors.core.common.xlm.getWalletTransactions, getNumber],
+  (transactions, number) =>
+    Remote.Success.is(transactions[0]) && !isNil(transactions[0])
+      ? transactions[0].map(
+          compose(
+            take(number),
+            map(transform('XLM'))
+          )
+        )
+      : Remote.of([])
+)
+
 export const concatAll = unapply(reduce(concat, []))
 
 export const getData = createDeepEqualSelector(
@@ -87,18 +100,19 @@ export const getData = createDeepEqualSelector(
     getBtcTransactions,
     getBchTransactions,
     getEthTransactions,
+    getXlmTransactions,
     getNumber
   ],
-  (logs, btc, bch, eth, number) => {
-    const transform = (logs, btc, bch, eth) => {
-      const allActivities = concatAll(logs, btc, bch, eth)
+  (logs, btcR, bchR, ethR, xlmR, number) => {
+    const transform = (logs, btc, bch, eth, xlm) => {
+      const allActivities = concatAll(logs, btc, bch, eth, xlm)
       const filterByTime = sort(descend(prop('time')))
-      const take8 = take(8)
+      const takeN = take(number)
       return compose(
-        take8,
+        takeN,
         filterByTime
       )(allActivities)
     }
-    return lift(transform)(logs, btc, bch, eth)
+    return lift(transform)(logs, btcR, bchR, ethR, xlmR)
   }
 )

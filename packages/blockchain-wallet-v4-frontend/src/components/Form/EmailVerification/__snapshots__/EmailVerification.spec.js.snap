@@ -1,0 +1,285 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailVerification component rendering should render edit loading state correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <EmailVerification__InputRow>
+    <TextBox
+      input={
+        Object {
+          "value": "f@ke.mail",
+        }
+      }
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
+    />
+    <LoadingButton
+      loading={true}
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Now"
+        id="components.EmailVerification.sendnow"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render edit loading with label correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <label
+    htmlFor="email"
+  >
+    <FormattedMessage
+      defaultMessage="Enter Your Email Address"
+      id="components.EmailVerification.label"
+      values={Object {}}
+    />
+  </label>
+  <EmailVerification__InputRow>
+    <TextBox
+      input={
+        Object {
+          "value": "f@ke.mail",
+        }
+      }
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
+    />
+    <LoadingButton
+      loading={true}
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Now"
+        id="components.EmailVerification.sendnow"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render edit state correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <EmailVerification__InputRow>
+    <TextBox
+      input={
+        Object {
+          "value": "f@ke.mail",
+        }
+      }
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
+    />
+    <LoadingButton
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Now"
+        id="components.EmailVerification.sendnow"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render edit with label correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <label
+    htmlFor="email"
+  >
+    <FormattedMessage
+      defaultMessage="Enter Your Email Address"
+      id="components.EmailVerification.label"
+      values={Object {}}
+    />
+  </label>
+  <EmailVerification__InputRow>
+    <TextBox
+      input={
+        Object {
+          "value": "f@ke.mail",
+        }
+      }
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
+    />
+    <LoadingButton
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Now"
+        id="components.EmailVerification.sendnow"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render verificationSent loading state correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <Text
+    altFont={false}
+    capitalize={false}
+    color="gray-5"
+    cursor="inherit"
+    italic={false}
+    opacity={1}
+    size="16px"
+    uppercase={false}
+    weight="300"
+  >
+    <FormattedMessage
+      defaultMessage="Check you inbox. We sent an email to:"
+      id="components.EmailVerification.checkyourinbox"
+      values={Object {}}
+    />
+  </Text>
+  <EmailVerification__EmailLabel
+    weight="400"
+  >
+    f@ke.mail
+  </EmailVerification__EmailLabel>
+  <EmailVerification__InputRow>
+    <EmailVerification__ChangeButton
+      loading={true}
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Change Email"
+        id="components.EmailVerification.changeemail"
+        values={Object {}}
+      />
+    </EmailVerification__ChangeButton>
+    <LoadingButton
+      loading={true}
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Again"
+        id="components.EmailVerification.sendemailagain"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render verificationSent state correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <Text
+    altFont={false}
+    capitalize={false}
+    color="gray-5"
+    cursor="inherit"
+    italic={false}
+    opacity={1}
+    size="16px"
+    uppercase={false}
+    weight="300"
+  >
+    <FormattedMessage
+      defaultMessage="Check you inbox. We sent an email to:"
+      id="components.EmailVerification.checkyourinbox"
+      values={Object {}}
+    />
+  </Text>
+  <EmailVerification__EmailLabel
+    weight="400"
+  >
+    f@ke.mail
+  </EmailVerification__EmailLabel>
+  <EmailVerification__InputRow>
+    <EmailVerification__ChangeButton
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Change Email"
+        id="components.EmailVerification.changeemail"
+        values={Object {}}
+      />
+    </EmailVerification__ChangeButton>
+    <LoadingButton
+      nature="primary"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Send Again"
+        id="components.EmailVerification.sendemailagain"
+        values={Object {}}
+      />
+    </LoadingButton>
+  </EmailVerification__InputRow>
+</EmailVerification__Container>
+`;
+
+exports[`EmailVerification component rendering should render verified state correctly 1`] = `
+<EmailVerification__Container
+  className="cn"
+>
+  <EmailVerification__SuccessLabel
+    color="success"
+  >
+    <FormattedMessage
+      defaultMessage="Email Verified"
+      id="components.EmailVerification.emailverified"
+      values={Object {}}
+    />
+    <Icon
+      color="success"
+      cursor={false}
+      name="check"
+      size="13px"
+      weight="400"
+    />
+  </EmailVerification__SuccessLabel>
+  <EmailVerification__EmailLabel
+    weight="400"
+  >
+    f@ke.mail
+  </EmailVerification__EmailLabel>
+</EmailVerification__Container>
+`;

@@ -1,200 +1,224 @@
 import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Button } from 'blockchain-info-components'
+import styled from 'styled-components'
 
-import SecuritySteps from './SecuritySteps'
-import SecurityTabs from './SecurityTabs'
-import EmailAddress from './EmailAddress'
-import TwoStepVerification from './TwoStepVerification'
-import WalletRecoveryPhrase from './WalletRecoveryPhrase'
-import { spacing } from 'services/StyleService'
-
-import Advanced from './Advanced'
+import { Icon, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`
-  padding: 30px;
+  padding: 10px 30px 30px;
   box-sizing: border-box;
 `
-const TopContainer = styled.div`
+const StatusWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
-  @media (min-width: 992px) {
-    display: flex;
-    flex-direction: row;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    text-align: center;
   }
 `
-const IntroContainer = styled.div`
+const IntroText = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
 
+  & :first-child {
+    padding: 20px 0;
+  }
+
   @media (min-width: 992px) {
-    width: ${props => (props.progress === 3 ? '100%' : '40%')};
+    width: 40%;
   }
 `
-const BodyContainer = styled.div`
+const SecurityStepsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  & > * {
-    margin-top: 20px;
-  }
-`
-const Title = styled(Text)``
-const IntroText = styled(Text)`
-  padding: 20px 0px;
-`
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-`
-const PageContainer = styled.div`
-  width: 100%;
-`
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  button {
-    width: 50%;
-    margin-bottom: 10px;
-  }
-  @media (min-width: 992px) {
-    flex-direction: row;
-    button {
-      width: 25%;
-    }
+  justify-content: space-between;
+  border-radius: 50px;
+  height: 50%;
+`
+const StepSection = styled.div`
+  width: 33.333%;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ${media.mobile`
+    width: 33.5%;
+  `};
+`
+const Circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  background-color: white;
+  border: 5px solid ${props => props.theme['brand-primary']};
+  transition: background-color 0.4s, border 0.4s;
+  border-radius: 50px;
+  ${media.mobile`
+    width: 35px;
+    height: 25px;
+    min-width: 25px;
+  `};
+  &.active {
+    background-color: ${props => props.theme['white-blue']};
+    border: 5px solid ${props => props.theme['white-blue']};
   }
 `
-
+const StepText = styled(Text)`
+  display: flex;
+  flex-direction: column;
+  max-width: 120px;
+  margin-left: 10px;
+  margin-right: 20px;
+  word-break: break-word;
+  ${media.mobile`
+    word-break: initial;
+  `};
+`
 const SecurityCenter = props => {
-  const { enabling, setView } = props
-  const showTabs = props.progress === 3
-
-  const renderSteps = () => {
-    if (enabling === 'email') {
-      return (
-        <BodyContainer>
-          <EmailAddress alone={1} goBackOnSuccess={props.onClose} />
-        </BodyContainer>
-      )
-    }
-    if (enabling === '2fa') {
-      return (
-        <BodyContainer>
-          <TwoStepVerification alone={1} goBackOnSuccess={props.onClose} />
-        </BodyContainer>
-      )
-    }
-    if (enabling === 'recovery') {
-      return (
-        <BodyContainer>
-          <WalletRecoveryPhrase alone={1} goBackOnSuccess={props.onClose} />
-        </BodyContainer>
-      )
-    }
-    return (
-      <BodyContainer>
-        <EmailAddress
-          handleEnable={() => props.handleEnable('email')}
-          goBackOnSuccess={props.onClose}
-        />
-        <TwoStepVerification
-          handleEnable={() => props.handleEnable('2fa')}
-          goBackOnSuccess={props.onClose}
-        />
-        <WalletRecoveryPhrase
-          handleEnable={() => props.handleEnable('recovery')}
-          goBackOnSuccess={props.onClose}
-        />
-        {!showTabs && (
-          <ButtonContainer>
-            <Button nature='empty' onClick={() => props.setView('advanced')}>
-              <FormattedMessage
-                id='scenes.securitycenter.introadvancedbutton'
-                defaultMessage='Advanced Settings'
-              />
-            </Button>
-            <Text size='14px' weight={300} style={spacing('pl-15')}>
-              <FormattedMessage
-                id='scenes.securitycenter.introadvancedexplainer'
-                defaultMessage='We recommend you complete these 3 steps before moving into the advanced security settings.'
-              />
-            </Text>
-          </ButtonContainer>
-        )}
-      </BodyContainer>
-    )
-  }
+  const { children, progress } = props
+  const {
+    twoFactorComplete,
+    emailComplete,
+    mnemonicComplete,
+    overallProgress
+  } = progress
 
   return (
-    <PageContainer>
-      {showTabs && <SecurityTabs data={props.data} setView={setView} />}
-      {props.viewing === 'security' ? (
-        <Wrapper>
-          {enabling && (
-            <IconContainer>
-              <Icon
-                name='close'
-                size='20px'
-                weight={300}
-                color='gray-5'
-                cursor
-                onClick={props.onClose}
+    <Wrapper>
+      <StatusWrapper>
+        <IntroText>
+          <Text size='14px' weight={300}>
+            {overallProgress < 3 ? (
+              <FormattedMessage
+                id='scenes.securitycenter.introtextnone'
+                defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
               />
-            </IconContainer>
+            ) : (
+              <FormattedMessage
+                id='scenes.securitycenter.introtextfour'
+                defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
+              />
+            )}
+          </Text>
+        </IntroText>
+        <MediaContextConsumer>
+          {({ mobile }) => (
+            <SecurityStepsWrapper>
+              <StepSection
+                success={emailComplete}
+                radius={emailComplete ? twoFactorComplete : undefined}
+              >
+                <Circle className={emailComplete ? 'active' : ''}>
+                  {emailComplete ? (
+                    <Icon
+                      color='success'
+                      name='checkmark-in-circle-filled'
+                      size={mobile ? '15px' : '30px'}
+                    />
+                  ) : (
+                    <Text size={mobile ? '14px' : '36px'}>1</Text>
+                  )}
+                </Circle>
+                <StepText
+                  success={emailComplete}
+                  size={mobile ? '12px' : '14px'}
+                  weight={300}
+                >
+                  {mobile ? (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step1mobile'
+                      defaultMessage='Verified Email'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step1.verify'
+                      defaultMessage='Verify Your Personal Email'
+                    />
+                  )}
+                </StepText>
+              </StepSection>
+              <StepSection
+                success={twoFactorComplete}
+                leftRadius={
+                  twoFactorComplete && emailComplete ? 'true' : undefined
+                }
+                rightRadius={
+                  twoFactorComplete && emailComplete ? 'true' : undefined
+                }
+              >
+                <Circle className={twoFactorComplete ? 'active' : ''}>
+                  {twoFactorComplete ? (
+                    <Icon
+                      color='success'
+                      name='checkmark-in-circle-filled'
+                      size={mobile ? '15px' : '30px'}
+                    />
+                  ) : (
+                    <Text size={mobile ? '14px' : '36px'}>2</Text>
+                  )}
+                </Circle>
+                <StepText
+                  success={twoFactorComplete}
+                  size={mobile ? '12px' : '14px'}
+                  weight={300}
+                >
+                  {mobile ? (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step2mobile'
+                      defaultMessage='2 Factor Auth'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.securitycenter.steps.step2.verify'
+                      defaultMessage='Turn on Two-Step Verification'
+                    />
+                  )}
+                </StepText>
+              </StepSection>
+              <StepSection
+                success={mnemonicComplete}
+                radius={mnemonicComplete ? twoFactorComplete : undefined}
+              >
+                <Circle className={mnemonicComplete ? 'active' : ''}>
+                  {mnemonicComplete ? (
+                    <Icon
+                      color='success'
+                      name='checkmark-in-circle-filled'
+                      size={mobile ? '15px' : '30px'}
+                    />
+                  ) : (
+                    <Text size={mobile ? '14px' : '36px'}>3</Text>
+                  )}
+                </Circle>
+                <StepText
+                  success={mnemonicComplete}
+                  size={mobile ? '12px' : '14px'}
+                  weight={300}
+                >
+                  <FormattedMessage
+                    id='scenes.securitycenter.steps.step3.save'
+                    defaultMessage='Save Backup Phrase'
+                  />
+                </StepText>
+              </StepSection>
+            </SecurityStepsWrapper>
           )}
-          <TopContainer>
-            <IntroContainer progress={props.progress}>
-              <Title size='24px' weight={300} color='black'>
-                <FormattedMessage
-                  id='scenes.securitycenter.title'
-                  defaultMessage='Security Center'
-                />
-              </Title>
-              <IntroText size='14px' weight={300}>
-                {props.progress < 1 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtextnone'
-                    defaultMessage='Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.'
-                  />
-                )}
-                {props.progress === 1 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtexttwo'
-                    defaultMessage='Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
-                  />
-                )}
-                {props.progress === 2 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtextthree'
-                    defaultMessage='Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
-                  />
-                )}
-                {props.progress === 3 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtextfour'
-                    defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
-                  />
-                )}
-              </IntroText>
-            </IntroContainer>
-            {props.progress < 3 && <SecuritySteps data={props.data} />}
-          </TopContainer>
-          {renderSteps()}
-        </Wrapper>
-      ) : (
-        <Wrapper>
-          <BodyContainer>
-            <Advanced showTabs={showTabs} setView={setView} />
-          </BodyContainer>
-        </Wrapper>
-      )}
-    </PageContainer>
+        </MediaContextConsumer>
+      </StatusWrapper>
+      {children}
+    </Wrapper>
   )
 }
 

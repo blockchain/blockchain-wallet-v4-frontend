@@ -2,26 +2,17 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 
+import { Button, Text } from 'blockchain-info-components'
+import { SettingWrapper } from 'components/Setting'
+import AutoLogoutForm from './template'
 import { actions, selectors } from 'data'
-import Settings from './template.js'
 
 class SettingContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { updateToggled: false }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  componentWillMount () {
-    const { logoutTime } = this.props
-    this.props.formActions.initialize('settingAutoLogoutTime', {
-      autoLogoutTime: logoutTime
-    })
-  }
-
-  handleClick () {
+  onSubmit = () => {
     const { autoLogoutTime } = this.props
 
     this.props.settingsActions.updateAutoLogout(
@@ -30,7 +21,7 @@ class SettingContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle = () => {
     this.setState({
       updateToggled: !this.state.updateToggled
     })
@@ -39,13 +30,31 @@ class SettingContainer extends React.PureComponent {
   render () {
     const { logoutTime } = this.props
 
-    return (
-      <Settings
-        updateToggled={this.state.updateToggled}
-        logoutTime={logoutTime}
+    return this.state.updateToggled ? (
+      <AutoLogoutForm
+        onSubmit={this.onSubmit}
         handleToggle={this.handleToggle}
-        handleClick={this.handleClick}
       />
+    ) : (
+      <SettingWrapper>
+        <Text data-e2e='autoLogoutValue'>
+          <FormattedMessage
+            id='scenes.preferences.autologout.settings.minutes'
+            defaultMessage='{time} minutes'
+            values={{ time: logoutTime }}
+          />
+        </Text>
+        <Button
+          nature='primary'
+          onClick={this.handleToggle}
+          data-e2e='changeAutoLogout'
+        >
+          <FormattedMessage
+            id='scenes.preferences.autologout.settings.updateform.change'
+            defaultMessage='Change'
+          />
+        </Button>
+      </SettingWrapper>
     )
   }
 }

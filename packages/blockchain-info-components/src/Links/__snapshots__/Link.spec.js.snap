@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Link component default renders correctly 1`] = `
-<styled.a
+<Link__BaseLink
   bold={false}
   capitalize={false}
   color="brand-secondary"
@@ -12,5 +12,5 @@ exports[`Link component default renders correctly 1`] = `
   <span>
     tab
   </span>
-</styled.a>
+</Link__BaseLink>
 `;

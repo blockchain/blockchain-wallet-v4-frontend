@@ -1,15 +1,28 @@
-import { curry, contains, equals, lift, map, toLower } from 'ramda'
+import {
+  any,
+  curry,
+  contains,
+  equals,
+  head,
+  filter,
+  lift,
+  map,
+  prop,
+  toLower
+} from 'ramda'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getEthereumTxNote
+  getEthTxNote
 } from '../redux/kvStore/eth/selectors.js'
+import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
+
   switch (true) {
     case contains(tx.from, lowerAddresses) && contains(tx.to, lowerAddresses):
       return 'Transferred'
@@ -35,37 +48,54 @@ export const getTime = tx => {
 }
 
 export const getFee = tx =>
-  new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString()
+  new BigNumber(tx.gasPrice || 0).multipliedBy(tx.gasUsed || tx.gas).toString()
 
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
   const defaultAddressR = getDefaultAddress(state)
-  const transform = (defaultLabel, defaultAddress) =>
-    equals(toLower(defaultAddress), toLower(address)) ? defaultLabel : address
-  const labelR = lift(transform)(defaultLabelR, defaultAddressR)
+  const lockboxEthAccountsR = getLockboxEthAccounts(state)
+  const transform = (defaultLabel, defaultAddress, lockboxEthAccounts) => {
+    switch (true) {
+      case equals(toLower(defaultAddress), toLower(address)):
+        return defaultLabel
+      case any(
+        x => equals(toLower(x.addr), toLower(address)),
+        lockboxEthAccounts
+      ):
+        const ethAccounts = filter(
+          x => equals(toLower(x.addr), toLower(address)),
+          lockboxEthAccounts
+        )
+        return prop('label', head(ethAccounts))
+      default:
+        return address
+    }
+  }
+  const labelR = lift(transform)(
+    defaultLabelR,
+    defaultAddressR,
+    lockboxEthAccountsR
+  )
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry(
-  (addresses, latestBlock, getPartnerLabel, state, tx) => {
-    const fee = getFee(tx)
-    const type = toLower(getType(tx, addresses))
-    const amount =
-      type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
-    return {
-      type,
-      fee,
-      amount,
-      hash: tx.hash,
-      to: getLabel(tx.to, state),
-      from: getLabel(tx.from, state),
-      description: getEthereumTxNote(state, tx.hash).getOrElse(''),
-      partnerLabel: getPartnerLabel && getPartnerLabel(tx.hash),
-      confirmations: getConfirmations(tx.blockNumber, latestBlock),
-      timeFormatted: getTime(tx),
-      time: tx.timeStamp
-    }
+export const _transformTx = curry((addresses, latestBlock, state, tx) => {
+  const fee = getFee(tx)
+  const type = toLower(getType(tx, addresses))
+  const amount =
+    type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+  return {
+    type,
+    fee,
+    amount,
+    hash: tx.hash,
+    to: getLabel(tx.to, state),
+    from: getLabel(tx.from, state),
+    description: getEthTxNote(state, tx.hash).getOrElse(''),
+    confirmations: getConfirmations(tx.blockNumber, latestBlock),
+    timeFormatted: getTime(tx),
+    time: tx.timeStamp
   }
-)
+})
 
 export const transformTx = _transformTx

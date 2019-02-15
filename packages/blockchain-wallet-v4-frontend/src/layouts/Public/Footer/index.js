@@ -7,46 +7,31 @@ import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.footer`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   min-height: 60px;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 `
 const LinkContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
   & > a {
     padding: 10px;
   }
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 `
 
 const RightContainer = styled.div`
-  margin: 20px 0;
+  margin: 20px 50px 0 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 
   & > :last-child {
-    padding: 2px;
-  }
-  @media (min-width: 768px) {
-    margin: 0;
+    padding: 5px;
   }
 `
 
@@ -56,7 +41,7 @@ const Footer = () => {
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
         <Link
-          href='https://blockchain.info'
+          href='https://blockchain.com/explorer'
           size='12px'
           weight={300}
           color='white'
@@ -110,10 +95,10 @@ const Footer = () => {
           href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
           target='_blank'
           size='12px'
-          weight={100}
+          weight={200}
           color='white'
         >
-          v{APP_VERSION}
+          Version {APP_VERSION}
         </Link>
       </RightContainer>
     </Wrapper>

@@ -15,7 +15,7 @@ export const CoinFiltersContainer = props => {
 }
 
 CoinFiltersContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired
 }
 
 const mapStateToProps = state => ({

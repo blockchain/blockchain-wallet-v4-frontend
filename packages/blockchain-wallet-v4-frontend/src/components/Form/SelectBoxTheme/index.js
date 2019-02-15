@@ -52,6 +52,15 @@ const mapStateToProps = (state, ownProps) => ({
         />
       ),
       value: 'invert'
+    },
+    {
+      text: (
+        <FormattedMessage
+          id='components.selectboxtheme.darkmode'
+          defaultMessage='DarkMode'
+        />
+      ),
+      value: 'darkmode'
     }
   ]
 })

@@ -2,6 +2,7 @@ import Default from './Default'
 import Complement from './Complement'
 import Grayscale from './Grayscale'
 import Invert from './Invert'
+import DarkMode from './DarkMode'
 
 const Color = (color, theme) => {
   switch (theme) {
@@ -13,6 +14,8 @@ const Color = (color, theme) => {
       return Grayscale[color]
     case 'invert':
       return Invert[color]
+    case 'darkmode':
+      return DarkMode[color]
 
     default:
       return Default[color]
@@ -29,6 +32,8 @@ const Palette = theme => {
       return Grayscale
     case 'invert':
       return Invert
+    case 'darkmode':
+      return DarkMode
     default:
       return Default
   }

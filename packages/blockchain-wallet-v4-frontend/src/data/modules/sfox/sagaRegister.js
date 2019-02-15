@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const sfoxSagas = sagas({ api, coreSagas, networks })
 
-  return function*() {
+  return function* sfoxSaga () {
     yield takeLatest(AT.SET_BANK_MANUALLY, sfoxSagas.setBankManually)
     yield takeLatest(AT.SET_BANK, sfoxSagas.setBank)
     yield takeLatest(AT.SFOX_SIGNUP, sfoxSagas.sfoxSignup)
@@ -20,5 +20,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_JUMIO_STATUS, sfoxSagas.fetchJumioStatus)
     yield takeLatest(AT.FETCH_JUMIO_TOKEN, sfoxSagas.fetchJumioToken)
     yield takeLatest(AT.COMPLETE_JUMIO, sfoxSagas.completeJumio)
+    yield takeLatest(AT.SFOX_INITIALIZE, sfoxSagas.sfoxInitialize)
   }
 }

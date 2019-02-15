@@ -1,54 +1,78 @@
 import React from 'react'
 
-import AddBitcoinWallet from './AddBtcWallet'
-import AutoDisconnection from './AutoDisconnection'
-import CoinifyDeleteBank from './CoinifyDeleteBank'
-import CoinifyExchangeData from './CoinifyExchangeData'
-import CoinifyTradeDetails from './CoinifyTradeDetails'
-import Confirm from './Confirm'
-import ConfirmDisable2FA from './ConfirmDisable2FA'
-import DeleteAddressLabel from './DeleteAddressLabel'
-import EditTxDescription from './EditTxDescription'
-import ExchangeDetails from './ExchangeDetails'
-import ExchangeResults from './ExchangeResults'
-import IdentityVerification from './IdentityVerification'
-import ImportBtcAddress from './ImportBtcAddress'
-import MobileNumberChange from './MobileNumberChange'
-import MobileNumberVerify from './MobileNumberVerify'
-import MobileLogin from './MobileLogin'
+import {
+  DeleteAddressLabel,
+  ShowUsedAddresses,
+  UpgradeAddressLabels
+} from './Addresses'
+import { RequestBch, SendBch } from './Bch'
+import {
+  AddBtcWallet,
+  ImportBtcAddress,
+  RequestBtc,
+  SendBtc,
+  ShowBtcPrivateKey,
+  VerifyMessage
+} from './Btc'
+import { BsvGetStarted, SendBsv } from './Bsv'
+import {
+  CoinifyDeleteBank,
+  CoinifyExchangeData,
+  CoinifyTradeDetails
+} from './Coinify'
+import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
+import {
+  ExchangeDetails,
+  ExchangeResults,
+  KycDocResubmit,
+  IdentityVerification,
+  SwapGetStarted,
+  SwapUpgrade,
+  UserExists,
+  SunRiverLinkError
+} from './Exchange'
+import { Confirm, PromptInput, Support } from './Generic'
+import {
+  LockboxAppManager,
+  LockboxAuthenticityCheck,
+  LockboxFirmware,
+  LockboxSetup,
+  LockboxConnectionPrompt,
+  LockboxShowXPubs
+} from './Lockbox'
+import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
-import PairingCode from './PairingCode'
-import PromptInput from './PromptInput'
 import QRCode from './QRCode'
-import RecoveryPhrase from './RecoveryPhrase'
-import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBtc'
-import RequestEther from './RequestEth'
-import SecondPassword from './SecondPassword'
-import SendBch from './SendBch'
-import SendBitcoin from './SendBtc'
-import SendEther from './SendEth'
-import SfoxExchangeData from './SfoxExchangeData'
-import SfoxTradeDetails from './SfoxTradeDetails'
-import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
-import ShowBtcPrivateKey from './ShowBtcPrivateKey'
-import ShowEthPrivateKey from './ShowEthPrivateKey'
-import ShowUsedAddresses from './ShowUsedAddresses'
+import {
+  SfoxEnterMicroDeposits,
+  SfoxExchangeData,
+  SfoxTradeDetails
+} from './Sfox'
 import SignMessage from './SignMessage'
-import ShowXPub from './ShowXPub'
-import TransactionReport from './TransactionReport'
-import TransferEth from './TransferEth'
-import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
-import TwoStepSetup from './TwoStepSetup'
-import TwoStepYubico from './TwoStepYubico'
-import UpgradeWallet from './UpgradeWallet'
-import Welcome from './Welcome'
-import UpgradeAddressLabels from './UpgradeAddressLabels'
+import { EditTxDescription, TransactionReport } from './Transactions'
+import {
+  AutoDisconnection,
+  ConfirmDisable2FA,
+  SecondPassword,
+  TwoStepGoogleAuthenticator,
+  TwoStepSetup,
+  TwoStepYubico
+} from './Settings'
+import { PairingCode, ShowXPub, UpgradeWallet, Welcome } from './Wallet'
+import {
+  RequestXlm,
+  SendXlm,
+  ShowXlmPrivateKey,
+  SunRiverWelcome,
+  XlmCreateAccountLearn,
+  XlmReserveLearn
+} from './Xlm'
 
-const Modals = props => (
+const Modals = () => (
   <div>
-    <AddBitcoinWallet />
+    <AddBtcWallet />
     <AutoDisconnection />
+    <BsvGetStarted />
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
@@ -58,8 +82,15 @@ const Modals = props => (
     <EditTxDescription />
     <ExchangeDetails />
     <ExchangeResults />
+    <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxAuthenticityCheck disableOutsideClose />
+    <LockboxAppManager disableOutsideClose />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
+    <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
@@ -67,22 +98,29 @@ const Modals = props => (
     <PairingCode />
     <PromptInput />
     <QRCode />
-    <RecoveryPhrase />
     <RequestBch />
-    <RequestBitcoin />
-    <RequestEther />
+    <RequestBtc />
+    <RequestEth />
+    <RequestXlm />
     <SecondPassword />
     <SendBch />
-    <SendBitcoin />
-    <SendEther />
+    <SendBtc />
+    <SendBsv />
+    <SendEth />
+    <SendXlm />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
+    <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
+    <SunRiverLinkError />
+    <Support />
+    <SwapGetStarted />
+    <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />
@@ -90,7 +128,12 @@ const Modals = props => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeWallet />
+    <UserExists />
     <Welcome />
+    <XlmCreateAccountLearn />
+    <XlmReserveLearn />
+    <SunRiverWelcome disableOutsideClose />
+    <VerifyMessage />
   </div>
 )
 

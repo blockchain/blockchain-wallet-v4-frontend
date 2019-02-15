@@ -37,9 +37,9 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, archived, coin, renderOptions }) => {
+const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
   return (
-    <TableRow>
+    <TableRow dataE2e={dataE2e}>
       <AddressTableCell width='50%'>
         <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (

@@ -11,15 +11,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
-        case 'BTC':
-          return this.props.bitcoinActions.fetchRates()
-        case 'ETH':
-          return this.props.ethereumActions.fetchRates()
         case 'BCH':
           return this.props.bchActions.fetchRates()
+        case 'BTC':
+          return this.props.btcActions.fetchRates()
+        case 'BSV':
+          return this.props.bsvActions.fetchRates()
+        case 'ETH':
+          return this.props.ethActions.fetchRates()
+        case 'XLM':
+          return this.props.xlmActions.fetchRates()
       }
     }
   }
@@ -38,7 +42,7 @@ class FiatDisplayContainer extends React.PureComponent {
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -46,10 +50,11 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  bitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  ethereumActions: bindActionCreators(actions.core.data.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  bsvActions: bindActionCreators(actions.core.data.bsv, dispatch),
+  ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
 export default connect(

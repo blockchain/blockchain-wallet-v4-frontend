@@ -2,7 +2,6 @@
 
 exports[`ListItemContainer renders correctly 1`] = `
 <Connect(ListItemContainer)
-  minConfirmations={3}
   store={
     Object {
       "clearActions": [Function],
@@ -28,6 +27,18 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBch": [Function],
       }
     }
+    bsvActions={
+      Object {
+        "createMetadataBsv": [Function],
+        "fetchMetadataBsv": [Function],
+        "fetchMetadataBsvFailure": [Function],
+        "fetchMetadataBsvLoading": [Function],
+        "fetchMetadataBsvSuccess": [Function],
+        "setAccountArchived": [Function],
+        "setHasSeen": [Function],
+        "setTxNotesBsv": [Function],
+      }
+    }
     ethereumActions={
       Object {
         "createMetadataEthereum": [Function],
@@ -41,16 +52,17 @@ exports[`ListItemContainer renders correctly 1`] = `
         "updateMetadataEthereum": [Function],
       }
     }
-    minConfirmations={3}
     preferencesActions={
       Object {
         "hideKycCompleted": [Function],
-        "setBitcoinCashWelcome": [Function],
-        "setBitcoinWelcome": [Function],
+        "hideKycGetStarted": [Function],
+        "hideSwapBanner": [Function],
+        "hideSwapUpgradeModal": [Function],
+        "setCoinShowIntro": [Function],
         "setCulture": [Function],
-        "setEtherWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
+        "setTotalBalancesDropdown": [Function],
         "toggleCoinDisplayed": [Function],
       }
     }
@@ -86,11 +98,22 @@ exports[`ListItemContainer renders correctly 1`] = `
         "verifyMnemonic": [Function],
       }
     }
+    xlmActions={
+      Object {
+        "createMetadataXlm": [Function],
+        "fetchMetadataXlm": [Function],
+        "fetchMetadataXlmFailure": [Function],
+        "fetchMetadataXlmLoading": [Function],
+        "fetchMetadataXlmSuccess": [Function],
+        "setTxNotesXlm": [Function],
+        "updateMetadataXlm": [Function],
+      }
+    }
   >
     <Component
-      handleCoinToggle={[Function]}
       handleEditDescription={[Function]}
-      minConfirmations={3}
+      handleToggle={[Function]}
+      isToggled={false}
     >
       <div />
     </Component>

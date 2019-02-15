@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
 
-import Dropdown from './template.js'
-import { Palette } from '../../'
-import { keysIn } from 'ramda'
+import Dropdown from './template'
 
 class ComponentDropdown extends React.PureComponent {
   constructor (props) {
@@ -26,8 +24,10 @@ class ComponentDropdown extends React.PureComponent {
   }
 
   handleCallback (item) {
+    const { toggled } = this.state
+    const { toggleOnCallback } = this.props
     this.setState({
-      toggled: false,
+      toggled: toggleOnCallback ? false : toggled,
       selectedComponent: this.props.forceSelected
         ? this.props.selectedComponent
         : item
@@ -54,15 +54,16 @@ class ComponentDropdown extends React.PureComponent {
 
 ComponentDropdown.defaultProps = {
   color: 'brand-secondary',
+  toggleOnCallback: true,
+  uppercase: false,
   opened: false,
-  uppercase: true,
   down: false
 }
 
 ComponentDropdown.propTypes = {
   callback: PropTypes.func.isRequired,
+  toggleOnCallback: PropTypes.bool,
   opened: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
 }

@@ -1,9 +1,10 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 
-import { Icon } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import FaqGroup from './FaqGroup'
 
@@ -24,7 +25,7 @@ const Search = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 80px;
+  margin-bottom: 20px;
 
   & > :last-child {
     position: absolute;
@@ -35,13 +36,34 @@ const Search = styled.div`
 `
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 80px);
-  overflow-x: auto;
-  overflow-y: auto;
+  height: calc(100% - 130px);
+`
+const ContentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
 `
 
 const Faq = props => (
   <Wrapper>
+    <ContentHeader>
+      <Text size='14px'>
+        <FormattedMessage
+          id='faq.content.help'
+          defaultMessage='Need more help?'
+        />
+      </Text>
+      <Link href='https://support.blockchain.com/' target='_blank'>
+        <Button nature='primary'>
+          <FormattedMessage
+            id='faq.content.supportcenter'
+            defaultMessage='Support Center'
+          />
+        </Button>
+      </Link>
+    </ContentHeader>
     <Search>
       <Field name='search' component={TextBox} />
       <Icon name='search' size='20px' weight={200} color='gray-3' />

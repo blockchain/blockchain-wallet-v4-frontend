@@ -21,17 +21,9 @@ class SfoxCheckout extends React.PureComponent {
     super(props)
     this.state = { buttonStatus: false }
   }
+
   componentDidMount () {
-    this.props.sfoxDataActions.fetchTrades()
-    this.props.sfoxDataActions.fetchProfile()
-    this.props.sfoxDataActions.sfoxFetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({
-      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-    })
-    this.props.sfoxDataActions.fetchSellQuote({
-      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-    })
-    this.props.sfoxActions.initializePayment()
+    this.props.sfoxActions.sfoxInitialize()
   }
 
   componentWillUnmount () {
@@ -56,7 +48,7 @@ class SfoxCheckout extends React.PureComponent {
       refreshSellQuote,
       fetchSellQuote
     } = sfoxDataActions
-    const { sfoxNotAsked } = sfoxActions
+    const { sfoxNotAsked, sfoxInitialize } = sfoxActions
     const { showModal } = modalActions
     const { change } = formActions
 
@@ -78,8 +70,8 @@ class SfoxCheckout extends React.PureComponent {
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
           fetchSellQuote={quote => fetchSellQuote({ quote })}
-          refreshBuyQuote={() => refreshQuote()}
-          refreshSellQuote={() => refreshSellQuote()}
+          refreshBuyQuote={refreshQuote}
+          refreshSellQuote={refreshSellQuote}
           submitBuyQuote={quote => {
             sfoxActions.submitQuote(quote)
             this.setState({ busy: true })
@@ -90,7 +82,7 @@ class SfoxCheckout extends React.PureComponent {
           }}
           busy={busy}
           payment={payment}
-          clearTradeError={() => sfoxNotAsked()}
+          clearTradeError={sfoxNotAsked}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
           disableButton={() => this.setState({ buttonStatus: false })}
           enableButton={() => this.setState({ buttonStatus: true })}
@@ -98,7 +90,7 @@ class SfoxCheckout extends React.PureComponent {
           siftScienceEnabled={siftScienceEnabled}
         />
       ),
-      Failure: error => <Failure error={error} />,
+      Failure: error => <Failure message={error} refresh={sfoxInitialize} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })

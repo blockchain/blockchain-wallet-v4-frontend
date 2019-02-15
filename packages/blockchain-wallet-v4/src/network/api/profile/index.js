@@ -3,9 +3,18 @@ export default ({
   nabuUrl,
   get,
   post,
+  put,
   authorizedPut,
   authorizedGet
 }) => {
+  const checkUserExistence = retailToken =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/check`,
+      contentType: 'application/json',
+      data: { jwt: retailToken }
+    })
+
   const generateRetailToken = (guid, sharedKey) =>
     get({
       url: rootUrl,
@@ -16,11 +25,41 @@ export default ({
       }
     })
 
-  const createUser = retailToken =>
-    post({
+  const createUser = retailToken => {
+    return post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
+      data: {
+        jwt: retailToken
+      }
+    })
+  }
+
+  const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
+    authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/register-campaign',
+      contentType: 'application/json',
+      headers: {
+        'X-CAMPAIGN': campaignName
+      },
+      data: {
+        data: {
+          ...campaignData
+        },
+        newUser
+      }
+    })
+
+  const recoverUser = (userId, lifetimeToken, retailToken) =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/recover/${userId}`,
+      contentType: 'application/json',
+      headers: {
+        Authorization: `Bearer ${lifetimeToken}`
+      },
       data: { jwt: retailToken }
     })
 
@@ -71,12 +110,15 @@ export default ({
     })
 
   return {
+    checkUserExistence,
     createUser,
     generateRetailToken,
     generateSession,
     getUser,
+    recoverUser,
+    registerUserCampaign,
+    syncUserWithWallet,
     updateUser,
-    updateUserAddress,
-    syncUserWithWallet
+    updateUserAddress
   }
 }

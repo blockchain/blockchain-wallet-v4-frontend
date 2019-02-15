@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
 import { FormGroup, FormLabel } from 'components/Form'
+import { Banner } from 'blockchain-info-components'
 
 export const Row = styled.div`
   display: flex;
@@ -67,5 +68,8 @@ export const FeeOptionsContainer = styled.div`
 `
 export const FeePerByteContainer = styled.div`
   width: 100%;
+  margin-bottom: 10px;
+`
+export const CustomFeeAlertBanner = styled(Banner)`
   margin-bottom: 10px;
 `

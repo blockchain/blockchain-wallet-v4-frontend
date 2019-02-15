@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     margin-bottom: 30px;
   }
   @media (max-width: 992px) {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `
 const headerHeight = '29px'
@@ -47,8 +47,8 @@ const Content = styled.div`
   > div:first-child:after {
     content: '';
     position: absolute;
-    left: 0px;
-    bottom: 0px;
+    left: 0;
+    bottom: 0;
     height: 50%;
     border-left: 1px solid ${props => props.theme['gray-2']};
   }
@@ -59,15 +59,15 @@ const Content = styled.div`
   > div:last-child:after {
     content: '';
     position: absolute;
-    left: 0px;
-    top: 0px;
+    left: 0;
+    top: 0;
     height: 50%;
     border-left: 1px solid ${props => props.theme['gray-2']};
   }
 `
 
 const Success = props => (
-  <Wrapper>
+  <Wrapper data-e2e='recentActivityList'>
     <Header>
       <Text uppercase size='24px' weight={300} color='brand-primary'>
         <FormattedMessage
@@ -78,10 +78,14 @@ const Success = props => (
     </Header>
     <Content>
       {props.activities.length === 0 ? (
-        <Empty partner={props.partner} handleRequest={props.handleRequest} />
+        <Empty
+          data-e2e='noRecentActivity'
+          partner={props.partner}
+          handleRequest={props.handleRequest}
+        />
       ) : (
         props.activities.map((activity, index) => (
-          <ListItem key={index} handleLink={props.handleLink} {...activity} />
+          <ListItem key={index} {...activity} data-e2e='recentActivityRow' />
         ))
       )}
     </Content>

@@ -21,7 +21,7 @@ import createApi from './api'
 import * as Coin from '../coinSelection/coin.js'
 
 const createWalletApi = (
-  { options, apiKey, getAuthCredentials, networks } = {},
+  { options, apiKey, getAuthCredentials, reauthenticate, networks } = {},
   returnType
 ) => {
   // ////////////////////////////////////////////////////////////////
@@ -29,6 +29,7 @@ const createWalletApi = (
     options,
     apiKey,
     getAuthCredentials,
+    reauthenticate,
     networks
   })
   const eitherToTask = e => e.fold(Task.rejected, Task.of)

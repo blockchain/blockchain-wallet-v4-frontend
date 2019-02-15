@@ -10,7 +10,13 @@ const Error = styled(Text)`
 const FormError = props => {
   const { children, position } = props
   return (
-    <Error weight={300} size='12px' color='error' position={position}>
+    <Error
+      weight={300}
+      size='12px'
+      color='error'
+      position={position}
+      data-e2e={props['data-e2e']}
+    >
       {children}
     </Error>
   )

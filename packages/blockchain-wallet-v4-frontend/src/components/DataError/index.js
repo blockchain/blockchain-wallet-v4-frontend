@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Image, Link, Text, TextGroup, Button } from 'blockchain-info-components'
+import {
+  Image,
+  Link,
+  Text,
+  TextGroup,
+  Button
+} from 'blockchain-info-components'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 const Wrapper = styled.div`
@@ -28,7 +34,9 @@ const MessageText = styled(Text)`
   margin-bottom: 20px;
 `
 
-const DataErrorContainer = ({ message, onClick, onArchive }) => {
+const DataErrorContainer = props => {
+  const { message, onClick, onArchive } = props
+  const e2e = props['data-e2e']
   const renderErrorHandling = msg => {
     const vulnerableAddress = checkForVulnerableAddressError(msg)
     if (vulnerableAddress) {
@@ -37,9 +45,7 @@ const DataErrorContainer = ({ message, onClick, onArchive }) => {
           <MessageText size='18px' weight={300}>
             {msg}
           </MessageText>
-          <Button
-            nature='primary'
-            onClick={() => onArchive(vulnerableAddress)}>
+          <Button nature='primary' onClick={() => onArchive(vulnerableAddress)}>
             <Text size='18px' weight={300} color='white'>
               <FormattedMessage
                 id='components.dataerror.archiveaddress'
@@ -58,7 +64,11 @@ const DataErrorContainer = ({ message, onClick, onArchive }) => {
               defaultMessage='Please '
             />
           </Text>
-          <Link size='18px' onClick={onClick}>
+          <Link
+            size='18px'
+            data-e2e={e2e ? `${e2e}Link` : ''}
+            onClick={onClick}
+          >
             <FormattedMessage
               id='components.dataerror.click'
               defaultMessage='click here'

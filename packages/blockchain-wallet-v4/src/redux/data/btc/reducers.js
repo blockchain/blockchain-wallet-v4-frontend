@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   rates: Remote.NotAsked,
   transactions: [],
   transactions_fiat: {},
+  transactions_at_bound: false,
   unspendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked
 }
@@ -96,6 +97,9 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
+    }
+    case AT.BTC_TRANSACTIONS_AT_BOUND: {
+      return assoc('transactions_at_bound', payload, state)
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING: {
       const { hash, currency } = payload

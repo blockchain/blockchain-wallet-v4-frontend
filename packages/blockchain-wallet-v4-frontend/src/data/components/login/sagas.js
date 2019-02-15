@@ -3,7 +3,7 @@ import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import { assoc } from 'ramda'
 
-// TODO:: DEPRECATE
+// TODO: DEPRECATE
 // We should not need this in the future. It is used to handle transferring cookies from .info to .com domain
 
 export default () => {

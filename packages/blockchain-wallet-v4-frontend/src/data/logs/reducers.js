@@ -11,8 +11,8 @@ const logger = (state = INITIAL_STATE, action) => {
       type: msgType,
       file: payload.file,
       method: payload.method,
-      message: payload.message,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      message: JSON.stringify(payload.message)
     }
   }
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import queryString from 'query-string'
-import { prop, path, merge } from 'ramda'
+import { prop, path, pathOr, merge } from 'ramda'
 
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
@@ -35,17 +35,22 @@ export default ({ apiKey }) => {
     headers,
     method,
     sessionToken,
-    url
+    url,
+    ...options
   }) =>
     axios({
       url: `${url}${endPoint}`,
       method,
       data: encodeData(data, contentType),
       headers: merge(getHeaders(sessionToken, contentType), headers),
-      cancelToken
+      cancelToken,
+      ...options
     })
       .catch(error => {
-        throw path(['response', 'data'], error)
+        const errorData = pathOr({}, ['response', 'data'], error)
+        const status = path(['response', 'status'], error)
+        if (typeof errorData === 'string') throw errorData
+        throw merge(errorData, { status })
       })
       .then(prop('data'))
 

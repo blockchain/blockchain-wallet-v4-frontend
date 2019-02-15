@@ -6,8 +6,7 @@ import * as coreSelectors from './redux/selectors'
 import coreSagasFactory from './redux/sagas'
 import coreRootSagaFactory from './redux/rootSaga'
 import * as Network from './network'
-import * as Coin from './coinSelection/coin.js'
-import * as CoinSelection from './coinSelection'
+import * as Coin from './coinSelection/coin'
 import * as Exchange from './exchange'
 import * as crypto from './walletCrypto'
 import * as pairing from './pairing'
@@ -28,7 +27,6 @@ export {
   paths,
   Network,
   Coin,
-  CoinSelection,
   Exchange,
   crypto,
   pairing,

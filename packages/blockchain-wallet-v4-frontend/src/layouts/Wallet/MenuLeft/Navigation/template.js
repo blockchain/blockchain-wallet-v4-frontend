@@ -3,250 +3,181 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Cartridge } from '@blockchain-com/components'
+import {
+  Wrapper,
+  MenuItem,
+  Separator,
+  SubMenu,
+  SubMenuItem
+} from 'components/MenuLeft'
+import {
+  Icon,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 
-import SecurityGauge from './SecurityGauge'
-import { Icon, Separator, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  height: 100%;
-  position: relative;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: 13px;
-  text-transform: uppercase;
-  color: ${props => props.theme['gray-4']};
+const HelperTipContainer = styled.div`
+  margin-left: auto;
 `
-const Menu = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-`
-const MenuItem = styled.li`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 5px 10px;
-  margin-bottom: 5px;
-  box-sizing: border-box;
-  cursor: pointer;
-  width: 100%;
 
-  & > span:first-child {
-    width: 30px;
-    font-size: 20px;
-  }
-
-  &.active {
-    & > * {
-      color: ${props => props.theme['brand-secondary']};
-    }
-  }
-`
-const SubMenu = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  list-style: none;
-  text-transform: none;
-  padding: 5px 10px;
-  margin-left: 30px;
-  margin-top: -15px;
-`
-const SubMenuItem = styled.li`
-  padding: 5px 0;
-  box-sizing: border-box;
-  text-transform: none;
-  cursor: pointer;
-
-  &.active {
-    & > * {
-      color: ${props => props.theme['brand-secondary']};
-    }
-  }
+const NewCartridge = styled(Cartridge)`
+  color: ${props => props.theme['white']} !important;
+  background-color: ${props => props.theme['brand-secondary']};
+  text-transform: capitalize;
+  margin-left: auto;
+  margin-right: 5px;
 `
 
 const Navigation = props => {
-  const {
-    logClick,
-    menuOpened,
-    settingsOpened,
-    handleCloseMenu,
-    canTrade,
-    userFlowSupported,
-    pathname,
-    ...rest
-  } = props
+  const { ...rest } = props
+  const { lockboxOpened, lockboxDevices } = rest
 
   return (
     <Wrapper {...rest}>
-      <Menu onClick={logClick}>
-        {/* If updating navigation item names dont forget to update analytics saga */}
-        <LinkContainer to='/home' activeClassName='active'>
-          <MenuItem>
-            <Icon name='home' />
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.dashboard'
-              defaultMessage='Dashboard'
-            />
-          </MenuItem>
-        </LinkContainer>
-        <MenuItem>
-          <Separator align='right'>
-            <Text weight={200} size='small'>
+      <LinkContainer to='/home' activeClassName='active'>
+        <MenuItem data-e2e='dashboardLink'>
+          <Icon name='nav-home' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.dashboard'
+            defaultMessage='Dashboard'
+          />
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/buy-sell' activeClassName='active'>
+        <MenuItem data-e2e='buyAndSellLink'>
+          <Icon name='nav-buy' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.buysell'
+            defaultMessage='Buy & Sell'
+          />
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/swap' activeClassName='active'>
+        <MenuItem data-e2e='exchangeLink'>
+          <Icon name='nav-switch' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.swap'
+            defaultMessage='Swap'
+          />
+          <NewCartridge>
+            <Text color='white' size='12' weight='300'>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions'
-                defaultMessage='Transactions'
-                smaller
+                defaultMessage='New'
+                id='layouts.wallet.menuleft.navigation.new'
               />
             </Text>
-          </Separator>
+          </NewCartridge>
         </MenuItem>
-        <LinkContainer to='/btc/transactions' activeClassName='active'>
-          <MenuItem>
-            <Icon name='bitcoin-in-circle' />
+      </LinkContainer>
+      <MenuItem>
+        <Separator>
+          <Text size='14px' weight={400} uppercase>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
-              defaultMessage='Bitcoin'
-              smaller
-              uppercase
+              id='layouts.wallet.menuleft.navigation.transactions'
+              defaultMessage='Transactions'
             />
-          </MenuItem>
-        </LinkContainer>
-        <LinkContainer to='/eth/transactions' activeClassName='active'>
-          <MenuItem>
-            <Icon name='ethereum' />
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions.ether'
-              defaultMessage='Ether'
-              smaller
-              uppercase
-            />
-          </MenuItem>
-        </LinkContainer>
-        <LinkContainer to='/bch/transactions' activeClassName='active'>
-          <MenuItem>
-            <Icon name='bitcoin-cash' />
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions.bch'
-              defaultMessage='Bitcoin Cash'
-              smaller
-              uppercase
-            />
-          </MenuItem>
-        </LinkContainer>
-        <MenuItem>
-          <Separator />
+          </Text>
+        </Separator>
+      </MenuItem>
+      <LinkContainer to='/btc/transactions' activeClassName='active'>
+        <MenuItem data-e2e='bitcoinLink'>
+          <Icon name='btc-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
+            defaultMessage='Bitcoin'
+          />
         </MenuItem>
-        {canTrade && (
-          <LinkContainer to='/buy-sell' activeClassName='active'>
-            <MenuItem>
-              <Icon name='cart-filled' />
+      </LinkContainer>
+      <LinkContainer to='/eth/transactions' activeClassName='active'>
+        <MenuItem data-e2e='etherLink'>
+          <Icon name='eth-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.ether'
+            defaultMessage='Ether'
+          />
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/bch/transactions' activeClassName='active'>
+        <MenuItem data-e2e='bitcoinCashLink'>
+          <Icon name='bch-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.bch'
+            defaultMessage='Bitcoin Cash'
+          />
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/xlm/transactions' activeClassName='active'>
+        <MenuItem data-e2e='stellarLink'>
+          <Icon name='xlm-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.xlm'
+            defaultMessage='Stellar'
+          />
+          <NewCartridge>
+            <Text color='white' size='12' weight='300'>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.buybitcoin'
-                defaultMessage='Buy & sell bitcoin'
-                smaller
-                uppercase
+                id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
+                defaultMessage='New'
               />
-            </MenuItem>
-          </LinkContainer>
-        )}
-        <LinkContainer to='/exchange' activeClassName='active'>
-          <MenuItem>
-            <Icon name='exchange-filled' />
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </LinkContainer>
+      <MenuItem>
+        <Separator>
+          <Text size='14px' weight={400} uppercase>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.exchange'
-              defaultMessage='Exchange'
-              smaller
-              uppercase
+              id='layouts.wallet.menuleft.navigation.storage'
+              defaultMessage='Storage'
             />
-          </MenuItem>
-        </LinkContainer>
-        <LinkContainer to='/security-center' activeClassName='active'>
-          <MenuItem>
-            <Icon name='lock' />
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.securitycenter'
-              defaultMessage='Security center'
-              smaller
-              uppercase
-            />
-            <SecurityGauge />
-          </MenuItem>
-        </LinkContainer>
-        <LinkContainer
-          to='/settings/info'
-          activeClassName='active'
-          className={settingsOpened ? 'active' : ''}
-        >
-          <MenuItem>
-            <Icon name='settings' />
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.settings'
-              defaultMessage='Settings'
-              smaller
-              uppercase
-            />
-          </MenuItem>
-        </LinkContainer>
-        {settingsOpened && (
-          <SubMenu>
-            <LinkContainer to='/settings/info' activeClassName='active'>
-              <SubMenuItem>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.general'
-                  defaultMessage='General'
-                  smaller
-                />
-              </SubMenuItem>
-            </LinkContainer>
-            {userFlowSupported && (
-              <LinkContainer to='/settings/profile' activeClassName='active'>
+          </Text>
+        </Separator>
+      </MenuItem>
+      <LinkContainer to='/lockbox' activeClassName='active'>
+        <MenuItem data-e2e='lockboxLink'>
+          <Icon name='lock' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.hardwarewallet'
+            defaultMessage='Hardware Wallet'
+          />
+          <HelperTipContainer>
+            <TooltipHost id='lockboxRequired'>
+              <TooltipIcon name='info' />
+            </TooltipHost>
+          </HelperTipContainer>
+        </MenuItem>
+      </LinkContainer>
+      {lockboxOpened && (
+        <SubMenu>
+          {lockboxDevices.map((device, index) => {
+            const deviceName = device.device_name
+            return (
+              <LinkContainer
+                key={index}
+                activeClassName='active'
+                to={`/lockbox/dashboard/${index}`}
+                isActive={() => rest.pathname.includes(index)}
+              >
                 <SubMenuItem>
                   <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.profile'
-                    defaultMessage='Profile'
-                    smaller
+                    id='layouts.wallet.menuleft.navigation.lockbox.device'
+                    defaultMessage='{deviceName}'
+                    values={{ deviceName }}
                   />
                 </SubMenuItem>
               </LinkContainer>
-            )}
-            <LinkContainer to='/settings/preferences' activeClassName='active'>
-              <SubMenuItem>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.preferences'
-                  defaultMessage='Preferences'
-                  smaller
-                />
-              </SubMenuItem>
-            </LinkContainer>
-            <LinkContainer to='/settings/addresses' activeClassName='active'>
-              <SubMenuItem>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.addresses'
-                  defaultMessage='Wallets & Addresses'
-                  smaller
-                />
-              </SubMenuItem>
-            </LinkContainer>
-          </SubMenu>
-        )}
-      </Menu>
+            )
+          })}
+        </SubMenu>
+      )}
     </Wrapper>
   )
 }
 
 Navigation.propTypes = {
-  menuOpened: PropTypes.bool.isRequired,
-  settingsOpened: PropTypes.bool.isRequired,
-  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  pathname: PropTypes.string.isRequired,
-  handleCloseMenu: PropTypes.func.isRequired
+  lockboxOpened: PropTypes.bool
 }
 
 export default Navigation

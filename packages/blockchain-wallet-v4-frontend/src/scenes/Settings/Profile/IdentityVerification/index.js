@@ -1,181 +1,151 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { values } from 'ramda'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { KYC_STATES } from 'data/modules/profile/model'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import TierCard from 'components/IdentityVerification/TierCard'
+import media from 'services/ResponsiveService'
 
-import { Banner, Button } from 'blockchain-info-components'
-import {
-  SettingComponent,
-  SettingContainer,
-  SettingDescription,
-  SettingHeader,
-  SettingSummary
-} from 'components/Setting'
-import { LinkContainer } from 'react-router-bootstrap'
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
 
-const SolidBgBanner = styled(Banner)`
-  background: ${props => props.theme[props.color]};
-  border: none;
-  div {
-    color: ${props => props.theme.white};
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
   }
 `
-const IdentityVerification = ({ kycState, verifyIdentity }) => {
-  const banners = {
-    [KYC_STATES.NONE]: (
-      <SolidBgBanner color='sent'>
-        <FormattedMessage
-          id='scenes.profile.identityverification.banner.unverified'
-          defaultMessage='Unverified'
-          altFont
-          light
-        />
-      </SolidBgBanner>
-    ),
-    [KYC_STATES.PENDING]: (
-      <SolidBgBanner color='brand-yellow'>
-        <FormattedMessage
-          id='scenes.profile.identityverification.banner.inreview'
-          defaultMessage='In Review'
-          altFont
-          light
-        />
-      </SolidBgBanner>
-    ),
-    [KYC_STATES.REJECTED]: (
-      <SolidBgBanner color='error'>
-        <FormattedMessage
-          id='scenes.profile.identityverification.banner.rejected'
-          defaultMessage='Failed'
-          altFont
-          light
-        />
-      </SolidBgBanner>
-    ),
-    [KYC_STATES.UNDER_REVIEW]: (
-      <SolidBgBanner color='error'>
-        <FormattedMessage
-          id='scenes.profile.identityverification.banner.underreview'
-          defaultMessage='Under Review'
-          altFont
-          light
-        />
-      </SolidBgBanner>
-    ),
-    [KYC_STATES.VERIFIED]: (
-      <SolidBgBanner color='success'>
-        <FormattedMessage
-          id='scenes.profile.identityverification.banner.verified'
-          defaultMessage='Verified'
-          altFont
-          light
-        />
-      </SolidBgBanner>
-    )
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+
+  @media (min-width: 1200px) {
+    width: ${props => props.width || 'auto'};
+  }
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+
+  &:not(:last-child) {
+    max-width: 416px;
+    margin-right: 40px;
   }
 
-  const notes = {
-    [KYC_STATES.NONE]: (
-      <FormattedMessage
-        id='scenes.profile.identityverification.note.unverified'
-        defaultMessage='Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.'
-        altFont
-        light
-      />
-    ),
-    [KYC_STATES.PENDING]: (
-      <FormattedMessage
-        id='scenes.profile.identityverification.note.inreview'
-        defaultMessage={
-          'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
-        }
-        values={{
-          note: (
-            <strong>
-              <br />
-              <br />
-              Note:
-            </strong>
-          )
-        }}
-        altFont
-        light
-      />
-    ),
-    [KYC_STATES.UNDER_REVIEW]: (
-      <FormattedMessage
-        id='scenes.profile.identityverification.note.underreview'
-        defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
-        altFont
-        light
-      />
-    ),
-    [KYC_STATES.REJECTED]: (
-      <FormattedMessage
-        id='scenes.profile.identityverification.note.rejected'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
-        altFont
-        light
-      />
-    ),
-    [KYC_STATES.VERIFIED]: (
-      <FormattedMessage
-        id='scenes.profile.identityverification.note.verified'
-        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
-        altFont
-        light
-      />
-    )
+  @media (min-width: 1200px) {
+    flex-direction: row;
+    min-height: 100%;
+    width: ${props => props.width || '100%'};
+    margin-bottom: 'none';
   }
+`
 
-  const buttons = {
-    [KYC_STATES.NONE]: (
-      <Button nature='primary' onClick={verifyIdentity}>
-        <FormattedMessage
-          id='scenes.profile.identityverification.buttons.verify'
-          defaultMessage='Verify My Identity'
-        />
-      </Button>
-    ),
-    [KYC_STATES.PENDING]: null,
-    [KYC_STATES.REJECTED]: null,
-    [KYC_STATES.UNDER_REVIEW]: null,
-    [KYC_STATES.VERIFIED]: (
-      <LinkContainer to={'/exchange'}>
-        <Button nature='primary'>
-          <FormattedMessage
-            id='scenes.profile.identityverification.button.getstarted'
-            defaultMessage='Get Started'
-          />
-        </Button>
-      </LinkContainer>
-    )
+const SwapText = styled(Text)`
+  margin-bottom: 10px;
+  a {
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
+`
+const TierWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 16px;
+  ${media.mobile`
+    margin: 16px 0;
+  `};
+  > div:not(:first-child) {
+    height: 24px;
+    margin-top: 14px;
+    margin-left: 4px;
+    ${media.laptop`
+      display: none;
+    `};
+  }
+`
+const LearnMoreContainer = styled.div`
+  margin-top: 22px;
+  ${media.mobile`
+    margin-top: 10px;
+  `};
+`
 
+const IdentityVerification = () => {
   return (
-    <SettingContainer>
-      <SettingSummary>
-        <SettingHeader>
-          <FormattedMessage
-            id='scenes.profile.identityverification.title'
-            defaultMessage='Identity Verification'
-          />
-          {banners[kycState]}
-        </SettingHeader>
-        <SettingDescription>{notes[kycState]}</SettingDescription>
-      </SettingSummary>
-      <SettingComponent>{buttons[kycState]}</SettingComponent>
-    </SettingContainer>
+    <Wrapper>
+      <Container>
+        <Row width='40%'>
+          <Column>
+            <SwapText size='17px' color='textBlack'>
+              <FormattedMessage
+                id='scenes.profile.identityverification.pagetitle'
+                defaultMessage='Swap Limits'
+              />
+            </SwapText>
+            <SwapText size='14px' weight={300}>
+              <FormattedMessage
+                id='scenes.profile.identityverification.swaplimit.sawp_limit'
+                defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
+              />
+            </SwapText>
+            <LearnMoreContainer>
+              <SwapText size='12px' color='textBlack'>
+                <FormattedMessage
+                  id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
+                  defaultMessage='Want to learn more?'
+                />
+              </SwapText>
+              <SwapText size='12px' weight={300}>
+                <FormattedHTMLMessage
+                  id='scenes.profile.identityverification.swaplimit.learn_more_limits'
+                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                />
+              </SwapText>
+            </LearnMoreContainer>
+          </Column>
+        </Row>
+        <Row width='60%'>
+          <Column>
+            <TierWrapper>
+              <TierCard tier={1} />
+            </TierWrapper>
+            <TierWrapper>
+              <TierCard tier={2} />
+              <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
+                <TooltipIcon
+                  size='24px'
+                  name='question-in-circle-filled'
+                  color='gray-2'
+                />
+              </TooltipHost>
+            </TierWrapper>
+          </Column>
+        </Row>
+      </Container>
+    </Wrapper>
   )
-}
-
-IdentityVerification.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  verifyIdentity: PropTypes.func.isRequired,
-  getStarted: PropTypes.func.isRequired
 }
 
 export default IdentityVerification

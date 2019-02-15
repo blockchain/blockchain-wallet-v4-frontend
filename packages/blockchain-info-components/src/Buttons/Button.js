@@ -13,7 +13,7 @@ const BaseButton = styled.button.attrs({
   width: ${props =>
     props.fullwidth ? '100%' : props.width ? props.width : 'auto'};
   min-width: ${props => (props.width ? props.width : '140px')};
-  height: ${props => props.height};
+  height: ${props => (props.jumbo ? '56px' : props.height)};
   padding: ${props => (props.padding ? props.padding : '10px 15px')};
   margin: ${props => props.margin};
   box-sizing: border-box;
@@ -28,8 +28,8 @@ const BaseButton = styled.button.attrs({
   text-transform: ${props =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: ${props => (props.bold ? '700' : '300')};
+  font-size: ${props => (props.jumbo ? '16px' : props.size)};
+  font-weight: ${props => (props.jumbo ? '500' : '300')};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
   color: ${props => props.theme[props.color]};
@@ -38,7 +38,6 @@ const BaseButton = styled.button.attrs({
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
 
   &:hover {
     border-color: ${props =>
@@ -54,19 +53,11 @@ const BaseButton = styled.button.attrs({
   }
 `
 
-const selectColor = (nature, disabled) => {
-  if (disabled) {
-    return {
-      color: 'white',
-      backgroundColor: 'brand-secondary',
-      borderColor: 'brand-secondary'
-    }
-  }
-
+const selectColor = (nature, disabled, small) => {
   switch (nature) {
     case 'empty':
       return {
-        color: 'gray-6',
+        color: small ? 'brand-secondary' : 'gray-6',
         backgroundColor: 'white',
         borderColor: 'gray-2'
       }
@@ -88,7 +79,7 @@ const selectColor = (nature, disabled) => {
         backgroundColor: 'brand-primary',
         borderColor: 'brand-primary'
       }
-    case 'copy':
+    case 'success':
       return {
         color: 'white',
         backgroundColor: 'success',
@@ -108,7 +99,7 @@ const selectColor = (nature, disabled) => {
         backgroundColor: 'transferred',
         borderColor: 'transferred'
       }
-    case 'logout':
+    case 'warning':
       return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
     case 'dark':
       return {
@@ -116,9 +107,16 @@ const selectColor = (nature, disabled) => {
         backgroundColor: 'gray-6',
         borderColor: 'gray-6'
       }
-    case 'empty-secondary':
+    case 'gray': {
       return {
         color: 'white',
+        backgroundColor: 'gray-4',
+        borderColor: 'gray-4'
+      }
+    }
+    case 'empty-secondary':
+      return {
+        color: 'brand-secondary',
         backgroundColor: 'white',
         borderColor: 'brand-secondary'
       }
@@ -132,8 +130,8 @@ const selectColor = (nature, disabled) => {
 }
 
 const Button = props => {
-  const { children, nature, disabled, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
+  const { children, nature, disabled, small, ...rest } = props
+  const { color, backgroundColor, borderColor } = selectColor(nature, small)
 
   return (
     <BaseButton
@@ -158,14 +156,16 @@ Button.propTypes = {
     'received',
     'sent',
     'transferred',
-    'logout',
+    'warning',
     'dark',
+    'success',
     'empty-secondary'
   ]),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
   bold: PropTypes.bool,
+  small: PropTypes.bool,
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   width: PropTypes.string,
@@ -177,8 +177,10 @@ Button.defaultProps = {
   nature: 'empty',
   fullwidth: false,
   disabled: false,
+  small: false,
   rounded: false,
   bold: false,
+  size: '14px',
   uppercase: false,
   capitalize: false,
   height: '40px'

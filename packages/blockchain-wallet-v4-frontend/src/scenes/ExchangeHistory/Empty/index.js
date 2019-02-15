@@ -46,11 +46,11 @@ const Empty = () => (
       <CenteredTextGroup inline>
         <Text size='13px' weight={500}>
           <FormattedMessage
-            id='scenes.exchangehistory.empty.exchange'
-            defaultMessage="You haven't made any exchanges yet,"
+            id='scenes.exchangehistory.empty.swap'
+            defaultMessage="You haven't swapped yet,"
           />
         </Text>
-        <LinkContainer to='/exchange'>
+        <LinkContainer to='/swap'>
           <Link size='13px' weight={500}>
             <FormattedMessage
               id='scenes.exchangehistory.empty.start'

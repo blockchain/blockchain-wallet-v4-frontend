@@ -58,6 +58,10 @@ export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_BCH_TRANSACTIONS_FAILURE,
   payload: error
 })
+export const transactionsAtBound = payload => ({
+  type: AT.BCH_TRANSACTIONS_AT_BOUND,
+  payload
+})
 
 // FETCH_BCH_TRANSACTION_HISTORY
 export const fetchTransactionHistory = (address, start, end) => ({

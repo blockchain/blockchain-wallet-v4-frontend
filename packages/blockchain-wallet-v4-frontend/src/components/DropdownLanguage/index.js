@@ -1,19 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 
 import * as languageService from 'services/LanguageService'
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
 class DropdownLanguageContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick (selectedLanguage) {
+  handleClick = selectedLanguage => {
     this.props.preferencesActions.setCulture(selectedLanguage.value)
     this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
   }
@@ -48,12 +42,7 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { toggled: false } })
-)
-
-export default enhance(DropdownLanguageContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DropdownLanguageContainer)

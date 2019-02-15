@@ -55,9 +55,10 @@ const RegisterForm = styled(Form)`
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
-
+const PasswordTip = styled(Text)`
+  margin-top: 4px;
+`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
 
@@ -66,15 +67,14 @@ const Register = props => {
     handleSubmit,
     busy,
     invalid,
-    cracktime,
-    showTip,
+    passwordStrength,
     passwordLength
   } = props
 
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300} capitalize>
+        <Text size='24px' weight={300} capitalize data-e2e='signupHeader'>
           <FormattedMessage
             id='scenes.register.create'
             defaultMessage='Create your Wallet'
@@ -85,7 +85,7 @@ const Register = props => {
             <FormattedMessage id='scenes.register.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/login'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={300} data-e2e='signupLinkToLogin'>
               <FormattedMessage
                 id='scenes.register.login'
                 defaultMessage='Login'
@@ -126,6 +126,7 @@ const Register = props => {
               validate={[required, validEmail]}
               component={TextBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupEmail'
             />
           </FormItem>
         </FormGroup>
@@ -143,27 +144,31 @@ const Register = props => {
               component={PasswordBox}
               score
               disabled={!isSupportedBrowser}
+              data-e2e='signupPassword'
             />
           </FormItem>
           {passwordLength > 0 && (
             <div>
-              <Text size='13px' weight={300}>
-                <FormattedMessage
-                  id='formhelper.passwordcracktime'
-                  defaultMessage='Your password would take {cracktime} to crack.'
-                  values={{
-                    cracktime: cracktime
-                  }}
-                />
-              </Text>
-              {showTip && (
-                <Text size='13px' weight={300}>
+              <PasswordTip size='12px' weight={200}>
+                {passwordStrength <= 1 && (
                   <FormattedMessage
-                    id='formhelper.passwordsuggest'
-                    defaultMessage='Try adding a few more characters.'
+                    id='formhelper.passwordsuggest.weak'
+                    defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
-                </Text>
-              )}
+                )}
+                {passwordStrength >= 2 && passwordStrength < 4 && (
+                  <FormattedMessage
+                    id='formhelper.passwordsuggest.medium'
+                    defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
+                  />
+                )}
+                {passwordStrength === 4 && (
+                  <FormattedMessage
+                    id='formhelper.passwordsuggest.great'
+                    defaultMessage='Great password.'
+                  />
+                )}
+              </PasswordTip>
             </div>
           )}
         </FormGroup>
@@ -180,6 +185,7 @@ const Register = props => {
               validate={[required, validatePasswordConfirmation]}
               component={PasswordBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupConfirmPassword'
             />
           </FormItem>
         </FormGroup>
@@ -190,6 +196,7 @@ const Register = props => {
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupTermsCheckbox'
             >
               <Terms />
             </Field>
@@ -201,6 +208,7 @@ const Register = props => {
             nature='primary'
             fullwidth
             disabled={busy || invalid}
+            data-e2e='signupButton'
           >
             {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />

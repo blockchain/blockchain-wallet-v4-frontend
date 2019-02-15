@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GetStarted renders correctly 1`] = `
+<LinkContainer
+  activeClassName="active"
+  exact={false}
+  replace={false}
+  strict={false}
+  to="/swap/profile"
+>
+  <GetStarted__ActionButton>
+    <FormattedMessage
+      defaultMessage="Get Started"
+      id="scenes.exchange.getstarted.status.getstarted.button"
+      values={Object {}}
+    />
+  </GetStarted__ActionButton>
+</LinkContainer>
+`;

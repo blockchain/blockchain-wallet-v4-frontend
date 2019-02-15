@@ -9,8 +9,9 @@ exports[`SelectBox renders correctly 1`] = `
 
 <div
   className="c0"
+  data-e2e="dropdownSelect"
 >
-  <select-input
+  <input
     elements={
       Array [
         Object {
@@ -36,6 +37,7 @@ exports[`SelectBox renders correctly 1`] = `
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
     onFocus={[MockFunction]}
+    onKeyDown={[Function]}
     value=""
   />
 </div>

@@ -37,17 +37,16 @@ const CheckBox = ({ children, className, ...field }) => {
           disabled={field.disabled}
           checked={checked}
           errorState={errorState}
+          data-e2e={field['data-e2e']}
         >
           {children}
         </CheckBoxInput>
       </Container>
-      {field.meta.touched &&
-        field.meta.error &&
-        !field.hideErrors && (
-          <Error size='12px' weight={300} color='error'>
-            {field.meta.error}
-          </Error>
-        )}
+      {field.meta.touched && field.meta.error && !field.hideErrors && (
+        <Error size='12px' weight={300} color='error' data-e2e='termsError'>
+          {field.meta.error}
+        </Error>
+      )}
     </Wrapper>
   )
 }

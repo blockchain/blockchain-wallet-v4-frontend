@@ -13,7 +13,7 @@ import {
   flight,
   flightDelay1,
   flightDelay2
-} from './keyframes'
+} from './animations'
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -35,7 +35,7 @@ const Btc = styled.div`
     opacity: 0;
     width: 230px;
     position: absolute;
-    animation: ${flight} 10s infinite linear;
+    animation: ${flight};
   }
   &.buy {
     .buy {
@@ -49,10 +49,10 @@ const Btc = styled.div`
   }
   &.buy.sell {
     .buy {
-      animation: ${flightDelay1} 20s infinite linear;
+      animation: ${flightDelay1};
     }
     .sell {
-      animation: ${flightDelay2} 20s infinite linear;
+      animation: ${flightDelay2};
     }
   }
 `
@@ -63,7 +63,7 @@ const Bch = styled.div`
     right: 50px;
     height: 100px;
     position: absolute;
-    animation: ${balloon} 10s infinite linear;
+    animation: ${balloon};
   }
   &.buy {
     .buy {
@@ -77,10 +77,10 @@ const Bch = styled.div`
   }
   &.buy.sell {
     .buy {
-      animation: ${balloonDelay1} 20s infinite linear;
+      animation: ${balloonDelay1};
     }
     .sell {
-      animation: ${balloonDelay2} 20s infinite linear;
+      animation: ${balloonDelay2};
     }
   }
 `
@@ -91,7 +91,7 @@ const Eth = styled.div`
     left: 40px;
     height: 60px;
     position: absolute;
-    animation: ${drone} 3s infinite linear;
+    animation: ${drone};
   }
   &.buy {
     .buy {
@@ -105,10 +105,10 @@ const Eth = styled.div`
   }
   &.buy.sell {
     .buy {
-      animation: ${droneDelay1} 6s infinite linear;
+      animation: ${droneDelay1};
     }
     .sell {
-      animation: ${droneDelay2} 6s infinite linear;
+      animation: ${droneDelay2};
     }
   }
 `
@@ -129,10 +129,6 @@ class BuySellAnimation extends React.PureComponent {
       ['options', 'platforms', 'web', 'sfox', 'countries'],
       nextProps
     )
-    const unocoinCountries = path(
-      ['options', 'platforms', 'web', 'unocoin', 'countries'],
-      nextProps
-    )
     const coinifyCountries = path(
       ['options', 'platforms', 'web', 'coinify', 'countries'],
       nextProps
@@ -149,13 +145,6 @@ class BuySellAnimation extends React.PureComponent {
       case coinifyCountries.includes(nextProps.country): {
         return {
           btc: 'buy sell',
-          bch: '',
-          eth: ''
-        }
-      }
-      case unocoinCountries.includes(nextProps.country): {
-        return {
-          btc: 'buy',
           bch: '',
           eth: ''
         }

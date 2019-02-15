@@ -3,7 +3,7 @@ import { isEmpty } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
-export default ({ coreSagas }) => {
+export default () => {
   const initialized = function*() {
     try {
       const logsR = yield select(selectors.core.data.misc.getLogs)
@@ -16,6 +16,9 @@ export default ({ coreSagas }) => {
       const ethTransactions = yield select(
         selectors.core.data.ethereum.getTransactions
       )
+      const xlmTransactions = yield select(
+        selectors.core.data.xlm.getTransactions
+      )
       if (!Remote.Success.is(logsR)) {
         yield put(actions.core.data.misc.fetchLogs())
       }
@@ -27,6 +30,9 @@ export default ({ coreSagas }) => {
       }
       if (isEmpty(ethTransactions)) {
         yield put(actions.core.data.ethereum.fetchTransactions())
+      }
+      if (isEmpty(xlmTransactions)) {
+        yield put(actions.core.data.xlm.fetchTransactions())
       }
     } catch (e) {
       yield put(

@@ -1,24 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Public Header Component should match snapshot 1`] = `
-<React.Fragment>
+<Fragment>
   <Navbar
     fluid={false}
     height="90px"
   >
     <NavbarBrand>
-      <
+      <Component
         href="https://www.blockchain.com"
       >
-        <
+        <Component
           height="20px"
           name="blockchain-vector"
         />
-      </>
+      </Component>
     </NavbarBrand>
   </Navbar>
   <[object Object]
     alertArea="public"
+    type="service"
   />
-</React.Fragment>
+</Fragment>
 `;

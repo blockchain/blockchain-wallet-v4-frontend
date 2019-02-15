@@ -10,21 +10,21 @@ class SelectInputContainer extends React.PureComponent {
     search: ''
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.value, nextProps.value)) {
-      this.setState({ value: nextProps.value })
+  /* eslint-disable react/no-did-update-set-state */
+  componentDidUpdate (prevProps, prevState) {
+    if (!equals(this.props.value, prevProps.value)) {
+      this.setState({
+        value: this.props.value
+      })
     }
   }
+  /* eslint-enable react/no-did-update-set-state */
 
   handleChange = item => {
     const value = prop('value', item)
 
-    this.setState({
-      value
-    })
-    if (this.props.onChange) {
-      this.props.onChange(value)
-    }
+    this.setState({ value })
+    if (this.props.onChange) this.props.onChange(value)
   }
 
   transform = (elements, search) => {
@@ -45,21 +45,10 @@ class SelectInputContainer extends React.PureComponent {
     return items
   }
 
-  onBlur = () => {
-    const { onBlur, value } = this.props
-    return onBlur(value)
-  }
+  onBlur = () => this.props.onBlur()
 
   render () {
-    const {
-      elements,
-      label,
-      searchEnabled,
-      components,
-      disabled,
-      grouped,
-      ...rest
-    } = this.props
+    const { elements, label, disabled, grouped, ...rest } = this.props
     const { search } = this.state
     const items = grouped ? elements : this.transform(elements, search)
 
@@ -82,8 +71,8 @@ class SelectInputContainer extends React.PureComponent {
 SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
-      items: PropTypes.array.isRequired
+      group: PropTypes.string,
+      items: PropTypes.array
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

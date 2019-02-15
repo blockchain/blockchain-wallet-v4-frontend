@@ -1,44 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-const StatusText = styled(Text)`
-  font-size: ${props => props.mobileSize};
-  @media (min-width: 480px) {
-    font-size: ${props => props.size};
-  }
-`
-
 const Status = props => (
-  <StatusText
-    mobileSize='14px'
-    size='16px'
+  <Text
+    size='14px'
     weight={500}
     color={props.type}
-    uppercase
+    style={{ marginBottom: '5px' }}
+    data-e2e='transactionListItemStatus'
   >
     {props.type === 'sent' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
-        defaultMessage='Sent'
+        defaultMessage='Sent {coin}'
+        values={{ coin: props.coin }}
       />
     )}
     {props.type === 'received' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.received'
-        defaultMessage='Received'
+        defaultMessage='Received {coin}'
+        values={{ coin: props.coin }}
       />
     )}
     {props.type === 'transferred' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.transferred'
-        defaultMessage='Transferred'
+        defaultMessage='Transferred {coin}'
+        values={{ coin: props.coin }}
       />
     )}
-  </StatusText>
+  </Text>
 )
 
 Status.propTypes = {

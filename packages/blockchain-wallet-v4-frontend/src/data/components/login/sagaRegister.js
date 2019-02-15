@@ -3,9 +3,9 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default () => {
-  const loginSagas = sagas({})
+  const loginSagas = sagas()
 
-  return function*() {
+  return function* loginSaga () {
     yield takeEvery(AT.LOGIN_INITIALIZED, loginSagas.initialized)
   }
 }

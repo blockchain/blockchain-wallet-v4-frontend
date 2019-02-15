@@ -19,7 +19,7 @@ const Container = styled.div`
   margin-left: ${props => (props.inline && !props.label ? '5px' : '0px')};
   padding: ${props => (props.inline || props.label ? '3px 5px' : '5px 10px')};
   & > span:first-child {
-    margin-right: ${props => (props.inline ? '3px' : '5px')};
+    margin-right: ${props => (props.inline ? '3px' : '10px')};
   }
 `
 
@@ -41,11 +41,11 @@ const selectStyle = type => {
         icon: 'checkmark-in-circle'
       }
     case 'warning':
-      return { color: 'error', uppercase: true, icon: 'alert' }
+      return { color: 'error', uppercase: true, icon: 'alert-filled' }
     case 'alert':
       return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
     case 'caution':
-      return { color: 'brand-yellow', uppercase: false, icon: 'alert' }
+      return { color: 'brand-yellow', uppercase: false, icon: 'alert-filled' }
     case 'informational':
       return { color: 'gray-5', uppercase: false, icon: null }
     default:
@@ -65,8 +65,9 @@ const Banner = props => {
       width={width}
       inline={inline}
       label={label}
+      data-e2e={props['data-e2e']}
     >
-      {icon && <Icon name={icon} size='18px' weight={700} color={color} />}
+      {icon && <Icon name={icon} size='18px' weight={300} color={color} />}
       <BannerContent
         size='12px'
         weight={400}

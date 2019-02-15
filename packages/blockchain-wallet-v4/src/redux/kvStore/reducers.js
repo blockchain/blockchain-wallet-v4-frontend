@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux'
-import whatsNew from './whatsNew/reducers.js'
-import ethereum from './eth/reducers.js'
-import shapeShift from './shapeShift/reducers.js'
-import buySell from './buySell/reducers.js'
-import contacts from './contacts/reducers.js'
-import root from './root/reducers.js'
-import bch from './bch/reducers.js'
-import btc from './btc/reducers.js'
-import userCredentials from './userCredentials/reducers.js'
+import whatsNew from './whatsNew/reducers'
+import ethereum from './eth/reducers'
+import shapeShift from './shapeShift/reducers'
+import buySell from './buySell/reducers'
+import contacts from './contacts/reducers'
+import root from './root/reducers'
+import bch from './bch/reducers'
+import btc from './btc/reducers'
+import bsv from './bsv/reducers'
+import lockbox from './lockbox/reducers'
+import userCredentials from './userCredentials/reducers'
+import xlm from './xlm/reducers'
 import * as C from './config'
 
 const kvStoreReducer = combineReducers({
@@ -19,7 +22,10 @@ const kvStoreReducer = combineReducers({
   [C.CONTACTS]: contacts,
   [C.BCH]: bch,
   [C.BTC]: btc,
-  [C.USER_CREDENTIALS]: userCredentials
+  [C.BSV]: bsv,
+  [C.LOCKBOX]: lockbox,
+  [C.USER_CREDENTIALS]: userCredentials,
+  [C.XLM]: xlm
 })
 
 export default kvStoreReducer

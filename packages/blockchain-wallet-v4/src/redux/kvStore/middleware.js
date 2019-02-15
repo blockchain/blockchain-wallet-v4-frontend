@@ -1,7 +1,6 @@
 import { mapObjIndexed, any, equals, identity, values, sequence } from 'ramda'
 import Task from 'data.task'
 
-// import { Wallet, KVStoreEntry } from '../../types'
 import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
@@ -17,10 +16,9 @@ const kvStoreMiddleware = ({
   const result = next(action)
   const nextKVStore = store.getState()[kvStorePath]
   const isAuth = isAuthenticated(store.getState())
+  // this is to avoid detecting Loading/NotAsked to success changes
   const hasChanged = (value, key) =>
-    prevKVStore[key] !== nextKVStore[key] &&
-    // Remote.Success.is(prevKVStore[key]) &&
-    Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
+    prevKVStore[key] !== nextKVStore[key] && Remote.Success.is(nextKVStore[key])
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {
@@ -35,7 +33,10 @@ const kvStoreMiddleware = ({
         T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
         T.bch.FETCH_METADATA_BCH_SUCCESS,
         T.btc.FETCH_METADATA_BTC_SUCCESS,
-        T.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+        T.bsv.FETCH_METADATA_BSV_SUCCESS,
+        T.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS,
+        T.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
+        T.xlm.FETCH_METADATA_XLM_SUCCESS
       ]) &&
       any(identity, values(changes)):
       const actionCreators = {
@@ -47,8 +48,11 @@ const kvStoreMiddleware = ({
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
         [C.BCH]: A.bch.fetchMetadataBchSuccess,
         [C.BTC]: A.btc.fetchMetadataBtcSuccess,
+        [C.BSV]: A.bsv.fetchMetadataBsvSuccess,
+        [C.LOCKBOX]: A.lockbox.fetchMetadataLockboxSuccess,
         [C.USER_CREDENTIALS]:
-          A.userCredentials.fetchMetadataUserCredentialsSuccess
+          A.userCredentials.fetchMetadataUserCredentialsSuccess,
+        [C.XLM]: A.xlm.fetchMetadataXlmSuccess
       }
 
       const saveTasks = (value, key) => {

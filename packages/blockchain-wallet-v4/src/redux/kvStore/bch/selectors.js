@@ -1,8 +1,6 @@
 import {
   concat,
   curry,
-  equals,
-  keysIn,
   filter,
   not,
   lift,
@@ -14,13 +12,7 @@ import {
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
-
-// TODO: Move to appropriate location (to define)
-export const createDeepEqualSelector = createSelectorCreator(
-  defaultMemoize,
-  equals
-)
+import { createDeepEqualSelector } from '../../../utils'
 
 export const getMetadata = path([kvStorePath, BCH])
 
@@ -33,27 +25,6 @@ export const getAccountsList = state => {
   const accountsObj = getAccounts(state)
   return lift(values)(accountsObj)
 }
-
-export const getContext = createDeepEqualSelector(
-  [
-    walletSelectors.getHDAccounts,
-    walletSelectors.getActiveAddresses,
-    getAccounts
-  ],
-  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
-    const transform = metadataAccounts => {
-      const activeAccounts = filter(account => {
-        const index = prop('index', account)
-        const metadataAccount = metadataAccounts[index]
-        return not(prop('archived', metadataAccount))
-      }, btcHDAccounts)
-      return map(prop('xpub'), activeAccounts)
-    }
-    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const addresses = keysIn(activeAddresses)
-    return concat(activeAccounts, addresses)
-  }
-)
 
 export const getSpendableContext = createDeepEqualSelector(
   [

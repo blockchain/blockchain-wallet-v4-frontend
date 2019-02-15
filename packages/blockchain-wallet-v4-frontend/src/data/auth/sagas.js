@@ -1,7 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
-import Either from 'data.either'
+import { assoc, path, prop, is } from 'ramda'
 
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
@@ -14,7 +13,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -41,27 +40,10 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
-
-  const welcomeSaga = function*(firstLogin) {
-    if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(actions.modals.showModal('Welcome', { walletMillions }))
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success')
-      )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-    }
-  }
-
   const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
-
   const upgradeAddressLabelsSaga = function*() {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -78,7 +60,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     }
   }
-
   const transferEthSaga = function*() {
     const legacyAccountR = yield select(
       selectors.core.kvStore.ethereum.getLegacyAccount
@@ -94,7 +75,19 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
-
+  const authNabu = function*() {
+    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield take(
+      action =>
+        action.type ===
+          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+        !Remote.Loading.is(action.payload.countries)
+    )
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+  }
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -103,27 +96,33 @@ export default ({ api, coreSagas }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
       yield call(
         coreSagas.kvStore.ethereum.fetchMetadataEthereum,
         askSecondPasswordEnhancer
       )
+      yield call(
+        coreSagas.kvStore.xlm.fetchMetadataXlm,
+        askSecondPasswordEnhancer
+      )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
+      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield put(actions.middleware.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.btc.startSocket())
+      yield put(actions.middleware.webSocket.eth.startSocket())
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield put(actions.modules.profile.signIn())
+      yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      yield call(coreSagas.data.xlm.fetchData)
+      yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
-      // store guid in cache for future logins
       const guid = yield select(selectors.core.wallet.getGuid)
+      // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
@@ -132,10 +131,13 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, firstLogin)
-      yield fork(reportStats, mobileLogin)
+      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('swapUpgrade'))
+      yield put(actions.goals.saveGoal('kycCTA'))
+      yield put(actions.goals.saveGoal('kycDocResubmit'))
+      yield put(actions.goals.saveGoal('bsv'))
+      yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
-      yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
@@ -148,19 +150,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
-
-  const reportStats = function*(mobileLogin) {
-    if (mobileLogin) {
-      yield call(api.incrementLoginViaQrStats)
-    } else {
-      const wallet = yield select(selectors.core.wallet.getWallet)
-      yield call(
-        api.incrementSecPasswordStats,
-        Types.Wallet.isDoubleEncrypted(wallet)
-      )
-    }
-  }
-
   const checkAndHandleVulnerableAddress = function*(data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
@@ -179,7 +168,6 @@ export default ({ api, coreSagas }) => {
         )
     }
   }
-
   const checkDataErrors = function*() {
     const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
 
@@ -194,7 +182,6 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
-
   const pollingSession = function*(session, n = 50) {
     if (n === 0) {
       return false
@@ -210,10 +197,8 @@ export default ({ api, coreSagas }) => {
     }
     return yield call(pollingSession, session, n - 1)
   }
-
   const login = function*(action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
-    const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
@@ -230,10 +215,10 @@ export default ({ api, coreSagas }) => {
       })
       yield call(loginRoutineSaga, mobileLogin)
     } catch (error) {
-      const initialError = safeParse(error).map(prop('initial_error'))
-      const authRequired = safeParse(error).map(prop('authorization_required'))
+      const initialError = prop('initial_error', error)
+      const authRequired = prop('authorization_required', error)
 
-      if (authRequired.isRight && authRequired.value) {
+      if (authRequired) {
         // auth errors (polling)
         const authRequiredAlert = yield put(
           actions.alerts.displayInfo(
@@ -267,9 +252,9 @@ export default ({ api, coreSagas }) => {
         } else {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
-      } else if (initialError.isRight && initialError.value) {
+      } else if (initialError) {
         // general error
-        yield put(actions.auth.loginFailure(initialError.value))
+        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
@@ -306,7 +291,6 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
-
   const mobileLogin = function*(action) {
     try {
       const { guid, sharedKey, password } = yield call(
@@ -333,7 +317,6 @@ export default ({ api, coreSagas }) => {
     }
     yield put(actions.modals.closeModal())
   }
-
   const register = function*(action) {
     try {
       yield put(actions.auth.registerLoading())
@@ -348,7 +331,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
-
   const restore = function*(action) {
     try {
       yield put(actions.auth.restoreLoading())
@@ -363,7 +345,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
-
   const remindGuid = function*(action) {
     try {
       yield put(actions.auth.remindGuidLoading())
@@ -381,7 +362,6 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
-
   const reset2fa = function*(action) {
     try {
       yield put(actions.auth.reset2faLoading())
@@ -426,13 +406,11 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
-
   const setLogoutEventListener = function () {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
-
   const resendSmsLoginCode = function*(action) {
     try {
       const { guid } = action.payload
@@ -456,11 +434,9 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
-
   const logoutRoutine = function*() {
     yield call(logout)
   }
-
   const logout = function*() {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
@@ -475,12 +451,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
+    yield put(actions.analytics.stopSession())
   }
-
   const deauthorizeBrowser = function*() {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -496,7 +473,6 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
-
   const logoutClearReduxStore = function*() {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
@@ -504,6 +480,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    authNabu,
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
@@ -519,12 +496,10 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    reportStats,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeAddressLabelsSaga
   }
 }

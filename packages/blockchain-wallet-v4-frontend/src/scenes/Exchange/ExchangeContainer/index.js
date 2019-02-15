@@ -11,16 +11,28 @@ import { getData } from './selectors'
 
 const { EXCHANGE_STEPS } = model.components.exchange
 
-class ExchangeContainer extends React.PureComponent {
+export class ExchangeContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.profileActions.fetchUser()
+    this.props.actions.setStep(EXCHANGE_STEPS.EXCHANGE_FORM)
+  }
+
+  componentDidUpdate () {
+    // Clear location state when going to confirm screen
+    // So that it won't force swap when going back to exchange
+    if (this.props.step === EXCHANGE_STEPS.CONFIRM)
+      this.props.routerActions.replace('/swap', {})
+  }
+
   componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }
 
   render () {
-    const { step } = this.props
+    const { step, from, to, fix, amount } = this.props
     switch (step) {
       case EXCHANGE_STEPS.EXCHANGE_FORM:
-        return <ExchangeForm />
+        return <ExchangeForm {...{ from, to, fix, amount }} />
       case EXCHANGE_STEPS.CONFIRM:
         return <ExchangeConfirm />
       default:
@@ -34,7 +46,9 @@ ExchangeContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.exchange, dispatch)
+  actions: bindActionCreators(actions.components.exchange, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 export default connect(

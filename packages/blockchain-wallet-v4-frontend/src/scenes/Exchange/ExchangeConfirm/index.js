@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-
 import { BlockchainLoader } from 'blockchain-info-components'
 import DataError from 'components/DataError'
 import ExchangeConfirm from './template'

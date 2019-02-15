@@ -37,9 +37,10 @@ class Chart extends React.PureComponent {
   constructor (props) {
     super(props)
     const { coin, time, data, currency } = this.props
+    const decimals = coin === 'XLM' ? 4 : 2
     const start = calculateStart(coin, time)
     const interval = calculateInterval(coin, time)
-    const config = getConfig(start, interval, currency, data)
+    const config = getConfig(start, interval, currency, data, decimals)
     this.state = { start, interval, config }
   }
 

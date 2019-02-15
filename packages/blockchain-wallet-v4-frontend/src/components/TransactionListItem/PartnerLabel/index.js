@@ -13,7 +13,7 @@ const PartnerBanner = styled(Banner)`
 const capitalize = text => text[0].toUpperCase() + text.substring(1)
 
 const PartnerLabel = props => {
-  const { txType, partnerLabel, buysellPartner } = props
+  const { txType, partnerLabel, buySellPartner } = props
 
   if (partnerLabel === 'shift') {
     return (
@@ -41,7 +41,7 @@ const PartnerLabel = props => {
     )
   }
 
-  if (partnerLabel === 'buy-sell' && buysellPartner) {
+  if (partnerLabel === 'buy-sell' && buySellPartner) {
     return (
       <LabelContainer
         mobileSize='14px'
@@ -55,13 +55,13 @@ const PartnerLabel = props => {
             <FormattedMessage
               id='components.txlistitem.partnerlabel.soldvia'
               defaultMessage='Sold via {partner}'
-              values={{ partner: capitalize(buysellPartner) }}
+              values={{ partner: capitalize(buySellPartner) }}
             />
           ) : (
             <FormattedMessage
               id='components.txlistitem.partnerlabel.boughtvia'
               defaultMessage='Bought via {partner}'
-              values={{ partner: capitalize(buysellPartner) }}
+              values={{ partner: capitalize(buySellPartner) }}
             />
           )}
         </PartnerBanner>
@@ -73,9 +73,8 @@ const PartnerLabel = props => {
 }
 
 PartnerLabel.propTypes = {
-  txHash: PropTypes.string.isRequired,
   txType: PropTypes.string.isRequired,
-  buysellPartner: PropTypes.string
+  buySellPartner: PropTypes.string
 }
 
 export default PartnerLabel

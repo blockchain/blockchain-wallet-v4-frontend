@@ -8,20 +8,20 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { theme, newTheme } = this.props
     if (
-      !isNil(nextProps.newTheme) &&
-      !equals(theme, nextProps.newTheme) &&
-      !equals(newTheme, nextProps.newTheme)
+      !isNil(newTheme) &&
+      !equals(theme, newTheme) &&
+      !equals(prevProps.newTheme, newTheme)
     ) {
-      this.props.preferencesActions.setTheme(nextProps.newTheme)
+      this.props.preferencesActions.setTheme(newTheme)
     }
   }
 

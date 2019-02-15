@@ -2,12 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 import TotalBalance from './TotalBalance'
-import BtcBalance from './BtcBalance'
-import EthBalance from './EthBalance'
-import BchBalance from './BchBalance'
-import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
-import BchWatchOnlyBalance from './BchWatchOnlyBalance'
-import SfoxPendingBalance from './SfoxPendingBalance'
+import WalletBalance from './WalletBalance'
+import LockboxBalance from './LockboxBalance'
+import LockboxTotalBalance from './LockboxBalance/TotalBalance'
+import PendingBalance from './PendingBalance'
+import WatchOnlyBalance from './WatchOnlyBalance'
+import BtcBalance from './WalletBalance/BtcBalance'
+import BchBalance from './WalletBalance/BchBalance'
+import BsvBalance from './WalletBalance/BsvBalance'
+import EthBalance from './WalletBalance/EthBalance'
+import XlmBalance from './WalletBalance/XlmBalance'
+import CurrencySwitch from './CurrencySwitch'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
@@ -26,37 +31,16 @@ const Wrapper = styled.div`
 `
 const BalanceText = styled(Text)`
   font-size: 20px;
-  @media (min-width: 768) {
+  @media (max-width: 767px) {
     font-size: 16px;
   }
 `
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
-    top: -6px;
-    right: 0px;
+    right: 0;
     padding: 0;
-    padding-top: 5px;
     position: absolute;
-    > li {
-      padding: 0px 6px;
-      text-align: right;
-      background: ${props => props.theme['white']};
-      &:first-child {
-        margin-bottom: 3px;
-        padding-right: 12px;
-        background: white;
-        > div > span:first-child {
-          color: ${props => `${props.theme['gray-5']}`};
-        }
-      }
-      &:last-child {
-        padding-bottom: 2px;
-      }
-    }
-  }
-  > div > div > div > div > span:first-child {
-    color: ${props => `${props.theme['gray-5']}`};
   }
   > div > div > span:last-child {
     top: 1px;
@@ -66,79 +50,76 @@ const BalanceDropdown = styled.div`
     position: relative;
   }
 `
-const SubItems = styled.div`
-  display: flex;
-  position: relative;
-  align-items: flex-end;
-  flex-direction: column;
-  > div:first-child {
-    margin-top: 12px;
-    &:before {
-      content: '';
-      left: 0;
-      top: 3px;
-      height: 1px;
-      width: 100%;
-      position: absolute;
-      background-color: ${props => props.theme['gray-1']};
-    }
-  }
-`
 
-const getComponentOrder = path => {
-  switch (path) {
-    case '/btc/transactions':
-      return [
-        <BtcBalance large />,
-        <EthBalance />,
-        <BchBalance />,
-        <TotalBalance />
-      ]
-    case '/eth/transactions':
-      return [
-        <EthBalance large />,
-        <BtcBalance />,
-        <BchBalance />,
-        <TotalBalance />
-      ]
-    case '/bch/transactions':
-      return [
-        <BchBalance large />,
-        <BtcBalance />,
-        <EthBalance />,
-        <TotalBalance />
-      ]
+const getComponentOrder = () => [
+  <WalletBalance />,
+  <LockboxBalance />,
+  <PendingBalance />,
+  <WatchOnlyBalance />,
+  <CurrencySwitch />
+]
+
+const getSelectedComponent = path => {
+  switch (true) {
+    case path.includes('btc'):
+      return <BtcBalance large />
+    case path.includes('eth'):
+      return <EthBalance large />
+    case path.includes('bch'):
+      return <BchBalance large />
+    case path.includes('bsv'):
+      return <BsvBalance large />
+    case path.includes('xlm'):
+      return <XlmBalance large />
+    case path.includes('lockbox'):
+      return <LockboxTotalBalance />
     default:
-      return [
-        <TotalBalance large />,
-        <BtcBalance />,
-        <EthBalance />,
-        <BchBalance />
-      ]
+      return <TotalBalance large />
   }
 }
 
 const getBalanceMessage = path => {
-  switch (path) {
-    case '/btc/transactions':
+  switch (true) {
+    case path.includes('btc'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bitcoinbalance'
           defaultMessage='Bitcoin Balance'
         />
       )
-    case '/eth/transactions':
+    case path.includes('eth'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.etherbalance'
           defaultMessage='Ether Balance'
         />
       )
-    case '/bch/transactions':
+    case path.includes('bch'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bchbalance'
           defaultMessage='Bitcoin Cash Balance'
+        />
+      )
+    case path.includes('bsv'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.bsvbalance'
+          defaultMessage='Bitcoin SV Balance'
+        />
+      )
+    case path.includes('xlm'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.xlmbalance'
+          defaultMessage='Stellar Balance'
+        />
+      )
+    case path.includes('lockbox'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.lockboxbalance'
+          defaultMessage='Lockbox Balance'
         />
       )
     default:
@@ -151,24 +132,19 @@ const getBalanceMessage = path => {
   }
 }
 
-const getSubBalances = props => (
-  <SubItems>
-    <SfoxPendingBalance />
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
-  </SubItems>
-)
-
 const Success = props => (
   <Wrapper>
-    <BalanceText weight={300}>{getBalanceMessage(props.path)}</BalanceText>
+    <BalanceText weight={300} data-e2e='totalBalance'>
+      {getBalanceMessage(props.path)}
+    </BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
         forceSelected
         color={'gray-5'}
-        selectedComponent={getComponentOrder(props.path)[0]}
-        components={getComponentOrder(props.path).concat(getSubBalances())}
+        toggleOnCallback={false}
+        selectedComponent={getSelectedComponent(props.path)}
+        components={getComponentOrder()}
         callback={() => {}}
       />
     </BalanceDropdown>

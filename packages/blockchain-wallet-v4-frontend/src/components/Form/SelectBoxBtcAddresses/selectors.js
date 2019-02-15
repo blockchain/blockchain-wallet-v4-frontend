@@ -1,84 +1,89 @@
 import {
-  assoc,
-  assocPath,
-  compose,
   concat,
+  curry,
   filter,
-  isNil,
-  lift,
+  has,
   map,
-  not,
-  path,
-  prop,
-  sequence
+  sequence,
+  reduce,
+  prepend
 } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
+const allWallets = {
+  label: 'All',
+  options: [
+    {
+      label: 'All Bitcoin Wallets',
+      value: 'all'
+    }
+  ]
+}
+
+const allImportedAddresses = {
+  label: 'Imported Addresses',
+  options: [
+    {
+      label: 'All Imported Bitcoin Addresses',
+      value: 'allImportedAddresses'
+    }
+  ]
+}
+
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
-  const isActive = filter(x => !x.archived)
+  const {
+    exclude = [],
+    excludeHDWallets,
+    excludeImported,
+    excludeLockbox,
+    includeAll = true
+  } = ownProps
+  const buildDisplay = wallet => {
+    if (has('balance', wallet)) {
+      let btcDisplay = Exchange.displayBitcoinToBitcoin({
+        value: wallet.balance,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      })
+      return wallet.label + ` (${btcDisplay})`
+    }
+    return wallet.label
+  }
   const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ text: x.label, value: x }))
-
-  const formatAddress = addressData => {
-    const formattedAddress = {}
-    return compose(
-      a => assoc('text', prop('addr', addressData), a),
-      a =>
-        assocPath(
-          ['value', 'balance'],
-          path(['info', 'final_balance'], addressData),
-          a
-        ),
-      a => assocPath(['value', 'coin'], coin, a),
-      a => assocPath(['value', 'address'], prop('addr', addressData), a),
-      a => assoc('value', prop('info', addressData), a)
-    )(formattedAddress)
-  }
-
-  const formatImportedAddressesData = addressesData => {
-    return map(formatAddress, addressesData)
-  }
+  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
+  const toGroup = curry((label, options) => [{ label, options }])
 
   const getAddressesData = () => {
-    switch (coin) {
-      case 'BCH':
-        const importedAddresses = selectors.core.common.bch.getActiveAddresses(
-          state
-        )
-        const filterRelevantAddresses = addrs =>
-          excludeWatchOnly
-            ? filter(addr => not(isNil(prop('priv', addr))), addrs)
-            : addrs
-        const relevantAddresses = lift(filterRelevantAddresses)(
-          importedAddresses
-        )
-
-        return sequence(Remote.of, [
-          selectors.core.common.bch
-            .getAccountsBalances(state)
-            .map(isActive)
+    return sequence(Remote.of, [
+      selectors.core.common.btc
+        .getActiveAccountsBalances(state)
+        .map(excluded)
+        .map(toDropdown)
+        .map(toGroup('Wallet')),
+      excludeImported
+        ? Remote.of([])
+        : selectors.core.common.btc
+            .getAddressesBalances(state)
+            .map(toDropdown)
+            .map(toGroup('Imported Addresses')),
+      excludeLockbox
+        ? Remote.of([])
+        : selectors.core.common.btc
+            .getLockboxBtcBalances(state)
             .map(excluded)
-            .map(toDropdown),
-          excludeImported
-            ? Remote.of([])
-            : lift(formatImportedAddressesData)(relevantAddresses)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
-      default:
-        return sequence(Remote.of, [
-          selectors.core.common.btc
-            .getActiveAccountsBalances(state)
-            .map(excluded)
-            .map(toDropdown),
-          excludeImported
-            ? Remote.of([])
-            : selectors.core.common.btc
-                .getAddressesBalances(state)
-                .map(toDropdown)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
-    }
+            .map(toDropdown)
+            .map(toGroup('Lockbox'))
+    ]).map(([b1, b2, b3]) => {
+      const data = reduce(concat, [], [b1, b2, b3])
+      if (includeAll) {
+        return { data: prepend(allWallets, data) }
+      } else if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
+      } else {
+        return { data }
+      }
+    })
   }
-
   return getAddressesData()
 }

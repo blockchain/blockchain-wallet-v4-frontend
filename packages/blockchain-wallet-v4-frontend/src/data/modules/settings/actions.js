@@ -115,6 +115,10 @@ export const showEthPrivateKey = isLegacy => ({
   payload: { isLegacy }
 })
 
+export const showXlmPrivateKey = () => ({
+  type: AT.SHOW_XLM_PRIV_KEY
+})
+
 export const addShownBtcPrivateKey = priv => ({
   type: AT.ADD_SHOWN_BTC_PRIV_KEY,
   payload: { priv }
@@ -125,14 +129,21 @@ export const addShownEthPrivateKey = priv => ({
   payload: { priv }
 })
 
-export const clearShownBtcPrivateKey = priv => ({
-  type: AT.CLEAR_SHOWN_BTC_PRIV_KEY,
-  payload: {}
+export const addShownXlmPrivateKey = priv => ({
+  type: AT.ADD_SHOWN_XLM_PRIV_KEY,
+  payload: { priv }
 })
 
-export const clearShownEthPrivateKey = priv => ({
-  type: AT.CLEAR_SHOWN_ETH_PRIV_KEY,
-  payload: {}
+export const clearShownBtcPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_BTC_PRIV_KEY
+})
+
+export const clearShownEthPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
+})
+
+export const clearShownXlmPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
 })
 
 export const removeRecoveryPhrase = () => ({ type: AT.REMOVE_RECOVERY_PHRASE })

@@ -7,6 +7,7 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import { promptForSecondPassword } from 'services/SagaService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -528,7 +529,7 @@ export default ({ coreSagas, networks }) => {
         selectors.core.wallet.getDefaultAccountIndex
       )
       const defaultFeePerByte = path(['fees', 'priority'], payment.value())
-      payment = yield payment.from(defaultIndex)
+      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(defaultFeePerByte)
       yield put(A.coinifySellBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {

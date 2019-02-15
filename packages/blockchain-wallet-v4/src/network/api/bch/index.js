@@ -15,13 +15,18 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: apiUrl,
       endPoint: '/bch/multiaddr',
-      data: onlyShow ? merge(data, { onlyShow }) : data
+      data: onlyShow
+        ? merge(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
+              '|'
+            )
+          })
+        : data
     })
   }
 
   const getBchFee = () => {
-    // TODO :: this should come from wallet options
-    return Promise.resolve({ priority: 2, regular: 2 })
+    return Promise.resolve({ priority: 5, regular: 4 })
   }
 
   const getBchTicker = () =>
@@ -42,11 +47,27 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }
     })
 
-  const pushBchTx = txHex =>
+  const pushBchTx = (tx, lock_secret) =>
     post({
       url: apiUrl,
       endPoint: '/bch/pushtx',
-      data: { tx: txHex, format: 'plain' }
+      data: { tx, lock_secret, format: 'plain' }
+    })
+
+  const getBchRawTx = txHex =>
+    get({
+      url: apiUrl,
+      endPoint: '/bch/rawtx/' + txHex,
+      data: {
+        format: 'hex',
+        cors: 'true'
+      }
+    })
+
+  const getBchDust = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/bch/dust'
     })
 
   return {
@@ -54,6 +75,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBchFee,
     getBchTicker,
     getBchUnspents,
+    getBchRawTx,
+    getBchDust,
     pushBchTx
   }
 }

@@ -1,9 +1,10 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, equals, prop } from 'ramda'
+import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Socket } from 'blockchain-wallet-v4/src/network'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 // TO REVIEW
 export default ({ api, bchSocket }) => {
@@ -11,9 +12,18 @@ export default ({ api, bchSocket }) => {
 
   const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(
+      let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
+      const lockboxXPubs = yield select(
+        selectors.core.kvStore.lockbox.getLockboxBchContext
+      )
+
+      subscribeInfo.xpubs = concat(
+        subscribeInfo.xpubs,
+        lockboxXPubs.getOrElse([])
+      )
+
       yield call(
         compose(
           send,
@@ -39,7 +49,7 @@ export default ({ api, bchSocket }) => {
       switch (message.op) {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
-          const context = yield select(selectors.core.wallet.getContext)
+          const context = yield select(selectors.core.data.bch.getContext)
           const data = yield call(api.fetchBchData, context, {
             n: 50,
             offset: 0
@@ -55,17 +65,17 @@ export default ({ api, bchSocket }) => {
             }
           }
           // Refresh data
-          yield put(actions.core.data.bitcoin.fetchData())
+          yield put(actions.core.data.bch.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/bch/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues('bchTransactions')
+              selectors.form.getFormValues(WALLET_TX_SEARCH)
             )
             const source = prop('source', formValues)
             const onlyShow = equals(source, 'all')
               ? ''
-              : source.xpub || source.address
+              : prop('xpub', source) || prop('address', source)
             yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
           }
           break

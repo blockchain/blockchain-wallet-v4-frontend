@@ -9,27 +9,38 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const SuccessText = styled(Text)`
-  > span > span {
-    color: ${props => props.theme['gray-5']};
+const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  > div:last-child {
+    margin-left: 15px;
   }
 `
 
 const Success = props => {
   return (
     <Wrapper>
-      <Image name='blue-logo' width='50px' height='50px' />
-      <SuccessText
+      <LogoWrapper>
+        <Image name='blue-logo' width='50px' height='50px' />
+        <Text weight={300}>Blockchain Wallet</Text>
+      </LogoWrapper>
+      <Text
         size='16px'
         weight={300}
         color='success'
         style={{ 'margin-top': '25px' }}
       >
         <FormattedHTMLMessage
-          id='scenes.verifyemailtoken.success'
-          defaultMessage="You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>"
+          id='scenes.verifyemailtoken.success.verified'
+          defaultMessage="You've succesfully verified your email address!"
         />
-      </SuccessText>
+      </Text>
+      <Text style={{ marginTop: '10px' }} size='16px' weight={300}>
+        <FormattedHTMLMessage
+          id='scenes.verifyemailtoken.success.return'
+          defaultMessage='Return to the previous tab to access your wallet account.'
+        />
+      </Text>
     </Wrapper>
   )
 }

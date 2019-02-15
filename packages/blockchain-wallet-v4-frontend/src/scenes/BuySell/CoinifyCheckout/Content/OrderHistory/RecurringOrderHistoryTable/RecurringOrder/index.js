@@ -209,7 +209,7 @@ class RecurringOrder extends React.Component {
             {prop('isActive', subscription) ? (
               <RecurringCancelWrapper>
                 <Button
-                  nature='logout'
+                  nature='warning'
                   onClick={() => handleCancelSubscription(subscription)}
                 >
                   <Text size='13px' weight={300} color='white'>

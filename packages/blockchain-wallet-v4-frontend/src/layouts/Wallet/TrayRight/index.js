@@ -50,26 +50,13 @@ const Header = styled.div`
 `
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 40px);
+  overflow: scroll;
+  height: calc(100% - 60px);
   background-color: ${props => props.theme['white']};
 `
 
 class TrayRightContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  componentDidMount () {
-    document.addEventListener('mousedown', this.handleClick)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('mousedown', this.handleClick)
-  }
-
-  handleClick (e) {
+  handleClick = e => {
     const trayContainer = ReactDOM.findDOMNode(this.node)
     const blacklist = ['faq-icon', 'whatsnew-icon']
     if (
@@ -81,7 +68,7 @@ class TrayRightContainer extends React.PureComponent {
     }
   }
 
-  handleClose () {
+  handleClose = () => {
     if (this.props.data.opened) {
       this.props.actions.layoutWalletTrayCloseClicked()
     }

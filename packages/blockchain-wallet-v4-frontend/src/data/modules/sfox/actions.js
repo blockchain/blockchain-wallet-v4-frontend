@@ -88,3 +88,7 @@ export const fetchJumioTokenFailure = error => ({
   type: AT.FETCH_JUMIO_TOKEN_FAILURE,
   payload: error
 })
+
+export const sfoxInitialize = () => ({
+  type: AT.SFOX_INITIALIZE
+})

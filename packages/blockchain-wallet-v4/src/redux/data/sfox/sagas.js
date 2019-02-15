@@ -1,5 +1,5 @@
 import { apply, fork, call, put, select, take } from 'redux-saga/effects'
-import { path, prepend, prop } from 'ramda'
+import { path, prepend } from 'ramda'
 
 import ExchangeDelegate from '../../../exchange/delegate'
 import * as S from './selectors'
@@ -9,10 +9,12 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
 import * as walletActions from '../../wallet/actions'
+import settingsSagaFactory from '../../settings/sagas'
 
 let sfox
 
 export default ({ api, options }) => {
+  const settingsSagas = settingsSagaFactory({ api })
   const refreshSFOX = function*() {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'sfox')
@@ -59,9 +61,6 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchQuoteSuccess(quote))
-      baseCurrency === 'BTC'
-        ? yield call(api.logSfoxQuote, 'sfox_quote_buy_btc_usd')
-        : yield call(api.logSfoxQuote, 'sfox_quote_buy_usd_btc')
       yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -79,9 +78,6 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchSellQuoteSuccess(quote))
-      baseCurrency === 'BTC'
-        ? yield call(api.logSfoxQuote, 'sfox_quote_sell_btc_usd')
-        : yield call(api.logSfoxQuote, 'sfox_quote_sell_usd_btc')
       yield fork(waitForRefreshSellQuote, data.payload)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
@@ -244,6 +240,7 @@ export default ({ api, options }) => {
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
       yield put(A.sfoxFetchAccountsSuccess(accounts))
+      return accounts
     } catch (e) {
       yield put(A.sfoxFetchAccountsFailure(e))
     }
@@ -268,10 +265,6 @@ export default ({ api, options }) => {
 
   const handleTrade = function*(quote, addressData) {
     try {
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_buy_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_created')
-
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])
@@ -280,7 +273,7 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-
+      yield call(settingsSagas.setLastTxTime)
       // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
       const newTrades = prepend(trade, kvTrades.getOrElse([]))
@@ -316,9 +309,6 @@ export default ({ api, options }) => {
 
   const handleSellTrade = function*(quote) {
     try {
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_sell_usd_btc_created')
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])

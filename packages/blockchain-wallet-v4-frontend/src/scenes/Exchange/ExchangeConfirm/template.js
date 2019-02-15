@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-
+import { prop } from 'ramda'
 import { model } from 'data'
 
-import { HeartbeatLoader, Icon } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   Wrapper,
   ExchangeText,
@@ -16,11 +16,15 @@ import {
   ExchangeButton,
   CancelButton
 } from 'components/Exchange'
+import { Form } from 'components/Form'
 
-const { CONFIRM_FORM } = model.components.exchange
+const {
+  CONFIRM_FORM,
+  MISSING_DEVICE_ERROR,
+  NO_TRADE_PERMISSION
+} = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  margin-bottom: 15px;
   ${Title} {
     margin-bottom: 8px;
   }
@@ -63,31 +67,78 @@ const Row = styled.div`
   margin-bottom: 35px;
 `
 const FromToIcon = styled(Icon)`
-  min-width: 45px;
+  min-width: 25px;
+  width: 45px;
   text-align: center;
   justify-content: center;
   font-size: 24px;
 `
+const ErrorRow = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 18px;
+  padding: 5px 0;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${props => props.theme.error};
+`
+const ConfirmForm = styled(Form)`
+  max-width: 440px;
+`
+
+const getErrorMessage = error => {
+  if (error === MISSING_DEVICE_ERROR) {
+    return (
+      <FormattedMessage
+        id='scenes.exchange.confirm.missingdevice'
+        defaultMessage='Lockbox device is missing'
+      />
+    )
+  } else if (prop('type', error) === NO_TRADE_PERMISSION) {
+    return (
+      prop('description', error) || (
+        <FormattedMessage
+          id='scenes.exchange.confirm.notradepermission'
+          defaultMessage='You do not have permission to trade right now. Please try again later.'
+        />
+      )
+    )
+  } else {
+    return (
+      prop('description', error) || (
+        <FormattedMessage
+          id='scenes.exchange.confirm.tradefailed'
+          defaultMessage='Failed to execute a trade'
+        />
+      )
+    )
+  }
+}
 
 const ExchangeConfirm = ({
+  error,
   sourceAmount,
   targetAmount,
   targetFiat,
+  sourceFiat,
+  sourceActive,
   sourceToTargetRate,
   sourceCoin,
   targetCoin,
   currency,
-  fee,
+  sourceFee,
   submitting,
   handleSubmit,
   onBack
 }) => (
-  <form onSubmit={handleSubmit}>
+  <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
-          id='scenes.exchange.confirm.title'
-          defaultMessage='Confirm Exchange'
+          id='scenes.exchange.confirm.header'
+          defaultMessage='Confirm'
         />
       </Title>
       <Row>
@@ -102,7 +153,7 @@ const ExchangeConfirm = ({
       <TableRow>
         <ExchangeText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.rates'
+            id='scenes.exchange.exchange.confirm.summary.rates'
             defaultMessage='Rate'
           />
         </ExchangeText>
@@ -113,41 +164,69 @@ const ExchangeConfirm = ({
       <TableRow>
         <ExchangeText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.fee'
+            id='scenes.exchange.exchange.confirm.summary.sourceFee'
             defaultMessage='Network Fee'
           />
         </ExchangeText>
-        <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
+        <ExchangeText weight={300}>{`${
+          sourceFee.source
+        } ${sourceCoin}`}</ExchangeText>
       </TableRow>
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.confirm.value'
-            defaultMessage='Total Value'
-          />
-        </ExchangeText>
-        <ExchangeText weight={300}>{`~${targetFiat} ${currency}`}</ExchangeText>
-      </TableRow>
+      {sourceActive ? (
+        <TableRow>
+          <ExchangeText>
+            <FormattedMessage
+              id='scenes.exchange.confirm.value'
+              defaultMessage='Value'
+            />
+          </ExchangeText>
+          <ExchangeText
+            weight={300}
+          >{`${sourceFiat} ${currency}`}</ExchangeText>
+        </TableRow>
+      ) : (
+        <TableRow>
+          <ExchangeText>
+            <FormattedMessage
+              id='scenes.exchange.confirm.receivevalue'
+              defaultMessage='Receive Value'
+            />
+          </ExchangeText>
+          <ExchangeText
+            weight={300}
+          >{`${targetFiat} ${currency}`}</ExchangeText>
+        </TableRow>
+      )}
       <Delimiter />
       <Note>
         <FormattedMessage
-          id='scenes.exchange.exchangeform.summary.note'
+          id='scenes.exchange.confirm.summary.note'
           defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
         />
       </Note>
     </ConfirmWrapper>
-    <ExchangeButton type='submit' nature='primary' disabled={submitting}>
+    <ErrorRow>{error && getErrorMessage(error)}</ErrorRow>
+    <ExchangeButton
+      type='submit'
+      nature='primary'
+      disabled={submitting}
+      data-e2e='exchangeCompleteOrderButton'
+    >
       {!submitting && (
         <FormattedMessage
-          id='scenes.exchange.confirm.submit'
-          defaultMessage='Complete Order'
+          id='scenes.exchange.confirm.confirm'
+          defaultMessage='Confirm'
         />
       )}
       {submitting && (
         <HeartbeatLoader height='20px' width='20px' color='white' />
       )}
     </ExchangeButton>
-    <CancelButton disabled={submitting} onClick={onBack}>
+    <CancelButton
+      disabled={submitting}
+      onClick={onBack}
+      data-e2e='exchangeCancelOrderButton'
+    >
       {!submitting && (
         <FormattedMessage
           id='scenes.exchange.confirm.cancel'
@@ -155,7 +234,7 @@ const ExchangeConfirm = ({
         />
       )}
     </CancelButton>
-  </form>
+  </ConfirmForm>
 )
 
 export default reduxForm({

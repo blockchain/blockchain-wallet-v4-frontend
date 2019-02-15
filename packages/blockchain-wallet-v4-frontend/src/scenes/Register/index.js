@@ -32,11 +32,7 @@ class RegisterContainer extends React.PureComponent {
       <Register
         onSubmit={this.onSubmit}
         busy={busy}
-        cracktime={
-          passwordStrength.crack_times_display
-            .offline_slow_hashing_1e4_per_second
-        }
-        showTip={passwordStrength.score < 4}
+        passwordStrength={passwordStrength.score}
         passwordLength={passwordLength}
       />
     )

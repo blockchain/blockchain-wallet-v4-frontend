@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import Announcements from 'components/Announcements'
 import { Image, Link } from 'blockchain-info-components'
 import { Navbar, NavbarBrand } from 'components/Navbar'
 
@@ -14,7 +14,7 @@ const Header = () => {
           </Link>
         </NavbarBrand>
       </Navbar>
-      <ServiceAnnouncement alertArea='public' />
+      <Announcements type='service' alertArea='public' />
     </React.Fragment>
   )
 }

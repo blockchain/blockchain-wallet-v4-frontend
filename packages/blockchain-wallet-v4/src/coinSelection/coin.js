@@ -7,11 +7,9 @@ import {
   add,
   compose,
   sort,
-  isNil,
   ifElse,
   always,
   complement,
-  either,
   tryCatch
 } from 'ramda'
 import { over, view } from 'ramda-lens'
@@ -94,13 +92,7 @@ export const inputBytes = input => {
 }
 
 export const outputBytes = ifElse(
-  either(
-    complement(isCoin),
-    compose(
-      isNil,
-      selectAddress
-    )
-  ),
+  complement(isCoin),
   always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
   compose(
     add(TX_OUTPUT_BASE),

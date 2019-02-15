@@ -6,17 +6,13 @@ import { actions } from 'data'
 import TransactionListItem from './template.js'
 
 class ListItemContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleCoinToggle = this.handleCoinToggle.bind(this)
-    this.handleEditDescription = this.handleEditDescription.bind(this)
+  state = { isToggled: false }
+
+  handleToggle = () => {
+    this.setState({ isToggled: !this.state.isToggled })
   }
 
-  handleCoinToggle () {
-    this.props.preferencesActions.toggleCoinDisplayed()
-  }
-
-  handleEditDescription (value) {
+  handleEditDescription = value => {
     switch (this.props.coin) {
       case 'ETH': {
         this.props.ethereumActions.setTxNotesEthereum(
@@ -36,6 +32,13 @@ class ListItemContainer extends React.PureComponent {
         this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
         break
       }
+      case 'BSV': {
+        this.props.bsvActions.setTxNotesBsv(this.props.transaction.hash, value)
+        break
+      }
+      case 'XLM': {
+        this.props.xlmActions.setTxNotesXlm(this.props.transaction.hash, value)
+      }
     }
   }
 
@@ -43,11 +46,12 @@ class ListItemContainer extends React.PureComponent {
     return (
       <TransactionListItem
         coin={this.props.coin}
-        minConfirmations={this.props.minConfirmations}
+        currency={this.props.currency}
+        isToggled={this.state.isToggled}
+        handleToggle={this.handleToggle}
         transaction={this.props.transaction}
-        handleCoinToggle={this.handleCoinToggle}
+        buySellPartner={this.props.buySellPartner}
         handleEditDescription={this.handleEditDescription}
-        buysellPartner={this.props.buysellPartner}
       />
     )
   }
@@ -57,7 +61,9 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
-  bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch)
+  bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
+  xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
 export default connect(

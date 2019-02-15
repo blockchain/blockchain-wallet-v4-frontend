@@ -1,11 +1,11 @@
-import { path, prop, concat, contains } from 'ramda'
+import { path, pathOr, prop, concat, contains } from 'ramda'
 import { BUYSELL } from '../config'
 import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, BUYSELL])
 
 export const getSfoxTrades = state =>
-  getMetadata(state).map(path(['value', 'sfox', 'trades']))
+  getMetadata(state).map(pathOr([], ['value', 'sfox', 'trades']))
 
 export const getSfoxUser = state =>
   getMetadata(state).map(path(['value', 'sfox', 'user']))
@@ -17,7 +17,7 @@ export const getSfoxPhoneCall = state =>
   getMetadata(state).map(path(['value', 'sfox', 'phone_call']))
 
 export const getCoinifyTrades = state =>
-  getMetadata(state).map(path(['value', 'coinify', 'trades']))
+  getMetadata(state).map(pathOr([], ['value', 'coinify', 'trades']))
 
 export const getBuySellTxHashMatch = (state, hash) => {
   const allTrades = concat(

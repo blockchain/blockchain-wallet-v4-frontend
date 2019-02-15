@@ -116,8 +116,8 @@ export const OrderNote = ({ status }) => {
     case FAILED:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.failed'
-          defaultMessage='This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the exchange tab to start a new trade.'
+          id='components.orderstatus.note.swapfailed'
+          defaultMessage='This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the swap tab to start a new trade.'
         />
       )
     case 'no_deposits':
@@ -128,14 +128,14 @@ export const OrderNote = ({ status }) => {
     case PENDING_EXECUTION:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.pending'
+          id='components.orderstatus.note.swappending'
           defaultMessage='Thanks for placing your trade! Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens. Keep track of your trade’s progress in the Order History tab.'
         />
       )
     case PENDING_REFUND:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.refunding'
+          id='components.orderstatus.note.swaprefunding'
           defaultMessage='We are now processing a refund for any funds broadcast minus the network fee. Please check your Order History to check the refund status.'
         />
       )
@@ -143,15 +143,15 @@ export const OrderNote = ({ status }) => {
     case REFUNDED:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.refunded'
-          defaultMessage='We have refunded your wallet after the trade failed.  Please return to the exchange tab to start a new trade.'
+          id='components.orderstatus.note.swaprefunded'
+          defaultMessage='We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.'
         />
       )
     case EXPIRED:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.expired'
-          defaultMessage='This trade has expired. Any funds broadcast from your wallet will be refunded minus the network fee. Please Contact Support stating your order ID to request a refund.'
+          id='components.orderstatus.note.swapexpired_exchange'
+          defaultMessage='This swap has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.'
         />
       )
     default:

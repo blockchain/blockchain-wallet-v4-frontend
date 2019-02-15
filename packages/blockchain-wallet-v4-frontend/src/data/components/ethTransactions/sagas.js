@@ -1,8 +1,9 @@
-import { select, put } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 import { equals, path } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions, model } from 'data'
 
-export default ({ coreSagas }) => {
+export default () => {
+  const { WALLET_TX_SEARCH } = model.form
   const logLocation = 'components/ethTransactions/sagas'
   const initialized = function*() {
     try {
@@ -10,25 +11,18 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('ethTransactions', initialValues))
-      yield put(actions.core.data.ethereum.fetchTransactions(true))
+      yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
+      yield put(actions.core.data.ethereum.fetchTransactions(null, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
-  const scrollUpdated = function*(action) {
+  const loadMore = function*() {
     try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/eth/transactions')) return
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-
-      if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.ethereum.fetchTransactions())
-      }
+      yield put(actions.core.data.ethereum.fetchTransactions())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
   }
 
@@ -36,7 +30,7 @@ export default ({ coreSagas }) => {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
-      if (!equals('ethTransactions', form)) return
+      if (!equals(WALLET_TX_SEARCH, form)) return
       switch (field) {
         case 'source':
           yield put(actions.core.data.ethereum.fetchTransactions())
@@ -49,6 +43,6 @@ export default ({ coreSagas }) => {
   return {
     initialized,
     formChanged,
-    scrollUpdated
+    loadMore
   }
 }

@@ -1,6 +1,6 @@
 import { merge } from 'ramda'
 
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
       url: rootUrl,
@@ -16,8 +16,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       sessionToken
     })
 
-  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) =>
-    post({
+  const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
+    return post({
       url: rootUrl,
       endPoint: '/wallet',
       data: {
@@ -29,6 +29,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       },
       sessionToken
     })
+  }
 
   const savePayload = data =>
     post({
@@ -62,7 +63,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: rootUrl,
       endPoint: '/multiaddr',
-      data: onlyShow ? merge(data, { onlyShow }) : data
+      data: onlyShow
+        ? merge(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
+              '|'
+            )
+          })
+        : data
     })
   }
 
@@ -70,11 +77,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     post({
       url: rootUrl,
       endPoint: '/wallet/sessions'
-    }).then(
-      data =>
-        !data.token || !data.token.length
-          ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
-          : data.token
+    }).then(data =>
+      !data.token || !data.token.length
+        ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
+        : data.token
     )
 
   const pollForSessionGUID = sessionToken =>
@@ -90,11 +96,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       url: rootUrl,
       endPoint: '/uuid-generator',
       data: { format: 'json', n: count }
-    }).then(
-      data =>
-        !data.uuids || data.uuids.length !== count
-          ? Promise.reject(new Error('Could not generate uuids'))
-          : data.uuids
+    }).then(data =>
+      !data.uuids || data.uuids.length !== count
+        ? Promise.reject(new Error('Could not generate uuids'))
+        : data.uuids
     )
 
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response

@@ -41,7 +41,7 @@ const SecondStep = props => {
       <DetailRow>
         <Text size='14px' weight={400}>
           <FormattedMessage
-            id='modals.signmessage.firststep.address'
+            id='modals.signmessage.secondstep.address'
             defaultMessage='Address:'
           />
         </Text>

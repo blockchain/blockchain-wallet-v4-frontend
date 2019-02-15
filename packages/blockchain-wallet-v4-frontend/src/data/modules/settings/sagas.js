@@ -9,7 +9,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
-import { contains, toLower, prop, head } from 'ramda'
+import { contains, toLower, prop, propEq, head } from 'ramda'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -96,6 +96,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
+      if (propEq('type', 'UNKNOWN_USER', e)) return
       yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
     }
   }
@@ -130,6 +131,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
+      if (propEq('type', 'UNKNOWN_USER', e)) return
       yield put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
       yield put(actions.modules.settings.verifyMobileFailure())
     }
@@ -322,8 +324,8 @@ export default ({ api, coreSagas }) => {
 
   const showEthPrivateKey = function*(action) {
     const { isLegacy } = action.payload
-    const password = yield call(promptForSecondPassword)
     try {
+      const password = yield call(promptForSecondPassword)
       if (isLegacy) {
         const getSeedHex = state =>
           selectors.core.wallet.getSeedHex(state, password)
@@ -344,6 +346,24 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e)
+      )
+    }
+  }
+
+  const showXlmPrivateKey = function*() {
+    try {
+      const password = yield call(promptForSecondPassword)
+      const getMnemonic = state =>
+        selectors.core.wallet.getMnemonic(state, password)
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const keyPair = utils.xlm.getKeyPair(mnemonic)
+      yield put(
+        actions.modules.settings.addShownXlmPrivateKey(keyPair.secret())
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showXlmPrivateKey', e)
       )
     }
   }
@@ -371,6 +391,7 @@ export default ({ api, coreSagas }) => {
     newHDAccount,
     recoverySaga,
     showBtcPrivateKey,
-    showEthPrivateKey
+    showEthPrivateKey,
+    showXlmPrivateKey
   }
 }

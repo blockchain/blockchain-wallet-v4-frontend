@@ -1,5 +1,4 @@
 import { path } from 'ramda'
-// import { KVStoreEntry } from '../../../types'
 import { ROOT } from '../config'
 import { kvStorePath } from '../../paths'
 

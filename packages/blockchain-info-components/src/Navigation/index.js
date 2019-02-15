@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import styled, { ThemeProvider, injectGlobal } from 'styled-components'
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { IntlProvider, FormattedMessage } from 'react-intl'
 
 import Button from './Button'
@@ -42,26 +42,25 @@ const darkTheme = {
   headerScroll: 'white'
 }
 
-injectGlobal`
-    :root {
-      --siteMaxWidth: 75rem;
-      --contentMaxWidth: 62rem;
-      --copyMaxWidth: 42rem;
+const GlobalStyles = createGlobalStyle`
+  :root {
+    --siteMaxWidth: 75rem;
+    --contentMaxWidth: 62rem;
+    --copyMaxWidth: 42rem;
 
-      --smScreen: 48rem;
-      --mdScreen: 62rem;
-      --lgScreen: 75rem;
+    --smScreen: 48rem;
+    --mdScreen: 62rem;
+    --lgScreen: 75rem;
 
-      --smBorderRadius: 2px;
-      --lgBorderRadius: 4px;
-    }
-    .flex-container {
-      display: flex;
-      margin: 0px auto;
-      width: 100%;
-      min-height: 2rem;
-    } 
-}
+    --smBorderRadius: 2px;
+    --lgBorderRadius: 4px;
+  }
+  .flex-container {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    min-height: 2rem;
+  }
 `
 
 const GlobalNav = styled.div.attrs({
@@ -226,23 +225,9 @@ const productsList = [
   },
   {
     title: (
-      <FormattedMessage id='header.data.explorer' defaultMessage='Explorer' />
-    ),
-    desc: (
       <FormattedMessage
-        id='header.data.explorer-desc'
-        defaultMessage='Search and Verify Transactions'
-      />
-    ),
-    link: '/explorer',
-    locale: LOCALE,
-    event: 'header_explorer'
-  },
-  {
-    title: (
-      <FormattedMessage
-        id='header.products.bps'
-        defaultMessage='Principal Strategies'
+        id='header.products.blockchain_markets'
+        defaultMessage='Blockchain Markets'
       />
     ),
     desc: (
@@ -251,9 +236,23 @@ const productsList = [
         defaultMessage='Institutional Portal'
       />
     ),
-    link: 'https://bps.blockchain.com',
+    link: '/markets',
     locale: LOCALE,
     event: 'header_principal'
+  },
+  {
+    title: (
+      <FormattedMessage id='header.products.lockbox' defaultMessage='Lockbox' />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.lockbox-desc'
+        defaultMessage='Hardware Wallet'
+      />
+    ),
+    link: '/lockbox',
+    locale: LOCALE,
+    event: 'header_lockbox'
   },
   {
     title: (
@@ -276,18 +275,16 @@ const productsList = [
 
 const dataList = [
   {
-    title: (
-      <FormattedMessage id='header.data.markets' defaultMessage='Markets' />
-    ),
+    title: <FormattedMessage id='header.data.prices' defaultMessage='Prices' />,
     desc: (
       <FormattedMessage
-        id='header.data.markets-desc'
-        defaultMessage='Prices, Quotes, and More'
+        id='header.data.prices-desc'
+        defaultMessage='Quotes, News, and More'
       />
     ),
-    link: '/markets',
+    link: '/prices',
     locale: LOCALE,
-    event: 'header_markets'
+    event: 'header_prices'
   },
   {
     title: <FormattedMessage id='header.data.charts' defaultMessage='Charts' />,
@@ -300,6 +297,57 @@ const dataList = [
     link: '/charts',
     locale: LOCALE,
     event: 'header_charts'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer'
+        defaultMessage='Bitcoin Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-desc'
+        defaultMessage='Search BTC Blockchain'
+      />
+    ),
+    link: '/explorer',
+    locale: LOCALE,
+    event: 'header_explorer'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer-bch'
+        defaultMessage='Bitcoin Cash Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-bch-desc'
+        defaultMessage='Search BCH Blockchain'
+      />
+    ),
+    link: '/explorer?currency=BCH',
+    locale: LOCALE,
+    event: 'header_explorer_bch'
+  },
+  {
+    title: (
+      <FormattedMessage
+        id='header.data.explorer-eth'
+        defaultMessage='Ethereum Explorer'
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id='header.data.explorer-eth-desc'
+        defaultMessage='Search ETH Blockchain'
+      />
+    ),
+    link: '/explorer?currency=ETH',
+    locale: LOCALE,
+    event: 'header_explorer_eth'
   }
 ]
 
@@ -472,10 +520,10 @@ class Header extends PureComponent {
       let scrollTop = supportScrollY
         ? window.scrollY
         : supportPageOffset
-          ? window.pageYOffset
-          : isCSS1Compat
-            ? document.documentElement.scrollTop
-            : document.body.scrollTop
+        ? window.pageYOffset
+        : isCSS1Compat
+        ? document.documentElement.scrollTop
+        : document.body.scrollTop
 
       return scrollTop
     }
@@ -638,6 +686,7 @@ class Header extends PureComponent {
             {position === 'fixed' && <Spacer />}
           </div>
         </IntlProvider>
+        <GlobalStyles />
       </ThemeProvider>
     )
   }

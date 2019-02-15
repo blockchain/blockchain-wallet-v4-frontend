@@ -1,22 +1,16 @@
 import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
-import {
-  LAYOUT_WALLET_HEADER_FAQ_CLICKED,
-  LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
-} from '../components/layoutWallet/actionTypes'
 
-export default ({ api, coreSagas }) => {
-  const analyticsSagas = sagas({ api, coreSagas })
-  return function*() {
-    yield takeLatest(AT.REPORT_BALANCE_STATS, analyticsSagas.reportBalanceStats)
-    yield takeLatest(AT.LOG_LEFT_NAV_CLICK, analyticsSagas.logLeftNavClick)
-    yield takeLatest(AT.LOG_CLICK, analyticsSagas.logClick)
-    yield takeLatest(LAYOUT_WALLET_HEADER_FAQ_CLICKED, analyticsSagas.logClick)
-    yield takeLatest(
-      LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED,
-      analyticsSagas.logClick
-    )
-    yield takeLatest(AT.LOG_SFOX_DROPOFF, analyticsSagas.logSfoxDropoff)
+export default ({ api }) => {
+  const analyticsSagas = sagas({ api })
+
+  return function* analyticsSaga () {
+    yield takeLatest(AT.LOG_EVENT, analyticsSagas.logEvent)
+    yield takeLatest(AT.LOG_PAGE_VIEW, analyticsSagas.logPageView)
+    yield takeLatest(AT.LOG_GOAL, analyticsSagas.logGoal)
+    yield takeLatest(AT.INIT_USER_SESSION, analyticsSagas.initUserSession)
+    yield takeLatest(AT.START_SESSION, analyticsSagas.startSession)
+    yield takeLatest(AT.STOP_SESSION, analyticsSagas.stopSession)
   }
 }

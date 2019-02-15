@@ -42,6 +42,23 @@ describe('kvstore root selectors', () => {
     }
   }
 
+  const noTradesKeyState = {
+    kvStorePath: {
+      buySell: Remote.Success({
+        value: {
+          coinify: {
+            offline_token: 'my coinify token',
+            user: 42
+          },
+          sfox: {
+            account_token: 'my sfox account token',
+            user: 'my user id'
+          }
+        }
+      })
+    }
+  }
+
   it('getMetadata should return success of metadata', () => {
     const expectedResult = Remote.Success(buySellMetadata)
     expect(selectors.getMetadata(successState)).toEqual(expectedResult)
@@ -52,9 +69,19 @@ describe('kvstore root selectors', () => {
     expect(selectors.getSfoxTrades(successState)).toEqual(expectedResult)
   })
 
+  it('getSfoxTrades should return success of empty array when there\'s no "trades" key in sfox metadata', () => {
+    const expectedResult = Remote.Success([])
+    expect(selectors.getSfoxTrades(noTradesKeyState)).toEqual(expectedResult)
+  })
+
   it('getSfoxUser should return success of metadata sfox user in success state', () => {
     const expectedResult = Remote.Success('my user id')
     expect(selectors.getSfoxUser(successState)).toEqual(expectedResult)
+  })
+
+  it('getCoinifyTrades should return success of empty array when there\'s no "trades" key in coinify metadata', () => {
+    const expectedResult = Remote.Success([])
+    expect(selectors.getCoinifyTrades(noTradesKeyState)).toEqual(expectedResult)
   })
 
   it('getCoinifyTrades should return success of metadata coinify trades in success state', () => {

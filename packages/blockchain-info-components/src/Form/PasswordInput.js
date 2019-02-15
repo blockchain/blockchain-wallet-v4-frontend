@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
-  disabled: props => props.disabled
+  disabled: props => props.disabled,
+  'data-lpignore': props => props.noLastPass
 })`
   display: block;
   width: 100%;
@@ -61,8 +62,9 @@ class PasswordInput extends React.Component {
 
     return (
       <BasePasswordInput
-        innerRef={this.refInput}
+        ref={this.refInput}
         borderColor={borderColor}
+        data-e2e={this.props['data-e2e']}
         {...rest}
       />
     )

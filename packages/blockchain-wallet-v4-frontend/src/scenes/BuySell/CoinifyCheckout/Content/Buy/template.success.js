@@ -10,8 +10,8 @@ import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import Payment from 'modals/CoinifyExchangeData/Payment'
-import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
+import Payment from 'modals/Coinify/CoinifyExchangeData/Payment'
+import ISignThis from 'modals/Coinify/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
 import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
@@ -154,7 +154,10 @@ const CoinifyBuy = props => {
               coinifyNextCheckoutStep('checkout')
             }}
           >
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage
+              id='scenes.buysell.coinifycheckout.content.buy.close'
+              defaultMessage='Close'
+            />
           </Button>
         </RightContainer>
       </CheckoutWrapper>

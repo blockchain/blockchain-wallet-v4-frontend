@@ -26,7 +26,7 @@ const getErrorState = ({ touched, invalid }) => {
 }
 
 const PasswordBox = field => {
-  const { meta, input, score, disabled, borderColor } = field
+  const { meta, input, score, disabled, borderColor, noLastPass } = field
   const { touched, error, active } = meta
   const errorState = getErrorState(meta)
   const scoreVisible = score ? input.value.length > 0 : false
@@ -39,14 +39,20 @@ const PasswordBox = field => {
         active={active}
         controlledBorderColor={borderColor}
         errorState={errorState}
+        data-e2e={field['data-e2e']}
+        noLastPass={noLastPass}
       />
       {scoreVisible ? <PasswordScore value={input.value} /> : <div />}
-      {touched &&
-        error && (
-          <Error size='12px' weight={300} color='error'>
-            {error}
-          </Error>
-        )}
+      {touched && error && (
+        <Error
+          size='12px'
+          weight={300}
+          color='error'
+          data-e2e='passwordsNotMatchError'
+        >
+          {error}
+        </Error>
+      )}
     </Container>
   )
 }

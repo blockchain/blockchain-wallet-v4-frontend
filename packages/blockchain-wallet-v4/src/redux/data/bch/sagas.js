@@ -1,19 +1,30 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, last, length, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { fromCashAddr, isCashAddr } from '../../../utils/bch'
+import {
+  convertFromCashAddrIfCashAddr,
+  TX_PER_PAGE,
+  BCH_FORK_TIME
+} from '../../../utils/bch'
+import { addFromToAccountNames } from '../../../utils/accounts'
+import Remote from '../../../remote'
+import * as walletSelectors from '../../wallet/selectors'
+import { MISSING_WALLET } from '../utils'
+import { HDAccountList } from '../../../types'
+import { getAccountsList } from '../../kvStore/bch/selectors'
+import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
+import * as transactions from '../../../transactions'
 
-const convertFromCashAddrIfCashAddr = addr =>
-  isCashAddr(addr) ? fromCashAddr(addr) : addr
+const transformTx = transactions.bch.transformTx
 
 export default ({ api }) => {
   const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
-      const context = yield select(selectors.kvStore.bch.getContext)
+      const context = yield select(S.getContext)
       const data = yield call(api.fetchBchData, context, { n: 1 })
       const bchData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -55,32 +66,65 @@ export default ({ api }) => {
 
   const fetchTransactions = function*({ type, payload }) {
     const { address, reset } = payload
-    const TX_PER_PAGE = 10
-    const BCH_FORK_TIME = 1501590000
     try {
       const pages = yield select(S.getTransactions)
-      const lastPage = last(pages)
-      if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) {
-        return
-      }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const context = yield select(selectors.wallet.getWalletContext)
+      const walletContext = yield select(S.getWalletContext)
+      const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
       const data = yield call(api.fetchBchData, context, {
         n: TX_PER_PAGE,
-        onlyShow: convertedAddress,
+        onlyShow: convertedAddress || walletContext.join('|'),
         offset
       })
-      yield put(
-        A.fetchTransactionsSuccess(
-          data.txs.filter(tx => tx.time > BCH_FORK_TIME),
-          reset
-        )
-      )
+      const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
+      const atBounds = length(filteredTxs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
+      const page = yield call(__processTxs, filteredTxs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
+  }
+
+  const __processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(blockHeight)
+    const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(kvStoreAccountList)
+    const accountListR = yield select(getAccountsList)
+    const accountList = accountListR.getOrElse([])
+    // Remote(lockboxXpubs)
+    const lockboxAccountListR = (yield select(getLockboxBchAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+
+    // transformTx :: wallet -> blockHeight -> Tx
+    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          block.getOrElse(0),
+          lockboxAccountList
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    const processedTxs = ProcessTxs(
+      walletR,
+      blockHeightR,
+      lockboxAccountListR,
+      txs
+    )
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   const fetchTransactionHistory = function*({ payload }) {
@@ -100,7 +144,7 @@ export default ({ api }) => {
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
-        const context = yield select(selectors.wallet.getWalletContext)
+        const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
           api.getTransactionHistory,
@@ -123,6 +167,7 @@ export default ({ api }) => {
     fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

@@ -19,23 +19,29 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.ADD_SHOWN_ETH_PRIV_KEY: {
       return assoc('shownEthPrivKey', payload.priv, state)
     }
+    case AT.ADD_SHOWN_XLM_PRIV_KEY: {
+      return assoc('shownXlmPrivKey', payload.priv, state)
+    }
     case AT.CLEAR_SHOWN_BTC_PRIV_KEY: {
       return dissoc('shownBtcPrivKey', state)
     }
     case AT.CLEAR_SHOWN_ETH_PRIV_KEY: {
       return dissoc('shownEthPrivKey', state)
     }
+    case AT.CLEAR_SHOWN_XLM_PRIV_KEY: {
+      return dissoc('shownXlmPrivKey', state)
+    }
     case AT.VERIFY_EMAIL_CODE_FAILURE: {
       return assoc('emailVerifiedError', true, state)
     }
     case AT.CLEAR_EMAIL_CODE_FAILURE: {
-      return assoc('emailVerifiedError', state)
+      return assoc('emailVerifiedError', false, state)
     }
     case AT.VERIFY_MOBILE_FAILURE: {
       return assoc('mobileVerifiedError', true, state)
     }
     case AT.CLEAR_MOBILE_FAILURE: {
-      return assoc('mobileVerifiedError', state)
+      return assoc('mobileVerifiedError', false, state)
     }
     default: {
       return state

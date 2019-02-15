@@ -78,7 +78,7 @@ const Toast = props => {
   const color = selectColor(nature)
 
   return (
-    <Wrapper>
+    <Wrapper data-e2e={nature + 'ToastMessage'}>
       <Container color={color}>
         <Content>{children}</Content>
         <Close

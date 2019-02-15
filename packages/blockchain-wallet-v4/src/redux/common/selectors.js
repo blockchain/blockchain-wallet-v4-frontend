@@ -1,5 +1,7 @@
-import * as btc from './btc/selectors.js'
-import * as eth from './eth/selectors.js'
-import * as bch from './bch/selectors.js'
+import * as bch from './bch/selectors'
+import * as btc from './btc/selectors'
+import * as bsv from './bsv/selectors'
+import * as eth from './eth/selectors'
+import * as xlm from './xlm/selectors'
 
-export { btc, eth, bch }
+export { bch, btc, bsv, eth, xlm }

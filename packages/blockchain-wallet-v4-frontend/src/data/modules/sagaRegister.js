@@ -9,13 +9,13 @@ import transferEth from './transferEth/sagaRegister'
 import sfox from './sfox/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
-  function*() {
-    yield fork(addressesBch({ coreSagas }))
+  function* modulesSaga () {
+    yield fork(addressesBch({ coreSagas, networks }))
     yield fork(coinify({ coreSagas, networks }))
     yield fork(profile({ api, coreSagas }))
     yield fork(rates({ api }))
     yield fork(settings({ api, coreSagas }))
     yield fork(securityCenter({ coreSagas }))
-    yield fork(transferEth({ coreSagas }))
+    yield fork(transferEth({ coreSagas, networks }))
     yield fork(sfox({ api, coreSagas, networks }))
   }

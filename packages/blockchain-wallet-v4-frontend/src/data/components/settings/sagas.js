@@ -3,10 +3,19 @@ import { contains, equals, path, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/settings/sagas'
+export const logLocation = 'components/settings/sagas'
 
-  const notificationsInitialized = function*(action) {
+export default ({ coreSagas }) => {
+  const initializeBsv = function*() {
+    try {
+      yield call(coreSagas.data.bsv.fetchData)
+      yield call(coreSagas.data.bsv.fetchRates)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', e))
+    }
+  }
+
+  const notificationsInitialized = function*() {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
@@ -44,6 +53,7 @@ export default ({ coreSagas }) => {
   }
 
   return {
+    initializeBsv,
     notificationsInitialized,
     notificationsFormChanged
   }

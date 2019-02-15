@@ -1,4 +1,4 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ rootUrl, post }) => {
   const getSettings = (guid, sharedKey) =>
     post({
       url: rootUrl,
@@ -22,6 +22,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const sendEmailConfirmation = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'update-email', email)
 
+  const resendVerifyEmail = (guid, sharedKey, email) =>
+    updateSettings(guid, sharedKey, 'resend-verify-email', email)
+
   const verifyEmail = (guid, sharedKey, code) =>
     updateSettings(guid, sharedKey, 'verify-email-code', code)
 
@@ -36,6 +39,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const updateCurrency = (guid, sharedKey, currency) =>
     updateSettings(guid, sharedKey, 'update-currency', currency)
+
+  const updateLastTxTime = (guid, sharedKey, time) =>
+    updateSettings(guid, sharedKey, 'update-last-tx-time', time)
 
   const updateLoggingLevel = (guid, sharedKey, loggingLevel) =>
     updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)
@@ -82,10 +88,12 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getSettings,
     updateEmail,
     sendEmailConfirmation,
+    resendVerifyEmail,
     verifyEmail,
     updateMobile,
     verifyMobile,
     updateLanguage,
+    updateLastTxTime,
     updateCurrency,
     updateLoggingLevel,
     updateIpLock,

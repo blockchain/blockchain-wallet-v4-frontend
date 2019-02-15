@@ -1,0 +1,924 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Results EXPIRED renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="error"
+  >
+    <ExchangeResults__StatusCircle
+      color="error"
+    />
+    <OrderStatus
+      status="EXPIRED"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="EXPIRED"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Exchange {coin}"
+        id="modals.exchangeresults.exchange"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      <ExchangeResults__StrikeThrough>
+        0.1337 ETH
+      </ExchangeResults__StrikeThrough>
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Link
+      bold={false}
+      capitalize={false}
+      color="brand-secondary"
+      href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
+      size="16px"
+      target="_blank"
+      uppercase={false}
+      weight={400}
+    >
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        size="13px"
+        small={false}
+        uppercase={false}
+        weight={300}
+      >
+        <FormattedMessage
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
+          values={Object {}}
+        />
+      </Button>
+    </Link>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results FAILED renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="error"
+  >
+    <ExchangeResults__StatusCircle
+      color="error"
+    />
+    <OrderStatus
+      status="FAILED"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="FAILED"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Exchange {coin}"
+        id="modals.exchangeresults.exchange"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      <ExchangeResults__StrikeThrough>
+        0.1337 ETH
+      </ExchangeResults__StrikeThrough>
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Link
+      bold={false}
+      capitalize={false}
+      color="brand-secondary"
+      href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
+      size="16px"
+      target="_blank"
+      uppercase={false}
+      weight={400}
+    >
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        size="13px"
+        small={false}
+        uppercase={false}
+        weight={300}
+      >
+        <FormattedMessage
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
+          values={Object {}}
+        />
+      </Button>
+    </Link>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results FINISHED renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="success"
+    />
+    <OrderStatus
+      status="FINISHED"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="{coin} Deposited"
+        id="modals.exchangeresults.deposited"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="{coin} Received"
+        id="modals.exchangeresults.received"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total Value"
+          id="modals.exchangeresults.value"
+          values={Object {}}
+        />
+         
+        <FormattedMessage
+          defaultMessage="(when exchanged)"
+          id="modals.exchangeresults.valuenotcie"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+         1000 USD
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Exchange rate"
+          id="modals.exchangeresults.rate"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        1 BTC = 0.06 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="brand-yellow"
+    />
+    <OrderStatus
+      status="PENDING_DEPOSIT"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="PENDING_DEPOSIT"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Exchange {coin}"
+        id="modals.exchangeresults.exchange"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total Value"
+          id="modals.exchangeresults.value"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        ~ 1000 USD
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Exchange rate"
+          id="modals.exchangeresults.rate"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        1 BTC = 0.06 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="brand-yellow"
+    />
+    <OrderStatus
+      status="PENDING_EXECUTION"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="PENDING_EXECUTION"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Exchange {coin}"
+        id="modals.exchangeresults.exchange"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total Value"
+          id="modals.exchangeresults.value"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        ~ 1000 USD
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Exchange rate"
+          id="modals.exchangeresults.rate"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        1 BTC = 0.06 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="brand-yellow"
+    />
+    <OrderStatus
+      status="PENDING_REFUND"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="PENDING_REFUND"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="{coin} Broadcast"
+        id="modals.exchangeresults.broadcast"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total to be refunded"
+          id="modals.exchangeresults.totaltoberefunded"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        ~ 0.1336
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="brand-yellow"
+    />
+    <OrderStatus
+      status="PENDING_WITHDRAWAL"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="PENDING_WITHDRAWAL"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Exchange {coin}"
+        id="modals.exchangeresults.exchange"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="Receive {coin}"
+        id="modals.exchangeresults.receive"
+        values={
+          Object {
+            "coin": "ETH",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.1337 ETH
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total Value"
+          id="modals.exchangeresults.value"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        ~ 1000 USD
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Exchange rate"
+          id="modals.exchangeresults.rate"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        1 BTC = 0.06 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;
+
+exports[`Exchange Results REFUNDED renders correctly 1`] = `
+<Modal
+  size="small"
+>
+  <ExchangeResults__ResultsHeader
+    color="gray-5"
+  >
+    <ExchangeResults__StatusCircle
+      color="brand-yellow"
+    />
+    <OrderStatus
+      status="REFUNDED"
+    />
+  </ExchangeResults__ResultsHeader>
+  <ModalBody
+    loading={false}
+  >
+    <Exchange__Note>
+      <OrderNote
+        status="REFUNDED"
+      />
+    </Exchange__Note>
+    <ExchangeResults__OrderRow>
+      <FormattedMessage
+        defaultMessage="Order"
+        id="modals.exchangeresults.order"
+        values={Object {}}
+      />
+      ede39566-1f0d-4e48-96fa-b558b70e46b7
+    </ExchangeResults__OrderRow>
+    <ExchangeResults__ResultAmountHeader>
+      <FormattedMessage
+        defaultMessage="{coin} Broadcast"
+        id="modals.exchangeresults.broadcast"
+        values={
+          Object {
+            "coin": "BTC",
+          }
+        }
+      />
+    </ExchangeResults__ResultAmountHeader>
+    <Exchange__ExchangeAmount>
+      0.008022 BTC
+    </Exchange__ExchangeAmount>
+    <Exchange__Delimiter />
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Network Fee"
+          id="modals.exchangeresults.fee"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+        0.0001 ETH
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+    <Exchange__TableRow>
+      <Exchange__ExchangeText>
+        <FormattedMessage
+          defaultMessage="Total refunded"
+          id="modals.exchangeresults.totalrefunded"
+          values={Object {}}
+        />
+      </Exchange__ExchangeText>
+      <Exchange__ExchangeText
+        weight={300}
+      >
+         0.1336
+      </Exchange__ExchangeText>
+    </Exchange__TableRow>
+  </ModalBody>
+  <ExchangeResults__ExchangeResultsFooter>
+    <Button
+      bold={false}
+      capitalize={false}
+      disabled={false}
+      fullwidth={false}
+      height="40px"
+      nature="primary"
+      rounded={false}
+      size="13px"
+      small={false}
+      uppercase={false}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.exchange.exchangeresults.close"
+        values={Object {}}
+      />
+    </Button>
+  </ExchangeResults__ExchangeResultsFooter>
+</Modal>
+`;

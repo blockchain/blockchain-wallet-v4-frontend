@@ -1,19 +1,28 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, equals, prop } from 'ramda'
+import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { Socket } from 'blockchain-wallet-v4/src/network'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
 
   const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(
+      let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
+      const lockboxXPubs = yield select(
+        selectors.core.kvStore.lockbox.getLockboxBtcContext
+      )
+      subscribeInfo.xpubs = concat(
+        subscribeInfo.xpubs,
+        lockboxXPubs.getOrElse([])
+      )
+
       yield call(
         compose(
           send,
@@ -52,7 +61,7 @@ export default ({ api, btcSocket }) => {
           break
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
-          const context = yield select(selectors.core.wallet.getContext)
+          const context = yield select(selectors.core.data.bitcoin.getContext)
           const data = yield call(api.fetchBlockchainData, context, {
             n: 50,
             offset: 0
@@ -73,12 +82,12 @@ export default ({ api, btcSocket }) => {
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues('btcTransactions')
+              selectors.form.getFormValues(WALLET_TX_SEARCH)
             )
             const source = prop('source', formValues)
             const onlyShow = equals(source, 'all')
               ? ''
-              : source.xpub || source.address
+              : prop('xpub', source) || prop('address', source)
             yield put(
               actions.core.data.bitcoin.fetchTransactions(onlyShow, true)
             )
@@ -99,6 +108,7 @@ export default ({ api, btcSocket }) => {
           break
         case 'email_verified':
           yield put(actions.core.settings.setEmailVerified())
+          yield put(actions.alerts.displaySuccess(T.EMAIL_VERIFY_SUCCESS))
           break
         case 'wallet_logout':
           yield call(dispatchLogoutEvent)

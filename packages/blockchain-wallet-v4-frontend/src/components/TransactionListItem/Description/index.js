@@ -4,22 +4,18 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EditDescription from './template'
+import { getDescription } from './selectors'
 
 class EditDescriptionContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { value: props.value }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleConfirm = this.handleConfirm.bind(this)
-  }
+  state = { value: this.props.value }
 
-  handleConfirm (desc) {
+  handleConfirm = desc => {
     const { handleEditDescription } = this.props
     this.setState({ value: desc })
     handleEditDescription(desc)
   }
 
-  handleChange (e) {
+  handleChange = () => {
     const { value } = this.props
     this.props.modalActions.showModal('EditTxDescription', {
       handleConfirm: this.handleConfirm,
@@ -28,7 +24,7 @@ class EditDescriptionContainer extends React.PureComponent {
   }
 
   render () {
-    const { value } = this.state
+    const { value } = this.props
 
     return <EditDescription value={value} handleChange={this.handleChange} />
   }
@@ -38,11 +34,15 @@ EditDescriptionContainer.propTypes = {
   value: PropTypes.string
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  value: getDescription(state, ownProps)
+})
+
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(EditDescriptionContainer)

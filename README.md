@@ -2,10 +2,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?branch=development)](https://coveralls.io/github/blockchain/blockchain-wallet-v4-frontend?branch=development)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Known Vulnerabilities](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # Blockchain Wallet v4
-Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
+Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
@@ -18,13 +19,13 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 and NPM version >= 6 are installed
-2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
-3. Install, link and hoist packages: `yarn`
+1. Ensure Node version >= 10.2 and Yarn version >= 1.12 are installed
+2. From the project root, run the following command to install dependencies: `chmod +x ./setup.sh && ./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
 If you require the application to run locally over HTTPS, follow the instructions [here](./config/ssl/ssl.md).
+You can disable SSL by setting the `DISABLE_SSL` env param to `true` with any start command. (e.g. `DISABLE_SSL=true yarn start:staging`)
 
 ### Windows Support
 To ensure proper support for Windows, please take the following actions before running the above setup instructions.
@@ -53,7 +54,7 @@ Notes:
  * Custom application runtimes are possible by modifying the corresponding environment files found in the `config/env` folder
  
 ### Useful Chrome Extensions
- * [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Inspect the React component tree
+ * [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) Inspect the React component tree
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
 
 
@@ -94,6 +95,8 @@ Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http:/
  * `yarn test:components` Runs unit tests for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:core` Runs unit tests for only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn test:frontend` Runs unit tests for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+ 
+ _Note: if you see errors that Jest cannot resolve package imports, you may need to run `yarn test` before testing specific packages (eg, `yarn test:frontend`)_
 
 #### Running Tests via Watch
  * `yarn test:watch` Watches and then runs desired tests

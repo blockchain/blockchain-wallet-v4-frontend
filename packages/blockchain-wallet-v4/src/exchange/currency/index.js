@@ -1,3 +1,4 @@
+import { BigNumber } from 'bignumber.js'
 import BigRational from 'big-rational'
 import { compose, curry, is, prop, flip, sequence } from 'ramda'
 import { view } from 'ramda-lens'
@@ -99,13 +100,22 @@ export const fromUnit = ({ value, unit }) => {
   )
 }
 
-export const fiatToString = ({ value, unit }) =>
-  `${unit.symbol}${formatFiat(value)}`
+export const fiatToString = ({ value, unit, digits = 2 }) =>
+  `${unit.symbol}${formatFiat(value, digits)}`
 
-export const coinToString = ({ value, unit }) => `${value} ${unit.symbol}`
+export const coinToString = ({ value, unit, minDigits = 0, maxDigits = 8 }) =>
+  `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
 
-export const formatFiat = value =>
+export const formatFiat = (value, digits = 2) =>
   Number(value).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
   })
+
+export const formatCoin = (value, minDigits = 0, maxDigits = 8) => {
+  const bigValue = new BigNumber(value)
+  const decimalPlaces = bigValue.decimalPlaces()
+  if (minDigits > decimalPlaces) return bigValue.toFormat(minDigits)
+  if (maxDigits < decimalPlaces) return bigValue.toFormat(maxDigits)
+  return bigValue.toFormat()
+}

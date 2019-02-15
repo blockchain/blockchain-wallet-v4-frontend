@@ -84,17 +84,18 @@ class TextAreaDebounced extends React.Component {
           disabled={disabled}
           placeholder={placeholder}
           rows={rows}
+          resize={false}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          data-e2e={this.props['data-e2e']}
           {...rest}
         />
-        {meta.touched &&
-          meta.error && (
-            <Error size='12px' weight={300} color='error'>
-              {meta.error}
-            </Error>
-          )}
+        {meta.touched && meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {meta.error}
+          </Error>
+        )}
       </Container>
     )
   }

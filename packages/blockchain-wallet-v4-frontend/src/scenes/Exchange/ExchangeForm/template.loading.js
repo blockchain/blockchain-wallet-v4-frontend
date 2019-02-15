@@ -3,6 +3,7 @@ import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
 import { model } from 'data'
 import Success from './template.success'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 
@@ -11,6 +12,7 @@ const stubBtcAccount = {
   coin: 'BTC',
   label: 'Bitcoin',
   address: 0,
+  type: ADDRESS_TYPES.ACCOUNT,
   balance: 0
 }
 
@@ -23,7 +25,6 @@ const stubEthAccount = {
 }
 
 const stubProps = {
-  canUseExchange: false,
   availablePairs: [],
   fromElements: [
     {
@@ -54,16 +55,23 @@ const stubProps = {
   sourceAmount: Remote.of(0),
   targetAmount: Remote.of(0),
   targetFiat: Remote.of(0),
-  sourceToTargetRate: Remote.of(0),
-  sourceToFiatRate: Remote.of(0),
-  targetToFiatRate: Remote.of(0),
+  sourceToTargetRate: Remote.Loading,
+  sourceToFiatRate: Remote.Loading,
+  targetToFiatRate: Remote.Loading,
   sourceCoin: 'BTC',
   targetCoin: 'ETH',
   sourceActive: true,
   targetActive: false,
   coinActive: false,
   fiatActive: true,
-  fix: BASE_IN_FIAT
+  fix: BASE_IN_FIAT,
+  min: null,
+  max: null,
+  targetFee: Remote.NotAsked,
+  sourceFee: {
+    source: 0,
+    target: 0
+  }
 }
 
 export default () => <Success {...stubProps} />

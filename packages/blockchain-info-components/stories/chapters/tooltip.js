@@ -20,4 +20,3 @@ storiesOf('Tooltip', module)
       </TooltipHost>
     </Fragment>
   ))
-// .add('MenuTooltip', () => <MenuTooltip title='MenuTooltip title'>This is a MenuTooltip.</MenuTooltip>)

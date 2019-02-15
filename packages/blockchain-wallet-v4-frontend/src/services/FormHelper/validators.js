@@ -6,7 +6,7 @@ import {
   isDOB,
   isGuid,
   isUsZipcode,
-  isIpList,
+  isIpValid,
   isAlphaNumeric,
   isOverEighteen,
   isSSN
@@ -19,7 +19,7 @@ import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { concat, path, takeWhile, prop } from 'ramda'
+import { all, any, concat, equals, path, takeWhile, prop } from 'ramda'
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -54,8 +54,13 @@ export const validStrongPassword = value =>
     <M.InvalidStrongPasswordMessage />
   )
 
-export const validIpList = value =>
-  isIpList(value) ? undefined : <M.InvalidIpListMessage />
+export const validIpList = ipList => {
+  return !ipList || all(isIpValid)(ipList.split(',')) ? (
+    undefined
+  ) : (
+    <M.InvalidIpListMessage />
+  )
+}
 
 export const validPasswordConfirmation = passwordFieldName => (
   value,
@@ -88,6 +93,9 @@ export const validEtherAddress = value =>
   ) : (
     <M.InvalidEtherAddressMessage />
   )
+
+export const validXlmAddress = value =>
+  utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
 
 export const validBitcoinAddress = (value, allValues, props) => {
   return utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
@@ -141,7 +149,7 @@ export const requiredUsZipcode = value =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
 export const requiredZipCode = (value, allVals) => {
-  const { countryCode } = allVals
+  const countryCode = path(['country', 'code'], allVals)
   // If country does not have a postal code format it's not required
   if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
   if (!value) return <M.RequiredMessage />
@@ -154,13 +162,13 @@ export const requiredZipCode = (value, allVals) => {
 }
 
 export const onPartnerCountryWhitelist = (
-  val,
-  allVals,
+  value,
+  allValues,
   props,
   name,
   countries
 ) => {
-  const country = val && takeWhile(x => x !== '-', val)
+  const country = value && takeWhile(x => x !== '-', value)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxCountries = path(['sfox', 'countries'], options)
   const coinifyCountries = path(['coinify', 'countries'], options)
@@ -172,13 +180,21 @@ export const onPartnerCountryWhitelist = (
   )
 }
 
-export const onPartnerStateWhitelist = (val, allVals, props, name, states) => {
-  const usState = prop('code', val)
+export const onPartnerStateWhitelist = (value, allValues, props) => {
+  const usState = prop('code', value)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxStates = path(['sfox', 'states'], options)
   return usState && sfoxStates.includes(usState) ? (
     undefined
   ) : (
     <M.PartnerStateWhitelist />
+  )
+}
+
+export const requireUniqueDeviceName = (value, usedDeviceNames) => {
+  return any(equals(value))(usedDeviceNames) ? (
+    <M.UniqueDeviceName />
+  ) : (
+    undefined
   )
 }

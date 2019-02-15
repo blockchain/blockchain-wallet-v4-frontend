@@ -10,6 +10,7 @@ import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
@@ -40,7 +41,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.sfoxSuccess())
         yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
-        yield api.logSfoxAccountCreation()
       } else {
         yield put(A.sfoxNotAsked())
         throw new Error(JSON.parse(profile.error).error)
@@ -87,9 +87,18 @@ export default ({ api, coreSagas, networks }) => {
 
   const setBank = function*(payload) {
     try {
-      yield call(coreSagas.data.sfox.setBankAccount, payload)
-      yield put(actions.alerts.displaySuccess(C.BANK_ACCOUNT_SET_SUCCESS))
-      yield put(modalActions.closeAllModals())
+      const setBankResult = yield call(
+        coreSagas.data.sfox.setBankAccount,
+        payload
+      )
+      if (!setBankResult) {
+        yield put(
+          A.sfoxFailure({ message: 'There was an error linking your bank' })
+        )
+      } else {
+        yield put(actions.alerts.displaySuccess(C.BANK_ACCOUNT_SET_SUCCESS))
+        yield put(modalActions.closeAllModals())
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setBank', e))
     }
@@ -142,13 +151,12 @@ export default ({ api, coreSagas, networks }) => {
       )
       const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
       if (trade.speedupAvailable && !phoneCallRequestSent) {
-        yield call(confirmPhoneCall, trade)
+        yield call(__confirmPhoneCall, trade)
       }
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
-      yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
@@ -229,7 +237,6 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
       yield put(A.initializePayment())
-      yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
@@ -260,7 +267,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.wallet.getDefaultAccountIndex
       )
       const defaultFeePerByte = path(['fees', 'priority'], payment.value())
-      payment = yield payment.from(defaultIndex)
+      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(defaultFeePerByte)
       yield put(A.sfoxSellBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
@@ -271,7 +278,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const confirmPhoneCall = function*(trade) {
+  const __confirmPhoneCall = function*(trade) {
     const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
     const smsNumber = smsNumberR.getOrElse(null)
     try {
@@ -378,12 +385,36 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const sfoxInitialize = function*() {
+    try {
+      yield put(actions.core.data.sfox.fetchTrades())
+      yield put(actions.core.data.sfox.fetchProfile())
+      yield put(actions.core.data.sfox.sfoxFetchAccounts())
+      yield put(
+        actions.core.data.sfox.fetchQuote({
+          quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+        })
+      )
+      yield put(
+        actions.core.data.sfox.fetchSellQuote({
+          quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+        })
+      )
+      yield put(A.initializePayment())
+      yield put(A.sfoxNotAsked())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sfoxInitialize', e))
+    }
+  }
+
   return {
     checkProfileStatus,
+    __confirmPhoneCall,
     initializePayment,
     prepareAddress,
     setBankManually,
     setBank,
+    sfoxInitialize,
     sfoxSignup,
     setProfile,
     submitMicroDeposits,

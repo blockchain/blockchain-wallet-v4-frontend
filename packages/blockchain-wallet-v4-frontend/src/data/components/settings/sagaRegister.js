@@ -4,16 +4,17 @@ import * as actionTypes from '../../actionTypes'
 import sagas from './sagas'
 
 export default ({ coreSagas }) => {
-  const settingsSaga = sagas({ coreSagas })
+  const settingsSagas = sagas({ coreSagas })
 
-  return function*() {
+  return function* settingsSaga () {
     yield takeLatest(
       AT.SETTINGS_NOTIFICATIONS_INITIALIZED,
-      settingsSaga.notificationsInitialized
+      settingsSagas.notificationsInitialized
     )
+    yield takeLatest(AT.SETTINGS_INITIALIZE_BSV, settingsSagas.initializeBsv)
     yield takeEvery(
       actionTypes.form.CHANGE,
-      settingsSaga.notificationsFormChanged
+      settingsSagas.notificationsFormChanged
     )
   }
 }

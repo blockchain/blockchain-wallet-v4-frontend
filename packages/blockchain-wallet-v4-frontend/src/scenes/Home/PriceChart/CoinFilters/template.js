@@ -21,23 +21,31 @@ const CoinFilters = props => {
         coin='BTC'
         selected={coin === 'BTC'}
         handleClick={() => handleClick('BTC')}
+        data-e2e='priceChartBTC'
       />
       <CoinTicker
         coin='ETH'
         selected={coin === 'ETH'}
         handleClick={() => handleClick('ETH')}
+        data-e2e='priceChartETH'
       />
       <CoinTicker
         coin='BCH'
         selected={coin === 'BCH'}
         handleClick={() => handleClick('BCH')}
+        data-e2e='priceChartBCH'
+      />
+      <CoinTicker
+        coin='XLM'
+        selected={coin === 'XLM'}
+        handleClick={() => handleClick('XLM')}
       />
     </Wrapper>
   )
 }
 
 CoinFilters.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

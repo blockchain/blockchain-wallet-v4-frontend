@@ -53,7 +53,10 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
               />
             </Link>
             <Text>
-              <FormattedMessage id='or' defaultMessage='or ' />
+              <FormattedMessage
+                id='scenes.buysell.empty.content.or'
+                defaultMessage='or '
+              />
             </Text>
             <Link size='18px' onClick={() => changeTab('sell')}>
               <FormattedMessage

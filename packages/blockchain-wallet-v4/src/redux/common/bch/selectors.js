@@ -3,12 +3,10 @@ import {
   prop,
   compose,
   assoc,
-  length,
   map,
   path,
   curry,
   split,
-  take,
   values,
   sequence,
   lift,
@@ -17,19 +15,30 @@ import {
 import {
   getAddresses,
   getChangeIndex,
-  getReceiveIndex,
-  getHeight,
-  getTransactions
-} from '../../data/bch/selectors.js'
-import * as transactions from '../../../transactions'
+  getReceiveIndex
+} from '../../data/bch/selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import { getAccountsList } from '../../kvStore/bch/selectors'
+import {
+  getLockboxBchAccounts,
+  getLockboxBchAccount
+} from '../../kvStore/lockbox/selectors'
 import { toCashAddr } from '../../../utils/bch'
-import { isValidBitcoinAddress } from '../../../utils/btc'
-import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const transformTx = transactions.bitcoin.transformTx
+export const getLockboxBchBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'BCH',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    xpub: account.xpub,
+    address: account.xpub,
+    type: ADDRESS_TYPES.LOCKBOX
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxBchAccounts(state))
+}
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
@@ -84,7 +93,8 @@ const digestAddress = acc => ({
   coin: 'BCH',
   label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
   balance: path(['info', 'final_balance'], acc),
-  address: prop('addr', acc)
+  address: prop('addr', acc),
+  type: ADDRESS_TYPES.LEGACY
 })
 
 const digestAccount = acc => ({
@@ -93,7 +103,8 @@ const digestAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   archived: prop('archived', acc),
   xpub: prop('xpub', acc),
-  index: prop('index', acc)
+  index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT
 })
 
 export const getAccountsBalances = state =>
@@ -136,71 +147,11 @@ export const getAddressesInfo = state => {
   return map(digest, legacyAddresses)
 }
 
-const addFromToBch = (wallet, bchAccounts, txList) => {
-  const hdWallets = wallet.hd_wallets
-  map(
-    tx =>
-      hdWallets.map(hdWallet =>
-        take(length(bchAccounts), hdWallet.accounts).map((account, index) => {
-          if (account) {
-            if (account.label === tx.from) {
-              tx.from = bchAccounts[index].label
-            } else if (isValidBitcoinAddress(tx.from)) {
-              try {
-                tx.from = toCashAddr(tx.from, true)
-              } catch (e) {}
-            }
-            if (account.label === tx.to) {
-              tx.to = bchAccounts[index].label
-            } else if (isValidBitcoinAddress(tx.to)) {
-              try {
-                tx.to = toCashAddr(tx.to, true)
-              } catch (e) {}
-            }
-          }
-        })
-      ),
-    txList
-  )
-
-  return txList
-}
-
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state => {
-  // Page == Remote ([Tx])
-  // Remote(wallet)
-  const walletR = Remote.of(walletSelectors.getWallet(state))
-  // Remote(blockHeight)
-  const blockHeightR = getHeight(state)
-  // [Remote([tx])] == [Page] == Pages
-  const getDescription = hash => getBchTxNote(state, hash).getOrElse('')
-  const pages = getTransactions(state)
-  const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
-  // transformTx :: wallet -> blockHeight -> Tx
-  // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-  const ProcessTxs = (wallet, block, txList) =>
-    map(
-      transformTx.bind(
-        undefined,
-        wallet,
-        block,
-        getDescription,
-        getPartnerLabel
-      ),
-      txList
-    )
-  // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
-  const txs = map(ProcessPage, pages)
-  return map(
-    txListR => lift(addFromToBch)(walletR, getAccountsList(state), txListR),
-    txs
-  )
-}
+export const getWalletTransactions = state => state.dataPath.bch.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
-const getAddress = curry((network, path, state) => {
+export const getAddress = curry((network, path, state) => {
   const [a, c, i] = split('/', path)
   const accId = parseInt(a)
   const chain = parseInt(c)
@@ -239,3 +190,23 @@ export const getNextAvailableReceiveAddress = curry(
     )
   }
 )
+
+export const getNextAvailableReceiveIndexLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    return index
+  }
+)
+
+export const getNextAvailableReceiveAddressLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    return index.map(x => getAddressLockbox(network, xpub, x, state))
+  }
+)
+
+export const getAddressLockbox = curry((network, xpub, index, state) => {
+  const account = getLockboxBchAccount(state, xpub)
+  const hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
+  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
+})

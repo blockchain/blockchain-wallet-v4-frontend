@@ -1,0 +1,1729 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate failure 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate loading 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;
+
+exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate success 1`] = `
+<RatesBox__RatesWrapper>
+  <RatesBox__RatesTitle>
+    <FormattedMessage
+      defaultMessage="Rates"
+      id="scenes.exchange.exchangeform.summary.rates"
+      values={Object {}}
+    />
+  </RatesBox__RatesTitle>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+  <RatesBox__RatesRow>
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
+  </RatesBox__RatesRow>
+</RatesBox__RatesWrapper>
+`;

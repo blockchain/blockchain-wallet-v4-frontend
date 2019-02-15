@@ -8,8 +8,7 @@ import {
   Link,
   TabMenu,
   TabMenuItem,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -23,16 +22,19 @@ const Wrapper = styled.div`
     justify-content: space-between;
   }
 `
-const Partner = styled(TextGroup)`
-  position: relative;
+const PartnerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+  margin-top: 4px;
   @media (max-width: 992px) {
     display: none;
   }
+`
+const PartnerLink = styled(Link)`
+  padding: 5px 8px 0;
 `
 
 const TabMenuBuySellStatus = props => {
@@ -42,8 +44,7 @@ const TabMenuBuySellStatus = props => {
     <Wrapper>
       <TabMenu>
         <TabMenuItem
-          style={{ paddingLeft: '0px' }}
-          selected={value === 'buy'}
+          className={value === 'buy' ? 'active' : ''}
           onClick={() => handleClick('buy')}
         >
           <FormattedMessage
@@ -52,7 +53,7 @@ const TabMenuBuySellStatus = props => {
           />
         </TabMenuItem>
         <TabMenuItem
-          selected={value === 'sell'}
+          className={value === 'sell' ? 'active' : ''}
           onClick={() => handleClick('sell')}
         >
           <FormattedMessage
@@ -61,7 +62,7 @@ const TabMenuBuySellStatus = props => {
           />
         </TabMenuItem>
         <TabMenuItem
-          selected={value === 'order_history'}
+          className={value === 'order_history' ? 'active' : ''}
           onClick={() => handleClick('order_history')}
         >
           <FormattedMessage
@@ -71,7 +72,7 @@ const TabMenuBuySellStatus = props => {
         </TabMenuItem>
       </TabMenu>
       {partner && (
-        <Partner>
+        <PartnerWrapper>
           <Text size='12px' weight={300}>
             <FormattedMessage
               id='scenes.exchange.menutop.poweredby'
@@ -79,15 +80,15 @@ const TabMenuBuySellStatus = props => {
             />
           </Text>
           {partner === 'sfox' ? (
-            <Link href='https://www.sfox.com' target='_blank'>
+            <PartnerLink href='https://www.sfox.com' target='_blank'>
               <Image name='sfox-logo' width='60px' height='25px' />
-            </Link>
+            </PartnerLink>
           ) : (
-            <Link href='https://www.coinify.com' target='_blank'>
+            <PartnerLink href='https://www.coinify.com' target='_blank'>
               <Image name='coinify-logo' width='60px' height='25px' />
-            </Link>
+            </PartnerLink>
           )}
-        </Partner>
+        </PartnerWrapper>
       )}
     </Wrapper>
   )

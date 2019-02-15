@@ -58,7 +58,10 @@ const ReviewForm = props => {
       </CenteredWrapper>
       <CancelWrapper>
         <StepTransition restart Component={Link}>
-          <FormattedMessage id='cancel' defaultMessage='Cancel' />
+          <FormattedMessage
+            id='scenes.buysell.coinify.sell.orderreview.cancel'
+            defaultMessage='Cancel'
+          />
         </StepTransition>
       </CancelWrapper>
     </OrderSubmitForm>

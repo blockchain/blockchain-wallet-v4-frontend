@@ -122,10 +122,14 @@ export const fromEncJSON = curry((password, json) => {
 // This is needed because the 2FA login hits a different endpoint to login (review that)
 // fromEncPayload :: String -> JSON -> Task Error Wrapper
 export const fromEncPayload = curry((password, payload) => {
-  const temp = JSON.parse(payload)
-  const pbkdf2Iterations = prop('pbkdf2_iterations', temp)
-  const version = prop('version', temp)
-  const wrapper = { password, payload, pbkdf2Iterations, version }
+  const pbkdf2Iterations = prop('pbkdf2_iterations', payload)
+  const version = prop('version', payload)
+  const wrapper = {
+    password,
+    payload: JSON.stringify(payload),
+    pbkdf2Iterations,
+    version
+  }
   return traverseOf(
     lensProp('payload'),
     Task.of,

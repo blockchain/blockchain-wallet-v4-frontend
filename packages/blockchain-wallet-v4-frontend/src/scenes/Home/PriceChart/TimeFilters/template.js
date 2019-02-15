@@ -33,6 +33,7 @@ const TimeFilters = props => {
         weight={300}
         selected={time === 'all'}
         onClick={() => handleClick('all')}
+        data-e2e='priceChartAll'
       >
         <FormattedMessage
           id='scenes.priceindexseries.timefilters.all'
@@ -44,6 +45,7 @@ const TimeFilters = props => {
         weight={300}
         selected={time === '1year'}
         onClick={() => handleClick('1year')}
+        data-e2e='priceChartYear'
       >
         <FormattedMessage
           id='scenes.priceindexseries.timefilters.year'
@@ -55,6 +57,7 @@ const TimeFilters = props => {
         weight={300}
         selected={time === '1month'}
         onClick={() => handleClick('1month')}
+        data-e2e='priceChartMonth'
       >
         <FormattedMessage
           id='scenes.priceindexseries.timefilters.month'
@@ -66,6 +69,7 @@ const TimeFilters = props => {
         weight={300}
         selected={time === '1week'}
         onClick={() => handleClick('1week')}
+        data-e2e='priceChartWeek'
       >
         <FormattedMessage
           id='scenes.priceindexseries.timefilters.week'
@@ -77,6 +81,7 @@ const TimeFilters = props => {
         weight={300}
         selected={time === '1day'}
         onClick={() => handleClick('1day')}
+        data-e2e='priceChartDay'
       >
         <FormattedMessage
           id='scenes.priceindexseries.timefilters.day'

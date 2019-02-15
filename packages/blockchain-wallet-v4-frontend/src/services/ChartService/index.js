@@ -17,11 +17,13 @@ const SCALES = {
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
 const BCHSTART = 1500854400
+const XLMSTART = 1409788800
 
 const start = {
   BTC: BTCSTART,
   ETH: ETHSTART,
-  BCH: BCHSTART
+  BCH: BCHSTART,
+  XLM: XLMSTART
 }
 
 export const calculateStart = (coin, time) => {
@@ -40,6 +42,8 @@ export const calculateStart = (coin, time) => {
     .format('X')
 
   switch (time) {
+    case 'all':
+      return coinStart
     case '1year':
       return yearStart > coinStart ? yearStart : coinStart
     case '1month':
@@ -55,6 +59,8 @@ export const calculateStart = (coin, time) => {
 
 export const calculateScale = (coin, time) => {
   switch (time) {
+    case 'all':
+      return SCALES.FIVEDAY
     case '1year':
       return SCALES.DAY
     case '1month':

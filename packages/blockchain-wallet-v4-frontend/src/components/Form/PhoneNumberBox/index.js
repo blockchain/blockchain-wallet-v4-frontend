@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4'
 
 const Container = styled.div`
   position: relative;
-  > div {
+  > :first-child {
     width: 100%;
   }
   .iti-arrow {
@@ -21,6 +21,7 @@ const Container = styled.div`
     width: 100%;
     height: 40px;
     font-size: 14px;
+    color: ${props => props.theme['gray-5']};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }
@@ -30,9 +31,9 @@ const Container = styled.div`
   }
   * {
     outline: none;
-    color: ${props => props.theme['gray-5']};
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
+    font-size: 14px;
   }
 `
 const Error = styled(Text)`
@@ -88,29 +89,26 @@ class PhoneNumberBox extends React.Component {
           utilsScript={'libphonenumber.js'}
           placeholder='555-555-5555'
         />
-        {touched &&
-          error && (
-            <Error
-              size='12px'
-              weight={300}
-              color='error'
-              errorBottom={errorBottom}
-            >
-              {error}
-            </Error>
-          )}
-        {touched &&
-          !error &&
-          warning && (
-            <Error
-              size='12px'
-              weight={300}
-              color='sent'
-              errorBottom={errorBottom}
-            >
-              {warning}
-            </Error>
-          )}
+        {touched && error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+          >
+            {error}
+          </Error>
+        )}
+        {touched && !error && warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+          >
+            {warning}
+          </Error>
+        )}
       </Container>
     )
   }

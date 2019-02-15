@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import componentsReducer from './components/reducers'
 import formReducer from './form/reducers'
@@ -13,14 +11,13 @@ import modalsReducer from './modals/reducers.js'
 import preferencesReducer from './preferences/reducers.js'
 import profileReducer from './modules/profile/reducers.js'
 import ratesReducer from './modules/rates/reducers.js'
-import scrollReducer from './scroll/reducers.js'
 import sessionReducer from './session/reducers.js'
 import wizardReducer from './wizard/reducers.js'
 import settingsReducer from './modules/settings/reducers.js'
 import sfoxSignupReducer from './modules/sfox/reducers.js'
 import qaReducer from './modules/qa/reducers.js'
 
-const rootReducer = combineReducers({
+const rootReducer = {
   alerts: alertsReducer,
   auth: authReducer,
   coinify: coinifyReducer,
@@ -33,9 +30,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   rates: ratesReducer,
   cache: cacheReducer,
-  scroll: scrollReducer,
   session: sessionReducer,
-  ui: reduxUiReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
   sfoxSignup: sfoxSignupReducer,
@@ -45,6 +40,6 @@ const rootReducer = combineReducers({
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptions,
   [paths.kvStorePath]: coreReducers.kvStore
-})
+}
 
 export default rootReducer

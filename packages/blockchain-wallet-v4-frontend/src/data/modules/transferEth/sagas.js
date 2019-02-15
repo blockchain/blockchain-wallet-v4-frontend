@@ -3,18 +3,17 @@ import * as actions from '../../actions.js'
 import * as selectors from './selectors'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
 
 export const logLocation = 'modules/transferEth/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const confirmTransferEth = function*(action) {
     try {
       const { to, effectiveBalance } = action.payload
       let p = yield select(selectors.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       payment = yield payment.to(to)
       const password = yield call(promptForSecondPassword)

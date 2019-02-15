@@ -1,27 +1,37 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import media from 'services/ResponsiveService'
 import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    ${props => (props.highlighted ? '0.2' : '0')}
+  );
 
-  ::after {
-    opacity: ${props => (props.highlighted ? '1' : '0')};
-    content: '';
-    position: absolute;
-    top: 24px;
-    left: 0px;
-    width: 0;
-    height: 0;
-    z-index: 3;
-    border-left: 11px solid transparent;
-    border-right: 11px solid transparent;
-    border-bottom: 16px solid ${props => props.theme['white-blue']};
-    transition: opacity ${props => (props.highlighted ? '0.2s' : '0')};
-    transition-delay: ${props => (props.highlighted ? '0.3s' : '0')};
+  > span:last-child {
+    display: none;
   }
+
+  ${media.mobile`
+    background-color: transparent;
+    padding: 0;
+
+    > span:first-child {
+      display: none;
+    }
+
+    > span:last-child {
+      display: flex;
+    }
+  `};
 `
 
 const FaqIcon = props => {
@@ -29,10 +39,18 @@ const FaqIcon = props => {
 
   return (
     <TooltipHost id='faq.tooltip'>
-      <FaqLink onClick={handleClick} highlighted={highlighted}>
+      <FaqLink
+        size='14px'
+        weight={400}
+        color='white'
+        onClick={handleClick}
+        highlighted={highlighted}
+        data-e2e='faqLink'
+      >
+        <FormattedMessage id='faq.help' defaultMessage='Help?' />
         <Icon
           id='faq-icon'
-          name='question-in-circle-filled'
+          name='question-in-circle'
           size='18px'
           color='white'
           cursor

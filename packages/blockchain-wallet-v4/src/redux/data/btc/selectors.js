@@ -1,5 +1,16 @@
-import { curry, path } from 'ramda'
+import { concat, curry, path } from 'ramda'
 import { dataPath } from '../../paths'
+import * as wallet from '../../wallet/selectors'
+import { createDeepEqualSelector } from '../../../utils'
+import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
+
+export const getContext = createDeepEqualSelector(
+  [wallet.getContext, getLockboxBtcContext],
+  (walletContext, lockboxContextR) => {
+    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    return concat(walletContext, lockboxContext)
+  }
+)
 
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
@@ -34,7 +45,7 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
   getAddresses(state).map(path([xpubOrAddress, 'n_tx']))
 )
 
-export const getFinalBalance = curry((address, state) =>
+export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
     .map(x => x || 0)
@@ -71,3 +82,9 @@ export const getFiatAtTime = curry((hash, currency, state) =>
 )
 
 export const getAllFiatAtTime = path([dataPath, 'bitcoin', 'transactions_fiat'])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'bitcoin',
+  'transactions_at_bound'
+])

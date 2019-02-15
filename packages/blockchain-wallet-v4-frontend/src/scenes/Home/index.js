@@ -1,17 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import { connect } from 'react-redux'
-import { path } from 'ramda'
-import { bindActionCreators } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
-import BalancesChart from './BalancesChart'
-import SfoxSignupBanner from './SfoxSignupBanner'
+import Balances from './Balances'
+import Banners from './Banners'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -61,72 +56,20 @@ const ColumnRight = styled(Column)`
   padding: 15px 0 10px 0;
 `
 
-class Home extends React.PureComponent {
-  componentDidUpdate (prevProps) {
-    if (
-      !Remote.Success.is(prevProps.buySellKv) &&
-      Remote.Success.is(this.props.buySellKv)
-    ) {
-      const token = path(
-        ['data', 'value', 'sfox', 'account_token'],
-        this.props.buySellKv
-      )
-      if (token) {
-        this.props.sfoxDataActions.fetchTrades()
-        this.props.sfoxDataActions.fetchProfile()
-        this.props.sfoxDataActions.sfoxFetchAccounts()
-      }
-    }
-  }
+const Home = () => (
+  <Wrapper>
+    <Banners />
+    <ColumnWrapper>
+      <ColumnLeft>
+        <Balances />
+        <ActivityList />
+      </ColumnLeft>
+      <ColumnRight>
+        <PriceChart />
+        <DidYouKnow />
+      </ColumnRight>
+    </ColumnWrapper>
+  </Wrapper>
+)
 
-  render () {
-    const { buySellKv, canTrade } = this.props
-
-    const renderSfoxBanner = kvStore => {
-      const sfoxKvData = path(['value', 'sfox'], kvStore)
-      if (
-        path(['trades', 'length'], sfoxKvData) ||
-        canTrade.getOrElse('') !== 'sfox'
-      ) {
-        return null
-      } else {
-        return <SfoxSignupBanner sfoxKvData={sfoxKvData} />
-      }
-    }
-
-    return (
-      <Wrapper>
-        {buySellKv.cata({
-          Success: data => renderSfoxBanner(data),
-          Failure: () => <div />,
-          Loading: () => <div />,
-          NotAsked: () => <div />
-        })}
-        <ColumnWrapper>
-          <ColumnLeft>
-            <BalancesChart />
-            <ActivityList />
-          </ColumnLeft>
-          <ColumnRight>
-            <PriceChart />
-            <DidYouKnow />
-          </ColumnRight>
-        </ColumnWrapper>
-      </Wrapper>
-    )
-  }
-}
-
-const mapStateToProps = state => ({
-  buySellKv: selectors.core.kvStore.buySell.getMetadata(state),
-  canTrade: selectors.exchange.getCanTrade(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home)
+export default Home

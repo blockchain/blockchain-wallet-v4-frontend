@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
+import { Button, Image } from 'blockchain-info-components'
+import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
   width: 100%;
@@ -37,7 +39,15 @@ export const Info = styled.div`
 `
 
 export const InputWrapper = styled.div`
-  width: 100%;
+  width: 90%;
+  max-width: 840px;
+  margin: 0 auto;
+  ${media.tablet`
+    max-width: 568px;
+  `};
+  ${media.mobile`
+    max-width: 432px;
+  `};
 `
 
 export const PartnerHeader = styled.div`
@@ -139,5 +149,110 @@ export const FieldMimic = styled.div`
     padding: 0px;
     flex-direction: column;
     width: fit-content;
+  `};
+`
+
+export const IdentityVerificationForm = styled(Form)`
+  height: 100%;
+  label[for='${props => props.activeField}'] {
+    color: ${props => props.theme['brand-primary']};
+  }
+  label[for='${props => props.activeField}'] + div {
+    .bc__control, input {
+      border: 1px solid ${props =>
+        props.activeFieldError
+          ? props.theme.error
+          : props.theme['brand-primary']};
+    }
+  }
+`
+
+export const IdentityVerificationHeader = styled(PartnerHeader)`
+  margin-top: 40px;
+  font-weight: 400;
+  position: relative;
+  font-size: 24px;
+  ${media.mobile`
+    margin-top: 32px;
+  `};
+`
+
+export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
+  font-weight: 300;
+  margin-top: 10px;
+  ${media.mobile`
+    font-size: 16px;
+  `};
+`
+
+export const FaqFormMessage = styled(FaqMessage)`
+  position: absolute;
+  margin-top: 30px;
+  width: 240px;
+  left: 100%;
+`
+
+export const FaqHeaderHelper = styled.div`
+  position: absolute;
+  text-align: right;
+  right: 0px;
+  top: 0px;
+`
+
+export const FaqFormGroup = styled(FormGroup)`
+  position: relative;
+  margin-bottom: 24px;
+  max-width: 576px;
+  width: calc(100% - 260px);
+  padding-right: 24px;
+  ${media.tablet`
+    max-width: 768px;
+    padding-right: 0;
+    width: 100%;
+  `};
+  ${media.mobile`
+    padding-right: 0;
+    width: 100%;
+  `};
+`
+
+export const Label = styled.label`
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 12px;
+  display: block;
+`
+
+export const BackButton = styled(Button)`
+  color: ${props => props.theme['white']};
+  background-color: ${props => props.theme['gray-2']};
+  border-color: ${props => props.theme['gray-2']};
+`
+
+export const IdentityVerificationImage = styled(Image)`
+  margin-top: 40px;
+  margin-bottom: 40px;
+`
+export const Footer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 840px;
+  margin: 0 auto;
+  ${media.tablet`
+    max-width: 568px;
+  `};
+  ${media.mobile`
+    max-width: 432px;
+    flex-direction: column-reverse;
+    align-items: center;
+    > div, button {
+      width: 100%;
+      text-align: center;
+      &:last-child {
+        margin-bottom: 14px;
+      }
+    }
   `};
 `

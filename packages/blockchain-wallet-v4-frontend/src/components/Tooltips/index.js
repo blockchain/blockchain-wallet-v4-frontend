@@ -1,12 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Tooltip, Link, TextGroup } from 'blockchain-info-components'
+import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
 class Tooltips extends React.PureComponent {
   render () {
     return (
       <div>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
+        <Tooltip id='lockbox.exportkeyswarning'>
+          <FormattedMessage
+            id='modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip'
+            defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
+          />
+        </Tooltip>
         <Tooltip id='isx.expiredtooltip'>
           <FormattedMessage
             id='scenes.buysell.coinify.isx.expiredtooltip'
@@ -40,7 +46,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='reqBchShare'>
           <FormattedMessage
             id='modals.requestbch.share_tooltip'
-            defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
+            defaultMessage='Share this address with others, and they can send you bitcoin cash directly to your wallet. Your address changes with every payment.'
           />
         </Tooltip>
         <Tooltip id='reqBchQR'>
@@ -61,10 +67,22 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
+        <Tooltip id='reqXlmShare'>
+          <FormattedMessage
+            id='modals.requestxlm.sharetooltip'
+            defaultMessage='Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.'
+          />
+        </Tooltip>
         <Tooltip id='reqEthScan'>
           <FormattedMessage
             id='modals.requestether.scan_tooltip'
             defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+          />
+        </Tooltip>
+        <Tooltip id='reqXlmScan'>
+          <FormattedMessage
+            id='modals.requestxlm.scan_tooltip'
+            defaultMessage='Ask the sender to scan this QR code with their stellar wallet'
           />
         </Tooltip>
         <Tooltip id='sendBch.firststep.share_tooltip'>
@@ -77,6 +95,18 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.sendether.firststep.sharetooltip'
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.firststep.sharetooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.sharetooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.firststep.memotooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.memotooltip'
+            defaultMessage='Memos are used to communicate optional information to the recipient.'
           />
         </Tooltip>
         <Tooltip id='tradingfee.tooltip'>
@@ -170,11 +200,39 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendBsv.firststep.share_tooltip'>
+          <FormattedMessage
+            id='modals.sendBsv.firststep.share_tooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.addr' maxWidth='initial' />
         <Tooltip id='signmessage.label.tooltip'>
           <FormattedMessage
             id='modals.signmessage.label'
             defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
           />
+        </Tooltip>
+        <Tooltip id='swaplimit.airdrops.tooltip'>
+          <TextGroup size='12px' inline>
+            <Text color='white' weight={300} size='12px'>
+              <FormattedMessage
+                id='scenes.profile.identityverification.swaplimit.goldcomplete'
+                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
+              />
+            </Text>
+            <Link
+              size='12px'
+              weight={300}
+              href='https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='scenes.profile.identityverification.swaplimit.airdrops.learnmore'
+                defaultMessage='Learn more.'
+              />
+            </Link>
+          </TextGroup>
         </Tooltip>
         <Tooltip id='faq.tooltip'>
           <FormattedMessage
@@ -188,11 +246,50 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Refresh'
           />
         </Tooltip>
+        <Tooltip id='verifyMessage'>
+          <FormattedMessage
+            id='modals.verifymessage.tooltip'
+            defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
+          />
+        </Tooltip>
         <Tooltip id='whatsnew.tooltip'>
           <FormattedMessage
             id='whatsnew.tooltip.description'
             defaultMessage="What's New"
           />
+        </Tooltip>
+        <Tooltip id='lockboxRequired'>
+          <FormattedMessage
+            id='lockboxrequired.tooltip'
+            defaultMessage='Hardware device is required'
+          />
+        </Tooltip>
+        <Tooltip id='txlist.change.tooltip'>
+          <FormattedMessage
+            id='txlist.change.tooltip.description'
+            defaultMessage='This change address belongs to your wallet'
+          />
+        </Tooltip>
+        <Tooltip id='identityverification.headerhelper'>
+          <TextGroup inline>
+            <Text color='white' weight={300} size='12px'>
+              <FormattedMessage
+                id='identityverification.tooltip.headerhelper'
+                defaultMessage='Need help verifying your identity?'
+              />
+            </Text>
+            <Link
+              size='12px'
+              weight={300}
+              href='https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000186571'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='identityverification.tooltip.headerhelper.contactsupport'
+                defaultMessage='Contact support.'
+              />
+            </Link>
+          </TextGroup>
         </Tooltip>
       </div>
     )

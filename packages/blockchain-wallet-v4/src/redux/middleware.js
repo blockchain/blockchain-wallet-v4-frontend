@@ -1,4 +1,4 @@
-import walletSync from './walletSync/middleware.js'
-import kvStore from './kvStore/middleware.js'
+import walletSync from './walletSync/middleware'
+import kvStore from './kvStore/middleware'
 
 export { walletSync, kvStore }

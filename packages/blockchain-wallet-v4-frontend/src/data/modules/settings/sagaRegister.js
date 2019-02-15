@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const settingsSagas = sagas({ api, coreSagas })
 
-  return function*() {
+  return function* settingsModuleSaga () {
     yield takeLatest(AT.INIT_SETTINGS_INFO, settingsSagas.initSettingsInfo)
     yield takeLatest(
       AT.INIT_SETTINGS_PREFERENCES,
@@ -46,5 +46,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.NEW_HD_ACCOUNT, settingsSagas.newHDAccount)
     yield takeLatest(AT.SHOW_BTC_PRIV_KEY, settingsSagas.showBtcPrivateKey)
     yield takeLatest(AT.SHOW_ETH_PRIV_KEY, settingsSagas.showEthPrivateKey)
+    yield takeLatest(AT.SHOW_XLM_PRIV_KEY, settingsSagas.showXlmPrivateKey)
   }
 }

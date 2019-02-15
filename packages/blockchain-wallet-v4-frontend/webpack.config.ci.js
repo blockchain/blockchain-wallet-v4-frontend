@@ -8,13 +8,17 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const PATHS = require('./../../config/paths')
 
-const runBundleAnalyzer = process.env.ANALYZE
 let envConfig = {}
+let manifestCacheBust = new Date().getTime()
+const runBundleAnalyzer = process.env.ANALYZE
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty'
+  },
   entry: {
-    app: ['babel-polyfill', PATHS.src + '/index.js']
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
     path: PATHS.ciBuild,
@@ -22,11 +26,15 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  stats: 'verbose',
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -97,7 +105,7 @@ module.exports = {
     ],
     concatenateModules: true,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {

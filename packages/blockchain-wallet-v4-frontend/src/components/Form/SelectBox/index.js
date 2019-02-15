@@ -21,19 +21,53 @@ const Error = styled.label`
   color: ${props => props.theme['error']};
 `
 
-const SelectBox = props => {
-  const { input, meta, hideErrors, errorBottom, className, ...rest } = props
-  const { touched, invalid, error, pristine } = meta
-  const errorState = touched && invalid ? 'invalid' : 'initial'
+class SelectBox extends React.PureComponent {
+  componentDidUpdate (prevProps) {
+    if (this.props.meta.active && !prevProps.meta.active) {
+      this.selectRef.focus()
+    }
+  }
 
-  return (
-    <Container className={className}>
-      <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) &&
-        error &&
-        !hideErrors && <Error errorBottom>{error}</Error>}
-    </Container>
-  )
+  getSelectRef = node => {
+    if (node) this.selectRef = node
+  }
+
+  onKeyPressed = evt => {
+    const event = evt || window.event
+    if (event.keyCode === 27) {
+      event.stopPropagation()
+      this.selectRef.blur()
+    }
+  }
+
+  render () {
+    const {
+      input,
+      meta,
+      hideErrors,
+      errorBottom,
+      className,
+      ...rest
+    } = this.props
+    const { touched, invalid, error, pristine } = meta
+    const errorState = touched && invalid ? 'invalid' : 'initial'
+
+    return (
+      <Container className={className} data-e2e='dropdownSelect'>
+        <SelectInput
+          {...input}
+          {...meta}
+          {...rest}
+          onKeyDown={this.onKeyPressed}
+          getRef={this.getSelectRef}
+          errorState={errorState}
+        />
+        {(touched || !pristine) && error && !hideErrors && (
+          <Error errorBottom={errorBottom}>{error}</Error>
+        )}
+      </Container>
+    )
+  }
 }
 
 SelectBox.propTypes = {
@@ -49,7 +83,7 @@ SelectBox.propTypes = {
   }).isRequired,
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
+      group: PropTypes.string,
       items: PropTypes.arrayOf(
         PropTypes.shape({
           text: PropTypes.oneOfType([
@@ -63,7 +97,7 @@ SelectBox.propTypes = {
             PropTypes.object.isRequired
           ])
         })
-      ).isRequired
+      )
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

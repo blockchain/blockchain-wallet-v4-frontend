@@ -1,10 +1,4 @@
-import {
-  Wallet,
-  HDWallet,
-  HDAccountList,
-  HDAccount,
-  TXNotes
-} from '../../../types'
+import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import {
   keys,
   compose,
@@ -23,18 +17,15 @@ import {
 import {
   getAddresses,
   getChangeIndex,
-  getReceiveIndex,
-  getHeight,
-  getTransactions
+  getReceiveIndex
 } from '../../data/btc/selectors.js'
-import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
-import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
-import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
-import * as transactions from '../../../transactions'
+import {
+  getLockboxBtcAccounts,
+  getLockboxBtcAccount
+} from '../../kvStore/lockbox/selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-
-const transformTx = transactions.bitcoin.transformTx
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
@@ -95,13 +86,27 @@ const flattenAccount = acc => ({
   label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
   balance: path(['info', 'final_balance'], acc),
   xpub: prop('xpub', acc),
-  index: prop('index', acc)
+  index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT,
+  network: prop('network', acc)
 })
 
 // getAccountsBalances :: state => Remote([])
 export const getAccountsBalances = state =>
   map(map(flattenAccount), getHDAccounts(state))
 
+export const getLockboxBtcBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'BTC',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    xpub: account.xpub,
+    address: account.xpub,
+    type: ADDRESS_TYPES.LOCKBOX
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxBtcAccounts(state))
+}
 // getActiveAccountsBalances :: state => Remote([])
 export const getActiveAccountsBalances = state =>
   map(map(flattenAccount), getActiveHDAccounts(state))
@@ -114,7 +119,8 @@ const flattenAddress = addr => ({
   watchOnly: compose(
     isNil,
     prop('priv')
-  )(addr)
+  )(addr),
+  type: ADDRESS_TYPES.LEGACY
 })
 
 // TODO :: (rename that shit) getAddressesBalances :: state => Remote([])
@@ -147,48 +153,15 @@ export const getAddressesInfo = state => {
   const digest = x => ({
     coin: 'BTC',
     label: prop('label', x) ? prop('label', x) : prop('addr', x),
-    address: prop('addr', x)
+    address: prop('addr', x),
+    type: ADDRESS_TYPES.LEGACY
   })
   return map(digest, legacyAddresses)
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state => {
-  // Page == Remote ([Tx])
-  // Remote(wallet)
-  const wallet = walletSelectors.getWallet(state)
-  const walletR = Remote.of(wallet)
-  // Remote(blockHeight)
-  const blockHeightR = getHeight(state)
-  // [Remote([tx])] == [Page] == Pages
-  const getDescription = (hash, to) =>
-    TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) ||
-    getAddressLabel(to, state).getOrElse('')
-
-  const getPartnerLabel = hash =>
-    getShapeshiftTxHashMatch(state, hash) || getBuySellTxHashMatch(state, hash)
-
-  const pages = getTransactions(state)
-  // Remote(metadata)
-  getMetadata(state)
-
-  // transformTx :: wallet -> blockHeight -> Tx
-  // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-  const ProcessTxs = (wallet, block, txList) =>
-    map(
-      transformTx.bind(
-        undefined,
-        wallet,
-        block,
-        getDescription,
-        getPartnerLabel
-      ),
-      txList
-    )
-  // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
-  return map(ProcessPage, pages)
-}
+export const getWalletTransactions = state =>
+  state.dataPath.bitcoin.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
@@ -244,3 +217,32 @@ export const getNextAvailableReceiveAddress = curry(
     )
   }
 )
+
+export const getNextAvailableReceiveIndexLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    // TODO(salome): implement btc address labels for lockbox.
+    // const labels = getLockboxBtcAddressLabels(state).getOrElse([])
+    // const maxLabel = labels.maxBy(label => label.index)
+    // const maxLabelIndex = maxLabel ? maxLabel.index : -1
+    // return index.map(x => max(x - 1, maxLabelIndex) + 1)
+    return index
+  }
+)
+
+export const getNextAvailableReceiveAddressLockbox = curry(
+  (network, xpub, state) => {
+    const receiveIndex = getNextAvailableReceiveIndexLockbox(
+      network,
+      xpub,
+      state
+    )
+    return receiveIndex.map(x => getAddressLockbox(network, xpub, x, state))
+  }
+)
+
+export const getAddressLockbox = curry((network, xpub, index, state) => {
+  const account = getLockboxBtcAccount(state, xpub)
+  const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
+  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
+})

@@ -2,6 +2,10 @@
 
 A shared UI components library for blockchain.info applications.
 
+## Deprecation Warning
+
+This library will soon be fully deprecated and removed. New and existing applications should now use/migrate to the new
+components [library](https://github.com/blockchain/components).
 
 ## Adding New Icons
 

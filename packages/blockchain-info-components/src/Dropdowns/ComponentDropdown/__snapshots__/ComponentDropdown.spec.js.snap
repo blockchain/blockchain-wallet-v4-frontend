@@ -1,27 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ComponentDropdown component default renders correctly 1`] = `
-<styled.div
+<template__Wrapper
   uppercase={true}
 >
-  <styled.ul
+  <template__DropdownList
     down={false}
     toggled={false}
   >
-    <styled.li
+    <template__DropdownItem
       key="0"
       onClick={[Function]}
-    />
-  </styled.ul>
-  <styled.div
+    >
+      <Component />
+    </template__DropdownItem>
+  </template__DropdownList>
+  <template__ButtonContainer
     color="brand-secondary"
     onClick={[Function]}
   >
-    <styled.div />
-    <Styled(Icon)
+    <template__Button />
+    <template__DropdownIcon
+      data-e2e="dropdownToggleButton"
       name="down-arrow"
-      size="8px"
+      size="12px"
     />
-  </styled.div>
-</styled.div>
+  </template__ButtonContainer>
+</template__Wrapper>
 `;

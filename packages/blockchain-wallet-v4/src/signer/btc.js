@@ -1,6 +1,8 @@
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import { mapped } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+
 import {
   curry,
   forEach,
@@ -14,6 +16,7 @@ import {
 import { privateKeyStringToKey } from '../utils/btc'
 import * as Coin from '../coinSelection/coin.js'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import Btc from '@ledgerhq/hw-app-btc'
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -76,4 +79,50 @@ export const signMessage = (priv, addr, message) => {
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString(
     'base64'
   )
+}
+
+export const signWithLockbox = function*(
+  selection,
+  transport,
+  scrambleKey,
+  changeIndex,
+  api
+) {
+  const BTC = new Btc(transport, scrambleKey)
+  let inputs = []
+  let paths = []
+  const changePath = `44'/0'/0'/M/1/${changeIndex}`
+  for (let i in selection.inputs) {
+    const coin = selection.inputs[i]
+    const txHex = yield api.getRawTx(coin.txHash)
+    inputs.push([BTC.splitTransaction(txHex, true), coin.index])
+    paths.push("44'/0'/0'" + coin.path.split('M')[1])
+  }
+
+  const intToHex = i => {
+    const hex = i.toString(16)
+    return hex.length > 1 ? hex : '0' + hex
+  }
+
+  let outputs = intToHex(selection.outputs.length)
+  selection.outputs.map(coin => {
+    let amount = Buffer.alloc(8)
+    amount.writeUInt32LE(coin.value)
+    outputs +=
+      amount.toString('hex') +
+      intToHex(coin.script.length) +
+      coin.script.toString('hex')
+  })
+
+  const txHex = yield BTC.createPaymentTransactionNew(
+    inputs,
+    paths,
+    changePath,
+    outputs
+  )
+  const txId = crypto
+    .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
+    .reverse()
+    .toString('hex')
+  return { txHex, txId }
 }

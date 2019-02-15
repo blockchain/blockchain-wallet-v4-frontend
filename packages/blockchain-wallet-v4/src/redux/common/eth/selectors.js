@@ -1,23 +1,31 @@
 import { lift, map, path, prop } from 'ramda'
-import {
-  getAddresses,
-  getTransactions,
-  getHeight
-} from '../../data/eth/selectors.js'
+import { getAddresses } from '../../data/eth/selectors.js'
 import { getAccounts } from '../../kvStore/eth/selectors.js'
-import * as transactions from '../../../transactions'
-import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
-
-const transformTx = transactions.ethereum.transformTx
+import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
+import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 export const getAccountBalances = state => {
   const digest = (addresses, account) => ({
     coin: 'ETH',
     label: account.label,
     balance: path([account.addr, 'balance'], addresses),
-    address: account.addr
+    address: account.addr,
+    type: ADDRESS_TYPES.ACCOUNT
   })
   return map(lift(digest)(getAddresses(state)), getAccounts(state))
+}
+
+export const getLockboxEthBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'ETH',
+    label: account.label,
+    balance: path([account.addr, 'balance'], addresses),
+    address: account.addr,
+    type: ADDRESS_TYPES.LOCKBOX
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
 export const getAccountsInfo = state => {
@@ -30,18 +38,5 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state => {
-  const accountsR = getAccounts(state)
-  const blockHeightR = getHeight(state)
-  const addressesR = accountsR.map(map(prop('addr')))
-  const pages = getTransactions(state)
-  const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
-  const ProcessTxs = (addresses, blockHeight, txList) => {
-    return map(
-      transformTx(addresses, blockHeight, getPartnerLabel, state),
-      txList
-    )
-  }
-  const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
-  return map(ProcessPage, pages)
-}
+export const getWalletTransactions = state =>
+  state.dataPath.ethereum.transactions

@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
-const animation = keyframes`
+const animationFrames = keyframes`
   0% { width: 100%; }
   25% { width: 25%; }
   50% { width: 50%; }
   75% { width: 75%; }
-  100%: { width: 100%; }
+  100% { width: 100%; }
+`
+const animation = css`
+  ${animationFrames} 2s infinite linear;
 `
 
 const Wrapper = styled.div`
@@ -22,7 +25,7 @@ const Rectangle = styled.div`
     props.status === 'disabled'
       ? props.theme['gray-2']
       : props.theme['brand-primary']};
-  animation: ${animation} 2s infinite linear;
+  animation: ${animation};
   animation-play-state: ${props =>
     props.status === 'active' ? 'running' : 'paused'};
 `

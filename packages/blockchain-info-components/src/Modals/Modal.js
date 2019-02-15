@@ -13,7 +13,8 @@ const ModalBackground = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  background-color: ${props => transparentize(0.5, props.theme['black'])};
+  background-color: ${props =>
+    props.theme['black'] && transparentize(0.5, props.theme['black'])};
   z-index: 1040;
 
   @media (min-width: 768px) {
@@ -29,16 +30,21 @@ const BaseModal = styled.div`
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme['white']};
   box-shadow: none;
+  border-radius: 4px;
 
   @media (min-width: 768px) {
     width: ${props => props.width};
     margin-top: initial;
-    box-shadow: 0 5px 15px ${props => transparentize(0.5, props.theme['black'])};
+    box-shadow: 0 5px 15px
+      ${props =>
+        props.theme['black'] && transparentize(0.5, props.theme['black'])};
   }
 `
 
 const selectWidth = size => {
   switch (size) {
+    case 'auto':
+      return 'auto'
     case 'small':
       return '400px'
     case 'medium':
@@ -84,8 +90,8 @@ const Modal = props => {
 }
 
 Modal.propTypes = {
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
+  position: PropTypes.number,
+  total: PropTypes.number,
   size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', ''])
 }
 

@@ -1,44 +1,44 @@
 import { call, select } from 'redux-saga/effects'
 import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
+import { utils } from 'blockchain-wallet-v4/src'
+import EthUtil from 'ethereumjs-util'
 import { selectors } from 'data'
-import settings from 'config'
 
-export const selectRates = function*(coin) {
-  const bchRatesR = yield select(selectors.core.data.bch.getRates)
-  const btcRatesR = yield select(selectors.core.data.bitcoin.getRates)
-  const ethRatesR = yield select(selectors.core.data.ethereum.getRates)
-  switch (coin) {
-    case 'BCH':
-      return bchRatesR.getOrFail('Could not find bitcoin cash rates.')
-    case 'BTC':
-      return btcRatesR.getOrFail('Could not find bitcoin rates.')
-    case 'ETH':
-      return ethRatesR.getOrFail('Could not find ethereum rates.')
-  }
-}
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const selectReceiveAddress = function*(source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
+  const type = prop('type', source)
   const address = prop('address', source)
-  if (equals('ETH', coin) && is(String, address)) return address
-  if (equals('BCH', coin) && is(Number, address)) {
-    const bchReceiveAddress = selectors.core.common.bch.getNextAvailableReceiveAddress(
-      settings.NETWORK_BCH,
-      address,
-      appState
-    )
+  if (equals('XLM', coin) && is(String, address)) return address
+  if (equals('ETH', coin) && is(String, address))
+    return EthUtil.toChecksumAddress(address)
+  if (equals('BCH', coin)) {
+    const selector =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? selectors.core.common.bch.getNextAvailableReceiveAddress
+        : selectors.core.common.bch.getNextAvailableReceiveAddressLockbox
+    const bchReceiveAddress = selector(networks.bch, address, appState)
     if (isEmpty(bchReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate bitcoin cash receive address')
     }
-    return bchReceiveAddress.getOrElse('')
+    return utils.bch.toCashAddr(bchReceiveAddress.getOrElse(''))
   }
-  if (equals('BTC', coin) && is(Number, address)) {
-    const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-      networks.btc,
-      address,
-      appState
-    )
+  if (equals('BSV', coin)) {
+    const selector = selectors.core.common.bsv.getNextAvailableReceiveAddress
+    const bsvReceiveAddress = selector(networks.bsv, address, appState)
+    if (isEmpty(bsvReceiveAddress.getOrElse(''))) {
+      throw new Error('Could not generate bitcoin sv receive address')
+    }
+    return utils.bch.toCashAddr(bsvReceiveAddress.getOrElse(''))
+  }
+  if (equals('BTC', coin)) {
+    const selector =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? selectors.core.common.btc.getNextAvailableReceiveAddress
+        : selectors.core.common.btc.getNextAvailableReceiveAddressLockbox
+    const btcReceiveAddress = selector(networks.btc, address, appState)
     if (isEmpty(btcReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate return bitcoin receive address')
     }

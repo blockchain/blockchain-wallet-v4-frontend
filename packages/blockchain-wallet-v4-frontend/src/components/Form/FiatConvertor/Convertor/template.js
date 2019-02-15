@@ -52,7 +52,7 @@ const Error = styled(Text)`
   display: block;
   font-size: 12px;
   height: 15px;
-  top: -20px;
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 const getErrorState = meta => {
@@ -60,12 +60,24 @@ const getErrorState = meta => {
 }
 
 const Convertor = props => {
-  const { coin, disabled, fiat, unit, currency, meta, ...rest } = props
-  const { handleCoinChange, handleFiatChange, handleBlur, handleFocus } = rest
+  const {
+    coin,
+    disabled,
+    fiat,
+    unit,
+    currency,
+    meta,
+    errorBottom,
+    handleCoinChange,
+    handleFiatChange,
+    handleBlur,
+    handleFocus,
+    className
+  } = props
   const errorState = getErrorState(meta)
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <FiatConvertorInput>
         <Container>
           <TextInput
@@ -76,6 +88,7 @@ const Convertor = props => {
             onChange={handleCoinChange}
             onFocus={handleFocus}
             errorState={errorState}
+            data-e2e={`${props['data-e2e']}CryptoAmount`}
           />
           <Unit>{unit}</Unit>
         </Container>
@@ -90,16 +103,23 @@ const Convertor = props => {
             onChange={handleFiatChange}
             onFocus={handleFocus}
             errorState={errorState}
+            data-e2e={`${props['data-e2e']}FiatAmount`}
           />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched &&
-        meta.error && (
-          <Error size='13px' weight={300} color='error'>
-            {meta.error}
-          </Error>
-        )}
+      {meta.touched && meta.error && (
+        <Error
+          errorBottom={errorBottom}
+          size='13px'
+          weight={300}
+          color='error'
+          className='error'
+          data-e2e='fiatConvertorError'
+        >
+          {meta.error}
+        </Error>
+      )}
     </Wrapper>
   )
 }

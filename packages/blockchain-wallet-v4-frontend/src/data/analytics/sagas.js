@@ -1,139 +1,120 @@
-import { call, select, put, fork, join, take } from 'redux-saga/effects'
-import * as selectors from '../selectors.js'
-import * as actions from '../actions'
-import * as actionTypes from '../actionTypes'
-import {
-  LAYOUT_WALLET_HEADER_FAQ_CLICKED,
-  LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
-} from '../components/layoutWallet/actionTypes'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { test, pathOr, prop, equals } from 'ramda'
+import { put, select, call } from 'redux-saga/effects'
+import { map, toLower } from 'ramda'
+
+import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+import { actions, selectors } from 'data'
+import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
-export const balancePath = ['payload', 'info', 'final_balance']
-
-export default ({ api, coreSagas }) => {
-  const getEthBalance = function*() {
+export default ({ api }) => {
+  const postMessage = function*(message) {
     try {
-      const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
-      if (!Remote.Success.is(ethBalanceR)) {
-        const ethData = yield take(
-          actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS
+      const frame = document.getElementById('matomo-iframe')
+      if (frame) {
+        frame.contentWindow.postMessage(message, '*')
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'postMessage',
+            'matomo iframe missing'
+          )
         )
-        return pathOr(0, balancePath, ethData)
       }
-      return ethBalanceR.getOrElse(0)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getEthBalance', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
     }
   }
 
-  const getBtcBalance = function*() {
+  const initUserSession = function*() {
     try {
-      const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
-      if (!Remote.Success.is(btcBalanceR)) {
-        const btcData = yield take(
-          actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS
-        )
-        return pathOr(0, balancePath, btcData)
-      }
-      return btcBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getBtcBalance', e))
-    }
-  }
-
-  const getBchBalance = function*() {
-    try {
-      const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
-      if (!Remote.Success.is(bchBalanceR)) {
-        const bchData = yield take(
-          actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS
-        )
-        return pathOr(0, balancePath, bchData)
-      }
-      return bchBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getBchBalance', e))
-    }
-  }
-
-  const reportBalanceStats = function*() {
-    try {
-      const ethT = yield fork(getEthBalance)
-      const btcT = yield fork(getBtcBalance)
-      const bchT = yield fork(getBchBalance)
-      const btcBalance = yield join(btcT)
-      const ethBalance = yield join(ethT)
-      const bchBalance = yield join(bchT)
-
-      yield call(
-        api.incrementCurrencyUsageStats,
-        btcBalance,
-        ethBalance,
-        bchBalance
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const isCryptoDisplayed = yield select(
+        selectors.preferences.getCoinDisplayed
       )
+      yield call(startSession, { guid })
+      yield call(postMessage, {
+        method: 'setCustomDimension',
+        messageData: {
+          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
+          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
+        }
+      })
+      yield call(logPageView, { route: '/home' })
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
   }
 
-  const logLeftNavClick = function*({ payload }) {
+  const logEvent = function*(action) {
     try {
-      const { text } = payload
-
-      if (test(/dashboard/, text)) return yield call(api.logClick, 'dashboard')
-      if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
-      if (test(/ether/, text)) return yield call(api.logClick, 'eth')
-      if (test(/cash/, text)) return yield call(api.logClick, 'bch')
-      if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
-      if (test(/security/, text)) return yield call(api.logClick, 'security')
-      if (test(/settings/, text)) return yield call(api.logClick, 'settings')
-      if (test(/general/, text))
-        return yield call(api.logClick, 'settings_general')
-      if (test(/profile/, text))
-        return yield call(api.logClick, 'settings_profile')
-      if (test(/preferences/, text))
-        return yield call(api.logClick, 'settings_preferences')
-      if (test(/wallets/, text))
-        return yield call(api.logClick, 'settings_wallets')
+      const { event } = action.payload
+      yield call(postMessage, {
+        method: 'trackEvent',
+        messageData: map(toLower, event)
+      })
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
     }
   }
 
-  const logClick = function*({ type, payload }) {
+  const logPageView = function*(action) {
     try {
-      if (equals(type, LAYOUT_WALLET_HEADER_FAQ_CLICKED))
-        return yield call(api.logClick, 'faq')
-      if (equals(type, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED))
-        return yield call(api.logClick, 'whatsnew')
-
-      const { name } = payload
-      yield call(api.logClick, name)
+      const { route } = action.payload
+      const isAuthenticated = yield select(selectors.auth.isAuthenticated)
+      // only log authenticated page views
+      if (isAuthenticated) {
+        yield call(postMessage, {
+          method: 'logPageView',
+          messageData: { route }
+        })
+      }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logClick', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }
   }
 
-  const logSfoxDropoff = function*(payload) {
+  const logGoal = function*() {
     try {
-      yield call(api.logSfoxDropoff, prop('step', payload))
+      // TODO
+      yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logGoal', e))
+    }
+  }
+
+  const startSession = function*(action) {
+    try {
+      const { guid } = action.payload
+      yield call(postMessage, {
+        method: 'setUserId',
+        messageData: [
+          crypto
+            .sha256(guid)
+            .toString('hex')
+            .slice(0, 15)
+        ]
+      })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'startSession', e))
+    }
+  }
+
+  const stopSession = function*() {
+    try {
+      yield call(postMessage, { method: 'resetUserId', messageData: [] })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'stopSession', e))
     }
   }
 
   return {
-    getEthBalance,
-    getBtcBalance,
-    getBchBalance,
-    logClick,
-    logLeftNavClick,
-    logSfoxDropoff,
-    reportBalanceStats
+    logEvent,
+    logPageView,
+    logGoal,
+    initUserSession,
+    postMessage,
+    startSession,
+    stopSession
   }
 }

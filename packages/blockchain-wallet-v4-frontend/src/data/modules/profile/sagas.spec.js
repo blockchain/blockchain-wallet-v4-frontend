@@ -1,34 +1,37 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, fork } from 'redux-saga-test-plan/matchers'
+import { call, fork, spawn } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { tail } from 'ramda'
 
 import { selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import sagas from './sagas'
-import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import sagas, { userRequiresRestoreError, renewUserDelay } from './sagas'
+import { USER_ACTIVATION_STATES, KYC_STATES, INITIAL_TIERS } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
-jest.useFakeTimers()
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 
 const api = {
   generateRetailToken: jest.fn(),
   createUser: jest.fn(),
+  fetchTiers: jest.fn(),
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
   getUser: jest.fn(),
   updateUser: jest.fn(),
   updateUserAddress: jest.fn(),
-  syncUserWithWallet: jest.fn()
+  syncUserWithWallet: jest.fn(),
+  recoverUser: jest.fn()
 }
 
 const {
   signIn,
   fetchUser,
+  fetchTiers,
   updateUser,
   updateUserAddress,
   createUser,
@@ -36,7 +39,10 @@ const {
   generateRetailToken,
   generateAuthCredentials,
   syncUserWithWallet,
-  startSession
+  setSession,
+  renewApiSockets,
+  renewSession,
+  recoverUser
 } = sagas({
   api,
   coreSagas
@@ -47,6 +53,7 @@ const stubEmail = 'user@mail.com'
 const stubSharedKey = 'de6263f9-5029-412c-9fd5-8dc139cb9547'
 const stubUserId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
 const stubLifetimeToken = 'de6263f9-5029-412c-9fd5-8dc139cb9549'
+const stubExpiry = Date.now()
 const stubRetailToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eox'
 const stubApiToken =
@@ -85,6 +92,10 @@ const newAddress = {
 }
 
 api.getUser.mockReturnValue(newUserData)
+api.generateSession.mockReturnValue({
+  token: stubApiToken,
+  expiresAt: stubExpiry
+})
 
 const stubbedSignin = expectSaga(signIn).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
@@ -97,9 +108,11 @@ const stubbedSignin = expectSaga(signIn).provide([
     select(selectors.core.kvStore.userCredentials.getLifetimeToken),
     Remote.of(stubLifetimeToken)
   ],
-  [call.fn(startSession), jest.fn()]
+  [fork.fn(renewSession), jest.fn()]
 ])
+
 const stubbedCreateUser = expectSaga(createUser).provide([
+  [select(S.getApiToken), Remote.NotAsked],
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
   [
@@ -110,10 +123,29 @@ const stubbedCreateUser = expectSaga(createUser).provide([
     select(selectors.core.kvStore.userCredentials.getLifetimeToken),
     Remote.of(stubLifetimeToken)
   ],
-  [call.fn(startSession), jest.fn()]
+  [call.fn(setSession), jest.fn()]
+])
+const stubbedSetSession = expectSaga(
+  setSession,
+  stubUserId,
+  stubLifetimeToken,
+  stubEmail,
+  stubGuid
+).provide([
+  [spawn.fn(renewSession), jest.fn()],
+  [call.fn(fetchUser), jest.fn()],
+  [call.fn(renewApiSockets), jest.fn()]
 ])
 
 describe('signin saga', () => {
+  let dateMock
+  beforeAll(() => {
+    dateMock = jest.spyOn(Date, 'now').mockReturnValue(1487076708000)
+  })
+  afterAll(() => {
+    dateMock.mockReset()
+    dateMock.mockRestore()
+  })
   beforeEach(() => {
     api.generateSession.mockClear()
   })
@@ -145,7 +177,7 @@ describe('signin saga', () => {
           Remote.of(stubLifetimeToken)
         ]
       ])
-      .not.call(startSession)
+      .not.call(renewSession)
       .run()
     await expectSaga(signIn)
       .provide([
@@ -160,7 +192,7 @@ describe('signin saga', () => {
           Remote.of('')
         ]
       ])
-      .not.call(startSession)
+      .not.call(renewSession)
       .run()
   })
 })
@@ -168,21 +200,50 @@ describe('signin saga', () => {
 describe('fetch user saga', () => {
   it('should call getUser api and update user data', () =>
     expectSaga(fetchUser)
-      .provide([[fork.fn(renewUser), jest.fn()]])
-      .not.fork(renewUser)
-      .put(A.setUserData(newUserData))
+      .provide([[spawn.fn(renewUser), jest.fn()]])
+      .not.spawn(renewUser)
+      .put(A.fetchUserDataSuccess(newUserData))
+      .call(fetchTiers)
+      .returns(newUserData)
       .run()
       .then(() => {
         expect(api.getUser).toHaveBeenCalledTimes(1)
       }))
+
   it('should start renewTask if kycState is PENDING', () => {
     api.getUser.mockReturnValueOnce({
       ...newUserData,
       kycState: KYC_STATES.PENDING
     })
     return expectSaga(fetchUser)
-      .provide([[fork.fn(renewUser), jest.fn()]])
-      .fork(renewUser)
+      .provide([[spawn.fn(renewUser), jest.fn()]])
+      .spawn(renewUser, renewUserDelay)
+      .returns({
+        ...newUserData,
+        kycState: KYC_STATES.PENDING
+      })
+      .run()
+  })
+})
+
+describe('fetch tiers saga', () => {
+  it('should call fetchTiers api and update state', () => {
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
+    return expectSaga(fetchTiers)
+      .provide([[select(S.getTiers), Remote.NotAsked]])
+      .put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
+      .run()
+  })
+
+  it("shouldn't set tiers as loading if tiers are in success state", () => {
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
+    return expectSaga(fetchTiers)
+      .provide([[select(S.getTiers), Remote.of(INITIAL_TIERS)]])
+      .not.put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
       .run()
   })
 })
@@ -206,10 +267,11 @@ describe('update user saga', () => {
       payload: { data: updateData }
     })
       .provide([
-        [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [select(S.getUserData), Remote.of(stubUserData)],
+        [call.fn(fetchUser), stubUserData]
       ])
       .call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUser).toHaveBeenCalledTimes(1)
@@ -231,10 +293,11 @@ describe('update user saga', () => {
       payload: { data: updateData }
     })
       .provide([
-        [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [select(S.getUserData), Remote.of(stubUserData)],
+        [call.fn(fetchUser), {}]
       ])
       .not.call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUser).toHaveBeenCalledTimes(0)
@@ -262,10 +325,11 @@ describe('update user address saga', () => {
       payload: { address: newAddress }
     })
       .provide([
-        [select(S.getUserData), updateData],
-        [call.fn(fetchUser), jest.fn()]
+        [select(S.getUserData), Remote.of(updateData)],
+        [call.fn(fetchUser), stubUserData]
       ])
       .call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(1)
@@ -278,10 +342,11 @@ describe('update user address saga', () => {
       payload: { address: stubAddress }
     })
       .provide([
-        [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [select(S.getUserData), Remote.of(stubUserData)],
+        [call.fn(fetchUser), {}]
       ])
       .not.call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(0)
@@ -291,11 +356,12 @@ describe('update user address saga', () => {
 describe('create user credentials saga', () => {
   it('should select guid from wallet, email form settings, user id and lifetime token from kvStore and call startSession', () =>
     stubbedCreateUser
+      .select(S.getApiToken)
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
       .select(selectors.core.kvStore.userCredentials.getLifetimeToken)
-      .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
+      .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .dispatch({ type: AT.SET_API_TOKEN, payload: { token: stubApiToken } })
       .run())
 
@@ -307,6 +373,7 @@ describe('create user credentials saga', () => {
     })
     return expectSaga(createUser)
       .provide([
+        [select(S.getApiToken), Remote.NotAsked],
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -318,12 +385,12 @@ describe('create user credentials saga', () => {
           select(selectors.core.kvStore.userCredentials.getLifetimeToken),
           Remote.of('')
         ],
-        [call.fn(startSession), jest.fn()]
+        [call.fn(setSession), jest.fn()]
       ])
       .call(generateAuthCredentials)
       .call(generateRetailToken)
       .select(selectors.core.wallet.getSharedKey)
-      .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
+      .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .run()
       .then(() => {
         expect(api.generateRetailToken).toHaveBeenCalledTimes(1)
@@ -343,11 +410,75 @@ describe('sync user with wallet saga', () => {
     expectSaga(syncUserWithWallet)
       .provide([[call.fn(generateRetailToken), stubRetailToken]])
       .call(generateRetailToken)
-      .put(A.setUserData(stubUserData))
+      .put(A.fetchUserDataSuccess(stubUserData))
       .run()
       .then(() => {
         expect(api.syncUserWithWallet).toHaveBeenCalledTimes(1)
         expect(api.syncUserWithWallet).toHaveBeenCalledWith(stubRetailToken)
       })
+  })
+})
+
+describe('set session saga', () => {
+  it('should fetch api token, user and renew api sockets', () =>
+    stubbedSetSession
+      .call(
+        api.generateSession,
+        stubUserId,
+        stubLifetimeToken,
+        stubEmail,
+        stubGuid
+      )
+      .call(fetchUser)
+      .call(renewApiSockets)
+      .run())
+
+  it('should trigger recoverUser if api token returns userRequiresRestoreError', () => {
+    api.generateSession.mockRejectedValue({
+      description: userRequiresRestoreError
+    })
+
+    return expectSaga(
+      setSession,
+      stubUserId,
+      stubLifetimeToken,
+      stubEmail,
+      stubGuid
+    )
+      .provide([[call.fn(recoverUser), jest.fn()]])
+      .call(recoverUser)
+      .run()
+  })
+})
+
+describe('recover user saga', () => {
+  it(`should
+    fetch retail token
+    select userId and lifetimeToken from kvStore
+    call recoverUser
+    and set session`, () => {
+    return expectSaga(recoverUser)
+      .provide([
+        [call.fn(generateRetailToken), stubRetailToken],
+        [
+          select(selectors.core.kvStore.userCredentials.getUserId),
+          Remote.of(stubUserId)
+        ],
+        [
+          select(selectors.core.kvStore.userCredentials.getLifetimeToken),
+          Remote.of(stubLifetimeToken)
+        ],
+        [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
+        [select(selectors.core.wallet.getGuid), stubGuid],
+        [call.fn(setSession), jest.fn()]
+      ])
+      .call(generateRetailToken)
+      .select(selectors.core.kvStore.userCredentials.getUserId)
+      .select(selectors.core.kvStore.userCredentials.getLifetimeToken)
+      .call(api.recoverUser, stubUserId, stubLifetimeToken, stubRetailToken)
+      .select(selectors.core.settings.getEmail)
+      .select(selectors.core.wallet.getGuid)
+      .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
+      .run()
   })
 })

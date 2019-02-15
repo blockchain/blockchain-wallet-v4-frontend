@@ -1,21 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
-import media from 'services/ResponsiveService'
-
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
-import Shapeshift from './Shapeshift'
-import Info from './Info'
-import Exchange from './ExchangeContainer'
-
+import { actions } from 'data'
+import { BlockchainLoader } from 'blockchain-info-components'
 import { getData } from './selectors'
+import media from 'services/ResponsiveService'
+import GetStarted from './GetStarted'
+import Exchange from './ExchangeContainer'
+import DataError from 'components/DataError'
+import EmailRequired from 'components/EmailRequired'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
 `
 
 const Container = styled.section`
@@ -43,49 +47,52 @@ const Column = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-const ColumnLeft = styled(Column)`
-  align-items: flex-end;
-  margin-right: 10px;
-  & > :first-child {
-    margin-bottom: 10px;
-  }
-  @media (min-width: 992px) {
-    width: 60%;
-  }
 
-  ${media.mobile`
-    margin-right: 0;
-  `};
-`
-const ColumnRight = styled(Column)`
-  padding: 0;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  @media (min-width: 992px) {
-    width: 40%;
-  }
-`
-const ExchangeScene = ({ useShapeShift }) => (
-  <Wrapper>
-    {useShapeShift && (
-      <Container>
-        <ColumnLeft>
-          <Shapeshift />
-        </ColumnLeft>
-        <ColumnRight>
-          <Info />
-        </ColumnRight>
-      </Container>
-    )}
-    {!useShapeShift && <KYCBanner outsideOfProfile={true} />}
-    {!useShapeShift && (
-      <Container>
-        <Column>
-          <Exchange />
-        </Column>
-      </Container>
-    )}
-  </Wrapper>
-)
+export class ExchangeScene extends React.PureComponent {
+  render () {
+    const { userCreated, hasEmail, location } = this.props
 
-export default connect(getData)(ExchangeScene)
+    if (!hasEmail) return <EmailRequired />
+
+    return userCreated.cata({
+      Success: userCreated => (
+        <Wrapper>
+          {userCreated ? (
+            <Container>
+              <Column>
+                <Exchange
+                  from={path(['state', 'from'], location)}
+                  to={path(['state', 'to'], location)}
+                  fix={path(['state', 'fix'], location)}
+                  amount={path(['state', 'amount'], location)}
+                />
+              </Column>
+            </Container>
+          ) : (
+            <GetStarted />
+          )}
+        </Wrapper>
+      ),
+      Loading: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      NotAsked: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      Failure: () => <DataError onClick={this.props.fetchUser} />
+    })
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(ExchangeScene)

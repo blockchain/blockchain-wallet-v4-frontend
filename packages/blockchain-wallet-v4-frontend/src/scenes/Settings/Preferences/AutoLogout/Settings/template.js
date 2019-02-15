@@ -1,40 +1,92 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { SettingWrapper } from 'components/Setting'
-import EditForm from './EditForm'
+import { NumberBox, FormGroup, FormItem } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { spacing } from 'services/StyleService'
+import { isValidAutoLogoutTime } from './validation'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  & > :first-child {
+    margin-right: 5px;
+  }
+`
 
 const Settings = props => {
-  const { updateToggled, handleToggle, handleClick, logoutTime } = props
+  const { handleToggle, handleSubmit, submitting, invalid } = props
 
-  return updateToggled ? (
-    <EditForm handleClick={handleClick} handleToggle={handleToggle} />
-  ) : (
+  return (
     <SettingWrapper>
-      <Text>
-        <FormattedMessage
-          id='scenes.preferences.autologout.settings.minutes'
-          defaultMessage='{time} minutes'
-          values={{ time: logoutTime }}
-        />
-      </Text>
-      <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage
-          id='scenes.preferences.autologout.settings.updateform.change'
-          defaultMessage='Change'
-        />
-      </Button>
+      <SettingForm onSubmit={handleSubmit}>
+        <FormGroup>
+          <Wrapper>
+            <FormItem data-e2e='autoLogoutInput'>
+              <Field
+                name='autoLogoutTime'
+                component={NumberBox}
+                validate={[isValidAutoLogoutTime]}
+              />
+            </FormItem>
+            <Text size='14' weight={300} style={spacing('pl-10')}>
+              <FormattedMessage
+                id='scenes.settings.preferences.autologout.updateform.minutes'
+                defaultMessage='Minutes'
+              />
+            </Text>
+          </Wrapper>
+          <Text size='12px' color='gray-3' weight={300}>
+            <FormattedMessage
+              id='scenes.preferences.autologout.settings.updateform.bounds'
+              defaultMessage='Must be between 1 and 1440 minutes.'
+            />
+          </Text>
+        </FormGroup>
+        <ButtonWrapper>
+          <Button
+            nature='empty'
+            capitalize
+            onClick={handleToggle}
+            data-e2e='cancelAutoLogout'
+          >
+            <FormattedMessage
+              id='scenes.preferences.autologout.settings.updateform.cancel'
+              defaultMessage='Cancel'
+            />
+          </Button>
+          <Button
+            type='submit'
+            nature='primary'
+            capitalize
+            disabled={submitting || invalid}
+            data-e2e='saveAutoLogout'
+          >
+            <FormattedMessage
+              id='scenes.preferences.autologout.settings.updateform.save'
+              defaultMessage='Save'
+            />
+          </Button>
+        </ButtonWrapper>
+      </SettingForm>
     </SettingWrapper>
   )
 }
 
 Settings.propTypes = {
-  logoutTime: PropTypes.number.isRequired,
-  updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
-export default Settings
+export default reduxForm({ form: 'settingAutoLogoutTime' })(Settings)

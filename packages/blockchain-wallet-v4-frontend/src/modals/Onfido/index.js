@@ -3,21 +3,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
-import { pathEq } from 'ramda'
-
+import { pathEq, toLower } from 'ramda'
 import { getData } from './selectors'
 import { actions } from 'data'
 import Loading from './template.loading'
 import { Modal } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4'
 import DataError from 'components/DataError'
-
 import modalEnhancer from 'providers/ModalEnhancer'
-
 export const MODAL_NAME = 'Onfido'
-
 const OnfidoIframe = styled.iframe.attrs({
-  allow: 'camera'
+  allow: 'camera; microphone'
 })`
   width: 100%;
   height: 604px;
@@ -28,17 +24,14 @@ const OnfidoModal = styled(Modal)`
   display: flex;
   ${props => (props.onfidoActive ? `background-color: #f3f3f4;` : '')};
 `
-
 class OnfidoContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
     window.addEventListener('message', this.handleOnfidoMessage, false)
   }
-
   componentWillUnmount () {
     window.removeEventListener('message', this.handleOnfidoMessage)
   }
-
   handleOnfidoMessage = ({ data, origin }) => {
     const { helperDomain, actions } = this.props
     if (origin !== helperDomain) return
@@ -48,7 +41,6 @@ class OnfidoContainer extends React.PureComponent {
     const isSelfie = pathEq(['data', 'face', 'variant'], 'standard', data)
     actions.syncOnfido(isSelfie)
   }
-
   render () {
     const {
       helperDomain,
@@ -56,8 +48,10 @@ class OnfidoContainer extends React.PureComponent {
       total,
       onfidoSDKKey,
       onfidoSyncStatus,
+      supportedDocuments,
       actions
     } = this.props
+    const docs = supportedDocuments.map(toLower).join('|')
     return (
       <OnfidoModal
         size='medium'
@@ -72,7 +66,7 @@ class OnfidoContainer extends React.PureComponent {
               Loading: () => <Loading />,
               NotAsked: () => (
                 <OnfidoIframe
-                  src={`${helperDomain}/wallet-helper/onfido?token=${sdkKey}`}
+                  src={`${helperDomain}/wallet-helper/onfido/#/token/${sdkKey}/docs/${docs}`}
                   sandbox='allow-same-origin allow-scripts'
                   scrolling='no'
                   id='onfido-iframe'
@@ -88,17 +82,14 @@ class OnfidoContainer extends React.PureComponent {
     )
   }
 }
-
 OnfidoContainer.propTypes = {
   helperDomain: PropTypes.string.isRequired,
   onfidoSDKKey: PropTypes.instanceOf(Remote).isRequired,
   onfidoSyncStatus: PropTypes.instanceOf(Remote).isRequired
 }
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.onfido, dispatch)
 })
-
 const enhance = compose(
   modalEnhancer(MODAL_NAME),
   connect(
@@ -106,5 +97,4 @@ const enhance = compose(
     mapDispatchToProps
   )
 )
-
 export default enhance(OnfidoContainer)

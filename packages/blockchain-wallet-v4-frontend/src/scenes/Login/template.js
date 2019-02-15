@@ -26,10 +26,12 @@ import {
   TextBox
 } from 'components/Form'
 import Modals from 'modals'
-import MobileLogin from 'modals/MobileLogin'
+import MobileLogin from 'modals/Mobile/MobileLogin'
 
 const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
+
+export const removeWhitespace = string => string.replace(/\s/g, ``)
 
 const Wrapper = styled.div`
   width: 100%;
@@ -112,7 +114,7 @@ const Login = props => {
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/signup'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={300} data-e2e='signupLink'>
               <FormattedMessage
                 id='scenes.login.register'
                 defaultMessage='Sign Up'
@@ -149,15 +151,22 @@ const Login = props => {
             </FormLabel>
             <Field
               name='guid'
+              normalize={removeWhitespace}
               validate={[required]}
               component={TextBox}
               borderColor={guidError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginGuid'
             />
           </FormItem>
           {guidError && (
             <GuidError inline>
-              <Text size='12px' color='error' weight={300}>
+              <Text
+                size='12px'
+                color='error'
+                weight={300}
+                data-e2e='walletIdError'
+              >
                 <FormattedMessage
                   id='scenes.login.guiderror'
                   defaultMessage='Unknown Wallet ID. If you need a reminder '
@@ -208,9 +217,13 @@ const Login = props => {
               component={PasswordBox}
               borderColor={passwordError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginPassword'
             />
             {passwordError && (
-              <FormError position={authType > 0 ? 'relative' : 'absolute'}>
+              <FormError
+                position={authType > 0 ? 'relative' : 'absolute'}
+                data-e2e='passwordError'
+              >
                 <FormattedMessage
                   id='scenes.login.wrong_password'
                   defaultMessage='Error decrypting wallet. Wrong password'
@@ -253,9 +266,12 @@ const Login = props => {
               </FormLabel>
               <Field
                 name='code'
+                normalize={removeWhitespace}
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
+                noLastPass
                 borderColor={twoFactorError ? 'invalid' : undefined}
+                data-e2e='loginTwoFactorCode'
               />
               {authType === 5 && (
                 <ResendSmsLink
@@ -281,12 +297,13 @@ const Login = props => {
             nature='primary'
             fullwidth
             disabled={submitting || invalid || busy || !password}
+            data-e2e='loginButton'
           >
             {busy && !loginError ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id='scenes.login.submit'
+                id='scenes.login.login'
                 defaultMessage='Log In'
               />
             )}
@@ -295,7 +312,12 @@ const Login = props => {
       </LoginForm>
       {isSupportedBrowser && (
         <Footer>
-          <Link size='13px' weight={300} onClick={handleMobile}>
+          <Link
+            size='13px'
+            weight={300}
+            onClick={handleMobile}
+            data-e2e='loginViaMobileLink'
+          >
             <FormattedMessage
               id='scenes.login.loginmobile'
               defaultMessage='Login via Mobile'
@@ -309,7 +331,7 @@ const Login = props => {
               />
             </Text>
             <LinkContainer to='/help'>
-              <Link size='13px' weight={300}>
+              <Link size='13px' weight={300} data-e2e='loginGetHelp'>
                 <FormattedMessage
                   id='scenes.login.options'
                   defaultMessage='Get help logging in'

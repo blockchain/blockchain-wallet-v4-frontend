@@ -10,6 +10,8 @@ const selectRates = (coin, state) => {
       return selectors.core.data.bitcoin.getRates(state)
     case 'ETH':
       return selectors.core.data.ethereum.getRates(state)
+    case 'XLM':
+      return selectors.core.data.xlm.getRates(state)
     default:
       return Remote.Failure(`Could not find rates for coin ${coin}.`)
   }
@@ -35,6 +37,14 @@ const convertCoinToFiat = (coin, rates, currency) => {
       return Exchange.displayEtherToFiat({
         value: 1,
         fromUnit: 'ETH',
+        toCurrency: currency,
+        rates
+      })
+    case 'XLM':
+      return Exchange.displayXlmToFiat({
+        value: 1,
+        digits: 4,
+        fromUnit: 'XLM',
         toCurrency: currency,
         rates
       })

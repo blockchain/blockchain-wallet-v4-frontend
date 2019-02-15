@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const securityCenterSagas = sagas({ coreSagas })
 
-  return function*() {
+  return function* securityCenterSaga () {
     yield takeLatest(AT.UPDATE_EMAIL, securityCenterSagas.updateEmail)
     yield takeLatest(AT.VERIFY_EMAIL, securityCenterSagas.verifyEmail)
     yield takeLatest(
@@ -13,6 +13,10 @@ export default ({ coreSagas }) => {
       securityCenterSagas.sendConfirmationCodeEmail
     )
     yield takeLatest(AT.VERIFY_EMAIL_CODE, securityCenterSagas.verifyEmailCode)
+    yield takeLatest(
+      AT.RESEND_VERIFY_EMAIL,
+      securityCenterSagas.resendVerifyEmail
+    )
     yield takeLatest(
       AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL,
       securityCenterSagas.getGoogleAuthenticatorSecretUrl

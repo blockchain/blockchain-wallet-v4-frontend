@@ -9,11 +9,21 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `
+const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  > div:last-child {
+    margin-left: 15px;
+  }
+`
 
 const Loading = props => {
   return (
     <Wrapper>
-      <BlockchainLoader width='40px' height='40px' />
+      <LogoWrapper>
+        <BlockchainLoader width='40px' height='40px' />
+        <Text weight={300}>Blockchain Wallet</Text>
+      </LogoWrapper>
       <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
         <FormattedMessage
           id='scenes.verifyemailtoken.loading'

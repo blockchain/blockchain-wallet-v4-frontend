@@ -235,7 +235,7 @@ describe('rates service', () => {
 
     it('should set pair rate to success upon advice message if fix and volume match', () => {
       ratesSocket.triggerMessage({
-        ...model.rates.ADVICE_MESSAGE,
+        ...model.rates.ADVICE_UPDATED_MESSAGE,
         quote: { ...stubAdvice }
       })
       expect(
@@ -245,7 +245,7 @@ describe('rates service', () => {
 
     it('should set pair rate to success upon advice message if fix does not match', () => {
       ratesSocket.triggerMessage({
-        ...model.rates.ADVICE_MESSAGE,
+        ...model.rates.ADVICE_UPDATED_MESSAGE,
         ...stubAdvice,
         fix: 'base'
       })
@@ -256,7 +256,7 @@ describe('rates service', () => {
 
     it('should set pair rate to success upon advice message if volume does not match', () => {
       ratesSocket.triggerMessage({
-        ...model.rates.ADVICE_MESSAGE,
+        ...model.rates.ADVICE_UPDATED_MESSAGE,
         ...stubAdvice,
         volume: volume + 1
       })
@@ -272,7 +272,7 @@ describe('rates service', () => {
         groupBy(prop('pair'))
       )(rates)
       ratesSocket.triggerMessage({
-        ...model.rates.RATES_MESSAGE,
+        ...model.rates.RATES_UPDATED_MESSAGE,
         pairs,
         rates
       })

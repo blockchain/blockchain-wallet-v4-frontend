@@ -11,15 +11,13 @@ const Fields = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
+  position: relative;
   flex: 1;
-  padding-left: 4px;
 `
 const Footer = styled.div`
-  padding: 32px 0 32px 0;
-  border-top: 1px solid ${props => props.theme['gray-2']};
+  padding: 22px 0;
+  border-top: 1px solid ${props => props.theme['gray-1']};
   z-index: 1;
-  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 -7px 8px -5px rgba(0, 0, 0, 0.15),
-    0 -2px 4px -4px rgba(0, 0, 0, 0.5);
 `
 
 const FooterShadowWrapper = ({ fields, footer, ...rest }) => (

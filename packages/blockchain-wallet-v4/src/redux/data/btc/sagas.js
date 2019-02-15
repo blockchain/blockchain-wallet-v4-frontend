@@ -1,15 +1,25 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, last, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import Remote from '../../../remote'
+import * as walletSelectors from '../../wallet/selectors'
+import { MISSING_WALLET } from '../utils'
+import { HDAccountList } from '../../../types'
+import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import * as transactions from '../../../transactions'
+
+const transformTx = transactions.btc.transformTx
+
+const TX_PER_PAGE = 10
 
 export default ({ api }) => {
   const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
-      const context = yield select(selectors.wallet.getContext)
+      const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const bitcoinData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -54,21 +64,22 @@ export default ({ api }) => {
     try {
       const { payload } = action
       const { address, reset } = payload
-      const TX_PER_PAGE = 10
       const pages = yield select(S.getTransactions)
-      const lastPage = last(pages)
-      if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) {
-        return
-      }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const context = yield select(selectors.wallet.getWalletContext)
+      const walletContext = yield select(selectors.wallet.getWalletContext)
+      const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
-        onlyShow: address,
+        onlyShow: address || walletContext,
         offset
       })
-      yield put(A.fetchTransactionsSuccess(data.txs, reset))
+      const atBounds = length(data.txs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
+      const page = yield call(__processTxs, data.txs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
@@ -90,7 +101,7 @@ export default ({ api }) => {
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
-        const context = yield select(selectors.wallet.getWalletContext)
+        const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
           api.getTransactionHistory,
@@ -105,6 +116,34 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
     }
+  }
+
+  const __processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(blockHeight)
+    const blockHeightR = yield select(S.getLatestBlock)
+    // Remote(lockboxXpubs)
+    const accountListR = (yield select(getLockboxBtcAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+
+    // transformTx :: wallet -> blockHeight -> Tx
+    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, block, accountList, txList) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          block.getOrElse(0),
+          accountList
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
   }
 
   const fetchFiatAtTime = function*(action) {
@@ -125,6 +164,7 @@ export default ({ api }) => {
     fetchFiatAtTime,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

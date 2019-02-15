@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Link } from 'blockchain-info-components'
+import { Text, Link, Button } from 'blockchain-info-components'
 import { path } from 'ramda'
 
 const Container = styled.div`
@@ -14,6 +14,9 @@ const Container = styled.div`
   div:last-of-type {
     margin-top: 10px;
   }
+`
+const RefreshContainer = styled(Container)`
+  height: 100px;
 `
 
 const link = (
@@ -30,7 +33,7 @@ const link = (
   </Link>
 )
 
-const Failure = e => (
+const Failure = ({ message, refresh }) => (
   <Container>
     <Text weight={300} size='16px'>
       <FormattedMessage
@@ -49,9 +52,19 @@ const Failure = e => (
       <FormattedMessage
         id='buysell.general.failure.message3'
         defaultMessage='Error code: {err}'
-        values={{ err: path(['error', 'message'], e) }}
+        values={{ err: path(['error', 'message'], message) }}
       />
     </Text>
+    {refresh && (
+      <RefreshContainer>
+        <Button nature='primary' onClick={refresh}>
+          <FormattedMessage
+            id='buysell.general.failure.refresh'
+            defaultMessage='Refresh'
+          />
+        </Button>
+      </RefreshContainer>
+    )}
   </Container>
 )
 

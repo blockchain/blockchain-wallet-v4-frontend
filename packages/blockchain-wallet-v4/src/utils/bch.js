@@ -1,37 +1,8 @@
 import Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
-import { selectAll } from '../coinSelection'
-import { head, propOr } from 'ramda'
-import BigNumber from 'bignumber.js'
-import * as Exchange from '../exchange'
 
-export const calculateBalanceSatoshi = (coins, feePerByte) => {
-  const { outputs, fee } = selectAll(feePerByte, coins)
-  const effectiveBalance = propOr(0, 'value', head(outputs))
-  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
-  return { balance, fee, effectiveBalance }
-}
-
-export const calculateBalanceBitcoin = (coins, feePerByte) => {
-  const data = calculateBalanceSatoshi(coins, feePerByte)
-  return {
-    balance: Exchange.convertBitcoinToBitcoin({
-      value: data.balance,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
-    }).value,
-    fee: Exchange.convertBitcoinToBitcoin({
-      value: data.fee,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
-    }).value,
-    effectiveBalance: Exchange.convertBitcoinToBitcoin({
-      value: data.effectiveBalance,
-      fromUnit: 'SAT',
-      toUnit: 'BTC'
-    }).value
-  }
-}
+export const TX_PER_PAGE = 10
+export const BCH_FORK_TIME = 1501590000
 
 const formatAddr = (address, displayOnly) => {
   return displayOnly ? address.split('bitcoincash:')[1] : address
@@ -93,3 +64,6 @@ export const isCashAddr = address => {
     return false
   }
 }
+
+export const convertFromCashAddrIfCashAddr = addr =>
+  isCashAddr(addr) ? fromCashAddr(addr) : addr

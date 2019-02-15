@@ -5,7 +5,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
 export const initialValues = {
-  from: '',
+  from: 'all',
   start: moment()
     .startOf('day')
     .subtract(7, 'day'),
@@ -18,7 +18,6 @@ export default ({ coreSagas }) => {
     try {
       const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
-
       yield put(actions.form.initialize('transactionReport', initialValues))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))

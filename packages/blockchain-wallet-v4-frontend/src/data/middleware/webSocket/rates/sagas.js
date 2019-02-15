@@ -1,4 +1,18 @@
-import { whereEq, map, indexBy, isEmpty, isNil, prop, values } from 'ramda'
+import {
+  both,
+  complement,
+  compose,
+  either,
+  has,
+  indexBy,
+  isEmpty,
+  isNil,
+  map,
+  prop,
+  unnest,
+  values,
+  whereEq
+} from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import moment from 'moment'
@@ -19,15 +33,22 @@ export default ({ api, ratesSocket }) => {
     model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isAdviceSubscribeError = whereEq(
-    model.rates.ADVICE_SUBSCRIBE_ERROR_MESSAGE
+  const isAdviceSubscribeError = either(
+    whereEq(model.rates.ADVICE_SUBSCRIBE_ERROR_MESSAGE),
+    both(whereEq(model.rates.ADVICE_UPDATED_MESSAGE), has('error'))
   )
 
   const isAdviceUnsubscribeSuccess = whereEq(
     model.rates.ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isAdviceMessage = whereEq(model.rates.ADVICE_MESSAGE)
+  const isAdviceMessage = both(
+    either(
+      whereEq(model.rates.ADVICE_UPDATED_MESSAGE),
+      whereEq(model.rates.ADVICE_SNAPSHOT_MESSAGE)
+    ),
+    complement(has('error'))
+  )
 
   const isRatesSubscribeSuccess = whereEq(
     model.rates.RATES_SUBSCRIBE_SUCCESS_MESSAGE
@@ -41,7 +62,10 @@ export default ({ api, ratesSocket }) => {
     model.rates.RATES_UNSUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isRatesMessage = whereEq(model.rates.RATES_MESSAGE)
+  const isRatesMessage = either(
+    whereEq(model.rates.RATES_UPDATED_MESSAGE),
+    whereEq(model.rates.RATES_SNAPSHOT_MESSAGE)
+  )
 
   const onOpen = function*() {
     yield call(authenticateSocket)
@@ -82,7 +106,19 @@ export default ({ api, ratesSocket }) => {
 
   const restFallback = function*() {
     const pairs = yield select(selectors.modules.rates.getActivePairs)
-    if (!isEmpty(pairs)) yield all(map(fetchAdvice, pairs))
+    if (!isEmpty(pairs)) {
+      yield all(
+        unnest(
+          map(pair => {
+            const pairs = model.rates.getBestRatesPairs(
+              ...model.rates.splitPair(pair.pair),
+              pair.config.fiatCurrency
+            )
+            return [fetchAdvice(pair), fetchRates(pairs)]
+          }, pairs)
+        )
+      )
+    }
   }
 
   const authenticateSocket = function*() {
@@ -120,15 +156,32 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
+  const fetchRates = function*(pairs) {
+    try {
+      const { rates } = yield call(api.fetchBestRates, pairs)
+      yield put(
+        actions.modules.rates.updateBestRates(
+          compose(
+            indexBy(prop('pair')),
+            map(({ symbol, value }) => ({ pair: symbol, price: value }))
+          )(rates)
+        )
+      )
+    } catch (e) {
+      yield put(A.ratesSubscribeError(pairs, e))
+    }
+  }
+
   const onClose = function*(action) {}
 
-  const openRatesChannel = function ({ payload }) {
+  const openRatesChannel = function*({ payload }) {
     const { pairs } = payload
     if (ratesSocket.isReady()) {
       const message = model.rates.getRatesSubscribeMessage(pairs)
       openChannels.rates[pairs] = message
       return ratesSocket.send(message)
     }
+    yield call(fetchRates, pairs)
   }
 
   const closeRatesChannel = function ({ payload }) {

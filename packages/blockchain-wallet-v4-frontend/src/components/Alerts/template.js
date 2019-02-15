@@ -8,7 +8,7 @@ import * as C from 'services/AlertService'
 const Wrapper = styled.div`
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
   @media (min-width: 768px) {
     bottom: 5px;
-    left: 5px;
+    right: 5px;
     width: auto;
   }
 `
@@ -196,6 +196,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Your email has been updated and your confirmation code has been sent.'
         />
       )
+    case C.EMAIL_UPDATE_SUCCESS_LINK:
+      return (
+        <FormattedMessage
+          id='components.alerts.email_update_success_link'
+          defaultMessage='Your email has been updated and a confirmation email has been sent to the new address.'
+        />
+      )
     case C.EMAIL_VERIFY_ERROR:
       return (
         <FormattedMessage
@@ -341,6 +348,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.ipwhitelist_update_success'
           defaultMessage='IP whitelist has been successfully updated'
+        />
+      )
+    case C.KYC_START_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.kyc_start_error'
+          defaultMessage='Failed to update a tier. Please try again'
         />
       )
     case C.LANGUAGE_UPDATE_ERROR:
@@ -504,11 +518,25 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage="You've just received an Ethereum payment"
         />
       )
+    case C.PAYMENT_RECEIVED_XLM:
+      return (
+        <FormattedMessage
+          id='components.alerts.payment_received_xlm'
+          defaultMessage="You've just received a stellar payment"
+        />
+      )
     case C.PBKDF2_UPDATE_SUCCESS:
       return (
         <FormattedMessage
           id='components.alerts.pbkdf2_update_success'
           defaultMessage='PBKDF2 iterations changed successfully'
+        />
+      )
+    case C.PLEASE_LOGIN:
+      return (
+        <FormattedMessage
+          id='components.alerts.please_login'
+          defaultMessage='Please login to your wallet to proceed'
         />
       )
     case C.QR_SCANNER_NOT_ALLOWED:
@@ -613,14 +641,14 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.second_password_enabled_success'
-          defaultMessage='Second password enabled'
+          defaultMessage='Second password successfully enabled'
         />
       )
     case C.SECOND_PASSWORD_DISABLED_SUCCESS:
       return (
         <FormattedMessage
           id='components.alerts.second_password_disabled_success'
-          defaultMessage='Second password disabled'
+          defaultMessage='Second password successfully disabled'
         />
       )
     case C.SEND_BCH_ERROR:
@@ -635,6 +663,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.send_bch_success'
           defaultMessage='Your bitcoin cash transaction is now pending'
+        />
+      )
+    case C.SEND_BSV_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_error'
+          defaultMessage='Your Bitcoin SV transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_BSV_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_success'
+          defaultMessage='Your Bitcoin SV transaction is now pending'
         />
       )
     case C.SEND_BTC_ERROR:
@@ -663,6 +705,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.send_eth_success'
           defaultMessage='Your ether transaction is now pending'
+        />
+      )
+    case C.SEND_XLM_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_error'
+          defaultMessage='Your stellar transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_XLM_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_success'
+          defaultMessage='Your stellar transaction is now pending'
         />
       )
     case C.SMS_RESEND_ERROR:
@@ -862,6 +918,20 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Failed to update address label.'
         />
       )
+    case C.VERIFY_EMAIL_SENT:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent'
+          defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.VERIFY_EMAIL_SENT_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent_error'
+          defaultMessage='Error sending verification email. Please try again later.'
+        />
+      )
     case C.WALLET_LOADING_ERROR:
       return (
         <FormattedMessage
@@ -925,6 +995,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Invalid Ether Address.'
         />
       )
+    case C.XLM_ADDRESS_INVALID:
+      return (
+        <FormattedMessage
+          id='components.alerts.xlm_address_incorrect'
+          defaultMessage='Invalid Stellar Address.'
+        />
+      )
     case C.PRIVATE_KEY_INVALID:
       return (
         <FormattedMessage
@@ -936,7 +1013,49 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
-          defaultMessage='Not a valid Bitcoin Private Key or Address.'
+          defaultMessage='Not a valid bitcoin private key or address.'
+        />
+      )
+    case C.LOCKBOX_SETUP_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_success'
+          defaultMessage='Lockbox successfully added.'
+        />
+      )
+    case C.LOCKBOX_SETUP_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_error'
+          defaultMessage='Failed to setup Lockbox.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_success'
+          defaultMessage='Lockbox settings successfully updated.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_error'
+          defaultMessage='Failed to update Lockbox settings.'
+        />
+      )
+    case C.LOCKBOX_DELETE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_success'
+          defaultMessage='Lockbox successfully deleted.'
+        />
+      )
+    case C.LOCKBOX_DELETE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_error'
+          defaultMessage='Failed to remove Lockbox.'
         />
       )
     default:

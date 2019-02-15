@@ -23,9 +23,7 @@ const Error = ({ message, onArchive }) => {
       <MessageText size='18px' weight={300}>
         {message}
       </MessageText>
-      <Button
-        nature='primary'
-        onClick={() => onArchive(vulnerableAddress)}>
+      <Button nature='primary' onClick={() => onArchive(vulnerableAddress)}>
         <Text size='16px' weight={300} color='white'>
           <FormattedMessage
             id='scenes.settings.addresses.btc.wallets.addresserror'

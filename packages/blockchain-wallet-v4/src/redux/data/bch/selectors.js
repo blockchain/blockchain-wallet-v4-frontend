@@ -1,5 +1,39 @@
-import { curry, path } from 'ramda'
+import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
+
 import { dataPath } from '../../paths'
+import { getAccounts } from '../../kvStore/bch/selectors'
+import { createDeepEqualSelector } from '../../../utils'
+import * as walletSelectors from '../../wallet/selectors'
+import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
+
+export const getWalletContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getActiveAddresses,
+    getAccounts
+  ],
+  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const addresses = keysIn(activeAddresses)
+    return concat(activeAccounts, addresses)
+  }
+)
+
+export const getContext = createDeepEqualSelector(
+  [getWalletContext, getLockboxBchContext],
+  (walletContext, lockboxContextR) => {
+    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    return concat(walletContext, lockboxContext)
+  }
+)
 
 export const getAddresses = path([dataPath, 'bch', 'addresses'])
 
@@ -34,14 +68,11 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
   getAddresses(state).map(path([xpubOrAddress, 'n_tx']))
 )
 
-export const getFinalBalance = curry((address, state) =>
+export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
     .map(x => x || 0)
 )
-
-// TODO: Import fee from wallet-options
-// export const getFees = ...
 
 export const getBalance = state => getInfo(state).map(path(['final_balance']))
 
@@ -63,4 +94,10 @@ export const getEffectiveBalance = path([
   'bch',
   'payment',
   'effectiveBalance'
+])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'bch',
+  'transactions_at_bound'
 ])

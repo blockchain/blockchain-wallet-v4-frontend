@@ -1,5 +1,4 @@
-import './Fonts'
-
+export { IconGlobalStyles, FontGlobalStyles } from './Fonts'
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
 export { Banner } from './Banners'
@@ -8,6 +7,8 @@ export { Color, Palette } from './Colors'
 export { SimpleDropdown, ComponentDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge, SecurityGauge } from './Gauges'
 export {
+  AutosizeTextInput,
+  CreatableInput,
   CheckBoxInput,
   DateInput,
   NativeSelect,

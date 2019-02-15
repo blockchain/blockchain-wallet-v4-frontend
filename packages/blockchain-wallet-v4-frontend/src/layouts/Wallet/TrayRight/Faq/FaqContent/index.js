@@ -32,12 +32,12 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer1.one'
-              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the'
+              id='scenes.faq.group.coinify.answer1.one.new'
+              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether, bitcoin cash, and stellar soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the'
             />
             <span>&nbsp;</span>
             <NavLink
-              to='/exchange'
+              to='/swap'
               style={{
                 textDecoration: 'none',
                 color: Color('brand-secondary')
@@ -222,8 +222,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer8.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.coinify.answer8.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -255,12 +255,12 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.sfox.answer1.one'
-              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the'
+              id='scenes.faq.group.sfox.answer1.one.new'
+              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the'
             />
             <span>&nbsp;</span>
             <NavLink
-              to='/exchange'
+              to='/swap'
               style={{
                 textDecoration: 'none',
                 color: Color('brand-secondary')
@@ -407,8 +407,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.sfox.answer6.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.sfox.answer6.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -456,8 +456,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.noexchange.question6.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.noexchange.question6.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -508,8 +508,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer2.one'
-              defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.'
+              id='scenes.faq.group.walletfunctionality.answer2.one.new'
+              defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -629,8 +629,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer8.one'
-              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks are designed to be       irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.'
+              id='scenes.faq.group.walletfunctionality.answer8.one.new'
+              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.'
             />
             <br />
             <br />
@@ -705,24 +705,26 @@ const FaqContent = [
         question: (
           <FormattedMessage
             id='scenes.faq.group.walletfunctionality.question10'
-            defaultMessage='What is a watch-only address?'
+            defaultMessage='What is a non-spendable address?'
           />
         ),
         answer: (
           <FaqDescription>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.one'
-              defaultMessage='A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key.'
+              defaultMessage='A non-spendable address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key.'
             />
-            <span>&nbsp;</span>
+            <br />
+            <br />
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.two'
-              defaultMessage='Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace.'
+              defaultMessage='Non-spendable addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind that sending and receiving to the same address makes your transaction history easy to trace. Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet.'
             />
-            <span>&nbsp;</span>
+            <br />
+            <br />
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.three'
-              defaultMessage='Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet. Since your funds in these addresses are not backed up in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts.'
+              defaultMessage='Since your funds in these addresses are not backed up in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts. In the past, you may have seen these accounts labelled ’watch-only’. In response to scams taking place due to lack of knowledge about the feature, we changed the label to ’non-spendable’ for clarity’s sake.'
             />
           </FaqDescription>
         )
@@ -752,17 +754,19 @@ const FaqContent = [
               id='scenes.faq.group.walletfunctionality.answer11.three'
               defaultMessage='To look up a bitcoin transaction, users can visit'
             />
+            <span>&nbsp;</span>
             <Link
-              href='https://blockchain.info'
+              href='https://blockchain.com/explorer'
               target='_blank'
               size='13px'
-              weight={200}
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer11.link'
-                defaultMessage=' https://blockchain.info '
+                defaultMessage='https://www.blockchain.com/explorer'
               />
             </Link>
+            <span>&nbsp;</span>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer11.four'
               defaultMessage='and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.'
@@ -787,6 +791,22 @@ const FaqContent = [
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer12.two'
               defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.abcvsbsvq'
+            defaultMessage='What is Bitcoin Cash ABC vs. BSV?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.walletfunctionality.abcvsbsva'
+              defaultMessage='Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.'
             />
           </FaqDescription>
         )
@@ -942,7 +962,7 @@ const FaqContent = [
             <br />
             <FormattedMessage
               id='scenes.faq.group.walletsecurity.answer4.five'
-              defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX, Unocoin or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team'
+              defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team'
             />
             <span>&nbsp;</span>
             <Link
@@ -1034,6 +1054,20 @@ const FaqContent = [
           <FormattedMessage
             id='scenes.faq.group.educationalresources.answer4'
             defaultMessage='Ether is a decentralized digital currency, also known as ETH. In addition to being a tradeable cryptocurrency, ether powers the Ethereum network by paying for transaction fees and computational services. Ether is paving the way for a more intelligent financial platform.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.educationalresources.whatisstellar'
+            defaultMessage='What is stellar?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.educationalresources.stellaranswer'
+            defaultMessage='Stellar is an open-source, decentralized payment protocol that allows for fast, cross-border transactions between any pair of currencies. Like other cryptocurrencies, it operates using blockchain technology. Its native asset, a digital currency, is called lumen (XLM). XLM powers the Stellar network and all of its operations, similarly to how ether (ETH) powers the Ethereum network.'
           />
         )
       },

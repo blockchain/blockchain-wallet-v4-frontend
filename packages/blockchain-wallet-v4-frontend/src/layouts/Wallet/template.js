@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { replace } from 'ramda'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
@@ -9,13 +10,13 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
-import BtcMenu from 'scenes/Transactions/Btc/Menu'
-import BchMenu from 'scenes/Transactions/Bch/Menu'
-import EthMenu from 'scenes/Transactions/Eth/Menu'
-import AddrMenu from 'scenes/Settings/Addresses/Menu'
+import Menu from 'scenes/Transactions/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
+import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
+import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 
 import media from 'services/ResponsiveService'
 
@@ -55,11 +56,14 @@ const Top = styled.div`
   `};
 `
 
+// TODO: @header issue
+// change this so that pages control their own scroll
 const WalletLayout = props => {
   const { location, children } = props
 
   return (
     <Wrapper>
+      <AnalyticsTracker />
       <ErrorBoundary>
         <Alerts />
         <Tooltips />
@@ -70,17 +74,33 @@ const WalletLayout = props => {
         <Container>
           <MenuLeft location={location} />
           <TrayRight />
-          <Content>
+          <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Top>
               <MenuTop />
             </Top>
-            {location.pathname === '/btc/transactions' && <BtcMenu />}
-            {location.pathname === '/bch/transactions' && <BchMenu />}
-            {location.pathname === '/eth/transactions' && <EthMenu />}
-            {location.pathname === '/settings/addresses' && <AddrMenu />}
-            {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
-            {location.pathname === '/exchange' && <ExchangeMenu />}
-            {location.pathname === '/exchange/history' && <ExchangeMenu />}
+            {location.pathname.includes('/btc/transactions') && (
+              <Menu coin='BTC' />
+            )}
+            {location.pathname.includes('/bch/transactions') && (
+              <Menu coin='BCH' />
+            )}
+            {location.pathname.includes('/eth/transactions') && (
+              <Menu coin='ETH' />
+            )}
+            {location.pathname.includes('/xlm/transactions') && (
+              <Menu coin='XLM' />
+            )}
+            {location.pathname.includes('/swap') && (
+              <ExchangeMenu
+                historySelected={location.pathname.includes('/swap/history')}
+              />
+            )}
+            {location.pathname.includes('/settings/addresses') && (
+              <SettingsAddressesMenu location={location} />
+            )}
+            {location.pathname.includes('/settings/profile') && (
+              <ExchangeProfileMenu />
+            )}
             <Page>{children}</Page>
           </Content>
         </Container>
