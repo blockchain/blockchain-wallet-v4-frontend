@@ -3,7 +3,7 @@ import { actions, model } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData, getWalletsWithoutRemoteData } from './selectors'
-import Template from './template.success'
+import Template from './template'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 

@@ -107,9 +107,9 @@ export const getData = createDeepEqualSelector(
     const transform = (logs, btc, bch, eth, xlm) => {
       const allActivities = concatAll(logs, btc, bch, eth, xlm)
       const filterByTime = sort(descend(prop('time')))
-      const take8 = take(8)
+      const takeN = take(number)
       return compose(
-        take8,
+        takeN,
         filterByTime
       )(allActivities)
     }

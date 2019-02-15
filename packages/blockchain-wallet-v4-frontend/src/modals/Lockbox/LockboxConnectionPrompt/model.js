@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import { Text } from 'blockchain-info-components'
 
 export const CONFIRM_STEPS = {
@@ -8,29 +9,29 @@ export const CONFIRM_STEPS = {
     index: 1,
     title: () => (
       <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp.title.connect'
+        id='modals.lockbox.connectionprompt.connect.title'
         defaultMessage='Connect Your Lockbox'
       />
     ),
-    content: (coin, isTx) =>
+    content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.content'
-          defaultMessage='Connect and unlock your hardware device. Then open the {coin} app on the device.'
-          values={{ coin }}
+          id='modals.lockbox.connectionprompt.connect.content'
+          defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
+          values={{ appName }}
         />
       ) : (
         <React.Fragment>
           <FormattedMessage
-            id='modals.promptforlockbox.connectcoinapp.contentgeneric'
-            defaultMessage='Connect and unlock your hardware device. Then open the {coin} app on the device.'
-            values={{ coin }}
+            id='modals.lockbox.connectionprompt.connect.generic'
+            defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
+            values={{ appName }}
           />
           <Text weight={400} size='14px' style={{ marginTop: '20px' }}>
             <FormattedMessage
-              id='modals.promptforlockbox.connectcoinapp.contentgenericnote'
-              defaultMessage='Note: If you do not have the {coin} app on your device you can install it via the settings page.'
-              values={{ coin }}
+              id='modals.lockbox.connectionprompt.connect.managernote'
+              defaultMessage='Note: If you do not have the {appName} app on your device you can install it via the App Manager.'
+              values={{ appName }}
             />
           </Text>
         </React.Fragment>
@@ -46,13 +47,13 @@ export const CONFIRM_STEPS = {
     index: 2,
     title: () => (
       <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp.title.review'
+        id='modals.lockbox.connectionprompt.ready.title'
         defaultMessage='Review Transaction Details'
       />
     ),
     content: () => (
       <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp.review'
+        id='modals.lockbox.connectionprompt.ready.content'
         defaultMessage='Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.'
       />
     ),
@@ -65,31 +66,31 @@ export const CONFIRM_STEPS = {
   success: {
     name: 'success',
     index: 3,
-    title: (coin, isTx) =>
+    title: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.title.success'
-          defaultMessage='Your {coin} Transaction Was Sent'
-          values={{ coin }}
+          id='modals.lockbox.connectionprompt.success.title'
+          defaultMessage='Your {appName} Transaction Was Sent'
+          values={{ appName }}
         />
       ) : (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.title.successgeneric'
-          defaultMessage='{coin} Success'
-          values={{ coin }}
+          id='modals.lockbox.connectionprompt.success.titlegeneric'
+          defaultMessage='{appName} Success'
+          values={{ appName }}
         />
       ),
-    content: (coin, isTx) =>
+    content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.success'
+          id='modals.lockbox.connectionprompt.success.content'
           defaultMessage='Please allow for it to confirm on the network.'
         />
       ) : (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.successgeneric'
-          defaultMessage='{coin} successfully connected.'
-          values={{ coin }}
+          id='modals.lockbox.connectionprompt.success.contentgeneric'
+          defaultMessage='{appName} successfully connected.'
+          values={{ appName }}
         />
       ),
     image: () => 'lockbox-success',
@@ -101,22 +102,21 @@ export const CONFIRM_STEPS = {
   error: {
     name: 'error',
     index: 3,
-    title: (coin, isTx) =>
+    title: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.title.error'
+          id='modals.lockbox.connectionprompt.error.txtitle'
           defaultMessage='Transaction Failed'
-          values={{ coin }}
         />
       ) : (
         <FormattedMessage
-          id='modals.promptforlockbox.connectcoinapp.title.errorgeneric'
+          id='modals.lockbox.connectionprompt.error.generictitle'
           defaultMessage='An Error Occurred'
         />
       ),
     content: () => (
       <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp.error'
+        id='modals.lockbox.connectionprompt.error.content'
         defaultMessage='Something went wrong. Please reconnect your device and try again.'
       />
     ),

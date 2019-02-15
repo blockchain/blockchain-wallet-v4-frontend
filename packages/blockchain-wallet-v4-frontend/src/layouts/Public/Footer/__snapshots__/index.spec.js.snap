@@ -10,7 +10,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
     />
     <Component
       color="white"
-      href="https://blockchain.info"
+      href="https://blockchain.com/explorer"
       size="12px"
       uppercase={true}
       weight={300}

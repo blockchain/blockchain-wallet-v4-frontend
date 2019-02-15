@@ -14,7 +14,7 @@ import {
 } from 'blockchain-info-components'
 
 const UsedTable = ({ children }) => (
-  <Table>
+  <Table dataE2e='btcUsedAddressesTable'>
     <TableHeader>
       <TableCell width='40%'>
         <Text size='13px' weight={500}>
@@ -62,10 +62,10 @@ const UsedTableEntry = ({ address, search }) => {
   }
 
   return !isMatch() ? null : (
-    <TableRow>
+    <TableRow dataE2e='btcUsedAddressesRow'>
       <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
         <Link
-          href={`https://blockchain.info/address/${address.address}`}
+          href={`https://blockchain.com/btc/address/${address.address}`}
           size='small'
           weight={300}
           target='_blank'
@@ -105,7 +105,11 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
         ))}
       </UsedTable>
     ) : (
-      <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
+      <Text
+        weight={300}
+        style={{ marginTop: 20, textAlign: 'center' }}
+        data-e2e='btcNoUsedAddresses'
+      >
         <FormattedMessage
           id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage'
           defaultMessage='This wallet has no used addresses.'

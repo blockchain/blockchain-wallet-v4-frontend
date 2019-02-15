@@ -14,7 +14,8 @@ const INITIAL_STATE = {
   newDeviceSetup: {
     device: Remote.NotAsked,
     deviceType: null,
-    newOrExisting: null
+    newOrExisting: null,
+    showBtcWarning: false
   },
   isAuthentic: Remote.NotAsked,
   showProductTour: false

@@ -33,6 +33,10 @@ export const ResizeableFontInputHOC = Component =>
 
     componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
+      requestAnimationFrame(() => {
+        this.updateValueLength()
+        this.resizeInputFont()
+      })
     }
 
     componentDidUpdate () {

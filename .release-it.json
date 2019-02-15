@@ -5,6 +5,9 @@
     "commitMessage": "chore(Release): v%s",
     "beforeStartCommand": "yarn manage:translations"
   },
+  "git": {
+    "pushArgs": "--no-verify"
+  },
   "github": {
     "release": true,
     "preRelease": true,

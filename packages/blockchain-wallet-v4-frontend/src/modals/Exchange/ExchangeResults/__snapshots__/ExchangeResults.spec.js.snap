@@ -188,25 +188,36 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
     </Exchange__TableRow>
   </ModalBody>
   <ExchangeResults__ExchangeResultsFooter>
-    <Button
+    <Link
       bold={false}
       capitalize={false}
-      disabled={false}
-      fullwidth={false}
-      height="40px"
-      nature="primary"
-      rounded={false}
-      size="13px"
-      small={false}
+      color="brand-secondary"
+      href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
+      size="16px"
+      target="_blank"
       uppercase={false}
-      weight={300}
+      weight={400}
     >
-      <FormattedMessage
-        defaultMessage="Close"
-        id="modals.exchange.exchangeresults.close"
-        values={Object {}}
-      />
-    </Button>
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        size="13px"
+        small={false}
+        uppercase={false}
+        weight={300}
+      >
+        <FormattedMessage
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
+          values={Object {}}
+        />
+      </Button>
+    </Link>
   </ExchangeResults__ExchangeResultsFooter>
 </Modal>
 `;

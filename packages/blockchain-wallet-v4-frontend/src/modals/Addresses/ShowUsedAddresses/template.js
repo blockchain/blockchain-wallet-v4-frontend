@@ -61,6 +61,7 @@ const ShowUsedAddresses = props => {
           weight={300}
           style={spacing('mr-15')}
           onClick={close}
+          data-e2e='cancelShowUsedAddressesButton'
         >
           <FormattedMessage
             id='modals.showusedaddresses.cancel'
@@ -72,6 +73,7 @@ const ShowUsedAddresses = props => {
           type='submit'
           onClick={handleContinue}
           disabled={busy}
+          data-e2e='showUsedAddressesConfirmButton'
         >
           {!busy ? (
             <FormattedMessage

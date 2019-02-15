@@ -8,7 +8,7 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import { FORM } from './model'
 import sendEthSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -20,6 +20,7 @@ const api = {
 }
 const coreSagas = coreSagasFactory({ api })
 const networks = { eth: 1 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendEth sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -54,7 +55,7 @@ describe('sendEth sagas', () => {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
     to: jest.fn(() => paymentMock),
-    amount: jest.fn(() => paymentMock),
+    amount: 0,
     from: jest.fn(() => paymentMock),
     fee: jest.fn(() => paymentMock),
     fees: { regular: 10 },
@@ -345,6 +346,14 @@ describe('sendEth sagas', () => {
 
     it('should display succcess message', () => {
       saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+    })
+
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'ETH', '0'])
+        )
     })
 
     it('should destroy form', () => {

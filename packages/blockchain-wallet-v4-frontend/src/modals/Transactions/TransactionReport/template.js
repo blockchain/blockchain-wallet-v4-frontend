@@ -134,7 +134,13 @@ const FirstStep = props => {
             </Row>
           </Container>
           <Footer>
-            <Link size='13px' weight={300} fullwidth onClick={closeAll}>
+            <Link
+              size='13px'
+              weight={300}
+              fullwidth
+              onClick={closeAll}
+              data-e2e='closeReport'
+            >
               <FormattedMessage
                 id='modals.transactionreport.close'
                 defaultMessage='Close'
@@ -148,7 +154,7 @@ const FirstStep = props => {
                   target='_blank'
                   onClick={onDownload}
                 >
-                  <Button nature='success'>
+                  <Button nature='success' data-e2e='downloadReport'>
                     <FormattedMessage
                       id='modals.transactionreport.download'
                       defaultMessage='Download Report'
@@ -159,7 +165,12 @@ const FirstStep = props => {
                 <HeartbeatLoader />
               )
             ) : (
-              <Button type='submit' nature='primary' disabled={generating}>
+              <Button
+                type='submit'
+                nature='primary'
+                disabled={generating}
+                data-e2e='generateReport'
+              >
                 <FormattedMessage
                   id='modals.transactionreport.generatecsv'
                   defaultMessage='Generate Report'

@@ -22,7 +22,9 @@ import {
   Button,
   HeartbeatLoader,
   Separator,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   DateInputBox,
@@ -38,6 +40,7 @@ import {
   InputWrapper,
   IdentityVerificationHeader,
   FaqFormMessage,
+  FaqHeaderHelper,
   FaqFormGroup,
   Label,
   Footer
@@ -175,6 +178,15 @@ const Personal = ({
                     id='identityverification.personal.header'
                     defaultMessage='Personal Details'
                   />
+                  <FaqHeaderHelper>
+                    <TooltipHost id='identityverification.headerhelper'>
+                      <TooltipIcon
+                        name='question-in-circle-filled'
+                        color='brand-primary'
+                        size='24px'
+                      />
+                    </TooltipHost>
+                  </FaqHeaderHelper>
                 </IdentityVerificationHeader>
                 <FormContainer>
                   {showEmail && !emailVerified && (
@@ -258,8 +270,8 @@ const Personal = ({
                   {showStateError && (
                     <ErrorBanner type='warning'>
                       <FormattedMessage
-                        id='identityverification.personal.unavailable'
-                        defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                        id='identityverification.personal.unavailable_swap'
+                        defaultMessage='Unfortunately Swap is not available in your state at this time.'
                       />
                       <FormattedMessage
                         id='identityverification.personal.unavailablenotify'

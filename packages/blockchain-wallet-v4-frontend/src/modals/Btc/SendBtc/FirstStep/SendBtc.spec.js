@@ -86,9 +86,6 @@ const paymentMock = {
   effectiveBalance: 100000,
   fee: 5,
   fees: { regular: 5, priority: 25, limits: { max: 30, min: 2 } },
-  // from: [
-  //   'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N'
-  // ],
   fromAccountIdx: 0,
   fromType: 'ACCOUNT',
   value: jest.fn(() => paymentMock),

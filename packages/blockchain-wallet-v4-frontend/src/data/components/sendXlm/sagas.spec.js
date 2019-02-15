@@ -9,7 +9,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
 import { FORM } from './model'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendXlmSagas, { logLocation, INITIAL_MEMO_TYPE } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import * as StellarSdk from 'stellar-sdk'
@@ -23,6 +23,7 @@ const coreSagas = coreSagasFactory({ api })
 
 const STUB_ADDRESS = StellarSdk.Keypair.random().publicKey()
 const STUB_FEE = 100
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendXlm sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -58,7 +59,7 @@ describe('sendXlm sagas', () => {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
     to: jest.fn(() => paymentMock),
-    amount: jest.fn(() => paymentMock),
+    amount: 10,
     from: jest.fn(() => paymentMock),
     fee: jest.fn(() => paymentMock),
     build: jest.fn(() => paymentMock),
@@ -293,6 +294,18 @@ describe('sendXlm sagas', () => {
 
     it('should destroy form', () => {
       saga.next().put(actions.form.destroy(FORM))
+    })
+
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND,
+            'XLM',
+            '0.000001'
+          ])
+        )
     })
 
     it('should put action to close all modals', () => {

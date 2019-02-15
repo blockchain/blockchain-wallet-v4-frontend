@@ -2,64 +2,11 @@
   "platforms": {
     "web": {
       "application": {
+        "analyticsSiteId": 1,
         "enableDomainMigrationRedirects": true,
         "announcements": {
           "public": {},
-          "wallet": {},
-          "sendBch": {
-            "id": "bch-disabled-lockbox-send",
-            "type": "info",
-            "icon": "alert-filled",
-            "hideType": "collapse",
-            "header": {
-              "en": "Ongoing Service Interruption"
-            },
-            "sections": [
-              {
-                "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
-                }
-              },
-              {
-                "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read More"
-              },
-              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
-            }
-          },
-          "receiveBch": {
-            "id": "bch-disabled-lockbox-receive",
-            "type": "info",
-            "icon": "alert-filled",
-            "hideType": "collapse",
-            "header": {
-              "en": "Ongoing Service Interruption"
-            },
-            "sections": [
-              {
-                "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
-                }
-              },
-              {
-                "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read More"
-              },
-              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
-            }
-          }
+          "wallet": {}
         }
       },
       "btc": {
@@ -166,8 +113,9 @@
           "CH"
         ],
         "config": {
-          "partnerId": 24,
+          "partnerId": 35,
           "production": false,
+          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
           "iSignThisDomain": "https://stage-verify.isignthis.com"
         }
       },

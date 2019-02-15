@@ -119,13 +119,16 @@ const TransactionListItem = ({
   handleToggle,
   handleEditDescription
 }) => (
-  <TransactionRowContainer className={isToggled ? 'active' : ''}>
+  <TransactionRowContainer
+    className={isToggled ? 'active' : ''}
+    data-e2e='transactionRow'
+  >
     <TransactionRow onClick={() => handleToggle()}>
-      <StatusColumn>
+      <StatusColumn data-e2e='transactionDateColumn'>
         <Status type={transaction.type} coin={coin} />
         <MediaContextConsumer>
           {({ mobile }) => (
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={300} data-e2e='transactionDate'>
               {dateHelper(prop('time', transaction) * 1000, mobile)}
             </Text>
           )}
@@ -158,7 +161,7 @@ const TransactionListItem = ({
           />
         ) : null}
       </StatusColumn>
-      <AddressesColumn>
+      <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses
           to={transaction.to}
           from={transaction.from}
@@ -167,7 +170,7 @@ const TransactionListItem = ({
           coin={coin}
         />
       </AddressesColumn>
-      <AmountColumn>
+      <AmountColumn data-e2e='transactionAmountColumn'>
         <FiatDisplay
           coin={coin}
           size='14px'
@@ -191,7 +194,10 @@ const TransactionListItem = ({
             />
           </Text>
           <Description
+            coin={coin}
+            hash={transaction.hash}
             value={transaction.description}
+            toAddress={transaction.toAddress}
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (

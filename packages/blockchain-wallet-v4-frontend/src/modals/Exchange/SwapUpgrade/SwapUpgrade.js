@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { path } from 'ramda'
 import { connect } from 'react-redux'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
@@ -7,6 +8,8 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { getData } from './selectors'
 import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import { headers } from 'components/IdentityVerification/TierCard/services'
 
 const Body = styled.div`
   display: flex;
@@ -74,10 +77,10 @@ class SwapUpgrade extends React.PureComponent {
           </Title>
           <Message>
             <FormattedMessage
-              defaultMessage='Upgrade to Tier {tierIndex} and Swap up to {amount} every day.'
+              defaultMessage='Upgrade to {nextLevel} and Swap up to {amount} every day.'
               id='modals.swap_upgrade.amount_after_upgrade'
               values={{
-                tierIndex: nextTier,
+                nextLevel: headers[path([nextTier, 'level'], TIERS)],
                 amount: nextTierAmount
               }}
             />

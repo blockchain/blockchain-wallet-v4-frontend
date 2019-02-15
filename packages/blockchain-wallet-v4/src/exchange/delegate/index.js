@@ -96,7 +96,7 @@ export default class ExchangeDelegate {
 
   reserveReceiveAddress () {
     const network = prop('walletOptionsPath', this.state)
-      .map(path(['platforms', 'web', 'bitcoin', 'config', 'network']))
+      .map(path(['platforms', 'web', 'btc', 'config', 'network']))
       .getOrElse('bitcoin')
 
     const defaultIndex = getDefaultAccountIndex(this.state)

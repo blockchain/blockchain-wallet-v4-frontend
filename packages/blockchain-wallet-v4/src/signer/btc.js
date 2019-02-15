@@ -95,7 +95,7 @@ export const signWithLockbox = function*(
   for (let i in selection.inputs) {
     const coin = selection.inputs[i]
     const txHex = yield api.getRawTx(coin.txHash)
-    inputs.push([BTC.splitTransaction(txHex), coin.index])
+    inputs.push([BTC.splitTransaction(txHex, true), coin.index])
     paths.push("44'/0'/0'" + coin.path.split('M')[1])
   }
 

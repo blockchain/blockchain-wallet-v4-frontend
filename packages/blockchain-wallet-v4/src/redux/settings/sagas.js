@@ -180,7 +180,7 @@ export default ({ api }) => {
       api.updateIpLock,
       guid,
       sharedKey,
-      String(ipLock)
+      String(ipLock || '')
     )
     if (!contains('Ip Addresses Updated', response)) {
       throw new Error(response)

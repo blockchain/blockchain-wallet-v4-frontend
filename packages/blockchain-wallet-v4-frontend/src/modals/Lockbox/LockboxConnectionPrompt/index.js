@@ -4,6 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import * as Lockbox from 'services/LockboxService'
 import LockboxConnectionPrompt from './template'
 
 class LockboxConnectionPromptContainer extends React.PureComponent {
@@ -17,7 +18,13 @@ class LockboxConnectionPromptContainer extends React.PureComponent {
   }
 
   render () {
-    return <LockboxConnectionPrompt onClose={this.onClose} {...this.props} />
+    return (
+      <LockboxConnectionPrompt
+        onClose={this.onClose}
+        appName={Lockbox.constants.supportedApps[this.props.coin]}
+        {...this.props}
+      />
+    )
   }
 }
 

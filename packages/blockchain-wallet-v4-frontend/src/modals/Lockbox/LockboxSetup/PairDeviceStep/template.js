@@ -10,7 +10,9 @@ import {
   Image,
   Link,
   Text,
-  TextGroup
+  TextGroup,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -19,10 +21,14 @@ const Wrapper = styled.div`
   width: 100%;
   align-items: center;
 `
-const IntroText = styled(Text)`
+const IntroWrapper = styled.div`
   margin: 16px 0 40px;
   text-align: center;
 `
+const ExportKeysText = styled(Text)`
+  margin-top: 12px;
+`
+
 const ClickableText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
   cursor: pointer;
@@ -52,13 +58,19 @@ const CheckboxLabel = styled.label`
   margin-top: 3px;
   margin-left: 12px;
 `
+const Tooltip = styled(TooltipHost)`
+  & > span {
+    font-size: 12px;
+  }
+`
 const PairDeviceStep = props => {
   const {
     btcOpenTimeout,
     deviceType,
     invalid,
     onTimeoutAccept,
-    onStepChange,
+    onGoToAppManager,
+    showBtcWarning,
     supportLink
   } = props
 
@@ -114,7 +126,7 @@ const PairDeviceStep = props => {
                 <AppManagerLink
                   size='12px'
                   weight={300}
-                  onClick={() => onStepChange('customize-device')}
+                  onClick={onGoToAppManager}
                 >
                   <FormattedHTMLMessage
                     id='modals.lockboxsetup.pairdevice.timeout.issue2.part2'
@@ -187,13 +199,30 @@ const PairDeviceStep = props => {
         name='lockbox-onboard-pairdevice'
         width='95%'
       />
-      <IntroText size='12px' weight={300}>
-        <FormattedHTMLMessage
-          id='modals.lockboxsetup.pairdevice.intro'
-          defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
-          values={{ deviceType }}
-        />
-      </IntroText>
+      <IntroWrapper>
+        <Text size='12px' weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxsetup.pairdevice.intro'
+            defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
+            values={{ deviceType }}
+          />
+        </Text>
+        {showBtcWarning && (
+          <ExportKeysText size='12px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.pairdevice.exportkeyswarning'
+              defaultMessage='Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.'
+            />
+            <Tooltip
+              id='lockbox.exportkeyswarning'
+              data-place='right'
+              style={{ marginTop: '3px' }}
+            >
+              <TooltipIcon name='question-in-circle' />
+            </Tooltip>
+          </ExportKeysText>
+        )}
+      </IntroWrapper>
       <TextGroup inline style={{ marginBottom: '14px' }}>
         <Text size='10px' weight={300}>
           <FormattedHTMLMessage
@@ -203,8 +232,9 @@ const PairDeviceStep = props => {
           />
         </Text>
         <ClickableText
+          style={{ marginLeft: '-2px' }}
           size='10px'
-          onClick={() => onStepChange('customize-device')}
+          onClick={onGoToAppManager}
         >
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.here'

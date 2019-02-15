@@ -58,11 +58,13 @@ const Success = ({
       <AddressRow
         key={address.addr}
         address={address}
+        dataE2e='btcImportedAddressRow'
         renderOptions={() =>
           [
             <ClickableText
               size='small'
               onClick={() => onToggleArchived(address)}
+              data-e2e='btcArchiveImportedAddressLink'
             >
               <FormattedMessage
                 id='scenes.settings.addresses.archive'
@@ -77,6 +79,7 @@ const Success = ({
                     <ClickableText
                       size='small'
                       onClick={() => onShowPriv(address)}
+                      data-e2e='btcShowPrivKeyImportedAddressLink'
                     >
                       <FormattedMessage
                         id='scenes.settings.addresses.show_priv'
@@ -87,6 +90,7 @@ const Success = ({
                   <ClickableText
                     size='small'
                     onClick={() => onShowSignMessage(address)}
+                    data-e2e='btcSignMessageImportedAddressLink'
                   >
                     <FormattedMessage
                       id='scenes.settings.addresses.sign_message'
@@ -124,18 +128,27 @@ const Success = ({
           </SettingDescription>
         </div>
         <ImportedActions>
-          <Button onClick={onClickVerify}>
+          <Button
+            onClick={onClickVerify}
+            data-e2e='btcVerifyMessageImportedAddressLink'
+          >
             <FormattedMessage
               id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
               defaultMessage='Verify Message'
             />
           </Button>
-          <Button onClick={onTransferAll} nature='primary'>
-            <FormattedMessage
-              id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
-              defaultMessage='Transfer All'
-            />
-          </Button>
+          {importedAddressesTableRows.length > 0 && (
+            <Button
+              onClick={onTransferAll}
+              nature='primary'
+              data-e2e='btcTransferAllImportedAddressLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
+                defaultMessage='Transfer All'
+              />
+            </Button>
+          )}
         </ImportedActions>
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
@@ -173,7 +186,11 @@ const Success = ({
         </Table>
       )}
       <div style={spacing('mt-10')}>
-        <IconButton name='plus' onClick={onClickImport}>
+        <IconButton
+          name='plus'
+          onClick={onClickImport}
+          data-e2e='btcImportedAddressLink'
+        >
           <FormattedMessage
             id='scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress'
             defaultMessage='Import Bitcoin Address'

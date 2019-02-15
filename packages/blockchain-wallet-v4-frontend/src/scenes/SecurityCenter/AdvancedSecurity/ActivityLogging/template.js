@@ -19,18 +19,18 @@ const ActivityLogging = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.securitysettings.advancedsecurity.activitylogging.title'
+            id='scenes.securitycenter.advanced.activitylogging.title'
             defaultMessage='Activity Logging'
           />
           <SettingStatus active={logging}>
             {logging ? (
               <FormattedMessage
-                id='scenes.securitysettings.advancedsecurity.activitylogging.enabled'
+                id='scenes.securitycenter.advanced.activitylogging.enabled'
                 defaultMessage='Enabled'
               />
             ) : (
               <FormattedMessage
-                id='scenes.securitysettings.advancedsecurity.activitylogging.disabled'
+                id='scenes.securitycenter.advanced.activitylogging.disabled'
                 defaultMessage='Disabled'
               />
             )}
@@ -38,7 +38,7 @@ const ActivityLogging = props => {
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.securitysettings.advancedsecurity.activitylogging.description'
+            id='scenes.securitycenter.advanced.activitylogging.description'
             defaultMessage="Enable for all your wallet activity to be displayed in your dashboard's activity feed."
           />
         </SettingDescription>
@@ -48,12 +48,12 @@ const ActivityLogging = props => {
           <Button nature='primary' onClick={handleClick}>
             {logging ? (
               <FormattedMessage
-                id='scenes.securitysettings.advancedsecurity.activitylogging.settings.disable'
+                id='scenes.securitycenter.advanced.activitylogging.disable'
                 defaultMessage='Disable'
               />
             ) : (
               <FormattedMessage
-                id='scenes.securitysettings.advancedsecurity.activitylogging..settings.enable'
+                id='scenes.securitycenter.advanced.activitylogging.enable'
                 defaultMessage='Enable'
               />
             )}

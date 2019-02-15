@@ -12,6 +12,8 @@ export const getBtcNetwork = state =>
   getWebOptions(state).map(path(['btc', 'config', 'network']))
 export const getEthTxFuse = state =>
   getWebOptions(state).map(path(['eth', 'lastTxFuse']))
+export const getAnalyticsSiteId = state =>
+  getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = state =>
   getWebOptions(state).map(path(['application', 'announcements']))
 export const getMigrationRedirects = state =>

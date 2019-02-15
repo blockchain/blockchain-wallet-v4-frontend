@@ -62,8 +62,8 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.swap'
-              defaultMessage='Swap'
+              id='scenes.exchange.exchangeform.exchange'
+              defaultMessage='Exchange'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />

@@ -1,7 +1,5 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -11,9 +9,10 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
+const coinifyPaymentDomain =
+  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
@@ -77,7 +76,10 @@ module.exports = {
       {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
-        use: ['thread-loader', 'babel-loader']
+        use: [
+          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          'babel-loader'
+        ]
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
@@ -123,8 +125,7 @@ module.exports = {
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
-    new Webpack.HotModuleReplacementPlugin(),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
+    new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
     namedModules: true,
@@ -255,10 +256,14 @@ module.exports = {
         "img-src 'self' data: blob:",
         "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
+        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } ${
           envConfig.ROOT_URL
         } https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `child-src ${iSignThisDomain} ${coinifyPaymentDomain}  ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } blob:`,
         [
           'connect-src',
           "'self'",

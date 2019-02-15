@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
@@ -25,6 +25,7 @@ const coreSagas = coreSagasFactory({ api })
 const networks = {
   bch: BitcoinCash.networks['bitcoin']
 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendBch sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -78,7 +79,7 @@ describe('sendBch sagas', () => {
     return paymentMock
   })
 
-  describe('bch send form intialize', () => {
+  describe('bch send form initialize', () => {
     const to = 'bchaddress'
     const description = 'message'
     const amount = {
@@ -358,6 +359,14 @@ describe('sendBch sagas', () => {
 
     it('should destroy form', () => {
       saga.next().put(actions.form.destroy(FORM))
+    })
+
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BCH', '0'])
+        )
     })
 
     it('should put action to close all modals', () => {

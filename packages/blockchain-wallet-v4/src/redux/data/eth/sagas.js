@@ -1,11 +1,26 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
+import {
+  concat,
+  dissoc,
+  isNil,
+  length,
+  map,
+  mapObjIndexed,
+  path,
+  prop,
+  sum,
+  values
+} from 'ramda'
 import { convertFeeToWei } from '../../../utils/eth'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors.js'
+import * as transactions from '../../../transactions'
+
+const transformTx = transactions.eth.transformTx
 
 const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
@@ -99,10 +114,23 @@ export default ({ api }) => {
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(txs, reset))
+      const page = yield call(__processTxs, txs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
+  }
+
+  const __processTxs = function*(txs) {
+    const accountsR = yield select(kvStoreSelectors.getAccounts)
+    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const blockHeightR = yield select(S.getHeight)
+    const blockHeight = blockHeightR.getOrElse(0)
+    const lockboxContextR = yield select(getLockboxEthContext)
+    const lockboxContext = lockboxContextR.getOrElse([])
+    const state = yield select()
+    const ethAddresses = concat(addresses, lockboxContext)
+    return map(transformTx(ethAddresses, blockHeight, state), txs)
   }
 
   const fetchLegacyBalance = function*() {
@@ -124,6 +152,7 @@ export default ({ api }) => {
     fetchRates,
     fetchLatestBlock,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

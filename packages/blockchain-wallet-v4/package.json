@@ -1,10 +1,10 @@
 {
   "name": "blockchain-wallet-v4",
   "version": "1.0.1",
-  "description": "Functional library for handling Blockchain.info wallets.",
+  "description": "Functional library for handling Blockchain.com wallets.",
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Blockchain.info",
+    "name": "Blockchain",
     "url": "https://blockchain.com"
   },
   "main": "lib/index.js",
@@ -57,12 +57,12 @@
     "bech32": "1.1.3",
     "big-rational": "0.10.7",
     "bigi": "1.4.2",
-    "bignumber.js": "8.0.1",
+    "bignumber.js": "8.0.2",
     "bip32": "1.0.2",
     "bip32-path": "0.4.2",
     "bip39": "2.5.0",
     "bip69": "2.1.4",
-    "bitcoin-coinify-client": "0.8.0",
+    "bitcoin-coinify-client": "0.9.0",
     "bitcoin-sfox-client": "0.4.4",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",

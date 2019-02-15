@@ -131,12 +131,12 @@ const FirstStep = props => {
       {noAccount && <NoAccountTemplate />}
       {!noAccount && (
         <React.Fragment>
-          {isFromLockbox && (
+          {isFromLockbox && !disableLockboxSend && (
             <WarningBanners type='info'>
               <Text color='warning' size='13px'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.warndevice'
-                  defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
+                  id='modals.sendxlm.firststep.lockboxwarn'
+                  defaultMessage='You will need to connect your Lockbox to complete this transaction.'
                 />
               </Text>
             </WarningBanners>
@@ -303,6 +303,7 @@ const FirstStep = props => {
                 disableLockboxSend ||
                 Remote.Loading.is(balanceStatus)
               }
+              data-e2e='xlmSendContinue'
             >
               <FormattedMessage
                 id='modals.sendxlm.firststep.continue'

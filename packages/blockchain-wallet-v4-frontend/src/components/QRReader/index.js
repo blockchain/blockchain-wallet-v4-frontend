@@ -3,12 +3,7 @@ import PropTypes from 'prop-types'
 import QrReader from 'react-qr-reader'
 import { Banner } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-
-const hasWebcam =
-  (navigator.getUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.msGetUserMedia) !== void 0
+import { hasWebcam } from 'utils/helpers'
 
 const QRReader = props => {
   const { onScan, onError } = props

@@ -12,7 +12,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 import { TIERS } from './model'
-import { messages, limits, status } from './services'
+import { ctas, headers, messages, limits, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;
@@ -141,11 +141,7 @@ export const TierCard = ({
       )}
       <Container>
         <Header color='marketing-primary' uppercase>
-          <FormattedMessage
-            id='components.identityverification.tiercard.tierheader'
-            defaultMessage='Tier {tier} Verification'
-            values={{ tier }}
-          />
+          {headers[path([tier, 'level'], TIERS)]}
         </Header>
         <Content>
           <Row>
@@ -195,10 +191,7 @@ export const TierCard = ({
                 defaultMessage='Continue'
               />
             ) : (
-              <FormattedMessage
-                id='components.identityverification.tiercard.getstarted'
-                defaultMessage='Get Started'
-              />
+              ctas[path([tier, 'level'], TIERS)]
             )}
           </ActionButton>
         )}
