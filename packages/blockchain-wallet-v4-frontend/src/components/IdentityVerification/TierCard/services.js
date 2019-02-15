@@ -70,8 +70,8 @@ export const messages = {
   SELFIE: (
     <Text size='12px' style={{ marginBottom: '26px', display: 'inline-block' }}>
       <FormattedMessage
-        id='components.identityverification.tiercard.selfie'
-        defaultMessage='Selfie'
+        id='components.identityverification.tiercard.portraitphoto'
+        defaultMessage='Portrait Photo'
       />
     </Text>
   )

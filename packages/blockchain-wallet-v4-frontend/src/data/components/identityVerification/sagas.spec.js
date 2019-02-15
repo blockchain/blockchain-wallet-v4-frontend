@@ -278,7 +278,7 @@ describe('registerUserCampaign', () => {
       .next(campaignData)
       .call(api.registerUserCampaign, campaign.name, campaignData, newUser)
       .throw(error)
-      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error }))
       .next()
       .put(actions.modules.profile.setCampaign({}))
       .next()

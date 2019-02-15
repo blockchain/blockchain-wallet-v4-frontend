@@ -48,30 +48,37 @@ const FooterButton = styled(Button).attrs({
   font-weight: 500;
   padding: 15px 0;
 `
+const LaterButton = styled(FooterButton)`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  top: 105%;
+  width: calc(100% - 48px);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+  }
+`
 const CenteredText = styled(Text)`
   text-align: center;
+  text-shadow: 0px 0px 1px #0d0d42;
 `
 
 class SwapGetStarted extends React.PureComponent {
-  componentDidMount () {
-    this.props.actions.swapGetStartedInitialized()
-  }
-
   render () {
-    const { position, total, actions } = this.props
-
+    const { position, total, close, actions } = this.props
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
           <CenteredText color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage="Trading your crypto doesn't mean trading away control"
+              defaultMessage="Trading your crypto doesn't mean trading away control."
               id='modals.swapgetstarted.trading_your_crypto'
             />
           </CenteredText>
         </Header>
         <Body data-e2e='swapGetStarted'>
-          <Text size='18px' weight={400}>
+          <Text size='18px' weight={300}>
             <FormattedMessage
               defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
               id='modals.swapgetstarted.description'
@@ -90,6 +97,12 @@ class SwapGetStarted extends React.PureComponent {
               id='modals.swapgetstarted.getstarted'
             />
           </FooterButton>
+          <LaterButton nature='primary' size='20px' fullwidth onClick={close}>
+            <FormattedMessage
+              defaultMessage="I'll do this later"
+              id='modals.swapgetstarted.later'
+            />
+          </LaterButton>
         </Footer>
       </Modal>
     )

@@ -1208,8 +1208,8 @@
         "id": "components.identityverification.tiercard.id"
       },
       {
-        "defaultMessage": "Selfie",
-        "id": "components.identityverification.tiercard.selfie"
+        "defaultMessage": "Portrait Photo",
+        "id": "components.identityverification.tiercard.portraitphoto"
       },
       {
         "defaultMessage": "Annual Swap Limit",
@@ -1554,8 +1554,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.",
-        "id": "scenes.profile.identityverification.swaplimit.complete"
+        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcomplete"
       },
       {
         "defaultMessage": "Learn more.",
@@ -3332,12 +3332,12 @@
         "id": "modals.sendbtc.firststep.customfeeinfo"
       },
       {
-        "defaultMessage": "Estimated confirmation time 1+ hour",
-        "id": "modals.sendbtc.firststep.estimated"
-      },
-      {
         "defaultMessage": "Estimated confirmation time 0-60 minutes",
         "id": "modals.sendbtc.firststep.estimated2"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 1+ hour",
+        "id": "modals.sendbtc.firststep.estimated"
       },
       {
         "defaultMessage": "Continue",
@@ -4725,12 +4725,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Whoops!",
-        "id": "modals.sunriverlinkerror.title"
+        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are",
+        "id": "modals.sunriverlinkerror.airdrop_unavailable"
       },
       {
-        "defaultMessage": "Your referral link is either invalid or has already been used to claim XLM.",
-        "id": "modals.sunriverlinkerror.linkused"
+        "defaultMessage": "Looks like you've already received your airdrop!",
+        "id": "modals.sunriverlinkerror.already_received"
+      },
+      {
+        "defaultMessage": "We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading",
+        "id": "modals.sunriverlinkerror.campaign_expired"
+      },
+      {
+        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
+        "id": "modals.sunriverlinkerror.error"
+      },
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.sunriverlinkerror.title"
       },
       {
         "defaultMessage": "Continue",
@@ -4742,20 +4754,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "It's Your Crypto",
-        "id": "modals.swapgetstarted.its_your_crypto"
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "modals.swapgetstarted.trading_your_crypto"
       },
       {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "modals.swapgetstarted.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.",
-        "id": "modals.swapgetstarted.announcement"
+        "defaultMessage": "A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "modals.swapgetstarted.description"
       },
       {
         "defaultMessage": "Get Started",
         "id": "modals.swapgetstarted.getstarted"
+      },
+      {
+        "defaultMessage": "I'll do this later",
+        "id": "modals.swapgetstarted.later"
       }
     ],
     "path": "src/modals/Exchange/SwapGetStarted/index.json"
@@ -6948,8 +6960,8 @@
         "id": "modal.reservelearn.back"
       },
       {
-        "defaultMessage": "Stellar mimimum balance requirement.",
-        "id": "modal.reservelearn.title"
+        "defaultMessage": "Stellar minimum balance requirement.",
+        "id": "modal.reservelearn.title1"
       },
       {
         "defaultMessage": "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.",

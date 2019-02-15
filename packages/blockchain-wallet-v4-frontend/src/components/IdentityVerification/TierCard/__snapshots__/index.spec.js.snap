@@ -201,8 +201,8 @@ exports[`TierCard renders correctly with column view 1`] = `
               weight={400}
             >
               <FormattedMessage
-                defaultMessage="Selfie"
-                id="components.identityverification.tiercard.selfie"
+                defaultMessage="Portrait Photo"
+                id="components.identityverification.tiercard.portraitphoto"
                 values={Object {}}
               />
             </Text>

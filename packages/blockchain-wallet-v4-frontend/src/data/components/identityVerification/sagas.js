@@ -63,10 +63,12 @@ export default ({ api, coreSagas }) => {
           campaignData,
           newUser
         )
-      } catch (e) {
+      } catch (error) {
         // Todo: use generic confirm modal
         // Should NOT be specific to sunriver
-        yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+        yield put(
+          actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error })
+        )
         yield put(actions.modules.profile.setCampaign({}))
         throw new Error(invalidLinkError)
       }
