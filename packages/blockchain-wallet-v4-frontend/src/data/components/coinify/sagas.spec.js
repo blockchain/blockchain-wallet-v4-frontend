@@ -19,7 +19,7 @@ describe('coinifySagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
   })
- 
+
   const mockedLimits = Remote.of({
     bank: {
       inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
@@ -86,6 +86,7 @@ describe('coinifySagas', () => {
     const beforeDetermine = 'beforeDetermine'
 
     it('should select the country from state', () => {
+      saga.next().put(coinifyActions.coinifyLoading())
       saga.next().select(selectors.components.coinify.getCoinifyCountry)
     })
 
