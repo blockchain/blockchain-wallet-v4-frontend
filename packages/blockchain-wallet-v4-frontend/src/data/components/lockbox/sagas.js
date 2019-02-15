@@ -202,13 +202,13 @@ export default ({ api }) => {
 
   // saves new device to KvStore
   const saveNewDeviceKvStore = function*() {
+    let deviceDisplayName
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
       let newDeviceName = 'My '
       const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
-      newDevice.type === 'ledger'
-        ? (newDeviceName += 'Nano S')
-        : (newDeviceName += 'Lockbox')
+      deviceDisplayName = newDevice.type === 'ledger' ? 'Nano S' : 'Lockbox'
+      newDeviceName += deviceDisplayName
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
@@ -229,9 +229,17 @@ export default ({ api }) => {
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.core.data.xlm.fetchData())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      yield put(
+        actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS, {
+          deviceType: deviceDisplayName
+        })
+      )
     } catch (e) {
-      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
+      yield put(
+        actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR, {
+          deviceType: deviceDisplayName
+        })
+      )
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'saveNewDeviceKvStore', e)
@@ -403,10 +411,11 @@ export default ({ api }) => {
 
   // finalize new device setup
   const finalizeNewDeviceSetup = function*() {
+    let connection
     try {
       // safeguard in case existing polling is still running
       closePoll = true
-      yield delay(1000)
+      yield delay(2500)
       // setup for deviceType and btc app polling
       closePoll = false
       let pollLength = 2500
@@ -418,7 +427,7 @@ export default ({ api }) => {
       })
       // BTC app connection
       yield take(AT.SET_CONNECTION_INFO)
-      const connection = yield select(S.getCurrentConnection)
+      connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
         connection.app,
@@ -459,7 +468,11 @@ export default ({ api }) => {
       }
       yield put(A.changeDeviceSetupStep('finish-step'))
     } catch (e) {
-      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
+      yield put(
+        actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR, {
+          deviceType: connection.deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'finalizeNewDeviceSetup', e)
       )
