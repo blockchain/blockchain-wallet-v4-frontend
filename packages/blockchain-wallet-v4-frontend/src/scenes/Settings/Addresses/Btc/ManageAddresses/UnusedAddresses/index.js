@@ -8,10 +8,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import UnusedAddresses from './template'
-
 import {
   Banner,
   ComponentDropdown,
@@ -21,6 +20,11 @@ import {
   Text
 } from 'blockchain-info-components'
 
+const {
+  ADD_NEXT_ADDR,
+  DELETE_LABEL,
+  EDIT_LABEL
+} = model.analytics.ADDRESS_EVENTS
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
@@ -28,7 +32,6 @@ const WalletLabelCell = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-
 class UnusedAddressesContainer extends React.PureComponent {
   componentDidMount () {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
@@ -46,18 +49,22 @@ class UnusedAddressesContainer extends React.PureComponent {
       routerActions,
       search
     } = this.props
-    const onEditLabel = i =>
+    const onEditLabel = i => {
       this.props.componentActions.editAddressLabel(
         account.index,
         this.props.walletIndex,
         i
       )
-    const onDeleteLabel = i =>
+      this.props.analyticsActions.logEvent(EDIT_LABEL)
+    }
+    const onDeleteLabel = i => {
       modalsActions.showModal('DeleteAddressLabel', {
         accountIdx: account.index,
         walletIdx: this.props.walletIndex,
         addressIdx: i
       })
+      this.props.analyticsActions.logEvent(DELETE_LABEL)
+    }
     const onEditBtcAccountLabel = () =>
       walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () =>
@@ -71,6 +78,7 @@ class UnusedAddressesContainer extends React.PureComponent {
           this.props.walletIndex
         )
       }
+      this.props.analyticsActions.logEvent(ADD_NEXT_ADDR)
     }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
@@ -254,6 +262,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

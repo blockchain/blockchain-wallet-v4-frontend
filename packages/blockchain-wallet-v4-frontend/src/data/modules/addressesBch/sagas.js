@@ -1,11 +1,11 @@
 import { select, call, put } from 'redux-saga/effects'
-import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
+import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 const { toCashAddr } = utils.bch
 const GAP_LIMIT = 20
+const { SHOW_CHANGE_ADDRS } = model.analytics.ADDRESS_EVENTS
 
 export default ({ coreSagas, networks }) => {
   const logLocation = 'modules/addressesBch/sagas'
@@ -72,6 +72,7 @@ export default ({ coreSagas, networks }) => {
       window.alert('Nothing to see here!')
     }
     /* eslint-enable */
+    yield put(actions.analytics.logEvent(SHOW_CHANGE_ADDRS))
   }
 
   return {

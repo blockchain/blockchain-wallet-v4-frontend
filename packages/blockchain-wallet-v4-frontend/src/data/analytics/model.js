@@ -4,12 +4,13 @@ export const CUSTOM_DIMENSIONS = {
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 export const ADDRESS_EVENTS = {
-  ADD_NEXT_ADDRESS: ['addresses', 'add_next'],
+  ADD_NEXT_ADDR: ['addresses', 'add_next_addr'],
   DELETE_LABEL: ['addresses', 'delete_label'],
   EDIT_LABEL: ['addresses', 'edit_label'],
-  IMPORT: ['addresses', 'import'],
-  SHOW_CHANGE: ['addresses', 'show_change'],
-  SHOW_USED: ['addresses', 'show_used']
+  HIDE_USED_ADDRS: ['addresses', 'hide_used'],
+  IMPORT_ADDR: ['addresses', 'import'],
+  SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
+  SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
