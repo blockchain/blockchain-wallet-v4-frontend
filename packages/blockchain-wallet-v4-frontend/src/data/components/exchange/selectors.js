@@ -5,6 +5,7 @@ import {
   curry,
   defaultTo,
   filter,
+  findIndex,
   head,
   last,
   lift,
@@ -261,10 +262,16 @@ const getInitialCoins = (
   return [initialSourceCoin, initialTargetCoin]
 }
 
-const getInitialAccounts = (state, availablePairs, from, to) => {
+const getInitialAccounts = (
+  availableAccounts,
+  availablePairs,
+  from,
+  to,
+  fromIndex,
+  toIndex
+) => {
   if (!from || !to) return {}
 
-  const accounts = getActiveAccounts(state)
   const availableSourceCoins = getAvailableSourceCoins(availablePairs)
 
   const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
@@ -275,31 +282,55 @@ const getInitialAccounts = (state, availablePairs, from, to) => {
   )
 
   return {
-    source: head(accounts[initialSourceCoin]),
-    target: head(accounts[initialTargetCoin])
+    source: prop(fromIndex, availableAccounts[initialSourceCoin]),
+    target: prop(toIndex, availableAccounts[initialTargetCoin])
   }
 }
 
+const findAccountIndexOr = (defaultIndex, targetAccount, accounts) => {
+  const index = findIndex(
+    propEq('address', prop('address', targetAccount)),
+    accounts
+  )
+
+  if (index === -1) return defaultIndex
+  return index
+}
+
 export const getInitialValues = (state, availablePairs, requested) => {
+  const availableAccounts = getActiveAccounts(state)
   const defaultValues = {
-    ...getInitialAccounts(state, availablePairs, 'BTC', 'ETH'),
     sourceFiat: 0,
-    fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+    fix: model.rates.FIX_TYPES.BASE_IN_FIAT,
+    from: 'BTC',
+    to: 'ETH'
   }
 
   const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  const prevSource = prop('source', prevValues)
+  const prevTarget = prop('target', prevValues)
+  const prevFromIndex = findAccountIndexOr(0, prevSource, availableAccounts)
+  const prevToIndex = findAccountIndexOr(0, prevTarget, availableAccounts)
 
   const { from, to, fix, amount } = requested
-  const requestedValues = getInitialAccounts(state, availablePairs, from, to)
+  const requestedValues = { from, to }
 
-  if (fix && amount) {
-    requestedValues.fix = fix
-    requestedValues[model.rates.mapFixToFieldName(fix)] = amount
-  }
+  if (fix) requestedValues.fix = fix
+  if (amount) requestedValues[model.rates.mapFixToFieldName(fix)] = amount
+
+  const accounts = getInitialAccounts(
+    availableAccounts,
+    availablePairs,
+    from || prop('coin', prevSource) || defaultValues.from,
+    to || prop('coin', prevTarget) || defaultValues.to,
+    prevFromIndex,
+    prevToIndex
+  )
 
   return {
     ...defaultValues,
     ...prevValues,
-    ...requestedValues
+    ...requestedValues,
+    ...accounts
   }
 }
