@@ -37,13 +37,20 @@ export const PREFERENCE_EVENTS = {
     SHOW_PAIRING_CODE: ['preferences', 'general', 'show_pairing_code']
   },
   SECURITY: {
-    ACTIVITY_LOGGING: ['preferences', 'security', 'activity_logging'], // TODO: custom values
+    ACTIVITY_LOGGING: ['preferences', 'security', 'activity_logging'],
+    BACKUP_PHRASE_VERIFIED: [
+      'preferences',
+      'security',
+      'backup_phrase_verified'
+    ],
+    EMAIL_VERIFIED: ['preferences', 'security', 'email_verified'],
     PASSWORD_CHANGE: ['preferences', 'security', 'password_change'],
-    PASSWORD_STRETCHING: ['preferences', 'security', 'password_stretching'], // TODO: custom values
-    IP_WHITELIST: ['preferences', 'security', 'ip_whitelist_edit'],
-    IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'], // TODO: custom values
-    TOR_ACCESS: ['preferences', 'security', 'tor_access'] // TODO: custom values
-    // TODO: 2FA?
+    PASSWORD_STRETCHING: ['preferences', 'security', 'password_stretching'],
+    IP_WHITELIST_EDIT: ['preferences', 'security', 'edit_ip_whitelist'],
+    IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'],
+    TWO_FACTOR_ENABLED: ['preferences', 'security', '2fa_enabled'],
+    TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
+    TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
 }
 export const TRANSACTION_EVENTS = {
