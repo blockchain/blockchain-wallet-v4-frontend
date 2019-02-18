@@ -31,7 +31,7 @@ const ButtonWrapper = styled.div`
 `
 const FormItemSpaced = styled(FormItem)`
   > div {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 `
 
