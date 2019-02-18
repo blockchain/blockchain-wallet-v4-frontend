@@ -29,11 +29,11 @@ export const LOCKBOX_EVENTS = {
 }
 export const PREFERENCE_EVENTS = {
   GENERAL: {
-    AUTO_LOGOUT: ['preferences', 'general', 'auto_logout'], // TODO: custom values
-    CHANGE_CURRENCY: ['preferences', 'general', 'currency'], // TODO: custom values
-    CHANGE_LANGUAGE: ['preferences', 'general', 'language'], // TODO: custom values
-    CHANGE_THEME: ['preferences', 'general', 'theme'], // TODO: custom values
-    BTC_LINK_HANDLING: ['preferences', 'general', 'btc_link_handling'], // TODO: custom values
+    AUTO_LOGOUT: ['preferences', 'general', 'auto_logout'],
+    CHANGE_CURRENCY: ['preferences', 'general', 'currency'],
+    CHANGE_LANGUAGE: ['preferences', 'general', 'language'],
+    CHANGE_THEME: ['preferences', 'general', 'theme'],
+    ENABLE_BTC_LINKS: ['preferences', 'general', 'enable_btc_links'],
     SHOW_PAIRING_CODE: ['preferences', 'general', 'show_pairing_code']
   },
   SECURITY: {
@@ -43,6 +43,7 @@ export const PREFERENCE_EVENTS = {
     IP_WHITELIST: ['preferences', 'security', 'ip_whitelist_edit'],
     IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'], // TODO: custom values
     TOR_ACCESS: ['preferences', 'security', 'tor_access'] // TODO: custom values
+    // TODO: 2FA?
   }
 }
 export const TRANSACTION_EVENTS = {
