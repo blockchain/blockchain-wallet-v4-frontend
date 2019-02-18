@@ -48,7 +48,7 @@ export default ({ api, coreSagas, networks }) => {
       if (profileR.error)
         return yield put(A.coinifyFailure(JSON.parse(profileR.error)))
 
-      const tier2DataR = yield select(selectors.modules.profile.getTier(2))
+      const tier2DataR = yield select(selectors.modules.profile.getTier, 2)
       const tier2Data = tier2DataR.getOrElse(null)
       const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
       if (kycIsNone) {

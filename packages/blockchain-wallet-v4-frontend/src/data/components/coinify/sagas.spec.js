@@ -74,7 +74,7 @@ describe('coinifySagas', () => {
   })
 
   describe('coinify signup - new KYC user', () => {
-    let { coinifySignup } = coinifySagas({
+    let { coinifySignup, sendCoinifyKYC } = coinifySagas({
       coreSagas,
       networks
     })
@@ -102,13 +102,21 @@ describe('coinifySagas', () => {
     })
 
     it('should get tier 2 data', () => {
-      saga.next(PROFILE)
+      saga.next(PROFILE).select(selectors.modules.profile.getTier, 2)
     })
 
-    it('should set verification step to personal if state is NONE', () => {
+    it('should call sendCoinifyKYC', () => {
       const tier2Data = Remote.of({ state: 'none' })
       saga
         .next(tier2Data)
+        .put(coinifyActions.coinifyNotAsked())
+        .next()
+        .call(sendCoinifyKYC)
+    })
+
+    it('should set verification step to personal if state is NONE', () => {
+      saga
+        .next()
         .put(
           actions.components.identityVerification.setVerificationStep(
             STEPS.personal
@@ -121,9 +129,7 @@ describe('coinifySagas', () => {
       saga
         .restore(beforeDetermine)
         .next(errorProfile)
-        .put(
-          coinifyActions.coinifySignupFailure(JSON.parse(errorProfile.error))
-        )
+        .put(coinifyActions.coinifyFailure(JSON.parse(errorProfile.error)))
     })
 
     describe('error handling', () => {
@@ -155,6 +161,7 @@ describe('coinifySagas', () => {
     const beforeDetermine = 'beforeDetermine'
 
     it('should select the country from state', () => {
+      saga.next().put(coinifyActions.coinifyLoading())
       saga.next().select(selectors.components.coinify.getCoinifyCountry)
     })
 
@@ -170,12 +177,16 @@ describe('coinifySagas', () => {
     })
 
     it('should get tier 2 data', () => {
-      saga.next(PROFILE)
+      saga.next(PROFILE).select(selectors.modules.profile.getTier, 2)
     })
 
     it('should call handleAfterSignup with the userId', () => {
       const tier2Data = Remote.of({ state: 'verified' })
-      saga.next(tier2Data).call(handleAfterSignup, '5')
+      saga
+        .next(tier2Data)
+        .put(coinifyActions.coinifyNotAsked())
+        .next()
+        .call(handleAfterSignup, '5')
     })
 
     it('should handle an error', () => {
@@ -183,9 +194,7 @@ describe('coinifySagas', () => {
       saga
         .restore(beforeDetermine)
         .next(errorProfile)
-        .put(
-          coinifyActions.coinifySignupFailure(JSON.parse(errorProfile.error))
-        )
+        .put(coinifyActions.coinifyFailure(JSON.parse(errorProfile.error)))
     })
   })
 
@@ -1145,7 +1154,7 @@ describe('coinifySagas', () => {
     })
 
     it('should call the backend to sync with coinify KYC', () => {
-      saga.next(USER).call(api.sendCoinifyKyc, USER.getOrElse())
+      saga.next(USER).call(api.sendCoinifyKyc, USER)
     })
 
     describe('error handling', () => {
