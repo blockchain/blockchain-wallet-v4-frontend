@@ -1,8 +1,10 @@
 export const CUSTOM_DIMENSIONS = {
   CURRENCY_PREFERENCE: 1
 }
+//
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
+//
 export const ADDRESS_EVENTS = {
   ADD_NEXT_ADDR: ['addresses', 'add_next_addr'],
   DELETE_LABEL: ['addresses', 'delete_label'],
@@ -25,9 +27,24 @@ export const LOCKBOX_EVENTS = {
     TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
   }
 }
-// export const SECURITY_EVENTS = {
-//   PASSWORD_CHANGE: ['security', '',]
-// }
+export const PREFERENCE_EVENTS = {
+  GENERAL: {
+    AUTO_LOGOUT: ['preferences', 'general', 'auto_logout'], // TODO: custom values
+    CHANGE_CURRENCY: ['preferences', 'general', 'currency'], // TODO: custom values
+    CHANGE_LANGUAGE: ['preferences', 'general', 'language'], // TODO: custom values
+    CHANGE_THEME: ['preferences', 'general', 'theme'], // TODO: custom values
+    BTC_LINK_HANDLING: ['preferences', 'general', 'btc_link_handling'], // TODO: custom values
+    SHOW_PAIRING_CODE: ['preferences', 'general', 'show_pairing_code']
+  },
+  SECURITY: {
+    ACTIVITY_LOGGING: ['preferences', 'security', 'activity_logging'], // TODO: custom values
+    PASSWORD_CHANGE: ['preferences', 'security', 'password_change'],
+    PASSWORD_STRETCHING: ['preferences', 'security', 'password_stretching'], // TODO: custom values
+    IP_WHITELIST: ['preferences', 'security', 'ip_whitelist_edit'],
+    IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'], // TODO: custom values
+    TOR_ACCESS: ['preferences', 'security', 'tor_access'] // TODO: custom values
+  }
+}
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],
   REQUEST: ['transactions', 'request'],
