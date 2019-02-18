@@ -151,7 +151,7 @@ const Success = props => {
           <Banner type='caution'>
             <Text size='12px'>
               <FormattedMessage
-                id='modals.sendbch.secondstep.legacy_addr_warning'
+                id='modals.sendbch.secondstep.bch_address_warning'
                 defaultMessage='Are you sure this is a bitcoin cash address? Sending funds to a bitcoin address by accident will result in loss of funds.'
               />
             </Text>
