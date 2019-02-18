@@ -7,6 +7,15 @@ import Wallets from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 const { WALLET_TX_SEARCH } = model.form
+const { ADDRESS_EVENTS, WALLET_EVENTS } = model.analytics
+const { SHOW_CHANGE_ADDRS } = ADDRESS_EVENTS
+const {
+  ARCHIVE,
+  CHANGE_DEFAULT,
+  EDIT_NAME,
+  SHOW_XPUB,
+  UNARCHIVE
+} = WALLET_EVENTS
 
 class BchWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
@@ -15,27 +24,37 @@ class BchWalletsContainer extends React.Component {
 
   render () {
     const {
-      data,
-      search,
       addressesBchActions,
+      analyticsActions,
+      data,
       kvStoreBchActions,
       modalsActions,
+      search,
       ...rest
     } = this.props
 
-    const onEditBchAccountLabel = account =>
+    const onEditBchAccountLabel = account => {
       addressesBchActions.editBchAccountLabel(account.index, account.label)
-    const onShowChangeAddrs = account =>
+      analyticsActions.logEvent(EDIT_NAME)
+    }
+    const onShowChangeAddrs = account => {
       addressesBchActions.showChangeAddrs(account.index, account.xpub)
-    const onShowXPub = account =>
+      analyticsActions.logEvent(SHOW_CHANGE_ADDRS)
+    }
+    const onShowXPub = account => {
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
-    const onMakeDefault = account =>
+      analyticsActions.logEvent(SHOW_XPUB)
+    }
+    const onMakeDefault = account => {
       kvStoreBchActions.setDefaultAccountIdx(account.index)
-
+      analyticsActions.logEvent(CHANGE_DEFAULT)
+    }
     const onSetArchived = (account, archived) => {
       kvStoreBchActions.setAccountArchived(account.index, archived)
+      archived
+        ? analyticsActions.logEvent(ARCHIVE)
+        : analyticsActions.logEvent(UNARCHIVE)
     }
-
     const props = {
       onEditBchAccountLabel,
       onShowChangeAddrs,
@@ -66,6 +85,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   addressesBchActions: bindActionCreators(
     actions.modules.addressesBch,
