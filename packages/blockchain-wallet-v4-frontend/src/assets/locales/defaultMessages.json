@@ -4915,16 +4915,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are",
-        "id": "modals.sunriverlinkerror.airdrop_unavailable"
+        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
+        "id": "modals.sunriverlinkerror.airdrop_not_available"
       },
       {
         "defaultMessage": "Looks like you've already received your airdrop!",
         "id": "modals.sunriverlinkerror.already_received"
       },
       {
-        "defaultMessage": "We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading",
-        "id": "modals.sunriverlinkerror.campaign_expired"
+        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
+        "id": "modals.sunriverlinkerror.campaign_has_expired"
       },
       {
         "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",

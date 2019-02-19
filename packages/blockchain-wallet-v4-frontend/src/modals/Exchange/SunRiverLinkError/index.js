@@ -28,15 +28,18 @@ const Header = styled(ModalHeader)`
   font-size: 18px;
 `
 
-const { SUNRIVER_LINK_ERROR_MODAL } = model.components.identityVerification
+const {
+  SUNRIVER_LINK_ERROR_MODAL,
+  ERROR_TYPES
+} = model.components.identityVerification
 
-const getErrorMessage = error => {
-  switch (error.type) {
+const getErrorMessage = ({ code }) => {
+  switch (ERROR_TYPES[code]) {
     case 'INVALID_CAMPAIGN_USER':
       return (
         <FormattedHTMLMessage
-          id='modals.sunriverlinkerror.airdrop_unavailable'
-          defaultMessage="We're sorry, the airdrop program is currently not available where you are"
+          id='modals.sunriverlinkerror.airdrop_not_available'
+          defaultMessage="We're sorry, the airdrop program is currently not available where you are."
         />
       )
     case 'USER_ALREADY_REGISTERED_CAMPAIGN':
@@ -49,8 +52,8 @@ const getErrorMessage = error => {
     case 'CAMPAIGN_EXPIRED':
       return (
         <FormattedHTMLMessage
-          id='modals.sunriverlinkerror.campaign_expired'
-          defaultMessage="We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading"
+          id='modals.sunriverlinkerror.campaign_has_expired'
+          defaultMessage="We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
         />
       )
     default:
