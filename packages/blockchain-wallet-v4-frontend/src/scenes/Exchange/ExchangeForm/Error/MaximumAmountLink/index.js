@@ -13,7 +13,12 @@ const MaximumAmountLink = props => (
       defaultMessage='Use'
     />
     &nbsp;
-    <Link size='12px' weight={300} onClick={props.actions.useMax}>
+    <Link
+      size='12px'
+      weight={300}
+      onClick={props.actions.useMax}
+      data-e2e='exchangeUseMaxLink'
+    >
       <FormattedMessage
         id='scenes.exchange.firststep.maximumamountlink.maximum'
         defaultMessage='maximum'
