@@ -49,8 +49,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ACCOUNT_LOADING: {
       return assocPath(['data', payload.id], Remote.Loading, state)
     }
-    case AT.SET_RATES: {
-      return assoc('rates', payload.rates, state)
+    case AT.SET_RATES_LOADING: {
+      return assoc('rates', Remote.Loading, state)
+    }
+    case AT.SET_RATES_SUCCESS: {
+      return assoc('rates', Remote.Success(payload.rates), state)
+    }
+    case AT.SET_RATES_FAILURE: {
+      return assoc('rates', Remote.Failure(payload.e), state)
     }
     case AT.FETCH_TRANSACTIONS_LOADING: {
       const { reset } = payload

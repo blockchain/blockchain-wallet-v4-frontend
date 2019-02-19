@@ -32,9 +32,14 @@ export const fetchDataSuccess = accounts => ({
 })
 
 export const fetchRates = () => ({ type: AT.FETCH_RATES })
-export const setRates = rates => ({
-  type: AT.SET_RATES,
+export const setRatesLoading = () => ({ type: AT.SET_RATES_LOADING })
+export const setRatesSuccess = rates => ({
+  type: AT.SET_RATES_SUCCESS,
   payload: { rates }
+})
+export const setRatesFailure = e => ({
+  type: AT.SET_RATES_FAILURE,
+  payload: { e }
 })
 
 export const fetchTransactions = (accountId, reset) => ({

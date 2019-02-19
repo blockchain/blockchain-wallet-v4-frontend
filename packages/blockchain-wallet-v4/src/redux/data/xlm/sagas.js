@@ -78,11 +78,11 @@ export default ({ api, networks }) => {
 
   const fetchRates = function*() {
     try {
-      yield put(A.setRates(Remote.Loading))
+      yield put(A.setRatesLoading())
       const data = yield call(api.getXlmTicker)
-      yield put(A.setRates(Remote.Success(data)))
+      yield put(A.setRatesSuccess(data))
     } catch (e) {
-      yield put(A.setRates(Remote.Failure(e)))
+      yield put(A.setRatesFailure(e))
     }
   }
 
