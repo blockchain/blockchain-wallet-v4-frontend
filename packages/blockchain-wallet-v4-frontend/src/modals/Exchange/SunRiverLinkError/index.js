@@ -38,7 +38,7 @@ const getErrorMessage = ({ code }) => {
     case 'INVALID_CAMPAIGN_USER':
       return (
         <FormattedHTMLMessage
-          id='modals.sunriverlinkerror.airdrop_unavailable'
+          id='modals.sunriverlinkerror.airdrop_not_available'
           defaultMessage="We're sorry, the airdrop program is currently not available where you are."
         />
       )
@@ -52,8 +52,8 @@ const getErrorMessage = ({ code }) => {
     case 'CAMPAIGN_EXPIRED':
       return (
         <FormattedHTMLMessage
-          id='modals.sunriverlinkerror.campaign_expired'
-          defaultMessage="We're sorry, the XLM airdrop is over. Complete your profile to be eligible for future airdrops and access trading."
+          id='modals.sunriverlinkerror.campaign_has_expired'
+          defaultMessage="We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
         />
       )
     default:
