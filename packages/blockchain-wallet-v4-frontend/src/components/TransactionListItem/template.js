@@ -185,8 +185,8 @@ const TransactionListItem = ({
       </AmountColumn>
     </TransactionRow>
     {isToggled && (
-      <DetailsRow>
-        <DetailsColumn>
+      <DetailsRow data-e2e='expandedTransactionRow'>
+        <DetailsColumn data-e2e='descriptionTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.description'
@@ -230,6 +230,7 @@ const TransactionListItem = ({
                 capitalize
                 weight={400}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
+                data-e2e='xlmTransactionNote'
               >
                 <FormattedMessage
                   id='components.txlistitem.memo'
@@ -245,7 +246,7 @@ const TransactionListItem = ({
           )}
         </DetailsColumn>
         {prop('inputs', transaction) && prop('outputs', transaction) && (
-          <DetailsColumn>
+          <DetailsColumn data-e2e='sentFromTransactionColumn'>
             <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
               <FormattedMessage
                 id='components.txlistitem.sentfrom'
@@ -286,7 +287,7 @@ const TransactionListItem = ({
             ))}
           </DetailsColumn>
         )}
-        <DetailsColumn>
+        <DetailsColumn data-e2e='statusTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.status'
