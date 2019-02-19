@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { equals, length, prop, path, pathOr, isEmpty } from 'ramda'
+import { length, prop, path, pathOr, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import Bitcoin from 'bitcoinjs-lib'
@@ -76,16 +76,13 @@ export const getData = createDeepEqualSelector(
       ]
       const watchOnly = prop('watchOnly', from)
       const network = Bitcoin.networks[networkType]
-      const isPriorityFeePerByte = equals(
-        parseInt(feePerByte),
-        priorityFeePerByte
-      )
 
       return {
         from,
         network,
         toToggled,
         enableToggle,
+        feePerByte,
         feePerByteToggled,
         feePerByteElements,
         effectiveBalance,
@@ -93,7 +90,6 @@ export const getData = createDeepEqualSelector(
         maxFeePerByte,
         regularFeePerByte,
         priorityFeePerByte,
-        isPriorityFeePerByte,
         destination,
         totalFee,
         watchOnly,
