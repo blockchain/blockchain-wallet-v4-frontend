@@ -23,8 +23,14 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_LEDGER_DETAILS: {
-      return assoc('ledgerDetails', payload.ledger, state)
+    case AT.SET_LEDGER_DETAILS_LOADING: {
+      return assoc('ledgerDetails', Remote.Loading, state)
+    }
+    case AT.SET_LEDGER_DETAILS_SUCCESS: {
+      return assoc('ledgerDetails', Remote.Success(payload.ledger), state)
+    }
+    case AT.SET_LEDGER_DETAILS_FAILURE: {
+      return assoc('ledgerDetails', Remote.Failure(payload.e), state)
     }
     case AT.FETCH_ACCOUNT_SUCCESS: {
       return assocPath(

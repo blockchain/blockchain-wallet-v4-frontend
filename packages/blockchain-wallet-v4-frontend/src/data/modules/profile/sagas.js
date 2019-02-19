@@ -55,7 +55,7 @@ export default ({ api, coreSagas }) => {
         )
       }
 
-      yield put(A.setApiToken(Remote.Loading))
+      yield put(A.setApiTokenLoading())
       renewSessionTask = yield fork(
         renewSession,
         userId,
@@ -80,7 +80,7 @@ export default ({ api, coreSagas }) => {
       yield delay(renewIn)
       yield call(setSession, userId, lifetimeToken, email, guid)
     } catch (e) {
-      yield put(A.setApiToken(Remote.Failure(e)))
+      yield put(A.setApiTokenFailure(e))
       yield spawn(
         renewSession,
         userId,
@@ -101,7 +101,7 @@ export default ({ api, coreSagas }) => {
         email,
         guid
       )
-      yield put(A.setApiToken(Remote.of(apiToken)))
+      yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
       yield call(renewApiSockets)
       const expiresIn = moment(expiresAt)
@@ -159,7 +159,7 @@ export default ({ api, coreSagas }) => {
       renewUserTask = null
     }
 
-    yield put(A.setApiToken(Remote.NotAsked))
+    yield put(A.setApiTokenNotAsked())
   }
 
   const generateRetailToken = function*() {

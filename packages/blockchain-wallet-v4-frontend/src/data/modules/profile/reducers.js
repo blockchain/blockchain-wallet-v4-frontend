@@ -32,8 +32,14 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('userTiers', Remote.Loading, state)
     case AT.FETCH_TIERS_FAILURE:
       return assoc('userTiers', Remote.Failure(payload.error), state)
-    case AT.SET_API_TOKEN:
-      return assoc('apiToken', payload.token, state)
+    case AT.SET_API_TOKEN_NOT_ASKED:
+      return assoc('apiToken', Remote.NotAsked, state)
+    case AT.SET_API_TOKEN_SUCCESS:
+      return assoc('apiToken', Remote.Success(payload.token), state)
+    case AT.SET_API_TOKEN_LOADING:
+      return assoc('apiToken', Remote.Loading, state)
+    case AT.SET_API_TOKEN_FAILURE:
+      return assoc('apiToken', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:

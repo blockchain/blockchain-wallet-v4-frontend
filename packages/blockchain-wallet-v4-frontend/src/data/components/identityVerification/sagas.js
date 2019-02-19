@@ -287,11 +287,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedCountries = function*() {
     try {
-      yield put(A.setSupportedCountries(Remote.Loading))
+      yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
-      yield put(A.setSupportedCountries(Remote.Success(countries)))
+      yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
-      yield put(A.setSupportedCountries(Remote.Failure(e)))
+      yield put(A.setSupportedCountriesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',

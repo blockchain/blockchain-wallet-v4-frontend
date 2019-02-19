@@ -28,9 +28,16 @@ export const setVerificationStep = step => ({
 export const fetchSupportedCountries = () => ({
   type: AT.FETCH_SUPPORTED_COUNTRIES
 })
-export const setSupportedCountries = countries => ({
-  type: AT.SET_SUPPORTED_COUNTRIES,
+export const setSupportedCountriesLoading = () => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_LOADING
+})
+export const setSupportedCountriesSuccess = countries => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_SUCCESS,
   payload: { countries }
+})
+export const setSupportedCountriesFailure = e => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_FAILURE,
+  payload: { e }
 })
 
 export const fetchSupportedDocuments = countryCode => ({

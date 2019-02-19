@@ -29,8 +29,18 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_EMAIL_STEP: {
       return assoc('emailStep', payload.step, state)
     }
-    case AT.SET_SUPPORTED_COUNTRIES: {
-      return assoc('supportedCountries', payload.countries, state)
+    case AT.SET_SUPPORTED_COUNTRIES_LOADING: {
+      return assoc('supportedCountries', Remote.Loading, state)
+    }
+    case AT.SET_SUPPORTED_COUNTRIES_SUCCESS: {
+      return assoc(
+        'supportedCountries',
+        Remote.Success(payload.countries),
+        state
+      )
+    }
+    case AT.SET_SUPPORTED_COUNTRIES_FAILURE: {
+      return assoc('supportedCountries', Remote.Failure(payload.e), state)
     }
     case AT.SET_SUPPORTED_DOCUMENTS: {
       return assoc('supportedDocuments', payload.documentTypes, state)
