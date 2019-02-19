@@ -389,7 +389,6 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push('/btc/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
       }
-      yield put(destroy(FORM))
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
@@ -402,6 +401,7 @@ export default ({ coreSagas, networks }) => {
         ])
       )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
