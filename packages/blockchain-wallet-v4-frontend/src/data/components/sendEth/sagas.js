@@ -15,7 +15,7 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
@@ -25,7 +25,7 @@ export default ({ coreSagas, networks }) => {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
-      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })
@@ -43,8 +43,9 @@ export default ({ coreSagas, networks }) => {
         from: defaultAccountR.getOrElse({})
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e)
       )
@@ -58,14 +59,15 @@ export default ({ coreSagas, networks }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
       payment = yield payment.build()
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -136,8 +138,9 @@ export default ({ coreSagas, networks }) => {
           break
       }
 
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
@@ -204,7 +207,7 @@ export default ({ coreSagas, networks }) => {
       }
       // Publish payment
       payment = yield payment.publish()
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         const device = (yield select(
@@ -286,6 +289,7 @@ export default ({ coreSagas, networks }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.sendEthPaymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

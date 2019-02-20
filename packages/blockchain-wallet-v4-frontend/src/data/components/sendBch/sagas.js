@@ -15,7 +15,7 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
@@ -174,7 +174,7 @@ export default ({ coreSagas, networks }) => {
       try {
         payment = yield payment.build()
       } catch (e) {}
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }

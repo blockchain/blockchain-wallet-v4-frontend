@@ -90,7 +90,7 @@ describe('sendEth sagas', () => {
     const beforeEnd = 'beforeEnd'
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.sendEthPaymentUpdated(Remote.Loading))
+      saga.next().put(A.sendEthPaymentUpdatedLoading())
     })
 
     it('should create payment', () => {
@@ -144,7 +144,7 @@ describe('sendEth sagas', () => {
     it('should trigger eth payment updated success action', () => {
       saga
         .next()
-        .put(A.sendEthPaymentUpdated(Remote.of(value)))
+        .put(A.sendEthPaymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
         .isDone()
@@ -156,6 +156,8 @@ describe('sendEth sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
+          .put(A.sendEthPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -211,9 +213,7 @@ describe('sendEth sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga
-        .next(Remote.of(paymentMock))
-        .put(A.sendEthPaymentUpdated(Remote.Loading))
+      saga.next(Remote.of(paymentMock)).put(A.sendEthPaymentUpdatedLoading())
     })
 
     it('should create payment from state value', () => {
@@ -232,7 +232,7 @@ describe('sendEth sagas', () => {
     it('should put update success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendEthPaymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
         .isDone()
@@ -245,6 +245,8 @@ describe('sendEth sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
+          .put(A.sendEthPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -306,7 +308,7 @@ describe('sendEth sagas', () => {
     it('should put eth payment updated success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendEthPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should update latest transaction time', () => {
@@ -380,6 +382,8 @@ describe('sendEth sagas', () => {
 
       it('should log error', () => {
         saga
+          .next()
+          .put(A.sendEthPaymentUpdatedFailure(error))
           .next()
           .put(
             actions.logs.logErrorMessage(
