@@ -13,7 +13,7 @@ import {
 } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
@@ -23,7 +23,7 @@ export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
       const { from, index } = action.payload
-      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
+      yield put(A.sendBsvPaymentUpdatedLoading())
       let payment = coreSagas.payment.bsv.create({
         network: networks.bsv
       })
@@ -55,8 +55,9 @@ export default ({ coreSagas, networks }) => {
         from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendBsvInitialized', e)
       )
@@ -70,14 +71,15 @@ export default ({ coreSagas, networks }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
-      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
+      yield put(A.sendBsvPaymentUpdatedLoading())
       payment = coreSagas.payment.bsv.create({
         payment,
         network: networks.bsv
       })
       payment = yield payment.build()
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -139,8 +141,9 @@ export default ({ coreSagas, networks }) => {
       try {
         payment = yield payment.build()
       } catch (e) {}
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
@@ -198,7 +201,7 @@ export default ({ coreSagas, networks }) => {
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bsv.fetchData())
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
@@ -225,6 +228,7 @@ export default ({ coreSagas, networks }) => {
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )
