@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-import Actions from './template.js'
+import Actions from './template'
 
 class ActionsContainer extends React.PureComponent {
   handleSend = () => {
