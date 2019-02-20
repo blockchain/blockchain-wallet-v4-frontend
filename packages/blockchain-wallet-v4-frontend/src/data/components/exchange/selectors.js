@@ -1,5 +1,6 @@
 import {
   all,
+  any,
   compose,
   contains,
   curry,
@@ -10,10 +11,12 @@ import {
   last,
   lift,
   lt,
+  map,
   path,
   pathOr,
   prop,
-  propEq
+  propEq,
+  values
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
@@ -24,6 +27,7 @@ import {
   getAvailableSourceCoins,
   EXCHANGE_FORM
 } from './model'
+import { Remote } from 'blockchain-wallet-v4'
 
 export const canUseExchange = state =>
   selectors.modules.profile
@@ -215,25 +219,47 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveAccounts = state => ({
-  BTC: getActiveBtcAccounts(state).getOrElse([]),
-  BCH: getActiveBchAccounts(state).getOrElse([]),
-  BSV: getActiveBsvAccounts(state).getOrElse([]),
-  ETH: getActiveEthAccounts(state).getOrElse([]),
-  XLM: getActiveXlmAccounts(state).getOrElse([])
-})
+export const getActiveAccountsR = state => {
+  const accounts = {
+    BTC: getActiveBtcAccounts(state),
+    BCH: getActiveBchAccounts(state),
+    BSV: getActiveBsvAccounts(state),
+    ETH: getActiveEthAccounts(state),
+    XLM: getActiveXlmAccounts(state)
+  }
+
+  const isntLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+  if (any(isntLoaded, values(accounts))) return Remote.Loading
+
+  return Remote.of(map(coinAccounts => coinAccounts.getOrElse([]), accounts))
+}
+
+export const getActiveAccounts = compose(
+  accounts =>
+    accounts.getOrElse({
+      BTC: [],
+      BCH: [],
+      BSV: [],
+      ETH: [],
+      XLM: []
+    }),
+  getActiveAccountsR
+)
 
 export const getAvailablePairs = state => {
-  const activeAccounts = getActiveAccounts(state)
+  const activeAccountsR = getActiveAccountsR(state)
   const pairsR = selectors.modules.rates.getAvailablePairs(state)
-  return pairsR.map(
+
+  const filterAvailable = (pairs, activeAccounts) =>
     filter(
       compose(
         all(currency => path([currency, 'length'], activeAccounts) > 0),
         model.rates.splitPair
-      )
+      ),
+      pairs
     )
-  )
+
+  return lift(filterAvailable)(pairsR, activeAccountsR)
 }
 
 const getInitialCoins = (

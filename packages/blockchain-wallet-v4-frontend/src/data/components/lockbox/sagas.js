@@ -323,7 +323,7 @@ export default ({ api }) => {
           yield put(
             actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
           )
-          yield put(actions.router.push('/lockbox/onboard'))
+          yield call(determineLockboxRoute)
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))

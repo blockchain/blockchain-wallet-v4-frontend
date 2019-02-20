@@ -44,23 +44,33 @@ export class MinMaxButtons extends React.PureComponent {
 
     return (
       <MinMaxRow>
-        <MinMaxButton fullwidth disabled={disabled} onClick={actions.useMin}>
+        <MinMaxButton
+          data-e2e='exchangeUseMinButton'
+          fullwidth
+          disabled={disabled}
+          onClick={actions.useMin}
+        >
           <FormattedMessage
             id='scenes.exchange.exchangeform.min'
             defaultMessage='MIN'
           />
           &nbsp;
-          <MinMaxValue>
+          <MinMaxValue data-e2e='exchangeMinValue'>
             {!disabled && formatAmount(minIsFiat, minSymbol, minAmount)}
           </MinMaxValue>
         </MinMaxButton>
-        <MinMaxButton fullwidth disabled={disabled} onClick={actions.useMax}>
+        <MinMaxButton
+          data-e2e='exchangeUseMaxButton'
+          fullwidth
+          disabled={disabled}
+          onClick={actions.useMax}
+        >
           <FormattedMessage
             id='scenes.exchange.exchangeform.max'
             defaultMessage='MAX'
           />
           &nbsp;
-          <MinMaxValue>
+          <MinMaxValue data-e2e='exchangeMaxValue'>
             {!disabled && formatAmount(maxIsFiat, maxSymbol, maxAmount)}
           </MinMaxValue>
         </MinMaxButton>

@@ -1,11 +1,12 @@
 import { call, select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 
+const { IMPORT_ADDR } = model.analytics.ADDRESS_EVENTS
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
@@ -24,18 +25,21 @@ export default ({ api, coreSagas, networks }) => {
       } catch (error) {
         yield put(
           actions.logs.logErrorMessage(
-            `${logLocation} importBtcAddressSubmitClicked`,
+            logLocation,
+            'importBtcAddressSubmitClicked',
             error
           )
         )
       }
       yield call(importLegacyAddress, address, value, null, null, to)
+      yield put(actions.analytics.logEvent(IMPORT_ADDR))
       return
     }
 
     // address handling (watch-only)
     if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
       yield call(importLegacyAddress, value, null, null, null, null)
+      yield put(actions.analytics.logEvent(IMPORT_ADDR))
     }
   }
 
@@ -83,7 +87,7 @@ export default ({ api, coreSagas, networks }) => {
       password = secPass || (yield call(promptForSecondPassword))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(`${logLocation} importLegacyAddress`, e)
+        actions.logs.logErrorMessage(logLocation, 'importLegacyAddress', e)
       )
     }
     try {
@@ -99,10 +103,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.modals.closeAllModals())
     } catch (error) {
       yield put(
-        actions.logs.logErrorMessage(
-          `${logLocation} importLegacyAddress`,
-          error
-        )
+        actions.logs.logErrorMessage(logLocation, 'importLegacyAddress', error)
       )
       switch (error.message) {
         case 'present_in_wallet':
