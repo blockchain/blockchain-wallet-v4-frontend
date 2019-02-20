@@ -25,7 +25,7 @@ export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
       const { from } = action.payload
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
       })
@@ -57,8 +57,9 @@ export default ({ coreSagas, networks }) => {
         from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
       )
@@ -72,14 +73,15 @@ export default ({ coreSagas, networks }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
         network: networks.bch
       })
       payment = yield payment.build()
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -251,7 +253,7 @@ export default ({ coreSagas, networks }) => {
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bch.fetchData())
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
@@ -295,6 +297,7 @@ export default ({ coreSagas, networks }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.sendBchPaymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,
