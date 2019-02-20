@@ -127,7 +127,7 @@
     "@storybook/cli": "4.1.9",
     "@storybook/react": "4.1.9",
     "@storybook/storybook-deployer": "2.8.1",
-    "babel-core": "~7.0.0-bridge.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-istanbul": "0.12.2",
     "babel-jest": "23.6.0",
