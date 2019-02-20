@@ -357,10 +357,6 @@ describe('sendBch sagas', () => {
         .save(beforeError)
     })
 
-    it('should destroy form', () => {
-      saga.next().put(actions.form.destroy(FORM))
-    })
-
     it('should log to analytics', () => {
       saga
         .next()
@@ -370,9 +366,13 @@ describe('sendBch sagas', () => {
     })
 
     it('should put action to close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
+    })
+
+    it('should destroy form', () => {
       saga
         .next()
-        .put(actions.modals.closeAllModals())
+        .put(actions.form.destroy(FORM))
         .next()
         .isDone()
     })
