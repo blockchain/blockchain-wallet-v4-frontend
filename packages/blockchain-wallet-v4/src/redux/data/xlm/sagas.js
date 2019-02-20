@@ -41,7 +41,7 @@ const sumBalance = compose(
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
     try {
-      yield put(A.setLedgerDetailsLoading)
+      yield put(A.setLedgerDetailsLoading())
       const ledger = yield call(api.getLatestLedgerDetails)
       yield put(A.setLedgerDetailsSuccess(ledger))
     } catch (e) {
