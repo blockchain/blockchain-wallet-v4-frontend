@@ -48,7 +48,7 @@ import {
 import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
-  margin-top: 25px;
+  margin-top: 24px;
   margin-bottom: 25px;
   ${media.mobile`
     margin-bottom: 40px;
@@ -189,15 +189,14 @@ const Personal = ({
                   </FaqHeaderHelper>
                 </IdentityVerificationHeader>
                 <FormContainer>
-                  {showEmail &&
-                    !emailVerified && (
-                      <EmailVerificationLabel htmlFor='email'>
-                        <FormattedMessage
-                          id='identityverification.personal.verifyemail'
-                          defaultMessage='Verify Your Email Address'
-                        />
-                      </EmailVerificationLabel>
-                    )}
+                  {showEmail && !emailVerified && (
+                    <EmailVerificationLabel htmlFor='email'>
+                      <FormattedMessage
+                        id='identityverification.personal.verifyemail'
+                        defaultMessage='Verify Your Email Address'
+                      />
+                    </EmailVerificationLabel>
+                  )}
                   {showEmail && (
                     <React.Fragment>
                       <FaqFormGroup>
@@ -212,7 +211,6 @@ const Personal = ({
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
-                            label
                           />
                         </FormItem>
                       </FaqFormGroup>
@@ -272,8 +270,8 @@ const Personal = ({
                   {showStateError && (
                     <ErrorBanner type='warning'>
                       <FormattedMessage
-                        id='identityverification.personal.unavailable'
-                        defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                        id='identityverification.personal.unavailable_swap'
+                        defaultMessage='Unfortunately Swap is not available in your state at this time.'
                       />
                       <FormattedMessage
                         id='identityverification.personal.unavailablenotify'
@@ -359,25 +357,23 @@ const Personal = ({
                           format={DOBToObject}
                         />
                       </FormItem>
-                      {activeField === 'dob' &&
-                        !mobile &&
-                        !tablet && (
-                          <FaqFormMessage
-                            icon='birthday-cake-light'
-                            title={
-                              <FormattedMessage
-                                id='identityverification.personal.faq.dateofbirth.title'
-                                defaultMessage='Age requirement'
-                              />
-                            }
-                            text={
-                              <FormattedMessage
-                                id='identityverification.personal.faq.dateofbirth.text'
-                                defaultMessage='Users must be at least 18 years old to trade crypto'
-                              />
-                            }
-                          />
-                        )}
+                      {activeField === 'dob' && !mobile && !tablet && (
+                        <FaqFormMessage
+                          icon='birthday-cake-light'
+                          title={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.dateofbirth.title'
+                              defaultMessage='Age requirement'
+                            />
+                          }
+                          text={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.dateofbirth.text'
+                              defaultMessage='Users must be at least 18 years old to trade crypto'
+                            />
+                          }
+                        />
+                      )}
                     </FaqFormGroup>
                   )}
                   {showPersonal && (

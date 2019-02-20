@@ -14,7 +14,7 @@ import {
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
 
-const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
+const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
 export class Summary extends React.PureComponent {
   render () {

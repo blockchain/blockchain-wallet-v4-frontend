@@ -85,7 +85,7 @@ class TextInput extends React.Component {
 
     return (
       <BaseTextInput
-        innerRef={this.refInput}
+        ref={this.refInput}
         borderColor={borderColor}
         disabled={disabled}
         data-e2e={this.props['data-e2e']}

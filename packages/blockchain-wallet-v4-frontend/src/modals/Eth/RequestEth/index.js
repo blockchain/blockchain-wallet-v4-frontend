@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -12,32 +12,31 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
+const { TRANSACTION_EVENTS } = model.analytics
 class RequestEthContainer extends React.PureComponent {
   componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { coin } = nextProps
+  componentDidUpdate (prevProps) {
+    const { coin } = this.props
+
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBtc', {
-        lockboxIndex: nextProps.lockboxIndex
+        lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBch', {
-        lockboxIndex: nextProps.lockboxIndex
+        lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'XLM') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestXlm', {
-        lockboxIndex: nextProps.lockboxIndex
+        lockboxIndex: this.props.lockboxIndex
       })
     }
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -51,6 +50,7 @@ class RequestEthContainer extends React.PureComponent {
   }
 
   onSubmit = () => {
+    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'ETH'])
     this.props.modalActions.closeAllModals()
   }
 
@@ -109,6 +109,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   kvStoreEthActions: bindActionCreators(
     actions.core.kvStore.ethereum,
     dispatch

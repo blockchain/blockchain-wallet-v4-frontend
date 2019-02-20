@@ -12,7 +12,7 @@ class Carousel extends React.PureComponent {
     this.interval = undefined
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { auto, delay } = this.props
     if (auto) {
       this.interval = setInterval(

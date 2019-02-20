@@ -1,10 +1,4 @@
-import {
-  Wallet,
-  HDWallet,
-  HDAccountList,
-  HDAccount,
-  TXNotes
-} from '../../../types'
+import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import {
   keys,
   compose,
@@ -23,23 +17,15 @@ import {
 import {
   getAddresses,
   getChangeIndex,
-  getReceiveIndex,
-  getHeight,
-  getTransactions
+  getReceiveIndex
 } from '../../data/btc/selectors.js'
-import { getAddressLabel } from '../../kvStore/btc/selectors'
-import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
 import {
   getLockboxBtcAccounts,
   getLockboxBtcAccount
 } from '../../kvStore/lockbox/selectors'
-import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
-import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
-
-const transformTx = transactions.btc.transformTx
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
@@ -174,43 +160,8 @@ export const getAddressesInfo = state => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state => {
-  // Page == Remote ([Tx])
-  // Remote(wallet)
-  const wallet = walletSelectors.getWallet(state)
-  const walletR = Remote.of(wallet)
-  // Remote(blockHeight)
-  const blockHeightR = getHeight(state)
-  // Remote(lockboxXpubs)
-  const accountListR = getLockboxBtcAccounts(state).map(HDAccountList.fromJS)
-  // [Remote([tx])] == [Page] == Pages
-  const getDescription = (hash, to) =>
-    TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) ||
-    getAddressLabel(to, state).getOrElse('')
-
-  const getPartnerLabel = hash =>
-    getShapeshiftTxHashMatch(state, hash) || getBuySellTxHashMatch(state, hash)
-
-  const pages = getTransactions(state)
-
-  // transformTx :: wallet -> blockHeight -> Tx
-  // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-  const ProcessTxs = (wallet, block, accountList, txList) =>
-    map(
-      transformTx.bind(
-        undefined,
-        wallet,
-        block,
-        accountList,
-        getDescription,
-        getPartnerLabel
-      ),
-      txList
-    )
-  // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, accountListR)
-  return map(ProcessPage, pages)
-}
+export const getWalletTransactions = state =>
+  state.dataPath.bitcoin.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {

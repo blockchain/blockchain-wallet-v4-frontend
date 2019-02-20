@@ -29,7 +29,7 @@ const sortByTime = compose(
   sortBy(prop('time'))
 )
 
-const Success = props => {
+const LockboxTransactions = props => {
   const { transactions, transactionsAtBounds, isLoading, loadMore } = props
   return (
     <LazyLoadWrapper onLazyLoad={loadMore}>
@@ -61,10 +61,10 @@ const Success = props => {
   )
 }
 
-Success.propTypes = {
+LockboxTransactions.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   searchesApplied: PropTypes.array.isRequired,
   transactions: PropTypes.array.isRequired
 }
 
-export default Success
+export default LockboxTransactions

@@ -41,7 +41,7 @@ const Footer = () => {
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
         <Link
-          href='https://blockchain.info'
+          href='https://blockchain.com/explorer'
           size='12px'
           weight={300}
           color='white'

@@ -7,13 +7,12 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 const getCountryCode = (defaultCode, currentNumber) =>
   currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
 
-export const getData = state =>
-  createDeepEqualSelector(
-    [
-      selectors.core.settings.getSmsNumber,
-      selectors.core.settings.getCountryCode
-    ],
-    (currentNumber, defaultCode) => ({
-      countryCode: lift(getCountryCode)(defaultCode, currentNumber)
-    })
-  )(state)
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.settings.getSmsNumber,
+    selectors.core.settings.getCountryCode
+  ],
+  (currentNumber, defaultCode) => ({
+    countryCode: lift(getCountryCode)(defaultCode, currentNumber)
+  })
+)

@@ -63,10 +63,10 @@ import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 
-const BrowserWarning = styled(Banner)`
-  margin: -4px 0 8px;
+const WarningBanners = styled(Banner)`
+  margin: -6px 0 12px;
+  padding: 8px;
 `
-
 const FirstStep = props => {
   const {
     invalid,
@@ -92,10 +92,9 @@ const FirstStep = props => {
     excludeLockbox,
     excludeHDWallets
   } = rest
+  const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
-    from &&
-    from.type === 'LOCKBOX' &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -151,15 +150,25 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {disableLockboxSend && (
-        <BrowserWarning type='warning'>
-          <Text color='warning' size='12px'>
+      {isFromLockbox && !disableLockboxSend && (
+        <WarningBanners type='info'>
+          <Text color='warning' size='13px'>
             <FormattedMessage
               id='modals.sendbtc.firststep.lockboxwarn'
-              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
-        </BrowserWarning>
+        </WarningBanners>
+      )}
+      {disableLockboxSend && (
+        <WarningBanners type='warning'>
+          <Text color='warning' size='13px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.warnbrowser'
+              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser!'
+            />
+          </Text>
+        </WarningBanners>
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -189,7 +198,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validBitcoinAddress]}
-                autoFocus
                 data-e2e='sendBtcAddressTextBox'
               />
             )}
@@ -332,20 +340,21 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       <FormGroup margin={'15px'}>
-        <Text size='13px' weight={300}>
-          {!isPriorityFeePerByte && (
-            <FormattedMessage
-              id='modals.sendbtc.firststep.estimated'
-              defaultMessage='Estimated confirmation time 1+ hour'
-            />
-          )}
-          {isPriorityFeePerByte && (
+        {isPriorityFeePerByte ? (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
               id='modals.sendbtc.firststep.estimated2'
               defaultMessage='Estimated confirmation time 0-60 minutes'
             />
-          )}
-        </Text>
+          </Text>
+        ) : (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeHourPlus'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.estimated'
+              defaultMessage='Estimated confirmation time 1+ hour'
+            />
+          </Text>
+        )}
       </FormGroup>
       <FormGroup>
         <Button

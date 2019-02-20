@@ -5,7 +5,7 @@ import { SelectBoxLanguages } from 'components/Form'
 import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (
-  <SettingSelectBoxWrapper>
+  <SettingSelectBoxWrapper data-e2e='prefsWalletLanguageInput'>
     <Field name='language' component={SelectBoxLanguages} />
   </SettingSelectBoxWrapper>
 )

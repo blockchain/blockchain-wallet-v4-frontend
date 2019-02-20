@@ -19,7 +19,8 @@ export const getData = createSelector(
         .map(propOr(true, 'request'))
         .getOrElse(false),
       lockboxPath: pathname.includes('lockbox'),
-      lockboxDeviceId: params[3]
+      lockboxDeviceId: params[3],
+      pathname
     }
   }
 )

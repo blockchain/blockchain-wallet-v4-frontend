@@ -23,7 +23,7 @@ const CheckoutWrapper = styled.div`
     width: 100%;
   `};
 `
-const OrderSubmitWrapper = CheckoutWrapper.extend`
+const OrderSubmitWrapper = styled(CheckoutWrapper)`
   width: 35%;
   padding: 0px 30px 30px 10%;
   ${media.mobile`

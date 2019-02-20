@@ -3,7 +3,7 @@ import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import Success from './template.success'
+import ImportedAddresses from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -22,13 +22,17 @@ class ImportedAddressesContainer extends React.Component {
   render () {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => (
-        <Success
-          importedAddresses={value}
-          onTransferAll={this.handleTransferAll}
-          {...rest}
-        />
-      ),
+      Success: addresses => {
+        return addresses.length ? (
+          <ImportedAddresses
+            importedAddresses={addresses}
+            onTransferAll={this.handleTransferAll}
+            {...rest}
+          />
+        ) : (
+          <div />
+        )
+      },
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
       NotAsked: () => <div />

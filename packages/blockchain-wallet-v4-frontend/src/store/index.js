@@ -39,9 +39,7 @@ const devToolsConfig = {
     // '@@redux-form/FOCUS',
     // '@@redux-form/BLUR',
     // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET',
-    // '@@redux-ui/MOUNT_UI_STATE',
-    // '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/RESET'
   ]
 }
 
@@ -84,6 +82,8 @@ const configureStore = () => {
       })
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
+      const reauthenticate = () =>
+        store.dispatch(actions.modules.profile.signIn())
       const networks = {
         btc: Bitcoin.networks[options.platforms.web.btc.config.network],
         bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
@@ -95,6 +95,7 @@ const configureStore = () => {
         options,
         apiKey,
         getAuthCredentials,
+        reauthenticate,
         networks
       })
       const persistWhitelist = ['session', 'preferences', 'cache']

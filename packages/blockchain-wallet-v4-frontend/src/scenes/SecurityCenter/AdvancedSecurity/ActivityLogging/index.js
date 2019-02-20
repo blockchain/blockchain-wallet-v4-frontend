@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 
-import ActivityLogging from './template.js'
+import ActivityLogging from './template'
 
 class ActivityLoggingContainer extends React.PureComponent {
   handleClick = () => {
@@ -14,13 +14,12 @@ class ActivityLoggingContainer extends React.PureComponent {
 
   render () {
     const { activityLoggingEnabled, ...rest } = this.props
-    const loggingEnabled = activityLoggingEnabled
 
     return (
       <ActivityLogging
         {...rest}
         handleClick={this.handleClick}
-        logging={loggingEnabled}
+        logging={activityLoggingEnabled}
       />
     )
   }

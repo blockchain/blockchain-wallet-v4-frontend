@@ -176,11 +176,10 @@ export default ({ api }) => {
       throw new Error('missing_change_address')
     }
 
-    let targets = zip(to, amount).map(
-      ([target, value]) =>
-        target.type === ADDRESS_TYPES.SCRIPT
-          ? Coin.fromJS({ script: target.script, value })
-          : Coin.fromJS({ address: target.address, value })
+    let targets = zip(to, amount).map(([target, value]) =>
+      target.type === ADDRESS_TYPES.SCRIPT
+        ? Coin.fromJS({ script: target.script, value })
+        : Coin.fromJS({ address: target.address, value })
     )
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }

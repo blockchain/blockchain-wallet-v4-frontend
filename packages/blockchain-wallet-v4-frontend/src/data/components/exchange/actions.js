@@ -4,9 +4,9 @@ export const setStep = step => ({
   type: AT.SET_STEP,
   payload: { step }
 })
-export const initialize = (from, to) => ({
+export const initialize = requestedValues => ({
   type: AT.INITIALIZE,
-  payload: { from, to }
+  payload: { requestedValues }
 })
 export const changeSource = source => ({
   type: AT.CHANGE_SOURCE,

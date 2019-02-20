@@ -28,9 +28,45 @@ const Header = styled(ModalHeader)`
   font-size: 18px;
 `
 
-const { SUNRIVER_LINK_ERROR_MODAL } = model.components.identityVerification
+const {
+  SUNRIVER_LINK_ERROR_MODAL,
+  ERROR_TYPES
+} = model.components.identityVerification
 
-export const SunRiverLinkError = ({ position, total, email, closeAll }) => {
+const getErrorMessage = ({ code }) => {
+  switch (ERROR_TYPES[code]) {
+    case 'INVALID_CAMPAIGN_USER':
+      return (
+        <FormattedHTMLMessage
+          id='modals.sunriverlinkerror.airdrop_not_available'
+          defaultMessage="We're sorry, the airdrop program is currently not available where you are."
+        />
+      )
+    case 'USER_ALREADY_REGISTERED_CAMPAIGN':
+      return (
+        <FormattedHTMLMessage
+          id='modals.sunriverlinkerror.already_received'
+          defaultMessage="Looks like you've already received your airdrop!"
+        />
+      )
+    case 'CAMPAIGN_EXPIRED':
+      return (
+        <FormattedHTMLMessage
+          id='modals.sunriverlinkerror.campaign_has_expired'
+          defaultMessage="We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
+        />
+      )
+    default:
+      return (
+        <FormattedHTMLMessage
+          id='modals.sunriverlinkerror.error'
+          defaultMessage='Oops! We had trouble processing your airdrop. Please try again.'
+        />
+      )
+  }
+}
+
+export const SunRiverLinkError = ({ position, total, error, closeAll }) => {
   return (
     <Modal size='medium' position={position} total={total}>
       <Header onClose={closeAll}>
@@ -41,10 +77,7 @@ export const SunRiverLinkError = ({ position, total, email, closeAll }) => {
       </Header>
       <ModalBody>
         <Row size='14px' weight={300}>
-          <FormattedHTMLMessage
-            id='modals.sunriverlinkerror.linkused'
-            defaultMessage='Your referral link is either invalid or has already been used to claim XLM.'
-          />
+          {getErrorMessage(error)}
         </Row>
       </ModalBody>
       <Footer>

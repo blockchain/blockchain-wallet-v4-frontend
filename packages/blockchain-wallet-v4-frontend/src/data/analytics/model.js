@@ -1,18 +1,21 @@
-export const EXCHANGE = {
-  ENTERED: 'entered',
-  FIRST_STEP_SUBMIT: 'first_step_submit',
-  SECOND_STEP_BACK: 'second_step_back',
-  SECOND_STEP_SUBMIT_CLICK: 'second_step_submit_click',
-  SECOND_STEP_SUBMIT: 'second_step_submit',
-  SECOND_STEP_ERROR: 'second_step_error'
+export const CUSTOM_DIMENSIONS = {
+  CURRENCY_PREFERENCE: 1
 }
-
-export const KYC = {
-  EMAIL_EXISTS: 'email_exists',
-  STARTED: 'started',
-  REENTERED: 'reentered',
-  PERSONAL_STEP_COMPLETE: 'personal_step_complete',
-  MOBILE_STEP_COMPLETE: 'mobile_step_complete',
-  ONFIDO_STARTED: 'onfido_started',
-  COMPLETE: 'complete'
+export const LOCKBOX_EVENTS = {
+  INSTALL_APP: ['lockbox', 'apps', 'install'],
+  UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
+  SETTINGS: {
+    ADD_DEVICE: ['lockbox', 'settings', 'add_device'],
+    AUTHENTICATE_DEVICE: ['lockbox', 'settings', 'check_authenticity'],
+    FIRMWARE_UPDATE: ['lockbox', 'settings', 'firmware_update'],
+    RENAME_DEVICE: ['lockbox', 'settings', 'rename_device'],
+    REMOVE_DEVICE: ['lockbox', 'settings', 'remove_device'],
+    SHOW_XPUBS: ['lockbox', 'settings', 'show_xpubs'],
+    TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
+  }
+}
+export const TRANSACTION_EVENTS = {
+  SEND: ['transactions', 'send'],
+  REQUEST: ['transactions', 'request'],
+  EDIT_DESCRIPTION: ['transactions', 'edit_description']
 }

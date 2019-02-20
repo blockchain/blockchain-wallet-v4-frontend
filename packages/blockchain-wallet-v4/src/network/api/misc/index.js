@@ -5,6 +5,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: rootUrl,
       endPoint: '/kaptcha.jpg',
+      responseType: 'blob',
       data: { timestamp },
       sessionToken
     })
@@ -43,7 +44,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getWalletNUsers = () =>
     get({
       url: apiUrl,
-      ignoreKey: true,
+      ignoreQueryParams: true,
       endPoint: '/charts/my-wallet-n-users?cors=true'
     })
 

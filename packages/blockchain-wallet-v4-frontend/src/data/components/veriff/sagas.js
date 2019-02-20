@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
 import * as A from './actions'
 import * as S from './selectors'
@@ -8,7 +8,6 @@ import * as S from './selectors'
 export const logLocation = 'components/veriff/sagas'
 
 export default ({ api, coreSagas }) => {
-  const { COMPLETE } = model.analytics.KYC
   const { fetchUser } = profileSagas({ api, coreSagas })
 
   const fetchVeriffUrl = function*() {
@@ -32,7 +31,6 @@ export default ({ api, coreSagas }) => {
       yield call(fetchUser)
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/swap'))
-      yield put(actions.analytics.logKycEvent(COMPLETE))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'syncVeriff', e))
     }

@@ -1,23 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-import ModalStepper from 'components/ModalStepper'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 
+const Header = styled(ModalHeader)`
+  & > :first-child > div {
+    font-size: 16px;
+    font-weight: 500;
+  }
+`
+
 const LockboxSetup = props => {
-  const { children, position, total, totalSteps, step, onClose } = props
-  const atBounds = step === 0 || step > totalSteps
+  const { children, position, total, onClose, title } = props
 
   return (
-    <Modal size={atBounds ? 'auto' : 'small'} position={position} total={total}>
-      <ModalHeader onClose={onClose}>
-        <FormattedMessage
-          id='modals.lockbox.setup.title'
-          defaultMessage='Lockbox Setup'
-        />
-      </ModalHeader>
-      {!atBounds && <ModalStepper currentStep={step} totalSteps={totalSteps} />}
+    <Modal size='small' position={position} total={total}>
+      <Header onClose={onClose}>{title()}</Header>
       <ModalBody>{children}</ModalBody>
     </Modal>
   )

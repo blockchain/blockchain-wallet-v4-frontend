@@ -4,37 +4,37 @@ exports[`HighFlow should render correctly 1`] = `
 <IdentityVerification__IdentityVerificationForm>
   <FooterShadowWrapper
     fields={
-      <templatelowflow__VerifyWrapper>
-        <IdentityVerification__InputWrapper>
-          <IdentityVerification__IdentityVerificationHeader>
+      <ForwardRef>
+        <ForwardRef>
+          <ForwardRef>
             <FormattedMessage
               defaultMessage="Last Step. Let's Confirm It's You"
               id="identityverification.verify.header.confirm"
               values={Object {}}
             />
-            <IdentityVerification__FaqHeaderHelper>
+            <ForwardRef>
               <TooltipHost
                 id="identityverification.headerhelper"
               >
-                <TooltipIcon
+                <ForwardRef
                   color="brand-primary"
                   name="question-in-circle-filled"
                   size="24px"
                 />
               </TooltipHost>
-              <templatelowflow__VerifyIdentityVerificationImage
+              <ForwardRef
                 name="identity-verification"
               />
-            </IdentityVerification__FaqHeaderHelper>
-          </IdentityVerification__IdentityVerificationHeader>
-          <templatelowflow__VerifyIdentityVerificationSubHeader>
+            </ForwardRef>
+          </ForwardRef>
+          <ForwardRef>
             <FormattedMessage
               defaultMessage="We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
               id="identityverification.verify.messagewithcamera"
               values={Object {}}
             />
-          </templatelowflow__VerifyIdentityVerificationSubHeader>
-          <templatelowflow__DocumentListWrapper>
+          </ForwardRef>
+          <ForwardRef>
             <FormattedMessage
               defaultMessage="Government Issued Passport"
               id="identityverification.verify.passport"
@@ -50,8 +50,8 @@ exports[`HighFlow should render correctly 1`] = `
               id="identityverification.verify.natitionalidcard"
               values={Object {}}
             />
-          </templatelowflow__DocumentListWrapper>
-          <templatelowflow__SubInstructions>
+          </ForwardRef>
+          <ForwardRef>
             <Text
               altFont={false}
               capitalize={false}
@@ -98,13 +98,13 @@ exports[`HighFlow should render correctly 1`] = `
               }
               width="auto"
             />
-          </templatelowflow__SubInstructions>
-        </IdentityVerification__InputWrapper>
-      </templatelowflow__VerifyWrapper>
+          </ForwardRef>
+        </ForwardRef>
+      </ForwardRef>
     }
     footer={
-      <IdentityVerification__Footer>
-        <IdentityVerification__BackButton
+      <ForwardRef>
+        <ForwardRef
           data-e2e="lowflowBackButton"
           onClick={[MockFunction]}
         >
@@ -113,7 +113,7 @@ exports[`HighFlow should render correctly 1`] = `
             id="identityverification.lowflow.personal.back"
             values={Object {}}
           />
-        </IdentityVerification__BackButton>
+        </ForwardRef>
         <Button
           bold={false}
           capitalize={false}
@@ -134,7 +134,7 @@ exports[`HighFlow should render correctly 1`] = `
             values={Object {}}
           />
         </Button>
-      </IdentityVerification__Footer>
+      </ForwardRef>
     }
   />
 </IdentityVerification__IdentityVerificationForm>

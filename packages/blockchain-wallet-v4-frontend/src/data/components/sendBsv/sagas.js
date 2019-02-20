@@ -3,7 +3,7 @@ import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   initialize,
   change,
@@ -16,9 +16,9 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBsv/sagas'
 export const bsvDefaultFee = 4
-
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
@@ -210,8 +210,19 @@ export default ({ coreSagas, networks }) => {
       }
       yield put(actions.router.push('/settings/addresses/bsv'))
       yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
-      yield put(destroy(FORM))
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'BSV',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'BSV',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
       yield put(

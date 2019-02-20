@@ -4,11 +4,9 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { getData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import Loading from './template.loading'
 import DataError from 'components/DataError'
-
-export const { ONFIDO_STARTED } = model.analytics.KYC
 
 const VeriffIframe = styled.iframe.attrs({
   allow: 'camera; microphone'
@@ -24,7 +22,6 @@ class Veriff extends React.PureComponent {
   }
   componentDidMount () {
     this.props.actions.fetchVeriffUrl()
-    this.props.analytics.logKycEvent(ONFIDO_STARTED)
     window.addEventListener('message', this.handleVeriffMessage, false)
   }
 
@@ -64,8 +61,7 @@ const mapDispatchToProps = dispatch => ({
   kycActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  ),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  )
 })
 
 export default connect(

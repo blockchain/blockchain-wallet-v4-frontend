@@ -310,8 +310,4 @@ describe('FormHelper', () => {
   it('normalizeUSZipcode() returns normalized zip code', () => {
     expect(FormHelper.normalizeUSZipcode('11207000')).toEqual('11207')
   })
-
-  it('normalizePhone() returns normalized phone number', () => {
-    expect(FormHelper.normalizePhone('+1-342-522-4532')).toEqual('13425224532')
-  })
 })

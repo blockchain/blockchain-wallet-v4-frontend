@@ -234,27 +234,27 @@ const mapSocketError = promise => {
       case err.message.endsWith('6985'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
-              id='lockbox.service.messages.connectionrefused'
-              defaultMessage='Device connection was refused'
+              id='lockbox.service.messages.refused'
+              defaultMessage='Device connection was refused.'
             />
           )
         }
       case err.message.endsWith('6982'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
-              id='lockbox.service.messages.devicelocked'
-              defaultMessage='Device locked and unable to communicate'
+              id='lockbox.service.messages.locked'
+              defaultMessage='Device locked and unable to communicate.'
             />
           )
         }
       case err.message.endsWith('6a84') || err.message.endsWith('6a85'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
               id='lockbox.service.messages.storagespace'
               defaultMessage='Insufficient storage space on device. Remove other applications to free up space.'
@@ -264,7 +264,7 @@ const mapSocketError = promise => {
       case err.message.endsWith('6a80') || err.message.endsWith('6a81'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
               id='lockbox.service.messages.appalreadyinstalled'
               defaultMessage='Application is already installed on device.'
@@ -274,30 +274,30 @@ const mapSocketError = promise => {
       case err.message.endsWith('6a83'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
-              id='lockbox.service.messages.btcapprequired'
-              defaultMessage='Unable to remove BTC app as it is required by others'
+              id='lockbox.service.messages.btcrequired'
+              defaultMessage='Unable to remove BTC app as it is required by others.'
             />
           )
         }
       case err.message.endsWith('s0ck3t'):
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
-              id='lockbox.service.messages.socketerror'
-              defaultMessage='Socket connection failed'
+              id='lockbox.service.messages.socket'
+              defaultMessage='Socket connection failed.'
             />
           )
         }
       default:
         return {
           err,
-          errMsg: () => (
+          errMsg: (
             <FormattedMessage
-              id='lockbox.service.messages.unknownerror'
-              defaultMessage='An unknown error has occurred'
+              id='lockbox.service.messages.unknown'
+              defaultMessage='An unknown error has occurred.'
             />
           )
         }

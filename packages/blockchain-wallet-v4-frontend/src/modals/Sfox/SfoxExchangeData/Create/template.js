@@ -8,9 +8,7 @@ import VerifyMobile from './VerifyMobile'
 import { Row } from 'components/IdentityVerification'
 
 const Create = props => {
-  const { ui } = props
-  const { create } = ui
-  const { handleSignup, signupError } = props
+  const { create, handleSignup, signupError } = props
 
   const determineStep = () => {
     switch (create) {

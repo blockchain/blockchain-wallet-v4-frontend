@@ -1,45 +1,56 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
+
 import Create from './template'
 import { actions, selectors } from 'data'
-import ui from 'redux-ui'
-import { path } from 'ramda'
 import { getData } from './selectors'
 
 class CreateContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      editVerifiedEmail: false,
-      editVerifiedMobile: false
-    }
+  state = {
+    create: '',
+    uniqueEmail: true,
+    editVerifiedEmail: false,
+    editVerifiedMobile: false
   }
+
   componentDidMount () {
     if (this.props.emailVerified && this.props.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.updateStep('create_account')
     } else if (this.props.emailVerified) {
-      this.props.updateUI({ create: 'change_mobile' })
-    } else this.props.updateUI({ create: 'enter_email_code' })
+      this.updateStep('change_mobile')
+    } else this.updateStep('enter_email_code')
+  }
+
+  updateStep = step => {
+    this.setState({ create: step })
   }
 
   render () {
     return (
       <Create
+        create={this.state.create}
+        updateStep={this.updateStep}
         countryCode={this.props.data.countryCode}
-        editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
-          this.setState({ editVerifiedEmail: true })
-        }}
-        editMobile={() => {
-          this.props.updateUI({ create: 'change_mobile' })
-          this.setState({ editVerifiedMobile: true })
-        }}
         editVerifiedEmail={this.state.editVerifiedEmail}
         editVerifiedMobile={this.state.editVerifiedMobile}
+        uniqueEmail={this.state.uniqueEmail}
+        editEmail={() => {
+          this.setState({
+            create: 'change_email',
+            editVerifiedEmail: true
+          })
+        }}
+        editMobile={() => {
+          this.setState({
+            create: 'change_mobile',
+            editVerifiedMobile: true
+          })
+        }}
         needsChangeEmail={() =>
-          this.props.updateUI({ create: 'change_email', uniqueEmail: false })
+          this.setState({ create: 'change_email', uniqueEmail: false })
         }
         {...this.props}
       />
@@ -48,8 +59,6 @@ class CreateContainer extends Component {
 }
 
 CreateContainer.propTypes = {
-  ui: PropTypes.object,
-  updateUI: PropTypes.func,
   smsVerified: PropTypes.number.isRequired,
   emailVerified: PropTypes.number.isRequired
 }
@@ -67,12 +76,7 @@ const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { create: '', uniqueEmail: true } })
-)
-
-export default enhance(CreateContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateContainer)

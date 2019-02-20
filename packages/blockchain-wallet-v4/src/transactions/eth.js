@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getEthereumTxNote
+  getEthTxNote
 } from '../redux/kvStore/eth/selectors.js'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors.js'
 
@@ -48,7 +48,7 @@ export const getTime = tx => {
 }
 
 export const getFee = tx =>
-  new BigNumber(tx.gasPrice || 0).mul(tx.gasUsed || tx.gas).toString()
+  new BigNumber(tx.gasPrice || 0).multipliedBy(tx.gasUsed || tx.gas).toString()
 
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
@@ -79,26 +79,23 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry(
-  (addresses, latestBlock, getPartnerLabel, state, tx) => {
-    const fee = getFee(tx)
-    const type = toLower(getType(tx, addresses))
-    const amount =
-      type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
-    return {
-      type,
-      fee,
-      amount,
-      hash: tx.hash,
-      to: getLabel(tx.to, state),
-      from: getLabel(tx.from, state),
-      description: getEthereumTxNote(state, tx.hash).getOrElse(''),
-      partnerLabel: getPartnerLabel && getPartnerLabel(tx.hash),
-      confirmations: getConfirmations(tx.blockNumber, latestBlock),
-      timeFormatted: getTime(tx),
-      time: tx.timeStamp
-    }
+export const _transformTx = curry((addresses, latestBlock, state, tx) => {
+  const fee = getFee(tx)
+  const type = toLower(getType(tx, addresses))
+  const amount =
+    type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+  return {
+    type,
+    fee,
+    amount,
+    hash: tx.hash,
+    to: getLabel(tx.to, state),
+    from: getLabel(tx.from, state),
+    description: getEthTxNote(state, tx.hash).getOrElse(''),
+    confirmations: getConfirmations(tx.blockNumber, latestBlock),
+    timeFormatted: getTime(tx),
+    time: tx.timeStamp
   }
-)
+})
 
 export const transformTx = _transformTx

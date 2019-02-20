@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BchWalletsAddressesSettingHeader = SettingHeader.extend`
+const BchWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -66,11 +66,13 @@ const Success = props => {
     const isArchived = bchAccounts[i].archived
 
     return (
-      <TableRow key={i}>
+      <TableRow key={i} dataE2e='bchWalletRow'>
         <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          <LabelCell size='13px' data-e2e='bchWalletName'>
+            {wallet.label}
+          </LabelCell>
           {isDefault && (
-            <Banner label>
+            <Banner label data-e2e='bchDefaultWalletBadge'>
               <FormattedMessage
                 id='scenes.settings.addresses.bch.wallets.defaultlabel'
                 defaultMessage='Default'
@@ -78,7 +80,11 @@ const Success = props => {
             </Banner>
           )}
           {isArchived && (
-            <Banner label type='informational'>
+            <Banner
+              label
+              type='informational'
+              data-e2e='bchArchivedWalletBadge'
+            >
               <FormattedMessage
                 id='scenes.settings.addresses.bch.wallets.archivedlabel'
                 defaultMessage='Archived'
@@ -102,6 +108,7 @@ const Success = props => {
               weight={400}
               size='13px'
               onClick={() => onSetArchived(wallet.value, false)}
+              data-e2e='bchUnarchiveWalletLink'
             >
               <FormattedMessage
                 id='scenes.settings.addresses.bch.unarchive'
@@ -114,7 +121,7 @@ const Success = props => {
               forceSelected
               color={'gray-5'}
               selectedComponent={
-                <Link weight={400} size='13px'>
+                <Link weight={400} size='13px' data-e2e='bchManageWalletLink'>
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.wallets.manage'
                     defaultMessage='Manage Wallet'
@@ -125,16 +132,18 @@ const Success = props => {
                 <ClickableText
                   size='small'
                   onClick={() => onEditBchAccountLabel(wallet.value)}
+                  data-e2e='bchEditWalletNameLink'
                 >
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.edit_name'
                     defaultMessage='Edit Wallet Name'
                   />
                 </ClickableText>,
-                !isDefault && (
+                !isDefault && !isArchived && (
                   <ClickableText
                     size='small'
                     onClick={() => onMakeDefault(wallet.value)}
+                    data-e2e='bchMakeWalletDefaultLink'
                   >
                     <FormattedMessage
                       id='scenes.settings.addresses.bch.make_default'
@@ -142,20 +151,34 @@ const Success = props => {
                     />
                   </ClickableText>
                 ),
-                !isDefault && (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onSetArchived(wallet.value, true)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.archive'
-                      defaultMessage='Archive'
-                    />
-                  </ClickableText>
-                ),
+                !isDefault &&
+                  (isArchived ? (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, false)}
+                      data-e2e='bchUnarchiveWalletLink'
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.unarchive'
+                        defaultMessage='Unarchive'
+                      />
+                    </ClickableText>
+                  ) : (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onSetArchived(wallet.value, true)}
+                      data-e2e='bchArchiveWalletLink'
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bch.archive'
+                        defaultMessage='Archive'
+                      />
+                    </ClickableText>
+                  )),
                 <ClickableText
                   size='small'
                   onClick={() => onShowXPub(wallet.value)}
+                  data-e2e='bchShowWalletXpub'
                 >
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.show_xpub'
@@ -165,13 +188,14 @@ const Success = props => {
                 <ClickableText
                   size='small'
                   onClick={() => onShowChangeAddrs(wallet.value)}
+                  data-e2e='bchShowChangeAddressesLink'
                 >
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.showchangeaddrs'
                     defaultMessage='Show Change Addresses'
                   />
                 </ClickableText>
-              ].filter(x => x)}
+              ]}
             />
           )}
         </TableCell>
@@ -224,7 +248,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow>
+          <TableRow dataE2e='noBchWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>

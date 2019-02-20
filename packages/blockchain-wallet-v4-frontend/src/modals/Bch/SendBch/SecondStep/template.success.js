@@ -82,7 +82,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='bchFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -93,7 +93,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='bchToAddress'>
           {toAddress}
         </Text>
       </Row>
@@ -105,7 +105,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={300} data-e2e='bchSendDescription'>
             {description}
           </Text>
         </Row>
@@ -151,7 +151,7 @@ const Success = props => {
           <Banner type='caution'>
             <Text size='12px'>
               <FormattedMessage
-                id='modals.sendbch.secondstep.legacy_addr_warning'
+                id='modals.sendbch.secondstep.bch_address_warning'
                 defaultMessage='Are you sure this is a bitcoin cash address? Sending funds to a bitcoin address by accident will result in loss of funds.'
               />
             </Text>
@@ -164,6 +164,7 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
+          data-e2e='bchSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
@@ -179,6 +180,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
+          data-e2e='bchSendBackLink'
         >
           <FormattedMessage
             id='modals.sendbch.secondstep.back'

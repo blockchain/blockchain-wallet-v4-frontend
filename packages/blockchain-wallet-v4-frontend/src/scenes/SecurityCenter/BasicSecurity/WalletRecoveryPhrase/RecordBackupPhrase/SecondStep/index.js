@@ -3,22 +3,15 @@ import SecondStep from './template.js'
 import { compose, values, pickAll } from 'ramda'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      step: 1
-    }
-    this.handleClickPrevious = this.handleClickPrevious.bind(this)
-    this.handleClickNext = this.handleClickNext.bind(this)
-    this.getWordsAtStep = this.getWordsAtStep.bind(this)
-  }
-  handleClickPrevious () {
+  state = { step: 1 }
+
+  handleClickPrevious = () => {
     this.setState({ step: this.state.step - 1 })
   }
-  handleClickNext () {
+  handleClickNext = () => {
     this.setState({ step: this.state.step + 1 })
   }
-  getWordsAtStep (step) {
+  getWordsAtStep = step => {
     const pickIndexes = compose(
       values,
       pickAll

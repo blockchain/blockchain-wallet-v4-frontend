@@ -36,7 +36,9 @@ describe('RefreshIcon', () => {
     it('should handle a click', async () => {
       wrapper.find(SpinningIcon).simulate('click')
       const action = dispatchSpy.mock.calls[3]
-      expect(action[0]['type']).toEqual(actionTypes.components.refresh.REFRESH_CLICKED)
+      expect(action[0]['type']).toEqual(
+        actionTypes.components.refresh.REFRESH_CLICKED
+      )
     })
   })
 })

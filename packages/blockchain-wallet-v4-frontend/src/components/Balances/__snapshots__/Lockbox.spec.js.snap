@@ -5,12 +5,12 @@ exports[`Lockbox Balances Component should prompt user to use Chrome if coin is 
   <Lockbox__IconBox
     coin="btc"
   >
-    <
+    <Component
       color="white"
       size="32px"
     />
   </Lockbox__IconBox>
-  <
+  <Component
     size="12px"
     weight={300}
   >
@@ -23,7 +23,7 @@ exports[`Lockbox Balances Component should prompt user to use Chrome if coin is 
         }
       }
     />
-  </>
+  </Component>
 </Lockbox__Wrapper>
 `;
 
@@ -32,7 +32,7 @@ exports[`Lockbox Balances Component should prompt user to user to add coin if no
   <Lockbox__IconBox
     coin="btc"
   >
-    <
+    <Component
       color="white"
       size="32px"
     />
@@ -57,7 +57,7 @@ exports[`Lockbox Balances Component should render and match default snapshot 1`]
   <Lockbox__IconBox
     coin="btc"
   >
-    <
+    <Component
       color="white"
       size="32px"
     />

@@ -1,4 +1,6 @@
-export default ({ nabuUrl, post, get }) => {
+import isObject from 'isobject'
+
+export default ({ nabuUrl, post, put, get }) => {
   const executeTrade = (quote, refundAddress, destinationAddress) =>
     post({
       url: nabuUrl,
@@ -47,8 +49,24 @@ export default ({ nabuUrl, post, get }) => {
       ignoreQueryParams: true
     })
 
+  const failTrade = (tradeId, err, txHash = null) => {
+    let failureReason = null
+    if (typeof err === 'string') failureReason = { message: err }
+    if (isObject(err)) failureReason = err
+    return put({
+      url: nabuUrl,
+      endPoint: `/trades/${tradeId}/failure-reason`,
+      contentType: 'application/json',
+      data: {
+        txHash,
+        failureReason
+      }
+    })
+  }
+
   return {
     executeTrade,
+    failTrade,
     fetchLimits,
     fetchTrade,
     fetchTrades,

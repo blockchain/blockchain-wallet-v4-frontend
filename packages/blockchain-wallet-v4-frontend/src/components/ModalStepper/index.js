@@ -93,8 +93,8 @@ class ModalStepper extends React.PureComponent {
                         active
                           ? 'brand-secondary'
                           : complete
-                            ? 'white'
-                            : 'gray-1'
+                          ? 'white'
+                          : 'gray-1'
                       }
                     >
                       {i}

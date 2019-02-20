@@ -4,6 +4,29 @@ import { find, propEq } from 'ramda'
 import utils from './utils'
 import constants from './constants'
 
+// gets version of btc application
+const getBtcAppVersion = transport => {
+  return new Promise((resolve, reject) => {
+    transport.send(...constants.apdus.get_btc_app_version).then(
+      res => {
+        const byteArray = [...res]
+        resolve({
+          full: byteArray
+            .slice(2, 5)
+            .join()
+            .replace(/,/g, '.'),
+          major: byteArray[2],
+          minor: byteArray[3],
+          patch: byteArray[4]
+        })
+      },
+      error => {
+        reject(error)
+      }
+    )
+  })
+}
+
 /**
  * Uninstalls an application from device
  * @async
@@ -16,6 +39,8 @@ import constants from './constants'
 const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // ensure timeout is long enough for user to allow device access
+      transport.exchangeTimeout = 20000
       // socket params
       const params = {
         targetId,
@@ -60,6 +85,8 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
   return new Promise(async (resolve, reject) => {
     try {
+      // ensure timeout is long enough for user to allow device access
+      transport.exchangeTimeout = 20000
       // derive latest app info
       const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
         appInfos
@@ -96,6 +123,7 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
 }
 
 export default {
+  getBtcAppVersion,
   installApp,
   uninstallApp
 }

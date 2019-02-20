@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { equals, prop } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { getData, getInitialValues } from './selectors'
 import Loading from './template.loading'
@@ -12,35 +12,32 @@ import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
-import Announcements from 'components/Announcements'
 
+const { TRANSACTION_EVENTS } = model.analytics
 class RequestBchContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    nextProps.data.map(x => {
+  componentDidUpdate (prevProps) {
+    this.props.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEth', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestBtc', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'XLM')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestXlm', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       }
     })
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -57,6 +54,7 @@ class RequestBchContainer extends React.PureComponent {
 
   handleSubmit = e => {
     e.preventDefault()
+    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'BCH'])
     this.props.modalActions.closeAllModals()
   }
 
@@ -103,7 +101,6 @@ class RequestBchContainer extends React.PureComponent {
             defaultMessage='Request Bitcoin Cash'
           />
         </ModalHeader>
-        <Announcements type='service' alertArea='receiveBch' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )
@@ -116,6 +113,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   requestBchActions: bindActionCreators(
     actions.components.requestBch,
     dispatch

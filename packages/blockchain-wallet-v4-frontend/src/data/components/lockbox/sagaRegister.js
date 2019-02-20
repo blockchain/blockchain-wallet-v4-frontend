@@ -12,10 +12,16 @@ export default ({ api, coreSagas }) => {
         cancel: take(AT.LOCKBOX_MODAL_CLOSE)
       })
     })
+    yield takeLatest(AT.FINALIZE_NEW_DEVICE_SETUP, function*(...args) {
+      yield race({
+        task: call(lockboxSagas.finalizeNewDeviceSetup, ...args),
+        cancel: take([AT.LOCKBOX_MODAL_CLOSE, AT.SET_NEW_DEVICE_SETUP_STEP])
+      })
+    })
     yield takeLatest(AT.POLL_FOR_DEVICE_APP, function*(...args) {
       yield race({
         task: call(lockboxSagas.pollForDeviceApp, ...args),
-        cancel: take(AT.LOCKBOX_MODAL_CLOSE)
+        cancel: take([AT.LOCKBOX_MODAL_CLOSE, AT.SET_NEW_DEVICE_SETUP_STEP])
       })
     })
     yield takeLatest(AT.UPDATE_DEVICE_FIRMWARE, function*(...args) {
@@ -24,6 +30,10 @@ export default ({ api, coreSagas }) => {
         cancel: take(AT.LOCKBOX_MODAL_CLOSE)
       })
     })
+    yield takeLatest(
+      AT.ROUTE_NEW_DEVICE_DASHBOARD,
+      lockboxSagas.routeNewDeviceToDashboard
+    )
     yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
     yield takeLatest(
       AT.UPDATE_TRANSACTION_LIST,

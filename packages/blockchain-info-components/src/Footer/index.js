@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import Cookies from 'universal-cookie'
 import { IntlProvider } from 'react-intl'
 
@@ -9,19 +9,19 @@ import { Select } from './Select'
 import Link from '../Navigation/Link'
 import Normalize8 from '../Normalize.js'
 
-injectGlobal`
-    :root {
-        --siteMaxWidth: 75rem;
-        --contentMaxWidth: 62rem;
-        --copyMaxWidth: 42rem;
+const GlobalStyles = createGlobalStyle`
+  :root {
+    --siteMaxWidth: 75rem;
+    --contentMaxWidth: 62rem;
+    --copyMaxWidth: 42rem;
 
-        --smScreen: 48rem;
-        --mdScreen: 62rem;
-        --lgScreen: 75rem;
+    --smScreen: 48rem;
+    --mdScreen: 62rem;
+    --lgScreen: 75rem;
 
-        --smBorderRadius: 2px;
-        --lgBorderRadius: 4px;
-    }
+    --smBorderRadius: 2px;
+    --lgBorderRadius: 4px;
+  }
 `
 
 const GlobalFooter = styled.div`
@@ -40,33 +40,32 @@ const GlobalFooter = styled.div`
 const Container = styled.div.attrs({
   className: 'flex-container'
 })`
-    flex-direction: column;
-    max-width: var(--siteMaxWidth);
-    padding: 1.25rem 3rem;
-    color: ${Color('textBlack')};
+  flex-direction: column;
+  max-width: var(--siteMaxWidth);
+  padding: 1.25rem 3rem;
+  color: ${Color('textBlack')};
 
+  a {
+    transition: color .5s, opacity: .5s;
+    font-weight: 500;
+  }
 
-    a {
-        transition: color .5s, opacity: .5s;
-        font-weight: 500;
-    }
+  a:hover {
+    color: ${Color('marketing-primary')};
+    opacity: 1;
+  }
 
-    a:hover {
-        color: ${Color('marketing-primary')};
-        opacity: 1;
-    }
+  h5 {
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+  }
 
-    h5 {
-        text-transform: uppercase;
-        font-size: 0.875rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        letter-spacing: 1px;
-    }
-
-    @media only screen and (max-width: 48rem) {
-      padding: 1.25rem 2rem;
-    }
+  @media only screen and (max-width: 48rem) {
+    padding: 1.25rem 2rem;
+  }
 `
 
 const SiteNav = styled.div`
@@ -269,14 +268,13 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/explorer'}>
-                      Explorer
+                    <Link locale={this.lang} href='/markets'>
+                      Blockchain Markets
                     </Link>
-                    <NavBadge>Info</NavBadge>
                   </li>
                   <li>
-                    <Link href='https://bps.blockchain.com/'>
-                      Principal Strategies
+                    <Link locale={this.lang} href={'/lockbox'}>
+                      Lockbox
                     </Link>
                   </li>
                   <li>
@@ -291,14 +289,28 @@ class Footer extends PureComponent {
                 <h5>Data</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/markets'}>
-                      Markets
+                    <Link locale={this.lang} href={'/prices'}>
+                      Prices
                     </Link>
-                    <NavBadge>New</NavBadge>
                   </li>
                   <li>
                     <Link locale={this.lang} href={'/charts'}>
                       Charts
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer'}>
+                      Bitcoin Explorer
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer?currency=BCH'}>
+                      Bitcoin Cash Explorer
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer?currency=ETH'}>
+                      Ethereum Explorer
                     </Link>
                   </li>
                 </ul>
@@ -330,6 +342,11 @@ class Footer extends PureComponent {
                   </li>
                   <li>
                     <Link href='https://blog.blockchain.com'>Blog</Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/research'}>
+                      Research
+                    </Link>
                   </li>
                 </ul>
               </Column>
@@ -408,6 +425,7 @@ class Footer extends PureComponent {
             </LangNav>
           </Container>
         </GlobalFooter>
+        <GlobalStyles />
       </IntlProvider>
     )
   }

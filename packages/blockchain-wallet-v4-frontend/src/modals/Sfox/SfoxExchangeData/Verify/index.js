@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { path, equals } from 'ramda'
+import styled from 'styled-components'
+
 import { actions } from 'data'
-import ui from 'redux-ui'
 import Upload from '../Upload'
 import Jumio from '../Jumio'
-import styled from 'styled-components'
 import { Link } from 'blockchain-info-components'
-
 import renderFaq from 'components/FaqDropdown'
-
 import Address from './Address'
 import Identity from './Identity'
 
@@ -68,20 +66,16 @@ const faqQuestions = [
 ]
 
 class VerifyContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.handleReset = this.handleReset.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+  state = { verify: 'address', error: false, busy: false, viewSSN: false }
 
-    this.state = { viewSSN: false }
-  }
-
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     if (
-      !equals(this.props.verificationError, nextProps.verificationError) &&
-      nextProps.verificationError
+      !equals(this.props.verificationError, prevProps.verificationError) &&
+      this.props.verificationError
     ) {
-      this.props.updateUI({ busy: false })
+      /* eslint-disable */
+      this.setState({ busy: false })
+      /* eslint-enable */
     }
   }
 
@@ -89,15 +83,17 @@ class VerifyContainer extends Component {
     this.props.formActions.destroy('sfoxAddress')
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
-    this.props.updateUI({ busy: true })
+  handleAddressSubmit = () => {
+    this.setState({ verify: 'identity' })
+  }
+
+  handleVerifySubmit = () => {
+    this.setState({ busy: true })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
-  handleReset () {
-    this.props.updateUI({ busy: false })
-    this.props.updateUI({ verify: 'address' })
+  handleReset = () => {
+    this.setState({ busy: false, verify: 'address' })
     this.props.sfoxFrontendActions.setVerifyError(false)
     this.props.sfoxDataActions.refetchProfile()
   }
@@ -105,16 +101,23 @@ class VerifyContainer extends Component {
   render () {
     if (this.props.step === 'upload') return <Upload />
     if (this.props.step === 'jumio') return <Jumio />
-    if (this.props.ui.verify === 'address')
-      return <Address {...this.props} faqs={renderFaq(faqQuestions)} />
-    if (this.props.ui.verify === 'identity')
+    if (this.state.verify === 'address')
+      return (
+        <Address
+          {...this.props}
+          {...this.state}
+          onSubmit={this.handleAddressSubmit}
+          faqs={renderFaq(faqQuestions)}
+        />
+      )
+    if (this.state.verify === 'identity')
       return (
         <Identity
           {...this.props}
+          {...this.state}
           toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })}
-          viewSSN={this.state.viewSSN}
           faqs={renderFaq(faqQuestions)}
-          handleSubmit={this.handleSubmit}
+          onSubmit={this.handleVerifySubmit}
           handleReset={this.handleReset}
         />
       )
@@ -142,12 +145,7 @@ const mapDispatchToProps = dispatch => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { verify: 'address', error: false, busy: false } })
-)
-
-export default enhance(VerifyContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyContainer)

@@ -2,13 +2,13 @@
 
 exports[`Badge component applestore renders correctly 1`] = `
 <a
-  class="sc-bdVaJa hLXyXa"
+  class="Link__BaseLink-u5l9b-0 eiSGsv"
   color="brand-secondary"
   href="https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309"
   target="_blank"
 >
   <img
-    class="sc-htpNat gLNmzh"
+    class="Image__BaseImage-sc-1lfdauq-0 cpEzaa"
     color="auto"
     height="40px"
     src="[object Object]"
@@ -20,13 +20,13 @@ exports[`Badge component applestore renders correctly 1`] = `
 
 exports[`Badge component googleplay renders correctly 1`] = `
 <a
-  class="sc-bdVaJa hLXyXa"
+  class="Link__BaseLink-u5l9b-0 eiSGsv"
   color="brand-secondary"
   href="https://play.google.com/store/apps/details?id=piuk.blockchain.android"
   target="_blank"
 >
   <img
-    class="sc-htpNat gLNmzh"
+    class="Image__BaseImage-sc-1lfdauq-0 cpEzaa"
     color="auto"
     height="40px"
     src="[object Object]"

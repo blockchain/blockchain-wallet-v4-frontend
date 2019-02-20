@@ -2,31 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
-import { getData } from './selectors'
-import WalletRecoveryPhrase from './template.success'
 
-import { actions } from 'data'
+import WalletRecoveryPhrase from './template'
+import { actions, selectors } from 'data'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      nextStepToggled: false,
-      descriptionToggled: false
-    }
+  state = { nextStepToggled: false, descriptionToggled: false }
 
-    this.toggleNextStep = this.toggleNextStep.bind(this)
-    this.closeSteps = this.closeSteps.bind(this)
-    this.changeDescription = this.changeDescription.bind(this)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
-      this.setState({ nextStepToggled: true })
+  componentDidUpdate (prevProps) {
+    if (!prevProps.recoveryPhrase && this.props.recoveryPhrase) {
+      this.toggleNextStep()
     }
   }
 
-  toggleNextStep () {
+  toggleNextStep = () => {
     if (this.props.recoveryPhrase === undefined) {
       this.props.settingsActions.showBackupRecovery()
     } else {
@@ -34,23 +23,24 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     }
   }
 
-  closeSteps () {
+  closeSteps = () => {
     this.setState({ nextStepToggled: false, descriptionToggled: false })
   }
 
-  changeDescription () {
+  changeDescription = () => {
     this.setState({
       descriptionToggled: !this.state.descriptionToggled
     })
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { isMnemonicVerified, recoveryPhrase } = this.props
     return (
       <WalletRecoveryPhrase
-        {...rest}
-        ui={this.state}
-        data={data}
+        isMnemonicVerified={isMnemonicVerified}
+        recoveryPhrase={recoveryPhrase}
+        nextStepToggled={this.state.nextStepToggled}
+        descriptionToggled={this.state.descriptionToggled}
         toggleNextStep={this.toggleNextStep}
         handleClose={this.closeSteps}
         changeDescription={this.changeDescription}
@@ -60,7 +50,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
+  isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state),
   recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 

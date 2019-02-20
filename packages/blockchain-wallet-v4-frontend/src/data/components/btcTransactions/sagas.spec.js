@@ -22,7 +22,11 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga.next().put(actions.form.initialize(model.form.WALLET_TX_SEARCH, initialValues))
+      saga
+        .next()
+        .put(
+          actions.form.initialize(model.form.WALLET_TX_SEARCH, initialValues)
+        )
     })
 
     it('should dispatch an action to fetch txs', () => {

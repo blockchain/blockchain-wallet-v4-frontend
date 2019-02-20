@@ -14,7 +14,7 @@ import CheckVersionsStep from './CheckVersionsStep'
 import InstallFirmwareStep from './InstallFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 

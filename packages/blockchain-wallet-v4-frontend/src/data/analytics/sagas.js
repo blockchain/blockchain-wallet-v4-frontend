@@ -1,114 +1,120 @@
-import { call, put } from 'redux-saga/effects'
-import { test, prop, equals } from 'ramda'
+import { put, select, call } from 'redux-saga/effects'
+import { map, toLower } from 'ramda'
 
-import { actions } from 'data'
-import {
-  LAYOUT_WALLET_HEADER_FAQ_CLICKED,
-  LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
-} from '../components/layoutWallet/actionTypes'
-import { getAllBalances } from 'data/balance/sagas'
+import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+import { actions, selectors } from 'data'
+import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
-export const balancePath = ['payload', 'info', 'final_balance']
-
 export default ({ api }) => {
-  const reportBalanceStats = function*() {
+  const postMessage = function*(message) {
     try {
-      const { btc, eth, bch, xlm } = yield call(getAllBalances)
-      yield call(api.incrementCurrencyUsageStats, btc, eth, bch, xlm)
+      const frame = document.getElementById('matomo-iframe')
+      if (frame) {
+        frame.contentWindow.postMessage(message, '*')
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'postMessage',
+            'matomo iframe missing'
+          )
+        )
+      }
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'postMessage', e))
+    }
+  }
+
+  const initUserSession = function*() {
+    try {
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const isCryptoDisplayed = yield select(
+        selectors.preferences.getCoinDisplayed
       )
+      yield call(startSession, { guid })
+      yield call(postMessage, {
+        method: 'setCustomDimension',
+        messageData: {
+          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
+          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
+        }
+      })
+      yield call(logPageView, { route: '/home' })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
   }
 
-  const logLeftNavClick = function*({ payload }) {
+  const logEvent = function*(action) {
     try {
-      const { text } = payload
-
-      if (test(/dashboard/, text)) return yield call(api.logClick, 'dashboard')
-      if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
-      if (test(/ether/, text)) return yield call(api.logClick, 'eth')
-      if (test(/cash/, text)) return yield call(api.logClick, 'bch')
-      if (test(/stellar/, text)) return yield call(api.logClick, 'xlm')
-      if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/swap/, text)) return yield call(api.logClick, 'swap')
-      if (test(/lockbox/, text)) return yield call(api.logClick, 'lockbox')
-      if (test(/security/, text)) return yield call(api.logClick, 'security')
-      if (test(/settings/, text)) return yield call(api.logClick, 'settings')
-      if (test(/general/, text))
-        return yield call(api.logClick, 'settings_general')
-      if (test(/profile/, text))
-        return yield call(api.logClick, 'settings_profile')
-      if (test(/preferences/, text))
-        return yield call(api.logClick, 'settings_preferences')
-      if (test(/wallets/, text))
-        return yield call(api.logClick, 'settings_wallets')
+      const { event } = action.payload
+      yield call(postMessage, {
+        method: 'trackEvent',
+        messageData: map(toLower, event)
+      })
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
     }
   }
 
-  const logClick = function*({ type, payload }) {
+  const logPageView = function*(action) {
     try {
-      if (equals(type, LAYOUT_WALLET_HEADER_FAQ_CLICKED))
-        return yield call(api.logClick, 'faq')
-      if (equals(type, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED))
-        return yield call(api.logClick, 'whatsnew')
-
-      const { name } = payload
-      yield call(api.logClick, name)
+      const { route } = action.payload
+      const isAuthenticated = yield select(selectors.auth.isAuthenticated)
+      // only log authenticated page views
+      if (isAuthenticated) {
+        yield call(postMessage, {
+          method: 'logPageView',
+          messageData: { route }
+        })
+      }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logClick', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logPageView', e))
     }
   }
 
-  const logKycEvent = function*({ payload }) {
+  const logGoal = function*() {
     try {
-      const { event } = payload
-      yield call(api.logKycEvent, event)
+      // TODO
+      yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logKycEvent', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'logGoal', e))
     }
   }
 
-  const logExchangeEvent = function*({ payload }) {
+  const startSession = function*(action) {
     try {
-      const { event } = payload
-      yield call(api.logExchangeEvent, event)
+      const { guid } = action.payload
+      yield call(postMessage, {
+        method: 'setUserId',
+        messageData: [
+          crypto
+            .sha256(guid)
+            .toString('hex')
+            .slice(0, 15)
+        ]
+      })
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'logExchangeEvent', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'startSession', e))
     }
   }
 
-  const logSfoxDropoff = function*(action) {
-    const { payload } = action
+  const stopSession = function*() {
     try {
-      yield call(api.logSfoxDropoff, prop('step', payload))
+      yield call(postMessage, { method: 'resetUserId', messageData: [] })
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', e))
-    }
-  }
-
-  const logLockboxSetup = function*(action) {
-    const { payload } = action
-    try {
-      yield call(api.logLockboxSetup, prop('step', payload))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logLockboxSetup', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'stopSession', e))
     }
   }
 
   return {
-    logClick,
-    logKycEvent,
-    logExchangeEvent,
-    logSfoxDropoff,
-    logLeftNavClick,
-    logLockboxSetup,
-    reportBalanceStats
+    logEvent,
+    logPageView,
+    logGoal,
+    initUserSession,
+    postMessage,
+    startSession,
+    stopSession
   }
 }

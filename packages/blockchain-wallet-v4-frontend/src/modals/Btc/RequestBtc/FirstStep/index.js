@@ -3,40 +3,38 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData, getInitialValues, getImportedAddresses } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+const { TRANSACTION_EVENTS } = model.analytics
 class FirstStepContainer extends React.PureComponent {
   componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    nextProps.data.map(x => {
+  componentDidUpdate (prevProps) {
+    this.props.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEth', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestBch', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'XLM')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestXlm', {
-          lockboxIndex: nextProps.lockboxIndex
+          lockboxIndex: this.props.lockboxIndex
         })
       }
     })
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -74,6 +72,7 @@ class FirstStepContainer extends React.PureComponent {
     })
     this.props.setReceiveAddress(receiveAddress)
     this.props.nextStep()
+    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'BTC'])
   }
 
   handleRefresh = () => {
@@ -115,6 +114,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   requestBtcActions: bindActionCreators(
     actions.components.requestBtc,
     dispatch

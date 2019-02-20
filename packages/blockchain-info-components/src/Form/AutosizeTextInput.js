@@ -77,7 +77,7 @@ class TextInput extends React.Component {
     const borderColor = selectBorderColor(errorState)
     return (
       <BaseTextInput
-        innerRef={this.refInput}
+        ref={this.refInput}
         borderColor={borderColor}
         disabled={disabled}
         data-e2e={this.props['data-e2e']}

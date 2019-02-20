@@ -1,15 +1,17 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import AddDevice from './template.js'
+import AddDevice from './template'
 
+const { ADD_DEVICE } = model.analytics.LOCKBOX_EVENTS.SETTINGS
 class AddDeviceContainer extends React.PureComponent {
   onClick = () => {
+    this.props.lockboxActions.changeDeviceSetupStep('device-select')
     this.props.modalActions.showModal('LockboxSetup')
-    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
+    this.props.analyticsActions.logEvent(ADD_DEVICE)
   }
 
   render () {
@@ -23,6 +25,7 @@ class AddDeviceContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

@@ -11,7 +11,6 @@ import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 import * as bippath from 'bip32-path'
-import { fromCashAddr } from './bch'
 
 export const isValidBitcoinAddress = (value, network) => {
   try {
@@ -58,8 +57,6 @@ export const addressToScript = (value, network) => {
       )(words)
 
       return compile([OP[`OP_${version}`], program])
-    } else if (value.toLowerCase().startsWith('bitcoincash')) {
-      return address.toOutputScript(fromCashAddr(value), n)
     } else {
       return address.toOutputScript(value, n)
     }
@@ -212,7 +209,7 @@ export const isValidBitcoinPrivateKey = (value, network) => {
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
   const effectiveBalance = propOr(0, 'value', head(outputs))
-  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
+  const balance = new BigNumber.sum(effectiveBalance, new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }
 

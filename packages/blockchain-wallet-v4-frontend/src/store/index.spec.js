@@ -1,6 +1,5 @@
 import configureStore from './index'
 import * as Redux from 'redux'
-import * as CoreSrc from 'blockchain-wallet-v4/src'
 import * as Middleware from '../middleware'
 import {
   createWalletApi,
@@ -8,6 +7,7 @@ import {
   Socket
 } from 'blockchain-wallet-v4/src/network'
 import { persistStore } from 'redux-persist'
+import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
 // setup mocks
 jest.mock('redux-saga', () => () => ({
   run: () => jest.fn()
@@ -28,6 +28,20 @@ jest.mock('blockchain-wallet-v4/src/network', () => ({
   ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
   createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API'),
   HorizonStreamingService: jest.fn()
+}))
+
+jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
+  kvStore: jest.fn(),
+  walletSync: jest.fn()
+}))
+
+jest.mock('../middleware', () => ({
+  webSocketBtc: jest.fn(),
+  webSocketBch: jest.fn(),
+  webSocketEth: jest.fn(),
+  streamingXlm: jest.fn(),
+  webSocketRates: jest.fn(),
+  autoDisconnection: jest.fn()
 }))
 
 describe('App Store Config', () => {
@@ -85,8 +99,8 @@ describe('App Store Config', () => {
     createStoreSpy = jest.spyOn(Redux, 'createStore')
     applyMiddlewareSpy = jest.spyOn(Redux, 'applyMiddleware')
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
-    kvStoreSpy = jest.spyOn(CoreSrc.coreMiddleware, 'kvStore')
-    walletSyncSpy = jest.spyOn(CoreSrc.coreMiddleware, 'walletSync')
+    kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
+    walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
     btcSocketSpy = jest.spyOn(Middleware, 'webSocketBtc')
     bchSocketSpy = jest.spyOn(Middleware, 'webSocketBch')
     ethSocketSpy = jest.spyOn(Middleware, 'webSocketEth')

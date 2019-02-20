@@ -74,7 +74,7 @@ const api = {
 
 const settingsSagas = settingsSagaFactory({ api })
 
-S.data.xlm.getBalance.mockImplementation(id => () => {
+S.data.xlm.getBalance.mockImplementation(() => id => {
   if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_BALANCE)
   if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_BALANCE)
   return null

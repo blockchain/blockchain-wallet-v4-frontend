@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendBsvSagas, { logLocation, bsvDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
@@ -25,6 +25,7 @@ const coreSagas = coreSagasFactory({ api })
 const networks = {
   bsv: BitcoinCash.networks['bitcoin']
 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendBsv sagas', () => {
   const originalMath = Object.create(Math)
@@ -353,14 +354,22 @@ describe('sendBsv sagas', () => {
         .save(beforeError)
     })
 
-    it('should destroy form', () => {
-      saga.next().put(actions.form.destroy(FORM))
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BSV', '0'])
+        )
     })
 
     it('should put action to close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
+    })
+
+    it('should destroy form', () => {
       saga
         .next()
-        .put(actions.modals.closeAllModals())
+        .put(actions.form.destroy(FORM))
         .next()
         .isDone()
     })

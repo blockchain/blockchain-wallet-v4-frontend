@@ -24,6 +24,7 @@ const CreatableInput = props => {
     autoFocus,
     inputValue,
     placeholder,
+    handleBlur,
     handleChange,
     handleKeyDown,
     handleInputChange,
@@ -37,6 +38,7 @@ const CreatableInput = props => {
       menuIsOpen={false}
       classNamePrefix='bc'
       autoFocus={autoFocus}
+      onBlur={handleBlur}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}

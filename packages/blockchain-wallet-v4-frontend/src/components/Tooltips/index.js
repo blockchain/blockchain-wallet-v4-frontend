@@ -7,6 +7,12 @@ class Tooltips extends React.PureComponent {
     return (
       <div>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
+        <Tooltip id='lockbox.exportkeyswarning'>
+          <FormattedMessage
+            id='modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip'
+            defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
+          />
+        </Tooltip>
         <Tooltip id='isx.expiredtooltip'>
           <FormattedMessage
             id='scenes.buysell.coinify.isx.expiredtooltip'
@@ -211,8 +217,8 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={300} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.complete'
-                defaultMessage='By completing Tier 2 you will automatically receive free crypto and will also be eligible for future airdrops.'
+                id='scenes.profile.identityverification.swaplimit.goldcomplete'
+                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
               />
             </Text>
             <Link

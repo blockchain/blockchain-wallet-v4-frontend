@@ -8,14 +8,6 @@ import { derivationMap, SHAPESHIFT } from '../config'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const fetchShapeShift = function*() {
-    const typeId = derivationMap[SHAPESHIFT]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setShapeShift(newkv))
-  }
-
   const fetchShapeshiftTrade = function*(address) {
     try {
       const tradeDetails = yield call(api.getTradeStatus, address)
@@ -53,7 +45,6 @@ export default ({ api, networks }) => {
 
   return {
     createShapeshift,
-    fetchShapeShift,
     fetchShapeshiftTrade,
     fetchMetadataShapeshift
   }

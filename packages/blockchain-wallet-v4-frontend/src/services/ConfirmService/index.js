@@ -13,3 +13,5 @@ export const ARCHIVE_VULNERABLE_ADDRESS_TITLE =
 export const ARCHIVE_VULNERABLE_ADDRESS_MSG = 'archive_vulnerable_address_msg'
 export const ARCHIVE_VULNERABLE_ADDRESS_CONFIRM =
   'archive_vulnerable_address_confirm'
+export const ARCHIVE_VULNERABLE_ADDRESS_CANCEL =
+  'archive_vulnerable_address_cancel'

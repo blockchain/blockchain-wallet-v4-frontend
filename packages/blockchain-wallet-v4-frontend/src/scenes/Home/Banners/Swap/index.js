@@ -33,7 +33,7 @@ const Wrapper = styled.div`
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -10px 0px;
-    padding-left: 75px;
+    padding-left: 124px;
     padding-right: 30px;
     box-sizing: border-box;
   }
@@ -87,14 +87,14 @@ export const SwapBanner = ({
     <Column>
       <LargeText>
         <FormattedMessage
-          defaultMessage='Swap Your Crypto'
-          id='scenes.home.banners.swap.title'
+          defaultMessage="Trading Your Crypto Doesn't Mean Trading Away Control."
+          id='scenes.home.banners.swap.title_1'
         />
       </LargeText>
       <MediumText>
         <FormattedMessage
-          defaultMessage="Trading your crypto doesn't mean trading away control."
-          id='scenes.home.banners.swap.subtitle'
+          defaultMessage='Trade crypto straight from your Wallet.'
+          id='scenes.home.banners.swap.subtitle_1'
         />
       </MediumText>
     </Column>

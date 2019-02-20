@@ -12,16 +12,17 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extractFieldValue = (e, value) => value
+const extractFieldValue = (e, value) => {
+  return value
+}
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
-const { FIRST_STEP_SUBMIT } = model.analytics.EXCHANGE
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
-    const { actions, from, to } = this.props
-    actions.initialize(from, to)
+    const { actions, from, to, fix, amount } = this.props
+    actions.initialize({ from, to, fix, amount })
   }
 
   shouldComponentUpdate (nextProps) {
@@ -36,8 +37,8 @@ class ExchangeForm extends React.Component {
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
-    const { actions, from, to } = this.props
-    actions.initialize(from, to)
+    const { actions, from, to, fix, amount } = this.props
+    actions.initialize({ from, to, fix, amount })
   }
 
   clearZero = e => {
@@ -55,14 +56,7 @@ class ExchangeForm extends React.Component {
   }
 
   render () {
-    const {
-      actions,
-      formActions,
-      logExchangeClick,
-      data,
-      showError,
-      txError
-    } = this.props
+    const { actions, data, showError, txError } = this.props
     return data.cata({
       Success: value =>
         isEmpty(value.availablePairs) ? (
@@ -74,10 +68,7 @@ class ExchangeForm extends React.Component {
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            handleSubmit={compose(
-              logExchangeClick,
-              actions.showConfirmation
-            )}
+            handleSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -87,7 +78,6 @@ class ExchangeForm extends React.Component {
               extractFieldValue
             )}
             handleAmountChange={compose(
-              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
               this.changeAmount,
               extractFieldValue
             )}
@@ -117,8 +107,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logExchangeClick: () =>
-    dispatch(actions.analytics.logExchangeEvent(FIRST_STEP_SUBMIT)),
   actions: bindActionCreators(actions.components.exchange, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
@@ -126,7 +114,8 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   reduxForm({
     form: EXCHANGE_FORM,
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
+    persistentSubmitErrors: true
   }),
   connect(
     mapStateToProps,
