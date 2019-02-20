@@ -53,9 +53,10 @@ export default ({ nabuUrl, post, put, get }) => {
     let failureReason = null
     if (typeof err === 'string') failureReason = { message: err }
     if (isObject(err)) failureReason = err
-    put({
+    return put({
       url: nabuUrl,
       endPoint: `/trades/${tradeId}/failure-reason`,
+      contentType: 'application/json',
       data: {
         txHash,
         failureReason

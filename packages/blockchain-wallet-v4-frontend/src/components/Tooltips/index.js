@@ -184,8 +184,8 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='activityFeedWatchOnly'>
           <FormattedMessage
-            id='scenes.home.activitylist.watchonly'
-            defaultMessage='This transaction involves a watch only address.'
+            id='scenes.home.activitylist.nonspendable'
+            defaultMessage='This transaction involves a non-spendable address.'
           />
         </Tooltip>
         <Tooltip id='settingsBtcUsedBalace'>

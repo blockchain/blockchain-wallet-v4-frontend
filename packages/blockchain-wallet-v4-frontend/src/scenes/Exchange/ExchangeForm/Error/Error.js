@@ -9,7 +9,7 @@ import { Row } from '../Layout'
 const ErrorRow = styled(Row)`
   justify-content: center;
   min-height: 16px;
-  padding: 0px;
+  padding: 0;
 `
 
 export class Error extends React.PureComponent {
@@ -17,7 +17,7 @@ export class Error extends React.PureComponent {
     const { showError, txError, error } = this.props
     const ErrorMessage = getErrorMessage(txError || error)
     return (
-      <ErrorRow>
+      <ErrorRow data-e2e='exchangeErrorMessage'>
         {((showError && error) || txError) && <ErrorMessage {...this.props} />}
       </ErrorRow>
     )
