@@ -34,7 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
       "pre-push": "yarn test"
     }
   },
