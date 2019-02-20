@@ -185,6 +185,7 @@
     "redux-saga-test-plan": "3.7.0",
     "release-it": "8.2.0",
     "rimraf": "2.6.3",
+    "staged-git-files": "1.1.2",
     "standard": "12.0.1",
     "style-loader": "0.23.1",
     "thread-loader": "2.1.1",
