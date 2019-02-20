@@ -7,7 +7,12 @@ import { actions } from 'data'
 import { Link } from 'blockchain-info-components'
 
 const LimitsUpdateLink = props => (
-  <Link size='12px' weight={300} onClick={props.actions.updateLimits}>
+  <Link
+    size='12px'
+    weight={300}
+    onClick={props.actions.updateLimits}
+    data-e2e='retryLink'
+  >
     <FormattedMessage
       id='scenes.exchange.exchangeform.tryagain'
       defaultMessage='Try again'
