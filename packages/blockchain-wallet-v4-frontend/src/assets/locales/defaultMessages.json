@@ -1724,8 +1724,8 @@
         "id": "modals.exchange.shapeshift.feetooltip"
       },
       {
-        "defaultMessage": "This transaction involves a watch only address.",
-        "id": "scenes.home.activitylist.watchonly"
+        "defaultMessage": "This transaction involves a non-spendable address.",
+        "id": "scenes.home.activitylist.nonspendable"
       },
       {
         "defaultMessage": "When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.",
@@ -8149,8 +8149,8 @@
         "id": "scenes.exchange.exchangeform.error.annuallimitreached"
       },
       {
-        "defaultMessage": "Amount is below mimimum.",
-        "id": "scenes.exchange.exchangeform.error.minimumamount"
+        "defaultMessage": "Amount is below minimum.",
+        "id": "scenes.exchange.exchangeform.error.mamountminimum"
       },
       {
         "defaultMessage": "Amount is above maximum.",
