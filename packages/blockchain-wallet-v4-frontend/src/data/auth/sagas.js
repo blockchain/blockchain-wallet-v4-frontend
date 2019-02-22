@@ -77,12 +77,12 @@ export default ({ api, coreSagas }) => {
   }
   const authNabu = function*() {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
-    yield take(
-      action =>
-        action.type ===
-          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
-        !Remote.Loading.is(action.payload.countries)
-    )
+    yield take([
+      actionTypes.components.identityVerification
+        .SET_SUPPORTED_COUNTRIES_SUCCESS,
+      actionTypes.components.identityVerification
+        .SET_SUPPORTED_COUNTRIES_FAILURE
+    ])
     const userFlowSupported = (yield select(
       selectors.modules.profile.userFlowSupported
     )).getOrElse(false)
