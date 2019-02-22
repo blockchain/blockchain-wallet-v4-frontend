@@ -276,6 +276,7 @@ const FirstStep = props => {
             {feeToggled && (
               <FeePerByteContainer>
                 <Field
+                  data-e2e='ethCustomFeeInput'
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required, minimumFee]}

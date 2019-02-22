@@ -4,9 +4,10 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
-import { actions } from 'data'
-import Settings from './template.js'
+import { actions, model } from 'data'
+import Settings from './template'
 
+const { CHANGE_CURRENCY } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class SettingsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.formActions.initialize('settingCurrency', {
@@ -22,6 +23,7 @@ class SettingsContainer extends React.PureComponent {
       !equals(prevProps.newCurrency, newCurrency)
     ) {
       this.props.settingsActions.updateCurrency(newCurrency)
+      this.props.analyticsActions.logEvent([...CHANGE_CURRENCY, newCurrency])
     }
   }
 
@@ -35,6 +37,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

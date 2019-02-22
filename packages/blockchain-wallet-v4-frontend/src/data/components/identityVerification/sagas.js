@@ -3,7 +3,6 @@ import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
@@ -287,11 +286,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedCountries = function*() {
     try {
-      yield put(A.setSupportedCountries(Remote.Loading))
+      yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
-      yield put(A.setSupportedCountries(Remote.Success(countries)))
+      yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
-      yield put(A.setSupportedCountries(Remote.Failure(e)))
+      yield put(A.setSupportedCountriesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -302,7 +301,7 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedDocuments = function*() {
     try {
-      yield put(A.setSupportedDocuments(Remote.Loading))
+      yield put(A.setSupportedDocumentsLoading())
       const countryCode = (yield select(
         selectors.modules.profile.getUserCountryCode
       )).getOrElse('US')
@@ -310,9 +309,9 @@ export default ({ api, coreSagas }) => {
         api.getSupportedDocuments,
         countryCode
       )
-      yield put(A.setSupportedDocuments(Remote.Success(documentTypes)))
+      yield put(A.setSupportedDocumentsSuccess(documentTypes))
     } catch (e) {
-      yield put(A.setSupportedDocuments(Remote.Failure(e)))
+      yield put(A.setSupportedDocumentsFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedDocuments',
@@ -323,11 +322,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchStates = function*() {
     try {
-      yield put(A.setStates(Remote.Loading))
+      yield put(A.setStatesLoading())
       const states = yield call(api.getStates)
-      yield put(A.setStates(Remote.Success(states)))
+      yield put(A.setStatesSuccess(states))
     } catch (e) {
-      yield put(A.setStates(Remote.Failure(e)))
+      yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -338,14 +337,14 @@ export default ({ api, coreSagas }) => {
 
   const checkKycFlow = function*() {
     try {
-      yield put(A.setKycFlow(Remote.Loading))
-      const { flowType, kycProvider } = yield call(api.fetchKycConfig)
+      yield put(A.setKycFlowLoading())
+      const { flowType } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
 
-      yield put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
+      yield put(A.setKycFlowSuccess({ flowType }))
     } catch (e) {
-      yield put(A.setKycFlow(Remote.Failure(e)))
+      yield put(A.setKycFlowFailure(e))
     }
   }
 

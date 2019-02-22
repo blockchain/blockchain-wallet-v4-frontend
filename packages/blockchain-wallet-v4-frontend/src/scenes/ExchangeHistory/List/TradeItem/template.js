@@ -42,7 +42,7 @@ const TradeItem = props => {
   return (
     <MediaContextConsumer>
       {({ mobile }) => (
-        <TableRow>
+        <TableRow dataE2e='exchangeHistoryOrderRow'>
           <StatusContainer width='30%' mobileWidth='25%'>
             <TableCell width='50%'>
               <Text
@@ -50,6 +50,7 @@ const TradeItem = props => {
                 size={mobile ? '12px' : '14px'}
                 capitalize
                 color={selectColor(status)}
+                data-e2e='exchangeHistoryOrderStatus'
               >
                 <OrderStatus status={status} />
               </Text>
@@ -60,6 +61,7 @@ const TradeItem = props => {
                 weight={300}
                 capitalize
                 onClick={handleClick}
+                data-e2e='exchangeHistoryViewDetails'
               >
                 <FormattedMessage
                   id='scenes.exchangehistory.list.tradeitem.viewdetails'
@@ -69,18 +71,24 @@ const TradeItem = props => {
             </TableCell>
           </StatusContainer>
           <TableCell width='30%' mobileWidth='18%'>
-            <Text size={mobile ? '12px' : '14px'} weight={300}>
+            <Text
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+              data-e2e='exchangeHistoryOrderDate'
+            >
               {tradeDateHelper(date, mobile)}
             </Text>
           </TableCell>
           <TableCell width='20%' mobileWidth='30%'>
             <Text
+              data-e2e='exchangeHistoryOrderSource'
               size={mobile ? '12px' : '14px'}
               weight={300}
             >{`${depositAmount} ${sourceCoin}`}</Text>
           </TableCell>
           <TableCell width='20%'>
             <Text
+              data-e2e='exchangeHistoryOrderTarget'
               size={mobile ? '12px' : '14px'}
               weight={300}
               color={

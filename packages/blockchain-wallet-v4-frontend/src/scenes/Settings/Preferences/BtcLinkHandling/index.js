@@ -1,8 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import BitcoinLinkHandling from './template.js'
+import { actions, model } from 'data'
+import BitcoinLinkHandling from './template'
 
-class BitcoinLinkHandlingContainer extends React.PureComponent {
+const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
+class BtcLinkHandlingContainer extends React.PureComponent {
   state = { warningDisplayed: false }
 
   handleClick = () => {
@@ -13,6 +17,7 @@ class BitcoinLinkHandlingContainer extends React.PureComponent {
       '/#/open/%s',
       'Blockchain'
     )
+    this.props.analyticsActions.logEvent(ENABLE_BTC_LINKS)
   }
 
   render () {
@@ -25,4 +30,11 @@ class BitcoinLinkHandlingContainer extends React.PureComponent {
   }
 }
 
-export default BitcoinLinkHandlingContainer
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(BtcLinkHandlingContainer)

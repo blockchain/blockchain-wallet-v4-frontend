@@ -7,7 +7,12 @@ import { Link } from 'blockchain-info-components'
 
 const CheckConfirmationLink = props => (
   <React.Fragment>
-    <Link size='12px' weight={300} onClick={props.actions.recheckLatestTx}>
+    <Link
+      size='12px'
+      weight={300}
+      onClick={props.actions.recheckLatestTx}
+      data-e2e='retryLink'
+    >
       {props.children}
     </Link>
   </React.Fragment>

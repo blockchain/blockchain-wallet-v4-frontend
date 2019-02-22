@@ -24,10 +24,8 @@ import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
 
-export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
-export const OPERATIONS_PER_TX = 1
 
 export const sumBigNumbers = reduce(
   (num1, num2) => new BigNumber.sum(num1, num2).toString(),
@@ -43,11 +41,11 @@ const sumBalance = compose(
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
     try {
-      yield put(A.setLedgerDetails(Remote.Loading))
+      yield put(A.setLedgerDetailsLoading())
       const ledger = yield call(api.getLatestLedgerDetails)
-      yield put(A.setLedgerDetails(Remote.Success(ledger)))
+      yield put(A.setLedgerDetailsSuccess(ledger))
     } catch (e) {
-      yield put(A.setLedgerDetails(Remote.Failure(e)))
+      yield put(A.setLedgerDetailsFailure(e))
     }
   }
 
@@ -80,11 +78,11 @@ export default ({ api, networks }) => {
 
   const fetchRates = function*() {
     try {
-      yield put(A.setRates(Remote.Loading))
+      yield put(A.setRatesLoading())
       const data = yield call(api.getXlmTicker)
-      yield put(A.setRates(Remote.Success(data)))
+      yield put(A.setRatesSuccess(data))
     } catch (e) {
-      yield put(A.setRates(Remote.Failure(e)))
+      yield put(A.setRatesFailure(e))
     }
   }
 

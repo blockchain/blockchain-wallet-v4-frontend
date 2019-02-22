@@ -1,6 +1,5 @@
 import { select, call, put } from 'redux-saga/effects'
-import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
+import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'

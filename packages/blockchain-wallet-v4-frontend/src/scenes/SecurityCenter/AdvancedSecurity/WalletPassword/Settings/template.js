@@ -29,6 +29,11 @@ const ButtonWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const FormItemSpaced = styled(FormItem)`
+  > div {
+    margin-top: 10px;
+  }
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
 
@@ -55,7 +60,7 @@ const Settings = props => {
       {updateToggled && (
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <FormItem>
+            <FormItemSpaced>
               <FormLabel for='currentPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.current'
@@ -68,8 +73,8 @@ const Settings = props => {
                 component={PasswordBox}
                 validate={[validCurrentPassword]}
               />
-            </FormItem>
-            <FormItem style={{ marginTop: '12px' }}>
+            </FormItemSpaced>
+            <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel for='newPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.new'
@@ -83,8 +88,8 @@ const Settings = props => {
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 score
               />
-            </FormItem>
-            <FormItem style={{ marginTop: '12px' }}>
+            </FormItemSpaced>
+            <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel for='walletPasswordConfirmation'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.confirm'
@@ -97,7 +102,7 @@ const Settings = props => {
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}
               />
-            </FormItem>
+            </FormItemSpaced>
           </FormGroup>
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>

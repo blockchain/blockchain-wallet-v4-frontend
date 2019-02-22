@@ -734,10 +734,9 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const pair = getCurrentPair(form)
-    let trade, depositCredentials
     try {
-      depositCredentials = yield call(getDepositCredentials, source)
-      trade = yield call(createTrade, source, target, pair)
+      const depositCredentials = yield call(getDepositCredentials, source)
+      const trade = yield call(createTrade, source, target, pair)
       yield call(depositFunds, trade, source, depositCredentials)
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))

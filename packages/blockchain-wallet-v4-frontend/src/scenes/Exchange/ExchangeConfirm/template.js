@@ -33,7 +33,6 @@ const ConfirmWrapper = styled(Wrapper)`
   }
   ${Delimiter} {
     margin-top: 29px;
-    margin-bottopm: 30px;
   }
   > :last-child {
     margin-bottom: 0;
@@ -142,11 +141,17 @@ const ExchangeConfirm = ({
         />
       </Title>
       <Row>
-        <CoinButton coin={sourceCoin.toLowerCase()}>
+        <CoinButton
+          coin={sourceCoin.toLowerCase()}
+          data-e2e='exchangeConfirmSourceValue'
+        >
           {`${sourceAmount} ${sourceCoin}`}
         </CoinButton>
         <FromToIcon name='short-right-arrow' />
-        <CoinButton coin={targetCoin.toLowerCase()}>
+        <CoinButton
+          coin={targetCoin.toLowerCase()}
+          data-e2e='exchangeConfirmTargetValue'
+        >
           {`${targetAmount} ${targetCoin}`}
         </CoinButton>
       </Row>
