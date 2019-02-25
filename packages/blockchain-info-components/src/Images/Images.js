@@ -20,6 +20,9 @@ import checkHelper from './img/check-helper.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
+import getFreeCrypto from './img/get-free-crypto.png'
+import getFreeCrypto2 from './img/get-free-crypto@2x.png'
+import getFreeCrypto3 from './img/get-free-crypto@3x.png'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -110,6 +113,9 @@ export default {
   'coinify-logo': coinifyLogo,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
+  'get-free-crypto': getFreeCrypto,
+  'get-free-crypto2': getFreeCrypto2,
+  'get-free-crypto3': getFreeCrypto3,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
