@@ -7,12 +7,12 @@ import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import { MISSING_WALLET } from '../utils'
-import { HDAccountList } from '../../../types'
+import { HDAccountList, Wallet } from '../../../types'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.btc.transformTx
-
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
@@ -127,20 +127,24 @@ export default ({ api }) => {
     const accountListR = (yield select(getLockboxBtcAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
+    const addressLabels = (yield select(getAddressLabels)).getOrElse({})
+    const txNotes = Wallet.selectTxNotes(wallet)
 
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, accountList, txList) =>
+    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          accountList
+          accountList,
+          txNotes,
+          addressLabels
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, accountListR, txs)
+    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
   const fetchFiatAtTime = function*(action) {

@@ -13,7 +13,7 @@ import { addFromToAccountNames } from '../../../utils/accounts'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import * as transactions from '../../../transactions'
-import { getAccountsList } from '../../kvStore/bsv/selectors'
+import { getAccountsList, getBsvTxNotes } from '../../kvStore/bsv/selectors'
 
 const transformTx = transactions.bsv.transformTx
 
@@ -92,24 +92,25 @@ export default ({ api }) => {
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
     // Remote(kvStoreAccountList)
-    const accountListR = yield select(getAccountsList)
-    const accountList = accountListR.getOrElse([])
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBsvTxNotes)).getOrElse({})
     // Remote(lockboxXpubs)
-    const lockboxAccountListR = []
+    const lockboxAccountList = []
 
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, lockboxAccountList, txList) =>
+    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          lockboxAccountList
+          lockboxAccountList,
+          txNotes
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(walletR, lockboxAccountListR, txs)
+    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 

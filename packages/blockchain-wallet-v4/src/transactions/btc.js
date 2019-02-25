@@ -7,7 +7,8 @@ import {
   Address,
   HDAccount,
   AddressBook,
-  AddressBookEntry
+  AddressBookEntry,
+  TXNotes
 } from '../types'
 import {
   prop,
@@ -233,6 +234,11 @@ const CoinBaseData = total => ({
   change: 0
 })
 
+const getDescription = (hash, txNotes, addressLabels, toAddress) => {
+  let txNote = TXNotes.selectNote(hash, txNotes)
+  return txNote || propOr('', [toAddress], addressLabels)
+}
+
 export const getTime = tx => {
   const date = moment.unix(tx.time).local()
   return equals(date.year(), moment().year())
@@ -240,7 +246,13 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, accountList, tx) => {
+export const _transformTx = (
+  wallet,
+  accountList,
+  txNotes,
+  addressLabels,
+  tx
+) => {
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
     tagCoin(wallet, accountList),
@@ -267,6 +279,7 @@ export const _transformTx = (wallet, accountList, tx) => {
 
   return {
     blockHeight: tx.block_height,
+    description: getDescription(tx.hash, txNotes, addressLabels, toAddress),
     double_spend: tx.double_spend,
     rbf: tx.rbf,
     hash: tx.hash,

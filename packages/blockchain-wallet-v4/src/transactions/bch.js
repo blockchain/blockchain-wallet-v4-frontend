@@ -11,6 +11,7 @@ import {
 } from '../types'
 import {
   any,
+  pathOr,
   prop,
   compose,
   curry,
@@ -243,7 +244,7 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, accountList, tx) => {
+export const _transformTx = (wallet, accountList, txNotes, tx) => {
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
     tagCoin(wallet, accountList),
@@ -270,6 +271,7 @@ export const _transformTx = (wallet, accountList, tx) => {
 
   return {
     blockHeight: tx.block_height,
+    description: pathOr('', [tx.hash], txNotes),
     double_spend: tx.double_spend,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
