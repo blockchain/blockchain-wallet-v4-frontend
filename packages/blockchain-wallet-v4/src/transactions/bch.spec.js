@@ -6,7 +6,6 @@ describe('transformTx', () => {
   const mockState = createMockWalletState(walletV3)
   const tx = _transformTx(
     mockState.walletPath.wallet,
-    558418,
     Types.HDAccountList.fromJS([]),
     bchTx
   )

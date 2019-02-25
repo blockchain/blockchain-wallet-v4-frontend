@@ -91,33 +91,25 @@ export default ({ api }) => {
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
     // Remote(kvStoreAccountList)
     const accountListR = yield select(getAccountsList)
     const accountList = accountListR.getOrElse([])
     // Remote(lockboxXpubs)
     const lockboxAccountListR = []
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, lockboxAccountList, txList) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
           lockboxAccountList
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(
-      walletR,
-      blockHeightR,
-      lockboxAccountListR,
-      txs
-    )
+    const processedTxs = ProcessTxs(walletR, lockboxAccountListR, txs)
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
