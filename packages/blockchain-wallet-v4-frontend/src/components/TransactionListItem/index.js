@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import TransactionListItem from './template.js'
+import { getBlockHeight } from './selectors'
+import TransactionListItem from './template'
 
 class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
@@ -43,19 +44,31 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
+    const {
+      blockHeight,
+      coin,
+      currency,
+      transaction,
+      buySellPartner
+    } = this.props
     return (
       <TransactionListItem
-        coin={this.props.coin}
-        currency={this.props.currency}
+        blockHeight={blockHeight}
+        coin={coin}
+        currency={currency}
         isToggled={this.state.isToggled}
         handleToggle={this.handleToggle}
-        transaction={this.props.transaction}
-        buySellPartner={this.props.buySellPartner}
+        transaction={transaction}
+        buySellPartner={buySellPartner}
         handleEditDescription={this.handleEditDescription}
       />
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  blockHeight: getBlockHeight(state, ownProps.coin)
+})
 
 const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
@@ -67,6 +80,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(ListItemContainer)

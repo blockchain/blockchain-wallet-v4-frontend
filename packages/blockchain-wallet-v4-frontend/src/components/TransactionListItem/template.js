@@ -111,6 +111,7 @@ const dateHelper = (time, isMobile) =>
     .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = ({
+  blockHeight,
   coin,
   currency,
   isToggled,
@@ -295,9 +296,10 @@ const TransactionListItem = ({
             />
           </Text>
           <Confirmations
+            blockHeight={blockHeight}
             coin={coin}
             hash={transaction.hash}
-            confirmations={transaction.confirmations}
+            txBlockHeight={transaction.blockHeight}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>

@@ -123,27 +123,24 @@ export default ({ api }) => {
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
     // Remote(lockboxXpubs)
     const accountListR = (yield select(getLockboxBtcAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, accountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, accountList, txList) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
           accountList
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
+    return ProcessTxs(walletR, accountListR, txs)
   }
 
   const fetchFiatAtTime = function*(action) {

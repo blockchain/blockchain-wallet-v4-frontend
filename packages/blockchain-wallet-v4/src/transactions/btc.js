@@ -240,9 +240,7 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, currentBlockHeight, accountList, tx) => {
-  const conf = currentBlockHeight - tx.block_height + 1
-  const confirmations = conf > 0 ? conf : 0
+export const _transformTx = (wallet, accountList, tx) => {
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
     tagCoin(wallet, accountList),
@@ -268,6 +266,7 @@ export const _transformTx = (wallet, currentBlockHeight, accountList, tx) => {
   const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
+    blockHeight: tx.block_height,
     double_spend: tx.double_spend,
     rbf: tx.rbf,
     hash: tx.hash,
@@ -276,7 +275,6 @@ export const _transformTx = (wallet, currentBlockHeight, accountList, tx) => {
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: tx.fee,
-    confirmations: confirmations,
     inputs: inputs,
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,
