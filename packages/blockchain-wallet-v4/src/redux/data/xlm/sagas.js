@@ -19,7 +19,7 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import { xlm } from '../../../transactions'
-import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
@@ -128,17 +128,16 @@ export default ({ api, networks }) => {
   }
 
   const __processTxs = function*(txList) {
-    const walletAccountsR = yield select(getAccounts)
-    const walletAccounts = walletAccountsR.getOrElse([])
-    const lockboxAccountsR = yield select(getLockboxXlmAccounts)
-    const lockboxAccounts = lockboxAccountsR.getOrElse([])
+    const walletAccounts = (yield select(getAccounts)).getOrElse([])
+    const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
+    const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
     const accounts = concat(walletAccounts, lockboxAccounts)
     return unnest(
       map(tx => {
         const operations = decodeOperations(tx)
         return compose(
           filter(prop('belongsToWallet')),
-          map(transformTx(accounts, tx)),
+          map(transformTx(accounts, txNotes, tx)),
           filter(isLumenOperation)
         )(operations)
       }, txList)

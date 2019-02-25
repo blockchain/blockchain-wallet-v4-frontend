@@ -17,7 +17,7 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors.js'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.eth.transformTx

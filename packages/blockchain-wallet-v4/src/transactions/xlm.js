@@ -9,6 +9,7 @@ import {
   intersection,
   isEmpty,
   map,
+  pathOr,
   prop,
   propEq
 } from 'ramda'
@@ -45,7 +46,7 @@ export const belongsToCurrentWallet = (accounts, from, to) => {
   return !isEmpty(intersection([from, to], accountIds))
 }
 
-export const transformTx = curry((accounts, tx, operation) => {
+export const transformTx = curry((accounts, txNotes, tx, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const operationAmount = getAmount(operation)
   const to = getDestination(operation)
@@ -64,6 +65,7 @@ export const transformTx = curry((accounts, tx, operation) => {
 
   return {
     blockHeight: 0,
+    description: pathOr('', [hash], txNotes),
     amount,
     fee,
     from: getLabel(accounts, from),
