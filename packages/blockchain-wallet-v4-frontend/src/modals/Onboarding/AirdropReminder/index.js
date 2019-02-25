@@ -1,10 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { compose } from 'redux'
+import { prop } from 'ramda'
+import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { CAMPAIGNS } from './model'
 
-// import { actions } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
@@ -60,7 +62,7 @@ const LaterButton = styled(FooterButton)`
 
 class AirdropReminder extends React.PureComponent {
   render () {
-    const { position, total, close } = this.props
+    const { campaign, position, total, close, actions } = this.props
     return (
       <Modal size='small' position={position} total={total}>
         <AirdropReminderModalHeader onClose={close} />
@@ -82,7 +84,11 @@ class AirdropReminder extends React.PureComponent {
           <Copy weight={300}>
             <FormattedMessage
               id='modals.airdropreminder.completeprofile'
-              defaultMessage='Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.'
+              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
+              values={{
+                coinName: prop('coinName', CAMPAIGNS[campaign]),
+                coinCode: prop('coinCode', CAMPAIGNS[campaign])
+              }}
             />
           </Copy>
         </Body>
@@ -91,7 +97,7 @@ class AirdropReminder extends React.PureComponent {
             nature='primary'
             size='18px'
             fullwidth
-            // onClick={actions.airdropReminderSubmitClicked}
+            onClick={() => actions.airdropReminderSubmitClicked(campaign)}
           >
             <FormattedMessage
               defaultMessage='Get Started'
@@ -110,8 +116,12 @@ class AirdropReminder extends React.PureComponent {
   }
 }
 
+AirdropReminder.defaultProps = {
+  campaign: 'sunriver'
+}
+
 const mapDispatchToProps = dispatch => ({
-  // actions: bindActionCreators(actions.components.swapOnboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
 const enhance = compose(

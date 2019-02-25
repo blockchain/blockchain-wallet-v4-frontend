@@ -58,7 +58,6 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideKycGetStarted": [Function],
         "hideSwapBanner": [Function],
         "hideSwapUpgradeModal": [Function],
-        "setCoinShowIntro": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
