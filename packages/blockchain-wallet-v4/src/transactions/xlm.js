@@ -2,7 +2,7 @@ import * as StellarSdk from 'stellar-sdk'
 import moment from 'moment'
 import {
   compose,
-  contains,
+  includes,
   curry,
   defaultTo,
   find,
@@ -15,10 +15,10 @@ import {
 import BigNumber from 'bignumber.js'
 
 const getType = (tx, addresses) => {
-  if (contains(tx.from, addresses) && contains(tx.to, addresses))
+  if (includes(tx.from, addresses) && includes(tx.to, addresses))
     return 'transferred'
-  if (contains(tx.from, addresses)) return 'sent'
-  if (contains(tx.to, addresses)) return 'received'
+  if (includes(tx.from, addresses)) return 'sent'
+  if (includes(tx.to, addresses)) return 'received'
   return 'unknown'
 }
 
@@ -63,8 +63,8 @@ export const transformTx = curry((accounts, tx, operation) => {
       : operationAmount
 
   return {
+    blockHeight: 0,
     amount,
-    confirmations: 1,
     fee,
     from: getLabel(accounts, from),
     hash,
