@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
+import { connect } from 'react-redux'
+
+import { getBlockHeight } from './selectors'
 
 import {
   Icon,
@@ -130,10 +133,15 @@ const Confirmations = props => {
     </Wrapper>
   )
 }
+
 Confirmations.propTypes = {
   blockHeight: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   txBlockHeight: PropTypes.number.isRequired
 }
 
-export default Confirmations
+const mapStateToProps = (state, ownProps) => ({
+  blockHeight: getBlockHeight(state, ownProps.coin)
+})
+
+export default connect(mapStateToProps)(Confirmations)
