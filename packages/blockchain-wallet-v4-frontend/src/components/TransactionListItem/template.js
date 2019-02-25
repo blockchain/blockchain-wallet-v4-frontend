@@ -229,7 +229,6 @@ const TransactionListItem = ({
                 capitalize
                 weight={400}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
-                data-e2e='xlmTransactionNote'
               >
                 <FormattedMessage
                   id='components.txlistitem.memo'
@@ -238,7 +237,12 @@ const TransactionListItem = ({
                 &nbsp;
                 {transaction.memoType}
               </Text>
-              <Text size='14px' capitalize weight={300}>
+              <Text
+                size='14px'
+                capitalize
+                weight={300}
+                data-e2e='xlmTransactionMemo'
+              >
                 {transaction.memo}
               </Text>
             </React.Fragment>
