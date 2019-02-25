@@ -4450,6 +4450,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.airdropreminder.AirdropReminder"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.airdropreminder.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.airdropreminder.later"
+      }
+    ],
+    "path": "src/modals/Exchange/AirdropReminder/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Exchange Completed",
         "id": "modals.exchangedetails.title.success"
       },
@@ -4560,6 +4581,27 @@
       }
     ],
     "path": "src/modals/Exchange/ExchangeResults/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.getfreecrypto.getfreecrypto"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+        "id": "modals.getfreecrypto.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.getfreecrypto.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.getfreecrypto.later"
+      }
+    ],
+    "path": "src/modals/Exchange/GetFreeCrypto/index.json"
   },
   {
     "descriptors": [
@@ -4940,6 +4982,27 @@
       }
     ],
     "path": "src/modals/Exchange/SunRiverLinkError/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.swapairdropreminder.SwapAirdropReminder"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+        "id": "modals.swapairdropreminder.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapairdropreminder.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.swapairdropreminder.later"
+      }
+    ],
+    "path": "src/modals/Exchange/SwapAirdropReminder/index.json"
   },
   {
     "descriptors": [
@@ -5781,6 +5844,65 @@
       }
     ],
     "path": "src/modals/Mobile/MobileNumberVerify/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.airdropreminder.AirdropReminder"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.airdropreminder.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.airdropreminder.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/AirdropReminder/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "modals.swapgetstarted.trading_your_crypto"
+      },
+      {
+        "defaultMessage": "A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "modals.swapgetstarted.description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapgetstarted.getstarted"
+      },
+      {
+        "defaultMessage": "I'll do this later",
+        "id": "modals.swapgetstarted.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to Blockchain!",
+        "id": "modals.welcome.welcome"
+      },
+      {
+        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
+        "id": "modals.welcome.thanks"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.welcome.continue"
+      }
+    ],
+    "path": "src/modals/Onboarding/Welcome/template.json"
   },
   {
     "descriptors": [
@@ -6815,6 +6937,27 @@
       }
     ],
     "path": "src/modals/Wallet/Welcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.airdropreminder.AirdropReminder"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free Stellar (XLM) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.airdropreminder.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.airdropreminder.later"
+      }
+    ],
+    "path": "src/modals/Xlm/AirdropReminder/index.json"
   },
   {
     "descriptors": [
