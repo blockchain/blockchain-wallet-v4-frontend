@@ -26,7 +26,7 @@ describe('goals sagas', () => {
     defineReferralGoal,
     runGoal,
     runBsvGoal,
-    runKycCTAGoal,
+    runSwapGetStartedGoal,
     runKycDocResubmitGoal,
     runKycGoal,
     runReferralGoal,
@@ -281,12 +281,12 @@ describe('goals sagas', () => {
         saga.next().isDone()
       })
     })
-    describe('should run kycCTA goal', () => {
-      const mockGoal = { name: 'kycCTA', data: {} }
+    describe('should run swapGetStarted goal', () => {
+      const mockGoal = { name: 'swapGetStarted', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runKycCTAGoal saga and end', () => {
-        saga.next().call(runKycCTAGoal, mockGoal)
+      it('should call runSwapGetStartedGoal saga and end', () => {
+        saga.next().call(runSwapGetStartedGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -417,9 +417,9 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runKycCTAGoal saga', () => {
+  describe('runSwapGetStartedGoal saga', () => {
     it('should not show modal if it has already been seen', () => {
-      const saga = testSaga(runKycCTAGoal, { id: mockGoalId })
+      const saga = testSaga(runSwapGetStartedGoal, { id: mockGoalId })
 
       saga
         .next()
@@ -431,7 +431,7 @@ describe('goals sagas', () => {
     })
 
     it('should show modal if wallet has funds and kyc not completed', () => {
-      const saga = testSaga(runKycCTAGoal, { id: mockGoalId })
+      const saga = testSaga(runSwapGetStartedGoal, { id: mockGoalId })
       selectors.modules.profile = { getUserKYCState: () => Remote.of(false) }
 
       saga
@@ -446,7 +446,7 @@ describe('goals sagas', () => {
         .next()
         .select(selectors.modules.profile.getUserKYCState)
         .next(Remote.of(model.profile.KYC_STATES.NONE))
-        .put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+        .put(actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted'))
         .next()
         .isDone()
     })
@@ -530,9 +530,9 @@ describe('goals sagas', () => {
         .isDone()
     })
 
-    it('should show swap modal', () => {
+    it('should show swapGetStarted modal', () => {
       const mockModals = {
-        swap: { name: 'swap', data: {} }
+        swapGetStarted: { name: 'swapGetStarted', data: {} }
       }
       saga
         .restart()
@@ -540,7 +540,10 @@ describe('goals sagas', () => {
         .select(selectors.goals.getInitialModals)
         .next(mockModals)
         .put(
-          actions.modals.showModal(mockModals.swap.name, mockModals.swap.data)
+          actions.modals.showModal(
+            mockModals.swapGetStarted.name,
+            mockModals.swapGetStarted.data
+          )
         )
         .next()
         .isDone()
