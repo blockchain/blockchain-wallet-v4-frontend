@@ -1,6 +1,7 @@
 import { selectors } from 'data'
 import { Wallet, TXNotes } from 'blockchain-wallet-v4/src/types'
 
+// TODO: delete all dis
 export const getDescription = (state, ownProps) => {
   const { coin, hash, toAddress } = ownProps
   switch (coin) {

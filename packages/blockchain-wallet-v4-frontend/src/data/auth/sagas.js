@@ -75,6 +75,16 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
+  const saveGoals = function*(firstLogin) {
+    yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+    yield put(actions.goals.saveGoal('airdropReminder'))
+    yield put(actions.goals.saveGoal('swapUpgrade'))
+    yield put(actions.goals.saveGoal('swapGetStarted'))
+    yield put(actions.goals.saveGoal('kycDocResubmit'))
+    yield put(actions.goals.saveGoal('bsv'))
+  }
+
   const authNabu = function*() {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
@@ -131,11 +141,7 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
-      yield put(actions.goals.saveGoal('swapUpgrade'))
-      yield put(actions.goals.saveGoal('kycCTA'))
-      yield put(actions.goals.saveGoal('kycDocResubmit'))
-      yield put(actions.goals.saveGoal('bsv'))
+      yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -496,6 +502,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    saveGoals,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,

@@ -1,8 +1,9 @@
 import React from 'react'
-import { actions } from 'data'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
 import EditDescription from './template'
 import { getDescription } from './selectors'
 

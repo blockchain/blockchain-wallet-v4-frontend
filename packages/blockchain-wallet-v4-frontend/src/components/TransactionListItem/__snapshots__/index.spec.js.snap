@@ -54,11 +54,11 @@ exports[`ListItemContainer renders correctly 1`] = `
     }
     preferencesActions={
       Object {
+        "hideAirdropReminderModal": [Function],
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
         "hideSwapBanner": [Function],
         "hideSwapUpgradeModal": [Function],
-        "setCoinShowIntro": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],

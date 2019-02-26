@@ -340,6 +340,7 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
+      saveGoals,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
@@ -482,24 +483,8 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should add welcome goal', () => {
-      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
-    })
-
-    it('should add swap upgrade goal', () => {
-      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
-    })
-
-    it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kycCTA'))
-    })
-
-    it('should add kyc doc resubmit goal', () => {
-      saga.next().put(actions.goals.saveGoal('kycDocResubmit'))
-    })
-
-    it('should add bsv goal', () => {
-      saga.next().put(actions.goals.saveGoal('bsv'))
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
     })
 
     it('should run goals', () => {

@@ -7,11 +7,7 @@ const INITIAL_STATE = {
   culture: 'en-GB',
   theme: 'default',
   coinDisplayed: true,
-  coinIntros: {
-    BTC: true,
-    BCH: true,
-    ETH: true
-  },
+  showAirdropReminderModal: true,
   showKycCompleted: true,
   showBackupReminder: true,
   showKycGetStarted: true,
@@ -46,10 +42,6 @@ const preferences = (state = INITIAL_STATE, action) => {
     case AT.HIDE_KYC_COMPLETED: {
       return assoc('showKycCompleted', false, state)
     }
-    case AT.SET_COIN_SHOW_INTRO: {
-      const { coin, displayed } = payload
-      return assocPath(['coinIntros', coin], displayed, state)
-    }
     case AT.SET_TOTAL_BALANCES_DROPDOWN: {
       const { key, val } = payload
       return assocPath(['totalBalancesDropdown', key], val, state)
@@ -61,6 +53,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
       return assocPath(['priceChart', 'time'], time, state)
+    }
+    case AT.HIDE_AIRDROP_REMINDER_MODAL: {
+      return assoc('showAirdropReminderModal', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)

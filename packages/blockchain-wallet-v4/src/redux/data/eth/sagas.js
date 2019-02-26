@@ -17,7 +17,7 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors.js'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.eth.transformTx
@@ -124,13 +124,11 @@ export default ({ api }) => {
   const __processTxs = function*(txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const blockHeightR = yield select(S.getHeight)
-    const blockHeight = blockHeightR.getOrElse(0)
     const lockboxContextR = yield select(getLockboxEthContext)
     const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
     const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, blockHeight, state), txs)
+    return map(transformTx(ethAddresses, state), txs)
   }
 
   const fetchLegacyBalance = function*() {
