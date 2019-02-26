@@ -436,73 +436,29 @@ const Personal = ({
                           />
                         </FormItem>
                       </FaqFormGroup>
-                      {!countryIsUS && (
-                        <FaqFormGroup>
-                          <PersonalItem>
-                            <PersonalField>
-                              <Label htmlFor='state'>
-                                <FormattedMessage
-                                  id='identityverification.personal.region'
-                                  defaultMessage='Region'
-                                />
-                              </Label>
-                              <Field
-                                name='state'
-                                errorBottom
-                                validate={required}
-                                countryCode={countryCode}
-                                component={TextBox}
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Label htmlFor='postCode'>
+                            {countryUsesZipcode(countryCode) ? (
+                              <FormattedMessage
+                                id='identityverification.personal.zipcode'
+                                defaultMessage='Zip Code'
                               />
-                            </PersonalField>
-                            <PersonalField>
-                              <Label htmlFor='postCode'>
-                                {countryUsesZipcode(countryCode) ? (
-                                  <FormattedMessage
-                                    id='identityverification.personal.zipcode'
-                                    defaultMessage='Zip Code'
-                                  />
-                                ) : (
-                                  <FormattedMessage
-                                    id='identityverification.personal.postcode'
-                                    defaultMessage='Postcode'
-                                  />
-                                )}
-                              </Label>
-                              <Field
-                                name='postCode'
-                                errorBottom
-                                validate={requiredZipCode}
-                                component={TextBox}
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.postcode'
+                                defaultMessage='Postcode'
                               />
-                            </PersonalField>
-                          </PersonalItem>
-                        </FaqFormGroup>
-                      )}
-                      {countryIsUS && (
-                        <FaqFormGroup>
-                          <FormItem>
-                            <Label htmlFor='postCode'>
-                              {countryUsesZipcode(countryCode) ? (
-                                <FormattedMessage
-                                  id='identityverification.personal.zipcode'
-                                  defaultMessage='Zip Code'
-                                />
-                              ) : (
-                                <FormattedMessage
-                                  id='identityverification.personal.postcode'
-                                  defaultMessage='Postcode'
-                                />
-                              )}
-                            </Label>
-                            <Field
-                              name='postCode'
-                              errorBottom
-                              validate={requiredZipCode}
-                              component={TextBox}
-                            />
-                          </FormItem>
-                        </FaqFormGroup>
-                      )}
+                            )}
+                          </Label>
+                          <Field
+                            name='postCode'
+                            errorBottom
+                            validate={requiredZipCode}
+                            component={TextBox}
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
                     </AddressWrapper>
                   )}
                 </FormContainer>
