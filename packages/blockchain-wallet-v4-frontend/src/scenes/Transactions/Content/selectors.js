@@ -10,7 +10,7 @@ import {
   allPass,
   anyPass,
   compose,
-  contains,
+  includes,
   map,
   filter,
   path,
@@ -30,7 +30,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
   )
   const search = curry((text, txPath, tx) =>
     compose(
-      contains(toUpper(text || '')),
+      includes(toUpper(text || '')),
       toUpper,
       String,
       path(txPath)

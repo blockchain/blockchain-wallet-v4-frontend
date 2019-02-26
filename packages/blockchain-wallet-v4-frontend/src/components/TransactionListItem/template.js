@@ -196,7 +196,6 @@ const TransactionListItem = ({
           <Description
             coin={coin}
             hash={transaction.hash}
-            value={transaction.description}
             toAddress={transaction.toAddress}
             handleEditDescription={handleEditDescription}
           />
@@ -301,7 +300,7 @@ const TransactionListItem = ({
           <Confirmations
             coin={coin}
             hash={transaction.hash}
-            confirmations={transaction.confirmations}
+            txBlockHeight={transaction.blockHeight}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>

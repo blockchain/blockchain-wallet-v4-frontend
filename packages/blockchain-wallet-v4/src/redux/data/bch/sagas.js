@@ -14,7 +14,7 @@ import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import { MISSING_WALLET } from '../utils'
 import { HDAccountList } from '../../../types'
-import { getAccountsList } from '../../kvStore/bch/selectors'
+import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
@@ -95,35 +95,26 @@ export default ({ api }) => {
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
-    // Remote(kvStoreAccountList)
-    const accountListR = yield select(getAccountsList)
-    const accountList = accountListR.getOrElse([])
-    // Remote(lockboxXpubs)
-    const lockboxAccountListR = (yield select(getLockboxBchAccounts))
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBchTxNotes)).getOrElse({})
+    const lockboxAccountList = (yield select(getLockboxBchAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
-          lockboxAccountList
+          lockboxAccountList,
+          txNotes
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(
-      walletR,
-      blockHeightR,
-      lockboxAccountListR,
-      txs
-    )
+    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
