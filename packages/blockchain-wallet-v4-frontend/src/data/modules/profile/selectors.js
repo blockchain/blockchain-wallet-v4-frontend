@@ -24,7 +24,7 @@ export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
 )
-export const getSunriverTag = compose(
+export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )

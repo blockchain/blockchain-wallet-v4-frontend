@@ -1,4 +1,13 @@
-import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
+import {
+  anyPass,
+  equals,
+  map,
+  prop,
+  propEq,
+  startsWith,
+  sum,
+  values
+} from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,7 +18,12 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
+  const {
+    TIERS,
+    TIERS_STATES,
+    KYC_STATES,
+    DOC_RESUBMISSION_REASONS
+  } = model.profile
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
@@ -145,6 +159,26 @@ export default ({ api }) => {
     }
   }
 
+  const runAirdropReminderGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showAirdropReminderModal = yield select(
+      selectors.preferences.getShowAirdropReminderModal
+    )
+    if (!showAirdropReminderModal) return
+    yield call(waitForUserData)
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (propEq('state', TIERS_STATES.NONE, tiers[2])) {
+      return yield put(
+        actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
+          campaign: 'sunriver'
+        })
+      )
+    }
+  }
+
   const runSwapUpgradeGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -184,7 +218,7 @@ export default ({ api }) => {
     }
   }
 
-  const runKycCTAGoal = function*(goal) {
+  const runSwapGetStartedGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -204,7 +238,9 @@ export default ({ api }) => {
       .map(equals(NONE))
       .getOrElse(false)
     if (kycNotFinished)
-      yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+      yield put(
+        actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted')
+      )
   }
 
   const runBsvGoal = function*(goal) {
@@ -258,11 +294,12 @@ export default ({ api }) => {
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
+      airdropReminder,
       bsv,
       kycDocResubmit,
-      sunriver,
       payment,
-      swap,
+      sunriver,
+      swapGetStarted,
       swapUpgrade,
       welcome
     } = initialModals
@@ -272,7 +309,15 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
       return yield put(actions.modals.showModal(payment.name, payment.data))
-    if (swap) return yield put(actions.modals.showModal(swap.name, swap.data))
+    if (airdropReminder) {
+      return yield put(
+        actions.modals.showModal(airdropReminder.name, airdropReminder.data)
+      )
+    }
+    if (swapGetStarted)
+      return yield put(
+        actions.modals.showModal(swapGetStarted.name, swapGetStarted.data)
+      )
     if (swapUpgrade)
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
@@ -302,8 +347,11 @@ export default ({ api }) => {
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
-        case 'kycCTA':
-          yield call(runKycCTAGoal, goal)
+        case 'airdropReminder':
+          yield call(runAirdropReminderGoal, goal)
+          break
+        case 'swapGetStarted':
+          yield call(runSwapGetStartedGoal, goal)
           break
         case 'bsv':
           yield call(runBsvGoal, goal)
@@ -333,7 +381,7 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
-    runKycCTAGoal,
+    runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
     runBsvGoal,

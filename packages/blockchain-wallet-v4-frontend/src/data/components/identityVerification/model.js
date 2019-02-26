@@ -69,3 +69,10 @@ export const ERROR_TYPES = {
   57: 'CAMPAIGN_EXPIRED',
   58: 'INVALID_CAMPAIGN_INFO'
 }
+
+export const CAMPAIGNS = {
+  sunriver: {
+    coinCode: 'XLM',
+    coinName: 'Stellar'
+  }
+}
