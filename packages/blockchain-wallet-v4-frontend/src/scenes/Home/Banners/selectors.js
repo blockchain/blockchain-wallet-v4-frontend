@@ -1,29 +1,45 @@
-import { anyPass, equals } from 'ramda'
+import { anyPass, equals, filter, propEq } from 'ramda'
 
 import { selectors, model } from 'data'
 
-const { NONE } = model.profile.KYC_STATES
+const { KYC_STATES, TIERS_STATES } = model.profile
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
 
 export const getData = state => {
   const kycNotFinished = selectors.modules.profile
     .getUserKYCState(state)
-    .map(equals(NONE))
+    .map(equals(KYC_STATES.NONE))
+    .getOrElse(false)
+  const showAirdropBanner = selectors.modules.profile
+    .getTiers(state)
+    .map(filter(propEq('index', 2)))
+    .map(propEq('state', TIERS_STATES.none))
     .getOrElse(false)
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
+  const isSunRiverTagged = selectors.modules.profile
+    .getSunRiverTag(state)
+    .getOrElse(false)
   const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
   const showSwapBannerPrefs = selectors.preferences.getShowSwapBanner(state)
   const showSwapBanner = !showKycGetStarted && showSwapBannerPrefs
 
+  let bannerToShow
+  if (showDocResubmitBanner) {
+    bannerToShow = 'resubmit'
+  } else if (showAirdropBanner) {
+    bannerToShow = 'airdrop'
+  } else if (showSwapBanner) {
+    bannerToShow = 'swap'
+  } else {
+    bannerToShow = null
+  }
+
   return {
-    bannerToShow: showDocResubmitBanner
-      ? 'resubmit'
-      : showSwapBanner
-        ? 'swap'
-        : null,
-    kycNotFinished
+    bannerToShow,
+    kycNotFinished,
+    isSunRiverTagged
   }
 }

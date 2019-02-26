@@ -4,9 +4,8 @@ import { prop } from 'ramda'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { CAMPAIGNS } from './model'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
@@ -15,6 +14,8 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+
+const { CAMPAIGNS } = model.components.identityVerification
 
 const AirdropReminderModalHeader = styled(ModalHeader)`
   position: absolute;

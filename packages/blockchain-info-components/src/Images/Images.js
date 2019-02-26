@@ -1,3 +1,4 @@
+import airdropSunRiverDashboard from './img/airdrop-sunriver-dashboard.png'
 import airdropWelcome from './img/airdrop-welcome.png'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
@@ -91,6 +92,7 @@ import onboardCustomize from './img/lockbox/onboarding_customize.gif'
 import onboardPairDevice from './img/lockbox/onboarding_pairdevice.gif'
 
 export default {
+  'airdrop-sunriver-dashboard': airdropSunRiverDashboard,
   'airdrop-welcome': airdropWelcome,
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
