@@ -40,7 +40,12 @@ import {
   LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
-import { AirdropReminder, SwapGetStarted, Welcome } from './Onboarding'
+import {
+  AirdropReminder,
+  SwapGetStarted,
+  UpgradeForAirdrop,
+  Welcome
+} from './Onboarding'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
@@ -128,6 +133,7 @@ const Modals = () => (
     <TwoStepSetup />
     <TwoStepYubico />
     <UpgradeAddressLabels />
+    <UpgradeForAirdrop />
     <UpgradeWallet />
     <UserExists />
     <Welcome />

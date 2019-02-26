@@ -8,3 +8,8 @@ export const airdropReminderSubmitClicked = campaign => ({
   type: AT.AIRDROP_REMINDER_SUBMIT_CLICK,
   payload: { campaign }
 })
+
+export const upgradeForAirdropSubmitClicked = campaign => ({
+  type: AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
+  payload: { campaign }
+})

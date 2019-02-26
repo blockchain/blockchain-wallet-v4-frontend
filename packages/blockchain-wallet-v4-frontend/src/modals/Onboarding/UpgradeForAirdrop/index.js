@@ -17,7 +17,7 @@ import {
 
 const { CAMPAIGNS } = model.components.identityVerification
 
-const AirdropReminderModalHeader = styled(ModalHeader)`
+const UpgradeForAirdropModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
@@ -61,12 +61,12 @@ const LaterButton = styled(FooterButton)`
   }
 `
 
-class AirdropReminder extends React.PureComponent {
+class UpgradeForAirdrop extends React.PureComponent {
   render () {
     const { campaign, position, total, close, actions } = this.props
     return (
       <Modal size='small' position={position} total={total}>
-        <AirdropReminderModalHeader onClose={close} />
+        <UpgradeForAirdropModalHeader onClose={close} />
         <Image
           width='100%'
           name='get-free-crypto'
@@ -78,14 +78,14 @@ class AirdropReminder extends React.PureComponent {
         <Body>
           <Text size='24px' weight={300}>
             <FormattedMessage
-              id='modals.airdropreminder.getfreecrypto'
+              id='modals.upgradeforairdrop.getfreecrypto'
               defaultMessage='Get Free Crypto'
             />
           </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.airdropreminder.completeprofile'
-              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
+              id='modals.upgradeforairdrop.completeprofile'
+              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).'
               values={{
                 coinName: prop('coinName', CAMPAIGNS[campaign]),
                 coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -98,17 +98,17 @@ class AirdropReminder extends React.PureComponent {
             nature='primary'
             size='18px'
             fullwidth
-            onClick={() => actions.airdropReminderSubmitClicked(campaign)}
+            onClick={() => actions.upgradeForAirdropSubmitClicked(campaign)}
           >
             <FormattedMessage
-              defaultMessage='Get Started'
-              id='modals.airdropreminder.getstarted'
+              defaultMessage='Upgrade Now'
+              id='modals.upgradeforairdrop.upgradenow'
             />
           </FooterButton>
           <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
             <FormattedMessage
               defaultMessage='Remind Me Later'
-              id='modals.airdropreminder.later'
+              id='modals.upgradeforairdrop.later'
             />
           </LaterButton>
         </Footer>
@@ -117,7 +117,7 @@ class AirdropReminder extends React.PureComponent {
   }
 }
 
-AirdropReminder.defaultProps = {
+UpgradeForAirdrop.defaultProps = {
   campaign: 'sunriver'
 }
 
@@ -130,7 +130,7 @@ const enhance = compose(
     undefined,
     mapDispatchToProps
   ),
-  modalEnhancer('AirdropReminder')
+  modalEnhancer('UpgradeForAirdrop')
 )
 
-export default enhance(AirdropReminder)
+export default enhance(UpgradeForAirdrop)
