@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Text } from 'blockchain-info-components'
-import { selectors } from 'data'
+import { getData } from './selectors'
 
 import {
   ErrorMessageHeader,
@@ -40,7 +40,7 @@ class ExchangeError extends React.PureComponent {
           <ErrorMessageHeader {...this.props} />
         </HeaderText>
         <CopyText>
-          <ErrorMessageBody {...this.props} />
+          <ErrorMessageBody {...this.props} {...this.props.data} />
         </CopyText>
         <Buttons>
           <ErrorMessageButtons {...this.props} />
@@ -51,8 +51,7 @@ class ExchangeError extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  min: selectors.components.exchange.getMin(state),
-  max: selectors.components.exchange.getMax(state)
+  ...getData(state)
 })
 
 export default connect(mapStateToProps)(ExchangeError)

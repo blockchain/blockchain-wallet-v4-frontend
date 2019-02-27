@@ -22,21 +22,13 @@ export const ErrorMessageHeader = ({ error }) => {
         />
       )
     }
-    case 'DAILY_LIMIT_EXCEEDED' ||
-      'WEEKLY_LIMIT_EXCEEDED' ||
-      'ANNUAL_LIMIT_EXCEEDED': {
+    case 'DAILY_LIMIT_EXCEEDED':
+    case 'WEEKLY_LIMIT_EXCEEDED':
+    case 'ANNUAL_LIMIT_EXCEEDED': {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.whoathere'
           defaultMessage='Whoa! Hold your horses. 🐴'
-        />
-      )
-    }
-    case 'ALBERT_EXECUTION_ERROR': {
-      return (
-        <FormattedMessage
-          id='scenes.exchange.confirm.oopserror'
-          defaultMessage='Oops! Something went wrong.'
         />
       )
     }
@@ -67,7 +59,14 @@ export const ErrorMessageHeader = ({ error }) => {
   }
 }
 
-export const ErrorMessageBody = ({ error, min, max }) => {
+export const ErrorMessageBody = ({
+  error,
+  annualLimit,
+  dailyLimit,
+  min,
+  max,
+  symbol
+}) => {
   switch (getErrorMessage(error)) {
     case 'ORDER_BELOW_MIN_LIMIT': {
       return (
@@ -84,6 +83,24 @@ export const ErrorMessageBody = ({ error, min, max }) => {
           id='scenes.exchange.confirm.orderabovemax'
           defaultMessage='Due to market movement, your order value is now above the maximum allowable threshold of {amount} {symbol}.'
           values={{ ...max }}
+        />
+      )
+    }
+    case 'ANNUAL_LIMIT_EXCEEDED': {
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.annuallimitexceeded'
+          defaultMessage='There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{annualLimit}.'
+          values={{ symbol, annualLimit }}
+        />
+      )
+    }
+    case 'DAILY_LIMIT_EXCEEDED': {
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.dailylimitexceeded'
+          defaultMessage='There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{dailyLimit}.'
+          values={{ symbol, dailyLimit }}
         />
       )
     }
