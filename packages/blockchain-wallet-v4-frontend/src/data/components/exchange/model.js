@@ -55,6 +55,15 @@ export const CREATE_ACCOUNT_ERROR = 'Not enough funds to create new account'
 export const NO_ACCOUNT_ERROR = 'Account does not exist'
 export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
 
+export const SWAP_ERROR_CODES = {
+  41: 'ORDER_BELOW_MIN_LIMIT',
+  43: 'ORDER_ABOVE_MAX_LIMIT',
+  45: 'DAILY_LIMIT_EXCEEDED',
+  46: 'WEEKLY_LIMIT_EXCEEDED',
+  47: 'ANNUAL_LIMIT_EXCEEDED',
+  38: 'ALBERT_EXECUTION_ERROR'
+}
+
 const currenciesOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'BSV']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
 
