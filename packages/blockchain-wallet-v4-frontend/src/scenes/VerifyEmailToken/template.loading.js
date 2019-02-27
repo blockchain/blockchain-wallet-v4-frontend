@@ -17,7 +17,7 @@ const LogoWrapper = styled.div`
   }
 `
 
-const Loading = props => {
+const Loading = () => {
   return (
     <Wrapper>
       <LogoWrapper>
