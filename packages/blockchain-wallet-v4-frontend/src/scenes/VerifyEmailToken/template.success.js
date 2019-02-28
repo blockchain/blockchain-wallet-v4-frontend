@@ -22,7 +22,7 @@ const Success = props => {
   return (
     <Wrapper>
       <LogoWrapper>
-        <Image name='email-good' width='75px' height='75px' />
+        <Image name='email-success' width='75px' height='75px' />
       </LogoWrapper>
       <Text
         size='18px'
