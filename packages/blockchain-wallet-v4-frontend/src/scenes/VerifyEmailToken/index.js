@@ -1,44 +1,47 @@
 import React from 'react'
-import { actions } from 'data'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 330px;
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
 `
 
 class VerifyEmailToken extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      token: decodeURIComponent(
-        props.location.pathname.split('/verify-email/')[1]
-      )
-    }
+  state = {
+    token: decodeURIComponent(
+      this.props.location.pathname.split('/verify-email/')[1]
+    )
   }
 
   componentDidMount () {
     this.props.miscActions.verifyEmailToken(this.state.token)
   }
 
+  getMobileLinkOut = () => {
+    return this.props.appEnv === 'prod'
+      ? 'https://blockchain.page.link/email_verified'
+      : 'https://blockchainwalletstaging.page.link/email_verified'
+  }
+
+  onResendEmail = () => {}
+
   render () {
     const { data } = this.props
 
     let VerifyEmailStatus = data.cata({
-      Success: value => <Success value={value} />,
-      Failure: value => <Error value={value} />,
+      Success: () => <Success mobileLinkOut={this.getMobileLinkOut()} />,
+      Failure: error => (
+        <Error onResendEmail={this.onResendEmail} error={error} />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -48,7 +51,8 @@ class VerifyEmailToken extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: selectors.core.data.misc.verifyEmailToken(state),
+  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod')
 })
 
 const mapDispatchToProps = dispatch => ({
