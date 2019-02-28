@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,22 +9,35 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const LogoWrapper = styled.div`
+
+const rotateFrames = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`
+const rotateAnimation = css`
+  ${rotateFrames} 1s infinite linear;
+`
+const LoadingWrapper = styled.div`
+  position: relative;
   display: flex;
-  align-items: center;
-  > div:last-child {
-    margin-left: 15px;
-  }
+  justify-content: center;
+`
+const LoadingIcon = styled.div`
+  height: 60px;
+  width: 60px;
+  border-top: 3px solid rgba(0, 0, 0, 0.5);
+  border-right: 3px solid transparent;
+  border-radius: 50%;
+  animation: ${rotateAnimation};
 `
 
 const Loading = () => {
   return (
     <Wrapper>
-      <LogoWrapper>
-        <BlockchainLoader width='40px' height='40px' />
-        <Text weight={300}>Blockchain Wallet</Text>
-      </LogoWrapper>
-      <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
+      <LoadingWrapper>
+        <LoadingIcon />
+      </LoadingWrapper>
+      <Text style={{ marginTop: '24px' }} size='14px' weight={300}>
         <FormattedMessage
           id='scenes.verifyemailtoken.loading'
           defaultMessage="We're verifying your email address. Please wait..."
