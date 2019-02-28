@@ -15,30 +15,57 @@ const LogoWrapper = styled.div`
 `
 
 const Error = props => {
-  const { error, onResendEmail } = props
+  const { error } = props
 
-  return error.contains('already been verified') ? (
+  return (
     <Wrapper>
-      <LogoWrapper>
-        <Image name='email-good' width='75px' height='75px' />
-      </LogoWrapper>
-      <Text
-        size='18px'
-        weight={400}
-        color='marketing-primary'
-        style={{ 'margin-top': '10px' }}
-      >
-        <FormattedMessage
-          id='scenes.verifyemailtoken.error.alreadyverified.title'
-          defaultMessage='Your email is already verified.'
-        />
-      </Text>
-      <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
-        <FormattedMessage
-          id='scenes.verifyemailtoken.error.alreadyverified.message'
-          defaultMessage='If this was not you, feel free to contact us.'
-        />
-      </Text>
+      {error.includes('already been verified') ? (
+        <React.Fragment>
+          <LogoWrapper>
+            <Image name='email-good' width='75px' height='75px' />
+          </LogoWrapper>
+          <Text
+            size='18px'
+            weight={400}
+            color='marketing-primary'
+            style={{ 'margin-top': '10px' }}
+          >
+            <FormattedMessage
+              id='scenes.verifyemailtoken.error.alreadyverified.title'
+              defaultMessage='Your email is already verified.'
+            />
+          </Text>
+          <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
+            <FormattedMessage
+              id='scenes.verifyemailtoken.error.alreadyverified.message'
+              defaultMessage='If this was not you, feel free to contact us.'
+            />
+          </Text>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <LogoWrapper>
+            <Image name='email-bad' width='75px' height='75px' />
+          </LogoWrapper>
+          <Text
+            size='18px'
+            weight={400}
+            color='marketing-primary'
+            style={{ 'margin-top': '10px' }}
+          >
+            <FormattedMessage
+              id='scenes.verifyemailtoken.error'
+              defaultMessage='Something went wrong.'
+            />
+          </Text>
+          <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
+            <FormattedMessage
+              id='scenes.verifyemailtoken.error.tryagain'
+              defaultMessage='Try logging in again or contact support.'
+            />
+          </Text>
+        </React.Fragment>
+      )}
       <Link
         target='_blank'
         href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000020183'
@@ -55,41 +82,6 @@ const Error = props => {
           />
         </Button>
       </Link>
-    </Wrapper>
-  ) : (
-    <Wrapper>
-      <LogoWrapper>
-        <Image name='email-bad' width='75px' height='75px' />
-      </LogoWrapper>
-      <Text
-        size='18px'
-        weight={400}
-        color='marketing-primary'
-        style={{ 'margin-top': '10px' }}
-      >
-        <FormattedMessage
-          id='scenes.verifyemailtoken.error'
-          defaultMessage='Something went wrong.'
-        />
-      </Text>
-      <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
-        <FormattedMessage
-          id='scenes.verifyemailtoken.error.resend'
-          defaultMessage='We can send you a new email and try again.'
-        />
-      </Text>
-      <Button
-        nature='primary'
-        fullwidth
-        style={{ marginTop: '20px' }}
-        height='50px'
-        onClick={onResendEmail}
-      >
-        <FormattedMessage
-          id='scenes.verifyemailtoken.error.sendagain'
-          defaultMessage='Send Again'
-        />
-      </Button>
     </Wrapper>
   )
 }

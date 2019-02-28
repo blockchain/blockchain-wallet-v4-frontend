@@ -9,7 +9,7 @@ import Success from './template.success'
 import Error from './template.error'
 
 const Wrapper = styled.div`
-  width: 330px;
+  width: 340px;
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
@@ -32,16 +32,12 @@ class VerifyEmailToken extends React.PureComponent {
       : 'https://blockchainwalletstaging.page.link/email_verified'
   }
 
-  onResendEmail = () => {}
-
   render () {
     const { data } = this.props
 
     let VerifyEmailStatus = data.cata({
       Success: () => <Success mobileLinkOut={this.getMobileLinkOut()} />,
-      Failure: error => (
-        <Error onResendEmail={this.onResendEmail} error={error} />
-      ),
+      Failure: error => <Error error={error} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
