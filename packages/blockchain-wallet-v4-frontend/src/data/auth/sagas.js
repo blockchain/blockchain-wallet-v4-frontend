@@ -284,9 +284,10 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+      } else if (error && is(String, error)) {
+        yield put(actions.auth.loginFailure(error))
       } else {
-        const errorMessage =
-          prop('message', error) || error || defaultLoginErrorMessage
+        const errorMessage = prop('message', error) || defaultLoginErrorMessage
         yield put(actions.auth.loginFailure(errorMessage))
       }
     }
