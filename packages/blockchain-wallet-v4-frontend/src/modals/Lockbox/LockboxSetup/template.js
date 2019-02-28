@@ -4,6 +4,9 @@ import styled from 'styled-components'
 
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 
+const ModalWrapper = styled(Modal)`
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+`
 const Header = styled(ModalHeader)`
   & > :first-child > div {
     font-size: 16px;
@@ -15,10 +18,10 @@ const LockboxSetup = props => {
   const { children, position, total, onClose, title } = props
 
   return (
-    <Modal size='small' position={position} total={total}>
+    <ModalWrapper size='small' position={position} total={total}>
       <Header onClose={onClose}>{title()}</Header>
       <ModalBody>{children}</ModalBody>
-    </Modal>
+    </ModalWrapper>
   )
 }
 
