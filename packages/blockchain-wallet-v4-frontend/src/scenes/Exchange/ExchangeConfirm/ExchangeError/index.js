@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import { getData } from './selectors'
 
 import {
@@ -54,4 +55,12 @@ const mapStateToProps = state => ({
   ...getData(state)
 })
 
-export default connect(mapStateToProps)(ExchangeError)
+const mapDispatchToProps = dispatch => ({
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExchangeError)

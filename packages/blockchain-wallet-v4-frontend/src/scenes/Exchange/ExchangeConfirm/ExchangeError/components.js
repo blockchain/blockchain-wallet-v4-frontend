@@ -2,19 +2,25 @@ import React from 'react'
 import { prop } from 'ramda'
 import { model } from 'data'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button } from 'blockchain-info-components'
+import { Button, Link } from 'blockchain-info-components'
 const {
   MISSING_DEVICE_ERROR,
   NO_TRADE_PERMISSION,
-  SWAP_ERROR_CODES
+  SWAP_ERROR_CODES,
+  ORDER_BELOW_MIN_LIMIT,
+  ORDER_ABOVE_MAX_LIMIT,
+  DAILY_LIMIT_EXCEEDED,
+  WEEKLY_LIMIT_EXCEEDED,
+  ANNUAL_LIMIT_EXCEEDED
 } = model.components.exchange
 
-const getErrorMessage = error =>
+const parseError = error =>
   SWAP_ERROR_CODES[prop('code', error)] || prop('type', error) || error
 
 export const ErrorMessageHeader = ({ error }) => {
-  switch (getErrorMessage(error)) {
-    case 'ORDER_BELOW_MIN_LIMIT' || 'ORDER_ABOVE_MAX_LIMIT': {
+  const parsedError = parseError(error)
+  switch (parsedError) {
+    case ORDER_BELOW_MIN_LIMIT || ORDER_ABOVE_MAX_LIMIT: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.marketsaremoving'
@@ -22,9 +28,9 @@ export const ErrorMessageHeader = ({ error }) => {
         />
       )
     }
-    case 'DAILY_LIMIT_EXCEEDED':
-    case 'WEEKLY_LIMIT_EXCEEDED':
-    case 'ANNUAL_LIMIT_EXCEEDED': {
+    case DAILY_LIMIT_EXCEEDED:
+    case WEEKLY_LIMIT_EXCEEDED:
+    case ANNUAL_LIMIT_EXCEEDED: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.whoathere'
@@ -67,8 +73,9 @@ export const ErrorMessageBody = ({
   max,
   symbol
 }) => {
-  switch (getErrorMessage(error)) {
-    case 'ORDER_BELOW_MIN_LIMIT': {
+  const parsedError = parseError(error)
+  switch (parsedError) {
+    case ORDER_BELOW_MIN_LIMIT: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.orderbelowmin'
@@ -77,7 +84,7 @@ export const ErrorMessageBody = ({
         />
       )
     }
-    case 'ORDER_ABOVE_MAX_LIMIT': {
+    case ORDER_ABOVE_MAX_LIMIT: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.orderabovemax'
@@ -86,7 +93,7 @@ export const ErrorMessageBody = ({
         />
       )
     }
-    case 'ANNUAL_LIMIT_EXCEEDED': {
+    case ANNUAL_LIMIT_EXCEEDED: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.annuallimitexceeded'
@@ -95,7 +102,7 @@ export const ErrorMessageBody = ({
         />
       )
     }
-    case 'DAILY_LIMIT_EXCEEDED': {
+    case DAILY_LIMIT_EXCEEDED: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.dailylimitexceeded'
@@ -118,9 +125,16 @@ export const ErrorMessageBody = ({
   }
 }
 
-export const ErrorMessageButtons = ({ error, onBack, handleSubmit }) => {
-  switch (getErrorMessage(error)) {
-    case 'ORDER_BELOW_MIN_LIMIT': {
+export const ErrorMessageButtons = ({
+  error,
+  onBack,
+  handleSubmit,
+  verifyIdentity
+}) => {
+  const parsedError = parseError(error)
+  switch (parsedError) {
+    case ORDER_BELOW_MIN_LIMIT:
+    case ORDER_ABOVE_MAX_LIMIT: {
       return (
         <React.Fragment>
           <Button nature='primary' height='56px' size='17px' onClick={onBack}>
@@ -130,9 +144,63 @@ export const ErrorMessageButtons = ({ error, onBack, handleSubmit }) => {
             />
           </Button>
           <Button nature='empty-secondary' height='56px' size='17px'>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360023587292-Order-failed-due-to-market-movements'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='scenes.exchange.confirm.moreinfo'
+                defaultMessage='More Info'
+              />
+            </Link>
+          </Button>
+        </React.Fragment>
+      )
+    }
+    case DAILY_LIMIT_EXCEEDED:
+    case WEEKLY_LIMIT_EXCEEDED: {
+      return (
+        <React.Fragment>
+          <Button nature='primary' height='56px' size='17px' onClick={onBack}>
             <FormattedMessage
-              id='scenes.exchange.confirm.moreinfo'
-              defaultMessage='More Info'
+              id='scenes.exchange.confirm.updateorder'
+              defaultMessage='Update Order'
+            />
+          </Button>
+          <Button nature='empty-secondary' height='56px' size='17px'>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='scenes.exchange.confirm.moreinfo'
+                defaultMessage='More Info'
+              />
+            </Link>
+          </Button>
+        </React.Fragment>
+      )
+    }
+    case ANNUAL_LIMIT_EXCEEDED: {
+      return (
+        <React.Fragment>
+          <Button nature='primary' height='56px' size='17px' onClick={onBack}>
+            <FormattedMessage
+              id='scenes.exchange.confirm.updateorder'
+              defaultMessage='Update Order'
+            />
+          </Button>
+          <Button
+            nature='empty-secondary'
+            height='56px'
+            size='17px'
+            onClick={verifyIdentity}
+          >
+            <FormattedMessage
+              id='scenes.exchange.confirm.increaselimits'
+              defaultMessage='Increase My Limits'
             />
           </Button>
         </React.Fragment>
