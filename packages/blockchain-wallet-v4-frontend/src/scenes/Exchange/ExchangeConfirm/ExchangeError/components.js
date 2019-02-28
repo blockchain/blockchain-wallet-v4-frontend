@@ -20,7 +20,8 @@ const parseError = error =>
 export const ErrorMessageHeader = ({ error }) => {
   const parsedError = parseError(error)
   switch (parsedError) {
-    case ORDER_BELOW_MIN_LIMIT || ORDER_ABOVE_MAX_LIMIT: {
+    case ORDER_BELOW_MIN_LIMIT:
+    case ORDER_ABOVE_MAX_LIMIT: {
       return (
         <FormattedMessage
           id='scenes.exchange.confirm.marketsaremoving'
