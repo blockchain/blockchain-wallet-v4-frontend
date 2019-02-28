@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   showKycGetStarted: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
+  showUpgradeForAirdropModal: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -56,6 +57,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_AIRDROP_REMINDER_MODAL: {
       return assoc('showAirdropReminderModal', false, state)
+    }
+    case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
+      return assoc('showUpgradeForAirdropModal', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)

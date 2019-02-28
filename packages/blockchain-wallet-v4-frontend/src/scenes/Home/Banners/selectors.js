@@ -13,7 +13,7 @@ export const getData = state => {
   const showAirdropBanner = selectors.modules.profile
     .getTiers(state)
     .map(filter(propEq('index', 2)))
-    .map(propEq('state', TIERS_STATES.none))
+    .map(propEq('state', TIERS_STATES.NONE))
     .getOrElse(false)
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)

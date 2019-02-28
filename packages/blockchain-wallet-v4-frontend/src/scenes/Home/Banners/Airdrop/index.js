@@ -34,8 +34,8 @@ const Wrapper = styled.div`
     height: 88px;
     padding: 0 30px;
     box-sizing: border-box;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: contain;
   }
 `
 
