@@ -74,7 +74,12 @@ const ThirdStep = props => {
         <Container>
           {indexes.map(index => (
             <WordContainer key={index}>
-              <Text size='14px' weight={300} style={{ marginBottom: '4px' }}>
+              <Text
+                size='14px'
+                weight={300}
+                style={{ marginBottom: '4px' }}
+                data-e2e='wordLabel'
+              >
                 {`${languageHelper(index)} word`}
               </Text>
               <Field
@@ -83,12 +88,17 @@ const ThirdStep = props => {
                 validate={[required]}
                 errorBottom
                 noLastPass
+                data-e2e='wordInput'
               />
             </WordContainer>
           ))}
         </Container>
         <Buttons>
-          <Button onClick={previousStep} nature='empty'>
+          <Button
+            onClick={previousStep}
+            nature='empty'
+            data-e2e='reviewBackupPhraseButton'
+          >
             <Text weight={300} cursor='pointer'>
               <FormattedMessage
                 id='scenes.securitycenter.walletrecoveryphrase.thirdstep.review'
@@ -101,6 +111,7 @@ const ThirdStep = props => {
             nature='primary'
             disabled={submitting || invalid}
             style={spacing('ml-15')}
+            data-e2e='confirmBackupPhraseButton'
           >
             <FormattedMessage
               id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'
