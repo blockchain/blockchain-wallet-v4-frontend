@@ -42,6 +42,7 @@ import {
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import {
   AirdropReminder,
+  CoinifyUpgrade,
   SwapGetStarted,
   UpgradeForAirdrop,
   Welcome
@@ -82,6 +83,7 @@ const Modals = () => (
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
+    <CoinifyUpgrade />
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />

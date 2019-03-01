@@ -58,7 +58,7 @@ const KYCNotification = props => {
                 <FormattedMessage
                   id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy'
                   defaultMessage='While your identity gets verified, you can buy up to '
-                />
+                />{' '}
                 {symbol}
                 {limits.max}.
               </Fragment>
