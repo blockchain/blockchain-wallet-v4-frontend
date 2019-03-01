@@ -56,9 +56,17 @@ const PasswordStretching = props => {
       </SettingSummary>
       <SettingComponent>
         <SettingWrapper>
-          {currentStretch && <CurrentText>{currentStretch}</CurrentText>}
+          {currentStretch && (
+            <CurrentText data-e2e='currentStretchLabel'>
+              {currentStretch}
+            </CurrentText>
+          )}
           {!updateToggled && (
-            <Button nature='primary' onClick={handleToggle}>
+            <Button
+              nature='primary'
+              onClick={handleToggle}
+              data-e2e='editPasswordStretchingButton'
+            >
               <FormattedMessage
                 id='scenes.securitycenter.advanced.passwordstretching.edit'
                 defaultMessage='Edit'
@@ -73,7 +81,12 @@ const PasswordStretching = props => {
                 validate={validPasswordStretchingNumber}
               />
               <ButtonWrapper>
-                <Button nature='empty' capitalize onClick={handleToggle}>
+                <Button
+                  nature='empty'
+                  capitalize
+                  onClick={handleToggle}
+                  data-e2e='passwordStretchCancelButton'
+                >
                   <FormattedMessage
                     id='scenes.securitycenter.advanced.passwordstretching.cancel'
                     defaultMessage='Cancel'
@@ -84,6 +97,7 @@ const PasswordStretching = props => {
                   nature='primary'
                   capitalize
                   disabled={submitting || invalid}
+                  data-e2e='cancelStretchSaveButton'
                 >
                   <FormattedMessage
                     id='scenes.securitycenter.advanced.passwordstretching.save'
