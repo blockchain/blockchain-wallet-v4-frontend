@@ -135,9 +135,12 @@ class UnusedAddressesContainer extends React.PureComponent {
             down
             forceSelected
             color={'gray-5'}
-            data-e2e='btcWalletMoreOptionsDropdown'
             selectedComponent={
-              <Link weight={400} size='13px'>
+              <Link
+                weight={400}
+                size='13px'
+                data-e2e='btcWalletMoreOptionsDropdown'
+              >
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
                   defaultMessage='More Options'

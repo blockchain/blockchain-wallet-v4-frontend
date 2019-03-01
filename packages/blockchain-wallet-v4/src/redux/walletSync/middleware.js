@@ -66,7 +66,7 @@ export const getHDAccountAddressPromises = curry((state, account) => {
  */
 export const getUnusedLabeledAddresses = async (state, api) => {
   const labeledAddresses = await api.fetchBlockchainData(
-    selectors.kvStore.btc.getAddressLabels(state)
+    selectors.kvStore.btc.getAddressLabelKeys(state)
   )
   return compose(
     pluck('address'),

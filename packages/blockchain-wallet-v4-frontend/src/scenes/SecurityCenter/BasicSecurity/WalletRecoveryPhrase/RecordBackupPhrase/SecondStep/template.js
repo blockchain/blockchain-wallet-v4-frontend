@@ -50,19 +50,31 @@ const SecondStep = props => {
     <Wrapper>
       <Container>
         {words.map((word, index) => {
-          return <Word key={index}>{word}</Word>
+          return (
+            <Word key={index} data-e2e='backupWords'>
+              {word}
+            </Word>
+          )
         })}
       </Container>
       <Buttons>
         {step === 1 ? (
-          <Button nature='empty' onClick={props.handleClose}>
+          <Button
+            nature='empty'
+            onClick={props.handleClose}
+            data-e2e='backupPhraseCancelButton'
+          >
             <FormattedMessage
               id='scenes.security.2fa.cancel'
               defaultMessage='Cancel'
             />
           </Button>
         ) : (
-          <Button onClick={handleClickPrevious} nature='empty'>
+          <Button
+            onClick={handleClickPrevious}
+            nature='empty'
+            data-e2e='previous4WordsButton'
+          >
             <FormattedMessage
               id='modals.recoveryphrase.secondstep.prevfourwords'
               defaultMessage='Previous 4 Words'
@@ -70,7 +82,12 @@ const SecondStep = props => {
           </Button>
         )}
         {step === 3 ? (
-          <Button onClick={nextStep} style={spacing('ml-15')} nature='primary'>
+          <Button
+            onClick={nextStep}
+            style={spacing('ml-15')}
+            nature='primary'
+            data-e2e='finishAndVerifyButton'
+          >
             <FormattedMessage
               id='modals.recoveryphrase.secondstep.finishandcheckphrase'
               defaultMessage='Finish & Verify'
@@ -81,6 +98,7 @@ const SecondStep = props => {
             onClick={handleClickNext}
             style={spacing('ml-15')}
             nature='primary'
+            data-e2e='next4WordsButton'
           >
             <FormattedMessage
               id='modals.recoveryphrase.secondstep.nextfourwords'

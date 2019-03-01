@@ -9,12 +9,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import {
-  EMAIL_STEPS,
-  FLOW_TYPES,
-  KYC_PROVIDERS,
-  SUNRIVER_LINK_ERROR_MODAL
-} from './model'
+import { EMAIL_STEPS, FLOW_TYPES, SUNRIVER_LINK_ERROR_MODAL } from './model'
 import sagas, {
   logLocation,
   wrongFlowTypeError,
@@ -173,12 +168,11 @@ describe('goToNextStep saga', () => {
 describe('checkKycFlow saga', () => {
   it('should set flow config', () => {
     const flowType = FLOW_TYPES.LOW
-    const kycProvider = KYC_PROVIDERS.ONFIDO
-    api.fetchKycConfig.mockResolvedValue({ flowType, kycProvider })
+    api.fetchKycConfig.mockResolvedValue({ flowType })
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
+      .put(A.setKycFlowSuccess({ flowType }))
       .run()
   })
 
@@ -186,9 +180,9 @@ describe('checkKycFlow saga', () => {
     const flowType = FLOW_TYPES.LOW + '1'
     api.fetchKycConfig.mockResolvedValue({ flowType })
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.Failure(wrongFlowTypeError)))
+      .put(A.setKycFlowFailure(wrongFlowTypeError))
       .run()
   })
 
@@ -196,9 +190,9 @@ describe('checkKycFlow saga', () => {
     const error = {}
     api.fetchKycConfig.mockRejectedValue(error)
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.Failure(error)))
+      .put(A.setKycFlowFailure(error))
       .run()
   })
 })

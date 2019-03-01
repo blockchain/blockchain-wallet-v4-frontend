@@ -1,7 +1,7 @@
 import {
   any,
   curry,
-  contains,
+  includes,
   equals,
   head,
   filter,
@@ -24,20 +24,15 @@ const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
 
   switch (true) {
-    case contains(tx.from, lowerAddresses) && contains(tx.to, lowerAddresses):
+    case includes(tx.from, lowerAddresses) && includes(tx.to, lowerAddresses):
       return 'Transferred'
-    case contains(tx.from, lowerAddresses):
+    case includes(tx.from, lowerAddresses):
       return 'Sent'
-    case contains(tx.to, lowerAddresses):
+    case includes(tx.to, lowerAddresses):
       return 'Received'
     default:
       return 'Unknown'
   }
-}
-
-export const getConfirmations = (blockNumber, latestBlockHeight) => {
-  const conf = latestBlockHeight - blockNumber + 1
-  return conf > 0 ? conf : 0
 }
 
 export const getTime = tx => {
@@ -79,12 +74,13 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, latestBlock, state, tx) => {
+export const _transformTx = curry((addresses, state, tx) => {
   const fee = getFee(tx)
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
   return {
+    blockHeight: tx.blockNumber,
     type,
     fee,
     amount,
@@ -92,7 +88,6 @@ export const _transformTx = curry((addresses, latestBlock, state, tx) => {
     to: getLabel(tx.to, state),
     from: getLabel(tx.from, state),
     description: getEthTxNote(state, tx.hash).getOrElse(''),
-    confirmations: getConfirmations(tx.blockNumber, latestBlock),
     timeFormatted: getTime(tx),
     time: tx.timeStamp
   }

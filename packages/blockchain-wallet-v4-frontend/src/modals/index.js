@@ -22,7 +22,6 @@ import {
   ExchangeResults,
   KycDocResubmit,
   IdentityVerification,
-  SwapGetStarted,
   SwapUpgrade,
   UserExists,
   SunRiverLinkError
@@ -37,6 +36,12 @@ import {
   LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
+import {
+  AirdropReminder,
+  SwapGetStarted,
+  UpgradeForAirdrop,
+  Welcome
+} from './Onboarding'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
@@ -54,7 +59,7 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
-import { PairingCode, ShowXPub, UpgradeWallet, Welcome } from './Wallet'
+import { PairingCode, ShowXPub, UpgradeWallet } from './Wallet'
 import {
   RequestXlm,
   SendXlm,
@@ -67,6 +72,7 @@ import {
 const Modals = () => (
   <div>
     <AddBtcWallet />
+    <AirdropReminder />
     <AutoDisconnection />
     <BsvGetStarted />
     <CoinifyDeleteBank />
@@ -122,6 +128,7 @@ const Modals = () => (
     <TwoStepSetup />
     <TwoStepYubico />
     <UpgradeAddressLabels />
+    <UpgradeForAirdrop />
     <UpgradeWallet />
     <UserExists />
     <Welcome />

@@ -68,18 +68,18 @@ const {
 describe('fetch ledger details saga', () => {
   it('should fetch latest ledger details', () =>
     expectSaga(fetchLedgerDetails)
-      .put(A.setLedgerDetails(Remote.Loading))
+      .put(A.setLedgerDetailsLoading())
       .call(api.getLatestLedgerDetails)
-      .put(A.setLedgerDetails(Remote.Success(STUB_LEDGER)))
+      .put(A.setLedgerDetailsSuccess(STUB_LEDGER))
       .run())
 
   it('should set ledger error if fetch fails', () => {
     const error = 'error'
     api.getLatestLedgerDetails.mockRejectedValue(error)
     return expectSaga(fetchLedgerDetails)
-      .put(A.setLedgerDetails(Remote.Loading))
+      .put(A.setLedgerDetailsLoading())
       .call(api.getLatestLedgerDetails)
-      .put(A.setLedgerDetails(Remote.Failure(error)))
+      .put(A.setLedgerDetailsFailure(error))
       .run()
   })
 })

@@ -264,12 +264,6 @@ describe('IdentityVerification Modal', () => {
           .simulate('change', {
             target: { value: 'Paris' }
           })
-        wrapper
-          .find('Field[name="state"]')
-          .find('input[name="state"]')
-          .simulate('change', {
-            target: { value: POSSIBLE_ADDRESSES[0]['state'] }
-          })
         await jest.runAllTimers()
         await flushPromises()
         wrapper.update()
