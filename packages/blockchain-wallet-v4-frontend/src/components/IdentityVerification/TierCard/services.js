@@ -174,8 +174,8 @@ export const ctas = {
   ),
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.goldcta'
-      defaultMessage='Unlock Gold'
+      id='components.identityverification.tiercard.goldctamedal'
+      defaultMessage='Unlock Gold 🥇'
     />
   )
 }
