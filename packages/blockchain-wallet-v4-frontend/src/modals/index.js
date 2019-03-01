@@ -39,7 +39,7 @@ import {
   LockboxConnectionPrompt,
   LockboxShowXPubs
 } from './Lockbox'
-import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
+import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import {
   AirdropReminder,
   SwapGetStarted,
@@ -99,7 +99,6 @@ const Modals = () => (
     <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
-    <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />

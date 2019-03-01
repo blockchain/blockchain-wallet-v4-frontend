@@ -323,7 +323,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
-    yield put(actions.modals.closeModal())
   }
   const register = function*(action) {
     try {
