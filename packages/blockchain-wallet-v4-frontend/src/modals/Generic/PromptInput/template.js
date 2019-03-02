@@ -43,7 +43,7 @@ const PromptTemplate = ({
         </ModalHeader>
         <ModalBody>
           <FormGroup>
-            <FormItem>
+            <FormItem data-e2e='inputModalInputField'>
               <Field
                 name='value'
                 validate={[required]}
@@ -59,6 +59,7 @@ const PromptTemplate = ({
             nature='primary'
             capitalize
             disabled={submitting || invalid}
+            data-e2e='inputModalSubmitButton'
           >
             <FormattedMessage
               id='modals.prompt.button'

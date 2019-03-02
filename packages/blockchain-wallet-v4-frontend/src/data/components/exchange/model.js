@@ -50,10 +50,23 @@ export const ORDER_ERROR = 'Amount exceeds maximum trade size'
 export const LATEST_TX_ERROR = 'Unconfirmed tx pending'
 export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
 export const MISSING_DEVICE_ERROR = 'missing_device'
-export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
 export const CREATE_ACCOUNT_ERROR = 'Not enough funds to create new account'
 export const NO_ACCOUNT_ERROR = 'Account does not exist'
 export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
+export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
+export const ORDER_BELOW_MIN_LIMIT = 'ORDER_BELOW_MIN_LIMIT'
+export const ORDER_ABOVE_MAX_LIMIT = 'ORDER_ABOVE_MAX_LIMIT'
+export const DAILY_LIMIT_EXCEEDED = 'DAILY_LIMIT_EXCEEDED'
+export const WEEKLY_LIMIT_EXCEEDED = 'WEEKLY_LIMIT_EXCEEDED'
+export const ANNUAL_LIMIT_EXCEEDED = 'ANNUAL_LIMIT_EXCEEDED'
+
+export const SWAP_ERROR_CODES = {
+  41: ORDER_BELOW_MIN_LIMIT,
+  43: ORDER_ABOVE_MAX_LIMIT,
+  45: DAILY_LIMIT_EXCEEDED,
+  46: WEEKLY_LIMIT_EXCEEDED,
+  47: ANNUAL_LIMIT_EXCEEDED
+}
 
 const currenciesOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'BSV']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))

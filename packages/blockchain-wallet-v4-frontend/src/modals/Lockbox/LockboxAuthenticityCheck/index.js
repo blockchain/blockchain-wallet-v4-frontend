@@ -55,7 +55,7 @@ AuthenticityContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state),
+  authenticity: selectors.components.lockbox.getDeviceAuthenticity(state),
   connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 

@@ -141,7 +141,7 @@ describe('authSagas', () => {
         it('should display info that authorization is required', () => {
           const message = 'error'
           saga
-            .throw(JSON.stringify({ authorization_required: message }))
+            .throw({ authorization_required: message })
             .put(
               actions.alerts.displayInfo(
                 C.AUTHORIZATION_REQUIRED_INFO,
@@ -227,7 +227,7 @@ describe('authSagas', () => {
         it('should trigger login failure', () => {
           const message = 'error'
           saga
-            .throw(JSON.stringify({ initial_error: message }))
+            .throw({ initial_error: message })
             .put(actions.auth.loginFailure(message))
             .next()
             .isDone()
@@ -340,7 +340,7 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
-      reportStats,
+      saveGoals,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
@@ -474,7 +474,7 @@ describe('authSagas', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
 
-    it('should trigger update language aciton with selected language', () => {
+    it('should trigger update language action with selected language', () => {
       const language = 'en'
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
@@ -483,20 +483,8 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch reportStats saga', () => {
-      saga.next().fork(reportStats, mobileLogin)
-    })
-
-    it('should add welcome goal', () => {
-      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
-    })
-
-    it('should add swap upgrade goal', () => {
-      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
-    })
-
-    it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kyc'))
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
     })
 
     it('should run goals', () => {
@@ -505,10 +493,6 @@ describe('authSagas', () => {
 
     it('should check for data errors', () => {
       saga.next().fork(checkDataErrors)
-    })
-
-    it('should dispatch action for reportBalanceStats', () => {
-      saga.next().put(actions.analytics.reportBalanceStats())
     })
 
     it('should start listening for logout event', () => {
@@ -541,7 +525,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
         ])
@@ -1206,7 +1189,7 @@ describe('authSagas', () => {
         title: 'archive_vulnerable_address_title',
         message: 'archive_vulnerable_address_msg',
         confirm: 'archive_vulnerable_address_confirm',
-        cancel: undefined,
+        cancel: 'archive_vulnerable_address_cancel',
         messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
       })
     })

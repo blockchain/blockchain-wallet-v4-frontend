@@ -1,13 +1,13 @@
 import React from 'react'
-import { prop } from 'ramda'
+import { prop, contains } from 'ramda'
 import moment from 'moment'
-import BitcoinCashSVSupport from './BitcoinCashSVSupport'
+import BSVSupport from './BSVSupport'
 import ExchangeByBlockchain from './ExchangeByBlockchain'
 
 const Announcements = [
   {
-    content: <BitcoinCashSVSupport />,
-    date: new Date('Jan 31 2019'),
+    content: <BSVSupport />,
+    date: new Date('Jan 10 2019'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
@@ -20,18 +20,23 @@ const Announcements = [
 ]
 
 export const filterAnnouncements = (lastViewed, userCountry, userKycState) => {
-  const isOnRestrictedCountryList = restrictedCountryList => restrictedCountryList.indexOf(userCountry) > -1
-  const isOnRestrictedKycList = restrictedKycList => restrictedKycList.indexOf(userKycState) > -1
+  const isOnRestrictedCountryList = contains(userCountry)
+  const isOnRestrictedKycList = contains(userKycState)
 
-  const isRestricted = announcement => (
+  const isRestricted = announcement =>
     isOnRestrictedCountryList(prop('restrictByCountry', announcement)) ||
     isOnRestrictedKycList(prop('restrictByUserKyc', announcement))
-  )
 
-  const filteredAnnouncements = Announcements.filter(announcement => {
-    if (!isRestricted(announcement)) {
-      return moment(announcement.date).isBetween(moment(lastViewed), moment())
-    }
-  })
-  return filteredAnnouncements
+  const isAvailableToView = (start, expires) =>
+    moment(start).isBetween(
+      moment(lastViewed).subtract(expires, 'days'),
+      moment()
+    )
+
+  return Announcements.map(announcement => ({
+    content: prop('content', announcement),
+    restricted: isRestricted(announcement),
+    display: isAvailableToView(lastViewed, 3),
+    alert: isAvailableToView(announcement.date, 0)
+  }))
 }

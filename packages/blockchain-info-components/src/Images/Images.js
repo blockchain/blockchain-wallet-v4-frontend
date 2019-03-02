@@ -1,4 +1,8 @@
+import airdropSunRiverDashboard from './img/airdrop-sunriver-dashboard.png'
 import airdropWelcome from './img/airdrop-welcome.png'
+import allowCamera from './img/allow-camera.png'
+import allowCamera2 from './img/allow-camera@2x.png'
+import allowCamera3 from './img/allow-camera@3x.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -15,8 +19,13 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import coinifyLogo from './img/coinify-logo.svg'
+import emailError from './img/email-error.svg'
+import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
+import getFreeCrypto from './img/get-free-crypto.png'
+import getFreeCrypto2 from './img/get-free-crypto@2x.png'
+import getFreeCrypto3 from './img/get-free-crypto@3x.png'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -54,6 +63,8 @@ import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
+import deviceNanoS from './img/lockbox/device-nano.png'
+import deviceLockbox from './img/lockbox/device-lockbox.png'
 import firmwareConnect from './img/lockbox/firmware-connect.png'
 import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
 import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
@@ -71,27 +82,23 @@ import lockboxSuccess from './img/lockbox/send-confirmed.png'
 import lockboxSuccess2 from './img/lockbox/send-confirmed@2x.png'
 import lockboxSuccess3 from './img/lockbox/send-confirmed@3x.png'
 import lockboxUsb from './img/lockbox-usb.svg'
-import onboardBitcoin from './img/lockbox/onboard-bitcoin.png'
-import onboardBitcoin2 from './img/lockbox/onboard-bitcoin@2x.png'
-import onboardBitcoin3 from './img/lockbox/onboard-bitcoin@3x.png'
-import onboardName from './img/lockbox/onboard-name.png'
-import onboardName2 from './img/lockbox/onboard-name@2x.png'
-import onboardName3 from './img/lockbox/onboard-name@3x.png'
-import onboardLink from './img/lockbox/onboard-link.png'
-import onboardLink2 from './img/lockbox/onboard-link@2x.png'
-import onboardLink3 from './img/lockbox/onboard-link@3x.png'
-import onboardVerify from './img/lockbox/onboard-verify.png'
-import onboardVerify2 from './img/lockbox/onboard-verify@2x.png'
-import onboardVerify3 from './img/lockbox/onboard-verify@3x.png'
 import sendConnect from './img/lockbox/send-connect.png'
 import sendConnect2 from './img/lockbox/send-connect@2x.png'
 import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import onboardComplete from './img/lockbox/onboarding_complete.gif'
+import onboardConnect from './img/lockbox/onboarding_connect.gif'
+import onboardCustomize from './img/lockbox/onboarding_customize.gif'
+import onboardPairDevice from './img/lockbox/onboarding_pairdevice.gif'
 
 export default {
+  'airdrop-sunriver-dashboard': airdropSunRiverDashboard,
   'airdrop-welcome': airdropWelcome,
+  'allow-camera': allowCamera,
+  'allow-camera2': allowCamera2,
+  'allow-camera3': allowCamera3,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'blockchain-blue': blockchainBlue,
@@ -108,8 +115,13 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'coinify-logo': coinifyLogo,
+  'email-error': emailError,
+  'email-success': emailSuccess,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
+  'get-free-crypto': getFreeCrypto,
+  'get-free-crypto2': getFreeCrypto2,
+  'get-free-crypto3': getFreeCrypto3,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
@@ -134,18 +146,12 @@ export default {
   'ledger-logo': ledgerLogo,
   'ledger-logo2': ledgerLogo2,
   'ledger-logo3': ledgerLogo3,
-  'lockbox-onboard-bitcoin': onboardBitcoin,
-  'lockbox-onboard-bitcoin2': onboardBitcoin2,
-  'lockbox-onboard-bitcoin3': onboardBitcoin3,
-  'lockbox-onboard-name': onboardName,
-  'lockbox-onboard-name2': onboardName2,
-  'lockbox-onboard-name3': onboardName3,
-  'lockbox-onboard-link': onboardLink,
-  'lockbox-onboard-link2': onboardLink2,
-  'lockbox-onboard-link3': onboardLink3,
-  'lockbox-onboard-verify': onboardVerify,
-  'lockbox-onboard-verify2': onboardVerify2,
-  'lockbox-onboard-verify3': onboardVerify3,
+  'ledger-nano-s': deviceNanoS,
+  'lockbox-device': deviceLockbox,
+  'lockbox-onboard-complete': onboardComplete,
+  'lockbox-onboard-connect': onboardConnect,
+  'lockbox-onboard-customize': onboardCustomize,
+  'lockbox-onboard-pairdevice': onboardPairDevice,
   'lockbox-send-connect': sendConnect,
   'lockbox-send-connect2': sendConnect2,
   'lockbox-send-connect3': sendConnect3,

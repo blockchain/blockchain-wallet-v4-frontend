@@ -3,7 +3,6 @@ import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
@@ -17,7 +16,6 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  USER_EXISTS_MODAL,
   FLOW_TYPES,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
@@ -35,24 +33,15 @@ export const userExistsError = 'User already exists'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
-export const noTokenError = 'User has not been created'
 export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
-  const {
-    EMAIL_EXISTS,
-    REENTERED,
-    STARTED,
-    PERSONAL_STEP_COMPLETE,
-    MOBILE_STEP_COMPLETE
-  } = model.analytics.KYC
   const { TIERS } = model.profile
   const {
     getCampaignData,
     fetchUser,
     createUser,
     updateUser,
-    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
@@ -66,22 +55,19 @@ export default ({ api, coreSagas }) => {
     try {
       if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
       const campaignData = yield call(getCampaignData, campaign)
-      const token = (yield select(
-        selectors.modules.profile.getApiToken
-      )).getOrElse(null)
-      if (!token) throw new Error(noTokenError)
       try {
         yield call(
           api.registerUserCampaign,
-          token,
           campaign.name,
           campaignData,
           newUser
         )
-      } catch (e) {
+      } catch (error) {
         // Todo: use generic confirm modal
         // Should NOT be specific to sunriver
-        yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+        yield put(
+          actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error })
+        )
         yield put(actions.modules.profile.setCampaign({}))
         throw new Error(invalidLinkError)
       }
@@ -112,35 +98,13 @@ export default ({ api, coreSagas }) => {
 
   const selectTier = function*(tier = 2) {
     const { selected } = yield select(selectors.modules.profile.getUserTiers)
-    if (selected === tier)
-      return yield put(actions.analytics.logKycEvent(REENTERED))
+    if (selected === tier) return
     yield call(api.selectTier, tier)
     yield call(fetchUser)
-    yield put(actions.analytics.logKycEvent(STARTED))
-  }
-
-  const checkUserUniqueness = function*() {
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse('')
-
-    if (userId) return true
-    try {
-      const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistence, retailToken)
-      return false
-    } catch (e) {
-      return true
-    }
   }
 
   const verifyIdentity = function*({ payload }) {
     const { tier, isCoinify, needMoreInfo } = payload
-    const unique = yield call(checkUserUniqueness)
-    if (!unique) {
-      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-      return yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
-    }
     yield put(
       actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
     )
@@ -247,7 +211,6 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield call(goToNextStep)
-      yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
 
@@ -309,7 +272,6 @@ export default ({ api, coreSagas }) => {
 
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield call(goToNextStep)
-      yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, { _error: e }))
       yield put(
@@ -324,11 +286,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedCountries = function*() {
     try {
-      yield put(A.setSupportedCountries(Remote.Loading))
+      yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
-      yield put(A.setSupportedCountries(Remote.Success(countries)))
+      yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
-      yield put(A.setSupportedCountries(Remote.Failure(e)))
+      yield put(A.setSupportedCountriesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -339,7 +301,7 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedDocuments = function*() {
     try {
-      yield put(A.setSupportedDocuments(Remote.Loading))
+      yield put(A.setSupportedDocumentsLoading())
       const countryCode = (yield select(
         selectors.modules.profile.getUserCountryCode
       )).getOrElse('US')
@@ -347,9 +309,9 @@ export default ({ api, coreSagas }) => {
         api.getSupportedDocuments,
         countryCode
       )
-      yield put(A.setSupportedDocuments(Remote.Success(documentTypes)))
+      yield put(A.setSupportedDocumentsSuccess(documentTypes))
     } catch (e) {
-      yield put(A.setSupportedDocuments(Remote.Failure(e)))
+      yield put(A.setSupportedDocumentsFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedDocuments',
@@ -360,11 +322,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchStates = function*() {
     try {
-      yield put(A.setStates(Remote.Loading))
+      yield put(A.setStatesLoading())
       const states = yield call(api.getStates)
-      yield put(A.setStates(Remote.Success(states)))
+      yield put(A.setStatesSuccess(states))
     } catch (e) {
-      yield put(A.setStates(Remote.Failure(e)))
+      yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -375,14 +337,14 @@ export default ({ api, coreSagas }) => {
 
   const checkKycFlow = function*() {
     try {
-      yield put(A.setKycFlow(Remote.Loading))
-      const { flowType, kycProvider } = yield call(api.fetchKycConfig)
+      yield put(A.setKycFlowLoading())
+      const { flowType } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
 
-      yield put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
+      yield put(A.setKycFlowSuccess({ flowType }))
     } catch (e) {
-      yield put(A.setKycFlow(Remote.Failure(e)))
+      yield put(A.setKycFlowFailure(e))
     }
   }
 

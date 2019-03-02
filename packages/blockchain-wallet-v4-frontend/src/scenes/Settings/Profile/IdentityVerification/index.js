@@ -119,8 +119,8 @@ const IdentityVerification = () => {
               </SwapText>
               <SwapText size='12px' weight={300}>
                 <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learn_more'
-                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
+                  id='scenes.profile.identityverification.swaplimit.learn_more_limits'
+                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>

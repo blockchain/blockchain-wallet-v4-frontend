@@ -10,11 +10,15 @@ class SelectInputContainer extends React.PureComponent {
     search: ''
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.value, nextProps.value)) {
-      this.setState({ value: nextProps.value })
+  /* eslint-disable react/no-did-update-set-state */
+  componentDidUpdate (prevProps, prevState) {
+    if (!equals(this.props.value, prevProps.value)) {
+      this.setState({
+        value: this.props.value
+      })
     }
   }
+  /* eslint-enable react/no-did-update-set-state */
 
   handleChange = item => {
     const value = prop('value', item)

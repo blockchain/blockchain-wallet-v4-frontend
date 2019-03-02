@@ -41,7 +41,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = props => {
-  const { previousStep, position, total, modalActions, ...rest } = props
+  const { previousStep, ...rest } = props
   const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
@@ -69,7 +69,7 @@ const SecondStep = props => {
           <Text size='16px'>
             <FormattedMessage
               id='modals.requestbitcoin.secondstep.message'
-              defaultMessage='For &quot;{message}&quot;'
+              defaultMessage='For "{message}"'
               values={{ message: message }}
             />
           </Text>
@@ -84,7 +84,7 @@ const SecondStep = props => {
             type='submit'
             nature={active ? 'copy' : 'primary'}
             fullwidth
-            data-e2e='requestBtc_copy_link_button'
+            data-e2e='requestBtcCopyLinkButton'
           >
             {active ? (
               <FormattedMessage
@@ -105,7 +105,7 @@ const SecondStep = props => {
           onClick={previousStep}
           size='13px'
           weight={300}
-          data-e2e='requestBtc_go_back'
+          data-e2e='requestBtcGoBack'
         >
           <FormattedMessage
             id='scenes.requestbitcoin.secondstep.back'

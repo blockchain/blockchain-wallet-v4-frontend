@@ -5,9 +5,7 @@ export default {
         enableDomainMigrationRedirects: true,
         announcements: {
           public: {},
-          wallet: {},
-          sendBch: {},
-          receiveBch: {}
+          wallet: {}
         }
       },
       btc: {

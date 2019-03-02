@@ -28,6 +28,13 @@ const taskToPromise = t =>
       .chain().amount(myAmount).done()
 */
 
+const fallbackFees = {
+  gasLimit: 21000,
+  priority: 23,
+  regular: 23,
+  limits: { min: 23, max: 23 }
+}
+
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   const settingsSagas = settingsSagaFactory({ api })
@@ -122,7 +129,12 @@ export default ({ api }) => {
       },
 
       *init () {
-        const fees = yield call(api.getEthereumFee)
+        let fees
+        try {
+          fees = yield call(api.getEthereumFee)
+        } catch (e) {
+          fees = fallbackFees
+        }
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)

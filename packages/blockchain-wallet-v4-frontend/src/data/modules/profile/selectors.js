@@ -1,9 +1,7 @@
 import {
-  and,
   any,
   compose,
   complement,
-  converge,
   curry,
   equals,
   find,
@@ -24,6 +22,10 @@ export const getUserActivationState = compose(
 )
 export const getUserKYCState = compose(
   lift(prop('kycState')),
+  getUserData
+)
+export const getSunRiverTag = compose(
+  lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
 export const isUserCreated = compose(
@@ -50,6 +52,10 @@ export const getUserLimits = compose(
   lift(prop('limits')),
   getUserData
 )
+export const getKycDocResubmissionStatus = compose(
+  lift(path(['resubmission', 'reason'])),
+  getUserData
+)
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((tierIndex, state) =>
@@ -64,15 +70,7 @@ export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
 export const invitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const countrySupportsKyc = state =>
-  converge(lift(isCountrySupported), [
-    selectors.core.settings.getCountryCode,
-    selectors.components.identityVerification.getSupportedCountries
-  ])(state)
-export const userFlowSupported = converge(lift(and), [
-  invitedToKyc,
-  countrySupportsKyc
-])
+export const userFlowSupported = invitedToKyc
 
 export const getApiToken = path(['profile', 'apiToken'])
 

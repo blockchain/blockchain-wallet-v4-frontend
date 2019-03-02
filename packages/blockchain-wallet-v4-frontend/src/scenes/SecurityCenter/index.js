@@ -15,9 +15,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: scroll;
 `
 
 class SecurityCenterContainer extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.settingsActions.removeRecoveryPhrase()
+  }
+
   render () {
     return (
       <Wrapper>

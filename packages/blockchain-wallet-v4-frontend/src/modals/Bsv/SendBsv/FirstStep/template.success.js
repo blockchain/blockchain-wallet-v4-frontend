@@ -43,7 +43,8 @@ const FirstStep = props => {
     handleToToggle,
     handleSubmit,
     totalFee,
-    pristine
+    pristine,
+    excludeHDWallets
   } = props
 
   return (
@@ -59,10 +60,11 @@ const FirstStep = props => {
           <Field
             name='from'
             coin='BSV'
-            component={SelectBoxBsvAddresses}
             includeAll={false}
-            excludeWatchOnly
             validate={[required]}
+            component={SelectBoxBsvAddresses}
+            excludeHDWallets={excludeHDWallets}
+            excludeWatchOnly
           />
         </FormItem>
       </FormGroup>
@@ -95,7 +97,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validBitcoinCashAddress]}
-                autoFocus
               />
             )}
             <QRCodeCapture

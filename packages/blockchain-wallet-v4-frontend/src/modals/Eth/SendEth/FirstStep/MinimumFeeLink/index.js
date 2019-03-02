@@ -11,6 +11,7 @@ const MinimumFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendEthFirstStepMinimumFeeClicked}
+    data-e2e='ethMinimumFeeLink'
   >
     <FormattedMessage
       id='modals.sendeth.minimumfeelink.minimum'

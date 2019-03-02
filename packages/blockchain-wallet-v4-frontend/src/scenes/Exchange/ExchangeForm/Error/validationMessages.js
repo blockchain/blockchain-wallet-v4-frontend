@@ -127,10 +127,10 @@ export const ReachedAnnualLimitMessage = () => (
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={300} color='error' data-e2e='exchangeBelowMin'>
       <FormattedMessage
-        id='scenes.exchange.exchangeform.error.minimumamount'
-        defaultMessage='Amount is below mimimum.'
+        id='scenes.exchange.exchangeform.error.mamountminimum'
+        defaultMessage='Amount is below minimum.'
       />
       &nbsp;
       <MinimumAmountLink />
@@ -140,7 +140,8 @@ export const MinimumAmountMessage = () => (
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={300} color='error' data-e2e='exchangeAboveMax'>
+      >
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.maximumamount'
         defaultMessage='Amount is above maximum.'

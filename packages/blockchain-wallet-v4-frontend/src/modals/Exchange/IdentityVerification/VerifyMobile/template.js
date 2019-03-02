@@ -8,7 +8,12 @@ import { model } from 'data'
 import { required, validMobileNumber } from 'services/FormHelper'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   FooterShadowWrapper,
   FormItem,
@@ -35,6 +40,11 @@ const FormContainer = styled.div`
 const ButtonFormItem = styled(FormItem)`
   display: flex;
   justify-content: flex-end;
+`
+const FaqHeaderHelper = styled.div`
+  position: absolute;
+  right: 0px;
+  top: 0px;
 `
 const {
   SMS_NUMBER_FORM,
@@ -113,6 +123,15 @@ const VerifyMobile = ({
                   id='identityverification.personal.mobile.header'
                   defaultMessage='Verify your Phone Number'
                 />
+                <FaqHeaderHelper>
+                  <TooltipHost id='identityverification.headerhelper'>
+                    <TooltipIcon
+                      name='question-in-circle-filled'
+                      color='brand-primary'
+                      size='24px'
+                    />
+                  </TooltipHost>
+                </FaqHeaderHelper>
               </IdentityVerificationHeader>
               <IdentityVerificationSubHeader>
                 <FormattedMessage
@@ -139,25 +158,23 @@ const VerifyMobile = ({
                       errorBottom
                     />
                   </FormItem>
-                  {activeField === 'smsNumber' &&
-                    !mobile &&
-                    !tablet && (
-                      <FaqFormMessage
-                        icon='phone-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.title'
-                            defaultMessage='Please add your phone'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.text'
-                            defaultMessage='We will send you a SMS with verification code.'
-                          />
-                        }
-                      />
-                    )}
+                  {activeField === 'smsNumber' && !mobile && !tablet && (
+                    <FaqFormMessage
+                      icon='phone-regular'
+                      title={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.title'
+                          defaultMessage='Please add your phone'
+                        />
+                      }
+                      text={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.text'
+                          defaultMessage='We will send you a SMS with verification code.'
+                        />
+                      }
+                    />
+                  )}
                 </FaqFormGroup>
                 {step === SMS_STEPS.edit && (
                   <FaqFormGroup>
@@ -194,25 +211,23 @@ const VerifyMobile = ({
                         {smsHelper(error, resendCode)}
                       </EmailHelper>
                     </FormItem>
-                    {activeField === 'code' &&
-                      !mobile &&
-                      !tablet && (
-                        <FaqFormMessage
-                          icon='comment-alt-regular'
-                          title={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.title'
-                              defaultMessage='We sent you a text message'
-                            />
-                          }
-                          text={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.text'
-                              defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
-                            />
-                          }
-                        />
-                      )}
+                    {activeField === 'code' && !mobile && !tablet && (
+                      <FaqFormMessage
+                        icon='comment-alt-regular'
+                        title={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.title'
+                            defaultMessage='We sent you a text message'
+                          />
+                        }
+                        text={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.text'
+                            defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                          />
+                        }
+                      />
+                    )}
                   </FaqFormGroup>
                 )}
               </FormContainer>

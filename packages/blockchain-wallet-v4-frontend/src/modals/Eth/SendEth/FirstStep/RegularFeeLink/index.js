@@ -12,6 +12,7 @@ const RegularFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendEthFirstStepRegularFeeClicked}
+    data-e2e='ethRegularFeeLink'
   >
     <FormattedMessage
       id='modals.sendeth.regularfeelink.regular'

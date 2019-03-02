@@ -16,19 +16,18 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
-
 export const INITIAL_MEMO_TYPE = 'text'
-
 export default ({ coreSagas }) => {
   const initialized = function*(action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
-      yield put(A.paymentUpdated(Remote.Loading))
+      yield put(A.paymentUpdatedLoading())
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
@@ -50,8 +49,9 @@ export default ({ coreSagas }) => {
       }
       yield put(initialize(FORM, initialValues))
       yield put(touch(FORM, 'memo', 'memoType'))
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.paymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
@@ -123,8 +123,9 @@ export default ({ coreSagas }) => {
           break
       }
 
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.paymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
@@ -161,11 +162,12 @@ export default ({ coreSagas }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
-      yield put(A.paymentUpdated(Remote.Loading))
+      yield put(A.paymentUpdatedLoading())
       payment = yield call(coreSagas.payment.xlm.create, { payment })
       payment = yield call(payment.build)
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.paymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -202,7 +204,7 @@ export default ({ coreSagas }) => {
       payment = yield call(payment.publish)
       yield put(actions.core.data.xlm.fetchData())
       const paymentValue = payment.value()
-      yield put(A.paymentUpdated(Remote.of(paymentValue)))
+      yield put(A.paymentUpdatedSuccess(paymentValue))
       const description = paymentValue.description
       if (description)
         yield put(
@@ -223,7 +225,17 @@ export default ({ coreSagas }) => {
         yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
       }
       yield put(destroy(FORM))
-      // Close modals
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'XLM',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'XLM',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
@@ -231,6 +243,7 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.paymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

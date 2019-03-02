@@ -31,12 +31,11 @@ const NewCartridge = styled(Cartridge)`
 `
 
 const Navigation = props => {
-  const { logClick, ...rest } = props
-  const { lockboxOpened, lockboxDevices, lockboxEnabled } = rest
+  const { ...rest } = props
+  const { lockboxOpened, lockboxDevices } = rest
 
   return (
-    <Wrapper {...rest} onClick={logClick}>
-      {/* If updating navigation item names dont forget to update analytics saga */}
+    <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
           <Icon name='nav-home' />
@@ -126,56 +125,52 @@ const Navigation = props => {
           </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      {lockboxEnabled && (
-        <React.Fragment>
-          <MenuItem>
-            <Separator>
-              <Text size='14px' weight={400} uppercase>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.storage'
-                  defaultMessage='Storage'
-                />
-              </Text>
-            </Separator>
-          </MenuItem>
-          <LinkContainer to='/lockbox' activeClassName='active'>
-            <MenuItem data-e2e='lockboxLink'>
-              <Icon name='lock' />
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.lockbox'
-                defaultMessage='Lockbox'
-              />
-              <HelperTipContainer>
-                <TooltipHost id='lockboxRequired'>
-                  <TooltipIcon name='info' />
-                </TooltipHost>
-              </HelperTipContainer>
-            </MenuItem>
-          </LinkContainer>
-          {lockboxOpened && (
-            <SubMenu>
-              {lockboxDevices.map((device, index) => {
-                const deviceName = device.device_name
-                return (
-                  <LinkContainer
-                    key={index}
-                    activeClassName='active'
-                    to={`/lockbox/dashboard/${index}`}
-                    isActive={() => rest.pathname.includes(index)}
-                  >
-                    <SubMenuItem>
-                      <FormattedMessage
-                        id='layouts.wallet.menuleft.navigation.lockbox.device'
-                        defaultMessage='{deviceName}'
-                        values={{ deviceName }}
-                      />
-                    </SubMenuItem>
-                  </LinkContainer>
-                )
-              })}
-            </SubMenu>
-          )}
-        </React.Fragment>
+      <MenuItem>
+        <Separator>
+          <Text size='14px' weight={400} uppercase>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.storage'
+              defaultMessage='Storage'
+            />
+          </Text>
+        </Separator>
+      </MenuItem>
+      <LinkContainer to='/lockbox' activeClassName='active'>
+        <MenuItem data-e2e='lockboxLink'>
+          <Icon name='lock' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.hardwarewallet'
+            defaultMessage='Hardware Wallet'
+          />
+          <HelperTipContainer>
+            <TooltipHost id='lockboxRequired'>
+              <TooltipIcon name='info' />
+            </TooltipHost>
+          </HelperTipContainer>
+        </MenuItem>
+      </LinkContainer>
+      {lockboxOpened && (
+        <SubMenu>
+          {lockboxDevices.map((device, index) => {
+            const deviceName = device.device_name
+            return (
+              <LinkContainer
+                key={index}
+                activeClassName='active'
+                to={`/lockbox/dashboard/${index}`}
+                isActive={() => rest.pathname.includes(index)}
+              >
+                <SubMenuItem>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.lockbox.device'
+                    defaultMessage='{deviceName}'
+                    values={{ deviceName }}
+                  />
+                </SubMenuItem>
+              </LinkContainer>
+            )
+          })}
+        </SubMenu>
       )}
     </Wrapper>
   )

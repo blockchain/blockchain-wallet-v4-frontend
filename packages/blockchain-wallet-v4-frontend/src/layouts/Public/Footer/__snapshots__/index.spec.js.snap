@@ -2,11 +2,79 @@
 
 exports[`Public Footer Component should match snapshot 1`] = `
 <Footer__Wrapper>
-  <Footer__LinkContainer />
+  <Footer__LinkContainer>
+    <Component
+      height="40px"
+      name="blue-logo"
+      width="40px"
+    />
+    <Component
+      color="white"
+      href="https://blockchain.com/explorer"
+      size="12px"
+      uppercase={true}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Data"
+        id="layouts.public.footer.explorer"
+        values={Object {}}
+      />
+    </Component>
+    <Component
+      color="white"
+      href="https://blockchain.com/about"
+      size="12px"
+      uppercase={true}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="About"
+        id="layouts.public.footer.about"
+        values={Object {}}
+      />
+    </Component>
+    <Component
+      color="white"
+      href="https://blog.blockchain.com"
+      size="12px"
+      uppercase={true}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Blog"
+        id="layouts.public.footer.blog"
+        values={Object {}}
+      />
+    </Component>
+    <Component
+      color="white"
+      href="https://support.blockchain.com"
+      size="12px"
+      uppercase={true}
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="Support"
+        id="layouts.public.footer.support"
+        values={Object {}}
+      />
+    </Component>
+  </Footer__LinkContainer>
   <Footer__RightContainer>
     <[object Object]
       color="white"
     />
+    <Component
+      color="white"
+      href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
+      size="12px"
+      target="_blank"
+      weight={200}
+    >
+      Version 
+      v4.2.0
+    </Component>
   </Footer__RightContainer>
 </Footer__Wrapper>
 `;

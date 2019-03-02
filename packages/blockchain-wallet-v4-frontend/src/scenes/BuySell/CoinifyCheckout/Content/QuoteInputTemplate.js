@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { equals, gt, not, prop } from 'ramda'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
 import media from 'services/ResponsiveService'
@@ -154,33 +153,12 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
         />
       )
     case 'effective_max_under_min':
-      const buyLink = (
-        <Link size='13px' weight={300} onClick={() => changeTab('buy')}>
-          <FormattedMessage
-            id='buy.quote_input.effective_max_under_min3'
-            defaultMessage='buying'
-          />
-        </Link>
-      )
-      const exchangeLink = (
-        <NavLink to='/swap' style={{ textDecoration: 'none' }}>
-          <FormattedMessage
-            id='buy.quote_input.effective_max_under_min5swap'
-            defaultMessage='swapping'
-          />
-        </NavLink>
-      )
       return (
         <div>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min1'
-            defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min} BTC. '
+            id='buy.quote_input.not_enough_funds_minimum'
+            defaultMessage="You don't have enough funds to sell the minimum amount, {min}."
             values={{ min: limits.min }}
-          />
-          <FormattedMessage
-            id='buy.quote_input.effective_max_under_min2'
-            defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.'
-            values={{ buyLink, exchangeLink }}
           />
         </div>
       )

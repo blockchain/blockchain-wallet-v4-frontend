@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -8,6 +8,14 @@ import {
   BSV_FORK_TIME,
   convertFromCashAddrIfCashAddr
 } from '../../../utils/bsv'
+import { MISSING_WALLET } from '../utils'
+import { addFromToAccountNames } from '../../../utils/accounts'
+import Remote from '../../../remote'
+import * as walletSelectors from '../../wallet/selectors'
+import * as transactions from '../../../transactions'
+import { getAccountsList, getBsvTxNotes } from '../../kvStore/bsv/selectors'
+
+const transformTx = transactions.bsv.transformTx
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -71,10 +79,39 @@ export default ({ api }) => {
       const filteredTxs = data.txs.filter(tx => tx.time > BSV_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(filteredTxs, reset))
+      const page = yield call(__processTxs, filteredTxs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
+  }
+
+  const __processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(kvStoreAccountList)
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBsvTxNotes)).getOrElse({})
+    // Remote(lockboxXpubs)
+    const lockboxAccountList = []
+
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          lockboxAccountList,
+          txNotes
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   return {
@@ -82,6 +119,7 @@ export default ({ api }) => {
     fetchFee,
     fetchRates,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

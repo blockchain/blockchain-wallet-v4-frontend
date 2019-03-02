@@ -14,7 +14,7 @@ class EthBalance extends React.PureComponent {
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.actions.fetchData()
   }
 

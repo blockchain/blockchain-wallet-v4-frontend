@@ -1,4 +1,4 @@
-import { all, compose, prop } from 'ramda'
+import { and, compose, head, last, prop } from 'ramda'
 import { put, select, call } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
@@ -45,13 +45,18 @@ export default ({ api }) => {
       const getCoinAvailability = yield select(
         selectors.core.walletOptions.getCoinAvailability
       )
+      const getExchangeTypeAvailability = (type, coin) =>
+        getCoinAvailability(coin)
+          .map(prop(type))
+          .getOrElse(false)
+
       const walletAvailablePairs = pairs.filter(
         compose(
-          all(coin =>
-            getCoinAvailability(coin)
-              .map(prop('exchange'))
-              .getOrElse(false)
-          ),
+          coins =>
+            and(
+              getExchangeTypeAvailability('exchangeTo', last(coins)),
+              getExchangeTypeAvailability('exchangeFrom', head(coins))
+            ),
           splitPair
         )
       )

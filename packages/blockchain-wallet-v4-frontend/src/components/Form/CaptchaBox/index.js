@@ -14,7 +14,7 @@ class CaptchaBoxContainer extends React.PureComponent {
     this.fetchNewCaptcha = this.fetchNewCaptcha.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.actions.fetchCaptcha()
   }
 

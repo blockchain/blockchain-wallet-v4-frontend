@@ -2,7 +2,7 @@ import React from 'react'
 import { actions, selectors, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Success from './template.success'
+import ImportedAddresses from './template'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 import { values } from 'ramda'
@@ -50,7 +50,7 @@ class ImportedAddressesContainer extends React.Component {
     const { search, addressesWithoutRemoteData } = this.props
     return this.props.activeAddresses.cata({
       Success: value => (
-        <Success
+        <ImportedAddresses
           importedAddresses={value}
           onClickImport={this.handleClickImport}
           onClickVerify={this.handleClickVerify}
@@ -62,7 +62,7 @@ class ImportedAddressesContainer extends React.Component {
         />
       ),
       Failure: () => (
-        <Success
+        <ImportedAddresses
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
           onClickImport={this.handleClickImport}

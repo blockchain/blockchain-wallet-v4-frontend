@@ -2,64 +2,12 @@
   "platforms": {
     "web": {
       "application": {
+        "analyticsSiteId": 1,
         "enableDomainMigrationRedirects": true,
+        "environment": "dev",
         "announcements": {
           "public": {},
-          "wallet": {},
-          "sendBch": {
-            "id": "bch-disabled-lockbox-send",
-            "type": "info",
-            "icon": "alert-filled",
-            "hideType": "collapse",
-            "header": {
-              "en": "Ongoing Service Interruption"
-            },
-            "sections": [
-              {
-                "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
-                }
-              },
-              {
-                "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read More"
-              },
-              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
-            }
-          },
-          "receiveBch": {
-            "id": "bch-disabled-lockbox-receive",
-            "type": "info",
-            "icon": "alert-filled",
-            "hideType": "collapse",
-            "header": {
-              "en": "Ongoing Service Interruption"
-            },
-            "sections": [
-              {
-                "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
-                }
-              },
-              {
-                "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read More"
-              },
-              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
-            }
-          }
+          "wallet": {}
         }
       },
       "btc": {
@@ -67,7 +15,8 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "config": {
           "network": "bitcoin"
@@ -78,7 +27,8 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         }
       },
       "bsv": {
@@ -86,7 +36,8 @@
           "send": true,
           "request": false,
           "lockbox": false,
-          "exchange": true
+          "exchangeTo": false,
+          "exchangeFrom": true
         }
       },
       "eth": {
@@ -94,11 +45,12 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "lastTxFuse": 86400,
         "config": {
-          "network": "mainnet"
+          "network": 1
         }
       },
       "xlm": {
@@ -106,7 +58,8 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchange": true
+          "exchangeTo": true,
+          "exchangeFrom": true
         },
         "config": {
           "network": "public"
@@ -161,9 +114,10 @@
           "CH"
         ],
         "config": {
-          "partnerId": 19,
-          "production": true,
-          "iSignThisDomain": "https://verify.isignthis.com"
+          "partnerId": 35,
+          "production": false,
+          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
+          "iSignThisDomain": "https://stage-verify.isignthis.com"
         }
       },
       "sfox": {
@@ -199,7 +153,7 @@
         ],
         "config": {
           "production": false,
-          "apiKey": "6fbfb80536564af8bbedb7e3be4ec439",
+          "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
           "plaidEnv": "sandbox",
           "siftScience": "a19cc360a1"

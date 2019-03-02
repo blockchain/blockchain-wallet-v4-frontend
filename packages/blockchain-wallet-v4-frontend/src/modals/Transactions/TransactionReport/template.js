@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
-import { CSVDownload } from 'react-csv'
+import { CSVLink } from 'react-csv'
 
 import {
   Button,
+  HeartbeatLoader,
   Icon,
   Link,
   Modal,
@@ -58,25 +59,30 @@ const Footer = styled.div`
   }
 `
 
+const DownloadBtn = styled(CSVLink)`
+  text-decoration: none;
+`
+
 const FirstStep = props => {
   const {
+    closeAll,
     coin,
     csvData,
-    position,
-    total,
-    closeAll,
-    submitting,
-    invalid,
+    filename,
+    generating,
     handleSubmit,
+    isValidEndDate,
     isValidStartDate,
-    isValidEndDate
+    onDownload,
+    position,
+    total
   } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id='modals.transactionreport.export'
+          id='modals.transactionreport.title'
           defaultMessage='Export {coin} transactions history'
           values={{ coin }}
         />
@@ -87,7 +93,7 @@ const FirstStep = props => {
             <Row>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.transactionreport.selectwallet'
+                  id='modals.transactionreport.wallet'
                   defaultMessage='Select wallet'
                 />
               </Text>
@@ -104,7 +110,7 @@ const FirstStep = props => {
             <Row>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.transactionreport.selecttimerange'
+                  id='modals.transactionreport.timerange'
                   defaultMessage='Select time range'
                 />
               </Text>
@@ -128,23 +134,49 @@ const FirstStep = props => {
             </Row>
           </Container>
           <Footer>
-            <Link size='13px' weight={300} fullwidth onClick={closeAll}>
+            <Link
+              size='13px'
+              weight={300}
+              fullwidth
+              onClick={closeAll}
+              data-e2e='closeReport'
+            >
               <FormattedMessage
-                id='modals.transactionreport.firststep.close'
+                id='modals.transactionreport.close'
                 defaultMessage='Close'
               />
             </Link>
-            <Button
-              type='submit'
-              nature='primary'
-              disabled={submitting || invalid}
-            >
-              <FormattedMessage
-                id='modals.transactionreport.firststep.generate'
-                defaultMessage='Export CSV'
-              />
-            </Button>
-            {csvData && <CSVDownload data={csvData} />}
+            {generating ? (
+              csvData ? (
+                <DownloadBtn
+                  data={csvData}
+                  filename={filename}
+                  target='_blank'
+                  onClick={onDownload}
+                >
+                  <Button nature='success' data-e2e='downloadReport'>
+                    <FormattedMessage
+                      id='modals.transactionreport.download'
+                      defaultMessage='Download Report'
+                    />
+                  </Button>
+                </DownloadBtn>
+              ) : (
+                <HeartbeatLoader />
+              )
+            ) : (
+              <Button
+                type='submit'
+                nature='primary'
+                disabled={generating}
+                data-e2e='generateReport'
+              >
+                <FormattedMessage
+                  id='modals.transactionreport.generatecsv'
+                  defaultMessage='Generate Report'
+                />
+              </Button>
+            )}
           </Footer>
         </Form>
       </ModalBody>

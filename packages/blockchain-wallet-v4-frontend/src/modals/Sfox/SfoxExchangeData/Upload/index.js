@@ -1,65 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
+
 import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
-import ui from 'redux-ui'
 import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.onDrop = this.onDrop.bind(this)
-    this.onClickUpload = this.onClickUpload.bind(this)
-    this.toggleCamera = this.toggleCamera.bind(this)
-    this.setPhoto = this.setPhoto.bind(this)
-    this.submitForUpload = this.submitForUpload.bind(this)
-    this.resetUpload = this.resetUpload.bind(this)
-    this.handleStartClick = this.handleStartClick.bind(this)
-
-    this.state = {
-      file: null,
-      camera: false,
-      photo: ''
-    }
+  state = {
+    files: [],
+    camera: false,
+    photo: '',
+    busy: false
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  resetUpload = () => {
+    this.setState({ files: [], camera: false, photo: '' })
   }
 
-  setPhoto (data) {
-    this.setState({ photo: data })
+  handleDrop = files => {
+    this.setState({
+      files: files.map(file =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file)
+        })
+      )
+    })
   }
 
-  onDrop (file) {
-    this.setState({ file: file[0] })
-  }
-
-  onClickUpload (e) {
-    e.preventDefault()
-  }
-
-  toggleCamera () {
-    this.setState({ camera: true })
-  }
-
-  resetUpload () {
-    this.setState({ file: null, camera: false, photo: '' })
-  }
-
-  handleStartClick (e) {
-    e.preventDefault()
-    this.takePicture()
-  }
-
-  submitForUpload () {
+  submitForUpload = () => {
     const { verificationStatus } = this.props.data.getOrElse({})
     if (!verificationStatus) return
 
-    const file = this.state.file || this.state.photo
+    const file = this.state.files[0] || this.state.photo
     const idType = verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({ file, idType })
     this.resetUpload() // TODO replace with setting to busy and show loader
@@ -72,21 +46,20 @@ class UploadContainer extends Component {
       Success: value => (
         <Upload
           data={value}
-          handleSubmit={this.handleSubmit}
-          onDrop={this.onDrop}
-          onClickUpload={this.onClickUpload}
-          toggleCamera={this.toggleCamera}
-          file={this.state.file}
+          handleSubmit={e => e.preventDefault()}
+          onDrop={this.handleDrop}
+          onClickUpload={e => e.preventDefault()}
+          toggleCamera={() => this.setState({ camera: true })}
+          file={this.state.files[0]}
           showCamera={this.state.camera}
           photo={this.state.photo}
-          setPhoto={this.setPhoto}
+          setPhoto={data => this.setState({ photo: data })}
           resetUpload={this.resetUpload}
           submitForUpload={this.submitForUpload}
-          handleStartClick={this.handleStartClick}
         />
       ),
       Failure: msg => <Failure error={msg} />,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <div />,
       NotAsked: () => <div />
     })
   }
@@ -101,12 +74,7 @@ const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { busy: false } })
-)
-
-export default enhance(UploadContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadContainer)

@@ -14,7 +14,7 @@ import {
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
 
-const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
+const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
 export class Summary extends React.PureComponent {
   render () {
@@ -37,7 +37,7 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmount>
-            <StringDisplay>
+            <StringDisplay data-e2e='exchangeSummarySourceValue'>
               {sourceAmount.map(amount =>
                 coinToString({
                   value: add(amount, sourceFee.source),
@@ -56,7 +56,7 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmount>
-            <StringDisplay>
+            <StringDisplay data-e2e='exchangeSummaryTargetValue'>
               {targetAmount.map(amount =>
                 coinToString({
                   value: amount,
@@ -75,7 +75,7 @@ export class Summary extends React.PureComponent {
               defaultMessage='Fees'
             />
           </ExchangeText>
-          <ExchangeAmount>
+          <ExchangeAmount data-e2e='exchangeSummaryFeeValue'>
             {coinToString({
               value: sourceFee.source,
               unit: { symbol: sourceCoin },
@@ -91,7 +91,7 @@ export class Summary extends React.PureComponent {
             />
           </ExchangeText>
           <ExchangeAmount>
-            <StringDisplay>
+            <StringDisplay data-e2e='exchangeSummarySwapValue'>
               {targetFiat.map(amount =>
                 coinToString({
                   value: amount,

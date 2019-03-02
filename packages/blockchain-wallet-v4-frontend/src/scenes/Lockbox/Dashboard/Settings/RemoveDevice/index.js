@@ -1,18 +1,15 @@
 import React from 'react'
-import { selectors, actions } from 'data'
+import { actions, model, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import DeviceStatus from './template.js'
+import DeviceStatus from './template'
 
+const { REMOVE_DEVICE } = model.analytics.LOCKBOX_EVENTS.SETTINGS
 class RemoveDeviceContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.deleteDevice = this.deleteDevice.bind(this)
-  }
-
-  deleteDevice () {
+  deleteDevice = () => {
     this.props.lockboxActions.deleteDevice(this.props.deviceIndex)
+    this.props.analyticsActions.logEvent(REMOVE_DEVICE)
   }
 
   render () {
@@ -30,6 +27,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

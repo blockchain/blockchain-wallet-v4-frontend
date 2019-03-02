@@ -9,17 +9,11 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import {
-  EMAIL_STEPS,
-  FLOW_TYPES,
-  KYC_PROVIDERS,
-  SUNRIVER_LINK_ERROR_MODAL
-} from './model'
+import { EMAIL_STEPS, FLOW_TYPES, SUNRIVER_LINK_ERROR_MODAL } from './model'
 import sagas, {
   logLocation,
   wrongFlowTypeError,
   noCampaignDataError,
-  noTokenError,
   invalidLinkError
 } from './sagas'
 
@@ -174,12 +168,11 @@ describe('goToNextStep saga', () => {
 describe('checkKycFlow saga', () => {
   it('should set flow config', () => {
     const flowType = FLOW_TYPES.LOW
-    const kycProvider = KYC_PROVIDERS.ONFIDO
-    api.fetchKycConfig.mockResolvedValue({ flowType, kycProvider })
+    api.fetchKycConfig.mockResolvedValue({ flowType })
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
+      .put(A.setKycFlowSuccess({ flowType }))
       .run()
   })
 
@@ -187,9 +180,9 @@ describe('checkKycFlow saga', () => {
     const flowType = FLOW_TYPES.LOW + '1'
     api.fetchKycConfig.mockResolvedValue({ flowType })
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.Failure(wrongFlowTypeError)))
+      .put(A.setKycFlowFailure(wrongFlowTypeError))
       .run()
   })
 
@@ -197,9 +190,9 @@ describe('checkKycFlow saga', () => {
     const error = {}
     api.fetchKycConfig.mockRejectedValue(error)
     return expectSaga(checkKycFlow)
-      .put(A.setKycFlow(Remote.Loading))
+      .put(A.setKycFlowLoading())
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.Failure(error)))
+      .put(A.setKycFlowFailure(error))
       .run()
   })
 })
@@ -217,8 +210,6 @@ describe('createRegisterUserCampaign', () => {
 
 describe('registerUserCampaign', () => {
   const newUser = true
-  const token =
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eok'
   const campaign = {
     name: 'sunriver',
     code: '1234',
@@ -230,7 +221,7 @@ describe('registerUserCampaign', () => {
     'x-campaign-code': campaign.code,
     'x-campaign-email': campaign.email
   }
-  it('should select campaign, resolve campaign data, select api token and register user campaign', () => {
+  it('should select campaign, resolve campaign data and register user campaign', () => {
     const saga = testSaga(registerUserCampaign, { newUser })
     saga
       .next()
@@ -238,15 +229,7 @@ describe('registerUserCampaign', () => {
       .next(campaign)
       .call(getCampaignData, campaign)
       .next(campaignData)
-      .select(selectors.modules.profile.getApiToken)
-      .next(Remote.of(token))
-      .call(
-        api.registerUserCampaign,
-        token,
-        campaign.name,
-        campaignData,
-        newUser
-      )
+      .call(api.registerUserCampaign, campaign.name, campaignData, newUser)
       .next()
       .isDone()
   })
@@ -278,26 +261,6 @@ describe('registerUserCampaign', () => {
       .next()
       .isDone()
   })
-  it("should not continue past selection of token if there's no token", () => {
-    const saga = testSaga(registerUserCampaign, { newUser })
-    saga
-      .next()
-      .select(selectors.modules.profile.getCampaign)
-      .next(campaign)
-      .call(getCampaignData, campaign)
-      .next(campaignData)
-      .select(selectors.modules.profile.getApiToken)
-      .next(Remote.of(null))
-      .put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'registerUserCampaign',
-          noTokenError
-        )
-      )
-      .next()
-      .isDone()
-  })
   it('should show error modal and log error if registering fails', () => {
     const saga = testSaga(registerUserCampaign, { newUser })
     const error = new Error()
@@ -307,17 +270,9 @@ describe('registerUserCampaign', () => {
       .next(campaign)
       .call(getCampaignData, campaign)
       .next(campaignData)
-      .select(selectors.modules.profile.getApiToken)
-      .next(Remote.of(token))
-      .call(
-        api.registerUserCampaign,
-        token,
-        campaign.name,
-        campaignData,
-        newUser
-      )
+      .call(api.registerUserCampaign, campaign.name, campaignData, newUser)
       .throw(error)
-      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error }))
       .next()
       .put(actions.modules.profile.setCampaign({}))
       .next()

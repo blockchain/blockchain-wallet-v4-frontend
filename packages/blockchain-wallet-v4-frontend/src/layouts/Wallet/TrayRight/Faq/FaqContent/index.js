@@ -756,7 +756,7 @@ const FaqContent = [
             />
             <span>&nbsp;</span>
             <Link
-              href='https://blockchain.info'
+              href='https://blockchain.com/explorer'
               target='_blank'
               size='13px'
               weight={300}
@@ -791,6 +791,22 @@ const FaqContent = [
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer12.two'
               defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.abcvsbsvq'
+            defaultMessage='What is Bitcoin Cash ABC vs. BSV?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.walletfunctionality.abcvsbsva'
+              defaultMessage='Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.'
             />
           </FaqDescription>
         )

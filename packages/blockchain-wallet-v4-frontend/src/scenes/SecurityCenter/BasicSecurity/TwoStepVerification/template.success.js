@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button, Link } from 'blockchain-info-components'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { reduxForm } from 'redux-form'
 import {
   SecurityComponent,
@@ -22,20 +22,22 @@ import Choices from './Choices'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 
-const pulseAnimation = keyframes`${pulse}`
-
+const pulseFrames = keyframes`${pulse}`
+const pulseAnimation = css`
+  ${pulseFrames} 0.5s;
+`
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;
   @media (min-width: 992px) {
     width: 120%;
   }
 `
-const SecurityTwoStepContainer = SecurityContainer.extend`
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+const SecurityTwoStepContainer = styled(SecurityContainer)`
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   grid-template-columns: 85% 15%;
   ${media.mobile`
-    padding: 0px;
+    padding: 0;
   `};
 `
 const IconAndHeaderContainer = styled.div`
@@ -47,7 +49,7 @@ const IconAndHeaderContainer = styled.div`
 `
 const DisableContainer = styled.div`
   width: 100%;
-  margin: 10px 0px 20px 0px;
+  margin: 10px 0 20px;
   div:first-of-type {
     display: flex;
     flex-direction: row;
@@ -75,23 +77,23 @@ const DisableLinkText = styled(Text)`
     cursor: pointer;
     padding-left: 3px;
   }
-  animation: 0.5s ${props => (props.pulse ? pulseAnimation : null)};
+  animation: ${props => (props.pulse ? pulseAnimation : null)};
 `
 const TwoStepButton = styled(Button)`
   width: 100px;
   font-size: 12px;
-  min-width: 0px;
+  min-width: 0;
   @media (min-width: 400px) and (max-width: 991px) {
     font-size: 14px;
     width: 140px;
   }
   @media (min-width: 1224px) {
     width: 140px;
-    min-width: 0px;
+    min-width: 0;
     font-size: 14px;
   }
 `
-const Header = SecurityHeader.extend`
+const Header = styled(SecurityHeader)`
   justify-content: flex-start;
   align-items: center;
 `

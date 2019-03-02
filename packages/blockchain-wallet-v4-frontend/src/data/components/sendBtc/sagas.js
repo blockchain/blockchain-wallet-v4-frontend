@@ -20,8 +20,8 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBtc/sagas'
-
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
@@ -50,7 +50,10 @@ export default ({ coreSagas, networks }) => {
         const addressesR = yield select(
           selectors.core.common.btc.getActiveAddresses
         )
-        const addresses = addressesR.getOrElse([]).map(prop('addr'))
+        const addresses = addressesR
+          .getOrElse([])
+          .filter(prop('priv'))
+          .map(prop('addr'))
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else {
         const accountsR = yield select(
@@ -386,9 +389,19 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push('/btc/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
       }
-      yield put(destroy(FORM))
-      // Close modals
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'BTC',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'BTC',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors

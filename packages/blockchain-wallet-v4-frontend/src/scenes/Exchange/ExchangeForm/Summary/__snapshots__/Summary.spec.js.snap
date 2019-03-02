@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -11,7 +11,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -23,7 +27,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -35,7 +43,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -48,14 +58,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -65,7 +79,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -77,7 +95,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -89,7 +111,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -102,14 +126,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -119,7 +147,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -131,7 +163,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -143,7 +179,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -156,14 +194,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate failure, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -173,7 +215,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -185,7 +231,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -197,7 +247,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -210,14 +262,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -227,7 +283,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -239,7 +299,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -251,7 +315,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -264,14 +330,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -281,7 +351,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -293,7 +367,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -305,7 +383,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -318,14 +398,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -335,7 +419,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -347,7 +435,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -359,7 +451,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -372,14 +466,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate loading, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -389,7 +487,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -401,7 +503,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -413,7 +519,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -426,14 +534,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -443,7 +555,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -455,7 +571,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -467,7 +587,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -480,14 +602,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -497,7 +623,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -509,7 +639,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -521,7 +655,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -534,14 +670,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -551,7 +691,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -563,7 +707,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -575,7 +723,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -588,14 +738,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -605,7 +759,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -617,7 +775,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -629,7 +791,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -642,14 +806,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -659,7 +827,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -671,7 +843,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -683,7 +859,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -696,14 +874,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -713,7 +895,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -725,7 +911,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -737,7 +927,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -750,14 +942,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -767,7 +963,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -779,7 +979,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -791,7 +995,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -804,14 +1010,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure, sourceToFiatRate success, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -821,7 +1031,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -833,7 +1047,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -845,7 +1063,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -858,14 +1078,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -875,7 +1099,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -887,7 +1115,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -899,7 +1131,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -912,14 +1146,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -929,7 +1167,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -941,7 +1183,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -953,7 +1199,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -966,14 +1214,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -983,7 +1235,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -995,7 +1251,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1007,7 +1267,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1020,14 +1282,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate failure, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1037,7 +1303,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1049,7 +1319,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1061,7 +1335,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1074,14 +1350,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1091,7 +1371,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1103,7 +1387,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1115,7 +1403,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1128,14 +1418,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1145,7 +1439,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1157,7 +1455,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1169,7 +1471,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1182,14 +1486,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1199,7 +1507,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1211,7 +1523,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1223,7 +1539,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1236,14 +1554,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate loading, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1253,7 +1575,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1265,7 +1591,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1277,7 +1607,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1290,14 +1622,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1307,7 +1643,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1319,7 +1659,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1331,7 +1675,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1344,14 +1690,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1361,7 +1711,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1373,7 +1727,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1385,7 +1743,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1398,14 +1758,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1415,7 +1779,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1427,7 +1795,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1439,7 +1811,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1452,14 +1826,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1469,7 +1847,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1481,7 +1863,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1493,7 +1879,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1506,14 +1894,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1523,7 +1915,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1535,7 +1931,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1547,7 +1947,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1560,14 +1962,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1577,7 +1983,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1589,7 +1999,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1601,7 +2015,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1614,14 +2030,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1631,7 +2051,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1643,7 +2067,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1655,7 +2083,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1668,14 +2098,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading, sourceToFiatRate success, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1685,7 +2119,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1697,7 +2135,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1709,7 +2151,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1722,14 +2166,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1739,7 +2187,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1751,7 +2203,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1763,7 +2219,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1776,14 +2234,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1793,7 +2255,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1805,7 +2271,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1817,7 +2287,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1830,14 +2302,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1847,7 +2323,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1859,7 +2339,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1871,7 +2355,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1884,14 +2370,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate failure, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1901,7 +2391,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1913,7 +2407,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1925,7 +2423,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1938,14 +2438,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -1955,7 +2459,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1967,7 +2475,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -1979,7 +2491,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -1992,14 +2506,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2009,7 +2527,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2021,7 +2543,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2033,7 +2559,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2046,14 +2574,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2063,7 +2595,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2075,7 +2611,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2087,7 +2627,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2100,14 +2642,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate loading, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2117,7 +2663,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2129,7 +2679,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2141,7 +2695,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2154,14 +2710,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2171,7 +2731,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2183,7 +2747,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2195,7 +2763,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2208,14 +2778,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2225,7 +2799,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2237,7 +2815,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2249,7 +2831,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2262,14 +2846,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2279,7 +2867,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2291,7 +2883,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2303,7 +2899,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2316,14 +2914,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2333,7 +2935,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2345,7 +2951,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2357,7 +2967,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2370,14 +2982,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2387,7 +3003,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2399,7 +3019,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2411,7 +3035,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2424,14 +3050,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2441,7 +3071,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2453,7 +3087,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2465,7 +3103,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2478,14 +3118,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2495,7 +3139,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2507,7 +3155,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2519,7 +3171,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2532,14 +3186,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked, sourceToFiatRate success, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2549,7 +3207,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2561,7 +3223,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2573,7 +3239,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2586,14 +3254,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2603,7 +3275,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2615,7 +3291,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2627,7 +3307,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2640,14 +3322,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2657,7 +3343,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2669,7 +3359,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2681,7 +3375,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2694,14 +3390,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2711,7 +3411,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2723,7 +3427,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2735,7 +3443,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2748,14 +3458,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate failure, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2765,7 +3479,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2777,7 +3495,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2789,7 +3511,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2802,14 +3526,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2819,7 +3547,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2831,7 +3563,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2843,7 +3579,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2856,14 +3594,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2873,7 +3615,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2885,7 +3631,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2897,7 +3647,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2910,14 +3662,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2927,7 +3683,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2939,7 +3699,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -2951,7 +3715,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -2964,14 +3730,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate loading, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -2981,7 +3751,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2993,7 +3767,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3005,7 +3783,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3018,14 +3798,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3035,7 +3819,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3047,7 +3835,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3059,7 +3851,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3072,14 +3866,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3089,7 +3887,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3101,7 +3903,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3113,7 +3919,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3126,14 +3934,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3143,7 +3955,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3155,7 +3971,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3167,7 +3987,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3180,14 +4002,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate notAsked, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3197,7 +4023,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3209,7 +4039,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3221,7 +4055,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3234,14 +4070,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate failure 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3251,7 +4091,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3263,7 +4107,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3275,7 +4123,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3288,14 +4138,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate loading 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3305,7 +4159,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3317,7 +4175,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3329,7 +4191,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3342,14 +4206,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate notAsked 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3359,7 +4227,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3371,7 +4243,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3383,7 +4259,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3396,14 +4274,18 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success, sourceToFiatRate success, targetToFiatRate success 1`] = `
-<React.Fragment>
+<Fragment>
   <Exchange__TableRow>
     <Exchange__AmountHeader>
       <FormattedMessage
@@ -3413,7 +4295,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySourceValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3425,7 +4311,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__AmountHeader>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummaryTargetValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__Delimiter />
@@ -3437,7 +4327,9 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
         values={Object {}}
       />
     </Exchange__ExchangeText>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeSummaryFeeValue"
+    >
       1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
@@ -3450,8 +4342,12 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      <StringDisplayContainer />
+      <StringDisplayContainer
+        data-e2e="exchangeSummarySwapValue"
+      >
+        <Component />
+      </StringDisplayContainer>
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
-</React.Fragment>
+</Fragment>
 `;

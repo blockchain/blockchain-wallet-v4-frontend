@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ButtonGroup component default renders correctly 1`] = `
-<styled.div>
+<ButtonGroup__BaseButtonGroup>
   <span>
     test
   </span>
-</styled.div>
+</ButtonGroup__BaseButtonGroup>
 `;

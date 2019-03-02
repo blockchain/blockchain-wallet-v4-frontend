@@ -119,13 +119,16 @@ const TransactionListItem = ({
   handleToggle,
   handleEditDescription
 }) => (
-  <TransactionRowContainer className={isToggled ? 'active' : ''}>
+  <TransactionRowContainer
+    className={isToggled ? 'active' : ''}
+    data-e2e='transactionRow'
+  >
     <TransactionRow onClick={() => handleToggle()}>
-      <StatusColumn>
+      <StatusColumn data-e2e='transactionDateColumn'>
         <Status type={transaction.type} coin={coin} />
         <MediaContextConsumer>
           {({ mobile }) => (
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={300} data-e2e='transactionDate'>
               {dateHelper(prop('time', transaction) * 1000, mobile)}
             </Text>
           )}
@@ -158,7 +161,7 @@ const TransactionListItem = ({
           />
         ) : null}
       </StatusColumn>
-      <AddressesColumn>
+      <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses
           to={transaction.to}
           from={transaction.from}
@@ -167,7 +170,7 @@ const TransactionListItem = ({
           coin={coin}
         />
       </AddressesColumn>
-      <AmountColumn>
+      <AmountColumn data-e2e='transactionAmountColumn'>
         <FiatDisplay
           coin={coin}
           size='14px'
@@ -182,8 +185,8 @@ const TransactionListItem = ({
       </AmountColumn>
     </TransactionRow>
     {isToggled && (
-      <DetailsRow>
-        <DetailsColumn>
+      <DetailsRow data-e2e='expandedTransactionRow'>
+        <DetailsColumn data-e2e='descriptionTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.description'
@@ -191,7 +194,9 @@ const TransactionListItem = ({
             />
           </Text>
           <Description
-            value={transaction.description}
+            coin={coin}
+            hash={transaction.hash}
+            toAddress={transaction.toAddress}
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (
@@ -217,72 +222,75 @@ const TransactionListItem = ({
               />
             </React.Fragment>
           )}
-          {coin === 'XLM' &&
-            transaction.memo && (
-              <React.Fragment>
-                <Text
-                  size='14px'
-                  capitalize
-                  weight={400}
-                  style={{ marginBottom: '5px', marginTop: '15px' }}
-                >
-                  <FormattedMessage
-                    id='components.txlistitem.memo'
-                    defaultMessage='Memo'
-                  />
-                  &nbsp;
-                  {transaction.memoType}
-                </Text>
-                <Text size='14px' capitalize weight={300}>
-                  {transaction.memo}
-                </Text>
-              </React.Fragment>
-            )}
-        </DetailsColumn>
-        {prop('inputs', transaction) &&
-          prop('outputs', transaction) && (
-            <DetailsColumn>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-                <FormattedMessage
-                  id='components.txlistitem.sentfrom'
-                  defaultMessage='Sent From'
-                />
-              </Text>
-              {prop('inputs', transaction).map(input => (
-                <Text size='14px' weight={300}>
-                  {input.address}
-                </Text>
-              ))}
+          {coin === 'XLM' && transaction.memo && (
+            <React.Fragment>
               <Text
                 size='14px'
+                capitalize
                 weight={400}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
-                  id='components.txlistitem.receivedby'
-                  defaultMessage='Received By'
+                  id='components.txlistitem.memo'
+                  defaultMessage='Memo'
                 />
+                &nbsp;
+                {transaction.memoType}
               </Text>
-              {prop('outputs', transaction).map(output => (
-                <IOAddressText size='14px' weight={300}>
-                  {output.address}
-                  {output.change && (
-                    <React.Fragment>
-                      <span>&nbsp;</span>
-                      <FormattedMessage
-                        id='components.txlistitem.change'
-                        defaultMessage='(Change Address)'
-                      />
-                      <TooltipHost id='txlist.change.tooltip'>
-                        <TooltipIcon name='question-in-circle' />
-                      </TooltipHost>
-                    </React.Fragment>
-                  )}
-                </IOAddressText>
-              ))}
-            </DetailsColumn>
+              <Text
+                size='14px'
+                capitalize
+                weight={300}
+                data-e2e='xlmTransactionMemo'
+              >
+                {transaction.memo}
+              </Text>
+            </React.Fragment>
           )}
-        <DetailsColumn>
+        </DetailsColumn>
+        {prop('inputs', transaction) && prop('outputs', transaction) && (
+          <DetailsColumn data-e2e='sentFromTransactionColumn'>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='components.txlistitem.sentfrom'
+                defaultMessage='Sent From'
+              />
+            </Text>
+            {prop('inputs', transaction).map(input => (
+              <Text size='14px' weight={300}>
+                {input.address}
+              </Text>
+            ))}
+            <Text
+              size='14px'
+              weight={400}
+              style={{ marginBottom: '5px', marginTop: '15px' }}
+            >
+              <FormattedMessage
+                id='components.txlistitem.receivedby'
+                defaultMessage='Received By'
+              />
+            </Text>
+            {prop('outputs', transaction).map(output => (
+              <IOAddressText size='14px' weight={300}>
+                {output.address}
+                {output.change && (
+                  <React.Fragment>
+                    <span>&nbsp;</span>
+                    <FormattedMessage
+                      id='components.txlistitem.change'
+                      defaultMessage='(Change Address)'
+                    />
+                    <TooltipHost id='txlist.change.tooltip'>
+                      <TooltipIcon name='question-in-circle' />
+                    </TooltipHost>
+                  </React.Fragment>
+                )}
+              </IOAddressText>
+            ))}
+          </DetailsColumn>
+        )}
+        <DetailsColumn data-e2e='statusTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.status'
@@ -292,7 +300,7 @@ const TransactionListItem = ({
           <Confirmations
             coin={coin}
             hash={transaction.hash}
-            confirmations={transaction.confirmations}
+            txBlockHeight={transaction.blockHeight}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>

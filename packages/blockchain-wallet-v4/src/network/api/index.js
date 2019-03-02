@@ -16,14 +16,18 @@ import sfox from './sfox'
 import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
-import fetchService from './fetch'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
 
-export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
-  const { get, post } = fetchService({ apiKey })
+export default ({
+  options,
+  apiKey,
+  getAuthCredentials,
+  reauthenticate,
+  networks
+} = {}) => {
   const http = httpService({ apiKey })
-  const authorizedHttp = apiAuthorize(http, getAuthCredentials)
+  const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
@@ -32,37 +36,34 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
-    ...analytics({ rootUrl, apiUrl, get, post }),
-    ...bch({ rootUrl, apiUrl, get, post }),
-    ...btc({ rootUrl, apiUrl, get, post }),
-    ...bsv({ rootUrl, apiUrl, get, post }),
-    ...delegate({ rootUrl, apiUrl, get, post }),
-    ...eth({ rootUrl, apiUrl, get, post }),
-    ...kvStore({ apiUrl, networks }),
+    ...analytics({ rootUrl, ...http }),
+    ...bch({ rootUrl, apiUrl, ...http }),
+    ...btc({ rootUrl, apiUrl, ...http }),
+    ...bsv({ rootUrl, apiUrl, ...http }),
+    ...delegate({ rootUrl, apiUrl, ...http }),
+    ...eth({ rootUrl, apiUrl, ...http }),
+    ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,
-      get: http.get,
-      post: http.post,
       authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
+      authorizedPost: authorizedHttp.post,
+      ...http
     }),
-    ...lockbox({ ledgerUrl, get, post }),
-    ...misc({ rootUrl, apiUrl, get, post }),
+    ...lockbox({ ledgerUrl, ...http }),
+    ...misc({ rootUrl, apiUrl, ...http }),
     ...profile({
       rootUrl,
       nabuUrl,
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
-      get: http.get,
-      post: http.post,
-      put: http.put
+      ...http
     }),
     ...sfox(),
-    ...settings({ rootUrl, apiUrl, get, post }),
+    ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, get, post }),
-    ...xlm({ apiUrl, get: http.get, horizonUrl, network: networks.xlm })
+    ...wallet({ rootUrl, ...http }),
+    ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
   }
 }

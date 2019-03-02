@@ -4,24 +4,26 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
-import { actions, selectors } from 'data'
-import Settings from './template.js'
+import { actions, model, selectors } from 'data'
+import Settings from './template'
 
+const { CHANGE_THEME } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { theme, newTheme } = this.props
     if (
-      !isNil(nextProps.newTheme) &&
-      !equals(theme, nextProps.newTheme) &&
-      !equals(newTheme, nextProps.newTheme)
+      !isNil(newTheme) &&
+      !equals(theme, newTheme) &&
+      !equals(prevProps.newTheme, newTheme)
     ) {
-      this.props.preferencesActions.setTheme(nextProps.newTheme)
+      this.props.preferencesActions.setTheme(newTheme)
+      this.props.analyticsActions.logEvent([...CHANGE_THEME, newTheme])
     }
   }
 
@@ -36,6 +38,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

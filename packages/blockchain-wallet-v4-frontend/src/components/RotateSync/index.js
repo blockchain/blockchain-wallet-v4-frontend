@@ -1,8 +1,8 @@
 import React from 'react'
 import { Icon } from 'blockchain-info-components'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
-const rotate = keyframes`
+const rotateFrames = keyframes`
   from {
     transform: rotate(0deg);
   }
@@ -10,10 +10,13 @@ const rotate = keyframes`
     transform: rotate(360deg);
   }
 `
+const rotateAnimation = css`
+  ${rotateFrames} 2.5s linear infinite;
+`
 
 export const RotateSync = props => {
   const RotateIcon = styled(Icon)`
-    animation: ${rotate} 2.5s linear infinite;
+    animation: ${rotateAnimation};
   `
 
   return <RotateIcon name='sync-regular' {...props} />

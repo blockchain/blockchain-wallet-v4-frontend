@@ -3,7 +3,6 @@ import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 import EthUtil from 'ethereumjs-util'
 import { selectors } from 'data'
-import settings from 'config'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -20,7 +19,7 @@ export const selectReceiveAddress = function*(source, networks) {
       type !== ADDRESS_TYPES.LOCKBOX
         ? selectors.core.common.bch.getNextAvailableReceiveAddress
         : selectors.core.common.bch.getNextAvailableReceiveAddressLockbox
-    const bchReceiveAddress = selector(settings.NETWORK_BCH, address, appState)
+    const bchReceiveAddress = selector(networks.bch, address, appState)
     if (isEmpty(bchReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate bitcoin cash receive address')
     }
@@ -28,7 +27,7 @@ export const selectReceiveAddress = function*(source, networks) {
   }
   if (equals('BSV', coin)) {
     const selector = selectors.core.common.bsv.getNextAvailableReceiveAddress
-    const bsvReceiveAddress = selector(settings.NETWORK_BCH, address, appState)
+    const bsvReceiveAddress = selector(networks.bsv, address, appState)
     if (isEmpty(bsvReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate bitcoin sv receive address')
     }

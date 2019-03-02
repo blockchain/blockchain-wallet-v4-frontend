@@ -9,8 +9,8 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 15px;
-  max-width: 200px;
+  padding: 10px;
+  width: 165px;
   margin-right: 25px;
   flex-direction: row;
   align-items: center;
@@ -19,10 +19,16 @@ const Wrapper = styled.div`
   opacity: ${props => (props.isInactive ? 0.5 : 1)};
   background-color: ${props => props.theme['white-blue']};
   box-shadow: ${props =>
-    props.isActive ? '0px 5px 30px 0px rgba(0,0,0,0.1)' : 'none'};
+    props.isActive ? 'rgba(0,0,0,.25) 0px 5px 12px 0px' : 'none'};
   cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
   * {
     cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
+  }
+  @media (max-width: 770px) {
+    margin-right: 15px;
+  }
+  &:last-child {
+    margin-right: 0;
   }
 `
 const IconBox = styled.div`
@@ -59,7 +65,7 @@ export const CurrencyItem = props => {
           </CoinDisplay>
         </Balance>
       ) : isBrowserChrome ? (
-        <Link size='12px' weight={300}>
+        <Link size='11px' weight={300}>
           <FormattedMessage
             id='components.balances.savecointolockbox'
             defaultMessage='Click here to add {coin} to your Lockbox'

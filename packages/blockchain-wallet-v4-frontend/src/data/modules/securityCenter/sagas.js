@@ -1,7 +1,13 @@
 import { put, call } from 'redux-saga/effects'
-import * as actions from '../../actions.js'
+
+import { actions, model } from 'data'
 import * as C from 'services/AlertService'
 
+const {
+  EMAIL_VERIFIED,
+  TWO_FACTOR_ENABLED,
+  TWO_FACTOR_DISABLED
+} = model.analytics.PREFERENCE_EVENTS.SECURITY
 export default ({ coreSagas }) => {
   const logLocation = 'modules/securityCenter/sagas'
 
@@ -41,6 +47,7 @@ export default ({ coreSagas }) => {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmailVerified, action.payload)
       yield put(actions.alerts.displaySuccess(C.EMAIL_VERIFY_SUCCESS))
+      yield put(actions.analytics.logEvent(EMAIL_VERIFIED))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_VERIFY_ERROR))
@@ -78,7 +85,6 @@ export default ({ coreSagas }) => {
   const verifyEmailCode = function*(action) {
     try {
       yield call(coreSagas.settings.verifyEmailCode, action.payload)
-      yield put(actions.alerts.displaySuccess(C.EMAIL_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.modules.settings.verifyEmailCodeFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyEmailCode', e))
@@ -90,6 +96,12 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
       yield put(actions.alerts.displaySuccess(C.GOOGLE_AUTH_VERIFY_SUCCESS))
+      yield put(
+        actions.analytics.logEvent([
+          ...TWO_FACTOR_ENABLED,
+          'google_authenticator'
+        ])
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -106,6 +118,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
       yield put(actions.alerts.displaySuccess(C.YUBIKEY_VERIFY_SUCCESS))
+      yield put(actions.analytics.logEvent([...TWO_FACTOR_ENABLED, 'yubikey']))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setYubikey', e))
       yield put(actions.alerts.displayError(C.YUBIKEY_VERIFY_ERROR))
@@ -132,6 +145,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setMobileVerifiedAs2FA, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_VERIFY_SUCCESS))
+      yield put(actions.analytics.logEvent([...TWO_FACTOR_ENABLED, 'mobile']))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_VERIFY_ERROR))
@@ -142,6 +156,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_UPDATE_SUCCESS))
+      yield put(actions.analytics.logEvent(TWO_FACTOR_DISABLED))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'disableTwoStep', e))
       yield put(actions.alerts.displayError(C.TWOFA_UPDATE_ERROR))

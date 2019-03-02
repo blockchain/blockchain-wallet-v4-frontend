@@ -10,7 +10,7 @@ import ThirdStep from './ThirdStep'
 import { actions } from '../../data'
 
 class Reset2FAContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 

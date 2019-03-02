@@ -8,11 +8,10 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import { FORM } from './model'
 import sendEthSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -20,6 +19,8 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = { eth: 1 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendEth sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -48,13 +49,13 @@ describe('sendEth sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendEthSagas({ api, coreSagas })
+  } = sendEthSagas({ api, networks, coreSagas })
 
   const paymentMock = {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
     to: jest.fn(() => paymentMock),
-    amount: jest.fn(() => paymentMock),
+    amount: 0,
     from: jest.fn(() => paymentMock),
     fee: jest.fn(() => paymentMock),
     fees: { regular: 10 },
@@ -89,14 +90,14 @@ describe('sendEth sagas', () => {
     const beforeEnd = 'beforeEnd'
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.sendEthPaymentUpdated(Remote.Loading))
+      saga.next().put(A.sendEthPaymentUpdatedLoading())
     })
 
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -143,7 +144,7 @@ describe('sendEth sagas', () => {
     it('should trigger eth payment updated success action', () => {
       saga
         .next()
-        .put(A.sendEthPaymentUpdated(Remote.of(value)))
+        .put(A.sendEthPaymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
         .isDone()
@@ -155,6 +156,8 @@ describe('sendEth sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
+          .put(A.sendEthPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -210,9 +213,7 @@ describe('sendEth sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga
-        .next(Remote.of(paymentMock))
-        .put(A.sendEthPaymentUpdated(Remote.Loading))
+      saga.next(Remote.of(paymentMock)).put(A.sendEthPaymentUpdatedLoading())
     })
 
     it('should create payment from state value', () => {
@@ -220,7 +221,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
     })
 
@@ -231,7 +232,7 @@ describe('sendEth sagas', () => {
     it('should put update success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendEthPaymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
         .isDone()
@@ -244,6 +245,8 @@ describe('sendEth sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
+          .put(A.sendEthPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -287,7 +290,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
     })
 
@@ -305,7 +308,7 @@ describe('sendEth sagas', () => {
     it('should put eth payment updated success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendEthPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should update latest transaction time', () => {
@@ -347,6 +350,14 @@ describe('sendEth sagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     })
 
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'ETH', '0'])
+        )
+    })
+
     it('should destroy form', () => {
       saga.next().put(actions.form.destroy(FORM))
     })
@@ -371,6 +382,8 @@ describe('sendEth sagas', () => {
 
       it('should log error', () => {
         saga
+          .next()
+          .put(A.sendEthPaymentUpdatedFailure(error))
           .next()
           .put(
             actions.logs.logErrorMessage(

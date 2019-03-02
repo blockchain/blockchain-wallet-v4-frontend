@@ -69,10 +69,16 @@ class XlmCreateAccountLearn extends React.PureComponent {
       totalAmountXlm
     } = this.props
     return (
-      <Modal size='medium' position={position} total={total} closeAll={close}>
+      <Modal
+        size='medium'
+        position={position}
+        total={total}
+        closeAll={close}
+        data-e2e='xlmMinimumModal'
+      >
         <ModalHeader onClose={close}>
           <Header onClick={close}>
-            <BackIcon name='left-arrow' />
+            <BackIcon name='left-arrow' data-e2e='xlmMinimumModalBack' />
             <FormattedMessage
               id='modal.reservelearn.back'
               defaultMessage='Back'
@@ -82,8 +88,8 @@ class XlmCreateAccountLearn extends React.PureComponent {
         <ModalBody>
           <Title>
             <FormattedMessage
-              id='modal.reservelearn.title'
-              defaultMessage='Stellar mimimum balance requirement.'
+              id='modal.reservelearn.title1'
+              defaultMessage='Stellar minimum balance requirement.'
             />
           </Title>
           <Paragraph>

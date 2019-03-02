@@ -53,7 +53,7 @@ const FaqWrapper = styled.div``
 
 const OrText = styled.p`
   color: rgba(151, 151, 151, 0.5);
-  margin: 10px 0px 15px 0px;
+  margin: 10px 0 15px;
   line-height: 0.5;
   text-align: center;
   span {
@@ -347,7 +347,7 @@ const BankLink = props => {
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id='sfoxexchangedata.link.continue'
+                id='sfoxexchangedata.button.continue'
                 defaultMessage='Continue'
               />
             )}

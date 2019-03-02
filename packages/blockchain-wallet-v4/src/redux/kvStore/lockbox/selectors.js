@@ -43,6 +43,8 @@ export const getDeviceFromCoinAddrs = (state, coin, addrs) => {
       return getDeviceFromBchXpubs(state, addrs)
     case 'ETH':
       return getDeviceFromEthAddr(state, head(addrs))
+    case 'XLM':
+      return getDeviceFromXlmAddr(state, head(addrs))
   }
 }
 

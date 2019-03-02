@@ -98,19 +98,6 @@ export default (state = INITIAL_STATE, action) => {
       let setTxTimestamp = assocPath(['eth', 'last_tx_timestamp'], timestamp)
       return over(valueLens, setTxTimestamp, state)
     }
-    // TODO: update balance display
-    // case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {
-    //   const { deviceIndex, showBalances } = payload
-    //   const valueLens = compose(
-    //     mapped,
-    //     KVStoreEntry.value
-    //   )
-    //   let setShowBalances = assocPath(
-    //     ['devices', deviceIndex, 'showBalances'],
-    //     showBalances
-    //   )
-    //   return over(valueLens, setShowBalances, state)
-    // }
     // DELETE
     case AT.DELETE_DEVICE_LOCKBOX: {
       const { deviceIndex } = payload

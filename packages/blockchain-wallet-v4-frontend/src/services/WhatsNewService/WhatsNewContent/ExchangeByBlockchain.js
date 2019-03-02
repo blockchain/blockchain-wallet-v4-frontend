@@ -18,7 +18,7 @@ const DarkText = styled(Text).attrs({
   display: inline;
   ${media.laptop`
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
-  `}
+  `};
 `
 const PrimaryText = styled(Text).attrs({
   color: 'brand-primary',
@@ -34,7 +34,7 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
   ${media.laptop`
     width: 100%;
-  `}
+  `};
 `
 
 export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
@@ -42,8 +42,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
     <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage="We've Improved Your Exchange"
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved'
+          defaultMessage="Trading your crypto doesn't mean trading away control."
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trading_your_crypto'
         />
       </Text>
     </Row>
@@ -58,16 +58,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
     <Row marginBottom='24px'>
       <DarkText>
         <FormattedMessage
-          defaultMessage='The faster, smarter way to trade your crypto.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing'
-        />
-      </DarkText>
-    </Row>
-    <Row marginBottom='8px'>
-      <DarkText>
-        <FormattedMessage
-          defaultMessage='Upgrade now to enjoy the following benefits:'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade'
+          defaultMessage='Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swap_enables_trade'
         />
       </DarkText>
     </Row>
@@ -75,14 +67,14 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
       <DarkText>
         <PrimaryText>
           <FormattedMessage
-            defaultMessage='Lower cost'
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost'
+            defaultMessage='Low fees'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.low_fees'
           />
         </PrimaryText>
         <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
-          defaultMessage='Super competitive crypto exchange prices'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description'
+          defaultMessage='Great news! Get the best prices without having to leave the security of your Wallet.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.best_prices'
         />
       </DarkText>
     </Row>
@@ -90,14 +82,14 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
       <DarkText>
         <PrimaryText>
           <FormattedMessage
-            defaultMessage='Live rates'
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates'
+            defaultMessage='Higher Limits'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higher_limits'
           />
         </PrimaryText>
         <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
-          defaultMessage='You always get the most up to date price'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description'
+          defaultMessage='Like to trade big? Get access to limits of up to $25,000 per day.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trade_big'
         />
       </DarkText>
     </Row>
@@ -105,14 +97,14 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
       <DarkText>
         <PrimaryText>
           <FormattedMessage
-            defaultMessage='Higher limits'
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits'
+            defaultMessage='Easy to use'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.easy_to_use'
           />
         </PrimaryText>
         <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
-          defaultMessage='Limits from $1,000-$25,000'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description'
+          defaultMessage='Get started in just a few steps.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.get_started'
         />
       </DarkText>
     </Row>
@@ -129,8 +121,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
         <LinkContainer to='/swap'>
           <GetStartedButton>
             <FormattedMessage
-              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap'
-              defaultMessage='Make Swap'
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swapnow'
+              defaultMessage='Swap Now'
             />
           </GetStartedButton>
         </LinkContainer>

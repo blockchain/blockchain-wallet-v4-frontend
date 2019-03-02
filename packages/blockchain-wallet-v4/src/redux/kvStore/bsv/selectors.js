@@ -56,5 +56,11 @@ export const getUnspendableContext = state =>
 export const getDefaultAccountIndex = state =>
   getMetadata(state).map(path(['value', 'default_account_idx']))
 
+export const getBsvTxNotes = state =>
+  getMetadata(state).map(path(['value', 'tx_notes']))
+
 export const getBsvTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+
+export const getHasSeen = state =>
+  getMetadata(state).map(path(['value', 'has_seen']))

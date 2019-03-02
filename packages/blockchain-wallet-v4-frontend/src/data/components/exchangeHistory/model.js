@@ -1,6 +1,8 @@
 import moment from 'moment'
 import { difference, has, propOr, values } from 'ramda'
 
+import { splitPair } from 'data/modules/rates/model'
+
 export const PER_PAGE = 20
 
 export const DATE_FORMAT = 'DD MMMM YYYY, HH:mm'
@@ -39,16 +41,18 @@ export const formatExchangeTrade = ({
   fiatValue,
   withdrawalFee,
   rate,
-  refundAmount
+  refundAmount,
+  pair
 }) => {
+  const [sourceCoin, targetCoin] = splitPair(pair)
   return {
     id,
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
-    sourceCoin: propOr('', 'symbol', deposit),
-    targetCoin: propOr('', 'symbol', withdrawal),
+    sourceCoin,
+    targetCoin,
     depositAmount: propOr('', 'value', deposit),
-    withdrawalAmount: propOr('', 'value', withdrawal),
+    withdrawalAmount: propOr(0, 'value', withdrawal),
     targetFiat: propOr('', 'value', fiatValue),
     currency: propOr('', 'symbol', fiatValue),
     fee: propOr('', 'value', withdrawalFee),

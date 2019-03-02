@@ -10,13 +10,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -31,13 +37,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -52,13 +64,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -73,13 +91,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -94,13 +118,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -115,13 +145,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -136,13 +172,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -157,13 +199,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -178,13 +226,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -199,13 +253,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -220,13 +280,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -241,13 +307,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -262,13 +334,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -283,13 +361,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -304,13 +388,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -325,13 +415,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -346,13 +442,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -367,13 +469,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -388,13 +496,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -409,13 +523,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -430,13 +550,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -451,13 +577,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -472,13 +604,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -493,13 +631,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -514,13 +658,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -535,13 +685,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -556,13 +712,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -577,13 +739,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -598,13 +766,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -619,13 +793,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -640,13 +820,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -661,13 +847,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -682,13 +874,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -703,13 +901,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -724,13 +928,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -745,13 +955,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -766,13 +982,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -787,13 +1009,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -808,13 +1036,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -829,13 +1063,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -850,13 +1090,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -871,13 +1117,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -892,13 +1144,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -913,13 +1171,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -934,13 +1198,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -955,13 +1225,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -976,13 +1252,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -997,13 +1279,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1018,13 +1306,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1039,13 +1333,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1060,13 +1360,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1081,13 +1387,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1102,13 +1414,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1123,13 +1441,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1144,13 +1468,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1165,13 +1495,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1186,13 +1522,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1207,13 +1549,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1228,13 +1576,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1249,13 +1603,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1270,13 +1630,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1291,13 +1657,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1312,13 +1684,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;
@@ -1333,13 +1711,19 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
     />
   </RatesBox__RatesTitle>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
   <RatesBox__RatesRow>
-    <StringDisplayContainer />
+    <StringDisplayContainer>
+      <Component />
+    </StringDisplayContainer>
   </RatesBox__RatesRow>
 </RatesBox__RatesWrapper>
 `;

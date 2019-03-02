@@ -16,6 +16,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(rates({ api }))
     yield fork(settings({ api, coreSagas }))
     yield fork(securityCenter({ coreSagas }))
-    yield fork(transferEth({ coreSagas }))
+    yield fork(transferEth({ coreSagas, networks }))
     yield fork(sfox({ api, coreSagas, networks }))
   }

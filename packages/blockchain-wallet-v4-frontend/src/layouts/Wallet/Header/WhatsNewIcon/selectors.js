@@ -1,6 +1,6 @@
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { lift, prop } from 'ramda'
+import { length, lift, prop } from 'ramda'
 import { filterAnnouncements } from 'services/WhatsNewService/WhatsNewContent'
 
 export const getData = createDeepEqualSelector(
@@ -14,10 +14,10 @@ export const getData = createDeepEqualSelector(
   (opened, content, lastViewedR, countryR, kycStateR) => {
     const transform = (lastViewed, country, kycState) => {
       const highlighted = opened && content === 'whatsnew'
-      const latestAnnouncements = filterAnnouncements(lastViewed, country, kycState)
+      const announcements = filterAnnouncements(lastViewed, country, kycState)
       return {
         highlighted,
-        numOfNewAnnouncements: prop('length', latestAnnouncements)
+        numOfNewAnnouncements: length(announcements.filter(prop('alert')))
       }
     }
     return lift(transform)(lastViewedR, countryR, kycStateR)

@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-const animation = keyframes`
+const translateFrames = keyframes`
   from { transform: translate(-200%, 100%); }
   to { transform: translate(100%, -200%); }
+`
+const translateAnimation = css`
+  ${translateFrames} 2s infinite ease-in;
 `
 const Wrapper = styled.div`
   display: flex;
@@ -17,8 +20,12 @@ const Wrapper = styled.div`
   width: 30%;
   background-color: ${props => props.theme['white']};
 
-  & > :first-child { margin-bottom 20px; }
-  & > :last-child { height: 40px; }
+  & > :first-child {
+    margin-bottom: 20px;
+  }
+  & > :last-child {
+    height: 40px;
+  }
 `
 const Circle = styled.div`
   position: relative;
@@ -37,7 +44,7 @@ const AnimatedIcon = styled(Icon)`
   position: absolute;
   top: 50%;
   left: 50%;
-  animation: ${animation} 2s infinite ease-in;
+  animation: ${translateAnimation};
   animation-play-state: running;
 `
 

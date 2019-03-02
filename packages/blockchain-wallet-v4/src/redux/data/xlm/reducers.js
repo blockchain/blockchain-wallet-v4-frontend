@@ -16,15 +16,21 @@ const INITIAL_STATE = {
   data: {},
   rates: Remote.NotAsked,
   transactions: [],
-  transactionsAtBound: false
+  transactions_at_bound: false
 }
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_LEDGER_DETAILS: {
-      return assoc('ledgerDetails', payload.ledger, state)
+    case AT.SET_LEDGER_DETAILS_LOADING: {
+      return assoc('ledgerDetails', Remote.Loading, state)
+    }
+    case AT.SET_LEDGER_DETAILS_SUCCESS: {
+      return assoc('ledgerDetails', Remote.Success(payload.ledger), state)
+    }
+    case AT.SET_LEDGER_DETAILS_FAILURE: {
+      return assoc('ledgerDetails', Remote.Failure(payload.e), state)
     }
     case AT.FETCH_ACCOUNT_SUCCESS: {
       return assocPath(
@@ -43,8 +49,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ACCOUNT_LOADING: {
       return assocPath(['data', payload.id], Remote.Loading, state)
     }
-    case AT.SET_RATES: {
-      return assoc('rates', payload.rates, state)
+    case AT.SET_RATES_LOADING: {
+      return assoc('rates', Remote.Loading, state)
+    }
+    case AT.SET_RATES_SUCCESS: {
+      return assoc('rates', Remote.Success(payload.rates), state)
+    }
+    case AT.SET_RATES_FAILURE: {
+      return assoc('rates', Remote.Failure(payload.e), state)
     }
     case AT.FETCH_TRANSACTIONS_LOADING: {
       const { reset } = payload
@@ -73,7 +85,7 @@ export default (state = INITIAL_STATE, action) => {
       return over(lensProp('transactions'), prepend(Remote.Success(txs)), state)
     }
     case AT.TRANSACTIONS_AT_BOUND: {
-      return assoc('transactionsAtBound', payload.atBound, state)
+      return assoc('transactions_at_bound', payload.atBound, state)
     }
     default:
       return state

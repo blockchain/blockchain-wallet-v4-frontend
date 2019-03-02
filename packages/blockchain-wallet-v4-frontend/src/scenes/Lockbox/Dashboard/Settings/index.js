@@ -5,12 +5,12 @@ import * as bowser from 'bowser'
 
 import { Banner, Text } from 'blockchain-info-components'
 import AddDevice from './AddDevice'
-import AppManager from './AppManager'
 import AuthenticateDevice from './AuthenticateDevice'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
+import TakeTour from './TakeTour'
 import UpdateDevice from './UpdateDevice'
 
 const SettingsContainer = styled.div`
@@ -38,10 +38,6 @@ export default class LockboxSettings extends React.PureComponent {
             </Text>
           </BrowserWarning>
         )}
-        <AppManager
-          deviceIndex={deviceIndex}
-          isBrowserChrome={isBrowserChrome}
-        />
         <RenameDevice deviceIndex={deviceIndex} />
         <UpdateDevice
           deviceIndex={deviceIndex}
@@ -54,6 +50,7 @@ export default class LockboxSettings extends React.PureComponent {
         <AddDevice isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
         <ShowXPubs deviceIndex={deviceIndex} />
+        <TakeTour deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />
       </SettingsContainer>
     )

@@ -9,34 +9,33 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 50px 0;
+  margin-top: 25px;
 `
 const Header = styled(Text)`
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin: 15px 0 5px;
 `
 
 class EmptyTxContainer extends React.PureComponent {
   render () {
     return (
-      <Wrapper>
-        <Image name='empty-tx' width='300px' />
-        <Header size='18px' weight={500}>
+      <Wrapper data-e2e='noTransactionsFound'>
+        <Image name='empty-tx' width='250px' />
+        <Header size='16px' weight={500}>
           <FormattedMessage
             id='components.emptytx.header'
             defaultMessage="Oops, we couldn't find any transactions!"
           />
         </Header>
         <TextGroup inline>
-          <Text size='18px' weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='components.emptytx.body'
               defaultMessage='Please try filtering by a different criteria or'
             />
           </Text>
-          <Text size='18px' weight={300}>
+          <Text size='12px' weight={300}>
             <Link
-              size='18px'
+              size='12px'
               href='https://support.blockchain.com/'
               target='_blank'
               referrer='noreferrer'
@@ -47,7 +46,7 @@ class EmptyTxContainer extends React.PureComponent {
               />
             </Link>
           </Text>
-          <Text size='18px' weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='components.emptytx.body3'
               defaultMessage='if you need help.'

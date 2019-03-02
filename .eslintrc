@@ -19,6 +19,7 @@
   },
   "rules": {
     "camelcase": 0,
+    "new-cap": 0,
     "no-case-declarations": 0,
     "no-console": 2,
     "no-underscore-dangle": 0,

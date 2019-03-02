@@ -11,9 +11,21 @@ export const getNewDeviceSetupType = path([
   'components',
   'lockbox',
   'newDeviceSetup',
-  'setupType'
+  'newOrExisting'
 ])
-export const getNewDeviceAuthenticity = path([
+export const getNewDeviceShowBtcWarning = path([
+  'components',
+  'lockbox',
+  'newDeviceSetup',
+  'showBtcWarning'
+])
+export const getNewDeviceType = path([
+  'components',
+  'lockbox',
+  'newDeviceSetup',
+  'deviceType'
+])
+export const getDeviceAuthenticity = path([
   'components',
   'lockbox',
   'isAuthentic'
@@ -53,4 +65,11 @@ export const getAppChangeStatus = path([
   'lockbox',
   'appManager',
   'appChangeStatus'
+])
+
+// Misc
+export const getProductTourVisibility = path([
+  'components',
+  'lockbox',
+  'showProductTour'
 ])

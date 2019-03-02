@@ -5,7 +5,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, selectors, model } from 'data'
-import settings from 'config'
 import {
   initialize,
   change,
@@ -16,19 +15,19 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendEth/sagas'
-
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
-      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       payment = yield payment.init()
       payment =
@@ -44,8 +43,9 @@ export default ({ coreSagas }) => {
         from: defaultAccountR.getOrElse({})
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e)
       )
@@ -59,14 +59,15 @@ export default ({ coreSagas }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendEthPaymentUpdated(Remote.Loading))
+      yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       payment = yield payment.build()
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -82,7 +83,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
 
       switch (field) {
@@ -137,8 +138,9 @@ export default ({ coreSagas }) => {
           break
       }
 
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
@@ -179,7 +181,7 @@ export default ({ coreSagas }) => {
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
       payment: p.getOrElse({}),
-      network: settings.NETWORK_ETH
+      network: networks.eth
     })
     const fromType = path(['from', 'type'], payment.value())
     const toAddress = path(['to', 'address'], payment.value())
@@ -205,7 +207,7 @@ export default ({ coreSagas }) => {
       }
       // Publish payment
       payment = yield payment.publish()
-      yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         const device = (yield select(
@@ -268,8 +270,18 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push('/eth/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       }
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'ETH',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'ETH',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(destroy(FORM))
-      // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
@@ -277,6 +289,7 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.sendEthPaymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

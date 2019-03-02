@@ -1,6 +1,5 @@
 import configureStore from './index'
 import * as Redux from 'redux'
-import * as CoreSrc from 'blockchain-wallet-v4/src'
 import * as Middleware from '../middleware'
 import {
   createWalletApi,
@@ -8,6 +7,7 @@ import {
   Socket
 } from 'blockchain-wallet-v4/src/network'
 import { persistStore } from 'redux-persist'
+import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
 // setup mocks
 jest.mock('redux-saga', () => () => ({
   run: () => jest.fn()
@@ -30,9 +30,18 @@ jest.mock('blockchain-wallet-v4/src/network', () => ({
   HorizonStreamingService: jest.fn()
 }))
 
-jest.mock('config', () => ({
-  WALLET_PAYLOAD_PATH: 'MOCK_WALLET_PATH',
-  WALLET_KVSTORE_PATH: 'MOCK_KVSTORE_PATH'
+jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
+  kvStore: jest.fn(),
+  walletSync: jest.fn()
+}))
+
+jest.mock('../middleware', () => ({
+  webSocketBtc: jest.fn(),
+  webSocketBch: jest.fn(),
+  webSocketEth: jest.fn(),
+  streamingXlm: jest.fn(),
+  webSocketRates: jest.fn(),
+  autoDisconnection: jest.fn()
 }))
 
 describe('App Store Config', () => {
@@ -90,8 +99,8 @@ describe('App Store Config', () => {
     createStoreSpy = jest.spyOn(Redux, 'createStore')
     applyMiddlewareSpy = jest.spyOn(Redux, 'applyMiddleware')
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
-    kvStoreSpy = jest.spyOn(CoreSrc.coreMiddleware, 'kvStore')
-    walletSyncSpy = jest.spyOn(CoreSrc.coreMiddleware, 'walletSync')
+    kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
+    walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
     btcSocketSpy = jest.spyOn(Middleware, 'webSocketBtc')
     bchSocketSpy = jest.spyOn(Middleware, 'webSocketBch')
     ethSocketSpy = jest.spyOn(Middleware, 'webSocketEth')
@@ -138,7 +147,7 @@ describe('App Store Config', () => {
     expect(kvStoreSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
-      kvStorePath: 'MOCK_KVSTORE_PATH'
+      kvStorePath: 'wallet.kvstore'
     })
     expect(btcSocketSpy).toHaveBeenCalledTimes(1)
     expect(btcSocketSpy).toHaveBeenCalledWith(expect.any(Object))
@@ -150,7 +159,7 @@ describe('App Store Config', () => {
     expect(walletSyncSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
-      walletPath: 'MOCK_WALLET_PATH'
+      walletPath: 'wallet.payload'
     })
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose

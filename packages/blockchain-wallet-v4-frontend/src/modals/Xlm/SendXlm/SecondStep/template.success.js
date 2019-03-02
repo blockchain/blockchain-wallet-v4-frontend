@@ -89,7 +89,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={300} data-e2e='xlmFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -101,7 +101,7 @@ const Success = props => {
           />
         </Text>
         <CoinTooltipHost id='sendxlm.addr' tip={toAddress}>
-          <CoinText size='16px' weight={300}>
+          <CoinText size='16px' weight={300} data-e2e='xlmToAddress'>
             {toAddress}
           </CoinText>
         </CoinTooltipHost>
@@ -114,14 +114,14 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={300} data-e2e='xlmSendDescription'>
             {description}
           </Text>
         </Row>
       )}
       {memo && (
         <Row>
-          <Text size='16px' weight={500}>
+          <Text size='16px' weight={500} data-e2e='xlmSendMemo'>
             <FormattedMessage
               id='modals.sendxlm.secondstep.memo'
               defaultMessage='Memo'
@@ -174,6 +174,7 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
+          data-e2e='xlmSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
@@ -189,6 +190,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
+          data-e2e='xlmSendBackLink'
         >
           <FormattedMessage
             id='modals.sendxlm.sendconfirm.back'

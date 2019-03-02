@@ -4,25 +4,27 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { isNil, equals } from 'ramda'
 
-import { actions } from 'data'
-import Settings from './template.js'
+import { actions, model } from 'data'
+import Settings from './template'
 
+const { CHANGE_LANGUAGE } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingLanguage', {
       language: this.props.language
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { language, newLanguage } = this.props
     if (
-      !isNil(nextProps.newLanguage) &&
-      !equals(language, nextProps.newLanguage) &&
-      !equals(newLanguage, nextProps.newLanguage)
+      !isNil(newLanguage) &&
+      !equals(language, newLanguage) &&
+      !equals(prevProps.newLanguage, newLanguage)
     ) {
-      this.props.settingsActions.updateLanguage(nextProps.newLanguage)
-      this.props.preferencesActions.setLanguage(nextProps.newLanguage, true)
+      this.props.settingsActions.updateLanguage(newLanguage)
+      this.props.preferencesActions.setLanguage(newLanguage, true)
+      this.props.analyticsActions.logEvent([...CHANGE_LANGUAGE, newLanguage])
     }
   }
 
@@ -36,6 +38,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

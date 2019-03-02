@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConfirmationGauge component default renders correctly 1`] = `
-<styled.div>
-  <styled.div
+<ConfirmationGauge__Container>
+  <ConfirmationGauge__Bar
     color="brand-yellow-lighter"
   />
-  <styled.div
+  <ConfirmationGauge__Bar
     color="white"
   />
-  <styled.div
+  <ConfirmationGauge__Bar
     color="white"
   />
-</styled.div>
+</ConfirmationGauge__Container>
 `;

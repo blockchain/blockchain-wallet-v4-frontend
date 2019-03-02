@@ -7,8 +7,9 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 import AutoLogoutForm from './template'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 
+const { AUTO_LOGOUT } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class SettingContainer extends React.PureComponent {
   state = { updateToggled: false }
 
@@ -18,6 +19,7 @@ class SettingContainer extends React.PureComponent {
     this.props.settingsActions.updateAutoLogout(
       parseInt(autoLogoutTime) * 60000
     )
+    this.props.analyticsActions.logEvent([...AUTO_LOGOUT, autoLogoutTime])
     this.handleToggle()
   }
 
@@ -37,14 +39,18 @@ class SettingContainer extends React.PureComponent {
       />
     ) : (
       <SettingWrapper>
-        <Text>
+        <Text data-e2e='autoLogoutValue'>
           <FormattedMessage
             id='scenes.preferences.autologout.settings.minutes'
             defaultMessage='{time} minutes'
             values={{ time: logoutTime }}
           />
         </Text>
-        <Button nature='primary' onClick={this.handleToggle}>
+        <Button
+          nature='primary'
+          onClick={this.handleToggle}
+          data-e2e='changeAutoLogout'
+        >
           <FormattedMessage
             id='scenes.preferences.autologout.settings.updateform.change'
             defaultMessage='Change'
@@ -63,6 +69,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

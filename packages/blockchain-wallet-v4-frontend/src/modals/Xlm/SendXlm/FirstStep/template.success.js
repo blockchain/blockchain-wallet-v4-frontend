@@ -46,10 +46,10 @@ import { InfoBanner } from './InfoBanner'
 import { SelectBoxMemo } from './SelectBoxMemo'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 
-const BrowserWarning = styled(Banner)`
-  margin-bottom: 15px;
+const WarningBanners = styled(Banner)`
+  margin: -6px 0 12px;
+  padding: 8px;
 `
-
 const MemoField = styled.div`
   width: 100%;
   display: flex;
@@ -91,10 +91,10 @@ const FirstStep = props => {
     excludeLockbox
   } = props
   const amountActive = activeField === 'amount'
+  const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
-    from &&
-    from.type === 'LOCKBOX' &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -131,15 +131,25 @@ const FirstStep = props => {
       {noAccount && <NoAccountTemplate />}
       {!noAccount && (
         <React.Fragment>
-          {disableLockboxSend && (
-            <BrowserWarning type='warning'>
-              <Text color='warning' size='12px'>
+          {isFromLockbox && !disableLockboxSend && (
+            <WarningBanners type='info'>
+              <Text color='warning' size='13px'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.lockboxwarn'
-                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser'
+                  defaultMessage='You will need to connect your Lockbox to complete this transaction.'
                 />
               </Text>
-            </BrowserWarning>
+            </WarningBanners>
+          )}
+          {disableLockboxSend && (
+            <WarningBanners type='warning'>
+              <Text color='warning' size='12px'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.warnbrowswer'
+                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser!'
+                />
+              </Text>
+            </WarningBanners>
           )}
           <FormGroup margin={'15px'}>
             <FormItem>
@@ -293,6 +303,7 @@ const FirstStep = props => {
                 disableLockboxSend ||
                 Remote.Loading.is(balanceStatus)
               }
+              data-e2e='xlmSendContinue'
             >
               <FormattedMessage
                 id='modals.sendxlm.firststep.continue'

@@ -139,7 +139,6 @@ const errorMessages = [
   }
 ]
 
-jest.spyOn(selectors.form, 'getFormError').mockReturnValue(null)
 jest.spyOn(selectors.components.exchange, 'getTxError').mockReturnValue(null)
 jest.spyOn(selectors.components.exchange, 'showError').mockReturnValue(null)
 

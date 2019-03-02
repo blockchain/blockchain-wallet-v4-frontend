@@ -8,10 +8,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import UnusedAddresses from './template'
-
 import {
   Banner,
   ComponentDropdown,
@@ -21,6 +20,9 @@ import {
   Text
 } from 'blockchain-info-components'
 
+const { ADDRESS_EVENTS, WALLET_EVENTS } = model.analytics
+const { ADD_NEXT_ADDR, DELETE_LABEL, EDIT_LABEL } = ADDRESS_EVENTS
+const { ARCHIVE, CHANGE_DEFAULT, EDIT_NAME, SHOW_XPUB } = WALLET_EVENTS
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
@@ -28,53 +30,65 @@ const WalletLabelCell = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-
 class UnusedAddressesContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
 
   render () {
     const {
       account,
-      unusedAddresses,
+      alertActions,
+      analyticsActions,
+      componentActions,
+      coreActions,
       currentReceiveIndex,
       isDefault,
-      coreActions,
-      walletActions,
       modalsActions,
       routerActions,
-      search
+      search,
+      unusedAddresses,
+      walletActions,
+      walletIndex
     } = this.props
-    const onEditLabel = i =>
-      this.props.componentActions.editAddressLabel(
-        account.index,
-        this.props.walletIndex,
-        i
-      )
-    const onDeleteLabel = i =>
+    const onEditLabel = i => {
+      componentActions.editAddressLabel(account.index, walletIndex, i)
+      analyticsActions.logEvent(EDIT_LABEL)
+    }
+    const onDeleteLabel = i => {
       modalsActions.showModal('DeleteAddressLabel', {
         accountIdx: account.index,
-        walletIdx: this.props.walletIndex,
+        walletIdx: walletIndex,
         addressIdx: i
       })
-    const onEditBtcAccountLabel = () =>
+      analyticsActions.logEvent(DELETE_LABEL)
+    }
+    const onEditBtcAccountLabel = () => {
       walletActions.editBtcAccountLabel(account.index, account.label)
-    const onShowXPub = () =>
+      analyticsActions.logEvent(EDIT_NAME)
+    }
+
+    const onShowXPub = () => {
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
-    const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
+      analyticsActions.logEvent(SHOW_XPUB)
+    }
+
+    const onMakeDefault = () => {
+      coreActions.setDefaultAccountIdx(account.index)
+      analyticsActions.logEvent(CHANGE_DEFAULT)
+    }
     const onGenerateNextAddress = () => {
-      if (length(this.props.unusedAddresses.getOrElse([])) >= 15) {
-        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
+      if (length(unusedAddresses.getOrElse([])) >= 15) {
+        alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
       } else {
-        this.props.componentActions.generateNextReceiveAddress(
-          this.props.walletIndex
-        )
+        componentActions.generateNextReceiveAddress(walletIndex)
       }
+      analyticsActions.logEvent(ADD_NEXT_ADDR)
     }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
       routerActions.push('/settings/addresses/btc')
+      analyticsActions.logEvent(ARCHIVE)
     }
     const props = {
       account,
@@ -101,11 +115,15 @@ class UnusedAddressesContainer extends React.PureComponent {
           }}
         >
           <WalletLabelCell>
-            <Text weight={400} style={{ marginRight: 10 }}>
+            <Text
+              weight={400}
+              style={{ marginRight: 10 }}
+              data-e2e='btcWalletName'
+            >
               {account.label}
             </Text>
             {isDefault && (
-              <Banner label>
+              <Banner label data-e2e='btcDefaultWallet'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault'
                   defaultMessage='Default'
@@ -118,7 +136,11 @@ class UnusedAddressesContainer extends React.PureComponent {
             forceSelected
             color={'gray-5'}
             selectedComponent={
-              <Link weight={400} size='13px'>
+              <Link
+                weight={400}
+                size='13px'
+                data-e2e='btcWalletMoreOptionsDropdown'
+              >
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
                   defaultMessage='More Options'
@@ -126,14 +148,22 @@ class UnusedAddressesContainer extends React.PureComponent {
               </Link>
             }
             components={[
-              <ClickableText size='small' onClick={onEditBtcAccountLabel}>
+              <ClickableText
+                size='small'
+                onClick={onEditBtcAccountLabel}
+                data-e2e='btcEditWalletNameLink'
+              >
                 <FormattedMessage
                   id='scenes.settings.manage_addresses.edit_name'
                   defaultMessage='Edit Name'
                 />
               </ClickableText>,
               !isDefault && (
-                <ClickableText size='small' onClick={onMakeDefault}>
+                <ClickableText
+                  size='small'
+                  onClick={onMakeDefault}
+                  data-e2e='btcMakeWalletDefaultLink'
+                >
                   <FormattedMessage
                     id='scenes.settings.manage_addresses.make_default'
                     defaultMessage='Make Default'
@@ -141,14 +171,22 @@ class UnusedAddressesContainer extends React.PureComponent {
                 </ClickableText>
               ),
               !isDefault && (
-                <ClickableText size='small' onClick={onSetArchived}>
+                <ClickableText
+                  size='small'
+                  onClick={onSetArchived}
+                  data-e2e='btcArchiveWalletLink'
+                >
                   <FormattedMessage
                     id='scenes.settings.manage_addresses.archive'
                     defaultMessage='Archive'
                   />
                 </ClickableText>
               ),
-              <ClickableText size='small' onClick={onShowXPub}>
+              <ClickableText
+                size='small'
+                onClick={onShowXPub}
+                data-e2e='btcShowWalletXpubLink'
+              >
                 <FormattedMessage
                   id='scenes.settings.manage_addresses.show_xpub'
                   defaultMessage='Show xPub'
@@ -193,6 +231,7 @@ class UnusedAddressesContainer extends React.PureComponent {
           style={{ marginTop: 15 }}
           name='plus'
           onClick={() => onGenerateNextAddress()}
+          data-e2e='btcAddNextAddressButton'
         >
           <FormattedMessage
             id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext'
@@ -232,6 +271,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

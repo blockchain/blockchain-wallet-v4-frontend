@@ -24,7 +24,15 @@ export const NoAccountTemplate = () => (
     </FormGroup>
     <FormGroup>
       <LinkContainer
-        to={{ pathname: '/swap', state: { from: 'BTC', to: 'XLM' } }}
+        to={{
+          pathname: '/swap',
+          state: {
+            from: 'BTC',
+            to: 'XLM',
+            amount: '0',
+            fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+          }
+        }}
       >
         <Button type='submit' nature='primary' uppercase fullwidth>
           <FormattedMessage

@@ -1,10 +1,18 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import Remote from '../../../remote'
+import * as walletSelectors from '../../wallet/selectors'
+import { MISSING_WALLET } from '../utils'
+import { HDAccountList, Wallet } from '../../../types'
+import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
+import * as transactions from '../../../transactions'
 
+const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
@@ -70,7 +78,8 @@ export default ({ api }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      yield put(A.fetchTransactionsSuccess(data.txs, reset))
+      const page = yield call(__processTxs, data.txs)
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
@@ -109,6 +118,35 @@ export default ({ api }) => {
     }
   }
 
+  const __processTxs = function*(txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    // Remote(lockboxXpubs)
+    const accountListR = (yield select(getLockboxBtcAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+    const addressLabels = (yield select(getAddressLabels)).getOrElse({})
+    const txNotes = Wallet.selectTxNotes(wallet)
+
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
+      map(
+        transformTx.bind(
+          undefined,
+          wallet.getOrFail(MISSING_WALLET),
+          accountList,
+          txNotes,
+          addressLabels
+        ),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
+  }
+
   const fetchFiatAtTime = function*(action) {
     const { hash, amount, time, currency } = action.payload
     try {
@@ -127,6 +165,7 @@ export default ({ api }) => {
     fetchFiatAtTime,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions
+    watchTransactions,
+    __processTxs
   }
 }

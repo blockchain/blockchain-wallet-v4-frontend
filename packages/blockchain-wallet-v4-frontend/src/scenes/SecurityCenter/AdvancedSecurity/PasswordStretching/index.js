@@ -1,11 +1,66 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import PasswordStretching from './template.js'
+import { actions, model, selectors } from 'data'
+import PasswordStretching from './template'
 
+const { PASSWORD_STRETCHING } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class PasswordStretchingContainer extends React.PureComponent {
+  state = { updateToggled: false }
+
+  onSubmit = () => {
+    const { passwordStretchingValue } = this.props
+    this.props.walletActions.updatePbkdf2Iterations(
+      Number(passwordStretchingValue)
+    )
+    this.handleToggle()
+    this.props.analyticsActions.logEvent([
+      ...PASSWORD_STRETCHING,
+      passwordStretchingValue
+    ])
+  }
+
+  handleToggle = () => {
+    this.props.formActions.reset('settingPasswordStretching')
+    this.setState({
+      updateToggled: !this.state.updateToggled
+    })
+  }
+
   render () {
-    return <PasswordStretching {...this.props} />
+    return (
+      <PasswordStretching
+        onSubmit={this.onSubmit}
+        updateToggled={this.state.updateToggled}
+        handleToggle={this.handleToggle}
+        {...this.props}
+      />
+    )
   }
 }
 
-export default PasswordStretchingContainer
+const mapStateToProps = state => ({
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(
+    state,
+    'passwordStretching'
+  ),
+  currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
+})
+
+PasswordStretchingContainer.propTypes = {
+  passwordStretching: PropTypes.number
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PasswordStretchingContainer)

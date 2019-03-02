@@ -4,11 +4,10 @@ import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-import Actions from './template.js'
+import Actions from './template'
 
 class ActionsContainer extends React.PureComponent {
   handleSend = () => {
-    this.props.analytics.logClick('send')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
     switch (coin) {
@@ -29,7 +28,6 @@ class ActionsContainer extends React.PureComponent {
   }
 
   handleRequest = () => {
-    this.props.analytics.logClick('request')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
     switch (coin) {
@@ -60,8 +58,7 @@ class ActionsContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

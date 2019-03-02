@@ -4,7 +4,7 @@ import { path, prop } from 'ramda'
 import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 
-export class ExchangeDelegate {
+export default class ExchangeDelegate {
   constructor (state, api, partner) {
     this._trades = []
     this._debug = false
@@ -96,7 +96,7 @@ export class ExchangeDelegate {
 
   reserveReceiveAddress () {
     const network = prop('walletOptionsPath', this.state)
-      .map(path(['platforms', 'web', 'bitcoin', 'config', 'network']))
+      .map(path(['platforms', 'web', 'btc', 'config', 'network']))
       .getOrElse('bitcoin')
 
     const defaultIndex = getDefaultAccountIndex(this.state)
@@ -133,5 +133,3 @@ export class ExchangeDelegate {
     return ''
   }
 }
-
-module.exports = ExchangeDelegate

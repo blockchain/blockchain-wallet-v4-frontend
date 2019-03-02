@@ -9,7 +9,6 @@ import { head } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
-import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   createWalletApi,
@@ -40,9 +39,7 @@ const devToolsConfig = {
     // '@@redux-form/FOCUS',
     // '@@redux-form/BLUR',
     // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET',
-    // '@@redux-ui/MOUNT_UI_STATE',
-    // '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/RESET'
   ]
 }
 
@@ -52,8 +49,8 @@ const configureStore = () => {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
     : compose
-  const walletPath = appConfig.WALLET_PAYLOAD_PATH
-  const kvStorePath = appConfig.WALLET_KVSTORE_PATH
+  const walletPath = 'wallet.payload'
+  const kvStorePath = 'wallet.kvstore'
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options-v4.json')
@@ -85,6 +82,8 @@ const configureStore = () => {
       })
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
+      const reauthenticate = () =>
+        store.dispatch(actions.modules.profile.signIn())
       const networks = {
         btc: Bitcoin.networks[options.platforms.web.btc.config.network],
         bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
@@ -96,6 +95,7 @@ const configureStore = () => {
         options,
         apiKey,
         getAuthCredentials,
+        reauthenticate,
         networks
       })
       const persistWhitelist = ['session', 'preferences', 'cache']

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import TransactionListItem from './template.js'
+import TransactionListItem from './template'
 
 class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
@@ -43,14 +43,15 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
+    const { coin, currency, transaction, buySellPartner } = this.props
     return (
       <TransactionListItem
-        coin={this.props.coin}
-        currency={this.props.currency}
+        coin={coin}
+        currency={currency}
         isToggled={this.state.isToggled}
         handleToggle={this.handleToggle}
-        transaction={this.props.transaction}
-        buySellPartner={this.props.buySellPartner}
+        transaction={transaction}
+        buySellPartner={buySellPartner}
         handleEditDescription={this.handleEditDescription}
       />
     )
@@ -67,6 +68,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  null,
   mapDispatchToProps
 )(ListItemContainer)

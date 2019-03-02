@@ -1,5 +1,5 @@
 import { testSaga } from 'redux-saga-test-plan'
-
+import { Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import { selectors } from 'data'
 import sagas from './sagas'
@@ -18,6 +18,9 @@ const mockPairs = [
   'BCH-ETH',
   'XLM-ETH'
 ]
+
+const mockCoinAvailability = coin =>
+  Remote.of({ exchangeFrom: true, exchangeTo: true })
 
 const api = {
   fetchAvailablePairs: jest.fn(() => mockPairs)
@@ -40,6 +43,9 @@ describe('Exchanges rates sagas', () => {
       saga
         .next({ pairs: mockPairs })
         .select(selectors.core.walletOptions.getCoinAvailability)
+    })
+    it('should set available pairs', () => {
+      saga.next(mockCoinAvailability).put(A.availablePairsSuccess(mockPairs))
     })
   })
 

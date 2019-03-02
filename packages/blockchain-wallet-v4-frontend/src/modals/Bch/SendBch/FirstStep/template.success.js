@@ -36,10 +36,11 @@ import {
 } from './validation'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
-const BrowserWarning = styled(Banner)`
-  margin: -4px 0 8px;
-`
 
+const WarningBanners = styled(Banner)`
+  margin: -6px 0 12px;
+  padding: 8px;
+`
 const FirstStep = props => {
   const {
     from,
@@ -52,12 +53,12 @@ const FirstStep = props => {
     handleSubmit,
     totalFee,
     pristine,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = props
+  const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
-    from &&
-    from.type === 'LOCKBOX' &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -86,23 +87,34 @@ const FirstStep = props => {
           <Field
             name='from'
             coin='BCH'
-            component={SelectBoxBchAddresses}
             includeAll={false}
-            excludeWatchOnly
-            excludeLockbox={excludeLockbox}
             validate={[required]}
+            component={SelectBoxBchAddresses}
+            excludeHDWallets={excludeHDWallets}
+            excludeLockbox={excludeLockbox}
+            excludeWatchOnly
           />
         </FormItem>
       </FormGroup>
-      {disableLockboxSend && (
-        <BrowserWarning type='warning'>
-          <Text color='warning' size='12px'>
+      {isFromLockbox && !disableLockboxSend && (
+        <WarningBanners type='info'>
+          <Text color='warning' size='13px'>
             <FormattedMessage
               id='modals.sendbch.firststep.lockboxwarn'
-              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
-        </BrowserWarning>
+        </WarningBanners>
+      )}
+      {disableLockboxSend && (
+        <WarningBanners type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendbch.firststep.warnbrowswer'
+              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser!'
+            />
+          </Text>
+        </WarningBanners>
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -133,7 +145,6 @@ const FirstStep = props => {
                 component={TextBox}
                 normalize={removeWhitespace}
                 validate={[required, validBitcoinCashAddress]}
-                autoFocus
               />
             )}
             <QRCodeCapture
@@ -214,6 +225,7 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           disabled={submitting || invalid || pristine || disableLockboxSend}
+          data-e2e='bchSendContinue'
         >
           <FormattedMessage
             id='modals.sendBch.firststep.continue'

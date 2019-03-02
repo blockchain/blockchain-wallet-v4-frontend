@@ -5,7 +5,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, model, selectors } from 'data'
-import settings from 'config'
 import {
   initialize,
   change,
@@ -16,19 +15,19 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBch/sagas'
-// TODO: Check how to retrieve Bitcoin cash default fee
 export const bchDefaultFee = 4
-
-export default ({ coreSagas }) => {
-  const initialized = function*() {
+export default ({ coreSagas, networks }) => {
+  const initialized = function*(action) {
     try {
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      const { from } = action.payload
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
       payment = yield payment.init()
       const accountsR = yield select(
@@ -39,15 +38,28 @@ export default ({ coreSagas }) => {
       )
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      if (from === 'allImportedAddresses') {
+        const addressesR = yield select(
+          selectors.core.common.bch.getActiveAddresses
+        )
+        const addresses = addressesR
+          .getOrElse([])
+          .filter(prop('priv'))
+          .map(prop('addr'))
+          .map(utils.bch.fromCashAddr)
+        payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
+      } else {
+        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      }
       payment = yield payment.fee(bchDefaultFee)
       const initialValues = {
         coin: 'BCH',
-        from: defaultAccountR.getOrElse()
+        from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
       )
@@ -61,14 +73,15 @@ export default ({ coreSagas }) => {
   const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
       payment = yield payment.build()
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -85,7 +98,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
 
       switch (field) {
@@ -161,7 +174,7 @@ export default ({ coreSagas }) => {
       try {
         payment = yield payment.build()
       } catch (e) {}
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
@@ -211,7 +224,7 @@ export default ({ coreSagas }) => {
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bch.create({
       payment: p.getOrElse({}),
-      network: settings.NETWORK_BCH
+      network: networks.bch
     })
     const fromType = path(['fromType'], payment.value())
     try {
@@ -240,7 +253,7 @@ export default ({ coreSagas }) => {
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bch.fetchData())
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
@@ -265,15 +278,26 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push('/bch/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
       }
-      yield put(destroy(FORM))
-      // Close modals
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND,
+          'BCH',
+          Exchange.convertCoinToCoin({
+            value: payment.value().amount,
+            coin: 'BCH',
+            baseToStandard: true
+          }).value
+        ])
+      )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.sendBchPaymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

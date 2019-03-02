@@ -5,19 +5,14 @@ import { SubmissionError } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
 
-import { actions } from 'data'
-import ThirdStep from './template.js'
+import { actions, model } from 'data'
+import ThirdStep from './template'
 
+const { BACKUP_PHRASE_VERIFIED } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class ThirdStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      indexes: []
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-  }
+  state = { indexes: [] }
 
-  componentWillMount () {
+  componentDidMount () {
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(
@@ -26,10 +21,12 @@ class ThirdStepContainer extends React.PureComponent {
       randomize,
       pair
     )(range(0, 12))
+    /* eslint-disable */
     this.setState({ indexes })
+    /* eslint-enable */
   }
 
-  onSubmit (values, dispatch, props) {
+  onSubmit = (values, dispatch, props) => {
     const errors = {}
     compose(
       forEach(word => {
@@ -50,6 +47,7 @@ class ThirdStepContainer extends React.PureComponent {
     } else {
       this.props.walletActions.verifyMnemonic()
       this.props.handleClose()
+      this.props.analyticsActions.logEvent(BACKUP_PHRASE_VERIFIED)
     }
   }
 
@@ -66,6 +64,7 @@ class ThirdStepContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 

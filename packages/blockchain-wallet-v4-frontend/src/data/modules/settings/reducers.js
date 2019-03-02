@@ -35,13 +35,13 @@ const settings = (state = INITIAL_STATE, action) => {
       return assoc('emailVerifiedError', true, state)
     }
     case AT.CLEAR_EMAIL_CODE_FAILURE: {
-      return assoc('emailVerifiedError', state)
+      return assoc('emailVerifiedError', false, state)
     }
     case AT.VERIFY_MOBILE_FAILURE: {
       return assoc('mobileVerifiedError', true, state)
     }
     case AT.CLEAR_MOBILE_FAILURE: {
-      return assoc('mobileVerifiedError', state)
+      return assoc('mobileVerifiedError', false, state)
     }
     default: {
       return state

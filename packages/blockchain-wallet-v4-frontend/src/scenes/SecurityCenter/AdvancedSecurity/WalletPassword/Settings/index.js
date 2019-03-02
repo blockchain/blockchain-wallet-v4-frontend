@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from 'data'
-import Settings from './template.js'
+import { actions, model, selectors } from 'data'
+import Settings from './template'
 
+const { PASSWORD_CHANGE } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class SettingsContainer extends React.PureComponent {
   state = { updateToggled: false }
 
@@ -13,6 +14,7 @@ class SettingsContainer extends React.PureComponent {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
     this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
+    this.props.analyticsActions.logEvent(PASSWORD_CHANGE)
   }
 
   handleToggle = () => {
@@ -53,6 +55,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

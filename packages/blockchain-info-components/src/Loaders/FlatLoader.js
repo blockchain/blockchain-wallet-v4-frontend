@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { keysIn } from 'ramda'
 
 import { Palette } from '../Colors'
 
-const stretchAnimation = keyframes`
+const stretchFrames = keyframes`
   0%, 40%, 100% { opacity: 1; }
   20% { opacity: 0; }
+`
+const stretchAnimation = css`
+  ${stretchFrames} 1.2s infinite ease-in-out;
 `
 const Container = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const Rectangle = styled.div`
   width: 15%;
   height: 100%;
   background-color: ${props => props.theme[props.color]};
-  animation: ${stretchAnimation} 1.2s infinite ease-in-out;
+  animation: ${stretchAnimation};
 `
 const Rectangle1 = styled(Rectangle)`
   animation-delay: -1.1s;

@@ -29,5 +29,7 @@ configureStore()
     renderApp(App, root.store, root.history, root.persistor)
   })
   .catch(e => {
+    // eslint-disable-next-line no-console
+    console.info(e)
     renderError(e)
   })

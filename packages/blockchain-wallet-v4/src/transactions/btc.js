@@ -7,7 +7,8 @@ import {
   Address,
   HDAccount,
   AddressBook,
-  AddressBookEntry
+  AddressBookEntry,
+  TXNotes
 } from '../types'
 import {
   prop,
@@ -233,6 +234,11 @@ const CoinBaseData = total => ({
   change: 0
 })
 
+const getDescription = (hash, txNotes, addressLabels, toAddress) => {
+  let txNote = TXNotes.selectNote(hash, txNotes)
+  return txNote || propOr('', [toAddress], addressLabels)
+}
+
 export const getTime = tx => {
   const date = moment.unix(tx.time).local()
   return equals(date.year(), moment().year())
@@ -242,14 +248,11 @@ export const getTime = tx => {
 
 export const _transformTx = (
   wallet,
-  currentBlockHeight,
   accountList,
-  getDescription,
-  getPartnerLabel,
+  txNotes,
+  addressLabels,
   tx
 ) => {
-  const conf = currentBlockHeight - tx.block_height + 1
-  const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
     tagCoin(wallet, accountList),
@@ -275,21 +278,21 @@ export const _transformTx = (
   const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
+    blockHeight: tx.block_height,
+    description: getDescription(tx.hash, txNotes, addressLabels, toAddress),
     double_spend: tx.double_spend,
     rbf: tx.rbf,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
-    description: getDescription(tx.hash, toAddress),
-    partnerLabel: getPartnerLabel(tx.hash),
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: tx.fee,
-    confirmations: confirmations,
     inputs: inputs,
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
+    toAddress,
     from,
     to
   }

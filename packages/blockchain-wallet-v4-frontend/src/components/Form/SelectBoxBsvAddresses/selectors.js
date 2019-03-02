@@ -12,6 +12,7 @@ import {
   not,
   path,
   prop,
+  prepend,
   sequence,
   reduce
 } from 'ramda'
@@ -19,8 +20,35 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const allWallets = {
+  label: 'All',
+  options: [
+    {
+      label: 'All Bitcoin SV Wallets',
+      value: 'all'
+    }
+  ]
+}
+
+const allImportedAddresses = {
+  label: 'Imported Addresses',
+  options: [
+    {
+      label: 'All Imported Bitcoin SV Addresses',
+      value: 'allImportedAddresses'
+    }
+  ]
+}
+
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
+  const {
+    coin,
+    exclude = [],
+    excludeHDWallets,
+    excludeImported,
+    excludeWatchOnly,
+    includeAll = true
+  } = ownProps
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {
       let bsvDisplay = Exchange.displayBsvToBsv({
@@ -81,7 +109,16 @@ export const getData = (state, ownProps) => {
             toGroup('Imported Addresses')
           ),
       Remote.of([])
-    ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
+    ]).map(([b1, b2, b3]) => {
+      const data = reduce(concat, [], [b1, b2, b3])
+      if (includeAll) {
+        return { data: prepend(allWallets, data) }
+      } else if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
+      } else {
+        return { data }
+      }
+    })
   }
 
   return getAddressesData()

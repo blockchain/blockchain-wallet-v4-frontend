@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const transferEthSagas = sagas({ coreSagas })
+export default ({ coreSagas, networks }) => {
+  const transferEthSagas = sagas({ coreSagas, networks })
 
   return function* transferEthSaga () {
     yield takeLatest(
