@@ -62,7 +62,11 @@ const Settings = props => {
     return (
       <SettingWrapper>
         {!updateToggled && (
-          <Button nature='primary' onClick={handleToggle}>
+          <Button
+            nature='primary'
+            onClick={handleToggle}
+            data-e2e='removeSecondPasswordButton'
+          >
             <FormattedMessage
               id='scenes.securitysettings.advanced.secondpasswordwallet.settings.remove'
               defaultMessage='Remove Second Password'
@@ -81,9 +85,15 @@ const Settings = props => {
               name='secondPassword'
               component={PasswordBox}
               validate={[required, validateSecondPassword]}
+              data-e2e='secondPasswordInput'
             />
             <ButtonWrapper>
-              <Button nature='empty' capitalize onClick={handleCancel}>
+              <Button
+                nature='empty'
+                capitalize
+                onClick={handleCancel}
+                data-e2e='removeSecondPasswordCancelButton'
+              >
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.cancel'
                   defaultMessage='Cancel'
@@ -94,6 +104,7 @@ const Settings = props => {
                 nature='primary'
                 capitalize
                 disabled={submitting || invalid}
+                data-e2e='removeSecondPasswordConfirmationButton'
               >
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.remove'

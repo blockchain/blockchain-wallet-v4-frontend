@@ -20,7 +20,10 @@ const SecondPasswordWallet = props => {
             id='scenes.security.advanced.secondpassword.title'
             defaultMessage='Second Password'
           />
-          <SettingStatus active={secondPasswordEnabled}>
+          <SettingStatus
+            active={secondPasswordEnabled}
+            data-e2e={`${secondPasswordEnabled}SecondPassword`}
+          >
             {secondPasswordEnabled ? (
               <FormattedMessage
                 id='scenes.security.advanced.secondpassword.enabled'
