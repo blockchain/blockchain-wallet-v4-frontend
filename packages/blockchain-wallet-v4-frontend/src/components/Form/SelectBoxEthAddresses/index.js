@@ -7,7 +7,7 @@ import SelectBoxEth from './template'
 
 class SelectBoxEthAddresses extends React.PureComponent {
   render () {
-    const { data, includeAll, ...rest } = this.props
+    const { data, ...rest } = this.props
 
     return data.cata({
       Success: value => {

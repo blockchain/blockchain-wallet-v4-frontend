@@ -2,17 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { compose } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-
 import { BlockchainLoader } from 'blockchain-info-components'
 import DataError from 'components/DataError'
 import ExchangeConfirm from './template'
 
 const { EXCHANGE_FORM } = model.components.exchange.EXCHANGE_STEPS
-const { SECOND_STEP_BACK, SECOND_STEP_SUBMIT_CLICK } = model.analytics.EXCHANGE
 
 const Loader = styled(BlockchainLoader)`
   align-self: center;
@@ -20,19 +17,13 @@ const Loader = styled(BlockchainLoader)`
 `
 class ExchangeConfirmContainer extends React.PureComponent {
   render () {
-    const { data, actions, logBack, logSubmitClick } = this.props
+    const { data, actions } = this.props
     return data.cata({
       Success: value => (
         <ExchangeConfirm
           {...value}
-          onBack={compose(
-            logBack,
-            actions.setStep.bind(null, EXCHANGE_FORM)
-          )}
-          onSubmit={compose(
-            logSubmitClick,
-            actions.confirmExchange
-          )}
+          onBack={actions.setStep.bind(null, EXCHANGE_FORM)}
+          onSubmit={actions.confirmExchange}
         />
       ),
       Failure: message => <DataError message={message} />,
@@ -47,9 +38,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logBack: () => dispatch(actions.analytics.logEvent(SECOND_STEP_BACK)),
-  logSubmitClick: () =>
-    dispatch(actions.analytics.logEvent(SECOND_STEP_SUBMIT_CLICK)),
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 

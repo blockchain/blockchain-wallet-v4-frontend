@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { always, contains, identity, ifElse, equals } from 'ramda'
+import { always, includes, identity, ifElse, equals } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
@@ -157,6 +157,7 @@ const getRefundMessage = status => {
 const getButton = (status, close) => {
   switch (status) {
     case EXPIRED:
+    case FAILED:
       return (
         <Link
           target='_blank'
@@ -172,7 +173,13 @@ const getButton = (status, close) => {
       )
     default:
       return (
-        <Button nature='primary' size='13px' weight={300} onClick={close}>
+        <Button
+          data-e2e='exchangeResultsClose'
+          nature='primary'
+          size='13px'
+          weight={300}
+          onClick={close}
+        >
           <FormattedMessage
             id='modals.exchange.exchangeresults.close'
             defaultMessage='Close'
@@ -183,7 +190,7 @@ const getButton = (status, close) => {
 }
 
 const getTargetAmount = (withdrawalAmount, targetCoin, status) =>
-  contains(status, [FAILED, EXPIRED]) ? (
+  includes(status, [FAILED, EXPIRED]) ? (
     <StrikeThrough>{`${withdrawalAmount} ${targetCoin}`}</StrikeThrough>
   ) : (
     `${withdrawalAmount} ${targetCoin}`
@@ -231,19 +238,21 @@ export const ExchangeResults = ({
         <ResultAmountHeader>
           {getSourceMessage(status, sourceCoin)}
         </ResultAmountHeader>
-        <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
-        {!contains(status, [REFUNDED, PENDING_REFUND]) && (
+        <ExchangeAmount data-e2e='exchangeResultsSourceValue'>
+          {`${depositAmount} ${sourceCoin}`}
+        </ExchangeAmount>
+        {!includes(status, [REFUNDED, PENDING_REFUND]) && (
           <React.Fragment>
             <ResultAmountHeader>
               {getTargetMessage(status, targetCoin)}
             </ResultAmountHeader>
-            <ExchangeAmount>
+            <ExchangeAmount data-e2e='exchangeResultsTargetValue'>
               {getTargetAmount(withdrawalAmount, targetCoin, status)}
             </ExchangeAmount>
           </React.Fragment>
         )}
         <Delimiter />
-        {contains(status, [
+        {includes(status, [
           FINISHED,
           PENDING_DEPOSIT,
           PENDING_EXECUTION,
@@ -281,7 +290,7 @@ export const ExchangeResults = ({
           <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
         </TableRow>
         {rate &&
-          contains(status, [
+          includes(status, [
             FINISHED,
             PENDING_DEPOSIT,
             PENDING_EXECUTION,
@@ -300,7 +309,7 @@ export const ExchangeResults = ({
               >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
             </TableRow>
           )}
-        {contains(status, [REFUNDED, PENDING_REFUND]) && (
+        {includes(status, [REFUNDED, PENDING_REFUND]) && (
           <TableRow>
             <ExchangeText>{getRefundMessage(status)}</ExchangeText>
             <ExchangeText weight={300}>{`${

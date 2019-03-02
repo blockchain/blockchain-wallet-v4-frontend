@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendBsvSagas, { logLocation, bsvDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
@@ -25,6 +25,7 @@ const coreSagas = coreSagasFactory({ api })
 const networks = {
   bsv: BitcoinCash.networks['bitcoin']
 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendBsv sagas', () => {
   const originalMath = Object.create(Math)
@@ -98,7 +99,7 @@ describe('sendBsv sagas', () => {
     const beforeEnd = 'beforeEnd'
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.sendBsvPaymentUpdated(Remote.Loading))
+      saga.next().put(A.sendBsvPaymentUpdatedLoading())
     })
 
     it('should create payment', () => {
@@ -143,7 +144,7 @@ describe('sendBsv sagas', () => {
     it('should trigger bsv payment updated success action', () => {
       saga
         .next()
-        .put(A.sendBsvPaymentUpdated(Remote.of(value)))
+        .put(A.sendBsvPaymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
         .isDone()
@@ -155,6 +156,8 @@ describe('sendBsv sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
+          .put(A.sendBsvPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -237,9 +240,7 @@ describe('sendBsv sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga
-        .next(Remote.of(paymentMock))
-        .put(A.sendBsvPaymentUpdated(Remote.Loading))
+      saga.next(Remote.of(paymentMock)).put(A.sendBsvPaymentUpdatedLoading())
     })
 
     it('should create payment from state value', () => {
@@ -258,7 +259,7 @@ describe('sendBsv sagas', () => {
     it('should put update success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendBsvPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendBsvPaymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
         .isDone()
@@ -271,6 +272,8 @@ describe('sendBsv sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
+          .put(A.sendBsvPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -335,7 +338,7 @@ describe('sendBsv sagas', () => {
     it('should put bsv payment updated success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendBsvPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendBsvPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -346,21 +349,29 @@ describe('sendBsv sagas', () => {
       saga.next().put(actions.router.push('/settings/addresses/bsv'))
     })
 
-    it('should display succcess message', () => {
+    it('should display success message', () => {
       saga
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
         .save(beforeError)
     })
 
-    it('should destroy form', () => {
-      saga.next().put(actions.form.destroy(FORM))
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BSV', '0'])
+        )
     })
 
     it('should put action to close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
+    })
+
+    it('should destroy form', () => {
       saga
         .next()
-        .put(actions.modals.closeAllModals())
+        .put(actions.form.destroy(FORM))
         .next()
         .isDone()
     })
@@ -377,6 +388,8 @@ describe('sendBsv sagas', () => {
 
       it('should log error', () => {
         saga
+          .next()
+          .put(A.sendBsvPaymentUpdatedFailure(error))
           .next()
           .put(
             actions.logs.logErrorMessage(

@@ -12,6 +12,7 @@ import importBtcAddress from './importBtcAddress/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import login from './login/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
+import onboarding from './onboarding/sagaRegister'
 import onfido from './onfido/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
@@ -27,7 +28,6 @@ import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
-import swapGetStarted from './swapGetStarted/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
@@ -47,6 +47,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(login())
     yield fork(manageAddresses({ api, networks }))
+    yield fork(onboarding())
     yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
@@ -62,7 +63,6 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(sendXlm({ coreSagas }))
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
-    yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
     yield fork(veriff({ api, coreSagas }))

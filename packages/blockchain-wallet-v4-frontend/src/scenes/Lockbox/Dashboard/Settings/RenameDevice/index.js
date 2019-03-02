@@ -1,24 +1,20 @@
 import React from 'react'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { connect } from 'react-redux'
 import { formValueSelector, SubmissionError } from 'redux-form'
 import { bindActionCreators } from 'redux'
 
 import { requireUniqueDeviceName } from 'services/FormHelper'
-import RenameDevice from './template.js'
+import RenameDevice from './template'
 
+const { RENAME_DEVICE } = model.analytics.LOCKBOX_EVENTS.SETTINGS
 class RenameDeviceContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { updateToggled: false }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-    this.handleCancel = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  onSubmit () {
+  onSubmit = () => {
+    const { newDeviceName } = this.props
     const isNotUnique = requireUniqueDeviceName(
-      this.props.newDeviceName,
+      newDeviceName,
       this.props.usedDeviceNames
     )
     if (isNotUnique) {
@@ -28,19 +24,20 @@ class RenameDeviceContainer extends React.PureComponent {
     } else {
       this.props.lockboxActions.updateDeviceName(
         this.props.deviceIndex,
-        this.props.newDeviceName
+        newDeviceName
       )
       this.handleToggle()
+      this.props.analyticsActions.logEvent([...RENAME_DEVICE, newDeviceName])
     }
   }
 
-  handleToggle () {
+  handleToggle = () => {
     this.setState({
       updateToggled: !this.state.updateToggled
     })
   }
 
-  handleCancel () {
+  handleCancel = () => {
     this.props.formActions.reset('RenameDevice')
     this.handleToggle()
   }
@@ -70,6 +67,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.core.kvStore.lockbox, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

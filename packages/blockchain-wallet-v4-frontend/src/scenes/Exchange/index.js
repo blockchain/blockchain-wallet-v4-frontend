@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { BlockchainLoader } from 'blockchain-info-components'
 import { getData } from './selectors'
 import media from 'services/ResponsiveService'
@@ -17,8 +17,6 @@ const Wrapper = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 600px;
 `
 
@@ -48,55 +46,49 @@ const Column = styled.div`
   width: 100%;
 `
 
-const { ENTERED } = model.analytics.EXCHANGE
+export const ExchangeScene = ({
+  userCreated,
+  hasEmail,
+  location,
+  fetchUser
+}) => {
+  if (!hasEmail) return <EmailRequired />
 
-export class ExchangeScene extends React.PureComponent {
-  componentDidMount () {
-    this.props.logEnterExchange()
-  }
-
-  render () {
-    const { userCreated, hasEmail, location } = this.props
-
-    if (!hasEmail) return <EmailRequired />
-
-    return userCreated.cata({
-      Success: userCreated => (
-        <Wrapper>
-          {userCreated ? (
-            <Container>
-              <Column>
-                <Exchange
-                  from={path(['state', 'from'], location)}
-                  to={path(['state', 'to'], location)}
-                  fix={path(['state', 'fix'], location)}
-                  amount={path(['state', 'amount'], location)}
-                />
-              </Column>
-            </Container>
-          ) : (
-            <GetStarted />
-          )}
-        </Wrapper>
-      ),
-      Loading: () => (
-        <Wrapper>
-          <BlockchainLoader width='200px' height='200px' />
-        </Wrapper>
-      ),
-      NotAsked: () => (
-        <Wrapper>
-          <BlockchainLoader width='200px' height='200px' />
-        </Wrapper>
-      ),
-      Failure: () => <DataError onClick={this.props.fetchUser} />
-    })
-  }
+  return userCreated.cata({
+    Success: userCreated => (
+      <Wrapper>
+        {userCreated ? (
+          <Container>
+            <Column>
+              <Exchange
+                from={path(['state', 'from'], location)}
+                to={path(['state', 'to'], location)}
+                fix={path(['state', 'fix'], location)}
+                amount={path(['state', 'amount'], location)}
+              />
+            </Column>
+          </Container>
+        ) : (
+          <GetStarted />
+        )}
+      </Wrapper>
+    ),
+    Loading: () => (
+      <Wrapper>
+        <BlockchainLoader width='200px' height='200px' />
+      </Wrapper>
+    ),
+    NotAsked: () => (
+      <Wrapper>
+        <BlockchainLoader width='200px' height='200px' />
+      </Wrapper>
+    ),
+    Failure: () => <DataError onClick={fetchUser} />
+  })
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
-  logEnterExchange: () => dispatch(actions.analytics.logEvent(ENTERED))
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 
 export default connect(

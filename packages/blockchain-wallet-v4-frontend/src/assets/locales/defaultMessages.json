@@ -566,12 +566,12 @@
         "id": "components.alerts.address_and_private_key_incorrect"
       },
       {
-        "defaultMessage": "Lockbox successfully added.",
-        "id": "components.alerts.lockbox_setup_success"
+        "defaultMessage": "Successfully setup your {deviceType}.",
+        "id": "components.alerts.success_lockbox_setup"
       },
       {
-        "defaultMessage": "Failed to setup Lockbox.",
-        "id": "components.alerts.lockbox_setup_error"
+        "defaultMessage": "Failed to setup your {deviceType}.",
+        "id": "components.alerts.error_lockbox_setup"
       },
       {
         "defaultMessage": "Lockbox settings successfully updated.",
@@ -687,6 +687,196 @@
       }
     ],
     "path": "src/components/BuySell/BankTransferDetails.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verified Email",
+        "id": "coinifyexchangedata.create.createaccount.partner.email_verified"
+      },
+      {
+        "defaultMessage": "Verify Email",
+        "id": "coinifyexchangedata.create.createaccount.partner.email_no_verify"
+      },
+      {
+        "defaultMessage": "Send Again",
+        "id": "coinifyexchangedata.create.createaccount.partner.sendagain"
+      },
+      {
+        "defaultMessage": "Check your inbox. We just sent you an email.",
+        "id": "coinifyexchangedata.create.createaccount.partner.checkyourinbox"
+      },
+      {
+        "defaultMessage": "Email Verified",
+        "id": "coinifyexchangedata.create.createaccount.partner.emailverified"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "continue"
+      },
+      {
+        "defaultMessage": "Unfortunately this email is being used for another account.",
+        "id": "coinifyexchangedata.create.accept.error1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "coinifyexchangedata.create.accept.error2"
+      },
+      {
+        "defaultMessage": "to change it.",
+        "id": "coinifyexchangedata.create.accept.error3"
+      },
+      {
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "id": "coinifyexchangedata.create.accept.unknownError"
+      },
+      {
+        "defaultMessage": "try again",
+        "id": "tryagain"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "or"
+      },
+      {
+        "defaultMessage": "contact support.",
+        "id": "contactsupport"
+      },
+      {
+        "defaultMessage": "Error Description: {errorDescription}",
+        "id": "coinifyexchangedata.create.accept.support_error_description"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/AcceptTerms/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Create Account",
+        "id": "coinifyexchangedata.create.header.createaccount"
+      },
+      {
+        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID",
+        "id": "coinifyexchangedata.create.subheader.get_started"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter the email address you'd like to verify:",
+        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
+      },
+      {
+        "defaultMessage": "Send Verification Email",
+        "id": "coinifyexchangedata.create.verifyemail.sendverifyemail"
+      },
+      {
+        "defaultMessage": "Another verification email has been sent! Don't see it? {resend}",
+        "id": "coinifyexchangedata.create.verifyemail.helper.sentverificationemail"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/VerifyEmail/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "How is my payment method used?",
+        "id": "scenes.coinify.isx.tradequestion"
+      },
+      {
+        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
+        "id": "scenes.coinify.isx.tradeanswer"
+      },
+      {
+        "defaultMessage": "~{btcValue} BTC",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
+      },
+      {
+        "defaultMessage": "({fiatValue})",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
+      },
+      {
+        "defaultMessage": "Finish later",
+        "id": "scenes.buysell.coinify.isx.finishlater"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/ISignThis/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Credit / Debit",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card"
+      },
+      {
+        "defaultMessage": "The order amount is less than the credit card minimum of {cardMin}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_min"
+      },
+      {
+        "defaultMessage": "Orders over {cardLimit} can only be processed through bank transfer.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_max"
+      },
+      {
+        "defaultMessage": "Credit card payment is not available for this order.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_other"
+      },
+      {
+        "defaultMessage": "Receive bitcoin instantly",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
+      },
+      {
+        "defaultMessage": "3% convenience fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
+      },
+      {
+        "defaultMessage": "Visa or Mastercard",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
+      },
+      {
+        "defaultMessage": "Bank Transfer",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
+      },
+      {
+        "defaultMessage": "The order amount is less than the bank minimum of {bankMin}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_min"
+      },
+      {
+        "defaultMessage": "The order amount is over your bank limit of {bankLimit}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_max"
+      },
+      {
+        "defaultMessage": "Bank transfers are not available for this order.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_other"
+      },
+      {
+        "defaultMessage": "Receive bitcoin in 2-3 days",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
+      },
+      {
+        "defaultMessage": "0.25% Payment Fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Payment/mediumHelpers.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Select a Payment Method",
+        "id": "components.buysell.coinify.payment.header"
+      },
+      {
+        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency.",
+        "id": "components.buysell.coinify.payment.sub_header1"
+      },
+      {
+        "defaultMessage": "Select the account that you would like to use to fund your purchases. You can always change your payment method.",
+        "id": "components.buysell.coinify.payment.sub_header2"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Payment/template.success.json"
   },
   {
     "descriptors": [
@@ -1163,22 +1353,26 @@
         "id": "components.identityverification.tiercard.getfreecrypto"
       },
       {
-        "defaultMessage": "Tier {tier} Verification",
-        "id": "components.identityverification.tiercard.tierheader"
-      },
-      {
         "defaultMessage": "Continue",
         "id": "components.identityverification.tiercard.continue"
       },
       {
-        "defaultMessage": "Get Started",
-        "id": "components.identityverification.tiercard.getstarted"
+        "defaultMessage": "Swap Now",
+        "id": "components.identityverification.tiercard.swap_now"
       }
     ],
     "path": "src/components/IdentityVerification/TierCard/index.json"
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Silver Level",
+        "id": "components.identityverification.tiercard.silver"
+      },
+      {
+        "defaultMessage": "Gold Level",
+        "id": "components.identityverification.tiercard.gold"
+      },
       {
         "defaultMessage": "Verified Email",
         "id": "components.identityverification.tiercard.email"
@@ -1196,20 +1390,16 @@
         "id": "components.identityverification.tiercard.address"
       },
       {
-        "defaultMessage": "Tier 1+",
-        "id": "components.identityverification.tiercard.tier1"
-      },
-      {
-        "defaultMessage": "Verified Phone",
-        "id": "components.identityverification.tiercard.phone"
+        "defaultMessage": "Silver Level +",
+        "id": "components.identityverification.tiercard.silverplus"
       },
       {
         "defaultMessage": "Gov't Issued ID",
         "id": "components.identityverification.tiercard.id"
       },
       {
-        "defaultMessage": "Selfie",
-        "id": "components.identityverification.tiercard.selfie"
+        "defaultMessage": "Portrait Photo",
+        "id": "components.identityverification.tiercard.portraitphoto"
       },
       {
         "defaultMessage": "Annual Swap Limit",
@@ -1234,9 +1424,63 @@
       {
         "defaultMessage": "Takes {time} min",
         "id": "components.identityverification.tiercard.timing"
+      },
+      {
+        "defaultMessage": "Unlock Silver",
+        "id": "components.identityverification.tiercard.silvercta"
+      },
+      {
+        "defaultMessage": "Unlock Gold",
+        "id": "components.identityverification.tiercard.goldcta"
       }
     ],
     "path": "src/components/IdentityVerification/TierCard/services.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "If prompted, be sure to allow the \"Device Manager\" onto the device during app updates.",
+        "id": "components.lockbox.appmanager.prompt"
+      },
+      {
+        "defaultMessage": "The Bitcoin app is needed to connect your Lockbox to your wallet.",
+        "id": "components.lockbox.appmanager.btcrequired"
+      },
+      {
+        "defaultMessage": "Failed to load application list. Please try again later.",
+        "id": "components.lockbox.appmanager.appfailure"
+      },
+      {
+        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
+        "id": "components.lockbox.appmanager.connectdevice"
+      },
+      {
+        "defaultMessage": "Waiting...",
+        "id": "components.lockbox.appmanager.waiting"
+      }
+    ],
+    "path": "src/components/Lockbox/AppManager/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Install",
+        "id": "components.lockbox.appmanager.install"
+      },
+      {
+        "defaultMessage": "Required",
+        "id": "components.lockbox.appmanager.required"
+      },
+      {
+        "defaultMessage": "{changeType}...",
+        "id": "components.lockbox.appmanager.changeType"
+      },
+      {
+        "defaultMessage": "Version {version}",
+        "id": "components.lockbox.appmanager.successmsg"
+      }
+    ],
+    "path": "src/components/Lockbox/AppManager/template.json"
   },
   {
     "descriptors": [
@@ -1372,6 +1616,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.",
+        "id": "modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip"
+      },
+      {
         "defaultMessage": "This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.",
         "id": "scenes.buysell.coinify.isx.expiredtooltip"
       },
@@ -1476,8 +1724,8 @@
         "id": "modals.exchange.shapeshift.feetooltip"
       },
       {
-        "defaultMessage": "This transaction involves a watch only address.",
-        "id": "scenes.home.activitylist.watchonly"
+        "defaultMessage": "This transaction involves a non-spendable address.",
+        "id": "scenes.home.activitylist.nonspendable"
       },
       {
         "defaultMessage": "When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.",
@@ -1496,8 +1744,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing Tier 2 you are automatically eligible for our airdrop program.",
-        "id": "scenes.profile.identityverification.swaplimit.airdrops"
+        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcomplete"
       },
       {
         "defaultMessage": "Learn more.",
@@ -1526,6 +1774,14 @@
       {
         "defaultMessage": "This change address belongs to your wallet",
         "id": "txlist.change.tooltip.description"
+      },
+      {
+        "defaultMessage": "Need help verifying your identity?",
+        "id": "identityverification.tooltip.headerhelper"
+      },
+      {
+        "defaultMessage": "Contact support.",
+        "id": "identityverification.tooltip.headerhelper.contactsupport"
       }
     ],
     "path": "src/components/Tooltips/index.json"
@@ -1655,15 +1911,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Archive Address",
-        "id": "scenes.settings.addresses.btc.wallets.addresserror"
-      }
-    ],
-    "path": "src/components/VulnerableAddressError/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Data",
         "id": "layouts.public.footer.explorer"
       },
@@ -1776,8 +2023,8 @@
         "id": "layouts.wallet.menuleft.navigation.storage"
       },
       {
-        "defaultMessage": "Lockbox",
-        "id": "layouts.wallet.menuleft.navigation.lockbox"
+        "defaultMessage": "Hardware Wallet",
+        "id": "layouts.wallet.menuleft.navigation.hardwarewallet"
       },
       {
         "defaultMessage": "{deviceName}",
@@ -2413,6 +2660,14 @@
         "id": "scenes.faq.group.walletfunctionality.answer12.two"
       },
       {
+        "defaultMessage": "What is Bitcoin Cash ABC vs. BSV?",
+        "id": "scenes.faq.group.walletfunctionality.abcvsbsvq"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.",
+        "id": "scenes.faq.group.walletfunctionality.abcvsbsva"
+      },
+      {
         "defaultMessage": "Wallet Security",
         "id": "scenes.faq.group.walletsecurity.title"
       },
@@ -2636,59 +2891,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've Improved Your Exchange",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
-      },
-      {
-        "defaultMessage": "November 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
-      },
-      {
-        "defaultMessage": "The faster, smarter way to trade your crypto.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
-      },
-      {
-        "defaultMessage": "Upgrade now to enjoy the following benefits:",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
-      },
-      {
-        "defaultMessage": "Lower cost",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
-      },
-      {
-        "defaultMessage": "Super competitive crypto exchange prices",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
-      },
-      {
-        "defaultMessage": "Live rates",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
-      },
-      {
-        "defaultMessage": "You always get the most up to date price",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
-      },
-      {
-        "defaultMessage": "Higher limits",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
-      },
-      {
-        "defaultMessage": "Limits from $1,000-$25,000",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Remove Label?",
         "id": "modal.deleteaddresslabel.title"
       },
@@ -2761,8 +2963,20 @@
         "id": "modals.requestbch.share"
       },
       {
-        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class=\"link\">Click here</span> once the Bitcoin Cash app has been opened.",
-        "id": "modals.requestbch.firststep.lockbox"
+        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
+        "id": "modals.requestbch.firststep.lockbox.confirm.warn"
+      },
+      {
+        "defaultMessage": "Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.",
+        "id": "modals.requestbch.firststep.lockbox.confirmfirst"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requestbch.firststep.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requestbch.firststep.lockbox.confirm2"
       },
       {
         "defaultMessage": "Or",
@@ -2799,8 +3013,12 @@
         "id": "modals.sendBch.firststep.from"
       },
       {
-        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser",
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
         "id": "modals.sendbch.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser!",
+        "id": "modals.sendbch.firststep.warnbrowswer"
       },
       {
         "defaultMessage": "To:",
@@ -2870,7 +3088,7 @@
       },
       {
         "defaultMessage": "Are you sure this is a bitcoin cash address? Sending funds to a bitcoin address by accident will result in loss of funds.",
-        "id": "modals.sendbch.secondstep.legacy_addr_warning"
+        "id": "modals.sendbch.secondstep.bch_address_warning"
       },
       {
         "defaultMessage": "Send Bitcoin Cash",
@@ -2891,6 +3109,23 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
+        "id": "modals.bsvgetstarted.now_supporting_sv"
+      },
+      {
+        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
+        "id": "modals.bsvgetstarted.visitsettings"
+      },
+      {
+        "defaultMessage": "Check It Out!",
+        "id": "modals.bsvGetStarted.continue"
+      }
+    ],
+    "path": "src/modals/Bsv/BsvGetStarted/index.json"
   },
   {
     "descriptors": [
@@ -3080,8 +3315,20 @@
         "id": "modals.requestbitcoin.firststep.qrcode"
       },
       {
-        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin app. <span class=\"link\">Click here</span> once the Bitcoin app has been opened.",
-        "id": "modals.requestbitcoin.firststep.lockbox"
+        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
+        "id": "modals.requestbitcoin.firststep.lockbox.confirm.warn"
+      },
+      {
+        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin app now.",
+        "id": "modals.requestbitcoin.firststep.lockbox.confirm1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requestbitcoin.firststep.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requestbitcoin.firststep.lockbox.confirm2"
       },
       {
         "defaultMessage": "Or",
@@ -3239,8 +3486,12 @@
         "id": "modals.sendbtc.firststep.from"
       },
       {
-        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser",
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
         "id": "modals.sendbtc.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser!",
+        "id": "modals.sendbtc.firststep.warnbrowser"
       },
       {
         "defaultMessage": "To:",
@@ -3271,12 +3522,12 @@
         "id": "modals.sendbtc.firststep.customfeeinfo"
       },
       {
-        "defaultMessage": "Estimated confirmation time 1+ hour",
-        "id": "modals.sendbtc.firststep.estimated"
-      },
-      {
         "defaultMessage": "Estimated confirmation time 0-60 minutes",
         "id": "modals.sendbtc.firststep.estimated2"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 1+ hour",
+        "id": "modals.sendbtc.firststep.estimated"
       },
       {
         "defaultMessage": "Continue",
@@ -3898,8 +4149,20 @@
         "id": "modals.requestether.share"
       },
       {
-        "defaultMessage": "Please confirm this address on your lockbox device by opening your Ethereum app. <span class=\"link\">Click here</span> once the Ethereum app has been opened.",
-        "id": "modals.requestether.firststep.lockbox"
+        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
+        "id": "modals.requesteth.firststep.lockbox.confirm.warn"
+      },
+      {
+        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Ethereum app now.",
+        "id": "modals.requesteth.firststep.lockbox.confirm1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requesteth.firststep.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requesteth.firststep.lockbox.confirm2"
       },
       {
         "defaultMessage": "Or",
@@ -3985,12 +4248,16 @@
         "id": "modals.sendEther.firststep.from"
       },
       {
-        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser",
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
         "id": "modals.sendeth.firststep.lockboxwarn"
       },
       {
+        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser!",
+        "id": "modals.sendeth.firststep.warnbrowswer"
+      },
+      {
         "defaultMessage": "To:",
-        "id": "modals.sendether.firststep.to"
+        "id": "modals.sendeth.firststep.to"
       },
       {
         "defaultMessage": "Please wait until your previous transaction confirms.",
@@ -4002,31 +4269,31 @@
       },
       {
         "defaultMessage": "Enter amount:",
-        "id": "modals.sendether.firststep.amount"
+        "id": "modals.sendeth.firststep.amount"
       },
       {
         "defaultMessage": "Description:",
-        "id": "modals.sendether.firststep.description"
+        "id": "modals.sendeth.firststep.description"
       },
       {
         "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendether.firststep.fee"
+        "id": "modals.sendeth.firststep.fee"
       },
       {
         "defaultMessage": "Cancel",
-        "id": "modals.sendether.firststep.cancel"
+        "id": "modals.sendeth.firststep.cancel"
       },
       {
         "defaultMessage": "Customize fee",
-        "id": "modals.sendether.firststep.edit"
+        "id": "modals.sendeth.firststep.edit"
       },
       {
         "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
-        "id": "modals.sendether.firststep.customfeeinfo"
+        "id": "modals.sendeth.firststep.customfeeinfo"
       },
       {
         "defaultMessage": "Continue",
-        "id": "modals.sendether.firststep.continue"
+        "id": "modals.sendeth.firststep.continue"
       }
     ],
     "path": "src/modals/Eth/SendEth/FirstStep/template.success.json"
@@ -4367,8 +4634,8 @@
         "id": "identityverification.personal.label.state"
       },
       {
-        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
-        "id": "identityverification.personal.unavailable"
+        "defaultMessage": "Unfortunately Swap is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable_swap"
       },
       {
         "defaultMessage": "We will notify you when we expand to your area.",
@@ -4505,12 +4772,52 @@
         "id": "identityverification.verify.natitionalidcard"
       },
       {
-        "defaultMessage": "Last Step. Verify Your ID",
-        "id": "identityverification.verify.header"
+        "defaultMessage": "The required photos are missing",
+        "id": "dentityverification.verify.resubmit.reason.missing"
       },
       {
-        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
-        "id": "identityverification.verify.message"
+        "defaultMessage": "The document you submitted is incorrect",
+        "id": "identityverification.verify.resubmit.reason.incorrect"
+      },
+      {
+        "defaultMessage": "We were unable to read the images you submitted due to image quality",
+        "id": "identityverification.verify.resubmit.reason.quality"
+      },
+      {
+        "defaultMessage": "Resubmit your verification information.",
+        "id": "identityverification.verify.resubmit.header"
+      },
+      {
+        "defaultMessage": "Unfortunately we're having trouble verifying your identity and we need you to resubmit your verification information.",
+        "id": "identityverification.verify.resubmit.message"
+      },
+      {
+        "defaultMessage": "Main reasons for this to happen are",
+        "id": "identityverification.verify.resubmit.reason.intro"
+      },
+      {
+        "defaultMessage": "Remember to turn the camera on",
+        "id": "identityverification.verify.resubmit.camera.one"
+      },
+      {
+        "defaultMessage": "Click allow on the pop up that will appear on the next screen.",
+        "id": "identityverification.verify.resubmit.camera.two"
+      },
+      {
+        "defaultMessage": "Last Step. Let's Confirm It's You",
+        "id": "identityverification.verify.header.confirm"
+      },
+      {
+        "defaultMessage": "We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
+        "id": "identityverification.verify.messagewithcamera"
+      },
+      {
+        "defaultMessage": "How do I enable my camera and microphone?",
+        "id": "identityverification.verify.how_to_camera_mic"
+      },
+      {
+        "defaultMessage": "Click allow when prompted above or enable in your browser settings.",
+        "id": "identityverification.verify.instructions"
       },
       {
         "defaultMessage": "Back",
@@ -4591,12 +4898,41 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Whoops!",
-        "id": "modals.sunriverlinkerror.title"
+        "defaultMessage": "Documents Needed",
+        "id": "modals.exchange.docresubmit.title"
       },
       {
-        "defaultMessage": "Your referral link is either invalid or has already been used to claim XLM.",
-        "id": "modals.sunriverlinkerror.linkused"
+        "defaultMessage": "We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification.",
+        "id": "modals.exchange.docresubmit.body1"
+      },
+      {
+        "defaultMessage": "Resubmit Now",
+        "id": "modals.exchange.docresubmit.resubmit"
+      }
+    ],
+    "path": "src/modals/Exchange/KycDocResubmit/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
+        "id": "modals.sunriverlinkerror.airdrop_not_available"
+      },
+      {
+        "defaultMessage": "Looks like you've already received your airdrop!",
+        "id": "modals.sunriverlinkerror.already_received"
+      },
+      {
+        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
+        "id": "modals.sunriverlinkerror.campaign_has_expired"
+      },
+      {
+        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
+        "id": "modals.sunriverlinkerror.error"
+      },
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.sunriverlinkerror.title"
       },
       {
         "defaultMessage": "Continue",
@@ -4608,20 +4944,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "It's Your Crypto",
-        "id": "modals.swapgetstarted.its_your_crypto"
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "modals.swapgetstarted.trading_your_crypto"
       },
       {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "modals.swapgetstarted.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.",
-        "id": "modals.swapgetstarted.announcement"
+        "defaultMessage": "A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "modals.swapgetstarted.description"
       },
       {
         "defaultMessage": "Get Started",
         "id": "modals.swapgetstarted.getstarted"
+      },
+      {
+        "defaultMessage": "I'll do this later",
+        "id": "modals.swapgetstarted.later"
       }
     ],
     "path": "src/modals/Exchange/SwapGetStarted/index.json"
@@ -4633,7 +4969,7 @@
         "id": "modals.swap_upgrade.heads_up"
       },
       {
-        "defaultMessage": "Upgrade to Tier {tierIndex} and Swap up to {amount} every day.",
+        "defaultMessage": "Upgrade to {nextLevel} and Swap up to {amount} every day.",
         "id": "modals.swap_upgrade.amount_after_upgrade"
       },
       {
@@ -4761,134 +5097,32 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "{changeType} the {appName} application was successful!",
-        "id": "modals.lockbox.appmanager.success"
+        "defaultMessage": "Need some help?",
+        "id": "modals.support.need_some_help"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "modals.lockbox.appmanager.continue"
+        "defaultMessage": "Our Blockchain Support Team is standing by.",
+        "id": "modals.support.our_support"
       },
       {
-        "defaultMessage": "{changeType} the {appName} application has failed!",
-        "id": "modals.lockbox.appmanager.failure"
-      },
-      {
-        "defaultMessage": "{changeType} the {appName} application {direction} your device.",
-        "id": "modals.lockbox.appmanager.installing"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockbox.appmanager.note"
-      },
-      {
-        "defaultMessage": "Allow the device manager onto the device if prompted.",
-        "id": "modals.lockbox.appmanager.notetext"
-      },
-      {
-        "defaultMessage": "Install, update and uninstall desired apps from your Lockbox device.",
-        "id": "modals.lockbox.appmanager.subtitle"
-      },
-      {
-        "defaultMessage": "Close App Manager",
-        "id": "modals.lockbox.appmanager.close"
-      },
-      {
-        "defaultMessage": "Failed to load application list. Please try again later.",
-        "id": "modals.lockbox.appmanager.appfailure"
-      },
-      {
-        "defaultMessage": "Loading Application List",
-        "id": "modals.lockbox.appmanager.loadingapps"
-      },
+        "defaultMessage": "Contact Support",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/Generic/Support/index.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "App Manager",
         "id": "modals.lockbox.appmanager.title"
       },
       {
-        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
-        "id": "modals.lockbox.appmanager.connectdevice"
-      }
-    ],
-    "path": "src/modals/Lockbox/AppManager/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Version {version}",
-        "id": "modals.lockbox.appmanager.successmsg"
-      },
-      {
-        "defaultMessage": "Install",
-        "id": "modals.lockbox.appmanager.install"
-      }
-    ],
-    "path": "src/modals/Lockbox/AppManager/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "{changeType} the {appName} application was successful!",
-        "id": "modals.lockbox.appmanager.success"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockbox.appmanager.continue"
-      },
-      {
-        "defaultMessage": "{changeType} the {appName} application has failed!",
-        "id": "modals.lockbox.appmanager.failure"
-      },
-      {
-        "defaultMessage": "{changeType} the {appName} application {direction} your device.",
-        "id": "modals.lockbox.appmanager.installing"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockbox.appmanager.note"
-      },
-      {
-        "defaultMessage": "Allow the device manager onto the device if prompted.",
-        "id": "modals.lockbox.appmanager.notetext"
-      },
-      {
-        "defaultMessage": "Install, update and uninstall desired apps from your Lockbox device.",
-        "id": "modals.lockbox.appmanager.subtitle"
-      },
-      {
         "defaultMessage": "Close App Manager",
         "id": "modals.lockbox.appmanager.close"
-      },
-      {
-        "defaultMessage": "Failed to load application list. Please try again later.",
-        "id": "modals.lockbox.appmanager.appfailure"
-      },
-      {
-        "defaultMessage": "Loading application list",
-        "id": "modals.lockbox.appmanager.loadingapplist"
-      },
-      {
-        "defaultMessage": "App Manager",
-        "id": "modals.lockbox.appmanager.title"
-      },
-      {
-        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
-        "id": "modals.lockbox.appmanager.connectdevice"
       }
     ],
     "path": "src/modals/Lockbox/LockboxAppManager/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Version {version}",
-        "id": "modals.lockbox.appmanager.successmsg"
-      },
-      {
-        "defaultMessage": "Install",
-        "id": "modals.lockbox.appmanager.install"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxAppManager/template.json"
   },
   {
     "descriptors": [
@@ -4935,55 +5169,55 @@
     "descriptors": [
       {
         "defaultMessage": "Connect Your Lockbox",
-        "id": "modals.promptforlockbox.connectcoinapp.title.connect"
+        "id": "modals.lockbox.connectionprompt.connect.title"
       },
       {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp.content"
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {appName} app on the device.",
+        "id": "modals.lockbox.connectionprompt.connect.content"
       },
       {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp.contentgeneric"
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {appName} app on the device.",
+        "id": "modals.lockbox.connectionprompt.connect.generic"
       },
       {
-        "defaultMessage": "Note: If you do not have the {coin} app on your device you can install it via the settings page.",
-        "id": "modals.promptforlockbox.connectcoinapp.contentgenericnote"
+        "defaultMessage": "Note: If you do not have the {appName} app on your device you can install it via the App Manager.",
+        "id": "modals.lockbox.connectionprompt.connect.managernote"
       },
       {
         "defaultMessage": "Review Transaction Details",
-        "id": "modals.promptforlockbox.connectcoinapp.title.review"
+        "id": "modals.lockbox.connectionprompt.ready.title"
       },
       {
         "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
-        "id": "modals.promptforlockbox.connectcoinapp.review"
+        "id": "modals.lockbox.connectionprompt.ready.content"
       },
       {
-        "defaultMessage": "Your {coin} Transaction Was Sent",
-        "id": "modals.promptforlockbox.connectcoinapp.title.success"
+        "defaultMessage": "Your {appName} Transaction Was Sent",
+        "id": "modals.lockbox.connectionprompt.success.title"
       },
       {
-        "defaultMessage": "{coin} Success",
-        "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
+        "defaultMessage": "{appName} Success",
+        "id": "modals.lockbox.connectionprompt.success.titlegeneric"
       },
       {
         "defaultMessage": "Please allow for it to confirm on the network.",
-        "id": "modals.promptforlockbox.connectcoinapp.success"
+        "id": "modals.lockbox.connectionprompt.success.content"
       },
       {
-        "defaultMessage": "{coin} successfully connected.",
-        "id": "modals.promptforlockbox.connectcoinapp.successgeneric"
+        "defaultMessage": "{appName} successfully connected.",
+        "id": "modals.lockbox.connectionprompt.success.contentgeneric"
       },
       {
         "defaultMessage": "Transaction Failed",
-        "id": "modals.promptforlockbox.connectcoinapp.title.error"
+        "id": "modals.lockbox.connectionprompt.error.txtitle"
       },
       {
         "defaultMessage": "An Error Occurred",
-        "id": "modals.promptforlockbox.connectcoinapp.title.errorgeneric"
+        "id": "modals.lockbox.connectionprompt.error.generictitle"
       },
       {
         "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
-        "id": "modals.promptforlockbox.connectcoinapp.error"
+        "id": "modals.lockbox.connectionprompt.error.content"
       }
     ],
     "path": "src/modals/Lockbox/LockboxConnectionPrompt/model.json"
@@ -4992,7 +5226,7 @@
     "descriptors": [
       {
         "defaultMessage": "Lockbox Connection",
-        "id": "modals.promptforlockbox.title"
+        "id": "modals.lockbox.connectionprompt.title"
       }
     ],
     "path": "src/modals/Lockbox/LockboxConnectionPrompt/template.json"
@@ -5114,65 +5348,93 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verify Device Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.title"
-      },
-      {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
-        "id": "modals.lockboxsetup.authenticitystep.content"
-      },
-      {
-        "defaultMessage": "Checking Your Device’s Authenticity",
-        "id": "modals.lockboxsetup.authenticitystep.authenticating"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.authenticitystep.success"
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.appmanagerstep.continue"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
+    "path": "src/modals/Lockbox/LockboxSetup/AppManagerStep/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Connect Your Lockbox",
-        "id": "modals.lockboxsetup.connectdevice.connect"
+        "defaultMessage": "Are you still there?",
+        "id": "modals.lockboxsetup.connectdevice.timeout.header"
       },
       {
-        "defaultMessage": "1. Insert your Lockbox into your computer",
-        "id": "modals.lockboxsetup.connectdevice.new.step1"
+        "defaultMessage": "Looks like you're having trouble setting up your {deviceType}.",
+        "id": "modals.lockboxsetup.connectdevice.timeout.trouble"
       },
       {
-        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
-        "id": "modals.lockboxsetup.connectdevice.new.step2"
+        "defaultMessage": "Please contact support for assistance or try again.",
+        "id": "modals.lockboxsetup.connectdevice.timeout.assistance"
       },
       {
-        "defaultMessage": "3. Set your pin",
-        "id": "modals.lockboxsetup.connectdevice.new.step3"
+        "defaultMessage": "Contact Support",
+        "id": "modals.lockboxsetup.connectdevice.timeout.support"
       },
       {
-        "defaultMessage": "4. Complete backup phrase process",
-        "id": "modals.lockboxsetup.connectdevice.new.step4"
+        "defaultMessage": "Retry",
+        "id": "modals.lockboxsetup.connectdevice.timeout.retry"
       },
       {
-        "defaultMessage": "1. Insert your Lockbox into your computer",
-        "id": "modals.lockboxsetup.connectdevice.existing.step1"
+        "defaultMessage": "1.",
+        "id": "modals.lockboxsetup.connectdevice.new.one"
       },
       {
-        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
-        "id": "modals.lockboxsetup.connectdevice.existing.step2"
+        "defaultMessage": "Connect your {deviceType} to your computer with the supplied USB cable.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepone"
       },
       {
-        "defaultMessage": "3. Enter your pin",
-        "id": "modals.lockboxsetup.connectdevice.existing.step3"
+        "defaultMessage": "2.",
+        "id": "modals.lockboxsetup.connectdevice.new.two"
       },
       {
-        "defaultMessage": "4. Ensure the Dashboard is open",
-        "id": "modals.lockboxsetup.connectdevice.existing.step4"
+        "defaultMessage": "Press both buttons on the top of your {deviceType} to begin.",
+        "id": "modals.lockboxsetup.connectdevice.new.steptwo"
+      },
+      {
+        "defaultMessage": "3.",
+        "id": "modals.lockboxsetup.connectdevice.new.three"
+      },
+      {
+        "defaultMessage": "Set a pin for your device.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepthree"
+      },
+      {
+        "defaultMessage": "4.",
+        "id": "modals.lockboxsetup.connectdevice.new.four"
+      },
+      {
+        "defaultMessage": "Complete backup phrase process.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepfour"
+      },
+      {
+        "defaultMessage": "5.",
+        "id": "modals.lockboxsetup.connectdevice.new.five"
+      },
+      {
+        "defaultMessage": "Ensure your device's dashboard is open. Hint: You should see the settings icon.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepfive"
+      },
+      {
+        "defaultMessage": "1. Connect your {deviceType} to your computer with the supplied USB cable.",
+        "id": "modals.lockboxsetup.connectdevice.existing.stepone"
+      },
+      {
+        "defaultMessage": "2. Enter your pin for your device.",
+        "id": "modals.lockboxsetup.connectdevice.existing.steptwo"
+      },
+      {
+        "defaultMessage": "3. Ensure the device dashboard is open and you are not in an application.",
+        "id": "modals.lockboxsetup.connectdevice.existing.stepthree"
       },
       {
         "defaultMessage": "Success! Click to Continue",
         "id": "modals.lockboxsetup.connectdevice.success"
+      },
+      {
+        "defaultMessage": "Waiting...",
+        "id": "modals.lockboxsetup.connectdevice.waiting"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/ConnectDeviceStep/template.json"
@@ -5180,19 +5442,52 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Whoops!",
-        "id": "modals.lockboxsetup.authenticityerrorstep.title"
+        "defaultMessage": "Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.",
+        "id": "modals.lockboxsetup.customizestep.title"
       },
       {
-        "defaultMessage": "This device appears to be non-genuine. Please try the setup again or contact support if this issue persists.",
-        "id": "modals.lockboxsetup.authenticityerrorstep.subtitle"
+        "defaultMessage": "Don't worry you can always change them later.",
+        "id": "modals.lockboxsetup.customizestep.reminder"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxsetup.authenticityerrorstep.continue"
+        "defaultMessage": "Add Apps",
+        "id": "modals.lockboxsetup.customizestep.addapps"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/authenticity.template.json"
+    "path": "src/modals/Lockbox/LockboxSetup/CustomizeStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your Blockchain wallet works with Lockbox and Ledger Nano S devices.",
+        "id": "modals.lockboxsetup.deviceselect.intro"
+      },
+      {
+        "defaultMessage": "Lockbox",
+        "id": "modals.lockboxsetup.deviceselect.lockbox"
+      },
+      {
+        "defaultMessage": "Blockchain",
+        "id": "modals.lockboxsetup.deviceselect.blockchain"
+      },
+      {
+        "defaultMessage": "Nano S",
+        "id": "modals.lockboxsetup.deviceselect.nanos"
+      },
+      {
+        "defaultMessage": "Ledger",
+        "id": "modals.lockboxsetup.deviceselect.ledger"
+      },
+      {
+        "defaultMessage": "Restore a device",
+        "id": "modals.lockboxsetup.deviceselect.restore"
+      },
+      {
+        "defaultMessage": "Learn How",
+        "id": "modals.lockboxsetup.deviceselect.learhow"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/DeviceSelectStep/template.json"
   },
   {
     "descriptors": [
@@ -5209,117 +5504,155 @@
         "id": "modals.lockboxsetup.duplicatedevice.continue"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/duplicate.template.json"
+    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Successfully installed the Bitcoin app!",
-        "id": "modals.lockboxsetup.installbtcappstep.success"
+        "defaultMessage": "Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds.",
+        "id": "modals.lockboxsetup.finishstep.intro"
       },
       {
-        "defaultMessage": "It looks like the app may already be installed on your device. Please continue to the next step.",
-        "id": "modals.lockboxsetup.installbtcappstep.failure"
+        "defaultMessage": "Skip Tour",
+        "id": "modals.lockboxsetup.finishstep.skiptour"
       },
       {
-        "defaultMessage": "Note:",
-        "id": "modals.lockboxsetup.installbtcappstep.note"
-      },
-      {
-        "defaultMessage": "If you are unable to install the app or proceed past the next step, please contact support.",
-        "id": "modals.lockboxsetup.installbtcappstep.failurecontact"
-      },
-      {
-        "defaultMessage": "Now let's install the Bitcoin app to your device.",
-        "id": "modals.lockboxsetup.installbtcappstep.explanation"
-      },
-      {
-        "defaultMessage": "Click button below to start the install process.",
-        "id": "modals.lockboxsetup.installbtcappstep.selection"
+        "defaultMessage": "Start Tour",
+        "id": "modals.lockboxsetup.finishstep.starttour"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/InstallBtcAppStep/index.json"
+    "path": "src/modals/Lockbox/LockboxSetup/FinishSetupStep/template.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.installbtcappstep.title"
+        "defaultMessage": "Select Your Device",
+        "id": "modals.lockbox.setup.deviceselect.title"
+      },
+      {
+        "defaultMessage": "Let's Get Started",
+        "id": "modals.lockbox.setup.setuptype.title"
+      },
+      {
+        "defaultMessage": "Connect Your Device",
+        "id": "modals.lockbox.setup.connect.title"
+      },
+      {
+        "defaultMessage": "Customize Your Device",
+        "id": "modals.lockbox.setup.customize.title"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "modals.lockbox.setup.appmanager.title"
+      },
+      {
+        "defaultMessage": "Pair Device",
+        "id": "modals.lockbox.setup.connectdevice.title"
+      },
+      {
+        "defaultMessage": "Setup Complete",
+        "id": "modals.lockbox.setup.finish.title"
+      },
+      {
+        "defaultMessage": "Error",
+        "id": "modals.lockbox.setup.error.title"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/InstallBtcAppStep/template.json"
+    "path": "src/modals/Lockbox/LockboxSetup/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Name Your Lockbox",
-        "id": "modals.lockboxsetup.labelstep.title"
+        "defaultMessage": "Are you having issues?",
+        "id": "modals.lockboxsetup.pairdevice.timeout.header"
       },
       {
-        "defaultMessage": "Personally, we like the name Lockbox but you should name your device something that’s a little more you.",
-        "id": "modals.lockboxsetup.labelstep.body"
+        "defaultMessage": "Check the following errors:",
+        "id": "modals.lockboxsetup.pairdevice.timeout.subheader"
       },
       {
-        "defaultMessage": "Finish Setup",
-        "id": "modals.lockboxsetup.labelstep.finishsetup"
+        "defaultMessage": "My device is connected with the supplied USB cable.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue1"
+      },
+      {
+        "defaultMessage": "I have installed the Bitcoin app. If you do not have the app installed, click",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part1"
+      },
+      {
+        "defaultMessage": "here",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part2"
+      },
+      {
+        "defaultMessage": "to install it.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue2.part3"
+      },
+      {
+        "defaultMessage": "The Bitcoin app is open on my device. Use the top buttons to scroll left or right to the Bitcoin app. Then press the top two buttons to open the app.",
+        "id": "modals.lockboxsetup.pairdevice.timeout.issue3"
+      },
+      {
+        "defaultMessage": "Completed the above and still having issues?",
+        "id": "modals.lockboxsetup.pairdevice.timeout.support"
+      },
+      {
+        "defaultMessage": "Contact Support",
+        "id": "modals.lockboxsetup.pairdevice.timeout.supportlink"
+      },
+      {
+        "defaultMessage": "Retry Pairing",
+        "id": "modals.lockboxsetup.pairdevice.timeout.retry"
+      },
+      {
+        "defaultMessage": "Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.",
+        "id": "modals.lockboxsetup.pairdevice.intro"
+      },
+      {
+        "defaultMessage": "Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.",
+        "id": "modals.lockboxsetup.pairdevice.exportkeyswarning"
+      },
+      {
+        "defaultMessage": "Don't have the Bitcoin app on your {deviceType}? Install it",
+        "id": "modals.lockboxsetup.pairdevice.install"
+      },
+      {
+        "defaultMessage": "here.",
+        "id": "modals.lockboxsetup.pairdevice.here"
+      },
+      {
+        "defaultMessage": "Waiting...",
+        "id": "modals.lockboxsetup.openbtcappstep.waiting"
       }
     ],
-    "path": "src/modals/Lockbox/LockboxSetup/NameDeviceStep/template.json"
+    "path": "src/modals/Lockbox/LockboxSetup/PairDeviceStep/template.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.title"
+        "defaultMessage": "Connect your Blockchain Lockbox",
+        "id": "modals.lockboxsetup.setuptypestep.connectlockbox"
       },
       {
-        "defaultMessage": "Now let’s select the Bitcoin app on your Lockbox.",
-        "id": "modals.lockboxsetup.openbtcappstep.selection"
+        "defaultMessage": "Connect your Ledger Nano S",
+        "id": "modals.lockboxsetup.setuptypestep.connectnanos"
       },
       {
-        "defaultMessage": "This will pair your Lockbox to your Blockchain Wallet.",
-        "id": "modals.lockboxsetup.openbtcappstep.pair"
+        "defaultMessage": "Set up new device",
+        "id": "modals.lockboxsetup.setuptypestep.new"
       },
       {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.openbtcappstep.success"
+        "defaultMessage": "10-15 Minutes",
+        "id": "modals.lockboxsetup.setuptypestep.newlength"
       },
       {
-        "defaultMessage": "Open Your Bitcoin App",
-        "id": "modals.lockboxsetup.openbtcappstep.loading"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Connect Your Lockbox",
-        "id": "modals.lockboxsetup.firststep.connect"
+        "defaultMessage": "Sign in with PIN",
+        "id": "modals.lockboxsetup.setuptypestep.existing"
       },
       {
-        "defaultMessage": "Setup a brand new device",
-        "id": "modals.lockboxsetup.firststep.newdevice"
-      },
-      {
-        "defaultMessage": "Link an existing device",
-        "id": "modals.lockboxsetup.firststep.existingdevice"
-      },
-      {
-        "defaultMessage": "Restore a previous device",
-        "id": "modals.lockboxsetup.firststep.restoredevice"
+        "defaultMessage": "2-3 Minutes",
+        "id": "modals.lockboxsetup.setuptypestep.existinglength"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/SetupTypeStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox Setup",
-        "id": "modals.lockbox.setup.title"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/template.json"
   },
   {
     "descriptors": [
@@ -6021,7 +6354,7 @@
       },
       {
         "defaultMessage": "Continue",
-        "id": "sfoxexchangedata.link.continue"
+        "id": "sfoxexchangedata.button.continue"
       },
       {
         "defaultMessage": "Go Back",
@@ -6373,23 +6706,27 @@
     "descriptors": [
       {
         "defaultMessage": "Export {coin} transactions history",
-        "id": "modals.transactionreport.export"
+        "id": "modals.transactionreport.title"
       },
       {
         "defaultMessage": "Select wallet",
-        "id": "modals.transactionreport.selectwallet"
+        "id": "modals.transactionreport.wallet"
       },
       {
         "defaultMessage": "Select time range",
-        "id": "modals.transactionreport.selecttimerange"
+        "id": "modals.transactionreport.timerange"
       },
       {
         "defaultMessage": "Close",
-        "id": "modals.transactionreport.firststep.close"
+        "id": "modals.transactionreport.close"
       },
       {
-        "defaultMessage": "Export CSV",
-        "id": "modals.transactionreport.firststep.generate"
+        "defaultMessage": "Download Report",
+        "id": "modals.transactionreport.download"
+      },
+      {
+        "defaultMessage": "Generate Report",
+        "id": "modals.transactionreport.generatecsv"
       }
     ],
     "path": "src/modals/Transactions/TransactionReport/template.json"
@@ -6503,8 +6840,20 @@
         "id": "modals.requestxlm.share"
       },
       {
-        "defaultMessage": "Please confirm this address on your lockbox device by opening your Stellar app. <span class=\"link\">Click here</span> once the Stellar app has been opened.",
-        "id": "modals.requestxlm.firststep.lockbox"
+        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
+        "id": "modals.requestxlm.lockbox.confirm.warn"
+      },
+      {
+        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Stellar app now.",
+        "id": "modals.requestxlm.firststep.lockbox.confirm1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requestxlm.firststep.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requestxlm.firststep.lockbox.confirm2"
       },
       {
         "defaultMessage": "Or",
@@ -6554,8 +6903,12 @@
         "id": "modals.sendxlm.firststep.from"
       },
       {
-        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
+        "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
         "id": "modals.sendxlm.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser!",
+        "id": "modals.sendxlm.firststep.warnbrowswer"
       },
       {
         "defaultMessage": "To:",
@@ -6797,8 +7150,8 @@
         "id": "modal.reservelearn.back"
       },
       {
-        "defaultMessage": "Stellar mimimum balance requirement.",
-        "id": "modal.reservelearn.title"
+        "defaultMessage": "Stellar minimum balance requirement.",
+        "id": "modal.reservelearn.title1"
       },
       {
         "defaultMessage": "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
@@ -6939,6 +7292,59 @@
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/Buy/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your limit of {curr}{max} is below the minimum allowed amount.",
+        "id": "buy.quote_input.below_min"
+      },
+      {
+        "defaultMessage": "Enter an amount under your {setMax} limit",
+        "id": "buy.quote_input.over_max"
+      },
+      {
+        "defaultMessage": "Enter an amount above the {setMin} minimum",
+        "id": "buy.quote_input.under_min"
+      },
+      {
+        "defaultMessage": "Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)",
+        "id": "buy.quote_input.over_effective_max"
+      },
+      {
+        "defaultMessage": "buying",
+        "id": "buy.quote_input.effective_max_under_min3"
+      },
+      {
+        "defaultMessage": "swapping",
+        "id": "buy.quote_input.effective_max_under_min5swap"
+      },
+      {
+        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min} BTC.",
+        "id": "buy.quote_input.sell_effective_max_under_min1"
+      },
+      {
+        "defaultMessage": "Add funds by {buyLink} or {exchangeLink}.",
+        "id": "buy.quote_input.sell_effective_max_under_min2"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.continue"
+      },
+      {
+        "defaultMessage": "I want to buy",
+        "id": "buy.output_method.title.buy"
+      },
+      {
+        "defaultMessage": "I want to sell",
+        "id": "buy.output_method.title.sell"
+      },
+      {
+        "defaultMessage": "Loading",
+        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.loading"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Helpers/index.json"
   },
   {
     "descriptors": [
@@ -7219,20 +7625,8 @@
         "id": "buy.quote_input.over_effective_max"
       },
       {
-        "defaultMessage": "buying",
-        "id": "buy.quote_input.effective_max_under_min3"
-      },
-      {
-        "defaultMessage": "swapping",
-        "id": "buy.quote_input.effective_max_under_min5swap"
-      },
-      {
-        "defaultMessage": "Your balance is less than the minimum sell amount minus priority fee {min} BTC.",
-        "id": "buy.quote_input.effective_max_under_min1"
-      },
-      {
-        "defaultMessage": "Fund your wallet by {buyLink} or {exchangeLink} before selling.",
-        "id": "buy.quote_input.effective_max_under_min2"
+        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min}.",
+        "id": "buy.quote_input.not_enough_funds_minimum"
       },
       {
         "defaultMessage": "Your remaining sell limit is {max}",
@@ -7380,23 +7774,6 @@
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/Sell/SelectAccounts/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter Amount:",
-        "id": "scenes.buysell.exchangecheckout.enteramount"
-      },
-      {
-        "defaultMessage": "Please enter an amount greater than {min} {curr}.",
-        "id": "scenes.buysell.exchangecheckout.enteramount.details"
-      },
-      {
-        "defaultMessage": "Synced Bank Account:",
-        "id": "scenes.buysell.exchangecheckout.synced"
-      }
-    ],
-    "path": "src/scenes/BuySell/ExchangeCheckout/index.json"
   },
   {
     "descriptors": [
@@ -7655,7 +8032,7 @@
         "id": "scenes.buysell.selectpartner.getstarted"
       }
     ],
-    "path": "src/scenes/BuySell/template.success.json"
+    "path": "src/scenes/BuySell/template.json"
   },
   {
     "descriptors": [
@@ -7672,8 +8049,8 @@
         "id": "scenes.exchange.confirm.tradefailed"
       },
       {
-        "defaultMessage": "Confirm Exchange",
-        "id": "scenes.exchange.confirm.title"
+        "defaultMessage": "Confirm",
+        "id": "scenes.exchange.confirm.header"
       },
       {
         "defaultMessage": "Rate",
@@ -7684,8 +8061,8 @@
         "id": "scenes.exchange.exchange.confirm.summary.sourceFee"
       },
       {
-        "defaultMessage": "Exchange Value",
-        "id": "scenes.exchange.confirm.exchangevalue"
+        "defaultMessage": "Value",
+        "id": "scenes.exchange.confirm.value"
       },
       {
         "defaultMessage": "Receive Value",
@@ -7696,8 +8073,8 @@
         "id": "scenes.exchange.confirm.summary.note"
       },
       {
-        "defaultMessage": "Complete Order",
-        "id": "scenes.exchange.confirm.submit"
+        "defaultMessage": "Confirm",
+        "id": "scenes.exchange.confirm.confirm"
       },
       {
         "defaultMessage": "Cancel",
@@ -7772,8 +8149,8 @@
         "id": "scenes.exchange.exchangeform.error.annuallimitreached"
       },
       {
-        "defaultMessage": "Amount is below mimimum.",
-        "id": "scenes.exchange.exchangeform.error.minimumamount"
+        "defaultMessage": "Amount is below minimum.",
+        "id": "scenes.exchange.exchangeform.error.mamountminimum"
       },
       {
         "defaultMessage": "Amount is above maximum.",
@@ -7853,12 +8230,12 @@
         "id": "scenes.exchange.exchangeform.limit_info.upgrade"
       },
       {
-        "defaultMessage": "Tier {tierIndex} In Review",
-        "id": "scenes.exchange.exchangeform.limit_info.tier_in_review"
+        "defaultMessage": "{level} In Review",
+        "id": "scenes.exchange.exchangeform.limit_info.levelinreview"
       },
       {
-        "defaultMessage": "Tier {tierIndex}",
-        "id": "scenes.exchange.exchangeform.limit_info.tier"
+        "defaultMessage": "{level}",
+        "id": "scenes.exchange.exchangeform.limit_info.level"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/LimitInfo/LimitInfo.json"
@@ -7888,8 +8265,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Swap",
-        "id": "scenes.exchange.exchangeform.swap"
+        "defaultMessage": "Exchange",
+        "id": "scenes.exchange.exchangeform.exchange"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/SubmitButton/SubmitButton.json"
@@ -8050,25 +8427,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Preview",
-        "id": "exchange.preview"
-      },
-      {
-        "defaultMessage": "Looking to trade your Crypto straight from your Wallet? See how Swap works.",
-        "id": "exchange.demo_description"
-      }
-    ],
-    "path": "src/scenes/Exchange/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Swap",
         "id": "scenes.exchange.menutop.swap"
       },
       {
         "defaultMessage": "Order History",
         "id": "scenes.exchange.menutop.history"
+      },
+      {
+        "defaultMessage": "Need Help?",
+        "id": "scenes.exchange.menutop.need_help"
       }
     ],
     "path": "src/scenes/Exchange/Menu/index.json"
@@ -8109,8 +8477,8 @@
         "id": "scenes.exchangehistory.list.incomplete.received"
       },
       {
-        "defaultMessage": "Completed Exchanges",
-        "id": "scenes.exchangehistory.list.complete.exchanges"
+        "defaultMessage": "Completed Orders",
+        "id": "scenes.exchangehistory.list.complete.orders"
       },
       {
         "defaultMessage": "Status",
@@ -8260,6 +8628,44 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Documents Needed",
+        "id": "scenes.home.banners.kycresubmit.title"
+      },
+      {
+        "defaultMessage": "We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification.",
+        "id": "scenes.home.banners.kycresubmit.subtitle"
+      },
+      {
+        "defaultMessage": "Resubmit Now",
+        "id": "scenes.home.banners.kycresubmit.resubmit"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/KycResubmit/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Trading Your Crypto Doesn't Mean Trading Away Control.",
+        "id": "scenes.home.banners.swap.title_1"
+      },
+      {
+        "defaultMessage": "Trade crypto straight from your Wallet.",
+        "id": "scenes.home.banners.swap.subtitle_1"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.banners.swap.started"
+      },
+      {
+        "defaultMessage": "Swap Now",
+        "id": "scenes.home.banners.swap.swapnow"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/Swap/index.json"
   },
   {
     "descriptors": [
@@ -8547,23 +8953,37 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Swap Your Crypto",
-        "id": "scenes.home.swapbanner.swap_your_crypto"
-      },
-      {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "scenes.home.swapbanner.trading_your_crypto"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.swapbanner.faster.started"
-      },
-      {
-        "defaultMessage": "Make Swap",
-        "id": "scenes.home.swapbanner.faster.makeswap"
+        "defaultMessage": "Oops. Something went wrong. Click <span class=\"link\">here</span> to refresh.",
+        "id": "scenes.lockbox.menu.currencylist.error"
       }
     ],
-    "path": "src/scenes/Home/SwapBanner/index.json"
+    "path": "src/scenes/Lockbox/Dashboard/Menu/CurrencyList/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.menu.devicetitle.apps"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Menu/DeviceTitle/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Transactions",
+        "id": "scenes.lockbox.menu.transactions"
+      },
+      {
+        "defaultMessage": "Search by coin, address, or description",
+        "id": "scenes.lockbox.menu.transactions.search.placeholder"
+      },
+      {
+        "defaultMessage": "Settings",
+        "id": "scenes.lockbox.menu.settings"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Menu/template.json"
   },
   {
     "descriptors": [
@@ -8585,23 +9005,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Manage Apps",
-        "id": "scenes.lockbox.settings.appmanager.title"
-      },
-      {
-        "defaultMessage": "Add, remove and update to the latest versions of the Lockbox applications",
-        "id": "scenes.lockbox.settings.appmanager.description"
-      },
-      {
-        "defaultMessage": "Manage Apps",
-        "id": "scenes.lockbox.settings.appmanager.manageapps"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/AppManager/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Authenticate Device",
         "id": "scenes.lockbox.settings.authenticate.title"
       },
@@ -8615,23 +9018,6 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AuthenticateDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Show xPub",
-        "id": "scenes.lockbox.settings.exportxpub.title"
-      },
-      {
-        "defaultMessage": "Reveal the Extended Public Key of your lockbox. (Advanced)",
-        "id": "scenes.lockbox.settings.exportxpub.description"
-      },
-      {
-        "defaultMessage": "Show xPub",
-        "id": "scenes.lockbox.settings.exportxpub.show"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/ExportXPub/template.json"
   },
   {
     "descriptors": [
@@ -8717,6 +9103,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Product Tour",
+        "id": "scenes.lockbox.settings.taketour.title"
+      },
+      {
+        "defaultMessage": "Take a quick, interactive tour of the features of Lockbox.",
+        "id": "scenes.lockbox.settings.taketour.description"
+      },
+      {
+        "defaultMessage": "Take Tour",
+        "id": "scenes.lockbox.settings.taketour.take"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/TakeTour/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Firmware Update",
         "id": "scenes.lockbox.settings.updatedevice.title"
       },
@@ -8743,28 +9146,63 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Oops. Something went wrong. Click <span class=\"link\">here</span> to refresh.",
-        "id": "scenes.lockbox.menu.currencylist.error"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Menu/CurrencyList/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Transactions",
-        "id": "scenes.lockbox.menu.transactions"
+        "defaultMessage": "Skip Tour",
+        "id": "scenes.lockbox.tour.skip"
       },
       {
-        "defaultMessage": "Settings",
-        "id": "scenes.lockbox.menu.settings"
+        "defaultMessage": "Back",
+        "id": "scenes.lockbox.tour.back"
       },
       {
-        "defaultMessage": "Search by coin, address, or description",
-        "id": "scenes.lockbox.menu.transactions.search.placeholder"
+        "defaultMessage": "Finish Tour",
+        "id": "scenes.lockbox.tour.finish"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "scenes.lockbox.tour.next"
+      },
+      {
+        "defaultMessage": "Welcome to your Lockbox!",
+        "id": "scenes.lockbox.tour.stepone.title"
+      },
+      {
+        "defaultMessage": "This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets.",
+        "id": "scenes.lockbox.tour.stepone.content"
+      },
+      {
+        "defaultMessage": "Asset List",
+        "id": "scenes.lockbox.tour.steptwo.title"
+      },
+      {
+        "defaultMessage": "Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.",
+        "id": "scenes.lockbox.tour.steptwo.content"
+      },
+      {
+        "defaultMessage": "Transaction Search",
+        "id": "scenes.lockbox.tour.stepthree.title"
+      },
+      {
+        "defaultMessage": "Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.",
+        "id": "scenes.lockbox.tour.stepthree.addfilters"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "scenes.lockbox.tour.stepfour.title"
+      },
+      {
+        "defaultMessage": "Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.",
+        "id": "scenes.lockbox.tour.stepfour.content"
+      },
+      {
+        "defaultMessage": "Lockbox Settings",
+        "id": "scenes.lockbox.tour.stepfive.title"
+      },
+      {
+        "defaultMessage": "Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!",
+        "id": "scenes.lockbox.tour.stepfive.content"
       }
     ],
-    "path": "src/scenes/Lockbox/Menu/template.json"
+    "path": "src/scenes/Lockbox/model.json"
   },
   {
     "descriptors": [
@@ -8779,6 +9217,14 @@
       {
         "defaultMessage": "Get Started",
         "id": "scenes.lockbox.welcome.getstarted"
+      },
+      {
+        "defaultMessage": "Having trouble? View our",
+        "id": "scenes.lockbox.welcome.trouble"
+      },
+      {
+        "defaultMessage": "Setup Guide",
+        "id": "scenes.lockbox.welcome.setupguide"
       },
       {
         "defaultMessage": "Powered By",
@@ -9219,27 +9665,27 @@
     "descriptors": [
       {
         "defaultMessage": "Activity Logging",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging.title"
+        "id": "scenes.securitycenter.advanced.activitylogging.title"
       },
       {
         "defaultMessage": "Enabled",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging.enabled"
+        "id": "scenes.securitycenter.advanced.activitylogging.enabled"
       },
       {
         "defaultMessage": "Disabled",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging.disabled"
+        "id": "scenes.securitycenter.advanced.activitylogging.disabled"
       },
       {
         "defaultMessage": "Enable for all your wallet activity to be displayed in your dashboard's activity feed.",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging.description"
+        "id": "scenes.securitycenter.advanced.activitylogging.description"
       },
       {
         "defaultMessage": "Disable",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging.settings.disable"
+        "id": "scenes.securitycenter.advanced.activitylogging.disable"
       },
       {
         "defaultMessage": "Enable",
-        "id": "scenes.securitysettings.advancedsecurity.activitylogging..settings.enable"
+        "id": "scenes.securitycenter.advanced.activitylogging.enable"
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/ActivityLogging/template.json"
@@ -9248,19 +9694,19 @@
     "descriptors": [
       {
         "defaultMessage": "API Access",
-        "id": "scenes.securitysettings.apiaccess.title"
+        "id": "scenes.securitycenter.advanced.apiaccess.title"
       },
       {
         "defaultMessage": "Use our API to interact with your wallet programmatically. Follow the steps",
-        "id": "scenes.securitysettings.apiaccess.description1"
+        "id": "scenes.securitycenter.advanced.apiaccess.description.part1"
       },
       {
         "defaultMessage": "here",
-        "id": "scenes.securitysettings.apiaccess.getstarted"
+        "id": "scenes.securitycenter.advanced.apiaccess.description.part2"
       },
       {
         "defaultMessage": "to get started.",
-        "id": "scenes.securitysettings.apiaccess.description2"
+        "id": "scenes.securitycenter.advanced.apiaccess.description.part3"
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/APIAccess/index.json"
@@ -9268,29 +9714,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Edit",
-        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/AdvancedSecurity/IPWhitelist/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "IP Whitelist",
-        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.title"
+        "id": "scenes.securitycenter.advanced.ipwhitelist.title"
       },
       {
         "defaultMessage": "Allow login without email authentication from the following list of IP addresses. Enter IP addresses you'd like to whitelist separated by commas. Use % as a wildcard.",
-        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.description"
+        "id": "scenes.securitycenter.advanced.ipwhitelist.description"
+      },
+      {
+        "defaultMessage": "Edit",
+        "id": "scenes.securitycenter.advanced.ipwhitelist.edit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitycenter.advanced.ipwhitelist.cancel"
+      },
+      {
+        "defaultMessage": "Save",
+        "id": "scenes.securitycenter.advanced.ipwhitelist.save"
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/IPWhitelist/template.json"
@@ -9299,35 +9740,35 @@
     "descriptors": [
       {
         "defaultMessage": "Login IP Restriction",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.title"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.title"
       },
       {
         "defaultMessage": "Enabled",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.enabled"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.enabled"
       },
       {
         "defaultMessage": "Disabled",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.disabled"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.disabled"
       },
       {
         "defaultMessage": "Only allow login from IP address in your IP whitelist.",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.description"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.description.part1"
       },
       {
         "defaultMessage": "If you do not have a static IP address, this may lock you out of your wallet.",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.description2"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.description.part2"
       },
       {
         "defaultMessage": "If you have verified your email address, you will be notified of any suspicious login attempts.",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.description3"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.description.part3"
       },
       {
         "defaultMessage": "Disable",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.settings.disable"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.disable"
       },
       {
         "defaultMessage": "Enable",
-        "id": "scenes.securitysettings.advancedsettings.loginiprestriction.settings.enable"
+        "id": "scenes.securitycenter.advanced.loginiprestriction.enable"
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/LoginIpRestriction/template.json"
@@ -9335,29 +9776,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/AdvancedSecurity/PasswordStretching/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Password Stretching (PBKDF2)",
-        "id": "scenes.securitysettings.advancedsettings.passwordstretching.title"
+        "id": "scenes.securitycenter.advanced.passwordstretching.title"
       },
       {
         "defaultMessage": "This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet.",
-        "id": "scenes.securitysettings.advancedsettings.passwordstretching.description"
+        "id": "scenes.securitycenter.advanced.passwordstretching.description"
+      },
+      {
+        "defaultMessage": "Edit",
+        "id": "scenes.securitycenter.advanced.passwordstretching.edit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitycenter.advanced.passwordstretching.cancel"
+      },
+      {
+        "defaultMessage": "Save",
+        "id": "scenes.securitycenter.advanced.passwordstretching.save"
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/PasswordStretching/template.json"
@@ -9940,6 +10376,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.",
+        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase"
+      },
+      {
         "defaultMessage": "Review Backup Phrase",
         "id": "scenes.securitycenter.walletrecoveryphrase.thirdstep.review"
       },
@@ -9973,10 +10413,6 @@
         "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description2"
       },
       {
-        "defaultMessage": "Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.",
-        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase"
-      },
-      {
         "defaultMessage": "Security Tip",
         "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip"
       },
@@ -9985,25 +10421,13 @@
         "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore"
       }
     ],
-    "path": "src/scenes/SecurityCenter/BasicSecurity/WalletRecoveryPhrase/template.success.json"
+    "path": "src/scenes/SecurityCenter/BasicSecurity/WalletRecoveryPhrase/template.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Imported Bitcoin Cash Addresses",
-        "id": "scenes.settings.addresses.bch.importedaddresses.title"
-      },
-      {
-        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
-        "id": "scenes.settings.addresses.bch.importedaddresses.description"
-      },
-      {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "scenes.settings.addresses.bch.importedaddresses.address"
+        "defaultMessage": "Basic",
+        "id": "scenes.securitycenter.menu.basic"
       },
       {
         "defaultMessage": "Advanced",
@@ -10015,20 +10439,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Default",
-        "id": "scenes.settings.addresses.bch.wallets.defaultlabel"
-      },
-      {
-        "defaultMessage": "Archived",
-        "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
-      },
-      {
-        "defaultMessage": "Manage Wallet",
-        "id": "scenes.settings.addresses.bch.wallets.manage"
+        "defaultMessage": "Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.",
+        "id": "scenes.securitycenter.introtextnone"
       },
       {
         "defaultMessage": "Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.",
@@ -10039,8 +10451,12 @@
         "id": "scenes.securitycenter.steps.step1mobile"
       },
       {
-        "defaultMessage": "Archive",
-        "id": "scenes.settings.addresses.bch.archive"
+        "defaultMessage": "Verify Your Personal Email",
+        "id": "scenes.securitycenter.steps.step1.verify"
+      },
+      {
+        "defaultMessage": "2 Factor Auth",
+        "id": "scenes.securitycenter.steps.step2mobile"
       },
       {
         "defaultMessage": "Turn on Two-Step Verification",
@@ -10064,23 +10480,19 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.description"
       },
       {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
       },
       {
         "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bch.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.bch.wallets.actions"
-      },
-      {
-        "defaultMessage": "No wallets matched your search",
-        "id": "scenes.settings.addresses.bch.wallets.nomatch"
+        "id": "scenes.settings.addresses.bch.importedaddresses.balance"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.success.json"
+    "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10093,6 +10505,10 @@
         "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
       },
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
         "defaultMessage": "Manage Wallet",
         "id": "scenes.settings.addresses.bch.wallets.manage"
       },
@@ -10103,10 +10519,6 @@
       {
         "defaultMessage": "Make Default",
         "id": "scenes.settings.addresses.bch.make_default"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
       },
       {
         "defaultMessage": "Archive",
@@ -10139,6 +10551,10 @@
       {
         "defaultMessage": "Actions",
         "id": "scenes.settings.addresses.bch.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.bch.wallets.nomatch"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
@@ -10166,7 +10582,7 @@
         "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.success.json"
+    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10185,10 +10601,6 @@
       {
         "defaultMessage": "Amount",
         "id": "scenes.settings.addresses.bsv.wallets.amount"
-      },
-      {
-        "defaultMessage": "No Transactions Found",
-        "id": "scenes.settings.addresses.bsv.empty"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bsv/Transactions/index.json"
@@ -10200,8 +10612,8 @@
         "id": "scenes.settings.addresses.bsv.wallets.title"
       },
       {
-        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.",
-        "id": "scenes.settings.addresses.bsv.wallets.desc"
+        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.",
+        "id": "scenes.settings.addresses.bsv.wallets.desc2"
       },
       {
         "defaultMessage": "Wallet Name",
@@ -10286,7 +10698,7 @@
         "id": "scenes.settings.addresses.btc.archivedaddresses.actions"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Btc/ArchivedAddresses/template.success.json"
+    "path": "src/scenes/Settings/Addresses/Btc/ArchivedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10335,7 +10747,7 @@
         "id": "scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.success.json"
+    "path": "src/scenes/Settings/Addresses/Btc/ImportedAddresses/template.json"
   },
   {
     "descriptors": [
@@ -10496,7 +10908,7 @@
         "id": "scenes.settings.addresses.btc.wallets.newhdaccount"
       }
     ],
-    "path": "src/scenes/Settings/Addresses/Btc/Wallets/template.success.json"
+    "path": "src/scenes/Settings/Addresses/Btc/Wallets/template.json"
   },
   {
     "descriptors": [
@@ -11424,12 +11836,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Device connection was refused",
-        "id": "lockbox.service.messages.connectionrefused"
+        "defaultMessage": "Device connection was refused.",
+        "id": "lockbox.service.messages.refused"
       },
       {
-        "defaultMessage": "Device locked and unable to communicate",
-        "id": "lockbox.service.messages.devicelocked"
+        "defaultMessage": "Device locked and unable to communicate.",
+        "id": "lockbox.service.messages.locked"
       },
       {
         "defaultMessage": "Insufficient storage space on device. Remove other applications to free up space.",
@@ -11440,16 +11852,16 @@
         "id": "lockbox.service.messages.appalreadyinstalled"
       },
       {
-        "defaultMessage": "Unable to remove BTC app as it is required by others",
-        "id": "lockbox.service.messages.btcapprequired"
+        "defaultMessage": "Unable to remove BTC app as it is required by others.",
+        "id": "lockbox.service.messages.btcrequired"
       },
       {
-        "defaultMessage": "Socket connection failed",
-        "id": "lockbox.service.messages.socketerror"
+        "defaultMessage": "Socket connection failed.",
+        "id": "lockbox.service.messages.socket"
       },
       {
-        "defaultMessage": "An unknown error has occurred",
-        "id": "lockbox.service.messages.unknownerror"
+        "defaultMessage": "An unknown error has occurred.",
+        "id": "lockbox.service.messages.unknown"
       }
     ],
     "path": "src/services/LockboxService/utils.json"
@@ -11518,8 +11930,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin Cash SV!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.title"
+        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
       },
       {
         "defaultMessage": "January 2019",
@@ -11530,29 +11942,8 @@
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
       },
       {
-        "defaultMessage": "Check it out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
-      }
-    ],
-    "path": "src/services/WhatsNewService/WhatsNewContent/BitcoinCashSVSupport.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
-      },
-      {
-        "defaultMessage": "January 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
-      },
-      {
-        "defaultMessage": "Check it out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+        "defaultMessage": "Check it Out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
@@ -11613,8 +12004,8 @@
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
       },
       {
-        "defaultMessage": "Make Swap",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
+        "defaultMessage": "Swap Now",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swapnow"
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/ExchangeByBlockchain.json"

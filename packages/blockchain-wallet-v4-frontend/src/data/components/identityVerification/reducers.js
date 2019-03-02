@@ -29,17 +29,49 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_EMAIL_STEP: {
       return assoc('emailStep', payload.step, state)
     }
-    case AT.SET_SUPPORTED_COUNTRIES: {
-      return assoc('supportedCountries', payload.countries, state)
+    case AT.SET_SUPPORTED_COUNTRIES_LOADING: {
+      return assoc('supportedCountries', Remote.Loading, state)
     }
-    case AT.SET_SUPPORTED_DOCUMENTS: {
-      return assoc('supportedDocuments', payload.documentTypes, state)
+    case AT.SET_SUPPORTED_COUNTRIES_SUCCESS: {
+      return assoc(
+        'supportedCountries',
+        Remote.Success(payload.countries),
+        state
+      )
     }
-    case AT.SET_STATES: {
-      return assoc('states', payload.states, state)
+    case AT.SET_SUPPORTED_COUNTRIES_FAILURE: {
+      return assoc('supportedCountries', Remote.Failure(payload.e), state)
     }
-    case AT.SET_KYC_FLOW_CONFIG: {
-      return assoc('flowConfig', payload.flowConfig, state)
+    case AT.SET_SUPPORTED_DOCUMENTS_LOADING: {
+      return assoc('supportedDocuments', Remote.Loading, state)
+    }
+    case AT.SET_SUPPORTED_DOCUMENTS_SUCCESS: {
+      return assoc(
+        'supportedDocuments',
+        Remote.Success(payload.documentTypes),
+        state
+      )
+    }
+    case AT.SET_SUPPORTED_DOCUMENTS_FAILURE: {
+      return assoc('supportedDocuments', Remote.Failure(payload.e), state)
+    }
+    case AT.SET_STATES_LOADING: {
+      return assoc('states', Remote.Loading, state)
+    }
+    case AT.SET_STATES_SUCCESS: {
+      return assoc('states', Remote.Success(payload.states), state)
+    }
+    case AT.SET_STATES_FAILURE: {
+      return assoc('states', Remote.Failure(payload.e), state)
+    }
+    case AT.SET_KYC_FLOW_LOADING: {
+      return assoc('flowConfig', Remote.Loading, state)
+    }
+    case AT.SET_KYC_FLOW_SUCCESS: {
+      return assoc('flowConfig', Remote.Success(payload.flowType), state)
+    }
+    case AT.SET_KYC_FLOW_FAILURE: {
+      return assoc('flowConfig', Remote.Failure(payload.e), state)
     }
     case AT.SET_STEPS_LOADING: {
       return assoc('steps', Remote.Loading, state)

@@ -10,6 +10,7 @@ import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
+import onboarding from './onboarding/sagas'
 import onfido from './onfido/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
@@ -25,7 +26,6 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
-import swapGetStarted from './swapGetStarted/sagas'
 import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
@@ -43,6 +43,7 @@ export default ({ api, coreSagas, networks }) => ({
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   login: login(),
   manageAddresses: manageAddresses({ api, networks }),
+  onboarding: onboarding(),
   onfido: onfido({ api }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
@@ -58,7 +59,6 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  swapGetStarted: swapGetStarted({ coreSagas }),
   transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas })

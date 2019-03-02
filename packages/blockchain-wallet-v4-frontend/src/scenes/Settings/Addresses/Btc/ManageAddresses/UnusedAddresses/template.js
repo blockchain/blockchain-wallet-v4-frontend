@@ -32,7 +32,7 @@ const UnusedAddressesTemplate = ({
     addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
-      <TableRow key={i}>
+      <TableRow key={i} dataE2e='btcUnusedAddressRow'>
         <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
@@ -44,7 +44,9 @@ const UnusedAddressesTemplate = ({
           </Link>
         </TableCell>
         <TableCell width='40%'>
-          <Text size='13px'>{entry.label}</Text>
+          <Text size='13px' data-e2e='btcUnusedAddressLabel'>
+            {entry.label}
+          </Text>
         </TableCell>
         <TableCell
           width='20%'
@@ -55,11 +57,13 @@ const UnusedAddressesTemplate = ({
             name='pencil'
             onClick={() => onEditLabel(entry.derivationIndex)}
             style={{ marginRight: 10 }}
+            data-e2e='btcEditAddressLabelLink'
           />
           <Icon
             cursor
             name='trash'
             onClick={() => onDeleteLabel(entry.derivationIndex)}
+            data-e2e='btcDeleteAddressLink'
           />
         </TableCell>
       </TableRow>
@@ -67,7 +71,11 @@ const UnusedAddressesTemplate = ({
   })
 
   return unusedAddresses.length === 0 ? (
-    <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
+    <Text
+      weight={300}
+      style={{ marginTop: 20, textAlign: 'center' }}
+      data-e2e='btcWalletNoUnusedAddresses'
+    >
       <FormattedMessage
         id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage'
         defaultMessage='This wallet has no unused addresses.'

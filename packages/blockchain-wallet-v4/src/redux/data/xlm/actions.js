@@ -1,9 +1,16 @@
 import * as AT from './actionTypes'
 
 export const fetchLedgerDetails = () => ({ type: AT.FETCH_LEDGER_DETAILS })
-export const setLedgerDetails = ledger => ({
-  type: AT.SET_LEDGER_DETAILS,
+export const setLedgerDetailsLoading = () => ({
+  type: AT.SET_LEDGER_DETAILS_LOADING
+})
+export const setLedgerDetailsSuccess = ledger => ({
+  type: AT.SET_LEDGER_DETAILS_SUCCESS,
   payload: { ledger }
+})
+export const setLedgerDetailsFailure = e => ({
+  type: AT.SET_LEDGER_DETAILS_FAILURE,
+  payload: { e }
 })
 
 export const fetchData = () => ({ type: AT.FETCH_DATA })
@@ -25,9 +32,14 @@ export const fetchDataSuccess = accounts => ({
 })
 
 export const fetchRates = () => ({ type: AT.FETCH_RATES })
-export const setRates = rates => ({
-  type: AT.SET_RATES,
+export const setRatesLoading = () => ({ type: AT.SET_RATES_LOADING })
+export const setRatesSuccess = rates => ({
+  type: AT.SET_RATES_SUCCESS,
   payload: { rates }
+})
+export const setRatesFailure = e => ({
+  type: AT.SET_RATES_FAILURE,
+  payload: { e }
 })
 
 export const fetchTransactions = (accountId, reset) => ({

@@ -96,12 +96,12 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {isFromLockbox && (
+      {isFromLockbox && !disableLockboxSend && (
         <WarningBanners type='info'>
           <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendbch.firststep.warndevice'
-              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
+              id='modals.sendbch.firststep.lockboxwarn'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
         </WarningBanners>
@@ -225,6 +225,7 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           disabled={submitting || invalid || pristine || disableLockboxSend}
+          data-e2e='bchSendContinue'
         >
           <FormattedMessage
             id='modals.sendBch.firststep.continue'

@@ -11,8 +11,8 @@ exports[`EmptyContent renders correctly 1`] = `
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="Now Supporting Bitcoin SV (BSV)!"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
+        defaultMessage="Now Supporting Bitcoin SV (BSV)"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
         values={Object {}}
       />
     </text>
@@ -51,8 +51,8 @@ exports[`EmptyContent renders correctly 1`] = `
     >
       <BSVSupport__GetStartedButton>
         <FormattedMessage
-          defaultMessage="Check it out!"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+          defaultMessage="Check it Out!"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
           values={Object {}}
         />
       </BSVSupport__GetStartedButton>

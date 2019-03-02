@@ -11,7 +11,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
@@ -25,6 +25,7 @@ const coreSagas = coreSagasFactory({ api })
 const networks = {
   bch: BitcoinCash.networks['bitcoin']
 }
+const { TRANSACTION_EVENTS } = model.analytics
 
 describe('sendBch sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -78,7 +79,7 @@ describe('sendBch sagas', () => {
     return paymentMock
   })
 
-  describe('bch send form intialize', () => {
+  describe('bch send form initialize', () => {
     const to = 'bchaddress'
     const description = 'message'
     const amount = {
@@ -86,9 +87,7 @@ describe('sendBch sagas', () => {
       fiat: 10000
     }
     const payload = { to, description, amount, feeType }
-
     const saga = testSaga(initialized, { payload })
-
     const defaultIndex = 0
     const defaultAccount = 'account1'
     const accountsRStub = Remote.of([defaultAccount, 'account2'])
@@ -96,11 +95,10 @@ describe('sendBch sagas', () => {
       coin: 'BCH',
       from: defaultAccount
     }
-
     const beforeEnd = 'beforeEnd'
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.sendBchPaymentUpdated(Remote.Loading))
+      saga.next().put(A.sendBchPaymentUpdatedLoading())
     })
 
     it('should create payment', () => {
@@ -145,7 +143,7 @@ describe('sendBch sagas', () => {
     it('should trigger bch payment updated success action', () => {
       saga
         .next()
-        .put(A.sendBchPaymentUpdated(Remote.of(value)))
+        .put(A.sendBchPaymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
         .isDone()
@@ -157,6 +155,8 @@ describe('sendBch sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
+          .put(A.sendBchPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -232,7 +232,6 @@ describe('sendBch sagas', () => {
     })
 
     const saga = testSaga(firstStepSubmitClicked)
-
     const beforeError = 'beforeError'
 
     it('should select payment', () => {
@@ -240,9 +239,7 @@ describe('sendBch sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga
-        .next(Remote.of(paymentMock))
-        .put(A.sendBchPaymentUpdated(Remote.Loading))
+      saga.next(Remote.of(paymentMock)).put(A.sendBchPaymentUpdatedLoading())
     })
 
     it('should create payment from state value', () => {
@@ -261,7 +258,7 @@ describe('sendBch sagas', () => {
     it('should put update success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendBchPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendBchPaymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
         .isDone()
@@ -274,6 +271,8 @@ describe('sendBch sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
+          .put(A.sendBchPaymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -320,7 +319,7 @@ describe('sendBch sagas', () => {
       })
     })
 
-    it('should sign payment with second passowrd', () => {
+    it('should sign payment with second password', () => {
       saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
@@ -338,7 +337,7 @@ describe('sendBch sagas', () => {
     it('should put bch payment updated success action', () => {
       saga
         .next(paymentMock)
-        .put(A.sendBchPaymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.sendBchPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -349,21 +348,29 @@ describe('sendBch sagas', () => {
       saga.next().put(actions.router.push('/bch/transactions'))
     })
 
-    it('should display succcess message', () => {
+    it('should display success message', () => {
       saga
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
         .save(beforeError)
     })
 
-    it('should destroy form', () => {
-      saga.next().put(actions.form.destroy(FORM))
+    it('should log to analytics', () => {
+      saga
+        .next()
+        .put(
+          actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BCH', '0'])
+        )
     })
 
     it('should put action to close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
+    })
+
+    it('should destroy form', () => {
       saga
         .next()
-        .put(actions.modals.closeAllModals())
+        .put(actions.form.destroy(FORM))
         .next()
         .isDone()
     })
@@ -376,6 +383,10 @@ describe('sendBch sagas', () => {
           .restore(beforeError)
           .throw(error)
           .put(actions.form.stopSubmit(FORM))
+      })
+
+      it('should set failure', () => {
+        saga.next().put(A.sendBchPaymentUpdatedFailure(error))
       })
 
       it('should log error', () => {

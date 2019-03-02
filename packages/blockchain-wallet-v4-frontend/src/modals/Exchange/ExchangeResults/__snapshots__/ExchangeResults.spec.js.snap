@@ -41,7 +41,9 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -55,7 +57,9 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       <ExchangeResults__StrikeThrough>
         0.1337 ETH
       </ExchangeResults__StrikeThrough>
@@ -152,7 +156,9 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -166,7 +172,9 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       <ExchangeResults__StrikeThrough>
         0.1337 ETH
       </ExchangeResults__StrikeThrough>
@@ -188,25 +196,36 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
     </Exchange__TableRow>
   </ModalBody>
   <ExchangeResults__ExchangeResultsFooter>
-    <Button
+    <Link
       bold={false}
       capitalize={false}
-      disabled={false}
-      fullwidth={false}
-      height="40px"
-      nature="primary"
-      rounded={false}
-      size="13px"
-      small={false}
+      color="brand-secondary"
+      href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
+      size="16px"
+      target="_blank"
       uppercase={false}
-      weight={300}
+      weight={400}
     >
-      <FormattedMessage
-        defaultMessage="Close"
-        id="modals.exchange.exchangeresults.close"
-        values={Object {}}
-      />
-    </Button>
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        size="13px"
+        small={false}
+        uppercase={false}
+        weight={300}
+      >
+        <FormattedMessage
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
+          values={Object {}}
+        />
+      </Button>
+    </Link>
   </ExchangeResults__ExchangeResultsFooter>
 </Modal>
 `;
@@ -247,7 +266,9 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -261,7 +282,9 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       0.1337 ETH
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -318,6 +341,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"
@@ -379,7 +403,9 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -393,7 +419,9 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       0.1337 ETH
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -444,6 +472,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"
@@ -505,7 +534,9 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -519,7 +550,9 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       0.1337 ETH
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -570,6 +603,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"
@@ -631,7 +665,9 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -668,6 +704,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"
@@ -729,7 +766,9 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <ExchangeResults__ResultAmountHeader>
@@ -743,7 +782,9 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsTargetValue"
+    >
       0.1337 ETH
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -794,6 +835,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"
@@ -855,7 +897,9 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         }
       />
     </ExchangeResults__ResultAmountHeader>
-    <Exchange__ExchangeAmount>
+    <Exchange__ExchangeAmount
+      data-e2e="exchangeResultsSourceValue"
+    >
       0.008022 BTC
     </Exchange__ExchangeAmount>
     <Exchange__Delimiter />
@@ -892,6 +936,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
     <Button
       bold={false}
       capitalize={false}
+      data-e2e="exchangeResultsClose"
       disabled={false}
       fullwidth={false}
       height="40px"

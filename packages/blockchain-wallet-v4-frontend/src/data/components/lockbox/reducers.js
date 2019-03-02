@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   newDeviceSetup: {
     device: Remote.NotAsked,
     deviceType: null,
-    newOrExisting: null
+    newOrExisting: null,
+    showBtcWarning: false
   },
   isAuthentic: Remote.NotAsked,
   showProductTour: false
@@ -25,6 +26,9 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.RESET_CONNECTION_STATUS: {
       return assoc('connection', {}, state)
+    }
+    case AT.RESET_NEW_DEVICE_SETUP: {
+      return assoc('newDeviceSetup', INITIAL_STATE.newDeviceSetup, state)
     }
     case AT.SET_NEW_DEVICE_INFO: {
       return assocPath(
@@ -46,6 +50,9 @@ export default (state = INITIAL_STATE, action) => {
         { done, error, step },
         state
       )
+    }
+    case AT.SET_NEW_DEVICE_SHOW_BTC_WARNING: {
+      return assocPath(['newDeviceSetup', 'showBtcWarning'], payload, state)
     }
     case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
       return assoc('isAuthentic', Remote.Loading, state)

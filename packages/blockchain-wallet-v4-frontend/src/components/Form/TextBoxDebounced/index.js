@@ -89,19 +89,16 @@ class TextBoxDebounced extends React.Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
-        {meta.touched &&
-          meta.error && (
-            <Error size='12px' weight={300} color='error'>
-              {meta.error}
-            </Error>
-          )}
-        {meta.touched &&
-          !meta.error &&
-          meta.warning && (
-            <Error size='12px' weight={300} color='sent'>
-              {meta.warning}
-            </Error>
-          )}
+        {meta.touched && meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {meta.error}
+          </Error>
+        )}
+        {meta.touched && !meta.error && meta.warning && (
+          <Error size='12px' weight={300} color='sent'>
+            {meta.warning}
+          </Error>
+        )}
       </Container>
     )
   }

@@ -1,10 +1,10 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.9.0",
+  "version": "4.10.1",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
-    "name": "Blockchain.info",
+    "name": "Blockchain",
     "url": "https://blockchain.com"
   },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
@@ -34,7 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
       "pre-push": "yarn test"
     }
   },
@@ -127,7 +127,7 @@
     "@storybook/cli": "4.1.9",
     "@storybook/react": "4.1.9",
     "@storybook/storybook-deployer": "2.8.1",
-    "babel-core": "~7.0.0-bridge.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-istanbul": "0.12.2",
     "babel-jest": "23.6.0",
@@ -180,12 +180,12 @@
     "prettier": "1.15.3",
     "react-hot-loader": "4.3.12",
     "react-intl-translations-manager": "5.0.3",
-    "react-intl-translations-manager-bc": "5.0.3-1",
     "react-test-renderer": "16.6.3",
     "redux-mock-store": "1.5.3",
     "redux-saga-test-plan": "3.7.0",
     "release-it": "8.2.0",
     "rimraf": "2.6.3",
+    "staged-git-files": "1.1.2",
     "standard": "12.0.1",
     "style-loader": "0.23.1",
     "thread-loader": "2.1.1",

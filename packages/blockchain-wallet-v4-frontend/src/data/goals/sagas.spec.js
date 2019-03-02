@@ -20,17 +20,21 @@ const api = {
 describe('goals sagas', () => {
   const {
     defineGoals,
-    runGoal,
-    showInitialModal,
-    runSendBtcGoal,
-    runReferralGoal,
-    runWelcomeGoal,
-    runKycGoal,
-    runSwapUpgradeGoal,
     defineDeepLinkGoals,
     defineActionGoal,
     defineSendBtcGoal,
-    defineReferralGoal
+    defineReferralGoal,
+    runGoal,
+    runBsvGoal,
+    runSwapGetStartedGoal,
+    runKycDocResubmitGoal,
+    runKycGoal,
+    runReferralGoal,
+    runSendBtcGoal,
+    runSwapUpgradeGoal,
+    runWelcomeGoal,
+    showInitialModal,
+    waitForUserData
   } = goalsSagas({ api })
   const mathCopy = global.Math
   const mockGoalId = '4h96hsvbcj'
@@ -232,6 +236,15 @@ describe('goals sagas', () => {
   })
 
   describe('runGoal saga', () => {
+    describe('should run referral goal', () => {
+      const mockGoal = { name: 'referral', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runReferralGoal saga and end', () => {
+        saga.next().call(runReferralGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
     describe('should run payment goal', () => {
       const mockGoal = { name: 'payment', data: {} }
       const saga = testSaga(runGoal, mockGoal)
@@ -241,12 +254,48 @@ describe('goals sagas', () => {
         saga.next().isDone()
       })
     })
-    describe('should run referral goal', () => {
-      const mockGoal = { name: 'referral', data: {} }
+    describe('should run kyc goal', () => {
+      const mockGoal = { name: 'kyc', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runSendBtcGoal saga and end', () => {
-        saga.next().call(runReferralGoal, mockGoal)
+      it('should call runKyc saga and end', () => {
+        saga.next().call(runKycGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run kycDocResubmit goal', () => {
+      const mockGoal = { name: 'kycDocResubmit', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runKycDocResubmitGoal saga and end', () => {
+        saga.next().call(runKycDocResubmitGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run swapUpgrade goal', () => {
+      const mockGoal = { name: 'swapUpgrade', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call swapUpgrade saga and end', () => {
+        saga.next().call(runSwapUpgradeGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run swapGetStarted goal', () => {
+      const mockGoal = { name: 'swapGetStarted', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runSwapGetStartedGoal saga and end', () => {
+        saga.next().call(runSwapGetStartedGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run bsv goal', () => {
+      const mockGoal = { name: 'bsv', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runBsv saga and end', () => {
+        saga.next().call(runBsvGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -254,17 +303,8 @@ describe('goals sagas', () => {
       const mockGoal = { name: 'welcome', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runSendBtcGoal saga and end', () => {
+      it('should call runWelcomeGoal saga and end', () => {
         saga.next().call(runWelcomeGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run kyc goal', () => {
-      const mockGoal = { name: 'kyc', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runSendBtcGoal saga and end', () => {
-        saga.next().call(runKycGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -343,8 +383,43 @@ describe('goals sagas', () => {
   })
 
   describe('runKycGoal saga', () => {
+    it('should not show kyc if current tier is >= goal tier', () => {
+      const saga = testSaga(runKycGoal, { id: mockGoalId, data: { tier: 2 } })
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .call(waitForUserData)
+        .next()
+        .select(selectors.modules.profile.getUserTiers)
+        .next(Remote.of({ current: 2 }))
+        .isDone()
+    })
+
+    it('should show kyc if current tier is < goal tier', () => {
+      const goalTier = 2
+      const saga = testSaga(runKycGoal, {
+        id: mockGoalId,
+        data: { tier: goalTier }
+      })
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .call(waitForUserData)
+        .next()
+        .select(selectors.modules.profile.getUserTiers)
+        .next(Remote.of({ current: 1 }))
+        .put(actions.components.identityVerification.verifyIdentity(goalTier))
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('runSwapGetStartedGoal saga', () => {
     it('should not show modal if it has already been seen', () => {
-      const saga = testSaga(runKycGoal, { id: mockGoalId })
+      const saga = testSaga(runSwapGetStartedGoal, { id: mockGoalId })
 
       saga
         .next()
@@ -356,7 +431,7 @@ describe('goals sagas', () => {
     })
 
     it('should show modal if wallet has funds and kyc not completed', () => {
-      const saga = testSaga(runKycGoal, { id: mockGoalId })
+      const saga = testSaga(runSwapGetStartedGoal, { id: mockGoalId })
       selectors.modules.profile = { getUserKYCState: () => Remote.of(false) }
 
       saga
@@ -367,9 +442,11 @@ describe('goals sagas', () => {
         .next(true)
         .call(getAllBalances)
         .next({ btc: 33234, eth: 534 })
+        .call(waitForUserData)
+        .next()
         .select(selectors.modules.profile.getUserKYCState)
         .next(Remote.of(model.profile.KYC_STATES.NONE))
-        .put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+        .put(actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted'))
         .next()
         .isDone()
     })
@@ -398,6 +475,8 @@ describe('goals sagas', () => {
         .next()
         .select(selectors.preferences.getShowSwapUpgrade)
         .next(true)
+        .call(waitForUserData)
+        .next()
         .select(selectors.modules.profile.closeToTier1Limit)
         .next(Remote.of(true))
         .put(
@@ -451,9 +530,9 @@ describe('goals sagas', () => {
         .isDone()
     })
 
-    it('should show swap modal', () => {
+    it('should show swapGetStarted modal', () => {
       const mockModals = {
-        swap: { name: 'swap', data: {} }
+        swapGetStarted: { name: 'swapGetStarted', data: {} }
       }
       saga
         .restart()
@@ -461,7 +540,10 @@ describe('goals sagas', () => {
         .select(selectors.goals.getInitialModals)
         .next(mockModals)
         .put(
-          actions.modals.showModal(mockModals.swap.name, mockModals.swap.data)
+          actions.modals.showModal(
+            mockModals.swapGetStarted.name,
+            mockModals.swapGetStarted.data
+          )
         )
         .next()
         .isDone()

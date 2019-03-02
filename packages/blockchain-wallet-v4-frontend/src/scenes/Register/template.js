@@ -156,13 +156,12 @@ const Register = props => {
                     defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
                 )}
-                {passwordStrength >= 2 &&
-                  passwordStrength < 4 && (
-                    <FormattedMessage
-                      id='formhelper.passwordsuggest.medium'
-                      defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
-                    />
-                  )}
+                {passwordStrength >= 2 && passwordStrength < 4 && (
+                  <FormattedMessage
+                    id='formhelper.passwordsuggest.medium'
+                    defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
+                  />
+                )}
                 {passwordStrength === 4 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.great'

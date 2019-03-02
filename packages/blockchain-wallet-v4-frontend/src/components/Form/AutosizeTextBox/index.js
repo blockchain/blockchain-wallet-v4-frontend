@@ -58,29 +58,26 @@ class AutosizeTextBox extends React.Component {
           maxLength={maxLength}
           data-e2e={this.props['data-e2e']}
         />
-        {touched &&
-          error && (
-            <Error
-              size='12px'
-              weight={300}
-              color='error'
-              errorBottom={errorBottom}
-            >
-              {error}
-            </Error>
-          )}
-        {touched &&
-          !error &&
-          warning && (
-            <Error
-              size='12px'
-              weight={300}
-              color='sent'
-              errorBottom={errorBottom}
-            >
-              {warning}
-            </Error>
-          )}
+        {touched && error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+          >
+            {error}
+          </Error>
+        )}
+        {touched && !error && warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+          >
+            {warning}
+          </Error>
+        )}
       </Container>
     )
   }

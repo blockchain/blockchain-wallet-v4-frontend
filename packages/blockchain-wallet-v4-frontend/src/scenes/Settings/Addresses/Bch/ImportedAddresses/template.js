@@ -35,7 +35,7 @@ const WarningWrapper = styled.div`
   }
 `
 
-const Success = props => {
+const BchImportedAddresses = props => {
   const { importedAddresses, onTransferAll, search } = props
 
   const isMatch = address =>
@@ -43,7 +43,14 @@ const Success = props => {
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin='BCH' />
+      return (
+        <AddressRow
+          key={address.addr}
+          address={address}
+          coin='BCH'
+          dataE2e='bchImportedAddressRow'
+        />
+      )
     }
   )
 
@@ -70,17 +77,23 @@ const Success = props => {
             </WarningWrapper>
           </SettingDescription>
         </div>
-        <ImportedActions>
-          <Button onClick={onTransferAll} nature='primary'>
-            <FormattedMessage
-              id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
-              defaultMessage='Transfer All'
-            />
-          </Button>
-        </ImportedActions>
+        {importedAddressesTableRows.length > 0 && (
+          <ImportedActions>
+            <Button
+              onClick={onTransferAll}
+              nature='primary'
+              data-e2e='bchTransferAllButton'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
+                defaultMessage='Transfer All'
+              />
+            </Button>
+          </ImportedActions>
+        )}
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
-        <Table>
+        <Table dataE2e='bchImportedAddressesTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
@@ -106,4 +119,4 @@ const Success = props => {
   )
 }
 
-export default Success
+export default BchImportedAddresses

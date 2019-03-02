@@ -120,12 +120,12 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {isFromLockbox && (
+      {isFromLockbox && !disableLockboxSend && (
         <WarningBanners type='info'>
           <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.warndevice'
-              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
+              id='modals.sendeth.firststep.lockboxwarn'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
         </WarningBanners>
@@ -276,6 +276,7 @@ const FirstStep = props => {
             {feeToggled && (
               <FeePerByteContainer>
                 <Field
+                  data-e2e='ethCustomFeeInput'
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required, minimumFee]}
@@ -292,7 +293,13 @@ const FirstStep = props => {
           <ComboDisplay size='14px' coin='ETH'>
             {fee}
           </ComboDisplay>
-          <Link size='13px' weight={300} capitalize onClick={handleFeeToggle}>
+          <Link
+            size='13px'
+            weight={300}
+            capitalize
+            onClick={handleFeeToggle}
+            data-e2e='ethCustomizeFeeLink'
+          >
             {feeToggled ? (
               <FormattedMessage
                 id='modals.sendeth.firststep.cancel'
@@ -328,6 +335,7 @@ const FirstStep = props => {
             isContract ||
             Remote.Loading.is(balanceStatus)
           }
+          data-e2e='ethSendContinue'
         >
           <FormattedMessage
             id='modals.sendeth.firststep.continue'

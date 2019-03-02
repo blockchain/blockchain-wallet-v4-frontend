@@ -54,7 +54,8 @@ describe('importBtcAddress sagas', () => {
           })
           .put(
             actions.logs.logErrorMessage(
-              `${logLocation} importBtcAddressSubmitClicked`,
+              logLocation,
+              'importBtcAddressSubmitClicked',
               new Error('Unsupported Key Format')
             )
           )

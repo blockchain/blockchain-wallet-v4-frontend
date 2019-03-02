@@ -45,10 +45,16 @@ class XlmCreateAccountLearn extends React.PureComponent {
   render () {
     const { position, total, close } = this.props
     return (
-      <Modal size='medium' position={position} total={total} closeAll={close}>
+      <Modal
+        size='medium'
+        position={position}
+        total={total}
+        closeAll={close}
+        data-e2e='xlmMinimumModalShort'
+      >
         <ModalHeader onClose={close}>
           <Header onClick={close}>
-            <BackIcon name='left-arrow' />
+            <BackIcon name='left-arrow' data-e2e='xlmMinimumModalBack' />
             <FormattedMessage
               id='modal.createaccountlearn.back'
               defaultMessage='Back'

@@ -1019,15 +1019,17 @@ const selectMessage = (message, data = undefined) => {
     case C.LOCKBOX_SETUP_SUCCESS:
       return (
         <FormattedMessage
-          id='components.alerts.lockbox_setup_success'
-          defaultMessage='Lockbox successfully added.'
+          id='components.alerts.success_lockbox_setup'
+          defaultMessage='Successfully setup your {deviceType}.'
+          values={data}
         />
       )
     case C.LOCKBOX_SETUP_ERROR:
       return (
         <FormattedMessage
-          id='components.alerts.lockbox_setup_error'
-          defaultMessage='Failed to setup Lockbox.'
+          id='components.alerts.error_lockbox_setup'
+          defaultMessage='Failed to setup your {deviceType}.'
+          values={data}
         />
       )
     case C.LOCKBOX_UPDATE_SUCCESS:

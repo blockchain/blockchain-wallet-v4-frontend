@@ -18,13 +18,22 @@ import PairDeviceStep from './PairDeviceStep'
 import SetupTypeStep from './SetupTypeStep'
 
 class LockboxSetupContainer extends React.PureComponent {
+  componentWillMount () {
+    this.props.lockboxActions.resetNewDeviceSetup()
+  }
+
   componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
   onClose = () => {
-    this.props.lockboxActions.lockboxModalClose()
-    this.props.closeAll()
+    const { closeAll, currentStep, lockboxActions } = this.props
+    // if lockbox setup complete but the user clicks the modal close X
+    if (currentStep && currentStep.step === 'finish-step') {
+      this.props.lockboxActions.routeNewDeviceToDashboard(false)
+    }
+    lockboxActions.lockboxModalClose()
+    closeAll()
   }
 
   render () {

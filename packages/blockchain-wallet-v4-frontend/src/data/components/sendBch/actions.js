@@ -5,9 +5,16 @@ export const initialized = payload => ({
   payload
 })
 export const destroyed = () => ({ type: AT.SEND_BCH_DESTROYED })
-export const sendBchPaymentUpdated = payment => ({
-  type: AT.SEND_BCH_PAYMENT_UPDATED,
+export const sendBchPaymentUpdatedLoading = () => ({
+  type: AT.SEND_BCH_PAYMENT_UPDATED_LOADING
+})
+export const sendBchPaymentUpdatedSuccess = payment => ({
+  type: AT.SEND_BCH_PAYMENT_UPDATED_SUCCESS,
   payload: payment
+})
+export const sendBchPaymentUpdatedFailure = e => ({
+  type: AT.SEND_BCH_PAYMENT_UPDATED_FAILURE,
+  payload: e
 })
 export const sendBchFirstStepToToggled = val => ({
   type: AT.SEND_BCH_FIRST_STEP_TO_TOGGLED,

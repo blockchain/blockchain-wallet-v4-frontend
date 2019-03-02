@@ -29,8 +29,8 @@ export const CONFIRM_STEPS = {
           />
           <Text weight={400} size='14px' style={{ marginTop: '20px' }}>
             <FormattedMessage
-              id='modals.lockbox.connectionprompt.connect.note'
-              defaultMessage='Note: If you do not have the {appName} app on your device you can install it via the settings page.'
+              id='modals.lockbox.connectionprompt.connect.managernote'
+              defaultMessage='Note: If you do not have the {appName} app on your device you can install it via the App Manager.'
               values={{ appName }}
             />
           </Text>

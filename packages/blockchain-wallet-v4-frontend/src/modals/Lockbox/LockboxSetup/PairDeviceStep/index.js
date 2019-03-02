@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
+import ReactTooltip from 'react-tooltip'
 
 import { OPEN_BTC_TIMEOUT } from './../model'
 import PairDeviceStep from './template'
@@ -18,9 +19,12 @@ class PairDeviceStepContainer extends React.PureComponent {
     this.startBtcOpenTimeout()
   }
 
-  onStepChange = requestedStep => {
-    this.props.lockboxActions.resetConnectionStatus()
-    this.props.lockboxActions.changeDeviceSetupStep(requestedStep)
+  componentWillUnmount () {
+    ReactTooltip.hide()
+  }
+
+  onGoToAppManager = () => {
+    this.props.lockboxActions.changeDeviceSetupStep('app-manager-step')
   }
 
   onTimeoutAccept = () => {
@@ -37,15 +41,16 @@ class PairDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { deviceType, supportLink } = this.props
+    const { deviceType, showBtcWarning, supportLink } = this.props
 
     return (
       <PairDeviceStep
         btcOpenTimeout={this.state.btcOpenTimeout}
         deviceType={deviceType}
         onTimeoutAccept={this.onTimeoutAccept}
-        onStepChange={this.onStepChange}
+        onGoToAppManager={this.onGoToAppManager}
         supportLink={supportLink}
+        showBtcWarning={showBtcWarning}
       />
     )
   }
@@ -56,6 +61,9 @@ PairDeviceStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  showBtcWarning: selectors.components.lockbox.getNewDeviceShowBtcWarning(
+    state
+  ),
   deviceType: selectors.components.lockbox.getNewDeviceType(state),
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })

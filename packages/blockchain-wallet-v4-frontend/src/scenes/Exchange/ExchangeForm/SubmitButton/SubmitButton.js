@@ -8,7 +8,7 @@ import { Row } from '../Layout'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
 const ButtonRow = styled(Row)`
-  padding: 0px 32px 23px 32px;
+  padding: 0 32px 23px;
 `
 const BigButton = styled(Button)`
   height: 56px;
@@ -45,6 +45,7 @@ class SubmitButton extends React.PureComponent {
     return (
       <ButtonRow>
         <BigButton
+          data-e2e='exchangeSubmitButton'
           nature='primary'
           fullwidth
           onClick={handleSubmit}
@@ -62,8 +63,8 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.swap'
-              defaultMessage='Swap'
+              id='scenes.exchange.exchangeform.exchange'
+              defaultMessage='Exchange'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />

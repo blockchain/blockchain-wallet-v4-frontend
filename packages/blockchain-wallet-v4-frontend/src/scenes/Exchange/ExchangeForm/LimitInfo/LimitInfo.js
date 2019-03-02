@@ -1,4 +1,5 @@
 import React from 'react'
+import { path } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -11,6 +12,8 @@ import { getData } from './selectors'
 import { Icon, Link } from 'blockchain-info-components'
 import { Row } from '../Layout'
 import { ExchangeText } from 'components/Exchange'
+import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import { headers } from 'components/IdentityVerification/TierCard/services'
 
 const LimitText = styled(ExchangeText)`
   font-weight: 400;
@@ -122,9 +125,9 @@ export const LimitAction = ({
         <TierLink>
           <LimitText color='btc'>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.limit_info.tier_in_review'
-              defaultMessage='Tier {tierIndex} In Review'
-              values={{ tierIndex: nextTier }}
+              id='scenes.exchange.exchangeform.limit_info.levelinreview'
+              defaultMessage='{level} In Review'
+              values={{ level: headers[path([nextTier, 'level'], TIERS)] }}
             />
           </LimitText>
           <TierIcon name='down-arrow-filled' color='btc' />
@@ -161,9 +164,9 @@ export class LimitInfo extends React.PureComponent {
         <Group>
           <LimitText color='brand-primary'>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.limit_info.tier'
-              defaultMessage='Tier {tierIndex}'
-              values={{ tierIndex: tier }}
+              id='scenes.exchange.exchangeform.limit_info.level'
+              defaultMessage='{level}'
+              values={{ level: headers[path([tier, 'level'], TIERS)] }}
             />
             {(showLimit || upgradeRequired || showPending) && ' -'}
           </LimitText>

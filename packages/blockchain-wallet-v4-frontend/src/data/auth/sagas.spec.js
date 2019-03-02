@@ -340,6 +340,7 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
+      saveGoals,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
@@ -473,7 +474,7 @@ describe('authSagas', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
 
-    it('should trigger update language aciton with selected language', () => {
+    it('should trigger update language action with selected language', () => {
       const language = 'en'
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
@@ -482,16 +483,8 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should add welcome goal', () => {
-      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
-    })
-
-    it('should add swap upgrade goal', () => {
-      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
-    })
-
-    it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kyc'))
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
     })
 
     it('should run goals', () => {
@@ -500,10 +493,6 @@ describe('authSagas', () => {
 
     it('should check for data errors', () => {
       saga.next().fork(checkDataErrors)
-    })
-
-    it('should dispatch action for reportBalanceStats', () => {
-      saga.next().put(actions.analytics.reportBalanceStats())
     })
 
     it('should start listening for logout event', () => {

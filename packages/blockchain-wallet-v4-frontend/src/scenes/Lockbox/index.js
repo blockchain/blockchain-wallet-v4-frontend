@@ -64,6 +64,7 @@ class LockboxContainer extends React.PureComponent {
         <Joyride
           run={run}
           steps={steps}
+          disableScrollParentFix={true}
           callback={this.handleTourCallbacks}
           tooltipComponent={TourTooltip}
           {...this.props.Joyride}

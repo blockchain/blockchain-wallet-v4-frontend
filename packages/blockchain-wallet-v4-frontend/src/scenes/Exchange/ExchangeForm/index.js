@@ -13,13 +13,11 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 const extractFieldValue = (e, value) => {
-  e.preventDefault()
   return value
 }
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
-const { FIRST_STEP_SUBMIT } = model.analytics.EXCHANGE
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -58,7 +56,7 @@ class ExchangeForm extends React.Component {
   }
 
   render () {
-    const { actions, logExchangeClick, data, showError, txError } = this.props
+    const { actions, data, showError, txError } = this.props
     return data.cata({
       Success: value =>
         isEmpty(value.availablePairs) ? (
@@ -70,10 +68,7 @@ class ExchangeForm extends React.Component {
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            handleSubmit={compose(
-              logExchangeClick,
-              actions.showConfirmation
-            )}
+            handleSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -112,8 +107,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logExchangeClick: () =>
-    dispatch(actions.analytics.logEvent(FIRST_STEP_SUBMIT)),
   actions: bindActionCreators(actions.components.exchange, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

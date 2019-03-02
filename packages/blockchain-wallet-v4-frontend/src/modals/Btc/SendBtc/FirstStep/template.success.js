@@ -83,11 +83,11 @@ const FirstStep = props => {
     destination,
     toToggled,
     enableToggle,
+    feePerByte,
     feePerByteToggled,
     feePerByteElements,
     regularFeePerByte,
     priorityFeePerByte,
-    isPriorityFeePerByte,
     totalFee,
     excludeLockbox,
     excludeHDWallets
@@ -150,12 +150,12 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      {isFromLockbox && (
+      {isFromLockbox && !disableLockboxSend && (
         <WarningBanners type='info'>
           <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.warndevice'
-              defaultMessage='You will need to connect your Lockbox to complete to this transaction.'
+              id='modals.sendbtc.firststep.lockboxwarn'
+              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
             />
           </Text>
         </WarningBanners>
@@ -340,20 +340,21 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       <FormGroup margin={'15px'}>
-        <Text size='13px' weight={300}>
-          {!isPriorityFeePerByte && (
-            <FormattedMessage
-              id='modals.sendbtc.firststep.estimated'
-              defaultMessage='Estimated confirmation time 1+ hour'
-            />
-          )}
-          {isPriorityFeePerByte && (
+        {feePerByte > regularFeePerByte ? (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
               id='modals.sendbtc.firststep.estimated2'
               defaultMessage='Estimated confirmation time 0-60 minutes'
             />
-          )}
-        </Text>
+          </Text>
+        ) : (
+          <Text size='13px' weight={300} data-e2e='btcSendEstTimeHourPlus'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.estimated'
+              defaultMessage='Estimated confirmation time 1+ hour'
+            />
+          </Text>
+        )}
       </FormGroup>
       <FormGroup>
         <Button
@@ -380,7 +381,6 @@ FirstStep.propTypes = {
   feePerByteElements: PropTypes.array.isRequired,
   regularFeePerByte: PropTypes.number.isRequired,
   priorityFeePerByte: PropTypes.number.isRequired,
-  isPriorityFeePerByte: PropTypes.bool.isRequired,
   handleFeePerByteToggle: PropTypes.func.isRequired,
   handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

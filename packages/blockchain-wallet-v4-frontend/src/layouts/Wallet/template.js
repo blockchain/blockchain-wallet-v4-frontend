@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { replace } from 'ramda'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
@@ -73,7 +74,7 @@ const WalletLayout = props => {
         <Container>
           <MenuLeft location={location} />
           <TrayRight />
-          <Content>
+          <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Top>
               <MenuTop />
             </Top>

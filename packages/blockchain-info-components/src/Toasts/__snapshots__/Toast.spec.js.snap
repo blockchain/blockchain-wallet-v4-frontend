@@ -4,6 +4,7 @@ exports[`Toast component default renders correctly 1`] = `
 <Toast__Wrapper>
   <Toast__Container
     color="brand-secondary"
+    data-e2e="toastMessage"
   >
     <Toast__Content>
       <span>
@@ -13,6 +14,7 @@ exports[`Toast component default renders correctly 1`] = `
     <Toast__Close
       color="brand-secondary"
       cursor={true}
+      data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
       size="20px"
@@ -26,6 +28,7 @@ exports[`Toast component error renders correctly 1`] = `
 <Toast__Wrapper>
   <Toast__Container
     color="error"
+    data-e2e="toastMessage"
   >
     <Toast__Content>
       <span>
@@ -35,6 +38,7 @@ exports[`Toast component error renders correctly 1`] = `
     <Toast__Close
       color="error"
       cursor={true}
+      data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
       size="20px"
@@ -48,6 +52,7 @@ exports[`Toast component success renders correctly 1`] = `
 <Toast__Wrapper>
   <Toast__Container
     color="success"
+    data-e2e="toastMessage"
   >
     <Toast__Content>
       <span>
@@ -57,6 +62,7 @@ exports[`Toast component success renders correctly 1`] = `
     <Toast__Close
       color="success"
       cursor={true}
+      data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
       size="20px"

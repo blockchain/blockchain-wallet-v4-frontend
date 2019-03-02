@@ -5,9 +5,10 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { isEmpty } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import IPWhitelist from './template'
 
+const { IP_WHITELIST_EDIT } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class IPWhitelistContainer extends React.PureComponent {
   state = { updateToggled: false }
 
@@ -22,6 +23,7 @@ class IPWhitelistContainer extends React.PureComponent {
   onSubmit = () => {
     this.props.settingsActions.updateIpLock(this.props.IPWhitelist)
     this.handleToggle()
+    this.props.analyticsActions.logEvent(IP_WHITELIST_EDIT)
   }
 
   handleToggle = () => {
@@ -52,6 +54,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

@@ -11,6 +11,7 @@ const MinimumFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendBtcFirstStepMinimumFeeClicked}
+    data-e2e='btcMinimumFeeLink'
   >
     <FormattedMessage
       id='modals.sendbtc.minimumfeelink.minimum'

@@ -77,7 +77,7 @@ describe('Swap Upgrade', () => {
     expect(
       wrapper
         .text()
-        .indexOf('Upgrade to Tier 2 and Swap up to $25,000.00 every day.')
+        .indexOf('Upgrade to Gold Level and Swap up to $25,000.00 every day.')
     ).toBeGreaterThan(-1)
   })
 

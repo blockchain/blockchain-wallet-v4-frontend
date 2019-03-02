@@ -62,3 +62,17 @@ export const KYC_PROVIDERS = {
   ONFIDO: 'ONFIDO',
   VERIFF: 'VERIFF'
 }
+
+export const ERROR_TYPES = {
+  55: 'INVALID_CAMPAIGN_USER',
+  56: 'USER_ALREADY_REGISTERED_CAMPAIGN',
+  57: 'CAMPAIGN_EXPIRED',
+  58: 'INVALID_CAMPAIGN_INFO'
+}
+
+export const CAMPAIGNS = {
+  sunriver: {
+    coinCode: 'XLM',
+    coinName: 'Stellar'
+  }
+}

@@ -2841,6 +2841,11 @@ babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
+babel-core@7.0.0-bridge.0:
+  version "7.0.0-bridge.0"
+  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
+  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
+
 babel-core@^6.0.0, babel-core@^6.0.14, babel-core@^6.26.0:
   version "6.26.3"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
@@ -2865,11 +2870,6 @@ babel-core@^6.0.0, babel-core@^6.0.14, babel-core@^6.26.0:
     private "^0.1.8"
     slash "^1.0.0"
     source-map "^0.5.7"
-
-babel-core@~7.0.0-bridge.0:
-  version "7.0.0-bridge.0"
-  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
-  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
 
 babel-eslint@10.0.1:
   version "10.0.1"
@@ -4195,10 +4195,10 @@ bip69@2.1.4:
   dependencies:
     safe-buffer "^5.1.1"
 
-bitcoin-coinify-client@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/bitcoin-coinify-client/-/bitcoin-coinify-client-0.8.0.tgz#d180df5c773bd1351827d712b883e3c49d1aa1b8"
-  integrity sha1-0YDfXHc70TUYJ9cSuIPjxJ0aobg=
+bitcoin-coinify-client@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/bitcoin-coinify-client/-/bitcoin-coinify-client-0.9.0.tgz#70cd0e6b3e74ed0069ec617fb34b30fe519df9f4"
+  integrity sha512-wI/zg5Qgmz92uvNxHlwp0OkETOHsJxxI3W6YkDz9pgexBgQ0PVGGH61K9tOysBfdfxEIMBB7iM6dojlDqNRNGQ==
   dependencies:
     babel-polyfill "6.16.*"
     babel-preset-es2015 "6.16.*"
@@ -6412,6 +6412,11 @@ domelementtype@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.0.tgz#b17aed82e8ab59e52dd9c19b1756e0fc187204c2"
   integrity sha1-sXrtguirWeUt2cGbF1bg/BhyBMI=
+
+domelementtype@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
+  integrity sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==
 
 domelementtype@~1.1.1:
   version "1.1.3"
@@ -8752,6 +8757,18 @@ htmlparser2@^3.10.0, htmlparser2@^3.9.1:
     entities "^1.1.1"
     inherits "^2.0.1"
     readable-stream "^3.0.6"
+
+htmlparser2@^3.9.0:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
+  integrity sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
+  dependencies:
+    domelementtype "^1.3.1"
+    domhandler "^2.3.0"
+    domutils "^1.5.1"
+    entities "^1.1.1"
+    inherits "^2.0.1"
+    readable-stream "^3.1.1"
 
 htmlparser2@~3.3.0:
   version "3.3.0"
@@ -13128,16 +13145,6 @@ react-intl-tel-input@5.0.7:
     react-style-proptype "^3.0.0"
     underscore.deferred "^0.4.0"
 
-react-intl-translations-manager-bc@5.0.3-1:
-  version "5.0.3-1"
-  resolved "https://registry.yarnpkg.com/react-intl-translations-manager-bc/-/react-intl-translations-manager-bc-5.0.3-1.tgz#2cb9cf4a2ed8e2a0d0cefebc97dc5c4c791e6c92"
-  integrity sha512-XBX6q3fAZb3ykEDfadMA6zNC6Fh8l7nkJ5p7jbMmPyb9rh3RpmXoek7R7J9+odYcZnpgDy4uwnEWrwK1clQTzg==
-  dependencies:
-    chalk "^2.3.2"
-    glob "^7.1.2"
-    json-stable-stringify "^1.0.1"
-    mkdirp "^0.5.1"
-
 react-intl-translations-manager@5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/react-intl-translations-manager/-/react-intl-translations-manager-5.0.3.tgz#aee010ecf35975673e033ca5d7d3f4147894324d"
@@ -13334,13 +13341,14 @@ react-textarea-autosize@^7.0.4:
   dependencies:
     prop-types "^15.6.0"
 
-react-tooltip@3.9.2:
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.9.2.tgz#df74e6f5fd454bb15132d5d2d506895cf505cb5e"
-  integrity sha512-uoOXt/LVX9JhSYjAa3F2qSJuaTwod1fW2PWJGWGZ7Sfm6M8/JGWvGY1LsR51g8LYteVcSbDFuHfuB3rmNFACRw==
+react-tooltip@3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.9.0.tgz#d874df922c3b34b2e547ec62ff8b2eef42017b51"
+  integrity sha512-vpn738FVv2oe2LzdwUchped3WqLgZSQwrBow+ceChS1+lFEJBPjOa9KD3JH/L/s0Aorxawi3A20qBcHX7vqaag==
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
+    sanitize-html-react "^1.13.0"
 
 react-transition-group@2.5.3:
   version "2.5.3"
@@ -13484,6 +13492,15 @@ readable-stream@^3.0.6:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.0.6.tgz#351302e4c68b5abd6a2ed55376a7f9a25be3057a"
   integrity sha512-9E1oLoOWfhSXHGv6QlwXJim7uNzd9EVlWK+21tCU9Ju/kR0/p2AZYPz4qSchgO8PlLIH4FpZYfzwS+rEksZjIg==
+  dependencies:
+    inherits "^2.0.3"
+    string_decoder "^1.1.1"
+    util-deprecate "^1.0.1"
+
+readable-stream@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.2.0.tgz#de17f229864c120a9f56945756e4f32c4045245d"
+  integrity sha512-RV20kLjdmpZuTF1INEb9IA3L68Nmi+Ri7ppZqo78wj//Pn62fCoJyV9zalccNzDD/OuJpMG4f+pfMl8+L6QdGw==
   dependencies:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
@@ -13679,6 +13696,11 @@ regex-not@^1.0.0, regex-not@^1.0.2:
   dependencies:
     extend-shallow "^3.0.2"
     safe-regex "^1.1.0"
+
+regexp-quote@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/regexp-quote/-/regexp-quote-0.0.0.tgz#1e0f4650c862dcbfed54fd42b148e9bb1721fcf2"
+  integrity sha1-Hg9GUMhi3L/tVP1CsUjpuxch/PI=
 
 regexp-tree@^0.1.0:
   version "0.1.0"
@@ -14224,6 +14246,15 @@ sane@^2.0.0:
     watch "~0.18.0"
   optionalDependencies:
     fsevents "^1.2.3"
+
+sanitize-html-react@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/sanitize-html-react/-/sanitize-html-react-1.13.0.tgz#e757b9adbaf2c8a762f3d2dff70138838e05420a"
+  integrity sha1-51e5rbryyKdi89Lf9wE4g44FQgo=
+  dependencies:
+    htmlparser2 "^3.9.0"
+    regexp-quote "0.0.0"
+    xtend "^4.0.0"
 
 sanitize-html@1.19.2:
   version "1.19.2"

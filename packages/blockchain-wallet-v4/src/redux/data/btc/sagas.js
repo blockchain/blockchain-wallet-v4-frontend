@@ -7,12 +7,12 @@ import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import { MISSING_WALLET } from '../utils'
-import { HDAccountList } from '../../../types'
+import { HDAccountList, Wallet } from '../../../types'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.btc.transformTx
-
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
@@ -123,27 +123,28 @@ export default ({ api }) => {
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
     // Remote(lockboxXpubs)
     const accountListR = (yield select(getLockboxBtcAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
+    const addressLabels = (yield select(getAddressLabels)).getOrElse({})
+    const txNotes = Wallet.selectTxNotes(wallet)
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, accountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
-          accountList
+          accountList,
+          txNotes,
+          addressLabels
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
+    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
   const fetchFiatAtTime = function*(action) {

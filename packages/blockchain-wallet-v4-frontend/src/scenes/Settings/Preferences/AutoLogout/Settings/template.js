@@ -33,7 +33,7 @@ const Settings = props => {
       <SettingForm onSubmit={handleSubmit}>
         <FormGroup>
           <Wrapper>
-            <FormItem>
+            <FormItem data-e2e='autoLogoutInput'>
               <Field
                 name='autoLogoutTime'
                 component={NumberBox}
@@ -55,7 +55,12 @@ const Settings = props => {
           </Text>
         </FormGroup>
         <ButtonWrapper>
-          <Button nature='empty' capitalize onClick={handleToggle}>
+          <Button
+            nature='empty'
+            capitalize
+            onClick={handleToggle}
+            data-e2e='cancelAutoLogout'
+          >
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.cancel'
               defaultMessage='Cancel'
@@ -66,6 +71,7 @@ const Settings = props => {
             nature='primary'
             capitalize
             disabled={submitting || invalid}
+            data-e2e='saveAutoLogout'
           >
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.save'

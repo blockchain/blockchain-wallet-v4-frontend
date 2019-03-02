@@ -12,6 +12,7 @@ import * as layoutWallet from './layoutWallet/actions'
 import * as lockbox from './lockbox/actions'
 import * as login from './login/actions'
 import * as manageAddresses from './manageAddresses/actions'
+import * as onboarding from './onboarding/actions'
 import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
@@ -27,7 +28,6 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
-import * as swapGetStarted from './swapGetStarted/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
@@ -44,6 +44,7 @@ export {
   identityVerification,
   importBtcAddress,
   manageAddresses,
+  onboarding,
   onfido,
   layoutWallet,
   lockbox,
@@ -62,7 +63,6 @@ export {
   sendXlm,
   settings,
   signMessage,
-  swapGetStarted,
   transactionReport,
   uploadDocuments,
   veriff

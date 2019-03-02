@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-import Actions from './template.js'
+import Actions from './template'
 
 class ActionsContainer extends React.PureComponent {
   handleSend = () => {
@@ -58,8 +58,7 @@ class ActionsContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  analytics: bindActionCreators(actions.analytics, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

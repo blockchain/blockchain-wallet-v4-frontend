@@ -12,7 +12,6 @@ import Confirm from './Confirm'
 import ISignThis from './ISignThis'
 import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
 import { path } from 'ramda'
 import media from 'services/ResponsiveService'
 
@@ -114,7 +113,6 @@ CoinifyExchangeData.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
   signupComplete: path(['coinify', 'signupComplete'], state),
   trade: selectors.core.data.coinify.getTrade(state).getOrElse({})

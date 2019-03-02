@@ -36,6 +36,9 @@ export const setDeviceTargetId = targetId => ({
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
+export const resetNewDeviceSetup = () => ({
+  type: AT.RESET_NEW_DEVICE_SETUP
+})
 export const finalizeNewDeviceSetup = () => ({
   type: AT.FINALIZE_NEW_DEVICE_SETUP
 })
@@ -55,7 +58,10 @@ export const setDeviceSetupType = type => ({
   type: AT.SET_SETUP_DEVICE_TYPE,
   payload: type
 })
-
+export const setNewDeviceShowBtcWarning = showWarning => ({
+  type: AT.SET_NEW_DEVICE_SHOW_BTC_WARNING,
+  payload: showWarning
+})
 export const setNewDeviceInfo = deviceInfo => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }
@@ -147,9 +153,8 @@ export const updateTransactionList = deviceIndex => ({
 })
 
 // APPLICATIONS
-export const initializeAppManager = deviceIndex => ({
-  type: AT.INITIALIZE_APP_MANAGER,
-  payload: { deviceIndex }
+export const initializeAppManager = () => ({
+  type: AT.INITIALIZE_APP_MANAGER
 })
 export const setLatestAppInfosLoading = () => ({
   type: AT.SET_LATEST_APP_INFOS_LOADING

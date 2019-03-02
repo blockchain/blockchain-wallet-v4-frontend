@@ -1,11 +1,11 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.31",
-  "description": "A shared UI components library for blockchain.info applications.",
+  "version": "0.0.32",
+  "description": "A shared UI components library for blockchain.com applications.",
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "name": "Blockchain",
+    "url": "https://blockchain.com"
   },
   "main": "lib/index.js",
   "module": "src/index.js",

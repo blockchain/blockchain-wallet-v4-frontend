@@ -3,6 +3,21 @@ import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { path, prop, propEq, or } from 'ramda'
 
+export const headers = {
+  SILVER: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.silver'
+      defaultMessage='Silver Level'
+    />
+  ),
+  GOLD: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.gold'
+      defaultMessage='Gold Level'
+    />
+  )
+}
+
 export const messages = {
   EMAIL: (
     <Text size='12px'>
@@ -39,16 +54,8 @@ export const messages = {
   TIER1: (
     <Text size='12px' color='gray-3'>
       <FormattedMessage
-        id='components.identityverification.tiercard.tier1'
-        defaultMessage='Tier 1+'
-      />
-    </Text>
-  ),
-  MOBILE: (
-    <Text size='12px'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.phone'
-        defaultMessage='Verified Phone'
+        id='components.identityverification.tiercard.silverplus'
+        defaultMessage='Silver Level +'
       />
     </Text>
   ),
@@ -61,10 +68,10 @@ export const messages = {
     </Text>
   ),
   SELFIE: (
-    <Text size='12px'>
+    <Text size='12px' style={{ marginBottom: '26px', display: 'inline-block' }}>
       <FormattedMessage
-        id='components.identityverification.tiercard.selfie'
-        defaultMessage='Selfie'
+        id='components.identityverification.tiercard.portraitphoto'
+        defaultMessage='Portrait Photo'
       />
     </Text>
   )
@@ -156,4 +163,19 @@ export const status = (tier, userTiers, time) => {
         />
       )
   }
+}
+
+export const ctas = {
+  SILVER: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.silvercta'
+      defaultMessage='Unlock Silver'
+    />
+  ),
+  GOLD: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.goldctamedal'
+      defaultMessage='Unlock Gold 🥇'
+    />
+  )
 }

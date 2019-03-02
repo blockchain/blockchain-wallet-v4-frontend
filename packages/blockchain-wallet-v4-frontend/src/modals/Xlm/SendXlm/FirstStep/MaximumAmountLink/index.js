@@ -8,6 +8,7 @@ import { Link } from 'blockchain-info-components'
 
 const MaximumAmountLink = props => (
   <Link
+    data-e2e='xlmMaximumAmountLink'
     size='12px'
     weight={300}
     onClick={props.actions.firstStepMaximumAmountClicked}

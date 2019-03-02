@@ -171,17 +171,16 @@ const FiatConvertor = props => {
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched &&
-        meta.error && (
-          <Error
-            onClick={handleErrorClick}
-            size='13px'
-            weight={300}
-            color='error'
-          >
-            {meta.error}
-          </Error>
-        )}
+      {meta.touched && meta.error && (
+        <Error
+          onClick={handleErrorClick}
+          size='13px'
+          weight={300}
+          color='error'
+        >
+          {meta.error}
+        </Error>
+      )}
       {limits && (
         <Error size='13px' weight={300} color='error'>
           {getLimitsError(value, limits, disabledReason, fiat, cryptoMax)}
