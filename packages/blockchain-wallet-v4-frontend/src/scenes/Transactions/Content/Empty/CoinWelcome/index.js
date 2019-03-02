@@ -15,18 +15,28 @@ import WelcomeAirdrop from './template.airdrop'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
-    const { availability, coin, canAirdrop, domains, partner } = this.props
+    const {
+      availability,
+      coin,
+      canAirdrop,
+      domains,
+      partner,
+      ...rest
+    } = this.props
+    const { modalActions, onboardingActions } = rest
 
     return canAirdrop ? (
-      <WelcomeAirdrop coin={coin} domains={domains} />
+      <WelcomeAirdrop
+        coin={coin}
+        domains={domains}
+        onboardingActions={onboardingActions}
+      />
     ) : (
       <Welcome
         availability={availability}
         coin={coin}
         partner={partner}
-        handleRequest={() =>
-          this.props.modalActions.showModal(coinProps[coin].request)
-        }
+        handleRequest={() => modalActions.showModal(coinProps[coin].request)}
       />
     )
   }
@@ -40,7 +50,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
 CoinWelcomeContainer.propTypes = {

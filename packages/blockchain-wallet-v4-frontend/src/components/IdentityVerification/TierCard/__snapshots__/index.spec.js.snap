@@ -228,8 +228,8 @@ exports[`TierCard renders correctly with column view 1`] = `
       nature="primary"
     >
       <FormattedMessage
-        defaultMessage="Unlock Gold"
-        id="components.identityverification.tiercard.goldcta"
+        defaultMessage="Unlock Gold 🥇"
+        id="components.identityverification.tiercard.goldctamedal"
         values={Object {}}
       />
     </TierCard__ActionButton>
