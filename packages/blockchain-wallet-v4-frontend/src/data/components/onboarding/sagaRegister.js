@@ -7,11 +7,15 @@ export default () => {
 
   return function* swapGetStartedSaga () {
     yield takeLatest(
-      AT.SWAP_GET_STARTED_SUBMIT_CLICK,
+      AT.SWAP_GET_STARTED_SUBMIT_CLICKED,
       onboardingSagas.swapGetStartedSubmitClicked
     )
     yield takeLatest(
-      AT.AIRDROP_REMINDER_SUBMIT_CLICK,
+      AT.AIRDROP_CLAIM_SUBMIT_CLICKED,
+      onboardingSagas.airdropClaimSubmitClicked
+    )
+    yield takeLatest(
+      AT.AIRDROP_REMINDER_SUBMIT_CLICKED,
       onboardingSagas.airdropReminderSubmitClicked
     )
     yield takeLatest(

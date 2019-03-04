@@ -41,6 +41,7 @@ import {
 } from './Lockbox'
 import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import {
+  AirdropClaim,
   AirdropReminder,
   SwapGetStarted,
   UpgradeForAirdrop,
@@ -76,6 +77,7 @@ import {
 const Modals = () => (
   <div>
     <AddBtcWallet />
+    <AirdropClaim />
     <AirdropReminder />
     <AutoDisconnection />
     <BsvGetStarted />

@@ -274,6 +274,21 @@ export default ({ api }) => {
       )
   }
 
+  const runAirdropClaimGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield call(waitForUserData)
+    const { current } = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({ current: 0 }) || { current: 0 }
+    const sunRiverTag = (yield select(
+      selectors.modules.profile.getSunRiverTag
+    )).getOrElse(false)
+    if (current === TIERS[2] && !sunRiverTag) {
+      yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+    }
+  }
+
   const runBsvGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -332,6 +347,7 @@ export default ({ api }) => {
       airdropReminder,
       swapGetStarted,
       swapUpgrade,
+      airdropClaim,
       bsv,
       welcome
     } = initialModals
@@ -359,6 +375,8 @@ export default ({ api }) => {
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
       )
+    if (airdropClaim)
+      return yield put(actions.modals.showModal(airdropClaim.name))
     if (bsv) {
       return yield put(actions.modals.showModal(bsv.name))
     }
@@ -392,6 +410,9 @@ export default ({ api }) => {
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
+          break
+        case 'airdropClaim':
+          yield call(runAirdropClaimGoal, goal)
           break
         case 'bsv':
           yield call(runBsvGoal, goal)
