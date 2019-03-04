@@ -29,6 +29,16 @@ export default ({ api }) => {
 
   const logLocation = 'goals/sagas'
 
+  const waitForUserData = function*() {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
+  const waitForUserTiers = function*() {
+    yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
+  }
+
   const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -94,16 +104,6 @@ export default ({ api }) => {
     yield take('@@router/LOCATION_CHANGE')
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
-  }
-
-  const waitForUserData = function*() {
-    const userData = yield select(selectors.modules.profile.getUserData)
-    if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-  }
-
-  const waitForUserTiers = function*() {
-    yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
   }
 
   const runSendBtcGoal = function*(goal) {
@@ -206,6 +206,23 @@ export default ({ api }) => {
             campaign: 'sunriver'
           }
         )
+      )
+    }
+  }
+
+  const runCoinifyUpgradeGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(waitForUserTiers)
+    const coinifyToken = yield select(
+      selectors.core.kvStore.buySell.getCoinifyToken
+    )
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (coinifyToken && propEq('state', TIERS_STATES.NONE, tiers[1])) {
+      return yield put(
+        actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
       )
     }
   }
@@ -328,6 +345,7 @@ export default ({ api }) => {
       kycDocResubmit,
       sunriver,
       payment,
+      coinifyUpgrade,
       upgradeForAirdrop,
       airdropReminder,
       swapGetStarted,
@@ -341,6 +359,11 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    if (coinifyUpgrade) {
+      return yield put(
+        actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
+      )
+    }
     if (upgradeForAirdrop) {
       return yield put(
         actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
@@ -377,6 +400,9 @@ export default ({ api }) => {
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
+          break
+        case 'coinifyUpgrade':
+          yield call(runCoinifyUpgradeGoal, goal)
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
