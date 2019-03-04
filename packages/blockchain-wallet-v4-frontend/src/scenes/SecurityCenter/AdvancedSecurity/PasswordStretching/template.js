@@ -76,6 +76,7 @@ const PasswordStretching = props => {
           {updateToggled && (
             <SettingForm onSubmit={handleSubmit}>
               <Field
+                data-e2e='passwordStretchingInput'
                 name='passwordStretching'
                 component={NumberBox}
                 validate={validPasswordStretchingNumber}

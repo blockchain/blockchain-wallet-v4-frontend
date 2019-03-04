@@ -76,7 +76,13 @@ class CoinifyUpgrade extends React.PureComponent {
             />
           </FooterButton>
           <UpgradeImage name='identity-verification' />
-          <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
+          <LaterButton
+            nature='primary'
+            size='18px'
+            fullwidth
+            onClick={close}
+            data-e2e='remindMeLaterButton'
+          >
             <FormattedMessage
               defaultMessage='Remind Me Later'
               id='modals.coinifyupgrade.later'

@@ -105,7 +105,13 @@ class AirdropReminder extends React.PureComponent {
               id='modals.airdropreminder.getstarted'
             />
           </FooterButton>
-          <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
+          <LaterButton
+            nature='primary'
+            size='18px'
+            fullwidth
+            onClick={close}
+            data-e2e='remindMeLaterButton'
+          >
             <FormattedMessage
               defaultMessage='Remind Me Later'
               id='modals.airdropreminder.later'
