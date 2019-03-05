@@ -32,16 +32,29 @@ const SecondPassword = props => {
             defaultMessage='Please enter your second password'
           />
         </Text>
-        <PasswordInput value={value} onChange={handleChange} />
+        <PasswordInput
+          value={value}
+          onChange={handleChange}
+          data-e2e='secondPasswordModalInput'
+        />
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link
+          size='13px'
+          weight={300}
+          onClick={close}
+          data-e2e='secondPasswordModalCancelButton'
+        >
           <FormattedMessage
             id='modals.secondpassword.cancel'
             defaultMessage='Cancel'
           />
         </Link>
-        <Button nature='primary' onClick={handleClick}>
+        <Button
+          nature='primary'
+          onClick={handleClick}
+          data-e2e='secondPasswordModalConfirmButton'
+        >
           <FormattedMessage
             id='modals.secondpassword.confirm'
             defaultMessage='Confirm'

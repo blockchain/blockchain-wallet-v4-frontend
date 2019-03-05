@@ -32,6 +32,7 @@ const NumberBox = field => {
         {...field.input}
         errorState={errorState}
         placeholder={field.placeholder}
+        data-e2e={field['data-e2e']}
       />
       {field.meta.touched && field.meta.error && (
         <Error
