@@ -39,6 +39,7 @@ export const PERSONAL_FORM = '@KYC.personalForm'
 export const EMAIL_FORM = '@KYC.emailForm'
 export const SMS_NUMBER_FORM = '@KYC.smsNumberForm'
 export const ADDRESS_FORM = '@KYC.addresForm'
+export const ID_VERIFICATION_SUBMITTED_FORM = '@KYC.idVerificationSubmittedForm'
 
 export const PHONE_EXISTS_ERROR = 'Phone number already registered'
 export const BAD_CODE_ERROR = 'SMS Verification Code Incorrect.'

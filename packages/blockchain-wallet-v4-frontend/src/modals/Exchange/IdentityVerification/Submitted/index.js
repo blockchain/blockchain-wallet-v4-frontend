@@ -1,14 +1,16 @@
 import React from 'react'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { compose } from 'redux'
+import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
-import { Icon, Button, Text } from 'blockchain-info-components'
+import { actions, model } from 'data'
+import { Button, Icon, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { IdentityVerificationForm } from 'components/IdentityVerification'
+
+const { ID_VERIFICATION_SUBMITTED_FORM } = model.components.identityVerification
 
 const SubmittedIdentityVerificationForm = styled(IdentityVerificationForm)`
   justify-content: center;
@@ -53,9 +55,10 @@ const ClaimButton = styled(Button)`
   margin: 0 auto;
   height: 56px;
   font-size: 18px;
+  min-width: 200px;
 `
 
-const Submitted = () => (
+const Submitted = ({ campaign, identityVerificationActions, submitting }) => (
   <SubmittedIdentityVerificationForm>
     <SubmittedWrapper>
       <Icon name='checkmark-in-circle-filled' color='success' size='36px' />
@@ -91,12 +94,21 @@ const Submitted = () => (
           />
         </NextStepsSubHeader>
       </NextSteps>
-      <Form>
-        <ClaimButton nature='primary'>
-          <FormattedMessage
-            id='modals.exchange.identityverification.submitted.claim'
-            defaultMessage='Claim Free XLM'
-          />
+      <Form
+        onSubmit={e => {
+          e.preventDefault()
+          identityVerificationActions.claimCampaignClicked(campaign)
+        }}
+      >
+        <ClaimButton nature='primary' type='submit' disabled={submitting}>
+          {submitting ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='modals.exchange.identityverification.submitted.claim'
+              defaultMessage='Claim Free XLM'
+            />
+          )}
         </ClaimButton>
         <NextStepsSubHeader>
           <FormattedMessage
@@ -109,14 +121,19 @@ const Submitted = () => (
   </SubmittedIdentityVerificationForm>
 )
 
+Submitted.defaultProps = {
+  campaign: 'sunriver'
+}
+
 const mapDispatchToProps = dispatch => ({
-  goToNextStep: () =>
-    dispatch(actions.components.identityVerification.goToNextStep()),
-  closeAllModals: () => dispatch(actions.modals.closeAllModals())
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  reduxForm({ form: 'identityVerificationSubmitted' }),
+  reduxForm({ form: ID_VERIFICATION_SUBMITTED_FORM }),
   connect(
     undefined,
     mapDispatchToProps

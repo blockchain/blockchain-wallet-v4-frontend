@@ -51,6 +51,10 @@ export default ({ api, coreSagas }) => {
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       identityVerificationSagas.createRegisterUserCampaign
     )
+    yield takeLatest(
+      AT.CLAIM_CAMPAIGN_CLICKED,
+      identityVerificationSagas.claimCampaignClicked
+    )
     yield takeLatest(AT.GO_TO_PREV_STEP, identityVerificationSagas.goToPrevStep)
     yield takeLatest(AT.GO_TO_NEXT_STEP, identityVerificationSagas.goToNextStep)
     yield takeLatest(AT.CHECK_KYC_FLOW, identityVerificationSagas.checkKycFlow)
