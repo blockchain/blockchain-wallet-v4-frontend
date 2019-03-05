@@ -11,14 +11,16 @@ export const STEPS = {
   personal: 'personal',
   moreInfo: 'moreInfo',
   mobile: 'mobile',
-  verify: 'verify'
+  verify: 'verify',
+  submitted: 'submitted'
 }
 
 export const STEP_TIERS = {
   personal: TIERS[1],
   moreInfo: TIERS[2],
   mobile: TIERS[2],
-  verify: TIERS[2]
+  verify: TIERS[2],
+  submitted: TIERS[2]
 }
 
 export const COINIFY_STEP = 'coinify'

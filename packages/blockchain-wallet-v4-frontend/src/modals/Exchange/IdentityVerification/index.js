@@ -19,6 +19,7 @@ import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
 import MoreInfo from './MoreInfo'
+import Submitted from './Submitted'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -111,6 +112,12 @@ const stepMap = {
       id='modals.identityverification.steps.verify'
       defaultMessage='Verify'
     />
+  ),
+  [STEPS.submitted]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.submitted'
+      defaultMessage='Submitted'
+    />
   )
 }
 
@@ -157,6 +164,7 @@ class IdentityVerification extends React.PureComponent {
       )
 
     if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
+    if (step === STEPS.submitted) return <Submitted />
   }
 
   render () {
@@ -182,7 +190,7 @@ class IdentityVerification extends React.PureComponent {
               >
                 <HeaderWrapper>
                   <KycStepIndicator
-                    adjuster={0.1667}
+                    adjuster={0}
                     barFullWidth
                     horizontalMobile
                     flexEnd
