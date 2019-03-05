@@ -1,10 +1,12 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import sagas from './sagas'
+
+const { STEPS } = model.components.identityVerification
 
 const url = 'https://magiv.veriff.me/123'
 const applicantId = '1234'
@@ -39,12 +41,15 @@ describe('fetchVeriffUrl', () => {
 })
 
 describe('syncVeriff', () => {
-  it('should sync with applicant id, close all modals, redirect to exchange and log kyc complete event', () =>
+  it('should sync with applicant id, fetchUser, and setVerificationStep to submitted', () =>
     expectSaga(syncVeriff)
       .provide([[select(S.getApplicantId), applicantId]])
       .select(S.getApplicantId)
       .call(api.syncVeriff, applicantId)
-      .put(actions.modals.closeAllModals())
-      .put(actions.router.push('/swap'))
+      .put(
+        actions.components.identityVerification.setVerificationStep(
+          STEPS.submitted
+        )
+      )
       .run())
 })
