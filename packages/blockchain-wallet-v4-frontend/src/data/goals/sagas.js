@@ -215,9 +215,10 @@ export default ({ api }) => {
     yield put(actions.goals.deleteGoal(id))
 
     yield call(waitForUserTiers)
-    const coinifyToken = yield select(
+    const coinifyTokenR = yield select(
       selectors.core.kvStore.buySell.getCoinifyToken
     )
+    const coinifyToken = coinifyTokenR.getOrElse(false)
     const tiersR = yield select(selectors.modules.profile.getTiers)
     const tiers = tiersR.getOrElse([])
     if (coinifyToken && propEq('state', TIERS_STATES.NONE, tiers[1])) {
