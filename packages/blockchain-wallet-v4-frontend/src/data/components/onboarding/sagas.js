@@ -16,6 +16,8 @@ export default () => {
       yield put(actions.modules.profile.fetchUser())
       yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
       yield put(actions.form.stopSubmit('airdropClaim'))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.modals.showModal('AirdropSuccess'))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(

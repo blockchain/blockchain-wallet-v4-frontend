@@ -109,7 +109,7 @@ class AirdropSuccess extends React.PureComponent {
           <Copy weight={300}>
             <FormattedMessage
               id='modals.airdropsuccess.sharethewealth'
-              defaultMessage='Share the welath with friends and family. Literally.'
+              defaultMessage='Share the wealth with friends and family. Literally.'
             />
           </Copy>
         </Body>
