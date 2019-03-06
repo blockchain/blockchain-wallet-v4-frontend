@@ -43,6 +43,7 @@ import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import {
   AirdropClaim,
   AirdropReminder,
+  AirdropSuccess,
   CoinifyUpgrade,
   SwapGetStarted,
   UpgradeForAirdrop,
@@ -80,6 +81,7 @@ const Modals = () => (
     <AddBtcWallet />
     <AirdropClaim />
     <AirdropReminder />
+    <AirdropSuccess />
     <AutoDisconnection />
     <BsvGetStarted />
     <CoinifyDeleteBank />

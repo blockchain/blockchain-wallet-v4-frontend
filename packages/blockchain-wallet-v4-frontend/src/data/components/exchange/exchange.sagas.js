@@ -741,7 +741,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
-      yield delay(100)
+      yield take(actionTypes.modals.CLOSE_ALL_MODALS)
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )

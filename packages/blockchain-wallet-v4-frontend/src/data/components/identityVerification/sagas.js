@@ -109,6 +109,8 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.fetchUser())
       yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.modals.showModal('AirdropSuccess'))
     } catch (error) {
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
         _error: error
