@@ -120,7 +120,11 @@ const Settings = props => {
     return (
       <SecondPasswordWrapper toggled={updateToggled}>
         {!updateToggled && (
-          <Button nature='primary' onClick={handleToggle}>
+          <Button
+            nature='primary'
+            onClick={handleToggle}
+            data-e2e='setSecondPasswordButton'
+          >
             <FormattedMessage
               id='scenes.securitysettings.advanced.secondpasswordwallet.settings.set'
               defaultMessage='Set Second Password'
@@ -158,6 +162,7 @@ const Settings = props => {
                   />
                 </FormLabel>
                 <Field
+                  data-e2e='secondPasswordInput'
                   name='secondPassword'
                   validate={[validateSecondPassword, isMainPassword]}
                   component={PasswordBox}
@@ -171,6 +176,7 @@ const Settings = props => {
                   />
                 </FormLabel>
                 <Field
+                  data-e2e='confirmSecondPasswordInput'
                   name='secondPasswordConfirmation'
                   validate={[validatePasswordConfirmation]}
                   component={PasswordBox}
@@ -178,7 +184,12 @@ const Settings = props => {
               </FormItem>
             </FormGroup>
             <ButtonWrapper>
-              <Button nature='empty' capitalize onClick={handleCancel}>
+              <Button
+                nature='empty'
+                capitalize
+                onClick={handleCancel}
+                data-e2e='secondPasswordCancelButton'
+              >
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.cancel2'
                   defaultMessage='Cancel'
@@ -189,6 +200,7 @@ const Settings = props => {
                 capitalize
                 disabled={submitting || invalid}
                 onClick={handleSubmit}
+                data-e2e='secondPasswordSaveButton'
               >
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.save2'
