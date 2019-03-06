@@ -39,8 +39,14 @@ import {
   LockboxConnectionPrompt,
   LockboxShowXPubs
 } from './Lockbox'
-import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
-import { AirdropReminder, SwapGetStarted, Welcome } from './Onboarding'
+import { MobileNumberChange, MobileNumberVerify } from './Mobile'
+import {
+  AirdropReminder,
+  CoinifyUpgrade,
+  SwapGetStarted,
+  UpgradeForAirdrop,
+  Welcome
+} from './Onboarding'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
@@ -77,6 +83,7 @@ const Modals = () => (
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
+    <CoinifyUpgrade />
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
@@ -94,7 +101,6 @@ const Modals = () => (
     <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
-    <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />
@@ -128,6 +134,7 @@ const Modals = () => (
     <TwoStepSetup />
     <TwoStepYubico />
     <UpgradeAddressLabels />
+    <UpgradeForAirdrop />
     <UpgradeWallet />
     <UserExists />
     <Welcome />

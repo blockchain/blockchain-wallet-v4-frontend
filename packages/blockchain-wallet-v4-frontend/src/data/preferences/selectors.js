@@ -17,3 +17,7 @@ export const getShowAirdropReminderModal = path([
   'preferences',
   'showAirdropReminderModal'
 ])
+export const getShowUpgradeForAirdropModal = path([
+  'preferences',
+  'showUpgradeForAirdropModal'
+])

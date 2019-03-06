@@ -197,8 +197,8 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     yield call(changeSubscription, true)
-    yield call(updateSourceFee)
     yield call(fetchLimits)
+    yield call(updateSourceFee)
   }
 
   const validateForm = function*() {
@@ -741,6 +741,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
+      yield delay(100)
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )

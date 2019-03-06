@@ -1,29 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { prop } from 'ramda'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import {
-  Button,
-  Image,
-  Modal,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Image, Modal, Text } from 'blockchain-info-components'
 
-const { CAMPAIGNS } = model.components.identityVerification
-
-const AirdropReminderModalHeader = styled(ModalHeader)`
-  position: absolute;
-  border: 0;
-  > span {
-    color: ${props => props.theme['gray-1']};
-  }
-`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,12 +20,17 @@ const Body = styled.div`
 const Copy = styled(Text)`
   margin-top: 16px;
 `
+const UpgradeImage = styled(Image)`
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+`
 const Footer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: auto;
-  padding: 0 24px 32px 24px;
+  padding: 0 24px;
   box-sizing: border-box;
 `
 const FooterButton = styled(Button)`
@@ -61,35 +50,16 @@ const LaterButton = styled(FooterButton)`
   }
 `
 
-class AirdropReminder extends React.PureComponent {
+class CoinifyUpgrade extends React.PureComponent {
   render () {
-    const { campaign, position, total, close, actions } = this.props
+    const { position, total, close, actions } = this.props
     return (
       <Modal size='small' position={position} total={total}>
-        <AirdropReminderModalHeader onClose={close} />
-        <Image
-          width='100%'
-          name='get-free-crypto'
-          srcset={{
-            'get-free-crypto2': '2x',
-            'get-free-crypto3': '3x'
-          }}
-        />
         <Body>
-          <Text size='24px' weight={300}>
-            <FormattedMessage
-              id='modals.airdropreminder.getfreecrypto'
-              defaultMessage='Get Free Crypto'
-            />
-          </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.airdropreminder.completeprofile'
-              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
-              values={{
-                coinName: prop('coinName', CAMPAIGNS[campaign]),
-                coinCode: prop('coinCode', CAMPAIGNS[campaign])
-              }}
+              id='modals.coinifyupgrade.completeprofilenow'
+              defaultMessage='Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $25 of free Stellar (XLM).'
             />
           </Copy>
         </Body>
@@ -98,13 +68,14 @@ class AirdropReminder extends React.PureComponent {
             nature='primary'
             size='18px'
             fullwidth
-            onClick={() => actions.airdropReminderSubmitClicked(campaign)}
+            onClick={() => actions.coinifyUpgradeSubmitClicked('sunriver')}
           >
             <FormattedMessage
-              defaultMessage='Get Started'
-              id='modals.airdropreminder.getstarted'
+              defaultMessage='Complete My Profile Now'
+              id='modals.coinifyupgrade.completeprofile'
             />
           </FooterButton>
+          <UpgradeImage name='identity-verification' />
           <LaterButton
             nature='primary'
             size='18px'
@@ -114,17 +85,13 @@ class AirdropReminder extends React.PureComponent {
           >
             <FormattedMessage
               defaultMessage='Remind Me Later'
-              id='modals.airdropreminder.later'
+              id='modals.coinifyupgrade.later'
             />
           </LaterButton>
         </Footer>
       </Modal>
     )
   }
-}
-
-AirdropReminder.defaultProps = {
-  campaign: 'sunriver'
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -136,7 +103,7 @@ const enhance = compose(
     undefined,
     mapDispatchToProps
   ),
-  modalEnhancer('AirdropReminder')
+  modalEnhancer('CoinifyUpgrade')
 )
 
-export default enhance(AirdropReminder)
+export default enhance(CoinifyUpgrade)

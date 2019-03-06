@@ -19,6 +19,8 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import coinifyLogo from './img/coinify-logo.svg'
+import emailError from './img/email-error.svg'
+import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import getFreeCrypto from './img/get-free-crypto.png'
@@ -113,6 +115,8 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'coinify-logo': coinifyLogo,
+  'email-error': emailError,
+  'email-success': emailSuccess,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
   'get-free-crypto': getFreeCrypto,

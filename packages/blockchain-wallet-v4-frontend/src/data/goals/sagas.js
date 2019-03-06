@@ -29,6 +29,16 @@ export default ({ api }) => {
 
   const logLocation = 'goals/sagas'
 
+  const waitForUserData = function*() {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
+  const waitForUserTiers = function*() {
+    yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
+  }
+
   const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -96,12 +106,6 @@ export default ({ api }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
-  const waitForUserData = function*() {
-    const userData = yield select(selectors.modules.profile.getUserData)
-    if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-  }
-
   const runSendBtcGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -167,14 +171,58 @@ export default ({ api }) => {
       selectors.preferences.getShowAirdropReminderModal
     )
     if (!showAirdropReminderModal) return
-    yield call(waitForUserData)
+    yield call(waitForUserTiers)
     const tiersR = yield select(selectors.modules.profile.getTiers)
     const tiers = tiersR.getOrElse([])
-    if (propEq('state', TIERS_STATES.NONE, tiers[2])) {
+    if (propEq('state', TIERS_STATES.NONE, tiers[1])) {
       return yield put(
         actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
           campaign: 'sunriver'
         })
+      )
+    }
+  }
+
+  const runUpgradeForAirdropGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showUpgradeForAirdropModal = yield select(
+      selectors.preferences.getShowUpgradeForAirdropModal
+    )
+    if (!showUpgradeForAirdropModal) return
+    yield call(waitForUserTiers)
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (
+      propEq('state', TIERS_STATES.NONE, tiers[1]) &&
+      propEq('state', TIERS_STATES.VERIFIED, tiers[0])
+    ) {
+      return yield put(
+        actions.goals.addInitialModal(
+          'upgradeForAirdrop',
+          'UpgradeForAirdrop',
+          {
+            campaign: 'sunriver'
+          }
+        )
+      )
+    }
+  }
+
+  const runCoinifyUpgradeGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(waitForUserTiers)
+    const coinifyToken = yield select(
+      selectors.core.kvStore.buySell.getCoinifyToken
+    )
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (coinifyToken && propEq('state', TIERS_STATES.NONE, tiers[1])) {
+      return yield put(
+        actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
       )
     }
   }
@@ -294,13 +342,15 @@ export default ({ api }) => {
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
-      airdropReminder,
-      bsv,
       kycDocResubmit,
-      payment,
       sunriver,
+      payment,
+      coinifyUpgrade,
+      upgradeForAirdrop,
+      airdropReminder,
       swapGetStarted,
       swapUpgrade,
+      bsv,
       welcome
     } = initialModals
     if (kycDocResubmit)
@@ -309,6 +359,16 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    if (coinifyUpgrade) {
+      return yield put(
+        actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
+      )
+    }
+    if (upgradeForAirdrop) {
+      return yield put(
+        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
+      )
+    }
     if (airdropReminder) {
       return yield put(
         actions.modals.showModal(airdropReminder.name, airdropReminder.data)
@@ -332,26 +392,32 @@ export default ({ api }) => {
   const runGoal = function*(goal) {
     try {
       switch (goal.name) {
+        case 'kycDocResubmit':
+          yield call(runKycDocResubmitGoal, goal)
+          break
         case 'referral':
           yield call(runReferralGoal, goal)
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
           break
-        case 'kyc':
-          yield call(runKycGoal, goal)
+        case 'coinifyUpgrade':
+          yield call(runCoinifyUpgradeGoal, goal)
           break
-        case 'kycDocResubmit':
-          yield call(runKycDocResubmitGoal, goal)
-          break
-        case 'swapUpgrade':
-          yield call(runSwapUpgradeGoal, goal)
+        case 'upgradeForAirdrop':
+          yield call(runUpgradeForAirdropGoal, goal)
           break
         case 'airdropReminder':
           yield call(runAirdropReminderGoal, goal)
           break
+        case 'kyc':
+          yield call(runKycGoal, goal)
+          break
         case 'swapGetStarted':
           yield call(runSwapGetStartedGoal, goal)
+          break
+        case 'swapUpgrade':
+          yield call(runSwapUpgradeGoal, goal)
           break
         case 'bsv':
           yield call(runBsvGoal, goal)
@@ -388,6 +454,7 @@ export default ({ api }) => {
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,
+    runUpgradeForAirdropGoal,
     showInitialModal,
     waitForUserData
   }

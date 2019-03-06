@@ -79,6 +79,8 @@ export default ({ api, coreSagas }) => {
   const saveGoals = function*(firstLogin) {
     yield put(actions.goals.saveGoal('welcome', { firstLogin }))
     yield put(actions.goals.saveGoal('airdropReminder'))
+    yield put(actions.goals.saveGoal('coinifyUpgrade'))
+    yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
@@ -290,9 +292,10 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+      } else if (error && is(String, error)) {
+        yield put(actions.auth.loginFailure(error))
       } else {
-        const errorMessage =
-          prop('message', error) || error || defaultLoginErrorMessage
+        const errorMessage = prop('message', error) || defaultLoginErrorMessage
         yield put(actions.auth.loginFailure(errorMessage))
       }
     }
@@ -321,7 +324,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
-    yield put(actions.modals.closeModal())
   }
   const register = function*(action) {
     try {

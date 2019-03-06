@@ -41,8 +41,49 @@ export default () => {
     }
   }
 
+  const upgradeForAirdropSubmitClicked = function*({ payload }) {
+    const { campaign } = payload
+    try {
+      yield put(actions.preferences.hideUpgradeForAirdropModal())
+      yield put(actions.modals.closeModal())
+      yield put(actions.modules.profile.setCampaign({ name: campaign }))
+      yield put(
+        actions.components.identityVerification.createRegisterUserCampaign()
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'upgradeForAirdropSubmitClicked',
+          e
+        )
+      )
+    }
+  }
+
+  const coinifyUpgradeSubmitClicked = function*({ payload }) {
+    const { campaign } = payload
+    try {
+      yield put(actions.modals.closeModal())
+      yield put(actions.modules.profile.setCampaign({ name: campaign }))
+      yield put(
+        actions.components.identityVerification.createRegisterUserCampaign()
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'coinifyUpgradeSubmitClicked',
+          e
+        )
+      )
+    }
+  }
+
   return {
     airdropReminderSubmitClicked,
-    swapGetStartedSubmitClicked
+    coinifyUpgradeSubmitClicked,
+    swapGetStartedSubmitClicked,
+    upgradeForAirdropSubmitClicked
   }
 }

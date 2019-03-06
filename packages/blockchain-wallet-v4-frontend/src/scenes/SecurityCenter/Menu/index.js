@@ -30,7 +30,11 @@ class MenuContainer extends React.PureComponent {
     return (
       <Wrapper>
         <TabMenu>
-          <LinkContainer to='/security-center/basic' activeClassName='active'>
+          <LinkContainer
+            to='/security-center/basic'
+            activeClassName='active'
+            data-e2e='securityCenterBasicLink'
+          >
             <LinkItem>
               <FormattedMessage
                 id='scenes.securitycenter.menu.basic'
@@ -41,6 +45,7 @@ class MenuContainer extends React.PureComponent {
           <LinkContainer
             to='/security-center/advanced'
             activeClassName='active'
+            data-e2e='securityCenterAdvancedLink'
           >
             <LinkItem>
               <FormattedMessage

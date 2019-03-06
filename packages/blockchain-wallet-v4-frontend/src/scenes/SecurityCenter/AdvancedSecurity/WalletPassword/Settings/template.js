@@ -50,7 +50,11 @@ const Settings = props => {
   return (
     <SettingWrapper>
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button
+          nature='primary'
+          onClick={handleToggle}
+          data-e2e='changeCurrentPassword'
+        >
           <FormattedMessage
             id='scenes.securitysettings.advanced.walletpassword.settings.change'
             defaultMessage='Change'
@@ -72,6 +76,7 @@ const Settings = props => {
                 name='currentPassword'
                 component={PasswordBox}
                 validate={[validCurrentPassword]}
+                data-e2e='currentPasswordInput'
               />
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
@@ -87,6 +92,7 @@ const Settings = props => {
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 score
+                data-e2e='newPasswordInput'
               />
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
@@ -101,11 +107,17 @@ const Settings = props => {
                 name='walletPasswordConfirmation'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}
+                data-e2e='confirmPasswordInput'
               />
             </FormItemSpaced>
           </FormGroup>
           <ButtonWrapper>
-            <Button nature='empty' capitalize onClick={handleCancel}>
+            <Button
+              nature='empty'
+              capitalize
+              onClick={handleCancel}
+              data-e2e='cancelPasswordChangeButton'
+            >
               <FormattedMessage
                 id='scenes.securitysettings.advanced.walletpassword.settings.cancel'
                 defaultMessage='Cancel'
@@ -116,6 +128,7 @@ const Settings = props => {
               nature='primary'
               capitalize
               disabled={submitting || invalid}
+              data-e2e='confirmPasswordChangeButton'
             >
               <FormattedMessage
                 id='scenes.securitysettings.advanced.walletpassword.settings.save'

@@ -14,5 +14,13 @@ export default () => {
       AT.AIRDROP_REMINDER_SUBMIT_CLICK,
       onboardingSagas.airdropReminderSubmitClicked
     )
+    yield takeLatest(
+      AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
+      onboardingSagas.upgradeForAirdropSubmitClicked
+    )
+    yield takeLatest(
+      AT.COINIFY_UPGRADE_SUBMIT_CLICKED,
+      onboardingSagas.coinifyUpgradeSubmitClicked
+    )
   }
 }
