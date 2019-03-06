@@ -4,9 +4,11 @@ import { prop } from 'ramda'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import CopyToClipBoard from 'react-copy-to-clipboard'
 
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import {
   Button,
   Icon,
@@ -14,7 +16,8 @@ import {
   Link,
   Modal,
   ModalHeader,
-  Text
+  Text,
+  TooltipHost
 } from 'blockchain-info-components'
 
 const { CAMPAIGNS } = model.components.identityVerification
@@ -59,16 +62,30 @@ const FooterIcon = styled(Icon).attrs({
 `
 
 class AirdropSuccess extends React.PureComponent {
+  state = { isLinkCopied: false }
+
+  handleCopy = () => {
+    this.setState({ isLinkCopied: true })
+    setTimeout(() => {
+      this.setState({ isLinkCopied: false })
+    }, 3000)
+  }
+
+  hideCopied = () => {
+    this.setState({ isLinkCopied: false })
+  }
+
   render () {
+    const { isLinkCopied } = this.state
     const { campaign, close, position, total } = this.props
+    const link = 'https://www.blockchain.com/getcrypto/claim'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
       `I just claimed free ${prop('coinName', CAMPAIGNS[campaign])} ${prop(
         'coinCode',
         CAMPAIGNS[campaign]
-      )} from @blockchain. Get Yours https://www.blockchain.com/getcrypto/claim`
-    const facebookLink =
-      'https://www.facebook.com/sharer/sharer.php?u=https://www.blockchain.com/getcrypto/claim'
+      )} from @blockchain. Get Yours ${link}`
+    const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
 
     return (
       <Modal size='small' position={position} total={total}>
@@ -115,13 +132,31 @@ class AirdropSuccess extends React.PureComponent {
               />
             </FooterButton>
           </Link>
-          <FooterButton nature='purple' size='16px'>
-            <FooterIcon name='copy' size='12px' />
-            <FormattedMessage
-              defaultMessage='Copy'
-              id='modals.airdropsuccess.copy'
-            />
-          </FooterButton>
+          <CopyToClipBoard text={link} onCopy={this.handleCopy}>
+            {isLinkCopied ? (
+              <TooltipHost id='copied'>
+                <FooterButton
+                  nature='purple'
+                  size='16px'
+                  onMouseLeave={this.hideCopied}
+                >
+                  <FooterIcon name='copy' size='12px' />
+                  <FormattedMessage
+                    defaultMessage='Copy'
+                    id='modals.airdropsuccess.copy'
+                  />
+                </FooterButton>
+              </TooltipHost>
+            ) : (
+              <FooterButton nature='purple' size='16px'>
+                <FooterIcon name='copy' size='12px' />
+                <FormattedMessage
+                  defaultMessage='Copy'
+                  id='modals.airdropsuccess.copy'
+                />
+              </FooterButton>
+            )}
+          </CopyToClipBoard>
         </Footer>
       </Modal>
     )
