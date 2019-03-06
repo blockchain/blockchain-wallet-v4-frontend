@@ -386,7 +386,7 @@ export default ({ api }) => {
   const initializeNewDeviceSetup = function*() {
     try {
       closePoll = false
-      let pollLength = 2500
+      let pollLength = 2000
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
@@ -415,10 +415,10 @@ export default ({ api }) => {
     try {
       // safeguard in case existing polling is still running
       closePoll = true
-      yield delay(2500)
+      yield delay(2000)
       // setup for deviceType and btc app polling
       closePoll = false
-      let pollLength = 2500
+      let pollLength = 2000
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
@@ -702,16 +702,40 @@ export default ({ api }) => {
   }
 
   // initializes the app manager to add and remove apps
-  const initializeAppManager = function*() {
+  const initializeAppManager = function*(action) {
     try {
-      closePoll = false
-      let pollLength = 2500
-      pollPosition = 0
-      // poll for device type and then dashboard via channel
-      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
-        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
-      })
+      const { deviceIndex } = action.payload
+      if (deviceIndex) {
+        // accessed from dashboard
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceIndex
+        )
+        const deviceType = prop('device_type', deviceR.getOrFail())
+        // poll for device connection on dashboard
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      } else {
+        // accessed from new device setup flow
+        // safeguard in case existing polling is still running from previous setup step
+        closePoll = true
+        yield delay(2000)
+        closePoll = false
+        let pollLength = 2000
+        pollPosition = 0
+        // poll for device type and then dashboard via channel
+        const deviceTypeChannel = yield call(
+          pollForDeviceTypeChannel,
+          pollLength
+        )
+        yield takeEvery(deviceTypeChannel, function*(deviceType) {
+          yield put(
+            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+          )
+        })
+        // device connection made
+        yield take(AT.SET_CONNECTION_INFO)
+        yield call(deriveLatestAppInfo)
+      }
       // device connection made
       yield take(AT.SET_CONNECTION_INFO)
       yield call(deriveLatestAppInfo)

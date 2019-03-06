@@ -849,7 +849,7 @@ describe('lockbox sagas', () => {
     const saga = testSaga(initializeNewDeviceSetup)
 
     it('calls for device type channel polling', () => {
-      saga.next().call(pollForDeviceTypeChannel, 2500)
+      saga.next().call(pollForDeviceTypeChannel, 2000)
     })
     it('should end', () => {
       saga
