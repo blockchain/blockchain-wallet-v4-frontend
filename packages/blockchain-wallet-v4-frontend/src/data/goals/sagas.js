@@ -295,6 +295,11 @@ export default ({ api }) => {
   const runAirdropClaimGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
+    const showAirdropClaimModal = yield select(
+      selectors.preferences.getShowAirdropClaimModal
+    )
+    if (!showAirdropClaimModal) return
+
     yield call(waitForUserData)
     const { current } = (yield select(
       selectors.modules.profile.getUserTiers

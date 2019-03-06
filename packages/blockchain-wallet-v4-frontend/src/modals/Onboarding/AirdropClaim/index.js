@@ -64,6 +64,10 @@ const LaterButton = styled(FooterButton)`
 `
 
 class AirdropClaim extends React.PureComponent {
+  componentDidMount () {
+    this.props.preferencesActions.hideAirdropClaimModal()
+  }
+
   render () {
     const {
       actions,
@@ -162,7 +166,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(

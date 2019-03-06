@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   showKycGetStarted: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
+  showAirdropClaimModal: true,
   showUpgradeForAirdropModal: true,
   totalBalancesDropdown: {
     wallet: true,
@@ -54,6 +55,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
       return assocPath(['priceChart', 'time'], time, state)
+    }
+    case AT.HIDE_AIRDROP_CLAIM_MODAL: {
+      return assoc('showAirdropClaimModal', false, state)
     }
     case AT.HIDE_AIRDROP_REMINDER_MODAL: {
       return assoc('showAirdropReminderModal', false, state)
