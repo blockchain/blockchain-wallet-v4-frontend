@@ -22,7 +22,10 @@ const ActivityLogging = props => {
             id='scenes.securitycenter.advanced.activitylogging.title'
             defaultMessage='Activity Logging'
           />
-          <SettingStatus active={logging}>
+          <SettingStatus
+            active={logging}
+            data-e2e={`${logging ? 'enabled' : 'disabled'}ActivityLoggingState`}
+          >
             {logging ? (
               <FormattedMessage
                 id='scenes.securitycenter.advanced.activitylogging.enabled'
@@ -45,7 +48,11 @@ const ActivityLogging = props => {
       </SettingSummary>
       <SettingComponent>
         <SettingWrapper>
-          <Button nature='primary' onClick={handleClick}>
+          <Button
+            nature='primary'
+            onClick={handleClick}
+            data-e2e={`${logging ? 'disable' : 'enable'}ActivityLoggingButton`}
+          >
             {logging ? (
               <FormattedMessage
                 id='scenes.securitycenter.advanced.activitylogging.disable'
