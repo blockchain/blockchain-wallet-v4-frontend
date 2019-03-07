@@ -2,22 +2,11 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
-
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 35px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
-`
+import { Wrapper } from 'components/Public'
 
 class Reset2FAToken extends React.PureComponent {
   constructor (props) {
