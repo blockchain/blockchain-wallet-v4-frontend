@@ -34,8 +34,8 @@ describe('analyticsSagas', () => {
 
     it('should select currency preference', () => {
       saga
-        .next(mockGuid)
         .next()
+        .next(mockGuid)
         .select(selectors.preferences.getCoinDisplayed)
     })
 
