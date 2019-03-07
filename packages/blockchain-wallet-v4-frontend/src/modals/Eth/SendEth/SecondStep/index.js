@@ -15,12 +15,7 @@ class SecondStepContainer extends React.PureComponent {
       Success: value => (
         <Success
           coin='ETH'
-          fromAddress={value.fromAddress}
-          toAddress={value.toAddress}
-          description={value.description}
-          amount={value.amount}
-          fee={value.fee}
-          total={value.total}
+          {...value}
           handleBack={actions.sendEthSecondStepCancelClicked}
           handleSubmit={actions.sendEthSecondStepSubmitClicked}
         />
