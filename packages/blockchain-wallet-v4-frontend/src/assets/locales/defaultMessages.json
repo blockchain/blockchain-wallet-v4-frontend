@@ -691,196 +691,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verified Email",
-        "id": "coinifyexchangedata.create.createaccount.partner.email_verified"
-      },
-      {
-        "defaultMessage": "Verify Email",
-        "id": "coinifyexchangedata.create.createaccount.partner.email_no_verify"
-      },
-      {
-        "defaultMessage": "Send Again",
-        "id": "coinifyexchangedata.create.createaccount.partner.sendagain"
-      },
-      {
-        "defaultMessage": "Check your inbox. We just sent you an email.",
-        "id": "coinifyexchangedata.create.createaccount.partner.checkyourinbox"
-      },
-      {
-        "defaultMessage": "Email Verified",
-        "id": "coinifyexchangedata.create.createaccount.partner.emailverified"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "continue"
-      },
-      {
-        "defaultMessage": "Unfortunately this email is being used for another account.",
-        "id": "coinifyexchangedata.create.accept.error1"
-      },
-      {
-        "defaultMessage": "Click here",
-        "id": "coinifyexchangedata.create.accept.error2"
-      },
-      {
-        "defaultMessage": "to change it.",
-        "id": "coinifyexchangedata.create.accept.error3"
-      },
-      {
-        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
-        "id": "coinifyexchangedata.create.accept.unknownError"
-      },
-      {
-        "defaultMessage": "try again",
-        "id": "tryagain"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "or"
-      },
-      {
-        "defaultMessage": "contact support.",
-        "id": "contactsupport"
-      },
-      {
-        "defaultMessage": "Error Description: {errorDescription}",
-        "id": "coinifyexchangedata.create.accept.support_error_description"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/AcceptTerms/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Create Account",
-        "id": "coinifyexchangedata.create.header.createaccount"
-      },
-      {
-        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID",
-        "id": "coinifyexchangedata.create.subheader.get_started"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter the email address you'd like to verify:",
-        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
-      },
-      {
-        "defaultMessage": "Send Verification Email",
-        "id": "coinifyexchangedata.create.verifyemail.sendverifyemail"
-      },
-      {
-        "defaultMessage": "Another verification email has been sent! Don't see it? {resend}",
-        "id": "coinifyexchangedata.create.verifyemail.helper.sentverificationemail"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/VerifyEmail/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "How is my payment method used?",
-        "id": "scenes.coinify.isx.tradequestion"
-      },
-      {
-        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
-        "id": "scenes.coinify.isx.tradeanswer"
-      },
-      {
-        "defaultMessage": "~{btcValue} BTC",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
-      },
-      {
-        "defaultMessage": "({fiatValue})",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
-      },
-      {
-        "defaultMessage": "Finish later",
-        "id": "scenes.buysell.coinify.isx.finishlater"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/ISignThis/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Credit / Debit",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card"
-      },
-      {
-        "defaultMessage": "The order amount is less than the credit card minimum of {cardMin}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_min"
-      },
-      {
-        "defaultMessage": "Orders over {cardLimit} can only be processed through bank transfer.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_max"
-      },
-      {
-        "defaultMessage": "Credit card payment is not available for this order.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_other"
-      },
-      {
-        "defaultMessage": "Receive bitcoin instantly",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
-      },
-      {
-        "defaultMessage": "3% convenience fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
-      },
-      {
-        "defaultMessage": "Visa or Mastercard",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
-      },
-      {
-        "defaultMessage": "Bank Transfer",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
-      },
-      {
-        "defaultMessage": "The order amount is less than the bank minimum of {bankMin}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_min"
-      },
-      {
-        "defaultMessage": "The order amount is over your bank limit of {bankLimit}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_max"
-      },
-      {
-        "defaultMessage": "Bank transfers are not available for this order.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_other"
-      },
-      {
-        "defaultMessage": "Receive bitcoin in 2-3 days",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
-      },
-      {
-        "defaultMessage": "0.25% Payment Fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Payment/mediumHelpers.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Select a Payment Method",
-        "id": "components.buysell.coinify.payment.header"
-      },
-      {
-        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency.",
-        "id": "components.buysell.coinify.payment.sub_header1"
-      },
-      {
-        "defaultMessage": "Select the account that you would like to use to fund your purchases. You can always change your payment method.",
-        "id": "components.buysell.coinify.payment.sub_header2"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Payment/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "We couldn't find any trades!",
         "id": "scenes.buysell.empty.content.header"
       },
@@ -1374,6 +1184,14 @@
         "id": "components.identityverification.tiercard.gold"
       },
       {
+        "defaultMessage": "Silver",
+        "id": "components.identityverification.tiercard.silverlevelname"
+      },
+      {
+        "defaultMessage": "Gold",
+        "id": "components.identityverification.tiercard.goldlevelname"
+      },
+      {
         "defaultMessage": "Verified Email",
         "id": "components.identityverification.tiercard.email"
       },
@@ -1430,8 +1248,8 @@
         "id": "components.identityverification.tiercard.silvercta"
       },
       {
-        "defaultMessage": "Unlock Gold",
-        "id": "components.identityverification.tiercard.goldcta"
+        "defaultMessage": "Unlock Gold 🥇",
+        "id": "components.identityverification.tiercard.goldctamedal"
       }
     ],
     "path": "src/components/IdentityVerification/TierCard/services.json"
@@ -1616,6 +1434,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Copied!",
+        "id": "tooltip.copied"
+      },
+      {
         "defaultMessage": "Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.",
         "id": "modals.lockboxsetup.pairdevice.exportkeyswarning.tooltip"
       },
@@ -1744,8 +1566,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
-        "id": "scenes.profile.identityverification.swaplimit.goldcomplete"
+        "defaultMessage": "By completing the Gold Level requirements you will automatically receive free crypto and will also be eligible for future airdrops.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcompleteauto"
       },
       {
         "defaultMessage": "Learn more.",
@@ -4578,6 +4400,10 @@
       {
         "defaultMessage": "Verify",
         "id": "modals.identityverification.steps.verify"
+      },
+      {
+        "defaultMessage": "Submitted",
+        "id": "modals.identityverification.steps.submitted"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/index.json"
@@ -4593,8 +4419,8 @@
         "id": "identityverification.more_info.more_info"
       },
       {
-        "defaultMessage": "You'll need to verify your phone number and provide a government issued ID and selfie. Please click Continue below to complete these final steps.",
-        "id": "identityverification.more_info.required_documents"
+        "defaultMessage": "You'll need to provide a government issued ID and selfie. Please click Continue below to complete these final steps.",
+        "id": "identityverification.more_info.required_docs"
       },
       {
         "defaultMessage": "Cancel",
@@ -4690,10 +4516,6 @@
         "id": "identityverification.personal.city"
       },
       {
-        "defaultMessage": "Region",
-        "id": "identityverification.personal.region"
-      },
-      {
         "defaultMessage": "Zip Code",
         "id": "identityverification.personal.zipcode"
       },
@@ -4706,11 +4528,48 @@
         "id": "identityverification.personal.error"
       },
       {
+        "defaultMessage": "Please verify your email before continuing.",
+        "id": "identityverification.personal.emailerror"
+      },
+      {
         "defaultMessage": "Continue",
         "id": "identityverification.personal.continue"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Personal/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Application Complete!",
+        "id": "modals.exchange.identityverification.submitted.appcomplete"
+      },
+      {
+        "defaultMessage": "You've successfully submitted your application. A Blockchain Support Member is now reviewing your information.",
+        "id": "modals.exchange.identityverification.submitted.subheader"
+      },
+      {
+        "defaultMessage": "What happens next?",
+        "id": "modals.exchange.identityverification.submitted.nextstepsheader"
+      },
+      {
+        "defaultMessage": "You'll hear back from us in the next <b>5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
+        "id": "modals.exchange.identityverification.submitted.mayaskforid"
+      },
+      {
+        "defaultMessage": "While you wait, you can still trade and move currency up to your current limit.",
+        "id": "modals.exchange.identityverification.submitted.whileyouwait"
+      },
+      {
+        "defaultMessage": "Claim Free XLM",
+        "id": "modals.exchange.identityverification.submitted.claim"
+      },
+      {
+        "defaultMessage": "Once your verification is successfully completed, we’ll send you free crypto. Make sure you click the button to claim your free XLM.",
+        "id": "modals.exchange.identityverification.submitted.makesuretoclick"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
   },
   {
     "descriptors": [
@@ -4940,27 +4799,6 @@
       }
     ],
     "path": "src/modals/Exchange/SunRiverLinkError/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
-        "id": "modals.swapgetstarted.trading_your_crypto"
-      },
-      {
-        "defaultMessage": "A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.",
-        "id": "modals.swapgetstarted.description"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "modals.swapgetstarted.getstarted"
-      },
-      {
-        "defaultMessage": "I'll do this later",
-        "id": "modals.swapgetstarted.later"
-      }
-    ],
-    "path": "src/modals/Exchange/SwapGetStarted/index.json"
   },
   {
     "descriptors": [
@@ -5781,6 +5619,153 @@
       }
     ],
     "path": "src/modals/Mobile/MobileNumberVerify/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.airdropclaim.getfreecrypto"
+      },
+      {
+        "defaultMessage": "Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!",
+        "id": "modals.airdropclaim.thanksforparticipating"
+      },
+      {
+        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
+        "id": "modals.airdropclaim.completeprofile"
+      },
+      {
+        "defaultMessage": "Claim My Free {coinCode} Now",
+        "id": "modals.airdropclaim.claimnow"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.airdropclaim.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/AirdropClaim/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.airdropreminder.getfreecrypto"
+      },
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofile"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.airdropreminder.getstarted"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.airdropreminder.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/AirdropReminder/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your {coinCode} is on its way!",
+        "id": "modals.airdropsuccess.airdroponitsway"
+      },
+      {
+        "defaultMessage": "Share the wealth with friends and family. Literally.",
+        "id": "modals.airdropsuccess.sharethewealth"
+      },
+      {
+        "defaultMessage": "Tweet",
+        "id": "modals.airdropsuccess.tweet"
+      },
+      {
+        "defaultMessage": "Share",
+        "id": "modals.airdropsuccess.share"
+      },
+      {
+        "defaultMessage": "Copy",
+        "id": "modals.airdropsuccess.copy"
+      }
+    ],
+    "path": "src/modals/Onboarding/AirdropSuccess/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $25 of free Stellar (XLM).",
+        "id": "modals.coinifyupgrade.completeprofilenow"
+      },
+      {
+        "defaultMessage": "Complete My Profile Now",
+        "id": "modals.coinifyupgrade.completeprofile"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.coinifyupgrade.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/CoinifyUpgrade/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "modals.swapgetstarted.trading_your_crypto"
+      },
+      {
+        "defaultMessage": "A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "modals.swapgetstarted.description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapgetstarted.getstarted"
+      },
+      {
+        "defaultMessage": "I'll do this later",
+        "id": "modals.swapgetstarted.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "modals.upgradeforairdrop.getfreecrypto"
+      },
+      {
+        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).",
+        "id": "modals.upgradeforairdrop.completeprofile"
+      },
+      {
+        "defaultMessage": "Upgrade Now",
+        "id": "modals.upgradeforairdrop.upgradenow"
+      },
+      {
+        "defaultMessage": "Remind Me Later",
+        "id": "modals.upgradeforairdrop.later"
+      }
+    ],
+    "path": "src/modals/Onboarding/UpgradeForAirdrop/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to Blockchain!",
+        "id": "modals.welcome.welcome"
+      },
+      {
+        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
+        "id": "modals.welcome.thanks"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.welcome.continue"
+      }
+    ],
+    "path": "src/modals/Onboarding/Welcome/template.json"
   },
   {
     "descriptors": [
@@ -6802,23 +6787,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Welcome to Blockchain!",
-        "id": "modals.welcome.welcome"
-      },
-      {
-        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
-        "id": "modals.welcome.thanks"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "modals.welcome.continue"
-      }
-    ],
-    "path": "src/modals/Wallet/Welcome/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Request Stellar",
         "id": "modals.requestxlm.title"
       }
@@ -7292,59 +7260,6 @@
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/Buy/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your limit of {curr}{max} is below the minimum allowed amount.",
-        "id": "buy.quote_input.below_min"
-      },
-      {
-        "defaultMessage": "Enter an amount under your {setMax} limit",
-        "id": "buy.quote_input.over_max"
-      },
-      {
-        "defaultMessage": "Enter an amount above the {setMin} minimum",
-        "id": "buy.quote_input.under_min"
-      },
-      {
-        "defaultMessage": "Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)",
-        "id": "buy.quote_input.over_effective_max"
-      },
-      {
-        "defaultMessage": "buying",
-        "id": "buy.quote_input.effective_max_under_min3"
-      },
-      {
-        "defaultMessage": "swapping",
-        "id": "buy.quote_input.effective_max_under_min5swap"
-      },
-      {
-        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min} BTC.",
-        "id": "buy.quote_input.sell_effective_max_under_min1"
-      },
-      {
-        "defaultMessage": "Add funds by {buyLink} or {exchangeLink}.",
-        "id": "buy.quote_input.sell_effective_max_under_min2"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.continue"
-      },
-      {
-        "defaultMessage": "I want to buy",
-        "id": "buy.output_method.title.buy"
-      },
-      {
-        "defaultMessage": "I want to sell",
-        "id": "buy.output_method.title.sell"
-      },
-      {
-        "defaultMessage": "Loading",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.loading"
-      }
-    ],
-    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Helpers/index.json"
   },
   {
     "descriptors": [
@@ -8037,17 +7952,66 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Lockbox device is missing",
-        "id": "scenes.exchange.confirm.missingdevice"
+        "defaultMessage": "Markets are Moving 🚀",
+        "id": "scenes.exchange.confirm.marketsaremoving"
+      },
+      {
+        "defaultMessage": "Whoa! Hold your horses. 🐴",
+        "id": "scenes.exchange.confirm.whoathere"
       },
       {
         "defaultMessage": "You do not have permission to trade right now. Please try again later.",
         "id": "scenes.exchange.confirm.notradepermission"
       },
       {
-        "defaultMessage": "Failed to execute a trade",
-        "id": "scenes.exchange.confirm.tradefailed"
+        "defaultMessage": "Lockbox device is missing",
+        "id": "scenes.exchange.confirm.missingdevice"
       },
+      {
+        "defaultMessage": "Oops! Something went wrong.",
+        "id": "scenes.exchange.confirm.oopsheader"
+      },
+      {
+        "defaultMessage": "Due to market movement, your order value is now below the minimum required threshold of {symbol}{amount}.",
+        "id": "scenes.exchange.confirm.orderbelowmin"
+      },
+      {
+        "defaultMessage": "Due to market movement, your order value is now above the maximum allowable threshold of {amount} {symbol}.",
+        "id": "scenes.exchange.confirm.orderabovemax"
+      },
+      {
+        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{annualLimit}.",
+        "id": "scenes.exchange.confirm.annuallimitexceeded"
+      },
+      {
+        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{dailyLimit}.",
+        "id": "scenes.exchange.confirm.dailylimitexceeded"
+      },
+      {
+        "defaultMessage": "We're not sure what happened but we didn't receive your order details. Unfortunately, you're going to have to enter your order again. <b>System error: {error}</b>",
+        "id": "scenes.exchange.confirm.oopsmessage"
+      },
+      {
+        "defaultMessage": "Update Order",
+        "id": "scenes.exchange.confirm.updateorder"
+      },
+      {
+        "defaultMessage": "More Info",
+        "id": "scenes.exchange.confirm.moreinfo"
+      },
+      {
+        "defaultMessage": "Increase My Limits",
+        "id": "scenes.exchange.confirm.increaselimits"
+      },
+      {
+        "defaultMessage": "Try Again",
+        "id": "scenes.exchange.confirm.tryagain"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeConfirm/ExchangeError/components.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "Confirm",
         "id": "scenes.exchange.confirm.header"
@@ -8628,6 +8592,45 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
+        "id": "scenes.home.banners.airdrop.title_1"
+      },
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "scenes.home.banners.airdrop.started"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/Airdrop/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
+        "id": "scenes.home.banners.airdropclaim.title_1"
+      },
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "scenes.home.banners.airdrop.getfreecrypto"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/AirdropClaim/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
+        "id": "scenes.home.banners.airdrop.title_1"
+      },
+      {
+        "defaultMessage": "Get Free Crypto",
+        "id": "scenes.home.banners.airdrop.started"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/AirdropReminder/index.json"
   },
   {
     "descriptors": [
@@ -11350,6 +11353,10 @@
         "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
       },
       {
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.",
+        "id": "scenes.transaction.content.empty.airdrop.completeprofile"
+      },
+      {
         "defaultMessage": "Claim Your Free {coin} Now",
         "id": "scenes.transaction.content.empty.airdrop.claim"
       },
@@ -11499,12 +11506,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Uh Oh. Something went wrong.",
-        "id": "scenes.verifyemailtoken.error.uhoh"
+        "defaultMessage": "Your email is already verified.",
+        "id": "scenes.verifyemailtoken.error.alreadyverified.title"
       },
       {
-        "defaultMessage": "Error: {error}",
-        "id": "scenes.verifyemailtoken.error.msg"
+        "defaultMessage": "If this was not you, feel free to contact us.",
+        "id": "scenes.verifyemailtoken.error.alreadyverified.message"
+      },
+      {
+        "defaultMessage": "Something went wrong.",
+        "id": "scenes.verifyemailtoken.error"
+      },
+      {
+        "defaultMessage": "Try logging in again or contact support.",
+        "id": "scenes.verifyemailtoken.error.tryagain"
+      },
+      {
+        "defaultMessage": "Contact Support",
+        "id": "scenes.verifyemailtoken.error.support"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.error.json"
@@ -11521,12 +11540,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "You've succesfully verified your email address!",
-        "id": "scenes.verifyemailtoken.success.verified"
+        "defaultMessage": "Your email is verified!",
+        "id": "scenes.verifyemailtoken.verified"
       },
       {
-        "defaultMessage": "Return to the previous tab to access your wallet account.",
-        "id": "scenes.verifyemailtoken.success.return"
+        "defaultMessage": "Open My Wallet",
+        "id": "scenes.verifyemailtoken.mobile.openwallet"
+      },
+      {
+        "defaultMessage": "Return to the previous tab to access your Blockchain Wallet.",
+        "id": "scenes.verifyemailtoken.return"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.success.json"
