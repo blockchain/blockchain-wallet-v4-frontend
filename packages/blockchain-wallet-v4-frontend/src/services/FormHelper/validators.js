@@ -38,6 +38,9 @@ export const requiredNumber = value =>
 export const validEmail = value =>
   isEmail(value) ? undefined : <M.InvalidEmailMessage />
 
+export const validEmailNotAllowed = value =>
+  isEmail(value) ? <M.ValidEmailNotAllowed /> : undefined
+
 export const validMnemonic = value =>
   bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
 

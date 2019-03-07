@@ -43,6 +43,7 @@ export const InvalidEmailMessage = () => (
     defaultMessage='Invalid email address'
   />
 )
+export const ValidEmailNotAllowed = () => 'valid_email_not_allowed'
 export const InvalidEtherAddressMessage = () => (
   <FormattedMessage
     id='formhelper.invalidetheraddress'
@@ -93,8 +94,8 @@ export const InvalidStrongPasswordMessage = () => (
 )
 export const InvalidWalletIdMessage = () => (
   <FormattedMessage
-    id='formhelper.invalidwalletidentifier'
-    defaultMessage='Invalid wallet identifier'
+    id='formhelper.invalidwalletid'
+    defaultMessage='Invalid Wallet ID'
   />
 )
 export const PartnerCountryWhitelist = () => (
