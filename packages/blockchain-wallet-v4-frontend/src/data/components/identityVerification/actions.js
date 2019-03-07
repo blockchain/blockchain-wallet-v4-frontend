@@ -83,6 +83,10 @@ export const registerUserCampaign = newUser => ({
 export const createRegisterUserCampaign = () => ({
   type: AT.CREATE_REGISTER_USER_CAMPAIGN
 })
+export const claimCampaignClicked = campaign => ({
+  type: AT.CLAIM_CAMPAIGN_CLICKED,
+  payload: { campaign }
+})
 
 export const checkKycFlow = () => ({
   type: AT.CHECK_KYC_FLOW

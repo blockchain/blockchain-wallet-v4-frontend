@@ -6,6 +6,9 @@ class Tooltips extends React.PureComponent {
   render () {
     return (
       <div>
+        <Tooltip id='copied'>
+          <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
+        </Tooltip>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
         <Tooltip id='lockbox.exportkeyswarning'>
           <FormattedMessage

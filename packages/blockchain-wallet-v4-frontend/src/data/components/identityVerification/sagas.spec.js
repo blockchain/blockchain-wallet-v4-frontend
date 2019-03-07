@@ -92,7 +92,7 @@ describe('defineSteps saga', () => {
       .select(selectors.modules.profile.getUserData)
       .select(selectors.core.settings.getSmsVerified)
       .select(S.getVerificationStep)
-      .put(A.setStepsSuccess(['personal', 'mobile', 'verify']))
+      .put(A.setStepsSuccess(['personal', 'mobile', 'verify', 'submitted']))
       .run())
 
   it('should put steps loading failure if selectTier fails', () => {
