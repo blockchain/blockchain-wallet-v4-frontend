@@ -36,6 +36,10 @@ export default ({ api }) => {
   }
 
   const waitForUserTiers = function*() {
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse('')
+    if (!userId) return
     yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
   }
 

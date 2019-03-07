@@ -1,4 +1,4 @@
-import { anyPass, equals, filter, propEq } from 'ramda'
+import { anyPass, equals, head, filter, propEq } from 'ramda'
 
 import { selectors, model } from 'data'
 
@@ -13,6 +13,7 @@ export const getData = state => {
   const showAirdropReminderBanner = selectors.modules.profile
     .getTiers(state)
     .map(filter(propEq('index', 2)))
+    .map(head)
     .map(propEq('state', TIERS_STATES.NONE))
     .getOrElse(false)
   const showDocResubmitBanner = selectors.modules.profile
