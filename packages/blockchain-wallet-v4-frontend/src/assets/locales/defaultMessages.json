@@ -1566,8 +1566,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing the Gold Level requirements you will automatically receive free crypto and will also be eligible for future airdrops.",
-        "id": "scenes.profile.identityverification.swaplimit.goldcompleteauto"
+        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible"
       },
       {
         "defaultMessage": "Learn more.",
@@ -5652,8 +5652,8 @@
         "id": "modals.airdropreminder.getfreecrypto"
       },
       {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
-        "id": "modals.airdropreminder.completeprofile"
+        "defaultMessage": "Complete your profile today and we will airdrop  $25 of free {coinName} ({coinCode}) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofiletoday"
       },
       {
         "defaultMessage": "Get Started",
@@ -5736,8 +5736,8 @@
         "id": "modals.upgradeforairdrop.getfreecrypto"
       },
       {
-        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).",
-        "id": "modals.upgradeforairdrop.completeprofile"
+        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get $25 of free {coinName} ({coinCode}).",
+        "id": "modals.upgradeforairdrop.completeprofileforairdrop"
       },
       {
         "defaultMessage": "Upgrade Now",
@@ -8622,8 +8622,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
-        "id": "scenes.home.banners.airdrop.title_1"
+        "defaultMessage": "Complete your profile today and we will airdrop $25 of free {coinName} ({coinCode}) in your Wallet.",
+        "id": "scenes.home.banners.airdrop.completeprofile"
       },
       {
         "defaultMessage": "Get Free Crypto",
@@ -9281,6 +9281,14 @@
       {
         "defaultMessage": "click here.",
         "id": "scenes.login.clickhere"
+      },
+      {
+        "defaultMessage": "👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder",
+        "id": "scenes.login.isguidemailerror"
+      },
+      {
+        "defaultMessage": "👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder",
+        "id": "scenes.login.isguidinvalid"
       },
       {
         "defaultMessage": "Find the login link in your email,",
@@ -11353,8 +11361,8 @@
         "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
       },
       {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.",
-        "id": "scenes.transaction.content.empty.airdrop.completeprofile"
+        "defaultMessage": "Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.",
+        "id": "scenes.transaction.content.empty.airdrop.completeprofileforairdrop"
       },
       {
         "defaultMessage": "Claim Your Free {coin} Now",
@@ -11794,8 +11802,8 @@
         "id": "formhelper.invalidstrongpassword"
       },
       {
-        "defaultMessage": "Invalid wallet identifier",
-        "id": "formhelper.invalidwalletidentifier"
+        "defaultMessage": "Invalid Wallet ID",
+        "id": "formhelper.invalidwalletid"
       },
       {
         "defaultMessage": "Country not available for buy & sell",
