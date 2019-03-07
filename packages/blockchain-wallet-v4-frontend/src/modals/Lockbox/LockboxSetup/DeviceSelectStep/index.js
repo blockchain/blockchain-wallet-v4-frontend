@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import SetupTypeStep from './template'
+
+const { SELECT_DEVICE } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
 
 class DeviceSelectStepContainer extends React.PureComponent {
   onChangeStep = deviceType => {
@@ -11,6 +13,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
       deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
     )
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
+    this.props.analyticsActions.logEvent([...SELECT_DEVICE, deviceType])
   }
 
   handleRestoreClick = () => {
@@ -31,6 +34,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
