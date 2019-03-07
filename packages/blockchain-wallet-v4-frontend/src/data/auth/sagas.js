@@ -79,6 +79,7 @@ export default ({ api, coreSagas }) => {
   const saveGoals = function*(firstLogin) {
     yield put(actions.goals.saveGoal('welcome', { firstLogin }))
     yield put(actions.goals.saveGoal('airdropReminder'))
+    yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
@@ -323,7 +324,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
-    yield put(actions.modals.closeModal())
   }
   const register = function*(action) {
     try {

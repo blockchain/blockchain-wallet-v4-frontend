@@ -35,9 +35,10 @@ import {
   LockboxConnectionPrompt,
   LockboxShowXPubs
 } from './Lockbox'
-import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
+import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import {
   AirdropReminder,
+  CoinifyUpgrade,
   SwapGetStarted,
   UpgradeForAirdrop,
   Welcome
@@ -77,6 +78,7 @@ const Modals = () => (
     <BsvGetStarted />
     <CoinifyDeleteBank />
     <CoinifyTradeDetails />
+    <CoinifyUpgrade />
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
@@ -94,7 +96,6 @@ const Modals = () => (
     <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
-    <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />

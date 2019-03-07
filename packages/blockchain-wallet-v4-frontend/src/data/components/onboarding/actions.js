@@ -13,3 +13,8 @@ export const upgradeForAirdropSubmitClicked = campaign => ({
   type: AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
   payload: { campaign }
 })
+
+export const coinifyUpgradeSubmitClicked = campaign => ({
+  type: AT.COINIFY_UPGRADE_SUBMIT_CLICKED,
+  payload: { campaign }
+})

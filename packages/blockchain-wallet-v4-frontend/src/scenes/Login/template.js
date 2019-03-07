@@ -25,7 +25,6 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import Modals from 'modals'
 import MobileLogin from 'modals/Mobile/MobileLogin'
 
 const isSupportedBrowser =
@@ -99,9 +98,7 @@ const Login = props => {
 
   return (
     <Wrapper>
-      <Modals>
-        <MobileLogin />
-      </Modals>
+      <MobileLogin />
       <Header>
         <Text size='24px' weight={300} capitalize>
           <FormattedMessage
