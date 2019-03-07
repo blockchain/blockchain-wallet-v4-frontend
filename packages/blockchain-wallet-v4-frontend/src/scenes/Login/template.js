@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { path } from 'ramda'
 import { check, msie } from 'bowser'
 
 import { required, validWalletId } from 'services/FormHelper'
@@ -81,10 +82,13 @@ const BrowserWarning = styled.div`
 const Login = props => {
   const {
     busy,
+    guid,
+    formMeta,
     loginError,
     password,
     submitting,
     invalid,
+    isGuidValid,
     isGuidEmailAddress,
     ...rest
   } = props
@@ -100,6 +104,9 @@ const Login = props => {
     loginError &&
     (loginError.toLowerCase().includes('this account has been locked') ||
       loginError.toLowerCase().includes('account is locked'))
+
+  const isGuidTouched = path(['guid', 'touched'], formMeta)
+  const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
 
   return (
     <LoginWrapper>
@@ -184,12 +191,19 @@ const Login = props => {
               </LinkContainer>
             </GuidError>
           )}
-          {isGuidEmailAddress ? (
+          {showGuidInvalidError ? (
             <Text size='14px' weight={300}>
-              <FormattedHTMLMessage
-                id='scenes.login.isguidemailerror'
-                defaultMessage="👋Hey! Your Wallet ID seems to be an email address. Wallet ID's look like this <b>ef7549a5-9a47-4179...</b>. If you forgot yours and need a reminder"
-              />{' '}
+              {isGuidEmailAddress ? (
+                <FormattedMessage
+                  id='scenes.login.isguidemailerror'
+                  defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.login.isguidinvalid'
+                  defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
+                />
+              )}{' '}
               <LinkContainer to='/reminder'>
                 <Link size='14px' weight={300}>
                   <FormattedMessage

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
+import { formValueSelector, getFormMeta } from 'redux-form'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
@@ -68,12 +68,14 @@ class LoginContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  code: formValueSelector('login')(state, 'code'),
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
-  code: formValueSelector('login')(state, 'code'),
+  formMeta: getFormMeta('login')(state),
   authType: selectors.auth.getAuthType(state),
   lastGuid: selectors.cache.getLastGuid(state),
   data: selectors.auth.getLogin(state),
+  isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))
 })
 
