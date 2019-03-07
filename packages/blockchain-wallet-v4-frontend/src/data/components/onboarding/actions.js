@@ -1,12 +1,17 @@
 import * as AT from './actionTypes'
 
-export const swapGetStartedSubmitClicked = () => ({
-  type: AT.SWAP_GET_STARTED_SUBMIT_CLICK
+export const airdropClaimSubmitClicked = campaign => ({
+  type: AT.AIRDROP_CLAIM_SUBMIT_CLICKED,
+  payload: { campaign }
 })
 
 export const airdropReminderSubmitClicked = campaign => ({
-  type: AT.AIRDROP_REMINDER_SUBMIT_CLICK,
+  type: AT.AIRDROP_REMINDER_SUBMIT_CLICKED,
   payload: { campaign }
+})
+
+export const swapGetStartedSubmitClicked = () => ({
+  type: AT.SWAP_GET_STARTED_SUBMIT_CLICKED
 })
 
 export const upgradeForAirdropSubmitClicked = campaign => ({

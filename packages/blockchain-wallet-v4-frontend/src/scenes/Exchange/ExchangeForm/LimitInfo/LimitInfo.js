@@ -13,7 +13,7 @@ import { Icon, Link } from 'blockchain-info-components'
 import { Row } from '../Layout'
 import { ExchangeText } from 'components/Exchange'
 import { TIERS } from 'components/IdentityVerification/TierCard/model'
-import { headers } from 'components/IdentityVerification/TierCard/services'
+import { levelName } from 'components/IdentityVerification/TierCard/services'
 
 const LimitText = styled(ExchangeText)`
   font-weight: 400;
@@ -127,7 +127,7 @@ export const LimitAction = ({
             <FormattedMessage
               id='scenes.exchange.exchangeform.limit_info.levelinreview'
               defaultMessage='{level} In Review'
-              values={{ level: headers[path([nextTier, 'level'], TIERS)] }}
+              values={{ level: levelName[path([nextTier, 'level'], TIERS)] }}
             />
           </LimitText>
           <TierIcon name='down-arrow-filled' color='btc' />
@@ -166,7 +166,7 @@ export class LimitInfo extends React.PureComponent {
             <FormattedMessage
               id='scenes.exchange.exchangeform.limit_info.level'
               defaultMessage='{level}'
-              values={{ level: headers[path([tier, 'level'], TIERS)] }}
+              values={{ level: levelName[path([tier, 'level'], TIERS)] }}
             />
             {(showLimit || upgradeRequired || showPending) && ' -'}
           </LimitText>
