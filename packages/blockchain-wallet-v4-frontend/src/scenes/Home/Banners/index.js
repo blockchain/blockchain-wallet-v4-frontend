@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
-import Airdrop from './Airdrop'
+import AirdropClaim from './AirdropClaim'
+import AirdropReminder from './AirdropReminder'
 import KycResubmit from './KycResubmit'
 import Swap from './Swap'
 
@@ -13,10 +14,15 @@ class Banners extends React.PureComponent {
     switch (bannerToShow) {
       case 'resubmit':
         return <KycResubmit />
-      case 'airdrop':
+      case 'airdropReminder':
         return (
-          <Airdrop campaign='sunriver' isSunRiverTagged={isSunRiverTagged} />
+          <AirdropReminder
+            campaign='sunriver'
+            isSunRiverTagged={isSunRiverTagged}
+          />
         )
+      case 'airdropClaim':
+        return <AirdropClaim campaign='sunriver' />
       case 'swap':
         return <Swap kycNotFinished={kycNotFinished} />
       default:

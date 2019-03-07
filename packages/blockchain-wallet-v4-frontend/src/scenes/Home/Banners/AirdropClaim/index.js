@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
 import { prop } from 'ramda'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import { actions, model } from 'data'
 
 const { CAMPAIGNS } = model.components.identityVerification
-const { TIERS } = model.profile
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,6 +54,9 @@ const Column = styled.div`
 
   @media (min-width: 1200px) {
     display: flex;
+    &:first-child {
+      width: 50%;
+    }
   }
 `
 const LargeText = styled(Text).attrs({
@@ -69,18 +74,13 @@ const GetStartedButton = styled(Button).attrs({
     margin-left: 8px;
   }
 `
-export const AirdropBanner = ({
-  campaign,
-  createRegisterUserCampaign,
-  isSunRiverTagged,
-  verifyIdentity
-}) => (
+export const AirdropReminderBanner = ({ actions, campaign, submitting }) => (
   <Wrapper>
     <Column>
       <LargeText>
         <FormattedMessage
-          defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
-          id='scenes.home.banners.airdrop.title_1'
+          defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
+          id='scenes.home.banners.airdropclaim.title_1'
           values={{
             coinName: prop('coinName', CAMPAIGNS[campaign]),
             coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -89,31 +89,37 @@ export const AirdropBanner = ({
       </LargeText>
     </Column>
     <Column>
-      <GetStartedButton
-        onClick={() =>
-          isSunRiverTagged ? verifyIdentity() : createRegisterUserCampaign()
-        }
+      <Form
+        onSubmit={e => {
+          e.preventDefault()
+          actions.airdropClaimSubmitClicked(campaign)
+        }}
       >
-        <FormattedMessage
-          id='scenes.home.banners.airdrop.started'
-          defaultMessage='Get Free Crypto'
-        />
-        <Icon color='white' weight={500} name='short-right-arrow' />
-      </GetStartedButton>
+        <GetStartedButton type='submit' disabled={submitting}>
+          {submitting ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='scenes.home.banners.airdrop.getfreecrypto'
+              defaultMessage='Get Free Crypto'
+            />
+          )}
+        </GetStartedButton>
+      </Form>
     </Column>
   </Wrapper>
 )
 
 const mapDispatchToProps = dispatch => ({
-  createRegisterUserCampaign: () =>
-    dispatch(
-      actions.components.identityVerification.createRegisterUserCampaign()
-    ),
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
+  actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(AirdropBanner)
+const enhance = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  reduxForm({ form: 'airdropClaim' })
+)
+
+export default enhance(AirdropReminderBanner)

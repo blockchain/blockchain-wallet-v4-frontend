@@ -10,7 +10,7 @@ export const getData = state => {
     .getUserKYCState(state)
     .map(equals(KYC_STATES.NONE))
     .getOrElse(false)
-  const showAirdropBanner = selectors.modules.profile
+  const showAirdropReminderBanner = selectors.modules.profile
     .getTiers(state)
     .map(filter(propEq('index', 2)))
     .map(propEq('state', TIERS_STATES.NONE))
@@ -19,18 +19,26 @@ export const getData = state => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
+  const isTier2Verified = selectors.modules.profile
+    .getTiers(state)
+    .map(filter(propEq('index', 2)))
+    .map(propEq('state', TIERS_STATES.VERIFIED))
+    .getOrElse(false)
   const isSunRiverTagged = selectors.modules.profile
     .getSunRiverTag(state)
     .getOrElse(false)
   const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
   const showSwapBannerPrefs = selectors.preferences.getShowSwapBanner(state)
   const showSwapBanner = !showKycGetStarted && showSwapBannerPrefs
+  const showAirdropClaimBanner = !isSunRiverTagged && isTier2Verified
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (showAirdropBanner) {
-    bannerToShow = 'airdrop'
+  } else if (showAirdropClaimBanner) {
+    bannerToShow = 'airdropClaim'
+  } else if (showAirdropReminderBanner) {
+    bannerToShow = 'airdropReminder'
   } else if (showSwapBanner) {
     bannerToShow = 'swap'
   } else {

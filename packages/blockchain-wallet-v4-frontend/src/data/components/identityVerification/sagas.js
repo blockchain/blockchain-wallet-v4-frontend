@@ -1,7 +1,8 @@
-import { put, select, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { call, put, select, take } from 'redux-saga/effects'
 import { head, isEmpty, prop, toUpper } from 'ramda'
 
-import { actions, selectors, model } from 'data'
+import { actions, actionTypes, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/AlertService'
 
@@ -12,6 +13,7 @@ import {
   SMS_STEPS,
   SMS_NUMBER_FORM,
   PERSONAL_FORM,
+  ID_VERIFICATION_SUBMITTED_FORM,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
@@ -91,6 +93,33 @@ export default ({ api, coreSagas }) => {
           logLocation,
           'createRegisterUserCampaign',
           e
+        )
+      )
+    }
+  }
+
+  const claimCampaignClicked = function*({ payload }) {
+    const { campaign } = payload
+    try {
+      yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+      yield put(actions.modules.profile.setCampaign({ name: campaign }))
+      yield put(A.registerUserCampaign())
+      // Buffer for tagging user
+      yield delay(3000)
+      yield put(actions.modules.profile.fetchUser())
+      yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.modals.showModal('AirdropSuccess'))
+    } catch (error) {
+      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
+        _error: error
+      })
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'claimCampaignClicked',
+          `Error claim campaign: ${error}`
         )
       )
     }
@@ -394,6 +423,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    claimCampaignClicked,
     defineSteps,
     verifyIdentity,
     initializeVerification,
