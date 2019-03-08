@@ -27,6 +27,10 @@ const serializer = {
     if (key === 'syncErrors') {
       return ''
     }
+    // Remove redux persist from the state
+    if (value && value === 'persist/PERSIST') {
+      return ''
+    }
     return value
   },
   reviver: function (key, value) {

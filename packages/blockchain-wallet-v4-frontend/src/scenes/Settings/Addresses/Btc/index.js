@@ -22,7 +22,4 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-export default connect(
-  mapStateToProps,
-  undefined
-)(BtcAddressesContainer)
+export default connect(mapStateToProps)(BtcAddressesContainer)

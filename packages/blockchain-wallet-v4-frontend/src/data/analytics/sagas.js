@@ -1,5 +1,7 @@
 import { put, select, call } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import BIP39 from 'bip39'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
@@ -26,9 +28,22 @@ export default ({ api }) => {
     }
   }
 
+  const generateUniqueUserID = function*() {
+    const defaultHDWallet = yield select(
+      selectors.core.wallet.getDefaultHDWallet
+    )
+    const { seedHex } = defaultHDWallet
+    const mnemonic = BIP39.entropyToMnemonic(seedHex)
+    const masterhex = BIP39.mnemonicToSeed(mnemonic)
+    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
+    let hash = crypto.sha256('info.blockchain.matomo')
+    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
+    return masterHDNode.deriveHardened(purpose).getAddress()
+  }
+
   const initUserSession = function*() {
     try {
-      const guid = yield select(selectors.core.wallet.getGuid)
+      const guid = yield call(generateUniqueUserID)
       const isCryptoDisplayed = yield select(
         selectors.preferences.getCoinDisplayed
       )

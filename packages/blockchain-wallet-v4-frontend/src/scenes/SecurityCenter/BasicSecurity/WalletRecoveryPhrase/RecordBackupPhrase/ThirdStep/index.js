@@ -5,9 +5,10 @@ import { SubmissionError } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import ThirdStep from './template'
 
+const { BACKUP_PHRASE_VERIFIED } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class ThirdStepContainer extends React.PureComponent {
   state = { indexes: [] }
 
@@ -46,6 +47,7 @@ class ThirdStepContainer extends React.PureComponent {
     } else {
       this.props.walletActions.verifyMnemonic()
       this.props.handleClose()
+      this.props.analyticsActions.logEvent(BACKUP_PHRASE_VERIFIED)
     }
   }
 
@@ -62,6 +64,7 @@ class ThirdStepContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 

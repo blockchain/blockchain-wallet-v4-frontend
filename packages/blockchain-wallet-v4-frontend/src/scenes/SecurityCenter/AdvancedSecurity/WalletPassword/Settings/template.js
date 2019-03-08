@@ -29,6 +29,11 @@ const ButtonWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const FormItemSpaced = styled(FormItem)`
+  > div {
+    margin-top: 10px;
+  }
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
 
@@ -45,7 +50,11 @@ const Settings = props => {
   return (
     <SettingWrapper>
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button
+          nature='primary'
+          onClick={handleToggle}
+          data-e2e='changeCurrentPassword'
+        >
           <FormattedMessage
             id='scenes.securitysettings.advanced.walletpassword.settings.change'
             defaultMessage='Change'
@@ -55,7 +64,7 @@ const Settings = props => {
       {updateToggled && (
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <FormItem>
+            <FormItemSpaced>
               <FormLabel for='currentPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.current'
@@ -67,9 +76,10 @@ const Settings = props => {
                 name='currentPassword'
                 component={PasswordBox}
                 validate={[validCurrentPassword]}
+                data-e2e='currentPasswordInput'
               />
-            </FormItem>
-            <FormItem style={{ marginTop: '12px' }}>
+            </FormItemSpaced>
+            <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel for='newPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.new'
@@ -82,9 +92,10 @@ const Settings = props => {
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 score
+                data-e2e='newPasswordInput'
               />
-            </FormItem>
-            <FormItem style={{ marginTop: '12px' }}>
+            </FormItemSpaced>
+            <FormItemSpaced style={{ marginTop: '12px' }}>
               <FormLabel for='walletPasswordConfirmation'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.confirm'
@@ -96,11 +107,17 @@ const Settings = props => {
                 name='walletPasswordConfirmation'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}
+                data-e2e='confirmPasswordInput'
               />
-            </FormItem>
+            </FormItemSpaced>
           </FormGroup>
           <ButtonWrapper>
-            <Button nature='empty' capitalize onClick={handleCancel}>
+            <Button
+              nature='empty'
+              capitalize
+              onClick={handleCancel}
+              data-e2e='cancelPasswordChangeButton'
+            >
               <FormattedMessage
                 id='scenes.securitysettings.advanced.walletpassword.settings.cancel'
                 defaultMessage='Cancel'
@@ -111,6 +128,7 @@ const Settings = props => {
               nature='primary'
               capitalize
               disabled={submitting || invalid}
+              data-e2e='confirmPasswordChangeButton'
             >
               <FormattedMessage
                 id='scenes.securitysettings.advanced.walletpassword.settings.save'

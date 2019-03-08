@@ -1,9 +1,9 @@
-import { put, select, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { call, put, select, take } from 'redux-saga/effects'
 import { head, isEmpty, prop, toUpper } from 'ramda'
 
-import { actions, selectors, model } from 'data'
+import { actions, actionTypes, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
@@ -13,6 +13,7 @@ import {
   SMS_STEPS,
   SMS_NUMBER_FORM,
   PERSONAL_FORM,
+  ID_VERIFICATION_SUBMITTED_FORM,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
@@ -92,6 +93,33 @@ export default ({ api, coreSagas }) => {
           logLocation,
           'createRegisterUserCampaign',
           e
+        )
+      )
+    }
+  }
+
+  const claimCampaignClicked = function*({ payload }) {
+    const { campaign } = payload
+    try {
+      yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+      yield put(actions.modules.profile.setCampaign({ name: campaign }))
+      yield put(A.registerUserCampaign())
+      // Buffer for tagging user
+      yield delay(3000)
+      yield put(actions.modules.profile.fetchUser())
+      yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.modals.showModal('AirdropSuccess'))
+    } catch (error) {
+      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
+        _error: error
+      })
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'claimCampaignClicked',
+          `Error claim campaign: ${error}`
         )
       )
     }
@@ -287,11 +315,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedCountries = function*() {
     try {
-      yield put(A.setSupportedCountries(Remote.Loading))
+      yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
-      yield put(A.setSupportedCountries(Remote.Success(countries)))
+      yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
-      yield put(A.setSupportedCountries(Remote.Failure(e)))
+      yield put(A.setSupportedCountriesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -302,7 +330,7 @@ export default ({ api, coreSagas }) => {
 
   const fetchSupportedDocuments = function*() {
     try {
-      yield put(A.setSupportedDocuments(Remote.Loading))
+      yield put(A.setSupportedDocumentsLoading())
       const countryCode = (yield select(
         selectors.modules.profile.getUserCountryCode
       )).getOrElse('US')
@@ -310,9 +338,9 @@ export default ({ api, coreSagas }) => {
         api.getSupportedDocuments,
         countryCode
       )
-      yield put(A.setSupportedDocuments(Remote.Success(documentTypes)))
+      yield put(A.setSupportedDocumentsSuccess(documentTypes))
     } catch (e) {
-      yield put(A.setSupportedDocuments(Remote.Failure(e)))
+      yield put(A.setSupportedDocumentsFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedDocuments',
@@ -323,11 +351,11 @@ export default ({ api, coreSagas }) => {
 
   const fetchStates = function*() {
     try {
-      yield put(A.setStates(Remote.Loading))
+      yield put(A.setStatesLoading())
       const states = yield call(api.getStates)
-      yield put(A.setStates(Remote.Success(states)))
+      yield put(A.setStatesSuccess(states))
     } catch (e) {
-      yield put(A.setStates(Remote.Failure(e)))
+      yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchSupportedCountries',
@@ -338,14 +366,14 @@ export default ({ api, coreSagas }) => {
 
   const checkKycFlow = function*() {
     try {
-      yield put(A.setKycFlow(Remote.Loading))
-      const { flowType, kycProvider } = yield call(api.fetchKycConfig)
+      yield put(A.setKycFlowLoading())
+      const { flowType } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
 
-      yield put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
+      yield put(A.setKycFlowSuccess({ flowType }))
     } catch (e) {
-      yield put(A.setKycFlow(Remote.Failure(e)))
+      yield put(A.setKycFlowFailure(e))
     }
   }
 
@@ -395,6 +423,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    claimCampaignClicked,
     defineSteps,
     verifyIdentity,
     initializeVerification,

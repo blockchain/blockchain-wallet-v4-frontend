@@ -18,6 +18,21 @@ export const headers = {
   )
 }
 
+export const levelName = {
+  SILVER: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.silverlevelname'
+      defaultMessage='Silver'
+    />
+  ),
+  GOLD: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.goldlevelname'
+      defaultMessage='Gold'
+    />
+  )
+}
+
 export const messages = {
   EMAIL: (
     <Text size='12px'>
@@ -174,8 +189,8 @@ export const ctas = {
   ),
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.goldcta'
-      defaultMessage='Unlock Gold'
+      id='components.identityverification.tiercard.goldctamedal'
+      defaultMessage='Unlock Gold 🥇'
     />
   )
 }

@@ -17,8 +17,6 @@ const Wrapper = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 600px;
 `
 
@@ -48,44 +46,45 @@ const Column = styled.div`
   width: 100%;
 `
 
-export class ExchangeScene extends React.PureComponent {
-  render () {
-    const { userCreated, hasEmail, location } = this.props
+export const ExchangeScene = ({
+  userCreated,
+  hasEmail,
+  location,
+  fetchUser
+}) => {
+  if (!hasEmail) return <EmailRequired />
 
-    if (!hasEmail) return <EmailRequired />
-
-    return userCreated.cata({
-      Success: userCreated => (
-        <Wrapper>
-          {userCreated ? (
-            <Container>
-              <Column>
-                <Exchange
-                  from={path(['state', 'from'], location)}
-                  to={path(['state', 'to'], location)}
-                  fix={path(['state', 'fix'], location)}
-                  amount={path(['state', 'amount'], location)}
-                />
-              </Column>
-            </Container>
-          ) : (
-            <GetStarted />
-          )}
-        </Wrapper>
-      ),
-      Loading: () => (
-        <Wrapper>
-          <BlockchainLoader width='200px' height='200px' />
-        </Wrapper>
-      ),
-      NotAsked: () => (
-        <Wrapper>
-          <BlockchainLoader width='200px' height='200px' />
-        </Wrapper>
-      ),
-      Failure: () => <DataError onClick={this.props.fetchUser} />
-    })
-  }
+  return userCreated.cata({
+    Success: userCreated => (
+      <Wrapper>
+        {userCreated ? (
+          <Container>
+            <Column>
+              <Exchange
+                from={path(['state', 'from'], location)}
+                to={path(['state', 'to'], location)}
+                fix={path(['state', 'fix'], location)}
+                amount={path(['state', 'amount'], location)}
+              />
+            </Column>
+          </Container>
+        ) : (
+          <GetStarted />
+        )}
+      </Wrapper>
+    ),
+    Loading: () => (
+      <Wrapper>
+        <BlockchainLoader width='200px' height='200px' />
+      </Wrapper>
+    ),
+    NotAsked: () => (
+      <Wrapper>
+        <BlockchainLoader width='200px' height='200px' />
+      </Wrapper>
+    ),
+    Failure: () => <DataError onClick={fetchUser} />
+  })
 }
 
 const mapDispatchToProps = dispatch => ({

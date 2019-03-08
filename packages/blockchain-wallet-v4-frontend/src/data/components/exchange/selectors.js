@@ -1,18 +1,22 @@
 import {
   all,
+  any,
   compose,
   contains,
   curry,
   defaultTo,
   filter,
+  findIndex,
   head,
   last,
   lift,
   lt,
+  map,
   path,
   pathOr,
   prop,
-  propEq
+  propEq,
+  values
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
@@ -23,6 +27,7 @@ import {
   getAvailableSourceCoins,
   EXCHANGE_FORM
 } from './model'
+import { Remote } from 'blockchain-wallet-v4'
 
 export const canUseExchange = state =>
   selectors.modules.profile
@@ -214,25 +219,47 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveAccounts = state => ({
-  BTC: getActiveBtcAccounts(state).getOrElse([]),
-  BCH: getActiveBchAccounts(state).getOrElse([]),
-  BSV: getActiveBsvAccounts(state).getOrElse([]),
-  ETH: getActiveEthAccounts(state).getOrElse([]),
-  XLM: getActiveXlmAccounts(state).getOrElse([])
-})
+export const getActiveAccountsR = state => {
+  const accounts = {
+    BTC: getActiveBtcAccounts(state),
+    BCH: getActiveBchAccounts(state),
+    BSV: getActiveBsvAccounts(state),
+    ETH: getActiveEthAccounts(state),
+    XLM: getActiveXlmAccounts(state)
+  }
+
+  const isntLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+  if (any(isntLoaded, values(accounts))) return Remote.Loading
+
+  return Remote.of(map(coinAccounts => coinAccounts.getOrElse([]), accounts))
+}
+
+export const getActiveAccounts = compose(
+  accounts =>
+    accounts.getOrElse({
+      BTC: [],
+      BCH: [],
+      BSV: [],
+      ETH: [],
+      XLM: []
+    }),
+  getActiveAccountsR
+)
 
 export const getAvailablePairs = state => {
-  const activeAccounts = getActiveAccounts(state)
+  const activeAccountsR = getActiveAccountsR(state)
   const pairsR = selectors.modules.rates.getAvailablePairs(state)
-  return pairsR.map(
+
+  const filterAvailable = (pairs, activeAccounts) =>
     filter(
       compose(
         all(currency => path([currency, 'length'], activeAccounts) > 0),
         model.rates.splitPair
-      )
+      ),
+      pairs
     )
-  )
+
+  return lift(filterAvailable)(pairsR, activeAccountsR)
 }
 
 const getInitialCoins = (
@@ -261,10 +288,16 @@ const getInitialCoins = (
   return [initialSourceCoin, initialTargetCoin]
 }
 
-const getInitialAccounts = (state, availablePairs, from, to) => {
+const getInitialAccounts = (
+  availableAccounts,
+  availablePairs,
+  from,
+  to,
+  fromIndex,
+  toIndex
+) => {
   if (!from || !to) return {}
 
-  const accounts = getActiveAccounts(state)
   const availableSourceCoins = getAvailableSourceCoins(availablePairs)
 
   const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
@@ -275,31 +308,55 @@ const getInitialAccounts = (state, availablePairs, from, to) => {
   )
 
   return {
-    source: head(accounts[initialSourceCoin]),
-    target: head(accounts[initialTargetCoin])
+    source: prop(fromIndex, availableAccounts[initialSourceCoin]),
+    target: prop(toIndex, availableAccounts[initialTargetCoin])
   }
 }
 
+const findAccountIndexOr = (defaultIndex, targetAccount, accounts) => {
+  const index = findIndex(
+    propEq('address', prop('address', targetAccount)),
+    accounts
+  )
+
+  if (index === -1) return defaultIndex
+  return index
+}
+
 export const getInitialValues = (state, availablePairs, requested) => {
+  const availableAccounts = getActiveAccounts(state)
   const defaultValues = {
-    ...getInitialAccounts(state, availablePairs, 'BTC', 'ETH'),
     sourceFiat: 0,
-    fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+    fix: model.rates.FIX_TYPES.BASE_IN_FIAT,
+    from: 'BTC',
+    to: 'ETH'
   }
 
   const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  const prevSource = prop('source', prevValues)
+  const prevTarget = prop('target', prevValues)
+  const prevFromIndex = findAccountIndexOr(0, prevSource, availableAccounts)
+  const prevToIndex = findAccountIndexOr(0, prevTarget, availableAccounts)
 
   const { from, to, fix, amount } = requested
-  const requestedValues = getInitialAccounts(state, availablePairs, from, to)
+  const requestedValues = { from, to }
 
-  if (fix && amount) {
-    requestedValues.fix = fix
-    requestedValues[model.rates.mapFixToFieldName(fix)] = amount
-  }
+  if (fix) requestedValues.fix = fix
+  if (amount) requestedValues[model.rates.mapFixToFieldName(fix)] = amount
+
+  const accounts = getInitialAccounts(
+    availableAccounts,
+    availablePairs,
+    from || prop('coin', prevSource) || defaultValues.from,
+    to || prop('coin', prevTarget) || defaultValues.to,
+    prevFromIndex,
+    prevToIndex
+  )
 
   return {
     ...defaultValues,
     ...prevValues,
-    ...requestedValues
+    ...requestedValues,
+    ...accounts
   }
 }

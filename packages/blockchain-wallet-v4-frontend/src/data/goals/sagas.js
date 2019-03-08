@@ -1,4 +1,13 @@
-import { anyPass, equals, map, prop, startsWith, sum, values } from 'ramda'
+import {
+  anyPass,
+  equals,
+  map,
+  prop,
+  propEq,
+  startsWith,
+  sum,
+  values
+} from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,11 +18,30 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
+  const {
+    TIERS,
+    TIERS_STATES,
+    KYC_STATES,
+    DOC_RESUBMISSION_REASONS
+  } = model.profile
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
   const logLocation = 'goals/sagas'
+
+  const waitForUserData = function*() {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
+  const waitForUserTiers = function*() {
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse('')
+    if (!userId) return
+    yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
+  }
 
   const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
@@ -82,12 +110,6 @@ export default ({ api }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
-  const waitForUserData = function*() {
-    const userData = yield select(selectors.modules.profile.getUserData)
-    if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-  }
-
   const runSendBtcGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -145,6 +167,71 @@ export default ({ api }) => {
     }
   }
 
+  const runAirdropReminderGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showAirdropReminderModal = yield select(
+      selectors.preferences.getShowAirdropReminderModal
+    )
+    if (!showAirdropReminderModal) return
+    yield call(waitForUserTiers)
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (propEq('state', TIERS_STATES.NONE, tiers[1])) {
+      return yield put(
+        actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
+          campaign: 'sunriver'
+        })
+      )
+    }
+  }
+
+  const runUpgradeForAirdropGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showUpgradeForAirdropModal = yield select(
+      selectors.preferences.getShowUpgradeForAirdropModal
+    )
+    if (!showUpgradeForAirdropModal) return
+    yield call(waitForUserTiers)
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (
+      propEq('state', TIERS_STATES.NONE, tiers[1]) &&
+      propEq('state', TIERS_STATES.VERIFIED, tiers[0])
+    ) {
+      return yield put(
+        actions.goals.addInitialModal(
+          'upgradeForAirdrop',
+          'UpgradeForAirdrop',
+          {
+            campaign: 'sunriver'
+          }
+        )
+      )
+    }
+  }
+
+  const runCoinifyUpgradeGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(waitForUserTiers)
+    const coinifyTokenR = yield select(
+      selectors.core.kvStore.buySell.getCoinifyToken
+    )
+    const coinifyToken = coinifyTokenR.getOrElse(false)
+    const tiersR = yield select(selectors.modules.profile.getTiers)
+    const tiers = tiersR.getOrElse([])
+    if (coinifyToken && propEq('state', TIERS_STATES.NONE, tiers[1])) {
+      return yield put(
+        actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
+      )
+    }
+  }
+
   const runSwapUpgradeGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -184,7 +271,7 @@ export default ({ api }) => {
     }
   }
 
-  const runKycCTAGoal = function*(goal) {
+  const runSwapGetStartedGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -204,7 +291,29 @@ export default ({ api }) => {
       .map(equals(NONE))
       .getOrElse(false)
     if (kycNotFinished)
-      yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+      yield put(
+        actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted')
+      )
+  }
+
+  const runAirdropClaimGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    const showAirdropClaimModal = yield select(
+      selectors.preferences.getShowAirdropClaimModal
+    )
+    if (!showAirdropClaimModal) return
+
+    yield call(waitForUserData)
+    const { current } = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({ current: 0 }) || { current: 0 }
+    const sunRiverTag = (yield select(
+      selectors.modules.profile.getSunRiverTag
+    )).getOrElse(false)
+    if (current === TIERS[2] && !sunRiverTag) {
+      yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+    }
   }
 
   const runBsvGoal = function*(goal) {
@@ -258,12 +367,16 @@ export default ({ api }) => {
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
-      bsv,
       kycDocResubmit,
       sunriver,
       payment,
-      swap,
+      coinifyUpgrade,
+      upgradeForAirdrop,
+      airdropReminder,
+      swapGetStarted,
       swapUpgrade,
+      airdropClaim,
+      bsv,
       welcome
     } = initialModals
     if (kycDocResubmit)
@@ -272,11 +385,31 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
       return yield put(actions.modals.showModal(payment.name, payment.data))
-    if (swap) return yield put(actions.modals.showModal(swap.name, swap.data))
+    if (coinifyUpgrade) {
+      return yield put(
+        actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
+      )
+    }
+    if (upgradeForAirdrop) {
+      return yield put(
+        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
+      )
+    }
+    if (airdropReminder) {
+      return yield put(
+        actions.modals.showModal(airdropReminder.name, airdropReminder.data)
+      )
+    }
+    if (swapGetStarted)
+      return yield put(
+        actions.modals.showModal(swapGetStarted.name, swapGetStarted.data)
+      )
     if (swapUpgrade)
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
       )
+    if (airdropClaim)
+      return yield put(actions.modals.showModal(airdropClaim.name))
     if (bsv) {
       return yield put(actions.modals.showModal(bsv.name))
     }
@@ -287,23 +420,35 @@ export default ({ api }) => {
   const runGoal = function*(goal) {
     try {
       switch (goal.name) {
+        case 'kycDocResubmit':
+          yield call(runKycDocResubmitGoal, goal)
+          break
         case 'referral':
           yield call(runReferralGoal, goal)
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
           break
+        case 'coinifyUpgrade':
+          yield call(runCoinifyUpgradeGoal, goal)
+          break
+        case 'upgradeForAirdrop':
+          yield call(runUpgradeForAirdropGoal, goal)
+          break
+        case 'airdropReminder':
+          yield call(runAirdropReminderGoal, goal)
+          break
         case 'kyc':
           yield call(runKycGoal, goal)
           break
-        case 'kycDocResubmit':
-          yield call(runKycDocResubmitGoal, goal)
+        case 'swapGetStarted':
+          yield call(runSwapGetStartedGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
-        case 'kycCTA':
-          yield call(runKycCTAGoal, goal)
+        case 'airdropClaim':
+          yield call(runAirdropClaimGoal, goal)
           break
         case 'bsv':
           yield call(runBsvGoal, goal)
@@ -333,13 +478,14 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
-    runKycCTAGoal,
+    runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
     runBsvGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,
+    runUpgradeForAirdropGoal,
     showInitialModal,
     waitForUserData
   }

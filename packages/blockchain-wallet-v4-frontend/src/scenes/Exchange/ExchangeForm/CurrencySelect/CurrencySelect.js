@@ -38,7 +38,7 @@ export class CurrencySelect extends React.Component {
     const { swapDisabled, fromElements, toElements, actions } = this.props
     return (
       <CurrencyRow height='50px' spaced>
-        <Cell>
+        <Cell data-e2e='exchangeSourceCurrency'>
           <Field
             name='source'
             onChange={compose(
@@ -50,7 +50,7 @@ export class CurrencySelect extends React.Component {
           />
         </Cell>
         <TooltipHost id='exchange.changeinput'>
-          <Cell size='small'>
+          <Cell size='small' data-e2e='exchangeSwitchTargets'>
             <CoinSwapIcon
               name='arrow-switch'
               size='24px'
@@ -63,7 +63,7 @@ export class CurrencySelect extends React.Component {
             />
           </Cell>
         </TooltipHost>
-        <Cell>
+        <Cell data-e2e='exchangeTargetCurrency'>
           <Field
             name='target'
             onChange={compose(

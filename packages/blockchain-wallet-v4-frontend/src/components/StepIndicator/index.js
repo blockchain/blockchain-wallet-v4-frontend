@@ -77,6 +77,7 @@ const Logo = styled(Image)`
 
 const StepIndicator = props => {
   const {
+    adjuster,
     className,
     step,
     stepMap,
@@ -87,7 +88,7 @@ const StepIndicator = props => {
   } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
-  const width = (index - 0.5) / steps.length
+  const width = (index - adjuster) / steps.length
 
   return (
     <Wrapper className={className} flexEnd={flexEnd}>
@@ -109,7 +110,7 @@ const StepIndicator = props => {
 }
 
 StepIndicator.defaultProps = {
-  adjuster: 0.0
+  adjuster: 0.5
 }
 
 export default StepIndicator

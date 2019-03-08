@@ -1,20 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
+import { formValueSelector, getFormMeta } from 'redux-form'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
-import { isGuid } from '../../services/ValidationHelper'
+import { isGuid, isEmail } from '../../services/ValidationHelper'
 
 class LoginContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { useCode: true }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleMobile = this.handleMobile.bind(this)
-    this.handleSmsResend = this.handleSmsResend.bind(this)
-  }
+  state = { useCode: true }
 
   componentDidMount () {
     this.props.loginActions.initialized()
@@ -24,7 +18,7 @@ class LoginContainer extends React.PureComponent {
     this.props.formActions.reset('login')
   }
 
-  onSubmit () {
+  onSubmit = () => {
     const { guid, password, code } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -34,11 +28,11 @@ class LoginContainer extends React.PureComponent {
     this.props.authActions.login(guid, password, auth)
   }
 
-  handleMobile () {
+  handleMobile = () => {
     this.props.modalActions.showModal('MobileLogin')
   }
 
-  handleSmsResend () {
+  handleSmsResend = () => {
     this.props.authActions.resendSmsCode(this.props.guid)
   }
 
@@ -74,12 +68,15 @@ class LoginContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  code: formValueSelector('login')(state, 'code'),
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
-  code: formValueSelector('login')(state, 'code'),
+  formMeta: getFormMeta('login')(state),
   authType: selectors.auth.getAuthType(state),
   lastGuid: selectors.cache.getLastGuid(state),
-  data: selectors.auth.getLogin(state)
+  data: selectors.auth.getLogin(state),
+  isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
+  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -12,6 +12,8 @@ import Personal from './template'
 import Loading from './template.loading'
 import DataError from 'components/DataError'
 
+export const SCROLL_REF_ID = 'scroll-ref-id'
+
 const getCountryElements = countries => [
   {
     group: '',
@@ -36,6 +38,11 @@ class PersonalContainer extends React.PureComponent {
     this.fetchData()
   }
 
+  scrollTop = () => {
+    const overflowElement = document.getElementById(SCROLL_REF_ID)
+    overflowElement.scrollTop = 0
+  }
+
   fetchData = () => {
     this.props.actions.fetchSupportedCountries()
     this.props.actions.fetchStates()
@@ -50,6 +57,12 @@ class PersonalContainer extends React.PureComponent {
     e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
+  }
+
+  onPromptForEmailVerification = e => {
+    e.preventDefault()
+    this.scrollTop()
+    this.setState({ showEmailError: true })
   }
 
   editEmail = () => {
@@ -88,6 +101,7 @@ class PersonalContainer extends React.PureComponent {
         email: initialEmail
       }}
       showEmail={!this.state.initialEmailVerified}
+      showEmailError={!emailVerified && this.state.showEmailError}
       emailVerified={emailVerified}
       email={email}
       emailStep={emailStep}
@@ -103,7 +117,8 @@ class PersonalContainer extends React.PureComponent {
       activeFieldError={activeFieldError}
       editEmail={this.editEmail}
       updateEmail={actions.updateEmail}
-      sendEmailVerification={actions.sendEmailVerification}
+      sendEmailVerification={this.onSendEmailVerification}
+      onPromptForEmailVerification={this.onPromptForEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
       onSubmit={handleSubmit}

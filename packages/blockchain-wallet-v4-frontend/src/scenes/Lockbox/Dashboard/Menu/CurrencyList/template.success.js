@@ -8,7 +8,7 @@ import { CurrencyItem } from 'components/Balances'
 const CurrencyList = styled.div`
   display: flex;
   width: calc(100% - 340px);
-  padding: 10px 30px;
+  padding: 16px 30px;
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   @media (max-width: 770px) {

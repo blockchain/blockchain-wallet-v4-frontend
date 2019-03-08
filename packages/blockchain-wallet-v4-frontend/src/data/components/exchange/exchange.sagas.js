@@ -197,8 +197,8 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     yield call(changeSubscription, true)
-    yield call(updateSourceFee)
     yield call(fetchLimits)
+    yield call(updateSourceFee)
   }
 
   const validateForm = function*() {
@@ -734,14 +734,14 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const pair = getCurrentPair(form)
-    let trade, depositCredentials
     try {
-      depositCredentials = yield call(getDepositCredentials, source)
-      trade = yield call(createTrade, source, target, pair)
+      const depositCredentials = yield call(getDepositCredentials, source)
+      const trade = yield call(createTrade, source, target, pair)
       yield call(depositFunds, trade, source, depositCredentials)
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
+      yield take(actionTypes.modals.CLOSE_ALL_MODALS)
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )

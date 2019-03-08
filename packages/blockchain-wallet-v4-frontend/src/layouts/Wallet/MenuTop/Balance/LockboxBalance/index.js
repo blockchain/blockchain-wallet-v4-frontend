@@ -10,9 +10,9 @@ const key = 'lockbox'
 class LockboxBalanceContainer extends React.PureComponent {
   render () {
     const { data, preferencesActions } = this.props
-    const { totalBalancesDropdown, lockboxEnabled } = data
+    const { totalBalancesDropdown } = data
     const isActive = prop(key, totalBalancesDropdown)
-    return lockboxEnabled ? (
+    return (
       <Template
         isActive={isActive}
         handleToggle={() =>
@@ -22,7 +22,7 @@ class LockboxBalanceContainer extends React.PureComponent {
           })
         }
       />
-    ) : null
+    )
   }
 }
 

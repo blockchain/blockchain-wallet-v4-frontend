@@ -1,11 +1,13 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
 import * as A from './actions'
 import * as S from './selectors'
 
 export const logLocation = 'components/veriff/sagas'
+
+const { STEPS } = model.components.identityVerification
 
 export default ({ api, coreSagas }) => {
   const { fetchUser } = profileSagas({ api, coreSagas })
@@ -29,8 +31,11 @@ export default ({ api, coreSagas }) => {
       const applicantId = yield select(S.getApplicantId)
       yield call(api.syncVeriff, applicantId)
       yield call(fetchUser)
-      yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/swap'))
+      yield put(
+        actions.components.identityVerification.setVerificationStep(
+          STEPS.submitted
+        )
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'syncVeriff', e))
     }

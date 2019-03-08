@@ -75,14 +75,27 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
+  const saveGoals = function*(firstLogin) {
+    yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+    yield put(actions.goals.saveGoal('airdropReminder'))
+    yield put(actions.goals.saveGoal('coinifyUpgrade'))
+    yield put(actions.goals.saveGoal('upgradeForAirdrop'))
+    yield put(actions.goals.saveGoal('swapUpgrade'))
+    yield put(actions.goals.saveGoal('swapGetStarted'))
+    yield put(actions.goals.saveGoal('airdropClaim'))
+    yield put(actions.goals.saveGoal('kycDocResubmit'))
+    yield put(actions.goals.saveGoal('bsv'))
+  }
+
   const authNabu = function*() {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
-    yield take(
-      action =>
-        action.type ===
-          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
-        !Remote.Loading.is(action.payload.countries)
-    )
+    yield take([
+      actionTypes.components.identityVerification
+        .SET_SUPPORTED_COUNTRIES_SUCCESS,
+      actionTypes.components.identityVerification
+        .SET_SUPPORTED_COUNTRIES_FAILURE
+    ])
     const userFlowSupported = (yield select(
       selectors.modules.profile.userFlowSupported
     )).getOrElse(false)
@@ -131,11 +144,7 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
-      yield put(actions.goals.saveGoal('swapUpgrade'))
-      yield put(actions.goals.saveGoal('kycCTA'))
-      yield put(actions.goals.saveGoal('kycDocResubmit'))
-      yield put(actions.goals.saveGoal('bsv'))
+      yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -284,9 +293,10 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+      } else if (error && is(String, error)) {
+        yield put(actions.auth.loginFailure(error))
       } else {
-        const errorMessage =
-          prop('message', error) || error || defaultLoginErrorMessage
+        const errorMessage = prop('message', error) || defaultLoginErrorMessage
         yield put(actions.auth.loginFailure(errorMessage))
       }
     }
@@ -315,7 +325,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
-    yield put(actions.modals.closeModal())
   }
   const register = function*(action) {
     try {
@@ -496,6 +505,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    saveGoals,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,

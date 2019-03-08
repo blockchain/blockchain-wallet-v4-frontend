@@ -6,6 +6,9 @@ class Tooltips extends React.PureComponent {
   render () {
     return (
       <div>
+        <Tooltip id='copied'>
+          <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
+        </Tooltip>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
         <Tooltip id='lockbox.exportkeyswarning'>
           <FormattedMessage
@@ -184,8 +187,8 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='activityFeedWatchOnly'>
           <FormattedMessage
-            id='scenes.home.activitylist.watchonly'
-            defaultMessage='This transaction involves a watch only address.'
+            id='scenes.home.activitylist.nonspendable'
+            defaultMessage='This transaction involves a non-spendable address.'
           />
         </Tooltip>
         <Tooltip id='settingsBtcUsedBalace'>
@@ -217,7 +220,7 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={300} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.goldcomplete'
+                id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible'
                 defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
               />
             </Text>

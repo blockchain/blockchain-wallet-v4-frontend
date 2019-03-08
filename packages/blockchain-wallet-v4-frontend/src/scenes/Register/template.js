@@ -29,21 +29,12 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 
 const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 35px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
-`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;

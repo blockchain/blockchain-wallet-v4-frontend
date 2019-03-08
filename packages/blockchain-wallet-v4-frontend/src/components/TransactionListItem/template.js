@@ -185,8 +185,8 @@ const TransactionListItem = ({
       </AmountColumn>
     </TransactionRow>
     {isToggled && (
-      <DetailsRow>
-        <DetailsColumn>
+      <DetailsRow data-e2e='expandedTransactionRow'>
+        <DetailsColumn data-e2e='descriptionTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.description'
@@ -196,7 +196,6 @@ const TransactionListItem = ({
           <Description
             coin={coin}
             hash={transaction.hash}
-            value={transaction.description}
             toAddress={transaction.toAddress}
             handleEditDescription={handleEditDescription}
           />
@@ -238,14 +237,19 @@ const TransactionListItem = ({
                 &nbsp;
                 {transaction.memoType}
               </Text>
-              <Text size='14px' capitalize weight={300}>
+              <Text
+                size='14px'
+                capitalize
+                weight={300}
+                data-e2e='xlmTransactionMemo'
+              >
                 {transaction.memo}
               </Text>
             </React.Fragment>
           )}
         </DetailsColumn>
         {prop('inputs', transaction) && prop('outputs', transaction) && (
-          <DetailsColumn>
+          <DetailsColumn data-e2e='sentFromTransactionColumn'>
             <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
               <FormattedMessage
                 id='components.txlistitem.sentfrom'
@@ -286,7 +290,7 @@ const TransactionListItem = ({
             ))}
           </DetailsColumn>
         )}
-        <DetailsColumn>
+        <DetailsColumn data-e2e='statusTransactionColumn'>
           <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.status'
@@ -296,7 +300,7 @@ const TransactionListItem = ({
           <Confirmations
             coin={coin}
             hash={transaction.hash}
-            confirmations={transaction.confirmations}
+            txBlockHeight={transaction.blockHeight}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>

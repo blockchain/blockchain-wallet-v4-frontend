@@ -103,7 +103,7 @@ describe('rates service', () => {
   describe('authentication', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
-      store.dispatch(actions.modules.profile.setApiToken(Remote.of(stubToken)))
+      store.dispatch(actions.modules.profile.setApiTokenSuccess(stubToken))
       store.dispatch(actions.middleware.webSocket.rates.authenticateSocket())
     })
 
