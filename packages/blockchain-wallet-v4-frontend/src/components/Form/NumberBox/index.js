@@ -40,6 +40,7 @@ const NumberBox = field => {
           weight={300}
           color='error'
           errorBottom={field.errorBottom}
+          data-e2e='numberBoxError'
         >
           {field.meta.error}
         </Error>
