@@ -6,29 +6,22 @@ import { calculateStart, calculateInterval } from 'services/ChartService'
 import { getConfig } from './services'
 
 const Wrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  svg {
+  * {
     font-family: 'Montserrat', Helvetica, sans-serif !important;
+  }
+  svg {
     .highcharts-background {
       fill: ${props => props.theme['white']} !important;
     }
-    .highcharts-axis-labels {
-      text {
-        font-size: 11px;
-        fill: ${props => props.theme['gray-5']} !important;
-      }
-    }
-    .highcharts-tooltip {
-      text {
-        font-size: 12px;
-        fill: ${props => props.theme['gray-5']} !important;
-      }
-    }
-    .highcharts-series {
-      path:first-child {
-        font-size: 12px;
-        stroke: ${props => props.theme['brand-secondary']} !important;
-      }
+  }
+  .highcharts-tooltip span {
+    padding: 0px 2px 2px 2px;
+    > span:first-child {
+      font-weight: 300;
     }
   }
 `
@@ -40,7 +33,7 @@ class Chart extends React.PureComponent {
     const decimals = coin === 'XLM' ? 4 : 2
     const start = calculateStart(coin, time)
     const interval = calculateInterval(coin, time)
-    const config = getConfig(start, interval, currency, data, decimals)
+    const config = getConfig(start, interval, coin, currency, data, decimals)
     this.state = { start, interval, config }
   }
 

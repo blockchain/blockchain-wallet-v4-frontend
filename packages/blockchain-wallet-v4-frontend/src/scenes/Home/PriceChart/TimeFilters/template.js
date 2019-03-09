@@ -8,9 +8,11 @@ import { Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  width: 300px;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
 `
 
 const FilterContainer = styled(Text)`
@@ -21,6 +23,7 @@ const FilterContainer = styled(Text)`
       ? `2px solid ${props.theme['brand-primary']}`
       : '2px solid transparent'};
   cursor: pointer;
+  margin: 0 10px;
 `
 
 const TimeFilters = props => {

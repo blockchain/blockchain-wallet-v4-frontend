@@ -11,15 +11,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
   align-items: center;
   width: 100%;
-  height: 390px;
-  padding: 15px;
+  height: 470px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
-  & > * {
-    margin-bottom: 10px;
-  }
 `
 const Row = styled.div`
   display: flex;
@@ -53,13 +50,11 @@ const PriceChart = () => (
           defaultMessage='Price chart'
         />
       </TitleText>
-      <TimeFilters />
+      <CoinFilters />
     </TitleRow>
     <Row>
       <Chart />
-    </Row>
-    <Row>
-      <CoinFilters />
+      <TimeFilters />
     </Row>
   </Wrapper>
 )
