@@ -37,6 +37,7 @@ export default {
   'deep-blue': '#152343',
   'navy-blue': '#27324B',
   'darkblue-gray': '#222D38',
+  'lightblue-gray': '#B1B8C7',
   // Alphas
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
   whiteAlpha75: 'rgba(255,255,255,0.75)',

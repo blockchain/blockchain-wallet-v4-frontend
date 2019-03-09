@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CoinTicker template success renders correctly 1`] = `
+<templatesuccess__Wrapper
+  selected={false}
+>
+  <link
+    color="brand-secondary"
+    onClick={[MockFunction]}
+    size="14px"
+    weight={400}
+  >
+    10 = 100
+  </link>
+</templatesuccess__Wrapper>
+`;
