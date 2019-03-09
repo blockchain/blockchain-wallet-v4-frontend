@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Chart from './Chart'
-import CoinFilters from './CoinFilters'
 import CoinCurrentPrice from './CoinCurrentPrice'
+import CoinPerformance from './CoinPerformance'
 import TimeFilters from './TimeFilters'
 
 const Wrapper = styled.div`
@@ -31,8 +31,8 @@ const TitleRow = styled(Row)`
 const PriceChart = () => (
   <Wrapper>
     <TitleRow>
-      <CoinFilters />
       <CoinCurrentPrice />
+      <CoinPerformance />
     </TitleRow>
     <Row>
       <Chart />

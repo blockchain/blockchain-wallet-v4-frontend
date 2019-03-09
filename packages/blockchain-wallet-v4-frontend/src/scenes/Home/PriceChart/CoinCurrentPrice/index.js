@@ -32,7 +32,7 @@ class CoinCurrentPrice extends React.PureComponent {
             defaultMessage='Current Price'
           />
         </Header>
-        <CoinTicker coin={coin} data-e2e={`coinTicket${coin}`} />
+        <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />
       </Wrapper>
     )
   }
