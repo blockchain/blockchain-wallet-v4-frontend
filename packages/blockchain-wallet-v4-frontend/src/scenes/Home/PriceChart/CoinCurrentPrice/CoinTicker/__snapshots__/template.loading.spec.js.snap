@@ -2,7 +2,7 @@
 
 exports[`CoinTicker template loading renders correctly 1`] = `
 <skeleton_rectangle
-  height="20px"
+  height="44px"
   width="100px"
 />
 `;

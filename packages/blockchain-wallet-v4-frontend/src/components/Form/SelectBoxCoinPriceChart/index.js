@@ -44,7 +44,7 @@ const SelectBoxCoin = styled(SelectBox)`
     top: initial;
   }
   .bc__option--is-selected {
-    ${ItemIcon} {
+    * {
       color: ${props => props.theme['white']} !important;
     }
   }
