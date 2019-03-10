@@ -29,6 +29,7 @@ import SelectBoxBsvAddresses from './SelectBoxBsvAddresses'
 import SelectBoxEthAddresses from './SelectBoxEthAddresses'
 import SelectBoxXlmAddresses from './SelectBoxXlmAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
+import SelectBoxCoinPriceChart from './SelectBoxCoinPriceChart'
 import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
@@ -75,6 +76,7 @@ export {
   SelectBoxEthAddresses,
   SelectBoxXlmAddresses,
   SelectBoxCoin,
+  SelectBoxCoinPriceChart,
   SelectBoxCoinifyCurrency,
   SelectBoxCountry,
   SelectBoxCurrency,

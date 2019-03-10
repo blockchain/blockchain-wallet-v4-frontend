@@ -14,16 +14,11 @@ export class CoinTickerContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, selected, handleClick } = this.props
+    const { data } = this.props
 
     return data.cata({
       Success: value => (
-        <Success
-          {...value}
-          selected={selected}
-          handleClick={handleClick}
-          data-e2e={this.props['data-e2e']}
-        />
+        <Success {...value} data-e2e={this.props['data-e2e']} />
       ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,

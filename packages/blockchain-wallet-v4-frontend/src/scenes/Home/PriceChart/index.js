@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Chart from './Chart'
 import CoinCurrentPrice from './CoinCurrentPrice'
 import CoinPerformance from './CoinPerformance'
+import CoinSelectBox from './CoinSelectBox'
 import TimeFilters from './TimeFilters'
 
 const Wrapper = styled.div`
@@ -32,6 +33,7 @@ const TitleRow = styled(Row)`
 const PriceChart = () => (
   <Wrapper>
     <TitleRow>
+      <CoinSelectBox />
       <CoinCurrentPrice />
       <CoinPerformance />
     </TitleRow>
