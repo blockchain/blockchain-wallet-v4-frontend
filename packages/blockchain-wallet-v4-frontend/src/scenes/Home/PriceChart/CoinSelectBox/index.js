@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
+import { propOr } from 'ramda'
 import { connect } from 'react-redux'
 import { reduxForm, Field } from 'redux-form'
 import { actions, selectors } from 'data'
@@ -13,8 +14,8 @@ const Wrapper = styled.div`
 
 class CoinSelectBox extends React.PureComponent {
   componentDidMount () {
-    const { coin } = this.props
-    this.props.initialize({ coin })
+    const { priceChart } = this.props
+    this.props.initialize({ coin: propOr('BTC', 'coin', priceChart) })
   }
 
   onChange = (e, val) => {
@@ -35,9 +36,11 @@ class CoinSelectBox extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  coin: selectors.components.priceChart.getCoin(state)
-})
+const mapStateToProps = state => {
+  return {
+    priceChart: selectors.preferences.getPriceChart(state)
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)

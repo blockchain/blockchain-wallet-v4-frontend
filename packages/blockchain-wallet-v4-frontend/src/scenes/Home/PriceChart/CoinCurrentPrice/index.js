@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
 import styled from 'styled-components'
-import { Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { propOr } from 'ramda'
+import { Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 
 import CoinTicker from './CoinTicker'
 
@@ -22,7 +23,8 @@ const Header = styled(Text).attrs({
 
 class CoinCurrentPrice extends React.PureComponent {
   render () {
-    const { coin } = this.props
+    const { priceChart } = this.props
+    const coin = propOr('BTC', 'coin', priceChart)
 
     return (
       <Wrapper>
@@ -39,7 +41,7 @@ class CoinCurrentPrice extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  coin: selectors.components.priceChart.getCoin(state)
+  priceChart: selectors.preferences.getPriceChart(state)
 })
 
 export default connect(mapStateToProps)(CoinCurrentPrice)
