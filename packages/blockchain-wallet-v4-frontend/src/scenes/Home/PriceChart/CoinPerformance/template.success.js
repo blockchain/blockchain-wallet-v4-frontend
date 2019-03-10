@@ -6,7 +6,8 @@ import { Text } from 'blockchain-info-components'
 import { getPriceChartTime } from './services'
 
 const Wrapper = styled.div`
-  margin-top: 12px;
+  z-index: 1;
+  margin-top: 8px;
   display: flex;
   > div:last-child {
     margin-left: 4px;

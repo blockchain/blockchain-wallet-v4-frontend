@@ -15,23 +15,52 @@ const HeaderWrapper = styled.div`
   height: 100%;
   box-sizing: border-box;
   text-overflow: ellipsis;
-
-  & > * {
-    margin-left: 5px;
+  > span:first-child {
+    margin-right: 4px;
   }
-  & > :first-child {
-    margin-right: 5px;
+`
+const CoinText = styled(Text)`
+  display: flex;
+`
+const ItemIcon = styled(Icon)`
+  color: ${props => props.theme[props.color]} !important;
+`
+const SelectBoxCoin = styled(SelectBox)`
+  .bc__control {
+    border: 0px !important;
+  }
+  .bc__indicator-separator {
+    display: none;
+  }
+  .bc__dropdown-indicator {
+    padding-left: 0px;
+    color: ${props => props.theme['black']};
+  }
+  .bc__single-value {
+    color: ${props => props.theme['black']};
+    transform: initial;
+    position: relative;
+    max-width: none;
+    top: initial;
+  }
+  .bc__option--is-selected {
+    ${ItemIcon} {
+      color: ${props => props.theme['white']} !important;
+    }
   }
 `
 
 const renderItem = props => {
   const { value, text, ...rest } = props
+  const coinValue = value ? value.toLowerCase() : 'btc'
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
+      <ItemIcon
+        name={coinValue + '-circle-filled'}
+        color={coinValue}
+        size='22px'
+        weight={300}
+      />
       <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
         {text}
       </Text>
@@ -41,28 +70,36 @@ const renderItem = props => {
 
 const renderDisplay = (props, children) => {
   const { value, ...rest } = props
-  const e2eTag = value
-    ? value.toLowerCase() + 'CurrencyOption'
-    : 'currencyOption'
+  const coinValue = value ? value.toLowerCase() : 'btc'
+  const e2eTag = coinValue + 'CurrencyOption'
+
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
-      <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
-        {children}
-      </Text>
+      <Icon
+        name={coinValue + '-circle-filled'}
+        color={coinValue}
+        size='22px'
+        weight={300}
+      />
+      <CoinText
+        size='18px'
+        weight={400}
+        color='black'
+        cursor='pointer'
+        data-e2e={e2eTag}
+      >
+        {children} ({value})
+      </CoinText>
     </HeaderWrapper>
   )
 }
 
-class SelectBoxCoin extends React.PureComponent {
+class SelectBoxCoinPriceChart extends React.PureComponent {
   render () {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (
-      <SelectBox
+      <SelectBoxCoin
         elements={elements}
         templateDisplay={renderDisplay}
         templateItem={renderItem}
@@ -76,4 +113,4 @@ const mapStateToProps = (state, ownProps) => ({
   coins: getCoins(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxCoin)
+export default connect(mapStateToProps)(SelectBoxCoinPriceChart)

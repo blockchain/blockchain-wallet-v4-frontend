@@ -11,13 +11,13 @@ const Wrapper = styled.div`
   display: flex;
   text-align: center;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 8px;
   z-index: 1;
 `
 const Header = styled(Text).attrs({
   size: '12px'
 })`
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 `
 
 class CoinCurrentPrice extends React.PureComponent {

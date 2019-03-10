@@ -4,7 +4,7 @@ import ReactHighcharts from 'react-highcharts'
 
 export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   chart: {
-    height: 340,
+    height: 330,
     type: 'area',
     spacing: [0, 0, 0, 0],
     data: {

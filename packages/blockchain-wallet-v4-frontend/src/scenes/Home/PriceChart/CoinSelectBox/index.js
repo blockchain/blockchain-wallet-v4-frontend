@@ -8,6 +8,7 @@ import { SelectBoxCoinPriceChart } from 'components/Form'
 
 const Wrapper = styled.div`
   z-index: 2;
+  margin-top: 16px;
 `
 
 class CoinSelectBox extends React.PureComponent {
