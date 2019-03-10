@@ -3,23 +3,12 @@
 exports[`PriceChart component renders correctly 1`] = `
 <PriceChart__Wrapper>
   <PriceChart__TitleRow>
-    <PriceChart__TitleText
-      color="brand-primary"
-      uppercase={true}
-    >
-      <FormattedMessage
-        defaultMessage="Price chart"
-        id="scenes.home.pricechart"
-        values={Object {}}
-      />
-    </PriceChart__TitleText>
-    <timeFilters />
+    <Connect(CoinCurrentPrice) />
+    <Connect(CoinPerformance) />
   </PriceChart__TitleRow>
   <PriceChart__Row>
     <chart />
-  </PriceChart__Row>
-  <PriceChart__Row>
-    <coinFilters />
+    <timeFilters />
   </PriceChart__Row>
 </PriceChart__Wrapper>
 `;
