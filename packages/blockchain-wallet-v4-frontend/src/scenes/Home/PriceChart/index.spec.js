@@ -3,7 +3,6 @@ import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import PriceChart from './index'
 jest.mock('./Chart', () => 'chart')
-jest.mock('./CoinFilters', () => 'coinFilters')
 jest.mock('./TimeFilters', () => 'timeFilters')
 jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 

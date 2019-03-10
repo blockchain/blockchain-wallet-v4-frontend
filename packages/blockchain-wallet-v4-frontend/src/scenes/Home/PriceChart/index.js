@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 470px;
+  border-radius: 4px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
 `

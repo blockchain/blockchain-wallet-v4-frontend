@@ -5,9 +5,10 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 export const getData = createDeepEqualSelector(
   [
     selectors.core.data.misc.getPriceIndexSeries,
+    selectors.components.priceChart.getTime,
     selectors.core.settings.getCurrency
   ],
-  (priceIndexSeriesR, currencyR) => {
+  (priceIndexSeriesR, priceChartTime, currencyR) => {
     const transform = (priceIndexSeries, currency) => {
       const priceStart = prop('price', head(priceIndexSeries))
       const priceEnd = prop('price', last(priceIndexSeries))
@@ -15,6 +16,7 @@ export const getData = createDeepEqualSelector(
       const pricePercentageChange = (priceChange / priceEnd) * 100
       return {
         currency,
+        priceChartTime,
         priceChange,
         pricePercentageChange
       }
