@@ -4,15 +4,17 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
+const { VIEW_ORDER_DETAILS } = model.analytics.SWAP_EVENTS
 class ExchangeDetailsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.modalInitialized(this.props.depositAddress)
+    this.props.analyticsActions.logEvent(VIEW_ORDER_DETAILS)
   }
 
   componentWillUnmount () {
@@ -42,6 +44,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 

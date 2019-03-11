@@ -7,7 +7,6 @@ import { formatTrade } from './selectors'
 import TradeItem from './template'
 
 const { RESULTS_MODAL } = model.components.exchangeHistory
-const { VIEW_ORDER_DETAILS } = model.analytics.SWAP_EVENTS
 
 class PagesContainer extends React.PureComponent {
   showDetails = () => {
@@ -15,7 +14,6 @@ class PagesContainer extends React.PureComponent {
     isShapeShiftTrade
       ? modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
       : modalActions.showModal(RESULTS_MODAL, this.props)
-    this.props.analyticsActions.logEvent(VIEW_ORDER_DETAILS)
   }
 
   render () {
@@ -47,7 +45,6 @@ class PagesContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => formatTrade(ownProps.trade)
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
