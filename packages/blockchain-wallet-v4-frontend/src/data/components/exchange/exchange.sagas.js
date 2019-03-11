@@ -64,6 +64,7 @@ export const renewLimitsDelay = 30 * 1000
 
 let renewLimitsTask = null
 export default ({ api, coreSagas, networks }) => {
+  const { SWAP_EVENTS } = model.analytics
   const {
     RESULTS_MODAL,
     formatExchangeTrade
@@ -378,6 +379,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.form.change(EXCHANGE_FORM, 'fix', fiat ? 'baseInFiat' : 'base')
     )
     yield put(A.changeAmount(amount))
+    yield put(actions.analytics.logEvent(SWAP_EVENTS.USE_MIN))
   }
 
   const useMax = function*() {
@@ -386,6 +388,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.form.change(EXCHANGE_FORM, 'fix', fiat ? 'baseInFiat' : 'base')
     )
     yield put(A.changeAmount(amount))
+    yield put(actions.analytics.logEvent(SWAP_EVENTS.USE_MAX))
   }
 
   const updateLimits = function*() {
@@ -494,15 +497,15 @@ export default ({ api, coreSagas, networks }) => {
       const source = prop('source', payload)
       const sourceCoin = prop('coin', source)
       const targetCoin = path(['target', 'coin'], form)
-      const prevSoureCoin = path(['source', 'coin'], form)
+      const prevSourceCoin = path(['source', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
 
       const pairs = (yield select(S.getAvailablePairs)).getOrElse([])
       const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
       let newTargetCoin = null
       if (equals(sourceCoin, targetCoin))
-        newTargetCoin = contains(prevSoureCoin, pairedCoins)
-          ? prevSoureCoin
+        newTargetCoin = contains(prevSourceCoin, pairedCoins)
+          ? prevSourceCoin
           : last(pairedCoins)
       if (!contains(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
       if (newTargetCoin) {
@@ -587,6 +590,12 @@ export default ({ api, coreSagas, networks }) => {
       yield call(changeSubscription)
       yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(updateMinMax)
+      yield put(
+        actions.analytics.logEvent([
+          ...SWAP_EVENTS.FIXTURES_CHANGED,
+          `${fix} ${pair} ${newInputField}`
+        ])
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeFix', e))
     }
@@ -620,6 +629,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(checkLatestTx, prop('source', target))
       yield call(clearMinMax)
       yield call(updateSourceFee)
+      yield put(actions.analytics.logEvent([...SWAP_EVENTS.REVERSE_PAIR, pair]))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
     }
@@ -629,7 +639,13 @@ export default ({ api, coreSagas, networks }) => {
     const form = yield select(formValueSelector)
     yield call(checkLatestTx, path(['source', 'coin'], form))
     const txError = yield select(S.getTxError)
-    if (!txError) yield put(A.setStep(EXCHANGE_STEPS.CONFIRM))
+
+    if (txError) {
+      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
+    } else {
+      yield put(A.setStep(EXCHANGE_STEPS.CONFIRM))
+      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW))
+    }
   }
 
   // Ask for second password or lockbox transport
@@ -745,8 +761,10 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
+      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
     } catch (err) {
+      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM_ERROR))
       return yield call(showConfirmationError, err)
     }
   }

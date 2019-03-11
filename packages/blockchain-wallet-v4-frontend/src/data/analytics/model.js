@@ -76,18 +76,15 @@ export const WALLET_EVENTS = {
   UNARCHIVE: ['wallets', 'unarchive']
 }
 export const SWAP_EVENTS = {
-  ORDER_FORM: {
-    ORDER_CANCEL: ['swap', 'order_form', 'order_cancel'],
-    ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
-    ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
-    REVERSE_INPUT: ['swap', 'order_form', 'reverse_input'], // TYPE COIN or FIAT
-    REVERSE_SWAP: ['swap', 'order_form', 'reverse_swap'],
-    SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
-    TOGGLE_FIXED: ['swap', 'order_form', 'toggle_fixed'], // TYPE Receive or Swap
-    USE_MIN: ['swap', 'order_form', 'use_min'],
-    USE_MAX: ['swap', 'order_form', 'use_max']
-  },
-  ORDER_HISTORY: {
-    VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
-  }
+  ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+  ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
+  ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+  ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
+  REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
+  SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+  FIXTURES_CHANGED: ['swap', 'order_form', 'fixtures_changed'],
+  VALUE_INPUT: ['swap', 'order_form', 'value_input'],
+  USE_MIN: ['swap', 'order_form', 'use_min'],
+  USE_MAX: ['swap', 'order_form', 'use_max'],
+  VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
 }
