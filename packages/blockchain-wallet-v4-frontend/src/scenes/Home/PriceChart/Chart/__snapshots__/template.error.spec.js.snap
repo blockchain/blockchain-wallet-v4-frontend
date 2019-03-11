@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Chart template error renders correctly 1`] = `
+exports[`PriceChart template error renders correctly 1`] = `
 <templateerror__Wrapper>
   <text
     color="red"

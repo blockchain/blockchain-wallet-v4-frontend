@@ -4,7 +4,7 @@ import toJson from 'enzyme-to-json'
 import TemplateLoading from './template.loading'
 jest.mock('blockchain-info-components', () => ({ Image: 'image' }))
 
-describe('CoinTicker template loading', () => {
+describe('PriceChart template loading', () => {
   it('renders correctly', () => {
     const component = shallow(<TemplateLoading />)
     const tree = toJson(component)

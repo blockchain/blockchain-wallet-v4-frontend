@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CoinTicker template Success renders correctly 1`] = `
+exports[`PriceChart template Success renders correctly 1`] = `
 <templatesuccess__Wrapper>
   <n
     callback={[Function]}
