@@ -77,6 +77,7 @@ export default ({ api }) => {
   const defineLogLevel = function*(search) {
     const params = new URLSearchParams(search)
     const level = params.get('level')
+    window.logLevel = level
     yield put(actions.logs.setLogLevel(level))
   }
 
