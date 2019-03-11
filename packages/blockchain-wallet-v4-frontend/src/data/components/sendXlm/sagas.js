@@ -125,7 +125,6 @@ export default ({ coreSagas }) => {
 
       yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(A.paymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
