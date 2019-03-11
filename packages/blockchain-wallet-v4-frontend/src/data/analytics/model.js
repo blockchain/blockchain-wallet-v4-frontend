@@ -75,3 +75,19 @@ export const WALLET_EVENTS = {
   SHOW_XPUB: ['wallets', 'show_xpub'],
   UNARCHIVE: ['wallets', 'unarchive']
 }
+export const SWAP_EVENTS = {
+  ORDER_FORM: {
+    ORDER_CANCEL: ['swap', 'order_form', 'order_cancel'],
+    ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+    ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+    REVERSE_INPUT: ['swap', 'order_form', 'reverse_input'], // TYPE COIN or FIAT
+    REVERSE_SWAP: ['swap', 'order_form', 'reverse_swap'],
+    SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+    TOGGLE_FIXED: ['swap', 'order_form', 'toggle_fixed'], // TYPE Receive or Swap
+    USE_MIN: ['swap', 'order_form', 'use_min'],
+    USE_MAX: ['swap', 'order_form', 'use_max']
+  },
+  ORDER_HISTORY: {
+    VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
+  }
+}
