@@ -96,10 +96,12 @@ export default ({ api }) => {
         const device = deviceR.getOrFail()
         deviceType = prop('device_type', device)
       }
+      const logLevel = yield select(selectors.logs.getLogLevel)
       const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
-        timeout
+        timeout,
+        logLevel
       )
       yield put(
         A.setConnectionInfo(

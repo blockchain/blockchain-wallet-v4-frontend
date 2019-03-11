@@ -14,6 +14,9 @@ import { Types } from 'blockchain-wallet-v4/src'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import firmware from './firmware'
 import constants from './constants'
+import { model } from 'data'
+
+const { LOG_LEVELS } = model.logs
 
 const ethAccount = (xpub, label) => ({
   label: label,
@@ -34,7 +37,7 @@ const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-const pollForAppConnection = (deviceType, app, timeout = 45000) => {
+const pollForAppConnection = (deviceType, app, timeout = 45000, logLevel) => {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {
@@ -46,14 +49,18 @@ const pollForAppConnection = (deviceType, app, timeout = 45000) => {
       // transport.setDebugMode(true)
       transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(scrambleKey)
-      console.info('POLL:START', deviceType, scrambleKey, app, timeout)
+      if (logLevel === LOG_LEVELS.VERBOSE) {
+        console.info('POLL:START', deviceType, scrambleKey, app, timeout)
+      }
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
         res => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
-          console.info('POLL:END', deviceType, scrambleKey, app, timeout)
+          if (logLevel === LOG_LEVELS.VERBOSE) {
+            console.info('POLL:END', deviceType, scrambleKey, app, timeout)
+          }
           if (res.originalError) {
             reject(res.originalError.metaData)
           }
