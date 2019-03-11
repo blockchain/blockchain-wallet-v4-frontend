@@ -8925,40 +8925,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Current Price",
-        "id": "scenes.home.pricechart.coincurrentprice.currentprice"
-      }
-    ],
-    "path": "src/scenes/Home/PriceChart/CoinCurrentPrice/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "today",
-        "id": "scenes.home.pricechart.coinperformance.day"
-      },
-      {
-        "defaultMessage": "this week",
-        "id": "scenes.home.pricechart.coinperformance.week"
-      },
-      {
-        "defaultMessage": "this month",
-        "id": "scenes.home.pricechart.coinperformance.month"
-      },
-      {
-        "defaultMessage": "this year",
-        "id": "scenes.home.pricechart.coinperformance.year"
-      },
-      {
-        "defaultMessage": "all time",
-        "id": "scenes.home.pricechart.coinperformance.all"
-      }
-    ],
-    "path": "src/scenes/Home/PriceChart/CoinPerformance/services.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Price chart",
         "id": "scenes.home.pricechart"
       }

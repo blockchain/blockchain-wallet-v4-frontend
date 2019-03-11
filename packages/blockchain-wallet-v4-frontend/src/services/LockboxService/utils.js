@@ -14,9 +14,7 @@ import { Types } from 'blockchain-wallet-v4/src'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import firmware from './firmware'
 import constants from './constants'
-import { model } from 'data'
-
-const { LOG_LEVELS } = model.logs
+import { LOG_LEVELS } from '../../data/logs/model'
 
 const ethAccount = (xpub, label) => ({
   label: label,
