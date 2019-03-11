@@ -42,6 +42,7 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
       // ensure timeout is long enough for user to allow device access
       transport.exchangeTimeout = 20000
       // socket params
+      // `hash` property may need to be added back again in the future
       const params = {
         targetId,
         perso: appInfo.perso,
@@ -91,6 +92,7 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
         appInfos
       )
       // socket params
+      // `hash` property may need to be added back again in the future
       const params = {
         targetId,
         perso: latestAppInfo.perso,
