@@ -1,5 +1,6 @@
 import { testSaga } from 'redux-saga-test-plan'
 
+import * as A from './actions'
 import * as actions from '../actions'
 import { selectors } from 'data'
 import analyticsSagas, { logLocation } from './sagas'
@@ -40,7 +41,7 @@ describe('analyticsSagas', () => {
     })
 
     it('should call to start session', () => {
-      saga.next(true).call(startSession, { guid: mockGuid })
+      saga.next(true).put(A.startSession(mockGuid))
     })
 
     it('should log currency pref customDimension', () => {
@@ -56,7 +57,7 @@ describe('analyticsSagas', () => {
     it('should log home page view', () => {
       saga
         .next()
-        .call(logPageView, { route: '/home' })
+        .put(A.logPageView('/home'))
         .next()
         .isDone()
     })
