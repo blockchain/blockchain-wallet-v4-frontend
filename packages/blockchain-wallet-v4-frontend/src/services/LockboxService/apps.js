@@ -47,8 +47,7 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
         perso: appInfo.perso,
         deleteKey: appInfo.delete_key,
         firmware: appInfo.delete,
-        firmwareKey: appInfo.delete_key,
-        hash: appInfo.hash
+        firmwareKey: appInfo.delete_key
       }
 
       // build socket url
@@ -97,8 +96,7 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
         perso: latestAppInfo.perso,
         deleteKey: latestAppInfo.delete_key,
         firmware: latestAppInfo.firmware,
-        firmwareKey: latestAppInfo.firmware_key,
-        hash: latestAppInfo.hash
+        firmwareKey: latestAppInfo.firmware_key
       }
 
       // build socket url
