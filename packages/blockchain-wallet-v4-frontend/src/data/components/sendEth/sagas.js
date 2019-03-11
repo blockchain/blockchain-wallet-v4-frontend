@@ -45,7 +45,6 @@ export default ({ coreSagas, networks }) => {
       yield put(initialize(FORM, initialValues))
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(A.sendEthPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e)
       )
