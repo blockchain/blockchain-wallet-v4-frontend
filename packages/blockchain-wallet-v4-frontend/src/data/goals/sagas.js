@@ -74,6 +74,12 @@ export default ({ api }) => {
     yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
+  const defineLogLevel = function*(search) {
+    const params = new URLSearchParams(search)
+    const level = params.get('level')
+    yield put(actions.logs.setLogLevel(level))
+  }
+
   const defineActionGoal = function*(pathname, search) {
     try {
       // Other scenarios with actions encoded in base64
@@ -99,6 +105,8 @@ export default ({ api }) => {
     if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
     if (startsWith('bitcoin', pathname))
       return yield call(defineSendBtcGoal, pathname, search)
+    if (startsWith('log-level', pathname))
+      return yield call(defineLogLevel, search)
     yield call(defineActionGoal, pathname, search)
   }
 

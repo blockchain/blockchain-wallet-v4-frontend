@@ -8,3 +8,7 @@ export const logErrorMessage = (file, method, message) => ({
   type: AT.LOG_ERROR_MSG,
   payload: { file, method, message }
 })
+export const setLogLevel = level => ({
+  type: AT.SET_LOG_LEVEL,
+  payload: { level }
+})
