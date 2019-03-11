@@ -66,7 +66,7 @@ const getMinConfirms = coin => {
 const Confirmations = props => {
   const { blockHeight, coin, txBlockHeight } = props
   const conf = blockHeight - txBlockHeight + 1
-  const confirmations = conf > 0 ? conf : 0
+  const confirmations = conf > 0 && txBlockHeight ? conf : 0
   const minConfirmations = getMinConfirms(coin)
 
   return (
