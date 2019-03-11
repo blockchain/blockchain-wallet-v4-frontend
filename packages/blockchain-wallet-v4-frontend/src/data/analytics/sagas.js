@@ -4,6 +4,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
+import * as A from './actions'
 import { actions, selectors } from 'data'
 import { CUSTOM_DIMENSIONS } from './model'
 
@@ -47,7 +48,7 @@ export default ({ api }) => {
       const isCryptoDisplayed = yield select(
         selectors.preferences.getCoinDisplayed
       )
-      yield call(startSession, { guid })
+      yield put(A.startSession(guid))
       yield call(postMessage, {
         method: 'setCustomDimension',
         messageData: {
@@ -55,7 +56,7 @@ export default ({ api }) => {
           dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
         }
       })
-      yield call(logPageView, { route: '/home' })
+      yield put(A.logPageView('/home'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
