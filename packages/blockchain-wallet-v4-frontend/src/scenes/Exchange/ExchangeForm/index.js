@@ -18,6 +18,7 @@ const extractFieldValue = (e, value) => {
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
+const { VALUE_INPUT } = model.analytics.SWAP_EVENTS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -41,10 +42,11 @@ class ExchangeForm extends React.Component {
     actions.initialize({ from, to, fix, amount })
   }
 
-  clearZero = e => {
+  clearZero = (e, inputSource) => {
     if (e.target.value === '0') {
       this.props.formActions.change(EXCHANGE_FORM, e.target.name, '')
     }
+    this.props.analyticsActions.logEvent([...VALUE_INPUT, inputSource])
   }
 
   addZero = e => {
@@ -81,7 +83,9 @@ class ExchangeForm extends React.Component {
               this.changeAmount,
               extractFieldValue
             )}
-            handleInputFocus={this.clearZero}
+            handleInputFocus={e => {
+              this.clearZero(e, value.inputField)
+            }}
             handleInputBlur={this.addZero}
             swapFix={compose(
               actions.changeFix,
@@ -108,6 +112,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
