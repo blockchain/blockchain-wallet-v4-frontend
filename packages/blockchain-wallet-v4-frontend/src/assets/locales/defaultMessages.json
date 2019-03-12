@@ -1001,8 +1001,8 @@
         "id": "components.EmailVerification.emailverified"
       },
       {
-        "defaultMessage": "Check you inbox. We sent an email to:",
-        "id": "components.EmailVerification.checkyourinbox"
+        "defaultMessage": "Check your inbox. We sent an email to:",
+        "id": "components.EmailVerification.checkinbox"
       },
       {
         "defaultMessage": "Change Email",
@@ -4819,6 +4819,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "It's Your Crypto",
+        "id": "modals.swapgetstarted.its_your_crypto"
+      },
+      {
+        "defaultMessage": "Swap Your Crypto",
+        "id": "modals.swapgetstarted.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.",
+        "id": "modals.swapgetstarted.announcement"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapgetstarted.getstarted"
+      }
+    ],
+    "path": "src/modals/Exchange/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Heads up! You have <b>{amount}</b> left to Swap",
         "id": "modals.swap_upgrade.heads_up"
       },
@@ -6799,6 +6820,23 @@
       }
     ],
     "path": "src/modals/Wallet/UpgradeWallet/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to Blockchain!",
+        "id": "modals.welcome.welcome"
+      },
+      {
+        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
+        "id": "modals.welcome.thanks"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.welcome.continue"
+      }
+    ],
+    "path": "src/modals/Wallet/Welcome/template.json"
   },
   {
     "descriptors": [
@@ -8959,6 +8997,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Swap Your Crypto",
+        "id": "scenes.home.swapbanner.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.swapbanner.trading_your_crypto"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.swapbanner.faster.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "scenes.home.swapbanner.faster.makeswap"
+      }
+    ],
+    "path": "src/scenes/Home/SwapBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Oops. Something went wrong. Click <span class=\"link\">here</span> to refresh.",
         "id": "scenes.lockbox.menu.currencylist.error"
       }
@@ -9728,6 +9787,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Edit",
+        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel"
+      },
+      {
+        "defaultMessage": "Save",
+        "id": "scenes.securitysettings.advancedsettings.ipwhitelist.settings.save"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/AdvancedSecurity/IPWhitelist/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "IP Whitelist",
         "id": "scenes.securitycenter.advanced.ipwhitelist.title"
       },
@@ -9786,6 +9862,23 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/AdvancedSecurity/LoginIpRestriction/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel"
+      },
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.save"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/AdvancedSecurity/PasswordStretching/Settings/template.json"
   },
   {
     "descriptors": [
@@ -10440,6 +10533,43 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Backup Again",
+        "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain"
+      },
+      {
+        "defaultMessage": "Backup Funds",
+        "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds"
+      },
+      {
+        "defaultMessage": "Backup Phrase",
+        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.title"
+      },
+      {
+        "defaultMessage": "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.",
+        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description"
+      },
+      {
+        "defaultMessage": "In the event that you lose your password or our service is unavailable, this will be your safety net.",
+        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description2"
+      },
+      {
+        "defaultMessage": "Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.",
+        "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase"
+      },
+      {
+        "defaultMessage": "Security Tip",
+        "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip"
+      },
+      {
+        "defaultMessage": "Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.",
+        "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/BasicSecurity/WalletRecoveryPhrase/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Basic",
         "id": "scenes.securitycenter.menu.basic"
       },
@@ -10717,6 +10847,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.unarchive"
+      },
+      {
+        "defaultMessage": "Delete",
+        "id": "scenes.settings.addresses.delete_address"
+      },
+      {
+        "defaultMessage": "Archived Bitcoin Addresses",
+        "id": "scenes.settings.addresses.btc.archivedaddresses.title"
+      },
+      {
+        "defaultMessage": "Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.",
+        "id": "scenes.settings.addresses.btc.archivedaddresses.description"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.btc.archivedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.btc.archivedaddresses.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.btc.archivedaddresses.actions"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Btc/ArchivedAddresses/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Archive",
         "id": "scenes.settings.addresses.archive"
       },
@@ -10923,6 +11086,63 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Btc/Wallets/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Default",
+        "id": "scenes.settings.addresses.btc.wallets.defaultlabel"
+      },
+      {
+        "defaultMessage": "Archived",
+        "id": "scenes.settings.addresses.btc.wallets.archivedlabel"
+      },
+      {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.btc.wallets.unarchive"
+      },
+      {
+        "defaultMessage": "Manage",
+        "id": "scenes.settings.addresses.btc.wallets.manage"
+      },
+      {
+        "defaultMessage": "There is an issue with the wallet and this page may have limited functionality, such as balances not showing.",
+        "id": "scenes.settings.addresses.btc.failurealert"
+      },
+      {
+        "defaultMessage": "Message: {errorMessage}",
+        "id": "scenes.settings.addresses.btc.failuremessage"
+      },
+      {
+        "defaultMessage": "Bitcoin Wallets",
+        "id": "scenes.settings.addresses.btc.wallets.bitcoinwallets"
+      },
+      {
+        "defaultMessage": "Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.",
+        "id": "scenes.settings.addresses.btc.wallets.bitcoinwallets.description"
+      },
+      {
+        "defaultMessage": "Wallet Name",
+        "id": "scenes.settings.addresses.btc.wallets.walletname"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.btc.wallets.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.btc.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.btc.wallets.nomatch"
+      },
+      {
+        "defaultMessage": "New Wallet",
+        "id": "scenes.settings.addresses.btc.wallets.newhdaccount"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Btc/Wallets/template.success.json"
   },
   {
     "descriptors": [
