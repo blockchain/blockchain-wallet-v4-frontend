@@ -4,6 +4,11 @@ exports[`RadioButtonInput component default renders correctly 1`] = `
 <RadioButtonInput__Wrapper>
   <RadioButtonInput__BaseRadioButtonInput
     checked={true}
+    data-e2e={
+      Array [
+        "undefinedAddressRadioButton",
+      ]
+    }
     disabled="false"
     name="test"
     props={Object {}}
