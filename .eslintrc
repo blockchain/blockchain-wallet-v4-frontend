@@ -17,6 +17,11 @@
   "globals": {
     "APP_VERSION": true
   },
+  "settings": {
+    "react": {
+      "version": "latest"
+    }
+  },
   "rules": {
     "camelcase": 0,
     "generator-star-spacing": ["error", {"before": true, "after": true}],
