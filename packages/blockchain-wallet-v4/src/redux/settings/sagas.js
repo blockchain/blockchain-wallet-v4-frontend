@@ -10,7 +10,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const fetchSettings = function*() {
+  const fetchSettings = function * () {
     try {
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)
@@ -22,7 +22,7 @@ export default ({ api }) => {
     }
   }
   // Utilities
-  const decodePairingCode = function*({ data }) {
+  const decodePairingCode = function * ({ data }) {
     const { guid, encrypted } = yield call(() =>
       taskToPromise(pairing.parseQRcode(data))
     )
@@ -33,7 +33,7 @@ export default ({ api }) => {
     return { guid, sharedKey, password }
   }
 
-  const requestGoogleAuthenticatorSecretUrl = function*() {
+  const requestGoogleAuthenticatorSecretUrl = function * () {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -48,7 +48,7 @@ export default ({ api }) => {
     // return response
   }
 
-  const setEmail = function*({ email }) {
+  const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateEmail, guid, sharedKey, email)
@@ -58,7 +58,7 @@ export default ({ api }) => {
     yield put(actions.setEmail(email))
   }
 
-  const sendConfirmationCodeEmail = function*({ email }) {
+  const sendConfirmationCodeEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -73,7 +73,7 @@ export default ({ api }) => {
     yield put(actions.sentConfirmationCodeSuccess(email))
   }
 
-  const verifyEmailCode = function*({ code }) {
+  const verifyEmailCode = function * ({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyEmail, guid, sharedKey, code)
@@ -84,14 +84,14 @@ export default ({ api }) => {
     yield put(actions.setEmailVerified())
   }
 
-  const resendVerifyEmail = function*({ email }) {
+  const resendVerifyEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
     if (!prop('success', response)) throw new Error(JSON.stringify(response))
   }
 
-  const setMobile = function*({ mobile }) {
+  const setMobile = function * ({ mobile }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateMobile, guid, sharedKey, mobile)
@@ -99,7 +99,7 @@ export default ({ api }) => {
     return response
   }
 
-  const setMobileVerified = function*({ code }) {
+  const setMobileVerified = function * ({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
@@ -107,7 +107,7 @@ export default ({ api }) => {
     return response
   }
 
-  const setMobileVerifiedAs2FA = function*({ code }) {
+  const setMobileVerifiedAs2FA = function * ({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
@@ -122,7 +122,7 @@ export default ({ api }) => {
     yield put(actions.setAuthType(5))
   }
 
-  const setLanguage = function*({ language }) {
+  const setLanguage = function * ({ language }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateLanguage, guid, sharedKey, language)
@@ -132,7 +132,7 @@ export default ({ api }) => {
     yield put(actions.setLanguage(language))
   }
 
-  const setLastTxTime = function*() {
+  const setLastTxTime = function * () {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     let d = new Date()
@@ -144,7 +144,7 @@ export default ({ api }) => {
     }
   }
 
-  const setCurrency = function*({ currency }) {
+  const setCurrency = function * ({ currency }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateCurrency, guid, sharedKey, currency)
@@ -154,11 +154,11 @@ export default ({ api }) => {
     yield put(actions.setCurrency(currency))
   }
 
-  const setAutoLogout = function*({ autoLogout }) {
+  const setAutoLogout = function * ({ autoLogout }) {
     yield put(walletActions.setAutoLogout(autoLogout))
   }
 
-  const setLoggingLevel = function*({ loggingLevel }) {
+  const setLoggingLevel = function * ({ loggingLevel }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -173,7 +173,7 @@ export default ({ api }) => {
     yield put(actions.setLoggingLevel(loggingLevel))
   }
 
-  const setIpLock = function*({ ipLock }) {
+  const setIpLock = function * ({ ipLock }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -188,7 +188,7 @@ export default ({ api }) => {
     yield put(actions.setIpLock(ipLock))
   }
 
-  const setIpLockOn = function*({ ipLockOn }) {
+  const setIpLockOn = function * ({ ipLockOn }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -203,7 +203,7 @@ export default ({ api }) => {
     yield put(actions.setIpLockOn(ipLockOn))
   }
 
-  const setBlockTorIps = function*({ blockTorIps }) {
+  const setBlockTorIps = function * ({ blockTorIps }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -218,7 +218,7 @@ export default ({ api }) => {
     yield put(actions.setBlockTorIps(blockTorIps))
   }
 
-  const setHint = function*({ hint }) {
+  const setHint = function * ({ hint }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateHint, guid, sharedKey, hint)
@@ -228,7 +228,7 @@ export default ({ api }) => {
     yield put(actions.setHint(hint))
   }
 
-  const setAuthType = function*({ authType }) {
+  const setAuthType = function * ({ authType }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateAuthType, guid, sharedKey, authType)
@@ -238,7 +238,7 @@ export default ({ api }) => {
     yield put(actions.setAuthType(authType))
   }
 
-  const setAuthTypeNeverSave = function*({ authTypeNeverSave }) {
+  const setAuthTypeNeverSave = function * ({ authTypeNeverSave }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -253,7 +253,7 @@ export default ({ api }) => {
     yield put(actions.setAuthTypeNeverSave(authTypeNeverSave))
   }
 
-  const setGoogleAuthenticator = function*({ code }) {
+  const setGoogleAuthenticator = function * ({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(
@@ -268,7 +268,7 @@ export default ({ api }) => {
     yield put(actions.setGoogleAuthenticator())
   }
 
-  const setYubikey = function*({ code }) {
+  const setYubikey = function * ({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.enableYubikey, guid, sharedKey, code)
@@ -279,7 +279,7 @@ export default ({ api }) => {
     yield put(actions.setYubikey())
   }
 
-  const setNotificationsOn = function*({ enabled }) {
+  const setNotificationsOn = function * ({ enabled }) {
     const value = enabled ? 2 : 0
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -290,7 +290,7 @@ export default ({ api }) => {
     yield put(actions.setNotificationsOn(value))
   }
 
-  const setNotificationsType = function*({ types }) {
+  const setNotificationsType = function * ({ types }) {
     const typesState = []
     const emailVerified = yield select(selectors.settings.getEmailVerified)
     const smsVerified = yield select(selectors.settings.getSmsVerified)

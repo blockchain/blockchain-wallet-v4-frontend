@@ -12,7 +12,7 @@ import settingsSagaFactory from '../../settings/sagas.js'
 
 export default ({ api, options }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const getCoinify = function*() {
+  const getCoinify = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
@@ -29,7 +29,7 @@ export default ({ api, options }) => {
 
   let coinify
 
-  const refreshCoinify = function*() {
+  const refreshCoinify = function * () {
     yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'coinify')
@@ -44,7 +44,7 @@ export default ({ api, options }) => {
     yield put(A.coinifyFetchProfileSuccess(coinify))
   }
 
-  const init = function*() {
+  const init = function * () {
     try {
       const val = yield select(buySellSelectors.getMetadata)
       if (!path(['data', 'value', 'coinify', 'offline_token'], val)) return
@@ -54,7 +54,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const coinifyFetchProfile = function*(noLoad) {
+  const coinifyFetchProfile = function * (noLoad) {
     try {
       yield put(A.coinifyFetchProfileLoading())
       yield apply(coinify, coinify.profile.fetch)
@@ -64,7 +64,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchQuote = function*(data) {
+  const fetchQuote = function * (data) {
     try {
       const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
@@ -83,7 +83,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const refreshBuyQuote = function*() {
+  const refreshBuyQuote = function * () {
     try {
       const quote = yield select(S.getQuote)
       const qData = path(['data'], quote)
@@ -105,7 +105,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const refreshSellQuote = function*() {
+  const refreshSellQuote = function * () {
     try {
       const quote = yield select(S.getQuote)
       const qData = path(['data'], quote)
@@ -126,7 +126,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchQuoteAndMediums = function*(data) {
+  const fetchQuoteAndMediums = function * (data) {
     try {
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
       const getQuote =
@@ -146,7 +146,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchRateQuote = function*(data) {
+  const fetchRateQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
       const { currency, type } = data.payload
@@ -159,7 +159,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchTrades = function*(coinifyObj) {
+  const fetchTrades = function * (coinifyObj) {
     try {
       const payload = prop('payload', coinifyObj)
       const coinify = !payload ? yield call(getCoinify) : payload
@@ -171,11 +171,11 @@ export default ({ api, options }) => {
     }
   }
 
-  const resetProfile = function*() {
+  const resetProfile = function * () {
     yield put(A.resetProfile())
   }
 
-  const getPaymentMediums = function*(data) {
+  const getPaymentMediums = function * (data) {
     try {
       const quote = data.payload
       yield put(A.getPaymentMediumsLoading())
@@ -187,7 +187,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const getMediumAccounts = function*(data) {
+  const getMediumAccounts = function * (data) {
     try {
       const medium = data.payload
       const account = yield apply(medium, medium.getAccounts)
@@ -198,7 +198,7 @@ export default ({ api, options }) => {
   }
 
   // Used in sell to get mediums with accounts
-  const getMediumsWithBankAccounts = function*(data) {
+  const getMediumsWithBankAccounts = function * (data) {
     try {
       const quote = data.payload
       yield put(A.getPaymentMediumsLoading())
@@ -212,7 +212,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const addBankAccount = function*(data) {
+  const addBankAccount = function * (data) {
     try {
       const { medium, account } = data.payload
       const bankAccount = yield apply(medium, medium.addBankAccount, [account])
@@ -222,7 +222,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const deleteBankAccount = function*(data) {
+  const deleteBankAccount = function * (data) {
     try {
       const account = data.payload
       yield apply(account, account.delete)
@@ -231,7 +231,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const signup = function*(data) {
+  const signup = function * (data) {
     const countryCode = data
     let fiatCurrency
 
@@ -252,7 +252,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const buy = function*(data, addressData) {
+  const buy = function * (data, addressData) {
     const { quote, medium } = data.payload
     try {
       yield put(A.handleTradeLoading())
@@ -274,7 +274,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const labelAddressForBuy = function*(trade, addressData) {
+  const labelAddressForBuy = function * (trade, addressData) {
     try {
       trade._account_index = addressData.accountIndex
       trade._receive_index = addressData.index
@@ -292,7 +292,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const sell = function*() {
+  const sell = function * () {
     try {
       yield put(A.handleTradeLoading())
       const account = yield select(S.getAccount)
@@ -307,7 +307,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const cancelTrade = function*({ trade }) {
+  const cancelTrade = function * ({ trade }) {
     try {
       yield apply(trade, trade.cancel)
       yield call(fetchTrades)
@@ -319,7 +319,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const triggerKYC = function*() {
+  const triggerKYC = function * () {
     try {
       yield put(A.handleTradeLoading())
       const coinify = yield call(getCoinify)
@@ -332,7 +332,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const getKYC = function*() {
+  const getKYC = function * () {
     try {
       yield put(A.getKYCLoading())
       const coinify = yield call(getCoinify)
@@ -346,7 +346,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const pollKYCPending = function*() {
+  const pollKYCPending = function * () {
     try {
       const kyc = yield select(S.getKyc)
       let status = kyc.map(prop('state')).getOrElse(undefined)
@@ -366,7 +366,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const kycAsTrade = function*(data) {
+  const kycAsTrade = function * (data) {
     const { kyc } = data
     try {
       yield put(A.handleTradeSuccess(kyc))
@@ -375,7 +375,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchSubscriptions = function*() {
+  const fetchSubscriptions = function * () {
     try {
       const coinify = yield call(getCoinify)
       yield put(A.fetchSubscriptionsLoading())
@@ -386,7 +386,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const cancelSubscription = function*({ id }) {
+  const cancelSubscription = function * ({ id }) {
     try {
       yield call(refreshCoinify)
       const cancelSub = yield apply(coinify, coinify.cancelSubscription, [id])

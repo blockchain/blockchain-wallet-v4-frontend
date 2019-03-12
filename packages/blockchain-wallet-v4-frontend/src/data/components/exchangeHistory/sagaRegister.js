@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const exchangeHistorySagas = sagas({ api, coreSagas })
 
-  return function* exchangeHistorySaga () {
+  return function * exchangeHistorySaga () {
     yield takeLatest(
       AT.EXCHANGE_HISTORY_INITIALIZED,
       exchangeHistorySagas.exchangeHistoryInitialized

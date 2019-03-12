@@ -10,7 +10,7 @@ import { getKeyPair } from '../../../utils/xlm'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks } = {}) => {
-  const createXlm = function*({ kv, password }) {
+  const createXlm = function * ({ kv, password }) {
     try {
       const mnemonicT = yield select(getMnemonic, password)
       const mnemonic = yield callTask(mnemonicT)
@@ -35,7 +35,7 @@ export default ({ api, networks } = {}) => {
     }
   }
 
-  const fetchMetadataXlm = function*(secondPasswordSagaEnhancer) {
+  const fetchMetadataXlm = function * (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[XLM]
       const mxpriv = yield select(getMetadataXpriv)

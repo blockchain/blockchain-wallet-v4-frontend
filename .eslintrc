@@ -19,18 +19,18 @@
   },
   "rules": {
     "camelcase": 0,
-    "new-cap": 0,
-    "no-case-declarations": 0,
-    "no-console": 2,
-    "no-underscore-dangle": 0,
-    "no-alert": 2,
-    "require-yield": 2,
+    "generator-star-spacing": ["error", {"before": true, "after": true}],
     "jest/no-disabled-tests": 1,
     "jest/no-focused-tests": 2,
     "jest/no-identical-title": 2,
     "jest/prefer-to-have-length": 0,
     "jest/valid-expect": 2,
     "jsx-quotes": [2, "prefer-single"],
+    "new-cap": 0,
+    "no-alert": 2,
+    "no-case-declarations": 0,
+    "no-console": 2,
+    "no-underscore-dangle": 0,
     "react/display-name": 0,
     "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 0,
@@ -60,8 +60,8 @@
     "react/react-in-jsx-scope": 2,
     "react/self-closing-comp": 2,
     "react/sort-comp": 2,
+    "require-yield": 2,
     "space-before-function-paren": 2,
-    "strict": 0,
-    "generator-star-spacing": ["error", {"before": true, "after": true}]
+    "strict": 0
   }
 }

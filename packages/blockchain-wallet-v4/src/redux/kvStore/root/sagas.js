@@ -13,7 +13,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
+  const callTask = function * (task) {
     return yield call(
       compose(
         taskToPromise,
@@ -21,7 +21,7 @@ export default ({ api, networks }) => {
       )
     )
   }
-  const createRoot = function*({ password }) {
+  const createRoot = function * ({ password }) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
@@ -39,7 +39,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchRoot = function*(secondPasswordSagaEnhancer) {
+  const fetchRoot = function * (secondPasswordSagaEnhancer) {
     try {
       const guid = yield select(getGuid)
       const sharedKey = yield select(getSharedKey)

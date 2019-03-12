@@ -21,7 +21,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
@@ -51,11 +51,11 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
@@ -73,7 +73,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -143,7 +143,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -174,7 +174,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
@@ -300,7 +300,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const regularFeeClicked = function*() {
+  const regularFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -313,7 +313,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const priorityFeeClicked = function*() {
+  const priorityFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -326,7 +326,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const minimumFeeClicked = function*() {
+  const minimumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -339,7 +339,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -347,7 +347,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumFeeClicked = function*() {
+  const maximumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})

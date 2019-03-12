@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, options }) => {
   const coinifySagas = sagas({ api, options })
 
-  return function* coreDataCoinifySaga () {
+  return function * coreDataCoinifySaga () {
     yield takeLatest(
       actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
       coinifySagas.init

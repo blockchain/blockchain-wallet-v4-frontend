@@ -20,7 +20,7 @@ import { getHDAccounts } from '../../wallet/selectors'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const createBch = function*(kv, hdAccounts, bchAccounts) {
+  const createBch = function * (kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
@@ -39,7 +39,7 @@ export default ({ api, networks }) => {
     yield put(bchActions.fetchData())
   }
 
-  const fetchMetadataBch = function*() {
+  const fetchMetadataBch = function * () {
     try {
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)

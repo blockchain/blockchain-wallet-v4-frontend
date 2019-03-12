@@ -7,7 +7,7 @@ import { call, cancelled } from 'redux-saga/effects'
  *
  * NB: API request has to be using axios
  */
-export const callLatest = function*(apiCall, options) {
+export const callLatest = function * (apiCall, options) {
   const source = axios.CancelToken.source()
   try {
     return yield call(apiCall, options, source.token)

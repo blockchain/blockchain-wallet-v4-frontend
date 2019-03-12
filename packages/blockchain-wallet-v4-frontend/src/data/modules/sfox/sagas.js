@@ -17,7 +17,7 @@ export const logLocation = 'modules/sfox/sagas'
 export const missingJumioToken = 'missing_jumio_token'
 
 export default ({ api, coreSagas, networks }) => {
-  const setBankManually = function*(action) {
+  const setBankManually = function * (action) {
     try {
       yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
@@ -32,7 +32,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sfoxSignup = function*() {
+  const sfoxSignup = function * () {
     try {
       yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.signup)
@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setProfile = function*(payload) {
+  const setProfile = function * (payload) {
     try {
       yield call(coreSagas.data.sfox.setProfile, payload)
 
@@ -71,7 +71,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const upload = function*(payload) {
+  const upload = function * (payload) {
     try {
       yield call(coreSagas.data.sfox.uploadDoc, payload)
 
@@ -85,7 +85,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setBank = function*(payload) {
+  const setBank = function * (payload) {
     try {
       const setBankResult = yield call(
         coreSagas.data.sfox.setBankAccount,
@@ -104,7 +104,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const submitMicroDeposits = function*(payload) {
+  const submitMicroDeposits = function * (payload) {
     try {
       yield put(A.sfoxLoading())
       const result = yield call(
@@ -127,7 +127,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const submitQuote = function*(action) {
+  const submitQuote = function * (action) {
     try {
       yield put(A.sfoxLoading())
       const nextAddressData = yield call(prepareAddress)
@@ -163,7 +163,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const prepareAddress = function*() {
+  const prepareAddress = function * () {
     try {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
@@ -187,7 +187,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const submitSellQuote = function*(action) {
+  const submitSellQuote = function * (action) {
     const q = action.payload
     try {
       const password = yield call(promptForSecondPassword)
@@ -243,7 +243,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkProfileStatus = function*() {
+  const checkProfileStatus = function * () {
     const profile = yield select(selectors.core.data.sfox.getProfile)
     const modals = yield select(modalSelectors.getModals)
     if (
@@ -256,7 +256,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const initializePayment = function*() {
+  const initializePayment = function * () {
     try {
       yield put(A.sfoxSellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
@@ -278,7 +278,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const __confirmPhoneCall = function*(trade) {
+  const __confirmPhoneCall = function * (trade) {
     const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
     const smsNumber = smsNumberR.getOrElse(null)
     try {
@@ -300,7 +300,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const initializeJumio = function*() {
+  const initializeJumio = function * () {
     try {
       const status = yield call(fetchJumioStatus)
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
@@ -325,7 +325,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const completeJumio = function*() {
+  const completeJumio = function * () {
     try {
       // Jumio status of 'PENDING' can mean the user finished verification
       // flow and the results are 'PENDING' jumio. Or the user has not finished
@@ -347,7 +347,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchJumioStatus = function*() {
+  const fetchJumioStatus = function * () {
     try {
       yield put(A.fetchJumioStatusLoading())
       const profileR = yield select(selectors.core.data.sfox.getProfile)
@@ -368,7 +368,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchJumioToken = function*() {
+  const fetchJumioToken = function * () {
     try {
       yield put(A.fetchJumioTokenLoading())
       const profileR = yield select(selectors.core.data.sfox.getProfile)
@@ -385,7 +385,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sfoxInitialize = function*() {
+  const sfoxInitialize = function * () {
     try {
       yield put(actions.core.data.sfox.fetchTrades())
       yield put(actions.core.data.sfox.fetchProfile())
