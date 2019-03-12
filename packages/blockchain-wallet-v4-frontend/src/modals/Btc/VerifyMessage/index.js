@@ -46,6 +46,7 @@ const ItemAddress = ({ address, network, onChange }) => (
           error: validBitcoinAddress(address, null, { network }),
           touched: address !== ``
         }}
+        data-e2e='bitcoinAddressInput'
       />
     </FormLabel>
   </Item>
@@ -66,6 +67,7 @@ const ItemMessage = ({ onChange }) => (
           onChange
         }}
         meta={{}}
+        data-e2e='messageInput'
       />
     </FormLabel>
   </Item>
@@ -86,6 +88,7 @@ const ItemSignature = ({ onChange }) => (
           onChange
         }}
         meta={{}}
+        data-e2e='signatureInput'
       />
     </FormLabel>
   </Item>
@@ -128,14 +131,14 @@ class VerifyMessage extends React.PureComponent {
           <ItemSignature onChange={this.onChange} />
           <Result visible={services.showResult(this.state)}>
             {services.verifySignature(this.state) ? (
-              <Banner type='success'>
+              <Banner type='success' data-e2e='validSignatureBadge'>
                 <FormattedMessage
                   id='modals.verifyMessage.success'
                   defaultMessage='The message has a valid signature from the address.'
                 />
               </Banner>
             ) : (
-              <Banner type='caution'>
+              <Banner type='caution' data-e2e='incorrectSignatureBadge'>
                 <FormattedMessage
                   id='modals.verifyMessage.failure'
                   defaultMessage='The signature does not match the message.'
@@ -145,7 +148,11 @@ class VerifyMessage extends React.PureComponent {
           </Result>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button onClick={close} nature='primary'>
+          <Button
+            onClick={close}
+            nature='primary'
+            data-e2e='closeVerifyMessageButton'
+          >
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
