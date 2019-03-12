@@ -14,6 +14,21 @@ export const ADDRESS_EVENTS = {
   SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
   SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
+export const KYC_EVENTS = {
+  FORMS: {
+    EDIT_ADDRESS: ['kyc', 'onboarding', 'forms', 'edit_address'],
+    EDIT_COUNTRY: ['kyc', 'onboarding', 'forms', 'edit_country'],
+    EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
+    UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
+  },
+  ONBOARDING_START: ['kyc', 'onboarding', 'start'],
+  SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
+  STEP_CHANGE: ['kyc', 'onboarding', 'step_change'],
+  SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
+  SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
+  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
+  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number', 'failure']
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
@@ -62,19 +77,6 @@ export const PREFERENCE_EVENTS = {
     TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
 }
-export const TRANSACTION_EVENTS = {
-  SEND: ['transactions', 'send'],
-  REQUEST: ['transactions', 'request'],
-  EDIT_DESCRIPTION: ['transactions', 'edit_description']
-}
-export const WALLET_EVENTS = {
-  ADD_NEW: ['wallets', 'add_new'],
-  ARCHIVE: ['wallets', 'archive'],
-  CHANGE_DEFAULT: ['wallets', 'change_default'],
-  EDIT_NAME: ['wallets', 'edit_name'],
-  SHOW_XPUB: ['wallets', 'show_xpub'],
-  UNARCHIVE: ['wallets', 'unarchive']
-}
 export const SWAP_EVENTS = {
   ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
   ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
@@ -87,4 +89,17 @@ export const SWAP_EVENTS = {
   USE_MIN: ['swap', 'order_form', 'use_min'],
   USE_MAX: ['swap', 'order_form', 'use_max'],
   VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
+}
+export const TRANSACTION_EVENTS = {
+  SEND: ['transactions', 'send'],
+  REQUEST: ['transactions', 'request'],
+  EDIT_DESCRIPTION: ['transactions', 'edit_description']
+}
+export const WALLET_EVENTS = {
+  ADD_NEW: ['wallets', 'add_new'],
+  ARCHIVE: ['wallets', 'archive'],
+  CHANGE_DEFAULT: ['wallets', 'change_default'],
+  EDIT_NAME: ['wallets', 'edit_name'],
+  SHOW_XPUB: ['wallets', 'show_xpub'],
+  UNARCHIVE: ['wallets', 'unarchive']
 }

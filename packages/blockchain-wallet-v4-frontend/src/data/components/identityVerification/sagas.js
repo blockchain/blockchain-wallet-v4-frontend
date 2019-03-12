@@ -40,6 +40,14 @@ export const invalidLinkError = 'Invalid campaign one time link'
 export default ({ api, coreSagas }) => {
   const { TIERS } = model.profile
   const {
+    FORMS,
+    SELECT_TIER,
+    SEND_SMS_CODE,
+    SEND_VERIFICATION_EMAIL,
+    VERIFY_PHONE_FAILURE,
+    VERIFY_PHONE_SUCCESS
+  } = model.analytics.KYC_EVENTS
+  const {
     getCampaignData,
     fetchUser,
     createUser,
@@ -130,6 +138,7 @@ export default ({ api, coreSagas }) => {
     if (selected === tier) return
     yield call(api.selectTier, tier)
     yield call(fetchUser)
+    yield put(actions.analytics.logEvent([...SELECT_TIER, `$tier {tier}`]))
   }
 
   const verifyIdentity = function * ({ payload }) {
@@ -221,6 +230,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(A.setSmsStep(SMS_STEPS.verify))
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(actions.analytics.logEvent(FORMS.UPDATE_PHONE_NUMBER))
     } catch (e) {
       yield put(
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
@@ -239,6 +249,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobileVerified, { code })
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(actions.analytics.logEvent(VERIFY_PHONE_SUCCESS))
       yield call(goToNextStep)
     } catch (e) {
       const description = prop('description', e)
@@ -248,6 +259,7 @@ export default ({ api, coreSagas }) => {
       else if (e === BAD_CODE_ERROR) error = BAD_CODE_ERROR
       else error = UPDATE_FAILURE
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM, { _error: error }))
+      yield put(actions.analytics.logEvent(VERIFY_PHONE_FAILURE))
     }
   }
 
@@ -260,6 +272,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+      yield put(actions.analytics.logEvent(SEND_SMS_CODE))
     } catch (e) {
       yield put(
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
@@ -413,6 +426,7 @@ export default ({ api, coreSagas }) => {
       else yield call(coreSagas.settings.setEmail, { email })
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify))
+      yield put(actions.analytics.logEvent(SEND_VERIFICATION_EMAIL))
     } catch (e) {
       yield put(
         actions.form.stopAsyncValidation(PERSONAL_FORM, {

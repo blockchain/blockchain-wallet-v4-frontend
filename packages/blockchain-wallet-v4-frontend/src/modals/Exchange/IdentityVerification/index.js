@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { contains, keys, pickBy } from 'ramda'
+import { includes, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -79,7 +79,7 @@ const KycStepIndicator = styled(StepIndicator)`
     border: none;
     background-color: ${props => props.theme['gray-2']};
     &:after {
-      bottom: 0px;
+      bottom: 0;
       border-radius: 4px;
       background-color: ${props => props.theme['brand-secondary']};
     }
@@ -121,6 +121,8 @@ const stepMap = {
   )
 }
 
+const { KYC_EVENTS } = model.analytics
+
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -131,7 +133,7 @@ class IdentityVerification extends React.PureComponent {
     this.initializeVerification()
   }
 
-  getSteps = steps => pickBy((_, step) => contains(step, steps), stepMap)
+  getSteps = steps => pickBy((_, step) => includes(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
@@ -141,10 +143,15 @@ class IdentityVerification extends React.PureComponent {
   initializeVerification = () => {
     const { tier, isCoinify, needMoreInfo } = this.props
     this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
+    this.props.analyticsActions.logEvent([
+      ...KYC_EVENTS.ONBOARDING_START,
+      `tier ${tier}`
+    ])
   }
 
   getStepComponent = step => {
     const { actions } = this.props
+    this.props.analyticsActions.logEvent([...KYC_EVENTS.STEP_CHANGE, step])
     if (step === STEPS.personal)
       return (
         <Personal
@@ -222,7 +229,11 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.identityVerification, dispatch)
+  actions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(
