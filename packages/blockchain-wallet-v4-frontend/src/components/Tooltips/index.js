@@ -1,11 +1,17 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
+const TooltipWrapper = styled.div`
+  @supports (-ms-ime-align: auto) {
+    display: none;
+  }
+`
 class Tooltips extends React.PureComponent {
   render () {
     return (
-      <div>
+      <TooltipWrapper>
         <Tooltip id='copied'>
           <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
         </Tooltip>
@@ -294,7 +300,7 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
-      </div>
+      </TooltipWrapper>
     )
   }
 }
