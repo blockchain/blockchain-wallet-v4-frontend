@@ -5,26 +5,26 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
-  return function* lockboxSaga () {
-    yield takeLatest(AT.INITIALIZE_NEW_DEVICE_SETUP, function*(...args) {
+  return function * lockboxSaga () {
+    yield takeLatest(AT.INITIALIZE_NEW_DEVICE_SETUP, function * (...args) {
       yield race({
         task: call(lockboxSagas.initializeNewDeviceSetup, ...args),
         cancel: take(AT.LOCKBOX_MODAL_CLOSE)
       })
     })
-    yield takeLatest(AT.FINALIZE_NEW_DEVICE_SETUP, function*(...args) {
+    yield takeLatest(AT.FINALIZE_NEW_DEVICE_SETUP, function * (...args) {
       yield race({
         task: call(lockboxSagas.finalizeNewDeviceSetup, ...args),
         cancel: take([AT.LOCKBOX_MODAL_CLOSE, AT.SET_NEW_DEVICE_SETUP_STEP])
       })
     })
-    yield takeLatest(AT.POLL_FOR_DEVICE_APP, function*(...args) {
+    yield takeLatest(AT.POLL_FOR_DEVICE_APP, function * (...args) {
       yield race({
         task: call(lockboxSagas.pollForDeviceApp, ...args),
         cancel: take([AT.LOCKBOX_MODAL_CLOSE, AT.SET_NEW_DEVICE_SETUP_STEP])
       })
     })
-    yield takeLatest(AT.UPDATE_DEVICE_FIRMWARE, function*(...args) {
+    yield takeLatest(AT.UPDATE_DEVICE_FIRMWARE, function * (...args) {
       yield race({
         task: call(lockboxSagas.updateDeviceFirmware, ...args),
         cancel: take(AT.LOCKBOX_MODAL_CLOSE)

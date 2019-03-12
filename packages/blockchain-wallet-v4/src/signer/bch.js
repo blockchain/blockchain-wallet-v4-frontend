@@ -87,7 +87,7 @@ export const signWithWIF = curry((network, coinDust, selection) =>
   )(selection)
 )
 
-export const signWithLockbox = function*(
+export const signWithLockbox = function * (
   selection,
   coinDust,
   transport,

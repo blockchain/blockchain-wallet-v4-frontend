@@ -37,7 +37,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
 
   const getBchUnspents = (fromAddresses, confirmations = 0) =>
-    get({
+    post({
       url: apiUrl,
       endPoint: '/bch/unspent',
       data: {

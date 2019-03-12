@@ -3,7 +3,7 @@ import { contains } from 'ramda'
 import { actions, selectors } from 'data'
 
 export default () => {
-  const refreshClicked = function*() {
+  const refreshClicked = function * () {
     try {
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
@@ -50,23 +50,23 @@ export default () => {
     }
   }
 
-  const refreshBchTransactions = function*() {
+  const refreshBchTransactions = function * () {
     yield put(actions.core.data.bch.fetchTransactions('', true))
   }
 
-  const refreshBtcTransactions = function*() {
+  const refreshBtcTransactions = function * () {
     yield put(actions.core.data.bitcoin.fetchTransactions('', true))
   }
 
-  const refreshBsvTransactions = function*() {
+  const refreshBsvTransactions = function * () {
     yield put(actions.core.data.bsv.fetchTransactions('', true))
   }
 
-  const refreshEthTransactions = function*() {
+  const refreshEthTransactions = function * () {
     yield put(actions.core.data.ethereum.fetchTransactions(null, true))
   }
 
-  const refreshXlmTransactions = function*() {
+  const refreshXlmTransactions = function * () {
     yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 

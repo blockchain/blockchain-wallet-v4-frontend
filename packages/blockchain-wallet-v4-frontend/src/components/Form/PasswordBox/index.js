@@ -19,7 +19,6 @@ const Error = styled(Text)`
   height: 15px;
   top: -20px;
   right: 0;
-  padding: 5px 0px 5px 0px;
 `
 const getErrorState = ({ touched, invalid }) => {
   return touched && invalid ? 'invalid' : 'initial'

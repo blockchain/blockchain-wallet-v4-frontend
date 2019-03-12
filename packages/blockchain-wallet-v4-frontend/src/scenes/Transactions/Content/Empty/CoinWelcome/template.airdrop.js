@@ -99,8 +99,8 @@ const WelcomeAirdrop = props => {
               values={{ coinName: coinProps[coin].name, coin }}
             />
             <FormattedMessage
-              id='scenes.transaction.content.empty.airdrop.completeprofile'
-              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.'
+              id='scenes.transaction.content.empty.airdrop.completeprofileforairdrop'
+              defaultMessage='Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.'
               values={{ coinName: coinProps[coin].name, coin }}
             />
           </Content>

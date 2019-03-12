@@ -13,7 +13,7 @@ import lockbox from './lockbox/sagaRegister'
 import userCredentials from './userCredentials/sagaRegister'
 
 export default ({ api, networks }) =>
-  function* coreKvStoreSaga () {
+  function * coreKvStoreSaga () {
     yield fork(whatsNew({ api, networks }))
     yield fork(ethereum({ api, networks }))
     yield fork(bch({ api, networks }))

@@ -25,6 +25,15 @@ export const LOCKBOX_EVENTS = {
     REMOVE_DEVICE: ['lockbox', 'settings', 'remove_device'],
     SHOW_XPUBS: ['lockbox', 'settings', 'show_xpubs'],
     TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
+  },
+  DEVICE_SETUP: {
+    SELECT_DEVICE: ['lockbox', 'device_setup', 'select_device'],
+    SETUP_TYPE: ['lockbox', 'device_setup', 'setup_type'],
+    CONNECT_DEVICE: ['lockbox', 'device_setup', 'connect_device'],
+    INSTALL_APPS: ['lockbox', 'device_setup', 'install_apps'],
+    PAIR_DEVICE: ['lockbox', 'device_setup', 'pair_device'],
+    COMPLETE: ['lockbox', 'device_setup', 'complete'],
+    VIEW_TOUR: ['lockbox', 'device_setup', 'view_tour']
   }
 }
 export const PREFERENCE_EVENTS = {
@@ -65,4 +74,17 @@ export const WALLET_EVENTS = {
   EDIT_NAME: ['wallets', 'edit_name'],
   SHOW_XPUB: ['wallets', 'show_xpub'],
   UNARCHIVE: ['wallets', 'unarchive']
+}
+export const SWAP_EVENTS = {
+  ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+  ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
+  ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+  ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
+  REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
+  SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+  FIXTURES_CHANGED: ['swap', 'order_form', 'fixtures_changed'],
+  VALUE_INPUT: ['swap', 'order_form', 'value_input'],
+  USE_MIN: ['swap', 'order_form', 'use_min'],
+  USE_MAX: ['swap', 'order_form', 'use_max'],
+  VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
 }

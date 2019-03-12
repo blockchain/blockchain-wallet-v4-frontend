@@ -42,13 +42,13 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
       // ensure timeout is long enough for user to allow device access
       transport.exchangeTimeout = 20000
       // socket params
+      // `hash` property may need to be added back again in the future
       const params = {
         targetId,
         perso: appInfo.perso,
         deleteKey: appInfo.delete_key,
         firmware: appInfo.delete,
-        firmwareKey: appInfo.delete_key,
-        hash: appInfo.hash
+        firmwareKey: appInfo.delete_key
       }
 
       // build socket url
@@ -92,13 +92,13 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
         appInfos
       )
       // socket params
+      // `hash` property may need to be added back again in the future
       const params = {
         targetId,
         perso: latestAppInfo.perso,
         deleteKey: latestAppInfo.delete_key,
         firmware: latestAppInfo.firmware,
-        firmwareKey: latestAppInfo.firmware_key,
-        hash: latestAppInfo.hash
+        firmwareKey: latestAppInfo.firmware_key
       }
 
       // build socket url

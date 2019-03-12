@@ -7,7 +7,7 @@ import { promptForSecondPassword } from 'services/SagaService'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const confirmTransferEth = function*(action) {
+  const confirmTransferEth = function * (action) {
     try {
       const { to, effectiveBalance } = action.payload
       let p = yield select(selectors.getPayment)

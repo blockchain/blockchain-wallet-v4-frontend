@@ -33,6 +33,7 @@ export default {
   black: '#000000',
   textBlack: '#030E26',
   // Blues
+  purple: '#0D3578',
   'deep-blue': '#152343',
   'navy-blue': '#27324B',
   'darkblue-gray': '#222D38',

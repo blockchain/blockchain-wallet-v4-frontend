@@ -156,8 +156,6 @@ describe('sendEth sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
-          .put(A.sendEthPaymentUpdatedFailure(error))
-          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,

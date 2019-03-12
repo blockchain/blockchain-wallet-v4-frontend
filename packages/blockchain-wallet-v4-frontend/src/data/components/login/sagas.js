@@ -7,7 +7,7 @@ import { assoc } from 'ramda'
 // We should not need this in the future. It is used to handle transferring cookies from .info to .com domain
 
 export default () => {
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       const alreadyTransferredCookiesKey =
         'did_already_transfer_cookies_from_dot_info'

@@ -10,7 +10,7 @@ import { WALLET_TX_SEARCH } from '../../../form/model'
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     try {
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
@@ -41,11 +41,11 @@ export default ({ api, btcSocket }) => {
     }
   }
 
-  const dispatchLogoutEvent = function*() {
+  const dispatchLogoutEvent = function * () {
     yield window.dispatchEvent(new window.Event('wallet.core.logout'))
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     try {
       const message = action.payload
 
@@ -134,9 +134,9 @@ export default ({ api, btcSocket }) => {
     }
   }
 
-  const onClose = function*(action) {}
+  const onClose = function * (action) {}
 
-  const refreshWrapper = function*() {
+  const refreshWrapper = function * () {
     const guid = yield select(actions.core.wallet.getGuid)
     const skey = yield select(actions.core.wallet.getSharedKey)
     const password = yield select(actions.core.wallet.getMainPassword)

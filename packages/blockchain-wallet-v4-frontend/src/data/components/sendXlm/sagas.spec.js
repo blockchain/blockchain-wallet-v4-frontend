@@ -142,8 +142,6 @@ describe('sendXlm sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
-          .put(A.paymentUpdatedFailure(error))
-          .next()
           .put(actions.logs.logErrorMessage(logLocation, 'initialized', error))
           .next()
           .isDone()

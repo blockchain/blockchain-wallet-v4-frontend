@@ -1,11 +1,22 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
+// TODO: remove this
+// Hide tooltips on IE Edge because of a CSP issue
+const TooltipWrapper = styled.div`
+  @supports (-ms-ime-align: auto) {
+    display: none;
+  }
+`
 class Tooltips extends React.PureComponent {
   render () {
     return (
-      <div>
+      <TooltipWrapper>
+        <Tooltip id='copied'>
+          <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
+        </Tooltip>
         <Tooltip id='addr' multiline offset={{ bottom: 8 }} />
         <Tooltip id='lockbox.exportkeyswarning'>
           <FormattedMessage
@@ -217,8 +228,8 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={300} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.goldcompleteauto'
-                defaultMessage='By completing the Gold Level requirements you will automatically receive free crypto and will also be eligible for future airdrops.'
+                id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible'
+                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
               />
             </Text>
             <Link
@@ -291,7 +302,7 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
-      </div>
+      </TooltipWrapper>
     )
   }
 }

@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const xlmTransactionsSagas = sagas()
 
-  return function* xlmTransactionsSaga () {
+  return function * xlmTransactionsSaga () {
     yield takeEvery(
       AT.TRANSACTIONS_INITIALIZED,
       xlmTransactionsSagas.initialized
