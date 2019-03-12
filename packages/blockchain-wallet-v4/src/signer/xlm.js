@@ -8,7 +8,7 @@ export const sign = ({ transaction }, mnemonic) => {
   return transaction
 }
 
-export const signWithLockbox = function*(transport, transaction, scrambleKey) {
+export const signWithLockbox = function * (transport, transaction, scrambleKey) {
   const str = new Str(transport, scrambleKey)
   const { signature } = yield str.signTransaction(
     "44'/148'/0'",

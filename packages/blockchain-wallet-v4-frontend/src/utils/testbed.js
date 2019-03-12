@@ -28,7 +28,7 @@ export const createTestStore = (
     createStore
   )
   const testStore = createTestStore(combinedReducers)
-  sagaMiddleware.run(function*() {
+  sagaMiddleware.run(function * () {
     yield all(map(fork, sagas))
   })
 

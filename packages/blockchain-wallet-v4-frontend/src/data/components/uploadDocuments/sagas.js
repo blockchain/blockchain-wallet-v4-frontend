@@ -5,7 +5,7 @@ import * as A from './actions'
 export const logLocation = 'components/identityVerification/sagas'
 
 export default ({ api }) => {
-  const fetchData = function*({ payload }) {
+  const fetchData = function * ({ payload }) {
     try {
       const { token } = payload
       const response = yield call(api.fetchUploadData, token)
@@ -15,7 +15,7 @@ export default ({ api }) => {
     }
   }
 
-  const upload = function*({ payload }) {
+  const upload = function * ({ payload }) {
     try {
       const { files, token } = payload
       yield put(A.setUploadedLoading())

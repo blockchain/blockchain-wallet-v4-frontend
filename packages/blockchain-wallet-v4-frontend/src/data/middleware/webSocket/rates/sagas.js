@@ -67,7 +67,7 @@ export default ({ api, ratesSocket }) => {
     whereEq(model.rates.RATES_SNAPSHOT_MESSAGE)
   )
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     yield call(authenticateSocket)
     yield call(reopenChannels)
   }
@@ -77,7 +77,7 @@ export default ({ api, ratesSocket }) => {
     map(ratesSocket.send.bind(ratesSocket), values(openChannels.advice))
   }
 
-  const onMessage = function*({ payload: { message } }) {
+  const onMessage = function * ({ payload: { message } }) {
     if (isAuthError(message)) {
       yield delay(socketAuthRetryDelay)
       yield call(authenticateSocket)
@@ -104,7 +104,7 @@ export default ({ api, ratesSocket }) => {
       )
   }
 
-  const restFallback = function*() {
+  const restFallback = function * () {
     const pairs = yield select(selectors.modules.rates.getActivePairs)
     if (!isEmpty(pairs)) {
       yield all(
@@ -121,14 +121,14 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
-  const authenticateSocket = function*() {
+  const authenticateSocket = function * () {
     const token = (yield select(
       selectors.modules.profile.getApiToken
     )).getOrElse('')
     ratesSocket.send(model.rates.getAuthMessage(token))
   }
 
-  const fetchAdvice = function*({
+  const fetchAdvice = function * ({
     pair,
     config: { volume, fix, fiatCurrency }
   }) {
@@ -156,7 +156,7 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
-  const fetchRates = function*(pairs) {
+  const fetchRates = function * (pairs) {
     try {
       const { rates } = yield call(api.fetchBestRates, pairs)
       yield put(
@@ -172,9 +172,9 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
-  const onClose = function*(action) {}
+  const onClose = function * (action) {}
 
-  const openRatesChannel = function*({ payload }) {
+  const openRatesChannel = function * ({ payload }) {
     const { pairs } = payload
     if (ratesSocket.isReady()) {
       const message = model.rates.getRatesSubscribeMessage(pairs)
@@ -192,7 +192,7 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
-  const openAdviceChannel = function*({ payload }) {
+  const openAdviceChannel = function * ({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
     if (isNil(volume) || !fix || !fiatCurrency) return
     if (ratesSocket.isReady()) {

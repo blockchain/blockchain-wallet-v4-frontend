@@ -6,7 +6,7 @@ export default () => {
   const { WALLET_TX_SEARCH } = model.form
   const logLocation = 'components/bsvTransactions/sagas'
 
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       const defaultSource = 'all'
       const initialValues = {
@@ -21,7 +21,7 @@ export default () => {
     }
   }
 
-  const loadMore = function*() {
+  const loadMore = function * () {
     try {
       const formValues = yield select(
         selectors.form.getFormValues(WALLET_TX_SEARCH)
@@ -36,7 +36,7 @@ export default () => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)

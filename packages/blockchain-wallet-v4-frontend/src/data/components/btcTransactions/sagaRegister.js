@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const btcTransactionsSagas = sagas()
 
-  return function* btcTransactionsSaga () {
+  return function * btcTransactionsSaga () {
     yield takeEvery(
       AT.BTC_TRANSACTIONS_INITIALIZED,
       btcTransactionsSagas.initialized

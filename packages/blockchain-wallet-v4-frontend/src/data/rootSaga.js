@@ -16,7 +16,7 @@ import { tryParseLanguageFromUrl } from 'services/LanguageService'
 
 const logLocation = 'data/rootSaga'
 
-const welcomeSaga = function*() {
+const welcomeSaga = function * () {
   try {
     const version = APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
@@ -38,7 +38,7 @@ const welcomeSaga = function*() {
   }
 }
 
-const languageInitSaga = function*() {
+const languageInitSaga = function * () {
   try {
     yield call(delay, 250)
     const lang = tryParseLanguageFromUrl()
@@ -53,7 +53,7 @@ const languageInitSaga = function*() {
   }
 }
 
-export default function* rootSaga ({
+export default function * rootSaga ({
   api,
   bchSocket,
   btcSocket,

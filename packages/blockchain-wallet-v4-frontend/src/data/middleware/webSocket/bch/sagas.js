@@ -10,7 +10,7 @@ import { WALLET_TX_SEARCH } from '../../../form/model'
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     try {
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
@@ -42,7 +42,7 @@ export default ({ api, bchSocket }) => {
     }
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     try {
       const message = action.payload
 
@@ -116,7 +116,7 @@ export default ({ api, bchSocket }) => {
     }
   }
 
-  const onClose = function*(action) {}
+  const onClose = function * (action) {}
 
   return {
     onOpen,

@@ -5,7 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { equals } from 'ramda'
 
 export default ({ coreSagas }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const { coin } = action.payload
       const bchRates = yield select(selectors.core.data.bitcoin.getRates)

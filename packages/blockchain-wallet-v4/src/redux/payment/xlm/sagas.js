@@ -62,7 +62,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function*(
+  const calculateSignature = function * (
     password,
     transaction,
     transport,
@@ -104,7 +104,7 @@ export default ({ api }) => {
     })
   }
 
-  const checkAccountExistance = function*(id) {
+  const checkAccountExistance = function * (id) {
     try {
       yield call(api.getXlmAccount, id)
       return true
@@ -113,14 +113,14 @@ export default ({ api }) => {
     }
   }
 
-  const getFee = function*() {
+  const getFee = function * () {
     const baseFee = (yield select(S.data.xlm.getBaseFee)).getOrFail(
       new Error(NO_LEDGER_ERROR)
     )
     return yield call(calculateFee, baseFee, NUMBER_OF_OPERATIONS)
   }
 
-  const getReserve = function*(accountId) {
+  const getReserve = function * (accountId) {
     const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
       new Error(NO_LEDGER_ERROR)
     )
@@ -130,7 +130,7 @@ export default ({ api }) => {
     return yield call(calculateReserve, baseReserve, entriesNumber)
   }
 
-  const getEffectiveBalance = function*(accountId, fee, reserve) {
+  const getEffectiveBalance = function * (accountId, fee, reserve) {
     const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
       new Error(NO_ACCOUNT_ERROR)
     )
@@ -157,12 +157,12 @@ export default ({ api }) => {
         return p
       },
 
-      *init () {
+      * init () {
         const fee = yield call(getFee)
         return makePayment(merge(p, { fee }))
       },
 
-      *from (origin, type) {
+      * from (origin, type) {
         const accountId =
           origin ||
           (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
@@ -192,7 +192,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance, reserve }))
       },
 
-      *to (destination) {
+      * to (destination) {
         if (!destination) throw new Error(NO_DESTINATION_ERROR)
 
         const to = calculateTo(destination)
@@ -224,7 +224,7 @@ export default ({ api }) => {
         return makePayment(p)
       },
 
-      *build () {
+      * build () {
         const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
@@ -251,7 +251,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { transaction }))
       },
 
-      *sign (password, transport, scrambleKey) {
+      * sign (password, transport, scrambleKey) {
         try {
           const transaction = prop('transaction', p)
           const signed = yield call(
@@ -268,7 +268,7 @@ export default ({ api }) => {
         }
       },
 
-      *publish () {
+      * publish () {
         const signed = prop('signed', p)
         if (!signed) throw new Error(NO_SIGNED_ERROR)
         const tx = yield call(api.pushXlmTx, signed)
@@ -296,7 +296,7 @@ export default ({ api }) => {
 
       chain () {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -315,12 +315,12 @@ export default ({ api }) => {
           memo: memo => chain(gen, payment => payment.memo(memo)),
           memoType: memoType =>
             chain(gen, payment => payment.memoType(memoType)),
-          *done () {
+          * done () {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }
