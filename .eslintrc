@@ -61,6 +61,7 @@
     "react/self-closing-comp": 2,
     "react/sort-comp": 2,
     "space-before-function-paren": 2,
-    "strict": 0
+    "strict": 0,
+    "generator-star-spacing": ["error", {"before": true, "after": true}]
   }
 }
