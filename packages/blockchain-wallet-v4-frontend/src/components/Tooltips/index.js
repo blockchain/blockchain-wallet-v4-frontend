@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
+// TODO: remove this
+// Hide tooltips on IE Edge because of a CSP issue
 const TooltipWrapper = styled.div`
   @supports (-ms-ime-align: auto) {
     display: none;
