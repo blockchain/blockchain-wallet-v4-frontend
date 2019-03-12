@@ -33,7 +33,7 @@ import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
-  function* componentsSaga () {
+  function * componentsSaga () {
     yield fork(activityList())
     yield fork(bchTransactions())
     yield fork(btcTransactions())

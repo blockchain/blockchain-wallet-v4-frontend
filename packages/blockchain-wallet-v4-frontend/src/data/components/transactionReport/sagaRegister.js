@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const transactionReportSagas = sagas({ coreSagas })
 
-  return function* transactionReportSaga () {
+  return function * transactionReportSaga () {
     yield takeLatest(
       AT.TRANSACTION_REPORT_INITIALIZED,
       transactionReportSagas.initialized

@@ -14,7 +14,7 @@ export const initialValues = {
 export const logLocation = 'components/transactionReport/sagas'
 
 export default ({ coreSagas }) => {
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
@@ -24,12 +24,12 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.core.data.bitcoin.clearTransactionHistory())
     yield put(actions.core.data.bch.clearTransactionHistory())
   }
 
-  const submitClicked = function*(action) {
+  const submitClicked = function * (action) {
     try {
       const { coin } = action.payload
       const formValues = yield select(

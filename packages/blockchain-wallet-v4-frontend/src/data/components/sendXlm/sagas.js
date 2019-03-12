@@ -23,7 +23,7 @@ const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
 export default ({ coreSagas }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
@@ -55,11 +55,11 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -128,7 +128,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const currency = (yield select(
         selectors.core.settings.getCurrency
@@ -157,7 +157,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
       yield put(A.paymentUpdatedLoading())
@@ -172,7 +172,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
@@ -254,7 +254,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const setFrom = function*(payment, from, type) {
+  const setFrom = function * (payment, from, type) {
     try {
       const updatedPayment = yield call(payment.from, from, type)
       yield put(A.showNoAccountForm(false))
@@ -269,7 +269,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {

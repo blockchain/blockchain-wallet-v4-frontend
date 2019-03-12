@@ -13,7 +13,7 @@ export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const coinifySignup = function*(data) {
+  const coinifySignup = function * (data) {
     const country = data.payload
     try {
       yield call(coreSagas.data.coinify.signup, country)
@@ -30,12 +30,12 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const coinifySaveMedium = function*(data) {
+  const coinifySaveMedium = function * (data) {
     const medium = data.payload
     yield put(A.saveMediumSuccess(medium))
   }
 
-  const buy = function*(payload) {
+  const buy = function * (payload) {
     try {
       const nextAddressData = yield call(prepareAddress)
       const buyTrade = yield call(
@@ -63,7 +63,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const prepareAddress = function*() {
+  const prepareAddress = function * () {
     try {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
@@ -87,7 +87,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const sell = function*() {
+  const sell = function * () {
     try {
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
@@ -149,7 +149,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const { type } = action.payload
       const level = yield select(selectors.core.data.coinify.getLevel)
@@ -197,7 +197,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const checkoutCardMax = function*(action) {
+  const checkoutCardMax = function * (action) {
     try {
       const { card } = action.payload
       const levelR = yield select(selectors.core.data.coinify.getLevel)
@@ -209,7 +209,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const handleChange = function*(action) {
+  const handleChange = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -376,7 +376,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const fromISX = function*(action) {
+  const fromISX = function * (action) {
     const status = action.payload
     try {
       const modals = yield select(selectors.modals.getModals)
@@ -408,7 +408,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const triggerKYC = function*() {
+  const triggerKYC = function * () {
     try {
       yield call(coreSagas.data.coinify.triggerKYC)
       yield put(A.coinifyNextCheckoutStep('isx'))
@@ -417,7 +417,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const openKYC = function*(data) {
+  const openKYC = function * (data) {
     let kyc = data.payload
     const recentKycR = yield select(selectors.core.data.coinify.getKyc)
     const recentKyc = recentKycR.getOrElse(undefined)
@@ -441,7 +441,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const deleteBankAccount = function*(payload) {
+  const deleteBankAccount = function * (payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
       const quote = yield select(selectors.core.data.coinify.getQuote)
@@ -455,7 +455,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const finishTrade = function*(data) {
+  const finishTrade = function * (data) {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
@@ -476,7 +476,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const cancelISX = function*() {
+  const cancelISX = function * () {
     const modals = yield select(selectors.modals.getModals)
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
     const trade = tradeR.getOrElse({})
@@ -493,7 +493,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const cancelTrade = function*(data) {
+  const cancelTrade = function * (data) {
     const trade = data.payload
     try {
       yield put(A.setCancelTradeId(trade.id))
@@ -505,7 +505,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const cancelSubscription = function*(data) {
+  const cancelSubscription = function * (data) {
     const id = path(['payload', 'id'], data)
     try {
       yield put(A.coinifyLoading())
@@ -518,7 +518,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const initializePayment = function*() {
+  const initializePayment = function * () {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({

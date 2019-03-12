@@ -6,7 +6,7 @@ import { addLanguageToUrl } from 'services/LanguageService'
 export default () => {
   const logLocation = 'preferences/sagas'
 
-  const setLanguage = function*(action) {
+  const setLanguage = function * (action) {
     const { language, showAlert } = action.payload
     try {
       addLanguageToUrl(language)

@@ -72,7 +72,7 @@ export default ({ api }) => {
    * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
-  const pollForDeviceApp = function*(action) {
+  const pollForDeviceApp = function * (action) {
     try {
       let { appRequested, deviceIndex, deviceType, timeout } = action.payload
 
@@ -129,7 +129,7 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*(action) {
+  const checkDeviceAuthenticity = function * (action) {
     try {
       const { deviceIndex } = action.payload
       const deviceR = yield select(
@@ -182,7 +182,7 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is setup and routes app accordingly
-  const determineLockboxRoute = function*() {
+  const determineLockboxRoute = function * () {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const devices = devicesR.getOrElse([])
@@ -203,7 +203,7 @@ export default ({ api }) => {
   }
 
   // saves new device to KvStore
-  const saveNewDeviceKvStore = function*() {
+  const saveNewDeviceKvStore = function * () {
     let deviceDisplayName
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
@@ -250,7 +250,7 @@ export default ({ api }) => {
   }
 
   // saves xPubs/addresses for requested coin to kvStore
-  const saveCoinMD = function*(action) {
+  const saveCoinMD = function * (action) {
     try {
       const { deviceIndex, coin } = action.payload
       const deviceR = yield select(
@@ -291,7 +291,7 @@ export default ({ api }) => {
   }
 
   // renames a device in KvStore
-  const updateDeviceName = function*(action) {
+  const updateDeviceName = function * (action) {
     try {
       const { deviceIndex, deviceName } = action.payload
       yield put(A.updateDeviceNameLoading())
@@ -310,7 +310,7 @@ export default ({ api }) => {
   }
 
   // deletes a device from KvStore
-  const deleteDevice = function*(action) {
+  const deleteDevice = function * (action) {
     try {
       const { deviceIndex } = action.payload
 
@@ -346,7 +346,7 @@ export default ({ api }) => {
   }
 
   // fetches info on the latest applications for device
-  const deriveLatestAppInfo = function*() {
+  const deriveLatestAppInfo = function * () {
     try {
       yield put(A.setLatestAppInfosLoading())
       const { transport } = yield select(S.getCurrentConnection)
@@ -385,14 +385,14 @@ export default ({ api }) => {
   }
 
   // device connection polling for device setup
-  const initializeNewDeviceSetup = function*() {
+  const initializeNewDeviceSetup = function * () {
     try {
       closePoll = false
       let pollLength = 2000
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+      yield takeEvery(deviceTypeChannel, function * (deviceType) {
         yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
       })
     } catch (e) {
@@ -412,7 +412,7 @@ export default ({ api }) => {
   }
 
   // finalize new device setup
-  const finalizeNewDeviceSetup = function*() {
+  const finalizeNewDeviceSetup = function * () {
     let connection
     try {
       // safeguard in case existing polling is still running
@@ -424,7 +424,7 @@ export default ({ api }) => {
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+      yield takeEvery(deviceTypeChannel, function * (deviceType) {
         yield put(A.pollForDeviceApp('BTC', null, deviceType, pollLength))
       })
       // BTC app connection
@@ -490,7 +490,7 @@ export default ({ api }) => {
   }
 
   // routes new device to dashboard
-  const routeNewDeviceToDashboard = function*(action) {
+  const routeNewDeviceToDashboard = function * (action) {
     try {
       const { startTour } = action.payload
       const devices = (yield select(
@@ -512,12 +512,12 @@ export default ({ api }) => {
   }
 
   // loads data for device dashboard
-  const initializeDashboard = function*(action) {
+  const initializeDashboard = function * (action) {
     yield call(updateTransactionList, action)
   }
 
   // updates latest transaction information for device
-  const updateTransactionList = function*(action) {
+  const updateTransactionList = function * (action) {
     const { deviceIndex, reset } = action.payload
     const btcContext = (yield select(
       selectors.core.kvStore.lockbox.getBtcContextForDevice,
@@ -551,7 +551,7 @@ export default ({ api }) => {
   }
 
   // update device firmware saga
-  const updateDeviceFirmware = function*(action) {
+  const updateDeviceFirmware = function * (action) {
     try {
       const { deviceIndex } = action.payload
       // reset previous firmware infos
@@ -704,7 +704,7 @@ export default ({ api }) => {
   }
 
   // initializes the app manager to add and remove apps
-  const initializeAppManager = function*(action) {
+  const initializeAppManager = function * (action) {
     try {
       const { deviceIndex } = action.payload
       if (deviceIndex) {
@@ -729,7 +729,7 @@ export default ({ api }) => {
           pollForDeviceTypeChannel,
           pollLength
         )
-        yield takeEvery(deviceTypeChannel, function*(deviceType) {
+        yield takeEvery(deviceTypeChannel, function * (deviceType) {
           yield put(
             A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
           )
@@ -749,7 +749,7 @@ export default ({ api }) => {
   }
 
   // installs requested application on device
-  const installApplication = function*(action) {
+  const installApplication = function * (action) {
     const { appName } = action.payload
     try {
       yield put(A.appChangeLoading())
@@ -783,7 +783,7 @@ export default ({ api }) => {
   }
 
   // uninstalls requested application on device
-  const uninstallApplication = function*(action) {
+  const uninstallApplication = function * (action) {
     const { appName } = action.payload
     try {
       yield put(A.appChangeLoading())

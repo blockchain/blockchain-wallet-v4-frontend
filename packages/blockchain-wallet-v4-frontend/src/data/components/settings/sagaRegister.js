@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const settingsSagas = sagas({ coreSagas })
 
-  return function* settingsSaga () {
+  return function * settingsSaga () {
     yield takeLatest(
       AT.SETTINGS_NOTIFICATIONS_INITIALIZED,
       settingsSagas.notificationsInitialized

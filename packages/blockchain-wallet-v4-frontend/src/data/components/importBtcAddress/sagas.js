@@ -10,7 +10,7 @@ const { IMPORT_ADDR } = model.analytics.ADDRESS_EVENTS
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
-  const importBtcAddressSubmitClicked = function*() {
+  const importBtcAddressSubmitClicked = function * () {
     const form = yield select(selectors.form.getFormValues('importBtcAddress'))
     const value = prop('addrOrPriv', form)
     const to = prop('to', form)
@@ -43,7 +43,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sweepImportedToAccount = function*(priv, to, password) {
+  const sweepImportedToAccount = function * (priv, to, password) {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
@@ -79,7 +79,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const importLegacyAddress = function*(address, priv, secPass, bipPass, to) {
+  const importLegacyAddress = function * (address, priv, secPass, bipPass, to) {
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
     let password

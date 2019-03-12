@@ -8,7 +8,7 @@ import { derivationMap, BUYSELL } from '../config'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const createBuySell = function*(kv) {
+  const createBuySell = function * (kv) {
     const newBuySellEntry = {
       sfox: {
         trades: []
@@ -21,7 +21,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataBuySell(newkv))
   }
 
-  const fetchMetadataBuySell = function*() {
+  const fetchMetadataBuySell = function * () {
     try {
       const typeId = derivationMap[BUYSELL]
       const mxpriv = yield select(getMetadataXpriv)
