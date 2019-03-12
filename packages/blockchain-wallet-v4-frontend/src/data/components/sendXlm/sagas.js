@@ -51,7 +51,6 @@ export default ({ coreSagas }) => {
       yield put(touch(FORM, 'memo', 'memoType'))
       yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(A.paymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }

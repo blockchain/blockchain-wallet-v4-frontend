@@ -4561,6 +4561,22 @@
         "id": "modals.exchange.identityverification.submitted.whileyouwait"
       },
       {
+        "defaultMessage": "Once your profile is successfully verified, we'll send you your free crypto. Don't forget to share the wealth with friends and family!",
+        "id": "modals.exchange.identityverification.submitted.freecrypto"
+      },
+      {
+        "defaultMessage": "Tweet",
+        "id": "modals.airdropsuccess.tweet"
+      },
+      {
+        "defaultMessage": "Share",
+        "id": "modals.airdropsuccess.share"
+      },
+      {
+        "defaultMessage": "Copy",
+        "id": "modals.airdropsuccess.copy"
+      },
+      {
         "defaultMessage": "Claim Free XLM",
         "id": "modals.exchange.identityverification.submitted.claim"
       },
@@ -8592,19 +8608,6 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
-        "id": "scenes.home.banners.airdrop.title_1"
-      },
-      {
-        "defaultMessage": "Get Free Crypto",
-        "id": "scenes.home.banners.airdrop.started"
-      }
-    ],
-    "path": "src/scenes/Home/Banners/Airdrop/index.json"
   },
   {
     "descriptors": [

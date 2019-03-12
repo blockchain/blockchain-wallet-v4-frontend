@@ -1,4 +1,4 @@
-import { anyPass, equals, head, filter, propEq } from 'ramda'
+import { anyPass, equals, filter, propEq } from 'ramda'
 
 import { selectors, model } from 'data'
 
@@ -9,12 +9,6 @@ export const getData = state => {
   const kycNotFinished = selectors.modules.profile
     .getUserKYCState(state)
     .map(equals(KYC_STATES.NONE))
-    .getOrElse(false)
-  const showAirdropReminderBanner = selectors.modules.profile
-    .getTiers(state)
-    .map(filter(propEq('index', 2)))
-    .map(head)
-    .map(propEq('state', TIERS_STATES.NONE))
     .getOrElse(false)
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
@@ -38,7 +32,7 @@ export const getData = state => {
     bannerToShow = 'resubmit'
   } else if (showAirdropClaimBanner) {
     bannerToShow = 'airdropClaim'
-  } else if (showAirdropReminderBanner) {
+  } else if (kycNotFinished) {
     bannerToShow = 'airdropReminder'
   } else if (showSwapBanner) {
     bannerToShow = 'swap'
