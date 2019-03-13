@@ -77,6 +77,9 @@ export const PREFERENCE_EVENTS = {
     TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
 }
+export const SUNRIVER_AIRDROP_EVENTS = {
+  SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
+}
 export const SWAP_EVENTS = {
   ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
   ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
