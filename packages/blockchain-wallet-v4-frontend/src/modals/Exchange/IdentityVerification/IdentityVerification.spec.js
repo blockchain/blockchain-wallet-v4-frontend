@@ -479,10 +479,15 @@ describe('IdentityVerification Modal', () => {
       wrapper.find('button').simulate('click')
 
       let calls = dispatchSpy.mock.calls
-      expect(last(calls)[0].type).toEqual(
-        actionTypes.components.identityVerification.SET_VERIFICATION_STEP
+      let findSetVerificationStepAction = find(
+        pathEq(
+          [0, 'type'],
+          actionTypes.components.identityVerification.SET_VERIFICATION_STEP
+        )
       )
-      expect(last(calls)[0].payload).toEqual({ step: STEPS.personal })
+      expect(head(findSetVerificationStepAction(calls)).payload).toEqual({
+        step: STEPS.personal
+      })
     })
   })
 
