@@ -12,7 +12,6 @@ export default ({ api }) => {
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
-      console.log(message)
       if (frame) {
         frame.contentWindow.postMessage(message, '*')
       } else {

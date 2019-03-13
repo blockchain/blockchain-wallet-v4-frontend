@@ -138,7 +138,7 @@ export default ({ api, coreSagas }) => {
     if (selected === tier) return
     yield call(api.selectTier, tier)
     yield call(fetchUser)
-    yield put(actions.analytics.logEvent([...SELECT_TIER, `$tier {tier}`]))
+    yield put(actions.analytics.logEvent([...SELECT_TIER, `tier ${tier}`]))
   }
 
   const verifyIdentity = function * ({ payload }) {
