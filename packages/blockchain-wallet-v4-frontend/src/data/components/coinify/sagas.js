@@ -518,7 +518,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const compareKyc = function * () {
     try {
-      const tier2DataR = yield select(selectors.modules.profile.getTier(2))
+      const tier2DataR = yield select(selectors.modules.profile.getTier, 2)
       const tier2State = prop('state', tier2DataR.getOrElse(null))
       const profileLevel = (yield select(
         selectors.core.data.coinify.getLevel

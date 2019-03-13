@@ -24,7 +24,7 @@ export const getData = state => {
   const kycState = selectors.modules.profile
     .getUserKYCState(state)
     .getOrElse(false)
-  const tier2Data = selectors.modules.profile.getTier(2, state).getOrElse(null)
+  const tier2Data = selectors.modules.profile.getTier(state, 2).getOrElse(null)
   const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
   return {
     data: getUserData(state),
