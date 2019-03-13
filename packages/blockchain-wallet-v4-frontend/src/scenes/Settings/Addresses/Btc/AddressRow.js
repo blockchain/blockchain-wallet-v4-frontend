@@ -29,7 +29,11 @@ const AddressCell = styled(Text)`
 `
 
 const MoreOptions = () => (
-  <Link weight={200} size='small'>
+  <Link
+    weight={200}
+    size='small'
+    data-e2e='importedAddressesMoreOptionsDropdown'
+  >
     <FormattedMessage
       id='scenes.settings.addresses.btc.addressrow.moreoptions'
       defaultMessage='More Options'

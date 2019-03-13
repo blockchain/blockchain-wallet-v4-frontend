@@ -1,15 +1,16 @@
 import { call, select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 
+const { IMPORT_ADDR } = model.analytics.ADDRESS_EVENTS
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
-  const importBtcAddressSubmitClicked = function*() {
+  const importBtcAddressSubmitClicked = function * () {
     const form = yield select(selectors.form.getFormValues('importBtcAddress'))
     const value = prop('addrOrPriv', form)
     const to = prop('to', form)
@@ -24,22 +25,25 @@ export default ({ api, coreSagas, networks }) => {
       } catch (error) {
         yield put(
           actions.logs.logErrorMessage(
-            `${logLocation} importBtcAddressSubmitClicked`,
+            logLocation,
+            'importBtcAddressSubmitClicked',
             error
           )
         )
       }
       yield call(importLegacyAddress, address, value, null, null, to)
+      yield put(actions.analytics.logEvent(IMPORT_ADDR))
       return
     }
 
     // address handling (watch-only)
     if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
       yield call(importLegacyAddress, value, null, null, null, null)
+      yield put(actions.analytics.logEvent(IMPORT_ADDR))
     }
   }
 
-  const sweepImportedToAccount = function*(priv, to, password) {
+  const sweepImportedToAccount = function * (priv, to, password) {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
@@ -75,7 +79,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const importLegacyAddress = function*(address, priv, secPass, bipPass, to) {
+  const importLegacyAddress = function * (address, priv, secPass, bipPass, to) {
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
     let password
@@ -83,7 +87,7 @@ export default ({ api, coreSagas, networks }) => {
       password = secPass || (yield call(promptForSecondPassword))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(`${logLocation} importLegacyAddress`, e)
+        actions.logs.logErrorMessage(logLocation, 'importLegacyAddress', e)
       )
     }
     try {
@@ -99,10 +103,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.modals.closeAllModals())
     } catch (error) {
       yield put(
-        actions.logs.logErrorMessage(
-          `${logLocation} importLegacyAddress`,
-          error
-        )
+        actions.logs.logErrorMessage(logLocation, 'importLegacyAddress', error)
       )
       switch (error.message) {
         case 'present_in_wallet':

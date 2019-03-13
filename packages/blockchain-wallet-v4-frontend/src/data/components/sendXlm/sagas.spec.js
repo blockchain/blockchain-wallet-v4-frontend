@@ -96,7 +96,7 @@ describe('sendXlm sagas', () => {
     const beforeEnd = 'beforeEnd'
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.paymentUpdated(Remote.Loading))
+      saga.next().put(A.paymentUpdatedLoading())
     })
 
     it('should create payment', () => {
@@ -130,7 +130,7 @@ describe('sendXlm sagas', () => {
     it('should trigger xlm payment updated success action', () => {
       saga
         .next()
-        .put(A.paymentUpdated(Remote.of(value)))
+        .put(A.paymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
         .isDone()
@@ -192,7 +192,7 @@ describe('sendXlm sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga.next(Remote.of(paymentMock)).put(A.paymentUpdated(Remote.Loading))
+      saga.next(Remote.of(paymentMock)).put(A.paymentUpdatedLoading())
     })
 
     it('should create payment from state value', () => {
@@ -206,7 +206,7 @@ describe('sendXlm sagas', () => {
     it('should put update success action', () => {
       saga
         .next(paymentMock)
-        .put(A.paymentUpdated(Remote.of(paymentMock.value())))
+        .put(A.paymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
         .isDone()
@@ -219,6 +219,8 @@ describe('sendXlm sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
+          .put(A.paymentUpdatedFailure(error))
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -277,7 +279,7 @@ describe('sendXlm sagas', () => {
     })
 
     it('should put xlm payment updated success action', () => {
-      saga.next().put(A.paymentUpdated(Remote.of(paymentMock.value())))
+      saga.next().put(A.paymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should set transaction note if payment has description', () => {
@@ -288,7 +290,7 @@ describe('sendXlm sagas', () => {
       saga.next().put(actions.router.push('/xlm/transactions'))
     })
 
-    it('should display succcess message', () => {
+    it('should display success message', () => {
       saga.next().put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
     })
 
@@ -329,6 +331,8 @@ describe('sendXlm sagas', () => {
 
       it('should log error', () => {
         saga
+          .next()
+          .put(A.paymentUpdatedFailure(error))
           .next()
           .put(
             actions.logs.logErrorMessage(

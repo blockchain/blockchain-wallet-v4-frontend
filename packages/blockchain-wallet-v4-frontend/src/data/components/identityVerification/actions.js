@@ -28,26 +28,43 @@ export const setVerificationStep = step => ({
 export const fetchSupportedCountries = () => ({
   type: AT.FETCH_SUPPORTED_COUNTRIES
 })
-export const setSupportedCountries = countries => ({
-  type: AT.SET_SUPPORTED_COUNTRIES,
+export const setSupportedCountriesLoading = () => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_LOADING
+})
+export const setSupportedCountriesSuccess = countries => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_SUCCESS,
   payload: { countries }
+})
+export const setSupportedCountriesFailure = e => ({
+  type: AT.SET_SUPPORTED_COUNTRIES_FAILURE,
+  payload: { e }
 })
 
 export const fetchSupportedDocuments = countryCode => ({
   type: AT.FETCH_SUPPORTED_DOCUMENTS,
   payload: { countryCode }
 })
-export const setSupportedDocuments = documentTypes => ({
-  type: AT.SET_SUPPORTED_DOCUMENTS,
+export const setSupportedDocumentsLoading = () => ({
+  type: AT.SET_SUPPORTED_DOCUMENTS_LOADING
+})
+export const setSupportedDocumentsSuccess = documentTypes => ({
+  type: AT.SET_SUPPORTED_DOCUMENTS_SUCCESS,
   payload: { documentTypes }
 })
-
-export const fetchStates = () => ({
-  type: AT.FETCH_STATES
+export const setSupportedDocumentsFailure = e => ({
+  type: AT.SET_SUPPORTED_DOCUMENTS_FAILURE,
+  payload: { e }
 })
-export const setStates = states => ({
-  type: AT.SET_STATES,
+
+export const fetchStates = () => ({ type: AT.FETCH_STATES })
+export const setStatesLoading = () => ({ type: AT.SET_STATES_LOADING })
+export const setStatesSuccess = states => ({
+  type: AT.SET_STATES_SUCCESS,
   payload: { states }
+})
+export const setStatesFailure = e => ({
+  type: AT.SET_STATES_FAILURE,
+  payload: { e }
 })
 
 export const savePersonalData = () => ({ type: AT.SAVE_PERSONAL_DATA })
@@ -66,13 +83,24 @@ export const registerUserCampaign = newUser => ({
 export const createRegisterUserCampaign = () => ({
   type: AT.CREATE_REGISTER_USER_CAMPAIGN
 })
+export const claimCampaignClicked = campaign => ({
+  type: AT.CLAIM_CAMPAIGN_CLICKED,
+  payload: { campaign }
+})
 
 export const checkKycFlow = () => ({
   type: AT.CHECK_KYC_FLOW
 })
-export const setKycFlow = flowConfig => ({
-  type: AT.SET_KYC_FLOW_CONFIG,
-  payload: { flowConfig }
+export const setKycFlowLoading = () => ({
+  type: AT.SET_KYC_FLOW_LOADING
+})
+export const setKycFlowSuccess = flowType => ({
+  type: AT.SET_KYC_FLOW_SUCCESS,
+  payload: { flowType }
+})
+export const setKycFlowFailure = e => ({
+  type: AT.SET_KYC_FLOW_FAILURE,
+  payload: { e }
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK

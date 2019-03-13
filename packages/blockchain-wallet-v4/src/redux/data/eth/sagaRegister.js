@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const dataEthSagas = sagas({ api })
 
-  return function* coreDataEthSaga () {
+  return function * coreDataEthSaga () {
     yield takeLatest(AT.FETCH_ETHEREUM_DATA, dataEthSagas.fetchData)
     yield takeLatest(AT.FETCH_ETHEREUM_FEE, dataEthSagas.fetchFee)
     yield takeLatest(AT.FETCH_ETHEREUM_RATES, dataEthSagas.fetchRates)

@@ -13,17 +13,17 @@ import {
 } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBsv/sagas'
 export const bsvDefaultFee = 4
 export default ({ coreSagas, networks }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const { from, index } = action.payload
-      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
+      yield put(A.sendBsvPaymentUpdatedLoading())
       let payment = coreSagas.payment.bsv.create({
         network: networks.bsv
       })
@@ -55,36 +55,38 @@ export default ({ coreSagas, networks }) => {
         from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendBsvInitialized', e)
       )
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
-      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
+      yield put(A.sendBsvPaymentUpdatedLoading())
       payment = coreSagas.payment.bsv.create({
         payment,
         network: networks.bsv
       })
       payment = yield payment.build()
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -139,13 +141,14 @@ export default ({ coreSagas, networks }) => {
       try {
         payment = yield payment.build()
       } catch (e) {}
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -153,7 +156,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -184,7 +187,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bsv.create({
@@ -198,7 +201,7 @@ export default ({ coreSagas, networks }) => {
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bsv.fetchData())
-      yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBsvPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
@@ -210,7 +213,6 @@ export default ({ coreSagas, networks }) => {
       }
       yield put(actions.router.push('/settings/addresses/bsv'))
       yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
-      yield put(destroy(FORM))
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
@@ -223,8 +225,10 @@ export default ({ coreSagas, networks }) => {
         ])
       )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
+      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )

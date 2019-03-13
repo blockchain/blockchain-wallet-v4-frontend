@@ -11,19 +11,9 @@ import {
   Separator,
   Text
 } from 'blockchain-info-components'
-import { CaptchaBox, Form } from 'components/Form'
-import { FormGroup } from '../../../components/Form'
+import { CaptchaBox, Form, FormGroup } from 'components/Form'
+import { Wrapper } from 'components/Public'
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 40px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
-`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;

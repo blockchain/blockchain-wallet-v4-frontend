@@ -6,8 +6,9 @@ export const getOptions = path([walletOptionsPath])
 export const getDomains = state => getOptions(state).map(prop('domains'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
-
 // specific
+export const getAppEnv = state =>
+  getWebOptions(state).map(path(['application', 'environment']))
 export const getBtcNetwork = state =>
   getWebOptions(state).map(path(['btc', 'config', 'network']))
 export const getEthTxFuse = state =>

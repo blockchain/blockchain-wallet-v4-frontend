@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const bsvTransactionsSagas = sagas()
 
-  return function* bsvTransactionsSaga () {
+  return function * bsvTransactionsSaga () {
     yield takeEvery(
       AT.BSV_TRANSACTIONS_INITIALIZED,
       bsvTransactionsSagas.initialized

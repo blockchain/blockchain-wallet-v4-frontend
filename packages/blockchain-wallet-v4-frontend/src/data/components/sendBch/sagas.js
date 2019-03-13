@@ -15,17 +15,17 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBch/sagas'
 export const bchDefaultFee = 4
 export default ({ coreSagas, networks }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const { from } = action.payload
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
       })
@@ -57,36 +57,38 @@ export default ({ coreSagas, networks }) => {
         from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
       )
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBchPaymentUpdated(Remote.Loading))
+      yield put(A.sendBchPaymentUpdatedLoading())
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
         network: networks.bch
       })
       payment = yield payment.build()
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.sendBchPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -172,13 +174,13 @@ export default ({ coreSagas, networks }) => {
       try {
         payment = yield payment.build()
       } catch (e) {}
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -186,7 +188,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -217,7 +219,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bch.create({
@@ -251,7 +253,7 @@ export default ({ coreSagas, networks }) => {
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bch.fetchData())
-      yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
@@ -276,7 +278,6 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push('/bch/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
       }
-      yield put(destroy(FORM))
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
@@ -289,12 +290,14 @@ export default ({ coreSagas, networks }) => {
         ])
       )
       yield put(actions.modals.closeAllModals())
+      yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.sendBchPaymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

@@ -34,7 +34,14 @@ const Row = styled.div`
 `
 const Content = styled(Text)`
   margin: 15px 0 20px 0;
+  font-size: 14px;
   line-height: 1.4;
+  > span {
+    display: block;
+    &:last-child {
+      margin-top: 16px;
+    }
+  }
 `
 const CoinRow = styled.div`
   width: 50%;
@@ -72,7 +79,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const WelcomeAirdrop = props => {
-  const { coin, domains } = props
+  const { coin, onboardingActions } = props
 
   return (
     <Wrapper>
@@ -91,21 +98,28 @@ const WelcomeAirdrop = props => {
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'
               values={{ coinName: coinProps[coin].name, coin }}
             />
+            <FormattedMessage
+              id='scenes.transaction.content.empty.airdrop.completeprofileforairdrop'
+              defaultMessage='Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.'
+              values={{ coinName: coinProps[coin].name, coin }}
+            />
           </Content>
           <ButtonContainer>
-            <Link
-              href={domains.comRoot + '/getcrypto'}
-              target='_blank'
-              style={{ width: '100%' }}
+            <Button
+              nature='primary'
+              fullwidth
+              onClick={() =>
+                onboardingActions.airdropReminderSubmitClicked(
+                  coinProps[coin].campaign
+                )
+              }
             >
-              <Button nature='primary' fullwidth>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.airdrop.claim'
-                  defaultMessage='Claim Your Free {coin} Now'
-                  values={{ coin }}
-                />
-              </Button>
-            </Link>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.airdrop.claim'
+                defaultMessage='Claim Your Free {coin} Now'
+                values={{ coin }}
+              />
+            </Button>
           </ButtonContainer>
         </Row>
         <CoinRow coin={coin.toLowerCase()}>

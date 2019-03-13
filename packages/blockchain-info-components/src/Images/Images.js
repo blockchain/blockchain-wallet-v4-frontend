@@ -1,3 +1,4 @@
+import airdropSunRiverDashboard from './img/airdrop-sunriver-dashboard.png'
 import airdropWelcome from './img/airdrop-welcome.png'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
@@ -19,8 +20,13 @@ import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
+import emailError from './img/email-error.svg'
+import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
+import getFreeCrypto from './img/get-free-crypto.png'
+import getFreeCrypto2 from './img/get-free-crypto@2x.png'
+import getFreeCrypto3 from './img/get-free-crypto@3x.png'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -92,6 +98,7 @@ import onboardCustomize from './img/lockbox/onboarding_customize.gif'
 import onboardPairDevice from './img/lockbox/onboarding_pairdevice.gif'
 
 export default {
+  'airdrop-sunriver-dashboard': airdropSunRiverDashboard,
   'airdrop-welcome': airdropWelcome,
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
@@ -113,8 +120,13 @@ export default {
   'check-helper': checkHelper,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
+  'email-error': emailError,
+  'email-success': emailSuccess,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
+  'get-free-crypto': getFreeCrypto,
+  'get-free-crypto2': getFreeCrypto2,
+  'get-free-crypto3': getFreeCrypto3,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,

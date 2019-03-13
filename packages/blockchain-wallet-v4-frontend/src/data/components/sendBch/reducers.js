@@ -23,8 +23,14 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SEND_BCH_PAYMENT_UPDATED: {
-      return assoc('payment', payload, state)
+    case AT.SEND_BCH_PAYMENT_UPDATED_LOADING: {
+      return assoc('payment', Remote.Loading, state)
+    }
+    case AT.SEND_BCH_PAYMENT_UPDATED_SUCCESS: {
+      return assoc('payment', Remote.Success(payload), state)
+    }
+    case AT.SEND_BCH_PAYMENT_UPDATED_FAILURE: {
+      return assoc('payment', Remote.Failure(payload), state)
     }
     case AT.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)

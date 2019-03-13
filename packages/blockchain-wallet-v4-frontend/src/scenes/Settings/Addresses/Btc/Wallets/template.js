@@ -53,7 +53,7 @@ const ErrorMessageText = styled(Text)`
 
 const Success = ({
   wallets,
-  handleClick,
+  onAddNewWallet,
   onUnarchive,
   search,
   failure,
@@ -227,7 +227,7 @@ const Success = ({
         data-e2e='btcNewWalletButton'
         style={{ marginTop: 10 }}
         name='plus'
-        onClick={handleClick}
+        onClick={onAddNewWallet}
       >
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.newhdaccount'

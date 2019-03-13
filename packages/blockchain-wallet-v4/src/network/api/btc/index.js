@@ -9,7 +9,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
 
   const getBitcoinUnspents = (fromAddresses, confirmations = 0) =>
-    get({
+    post({
       url: rootUrl,
       endPoint: '/unspent',
       data: {

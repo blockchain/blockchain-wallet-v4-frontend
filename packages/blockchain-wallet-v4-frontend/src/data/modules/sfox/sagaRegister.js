@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const sfoxSagas = sagas({ api, coreSagas, networks })
 
-  return function* sfoxSaga () {
+  return function * sfoxSaga () {
     yield takeLatest(AT.SET_BANK_MANUALLY, sfoxSagas.setBankManually)
     yield takeLatest(AT.SET_BANK, sfoxSagas.setBank)
     yield takeLatest(AT.SFOX_SIGNUP, sfoxSagas.sfoxSignup)

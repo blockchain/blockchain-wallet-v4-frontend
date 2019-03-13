@@ -12,6 +12,8 @@ import Personal from './template'
 import Loading from './template.loading'
 import DataError from 'components/DataError'
 
+export const SCROLL_REF_ID = 'scroll-ref-id'
+
 const getCountryElements = countries => [
   {
     group: '',
@@ -26,6 +28,11 @@ const getCountryElements = countries => [
 ]
 
 const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
+const {
+  EDIT_ADDRESS,
+  EDIT_COUNTRY,
+  EDIT_EMAIL
+} = model.analytics.KYC_EVENTS.FORMS
 
 class PersonalContainer extends React.PureComponent {
   state = {
@@ -39,12 +46,25 @@ class PersonalContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
     const { coinifyUserCountry, formActions, countryData } = this.props
     // change form field on mount to coinify country if on buy-sell since we're skipping country selection
-    if (test(/buy-sell/, this.props.pathName) && (!Remote.Success.is(prevProps.countryData) && Remote.Success.is(countryData))) {
-      const supportedCountries = prop('supportedCountries', countryData.getOrElse())
+    if (
+      test(/buy-sell/, this.props.pathName) &&
+      (!Remote.Success.is(prevProps.countryData) &&
+        Remote.Success.is(countryData))
+    ) {
+      const supportedCountries = prop(
+        'supportedCountries',
+        countryData.getOrElse()
+      )
       const isUserCountry = propEq('code', coinifyUserCountry)
       const countryObject = head(supportedCountries.filter(isUserCountry))
-      if (countryObject) formActions.change(PERSONAL_FORM, 'country', countryObject)
+      if (countryObject)
+        formActions.change(PERSONAL_FORM, 'country', countryObject)
     }
+  }
+
+  scrollTop = () => {
+    const overflowElement = document.getElementById(SCROLL_REF_ID)
+    overflowElement.scrollTop = 0
   }
 
   fetchData = () => {
@@ -55,16 +75,25 @@ class PersonalContainer extends React.PureComponent {
   selectAddress = (e, address) => {
     e.preventDefault()
     this.props.actions.selectAddress(address)
+    this.props.analyticsActions.logEvent(EDIT_ADDRESS)
   }
 
   onCountryChange = (e, value) => {
     e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
+    this.props.analyticsActions.logEvent(EDIT_COUNTRY)
+  }
+
+  onPromptForEmailVerification = e => {
+    e.preventDefault()
+    this.scrollTop()
+    this.setState({ showEmailError: true })
   }
 
   editEmail = () => {
     this.props.actions.setEmailStep(EMAIL_STEPS.edit)
+    this.props.analyticsActions.logEvent(EDIT_EMAIL)
   }
 
   renderForm = ({
@@ -99,6 +128,7 @@ class PersonalContainer extends React.PureComponent {
         email: initialEmail
       }}
       showEmail={!this.state.initialEmailVerified}
+      showEmailError={!emailVerified && this.state.showEmailError}
       emailVerified={emailVerified}
       email={email}
       emailStep={emailStep}
@@ -114,7 +144,8 @@ class PersonalContainer extends React.PureComponent {
       activeFieldError={activeFieldError}
       editEmail={this.editEmail}
       updateEmail={actions.updateEmail}
-      sendEmailVerification={actions.sendEmailVerification}
+      sendEmailVerification={this.onSendEmailVerification}
+      onPromptForEmailVerification={this.onPromptForEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
       onSubmit={handleSubmit}
@@ -157,6 +188,7 @@ const mapDispatchToProps = dispatch => ({
     { ...actions.components.identityVerification, ...actions.modules.profile },
     dispatch
   ),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

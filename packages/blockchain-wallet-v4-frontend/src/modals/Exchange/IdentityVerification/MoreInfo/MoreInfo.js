@@ -46,8 +46,8 @@ const MoreInfo = ({ goToNextStep, closeAllModals }) => (
               />
               <br />
               <FormattedMessage
-                id='identityverification.more_info.required_documents'
-                defaultMessage="You'll need to verify your phone number and provide a government issued ID and selfie. Please click Continue below to complete these final steps."
+                id='identityverification.more_info.required_docs'
+                defaultMessage="You'll need to provide a government issued ID and selfie. Please click Continue below to complete these final steps."
               />
             </IdentityVerificationSubHeader>
           </InputWrapper>

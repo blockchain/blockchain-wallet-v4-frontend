@@ -72,7 +72,7 @@ export default ({ api }) => {
    * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
-  const pollForDeviceApp = function*(action) {
+  const pollForDeviceApp = function * (action) {
     try {
       let { appRequested, deviceIndex, deviceType, timeout } = action.payload
 
@@ -96,10 +96,12 @@ export default ({ api }) => {
         const device = deviceR.getOrFail()
         deviceType = prop('device_type', device)
       }
+      const logLevel = yield select(selectors.logs.getLogLevel)
       const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
-        timeout
+        timeout,
+        logLevel
       )
       yield put(
         A.setConnectionInfo(
@@ -127,7 +129,7 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*(action) {
+  const checkDeviceAuthenticity = function * (action) {
     try {
       const { deviceIndex } = action.payload
       const deviceR = yield select(
@@ -180,7 +182,7 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is setup and routes app accordingly
-  const determineLockboxRoute = function*() {
+  const determineLockboxRoute = function * () {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const devices = devicesR.getOrElse([])
@@ -201,14 +203,14 @@ export default ({ api }) => {
   }
 
   // saves new device to KvStore
-  const saveNewDeviceKvStore = function*() {
+  const saveNewDeviceKvStore = function * () {
+    let deviceDisplayName
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
       let newDeviceName = 'My '
       const newDevice = (yield select(S.getNewDeviceInfo)).getOrFail()
-      newDevice.type === 'ledger'
-        ? (newDeviceName += 'Nano S')
-        : (newDeviceName += 'Lockbox')
+      deviceDisplayName = newDevice.type === 'ledger' ? 'Nano S' : 'Lockbox'
+      newDeviceName += deviceDisplayName
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
@@ -229,9 +231,17 @@ export default ({ api }) => {
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.core.data.xlm.fetchData())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      yield put(
+        actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS, {
+          deviceType: deviceDisplayName
+        })
+      )
     } catch (e) {
-      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
+      yield put(
+        actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR, {
+          deviceType: deviceDisplayName
+        })
+      )
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'saveNewDeviceKvStore', e)
@@ -240,7 +250,7 @@ export default ({ api }) => {
   }
 
   // saves xPubs/addresses for requested coin to kvStore
-  const saveCoinMD = function*(action) {
+  const saveCoinMD = function * (action) {
     try {
       const { deviceIndex, coin } = action.payload
       const deviceR = yield select(
@@ -281,7 +291,7 @@ export default ({ api }) => {
   }
 
   // renames a device in KvStore
-  const updateDeviceName = function*(action) {
+  const updateDeviceName = function * (action) {
     try {
       const { deviceIndex, deviceName } = action.payload
       yield put(A.updateDeviceNameLoading())
@@ -300,7 +310,7 @@ export default ({ api }) => {
   }
 
   // deletes a device from KvStore
-  const deleteDevice = function*(action) {
+  const deleteDevice = function * (action) {
     try {
       const { deviceIndex } = action.payload
 
@@ -315,7 +325,7 @@ export default ({ api }) => {
           yield put(
             actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
           )
-          yield put(actions.router.push('/lockbox/onboard'))
+          yield call(determineLockboxRoute)
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
@@ -336,7 +346,7 @@ export default ({ api }) => {
   }
 
   // fetches info on the latest applications for device
-  const deriveLatestAppInfo = function*() {
+  const deriveLatestAppInfo = function * () {
     try {
       yield put(A.setLatestAppInfosLoading())
       const { transport } = yield select(S.getCurrentConnection)
@@ -375,14 +385,14 @@ export default ({ api }) => {
   }
 
   // device connection polling for device setup
-  const initializeNewDeviceSetup = function*() {
+  const initializeNewDeviceSetup = function * () {
     try {
       closePoll = false
-      let pollLength = 2500
+      let pollLength = 2000
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+      yield takeEvery(deviceTypeChannel, function * (deviceType) {
         yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
       })
     } catch (e) {
@@ -402,23 +412,24 @@ export default ({ api }) => {
   }
 
   // finalize new device setup
-  const finalizeNewDeviceSetup = function*() {
+  const finalizeNewDeviceSetup = function * () {
+    let connection
     try {
       // safeguard in case existing polling is still running
       closePoll = true
-      yield delay(1000)
+      yield delay(2000)
       // setup for deviceType and btc app polling
       closePoll = false
-      let pollLength = 2500
+      let pollLength = 2000
       pollPosition = 0
       // poll for device type via channel
       const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+      yield takeEvery(deviceTypeChannel, function * (deviceType) {
         yield put(A.pollForDeviceApp('BTC', null, deviceType, pollLength))
       })
       // BTC app connection
       yield take(AT.SET_CONNECTION_INFO)
-      const connection = yield select(S.getCurrentConnection)
+      connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
         connection.app,
@@ -459,7 +470,11 @@ export default ({ api }) => {
       }
       yield put(A.changeDeviceSetupStep('finish-step'))
     } catch (e) {
-      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
+      yield put(
+        actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR, {
+          deviceType: connection.deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'finalizeNewDeviceSetup', e)
       )
@@ -475,7 +490,7 @@ export default ({ api }) => {
   }
 
   // routes new device to dashboard
-  const routeNewDeviceToDashboard = function*(action) {
+  const routeNewDeviceToDashboard = function * (action) {
     try {
       const { startTour } = action.payload
       const devices = (yield select(
@@ -497,12 +512,12 @@ export default ({ api }) => {
   }
 
   // loads data for device dashboard
-  const initializeDashboard = function*(action) {
+  const initializeDashboard = function * (action) {
     yield call(updateTransactionList, action)
   }
 
   // updates latest transaction information for device
-  const updateTransactionList = function*(action) {
+  const updateTransactionList = function * (action) {
     const { deviceIndex, reset } = action.payload
     const btcContext = (yield select(
       selectors.core.kvStore.lockbox.getBtcContextForDevice,
@@ -536,7 +551,7 @@ export default ({ api }) => {
   }
 
   // update device firmware saga
-  const updateDeviceFirmware = function*(action) {
+  const updateDeviceFirmware = function * (action) {
     try {
       const { deviceIndex } = action.payload
       // reset previous firmware infos
@@ -689,16 +704,40 @@ export default ({ api }) => {
   }
 
   // initializes the app manager to add and remove apps
-  const initializeAppManager = function*() {
+  const initializeAppManager = function * (action) {
     try {
-      closePoll = false
-      let pollLength = 2500
-      pollPosition = 0
-      // poll for device type and then dashboard via channel
-      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
-      yield takeEvery(deviceTypeChannel, function*(deviceType) {
-        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
-      })
+      const { deviceIndex } = action.payload
+      if (deviceIndex) {
+        // accessed from dashboard
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceIndex
+        )
+        const deviceType = prop('device_type', deviceR.getOrFail())
+        // poll for device connection on dashboard
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      } else {
+        // accessed from new device setup flow
+        // safeguard in case existing polling is still running from previous setup step
+        closePoll = true
+        yield delay(2000)
+        closePoll = false
+        let pollLength = 2000
+        pollPosition = 0
+        // poll for device type and then dashboard via channel
+        const deviceTypeChannel = yield call(
+          pollForDeviceTypeChannel,
+          pollLength
+        )
+        yield takeEvery(deviceTypeChannel, function * (deviceType) {
+          yield put(
+            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+          )
+        })
+        // device connection made
+        yield take(AT.SET_CONNECTION_INFO)
+        yield call(deriveLatestAppInfo)
+      }
       // device connection made
       yield take(AT.SET_CONNECTION_INFO)
       yield call(deriveLatestAppInfo)
@@ -710,7 +749,7 @@ export default ({ api }) => {
   }
 
   // installs requested application on device
-  const installApplication = function*(action) {
+  const installApplication = function * (action) {
     const { appName } = action.payload
     try {
       yield put(A.appChangeLoading())
@@ -744,7 +783,7 @@ export default ({ api }) => {
   }
 
   // uninstalls requested application on device
-  const uninstallApplication = function*(action) {
+  const uninstallApplication = function * (action) {
     const { appName } = action.payload
     try {
       yield put(A.appChangeLoading())

@@ -13,6 +13,7 @@ import * as layoutWallet from './layoutWallet/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as login from './login/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
+import * as onboarding from './onboarding/actionTypes'
 import * as onfido from './onfido/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
@@ -28,7 +29,6 @@ import * as sendEth from './sendEth/actionTypes'
 import * as sendXlm from './sendXlm/actionTypes'
 import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
-import * as swapGetStarted from './swapGetStarted/actionTypes'
 import * as transactionReport from './transactionReport/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
@@ -49,6 +49,7 @@ export {
   lockbox,
   login,
   manageAddresses,
+  onboarding,
   onfido,
   priceChart,
   priceTicker,
@@ -64,7 +65,6 @@ export {
   sendXlm,
   settings,
   signMessage,
-  swapGetStarted,
   transactionReport,
   uploadDocuments,
   veriff

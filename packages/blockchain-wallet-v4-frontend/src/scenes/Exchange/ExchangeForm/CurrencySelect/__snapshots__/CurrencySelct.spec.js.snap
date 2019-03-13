@@ -5,7 +5,9 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
   height="50px"
   spaced={true}
 >
-  <Layout__Cell>
+  <Layout__Cell
+    data-e2e="exchangeSourceCurrency"
+  >
     <Field
       component={[Function]}
       elements={
@@ -34,6 +36,7 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
     id="exchange.changeinput"
   >
     <Layout__Cell
+      data-e2e="exchangeSwitchTargets"
       size="small"
     >
       <CurrencySelect__CoinSwapIcon
@@ -46,7 +49,9 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
       />
     </Layout__Cell>
   </TooltipHost>
-  <Layout__Cell>
+  <Layout__Cell
+    data-e2e="exchangeTargetCurrency"
+  >
     <Field
       component={[Function]}
       elements={

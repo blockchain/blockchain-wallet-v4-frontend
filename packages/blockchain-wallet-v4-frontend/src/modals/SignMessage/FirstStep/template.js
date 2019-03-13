@@ -40,7 +40,7 @@ const FirstStep = props => {
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={300} data-e2e='signMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
@@ -57,12 +57,18 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder='Thanks for accepting bitcoin!'
+            data-e2e='signMessageInputField'
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
         <SubmitRow>
-          <ClickableText size='14px' weight={300} onClick={closeAll}>
+          <ClickableText
+            size='14px'
+            weight={300}
+            onClick={closeAll}
+            data-e2e='signMessageCloseButton'
+          >
             <FormattedMessage
               id='modals.signmessage.close'
               defaultMessage='Close'
@@ -72,6 +78,7 @@ const FirstStep = props => {
             type='submit'
             nature='primary'
             disabled={submitting || invalid}
+            data-e2e='signMessageButton'
           >
             <FormattedMessage
               id='modals.signmessage.firststep.sign'

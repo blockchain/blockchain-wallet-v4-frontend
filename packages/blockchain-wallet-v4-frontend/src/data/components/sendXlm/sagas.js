@@ -16,18 +16,18 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
 export default ({ coreSagas }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
-      yield put(A.paymentUpdated(Remote.Loading))
+      yield put(A.paymentUpdatedLoading())
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
@@ -49,17 +49,17 @@ export default ({ coreSagas }) => {
       }
       yield put(initialize(FORM, initialValues))
       yield put(touch(FORM, 'memo', 'memoType'))
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -122,13 +122,13 @@ export default ({ coreSagas }) => {
           break
       }
 
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const currency = (yield select(
         selectors.core.settings.getCurrency
@@ -157,21 +157,22 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let payment = (yield select(S.getPayment)).getOrElse({})
-      yield put(A.paymentUpdated(Remote.Loading))
+      yield put(A.paymentUpdatedLoading())
       payment = yield call(coreSagas.payment.xlm.create, { payment })
       payment = yield call(payment.build)
-      yield put(A.paymentUpdated(Remote.of(payment.value())))
+      yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
+      yield put(A.paymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
@@ -201,7 +202,7 @@ export default ({ coreSagas }) => {
       payment = yield call(payment.publish)
       yield put(actions.core.data.xlm.fetchData())
       const paymentValue = payment.value()
-      yield put(A.paymentUpdated(Remote.of(paymentValue)))
+      yield put(A.paymentUpdatedSuccess(paymentValue))
       const description = paymentValue.description
       if (description)
         yield put(
@@ -240,6 +241,7 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
+        yield put(A.paymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,
@@ -252,7 +254,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const setFrom = function*(payment, from, type) {
+  const setFrom = function * (payment, from, type) {
     try {
       const updatedPayment = yield call(payment.from, from, type)
       yield put(A.showNoAccountForm(false))
@@ -267,7 +269,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {

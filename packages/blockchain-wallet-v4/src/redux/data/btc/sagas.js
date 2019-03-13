@@ -7,16 +7,16 @@ import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import { MISSING_WALLET } from '../utils'
-import { HDAccountList } from '../../../types'
+import { HDAccountList, Wallet } from '../../../types'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.btc.transformTx
-
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -33,7 +33,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBitcoinFee)
@@ -43,7 +43,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBitcoinTicker)
@@ -53,14 +53,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { address, reset } = payload
@@ -85,7 +85,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function*({ type, payload }) {
+  const fetchTransactionHistory = function * ({ type, payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
@@ -118,35 +118,36 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
     // Remote(lockboxXpubs)
     const accountListR = (yield select(getLockboxBtcAccounts))
       .map(HDAccountList.fromJS)
       .getOrElse([])
+    const addressLabels = (yield select(getAddressLabels)).getOrElse({})
+    const txNotes = Wallet.selectTxNotes(wallet)
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, accountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
-          accountList
+          accountList,
+          txNotes,
+          addressLabels
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, blockHeightR, accountListR, txs)
+    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
-  const fetchFiatAtTime = function*(action) {
+  const fetchFiatAtTime = function * (action) {
     const { hash, amount, time, currency } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))

@@ -7,7 +7,7 @@ import sagas from './exchange.sagas'
 export default ({ api, coreSagas, networks }) => {
   const exchangeSagas = sagas({ api, coreSagas, networks })
 
-  return function* exchangeSaga () {
+  return function * exchangeSaga () {
     yield takeLatest(AT.INITIALIZE, exchangeSagas.exchangeFormInitialized)
     yield takeLatest(AT.CHANGE_SOURCE, exchangeSagas.changeSource)
     yield takeLatest(AT.CHANGE_TARGET, exchangeSagas.changeTarget)

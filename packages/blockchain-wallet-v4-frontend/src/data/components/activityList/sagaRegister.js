@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const activityListSagas = sagas()
 
-  return function* activityListSaga () {
+  return function * activityListSaga () {
     yield takeEvery(AT.ACTIVITY_LIST_INITIALIZED, activityListSagas.initialized)
   }
 }

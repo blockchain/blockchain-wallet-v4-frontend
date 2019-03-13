@@ -19,6 +19,9 @@ export const getSfoxPhoneCall = state =>
 export const getCoinifyUser = state =>
   getMetadata(state).map(path(['value', 'coinify', 'user']))
 
+export const getCoinifyToken = state =>
+  getMetadata(state).map(path(['value', 'coinify', 'offline_token']))
+
 export const getCoinifyTrades = state =>
   getMetadata(state).map(pathOr([], ['value', 'coinify', 'trades']))
 

@@ -78,10 +78,11 @@ const Toast = props => {
   const color = selectColor(nature)
 
   return (
-    <Wrapper data-e2e={nature + 'ToastMessage'}>
-      <Container color={color}>
+    <Wrapper>
+      <Container color={color} data-e2e='toastMessage'>
         <Content>{children}</Content>
         <Close
+          data-e2e='toastMessageClose'
           name='close'
           size='20px'
           weight={300}

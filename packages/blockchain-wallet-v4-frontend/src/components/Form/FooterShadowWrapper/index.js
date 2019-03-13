@@ -22,7 +22,7 @@ const Footer = styled.div`
 
 const FooterShadowWrapper = ({ fields, footer, ...rest }) => (
   <Container {...rest}>
-    <Fields>{fields}</Fields>
+    <Fields id={rest.scrollRefId}>{fields}</Fields>
     <Footer>{footer}</Footer>
   </Container>
 )

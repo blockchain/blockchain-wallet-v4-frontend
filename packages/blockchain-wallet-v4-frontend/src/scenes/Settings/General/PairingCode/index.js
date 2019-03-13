@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { Badge, Button, Text } from 'blockchain-info-components'
 import {
   SettingComponent,
@@ -14,6 +14,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
+const { SHOW_PAIRING_CODE } = model.analytics.PREFERENCE_EVENTS.GENERAL
 const BadgesContainer = styled.div`
   display: block;
   padding-top: 10px;
@@ -24,13 +25,9 @@ const BadgesContainer = styled.div`
 `
 
 class PairingCode extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onShowCode = this.onShowCode.bind(this)
-  }
-
-  onShowCode () {
-    this.props.actions.showModal('PairingCode')
+  onShowCode = () => {
+    this.props.modalActions.showModal('PairingCode')
+    this.props.analyticsActions.logEvent(SHOW_PAIRING_CODE)
   }
 
   render () {
@@ -80,7 +77,8 @@ class PairingCode extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

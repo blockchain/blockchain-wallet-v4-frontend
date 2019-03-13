@@ -86,8 +86,8 @@ const EmailSent = ({
   <Container className={className}>
     <Text weight='300'>
       <FormattedMessage
-        id='components.EmailVerification.checkyourinbox'
-        defaultMessage='Check you inbox. We sent an email to:'
+        id='components.EmailVerification.checkinbox'
+        defaultMessage='Check your inbox. We sent an email to:'
       />
     </Text>
     <EmailLabel weight='400'>{email}</EmailLabel>

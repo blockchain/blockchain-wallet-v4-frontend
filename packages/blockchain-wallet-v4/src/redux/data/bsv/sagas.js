@@ -13,12 +13,12 @@ import { addFromToAccountNames } from '../../../utils/accounts'
 import Remote from '../../../remote'
 import * as walletSelectors from '../../wallet/selectors'
 import * as transactions from '../../../transactions'
-import { getAccountsList } from '../../kvStore/bsv/selectors'
+import { getAccountsList, getBsvTxNotes } from '../../kvStore/bsv/selectors'
 
 const transformTx = transactions.bsv.transformTx
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -34,7 +34,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBsvFee)
@@ -44,7 +44,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBsvTicker)
@@ -54,14 +54,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BSV_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*({ type, payload }) {
+  const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     try {
       const pages = yield select(S.getTransactions)
@@ -86,38 +86,31 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(blockHeight)
-    const blockHeightR = yield select(S.getLatestBlock)
     // Remote(kvStoreAccountList)
-    const accountListR = yield select(getAccountsList)
-    const accountList = accountListR.getOrElse([])
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBsvTxNotes)).getOrElse({})
     // Remote(lockboxXpubs)
-    const lockboxAccountListR = []
+    const lockboxAccountList = []
 
-    // transformTx :: wallet -> blockHeight -> Tx
-    // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, block, lockboxAccountList, txList) =>
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
       map(
         transformTx.bind(
           undefined,
           wallet.getOrFail(MISSING_WALLET),
-          block.getOrElse(0),
-          lockboxAccountList
+          lockboxAccountList,
+          txNotes
         ),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(
-      walletR,
-      blockHeightR,
-      lockboxAccountListR,
-      txs
-    )
+    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 

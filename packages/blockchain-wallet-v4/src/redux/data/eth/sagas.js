@@ -17,7 +17,7 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors.js'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.eth.transformTx
@@ -26,7 +26,7 @@ const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
-  const fetchData = function*(action) {
+  const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -58,7 +58,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
@@ -69,7 +69,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchLatestBlock = function*() {
+  const fetchLatestBlock = function * () {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
@@ -79,7 +79,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
@@ -89,14 +89,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { address, reset } = payload
@@ -121,19 +121,17 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const blockHeightR = yield select(S.getHeight)
-    const blockHeight = blockHeightR.getOrElse(0)
     const lockboxContextR = yield select(getLockboxEthContext)
     const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
     const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, blockHeight, state), txs)
+    return map(transformTx(ethAddresses, state), txs)
   }
 
-  const fetchLegacyBalance = function*() {
+  const fetchLegacyBalance = function * () {
     try {
       yield put(A.fetchLegacyBalanceLoading())
       const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
