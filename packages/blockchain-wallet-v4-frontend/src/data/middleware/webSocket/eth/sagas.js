@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
-import { concat } from 'ramda'
+import { concat, toLower } from 'ramda'
 const ACCOUNT_SUB = 'account_sub'
 const BLOCK_SUB = 'block_sub'
 
@@ -22,7 +22,7 @@ export default ({ api, ethSocket }) => {
       for (let i = 0; i < context.length; i++) {
         yield call(
           send,
-          JSON.stringify({ op: ACCOUNT_SUB, account: context[i] })
+          JSON.stringify({ op: ACCOUNT_SUB, account: toLower(context[i]) })
         )
       }
     } catch (e) {
