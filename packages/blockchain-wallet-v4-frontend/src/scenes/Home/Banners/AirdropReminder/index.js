@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 
@@ -71,7 +72,7 @@ const GetStartedButton = styled(Button).attrs({
 `
 export const AirdropReminderBanner = ({
   campaign,
-  createRegisterUserCampaign,
+  onboardingActions,
   isSunRiverTagged,
   verifyIdentity
 }) => (
@@ -91,7 +92,9 @@ export const AirdropReminderBanner = ({
     <Column>
       <GetStartedButton
         onClick={() =>
-          isSunRiverTagged ? verifyIdentity() : createRegisterUserCampaign()
+          isSunRiverTagged
+            ? verifyIdentity()
+            : onboardingActions.airdropReminderSubmitClicked(campaign)
         }
       >
         <FormattedMessage
@@ -105,10 +108,10 @@ export const AirdropReminderBanner = ({
 )
 
 const mapDispatchToProps = dispatch => ({
-  createRegisterUserCampaign: () =>
-    dispatch(
-      actions.components.identityVerification.createRegisterUserCampaign()
-    ),
+  onboardingActions: bindActionCreators(
+    actions.components.onboarding,
+    dispatch
+  ),
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
 })
