@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Button, Link, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import isMobile from 'services/ResponsiveService'
+import { isMobile } from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const Success = props => {
           defaultMessage='Your email is verified!'
         />
       </Text>
-      {isMobile ? (
+      {isMobile() ? (
         <Link href={mobileLinkOut}>
           <Button
             nature='primary'
