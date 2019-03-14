@@ -153,7 +153,7 @@
   "coinifytradedetails.orderdetails.totaltobereceived": "Total To Be Received",
   "components.DateInputBox.placeholder.month": "Month",
   "components.EmailVerification.changeemail": "Change Email",
-  "components.EmailVerification.checkyourinbox": "Check you inbox. We sent an email to:",
+  "components.EmailVerification.checkinbox": "Check your inbox. We sent an email to:",
   "components.EmailVerification.emailverified": "Email Verified",
   "components.EmailVerification.label": "Enter Your Email Address",
   "components.EmailVerification.placeholder": "Email",

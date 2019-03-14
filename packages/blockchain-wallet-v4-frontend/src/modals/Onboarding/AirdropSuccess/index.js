@@ -21,6 +21,7 @@ import {
 } from 'blockchain-info-components'
 
 const { CAMPAIGNS } = model.components.identityVerification
+const { SUNRIVER_AIRDROP_EVENTS } = model.analytics
 
 const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -66,6 +67,7 @@ class AirdropSuccess extends React.PureComponent {
 
   handleCopy = () => {
     this.setState({ isLinkCopied: true })
+    this.logShareEvent('copy_link')
     setTimeout(() => {
       this.setState({ isLinkCopied: false })
     }, 3000)
@@ -73,6 +75,13 @@ class AirdropSuccess extends React.PureComponent {
 
   hideCopied = () => {
     this.setState({ isLinkCopied: false })
+  }
+
+  logShareEvent = type => {
+    this.props.analyticsActions.logEvent([
+      ...SUNRIVER_AIRDROP_EVENTS.SOCIAL_SHARE,
+      type
+    ])
   }
 
   render () {
@@ -114,7 +123,12 @@ class AirdropSuccess extends React.PureComponent {
           </Copy>
         </Body>
         <Footer>
-          <Link href={tweetLink} rel='noopener noreferrer' target='_blank'>
+          <Link
+            href={tweetLink}
+            rel='noopener noreferrer'
+            target='_blank'
+            onClick={() => this.logShareEvent('twitter')}
+          >
             <FooterButton nature='primary' size='16px'>
               <FooterIcon name='twitter' size='18px' />
               <FormattedMessage
@@ -123,7 +137,12 @@ class AirdropSuccess extends React.PureComponent {
               />
             </FooterButton>
           </Link>
-          <Link href={facebookLink} rel='noopener noreferrer' target='_blank'>
+          <Link
+            href={facebookLink}
+            rel='noopener noreferrer'
+            target='_blank'
+            onClick={() => this.logShareEvent('facebook')}
+          >
             <FooterButton nature='secondary' size='16px'>
               <FooterIcon name='facebook' size='18px' />
               <FormattedMessage
@@ -168,11 +187,15 @@ AirdropSuccess.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
 const enhance = compose(
-  connect(mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   modalEnhancer('AirdropSuccess')
 )
 

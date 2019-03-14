@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { includes, keys, pickBy } from 'ramda'
+import { clone, includes, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -145,13 +145,17 @@ class IdentityVerification extends React.PureComponent {
     this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
     this.props.analyticsActions.logEvent([
       ...KYC_EVENTS.ONBOARDING_START,
-      `tier ${tier}`
+      'tier ' + tier
     ])
   }
 
   getStepComponent = step => {
     const { actions } = this.props
-    this.props.analyticsActions.logEvent([...KYC_EVENTS.STEP_CHANGE, step])
+    if (step) {
+      const kycEvents = clone(KYC_EVENTS.STEP_CHANGE)
+      kycEvents[2] += step
+      this.props.analyticsActions.logEvent([...kycEvents])
+    }
     if (step === STEPS.personal)
       return (
         <Personal

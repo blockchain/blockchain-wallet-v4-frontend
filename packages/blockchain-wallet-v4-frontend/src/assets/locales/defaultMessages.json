@@ -1001,8 +1001,8 @@
         "id": "components.EmailVerification.emailverified"
       },
       {
-        "defaultMessage": "Check you inbox. We sent an email to:",
-        "id": "components.EmailVerification.checkyourinbox"
+        "defaultMessage": "Check your inbox. We sent an email to:",
+        "id": "components.EmailVerification.checkinbox"
       },
       {
         "defaultMessage": "Change Email",

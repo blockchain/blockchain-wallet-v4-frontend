@@ -31,7 +31,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
     return (
       <div>
         <div style={spacing('mb-15')}>
-          <Banner type='alert'>
+          <Banner type='alert' data-e2e='advancedFunctionalityBadge'>
             <FormattedMessage
               id='modals.importbtcaddress.importexternalbitcoinaddress.advanced.message'
               defaultMessage='This is advanced functionality and only suggested for advanced users.'
@@ -52,6 +52,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
                 validate={[validBitcoinAddressOrPrivateKey, required]}
                 normalize={removeWhitespace}
                 component={TextBox}
+                data-e2e='addressOrPrKeyInput'
               />
               <QRCodeCapture
                 scanType='btcPrivOrAddress'

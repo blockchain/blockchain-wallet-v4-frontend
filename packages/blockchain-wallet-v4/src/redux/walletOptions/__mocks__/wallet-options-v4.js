@@ -2,6 +2,7 @@ export default {
   platforms: {
     web: {
       application: {
+        analyticsSiteId: 2,
         enableDomainMigrationRedirects: true,
         announcements: {
           public: {},

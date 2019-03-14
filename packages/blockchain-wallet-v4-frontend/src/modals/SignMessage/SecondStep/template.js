@@ -45,7 +45,7 @@ const SecondStep = props => {
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={300} data-e2e='signMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
@@ -56,7 +56,7 @@ const SecondStep = props => {
             defaultMessage='Message:'
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={300} data-e2e='signMessageMsgValue'>
           {message}
         </Text>
       </DetailRow>
@@ -70,13 +70,22 @@ const SecondStep = props => {
         <CopyClipboard address={signedMessage} />
       </DetailRow>
       <SubmitRow>
-        <ClickableText size='14px' weight={300} onClick={resetForm}>
+        <ClickableText
+          size='14px'
+          weight={300}
+          onClick={resetForm}
+          data-e2e='signMessageResetFormButton'
+        >
           <FormattedMessage
             id='modals.signmessage.reset'
             defaultMessage='Reset Form'
           />
         </ClickableText>
-        <Button nature='primary' onClick={closeAll}>
+        <Button
+          nature='primary'
+          onClick={closeAll}
+          data-e2e='signMessageDoneButton'
+        >
           <FormattedMessage
             id='modals.signmessage.secondstep.done'
             defaultMessage='Done'

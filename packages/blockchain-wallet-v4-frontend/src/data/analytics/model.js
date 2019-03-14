@@ -23,7 +23,7 @@ export const KYC_EVENTS = {
   },
   ONBOARDING_START: ['kyc', 'onboarding', 'start'],
   SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
-  STEP_CHANGE: ['kyc', 'onboarding', 'step_change'],
+  STEP_CHANGE: ['kyc', 'onboarding', 'step_changed_to_'],
   SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
   SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
   VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
@@ -76,6 +76,9 @@ export const PREFERENCE_EVENTS = {
     TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
     TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
+}
+export const SUNRIVER_AIRDROP_EVENTS = {
+  SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
 }
 export const SWAP_EVENTS = {
   ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
