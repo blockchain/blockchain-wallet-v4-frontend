@@ -511,6 +511,7 @@ export default ({ api, coreSagas }) => {
     restore,
     saveGoals,
     setLogoutEventListener,
+    startSockets,
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,

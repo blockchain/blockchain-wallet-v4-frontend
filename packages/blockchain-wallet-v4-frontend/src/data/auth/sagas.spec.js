@@ -342,6 +342,7 @@ describe('authSagas', () => {
       logoutRoutine,
       saveGoals,
       setLogoutEventListener,
+      startSockets,
       transferEthSaga,
       upgradeWalletSaga,
       upgradeAddressLabelsSaga
@@ -405,22 +406,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })
 
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
-    it('should put action to start xlm streams', () => {
-      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
-    })
-
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
@@ -451,6 +436,10 @@ describe('authSagas', () => {
 
     it('should start logout timer', () => {
       saga.next().put(actions.auth.startLogoutTimer())
+    })
+
+    it('should start sockets', () => {
+      saga.next().call(startSockets)
     })
 
     it('should select guid from state', () => {
