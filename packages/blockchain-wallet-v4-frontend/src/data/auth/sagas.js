@@ -88,6 +88,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('bsv'))
   }
 
+  const startSockets = function * () {
+    yield put(actions.middleware.webSocket.bch.startSocket())
+    yield put(actions.middleware.webSocket.btc.startSocket())
+    yield put(actions.middleware.webSocket.eth.startSocket())
+    yield put(actions.middleware.webSocket.xlm.startStreams())
+  }
+
   const authNabu = function * () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
@@ -122,10 +129,6 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
-      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
@@ -148,6 +151,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
+      yield call(startSockets)
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
       }
