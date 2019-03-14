@@ -137,6 +137,7 @@ export default ({ api, coreSagas }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
+      yield call(startSockets)
       const guid = yield select(selectors.core.wallet.getGuid)
       // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
@@ -151,7 +152,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
-      yield call(startSockets)
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
       }
