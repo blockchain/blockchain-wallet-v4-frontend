@@ -332,8 +332,6 @@ describe('sendXlm sagas', () => {
       it('should log error', () => {
         saga
           .next()
-          .put(A.paymentUpdatedFailure(error))
-          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,

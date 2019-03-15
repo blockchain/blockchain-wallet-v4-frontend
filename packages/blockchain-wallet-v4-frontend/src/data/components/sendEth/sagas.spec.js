@@ -381,8 +381,6 @@ describe('sendEth sagas', () => {
       it('should log error', () => {
         saga
           .next()
-          .put(A.sendEthPaymentUpdatedFailure(error))
-          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
