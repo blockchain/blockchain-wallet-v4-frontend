@@ -28,7 +28,7 @@ class ExchangeDetailsContainer extends React.PureComponent {
       Success: value => (
         <Success {...value} position={position} total={total} close={close} />
       ),
-      Error: message => <Error>{message}</Error>,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
