@@ -15,7 +15,7 @@ let sfox
 
 export default ({ api, options }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const refreshSFOX = function*() {
+  const refreshSFOX = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'sfox')
     const value = yield select(buySellSelectors.getMetadata)
@@ -23,7 +23,7 @@ export default ({ api, options }) => {
     sfox = sfoxService.refresh(value, delegate, walletOptions)
   }
 
-  const init = function*() {
+  const init = function * () {
     try {
       const value = yield select(buySellSelectors.getMetadata)
       if (!path(['data', 'value', 'sfox', 'account_token'], value)) return
@@ -33,7 +33,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchProfile = function*() {
+  const fetchProfile = function * () {
     try {
       yield put(A.fetchProfileLoading())
       const profile = yield apply(sfox, sfox.fetchProfile)
@@ -43,12 +43,12 @@ export default ({ api, options }) => {
     }
   }
 
-  const refetchProfile = function*() {
+  const refetchProfile = function * () {
     const profile = yield apply(sfox, sfox.fetchProfile)
     yield put(A.fetchProfileSuccess(profile))
   }
 
-  const fetchQuote = function*(data) {
+  const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
       const nextAddress = data.payload.nextAddress
@@ -67,7 +67,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchSellQuote = function*(data) {
+  const fetchSellQuote = function * (data) {
     try {
       yield put(A.fetchSellQuoteLoading())
       yield call(refreshSFOX)
@@ -84,17 +84,17 @@ export default ({ api, options }) => {
     }
   }
 
-  const waitForRefreshQuote = function*(quotePayload) {
+  const waitForRefreshQuote = function * (quotePayload) {
     yield take(AT.REFRESH_QUOTE)
     yield put(A.fetchQuote(quotePayload))
   }
 
-  const waitForRefreshSellQuote = function*(sellQuotePayload) {
+  const waitForRefreshSellQuote = function * (sellQuotePayload) {
     yield take(AT.REFRESH_SELL_QUOTE)
     yield put(A.fetchSellQuote(sellQuotePayload))
   }
 
-  const fetchTrades = function*() {
+  const fetchTrades = function * () {
     try {
       yield put(A.fetchTradesLoading())
 
@@ -107,7 +107,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchSfoxAccounts = function*() {
+  const fetchSfoxAccounts = function * () {
     try {
       yield call(refreshSFOX)
       yield put(A.sfoxFetchAccountsLoading())
@@ -119,7 +119,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const getBankAccounts = function*(data) {
+  const getBankAccounts = function * (data) {
     const token = data.payload
     try {
       const bankAccounts = yield apply(
@@ -133,11 +133,11 @@ export default ({ api, options }) => {
     }
   }
 
-  const resetProfile = function*() {
+  const resetProfile = function * () {
     yield put(A.resetProfile())
   }
 
-  const getSfox = function*() {
+  const getSfox = function * () {
     try {
       const state = yield select()
       const delegate = new ExchangeDelegate(state, api, 'sfox')
@@ -150,7 +150,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const setBankManually = function*(data) {
+  const setBankManually = function * (data) {
     const { routing, account, name, type } = data
     try {
       yield put(A.setBankManuallyLoading())
@@ -171,7 +171,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const signup = function*() {
+  const signup = function * () {
     try {
       const sfox = yield call(getSfox)
       const signupResponse = yield apply(sfox, sfox.signup)
@@ -184,7 +184,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const setProfile = function*(user) {
+  const setProfile = function * (user) {
     const {
       firstName,
       lastName,
@@ -211,7 +211,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const uploadDoc = function*(data) {
+  const uploadDoc = function * (data) {
     const { idType, file } = data.payload
     try {
       const sfox = yield call(getSfox)
@@ -231,7 +231,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const setBankAccount = function*(data) {
+  const setBankAccount = function * (data) {
     const bank = data.payload
     try {
       const sfox = yield call(getSfox)
@@ -246,7 +246,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const verifyMicroDeposits = function*(data) {
+  const verifyMicroDeposits = function * (data) {
     const { amount1, amount2 } = data.payload
     try {
       const accountsR = yield select(S.getAccounts)
@@ -263,7 +263,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const handleTrade = function*(quote, addressData) {
+  const handleTrade = function * (quote, addressData) {
     try {
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
@@ -288,7 +288,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const labelAddressForBuy = function*(trade, addressData) {
+  const labelAddressForBuy = function * (trade, addressData) {
     try {
       trade._account_index = addressData.accountIndex
       trade._receive_index = addressData.index
@@ -307,7 +307,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const handleSellTrade = function*(quote) {
+  const handleSellTrade = function * (quote) {
     try {
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)

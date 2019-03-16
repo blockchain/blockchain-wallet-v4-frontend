@@ -9,7 +9,7 @@ import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
-  const postMessage = function*(message) {
+  const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
@@ -28,7 +28,7 @@ export default ({ api }) => {
     }
   }
 
-  const generateUniqueUserID = function*() {
+  const generateUniqueUserID = function * () {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
@@ -41,13 +41,13 @@ export default ({ api }) => {
     return masterHDNode.deriveHardened(purpose).getAddress()
   }
 
-  const initUserSession = function*() {
+  const initUserSession = function * () {
     try {
       const guid = yield call(generateUniqueUserID)
       const isCryptoDisplayed = yield select(
         selectors.preferences.getCoinDisplayed
       )
-      yield call(startSession, { guid })
+      yield call(startSession, { payload: { guid } })
       yield call(postMessage, {
         method: 'setCustomDimension',
         messageData: {
@@ -55,13 +55,13 @@ export default ({ api }) => {
           dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
         }
       })
-      yield call(logPageView, { route: '/home' })
+      yield call(logPageView, { payload: { route: '/home' } })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
   }
 
-  const logEvent = function*(action) {
+  const logEvent = function * (action) {
     try {
       const { event } = action.payload
       yield call(postMessage, {
@@ -73,7 +73,7 @@ export default ({ api }) => {
     }
   }
 
-  const logPageView = function*(action) {
+  const logPageView = function * (action) {
     try {
       const { route } = action.payload
       const isAuthenticated = yield select(selectors.auth.isAuthenticated)
@@ -89,7 +89,7 @@ export default ({ api }) => {
     }
   }
 
-  const logGoal = function*() {
+  const logGoal = function * () {
     try {
       // TODO
       yield
@@ -98,7 +98,7 @@ export default ({ api }) => {
     }
   }
 
-  const startSession = function*(action) {
+  const startSession = function * (action) {
     try {
       const { guid } = action.payload
       yield call(postMessage, {
@@ -115,7 +115,7 @@ export default ({ api }) => {
     }
   }
 
-  const stopSession = function*() {
+  const stopSession = function * () {
     try {
       yield call(postMessage, { method: 'resetUserId', messageData: [] })
     } catch (e) {

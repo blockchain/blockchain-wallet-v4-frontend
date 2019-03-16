@@ -29,13 +29,13 @@ export default ({ api }) => {
 
   const logLocation = 'goals/sagas'
 
-  const waitForUserData = function*() {
+  const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
     if (Remote.Success.is(userData)) return
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const waitForUserTiers = function*() {
+  const waitForUserTiers = function * () {
     const userId = (yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )).getOrElse('')
@@ -43,7 +43,7 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
   }
 
-  const defineReferralGoal = function*(search) {
+  const defineReferralGoal = function * (search) {
     const params = new URLSearchParams(search)
     yield put(
       actions.goals.saveGoal('referral', {
@@ -56,13 +56,13 @@ export default ({ api }) => {
     yield put(actions.router.push(destination))
   }
 
-  const defineKycGoal = function*(search) {
+  const defineKycGoal = function * (search) {
     const params = new URLSearchParams(search)
     yield put(actions.goals.saveGoal('kyc', { tier: params.get('tier') }))
     yield put(actions.router.push('/login'))
   }
 
-  const defineSendBtcGoal = function*(pathname, search) {
+  const defineSendBtcGoal = function * (pathname, search) {
     // Special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
     const bip21Payload = bip21.decode(decodedPayload)
@@ -74,7 +74,14 @@ export default ({ api }) => {
     yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
-  const defineActionGoal = function*(pathname, search) {
+  const defineLogLevel = function * (search) {
+    const params = new URLSearchParams(search)
+    const level = params.get('level')
+    window.logLevel = level
+    yield put(actions.logs.setLogLevel(level))
+  }
+
+  const defineActionGoal = function * (pathname, search) {
     try {
       // Other scenarios with actions encoded in base64
       const decoded = JSON.parse(base64.decode(pathname + search))
@@ -93,16 +100,18 @@ export default ({ api }) => {
     }
   }
 
-  const defineDeepLinkGoals = function*(pathname, search) {
+  const defineDeepLinkGoals = function * (pathname, search) {
     if (startsWith('referral', pathname))
       return yield call(defineReferralGoal, search)
     if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
     if (startsWith('bitcoin', pathname))
       return yield call(defineSendBtcGoal, pathname, search)
+    if (startsWith('log-level', pathname))
+      return yield call(defineLogLevel, search)
     yield call(defineActionGoal, pathname, search)
   }
 
-  const defineGoals = function*() {
+  const defineGoals = function * () {
     const search = yield select(selectors.router.getSearch)
     const pathname = yield select(selectors.router.getPathname)
     yield take('@@router/LOCATION_CHANGE')
@@ -110,7 +119,7 @@ export default ({ api }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
-  const runSendBtcGoal = function*(goal) {
+  const runSendBtcGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -135,7 +144,7 @@ export default ({ api }) => {
     )
   }
 
-  const runReferralGoal = function*(goal) {
+  const runReferralGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -149,7 +158,7 @@ export default ({ api }) => {
     }
   }
 
-  const runKycGoal = function*(goal) {
+  const runKycGoal = function * (goal) {
     try {
       const { id, data } = goal
       const { tier = TIERS[2] } = data
@@ -167,7 +176,7 @@ export default ({ api }) => {
     }
   }
 
-  const runAirdropReminderGoal = function*(goal) {
+  const runAirdropReminderGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -187,7 +196,7 @@ export default ({ api }) => {
     }
   }
 
-  const runUpgradeForAirdropGoal = function*(goal) {
+  const runUpgradeForAirdropGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -214,7 +223,7 @@ export default ({ api }) => {
     }
   }
 
-  const runCoinifyUpgradeGoal = function*(goal) {
+  const runCoinifyUpgradeGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -232,7 +241,7 @@ export default ({ api }) => {
     }
   }
 
-  const runSwapUpgradeGoal = function*(goal) {
+  const runSwapUpgradeGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -253,7 +262,7 @@ export default ({ api }) => {
       )
   }
 
-  const runKycDocResubmitGoal = function*(goal) {
+  const runKycDocResubmitGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield call(waitForUserData)
@@ -271,7 +280,7 @@ export default ({ api }) => {
     }
   }
 
-  const runSwapGetStartedGoal = function*(goal) {
+  const runSwapGetStartedGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -296,7 +305,7 @@ export default ({ api }) => {
       )
   }
 
-  const runAirdropClaimGoal = function*(goal) {
+  const runAirdropClaimGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const showAirdropClaimModal = yield select(
@@ -316,7 +325,7 @@ export default ({ api }) => {
     }
   }
 
-  const runBsvGoal = function*(goal) {
+  const runBsvGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
@@ -339,7 +348,7 @@ export default ({ api }) => {
     }
   }
 
-  const runWelcomeGoal = function*(goal) {
+  const runWelcomeGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -364,7 +373,7 @@ export default ({ api }) => {
     }
   }
 
-  const showInitialModal = function*() {
+  const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       kycDocResubmit,
@@ -417,7 +426,7 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
   }
 
-  const runGoal = function*(goal) {
+  const runGoal = function * (goal) {
     try {
       switch (goal.name) {
         case 'kycDocResubmit':
@@ -462,7 +471,7 @@ export default ({ api }) => {
     }
   }
 
-  const runGoals = function*() {
+  const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
     const goalTasks = yield all(map(goal => spawn(runGoal, goal), goals))
     yield all(map(join, goalTasks))

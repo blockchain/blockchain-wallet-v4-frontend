@@ -14,6 +14,21 @@ export const ADDRESS_EVENTS = {
   SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
   SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
+export const KYC_EVENTS = {
+  FORMS: {
+    EDIT_ADDRESS: ['kyc', 'onboarding', 'forms', 'edit_address'],
+    EDIT_COUNTRY: ['kyc', 'onboarding', 'forms', 'edit_country'],
+    EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
+    UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
+  },
+  ONBOARDING_START: ['kyc', 'onboarding', 'start'],
+  SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
+  STEP_CHANGE: ['kyc', 'onboarding', 'step_changed_to_'],
+  SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
+  SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
+  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
+  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number', 'failure']
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
@@ -61,6 +76,22 @@ export const PREFERENCE_EVENTS = {
     TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
     TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
+}
+export const SUNRIVER_AIRDROP_EVENTS = {
+  SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
+}
+export const SWAP_EVENTS = {
+  ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+  ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
+  ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+  ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
+  REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
+  SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+  FIXTURES_CHANGED: ['swap', 'order_form', 'fixtures_changed'],
+  VALUE_INPUT: ['swap', 'order_form', 'value_input'],
+  USE_MIN: ['swap', 'order_form', 'use_min'],
+  USE_MAX: ['swap', 'order_form', 'use_max'],
+  VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
 }
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],

@@ -16,7 +16,7 @@ const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -33,7 +33,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBitcoinFee)
@@ -43,7 +43,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBitcoinTicker)
@@ -53,14 +53,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { address, reset } = payload
@@ -85,7 +85,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function*({ type, payload }) {
+  const fetchTransactionHistory = function * ({ type, payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
@@ -118,7 +118,7 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -147,7 +147,7 @@ export default ({ api }) => {
     return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
-  const fetchFiatAtTime = function*(action) {
+  const fetchFiatAtTime = function * (action) {
     const { hash, amount, time, currency } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))

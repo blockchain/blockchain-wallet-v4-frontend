@@ -10,7 +10,7 @@ const BLOCK_SUB = 'block_sub'
 export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
 
@@ -40,7 +40,7 @@ export default ({ api, ethSocket }) => {
     }
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     try {
       const message = action.payload
 
@@ -90,7 +90,7 @@ export default ({ api, ethSocket }) => {
     }
   }
 
-  const onClose = function*(action) {}
+  const onClose = function * (action) {}
 
   return {
     onOpen,

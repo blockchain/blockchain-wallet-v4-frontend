@@ -40,7 +40,7 @@ describe('analyticsSagas', () => {
     })
 
     it('should call to start session', () => {
-      saga.next(true).call(startSession, { guid: mockGuid })
+      saga.next(true).call(startSession, { payload: { guid: mockGuid } })
     })
 
     it('should log currency pref customDimension', () => {
@@ -56,7 +56,7 @@ describe('analyticsSagas', () => {
     it('should log home page view', () => {
       saga
         .next()
-        .call(logPageView, { route: '/home' })
+        .call(logPageView, { payload: { route: '/home' } })
         .next()
         .isDone()
     })

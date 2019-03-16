@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, networks }) => {
   const manageAddressesSagas = sagas({ api, networks })
 
-  return function* manageAddressesSaga () {
+  return function * manageAddressesSaga () {
     yield takeLatest(
       AT.DELETE_ADDRESS_LABEL,
       manageAddressesSagas.deleteAddressLabel

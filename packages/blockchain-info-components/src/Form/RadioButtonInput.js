@@ -61,6 +61,7 @@ const RadioButtonInput = props => {
         name={name}
         checked={checked}
         disabled={disabled}
+        data-e2e={[`${props.value}AddressRadioButton`]}
         {...rest}
       />
       <Label htmlFor={id}>{children}</Label>

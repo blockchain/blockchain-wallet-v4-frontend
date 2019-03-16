@@ -19,7 +19,7 @@ export default ({ coreSagas, networks }) => {
   let prevPaymentAmount
   let prevPayment
   let paymentTask
-  const calculatePaymentMemo = function*(source, amount) {
+  const calculatePaymentMemo = function * (source, amount) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
@@ -38,7 +38,7 @@ export default ({ coreSagas, networks }) => {
   const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
   const ethOptions = [networks.eth, null]
   const xlmOptions = [null, null]
-  const calculateProvisionalPayment = function*(source, amount) {
+  const calculateProvisionalPayment = function * (source, amount) {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
@@ -73,7 +73,7 @@ export default ({ coreSagas, networks }) => {
   let prevBalanceSource
   let prevBalance
   let balanceTask
-  const calculateEffectiveBalanceMemo = function*(source) {
+  const calculateEffectiveBalanceMemo = function * (source) {
     if (!equals(source, prevBalanceSource)) {
       if (balanceTask) cancel(balanceTask)
       balanceTask = yield fork(calculateEffectiveBalance, source)
@@ -84,7 +84,7 @@ export default ({ coreSagas, networks }) => {
     return prevBalance
   }
 
-  const calculateEffectiveBalance = function*(source) {
+  const calculateEffectiveBalance = function * (source) {
     const coin = prop('coin', source)
     const addressOrIndex = prop('address', source)
     const addressType = prop('type', source)
@@ -148,7 +148,7 @@ export default ({ coreSagas, networks }) => {
     return prop('effectiveBalance', payment.value())
   }
 
-  const createPayment = function*(
+  const createPayment = function * (
     coin,
     sourceAddressOrIndex,
     targetAddress,
@@ -221,32 +221,32 @@ export default ({ coreSagas, networks }) => {
     return payment
   }
 
-  const getDefaultBchAccountValue = function*() {
+  const getDefaultBchAccountValue = function * () {
     const bchAccounts = yield select(S.getActiveBchAccounts)
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
-  const getDefaultBsvAccountValue = function*() {
+  const getDefaultBsvAccountValue = function * () {
     const bsvAccounts = yield select(S.getActiveBsvAccounts)
     return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
   }
 
-  const getDefaultBtcAccountValue = function*() {
+  const getDefaultBtcAccountValue = function * () {
     const btcAccounts = yield select(S.getActiveBtcAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
   }
 
-  const getDefaultEthAccountValue = function*() {
+  const getDefaultEthAccountValue = function * () {
     const ethAccounts = yield select(S.getActiveEthAccounts)
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
   }
 
-  const getDefaultXlmAccountValue = function*() {
+  const getDefaultXlmAccountValue = function * () {
     const xlmAccounts = yield select(S.getActiveXlmAccounts)
     return head(xlmAccounts.getOrFail('Could not get XLM accounts.'))
   }
 
-  const getDefaultAccount = function*(coin) {
+  const getDefaultAccount = function * (coin) {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
@@ -263,7 +263,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const validateXlm = function*(volume, account) {
+  const validateXlm = function * (volume, account) {
     try {
       const paymentValue = yield call(calculatePaymentMemo, account, 0)
       const payment = yield call(coreSagas.payment.xlm.create, {
@@ -280,7 +280,7 @@ export default ({ coreSagas, networks }) => {
     if (account.noAccount) throw NO_ACCOUNT_ERROR
   }
 
-  const validateXlmCreateAccount = function*(volume, account) {
+  const validateXlmCreateAccount = function * (volume, account) {
     const accountId = prop('address', account)
     const accountExists = (yield select(
       selectors.core.data.xlm.getAccount(accountId)
@@ -301,7 +301,7 @@ export default ({ coreSagas, networks }) => {
       throw CREATE_ACCOUNT_ERROR
   }
 
-  const updateLatestEthTrade = function*(txId) {
+  const updateLatestEthTrade = function * (txId) {
     // Update metadata
     yield put(
       actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())

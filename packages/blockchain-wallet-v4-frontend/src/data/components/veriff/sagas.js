@@ -12,7 +12,7 @@ const { STEPS } = model.components.identityVerification
 export default ({ api, coreSagas }) => {
   const { fetchUser } = profileSagas({ api, coreSagas })
 
-  const fetchVeriffUrl = function*() {
+  const fetchVeriffUrl = function * () {
     try {
       yield put(A.fetchVeriffUrlLoading())
       const {
@@ -26,7 +26,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const syncVeriff = function*() {
+  const syncVeriff = function * () {
     try {
       const applicantId = yield select(S.getApplicantId)
       yield call(api.syncVeriff, applicantId)

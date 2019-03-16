@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const identityVerificationSagas = sagas({ api, coreSagas })
 
-  return function* identityVerificationSaga () {
+  return function * identityVerificationSaga () {
     yield takeLatest(
       AT.VERIFY_IDENTITY,
       identityVerificationSagas.verifyIdentity

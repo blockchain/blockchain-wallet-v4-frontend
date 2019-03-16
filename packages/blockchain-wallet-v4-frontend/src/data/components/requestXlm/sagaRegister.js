@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const requestXlmSagas = sagas()
 
-  return function* requestXlmSaga () {
+  return function * requestXlmSaga () {
     yield takeLatest(
       requestAT.OPEN_LOCKBOX_APP_CLICKED,
       requestXlmSagas.openLockboxAppClicked

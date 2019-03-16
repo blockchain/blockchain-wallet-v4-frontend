@@ -7,7 +7,7 @@ import { derivationMap, CONTACTS } from '../config'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const createContacts = function*(kv) {
+  const createContacts = function * (kv) {
     // TOOD : empty contacts implementation
     // const newEntry = {}
     // const newkv = set(KVStoreEntry.value, newEntry, kv)
@@ -22,7 +22,7 @@ export default ({ api, networks }) => {
   //   yield put(A.setContacts(newkv))
   // }
 
-  const fetchMetadataContacts = function*() {
+  const fetchMetadataContacts = function * () {
     try {
       const typeId = derivationMap[CONTACTS]
       const mxpriv = yield select(getMetadataXpriv)

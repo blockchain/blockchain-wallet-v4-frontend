@@ -11,7 +11,7 @@ import shapeShift from './shapeShift/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, options, networks }) =>
-  function* coreDataSaga () {
+  function * coreDataSaga () {
     yield fork(bch({ api }))
     yield fork(btc({ api }))
     yield fork(bsv({ api }))
