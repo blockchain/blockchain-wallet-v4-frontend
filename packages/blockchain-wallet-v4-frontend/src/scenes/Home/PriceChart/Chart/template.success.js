@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
+import { head, last, sort } from 'ramda'
 import { calculateStart, calculateInterval } from 'services/ChartService'
 import { getConfig } from './services'
 
@@ -17,6 +18,10 @@ const Wrapper = styled.div`
     .highcharts-background {
       fill: ${props => props.theme['white']} !important;
     }
+  }
+  .highcharts-container,
+  .highcharts-root {
+    overflow: visible !important;
   }
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
@@ -37,10 +42,48 @@ class Chart extends React.PureComponent {
     this.state = { start, interval, config }
   }
 
+  handleCallback = chart => {
+    const { data } = this.props
+    const lowToHigh = (a, b) => a - b
+    const prices = data.map(last)
+    const sorted = sort(lowToHigh, prices)
+    const min = head(sorted)
+    const max = last(sorted)
+    const minIndex = prices.indexOf(min)
+    const maxIndex = prices.indexOf(max)
+
+    var maxPoint = chart.series[0].data[maxIndex]
+    var minPoint = chart.series[0].data[minIndex]
+    chart.renderer
+      .text(
+        'Max',
+        maxPoint.plotX + chart.plotLeft + 10,
+        maxPoint.plotY + chart.plotTop - 10
+      )
+      .attr({
+        zIndex: 5
+      })
+      .add()
+    chart.renderer
+      .text(
+        'Min',
+        minPoint.plotX + chart.plotLeft + 10,
+        minPoint.plotY + chart.plotTop - 10
+      )
+      .attr({
+        zIndex: 5
+      })
+      .add()
+  }
+
   render () {
     return (
       <Wrapper>
-        <ReactHighcharts config={this.state.config} isPureConfig />
+        <ReactHighcharts
+          config={this.state.config}
+          callback={this.handleCallback}
+          isPureConfig
+        />
       </Wrapper>
     )
   }
