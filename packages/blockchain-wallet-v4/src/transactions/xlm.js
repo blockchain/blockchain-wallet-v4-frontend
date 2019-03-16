@@ -64,7 +64,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
       : operationAmount
 
   return {
-    blockHeight: 0,
+    blockHeight: -1,
     description: pathOr('', [hash], txNotes),
     amount,
     fee,
