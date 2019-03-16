@@ -10,7 +10,7 @@ import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized(this.props.coin)
+    this.props.actions.initialized()
   }
 
   render () {
