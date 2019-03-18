@@ -1,4 +1,5 @@
 import Remote from '../../../remote'
+import { ETH } from '../config'
 import * as selectors from './selectors'
 
 describe('kvstore eth selectors', () => {
@@ -29,7 +30,7 @@ describe('kvstore eth selectors', () => {
 
   const successState = {
     kvStorePath: {
-      ethereum: Remote.Success(ethMetadata)
+      [ETH]: Remote.Success(ethMetadata)
     }
   }
 
