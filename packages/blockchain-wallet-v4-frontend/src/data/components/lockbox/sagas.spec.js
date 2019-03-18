@@ -734,7 +734,7 @@ describe('lockbox sagas', () => {
     it('filters app list and sets data success', () => {
       const mockAppInfo = {
         application_versions: [
-          { application_versions: 7, name: 'btc' },
+          { application_versions: 7, name: 'Bitcoin' },
           { application_versions: 7, name: 'NEO' }
         ]
       }
