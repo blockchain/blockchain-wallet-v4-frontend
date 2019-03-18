@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const { WALLET_TX_SEARCH } = model.form
 const { ADD_NEW, UNARCHIVE } = model.analytics.WALLET_EVENTS
 
-class BitcoinWalletsContainer extends React.Component {
+class BtcWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+  actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
 const mapStateToProps = state => ({
@@ -76,4 +76,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BitcoinWalletsContainer)
+)(BtcWalletsContainer)

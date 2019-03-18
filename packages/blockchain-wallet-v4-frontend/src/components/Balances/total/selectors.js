@@ -9,9 +9,7 @@ export const getBtcBalance = createDeepEqualSelector(
     state =>
       map(
         address =>
-          selectors.core.data.bitcoin
-            .getFinalBalance(state, address)
-            .getOrElse(0),
+          selectors.core.data.btc.getFinalBalance(state, address).getOrElse(0),
         selectors.core.wallet.getSpendableContext(state)
       ),
     state =>
@@ -19,9 +17,7 @@ export const getBtcBalance = createDeepEqualSelector(
         .getLockboxBtcContext(state)
         .map(
           map(address =>
-            selectors.core.data.bitcoin
-              .getFinalBalance(state, address)
-              .getOrElse(0)
+            selectors.core.data.btc.getFinalBalance(state, address).getOrElse(0)
           )
         )
   ],
@@ -63,12 +59,12 @@ export const getXlmBalance = createDeepEqualSelector(
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
-    selectors.core.data.bitcoin.getRates,
+    selectors.core.data.btc.getRates,
     selectors.core.settings.getCurrency
   ],
   (btcBalanceR, btcRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBitcoinToFiat({
+      Exchange.convertBtcToFiat({
         value,
         fromUnit: 'SAT',
         toCurrency,

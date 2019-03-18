@@ -7,7 +7,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 export const getLockboxBtcBalance = createDeepEqualSelector(
   [
     selectors.core.kvStore.lockbox.getLockboxBtcContext,
-    selectors.core.data.bitcoin.getAddresses
+    selectors.core.data.btc.getAddresses
   ],
   (lockboxBtcContextR, addressesR) => {
     const contextToBalances = (lockboxContext, balances) => {
@@ -63,12 +63,12 @@ export const getLockboxXlmBalance = createDeepEqualSelector(
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getLockboxBtcBalance,
-    selectors.core.data.bitcoin.getRates,
+    selectors.core.data.btc.getRates,
     selectors.core.settings.getCurrency
   ],
   (btcBalanceR, btcRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBitcoinToFiat({
+      Exchange.convertBtcToFiat({
         value,
         fromUnit: 'SAT',
         toCurrency,

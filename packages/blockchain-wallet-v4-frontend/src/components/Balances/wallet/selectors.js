@@ -7,7 +7,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 export const getBtcBalance = createDeepEqualSelector(
   [
     selectors.core.wallet.getSpendableContext,
-    selectors.core.data.bitcoin.getAddresses
+    selectors.core.data.btc.getAddresses
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) => {
@@ -72,12 +72,12 @@ export const getXlmBalance = createDeepEqualSelector(
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
-    selectors.core.data.bitcoin.getRates,
+    selectors.core.data.btc.getRates,
     selectors.core.settings.getCurrency
   ],
   (btcBalanceR, btcRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBitcoinToFiat({
+      Exchange.convertBtcToFiat({
         value,
         fromUnit: 'SAT',
         toCurrency,

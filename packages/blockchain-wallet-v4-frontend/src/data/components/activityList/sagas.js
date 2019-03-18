@@ -8,7 +8,7 @@ export default () => {
     try {
       const logsR = yield select(selectors.core.data.misc.getLogs)
       const btcTransactions = yield select(
-        selectors.core.data.bitcoin.getTransactions
+        selectors.core.data.btc.getTransactions
       )
       const bchTransactions = yield select(
         selectors.core.data.bch.getTransactions
@@ -23,7 +23,7 @@ export default () => {
         yield put(actions.core.data.misc.fetchLogs())
       }
       if (isEmpty(btcTransactions)) {
-        yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+        yield put(actions.core.data.btc.fetchTransactions('', true))
       }
       if (isEmpty(bchTransactions)) {
         yield put(actions.core.data.bch.fetchTransactions('', true))

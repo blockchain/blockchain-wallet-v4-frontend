@@ -3,7 +3,7 @@ import { networks } from 'bitcoinjs-lib'
 
 const fromHex = hex => Buffer.from(hex, 'hex')
 
-describe('Bitcoin Utils', () => {
+describe('Btc Utils', () => {
   const validAddresses = [
     '1CsYGw3DbpiscVE1LdoCNYp22wukFuRZmN',
     '3QX3B2UqEiQ8kZPwAoySuzFCLawH8GbRe7',
@@ -53,13 +53,13 @@ describe('Bitcoin Utils', () => {
   describe('Address', () => {
     it('Should validate addresses', () => {
       validAddresses
-        .map(addr => utils.isValidBitcoinAddress(addr, networks.bitcoin))
+        .map(addr => utils.isValidBtcAddress(addr, networks.bitcoin))
         .forEach(v => expect(v).toEqual(true))
     })
 
     it('Should find checksum errors', () => {
       invalidAddresses
-        .map(addr => utils.isValidBitcoinAddress(addr, networks.bitcoin))
+        .map(addr => utils.isValidBtcAddress(addr, networks.bitcoin))
         .forEach(v => expect(v).toEqual(false))
     })
 

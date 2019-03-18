@@ -120,7 +120,7 @@ describe('analyticsSagas', () => {
     describe('balance is Loading', () => {
       let saga = testSaga(getBtcBalance)
       it('should select the btc balance', () => {
-        saga.next().select(selectors.core.data.bitcoin.getBalance)
+        saga.next().select(selectors.core.data.btc.getBalance)
       })
 
       it('should take the next success action if Remote is not success', () => {
@@ -128,8 +128,8 @@ describe('analyticsSagas', () => {
         saga
           .next(balance)
           .take([
-            actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
-            actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+            actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
+            actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
           ])
       })
 
@@ -142,7 +142,7 @@ describe('analyticsSagas', () => {
     describe('balance is not loading', () => {
       let saga = testSaga(getBtcBalance)
       it('should select the btc balance', () => {
-        saga.next().select(selectors.core.data.bitcoin.getBalance)
+        saga.next().select(selectors.core.data.btc.getBalance)
       })
       it('should return the balance', () => {
         saga.next(Remote.Success(100)).returns(100)

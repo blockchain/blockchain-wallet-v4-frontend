@@ -162,7 +162,7 @@ const createWalletApi = (
   }
   const getBTCWalletUnspents = compose(
     taskToPromise,
-    getWalletUnspentsTask(ApiPromise.getBitcoinUnspents)
+    getWalletUnspentsTask(ApiPromise.getBtcUnspents)
   )
   const getBCHWalletUnspents = compose(
     taskToPromise,

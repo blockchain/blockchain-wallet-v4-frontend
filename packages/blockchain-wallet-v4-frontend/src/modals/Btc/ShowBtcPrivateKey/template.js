@@ -107,7 +107,7 @@ const SecondStep = ({
         </DetailRowText>
         {':'}
         &nbsp;
-        {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
+        {utils.btc.formatPrivateKeyString(priv, format, addr).fold(
           error => (
             <Text size='14px' weight={300} color='error'>
               {error.message}

@@ -1,4 +1,4 @@
-const bitcoinRates = {
+const btcRates = {
   USD: {
     '15m': 6589.79,
     last: 6589.79,
@@ -264,4 +264,4 @@ const ethereumRates = {
   }
 }
 
-export { bitcoinRates, ethereumRates }
+export { btcRates, ethereumRates }

@@ -81,7 +81,7 @@ export const getActiveBchAccounts = function * () {
 export const getBtcAccounts = function * () {
   const appState = yield select(identity)
   const btcAccounts = selectors.core.wallet.getHDAccounts(appState)
-  const btcData = selectors.core.data.bitcoin
+  const btcData = selectors.core.data.btc
     .getAddresses(appState)
     .getOrFail('Can not retrieve bitcoin data.')
 

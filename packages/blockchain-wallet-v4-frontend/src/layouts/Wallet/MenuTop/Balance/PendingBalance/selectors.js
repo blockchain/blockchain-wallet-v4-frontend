@@ -9,7 +9,7 @@ const extractPendingBalance = trades => {
   const pendingAmounts = pendingBuyTrades.map(x =>
     pathOr(0, ['receiveAmount'], x)
   )
-  return Exchange.convertBitcoinToBitcoin({
+  return Exchange.convertBtcToBtc({
     value: reduce(add, 0, pendingAmounts),
     fromUnit: 'BTC',
     toUnit: 'SAT'

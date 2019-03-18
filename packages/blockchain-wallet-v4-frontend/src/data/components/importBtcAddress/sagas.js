@@ -16,11 +16,11 @@ export default ({ api, coreSagas, networks }) => {
     const to = prop('to', form)
 
     // private key handling
-    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
+    if (value && utils.btc.isValidBtcPrivateKey(value, networks.btc)) {
       let address
-      const format = utils.bitcoin.detectPrivateKeyFormat(value)
+      const format = utils.btc.detectPrivateKeyFormat(value)
       try {
-        const key = utils.bitcoin.privateKeyStringToKey(value, format)
+        const key = utils.btc.privateKeyStringToKey(value, format)
         address = key.getAddress()
       } catch (error) {
         yield put(
@@ -37,7 +37,7 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     // address handling (watch-only)
-    if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
+    if (value && utils.btc.isValidBtcAddress(value, networks.btc)) {
       yield call(importLegacyAddress, value, null, null, null, null)
       yield put(actions.analytics.logEvent(IMPORT_ADDR))
     }

@@ -1160,7 +1160,7 @@ describe('authSagas', () => {
     const { checkDataErrors } = authSagas({ api, coreSagas })
     const saga = testSaga(checkDataErrors)
     it('should select btc getInfo', () => {
-      saga.next().select(selectors.core.data.bitcoin.getInfo)
+      saga.next().select(selectors.core.data.btc.getInfo)
     })
   })
 

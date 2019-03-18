@@ -7,7 +7,7 @@ export const AgeOverEighteenMessage = () => (
     defaultMessage='Must be 18 or older'
   />
 )
-export const InvalidBitcoinAddressMessage = () => (
+export const InvalidBtcAddressMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoinaddress'
     defaultMessage='Invalid Bitcoin address'
@@ -19,13 +19,13 @@ export const InvalidBitcoinCashAddressMessage = () => (
     defaultMessage='Invalid Bitcoin cash address'
   />
 )
-export const InvalidBitcoinPrivateKeyMessage = () => (
+export const InvalidBtcPrivateKeyMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoinprivatekey'
     defaultMessage='Invalid Bitcoin Private Key'
   />
 )
-export const InvalidBitcoinAddressAndPrivateKeyMessage = () => (
+export const InvalidBtcAddressAndPrivateKeyMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoinaddressandkey'
     defaultMessage='Not a valid bitcoin address or private key'

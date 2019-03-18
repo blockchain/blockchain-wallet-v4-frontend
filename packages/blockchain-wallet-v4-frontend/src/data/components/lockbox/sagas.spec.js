@@ -363,7 +363,7 @@ describe('lockbox sagas', () => {
         .next()
         .put(actions.core.data.bch.fetchData())
         .next()
-        .put(actions.core.data.bitcoin.fetchData())
+        .put(actions.core.data.btc.fetchData())
         .next()
         .put(actions.core.data.ethereum.fetchData())
         .next()
@@ -658,7 +658,7 @@ describe('lockbox sagas', () => {
         saga
           .next()
           .next()
-          .put(actions.core.data.bitcoin.fetchTransactions('', true))
+          .put(actions.core.data.btc.fetchTransactions('', true))
           .next()
           .put(actions.core.data.ethereum.fetchTransactions('', true))
           .next()
@@ -734,7 +734,7 @@ describe('lockbox sagas', () => {
     it('filters app list and sets data success', () => {
       const mockAppInfo = {
         application_versions: [
-          { application_versions: 7, name: 'Bitcoin' },
+          { application_versions: 7, name: 'btc' },
           { application_versions: 7, name: 'NEO' }
         ]
       }
@@ -832,7 +832,7 @@ describe('lockbox sagas', () => {
     it('fetches transactions', () => {
       saga
         .next(Remote.of({}))
-        .put(actions.core.data.bitcoin.fetchTransactions({}, false))
+        .put(actions.core.data.btc.fetchTransactions({}, false))
         .next()
         .put(actions.core.data.ethereum.fetchTransactions({}, false))
         .next()

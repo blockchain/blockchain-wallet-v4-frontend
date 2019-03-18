@@ -3,7 +3,7 @@ import { selectors } from 'data'
 export const getBlockHeight = (state, coin) => {
   switch (coin) {
     case 'BTC':
-      return selectors.core.data.bitcoin.getHeight(state).getOrElse(0)
+      return selectors.core.data.btc.getHeight(state).getOrElse(0)
     case 'BCH':
       return selectors.core.data.bch.getHeight(state).getOrElse(0)
     case 'BSV':

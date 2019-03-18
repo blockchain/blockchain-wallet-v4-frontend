@@ -9,7 +9,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const BitcoinLinkHandling = props => {
+const BtcLinkHandling = props => {
   const { warningDisplayed, handleClick } = props
 
   return (
@@ -60,4 +60,4 @@ const BitcoinLinkHandling = props => {
   )
 }
 
-export default BitcoinLinkHandling
+export default BtcLinkHandling

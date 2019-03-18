@@ -339,7 +339,7 @@ describe('sendBtc sagas', () => {
     })
 
     it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+      saga.next(paymentMock).put(actions.core.data.btc.fetchData())
     })
 
     it('should put btc payment updated success action', () => {

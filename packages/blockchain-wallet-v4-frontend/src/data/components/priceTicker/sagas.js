@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
-      const bchRates = yield select(selectors.core.data.bitcoin.getRates)
+      const bchRates = yield select(selectors.core.data.btc.getRates)
       const btcRates = yield select(selectors.core.data.bch.getRates)
       const ethRates = yield select(selectors.core.data.ethereum.getRates)
       const xlmRates = yield select(selectors.core.data.xlm.getRates)
@@ -14,7 +14,7 @@ export default ({ coreSagas }) => {
         yield put(actions.core.data.bch.fetchRates())
       }
       if (Remote.NotAsked.is(btcRates)) {
-        yield put(actions.core.data.bitcoin.fetchRates())
+        yield put(actions.core.data.btc.fetchRates())
       }
       if (Remote.NotAsked.is(ethRates)) {
         yield put(actions.core.data.ethereum.fetchRates())

@@ -1,5 +1,5 @@
 import { toCashAddr } from './bch'
-import { isValidBitcoinAddress } from './btc'
+import { isValidBtcAddress } from './btc'
 import { map, length, take } from 'ramda'
 
 // Adding account names for btc forks (bch, bsv)
@@ -13,14 +13,14 @@ export const addFromToAccountNames = (wallet, accountList, txList) => {
           if (account) {
             if (account.label === tx.from) {
               tx.from = accountList[index].label
-            } else if (isValidBitcoinAddress(tx.from)) {
+            } else if (isValidBtcAddress(tx.from)) {
               try {
                 tx.from = toCashAddr(tx.from, true)
               } catch (e) {}
             }
             if (account.label === tx.to) {
               tx.to = accountList[index].label
-            } else if (isValidBitcoinAddress(tx.to)) {
+            } else if (isValidBtcAddress(tx.to)) {
               try {
                 tx.to = toCashAddr(tx.to, true)
               } catch (e) {}

@@ -21,12 +21,12 @@ export default ({ api }) => {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
-      const bitcoinData = {
+      const btcData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      yield put(A.fetchDataSuccess(bitcoinData))
+      yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
       if (prop('message', e)) yield put(A.fetchDataFailure(e.message))
       else yield put(A.fetchDataFailure(e))
@@ -36,7 +36,7 @@ export default ({ api }) => {
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = yield call(api.getBitcoinFee)
+      const data = yield call(api.getBtcFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
@@ -46,7 +46,7 @@ export default ({ api }) => {
   const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBitcoinTicker)
+      const data = yield call(api.getBtcTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -55,7 +55,7 @@ export default ({ api }) => {
 
   const watchTransactions = function * () {
     while (true) {
-      const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      const action = yield take(AT.FETCH_BTC_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
@@ -151,7 +151,7 @@ export default ({ api }) => {
     const { hash, amount, time, currency } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+      const data = yield call(api.getBtcFiatAtTime, amount, currency, time)
       yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
     } catch (e) {
       yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))

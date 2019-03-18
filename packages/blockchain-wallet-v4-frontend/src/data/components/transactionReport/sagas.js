@@ -25,7 +25,7 @@ export default ({ coreSagas }) => {
   }
 
   const destroyed = function * () {
-    yield put(actions.core.data.bitcoin.clearTransactionHistory())
+    yield put(actions.core.data.btc.clearTransactionHistory())
     yield put(actions.core.data.bch.clearTransactionHistory())
   }
 
@@ -52,7 +52,7 @@ export default ({ coreSagas }) => {
           )
         case 'BTC':
           return yield put(
-            actions.core.data.bitcoin.fetchTransactionHistory(
+            actions.core.data.btc.fetchTransactionHistory(
               address,
               startDate,
               endDate
@@ -60,7 +60,7 @@ export default ({ coreSagas }) => {
           )
         default:
           return yield put(
-            actions.core.data.bitcoin.fetchTransactionHistory(
+            actions.core.data.btc.fetchTransactionHistory(
               address,
               startDate,
               endDate

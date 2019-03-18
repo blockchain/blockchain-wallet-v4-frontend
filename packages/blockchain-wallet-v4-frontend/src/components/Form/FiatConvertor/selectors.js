@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 
 export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
-  const btcRatesR = selectors.core.data.bitcoin.getRates(state)
+  const btcRatesR = selectors.core.data.btc.getRates(state)
   const ethRatesR = selectors.core.data.ethereum.getRates(state)
   const bchRatesR = selectors.core.data.bch.getRates(state)
   const xlmRatesR = selectors.core.data.xlm.getRates(state)

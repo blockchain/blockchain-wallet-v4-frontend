@@ -127,8 +127,8 @@ export default ({ api }) => {
 
     const { amount, address, description } = data
     const currency = yield select(selectors.core.settings.getCurrency)
-    const btcRates = yield select(selectors.core.data.bitcoin.getRates)
-    const fiat = Exchange.convertBitcoinToFiat({
+    const btcRates = yield select(selectors.core.data.btc.getRates)
+    const fiat = Exchange.convertBtcToFiat({
       value: amount,
       fromUnit: 'BTC',
       toCurrency: currency.getOrElse(null),

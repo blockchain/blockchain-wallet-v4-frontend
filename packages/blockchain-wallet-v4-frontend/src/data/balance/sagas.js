@@ -26,11 +26,11 @@ export const getEthBalance = function * () {
 
 export const getBtcBalance = function * () {
   try {
-    const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
+    const btcBalanceR = yield select(selectors.core.data.btc.getBalance)
     if (!Remote.Success.is(btcBalanceR)) {
       const btcData = yield take([
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+        actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
       ])
       return pathOr(0, balancePath, btcData)
     }

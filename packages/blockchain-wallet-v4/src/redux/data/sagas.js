@@ -7,10 +7,9 @@ import sfox from './sfox/sagas'
 import shapeShift from './shapeShift/sagas'
 import xlm from './xlm/sagas'
 
-// TODO: rename exports as coin codes
 export default ({ api, options, networks }) => ({
   bch: bch({ api }),
-  bitcoin: btc({ api }),
+  btc: btc({ api }),
   bsv: bsv({ api }),
   coinify: coinify({ api, options }),
   ethereum: eth({ api }),

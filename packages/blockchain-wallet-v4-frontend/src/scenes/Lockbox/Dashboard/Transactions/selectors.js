@@ -73,7 +73,7 @@ const processPages = (pages, coinType) => {
 const getTransactionsAtBounds = state => {
   const bchAtBounds = selectors.core.data.bch.getTransactionsAtBound(state)
   const xlmAtBounds = selectors.core.data.xlm.getTransactionsAtBound(state)
-  const btcAtBounds = selectors.core.data.bitcoin.getTransactionsAtBound(state)
+  const btcAtBounds = selectors.core.data.btc.getTransactionsAtBound(state)
   const ethAtBounds = selectors.core.data.ethereum.getTransactionsAtBound(state)
   return bchAtBounds && btcAtBounds && ethAtBounds && xlmAtBounds
 }

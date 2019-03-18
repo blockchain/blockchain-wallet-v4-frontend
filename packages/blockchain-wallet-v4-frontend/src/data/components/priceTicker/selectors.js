@@ -7,7 +7,7 @@ const selectRates = (coin, state) => {
     case 'BCH':
       return selectors.core.data.bch.getRates(state)
     case 'BTC':
-      return selectors.core.data.bitcoin.getRates(state)
+      return selectors.core.data.btc.getRates(state)
     case 'ETH':
       return selectors.core.data.ethereum.getRates(state)
     case 'XLM':
@@ -27,7 +27,7 @@ const convertCoinToFiat = (coin, rates, currency) => {
         rates
       })
     case 'BTC':
-      return Exchange.displayBitcoinToFiat({
+      return Exchange.displayBtcToFiat({
         value: 1,
         fromUnit: 'BTC',
         toCurrency: currency,

@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   switch (ownProps.coin) {
     case 'BTC':
       return {
-        dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+        dataActions: bindActionCreators(actions.core.data.btc, dispatch),
         txActions: bindActionCreators(
           actions.components.btcTransactions,
           dispatch

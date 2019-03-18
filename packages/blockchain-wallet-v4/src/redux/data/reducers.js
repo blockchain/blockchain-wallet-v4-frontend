@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import bch from './bch/reducers'
-import bitcoin from './btc/reducers'
+import btc from './btc/reducers'
 import bsv from './bsv/reducers'
 import coinify from './coinify/reducers'
 import ethereum from './eth/reducers'
@@ -13,7 +13,7 @@ import xlm from './xlm/reducers'
 // TODO: rename exports as coin codes
 const dataReducer = combineReducers({
   bch,
-  bitcoin,
+  btc,
   bsv,
   coinify,
   ethereum,

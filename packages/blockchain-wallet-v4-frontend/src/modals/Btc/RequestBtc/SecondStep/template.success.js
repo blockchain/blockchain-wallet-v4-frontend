@@ -129,6 +129,6 @@ SecondStep.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestBtc', destroyOnUnmount: false })(
   SecondStep
 )

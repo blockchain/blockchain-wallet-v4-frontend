@@ -6,11 +6,11 @@ export default () => {
   const refreshClicked = function * () {
     try {
       yield put(actions.core.data.bch.fetchData())
-      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.btc.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.bch.fetchRates())
-      yield put(actions.core.data.bitcoin.fetchRates())
+      yield put(actions.core.data.btc.fetchRates())
       yield put(actions.core.data.ethereum.fetchRates())
       yield put(actions.core.data.xlm.fetchRates())
       const pathname = yield select(selectors.router.getPathname)
@@ -35,7 +35,7 @@ export default () => {
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
-          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+          yield put(actions.core.data.btc.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(null, true))
           yield put(actions.core.data.xlm.fetchTransactions('', true))
       }
@@ -55,7 +55,7 @@ export default () => {
   }
 
   const refreshBtcTransactions = function * () {
-    yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+    yield put(actions.core.data.btc.fetchTransactions('', true))
   }
 
   const refreshBsvTransactions = function * () {

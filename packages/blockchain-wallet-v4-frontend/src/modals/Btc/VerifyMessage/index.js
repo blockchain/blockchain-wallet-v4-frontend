@@ -16,7 +16,7 @@ import * as services from './services'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { validBitcoinAddress } from 'services/FormHelper'
+import { validBtcAddress } from 'services/FormHelper'
 import styled from 'styled-components'
 
 const Item = styled(FormItem)`
@@ -43,7 +43,7 @@ const ItemAddress = ({ address, network, onChange }) => (
           name: 'address'
         }}
         meta={{
-          error: validBitcoinAddress(address, null, { network }),
+          error: validBtcAddress(address, null, { network }),
           touched: address !== ``
         }}
         data-e2e='bitcoinAddressInput'

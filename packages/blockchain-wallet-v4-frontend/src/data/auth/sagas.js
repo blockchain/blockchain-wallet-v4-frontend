@@ -182,11 +182,11 @@ export default ({ api, coreSagas }) => {
     }
   }
   const checkDataErrors = function * () {
-    const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+    const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
     if (Remote.Loading.is(btcDataR)) {
       const btcData = yield take(
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
       )
       const error = prop('payload', btcData)
       yield call(checkAndHandleVulnerableAddress, { error })
