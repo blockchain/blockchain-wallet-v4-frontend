@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import { head, last, sort } from 'ramda'
 import { calculateStart, calculateInterval } from 'services/ChartService'
-import { getConfig } from './services'
+import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -29,6 +28,12 @@ const Wrapper = styled.div`
       font-weight: 300;
     }
   }
+  .min-max {
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: ${props => props.theme['white']};
+    background: ${props => props.theme[props.coin.toLowerCase()]};
+  }
 `
 
 class Chart extends React.PureComponent {
@@ -39,46 +44,19 @@ class Chart extends React.PureComponent {
     const start = calculateStart(coin, time)
     const interval = calculateInterval(coin, time)
     const config = getConfig(start, interval, coin, currency, data, decimals)
-    this.state = { start, interval, config }
+    this.state = { config, start, interval, decimals }
   }
 
   handleCallback = chart => {
-    const { data } = this.props
-    const lowToHigh = (a, b) => a - b
-    const prices = data.map(last)
-    const sorted = sort(lowToHigh, prices)
-    const min = head(sorted)
-    const max = last(sorted)
-    const minIndex = prices.indexOf(min)
-    const maxIndex = prices.indexOf(max)
+    const { currency, data } = this.props
+    const { decimals } = this.state
 
-    var maxPoint = chart.series[0].data[maxIndex]
-    var minPoint = chart.series[0].data[minIndex]
-    chart.renderer
-      .text(
-        'Max',
-        maxPoint.plotX + chart.plotLeft + 10,
-        maxPoint.plotY + chart.plotTop - 10
-      )
-      .attr({
-        zIndex: 5
-      })
-      .add()
-    chart.renderer
-      .text(
-        'Min',
-        minPoint.plotX + chart.plotLeft + 10,
-        minPoint.plotY + chart.plotTop - 10
-      )
-      .attr({
-        zIndex: 5
-      })
-      .add()
+    renderMinMax(chart, { currency, data, decimals })
   }
 
   render () {
     return (
-      <Wrapper>
+      <Wrapper coin={this.props.coin}>
         <ReactHighcharts
           config={this.state.config}
           callback={this.handleCallback}

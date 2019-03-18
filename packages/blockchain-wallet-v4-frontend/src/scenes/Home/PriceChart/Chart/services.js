@@ -1,6 +1,7 @@
 import { Color } from 'blockchain-info-components'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReactHighcharts from 'react-highcharts'
+import { head, last, map, sort } from 'ramda'
 
 export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   chart: {
@@ -105,3 +106,55 @@ export const getConfig = (start, interval, coin, currency, data, decimals) => ({
     }
   ]
 })
+
+const getPrices = map(last)
+
+const getMinMax = data => {
+  const lowToHigh = (a, b) => a - b
+  const prices = getPrices(data)
+  const sorted = sort(lowToHigh, prices)
+  const min = head(sorted)
+  const max = last(sorted)
+  return [min, max]
+}
+
+const getMinMaxIndex = data => {
+  const prices = getPrices(data)
+  const [min, max] = getMinMax(data)
+  const minIndex = prices.indexOf(min)
+  const maxIndex = prices.indexOf(max)
+  return [minIndex, maxIndex]
+}
+
+const renderPoint = (chart, pointData) => {
+  const [point, value] = pointData
+
+  chart.renderer
+    .text(
+      `<div class='min-max'>${value}</div>`,
+      point.plotX + chart.plotLeft + 10,
+      point.plotY + chart.plotTop - 10,
+      true
+    )
+    .attr({
+      zIndex: 5
+    })
+    .add()
+}
+
+export const renderMinMax = (chart, { currency, data, decimals }) => {
+  const [min, max] = getMinMax(data)
+  const [minIndex, maxIndex] = getMinMaxIndex(data)
+
+  const maxPoint = [
+    chart.series[0].data[maxIndex],
+    currency + Currency.formatFiat(max, decimals)
+  ]
+  const minPoint = [
+    chart.series[0].data[minIndex],
+    currency + Currency.formatFiat(min, decimals)
+  ]
+
+  renderPoint(chart, maxPoint)
+  renderPoint(chart, minPoint)
+}
