@@ -13,7 +13,7 @@ export const InvalidBtcAddressMessage = () => (
     defaultMessage='Invalid Bitcoin address'
   />
 )
-export const InvalidBitcoinCashAddressMessage = () => (
+export const InvalidBchAddressMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoincashaddress'
     defaultMessage='Invalid Bitcoin cash address'

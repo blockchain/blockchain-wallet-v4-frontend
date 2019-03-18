@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { model } from 'data'
-import { required, validBitcoinCashAddress } from 'services/FormHelper'
+import { required, validBchAddress } from 'services/FormHelper'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 import {
   Button,
@@ -96,7 +96,7 @@ const FirstStep = props => {
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
                 normalize={removeWhitespace}
-                validate={[required, validBitcoinCashAddress]}
+                validate={[required, validBchAddress]}
               />
             )}
             <QRCodeCapture

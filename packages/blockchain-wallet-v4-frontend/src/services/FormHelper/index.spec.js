@@ -201,20 +201,20 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validBitcoinCashAddress()', () => {
+  describe('validBchAddress()', () => {
     it('returns correct string if invalid bth addr passed', () => {
       expect(
-        FormHelper.validBitcoinCashAddress(
+        FormHelper.validBchAddress(
           'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
           null,
           { network: networks.bitcoin }
         )
-      ).toEqual(<M.InvalidBitcoinCashAddressMessage />)
+      ).toEqual(<M.InvalidBchAddressMessage />)
     })
 
     it('returns undefined if valid bth addr is given', () => {
       expect(
-        FormHelper.validBitcoinCashAddress(
+        FormHelper.validBchAddress(
           'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
           null,
           { network: networks.bitcoin }

@@ -104,12 +104,12 @@ export const validBtcAddress = (value, allValues, props) => {
   )
 }
 
-export const validBitcoinCashAddress = (value, allValues, props) =>
+export const validBchAddress = (value, allValues, props) =>
   utils.btc.isValidBtcAddress(value, props.network) ||
   utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
-    <M.InvalidBitcoinCashAddressMessage />
+    <M.InvalidBchAddressMessage />
   )
 
 export const validEmailCode = value =>
