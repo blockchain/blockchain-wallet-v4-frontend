@@ -7,7 +7,7 @@ export const getData = (state, ownProps) => {
     case 'ETH':
       return {
         data: Remote.of({
-          legacyEthAddr: selectors.core.kvStore.ethereum
+          legacyEthAddr: selectors.core.kvStore.eth
             .getLegacyAccountAddress(state)
             .getOrElse(null)
         })

@@ -13,21 +13,21 @@ export const getContext = createDeepEqualSelector(
   }
 )
 
-export const getAddresses = path([dataPath, 'ethereum', 'addresses'])
+export const getAddresses = path([dataPath, 'eth', 'addresses'])
 
-export const getFee = path([dataPath, 'ethereum', 'fee'])
+export const getFee = path([dataPath, 'eth', 'fee'])
 
-export const getInfo = path([dataPath, 'ethereum', 'info'])
+export const getInfo = path([dataPath, 'eth', 'info'])
 
-export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
+export const getLatestBlock = path([dataPath, 'eth', 'latest_block'])
 
-export const getCurrentBalance = path([dataPath, 'ethereum', 'current_balance'])
+export const getCurrentBalance = path([dataPath, 'eth', 'current_balance'])
 
-export const getLegacyBalance = path([dataPath, 'ethereum', 'legacy_balance'])
+export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
 
-export const getRates = path([dataPath, 'ethereum', 'rates'])
+export const getRates = path([dataPath, 'eth', 'rates'])
 
-export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
+export const getTransactions = path([dataPath, 'eth', 'transactions'])
 
 // Specific
 export const getBalance = state => getInfo(state).map(prop('final_balance'))
@@ -50,6 +50,6 @@ export const getNonce = (state, address) =>
 
 export const getTransactionsAtBound = path([
   dataPath,
-  'ethereum',
+  'eth',
   'transactions_at_bound'
 ])

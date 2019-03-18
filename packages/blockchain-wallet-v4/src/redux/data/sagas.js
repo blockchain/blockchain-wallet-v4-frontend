@@ -12,7 +12,7 @@ export default ({ api, options, networks }) => ({
   btc: btc({ api }),
   bsv: bsv({ api }),
   coinify: coinify({ api, options }),
-  ethereum: eth({ api }),
+  eth: eth({ api }),
   sfox: sfox({ api, options }),
   shapeShift: shapeShift({ api }),
   xlm: xlm({ api, networks })

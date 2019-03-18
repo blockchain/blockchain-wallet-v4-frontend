@@ -35,7 +35,7 @@ export const getLockboxBchBalance = createDeepEqualSelector(
 export const getLockboxEthBalance = createDeepEqualSelector(
   [
     selectors.core.kvStore.lockbox.getLockboxEthContext,
-    selectors.core.data.ethereum.getAddresses
+    selectors.core.data.eth.getAddresses
   ],
   (lockboxBtcContextR, addressesR) => {
     const contextToBalances = (lockboxContext, balances) => {
@@ -95,7 +95,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
 export const getEthBalanceInfo = createDeepEqualSelector(
   [
     getLockboxEthBalance,
-    selectors.core.data.ethereum.getRates,
+    selectors.core.data.eth.getRates,
     selectors.core.settings.getCurrency
   ],
   (ethBalanceR, ethRatesR, currencyR) => {

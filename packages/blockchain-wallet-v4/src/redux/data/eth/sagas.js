@@ -30,8 +30,8 @@ export default ({ api }) => {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
-      const data = yield call(api.getEthereumData, context)
-      const latestBlock = yield call(api.getEthereumLatestBlock)
+      const data = yield call(api.getEthData, context)
+      const latestBlock = yield call(api.getEthLatestBlock)
       // Accounts treatments
       const finalBalance = sum(values(data).map(obj => obj.balance))
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
@@ -42,7 +42,7 @@ export default ({ api }) => {
         data
       )
 
-      const ethereumData = {
+      const ethData = {
         addresses,
         info: {
           n_tx: nTx,
@@ -52,7 +52,7 @@ export default ({ api }) => {
         },
         latest_block: latestBlock
       }
-      yield put(A.fetchDataSuccess(ethereumData))
+      yield put(A.fetchDataSuccess(ethData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }
@@ -61,7 +61,7 @@ export default ({ api }) => {
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = yield call(api.getEthereumFee)
+      const data = yield call(api.getEthFee)
       const weiData = convertFeeToWei(data)
       yield put(A.fetchFeeSuccess(weiData))
     } catch (e) {
@@ -72,7 +72,7 @@ export default ({ api }) => {
   const fetchLatestBlock = function * () {
     try {
       yield put(A.fetchLatestBlockLoading())
-      const data = yield call(api.getEthereumLatestBlock)
+      const data = yield call(api.getEthLatestBlock)
       yield put(A.fetchLatestBlockSuccess(data))
     } catch (e) {
       yield put(A.fetchLatestBlockFailure(e.message))
@@ -82,7 +82,7 @@ export default ({ api }) => {
   const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getEthereumTicker)
+      const data = yield call(api.getEthTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -91,7 +91,7 @@ export default ({ api }) => {
 
   const watchTransactions = function * () {
     while (true) {
-      const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      const action = yield take(AT.FETCH_ETH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
@@ -100,16 +100,14 @@ export default ({ api }) => {
     try {
       const { payload } = action
       const { address, reset } = payload
-      const defaultAccountR = yield select(
-        selectors.kvStore.ethereum.getContext
-      )
+      const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
       const pages = yield select(S.getTransactions)
       const nextPage = reset ? 0 : length(pages)
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const data = yield call(api.getEthereumTransactions, ethAddress, nextPage)
+      const data = yield call(api.getEthTransactions, ethAddress, nextPage)
       const txs = path([ethAddress, 'txns'], data)
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
@@ -136,7 +134,7 @@ export default ({ api }) => {
       yield put(A.fetchLegacyBalanceLoading())
       const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
       const addr = addrR.getOrElse('')
-      const balances = yield call(api.getEthereumBalances, addr)
+      const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
       yield put(A.fetchLegacyBalanceSuccess(balance))
     } catch (e) {

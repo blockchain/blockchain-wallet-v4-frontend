@@ -73,7 +73,7 @@ describe('analyticsSagas', () => {
     describe('balance is Loading', () => {
       let saga = testSaga(getEthBalance)
       it('should select the eth balance', () => {
-        saga.next().select(selectors.core.data.ethereum.getBalance)
+        saga.next().select(selectors.core.data.eth.getBalance)
       })
 
       it('should take the next success action if Remote is not success', () => {
@@ -81,8 +81,8 @@ describe('analyticsSagas', () => {
         saga
           .next(balance)
           .take([
-            actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
-            actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE
+            actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
+            actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE
           ])
       })
 
@@ -95,7 +95,7 @@ describe('analyticsSagas', () => {
     describe('balance is not loading', () => {
       let saga = testSaga(getEthBalance)
       it('should select the eth balance', () => {
-        saga.next().select(selectors.core.data.ethereum.getBalance)
+        saga.next().select(selectors.core.data.eth.getBalance)
       })
       it('should return the balance', () => {
         saga.next(Remote.Success(1000)).returns(1000)

@@ -1,7 +1,7 @@
 import Remote from '../../../remote'
 import * as selectors from './selectors'
 
-describe('kvstore ethereum selectors', () => {
+describe('kvstore eth selectors', () => {
   const accounts = [
     {
       addr: 'some address',

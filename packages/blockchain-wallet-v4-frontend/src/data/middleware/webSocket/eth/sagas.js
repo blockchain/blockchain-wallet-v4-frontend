@@ -12,9 +12,7 @@ export default ({ api, ethSocket }) => {
   const onOpen = function * () {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
-      const walletContext = yield select(
-        selectors.core.data.ethereum.getContext
-      )
+      const walletContext = yield select(selectors.core.data.eth.getContext)
       const lockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxEthContext
       )).getOrElse([])
@@ -43,13 +41,13 @@ export default ({ api, ethSocket }) => {
         case ACCOUNT_SUB:
           if (message.tx.to === message.address) {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
-            yield put(actions.core.data.ethereum.fetchTransactions(null, true))
+            yield put(actions.core.data.eth.fetchTransactions(null, true))
           }
           const context = [message.address]
-          yield put(actions.core.data.ethereum.fetchData(context))
+          yield put(actions.core.data.eth.fetchData(context))
           break
         case BLOCK_SUB:
-          yield put(actions.core.data.ethereum.fetchLatestBlock())
+          yield put(actions.core.data.eth.fetchLatestBlock())
           break
         case 'pong':
           break

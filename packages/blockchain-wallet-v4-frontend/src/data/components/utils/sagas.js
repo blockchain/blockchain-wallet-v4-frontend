@@ -103,10 +103,10 @@ export const getActiveBtcAccounts = function * () {
 
 export const getEthAccounts = function * () {
   const appState = yield select(identity)
-  const ethData = selectors.core.data.ethereum
+  const ethData = selectors.core.data.eth
     .getAddresses(appState)
     .getOrFail('Can not retrieve ethereum data.')
-  const ethMetadata = selectors.core.kvStore.ethereum
+  const ethMetadata = selectors.core.kvStore.eth
     .getAccounts(appState)
     .getOrFail('Can not retrieve ethereum metadata.')
 

@@ -9,7 +9,7 @@ export const getBlockHeight = (state, coin) => {
     case 'BSV':
       return selectors.core.data.bsv.getHeight(state).getOrElse(0)
     case 'ETH':
-      return selectors.core.data.ethereum.getHeight(state).getOrElse(0)
+      return selectors.core.data.eth.getHeight(state).getOrElse(0)
     case 'XLM':
       return 0
   }

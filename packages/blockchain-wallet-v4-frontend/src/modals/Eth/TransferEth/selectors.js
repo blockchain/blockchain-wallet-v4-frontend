@@ -5,7 +5,7 @@ const extractAddress = addr => prop('addr', head(addr))
 
 export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)
-  const defaultAccountR = selectors.core.kvStore.ethereum
+  const defaultAccountR = selectors.core.kvStore.eth
     .getAccounts(state)
     .map(extractAddress)
 

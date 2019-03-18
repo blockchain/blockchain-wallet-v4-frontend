@@ -10,11 +10,11 @@ export const balancePath = ['payload', 'info', 'final_balance']
 
 export const getEthBalance = function * () {
   try {
-    const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
+    const ethBalanceR = yield select(selectors.core.data.eth.getBalance)
     if (!Remote.Success.is(ethBalanceR)) {
       const ethData = yield take([
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE
+        actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
+        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE
       ])
       return pathOr(0, balancePath, ethData)
     }

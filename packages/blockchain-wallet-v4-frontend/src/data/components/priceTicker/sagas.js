@@ -8,7 +8,7 @@ export default ({ coreSagas }) => {
     try {
       const bchRates = yield select(selectors.core.data.btc.getRates)
       const btcRates = yield select(selectors.core.data.bch.getRates)
-      const ethRates = yield select(selectors.core.data.ethereum.getRates)
+      const ethRates = yield select(selectors.core.data.eth.getRates)
       const xlmRates = yield select(selectors.core.data.xlm.getRates)
       if (Remote.NotAsked.is(bchRates)) {
         yield put(actions.core.data.bch.fetchRates())
@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
         yield put(actions.core.data.btc.fetchRates())
       }
       if (Remote.NotAsked.is(ethRates)) {
-        yield put(actions.core.data.ethereum.fetchRates())
+        yield put(actions.core.data.eth.fetchRates())
       }
       if (Remote.NotAsked.is(xlmRates)) {
         yield put(actions.core.data.xlm.fetchRates())

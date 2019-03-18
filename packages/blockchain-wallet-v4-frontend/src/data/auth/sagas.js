@@ -62,13 +62,13 @@ export default ({ api, coreSagas }) => {
   }
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(
-      selectors.core.kvStore.ethereum.getLegacyAccount
+      selectors.core.kvStore.eth.getLegacyAccount
     )
     const legacyAccount = legacyAccountR.getOrElse(null)
     const { addr, correct } = legacyAccount || {}
-    // If needed, get the ethereum legacy account balance and prompt sweep
+    // If needed, get the eth legacy account balance and prompt sweep
     if (!correct && addr) {
-      const balances = yield call(api.getEthereumBalances, addr)
+      const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
       if (balance > 0) {
         yield put(actions.modals.showModal('TransferEth', { balance, addr }))
@@ -117,9 +117,9 @@ export default ({ api, coreSagas }) => {
       }
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
+      // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(
-        coreSagas.kvStore.ethereum.fetchMetadataEthereum,
+        coreSagas.kvStore.eth.fetchMetadataEth,
         askSecondPasswordEnhancer
       )
       yield call(

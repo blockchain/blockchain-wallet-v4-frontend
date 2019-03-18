@@ -96,7 +96,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
     case 'ETH':
       return {
-        dataActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+        dataActions: bindActionCreators(actions.core.data.eth, dispatch),
         txActions: bindActionCreators(
           actions.components.ethTransactions,
           dispatch

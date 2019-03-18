@@ -6,14 +6,14 @@ let timer, counter, interval
 let blackListedActivityTypes = [
   // ETH
   actionTypes.middleware.webSocket.eth.MESSAGE_SOCKET,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_LOADING,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_LOADING,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE,
-  actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA,
+  actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_SUCCESS,
+  actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_LOADING,
+  actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_FAILURE,
+  actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK,
+  actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
+  actionTypes.core.data.eth.FETCH_ETH_DATA_LOADING,
+  actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE,
+  actionTypes.core.data.eth.FETCH_ETH_DATA,
   // BTC
   actionTypes.middleware.webSocket.btc.MESSAGE_SOCKET,
   actionTypes.core.data.btc.SET_BTC_LATEST_BLOCK,

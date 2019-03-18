@@ -14,7 +14,7 @@ export default () => {
         selectors.core.data.bch.getTransactions
       )
       const ethTransactions = yield select(
-        selectors.core.data.ethereum.getTransactions
+        selectors.core.data.eth.getTransactions
       )
       const xlmTransactions = yield select(
         selectors.core.data.xlm.getTransactions
@@ -29,7 +29,7 @@ export default () => {
         yield put(actions.core.data.bch.fetchTransactions('', true))
       }
       if (isEmpty(ethTransactions)) {
-        yield put(actions.core.data.ethereum.fetchTransactions())
+        yield put(actions.core.data.eth.fetchTransactions())
       }
       if (isEmpty(xlmTransactions)) {
         yield put(actions.core.data.xlm.fetchTransactions())

@@ -159,8 +159,8 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
 
 export const getActiveEthAccounts = createDeepEqualSelector(
   [
-    coreSelectors.data.ethereum.getAddresses,
-    coreSelectors.kvStore.ethereum.getAccounts,
+    coreSelectors.data.eth.getAddresses,
+    coreSelectors.kvStore.eth.getAccounts,
     coreSelectors.common.eth.getLockboxEthBalances
   ],
   (ethDataR, ethMetadataR, lockboxEthDataR) => {

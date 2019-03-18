@@ -45,10 +45,7 @@ export const getBsvBalance = createDeepEqualSelector(
 )
 
 export const getEthBalance = createDeepEqualSelector(
-  [
-    selectors.core.kvStore.ethereum.getContext,
-    selectors.core.data.ethereum.getAddresses
-  ],
+  [selectors.core.kvStore.eth.getContext, selectors.core.data.eth.getAddresses],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>
       context.map(a => pathOr(0, [a, 'balance'], balances))
@@ -104,7 +101,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
 export const getEthBalanceInfo = createDeepEqualSelector(
   [
     getEthBalance,
-    selectors.core.data.ethereum.getRates,
+    selectors.core.data.eth.getRates,
     selectors.core.settings.getCurrency
   ],
   (ethBalanceR, ethRatesR, currencyR) => {

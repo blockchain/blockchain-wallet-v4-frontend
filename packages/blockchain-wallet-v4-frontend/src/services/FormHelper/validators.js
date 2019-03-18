@@ -91,11 +91,7 @@ export const validPasswordStretchingNumber = value =>
   )
 
 export const validEtherAddress = value =>
-  utils.ethereum.isValidAddress(value) ? (
-    undefined
-  ) : (
-    <M.InvalidEtherAddressMessage />
-  )
+  utils.eth.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
 
 export const validXlmAddress = value =>
   utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />

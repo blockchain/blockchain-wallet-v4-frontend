@@ -9,7 +9,7 @@ const selectRates = (coin, state) => {
     case 'BTC':
       return selectors.core.data.btc.getRates(state)
     case 'ETH':
-      return selectors.core.data.ethereum.getRates(state)
+      return selectors.core.data.eth.getRates(state)
     case 'XLM':
       return selectors.core.data.xlm.getRates(state)
     default:
