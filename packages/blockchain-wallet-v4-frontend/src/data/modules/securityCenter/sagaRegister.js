@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const securityCenterSagas = sagas({ coreSagas })
 
-  return function* securityCenterSaga () {
+  return function * securityCenterSaga () {
     yield takeLatest(AT.UPDATE_EMAIL, securityCenterSagas.updateEmail)
     yield takeLatest(AT.VERIFY_EMAIL, securityCenterSagas.verifyEmail)
     yield takeLatest(

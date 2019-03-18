@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { prop } from 'ramda'
 import { model } from 'data'
 
-import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon } from 'blockchain-info-components'
 import {
   Wrapper,
   ExchangeText,
@@ -17,12 +16,9 @@ import {
   CancelButton
 } from 'components/Exchange'
 import { Form } from 'components/Form'
+import ExchangeError from './ExchangeError'
 
-const {
-  CONFIRM_FORM,
-  MISSING_DEVICE_ERROR,
-  NO_TRADE_PERMISSION
-} = model.components.exchange
+const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
   ${Title} {
@@ -30,10 +26,6 @@ const ConfirmWrapper = styled(Wrapper)`
   }
   ${TableRow} {
     margin-bottom: 26px;
-  }
-  ${Delimiter} {
-    margin-top: 29px;
-    margin-bottopm: 30px;
   }
   > :last-child {
     margin-bottom: 0;
@@ -73,49 +65,15 @@ const FromToIcon = styled(Icon)`
   justify-content: center;
   font-size: 24px;
 `
-const ErrorRow = styled(Text)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  min-height: 18px;
-  padding: 5px 0;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 18px;
-  color: ${props => props.theme.error};
-`
 const ConfirmForm = styled(Form)`
   max-width: 440px;
 `
-
-const getErrorMessage = error => {
-  if (error === MISSING_DEVICE_ERROR) {
-    return (
-      <FormattedMessage
-        id='scenes.exchange.confirm.missingdevice'
-        defaultMessage='Lockbox device is missing'
-      />
-    )
-  } else if (prop('type', error) === NO_TRADE_PERMISSION) {
-    return (
-      prop('description', error) || (
-        <FormattedMessage
-          id='scenes.exchange.confirm.notradepermission'
-          defaultMessage='You do not have permission to trade right now. Please try again later.'
-        />
-      )
-    )
-  } else {
-    return (
-      prop('description', error) || (
-        <FormattedMessage
-          id='scenes.exchange.confirm.tradefailed'
-          defaultMessage='Failed to execute a trade'
-        />
-      )
-    )
-  }
-}
+const AmountNote = styled(Note)`
+  margin-top: 0px;
+`
+const Buttons = styled.div`
+  margin-top: 16px;
+`
 
 const ExchangeConfirm = ({
   error,
@@ -142,11 +100,17 @@ const ExchangeConfirm = ({
         />
       </Title>
       <Row>
-        <CoinButton coin={sourceCoin.toLowerCase()}>
+        <CoinButton
+          coin={sourceCoin.toLowerCase()}
+          data-e2e='exchangeConfirmSourceValue'
+        >
           {`${sourceAmount} ${sourceCoin}`}
         </CoinButton>
         <FromToIcon name='short-right-arrow' />
-        <CoinButton coin={targetCoin.toLowerCase()}>
+        <CoinButton
+          coin={targetCoin.toLowerCase()}
+          data-e2e='exchangeConfirmTargetValue'
+        >
           {`${targetAmount} ${targetCoin}`}
         </CoinButton>
       </Row>
@@ -198,42 +162,53 @@ const ExchangeConfirm = ({
         </TableRow>
       )}
       <Delimiter />
-      <Note>
-        <FormattedMessage
-          id='scenes.exchange.confirm.summary.note'
-          defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+      {error ? (
+        <ExchangeError
+          error={error}
+          onBack={onBack}
+          handleSubmit={handleSubmit}
         />
-      </Note>
+      ) : (
+        <AmountNote>
+          <FormattedMessage
+            id='scenes.exchange.confirm.summary.note'
+            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+          />
+        </AmountNote>
+      )}
     </ConfirmWrapper>
-    <ErrorRow>{error && getErrorMessage(error)}</ErrorRow>
-    <ExchangeButton
-      type='submit'
-      nature='primary'
-      disabled={submitting}
-      data-e2e='exchangeCompleteOrderButton'
-    >
-      {!submitting && (
-        <FormattedMessage
-          id='scenes.exchange.confirm.confirm'
-          defaultMessage='Confirm'
-        />
-      )}
-      {submitting && (
-        <HeartbeatLoader height='20px' width='20px' color='white' />
-      )}
-    </ExchangeButton>
-    <CancelButton
-      disabled={submitting}
-      onClick={onBack}
-      data-e2e='exchangeCancelOrderButton'
-    >
-      {!submitting && (
-        <FormattedMessage
-          id='scenes.exchange.confirm.cancel'
-          defaultMessage='Cancel'
-        />
-      )}
-    </CancelButton>
+    {!error && (
+      <Buttons>
+        <ExchangeButton
+          type='submit'
+          nature='primary'
+          disabled={submitting}
+          data-e2e='exchangeCompleteOrderButton'
+        >
+          {!submitting && (
+            <FormattedMessage
+              id='scenes.exchange.confirm.confirm'
+              defaultMessage='Confirm'
+            />
+          )}
+          {submitting && (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          )}
+        </ExchangeButton>
+        <CancelButton
+          disabled={submitting}
+          onClick={onBack}
+          data-e2e='exchangeCancelOrderButton'
+        >
+          {!submitting && (
+            <FormattedMessage
+              id='scenes.exchange.confirm.cancel'
+              defaultMessage='Cancel'
+            />
+          )}
+        </CancelButton>
+      </Buttons>
+    )}
   </ConfirmForm>
 )
 

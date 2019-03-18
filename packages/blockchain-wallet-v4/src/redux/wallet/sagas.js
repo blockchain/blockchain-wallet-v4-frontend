@@ -31,7 +31,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
-  const runTask = function*(task, setActionCreator) {
+  const runTask = function * (task, setActionCreator) {
     let result = yield call(
       compose(
         taskToPromise,
@@ -41,7 +41,7 @@ export default ({ api, networks }) => {
     yield put(setActionCreator(result))
   }
 
-  const toggleSecondPassword = function*({ password }) {
+  const toggleSecondPassword = function * ({ password }) {
     const wrapper = yield select(S.getWrapper)
     const isEncrypted = yield select(S.isSecondPasswordOn)
     if (isEncrypted) {
@@ -61,7 +61,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const importLegacyAddress = function*({ key, network, password, bipPass }) {
+  const importLegacyAddress = function * ({ key, network, password, bipPass }) {
     const wallet = yield select(S.getWallet)
     const wrapper = yield select(S.getWrapper)
     const walletT = Wallet.importLegacyAddress(
@@ -76,7 +76,7 @@ export default ({ api, networks }) => {
     yield call(runTask, wrapperT, A.wallet.setWrapper)
   }
 
-  const newHDAccount = function*({ label, password }) {
+  const newHDAccount = function * ({ label, password }) {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
@@ -87,7 +87,7 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function*({ password, email, language }) {
+  const createWalletSaga = function * ({ password, email, language }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -104,7 +104,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
-  const fetchWalletSaga = function*({
+  const fetchWalletSaga = function * ({
     guid,
     sharedKey,
     session,
@@ -122,7 +122,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.setWrapper(wrapper))
   }
 
-  const upgradeToHd = function*({ password }) {
+  const upgradeToHd = function * ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
       i => i.toJS(),
@@ -145,7 +145,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const findUsedAccounts = function*({ batch, node, usedAccounts }) {
+  const findUsedAccounts = function * ({ batch, node, usedAccounts }) {
     if (endsWith(repeat(false, 5), usedAccounts)) {
       const n = length(dropLastWhile(not, usedAccounts))
       return n < 1 ? 1 : n
@@ -177,7 +177,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletSaga = function*({ mnemonic, email, password, language }) {
+  const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
@@ -200,7 +200,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
-  const updatePbkdf2Iterations = function*({ iterations, password }) {
+  const updatePbkdf2Iterations = function * ({ iterations, password }) {
     if (not(is(Number, iterations))) {
       throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
@@ -219,11 +219,11 @@ export default ({ api, networks }) => {
     }
   }
 
-  const remindWalletGuidSaga = function*({ email, code, sessionToken }) {
+  const remindWalletGuidSaga = function * ({ email, code, sessionToken }) {
     yield call(api.remindGuid, email, code, sessionToken)
   }
 
-  const resetWallet2fa = function*({
+  const resetWallet2fa = function * ({
     guid,
     email,
     newEmail,
@@ -244,15 +244,15 @@ export default ({ api, networks }) => {
     )
   }
 
-  const resendSmsLoginCode = function*({ guid, sessionToken }) {
+  const resendSmsLoginCode = function * ({ guid, sessionToken }) {
     return yield call(api.resendSmsLoginCode, guid, sessionToken)
   }
 
-  const refetchContextData = function*() {
+  const refetchContextData = function * () {
     yield put(fetchData())
   }
 
-  const setHDAddressLabel = function*({ payload }) {
+  const setHDAddressLabel = function * ({ payload }) {
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const receiveAddress = HDAccount.getReceiveAddress(

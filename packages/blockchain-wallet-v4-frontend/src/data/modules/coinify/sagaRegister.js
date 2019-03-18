@@ -6,7 +6,7 @@ import { actionTypes } from 'redux-form'
 export default ({ coreSagas, networks }) => {
   const coinifySagas = sagas({ coreSagas, networks })
 
-  return function* coinifySaga () {
+  return function * coinifySaga () {
     yield takeLatest(AT.SIGNUP, coinifySagas.coinifySignup)
     yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySagas.coinifySaveMedium)
     yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)

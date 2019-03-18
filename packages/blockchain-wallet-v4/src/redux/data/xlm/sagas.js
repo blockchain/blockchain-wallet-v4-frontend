@@ -19,15 +19,13 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 import { xlm } from '../../../transactions'
-import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
 
-export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
-export const OPERATIONS_PER_TX = 1
 
 export const sumBigNumbers = reduce(
   (num1, num2) => new BigNumber.sum(num1, num2).toString(),
@@ -41,17 +39,17 @@ const sumBalance = compose(
 )
 
 export default ({ api, networks }) => {
-  const fetchLedgerDetails = function*() {
+  const fetchLedgerDetails = function * () {
     try {
-      yield put(A.setLedgerDetails(Remote.Loading))
+      yield put(A.setLedgerDetailsLoading())
       const ledger = yield call(api.getLatestLedgerDetails)
-      yield put(A.setLedgerDetails(Remote.Success(ledger)))
+      yield put(A.setLedgerDetailsSuccess(ledger))
     } catch (e) {
-      yield put(A.setLedgerDetails(Remote.Failure(e)))
+      yield put(A.setLedgerDetailsFailure(e))
     }
   }
 
-  const createAccounts = function*() {
+  const createAccounts = function * () {
     if (networks.xlm !== 'testnet') return
     try {
       const accountIds = yield select(S.getContext)
@@ -60,7 +58,7 @@ export default ({ api, networks }) => {
     } catch (e) {}
   }
 
-  const fetchAccount = function*(id) {
+  const fetchAccount = function * (id) {
     try {
       yield put(A.fetchAccountLoading(id))
       const account = yield call(api.getXlmAccount, id)
@@ -70,7 +68,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchData = function*() {
+  const fetchData = function * () {
     const accountIds = yield select(S.getContext)
     yield all(accountIds.map(id => call(fetchAccount, id)))
     const accounts = yield select(S.getAccounts)
@@ -78,17 +76,17 @@ export default ({ api, networks }) => {
     yield put(A.fetchDataSuccess(data))
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
-      yield put(A.setRates(Remote.Loading))
+      yield put(A.setRatesLoading())
       const data = yield call(api.getXlmTicker)
-      yield put(A.setRates(Remote.Success(data)))
+      yield put(A.setRatesSuccess(data))
     } catch (e) {
-      yield put(A.setRates(Remote.Failure(e)))
+      yield put(A.setRatesFailure(e))
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { accountId, reset } = payload
@@ -129,18 +127,17 @@ export default ({ api, networks }) => {
     }
   }
 
-  const __processTxs = function*(txList) {
-    const walletAccountsR = yield select(getAccounts)
-    const walletAccounts = walletAccountsR.getOrElse([])
-    const lockboxAccountsR = yield select(getLockboxXlmAccounts)
-    const lockboxAccounts = lockboxAccountsR.getOrElse([])
+  const __processTxs = function * (txList) {
+    const walletAccounts = (yield select(getAccounts)).getOrElse([])
+    const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
+    const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
     const accounts = concat(walletAccounts, lockboxAccounts)
     return unnest(
       map(tx => {
         const operations = decodeOperations(tx)
         return compose(
           filter(prop('belongsToWallet')),
-          map(transformTx(accounts, tx)),
+          map(transformTx(accounts, txNotes, tx)),
           filter(isLumenOperation)
         )(operations)
       }, txList)

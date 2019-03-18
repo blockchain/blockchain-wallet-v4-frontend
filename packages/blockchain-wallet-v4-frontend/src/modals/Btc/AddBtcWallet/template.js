@@ -58,6 +58,7 @@ const AddBtcWallet = props => {
                   validate={[required, unique]}
                   component={TextBox}
                   maxLength={30}
+                  data-e2e='newWalletNameInput'
                 />
               </FormItem>
             </FormGroup>
@@ -68,6 +69,7 @@ const AddBtcWallet = props => {
               nature='primary'
               capitalize
               disabled={submitting || invalid}
+              data-e2e='createNewBitcoinWalletButton'
             >
               <FormattedMessage
                 id='modals.addbitcoinwallet.button'

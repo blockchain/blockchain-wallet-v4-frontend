@@ -153,8 +153,9 @@ export const updateTransactionList = deviceIndex => ({
 })
 
 // APPLICATIONS
-export const initializeAppManager = () => ({
-  type: AT.INITIALIZE_APP_MANAGER
+export const initializeAppManager = deviceIndex => ({
+  type: AT.INITIALIZE_APP_MANAGER,
+  payload: { deviceIndex }
 })
 export const setLatestAppInfosLoading = () => ({
   type: AT.SET_LATEST_APP_INFOS_LOADING

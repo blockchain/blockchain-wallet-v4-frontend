@@ -106,7 +106,7 @@ class SwapGetStarted extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.swapGetStarted, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
 const enhance = compose(

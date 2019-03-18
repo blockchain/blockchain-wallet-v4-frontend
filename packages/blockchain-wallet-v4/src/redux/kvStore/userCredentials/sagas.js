@@ -8,14 +8,14 @@ import { derivationMap, USER_CREDENTIALS } from '../config'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const createUserCredentials = function*(kv) {
+  const createUserCredentials = function * (kv) {
     const user_id = ''
     const lifetime_token = ''
     const newkv = set(KVStoreEntry.value, { user_id, lifetime_token }, kv)
     yield put(A.createMetadataUserCredentials(newkv))
   }
 
-  const fetchMetadataUserCredentials = function*() {
+  const fetchMetadataUserCredentials = function * () {
     try {
       const typeId = derivationMap[USER_CREDENTIALS]
       const mxpriv = yield select(getMetadataXpriv)

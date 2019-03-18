@@ -648,8 +648,8 @@ describe('lockbox sagas', () => {
           .next()
           .put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex))
       })
-      it('routes to lockbox page', () => {
-        saga.next().put(actions.router.push('/lockbox/onboard'))
+      it('call to find next lockbox route', () => {
+        saga.next().call(determineLockboxRoute)
       })
       it('sets delete device success', () => {
         saga.next().put(A.deleteDeviceSuccess())
@@ -849,7 +849,7 @@ describe('lockbox sagas', () => {
     const saga = testSaga(initializeNewDeviceSetup)
 
     it('calls for device type channel polling', () => {
-      saga.next().call(pollForDeviceTypeChannel, 2500)
+      saga.next().call(pollForDeviceTypeChannel, 2000)
     })
     it('should end', () => {
       saga

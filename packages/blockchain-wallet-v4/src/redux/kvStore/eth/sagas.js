@@ -11,7 +11,7 @@ import { getMnemonic } from '../../wallet/selectors'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks } = {}) => {
-  const deriveAccount = function*(password) {
+  const deriveAccount = function * (password) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
@@ -27,7 +27,7 @@ export default ({ api, networks } = {}) => {
     }
   }
 
-  const createEthereum = function*({ kv, password }) {
+  const createEthereum = function * ({ kv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const ethereum = {
       has_seen: true,
@@ -49,7 +49,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEthereum(newkv))
   }
 
-  const transitionFromLegacy = function*({ newkv, password }) {
+  const transitionFromLegacy = function * ({ newkv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
     newkv.value.ethereum.legacy_account = defaultAccount.toJS()
@@ -58,7 +58,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthereumSuccess(newkv))
   }
 
-  const fetchMetadataEthereum = function*(secondPasswordSagaEnhancer) {
+  const fetchMetadataEthereum = function * (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETHEREUM]
       const mxpriv = yield select(getMetadataXpriv)

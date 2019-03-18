@@ -59,7 +59,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
   state = {}
 
   componentDidMount () {
-    this.props.lockboxActions.initializeAppManager()
+    this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
   componentDidUpdate (prevProps) {
@@ -189,7 +189,11 @@ class LockboxAppManagerContainer extends React.PureComponent {
           <Loader style={{ margin: '32px' }} width='75px' height='75px' />
         </Wrapper>
       ),
-      NotAsked: () => {}
+      NotAsked: () => (
+        <Wrapper>
+          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
+        </Wrapper>
+      )
     })
 
     return (
@@ -219,6 +223,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
 }
 
 LockboxAppManagerContainer.propTypes = {
+  deviceIndex: PropTypes.string,
   mainButtonText: PropTypes.element.isRequired,
   newDevice: PropTypes.bool,
   onClose: PropTypes.func.isRequired

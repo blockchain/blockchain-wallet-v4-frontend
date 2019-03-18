@@ -8,7 +8,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getEmail,
     selectors.core.settings.getEmailVerified,
     selectors.modules.profile.getUserKYCState,
-    selectors.modules.profile.getSunriverTag
+    selectors.modules.profile.getSunRiverTag
   ],
   (emailR, emailVerifiedR, kycStateR, sunriverTagR) => {
     return lift((email, emailVerified, kycState, sunriverTag) => {

@@ -168,6 +168,22 @@ export const extractResponse = curry((encKey, res) => {
   if (res === null) {
     return res
   } else {
+    // TODO: remove when redux/core is moved to frontend
+    if (window.logLevel === 'verbose' && res.type_id !== -1) {
+      console.info(
+        'LOG: ',
+        encKey
+          ? compose(
+              decrypt(encKey),
+              prop('payload')
+            )(res)
+          : compose(
+              BufferToString,
+              B64ToBuffer,
+              prop('payload')
+            )(res)
+      )
+    }
     return encKey
       ? compose(
           JSON.parse,

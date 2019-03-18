@@ -1,5 +1,7 @@
 import { put, select, call } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import BIP39 from 'bip39'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, selectors } from 'data'
@@ -7,7 +9,7 @@ import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
-  const postMessage = function*(message) {
+  const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
@@ -26,13 +28,26 @@ export default ({ api }) => {
     }
   }
 
-  const initUserSession = function*() {
+  const generateUniqueUserID = function * () {
+    const defaultHDWallet = yield select(
+      selectors.core.wallet.getDefaultHDWallet
+    )
+    const { seedHex } = defaultHDWallet
+    const mnemonic = BIP39.entropyToMnemonic(seedHex)
+    const masterhex = BIP39.mnemonicToSeed(mnemonic)
+    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
+    let hash = crypto.sha256('info.blockchain.matomo')
+    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
+    return masterHDNode.deriveHardened(purpose).getAddress()
+  }
+
+  const initUserSession = function * () {
     try {
-      const guid = yield select(selectors.core.wallet.getGuid)
+      const guid = yield call(generateUniqueUserID)
       const isCryptoDisplayed = yield select(
         selectors.preferences.getCoinDisplayed
       )
-      yield call(startSession, { guid })
+      yield call(startSession, { payload: { guid } })
       yield call(postMessage, {
         method: 'setCustomDimension',
         messageData: {
@@ -40,13 +55,13 @@ export default ({ api }) => {
           dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
         }
       })
-      yield call(logPageView, { route: '/home' })
+      yield call(logPageView, { payload: { route: '/home' } })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }
   }
 
-  const logEvent = function*(action) {
+  const logEvent = function * (action) {
     try {
       const { event } = action.payload
       yield call(postMessage, {
@@ -58,7 +73,7 @@ export default ({ api }) => {
     }
   }
 
-  const logPageView = function*(action) {
+  const logPageView = function * (action) {
     try {
       const { route } = action.payload
       const isAuthenticated = yield select(selectors.auth.isAuthenticated)
@@ -74,7 +89,7 @@ export default ({ api }) => {
     }
   }
 
-  const logGoal = function*() {
+  const logGoal = function * () {
     try {
       // TODO
       yield
@@ -83,7 +98,7 @@ export default ({ api }) => {
     }
   }
 
-  const startSession = function*(action) {
+  const startSession = function * (action) {
     try {
       const { guid } = action.payload
       yield call(postMessage, {
@@ -100,7 +115,7 @@ export default ({ api }) => {
     }
   }
 
-  const stopSession = function*() {
+  const stopSession = function * () {
     try {
       yield call(postMessage, { method: 'resetUserId', messageData: [] })
     } catch (e) {

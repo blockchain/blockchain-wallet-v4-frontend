@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image, Text } from 'blockchain-info-components'
-import { FormattedHTMLMessage } from 'react-intl'
+import { Button, Link, Image, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+
+import { isMobile } from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,35 +14,49 @@ const Wrapper = styled.div`
 const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
-  > div:last-child {
-    margin-left: 15px;
-  }
 `
 
 const Success = props => {
+  const { mobileLinkOut } = props
+
   return (
     <Wrapper>
       <LogoWrapper>
-        <Image name='blue-logo' width='50px' height='50px' />
-        <Text weight={300}>Blockchain Wallet</Text>
+        <Image name='email-success' width='75px' height='75px' />
       </LogoWrapper>
       <Text
-        size='16px'
-        weight={300}
-        color='success'
-        style={{ 'margin-top': '25px' }}
+        size='18px'
+        weight={400}
+        color='marketing-primary'
+        style={{ 'margin-top': '15px' }}
       >
-        <FormattedHTMLMessage
-          id='scenes.verifyemailtoken.success.verified'
-          defaultMessage="You've succesfully verified your email address!"
+        <FormattedMessage
+          id='scenes.verifyemailtoken.verified'
+          defaultMessage='Your email is verified!'
         />
       </Text>
-      <Text style={{ marginTop: '10px' }} size='16px' weight={300}>
-        <FormattedHTMLMessage
-          id='scenes.verifyemailtoken.success.return'
-          defaultMessage='Return to the previous tab to access your wallet account.'
-        />
-      </Text>
+      {isMobile() ? (
+        <Link href={mobileLinkOut}>
+          <Button
+            nature='primary'
+            fullwidth
+            style={{ marginTop: '20px' }}
+            height='50px'
+          >
+            <FormattedMessage
+              id='scenes.verifyemailtoken.mobile.openwallet'
+              defaultMessage='Open My Wallet'
+            />
+          </Button>
+        </Link>
+      ) : (
+        <Text style={{ marginTop: '16px' }} size='15px' weight={300}>
+          <FormattedMessage
+            id='scenes.verifyemailtoken.return'
+            defaultMessage='Return to the previous tab to access your Blockchain Wallet.'
+          />
+        </Text>
+      )}
     </Wrapper>
   )
 }

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
+import { connect } from 'react-redux'
+
+import { getBlockHeight } from './selectors'
 
 import {
   Icon,
@@ -61,12 +64,14 @@ const getMinConfirms = coin => {
 }
 
 const Confirmations = props => {
-  const { coin } = props
+  const { blockHeight, coin, txBlockHeight } = props
+  const conf = blockHeight - txBlockHeight + 1
+  const confirmations = conf > 0 && txBlockHeight ? conf : 0
   const minConfirmations = getMinConfirms(coin)
 
   return (
     <Wrapper>
-      {props.confirmations >= minConfirmations ? (
+      {confirmations >= minConfirmations ? (
         <Text size='14px' weight={300} color='received'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
@@ -79,14 +84,14 @@ const Confirmations = props => {
             id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
             defaultMessage='Pending: {count}/{total} Confirmations'
             values={{
-              count: toString(props.confirmations),
+              count: toString(confirmations),
               total: minConfirmations
             }}
           />
         </ConfirmationsText>
       )}
       <IconWrapper>
-        {props.confirmations < minConfirmations && (
+        {confirmations < minConfirmations && (
           <TransactionTooltip
             id='confirmations'
             data-iscapture='true'
@@ -128,9 +133,15 @@ const Confirmations = props => {
     </Wrapper>
   )
 }
+
 Confirmations.propTypes = {
-  confirmations: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired
+  blockHeight: PropTypes.number.isRequired,
+  hash: PropTypes.string.isRequired,
+  txBlockHeight: PropTypes.number.isRequired
 }
 
-export default Confirmations
+const mapStateToProps = (state, ownProps) => ({
+  blockHeight: getBlockHeight(state, ownProps.coin)
+})
+
+export default connect(mapStateToProps)(Confirmations)

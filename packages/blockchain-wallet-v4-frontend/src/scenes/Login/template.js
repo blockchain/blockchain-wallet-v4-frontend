@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { path } from 'ramda'
 import { check, msie } from 'bowser'
 
-import { required } from 'services/FormHelper'
+import { required, validWalletId } from 'services/FormHelper'
+
 import {
   Banner,
   Button,
@@ -25,7 +27,7 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import Modals from 'modals'
+import { Wrapper } from 'components/Public'
 import MobileLogin from 'modals/Mobile/MobileLogin'
 
 const isSupportedBrowser =
@@ -33,16 +35,11 @@ const isSupportedBrowser =
 
 export const removeWhitespace = string => string.replace(/\s/g, ``)
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 35px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
+const LoginWrapper = styled(Wrapper)`
+  position: relative;
+  overflow: visible;
 `
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -83,7 +80,18 @@ const BrowserWarning = styled.div`
 `
 
 const Login = props => {
-  const { submitting, invalid, busy, loginError, password, ...rest } = props
+  const {
+    busy,
+    guid,
+    formMeta,
+    loginError,
+    password,
+    submitting,
+    invalid,
+    isGuidValid,
+    isGuidEmailAddress,
+    ...rest
+  } = props
   const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
 
   const guidError =
@@ -97,11 +105,12 @@ const Login = props => {
     (loginError.toLowerCase().includes('this account has been locked') ||
       loginError.toLowerCase().includes('account is locked'))
 
+  const isGuidTouched = path(['guid', 'touched'], formMeta)
+  const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
+
   return (
-    <Wrapper>
-      <Modals>
-        <MobileLogin />
-      </Modals>
+    <LoginWrapper>
+      <MobileLogin />
       <Header>
         <Text size='24px' weight={300} capitalize>
           <FormattedMessage
@@ -152,7 +161,7 @@ const Login = props => {
             <Field
               name='guid'
               normalize={removeWhitespace}
-              validate={[required]}
+              validate={[required, validWalletId]}
               component={TextBox}
               borderColor={guidError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
@@ -182,26 +191,50 @@ const Login = props => {
               </LinkContainer>
             </GuidError>
           )}
-          <LoginTextGroup inline>
-            <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage
-                id='scenes.login.info'
-                defaultMessage='Find the login link in your email,'
-              />
+          {showGuidInvalidError ? (
+            <Text size='14px' weight={300}>
+              {isGuidEmailAddress ? (
+                <FormattedMessage
+                  id='scenes.login.isguidemailerror'
+                  defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.login.isguidinvalid'
+                  defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
+                />
+              )}{' '}
+              <LinkContainer to='/reminder'>
+                <Link size='14px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.login.clickhere'
+                    defaultMessage='click here.'
+                  />
+                </Link>
+              </LinkContainer>
             </Text>
-            <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage
-                id='scenes.login.info2'
-                defaultMessage='e.g. blockchain.info/wallet/1111-222-333...'
-              />
-            </Text>
-            <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage
-                id='scenes.login.info3'
-                defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.'
-              />
-            </Text>
-          </LoginTextGroup>
+          ) : (
+            <LoginTextGroup inline>
+              <Text size='12px' color='gray-3' weight={300}>
+                <FormattedMessage
+                  id='scenes.login.info'
+                  defaultMessage='Find the login link in your email,'
+                />
+              </Text>
+              <Text size='12px' color='gray-3' weight={300}>
+                <FormattedMessage
+                  id='scenes.login.info2'
+                  defaultMessage='e.g. blockchain.info/wallet/1111-222-333...'
+                />
+              </Text>
+              <Text size='12px' color='gray-3' weight={300}>
+                <FormattedMessage
+                  id='scenes.login.info3'
+                  defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.'
+                />
+              </Text>
+            </LoginTextGroup>
+          )}
         </FormGroup>
         <FormGroup>
           <FormItem>
@@ -341,7 +374,7 @@ const Login = props => {
           </TextGroup>
         </Footer>
       )}
-    </Wrapper>
+    </LoginWrapper>
   )
 }
 

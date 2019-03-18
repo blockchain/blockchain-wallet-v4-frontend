@@ -1,6 +1,5 @@
 import { select, call, put } from 'redux-saga/effects'
-import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
+import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -10,7 +9,7 @@ const GAP_LIMIT = 20
 export default ({ coreSagas, networks }) => {
   const logLocation = 'modules/addressesBch/sagas'
 
-  const editBchAccountLabel = function*(action) {
+  const editBchAccountLabel = function * (action) {
     try {
       const { index, label } = action.payload
       const newLabel = yield call(promptForInput, {
@@ -44,7 +43,7 @@ export default ({ coreSagas, networks }) => {
   }
 
   // if change was sent to users btc change index instead of bch
-  const showBchChangeAddrs = function*(action) {
+  const showBchChangeAddrs = function * (action) {
     const { index, xpub } = action.payload
     const state = yield select()
     const btcChangeIndex = selectors.core.data.bitcoin

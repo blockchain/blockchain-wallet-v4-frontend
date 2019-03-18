@@ -340,7 +340,9 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
+      saveGoals,
       setLogoutEventListener,
+      startSockets,
       transferEthSaga,
       upgradeWalletSaga,
       upgradeAddressLabelsSaga
@@ -404,22 +406,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })
 
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
-    it('should put action to start xlm streams', () => {
-      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
-    })
-
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
@@ -452,6 +438,10 @@ describe('authSagas', () => {
       saga.next().put(actions.auth.startLogoutTimer())
     })
 
+    it('should start sockets', () => {
+      saga.next().call(startSockets)
+    })
+
     it('should select guid from state', () => {
       saga.next().select(selectors.core.wallet.getGuid)
     })
@@ -482,24 +472,8 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should add welcome goal', () => {
-      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
-    })
-
-    it('should add swap upgrade goal', () => {
-      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
-    })
-
-    it('should add kyc goal', () => {
-      saga.next().put(actions.goals.saveGoal('kycCTA'))
-    })
-
-    it('should add kyc doc resubmit goal', () => {
-      saga.next().put(actions.goals.saveGoal('kycDocResubmit'))
-    })
-
-    it('should add bsv goal', () => {
-      saga.next().put(actions.goals.saveGoal('bsv'))
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
     })
 
     it('should run goals', () => {

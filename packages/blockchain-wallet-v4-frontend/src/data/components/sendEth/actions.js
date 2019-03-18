@@ -5,9 +5,16 @@ export const initialized = payload => ({
   payload
 })
 export const destroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
-export const sendEthPaymentUpdated = payment => ({
-  type: AT.SEND_ETH_PAYMENT_UPDATED,
+export const sendEthPaymentUpdatedLoading = () => ({
+  type: AT.SEND_ETH_PAYMENT_UPDATED_LOADING
+})
+export const sendEthPaymentUpdatedSuccess = payment => ({
+  type: AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS,
   payload: payment
+})
+export const sendEthPaymentUpdatedFailure = e => ({
+  type: AT.SEND_ETH_PAYMENT_UPDATED_FAILURE,
+  payload: e
 })
 export const sendEthFirstStepMaximumAmountClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED

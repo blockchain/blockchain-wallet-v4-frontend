@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const identityVerificationSagas = sagas({ api, coreSagas })
 
-  return function* identityVerificationSaga () {
+  return function * identityVerificationSaga () {
     yield takeLatest(
       AT.VERIFY_IDENTITY,
       identityVerificationSagas.verifyIdentity
@@ -50,6 +50,10 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       identityVerificationSagas.createRegisterUserCampaign
+    )
+    yield takeLatest(
+      AT.CLAIM_CAMPAIGN_CLICKED,
+      identityVerificationSagas.claimCampaignClicked
     )
     yield takeLatest(AT.GO_TO_PREV_STEP, identityVerificationSagas.goToPrevStep)
     yield takeLatest(AT.GO_TO_NEXT_STEP, identityVerificationSagas.goToNextStep)

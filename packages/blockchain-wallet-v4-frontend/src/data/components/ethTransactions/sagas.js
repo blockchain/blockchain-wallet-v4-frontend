@@ -5,7 +5,7 @@ import { actions, model } from 'data'
 export default () => {
   const { WALLET_TX_SEARCH } = model.form
   const logLocation = 'components/ethTransactions/sagas'
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       const initialValues = {
         status: '',
@@ -18,7 +18,7 @@ export default () => {
     }
   }
 
-  const loadMore = function*() {
+  const loadMore = function * () {
     try {
       yield put(actions.core.data.ethereum.fetchTransactions())
     } catch (e) {
@@ -26,7 +26,7 @@ export default () => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)

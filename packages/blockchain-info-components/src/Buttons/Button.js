@@ -120,6 +120,12 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'white',
         borderColor: 'brand-secondary'
       }
+    case 'purple':
+      return {
+        color: 'white',
+        backgroundColor: 'purple',
+        borderColor: 'purple'
+      }
     default:
       return {
         color: 'gray-6',

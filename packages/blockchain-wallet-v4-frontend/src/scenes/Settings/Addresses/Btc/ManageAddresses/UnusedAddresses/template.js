@@ -39,6 +39,7 @@ const UnusedAddressesTemplate = ({
             size='small'
             weight={300}
             target='_blank'
+            data-e2e='btcUnusedAddressLink'
           >
             {entry.address}
           </Link>

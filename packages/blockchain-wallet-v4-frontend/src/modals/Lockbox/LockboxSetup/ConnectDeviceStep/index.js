@@ -4,8 +4,10 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
 import { SETUP_TIMEOUT } from './../model'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Template from './template'
+
+const { CONNECT_DEVICE } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
 
 class ConnectDeviceStepContainer extends React.PureComponent {
   state = { connectTimeout: false }
@@ -13,6 +15,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   componentDidMount () {
     this.props.lockboxActions.initializeNewDeviceSetup()
     this.startConnectionTimeout()
+    this.props.analyticsActions.logEvent(CONNECT_DEVICE)
   }
 
   changeDeviceSetupStep = () => {
@@ -61,6 +64,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

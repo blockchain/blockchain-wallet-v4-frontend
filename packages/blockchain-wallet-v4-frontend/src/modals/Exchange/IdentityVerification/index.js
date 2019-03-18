@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { contains, keys, pickBy } from 'ramda'
+import { clone, includes, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -19,6 +19,7 @@ import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
 import MoreInfo from './MoreInfo'
+import Submitted from './Submitted'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -78,7 +79,7 @@ const KycStepIndicator = styled(StepIndicator)`
     border: none;
     background-color: ${props => props.theme['gray-2']};
     &:after {
-      bottom: 0px;
+      bottom: 0;
       border-radius: 4px;
       background-color: ${props => props.theme['brand-secondary']};
     }
@@ -111,8 +112,16 @@ const stepMap = {
       id='modals.identityverification.steps.verify'
       defaultMessage='Verify'
     />
+  ),
+  [STEPS.submitted]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.submitted'
+      defaultMessage='Submitted'
+    />
   )
 }
+
+const { KYC_EVENTS } = model.analytics
 
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
@@ -124,7 +133,7 @@ class IdentityVerification extends React.PureComponent {
     this.initializeVerification()
   }
 
-  getSteps = steps => pickBy((_, step) => contains(step, steps), stepMap)
+  getSteps = steps => pickBy((_, step) => includes(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
@@ -134,10 +143,19 @@ class IdentityVerification extends React.PureComponent {
   initializeVerification = () => {
     const { tier, isCoinify, needMoreInfo } = this.props
     this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
+    this.props.analyticsActions.logEvent([
+      ...KYC_EVENTS.ONBOARDING_START,
+      'tier ' + tier
+    ])
   }
 
   getStepComponent = step => {
     const { actions } = this.props
+    if (step) {
+      const kycEvents = clone(KYC_EVENTS.STEP_CHANGE)
+      kycEvents[2] += step
+      this.props.analyticsActions.logEvent([...kycEvents])
+    }
     if (step === STEPS.personal)
       return (
         <Personal
@@ -157,6 +175,7 @@ class IdentityVerification extends React.PureComponent {
       )
 
     if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
+    if (step === STEPS.submitted) return <Submitted />
   }
 
   render () {
@@ -182,7 +201,7 @@ class IdentityVerification extends React.PureComponent {
               >
                 <HeaderWrapper>
                   <KycStepIndicator
-                    adjuster={0.1667}
+                    adjuster={0}
                     barFullWidth
                     horizontalMobile
                     flexEnd
@@ -214,7 +233,11 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.identityVerification, dispatch)
+  actions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(

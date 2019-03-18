@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.9.9",
+  "version": "4.10.13",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -34,7 +34,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
       "pre-push": "yarn test"
     }
   },
@@ -127,7 +127,7 @@
     "@storybook/cli": "4.1.9",
     "@storybook/react": "4.1.9",
     "@storybook/storybook-deployer": "2.8.1",
-    "babel-core": "~7.0.0-bridge.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-istanbul": "0.12.2",
     "babel-jest": "23.6.0",
@@ -185,6 +185,7 @@
     "redux-saga-test-plan": "3.7.0",
     "release-it": "8.2.0",
     "rimraf": "2.6.3",
+    "staged-git-files": "1.1.2",
     "standard": "12.0.1",
     "style-loader": "0.23.1",
     "thread-loader": "2.1.1",

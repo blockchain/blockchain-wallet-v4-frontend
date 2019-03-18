@@ -168,8 +168,8 @@ exports[`EmailVerification component rendering should render verificationSent lo
     weight="300"
   >
     <FormattedMessage
-      defaultMessage="Check you inbox. We sent an email to:"
-      id="components.EmailVerification.checkyourinbox"
+      defaultMessage="Check your inbox. We sent an email to:"
+      id="components.EmailVerification.checkinbox"
       values={Object {}}
     />
   </Text>
@@ -221,8 +221,8 @@ exports[`EmailVerification component rendering should render verificationSent st
     weight="300"
   >
     <FormattedMessage
-      defaultMessage="Check you inbox. We sent an email to:"
-      id="components.EmailVerification.checkyourinbox"
+      defaultMessage="Check your inbox. We sent an email to:"
+      id="components.EmailVerification.checkinbox"
       values={Object {}}
     />
   </Text>

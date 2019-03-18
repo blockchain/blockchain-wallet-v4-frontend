@@ -20,6 +20,7 @@ export const coinProps = {
     name: 'Stellar',
     icon: 'xlm-circle',
     request: 'RequestXlm',
+    campaign: 'sunriver',
     airdrop: {
       name: 'SUNRIVER',
       link:

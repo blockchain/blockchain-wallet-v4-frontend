@@ -13,7 +13,7 @@ const taskToPromise = t =>
 export default ({ coreSagas }) => {
   const logLocation = 'components/signMessage/sagas'
 
-  const signMessage = function*(action) {
+  const signMessage = function * (action) {
     try {
       const { addr, message } = action.payload
       const password = yield call(promptForSecondPassword)
