@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PriceChart template Success renders correctly 1`] = `
-<templatesuccess__Wrapper>
+<templatesuccess__Wrapper
+  coin="BTC"
+>
   <n
     callback={[Function]}
     config={
