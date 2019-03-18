@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  border-radius: 4px;
   border: 1px solid ${props => props.theme['gray-1']};
   @media (min-width: 480px) {
     height: 390px;

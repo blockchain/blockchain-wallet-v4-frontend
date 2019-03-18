@@ -3,41 +3,13 @@
 exports[`TimeFilters component renders correctly 1`] = `
 <template__Wrapper>
   <template__FilterContainer
-    data-e2e="priceChartAll"
+    data-e2e="priceChartDay"
     onClick={[Function]}
     selected={false}
-    size="14px"
-    weight={300}
   >
     <FormattedMessage
-      defaultMessage="All"
-      id="scenes.priceindexseries.timefilters.all"
-      values={Object {}}
-    />
-  </template__FilterContainer>
-  <template__FilterContainer
-    data-e2e="priceChartYear"
-    onClick={[Function]}
-    selected={false}
-    size="14px"
-    weight={300}
-  >
-    <FormattedMessage
-      defaultMessage="Year"
-      id="scenes.priceindexseries.timefilters.year"
-      values={Object {}}
-    />
-  </template__FilterContainer>
-  <template__FilterContainer
-    data-e2e="priceChartMonth"
-    onClick={[Function]}
-    selected={true}
-    size="14px"
-    weight={300}
-  >
-    <FormattedMessage
-      defaultMessage="Month"
-      id="scenes.priceindexseries.timefilters.month"
+      defaultMessage="Day"
+      id="scenes.priceindexseries.timefilters.day"
       values={Object {}}
     />
   </template__FilterContainer>
@@ -45,8 +17,6 @@ exports[`TimeFilters component renders correctly 1`] = `
     data-e2e="priceChartWeek"
     onClick={[Function]}
     selected={false}
-    size="14px"
-    weight={300}
   >
     <FormattedMessage
       defaultMessage="Week"
@@ -55,15 +25,35 @@ exports[`TimeFilters component renders correctly 1`] = `
     />
   </template__FilterContainer>
   <template__FilterContainer
-    data-e2e="priceChartDay"
+    data-e2e="priceChartMonth"
     onClick={[Function]}
-    selected={false}
-    size="14px"
-    weight={300}
+    selected={true}
   >
     <FormattedMessage
-      defaultMessage="Day"
-      id="scenes.priceindexseries.timefilters.day"
+      defaultMessage="Month"
+      id="scenes.priceindexseries.timefilters.month"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    data-e2e="priceChartYear"
+    onClick={[Function]}
+    selected={false}
+  >
+    <FormattedMessage
+      defaultMessage="Year"
+      id="scenes.priceindexseries.timefilters.year"
+      values={Object {}}
+    />
+  </template__FilterContainer>
+  <template__FilterContainer
+    data-e2e="priceChartAll"
+    onClick={[Function]}
+    selected={false}
+  >
+    <FormattedMessage
+      defaultMessage="All"
+      id="scenes.priceindexseries.timefilters.all"
       values={Object {}}
     />
   </template__FilterContainer>

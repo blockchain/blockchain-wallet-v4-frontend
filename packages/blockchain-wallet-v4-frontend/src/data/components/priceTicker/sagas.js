@@ -2,27 +2,25 @@ import { put, select } from 'redux-saga/effects'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { equals } from 'ramda'
 
 export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
-      const { coin } = action.payload
       const bchRates = yield select(selectors.core.data.bitcoin.getRates)
       const btcRates = yield select(selectors.core.data.bch.getRates)
       const ethRates = yield select(selectors.core.data.ethereum.getRates)
       const xlmRates = yield select(selectors.core.data.xlm.getRates)
-      if (equals(coin, 'BCH') && Remote.NotAsked.is(bchRates)) {
-        return yield put(actions.core.data.bch.fetchRates())
+      if (Remote.NotAsked.is(bchRates)) {
+        yield put(actions.core.data.bch.fetchRates())
       }
-      if (equals(coin, 'BTC') && Remote.NotAsked.is(btcRates)) {
-        return yield put(actions.core.data.bitcoin.fetchRates())
+      if (Remote.NotAsked.is(btcRates)) {
+        yield put(actions.core.data.bitcoin.fetchRates())
       }
-      if (equals(coin, 'ETH') && Remote.NotAsked.is(ethRates)) {
-        return yield put(actions.core.data.ethereum.fetchRates())
+      if (Remote.NotAsked.is(ethRates)) {
+        yield put(actions.core.data.ethereum.fetchRates())
       }
-      if (equals(coin, 'XLM') && Remote.NotAsked.is(xlmRates)) {
-        return yield put(actions.core.data.xlm.fetchRates())
+      if (Remote.NotAsked.is(xlmRates)) {
+        yield put(actions.core.data.xlm.fetchRates())
       }
     } catch (e) {
       yield put(
