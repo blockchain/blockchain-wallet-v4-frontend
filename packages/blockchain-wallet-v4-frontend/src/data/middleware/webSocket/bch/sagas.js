@@ -1,17 +1,18 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, equals, prop, concat } from 'ramda'
+import { equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
-import { Socket } from 'blockchain-wallet-v4/src/network'
 import { WALLET_TX_SEARCH } from '../../../form/model'
 
-// TO REVIEW
+const BLOCK_SUB = 'block_sub'
+const XPUB_SUB = 'xpub_sub'
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
 
   const onOpen = function*() {
     try {
+      yield call(send, JSON.stringify({ op: BLOCK_SUB }))
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
@@ -24,13 +25,12 @@ export default ({ api, bchSocket }) => {
         lockboxXPubs.getOrElse([])
       )
 
-      yield call(
-        compose(
+      for (let i = 0; i < subscribeInfo.xpubs.length; i++) {
+        yield call(
           send,
-          Socket.onOpenMessage
-        ),
-        subscribeInfo
-      )
+          JSON.stringify({ op: XPUB_SUB, xpub: subscribeInfo.xpubs[i] })
+        )
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -45,7 +45,6 @@ export default ({ api, bchSocket }) => {
   const onMessage = function*(action) {
     try {
       const message = action.payload
-
       switch (message.op) {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification

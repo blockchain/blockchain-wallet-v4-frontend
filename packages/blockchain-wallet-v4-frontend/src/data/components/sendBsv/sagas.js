@@ -228,7 +228,6 @@ export default ({ coreSagas, networks }) => {
       yield put(destroy(FORM))
     } catch (e) {
       yield put(stopSubmit(FORM))
-      yield put(A.sendBsvPaymentUpdatedFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )

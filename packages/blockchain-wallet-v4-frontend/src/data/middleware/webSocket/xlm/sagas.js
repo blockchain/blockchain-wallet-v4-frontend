@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import * as T from 'services/AlertService'
 import {
   append,
-  contains,
+  includes,
   compose,
   intersection,
   isEmpty,
@@ -29,7 +29,7 @@ export default () => {
       selectors.core.kvStore.xlm.getDefaultAccountId
     )).getOrElse('')
     const txAccountIds = getAccountIds(tx)
-    if (contains(defaultAccountId, txAccountIds))
+    if (includes(defaultAccountId, txAccountIds))
       yield put(actions.core.data.xlm.addNewTransactions([tx]))
   }
 
@@ -51,7 +51,7 @@ export default () => {
       }
       yield put(actions.core.data.xlm.fetchData())
       const pathname = yield select(selectors.router.getPathname)
-      if (contains(pathname, ['/xlm/transactions', '/home']))
+      if (includes(pathname, ['/xlm/transactions', '/home']))
         yield call(addWalletTransaction, tx)
       if (test(/\/lockbox\/dashboard\//, pathname))
         yield call(

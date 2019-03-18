@@ -241,7 +241,6 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
-        yield put(A.paymentUpdatedFailure(e))
         yield put(
           actions.logs.logErrorMessage(
             logLocation,

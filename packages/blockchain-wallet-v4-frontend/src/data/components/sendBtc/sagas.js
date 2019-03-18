@@ -416,7 +416,6 @@ export default ({ coreSagas, networks }) => {
           )
         )
         yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-        yield put(actions.modals.closeAllModals())
       }
     }
   }

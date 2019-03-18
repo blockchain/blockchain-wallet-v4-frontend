@@ -21,9 +21,9 @@ export const KYC_EVENTS = {
     EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
     UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
   },
-  ONBOARDING_START: ['kyc', 'onboarding', 'start'],
+  ONBOARDING_START: ['kyc', 'onboarding', 'kyc_onboarding_start'],
   SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
-  STEP_CHANGE: ['kyc', 'onboarding', 'step_changed_to_'],
+  STEP_CHANGE: ['kyc', 'onboarding', 'kyc_onboarding_step_to_'],
   SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
   SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
   VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
@@ -42,12 +42,16 @@ export const LOCKBOX_EVENTS = {
     TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
   },
   DEVICE_SETUP: {
-    SELECT_DEVICE: ['lockbox', 'device_setup', 'select_device'],
-    SETUP_TYPE: ['lockbox', 'device_setup', 'setup_type'],
-    CONNECT_DEVICE: ['lockbox', 'device_setup', 'connect_device'],
-    INSTALL_APPS: ['lockbox', 'device_setup', 'install_apps'],
-    PAIR_DEVICE: ['lockbox', 'device_setup', 'pair_device'],
-    COMPLETE: ['lockbox', 'device_setup', 'complete'],
+    SELECT_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_start'],
+    SETUP_TYPE: ['lockbox', 'device_setup', 'lockbox_setup_type'],
+    CONNECT_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_connect'],
+    INSTALL_APPS: [
+      'lockbox',
+      'device_setup',
+      'lockbox_setup_connect_install_apps'
+    ],
+    PAIR_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_pair_device'],
+    COMPLETE: ['lockbox', 'device_setup', 'lockbox_setup_complete'],
     VIEW_TOUR: ['lockbox', 'device_setup', 'view_tour']
   }
 }

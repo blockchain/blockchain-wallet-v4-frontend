@@ -69,6 +69,7 @@ const UsedTableEntry = ({ address, search }) => {
           size='small'
           weight={300}
           target='_blank'
+          data-e2e='btcUsedAddressLink'
         >
           {address.address}
         </Link>

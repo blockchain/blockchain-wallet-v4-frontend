@@ -385,10 +385,6 @@ describe('sendBch sagas', () => {
           .put(actions.form.stopSubmit(FORM))
       })
 
-      it('should set failure', () => {
-        saga.next().put(A.sendBchPaymentUpdatedFailure(error))
-      })
-
       it('should log error', () => {
         saga
           .next()
