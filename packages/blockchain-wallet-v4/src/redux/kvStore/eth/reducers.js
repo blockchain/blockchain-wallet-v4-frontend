@@ -41,6 +41,17 @@ export default (state = INITIAL_STATE, action) => {
       )
       return over(valueLens, setNote, state)
     }
+    case AT.SET_TRANSACTION_NOTE_ERC20: {
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setNote = assocPath(
+        ['ethereum', 'erc20', payload.token, 'tx_notes', payload.txHash],
+        payload.txNote
+      )
+      return over(valueLens, setNote, state)
+    }
     case AT.SET_LATEST_TX_ETHEREUM: {
       let valueLens = compose(
         mapped,
