@@ -45,7 +45,14 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
   return (
     <TableRow dataE2e={dataE2e}>
       <AddressTableCell width='50%'>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+        <AddressCell
+          size='13px'
+          data-e2e={`${
+            archived ? 'archived' : 'unarchived'
+          }ImportedAddressName`}
+        >
+          {address.addr}
+        </AddressCell>
         {address.priv == null && (
           <Banner label type='informational'>
             <FormattedMessage
