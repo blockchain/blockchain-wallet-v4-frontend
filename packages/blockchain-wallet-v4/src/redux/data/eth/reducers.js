@@ -16,29 +16,22 @@ import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { SUPPORTED_ERC20_TOKENS } from './model'
 
-const createNotAskedState = reduce(
-  (acc, curr) => assoc(curr, Remote.NotAsked, acc),
-  {}
-)
-const createLoadingState = reduce(
-  (acc, curr) => assoc(curr, Remote.Loading, acc),
-  {}
-)
-const createTxState = reduce((acc, curr) => assoc(curr, [], acc), {})
-const createTxAtBoundsState = reduce((acc, curr) => assoc(curr, false, acc), {})
-
-const coinAndTokens = prepend('eth', SUPPORTED_ERC20_TOKENS)
+const buildStateWithTokens = defaultValue =>
+  compose(
+    reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
+    prepend('eth')
+  )(SUPPORTED_ERC20_TOKENS)
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
   fee: Remote.NotAsked,
-  info: createNotAskedState(coinAndTokens),
+  info: buildStateWithTokens(Remote.NotAsked),
   latest_block: Remote.NotAsked,
-  current_balance: createNotAskedState(coinAndTokens),
+  current_balance: buildStateWithTokens(Remote.NotAsked),
   legacy_balance: Remote.NotAsked,
   rates: Remote.NotAsked,
-  transactions: createTxState(coinAndTokens),
-  transactions_at_bound: createTxAtBoundsState(coinAndTokens)
+  transactions: buildStateWithTokens([]),
+  transactions_at_bound: buildStateWithTokens(false)
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -48,7 +41,10 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_DATA_LOADING: {
       const newState = {
         addresses: Remote.Loading,
-        info: createLoadingState(coinAndTokens),
+        info: {
+          ...state.info,
+          eth: Remote.Loading
+        },
         latest_block: Remote.Loading
       }
       return mergeRight(state, newState)
@@ -56,7 +52,10 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_DATA_SUCCESS: {
       const newState = {
         addresses: Remote.Success(prop('addresses', payload)),
-        info: { eth: Remote.Success(path(['info', 'eth'], payload)) },
+        info: {
+          ...state.info,
+          eth: Remote.Success(path(['info', 'eth'], payload))
+        },
         latest_block: Remote.Success(prop('latest_block', payload))
       }
       return mergeRight(state, newState)

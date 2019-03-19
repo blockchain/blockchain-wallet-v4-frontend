@@ -26,13 +26,13 @@ const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.getEthereumData, context)
       const latestBlock = yield call(api.getEthereumLatestBlock)
-      // Accounts treatments
+      // account treatments
       const finalBalance = sum(values(data).map(obj => obj.balance))
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
       const totalSent = sum(values(data).map(obj => obj.totalSent))
