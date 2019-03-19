@@ -109,7 +109,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     })
 
   const sendCoinifyKyc = id =>
-    post({
+    authorizedPost({
       url: nabuUrl,
       endPoint: `/kyc/update-coinify-id`,
       contentType: `application/json`,
