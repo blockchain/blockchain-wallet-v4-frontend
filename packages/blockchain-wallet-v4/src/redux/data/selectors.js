@@ -8,15 +8,4 @@ import * as sfox from './sfox/selectors'
 import * as shapeShift from './shapeShift/selectors'
 import * as xlm from './xlm/selectors'
 
-// TODO: rename exports as coin codes
-export {
-  bch,
-  btc as bitcoin,
-  bsv,
-  coinify,
-  eth as ethereum,
-  xlm,
-  misc,
-  sfox,
-  shapeShift
-}
+export { bch, btc, bsv, coinify, eth, xlm, misc, sfox, shapeShift }

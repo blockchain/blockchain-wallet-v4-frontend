@@ -39,17 +39,17 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBsv": [Function],
       }
     }
-    ethereumActions={
+    ethActions={
       Object {
-        "createMetadataEthereum": [Function],
-        "fetchMetadataEthereum": [Function],
-        "fetchMetadataEthereumFailure": [Function],
-        "fetchMetadataEthereumLoading": [Function],
-        "fetchMetadataEthereumSuccess": [Function],
-        "setLatestTxEthereum": [Function],
-        "setLatestTxTimestampEthereum": [Function],
-        "setTxNotesEthereum": [Function],
-        "updateMetadataEthereum": [Function],
+        "createMetadataEth": [Function],
+        "fetchMetadataEth": [Function],
+        "fetchMetadataEthFailure": [Function],
+        "fetchMetadataEthLoading": [Function],
+        "fetchMetadataEthSuccess": [Function],
+        "setLatestTxEth": [Function],
+        "setLatestTxTimestampEth": [Function],
+        "setTxNotesEth": [Function],
+        "updateMetadataEth": [Function],
       }
     }
     preferencesActions={

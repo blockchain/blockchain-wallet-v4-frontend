@@ -8,10 +8,10 @@ import {
   path,
   prop
 } from 'ramda'
-import { ETHEREUM } from '../config'
+import { ETH } from '../config'
 import { kvStorePath } from '../../paths'
 
-export const getMetadata = path([kvStorePath, ETHEREUM])
+export const getMetadata = path([kvStorePath, ETH])
 
 export const getAccounts = state =>
   getMetadata(state).map(path(['value', 'ethereum', 'accounts']))

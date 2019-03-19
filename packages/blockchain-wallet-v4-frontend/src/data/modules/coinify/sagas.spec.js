@@ -1190,7 +1190,7 @@ describe('coinifySagas', () => {
     })
 
     it('should fetch btc data', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+      saga.next(paymentMock).put(actions.core.data.btc.fetchData())
     })
 
     it('should set a tx note', () => {

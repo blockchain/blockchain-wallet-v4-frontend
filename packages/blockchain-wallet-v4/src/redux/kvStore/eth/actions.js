@@ -1,44 +1,44 @@
 import * as AT from './actionTypes'
 
-export const updateMetadataEthereum = (payload = {}) => ({
-  type: AT.UPDATE_METADATA_ETHEREUM,
+export const updateMetadataEth = (payload = {}) => ({
+  type: AT.UPDATE_METADATA_ETH,
   payload
 })
 
-// FETCH_METADATA_ETHEREUM
-export const fetchMetadataEthereum = () => ({
-  type: AT.FETCH_METADATA_ETHEREUM
+// FETCH_METADATA_ETH
+export const fetchMetadataEth = () => ({
+  type: AT.FETCH_METADATA_ETH
 })
-export const fetchMetadataEthereumLoading = () => ({
-  type: AT.FETCH_METADATA_ETHEREUM_LOADING
+export const fetchMetadataEthLoading = () => ({
+  type: AT.FETCH_METADATA_ETH_LOADING
 })
-export const fetchMetadataEthereumSuccess = data => ({
-  type: AT.FETCH_METADATA_ETHEREUM_SUCCESS,
+export const fetchMetadataEthSuccess = data => ({
+  type: AT.FETCH_METADATA_ETH_SUCCESS,
   payload: data
 })
-export const fetchMetadataEthereumFailure = error => ({
-  type: AT.FETCH_METADATA_ETHEREUM_FAILURE,
+export const fetchMetadataEthFailure = error => ({
+  type: AT.FETCH_METADATA_ETH_FAILURE,
   payload: error
 })
 
 // create
-export const createMetadataEthereum = data => ({
-  type: AT.CREATE_METADATA_ETHEREUM,
+export const createMetadataEth = data => ({
+  type: AT.CREATE_METADATA_ETH,
   payload: data
 })
-export const setTxNotesEthereum = (txHash, txNote) => ({
-  type: AT.SET_TRANSACTION_NOTE_ETHEREUM,
+export const setTxNotesEth = (txHash, txNote) => ({
+  type: AT.SET_TRANSACTION_NOTE_ETH,
   payload: { txHash, txNote }
 })
 export const setTxNoteErc20 = (token, txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_ERC20,
   payload: { token, txHash, txNote }
 })
-export const setLatestTxEthereum = txHash => ({
-  type: AT.SET_LATEST_TX_ETHEREUM,
+export const setLatestTxEth = txHash => ({
+  type: AT.SET_LATEST_TX_ETH,
   payload: txHash
 })
-export const setLatestTxTimestampEthereum = timestamp => ({
-  type: AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM,
+export const setLatestTxTimestampEth = timestamp => ({
+  type: AT.SET_LATEST_TX_TIMESTAMP_ETH,
   payload: timestamp
 })

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import whatsNew from './whatsNew/reducers'
-import ethereum from './eth/reducers'
+import eth from './eth/reducers'
 import shapeShift from './shapeShift/reducers'
 import buySell from './buySell/reducers'
 import contacts from './contacts/reducers'
@@ -16,7 +16,7 @@ import * as C from './config'
 const kvStoreReducer = combineReducers({
   [C.ROOT]: root,
   [C.WHATSNEW]: whatsNew,
-  [C.ETHEREUM]: ethereum,
+  [C.ETH]: eth,
   [C.SHAPESHIFT]: shapeShift,
   [C.BUYSELL]: buySell,
   [C.CONTACTS]: contacts,

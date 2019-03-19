@@ -6,7 +6,7 @@ import { Map } from 'immutable-ext'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { SUPPORTED_ERC20_TOKENS } from './model'
-import { derivationMap, ETHEREUM } from '../config'
+import { derivationMap, ETH } from '../config'
 import * as eth from '../../../utils/eth'
 import { getMnemonic } from '../../wallet/selectors'
 import { callTask } from '../../../utils/functional'
@@ -23,12 +23,12 @@ export default ({ api, networks } = {}) => {
       return { defaultIndex, addr }
     } catch (e) {
       throw new Error(
-        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEthereum saga'
+        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEth saga'
       )
     }
   }
 
-  const createEthereum = function * ({ kv, password }) {
+  const createEth = function * ({ kv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const ethereum = {
       has_seen: true,
@@ -48,7 +48,7 @@ export default ({ api, networks } = {}) => {
       last_tx_timestamp: null
     }
     const newkv = set(KVStoreEntry.value, { ethereum }, kv)
-    yield put(A.createMetadataEthereum(newkv))
+    yield put(A.createMetadataEth(newkv))
   }
 
   const transitionFromLegacy = function * ({ newkv, password }) {
@@ -58,18 +58,18 @@ export default ({ api, networks } = {}) => {
     newkv.value.ethereum.accounts[defaultIndex].addr = addr
     newkv.value.ethereum.accounts[defaultIndex].correct = true
     newkv.value.ethereum.erc20 = SUPPORTED_ERC20_TOKENS
-    yield put(A.fetchMetadataEthereumSuccess(newkv))
+    yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
-  const fetchMetadataEthereum = function * (secondPasswordSagaEnhancer) {
+  const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
     try {
-      const typeId = derivationMap[ETHEREUM]
+      const typeId = derivationMap[ETH]
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-      yield put(A.fetchMetadataEthereumLoading())
+      yield put(A.fetchMetadataEthLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
-        yield call(secondPasswordSagaEnhancer(createEthereum), { kv })
+        yield call(secondPasswordSagaEnhancer(createEth), { kv })
       } else if (
         newkv.value.ethereum &&
         !prop('correct', head(newkv.value.ethereum.accounts))
@@ -85,17 +85,17 @@ export default ({ api, networks } = {}) => {
             newkv.value.ethereum.erc20
           )
         }
-        yield put(A.fetchMetadataEthereumSuccess(newkv))
+        yield put(A.fetchMetadataEthSuccess(newkv))
       }
     } catch (e) {
-      yield put(A.fetchMetadataEthereumFailure(e.message))
+      yield put(A.fetchMetadataEthFailure(e.message))
     }
   }
 
   return {
-    createEthereum,
+    createEth,
     deriveAccount,
-    fetchMetadataEthereum,
+    fetchMetadataEth,
     transitionFromLegacy
   }
 }

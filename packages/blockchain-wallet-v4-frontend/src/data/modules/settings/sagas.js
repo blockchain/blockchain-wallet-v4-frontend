@@ -331,16 +331,14 @@ export default ({ api, coreSagas }) => {
           selectors.core.wallet.getSeedHex(state, password)
         const seedHexT = yield select(getSeedHex)
         const seedHex = yield call(() => taskToPromise(seedHexT))
-        const legPriv = utils.ethereum
-          .getLegacyPrivateKey(seedHex)
-          .toString('hex')
+        const legPriv = utils.eth.getLegacyPrivateKey(seedHex).toString('hex')
         yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
       } else {
         const getMnemonic = state =>
           selectors.core.wallet.getMnemonic(state, password)
         const mnemonicT = yield select(getMnemonic)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        let priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
+        let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
     } catch (e) {

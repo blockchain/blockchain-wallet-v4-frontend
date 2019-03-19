@@ -187,7 +187,7 @@ export default ({ coreSagas, networks }) => {
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBitcoinToBitcoin({
+          const satAmount = Exchange.convertBtcToBtc({
             value: btcAmount,
             fromUnit: 'BTC',
             toUnit: 'SAT'
@@ -226,11 +226,11 @@ export default ({ coreSagas, networks }) => {
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
+      const btcRates = selectors.core.data.btc
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
-      const fiat = Exchange.convertBitcoinToFiat({
+      const fiat = Exchange.convertBtcToFiat({
         value: DUST,
         fromUnit: 'SAT',
         toCurrency: currency,
@@ -250,18 +250,18 @@ export default ({ coreSagas, networks }) => {
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
+      const btcRates = selectors.core.data.btc
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBitcoinToBitcoin({
+      const coin = Exchange.convertBtcToBtc({
         value: effectiveBalance,
         fromUnit: 'SAT',
         toUnit: 'BTC'
       }).value
-      const fiat = Exchange.convertBitcoinToFiat({
+      const fiat = Exchange.convertBtcToFiat({
         value: effectiveBalance,
         fromUnit: 'SAT',
         toCurrency: currency,
@@ -363,7 +363,7 @@ export default ({ coreSagas, networks }) => {
       }
       // Publish payment
       payment = yield payment.publish()
-      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {

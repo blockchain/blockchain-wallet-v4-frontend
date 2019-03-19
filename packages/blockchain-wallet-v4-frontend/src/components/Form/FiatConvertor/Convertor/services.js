@@ -13,7 +13,7 @@ export const convertFiatToCoin = (
   switch (unit) {
     case 'BTC':
       return {
-        coin: Exchange.convertFiatToBitcoin({
+        coin: Exchange.convertFiatToBtc({
           value,
           fromCurrency: currency,
           toUnit: unit,
@@ -78,7 +78,7 @@ export const convertCoinToFiat = (
     case 'BTC':
       return {
         coin: value,
-        fiat: Exchange.convertBitcoinToFiat({
+        fiat: Exchange.convertBtcToFiat({
           value,
           fromUnit: unit,
           toCurrency: currency,

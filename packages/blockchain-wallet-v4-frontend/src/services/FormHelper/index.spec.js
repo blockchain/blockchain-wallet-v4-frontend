@@ -153,16 +153,12 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validBitcoinAddress()', () => {
+  describe('validBtcAddress()', () => {
     it('returns undefined if valid bitcoin addr is given', () => {
       expect(
-        FormHelper.validBitcoinAddress(
-          '1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP',
-          null,
-          {
-            network: networks.bitcoin
-          }
-        )
+        FormHelper.validBtcAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP', null, {
+          network: networks.bitcoin
+        })
       ).toBeUndefined()
     })
   })
@@ -179,22 +175,22 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validBitcoinPrivateKey()', () => {
+  describe('validBtcPrivateKey()', () => {
     it('returns correct string if invalid btc private key passed', () => {
       expect(
-        FormHelper.validBitcoinPrivateKey(
+        FormHelper.validBtcPrivateKey(
           'NOTVALIDL1fLj9zU3Fp5vbCN88ZQYXJ3Jn3L1fLj9zU3Fp',
           null,
           {
             network: networks.bitcoin
           }
         )
-      ).toEqual(<M.InvalidBitcoinPrivateKeyMessage />)
+      ).toEqual(<M.InvalidBtcPrivateKeyMessage />)
     })
 
     it('returns undefined if valid btc private key is given', () => {
       expect(
-        FormHelper.validBitcoinPrivateKey(
+        FormHelper.validBtcPrivateKey(
           'L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi',
           null,
           {
@@ -205,20 +201,20 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validBitcoinCashAddress()', () => {
+  describe('validBchAddress()', () => {
     it('returns correct string if invalid bth addr passed', () => {
       expect(
-        FormHelper.validBitcoinCashAddress(
+        FormHelper.validBchAddress(
           'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
           null,
           { network: networks.bitcoin }
         )
-      ).toEqual(<M.InvalidBitcoinCashAddressMessage />)
+      ).toEqual(<M.InvalidBchAddressMessage />)
     })
 
     it('returns undefined if valid bth addr is given', () => {
       expect(
-        FormHelper.validBitcoinCashAddress(
+        FormHelper.validBchAddress(
           'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
           null,
           { network: networks.bitcoin }

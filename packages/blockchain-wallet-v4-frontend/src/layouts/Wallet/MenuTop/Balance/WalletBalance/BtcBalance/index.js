@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+  actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
 export default connect(

@@ -24,7 +24,7 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBitcoinToBitcoin({
+  const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
     toUnit: 'SAT'
@@ -34,7 +34,7 @@ export const invalidAmount = (value, allValues, props) => {
 
 export const minimumAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBitcoinToBitcoin({
+  const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
     toUnit: 'SAT'
@@ -44,7 +44,7 @@ export const minimumAmount = (value, allValues, props) => {
 
 export const maximumAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
-  const valueSatoshi = Exchange.convertBitcoinToBitcoin({
+  const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
     toUnit: 'SAT'
@@ -108,8 +108,8 @@ export const shouldWarn = ({
 }
 
 export const isAddressDerivedFromPriv = (value, allValues, props) => {
-  const format = utils.bitcoin.detectPrivateKeyFormat(value)
+  const format = utils.btc.detectPrivateKeyFormat(value)
   const address = path(['from', 'address'], allValues)
-  const key = utils.bitcoin.privateKeyStringToKey(value, format, props.network)
+  const key = utils.btc.privateKeyStringToKey(value, format, props.network)
   return key.getAddress() === address ? undefined : <AddressMatchesPriv />
 }

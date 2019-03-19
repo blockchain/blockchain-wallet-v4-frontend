@@ -10,7 +10,7 @@ const INITIAL_STATE = Remote.NotAsked
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case AT.UPDATE_METADATA_ETHEREUM: {
+    case AT.UPDATE_METADATA_ETH: {
       return set(
         compose(
           mapped,
@@ -20,17 +20,17 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.FETCH_METADATA_ETHEREUM_LOADING: {
+    case AT.FETCH_METADATA_ETH_LOADING: {
       return Remote.Loading
     }
-    case AT.CREATE_METADATA_ETHEREUM:
-    case AT.FETCH_METADATA_ETHEREUM_SUCCESS: {
+    case AT.CREATE_METADATA_ETH:
+    case AT.FETCH_METADATA_ETH_SUCCESS: {
       return Remote.Success(payload)
     }
-    case AT.FETCH_METADATA_ETHEREUM_FAILURE: {
+    case AT.FETCH_METADATA_ETH_FAILURE: {
       return Remote.Failure(payload)
     }
-    case AT.SET_TRANSACTION_NOTE_ETHEREUM: {
+    case AT.SET_TRANSACTION_NOTE_ETH: {
       let valueLens = compose(
         mapped,
         KVStoreEntry.value
@@ -52,7 +52,7 @@ export default (state = INITIAL_STATE, action) => {
       )
       return over(valueLens, setNote, state)
     }
-    case AT.SET_LATEST_TX_ETHEREUM: {
+    case AT.SET_LATEST_TX_ETH: {
       let valueLens = compose(
         mapped,
         KVStoreEntry.value
@@ -60,7 +60,7 @@ export default (state = INITIAL_STATE, action) => {
       let setTx = assocPath(['ethereum', 'last_tx'], payload)
       return over(valueLens, setTx, state)
     }
-    case AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM: {
+    case AT.SET_LATEST_TX_TIMESTAMP_ETH: {
       let valueLens = compose(
         mapped,
         KVStoreEntry.value

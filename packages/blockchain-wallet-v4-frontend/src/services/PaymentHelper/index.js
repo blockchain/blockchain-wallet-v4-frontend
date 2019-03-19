@@ -150,7 +150,7 @@ export const ethFromLabel = curry((payment, state) => {
   const from = payment.from
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.ethereum
+      return selectors.core.kvStore.eth
         .getAccountLabel(state, from.address)
         .getOrElse(from.address)
     case ADDRESS_TYPES.LOCKBOX:

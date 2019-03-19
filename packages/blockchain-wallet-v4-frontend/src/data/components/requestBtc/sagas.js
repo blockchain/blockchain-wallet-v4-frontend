@@ -34,7 +34,7 @@ export default ({ networks }) => {
 
   const openLockboxAppClicked = function * (action) {
     try {
-      const form = yield select(selectors.form.getFormValues('requestBitcoin'))
+      const form = yield select(selectors.form.getFormValues('requestBtc'))
       const appState = yield select(identity)
       const to = prop('to', form)
 

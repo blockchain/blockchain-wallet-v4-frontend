@@ -379,22 +379,19 @@ describe('authSagas', () => {
         .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     })
 
-    it('should fetch ethereum metadata', () => {
+    it('should fetch eth metadata', () => {
       saga
         .next()
-        .call(
-          coreSagas.kvStore.ethereum.fetchMetadataEthereum,
-          askSecondPasswordEnhancer
-        )
+        .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
     })
 
-    it('should fetch stellar metadata', () => {
+    it('should fetch xlm metadata', () => {
       saga
         .next()
         .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
     })
 
-    it('should fetch bitcoin cash metadata', () => {
+    it('should fetch bch metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
@@ -1160,7 +1157,7 @@ describe('authSagas', () => {
     const { checkDataErrors } = authSagas({ api, coreSagas })
     const saga = testSaga(checkDataErrors)
     it('should select btc getInfo', () => {
-      saga.next().select(selectors.core.data.bitcoin.getInfo)
+      saga.next().select(selectors.core.data.btc.getInfo)
     })
   })
 
