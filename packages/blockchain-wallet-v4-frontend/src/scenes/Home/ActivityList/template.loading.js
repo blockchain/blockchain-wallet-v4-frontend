@@ -9,6 +9,7 @@ const ActivityListSkeleton = styled(SkeletonRectangle)`
   margin-top: 15px;
   flex-direction: column;
   box-sizing: border-box;
+  border-radius: 4px;
   @media (min-width: 993px) {
     margin-bottom: 30px;
   }
