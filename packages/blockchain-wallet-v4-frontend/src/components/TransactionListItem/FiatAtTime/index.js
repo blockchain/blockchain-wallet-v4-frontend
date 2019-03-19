@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+  actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
 FiatAtTime.propTypes = {

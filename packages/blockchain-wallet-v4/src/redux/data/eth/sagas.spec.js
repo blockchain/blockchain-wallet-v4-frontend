@@ -46,7 +46,7 @@ const transactionHistory = {
   sent: {},
   received: {}
 }
-const ethereumEmptyTransactionData = {
+const ethEmptyTransactionData = {
   '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1': {}
 }
 const rateData = { rate: 13 }
@@ -55,15 +55,15 @@ const latest_block = {
 }
 
 const api = {
-  getEthereumData: jest.fn(() => ethFetchData),
-  getEthereumFee: jest.fn(() => feeData),
-  getEthereumLatestBlock: jest.fn(() => latest_block),
-  getEthereumTicker: jest.fn(() => rateData),
-  getEthereumTransactions: jest.fn(() => ethTransactionData),
+  getEthData: jest.fn(() => ethFetchData),
+  getEthFee: jest.fn(() => feeData),
+  getEthLatestBlock: jest.fn(() => latest_block),
+  getEthTicker: jest.fn(() => rateData),
+  getEthTransactions: jest.fn(() => ethTransactionData),
   getTransactionHistory: jest.fn(() => transactionHistory)
 }
 
-describe('ethereum data sagas', () => {
+describe('eth data sagas', () => {
   const dataEthSagas = sagas({ api })
 
   describe('fetchData', () => {
@@ -71,7 +71,7 @@ describe('ethereum data sagas', () => {
       '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1'
     )
 
-    const ethereumData = {
+    const ethData = {
       addresses: ethFetchData,
       info: {
         n_tx: sum(values(ethFetchData).map(obj => obj.txn_count)),
@@ -95,17 +95,17 @@ describe('ethereum data sagas', () => {
     it('should get data from api', () => {
       saga
         .next(mockContext.getOrFail())
-        .call(api.getEthereumData, mockContext.getOrFail())
+        .call(api.getEthData, mockContext.getOrFail())
     })
 
     it('should retrieve latest_block info', () => {
-      saga.next(ethFetchData).call(api.getEthereumLatestBlock)
+      saga.next(ethFetchData).call(api.getEthLatestBlock)
     })
 
     it('should dispatch success action', () => {
       saga
         .next(latest_block)
-        .put(A.fetchDataSuccess(ethereumData))
+        .put(A.fetchDataSuccess(ethData))
         .next()
         .isDone()
     })
@@ -123,16 +123,16 @@ describe('ethereum data sagas', () => {
     })
 
     describe('state change', () => {
-      it('should add ethereum data to the state', () => {
+      it('should add eth data to the state', () => {
         return expectSaga(dataEthSagas.fetchData)
           .withReducer(reducers)
           .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
-            expect(result.storeState.ethereum).toMatchObject({
-              addresses: Remote.Success(ethereumData.addresses),
-              info: Remote.Success(ethereumData.info),
-              latest_block: Remote.Success(ethereumData.latest_block)
+            expect(result.storeState.eth).toMatchObject({
+              addresses: Remote.Success(ethData.addresses),
+              info: Remote.Success(ethData.info),
+              latest_block: Remote.Success(ethData.latest_block)
             })
           })
       })
@@ -148,7 +148,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should retrieve fee data', () => {
-      saga.next().call(api.getEthereumFee)
+      saga.next().call(api.getEthFee)
     })
 
     it('should dispatch success with data', () => {
@@ -177,7 +177,7 @@ describe('ethereum data sagas', () => {
           .withReducer(reducers)
           .run()
           .then(result => {
-            expect(result.storeState.ethereum).toMatchObject({
+            expect(result.storeState.eth).toMatchObject({
               fee: Remote.Success(weiData)
             })
           })
@@ -193,7 +193,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should retrieve rates data', () => {
-      saga.next().call(api.getEthereumTicker)
+      saga.next().call(api.getEthTicker)
     })
 
     it('should dispatch success with data', () => {
@@ -222,7 +222,7 @@ describe('ethereum data sagas', () => {
           .withReducer(reducers)
           .run()
           .then(result => {
-            expect(result.storeState.ethereum).toMatchObject({
+            expect(result.storeState.eth).toMatchObject({
               rates: Remote.Success(rateData)
             })
           })
@@ -235,7 +235,7 @@ describe('ethereum data sagas', () => {
     const action = {}
 
     it('should fetch tx', () => {
-      saga.next().take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      saga.next().take(AT.FETCH_ETH_TRANSACTIONS)
     })
 
     it('should call fetchTransactions', () => {
@@ -244,7 +244,7 @@ describe('ethereum data sagas', () => {
 
     // Try again
     it('should fetch tx again', () => {
-      saga.next().take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      saga.next().take(AT.FETCH_ETH_TRANSACTIONS)
     })
 
     it('should call fetchTransactions again', () => {
@@ -278,8 +278,8 @@ describe('ethereum data sagas', () => {
     const txs = path([mockContext, 'txns'], ethTransactionData)
     const processedTxs = dataEthSagas.__processTxs(txs)
 
-    it('should get ethereum context', () => {
-      saga.next().select(selectors.kvStore.ethereum.getContext)
+    it('should get eth context', () => {
+      saga.next().select(selectors.kvStore.eth.getContext)
     })
 
     it('should get pages', () => {
@@ -294,8 +294,8 @@ describe('ethereum data sagas', () => {
       saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
     })
 
-    it('should call getEthereumTransactions', () => {
-      saga.next(mockContextR).call(api.getEthereumTransactions, mockContext, 0)
+    it('should call getEthTransactions', () => {
+      saga.next(mockContextR).call(api.getEthTransactions, mockContext, 0)
       saga.save(isNil)
     })
 
@@ -319,18 +319,18 @@ describe('ethereum data sagas', () => {
       const saga = testSaga(dataEthSagas.fetchTransactions, {
         payload: { reset: false }
       })
-      saga.next().select(selectors.kvStore.ethereum.getContext)
+      saga.next().select(selectors.kvStore.eth.getContext)
       saga.next(mockContextR).select(S.getTransactions)
       saga.next(pages).select(S.getTransactionsAtBound)
       saga.next(false).put(A.fetchTransactionsLoading(false))
       saga
         .next(mockContextR)
-        .call(api.getEthereumTransactions, mockContext, length(pages))
+        .call(api.getEthTransactions, mockContext, length(pages))
     })
 
     it('should not dispatch success if no txns', () => {
       saga.restore(isNil)
-      saga.next(ethereumEmptyTransactionData).isDone()
+      saga.next(ethEmptyTransactionData).isDone()
     })
 
     it('should handle errors', () => {
@@ -354,12 +354,12 @@ describe('ethereum data sagas', () => {
     //     })
     //       .withReducer(reducers)
     //       .provide([
-    //         [select(selectors.kvStore.ethereum.getContext), mockContextR],
+    //         [select(selectors.kvStore.eth.getContext), mockContextR],
     //         [select(S.getTransactions), pages]
     //       ])
     //       .run()
     //       .then(result => {
-    //         expect(result.storeState.ethereum).toMatchObject({
+    //         expect(result.storeState.eth).toMatchObject({
     //           transactions: [
     //             Remote.Success(path([mockContext, 'txns'], ethTransactionData))
     //           ]
@@ -374,17 +374,17 @@ describe('ethereum data sagas', () => {
     //     })
     //       .withReducer(reducers)
     //       .withState({
-    //         ethereum: {
+    //         eth: {
     //           transactions: [Remote.Success(initTx)]
     //         }
     //       })
     //       .provide([
-    //         [select(selectors.kvStore.ethereum.getContext), mockContextR],
+    //         [select(selectors.kvStore.eth.getContext), mockContextR],
     //         [select(S.getTransactions), pages]
     //       ])
     //       .run()
     //       .then(result => {
-    //         expect(result.storeState.ethereum).toMatchObject({
+    //         expect(result.storeState.eth).toMatchObject({
     //           transactions: append(
     //             Remote.Success(path([mockContext, 'txns'], ethTransactionData)),
     //             [Remote.Success(initTx)]

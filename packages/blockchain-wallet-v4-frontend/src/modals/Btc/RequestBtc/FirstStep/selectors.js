@@ -68,10 +68,10 @@ export const getData = state => {
       state
     )
 
-  const message = formValueSelector('requestBitcoin')(state, 'message')
-  const amount = formValueSelector('requestBitcoin')(state, 'amount')
-  const coin = formValueSelector('requestBitcoin')(state, 'coin')
-  const to = formValueSelector('requestBitcoin')(state, 'to')
+  const message = formValueSelector('requestBtc')(state, 'message')
+  const amount = formValueSelector('requestBtc')(state, 'amount')
+  const coin = formValueSelector('requestBtc')(state, 'coin')
+  const to = formValueSelector('requestBtc')(state, 'to')
   const type = prop('type', to)
   const accountIdxR = extractAccountIdx(to)
   const receiveAddressIdxR = extractAddressIdx(

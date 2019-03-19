@@ -9,7 +9,7 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getToToggled,
     selectors.components.sendEth.getFeeToggled,
-    selectors.core.data.ethereum.getCurrentBalance,
+    selectors.core.data.eth.getCurrentBalance,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
     selectors.core.walletOptions.getCoinAvailability

@@ -13,7 +13,7 @@ export const getData = (coin, amount) => {
           toUnit: 'BCH'
         })
       case 'BTC':
-        return Exchange.displayBitcoinToBitcoin({
+        return Exchange.displayBtcToBtc({
           value: a,
           fromUnit: 'SAT',
           toUnit: 'BTC'

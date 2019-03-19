@@ -24,14 +24,14 @@ const INITIAL_STATE = {
   transaction_history: Remote.NotAsked
 }
 
-const bitcoinReducer = (state = INITIAL_STATE, action) => {
+const btcReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_BITCOIN_LATEST_BLOCK: {
+    case AT.SET_BTC_LATEST_BLOCK: {
       return assocPath(['latest_block'], Remote.Success(payload), state)
     }
-    case AT.FETCH_BITCOIN_DATA_LOADING: {
+    case AT.FETCH_BTC_DATA_LOADING: {
       const data = {
         addresses: Remote.Loading,
         info: Remote.Loading,
@@ -39,7 +39,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
-    case AT.FETCH_BITCOIN_DATA_SUCCESS: {
+    case AT.FETCH_BTC_DATA_SUCCESS: {
       /* eslint-disable */
       const { addresses, info, latest_block } = payload
       /* eslint-enable */
@@ -50,7 +50,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
-    case AT.FETCH_BITCOIN_DATA_FAILURE: {
+    case AT.FETCH_BTC_DATA_FAILURE: {
       const data = {
         addresses: Remote.Failure(payload),
         info: Remote.Failure(payload),
@@ -58,31 +58,31 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       }
       return merge(state, data)
     }
-    case AT.FETCH_BITCOIN_FEE_LOADING: {
+    case AT.FETCH_BTC_FEE_LOADING: {
       return assoc('fee', Remote.Loading, state)
     }
-    case AT.FETCH_BITCOIN_FEE_SUCCESS: {
+    case AT.FETCH_BTC_FEE_SUCCESS: {
       return assoc('fee', Remote.Success(payload), state)
     }
-    case AT.FETCH_BITCOIN_FEE_FAILURE: {
+    case AT.FETCH_BTC_FEE_FAILURE: {
       return assoc('fee', Remote.Failure(payload), state)
     }
-    case AT.FETCH_BITCOIN_RATES_LOADING: {
+    case AT.FETCH_BTC_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)
     }
-    case AT.FETCH_BITCOIN_RATES_SUCCESS: {
+    case AT.FETCH_BTC_RATES_SUCCESS: {
       return assoc('rates', Remote.Success(payload), state)
     }
-    case AT.FETCH_BITCOIN_RATES_FAILURE: {
+    case AT.FETCH_BTC_RATES_FAILURE: {
       return assoc('rates', Remote.Failure(payload), state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTIONS_LOADING: {
+    case AT.FETCH_BTC_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
         ? assoc('transactions', [Remote.Loading], state)
         : over(lensProp('transactions'), append(Remote.Loading), state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS: {
+    case AT.FETCH_BTC_TRANSACTIONS_SUCCESS: {
       const { reset, transactions } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
@@ -95,13 +95,13 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
             state
           )
     }
-    case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
+    case AT.FETCH_BTC_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.BTC_TRANSACTIONS_AT_BOUND: {
       return assoc('transactions_at_bound', payload, state)
     }
-    case AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING: {
+    case AT.FETCH_BTC_FIAT_AT_TIME_LOADING: {
       const { hash, currency } = payload
       return assocPath(
         ['transactions_fiat', hash, currency],
@@ -109,7 +109,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS: {
+    case AT.FETCH_BTC_FIAT_AT_TIME_SUCCESS: {
       const { hash, currency, data } = payload
       return assocPath(
         ['transactions_fiat', hash, currency],
@@ -117,7 +117,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE: {
+    case AT.FETCH_BTC_FIAT_AT_TIME_FAILURE: {
       const { hash, currency, error } = payload
       return assocPath(
         ['transactions_fiat', hash, currency],
@@ -125,25 +125,25 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_LOADING: {
+    case AT.FETCH_BTC_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', Remote.Loading, state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_SUCCESS: {
+    case AT.FETCH_BTC_TRANSACTION_HISTORY_SUCCESS: {
       return assoc('transaction_history', Remote.Success(payload), state)
     }
-    case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
+    case AT.FETCH_BTC_TRANSACTION_HISTORY_FAILURE: {
       return assoc('transaction_history', Remote.Failure(payload), state)
     }
-    case AT.CLEAR_BITCOIN_TRANSACTION_HISTORY: {
+    case AT.CLEAR_BTC_TRANSACTION_HISTORY: {
       return assoc('transaction_history', Remote.NotAsked, state)
     }
-    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_LOADING: {
+    case AT.FETCH_BTC_UNSPENDABLE_BALANCE_LOADING: {
       return state
     }
-    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_SUCCESS: {
+    case AT.FETCH_BTC_UNSPENDABLE_BALANCE_SUCCESS: {
       return assoc('unspendable_balance', Remote.Success(payload), state)
     }
-    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_FAILURE: {
+    case AT.FETCH_BTC_UNSPENDABLE_BALANCE_FAILURE: {
       return assoc('unspendable_balance', Remote.Failure(payload), state)
     }
     default:
@@ -151,4 +151,4 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default bitcoinReducer
+export default btcReducer

@@ -15,7 +15,7 @@ export default ({ api, networks }) => ({
   bch: bch({ api, networks }),
   btc: btc({ api, networks }),
   bsv: bsv({ api, networks }),
-  ethereum: eth({ api, networks }),
+  eth: eth({ api, networks }),
   root: root({ api, networks }),
   lockbox: lockbox({ api, networks }),
   buySell: buySell({ api, networks }),

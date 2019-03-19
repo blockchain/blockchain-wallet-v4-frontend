@@ -102,7 +102,7 @@ const FirstStep = props => {
                 id='modals.requestbitcoin.firststep.share'
                 defaultMessage='Copy & Share Address: '
               />
-              <TooltipHost id='reqBitcoinShare'>
+              <TooltipHost id='reqBtcShare'>
                 <TooltipIcon name='question-in-circle' />
               </TooltipHost>
             </div>
@@ -256,6 +256,6 @@ FirstStep.propTypes = {
   handleClickQRCode: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestBtc', destroyOnUnmount: false })(
   FirstStep
 )

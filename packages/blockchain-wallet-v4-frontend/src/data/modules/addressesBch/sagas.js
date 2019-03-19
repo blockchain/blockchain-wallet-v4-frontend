@@ -46,7 +46,7 @@ export default ({ coreSagas, networks }) => {
   const showBchChangeAddrs = function * (action) {
     const { index, xpub } = action.payload
     const state = yield select()
-    const btcChangeIndex = selectors.core.data.bitcoin
+    const btcChangeIndex = selectors.core.data.btc
       .getChangeIndex(xpub, state)
       .getOrElse(0)
     const bchChangeIndex = selectors.core.data.bch

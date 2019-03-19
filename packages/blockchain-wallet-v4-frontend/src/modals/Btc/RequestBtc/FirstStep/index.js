@@ -45,7 +45,7 @@ class FirstStepContainer extends React.PureComponent {
 
   init = () => {
     this.props.initialValues.map(x => {
-      this.props.formActions.initialize('requestBitcoin', x)
+      this.props.formActions.initialize('requestBtc', x)
     })
   }
 
@@ -119,7 +119,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.requestBtc,
     dispatch
   ),
-  btcDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  btcDataActions: bindActionCreators(actions.core.data.btc, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

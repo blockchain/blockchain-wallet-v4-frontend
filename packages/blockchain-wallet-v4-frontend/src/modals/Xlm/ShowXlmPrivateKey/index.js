@@ -25,7 +25,7 @@ class ShowXlmPrivateKeyContainer extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

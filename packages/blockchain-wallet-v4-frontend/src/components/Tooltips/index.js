@@ -66,7 +66,7 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Ask the sender to scan this QR code with their bitcoin cash wallet'
           />
         </Tooltip>
-        <Tooltip id='reqBitcoinShare'>
+        <Tooltip id='reqBtcShare'>
           <FormattedMessage
             id='modals.requestbitcoin.firststep.sharetooltip'
             defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'

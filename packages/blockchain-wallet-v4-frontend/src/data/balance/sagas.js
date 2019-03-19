@@ -8,13 +8,13 @@ export const logLocation = 'balances'
 
 export const balancePath = ['payload', 'info', 'final_balance']
 
-export const getEthBalance = function*() {
+export const getEthBalance = function * () {
   try {
-    const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
+    const ethBalanceR = yield select(selectors.core.data.eth.getBalance)
     if (!Remote.Success.is(ethBalanceR)) {
       const ethData = yield take([
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE
+        actionTypes.core.data.eth.FETCH_ETH_DATA_SUCCESS,
+        actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE
       ])
       return pathOr(0, balancePath, ethData)
     }
@@ -24,13 +24,13 @@ export const getEthBalance = function*() {
   }
 }
 
-export const getBtcBalance = function*() {
+export const getBtcBalance = function * () {
   try {
-    const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
+    const btcBalanceR = yield select(selectors.core.data.btc.getBalance)
     if (!Remote.Success.is(btcBalanceR)) {
       const btcData = yield take([
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+        actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
       ])
       return pathOr(0, balancePath, btcData)
     }
@@ -40,7 +40,7 @@ export const getBtcBalance = function*() {
   }
 }
 
-export const getBchBalance = function*() {
+export const getBchBalance = function * () {
   try {
     const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
     if (!Remote.Success.is(bchBalanceR)) {
@@ -56,7 +56,7 @@ export const getBchBalance = function*() {
   }
 }
 
-export const getBsvBalance = function*() {
+export const getBsvBalance = function * () {
   try {
     const bsvBalanceR = yield select(selectors.core.data.bsv.getBalance)
     if (!Remote.Success.is(bsvBalanceR)) {
@@ -72,7 +72,7 @@ export const getBsvBalance = function*() {
   }
 }
 
-export const getXlmBalance = function*() {
+export const getXlmBalance = function * () {
   try {
     const xlmBalanceR = yield select(selectors.core.data.xlm.getTotalBalance)
     if (!Remote.Success.is(xlmBalanceR)) {
@@ -84,7 +84,7 @@ export const getXlmBalance = function*() {
     yield put(actions.logs.logErrorMessage(logLocation, 'getXlmBalance', e))
   }
 }
-export const getAllBalances = function*() {
+export const getAllBalances = function * () {
   const ethT = yield fork(getEthBalance)
   const btcT = yield fork(getBtcBalance)
   const bchT = yield fork(getBchBalance)

@@ -41,7 +41,7 @@ export const getData = (state, ownProps) => {
   } = ownProps
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {
-      let btcDisplay = Exchange.displayBitcoinToBitcoin({
+      let btcDisplay = Exchange.displayBtcToBtc({
         value: wallet.balance,
         fromUnit: 'SAT',
         toUnit: 'BTC'

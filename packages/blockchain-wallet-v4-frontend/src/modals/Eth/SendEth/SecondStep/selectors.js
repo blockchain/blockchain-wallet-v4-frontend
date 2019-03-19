@@ -18,10 +18,7 @@ export const getData = state => {
       toAddress: toLabel,
       amount: payment.amount,
       fee: payment.fee,
-      total: utils.ethereum.calculateTransactionAmount(
-        payment.amount,
-        payment.fee
-      )
+      total: utils.eth.calculateTransactionAmount(payment.amount, payment.fee)
     }
   }
 

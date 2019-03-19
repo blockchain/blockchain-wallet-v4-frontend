@@ -2,15 +2,15 @@ import { assocPath, compose, set } from 'ramda'
 import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 import { KVStoreEntry } from '../../../types'
-import { derivationMap, ETHEREUM } from '../config'
+import { derivationMap, ETH } from '../config'
 import reducer from './reducers'
 import * as actions from './actions'
 
 const INITIAL_STATE = Remote.NotAsked
 
 describe('kvStore ethereum reducers', () => {
-  const typeId = derivationMap[ETHEREUM]
-  const ethereumObject = {
+  const typeId = derivationMap[ETH]
+  const ethObject = {
     ethereum: {
       accounts: [
         {
@@ -27,13 +27,13 @@ describe('kvStore ethereum reducers', () => {
     }
   }
 
-  const ethereumMetadata = set(
+  const ethMetadata = set(
     KVStoreEntry.value,
-    ethereumObject,
+    ethObject,
     KVStoreEntry.createEmpty(typeId)
   )
 
-  const ethereumMetadataSuccess = Remote.Success(ethereumMetadata)
+  const ethMetadataSuccess = Remote.Success(ethMetadata)
   const valueLens = compose(
     mapped,
     KVStoreEntry.value
@@ -43,55 +43,51 @@ describe('kvStore ethereum reducers', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
   })
 
-  it('should handle FETCH_METADATA_ETHEREUM_LOADING', () => {
-    const action = actions.fetchMetadataEthereumLoading()
+  it('should handle FETCH_METADATA_ETH_LOADING', () => {
+    const action = actions.fetchMetadataEthLoading()
     const expectedState = Remote.Loading
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
 
-  it('should handle FETCH_METADATA_ETHEREUM_FAILURE', () => {
+  it('should handle FETCH_METADATA_ETH_FAILURE', () => {
     const error = 'Cannot load ethereum metadata'
-    const action = actions.fetchMetadataEthereumFailure(error)
+    const action = actions.fetchMetadataEthFailure(error)
     const expectedState = Remote.Failure(error)
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
 
-  it('should handle FETCH_METADATA_ETHEREUM_SUCCESS', () => {
-    const action = actions.fetchMetadataEthereumSuccess(ethereumMetadata)
-    const expectedState = ethereumMetadataSuccess
+  it('should handle FETCH_METADATA_ETH_SUCCESS', () => {
+    const action = actions.fetchMetadataEthSuccess(ethMetadata)
+    const expectedState = ethMetadataSuccess
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
 
-  it('should handle CREATE_METADATA_ETHEREUM', () => {
-    const action = actions.createMetadataEthereum(ethereumMetadata)
-    const expectedState = ethereumMetadataSuccess
+  it('should handle CREATE_METADATA_ETH', () => {
+    const action = actions.createMetadataEth(ethMetadata)
+    const expectedState = ethMetadataSuccess
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
 
-  it('should handle SET_TRANSACTION_NOTE_ETHEREUM', () => {
+  it('should handle SET_TRANSACTION_NOTE_ETH', () => {
     const txHash = 'someTxHash'
     const txNote = 'new tx note'
-    const action = actions.setTxNotesEthereum(txHash, txNote)
+    const action = actions.setTxNotesEth(txHash, txNote)
     const setTxNote = assocPath(['ethereum', 'tx_notes', txHash], txNote)
-    const expectedState = over(valueLens, setTxNote, ethereumMetadataSuccess)
-    expect(reducer(ethereumMetadataSuccess, action)).toEqual(expectedState)
+    const expectedState = over(valueLens, setTxNote, ethMetadataSuccess)
+    expect(reducer(ethMetadataSuccess, action)).toEqual(expectedState)
   })
 
-  it('should handle SET_LATEST_TX_ETHEREUM', () => {
+  it('should handle SET_LATEST_TX_ETH', () => {
     const latestTx = 'latest tx'
-    const action = actions.setLatestTxEthereum(latestTx)
+    const action = actions.setLatestTxEth(latestTx)
     const setCoinifyTrades = assocPath(['ethereum', 'last_tx'], latestTx)
-    const expectedState = over(
-      valueLens,
-      setCoinifyTrades,
-      ethereumMetadataSuccess
-    )
-    expect(reducer(ethereumMetadataSuccess, action)).toEqual(expectedState)
+    const expectedState = over(valueLens, setCoinifyTrades, ethMetadataSuccess)
+    expect(reducer(ethMetadataSuccess, action)).toEqual(expectedState)
   })
 
-  it('should handle SET_LATEST_TX_TIMESTAMP_ETHEREUM', () => {
+  it('should handle SET_LATEST_TX_TIMESTAMP_ETH', () => {
     const latestTimestamp = 42
-    const action = actions.setLatestTxTimestampEthereum(latestTimestamp)
+    const action = actions.setLatestTxTimestampEth(latestTimestamp)
     const setLatestTimestamp = assocPath(
       ['ethereum', 'last_tx_timestamp'],
       latestTimestamp
@@ -99,8 +95,8 @@ describe('kvStore ethereum reducers', () => {
     const expectedState = over(
       valueLens,
       setLatestTimestamp,
-      ethereumMetadataSuccess
+      ethMetadataSuccess
     )
-    expect(reducer(ethereumMetadataSuccess, action)).toEqual(expectedState)
+    expect(reducer(ethMetadataSuccess, action)).toEqual(expectedState)
   })
 })

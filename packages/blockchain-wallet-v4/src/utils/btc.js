@@ -12,7 +12,7 @@ import * as Exchange from '../exchange'
 import Either from 'data.either'
 import * as bippath from 'bip32-path'
 
-export const isValidBitcoinAddress = (value, network) => {
+export const isValidBtcAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
     const n = network || networks.bitcoin
@@ -194,7 +194,7 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   })
 }
 
-export const isValidBitcoinPrivateKey = (value, network) => {
+export const isValidBtcPrivateKey = (value, network) => {
   try {
     let format = detectPrivateKeyFormat(value)
     return (
@@ -213,24 +213,24 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function (bitcoinKey) {
-  return bitcoinKey instanceof ECPair
+export const isKey = function (btcKey) {
+  return btcKey instanceof ECPair
 }
 
-export const calculateBalanceBitcoin = (coins, feePerByte) => {
+export const calculateBalanceBtc = (coins, feePerByte) => {
   const data = calculateBalanceSatoshi(coins, feePerByte)
   return {
-    balance: Exchange.convertBitcoinToBitcoin({
+    balance: Exchange.convertBtcToBtc({
       value: data.balance,
       fromUnit: 'SAT',
       toUnit: 'BTC'
     }).value,
-    fee: Exchange.convertBitcoinToBitcoin({
+    fee: Exchange.convertBtcToBtc({
       value: data.fee,
       fromUnit: 'SAT',
       toUnit: 'BTC'
     }).value,
-    effectiveBalance: Exchange.convertBitcoinToBitcoin({
+    effectiveBalance: Exchange.convertBtcToBtc({
       value: data.effectiveBalance,
       fromUnit: 'SAT',
       toUnit: 'BTC'

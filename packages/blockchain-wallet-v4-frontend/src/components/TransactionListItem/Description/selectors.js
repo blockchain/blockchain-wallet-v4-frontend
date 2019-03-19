@@ -23,7 +23,7 @@ export const getDescription = (state, ownProps) => {
       return txNote.getOrElse('')
     }
     case 'ETH': {
-      const txNote = selectors.core.kvStore.ethereum.getEthTxNote(state, hash)
+      const txNote = selectors.core.kvStore.eth.getEthTxNote(state, hash)
       return txNote.getOrElse('')
     }
     case 'XLM': {

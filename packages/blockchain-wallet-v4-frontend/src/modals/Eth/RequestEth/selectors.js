@@ -6,7 +6,7 @@ const extractAddress = addr => prop('addr', head(addr))
 
 export const getData = state => {
   const to = formValueSelector('requestEth')(state, 'to')
-  const accountsR = selectors.core.kvStore.ethereum.getAccounts(state)
+  const accountsR = selectors.core.kvStore.eth.getAccounts(state)
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
     'ETH'

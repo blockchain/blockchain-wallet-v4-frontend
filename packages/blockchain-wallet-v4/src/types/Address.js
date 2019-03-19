@@ -110,15 +110,15 @@ export const importAddress = (key, createdTime, label, network) => {
   }
 
   switch (true) {
-    case utils.bitcoin.isValidBitcoinAddress(key, network):
+    case utils.btc.isValidBtcAddress(key, network):
       object.addr = key
       object.priv = null
       break
-    case utils.bitcoin.isKey(key):
+    case utils.btc.isKey(key):
       object.addr = key.getAddress()
       object.priv = Base58.encode(key.d.toBuffer(32))
       break
-    case utils.bitcoin.isValidBitcoinPrivateKey(key, network):
+    case utils.btc.isValidBtcPrivateKey(key, network):
       key = ECPair.fromWIF(key, network)
       object.addr = key.getAddress()
       object.priv = Base58.encode(key.d.toBuffer(32))
@@ -138,10 +138,10 @@ export const fromString = (
   bipPass,
   { network, api }
 ) => {
-  if (utils.bitcoin.isValidBitcoinAddress(keyOrAddr)) {
+  if (utils.btc.isValidBtcAddress(keyOrAddr)) {
     return Task.of(importAddress(keyOrAddr, createdTime, label, network))
   } else {
-    let format = utils.bitcoin.detectPrivateKeyFormat(keyOrAddr)
+    let format = utils.btc.detectPrivateKeyFormat(keyOrAddr)
     let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
     if (format === 'bip38') {
       if (bipPass == null || bipPass === '') {
@@ -155,7 +155,7 @@ export const fromString = (
     } else if (format === 'mini' || format === 'base58') {
       let key
       try {
-        key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
+        key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
       } catch (e) {
         return Task.rejected(e)
       }
@@ -176,7 +176,7 @@ export const fromString = (
         }
       )
     } else if (okFormats.indexOf(format) > -1) {
-      let key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
+      let key = utils.btc.privateKeyStringToKey(keyOrAddr, format)
       return Task.of(importAddress(key, createdTime, label, network))
     } else {
       return Task.rejected(new Error('unknown_key_format'))

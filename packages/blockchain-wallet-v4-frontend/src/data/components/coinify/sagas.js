@@ -176,7 +176,7 @@ export default ({ api, coreSagas, networks }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
-      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.btc.fetchData())
       yield put(
         actions.core.wallet.setTransactionNote(
           payment.value().txId,
