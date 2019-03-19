@@ -4,10 +4,7 @@ import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { StepTransition } from 'components/Utilities/Stepper'
-import {
-  Text,
-  Icon
-} from 'blockchain-info-components'
+import { Text, Icon } from 'blockchain-info-components'
 import { Form } from 'components/IdentityVerification'
 import { BankOption, CardOption } from './mediumHelpers'
 import media from 'services/ResponsiveService'
@@ -59,10 +56,7 @@ const PaymentMediumsContainer = styled.div`
 const MediumWrapper = styled.div``
 
 const Payment = props => {
-  const {
-    value,
-    handlePaymentClick
-  } = props
+  const { value, handlePaymentClick } = props
   const { disabledMedium } = value
 
   return (
@@ -94,7 +88,7 @@ const Payment = props => {
         <PaymentMediumsContainer>
           {disabledMedium.medium === 'bank' ? (
             <BankOption
-              handlePaymentClick={() => { }}
+              handlePaymentClick={() => {}}
               disabled={disabledMedium}
             />
           ) : (

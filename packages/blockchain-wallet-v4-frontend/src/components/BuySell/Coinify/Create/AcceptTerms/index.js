@@ -8,7 +8,8 @@ import AcceptTerms from './template'
 const { CHANGE } = model.components.coinify.REGISTER_STATES
 
 class AcceptTermsContainer extends PureComponent {
-  handleResend = () => this.props.securityCenterActions.updateEmail(this.props.email)
+  handleResend = () =>
+    this.props.securityCenterActions.updateEmail(this.props.email)
 
   onSubmit = () => this.props.coinifyActions.coinifySignup(this.props.country)
 
@@ -39,8 +40,8 @@ class AcceptTermsContainer extends PureComponent {
         onSubmit={this.onSubmit}
         signupError={error}
         editEmail={() => {
-          this.props.updateCreate(CHANGE);
-          coinifyNotAsked();
+          this.props.updateCreate(CHANGE)
+          coinifyNotAsked()
         }}
         clearError={coinifyNotAsked}
         create={create}
@@ -57,10 +58,7 @@ AcceptTermsContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyActions: bindActionCreators(
-    actions.components.coinify,
-    dispatch
-  ),
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
     dispatch

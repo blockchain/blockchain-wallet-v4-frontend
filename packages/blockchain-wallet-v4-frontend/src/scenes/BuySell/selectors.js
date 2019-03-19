@@ -13,8 +13,23 @@ export const getData = createDeepEqualSelector(
     selectors.core.walletOptions.getSFOXStates,
     selectors.core.walletOptions.getCoinifyCountries
   ],
-  (optionsR, buySellR, countryCodeR, coinifySignupStep, sfoxCountriesR, sfoxStatesR, coinifyCountriesR) => {
-    const transform = (options, buySell, countryCode, sfoxCountries, sfoxStates, coinifyCountries) => {
+  (
+    optionsR,
+    buySellR,
+    countryCodeR,
+    coinifySignupStep,
+    sfoxCountriesR,
+    sfoxStatesR,
+    coinifyCountriesR
+  ) => {
+    const transform = (
+      options,
+      buySell,
+      countryCode,
+      sfoxCountries,
+      sfoxStates,
+      coinifyCountries
+    ) => {
       return {
         options,
         buySell,
@@ -25,7 +40,14 @@ export const getData = createDeepEqualSelector(
         coinifyCountries
       }
     }
-    return lift(transform)(optionsR, buySellR, countryCodeR, sfoxCountriesR, sfoxStatesR, coinifyCountriesR)
+    return lift(transform)(
+      optionsR,
+      buySellR,
+      countryCodeR,
+      sfoxCountriesR,
+      sfoxStatesR,
+      coinifyCountriesR
+    )
   }
 )
 

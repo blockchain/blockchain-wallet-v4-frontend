@@ -28,7 +28,7 @@ export default ({ api, coreSagas }) => {
   let fetchingTradesTasks = []
   let pollingExchangeTask = null
 
-  const updateTrade = function*(depositAddress) {
+  const updateTrade = function * (depositAddress) {
     try {
       const appState = yield select(identity)
       const currentTrade = selectors.core.kvStore.shapeShift
@@ -58,7 +58,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateExchangeTrade = function*(trade) {
+  const updateExchangeTrade = function * (trade) {
     try {
       const id = prop('id', trade)
       const tradeData = yield call(api.fetchTrade, id)
@@ -70,7 +70,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const pollExchangeTrades = function*(trades) {
+  const pollExchangeTrades = function * (trades) {
     try {
       while (true) {
         yield all(map(trade => fork(updateExchangeTrade, trade), trades))
@@ -83,7 +83,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const initTradePolling = function*(trades) {
+  const initTradePolling = function * (trades) {
     const incompleteTrades = trades.filter(({ state }) =>
       contains(state, INCOMPLETE_STATES)
     )
@@ -93,14 +93,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const stopPollingTrades = function*() {
+  const stopPollingTrades = function * () {
     if (pollingExchangeTask) {
       yield cancel(pollingExchangeTask)
       pollingExchangeTask = null
     }
   }
 
-  const fetchNextPage = function*() {
+  const fetchNextPage = function * () {
     try {
       yield put(A.fetchTradesLoading())
       const currency = (yield select(
@@ -130,7 +130,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateDisplayedShapeShiftTrades = function*(updatedShapeShiftTrades) {
+  const updateDisplayedShapeShiftTrades = function * (updatedShapeShiftTrades) {
     if (isEmpty(updatedShapeShiftTrades)) return
     const idPath = path(['quote', 'orderId'])
     const indexedTrades = indexBy(idPath, updatedShapeShiftTrades)
@@ -146,7 +146,7 @@ export default ({ api, coreSagas }) => {
     )(trades)
   }
 
-  const fetchTradeData = function*(trade) {
+  const fetchTradeData = function * (trade) {
     try {
       const depositAddress = path(['quote', 'deposit'], trade)
       const status = prop('status', trade)
@@ -172,7 +172,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryInitialized = function*() {
+  const exchangeHistoryInitialized = function * () {
     try {
       const userFlowSupported = yield select(
         selectors.modules.profile.userFlowSupported
@@ -198,7 +198,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryDestroyed = function*() {
+  const exchangeHistoryDestroyed = function * () {
     try {
       yield all(map(cancel, fetchingTradesTasks))
       fetchingTradesTasks = []
@@ -209,7 +209,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const startPollingTradeStatus = function*(depositAddress) {
+  const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
         yield call(updateTrade, depositAddress)
@@ -223,7 +223,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryModalInitialized = function*(action) {
+  const exchangeHistoryModalInitialized = function * (action) {
     try {
       const { depositAddress } = action.payload
       pollingShapeShiftTask = yield fork(
@@ -241,7 +241,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryModalDestroyed = function*() {
+  const exchangeHistoryModalDestroyed = function * () {
     try {
       if (pollingShapeShiftTask) {
         yield cancel(pollingShapeShiftTask)

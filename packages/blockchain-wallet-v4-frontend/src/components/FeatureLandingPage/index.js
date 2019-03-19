@@ -9,7 +9,7 @@ const marginContent = '25px'
 export const Wrapper = styled.div`
   width: 100%;
   height: 90%;
-  padding: ${props => props.noPadding ? '0px' : '30px'};
+  padding: ${props => (props.noPadding ? '0px' : '30px')};
   box-sizing: border-box;
 `
 export const IntroContainer = styled.div`

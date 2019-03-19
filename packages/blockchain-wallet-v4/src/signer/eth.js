@@ -31,7 +31,7 @@ export const sign = curry((network = 1, mnemonic, data) => {
   return Task.of(rawTx)
 })
 
-export const signWithLockbox = function*(
+export const signWithLockbox = function * (
   network = 1,
   transport,
   scrambleKey,

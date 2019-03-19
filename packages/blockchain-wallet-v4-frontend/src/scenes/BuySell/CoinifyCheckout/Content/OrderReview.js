@@ -2,7 +2,13 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, Link, Icon, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import {
+  Text,
+  Link,
+  Icon,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
@@ -73,17 +79,17 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         />
       </Header>
       <CenteredPartnerSubHeader weight={300}>
-        {
-          type === 'buy'
-            ? <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
-              defaultMessage='Please confirm your order details before we direct you to our secure payment provider.'
-            />
-            : <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.orderreview.sell.revieworder.subheader'
-              defaultMessage='Please confirm your order details.'
-            />
-        }
+        {type === 'buy' ? (
+          <FormattedMessage
+            id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
+            defaultMessage='Please confirm your order details before we direct you to our secure payment provider.'
+          />
+        ) : (
+          <FormattedMessage
+            id='scenes.buysell.coinifycheckout.content.orderreview.sell.revieworder.subheader'
+            defaultMessage='Please confirm your order details.'
+          />
+        )}
       </CenteredPartnerSubHeader>
       <OrderDetailsTable width='400px' padding='20px 20px 10px 20px'>
         <OrderDetailsRow short noPaddingTop noBorderBottom>

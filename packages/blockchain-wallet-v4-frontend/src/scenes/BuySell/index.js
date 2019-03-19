@@ -58,12 +58,20 @@ class BuySellContainer extends React.PureComponent {
   }
 
   onSubmit = () => {
-    const { identityActions, modalActions, coinifyActions, fields, data } = this.props
+    const {
+      identityActions,
+      modalActions,
+      coinifyActions,
+      fields,
+      data
+    } = this.props
     const { showModal } = modalActions
     const { setVerificationStep } = identityActions
     const { setCountry } = coinifyActions
     const { country } = fields
-    const { sfoxCountries, coinifyCountries } = data.getOrFail('Missing partner countries.')
+    const { sfoxCountries, coinifyCountries } = data.getOrFail(
+      'Missing partner countries.'
+    )
 
     if (sfoxCountries.indexOf(country) >= 0) {
       showModal('SfoxExchangeData', { step: 'account' })
@@ -92,7 +100,8 @@ class BuySellContainer extends React.PureComponent {
         partner: 'sfox'
       }
     }
-    if (path(['coinify', 'offline_token'], buySell)) { // if a coinify account already exists
+    if (path(['coinify', 'offline_token'], buySell)) {
+      // if a coinify account already exists
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
@@ -120,7 +129,13 @@ class BuySellContainer extends React.PureComponent {
     const { data, fields } = this.props
 
     const view = data.cata({
-      Success: value => this.selectPartner(path(['buySell', 'value'], value), value.options, prop('type', fields), value),
+      Success: value =>
+        this.selectPartner(
+          path(['buySell', 'value'], value),
+          value.options,
+          prop('type', fields),
+          value
+        ),
       Failure: message => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -152,7 +167,13 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
-  identityActions: bindActionCreators(actions.components.identityVerification, dispatch)
+  identityActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  )
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BuySellContainer)

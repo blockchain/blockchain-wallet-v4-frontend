@@ -48,18 +48,21 @@ const ReviewForm = props => {
               id='scenes.buysell.coinify.sell.orderreview.accept_terms'
               defaultMessage="By clicking here, I accept that Coinify will process my order upon receipt of funds, and that the order will be executed at the available exchange rate at that time, which may differ from the displayed rate. I also accept Coinify's {terms}."
               values={{
-                terms: <Link
-                  size='11px'
-                  weight={300}
-                  href='https://www.coinify.com/legal'
-                  target='_blank'
-                  rel='noreferrer noopener'
-                >
-                  <FormattedMessage
-                    id='components.terms.coinify.tos'
-                    defaultMessage='Terms of Service'
-                  />
-                </Link> }}
+                terms: (
+                  <Link
+                    size='11px'
+                    weight={300}
+                    href='https://www.coinify.com/legal'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                  >
+                    <FormattedMessage
+                      id='components.terms.coinify.tos'
+                      defaultMessage='Terms of Service'
+                    />
+                  </Link>
+                )
+              }}
             />
           </Text>
         </TermsLabel>

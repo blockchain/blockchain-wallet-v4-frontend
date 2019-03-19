@@ -9,7 +9,7 @@ import Btc from '@ledgerhq/hw-app-btc'
 export default ({ networks }) => {
   const logLocation = 'components/requestBch/sagas'
 
-  const openLockboxAppClicked = function*(action) {
+  const openLockboxAppClicked = function * (action) {
     try {
       const form = yield select(selectors.form.getFormValues('requestBch'))
       const appState = yield select(identity)

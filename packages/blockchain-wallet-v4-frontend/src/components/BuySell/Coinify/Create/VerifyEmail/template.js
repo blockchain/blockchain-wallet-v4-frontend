@@ -36,12 +36,7 @@ const WideInputWrapper = styled(InputWrapper)`
 `
 
 const VerifyEmail = props => {
-  const {
-    invalid,
-    handleSubmit,
-    resend,
-    codeSent
-  } = props
+  const { invalid, handleSubmit, resend, codeSent } = props
 
   return (
     <Fragment>
@@ -81,17 +76,15 @@ const VerifyEmail = props => {
           </ColRightInner>
         </ColRightEnd>
       </CreateForm>
-      {
-        codeSent
-          ? <EmailHelper>
-            <FormattedMessage
-              id='coinifyexchangedata.create.verifyemail.helper.sentverificationemail'
-              defaultMessage="Another verification email has been sent! Don't see it? {resend}"
-              values={{ resend: <a onClick={resend}>Resend</a> }}
-            />
-          </EmailHelper>
-          : null
-      }
+      {codeSent ? (
+        <EmailHelper>
+          <FormattedMessage
+            id='coinifyexchangedata.create.verifyemail.helper.sentverificationemail'
+            defaultMessage="Another verification email has been sent! Don't see it? {resend}"
+            values={{ resend: <a onClick={resend}>Resend</a> }}
+          />
+        </EmailHelper>
+      ) : null}
     </Fragment>
   )
 }

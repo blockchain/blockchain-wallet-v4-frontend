@@ -10,7 +10,7 @@ const XPUB_SUB = 'xpub_sub'
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
       let subscribeInfo = yield select(
@@ -42,7 +42,7 @@ export default ({ api, bchSocket }) => {
     }
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     try {
       const message = action.payload
       switch (message.op) {
@@ -115,7 +115,7 @@ export default ({ api, bchSocket }) => {
     }
   }
 
-  const onClose = function*(action) {}
+  const onClose = function * (action) {}
 
   return {
     onOpen,

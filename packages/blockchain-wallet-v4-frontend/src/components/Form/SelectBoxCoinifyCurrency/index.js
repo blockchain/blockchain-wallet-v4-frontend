@@ -23,12 +23,16 @@ const CustomSelectBox = styled(SelectBox)`
         right: 0px;
         font-size: 18px;
         font-weight: 300;
-        color: ${props => props.disabled ? props.theme['gray-2'] : props.theme['gray-5']};
+        color: ${props =>
+          props.disabled ? props.theme['gray-2'] : props.theme['gray-5']};
       }
     }
     > .bc__indicators {
       > .bc__dropdown-indicator {
-        color: ${props => props.disabled ? props.theme['gray-2'] : props.theme['brand-secondary']};
+        color: ${props =>
+          props.disabled
+            ? props.theme['gray-2']
+            : props.theme['brand-secondary']};
       }
       > .bc__indicator-separator {
         display: none;

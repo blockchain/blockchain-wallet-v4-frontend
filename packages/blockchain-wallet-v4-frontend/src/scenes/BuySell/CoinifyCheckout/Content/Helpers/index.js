@@ -198,7 +198,7 @@ export const wantToHelper = type =>
     />
   )
 
-export const rateHelper = (quoteR) =>
+export const rateHelper = quoteR =>
   quoteR.map(getRateFromQuote).getOrElse(
     <Fragment>
       <FormattedMessage

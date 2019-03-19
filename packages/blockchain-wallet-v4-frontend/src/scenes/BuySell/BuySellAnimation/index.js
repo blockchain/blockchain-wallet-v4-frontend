@@ -17,7 +17,7 @@ const BaseColor = styled(Image)`
   left: 0;
   opacity: 0;
   position: absolute;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
   &.active {
     opacity: 1;
   }

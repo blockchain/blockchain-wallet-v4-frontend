@@ -26,7 +26,9 @@ export const getData = createDeepEqualSelector(
       const createLimitError = (medium, type) => ({
         medium,
         type,
-        limit: `${currencySymbolMap[fiatCurrency]}${contains('over', type) ? getMax(medium) : getMin(medium)}`
+        limit: `${currencySymbolMap[fiatCurrency]}${
+          contains('over', type) ? getMax(medium) : getMin(medium)
+        }`
       })
 
       const checkForLimitError = medium => {

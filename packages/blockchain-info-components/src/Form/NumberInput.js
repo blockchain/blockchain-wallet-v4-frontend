@@ -13,7 +13,8 @@ const BaseNumberInput = styled.input.attrs({
   box-sizing: border-box;
   font-size: ${props => props.size || '14px'};
   font-weight: 300;
-  color: ${props => props.color ? props.theme[props.color] : props.theme['gray-5']};
+  color: ${props =>
+    props.color ? props.theme[props.color] : props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-image: none;

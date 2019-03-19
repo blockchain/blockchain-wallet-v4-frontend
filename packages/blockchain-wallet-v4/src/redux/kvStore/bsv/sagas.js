@@ -23,7 +23,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
+  const callTask = function * (task) {
     return yield call(
       compose(
         taskToPromise,
@@ -32,7 +32,7 @@ export default ({ api, networks }) => {
     )
   }
 
-  const createBsv = function*(kv, hdAccounts, bsvAccounts, hasSeen) {
+  const createBsv = function * (kv, hdAccounts, bsvAccounts, hasSeen) {
     const createAccountEntry = x => ({
       label: `My Bitcoin SV Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
@@ -52,7 +52,7 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const fetchMetadataBsv = function*() {
+  const fetchMetadataBsv = function * () {
     try {
       const typeId = derivationMap[BSV]
       const mxpriv = yield select(getMetadataXpriv)
@@ -75,7 +75,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const refetchContextData = function*() {
+  const refetchContextData = function * () {
     yield put(bsvActions.fetchData())
   }
 

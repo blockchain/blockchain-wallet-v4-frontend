@@ -18,7 +18,7 @@ class PaymentContainer extends PureComponent {
     this.props.coinifyActions.coinifyNotAsked()
   }
 
-  handlePaymentClick = (medium) => {
+  handlePaymentClick = medium => {
     this.props.coinifyActions.setMedium(medium)
   }
 

@@ -54,7 +54,10 @@ const SelectPartner = props => {
   const { invalid, pristine, fields, sfoxStates, handleSubmit, options } = props
   const { country, stateSelection } = fields
 
-  const onSfoxWhitelist = usState => country === 'US' && prop('code', usState) && sfoxStates.includes(usState.code)
+  const onSfoxWhitelist = usState =>
+    country === 'US' &&
+    prop('code', usState) &&
+    sfoxStates.includes(usState.code)
   const isCoinifyCountry = country => props.coinifyCountries.includes(country)
   const getPartner = () => {
     if (onSfoxWhitelist(stateSelection)) {
@@ -80,31 +83,40 @@ const SelectPartner = props => {
 
   return (
     <Wrapper noPadding>
-      <GetStartedContainer url={getPartner().url} backgroundSize={getPartner().backgroundSize} backgroundPosition={getPartner().backgroundPosition}>
+      <GetStartedContainer
+        url={getPartner().url}
+        backgroundSize={getPartner().backgroundSize}
+        backgroundPosition={getPartner().backgroundPosition}
+      >
         <GetStartedContent>
-          <GetStartedHeader size='26px' weight={400} color='brand-primary' width='300px'>
+          <GetStartedHeader
+            size='26px'
+            weight={400}
+            color='brand-primary'
+            width='300px'
+          >
             <FormattedMessage
               id='scenes.buysell.selectpartner.header.buy_bitcoin'
               defaultMessage='Buy & Sell Bitcoin'
             />
           </GetStartedHeader>
           <GetStartedText size='17px' weight={300}>
-            {
-              getPartner().name === 'COINIFY'
-                ? <FormattedMessage
-                  id='scenes.buysell.selectpartner.subheader_coinify'
-                  defaultMessage='You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.'
-                />
-                : getPartner().name === 'SFOX'
-                  ? <FormattedMessage
-                    id='scenes.buysell.selectpartner.subheader_sfox'
-                    defaultMessage='You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.'
-                  />
-                  : <FormattedMessage
-                    id='scenes.buysell.selectpartner.subheader_nopartner'
-                    defaultMessage='You can buy & sell Bitcoin (BTC) from your Wallet.'
-                  />
-            }
+            {getPartner().name === 'COINIFY' ? (
+              <FormattedMessage
+                id='scenes.buysell.selectpartner.subheader_coinify'
+                defaultMessage='You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.'
+              />
+            ) : getPartner().name === 'SFOX' ? (
+              <FormattedMessage
+                id='scenes.buysell.selectpartner.subheader_sfox'
+                defaultMessage='You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.'
+              />
+            ) : (
+              <FormattedMessage
+                id='scenes.buysell.selectpartner.subheader_nopartner'
+                defaultMessage='You can buy & sell Bitcoin (BTC) from your Wallet.'
+              />
+            )}
           </GetStartedText>
           <FieldWrapper>
             <Form onSubmit={handleSubmit}>
@@ -158,21 +170,14 @@ const SelectPartner = props => {
             </Text>
           </CountryFAQText>
         </GetStartedContent>
-        {
-          !getPartner().name
-            ? <BuySellAnimation country={country} options={options} />
-            : null
-        }
-        {
-          getPartner().name
-            ? <PoweredByContainer>
-              <Image
-                width='100%'
-                name={getPartner().logo}
-              />
-            </PoweredByContainer>
-            : null
-        }
+        {!getPartner().name ? (
+          <BuySellAnimation country={country} options={options} />
+        ) : null}
+        {getPartner().name ? (
+          <PoweredByContainer>
+            <Image width='100%' name={getPartner().logo} />
+          </PoweredByContainer>
+        ) : null}
       </GetStartedContainer>
     </Wrapper>
   )

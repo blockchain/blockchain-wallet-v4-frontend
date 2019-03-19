@@ -94,17 +94,17 @@ const AcceptTerms = props => {
         <WideInputWrapper>
           <FieldContainer>
             <VerifiedText>
-              {
-                emailVerified
-                  ? <FormattedMessage
-                    id='coinifyexchangedata.create.createaccount.partner.email_verified'
-                    defaultMessage='Verified Email'
-                  />
-                  : <FormattedMessage
-                    id='coinifyexchangedata.create.createaccount.partner.email_no_verify'
-                    defaultMessage='Verify Email'
-                  />
-              }
+              {emailVerified ? (
+                <FormattedMessage
+                  id='coinifyexchangedata.create.createaccount.partner.email_verified'
+                  defaultMessage='Verified Email'
+                />
+              ) : (
+                <FormattedMessage
+                  id='coinifyexchangedata.create.createaccount.partner.email_no_verify'
+                  defaultMessage='Verify Email'
+                />
+              )}
             </VerifiedText>
             <VerifiedContainer>
               <FieldMimic width='100%'>
@@ -112,27 +112,23 @@ const AcceptTerms = props => {
                   {email}
                 </Text>
               </FieldMimic>
-              {
-                create === VERIFY
-                  ? <SquaredButton nature='primary' onClick={handleResend}>
-                    <FormattedMessage
-                      id='coinifyexchangedata.create.createaccount.partner.sendagain'
-                      defaultMessage='Send Again'
-                    />
-                  </SquaredButton>
-                  : null
-              }
-            </VerifiedContainer>
-            {
-              create === VERIFY
-                ? <SentEmailText size='14px' weight={300}>
+              {create === VERIFY ? (
+                <SquaredButton nature='primary' onClick={handleResend}>
                   <FormattedMessage
-                    id='coinifyexchangedata.create.createaccount.partner.checkyourinbox'
-                    defaultMessage='Check your inbox. We just sent you an email.'
+                    id='coinifyexchangedata.create.createaccount.partner.sendagain'
+                    defaultMessage='Send Again'
                   />
-                </SentEmailText>
-                : null
-            }
+                </SquaredButton>
+              ) : null}
+            </VerifiedContainer>
+            {create === VERIFY ? (
+              <SentEmailText size='14px' weight={300}>
+                <FormattedMessage
+                  id='coinifyexchangedata.create.createaccount.partner.checkyourinbox'
+                  defaultMessage='Check your inbox. We just sent you an email.'
+                />
+              </SentEmailText>
+            ) : null}
             <IconContainer>
               {emailVerified ? (
                 <Fragment>
@@ -152,31 +148,36 @@ const AcceptTerms = props => {
               ) : null}
             </IconContainer>
             <TermsContainer>
-              {
-                emailVerified
-                  ? <Fragment>
-                    <TermsText size='12px' weight={300} />
-                    <Button nature='primary' type='submit' disabled={invalid || busy || signupError}>
-                      {
-                        !busy ? (
-                          <Text color='white' uppercase>
-                            <FormattedMessage
-                              id='continue'
-                              defaultMessage='Continue'
-                            />
-                          </Text>
-                        ) : (
-                          <HeartbeatLoader height='20px' width='20px' color='white' />
-                        )
-                      }
-                    </Button>
-                  </Fragment>
-                  : null
-              }
+              {emailVerified ? (
+                <Fragment>
+                  <TermsText size='12px' weight={300} />
+                  <Button
+                    nature='primary'
+                    type='submit'
+                    disabled={invalid || busy || signupError}
+                  >
+                    {!busy ? (
+                      <Text color='white' uppercase>
+                        <FormattedMessage
+                          id='continue'
+                          defaultMessage='Continue'
+                        />
+                      </Text>
+                    ) : (
+                      <HeartbeatLoader
+                        height='20px'
+                        width='20px'
+                        color='white'
+                      />
+                    )}
+                  </Button>
+                </Fragment>
+              ) : null}
             </TermsContainer>
             <ErrorWrapper>
-              {prop('error', signupError) === EMAIL_IN_USE_ERROR && create !== VERIFY
-                ? <TextGroup inline>
+              {prop('error', signupError) === EMAIL_IN_USE_ERROR &&
+              create !== VERIFY ? (
+                <TextGroup inline>
                   <Text size='12px' color='error' weight={300}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error1'
@@ -188,7 +189,8 @@ const AcceptTerms = props => {
                     color='brand-secondary'
                     cursor='pointer'
                     weight={300}
-                    onClick={props.editEmail}>
+                    onClick={props.editEmail}
+                  >
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error2'
                       defaultMessage='Click here '
@@ -201,43 +203,47 @@ const AcceptTerms = props => {
                     />
                   </Text>
                 </TextGroup>
-                : signupError && create !== VERIFY
-                  ? <TextGroup inline>
-                    <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage
-                        id='coinifyexchangedata.create.accept.unknownError'
-                        defaultMessage="We're sorry, but something unexpected went wrong. Please "
-                      />
-                    </Text>
-                    <Link size='12px' weight={300} onClick={clearError}>
-                      <FormattedMessage id='tryagain' defaultMessage='try again' />
-                    </Link>
-                    <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage id='or' defaultMessage='or' />
-                    </Text>
-                    <Link
-                      target='_blank'
-                      href='https://support.blockchain.com'
-                      size='12px'
-                      weight={300}
-                      rel='noreferrer noopener'>
-                      <FormattedMessage
-                        id='contactsupport'
-                        defaultMessage='contact support.'
-                      />
-                    </Link>
-                    <br />
-                    <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage
-                        id='coinifyexchangedata.create.accept.support_error_description'
-                        defaultMessage='Error Description: {errorDescription}'
-                        values={{
-                          errorDescription: prop('error_description', signupError)
-                        }}
-                      />
-                    </Text>
-                  </TextGroup>
-                  : null}
+              ) : signupError && create !== VERIFY ? (
+                <TextGroup inline>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage
+                      id='coinifyexchangedata.create.accept.unknownError'
+                      defaultMessage="We're sorry, but something unexpected went wrong. Please "
+                    />
+                  </Text>
+                  <Link size='12px' weight={300} onClick={clearError}>
+                    <FormattedMessage
+                      id='tryagain'
+                      defaultMessage='try again'
+                    />
+                  </Link>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage id='or' defaultMessage='or' />
+                  </Text>
+                  <Link
+                    target='_blank'
+                    href='https://support.blockchain.com'
+                    size='12px'
+                    weight={300}
+                    rel='noreferrer noopener'
+                  >
+                    <FormattedMessage
+                      id='contactsupport'
+                      defaultMessage='contact support.'
+                    />
+                  </Link>
+                  <br />
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage
+                      id='coinifyexchangedata.create.accept.support_error_description'
+                      defaultMessage='Error Description: {errorDescription}'
+                      values={{
+                        errorDescription: prop('error_description', signupError)
+                      }}
+                    />
+                  </Text>
+                </TextGroup>
+              ) : null}
             </ErrorWrapper>
           </FieldContainer>
         </WideInputWrapper>

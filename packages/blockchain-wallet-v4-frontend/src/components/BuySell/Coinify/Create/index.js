@@ -21,10 +21,7 @@ class CreateContainer extends PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (
-      !prevProps.emailVerified &&
-      this.props.emailVerified
-    ) {
+    if (!prevProps.emailVerified && this.props.emailVerified) {
       this.props.coinifyFrontendActions.coinifyNotAsked()
     }
   }

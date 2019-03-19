@@ -11,7 +11,12 @@ const CoinifyCheckoutContainer = props => {
   const { type, options, value, countrySelection } = props
   return (
     <Wrapper>
-      <Content type={type} options={options} value={value} countrySelection={countrySelection} />
+      <Content
+        type={type}
+        options={options}
+        value={value}
+        countrySelection={countrySelection}
+      />
     </Wrapper>
   )
 }

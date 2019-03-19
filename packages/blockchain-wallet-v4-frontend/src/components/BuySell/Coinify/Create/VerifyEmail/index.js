@@ -17,9 +17,7 @@ class VerifyEmailContainer extends PureComponent {
   }
 
   resend = () => {
-    this.props.securityCenterActions.updateEmail(
-      this.props.emailAddress
-    )
+    this.props.securityCenterActions.updateEmail(this.props.emailAddress)
   }
 
   onSubmit = () => {

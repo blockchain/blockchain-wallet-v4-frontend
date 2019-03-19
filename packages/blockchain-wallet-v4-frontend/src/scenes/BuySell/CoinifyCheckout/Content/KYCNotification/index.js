@@ -19,14 +19,7 @@ class KYCNotificationContainer extends React.PureComponent {
   }
 
   render () {
-    const {
-      canTrade,
-      limits,
-      onTrigger,
-      symbol,
-      type,
-      kycState
-    } = this.props
+    const { canTrade, limits, onTrigger, symbol, type, kycState } = this.props
     return (
       <Success
         canTrade={canTrade}

@@ -52,8 +52,6 @@ export const cannotTradeReason = state =>
 export const getBankAccounts = state =>
   getMediums(state).map(path(['bank', '_accounts']))
 
-export const getCountry = state =>
-  getProfile(state).map(prop('_country'))
+export const getCountry = state => getProfile(state).map(prop('_country'))
 
-export const getUserId = state =>
-  getProfile(state).map(prop('_user'))
+export const getUserId = state => getProfile(state).map(prop('_user'))

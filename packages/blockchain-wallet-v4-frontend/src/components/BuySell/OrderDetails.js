@@ -29,5 +29,6 @@ export const OrderDetailsRow = styled.div`
   padding-top: ${props => props.noPaddingTop && '0px'};
   border-bottom: ${props =>
     props.noBorderBottom ? 'none' : `1px solid ${props.theme['gray-1']}`};
-  border-top: ${props => props.borderTop && `1px solid ${props.theme['gray-1']}`};
+  border-top: ${props =>
+    props.borderTop && `1px solid ${props.theme['gray-1']}`};
 `
