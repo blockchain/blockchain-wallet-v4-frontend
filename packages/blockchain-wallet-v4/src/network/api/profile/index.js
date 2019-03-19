@@ -15,13 +15,14 @@ export default ({
       data: { jwt: retailToken }
     })
 
-  const generateRetailToken = (guid, sharedKey) =>
+  const generateRetailToken = (guid, sharedKey, coinifyToken) =>
     get({
       url: rootUrl,
       endPoint: '/wallet/signed-retail-token',
       data: {
         guid,
-        sharedKey
+        sharedKey,
+        coinifyToken
       }
     })
 
