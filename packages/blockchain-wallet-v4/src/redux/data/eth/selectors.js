@@ -31,9 +31,7 @@ export const getHeight = state => getLatestBlock(state).map(path(['number']))
 export const getNonce = (state, address) =>
   getAddresses(state).map(path([address, 'nonce']))
 
-//
-// ETH & ERC20
-//
+// TODO: rename to eth
 export const getBalance = (state, token = 'eth') => {
   return path([dataPath, 'eth', 'info', token])(state).map(
     prop('final_balance')
@@ -46,5 +44,23 @@ export const getTransactions = (state, token = 'eth') => {
   return path([dataPath, 'eth', 'transactions', token])(state)
 }
 export const getTransactionsAtBound = (state, token = 'eth') => {
+  return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
+}
+
+//
+// ERC20
+//
+export const getErc20Balance = (state, token) => {
+  return path([dataPath, 'eth', 'info', token])(state).map(
+    prop('final_balance')
+  )
+}
+export const getErc20CurrentBalance = (state, token) => {
+  return path([dataPath, 'eth', 'current_balance', token])(state)
+}
+export const getErc20Transactions = (state, token) => {
+  return path([dataPath, 'eth', 'transactions', token])(state)
+}
+export const getErc20TransactionsAtBound = (state, token) => {
   return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
 }

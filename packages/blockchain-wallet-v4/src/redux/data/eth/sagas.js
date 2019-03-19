@@ -26,6 +26,9 @@ const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
+  //
+  // ETH
+  //
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
@@ -140,14 +143,83 @@ export default ({ api }) => {
       yield put(A.fetchLegacyBalanceFailure())
     }
   }
+
+  //
+  // ERC20
+  //
+  const fetchErc20Data = function * (action) {
+    const { token } = action.payload
+    try {
+      yield put(A.fetchErc20DataLoading(token))
+      const context = yield select(S.getContext)
+      // need eth addr & token
+      const data = yield call(api.getErc20Data, context)
+      console.info(data)
+
+      // const finalBalance = sum(values(data).map(obj => obj.balance))
+      // const totalReceived = sum(values(data).map(obj => obj.totalReceived))
+      // const totalSent = sum(values(data).map(obj => obj.totalSent))
+      // const nTx = sum(values(data).map(obj => obj.txn_count))
+      // const addresses = mapObjIndexed(num => dissoc('txns', num), data)
+
+      yield put(A.fetchErc20DataSuccess(token, data))
+    } catch (e) {
+      yield put(A.fetchErc20DataFailure(token, e.message))
+    }
+  }
+
+  const watchErc20Transactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_ERC20_TOKEN_TRANSACTIONS)
+      yield call(fetchErc20Transactions, action)
+    }
+  }
+
+  const fetchErc20Transactions = function * (action) {
+    const { token, address, reset } = action.payload
+    try {
+      const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
+      const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
+      const pages = yield select(S.getErc20Transactions, token)
+      const nextPage = reset ? 0 : length(pages)
+      const txsAtBound = yield select(S.getErc20TransactionsAtBound, token)
+      if (txsAtBound && !reset) return
+      yield put(A.fetchErc20TransactionsLoading(token, ethAddress, reset))
+      const data = yield call(api.getErc20Transactions, ethAddress, nextPage)
+      const txs = path([ethAddress, 'txns'], data)
+      if (isNil(txs)) return
+      const atBounds = length(txs) < TX_PER_PAGE
+      yield put(A.erc20TransactionsAtBound(token, atBounds))
+      const page = yield call(__processErc20Txs, txs)
+      yield put(A.fetchErc20TransactionsSuccess(token, page, reset))
+    } catch (e) {
+      yield put(A.fetchErc20TransactionsFailure(token, e.message))
+    }
+  }
+
+  // TODO: verify if this is needed
+  const __processErc20Txs = function * (txs) {
+    const accountsR = yield select(kvStoreSelectors.getAccounts)
+    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const lockboxContextR = yield select(getLockboxEthContext)
+    const lockboxContext = lockboxContextR.getOrElse([])
+    const state = yield select()
+    const ethAddresses = concat(addresses, lockboxContext)
+    return map(transformTx(ethAddresses, state), txs)
+  }
+
   return {
     fetchData,
+    fetchErc20Data,
     fetchFee,
     fetchLegacyBalance,
     fetchRates,
     fetchLatestBlock,
     fetchTransactions,
+    fetchErc20Transactions,
     watchTransactions,
-    __processTxs
+    watchErc20Transactions,
+    __processTxs,
+    __processErc20Txs
   }
 }
