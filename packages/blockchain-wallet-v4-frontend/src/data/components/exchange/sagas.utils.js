@@ -303,13 +303,9 @@ export default ({ coreSagas, networks }) => {
 
   const updateLatestEthTrade = function * (txId) {
     // Update metadata
-    yield put(
-      actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-    )
-    yield take(
-      actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-    )
-    yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
+    yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
+    yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
+    yield put(actions.core.kvStore.eth.setLatestTxEth(txId))
   }
 
   return {

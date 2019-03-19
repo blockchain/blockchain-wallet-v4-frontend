@@ -47,10 +47,10 @@ const fallbackFees = { limits: { min: 2, max: 16 }, regular: 5, priority: 11 }
 
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const __pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
+  const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
     api
-      .getBitcoinUnspents(fromData.from, -1)
+      .getBtcUnspents(fromData.from, -1)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
@@ -261,7 +261,7 @@ export default ({ api }) => {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(__pushBitcoinTx(txHex)))
+    return yield call(() => taskToPromise(__pushBtcTx(txHex)))
   }
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -273,7 +273,7 @@ export default ({ api }) => {
       * init () {
         let fees
         try {
-          fees = yield call(api.getBitcoinFee)
+          fees = yield call(api.getBtcFee)
         } catch (e) {
           fees = fallbackFees
         }
@@ -398,6 +398,6 @@ export default ({ api }) => {
     __calculateSignature,
     __calculateSweepSelection,
     __getWalletUnspent,
-    __pushBitcoinTx
+    __pushBtcTx
   }
 }

@@ -81,7 +81,7 @@ export const getActiveBchAccounts = function * () {
 export const getBtcAccounts = function * () {
   const appState = yield select(identity)
   const btcAccounts = selectors.core.wallet.getHDAccounts(appState)
-  const btcData = selectors.core.data.bitcoin
+  const btcData = selectors.core.data.btc
     .getAddresses(appState)
     .getOrFail('Can not retrieve bitcoin data.')
 
@@ -103,10 +103,10 @@ export const getActiveBtcAccounts = function * () {
 
 export const getEthAccounts = function * () {
   const appState = yield select(identity)
-  const ethData = selectors.core.data.ethereum
+  const ethData = selectors.core.data.eth
     .getAddresses(appState)
     .getOrFail('Can not retrieve ethereum data.')
-  const ethMetadata = selectors.core.kvStore.ethereum
+  const ethMetadata = selectors.core.kvStore.eth
     .getAccounts(appState)
     .getOrFail('Can not retrieve ethereum metadata.')
 

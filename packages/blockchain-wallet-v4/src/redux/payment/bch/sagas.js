@@ -47,7 +47,7 @@ const taskToPromise = t =>
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   const settingsSagas = settingsSagaFactory({ api })
-  const pushBitcoinTx = futurizeP(Task)(api.pushBchTx)
+  const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
       .getBchUnspents(fromData.from, -1)
@@ -279,7 +279,7 @@ export default ({ api }) => {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(pushBitcoinTx(txHex, lockSecret)))
+    return yield call(() => taskToPromise(pushBchTx(txHex, lockSecret)))
   }
 
   // ///////////////////////////////////////////////////////////////////////////

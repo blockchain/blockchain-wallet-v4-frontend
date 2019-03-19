@@ -15,10 +15,7 @@ class ListItemContainer extends React.PureComponent {
   handleEditDescription = value => {
     switch (this.props.coin) {
       case 'ETH': {
-        this.props.ethereumActions.setTxNotesEthereum(
-          this.props.transaction.hash,
-          value
-        )
+        this.props.ethActions.setTxNotesEth(this.props.transaction.hash, value)
         break
       }
       case 'BTC': {
@@ -61,9 +58,9 @@ class ListItemContainer extends React.PureComponent {
 const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
-  ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
+  ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 

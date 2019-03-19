@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.data.ethereum, dispatch)
+  actions: bindActionCreators(actions.core.data.eth, dispatch)
 })
 
 export default connect(

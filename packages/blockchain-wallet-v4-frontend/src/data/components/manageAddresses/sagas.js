@@ -37,7 +37,7 @@ export default ({ api, networks }) => {
         .reverse()
         .toArray()
       const receiveIndex = yield select(
-        selectors.core.data.bitcoin.getReceiveIndex(account.xpub)
+        selectors.core.data.btc.getReceiveIndex(account.xpub)
       )
       const lastLabeledIndex = labels.reduce(
         (acc, l) => Math.max(acc, l.index),
@@ -134,7 +134,7 @@ export default ({ api, networks }) => {
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
       // get current receive index of wallet
       const receiveIndex = yield select(
-        selectors.core.data.bitcoin.getReceiveIndex(account.xpub)
+        selectors.core.data.btc.getReceiveIndex(account.xpub)
       )
       // derive previous addresses
       const derivedAddrs = yield call(

@@ -6,13 +6,13 @@ export default ({ api }) => {
   const dataBtcSagas = sagas({ api })
 
   return function * coreDataBtcSaga () {
-    yield takeLatest(AT.FETCH_BITCOIN_DATA, dataBtcSagas.fetchData)
-    yield takeLatest(AT.FETCH_BITCOIN_FEE, dataBtcSagas.fetchFee)
-    yield takeLatest(AT.FETCH_BITCOIN_RATES, dataBtcSagas.fetchRates)
+    yield takeLatest(AT.FETCH_BTC_DATA, dataBtcSagas.fetchData)
+    yield takeLatest(AT.FETCH_BTC_FEE, dataBtcSagas.fetchFee)
+    yield takeLatest(AT.FETCH_BTC_RATES, dataBtcSagas.fetchRates)
     yield fork(dataBtcSagas.watchTransactions)
-    yield takeEvery(AT.FETCH_BITCOIN_FIAT_AT_TIME, dataBtcSagas.fetchFiatAtTime)
+    yield takeEvery(AT.FETCH_BTC_FIAT_AT_TIME, dataBtcSagas.fetchFiatAtTime)
     yield takeLatest(
-      AT.FETCH_BITCOIN_TRANSACTION_HISTORY,
+      AT.FETCH_BTC_TRANSACTION_HISTORY,
       dataBtcSagas.fetchTransactionHistory
     )
   }

@@ -23,7 +23,7 @@ export const getData = (coin, state) => {
 export const getBtcData = createSelector(
   [
     selectors.core.wallet.getWallet,
-    selectors.core.data.bitcoin.getTransactionHistory,
+    selectors.core.data.btc.getTransactionHistory,
     selectors.form.getFormValues('transactionReport')
   ],
   (wallet, dataR, formValues) => {

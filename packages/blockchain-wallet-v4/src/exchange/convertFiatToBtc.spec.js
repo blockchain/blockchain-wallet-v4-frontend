@@ -1,13 +1,13 @@
 import * as Conversion from './index'
-import { bitcoinRates } from './conversion.textures'
+import { btcRates } from './conversion.textures'
 
-describe('convertFiatToBitcoin', () => {
+describe('convertFiatToBtc', () => {
   it('should return correct value', () => {
     const input = {
       value: 1,
       fromCurrency: 'USD',
       toUnit: 'BTC',
-      rates: bitcoinRates
+      rates: btcRates
     }
     const expectedOutput = {
       value: '0.00015174',
@@ -18,7 +18,7 @@ describe('convertFiatToBitcoin', () => {
         currency: 'BTC'
       }
     }
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(expectedOutput)
   })
 
@@ -26,7 +26,7 @@ describe('convertFiatToBitcoin', () => {
     const input = {
       fromCurrency: 'USD',
       toUnit: 'BTC',
-      rates: bitcoinRates
+      rates: btcRates
     }
     const expectedOutput = {
       value: '0',
@@ -37,7 +37,7 @@ describe('convertFiatToBitcoin', () => {
         currency: 'BTC'
       }
     }
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(expectedOutput)
   })
 
@@ -45,9 +45,9 @@ describe('convertFiatToBitcoin', () => {
     const input = {
       value: 1,
       toUnit: 'BTC',
-      rates: bitcoinRates
+      rates: btcRates
     }
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
@@ -56,10 +56,10 @@ describe('convertFiatToBitcoin', () => {
       value: 1,
       fromCurrency: 'USDDDD',
       toUnit: 'BTC',
-      rates: bitcoinRates
+      rates: btcRates
     }
 
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
@@ -68,10 +68,10 @@ describe('convertFiatToBitcoin', () => {
       value: 1,
       fromCurrency: 'USD',
       toUnit: '',
-      rates: bitcoinRates
+      rates: btcRates
     }
 
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
@@ -80,9 +80,9 @@ describe('convertFiatToBitcoin', () => {
       value: 1,
       fromCurrency: 'USD',
       toUnit: 'BTCCCC',
-      rates: bitcoinRates
+      rates: btcRates
     }
-    const result = Conversion.convertFiatToBitcoin(input)
+    const result = Conversion.convertFiatToBtc(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
@@ -94,7 +94,7 @@ describe('convertFiatToBitcoin', () => {
   //     toUnit: 'BTC',
   //     rates: {}
   //   }
-  //   const result = Conversion.convertFiatToBitcoin(input)
+  //   const result = Conversion.convertFiatToBtc(input)
   //   expect(result).toEqual(Conversion.DefaultConversion)
   // })
 })

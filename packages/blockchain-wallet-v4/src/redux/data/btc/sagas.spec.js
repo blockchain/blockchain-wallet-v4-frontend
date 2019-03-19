@@ -38,13 +38,13 @@ const fiatAtTime = { value: 33 }
 
 const api = {
   fetchBlockchainData: jest.fn(() => btcFetchData),
-  getBitcoinFee: jest.fn(() => feeData),
-  getBitcoinFiatAtTime: jest.fn(() => fiatAtTime),
-  getBitcoinTicker: jest.fn(() => rateData),
+  getBtcFee: jest.fn(() => feeData),
+  getBtcFiatAtTime: jest.fn(() => fiatAtTime),
+  getBtcTicker: jest.fn(() => rateData),
   getTransactionHistory: jest.fn(() => transactionHistory)
 }
 
-describe('bitcoin data sagas', () => {
+describe('btc data sagas', () => {
   const dataBtcSagas = sagas({ api })
 
   describe('fetchData', () => {
@@ -92,13 +92,13 @@ describe('bitcoin data sagas', () => {
     })
 
     describe('state change', () => {
-      it('should add bitcoin data to the state', () => {
+      it('should add btc data to the state', () => {
         return expectSaga(dataBtcSagas.fetchData)
           .withReducer(reducers)
           .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               addresses: Remote.Success(
                 indexBy(prop('address'), prop('addresses', btcFetchData))
               ),
@@ -118,7 +118,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should retrieve fee data', () => {
-      saga.next().call(api.getBitcoinFee)
+      saga.next().call(api.getBtcFee)
     })
 
     it('should dispatch success with data', () => {
@@ -147,7 +147,7 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               fee: Remote.Success(feeData)
             })
           })
@@ -163,7 +163,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should retrieve rates data', () => {
-      saga.next().call(api.getBitcoinTicker)
+      saga.next().call(api.getBtcTicker)
     })
 
     it('should dispatch success with data', () => {
@@ -192,7 +192,7 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               rates: Remote.Success(rateData)
             })
           })
@@ -205,7 +205,7 @@ describe('bitcoin data sagas', () => {
     const action = {}
 
     it('should fetch tx', () => {
-      saga.next().take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      saga.next().take(AT.FETCH_BTC_TRANSACTIONS)
     })
 
     it('should call fetchTransactions', () => {
@@ -214,7 +214,7 @@ describe('bitcoin data sagas', () => {
 
     // Try again
     it('should fetch tx again', () => {
-      saga.next().take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      saga.next().take(AT.FETCH_BTC_TRANSACTIONS)
     })
 
     it('should call fetchTransactions again', () => {
@@ -314,7 +314,7 @@ describe('bitcoin data sagas', () => {
     //       ])
     //       .run()
     //       .then(result => {
-    //         expect(result.storeState.bitcoin).toMatchObject({
+    //         expect(result.storeState.btc).toMatchObject({
     //           transactions: [Remote.Success(btcFetchData.txs)]
     //         })
     //       })
@@ -330,7 +330,7 @@ describe('bitcoin data sagas', () => {
     //     })
     //       .withReducer(reducers)
     //       .withState({
-    //         bitcoin: {
+    //         btc: {
     //           transactions: [Remote.Success(initTx)]
     //         }
     //       })
@@ -341,7 +341,7 @@ describe('bitcoin data sagas', () => {
     //       ])
     //       .run()
     //       .then(result => {
-    //         expect(result.storeState.bitcoin).toMatchObject({
+    //         expect(result.storeState.btc).toMatchObject({
     //           transactions: append(Remote.Success(btcFetchData.txs), [
     //             Remote.Success(initTx)
     //           ])
@@ -435,7 +435,7 @@ describe('bitcoin data sagas', () => {
           .provide([[select(selectors.settings.getCurrency), Remote.of('USD')]])
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               transaction_history: Remote.Success(transactionHistory)
             })
           })
@@ -452,7 +452,7 @@ describe('bitcoin data sagas', () => {
           ])
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               transaction_history: Remote.Success(transactionHistory)
             })
           })
@@ -474,11 +474,11 @@ describe('bitcoin data sagas', () => {
       saga.next().put(A.fetchFiatAtTimeLoading(payload.hash, payload.currency))
     })
 
-    it('should call getBitcoinFiatAtTime', () => {
+    it('should call getBtcFiatAtTime', () => {
       saga
         .next()
         .call(
-          api.getBitcoinFiatAtTime,
+          api.getBtcFiatAtTime,
           payload.amount,
           payload.currency,
           payload.time
@@ -519,7 +519,7 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .run()
           .then(result => {
-            expect(result.storeState.bitcoin).toMatchObject({
+            expect(result.storeState.btc).toMatchObject({
               transactions_fiat: assocPath(
                 [payload.hash, payload.currency],
                 Remote.Success(fiatAtTime),

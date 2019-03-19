@@ -91,47 +91,43 @@ export const validPasswordStretchingNumber = value =>
   )
 
 export const validEtherAddress = value =>
-  utils.ethereum.isValidAddress(value) ? (
-    undefined
-  ) : (
-    <M.InvalidEtherAddressMessage />
-  )
+  utils.eth.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
 
 export const validXlmAddress = value =>
   utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
 
-export const validBitcoinAddress = (value, allValues, props) => {
-  return utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
+export const validBtcAddress = (value, allValues, props) => {
+  return utils.btc.isValidBtcAddress(value, props.network) ? (
     undefined
   ) : (
-    <M.InvalidBitcoinAddressMessage />
+    <M.InvalidBtcAddressMessage />
   )
 }
 
-export const validBitcoinCashAddress = (value, allValues, props) =>
-  utils.bitcoin.isValidBitcoinAddress(value, props.network) ||
+export const validBchAddress = (value, allValues, props) =>
+  utils.btc.isValidBtcAddress(value, props.network) ||
   utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
-    <M.InvalidBitcoinCashAddressMessage />
+    <M.InvalidBchAddressMessage />
   )
 
 export const validEmailCode = value =>
   isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
-export const validBitcoinPrivateKey = (value, allValues, props) =>
-  utils.bitcoin.isValidBitcoinPrivateKey(value, props.network) ? (
+export const validBtcPrivateKey = (value, allValues, props) =>
+  utils.btc.isValidBtcPrivateKey(value, props.network) ? (
     undefined
   ) : (
-    <M.InvalidBitcoinPrivateKeyMessage />
+    <M.InvalidBtcPrivateKeyMessage />
   )
 
-export const validBitcoinAddressOrPrivateKey = (value, allValues, props) =>
-  utils.bitcoin.isValidBitcoinPrivateKey(value, props.network) ||
-  utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
+export const validBtcAddressOrPrivateKey = (value, allValues, props) =>
+  utils.btc.isValidBtcPrivateKey(value, props.network) ||
+  utils.btc.isValidBtcAddress(value, props.network) ? (
     undefined
   ) : (
-    <M.InvalidBitcoinAddressAndPrivateKeyMessage />
+    <M.InvalidBtcAddressAndPrivateKeyMessage />
   )
 
 export const validIban = value =>
