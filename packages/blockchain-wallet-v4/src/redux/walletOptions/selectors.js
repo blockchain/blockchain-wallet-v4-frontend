@@ -24,6 +24,9 @@ export const getMigrationRedirects = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
+export const getErc20TokenAvailability = curry((state, token) =>
+  getWebOptions(state).map(path(['eth', token]))
+)
 
 export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 // wallet helper

@@ -37,18 +37,17 @@ export default ({ api }) => {
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
       const totalSent = sum(values(data).map(obj => obj.totalSent))
       const nTx = sum(values(data).map(obj => obj.txn_count))
-      const addresses = mapObjIndexed(
-        (num, key, obj) => dissoc('txns', num),
-        data
-      )
+      const addresses = mapObjIndexed(num => dissoc('txns', num), data)
 
       const ethereumData = {
         addresses,
         info: {
-          n_tx: nTx,
-          total_received: totalReceived,
-          total_sent: totalSent,
-          final_balance: finalBalance
+          eth: {
+            n_tx: nTx,
+            total_received: totalReceived,
+            total_sent: totalSent,
+            final_balance: finalBalance
+          }
         },
         latest_block: latestBlock
       }

@@ -1,7 +1,5 @@
 import * as AT from './actionTypes'
 
-// export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
-
 // FETCH_ETHEREUM_DATA
 export const fetchData = () => ({ type: AT.FETCH_ETHEREUM_DATA })
 export const fetchDataLoading = () => ({
@@ -45,8 +43,9 @@ export const fetchLatestBlockFailure = error => ({
 })
 
 // FETCH_ETHEREUM_BALANCE
-export const fetchCurrentBalance = () => ({
-  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE
+export const fetchCurrentBalance = (token = 'eth') => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE,
+  payload: { token }
 })
 export const fetchCurrentBalanceLoading = () => ({
   type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING
