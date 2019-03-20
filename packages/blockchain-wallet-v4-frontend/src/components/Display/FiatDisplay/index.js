@@ -12,6 +12,7 @@ import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent {
   componentDidMount () {
+    // TODO: fetch PAX rates
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
         case 'BCH':
@@ -20,6 +21,7 @@ class FiatDisplayContainer extends React.PureComponent {
           return this.props.btcActions.fetchRates()
         case 'BSV':
           return this.props.bsvActions.fetchRates()
+        case 'PAX':
         case 'ETH':
           return this.props.ethActions.fetchRates()
         case 'XLM':
@@ -30,7 +32,6 @@ class FiatDisplayContainer extends React.PureComponent {
 
   render () {
     const { data, ...rest } = this.props
-
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
       Failure: message => <Error>{message}</Error>,
@@ -42,7 +43,7 @@ class FiatDisplayContainer extends React.PureComponent {
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

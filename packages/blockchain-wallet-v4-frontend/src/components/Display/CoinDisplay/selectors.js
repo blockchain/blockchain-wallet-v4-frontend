@@ -4,6 +4,8 @@ import { lift } from 'ramda'
 export const getData = (coin, amount) => {
   const convert = (c, a) => {
     switch (c) {
+      // TODO
+      case 'PAX':
       case 'ETH':
         return displayEthFixed({ value: a, fromUnit: 'WEI', toUnit: 'ETH' })
       case 'BCH':

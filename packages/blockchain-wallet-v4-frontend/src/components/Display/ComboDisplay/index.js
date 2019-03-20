@@ -10,7 +10,7 @@ class ComboDisplayContainer extends React.PureComponent {
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired,
+  coin: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired
 }
 

@@ -3,6 +3,8 @@ import { selectors } from 'data'
 import { lift, prop } from 'ramda'
 
 export const getData = (state, coin, amount) => {
+  // TODO: not this, update for PAX
+  if (coin === 'PAX') coin = 'ETH'
   const currencyR = selectors.core.settings
     .getSettings(state)
     .map(prop('currency'))
@@ -15,6 +17,7 @@ export const getData = (state, coin, amount) => {
         return selectors.core.data.btc.getRates(state)
       case 'BSV':
         return selectors.core.data.bsv.getRates(state)
+      case 'PAX':
       case 'ETH':
         return selectors.core.data.eth.getRates(state)
       case 'XLM':

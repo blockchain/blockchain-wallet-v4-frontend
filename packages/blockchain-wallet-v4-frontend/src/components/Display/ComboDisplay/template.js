@@ -34,7 +34,7 @@ const ComboDisplay = props => {
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default ComboDisplay

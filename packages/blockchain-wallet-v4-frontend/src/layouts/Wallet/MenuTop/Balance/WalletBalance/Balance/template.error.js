@@ -15,9 +15,9 @@ export default props => (
   <Wrapper>
     <ErrorLink size='12px' weight={300} onClick={() => props.onRefresh()}>
       <FormattedMessage
-        id='wallet.menutop.xlmbalance.error.refresh'
+        id='wallet.menutop.balance.error.refresh'
         defaultMessage='Refresh {curr} data'
-        values={{ curr: 'Stellar' }}
+        values={{ curr: props.coin }}
       />
     </ErrorLink>
   </Wrapper>

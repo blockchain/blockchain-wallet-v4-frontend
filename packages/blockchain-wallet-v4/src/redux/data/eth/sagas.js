@@ -190,6 +190,7 @@ export default ({ api }) => {
       if (txsAtBound && !reset) return
       yield put(A.fetchErc20TransactionsLoading(token, ethAddress, reset))
       const data = yield call(api.getErc20Transactions, ethAddress, nextPage)
+      // TODO: update path in tx data
       const txs = path([ethAddress, 'txns'], data)
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE

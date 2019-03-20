@@ -7,11 +7,7 @@ import LockboxBalance from './LockboxBalance'
 import LockboxTotalBalance from './LockboxBalance/TotalBalance'
 import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
-import BtcBalance from './WalletBalance/BtcBalance'
-import BchBalance from './WalletBalance/BchBalance'
-import BsvBalance from './WalletBalance/BsvBalance'
-import EthBalance from './WalletBalance/EthBalance'
-import XlmBalance from './WalletBalance/XlmBalance'
+import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
 
 import { FormattedMessage } from 'react-intl'
@@ -62,15 +58,15 @@ const getComponentOrder = () => [
 const getSelectedComponent = path => {
   switch (true) {
     case path.includes('btc'):
-      return <BtcBalance large />
+      return <Balance large coin='BTC' />
     case path.includes('eth'):
-      return <EthBalance large />
+      return <Balance large coin='ETH' />
     case path.includes('bch'):
-      return <BchBalance large />
+      return <Balance large coin='BCH' />
     case path.includes('bsv'):
-      return <BsvBalance large />
+      return <Balance large coin='BSV' />
     case path.includes('xlm'):
-      return <XlmBalance large />
+      return <Balance large coin='XLM' />
     case path.includes('lockbox'):
       return <LockboxTotalBalance />
     default:
@@ -83,14 +79,14 @@ const getBalanceMessage = path => {
     case path.includes('btc'):
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.bitcoinbalance'
+          id='scenes.wallet.menutop.balance.btcbalance'
           defaultMessage='Bitcoin Balance'
         />
       )
     case path.includes('eth'):
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.etherbalance'
+          id='scenes.wallet.menutop.balance.ethbalance'
           defaultMessage='Ether Balance'
         />
       )

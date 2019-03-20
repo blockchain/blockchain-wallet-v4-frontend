@@ -16,13 +16,24 @@ const TxLink = styled(LinkContainer)`
 `
 const Success = props => {
   const { viewType, balances } = props
-
   return (
     <HomeBalanceTable>
       <HomeBalanceRow>
         <HomeBalanceAmount data-e2e='homeBalanceAmt'>
           {balances.totalBalance.totalBalance}
         </HomeBalanceAmount>
+      </HomeBalanceRow>
+      <HomeBalanceRow data-e2e='balanceTablePax'>
+        <TxLink to={'/pax/transactions'}>
+          <div>
+            <HomeCoinBalanceCell
+              coin='PAX'
+              coinName='Paxos'
+              coinIcon='pax-circle-filled'
+              balance={balances.paxBalance}
+            />
+          </div>
+        </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow data-e2e='balanceTableBtc'>
         <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/btc/transactions'}>

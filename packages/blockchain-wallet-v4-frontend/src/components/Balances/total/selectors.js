@@ -51,6 +51,13 @@ export const getEthBalance = createDeepEqualSelector(
   balance => Remote.of(balance.getOrElse(0))
 )
 
+export const getPaxBalance = createDeepEqualSelector(
+  [state => selectors.core.data.eth.getErc20Balance(state, 'pax')],
+  balance => {
+    return Remote.of(balance.getOrElse(0))
+  }
+)
+
 export const getXlmBalance = createDeepEqualSelector(
   [selectors.core.data.xlm.getTotalBalance],
   balance => Remote.of(balance.getOrElse(0))
@@ -108,6 +115,18 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getPaxBalanceInfo = createDeepEqualSelector(
+  [getPaxBalance, selectors.core.settings.getCurrency],
+  (paxBalanceR, currencyR) => {
+    const transform = (value, toCurrency) => {
+      // TODO PAX
+      return 0
+    }
+
+    return lift(transform)(paxBalanceR, currencyR)
+  }
+)
+
 export const getXlmBalanceInfo = createDeepEqualSelector(
   [
     getXlmBalance,
@@ -131,6 +150,7 @@ export const getTotalBalance = createDeepEqualSelector(
     getBchBalanceInfo,
     getBtcBalanceInfo,
     getEthBalanceInfo,
+    getPaxBalanceInfo,
     getXlmBalanceInfo,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
@@ -139,6 +159,7 @@ export const getTotalBalance = createDeepEqualSelector(
     btcBalanceInfoR,
     bchBalanceInfoR,
     ethBalanceInfoR,
+    paxBalanceInfoR,
     xlmBalanceInfoR,
     currency,
     path
@@ -147,6 +168,7 @@ export const getTotalBalance = createDeepEqualSelector(
       bchBalance,
       btcBalance,
       ethBalance,
+      paxBalance,
       xlmBalance,
       currency
     ) => {
@@ -154,6 +176,7 @@ export const getTotalBalance = createDeepEqualSelector(
         Number(btcBalance) +
           Number(ethBalance) +
           Number(bchBalance) +
+          Number(paxBalance) +
           Number(xlmBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
@@ -163,6 +186,7 @@ export const getTotalBalance = createDeepEqualSelector(
       bchBalanceInfoR,
       btcBalanceInfoR,
       ethBalanceInfoR,
+      paxBalanceInfoR,
       xlmBalanceInfoR,
       currency
     )
@@ -170,21 +194,44 @@ export const getTotalBalance = createDeepEqualSelector(
 )
 
 export const getCoinAndTotalBalances = createDeepEqualSelector(
-  [getBtcBalance, getBchBalance, getEthBalance, getXlmBalance, getTotalBalance],
-  (btcBalanceR, bchBalanceR, ethBalanceR, xlmBalanceR, getTotalBalanceR) => {
+  [
+    getBtcBalance,
+    getBchBalance,
+    getEthBalance,
+    getPaxBalance,
+    getXlmBalance,
+    getTotalBalance
+  ],
+  (
+    btcBalanceR,
+    bchBalanceR,
+    ethBalanceR,
+    paxBalanceR,
+    xlmBalanceR,
+    getTotalBalanceR
+  ) => {
     const transform = (
       btcBalance,
       bchBalance,
       ethBalance,
+      paxBalance,
       xlmBalance,
       totalBalance
     ) => {
-      return { btcBalance, bchBalance, ethBalance, xlmBalance, totalBalance }
+      return {
+        btcBalance,
+        bchBalance,
+        ethBalance,
+        paxBalance,
+        xlmBalance,
+        totalBalance
+      }
     }
     return lift(transform)(
       btcBalanceR,
       bchBalanceR,
       ethBalanceR,
+      paxBalanceR,
       xlmBalanceR,
       getTotalBalanceR
     )

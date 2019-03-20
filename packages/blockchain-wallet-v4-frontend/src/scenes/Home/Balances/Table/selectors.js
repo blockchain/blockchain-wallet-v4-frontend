@@ -3,7 +3,6 @@ import { getCoinAndTotalBalances as lockboxBalances } from 'components/Balances/
 import { getCoinAndTotalBalances as totalBalances } from 'components/Balances/total/selectors'
 import { getCoinAndTotalBalances as walletBalances } from 'components/Balances/wallet/selectors'
 
-// TODO: refactor and update for PAX
 export const getData = createDeepEqualSelector(
   [
     state => lockboxBalances(state),
