@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { toLower } from 'ramda'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -32,7 +32,7 @@ class Balance extends React.PureComponent {
         break
       default:
         // fallback to erc20
-        this.props.ethActions.fetchErc20Data(this.props.coin)
+        this.props.ethActions.fetchErc20Data(toLower(this.props.coin))
     }
   }
 

@@ -120,7 +120,7 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   (paxBalanceR, currencyR) => {
     const transform = (value, toCurrency) => {
       // TODO PAX
-      return 0
+      return 20
     }
 
     return lift(transform)(paxBalanceR, currencyR)
