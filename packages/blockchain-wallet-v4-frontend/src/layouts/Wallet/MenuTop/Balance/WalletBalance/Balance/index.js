@@ -52,7 +52,6 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-// TODO: better way to map this?
 const mapDispatchToProps = dispatch => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.data.bsv, dispatch),

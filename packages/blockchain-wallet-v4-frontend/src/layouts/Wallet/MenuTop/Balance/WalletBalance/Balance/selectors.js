@@ -14,6 +14,7 @@ export const getData = (state, ownProps) => {
       return balanceSelectors.getXlmBalance(state)
     default:
       // fallback to erc20
-      return null
+      // TODO: make generic
+      return balanceSelectors.getPaxBalance(state)
   }
 }

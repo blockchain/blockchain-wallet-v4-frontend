@@ -26,6 +26,7 @@ const Template = props => (
       />
     </Header>
     <BalancesWrapper className={props.isActive ? 'active' : ''}>
+      <Balance coin='PAX' />
       <Balance coin='BTC' />
       <Balance coin='ETH' />
       <Balance coin='BCH' />

@@ -57,6 +57,8 @@ const getComponentOrder = () => [
 
 const getSelectedComponent = path => {
   switch (true) {
+    case path.includes('pax'):
+      return <Balance large coin='PAX' />
     case path.includes('btc'):
       return <Balance large coin='BTC' />
     case path.includes('eth'):
@@ -76,6 +78,13 @@ const getSelectedComponent = path => {
 
 const getBalanceMessage = path => {
   switch (true) {
+    case path.includes('pax'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.paxbalance'
+          defaultMessage='Paxos Balance'
+        />
+      )
     case path.includes('btc'):
       return (
         <FormattedMessage
