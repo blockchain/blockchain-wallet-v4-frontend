@@ -303,6 +303,7 @@ const Login = props => {
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
                 noLastPass
+                autoFocus
                 borderColor={twoFactorError ? 'invalid' : undefined}
                 data-e2e='loginTwoFactorCode'
               />
