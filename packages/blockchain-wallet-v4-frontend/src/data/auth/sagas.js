@@ -265,9 +265,6 @@ export default ({ api, coreSagas }) => {
         } else {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
-      } else if (initialError) {
-        // general error
-        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
@@ -288,8 +285,11 @@ export default ({ api, coreSagas }) => {
         )
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
-        // Wrong 2fa code error
+      } else if (initialError) {
+        // general error
+        yield put(actions.auth.loginFailure(initialError))
       } else if (
+        // Wrong 2fa code error
         error &&
         is(String, error) &&
         error.includes(wrongAuthCodeErrorMessage)
