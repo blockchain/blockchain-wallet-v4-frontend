@@ -2,6 +2,7 @@ import { call, put, select, take } from 'redux-saga/effects'
 import {
   concat,
   dissoc,
+  head,
   isNil,
   length,
   map,
@@ -151,18 +152,21 @@ export default ({ api }) => {
     const { token } = action.payload
     try {
       yield put(A.fetchErc20DataLoading(token))
-      const context = yield select(S.getContext)
-      // need eth addr & token
-      const data = yield call(api.getErc20Data, context)
-      console.info(data)
-
-      // const finalBalance = sum(values(data).map(obj => obj.balance))
-      // const totalReceived = sum(values(data).map(obj => obj.totalReceived))
-      // const totalSent = sum(values(data).map(obj => obj.totalSent))
-      // const nTx = sum(values(data).map(obj => obj.txn_count))
-      // const addresses = mapObjIndexed(num => dissoc('txns', num), data)
-
-      yield put(A.fetchErc20DataSuccess(token, data))
+      const ethAddrs = yield select(S.getContext)
+      const contractAddr = (yield select(
+        selectors.kvStore.eth.getErc20TokenContractAddr,
+        token
+      )).getOrFail()
+      const data = yield call(api.getErc20Data, head(ethAddrs), contractAddr)
+      // account treatments similar to eth info plus the token account_hash
+      const tokenData = {
+        account_hash: prop('accountHash', data),
+        n_tx: parseInt(prop('transferCount', data)),
+        total_received: parseInt(prop('totalReceived', data)),
+        total_sent: parseInt(prop('totalSent', data)),
+        final_balance: parseInt(prop('balance', data))
+      }
+      yield put(A.fetchErc20DataSuccess(token, tokenData))
     } catch (e) {
       yield put(A.fetchErc20DataFailure(token, e.message))
     }
