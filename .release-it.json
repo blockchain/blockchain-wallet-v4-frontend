@@ -3,7 +3,7 @@
     "tagName": "v%s",
     "tagAnnotation": "Release v%s",
     "commitMessage": "chore(Release): v%s",
-    "beforeStartCommand": "yarn manage:translations"
+    "beforeStartCommand": "rm -rf packages/blockchain-wallet-v4-frontend/build; yarn manage:translations"
   },
   "git": {
     "pushArgs": "--no-verify"
