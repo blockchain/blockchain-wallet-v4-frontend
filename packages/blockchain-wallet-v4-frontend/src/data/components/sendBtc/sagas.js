@@ -23,7 +23,7 @@ const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas, networks }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const {
         from,
@@ -88,11 +88,11 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBtcPaymentUpdatedLoading())
@@ -109,7 +109,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -187,7 +187,7 @@ export default ({ coreSagas, networks }) => {
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBitcoinToBitcoin({
+          const satAmount = Exchange.convertBtcToBtc({
             value: btcAmount,
             fromUnit: 'BTC',
             toUnit: 'SAT'
@@ -212,7 +212,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -220,17 +220,17 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const minimumAmountClicked = function*() {
+  const minimumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
+      const btcRates = selectors.core.data.btc
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
-      const fiat = Exchange.convertBitcoinToFiat({
+      const fiat = Exchange.convertBtcToFiat({
         value: DUST,
         fromUnit: 'SAT',
         toCurrency: currency,
@@ -244,24 +244,24 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
+      const btcRates = selectors.core.data.btc
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBitcoinToBitcoin({
+      const coin = Exchange.convertBtcToBtc({
         value: effectiveBalance,
         fromUnit: 'SAT',
         toUnit: 'BTC'
       }).value
-      const fiat = Exchange.convertBitcoinToFiat({
+      const fiat = Exchange.convertBtcToFiat({
         value: effectiveBalance,
         fromUnit: 'SAT',
         toCurrency: currency,
@@ -275,7 +275,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const minimumFeeClicked = function*() {
+  const minimumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -288,7 +288,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumFeeClicked = function*() {
+  const maximumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -301,7 +301,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const regularFeeClicked = function*() {
+  const regularFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -314,7 +314,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const priorityFeeClicked = function*() {
+  const priorityFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -327,7 +327,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.btc.create({
@@ -363,7 +363,7 @@ export default ({ coreSagas, networks }) => {
       }
       // Publish payment
       payment = yield payment.publish()
-      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
@@ -416,7 +416,6 @@ export default ({ coreSagas, networks }) => {
           )
         )
         yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-        yield put(actions.modals.closeAllModals())
       }
     }
   }

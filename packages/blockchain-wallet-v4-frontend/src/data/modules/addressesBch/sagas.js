@@ -9,7 +9,7 @@ const GAP_LIMIT = 20
 export default ({ coreSagas, networks }) => {
   const logLocation = 'modules/addressesBch/sagas'
 
-  const editBchAccountLabel = function*(action) {
+  const editBchAccountLabel = function * (action) {
     try {
       const { index, label } = action.payload
       const newLabel = yield call(promptForInput, {
@@ -43,10 +43,10 @@ export default ({ coreSagas, networks }) => {
   }
 
   // if change was sent to users btc change index instead of bch
-  const showBchChangeAddrs = function*(action) {
+  const showBchChangeAddrs = function * (action) {
     const { index, xpub } = action.payload
     const state = yield select()
-    const btcChangeIndex = selectors.core.data.bitcoin
+    const btcChangeIndex = selectors.core.data.btc
       .getChangeIndex(xpub, state)
       .getOrElse(0)
     const bchChangeIndex = selectors.core.data.bch

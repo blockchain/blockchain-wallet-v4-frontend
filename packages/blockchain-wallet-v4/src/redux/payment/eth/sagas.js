@@ -38,11 +38,11 @@ const fallbackFees = {
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   const settingsSagas = settingsSagaFactory({ api })
-  const selectIndex = function*(from) {
+  const selectIndex = function * (from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
       case ADDRESS_TYPES.ACCOUNT:
-        return S.kvStore.ethereum
+        return S.kvStore.eth
           .getAccountIndex(appState, prop('address', from))
           .getOrFail('Could not find ether account index')
       case ADDRESS_TYPES.LEGACY:
@@ -58,7 +58,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function*(
+  const calculateSignature = function * (
     network,
     password,
     transport,
@@ -85,14 +85,14 @@ export default ({ api }) => {
     }
   }
 
-  const calculateUnconfirmed = function*(type, address) {
+  const calculateUnconfirmed = function * (type, address) {
     let latestTxS =
       type !== ADDRESS_TYPES.LOCKBOX
-        ? S.kvStore.ethereum.getLatestTx
+        ? S.kvStore.eth.getLatestTx
         : S.kvStore.lockbox.getLatestTxEth
     let latestTxTimestampS =
       type !== ADDRESS_TYPES.LOCKBOX
-        ? S.kvStore.ethereum.getLatestTxTimestamp
+        ? S.kvStore.eth.getLatestTxTimestamp
         : S.kvStore.lockbox.getLatestTxTimestampEth
 
     const latestTxR = yield select(latestTxS, address)
@@ -105,7 +105,7 @@ export default ({ api }) => {
       const ethOptionsR = yield select(S.walletOptions.getEthTxFuse)
       const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
       try {
-        const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)
+        const latestTxStatus = yield call(api.getEthTransaction, latestTx)
         if (
           !latestTxStatus.blockNumber &&
           latestTxTimestamp + lastTxFuse > Date.now()
@@ -128,10 +128,10 @@ export default ({ api }) => {
         return p
       },
 
-      *init () {
+      * init () {
         let fees
         try {
-          fees = yield call(api.getEthereumFee)
+          fees = yield call(api.getEthFee)
         } catch (e) {
           fees = fallbackFees
         }
@@ -143,7 +143,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { fees, fee, feeInGwei }))
       },
 
-      *to (destination) {
+      * to (destination) {
         let to = calculateTo(destination)
         if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
@@ -158,14 +158,14 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      *from (origin, type) {
+      * from (origin, type) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
-          const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+          const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
         }
         // TODO :: check if origin is an account in your wallet
-        const data = yield call(api.getEthereumBalances, account)
+        const data = yield call(api.getEthBalances, account)
         const balance = path([account, 'balance'], data)
         const nonce = path([account, 'nonce'], data)
         const effectiveBalance = calculateEffectiveBalance(
@@ -183,10 +183,10 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance, unconfirmedTx }))
       },
 
-      *fee (value, origin) {
+      * fee (value, origin) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
-          const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+          const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
         }
         // value can be in gwei or string ('regular' or 'priority')
@@ -195,7 +195,7 @@ export default ({ api }) => {
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
-        const data = yield call(api.getEthereumBalances, account)
+        const data = yield call(api.getEthBalances, account)
         const balance = path([account, 'balance'], data)
         let effectiveBalance = calculateEffectiveBalance(
           // balance + fee need to be in wei
@@ -205,7 +205,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { feeInGwei, fee, effectiveBalance }))
       },
 
-      *build () {
+      * build () {
         const fromData = prop('from', p)
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
@@ -239,7 +239,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { raw }))
       },
 
-      *sign (password, transport, scrambleKey) {
+      * sign (password, transport, scrambleKey) {
         try {
           const signed = yield call(
             calculateSignature,
@@ -255,7 +255,7 @@ export default ({ api }) => {
         }
       },
 
-      *signLegacy (password) {
+      * signLegacy (password) {
         try {
           const appState = yield select(identity)
           const seedHexT = S.wallet.getSeedHex(appState, password)
@@ -269,10 +269,10 @@ export default ({ api }) => {
         }
       },
 
-      *publish () {
+      * publish () {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
-        const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
+        const publish = txHex => api.pushEthTx(signed).then(prop('txHash'))
         const txId = yield call(publish)
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { txId }))
@@ -286,7 +286,7 @@ export default ({ api }) => {
 
       chain () {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -302,12 +302,12 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done () {
+          * done () {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }

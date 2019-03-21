@@ -7,7 +7,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 export const getBtcBalance = createDeepEqualSelector(
   [
     selectors.core.wallet.getSpendableContext,
-    selectors.core.data.bitcoin.getAddresses
+    selectors.core.data.btc.getAddresses
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) => {
@@ -45,10 +45,7 @@ export const getBsvBalance = createDeepEqualSelector(
 )
 
 export const getEthBalance = createDeepEqualSelector(
-  [
-    selectors.core.kvStore.ethereum.getContext,
-    selectors.core.data.ethereum.getAddresses
-  ],
+  [selectors.core.kvStore.eth.getContext, selectors.core.data.eth.getAddresses],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>
       context.map(a => pathOr(0, [a, 'balance'], balances))
@@ -72,12 +69,12 @@ export const getXlmBalance = createDeepEqualSelector(
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
-    selectors.core.data.bitcoin.getRates,
+    selectors.core.data.btc.getRates,
     selectors.core.settings.getCurrency
   ],
   (btcBalanceR, btcRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBitcoinToFiat({
+      Exchange.convertBtcToFiat({
         value,
         fromUnit: 'SAT',
         toCurrency,
@@ -104,7 +101,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
 export const getEthBalanceInfo = createDeepEqualSelector(
   [
     getEthBalance,
-    selectors.core.data.ethereum.getRates,
+    selectors.core.data.eth.getRates,
     selectors.core.settings.getCurrency
   ],
   (ethBalanceR, ethRatesR, currencyR) => {

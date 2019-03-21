@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const onboardingSagas = sagas()
 
-  return function* swapGetStartedSaga () {
+  return function * swapGetStartedSaga () {
     yield takeLatest(
       AT.SWAP_GET_STARTED_SUBMIT_CLICKED,
       onboardingSagas.swapGetStartedSubmitClicked

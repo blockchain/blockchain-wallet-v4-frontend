@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ coreSagas, networks }) => {
   const sendBsvSagas = sagas({ coreSagas, networks })
 
-  return function* sendBsvSaga () {
+  return function * sendBsvSaga () {
     yield takeLatest(AT.SEND_BSV_INITIALIZED, sendBsvSagas.initialized)
     yield takeLatest(AT.SEND_BSV_DESTROYED, sendBsvSagas.destroyed)
     yield takeLatest(AT.SEND_BSV_FIRST_STEP_TO_TOGGLED, sendBsvSagas.toToggled)

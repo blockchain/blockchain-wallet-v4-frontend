@@ -30,7 +30,7 @@ export const toCashAddr = (address, displayOnly) => {
           displayOnly
         )
       default:
-        throw new Error('toBitcoinCash: Address type not supported')
+        throw new Error('toBch: Address type not supported')
     }
   } catch (e) {
     return undefined
@@ -53,7 +53,7 @@ export const fromCashAddr = address => {
         Bitcoin.networks.bitcoin.scriptHash
       )
     default:
-      throw new Error('fromBitcoinCash: Address type not supported')
+      throw new Error('fromBch: Address type not supported')
   }
 }
 

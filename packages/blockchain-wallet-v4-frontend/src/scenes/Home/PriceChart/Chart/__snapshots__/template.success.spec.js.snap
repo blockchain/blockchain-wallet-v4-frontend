@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PriceChart template Success renders correctly 1`] = `
+<templatesuccess__Wrapper
+  coin="BTC"
+>
+  <n
+    callback={[Function]}
+    config={
+      Object {
+        "chart": Object {
+          "data": Object {
+            "dateFormat": "YYYY/mm/dd",
+          },
+          "height": 330,
+          "spacing": Array [
+            0,
+            0,
+            0,
+            0,
+          ],
+          "type": "area",
+        },
+        "credits": Object {
+          "enabled": false,
+        },
+        "legend": Object {
+          "enabled": false,
+        },
+        "plotOptions": Object {
+          "area": Object {
+            "color": "color",
+            "dataGrouping": Object {
+              "enabled": false,
+            },
+            "fillColor": Object {
+              "linearGradient": Object {
+                "x1": 0,
+                "x2": 0,
+                "y1": 0,
+                "y2": 1,
+              },
+              "stops": Array [
+                Array [
+                  0,
+                  "color",
+                ],
+                Array [
+                  1,
+                  "color",
+                ],
+              ],
+            },
+            "lineWidth": 2,
+            "marker": Object {
+              "radius": 0,
+            },
+            "states": Object {
+              "hover": Object {
+                "lineWidth": 2,
+              },
+            },
+            "threshold": null,
+          },
+          "line": Object {
+            "marker": Object {
+              "enabled": false,
+            },
+          },
+          "series": Object {
+            "animation": false,
+            "pointInterval": 86400000,
+            "pointStart": 1282089600,
+          },
+        },
+        "series": Array [
+          Object {
+            "data": undefined,
+            "name": "Price",
+          },
+        ],
+        "title": Object {
+          "text": null,
+        },
+        "tooltip": Object {
+          "backgroundColor": "color",
+          "borderColor": "transparent",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "padding": 4,
+          "pointFormatter": [Function],
+          "shadow": false,
+          "style": Object {
+            "color": "color",
+          },
+          "useHTML": true,
+          "valueDecimals": 2,
+          "xDateFormat": "%b %d, %Y",
+        },
+        "xAxis": Object {
+          "gridLineColor": "transparent",
+          "maxPadding": 0,
+          "minPadding": 0,
+          "type": "datetime",
+          "visible": false,
+        },
+        "yAxis": Object {
+          "gridLineColor": "transparent",
+          "maxPadding": 0,
+          "minPadding": 0,
+          "visible": false,
+        },
+      }
+    }
+    domProps={Object {}}
+    isPureConfig={true}
+  />
+</templatesuccess__Wrapper>
+`;

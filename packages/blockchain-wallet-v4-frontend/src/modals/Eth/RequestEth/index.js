@@ -55,7 +55,7 @@ class RequestEthContainer extends React.PureComponent {
   }
 
   handleRefresh = () => {
-    this.props.kvStoreEthActions.fetchMetadataEthereum()
+    this.props.kvStoreEthActions.fetchMetadataEth()
   }
 
   handleOpenLockbox = () => {
@@ -110,10 +110,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  kvStoreEthActions: bindActionCreators(
-    actions.core.kvStore.ethereum,
-    dispatch
-  ),
+  kvStoreEthActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
   requestEthActions: bindActionCreators(
     actions.components.requestEth,
     dispatch

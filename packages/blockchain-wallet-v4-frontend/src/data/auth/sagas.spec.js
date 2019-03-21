@@ -342,6 +342,7 @@ describe('authSagas', () => {
       logoutRoutine,
       saveGoals,
       setLogoutEventListener,
+      startSockets,
       transferEthSaga,
       upgradeWalletSaga,
       upgradeAddressLabelsSaga
@@ -378,22 +379,19 @@ describe('authSagas', () => {
         .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     })
 
-    it('should fetch ethereum metadata', () => {
+    it('should fetch eth metadata', () => {
       saga
         .next()
-        .call(
-          coreSagas.kvStore.ethereum.fetchMetadataEthereum,
-          askSecondPasswordEnhancer
-        )
+        .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
     })
 
-    it('should fetch stellar metadata', () => {
+    it('should fetch xlm metadata', () => {
       saga
         .next()
         .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
     })
 
-    it('should fetch bitcoin cash metadata', () => {
+    it('should fetch bch metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
@@ -403,22 +401,6 @@ describe('authSagas', () => {
 
     it('should fetch lockbox metadata', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-    })
-
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
-    it('should put action to start xlm streams', () => {
-      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
     })
 
     it('should redirect to home route', () => {
@@ -451,6 +433,10 @@ describe('authSagas', () => {
 
     it('should start logout timer', () => {
       saga.next().put(actions.auth.startLogoutTimer())
+    })
+
+    it('should start sockets', () => {
+      saga.next().call(startSockets)
     })
 
     it('should select guid from state', () => {
@@ -1171,7 +1157,7 @@ describe('authSagas', () => {
     const { checkDataErrors } = authSagas({ api, coreSagas })
     const saga = testSaga(checkDataErrors)
     it('should select btc getInfo', () => {
-      saga.next().select(selectors.core.data.bitcoin.getInfo)
+      saga.next().select(selectors.core.data.btc.getInfo)
     })
   })
 

@@ -28,6 +28,11 @@ const getCountryElements = countries => [
 ]
 
 const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
+const {
+  EDIT_ADDRESS,
+  EDIT_COUNTRY,
+  EDIT_EMAIL
+} = model.analytics.KYC_EVENTS.FORMS
 
 class PersonalContainer extends React.PureComponent {
   state = {
@@ -51,12 +56,14 @@ class PersonalContainer extends React.PureComponent {
   selectAddress = (e, address) => {
     e.preventDefault()
     this.props.actions.selectAddress(address)
+    this.props.analyticsActions.logEvent(EDIT_ADDRESS)
   }
 
   onCountryChange = (e, value) => {
     e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
+    this.props.analyticsActions.logEvent(EDIT_COUNTRY)
   }
 
   onPromptForEmailVerification = e => {
@@ -67,6 +74,7 @@ class PersonalContainer extends React.PureComponent {
 
   editEmail = () => {
     this.props.actions.setEmailStep(EMAIL_STEPS.edit)
+    this.props.analyticsActions.logEvent(EDIT_EMAIL)
   }
 
   renderForm = ({
@@ -161,6 +169,7 @@ const mapDispatchToProps = dispatch => ({
     { ...actions.components.identityVerification, ...actions.modules.profile },
     dispatch
   ),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

@@ -1,11 +1,19 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
+// TODO: remove this
+// Hide tooltips on IE Edge because of a CSP issue
+const TooltipWrapper = styled.div`
+  @supports (-ms-ime-align: auto) {
+    display: none;
+  }
+`
 class Tooltips extends React.PureComponent {
   render () {
     return (
-      <div>
+      <TooltipWrapper>
         <Tooltip id='copied'>
           <FormattedMessage id='tooltip.copied' defaultMessage='Copied!' />
         </Tooltip>
@@ -58,7 +66,7 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Ask the sender to scan this QR code with their bitcoin cash wallet'
           />
         </Tooltip>
-        <Tooltip id='reqBitcoinShare'>
+        <Tooltip id='reqBtcShare'>
           <FormattedMessage
             id='modals.requestbitcoin.firststep.sharetooltip'
             defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
@@ -294,7 +302,7 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
-      </div>
+      </TooltipWrapper>
     )
   }
 }

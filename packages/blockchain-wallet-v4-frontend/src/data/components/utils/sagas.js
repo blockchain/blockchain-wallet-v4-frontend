@@ -6,7 +6,7 @@ import { selectors } from 'data'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
-export const selectReceiveAddress = function*(source, networks) {
+export const selectReceiveAddress = function * (source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
   const type = prop('type', source)
@@ -47,7 +47,7 @@ export const selectReceiveAddress = function*(source, networks) {
   throw new Error('Could not generate receive address')
 }
 
-export const getBchAccounts = function*() {
+export const getBchAccounts = function * () {
   const appState = yield select(identity)
   const bchAccounts = selectors.core.wallet.getHDAccounts(appState)
   const bchData = selectors.core.data.bch
@@ -73,15 +73,15 @@ export const getBchAccounts = function*() {
   return bchAccounts.map(transform)
 }
 
-export const getActiveBchAccounts = function*() {
+export const getActiveBchAccounts = function * () {
   const bchAccounts = yield call(getBchAccounts)
   return filter(propEq('archived', false), bchAccounts)
 }
 
-export const getBtcAccounts = function*() {
+export const getBtcAccounts = function * () {
   const appState = yield select(identity)
   const btcAccounts = selectors.core.wallet.getHDAccounts(appState)
-  const btcData = selectors.core.data.bitcoin
+  const btcData = selectors.core.data.btc
     .getAddresses(appState)
     .getOrFail('Can not retrieve bitcoin data.')
 
@@ -96,17 +96,17 @@ export const getBtcAccounts = function*() {
   return btcAccounts.map(transform)
 }
 
-export const getActiveBtcAccounts = function*() {
+export const getActiveBtcAccounts = function * () {
   const btcAccounts = yield call(getBtcAccounts)
   return filter(propEq('archived', false), btcAccounts)
 }
 
-export const getEthAccounts = function*() {
+export const getEthAccounts = function * () {
   const appState = yield select(identity)
-  const ethData = selectors.core.data.ethereum
+  const ethData = selectors.core.data.eth
     .getAddresses(appState)
     .getOrFail('Can not retrieve ethereum data.')
-  const ethMetadata = selectors.core.kvStore.ethereum
+  const ethMetadata = selectors.core.kvStore.eth
     .getAccounts(appState)
     .getOrFail('Can not retrieve ethereum metadata.')
 
@@ -124,7 +124,7 @@ export const getEthAccounts = function*() {
   return ethMetadata.map(transform)
 }
 
-export const getActiveEthAccounts = function*() {
+export const getActiveEthAccounts = function * () {
   const ethAccounts = yield call(getEthAccounts)
   return filter(propEq('archived', false), ethAccounts)
 }

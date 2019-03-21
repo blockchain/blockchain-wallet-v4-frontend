@@ -14,6 +14,21 @@ export const ADDRESS_EVENTS = {
   SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
   SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
+export const KYC_EVENTS = {
+  FORMS: {
+    EDIT_ADDRESS: ['kyc', 'onboarding', 'forms', 'edit_address'],
+    EDIT_COUNTRY: ['kyc', 'onboarding', 'forms', 'edit_country'],
+    EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
+    UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
+  },
+  ONBOARDING_START: ['kyc', 'onboarding', 'kyc_onboarding_start'],
+  SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
+  STEP_CHANGE: ['kyc', 'onboarding', 'kyc_onboarding_step_to_'],
+  SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
+  SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
+  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
+  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number', 'failure']
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
@@ -27,12 +42,16 @@ export const LOCKBOX_EVENTS = {
     TAKE_TOUR: ['lockbox', 'settings', 'take_tour']
   },
   DEVICE_SETUP: {
-    SELECT_DEVICE: ['lockbox', 'device_setup', 'select_device'],
-    SETUP_TYPE: ['lockbox', 'device_setup', 'setup_type'],
-    CONNECT_DEVICE: ['lockbox', 'device_setup', 'connect_device'],
-    INSTALL_APPS: ['lockbox', 'device_setup', 'install_apps'],
-    PAIR_DEVICE: ['lockbox', 'device_setup', 'pair_device'],
-    COMPLETE: ['lockbox', 'device_setup', 'complete'],
+    SELECT_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_start'],
+    SETUP_TYPE: ['lockbox', 'device_setup', 'lockbox_setup_type'],
+    CONNECT_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_connect'],
+    INSTALL_APPS: [
+      'lockbox',
+      'device_setup',
+      'lockbox_setup_connect_install_apps'
+    ],
+    PAIR_DEVICE: ['lockbox', 'device_setup', 'lockbox_setup_pair_device'],
+    COMPLETE: ['lockbox', 'device_setup', 'lockbox_setup_complete'],
     VIEW_TOUR: ['lockbox', 'device_setup', 'view_tour']
   }
 }
@@ -61,6 +80,22 @@ export const PREFERENCE_EVENTS = {
     TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
     TOR_ACCESS: ['preferences', 'security', 'tor_access']
   }
+}
+export const SUNRIVER_AIRDROP_EVENTS = {
+  SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
+}
+export const SWAP_EVENTS = {
+  ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+  ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
+  ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+  ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
+  REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
+  SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+  FIXTURES_CHANGED: ['swap', 'order_form', 'fixtures_changed'],
+  VALUE_INPUT: ['swap', 'order_form', 'value_input'],
+  USE_MIN: ['swap', 'order_form', 'use_min'],
+  USE_MAX: ['swap', 'order_form', 'use_max'],
+  VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
 }
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],

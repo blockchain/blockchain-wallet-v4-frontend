@@ -98,6 +98,7 @@ const ImportBtcAddress = props => {
                 nature='primary'
                 capitalize
                 disabled={submitting || invalid}
+                data-e2e='importButton'
               >
                 <FormattedMessage
                   id='modals.importbtcaddress.button'

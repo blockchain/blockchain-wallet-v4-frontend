@@ -21,7 +21,7 @@ import * as transactions from '../../../transactions'
 const transformTx = transactions.bch.transformTx
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -37,7 +37,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBchFee)
@@ -47,7 +47,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
@@ -57,14 +57,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*({ type, payload }) {
+  const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     try {
       const pages = yield select(S.getTransactions)
@@ -90,7 +90,7 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -118,7 +118,7 @@ export default ({ api }) => {
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
-  const fetchTransactionHistory = function*({ payload }) {
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())

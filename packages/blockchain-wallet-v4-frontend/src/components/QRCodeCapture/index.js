@@ -33,7 +33,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
       const { address, options } = bip21.decode(data)
       const { currency, btcRates } = this.props
       const { amount, message } = options
-      const fiat = Exchange.convertBitcoinToFiat({
+      const fiat = Exchange.convertBtcToFiat({
         value: amount,
         fromUnit: 'BTC',
         toCurrency: currency,
@@ -48,7 +48,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
       })
     } catch (e) {
       try {
-        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
+        if (utils.btc.isValidBtcAddress(data, this.props.network)) {
           this.props.formActions.change(BTC_FORM, 'to', data)
           return
         }
@@ -75,7 +75,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return
         }
         // try legacy addr
-        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
+        if (utils.btc.isValidBtcAddress(data, this.props.network)) {
           this.props.formActions.change(BCH_FORM, 'to', data)
           return
         }
@@ -102,7 +102,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return
         }
         // try legacy addr
-        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
+        if (utils.btc.isValidBtcAddress(data, this.props.network)) {
           this.props.formActions.change(BSV_FORM, 'to', data)
           return
         }
@@ -115,7 +115,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanEthAddress (data) {
-    if (utils.ethereum.isValidAddress(data)) {
+    if (utils.eth.isValidAddress(data)) {
       this.props.formActions.change(ETH_FORM, 'to', data)
     } else {
       this.props.alertActions.displayError(C.ETH_ADDRESS_INVALID)
@@ -132,7 +132,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcPriv (data) {
-    if (utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network)) {
+    if (utils.btc.isValidBtcPrivateKey(data, this.props.network)) {
       this.props.formActions.change(this.props.form || BTC_FORM, 'priv', data)
       this.props.formActions.touch(this.props.form || BTC_FORM, 'priv')
     } else {
@@ -143,7 +143,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanBtcPrivOrAddress (data) {
     try {
       const { address } = bip21.decode(data)
-      if (utils.bitcoin.isValidBitcoinAddress(address, this.props.network)) {
+      if (utils.btc.isValidBtcAddress(address, this.props.network)) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',
           'addrOrPriv',
@@ -160,8 +160,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
       }
     } catch (e) {
       if (
-        utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network) ||
-        utils.bitcoin.isValidBitcoinAddress(data, this.props.network)
+        utils.btc.isValidBtcPrivateKey(data, this.props.network) ||
+        utils.btc.isValidBtcAddress(data, this.props.network)
       ) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',
@@ -216,7 +216,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  btcRates: selectors.core.data.bitcoin
+  btcRates: selectors.core.data.btc
     .getRates(state)
     .getOrFail('Could not find btc rates')
 })

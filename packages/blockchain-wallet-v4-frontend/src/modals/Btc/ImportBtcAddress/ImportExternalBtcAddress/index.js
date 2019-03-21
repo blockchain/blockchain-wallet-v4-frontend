@@ -9,7 +9,7 @@ import {
   TextBox
 } from 'components/Form'
 import QRCodeCapture from 'components/QRCodeCapture'
-import { required, validBitcoinAddressOrPrivateKey } from 'services/FormHelper'
+import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
@@ -26,12 +26,12 @@ const Row = styled.div`
   width: 100%;
 `
 
-class ImportExternalBitcoinAddress extends React.PureComponent {
+class ImportExternalBtcAddress extends React.PureComponent {
   render () {
     return (
       <div>
         <div style={spacing('mb-15')}>
-          <Banner type='alert'>
+          <Banner type='alert' data-e2e='advancedFunctionalityBadge'>
             <FormattedMessage
               id='modals.importbtcaddress.importexternalbitcoinaddress.advanced.message'
               defaultMessage='This is advanced functionality and only suggested for advanced users.'
@@ -49,9 +49,10 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
             <Row>
               <Field
                 name='addrOrPriv'
-                validate={[validBitcoinAddressOrPrivateKey, required]}
+                validate={[validBtcAddressOrPrivateKey, required]}
                 normalize={removeWhitespace}
                 component={TextBox}
+                data-e2e='addressOrPrKeyInput'
               />
               <QRCodeCapture
                 scanType='btcPrivOrAddress'
@@ -81,4 +82,4 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
   }
 }
 
-export default ImportExternalBitcoinAddress
+export default ImportExternalBtcAddress

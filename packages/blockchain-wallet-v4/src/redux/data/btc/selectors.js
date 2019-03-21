@@ -12,25 +12,25 @@ export const getContext = createDeepEqualSelector(
   }
 )
 
-export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
+export const getAddresses = path([dataPath, 'btc', 'addresses'])
 
-export const getFee = path([dataPath, 'bitcoin', 'fee'])
+export const getFee = path([dataPath, 'btc', 'fee'])
 
-export const getInfo = path([dataPath, 'bitcoin', 'info'])
+export const getInfo = path([dataPath, 'btc', 'info'])
 
-export const getLatestBlock = path([dataPath, 'bitcoin', 'latest_block'])
+export const getLatestBlock = path([dataPath, 'btc', 'latest_block'])
 
-export const getRates = path([dataPath, 'bitcoin', 'rates'])
+export const getRates = path([dataPath, 'btc', 'rates'])
 
-export const getTransactions = path([dataPath, 'bitcoin', 'transactions'])
+export const getTransactions = path([dataPath, 'btc', 'transactions'])
 
 export const getTransactionHistory = path([
   dataPath,
-  'bitcoin',
+  'btc',
   'transaction_history'
 ])
 
-export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
+export const getCoins = path([dataPath, 'btc', 'payment', 'coins'])
 
 // Specific
 export const getChangeIndex = curry((xpub, state) =>
@@ -68,23 +68,23 @@ export const getHash = state => getLatestBlock(state).map(path(['hash']))
 export const getIndex = state =>
   getLatestBlock(state).map(path(['block_index']))
 
-export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
+export const getSelection = path([dataPath, 'btc', 'payment', 'selection'])
 
 export const getEffectiveBalance = path([
   dataPath,
-  'bitcoin',
+  'btc',
   'payment',
   'effectiveBalance'
 ])
 
 export const getFiatAtTime = curry((hash, currency, state) =>
-  path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state)
+  path([dataPath, 'btc', 'transactions_fiat', hash, currency], state)
 )
 
-export const getAllFiatAtTime = path([dataPath, 'bitcoin', 'transactions_fiat'])
+export const getAllFiatAtTime = path([dataPath, 'btc', 'transactions_fiat'])
 
 export const getTransactionsAtBound = path([
   dataPath,
-  'bitcoin',
+  'btc',
   'transactions_at_bound'
 ])

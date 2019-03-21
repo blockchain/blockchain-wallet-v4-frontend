@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ coreSagas, networks }) => {
   const sendEthSagas = sagas({ coreSagas, networks })
 
-  return function* sendEthSaga () {
+  return function * sendEthSaga () {
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthSagas.initialized)
     yield takeLatest(AT.SEND_ETH_DESTROYED, sendEthSagas.destroyed)
     yield takeLatest(AT.SEND_ETH_FIRST_STEP_TO_TOGGLED, sendEthSagas.toToggled)

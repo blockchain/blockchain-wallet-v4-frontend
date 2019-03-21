@@ -9,7 +9,7 @@ const checkForVulnerableAddressError = message => {
     !isEmpty(testForErrorMatch) &&
     match(/[13][a-km-zA-HJ-NP-Z0-9]{26,33}/, message)
   const matchResult = !isEmpty(addressMatch) && head(addressMatch)
-  return utils.bitcoin.isValidBitcoinAddress(matchResult) && matchResult
+  return utils.btc.isValidBtcAddress(matchResult) && matchResult
 }
 
 export { checkForVulnerableAddressError }

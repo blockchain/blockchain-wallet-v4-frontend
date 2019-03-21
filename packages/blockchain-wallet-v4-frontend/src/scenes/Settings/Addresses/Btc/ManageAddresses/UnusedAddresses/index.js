@@ -260,7 +260,7 @@ const mapStateToProps = (state, ownProps) => {
     state,
     ownProps.walletIndex
   )
-  const currentReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(
+  const currentReceiveIndex = selectors.core.data.btc.getReceiveIndex(
     account.xpub,
     state
   )

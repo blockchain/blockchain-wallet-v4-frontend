@@ -18,7 +18,7 @@ import { getAccountsList, getBsvTxNotes } from '../../kvStore/bsv/selectors'
 const transformTx = transactions.bsv.transformTx
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -34,7 +34,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBsvFee)
@@ -44,7 +44,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBsvTicker)
@@ -54,14 +54,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BSV_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*({ type, payload }) {
+  const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     try {
       const pages = yield select(S.getTransactions)
@@ -86,7 +86,7 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)

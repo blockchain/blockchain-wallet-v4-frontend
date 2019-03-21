@@ -10,17 +10,17 @@ const { IMPORT_ADDR } = model.analytics.ADDRESS_EVENTS
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
-  const importBtcAddressSubmitClicked = function*() {
+  const importBtcAddressSubmitClicked = function * () {
     const form = yield select(selectors.form.getFormValues('importBtcAddress'))
     const value = prop('addrOrPriv', form)
     const to = prop('to', form)
 
     // private key handling
-    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
+    if (value && utils.btc.isValidBtcPrivateKey(value, networks.btc)) {
       let address
-      const format = utils.bitcoin.detectPrivateKeyFormat(value)
+      const format = utils.btc.detectPrivateKeyFormat(value)
       try {
-        const key = utils.bitcoin.privateKeyStringToKey(value, format)
+        const key = utils.btc.privateKeyStringToKey(value, format)
         address = key.getAddress()
       } catch (error) {
         yield put(
@@ -37,13 +37,13 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     // address handling (watch-only)
-    if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
+    if (value && utils.btc.isValidBtcAddress(value, networks.btc)) {
       yield call(importLegacyAddress, value, null, null, null, null)
       yield put(actions.analytics.logEvent(IMPORT_ADDR))
     }
   }
 
-  const sweepImportedToAccount = function*(priv, to, password) {
+  const sweepImportedToAccount = function * (priv, to, password) {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
@@ -79,7 +79,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const importLegacyAddress = function*(address, priv, secPass, bipPass, to) {
+  const importLegacyAddress = function * (address, priv, secPass, bipPass, to) {
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
     let password

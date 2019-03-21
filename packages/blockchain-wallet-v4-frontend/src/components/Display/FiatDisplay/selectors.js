@@ -12,11 +12,11 @@ export const getData = (state, coin, amount) => {
       case 'BCH':
         return selectors.core.data.bch.getRates(state)
       case 'BTC':
-        return selectors.core.data.bitcoin.getRates(state)
+        return selectors.core.data.btc.getRates(state)
       case 'BSV':
         return selectors.core.data.bsv.getRates(state)
       case 'ETH':
-        return selectors.core.data.ethereum.getRates(state)
+        return selectors.core.data.eth.getRates(state)
       case 'XLM':
         return selectors.core.data.xlm.getRates(state)
       default:

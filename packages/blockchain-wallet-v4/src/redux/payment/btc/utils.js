@@ -11,7 +11,7 @@ import {
 } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
-import { isValidBitcoinAddress, getWifAddress } from '../../../utils/btc'
+import { isValidBtcAddress, getWifAddress } from '../../../utils/btc'
 import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@ export const isValidIndex = curry((wallet, index) =>
 
 // isValidAddressOrIndex :: Wallet -> Any -> Boolean
 export const isValidAddressOrIndex = curry((wallet, candidate) =>
-  converge(or, [isValidBitcoinAddress, isValidIndex(wallet)])(candidate)
+  converge(or, [isValidBtcAddress, isValidIndex(wallet)])(candidate)
 )
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ export const fromAccount = (network, state, index, coin) => {
   let account = Wallet.getAccount(index, wallet).get()
 
   let changeIndex = equals(coin, 'BTC')
-    ? S.data.bitcoin.getChangeIndex(account.xpub, state)
+    ? S.data.btc.getChangeIndex(account.xpub, state)
     : S.data.bch.getChangeIndex(account.xpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(account, index, network))
@@ -101,7 +101,7 @@ export const fromLockbox = (network, state, xpub, coin) => {
   let hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
 
   let changeIndex = equals(coin, 'BTC')
-    ? S.data.bitcoin.getChangeIndex(xpub, state)
+    ? S.data.btc.getChangeIndex(xpub, state)
     : S.data.bch.getChangeIndex(xpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(hdAccount, index, network))
@@ -144,7 +144,7 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
   const receiveIndexR =
     coin === 'BTC'
-      ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
+      ? S.data.btc.getReceiveIndex(account.xpub, state)
       : S.data.bch.getReceiveIndex(account.xpub, state)
   const receiveIndex = receiveIndexR.getOrFail(
     new Error('missing_receive_address')
@@ -162,7 +162,7 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
 export const toLockboxAccount = (coin, network, state, xpub) => {
   const receiveIndexR =
     coin === 'BTC'
-      ? S.data.bitcoin.getReceiveIndex(xpub, state)
+      ? S.data.btc.getReceiveIndex(xpub, state)
       : S.data.bch.getReceiveIndex(xpub, state)
 
   const receiveIndex = receiveIndexR.getOrFail(

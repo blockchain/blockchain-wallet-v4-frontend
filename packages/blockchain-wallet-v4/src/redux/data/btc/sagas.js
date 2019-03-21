@@ -16,51 +16,51 @@ const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
 export default ({ api }) => {
-  const fetchData = function*() {
+  const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
-      const bitcoinData = {
+      const btcData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      yield put(A.fetchDataSuccess(bitcoinData))
+      yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
       if (prop('message', e)) yield put(A.fetchDataFailure(e.message))
       else yield put(A.fetchDataFailure(e))
     }
   }
 
-  const fetchFee = function*() {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
-      const data = yield call(api.getBitcoinFee)
+      const data = yield call(api.getBtcFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
       yield put(A.fetchFeeFailure(e.message))
     }
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBitcoinTicker)
+      const data = yield call(api.getBtcTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
     }
   }
 
-  const watchTransactions = function*() {
+  const watchTransactions = function * () {
     while (true) {
-      const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      const action = yield take(AT.FETCH_BTC_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { address, reset } = payload
@@ -85,7 +85,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function*({ type, payload }) {
+  const fetchTransactionHistory = function * ({ type, payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
@@ -118,7 +118,7 @@ export default ({ api }) => {
     }
   }
 
-  const __processTxs = function*(txs) {
+  const __processTxs = function * (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -147,11 +147,11 @@ export default ({ api }) => {
     return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
   }
 
-  const fetchFiatAtTime = function*(action) {
+  const fetchFiatAtTime = function * (action) {
     const { hash, amount, time, currency } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      const data = yield call(api.getBitcoinFiatAtTime, amount, currency, time)
+      const data = yield call(api.getBtcFiatAtTime, amount, currency, time)
       yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
     } catch (e) {
       yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))

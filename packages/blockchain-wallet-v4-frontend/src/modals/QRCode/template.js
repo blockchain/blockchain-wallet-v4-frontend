@@ -27,12 +27,12 @@ const QRCodeContainer = styled.div`
 const QRCode = props => {
   const { position, total, close, closeAll, ...rest } = props
   const { receiveAddress, amount, message } = rest.value
-  let bitcoinAddress = `bitcoin:${receiveAddress}`
+  let btcAddress = `bitcoin:${receiveAddress}`
   let amt = amount > 0 ? amount : null
-  if (amt || message) bitcoinAddress += '?'
-  if (amt && !message) bitcoinAddress += `amount=${amt}`
-  if (!amt && message) bitcoinAddress += `message=${message}`
-  if (amt && message) bitcoinAddress += `amount=${amt}&message=${message}`
+  if (amt || message) btcAddress += '?'
+  if (amt && !message) btcAddress += `amount=${amt}`
+  if (!amt && message) btcAddress += `message=${message}`
+  if (amt && message) btcAddress += `amount=${amt}&message=${message}`
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -50,9 +50,9 @@ const QRCode = props => {
           </TooltipHost>
         </Text>
         <QRCodeContainer>
-          <QRCodeWrapper value={bitcoinAddress} size={256} />
+          <QRCodeWrapper value={btcAddress} size={256} />
         </QRCodeContainer>
-        <CopyClipboard address={bitcoinAddress} />
+        <CopyClipboard address={btcAddress} />
       </ModalBody>
       <ModalFooter>
         <Link onClick={close} size='13px' weight={300} data-e2e='qrModalGoBack'>

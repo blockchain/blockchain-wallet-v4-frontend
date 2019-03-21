@@ -20,7 +20,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BitcoinWalletsAddressesSettingHeader = styled(SettingHeader)`
+const BtcWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -164,12 +164,12 @@ const Success = ({
           </Banner>
         </ErrorWrapper>
       )}
-      <BitcoinWalletsAddressesSettingHeader>
+      <BtcWalletsAddressesSettingHeader>
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.bitcoinwallets'
           defaultMessage='Bitcoin Wallets'
         />
-      </BitcoinWalletsAddressesSettingHeader>
+      </BtcWalletsAddressesSettingHeader>
       <SettingDescription>
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.bitcoinwallets.description'

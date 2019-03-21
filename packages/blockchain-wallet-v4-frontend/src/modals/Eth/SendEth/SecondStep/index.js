@@ -20,7 +20,7 @@ class SecondStepContainer extends React.PureComponent {
           handleSubmit={actions.sendEthSecondStepSubmitClicked}
         />
       ),
-      Error: message => <Error>{message}</Error>,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

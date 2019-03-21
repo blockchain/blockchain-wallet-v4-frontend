@@ -40,6 +40,14 @@ export const invalidLinkError = 'Invalid campaign one time link'
 export default ({ api, coreSagas }) => {
   const { TIERS } = model.profile
   const {
+    FORMS,
+    SELECT_TIER,
+    SEND_SMS_CODE,
+    SEND_VERIFICATION_EMAIL,
+    VERIFY_PHONE_FAILURE,
+    VERIFY_PHONE_SUCCESS
+  } = model.analytics.KYC_EVENTS
+  const {
     getCampaignData,
     fetchUser,
     createUser,
@@ -51,7 +59,7 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerUserCampaign = function*(payload) {
+  const registerUserCampaign = function * (payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
     try {
@@ -84,7 +92,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const createRegisterUserCampaign = function*() {
+  const createRegisterUserCampaign = function * () {
     try {
       yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
     } catch (e) {
@@ -98,7 +106,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const claimCampaignClicked = function*({ payload }) {
+  const claimCampaignClicked = function * ({ payload }) {
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
@@ -125,21 +133,22 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectTier = function*(tier = 2) {
+  const selectTier = function * (tier = 2) {
     const { selected } = yield select(selectors.modules.profile.getUserTiers)
     if (selected === tier) return
     yield call(api.selectTier, tier)
     yield call(fetchUser)
+    yield put(actions.analytics.logEvent([...SELECT_TIER, `tier ${tier}`]))
   }
 
-  const verifyIdentity = function*({ payload }) {
+  const verifyIdentity = function * ({ payload }) {
     const { tier, isCoinify, needMoreInfo } = payload
     yield put(
       actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
     )
   }
 
-  const defineSteps = function*(tier, isCoinify, needMoreInfo) {
+  const defineSteps = function * (tier, isCoinify, needMoreInfo) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -173,19 +182,19 @@ export default ({ api, coreSagas }) => {
     yield put(A.setStepsSuccess(steps))
   }
 
-  const initializeVerification = function*({ payload }) {
+  const initializeVerification = function * ({ payload }) {
     const { tier = TIERS[2], isCoinify = false, needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
     yield call(defineSteps, tier, isCoinify, needMoreInfo)
     yield call(initializeStep)
   }
 
-  const initializeStep = function*() {
+  const initializeStep = function * () {
     const steps = (yield select(S.getSteps)).getOrElse([])
     return yield put(A.setVerificationStep(head(steps)))
   }
 
-  const goToPrevStep = function*() {
+  const goToPrevStep = function * () {
     const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
@@ -196,7 +205,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const goToNextStep = function*() {
+  const goToNextStep = function * () {
     const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
@@ -212,7 +221,7 @@ export default ({ api, coreSagas }) => {
     return SMS_STEPS.edit
   }
 
-  const updateSmsNumber = function*() {
+  const updateSmsNumber = function * () {
     try {
       const { smsNumber } = yield select(
         selectors.form.getFormValues(SMS_NUMBER_FORM)
@@ -221,6 +230,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(A.setSmsStep(SMS_STEPS.verify))
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(actions.analytics.logEvent(FORMS.UPDATE_PHONE_NUMBER))
     } catch (e) {
       yield put(
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
@@ -230,7 +240,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const verifySmsNumber = function*() {
+  const verifySmsNumber = function * () {
     try {
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
       const { code } = yield select(
@@ -239,6 +249,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobileVerified, { code })
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(actions.analytics.logEvent(VERIFY_PHONE_SUCCESS))
       yield call(goToNextStep)
     } catch (e) {
       const description = prop('description', e)
@@ -248,10 +259,11 @@ export default ({ api, coreSagas }) => {
       else if (e === BAD_CODE_ERROR) error = BAD_CODE_ERROR
       else error = UPDATE_FAILURE
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM, { _error: error }))
+      yield put(actions.analytics.logEvent(VERIFY_PHONE_FAILURE))
     }
   }
 
-  const resendSmsCode = function*() {
+  const resendSmsCode = function * () {
     try {
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
       const smsNumber = (yield select(
@@ -260,6 +272,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+      yield put(actions.analytics.logEvent(SEND_SMS_CODE))
     } catch (e) {
       yield put(
         actions.form.stopSubmit(SMS_NUMBER_FORM, {
@@ -269,7 +282,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const savePersonalData = function*() {
+  const savePersonalData = function * () {
     try {
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(syncUserWithWallet)
@@ -313,7 +326,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchSupportedCountries = function*() {
+  const fetchSupportedCountries = function * () {
     try {
       yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
@@ -328,7 +341,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchSupportedDocuments = function*() {
+  const fetchSupportedDocuments = function * () {
     try {
       yield put(A.setSupportedDocumentsLoading())
       const countryCode = (yield select(
@@ -349,7 +362,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchStates = function*() {
+  const fetchStates = function * () {
     try {
       yield put(A.setStatesLoading())
       const states = yield call(api.getStates)
@@ -364,7 +377,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkKycFlow = function*() {
+  const checkKycFlow = function * () {
     try {
       yield put(A.setKycFlowLoading())
       const { flowType } = yield call(api.fetchKycConfig)
@@ -377,7 +390,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const sendDeeplink = function*() {
+  const sendDeeplink = function * () {
     try {
       yield call(api.sendDeeplink)
     } catch (e) {
@@ -385,7 +398,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const sendEmailVerification = function*({ payload }) {
+  const sendEmailVerification = function * ({ payload }) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const { email } = payload
@@ -401,7 +414,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateEmail = function*({ payload }) {
+  const updateEmail = function * ({ payload }) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const prevEmail = (yield select(
@@ -413,6 +426,7 @@ export default ({ api, coreSagas }) => {
       else yield call(coreSagas.settings.setEmail, { email })
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify))
+      yield put(actions.analytics.logEvent(SEND_VERIFICATION_EMAIL))
     } catch (e) {
       yield put(
         actions.form.stopAsyncValidation(PERSONAL_FORM, {

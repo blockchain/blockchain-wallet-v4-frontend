@@ -29,7 +29,11 @@ const AddressCell = styled(Text)`
 `
 
 const MoreOptions = () => (
-  <Link weight={200} size='small'>
+  <Link
+    weight={200}
+    size='small'
+    data-e2e='importedAddressesMoreOptionsDropdown'
+  >
     <FormattedMessage
       id='scenes.settings.addresses.btc.addressrow.moreoptions'
       defaultMessage='More Options'
@@ -41,7 +45,14 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
   return (
     <TableRow dataE2e={dataE2e}>
       <AddressTableCell width='50%'>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+        <AddressCell
+          size='13px'
+          data-e2e={`${
+            archived ? 'archived' : 'unarchived'
+          }ImportedAddressName`}
+        >
+          {address.addr}
+        </AddressCell>
         {address.priv == null && (
           <Banner label type='informational'>
             <FormattedMessage

@@ -6,7 +6,7 @@ import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'
 
-  const updatePbkdf2Iterations = function*(action) {
+  const updatePbkdf2Iterations = function * (action) {
     const saga = askSecondPasswordEnhancer(
       coreSagas.wallet.updatePbkdf2Iterations
     )
@@ -24,7 +24,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const toggleSecondPassword = function*(action) {
+  const toggleSecondPassword = function * (action) {
     const { password, secondPasswordEnabled } = action.payload
     try {
       yield call(coreSagas.wallet.toggleSecondPassword, { password })
@@ -44,12 +44,12 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const verifyMmenonic = function*() {
+  const verifyMmenonic = function * () {
     yield put(actions.core.wallet.verifyMnemonic())
     yield put(actions.alerts.displaySuccess(C.MNEMONIC_VERIFY_SUCCESS))
   }
 
-  const editBtcAccountLabel = function*(action) {
+  const editBtcAccountLabel = function * (action) {
     try {
       let { index, label } = action.payload
       let newLabel = yield call(promptForInput, {
@@ -66,7 +66,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const setMainPassword = function*(action) {
+  const setMainPassword = function * (action) {
     const { password } = action.payload
     yield put(actions.core.wallet.setMainPassword(password))
     yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)

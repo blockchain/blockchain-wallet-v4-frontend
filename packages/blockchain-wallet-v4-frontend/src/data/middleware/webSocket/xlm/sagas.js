@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import * as T from 'services/AlertService'
 import {
   append,
-  contains,
+  includes,
   compose,
   intersection,
   isEmpty,
@@ -24,16 +24,16 @@ export default () => {
       decodeOperations
     )(tx)
 
-  const addWalletTransaction = function*(tx) {
+  const addWalletTransaction = function * (tx) {
     const defaultAccountId = (yield select(
       selectors.core.kvStore.xlm.getDefaultAccountId
     )).getOrElse('')
     const txAccountIds = getAccountIds(tx)
-    if (contains(defaultAccountId, txAccountIds))
+    if (includes(defaultAccountId, txAccountIds))
       yield put(actions.core.data.xlm.addNewTransactions([tx]))
   }
 
-  const addLockboxTransaction = function*(tx, deviceIndex) {
+  const addLockboxTransaction = function * (tx, deviceIndex) {
     const deviceAccountIds = (yield select(
       selectors.core.kvStore.lockbox.getXlmContextForDevice,
       deviceIndex
@@ -43,7 +43,7 @@ export default () => {
       yield put(actions.core.data.xlm.addNewTransactions([tx]))
   }
 
-  const onMessage = function*({ payload }) {
+  const onMessage = function * ({ payload }) {
     try {
       const { accountId, tx } = payload
       if (tx.source_account !== accountId) {
@@ -51,7 +51,7 @@ export default () => {
       }
       yield put(actions.core.data.xlm.fetchData())
       const pathname = yield select(selectors.router.getPathname)
-      if (contains(pathname, ['/xlm/transactions', '/home']))
+      if (includes(pathname, ['/xlm/transactions', '/home']))
         yield call(addWalletTransaction, tx)
       if (test(/\/lockbox\/dashboard\//, pathname))
         yield call(

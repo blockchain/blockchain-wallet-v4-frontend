@@ -8,13 +8,13 @@ import { derivationMap, WHATSNEW } from '../config'
 import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const createWhatsNew = function*(kv) {
+  const createWhatsNew = function * (kv) {
     const lastViewed = 0
     const newkv = set(KVStoreEntry.value, { lastViewed }, kv)
     yield put(A.createMetadataWhatsnew(newkv))
   }
 
-  const fetchMetadataWhatsnew = function*() {
+  const fetchMetadataWhatsnew = function * () {
     try {
       const typeId = derivationMap[WHATSNEW]
       const mxpriv = yield select(getMetadataXpriv)

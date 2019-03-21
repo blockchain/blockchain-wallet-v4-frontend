@@ -30,7 +30,7 @@ describe('btcTransactions sagas', () => {
     })
 
     it('should dispatch an action to fetch txs', () => {
-      saga.next().put(actions.core.data.bitcoin.fetchTransactions('', true))
+      saga.next().put(actions.core.data.btc.fetchTransactions('', true))
     })
 
     describe('error handling', () => {
@@ -85,7 +85,7 @@ describe('btcTransactions sagas', () => {
       saga
         .next()
         .put(
-          actions.core.data.bitcoin.fetchTransactions(
+          actions.core.data.btc.fetchTransactions(
             action.payload === 'all' ? '' : 'some_address',
             true
           )
@@ -122,7 +122,7 @@ describe('btcTransactions sagas', () => {
       saga
         .next()
         .put(
-          actions.core.data.bitcoin.fetchTransactions(
+          actions.core.data.btc.fetchTransactions(
             action.payload === 'all' ? '' : 'some_address',
             true
           )

@@ -47,14 +47,14 @@ const fallbackFees = { limits: { min: 2, max: 16 }, regular: 5, priority: 11 }
 
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const __pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
+  const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
     api
-      .getBitcoinUnspents(fromData.from, -1)
+      .getBtcUnspents(fromData.from, -1)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  const __calculateTo = function*(destinations, type, network) {
+  const __calculateTo = function * (destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -91,7 +91,7 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  const __calculateFrom = function*(origin, type, network) {
+  const __calculateFrom = function * (origin, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -218,7 +218,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateSignature = function*(
+  const __calculateSignature = function * (
     network,
     password,
     transport,
@@ -257,11 +257,11 @@ export default ({ api }) => {
     }
   }
 
-  const __calculatePublish = function*(txHex) {
+  const __calculatePublish = function * (txHex) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(__pushBitcoinTx(txHex)))
+    return yield call(() => taskToPromise(__pushBtcTx(txHex)))
   }
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -270,27 +270,27 @@ export default ({ api }) => {
         return p
       },
 
-      *init () {
+      * init () {
         let fees
         try {
-          fees = yield call(api.getBitcoinFee)
+          fees = yield call(api.getBtcFee)
         } catch (e) {
           fees = fallbackFees
         }
         return makePayment(merge(p, { fees }))
       },
 
-      *to (destinations, type) {
+      * to (destinations, type) {
         let to = yield call(__calculateTo, destinations, type, network)
         return makePayment(merge(p, { to }))
       },
 
-      *amount (amounts) {
+      * amount (amounts) {
         let amount = yield call(__calculateAmount, amounts)
         return makePayment(merge(p, { amount }))
       },
 
-      *from (origins, type) {
+      * from (origins, type) {
         let fromData = yield call(__calculateFrom, origins, type, network)
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
@@ -306,7 +306,7 @@ export default ({ api }) => {
         }
       },
 
-      *fee (value) {
+      * fee (value) {
         let fee = yield call(__calculateFee, value, prop('fees', p))
         let effectiveBalance = yield call(__calculateEffectiveBalance, {
           coins: prop('coins', p),
@@ -315,17 +315,17 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 
-      *build () {
+      * build () {
         let selection = yield call(__calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *buildSweep () {
+      * buildSweep () {
         let selection = yield call(__calculateSweepSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password, transport, scrambleKey) {
+      * sign (password, transport, scrambleKey) {
         let signed = yield call(
           __calculateSignature,
           network,
@@ -340,7 +340,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { ...signed }))
       },
 
-      *publish () {
+      * publish () {
         let result = yield call(__calculatePublish, prop('txHex', p))
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
@@ -354,7 +354,7 @@ export default ({ api }) => {
 
       chain () {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -372,12 +372,12 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done () {
+          * done () {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }
@@ -398,6 +398,6 @@ export default ({ api }) => {
     __calculateSignature,
     __calculateSweepSelection,
     __getWalletUnspent,
-    __pushBitcoinTx
+    __pushBtcTx
   }
 }
