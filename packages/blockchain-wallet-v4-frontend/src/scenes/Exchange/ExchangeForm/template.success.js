@@ -11,7 +11,7 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper as BorderWrapper, Note } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
@@ -321,13 +321,7 @@ const Success = ({
         <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <BorderWrapper>
-          <Title>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.title'
-              defaultMessage='Summary'
-            />
-          </Title>
+        <FormWrapper>
           <Summary
             sourceCoin={sourceCoin}
             targetCoin={targetCoin}
@@ -344,7 +338,7 @@ const Success = ({
             targetCoin={targetCoin}
             currency={currency}
           />
-        </BorderWrapper>
+        </FormWrapper>
       </ColumnRight>
     </Wrapper>
   )

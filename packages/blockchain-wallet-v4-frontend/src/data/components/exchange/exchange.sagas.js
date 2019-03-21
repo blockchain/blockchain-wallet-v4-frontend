@@ -54,6 +54,7 @@ import {
   addBalanceLimit,
   selectFee,
   convertStandardToBase,
+  convertSourceToFiat,
   convertSourceToTarget,
   convertBaseToStandard,
   formatLimits
@@ -309,6 +310,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const form = yield select(formValueSelector)
       const provisionalPayment = yield call(getProvisionalPayment)
+      const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
       const fee = convertBaseToStandard(
         sourceCoin,
@@ -318,7 +320,8 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.setSourceFee({
           source: fee,
-          target: convertSourceToTarget(form, rates, fee)
+          target: convertSourceToTarget(form, rates, fee),
+          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
         })
       )
     } catch (e) {

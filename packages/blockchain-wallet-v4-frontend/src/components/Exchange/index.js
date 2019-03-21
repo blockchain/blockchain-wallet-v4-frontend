@@ -23,7 +23,8 @@ export const Title = styled(Text)`
   margin-bottom: 24px;
 `
 export const AmountHeader = styled(ExchangeText)`
-  margin-bottom: 8px;
+  color: ${props => props.theme['gray-5']};
+  font-size: 16px;
 `
 export const Delimiter = styled.div`
   border-bottom: 1px solid ${props => props.theme['gray-1']}};
@@ -34,10 +35,12 @@ export const Delimiter = styled.div`
 export const TableRow = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  box-sizing: border-box;
+  padding: 18px;
   width: 100%;
-  margin-bottom: 16px;
-  height: 20px;
 `
 export const Note = styled(Text)`
   font-size: 12px;
@@ -55,9 +58,17 @@ export const CancelButton = styled(ExchangeButton)`
   border: none;
   margin-top: 10px;
 `
+export const ExchangeAmounts = styled.div``
 export const ExchangeAmount = styled(Text)`
   font-weight: 400;
   font-size: 17px;
   line-height: 20px;
-  color: ${props => props.theme['brand-primary']};
+  text-align: right;
+  color: ${props => props.theme[props.color || 'brand-primary']};
+`
+export const SubExchangeAmount = styled(ExchangeAmount)`
+  text-align: right;
+  font-weight: 300;
+  font-size: 13px;
+  color: ${props => props.theme['gray-4']};
 `
