@@ -51,7 +51,7 @@ const {
 const stubGuid = 'fa0c3130-0b7d-46cf-9d76-4b8208e298e5'
 const stubEmail = 'user@mail.com'
 const stubSharedKey = 'de6263f9-5029-412c-9fd5-8dc139cb9547'
-const stubCoinifyToken = 'UWJQN0dxP7O'
+const stubCoinifyId = '20001'
 const stubUserId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
 const stubLifetimeToken = 'de6263f9-5029-412c-9fd5-8dc139cb9549'
 const stubExpiry = Date.now()
@@ -378,8 +378,8 @@ describe('create user credentials saga', () => {
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [
-          select(selectors.core.kvStore.buySell.getCoinifyToken),
-          Remote.of(stubCoinifyToken)
+          select(selectors.core.kvStore.buySell.getCoinifyUser),
+          Remote.of(stubCoinifyId)
         ],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
         [
@@ -402,7 +402,7 @@ describe('create user credentials saga', () => {
         expect(api.generateRetailToken).toHaveBeenCalledWith(
           stubGuid,
           stubSharedKey,
-          stubCoinifyToken
+          stubCoinifyId
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
         expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
