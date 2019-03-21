@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { path } from 'ramda'
 import { check, msie } from 'bowser'
+import Modals from 'modals'
 
 import { required, validWalletId } from 'services/FormHelper'
 
@@ -111,6 +112,7 @@ const Login = props => {
   return (
     <LoginWrapper>
       <MobileLogin />
+      <Modals />
       <Header>
         <Text size='24px' weight={300} capitalize>
           <FormattedMessage
