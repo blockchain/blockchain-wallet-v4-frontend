@@ -103,7 +103,7 @@ export const OrderStatus = ({ status }) => {
       return (
         <FormattedMessage
           id='scenes.exchangehistory.list.orderstatus.delayed'
-          defaultMessage='Delayed'
+          defaultMessage='Network Delays'
         />
       )
     default:
