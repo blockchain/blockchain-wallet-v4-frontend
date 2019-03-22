@@ -8,6 +8,7 @@ const {
   FAILED,
   PENDING_DEPOSIT,
   EXPIRED,
+  DELAYED,
   FINISHED_DEPOSIT,
   PENDING_WITHDRAWAL,
   PENDING_REFUND,
@@ -32,6 +33,7 @@ export const selectColor = status => {
     case 'error':
     case 'failed':
     case 'resolved':
+    case DELAYED:
     case FAILED:
     case EXPIRED:
       return 'error'
@@ -97,6 +99,13 @@ export const OrderStatus = ({ status }) => {
           defaultMessage='Expired'
         />
       )
+    case DELAYED:
+      return (
+        <FormattedMessage
+          id='scenes.exchangehistory.list.orderstatus.delayed'
+          defaultMessage='Delayed'
+        />
+      )
     default:
       return (
         <FormattedMessage
@@ -145,6 +154,13 @@ export const OrderNote = ({ status }) => {
         <FormattedMessage
           id='components.orderstatus.note.swaprefunded'
           defaultMessage='We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.'
+        />
+      )
+    case DELAYED:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.swapdelayed'
+          defaultMessage='Don’t worry, your exchange is in process. Swap trades are completed on-chain. If transaction volumes are high, there are sometimes delays.'
         />
       )
     case EXPIRED:
