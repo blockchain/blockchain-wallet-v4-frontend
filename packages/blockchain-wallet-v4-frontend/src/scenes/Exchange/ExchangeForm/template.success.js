@@ -321,24 +321,22 @@ const Success = ({
         <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <FormWrapper>
-          <Summary
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
+        <Summary
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
+        <RatesBox
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
+        <Note>
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.summary.note'
+            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
           />
-          <Note>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.note'
-              defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
-            />
-          </Note>
-          <RatesBox
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
-          />
-        </FormWrapper>
+        </Note>
       </ColumnRight>
     </Wrapper>
   )

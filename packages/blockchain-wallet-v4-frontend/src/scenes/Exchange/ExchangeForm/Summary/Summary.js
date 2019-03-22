@@ -13,11 +13,20 @@ import {
   ExchangeAmount,
   ExchangeAmounts,
   SubExchangeAmount,
-  TableRow
+  LargeTableRow,
+  Wrapper as BorderWrapper
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
 
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
+
+const SummaryWrapper = styled(BorderWrapper)`
+  padding: 0;
+  margin-bottom: 24px;
+`
+const SummaryExchangeAmount = styled(ExchangeAmount)`
+  justify-content: flex-end;
+`
 
 const SummaryStringDisplay = styled(StringDisplay)`
   justify-content: flex-end;
@@ -40,8 +49,8 @@ export class Summary extends React.PureComponent {
     const fiatCurrencySymbol = Exchange.getSymbol(currency)
 
     return (
-      <React.Fragment>
-        <TableRow>
+      <SummaryWrapper>
+        <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.exchange'
@@ -49,13 +58,13 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <ExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='gray-5'>
               <SummaryStringDisplay data-e2e='exchangeSummarySwapFiatValue'>
                 {sourceFiat.map(amount =>
                   formatAmount(true, fiatCurrencySymbol, amount)
                 )}
               </SummaryStringDisplay>
-            </ExchangeAmount>
+            </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
               <SummaryStringDisplay data-e2e='exchangeSummarySwapValue'>
                 {sourceAmount.map(amount =>
@@ -68,8 +77,8 @@ export class Summary extends React.PureComponent {
               </SummaryStringDisplay>
             </SubExchangeAmount>
           </ExchangeAmounts>
-        </TableRow>
-        <TableRow>
+        </LargeTableRow>
+        <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.fees'
@@ -77,12 +86,12 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <ExchangeAmount
+            <SummaryExchangeAmount
               color='gray-5'
               data-e2e='exchangeSummaryFeeFiatValue'
             >
               {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
-            </ExchangeAmount>
+            </SummaryExchangeAmount>
             <SubExchangeAmount
               color='gray-5'
               data-e2e='exchangeSummaryFeeValue'
@@ -94,8 +103,8 @@ export class Summary extends React.PureComponent {
               })}
             </SubExchangeAmount>
           </ExchangeAmounts>
-        </TableRow>
-        <TableRow>
+        </LargeTableRow>
+        <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.send'
@@ -103,7 +112,7 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <ExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='gray-5'>
               -
               <SummaryStringDisplay data-e2e='exchangeSummaryTotalFiatValue'>
                 {sourceFiat.map(amount =>
@@ -114,7 +123,7 @@ export class Summary extends React.PureComponent {
                   )
                 )}
               </SummaryStringDisplay>
-            </ExchangeAmount>
+            </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
               -
               <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
@@ -128,8 +137,8 @@ export class Summary extends React.PureComponent {
               </SummaryStringDisplay>
             </SubExchangeAmount>
           </ExchangeAmounts>
-        </TableRow>
-        <TableRow>
+        </LargeTableRow>
+        <LargeTableRow>
           <AmountHeader color='brand-primary' weight={500}>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.to'
@@ -137,13 +146,13 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <ExchangeAmount>
+            <SummaryExchangeAmount>
               <SummaryStringDisplay data-e2e='exchangeSummaryTargetFiatValue'>
                 {targetFiat.map(amount =>
                   formatAmount(true, fiatCurrencySymbol, amount)
                 )}
               </SummaryStringDisplay>
-            </ExchangeAmount>
+            </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
               <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>
                 {targetAmount.map(amount =>
@@ -156,8 +165,8 @@ export class Summary extends React.PureComponent {
               </SummaryStringDisplay>
             </SubExchangeAmount>
           </ExchangeAmounts>
-        </TableRow>
-      </React.Fragment>
+        </LargeTableRow>
+      </SummaryWrapper>
     )
   }
 }

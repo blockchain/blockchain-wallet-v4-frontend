@@ -37,10 +37,16 @@ export const TableRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
   box-sizing: border-box;
-  padding: 18px;
+  padding: 8px 0;
   width: 100%;
+`
+export const LargeTableRow = styled(TableRow)`
+  padding: 18px;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  &:last-child {
+    border-bottom: 0px;
+  }
 `
 export const Note = styled(Text)`
   font-size: 12px;
@@ -64,7 +70,6 @@ export const ExchangeAmount = styled(Text)`
   font-weight: 400;
   font-size: 17px;
   line-height: 20px;
-  justify-content: flex-end;
   color: ${props => props.theme[props.color || 'brand-primary']};
 `
 export const SubExchangeAmount = styled(ExchangeAmount)`
