@@ -26,14 +26,7 @@ const RatesTitle = styled(RatesRow)`
   margin-bottom: 12px;
 `
 
-export const RatesBox = ({
-  sourceCoin,
-  targetCoin,
-  currency,
-  sourceToTargetRate,
-  sourceToFiatRate,
-  targetToFiatRate
-}) => (
+export const RatesBox = ({ sourceCoin, targetCoin, sourceToTargetRate }) => (
   <RatesWrapper>
     <RatesTitle>
       <FormattedMessage
@@ -46,16 +39,6 @@ export const RatesBox = ({
         {sourceToTargetRate.map(
           rate => `1 ${sourceCoin} = ${rate} ${targetCoin}`
         )}
-      </StringDisplay>
-    </RatesRow>
-    <RatesRow>
-      <StringDisplay>
-        {sourceToFiatRate.map(rate => `1 ${sourceCoin} = ${rate} ${currency}`)}
-      </StringDisplay>
-    </RatesRow>
-    <RatesRow>
-      <StringDisplay>
-        {targetToFiatRate.map(rate => `1 ${targetCoin} = ${rate} ${currency}`)}
       </StringDisplay>
     </RatesRow>
   </RatesWrapper>

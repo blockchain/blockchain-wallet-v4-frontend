@@ -48,9 +48,7 @@ export const getData = createDeepEqualSelector(
       bestRatesR.map(formatBestRates(sourceCoin, targetCoin, currency))
     )
     return {
-      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
-      sourceToFiatRate: ratesR.map(prop('sourceToFiatRate')),
-      targetToFiatRate: ratesR.map(prop('targetToFiatRate'))
+      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate'))
     }
   }
 )

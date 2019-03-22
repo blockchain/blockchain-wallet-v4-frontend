@@ -24,26 +24,31 @@ const amountValues = {
   failure: Remote.Failure({})
 }
 
-describe('Exchange RatesBox', () => {
+describe('Exchange Summary', () => {
   forEachObjIndexed(
-    (sourceAmount, sourceAmountIndex) =>
+    sourceFiat =>
       forEachObjIndexed(
-        (targetAmount, targetAmountIndex) =>
+        (sourceAmount, sourceAmountIndex) =>
           forEachObjIndexed(
-            (targetFiat, targetFiatIndex) =>
-              it(`should render correct rates for sourceToTargetRate ${sourceAmountIndex}, sourceToFiatRate ${targetAmountIndex}, targetToFiatRate ${targetFiatIndex}`, () => {
-                const component = shallow(
-                  <Summary
-                    {...props}
-                    sourceAmount={sourceAmount}
-                    targetAmount={targetAmount}
-                    targetFiat={targetFiat}
-                  />
-                )
+            (targetAmount, targetAmountIndex) =>
+              forEachObjIndexed(
+                (targetFiat, targetFiatIndex) =>
+                  it(`should render correct rates for sourceToTargetRate ${sourceAmountIndex}, sourceToFiatRate ${targetAmountIndex}, targetToFiatRate ${targetFiatIndex}`, () => {
+                    const component = shallow(
+                      <Summary
+                        {...props}
+                        sourceFiat={sourceFiat}
+                        sourceAmount={sourceAmount}
+                        targetAmount={targetAmount}
+                        targetFiat={targetFiat}
+                      />
+                    )
 
-                const tree = toJson(component)
-                expect(tree).toMatchSnapshot()
-              }),
+                    const tree = toJson(component)
+                    expect(tree).toMatchSnapshot()
+                  }),
+                amountValues
+              ),
             amountValues
           ),
         amountValues
