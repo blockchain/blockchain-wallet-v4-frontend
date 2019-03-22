@@ -2,68 +2,200 @@
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = `
 <RatesBox__RatesWrapper>
-  <RatesBox__RatesTitle>
-    <FormattedMessage
-      defaultMessage="Rates"
-      id="scenes.exchange.exchangeform.summary.rates"
-      values={Object {}}
-    />
-  </RatesBox__RatesTitle>
-  <RatesBox__RatesRow>
-    <StringDisplayContainer>
-      <Component />
-    </StringDisplayContainer>
-  </RatesBox__RatesRow>
+  <Exchange__LargeTableRow>
+    <RatesBox__TotalBalanceWrapper>
+      <RatesBox__RateText>
+        <FormattedMessage
+          defaultMessage="Your {sourceCoin} Balance"
+          id="scenes.exchange.exchangeform.summary.totalbalance"
+          values={
+            Object {
+              "sourceCoin": "BTC",
+            }
+          }
+        />
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <RatesBox__Row>
+          <RatesBox__RateText
+            color="success"
+          >
+            $1000.00
+             
+          </RatesBox__RateText>
+          <span>
+             
+          </span>
+          <RatesBox__RateText>
+             
+          </RatesBox__RateText>
+        </RatesBox__Row>
+      </RatesBox__RateText>
+    </RatesBox__TotalBalanceWrapper>
+    <RatesBox__RateWrapper>
+      <RatesBox__RateText
+        color="brand-primary"
+      >
+        1 $
+        BTC
+         =
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <StringDisplayContainer>
+          <Component />
+        </StringDisplayContainer>
+      </RatesBox__RateText>
+    </RatesBox__RateWrapper>
+  </Exchange__LargeTableRow>
 </RatesBox__RatesWrapper>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = `
 <RatesBox__RatesWrapper>
-  <RatesBox__RatesTitle>
-    <FormattedMessage
-      defaultMessage="Rates"
-      id="scenes.exchange.exchangeform.summary.rates"
-      values={Object {}}
-    />
-  </RatesBox__RatesTitle>
-  <RatesBox__RatesRow>
-    <StringDisplayContainer>
-      <Component />
-    </StringDisplayContainer>
-  </RatesBox__RatesRow>
+  <Exchange__LargeTableRow>
+    <RatesBox__TotalBalanceWrapper>
+      <RatesBox__RateText>
+        <FormattedMessage
+          defaultMessage="Your {sourceCoin} Balance"
+          id="scenes.exchange.exchangeform.summary.totalbalance"
+          values={
+            Object {
+              "sourceCoin": "BTC",
+            }
+          }
+        />
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <RatesBox__Row>
+          <RatesBox__RateText
+            color="success"
+          >
+            $1000.00
+             
+          </RatesBox__RateText>
+          <span>
+             
+          </span>
+          <RatesBox__RateText>
+             
+          </RatesBox__RateText>
+        </RatesBox__Row>
+      </RatesBox__RateText>
+    </RatesBox__TotalBalanceWrapper>
+    <RatesBox__RateWrapper>
+      <RatesBox__RateText
+        color="brand-primary"
+      >
+        1 $
+        BTC
+         =
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <StringDisplayContainer>
+          <Component />
+        </StringDisplayContainer>
+      </RatesBox__RateText>
+    </RatesBox__RateWrapper>
+  </Exchange__LargeTableRow>
 </RatesBox__RatesWrapper>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = `
 <RatesBox__RatesWrapper>
-  <RatesBox__RatesTitle>
-    <FormattedMessage
-      defaultMessage="Rates"
-      id="scenes.exchange.exchangeform.summary.rates"
-      values={Object {}}
-    />
-  </RatesBox__RatesTitle>
-  <RatesBox__RatesRow>
-    <StringDisplayContainer>
-      <Component />
-    </StringDisplayContainer>
-  </RatesBox__RatesRow>
+  <Exchange__LargeTableRow>
+    <RatesBox__TotalBalanceWrapper>
+      <RatesBox__RateText>
+        <FormattedMessage
+          defaultMessage="Your {sourceCoin} Balance"
+          id="scenes.exchange.exchangeform.summary.totalbalance"
+          values={
+            Object {
+              "sourceCoin": "BTC",
+            }
+          }
+        />
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <RatesBox__Row>
+          <RatesBox__RateText
+            color="success"
+          >
+            $1000.00
+             
+          </RatesBox__RateText>
+          <span>
+             
+          </span>
+          <RatesBox__RateText>
+             
+          </RatesBox__RateText>
+        </RatesBox__Row>
+      </RatesBox__RateText>
+    </RatesBox__TotalBalanceWrapper>
+    <RatesBox__RateWrapper>
+      <RatesBox__RateText
+        color="brand-primary"
+      >
+        1 $
+        BTC
+         =
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <StringDisplayContainer>
+          <Component />
+        </StringDisplayContainer>
+      </RatesBox__RateText>
+    </RatesBox__RateWrapper>
+  </Exchange__LargeTableRow>
 </RatesBox__RatesWrapper>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = `
 <RatesBox__RatesWrapper>
-  <RatesBox__RatesTitle>
-    <FormattedMessage
-      defaultMessage="Rates"
-      id="scenes.exchange.exchangeform.summary.rates"
-      values={Object {}}
-    />
-  </RatesBox__RatesTitle>
-  <RatesBox__RatesRow>
-    <StringDisplayContainer>
-      <Component />
-    </StringDisplayContainer>
-  </RatesBox__RatesRow>
+  <Exchange__LargeTableRow>
+    <RatesBox__TotalBalanceWrapper>
+      <RatesBox__RateText>
+        <FormattedMessage
+          defaultMessage="Your {sourceCoin} Balance"
+          id="scenes.exchange.exchangeform.summary.totalbalance"
+          values={
+            Object {
+              "sourceCoin": "BTC",
+            }
+          }
+        />
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <RatesBox__Row>
+          <RatesBox__RateText
+            color="success"
+          >
+            $1000.00
+             
+          </RatesBox__RateText>
+          <span>
+             
+          </span>
+          <RatesBox__RateText>
+             
+          </RatesBox__RateText>
+        </RatesBox__Row>
+      </RatesBox__RateText>
+    </RatesBox__TotalBalanceWrapper>
+    <RatesBox__RateWrapper>
+      <RatesBox__RateText
+        color="brand-primary"
+      >
+        1 $
+        BTC
+         =
+      </RatesBox__RateText>
+      <RatesBox__RateText>
+        <StringDisplayContainer>
+          <Component />
+        </StringDisplayContainer>
+      </RatesBox__RateText>
+    </RatesBox__RateWrapper>
+  </Exchange__LargeTableRow>
 </RatesBox__RatesWrapper>
 `;

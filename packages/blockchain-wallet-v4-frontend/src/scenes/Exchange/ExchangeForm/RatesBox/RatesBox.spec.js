@@ -9,7 +9,8 @@ import { RatesBox } from './RatesBox'
 const props = {
   sourceCoin: 'BTC',
   targetCoin: 'ETH',
-  currency: '$'
+  currency: '$',
+  balance: Remote.of({ balanceMax: {}, balanceMaxFiat: '$1000.00' })
 }
 
 const STUB_RATE = 100
