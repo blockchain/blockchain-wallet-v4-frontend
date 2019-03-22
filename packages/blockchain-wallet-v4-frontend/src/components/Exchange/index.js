@@ -23,7 +23,7 @@ export const Title = styled(Text)`
   margin-bottom: 24px;
 `
 export const AmountHeader = styled(ExchangeText)`
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.color || props.theme['gray-5']};
   font-size: 16px;
 `
 export const Delimiter = styled.div`
@@ -60,13 +60,15 @@ export const CancelButton = styled(ExchangeButton)`
 `
 export const ExchangeAmounts = styled.div``
 export const ExchangeAmount = styled(Text)`
+  display: flex;
   font-weight: 400;
   font-size: 17px;
   line-height: 20px;
-  text-align: right;
+  justify-content: flex-end;
   color: ${props => props.theme[props.color || 'brand-primary']};
 `
 export const SubExchangeAmount = styled(ExchangeAmount)`
+  margin-top: 2px;
   text-align: right;
   font-weight: 300;
   font-size: 13px;

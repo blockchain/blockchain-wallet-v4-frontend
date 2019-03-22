@@ -12,6 +12,7 @@ export const getData = createDeepEqualSelector(
     return {
       sourceFee,
       sourceFeeFiat: propOr(0, 'sourceFiat', sourceFee),
+      sourceFiat: amountsR.map(prop('sourceFiat')),
       sourceAmount: amountsR.map(prop('sourceAmount')),
       targetAmount: amountsR.map(prop('targetAmount')),
       targetFiat: amountsR.map(prop('targetFiat'))
