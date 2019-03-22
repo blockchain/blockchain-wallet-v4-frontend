@@ -160,7 +160,7 @@ export const OrderNote = ({ status }) => {
       return (
         <FormattedMessage
           id='components.orderstatus.note.swapdelayed'
-          defaultMessage='Don’t worry, your exchange is in process. Swap trades are completed on-chain. If transaction volumes are high, there are sometimes delays.'
+          defaultMessage='Don’t worry, your exchange is in progress. Swap trades are completed on-chain. If transaction volumes are high, there are sometimes delays.'
         />
       )
     case EXPIRED:
