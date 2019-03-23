@@ -54,7 +54,7 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
           {address.addr}
         </AddressCell>
         {address.priv == null && (
-          <Banner label type='informational'>
+          <Banner label type='informational' data-e2e='nonSpendableBadge'>
             <FormattedMessage
               id='scenes.settings.addresses.btc.addressrow.watchonly'
               defaultMessage='Non-Spendable'
