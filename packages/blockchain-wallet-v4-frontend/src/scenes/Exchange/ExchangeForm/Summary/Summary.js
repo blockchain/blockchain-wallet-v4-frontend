@@ -22,6 +22,7 @@ const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
 const SummaryWrapper = styled(BorderWrapper)`
   padding: 0;
+  width: 100%;
   margin-bottom: 24px;
 `
 const SummaryExchangeAmount = styled(ExchangeAmount)`

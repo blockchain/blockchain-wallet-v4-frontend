@@ -7,25 +7,20 @@ import { model } from 'data'
 import { HeartbeatLoader, Icon } from 'blockchain-info-components'
 import {
   Wrapper,
-  ExchangeText,
   Title,
-  Delimiter,
-  TableRow,
   Note,
   ExchangeButton,
   CancelButton
 } from 'components/Exchange'
 import { Form } from 'components/Form'
 import ExchangeError from './ExchangeError'
+import Summary from '../ExchangeForm/Summary'
 
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
   ${Title} {
     margin-bottom: 8px;
-  }
-  ${TableRow} {
-    margin-bottom: 26px;
   }
   > :last-child {
     margin-bottom: 0;
@@ -79,14 +74,9 @@ const ExchangeConfirm = ({
   error,
   sourceAmount,
   targetAmount,
-  targetFiat,
-  sourceFiat,
-  sourceActive,
-  sourceToTargetRate,
   sourceCoin,
   targetCoin,
   currency,
-  sourceFee,
   submitting,
   handleSubmit,
   onBack
@@ -114,54 +104,11 @@ const ExchangeConfirm = ({
           {`${targetAmount} ${targetCoin}`}
         </CoinButton>
       </Row>
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.exchange.confirm.summary.rates'
-            defaultMessage='Rate'
-          />
-        </ExchangeText>
-        <ExchangeText weight={300}>
-          {`1 ${sourceCoin} = ${sourceToTargetRate} ${targetCoin}`}
-        </ExchangeText>
-      </TableRow>
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.exchange.confirm.summary.sourceFee'
-            defaultMessage='Network Fee'
-          />
-        </ExchangeText>
-        <ExchangeText weight={300}>{`${
-          sourceFee.source
-        } ${sourceCoin}`}</ExchangeText>
-      </TableRow>
-      {sourceActive ? (
-        <TableRow>
-          <ExchangeText>
-            <FormattedMessage
-              id='scenes.exchange.confirm.value'
-              defaultMessage='Value'
-            />
-          </ExchangeText>
-          <ExchangeText
-            weight={300}
-          >{`${sourceFiat} ${currency}`}</ExchangeText>
-        </TableRow>
-      ) : (
-        <TableRow>
-          <ExchangeText>
-            <FormattedMessage
-              id='scenes.exchange.confirm.receivevalue'
-              defaultMessage='Receive Value'
-            />
-          </ExchangeText>
-          <ExchangeText
-            weight={300}
-          >{`${targetFiat} ${currency}`}</ExchangeText>
-        </TableRow>
-      )}
-      <Delimiter />
+      <Summary
+        sourceCoin={sourceCoin}
+        targetCoin={targetCoin}
+        currency={currency}
+      />
       {error ? (
         <ExchangeError
           error={error}
