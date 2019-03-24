@@ -59,7 +59,11 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount color='gray-5'>
-              <SummaryStringDisplay data-e2e='exchangeSummarySwapFiatValue'>
+              <SummaryStringDisplay
+                data-e2e='exchangeSummarySwapFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
+              >
                 {sourceFiat.map(amount =>
                   formatAmount(true, fiatCurrencySymbol, amount)
                 )}
@@ -114,7 +118,11 @@ export class Summary extends React.PureComponent {
           <ExchangeAmounts>
             <SummaryExchangeAmount color='gray-5'>
               -
-              <SummaryStringDisplay data-e2e='exchangeSummaryTotalFiatValue'>
+              <SummaryStringDisplay
+                data-e2e='exchangeSummaryTotalFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
+              >
                 {sourceFiat.map(amount =>
                   formatAmount(
                     true,
@@ -147,7 +155,11 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <SummaryStringDisplay data-e2e='exchangeSummaryTargetFiatValue'>
+              <SummaryStringDisplay
+                data-e2e='exchangeSummaryTargetFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
+              >
                 {targetFiat.map(amount =>
                   formatAmount(true, fiatCurrencySymbol, amount)
                 )}

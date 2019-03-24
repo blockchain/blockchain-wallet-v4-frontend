@@ -43,6 +43,7 @@ export const TableRow = styled.div`
 `
 export const LargeTableRow = styled(TableRow)`
   padding: 18px;
+  min-height: 80px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   &:last-child {
     border-bottom: 0px;

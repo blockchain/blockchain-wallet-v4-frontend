@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 import { getData } from './selectors'
-import { Text } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import StringDisplay from 'components/Display/StringDisplay'
 import { LargeTableRow, Wrapper } from 'components/Exchange'
 
@@ -59,8 +59,8 @@ export const RatesBox = ({
               )
             },
             Failure: () => null,
-            Loading: () => null,
-            NotAsked: () => null
+            Loading: () => <SkeletonRectangle height='14px' width='60px' />,
+            NotAsked: () => <SkeletonRectangle height='14px' width='60px' />
           })}
         </RateText>
       </TotalBalanceWrapper>

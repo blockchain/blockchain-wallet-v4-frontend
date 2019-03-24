@@ -8,7 +8,7 @@ import { Remote } from 'blockchain-wallet-v4'
 
 import { getRemotePropType } from 'utils/proptypes'
 
-import { FlatLoader, Text } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,11 +17,6 @@ const Wrapper = styled.div`
   align-items: center;
   box-sizing: border-box;
 `
-const Loader = styled(FlatLoader)`
-  width: 50px;
-  height: 14px;
-  margin: 5px 0;
-`
 
 const defaultError = (
   <FormattedMessage id='stringdisplay.deafulterror' defaultMessage='Error' />
@@ -29,7 +24,7 @@ const defaultError = (
 
 class StringDisplayContainer extends React.PureComponent {
   render () {
-    const { children, ...rest } = this.props
+    const { children, skeletonHeight, skeletonWidth, ...rest } = this.props
     return (
       <Wrapper {...rest}>
         {children.cata({
@@ -39,8 +34,12 @@ class StringDisplayContainer extends React.PureComponent {
               {propOr(defaultError, 'message', error)}
             </Text>
           ),
-          Loading: () => <Loader />,
-          NotAsked: () => <Loader />
+          Loading: () => (
+            <SkeletonRectangle height={skeletonHeight} width={skeletonWidth} />
+          ),
+          NotAsked: () => (
+            <SkeletonRectangle height={skeletonHeight} width={skeletonWidth} />
+          )
         })}
       </Wrapper>
     )
@@ -52,7 +51,9 @@ StringDisplayContainer.propTypes = {
 }
 
 StringDisplayContainer.defaultProps = {
-  children: Remote.NotAsked
+  children: Remote.NotAsked,
+  skeletonHeight: '14px',
+  skeletonWidth: '60px'
 }
 
 export default StringDisplayContainer
