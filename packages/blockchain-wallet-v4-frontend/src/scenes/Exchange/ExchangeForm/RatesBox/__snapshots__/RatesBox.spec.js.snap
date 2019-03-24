@@ -41,7 +41,10 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = 
          =
       </RatesBox__RateText>
       <RatesBox__RateText>
-        <StringDisplayContainer>
+        <StringDisplayContainer
+          skeletonHeight="14px"
+          skeletonWidth="60px"
+        >
           <Component />
         </StringDisplayContainer>
       </RatesBox__RateText>
@@ -91,7 +94,10 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = 
          =
       </RatesBox__RateText>
       <RatesBox__RateText>
-        <StringDisplayContainer>
+        <StringDisplayContainer
+          skeletonHeight="14px"
+          skeletonWidth="60px"
+        >
           <Component />
         </StringDisplayContainer>
       </RatesBox__RateText>
@@ -141,7 +147,10 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = 
          =
       </RatesBox__RateText>
       <RatesBox__RateText>
-        <StringDisplayContainer>
+        <StringDisplayContainer
+          skeletonHeight="14px"
+          skeletonWidth="60px"
+        >
           <Component />
         </StringDisplayContainer>
       </RatesBox__RateText>
@@ -191,7 +200,10 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = 
          =
       </RatesBox__RateText>
       <RatesBox__RateText>
-        <StringDisplayContainer>
+        <StringDisplayContainer
+          skeletonHeight="14px"
+          skeletonWidth="60px"
+        >
           <Component />
         </StringDisplayContainer>
       </RatesBox__RateText>
