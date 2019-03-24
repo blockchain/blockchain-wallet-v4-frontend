@@ -149,11 +149,6 @@ const ClickableText = styled(Text)`
 const LockboxWarning = styled(Row)`
   padding: 20px 30px 0;
 `
-const AmountsNote = styled(Note)`
-  text-align: center;
-  margin-top: 18px;
-  color: ${props => props.theme['gray-4']};
-`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -336,12 +331,12 @@ const Success = ({
           targetCoin={targetCoin}
           currency={currency}
         />
-        <AmountsNote>
+        <Note>
           <FormattedMessage
             id='scenes.exchange.exchangeform.summary.note'
             defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
           />
-        </AmountsNote>
+        </Note>
       </ColumnRight>
     </Wrapper>
   )

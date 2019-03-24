@@ -1,10 +1,8 @@
 import { assoc, compose } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4'
-import { EXCHANGE_STEPS } from './model'
 
 const INITIAL_STATE = {
-  step: EXCHANGE_STEPS.EXCHANGE_FORM,
   limits: Remote.NotAsked,
   min: null,
   max: null,
@@ -18,9 +16,6 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SET_STEP: {
-      return assoc('step', payload.step, state)
-    }
     case AT.FETCH_LIMITS_LOADING:
       return assoc('limits', Remote.Loading, state)
     case AT.FETCH_LIMITS_SUCCESS:

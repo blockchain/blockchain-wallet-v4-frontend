@@ -4,27 +4,45 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { model } from 'data'
 
-import { HeartbeatLoader, Icon } from 'blockchain-info-components'
-import {
-  Wrapper,
-  Title,
-  Note,
-  ExchangeButton,
-  CancelButton
-} from 'components/Exchange'
+import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { ExchangeButton, Note, Title, Wrapper } from 'components/Exchange'
 import { Form } from 'components/Form'
 import ExchangeError from './ExchangeError'
-import Summary from '../ExchangeForm/Summary'
+import Summary from '../../../scenes/Exchange/ExchangeForm/Summary'
 
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  ${Title} {
-    margin-bottom: 8px;
-  }
+  border: 0px;
+  padding: 0px;
+  padding-bottom: 0px;
   > :last-child {
     margin-bottom: 0;
   }
+`
+const CoinIconTitle = styled(Title)`
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: initial;
+  span:nth-child(2) {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: ${props => props.theme['white']};
+    justify-content: center;
+    align-items: center;
+    margin: 0px -6px;
+    z-index: 1;
+  }
+`
+const AmountTitle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
 `
 const CoinButton = styled.div`
   display: flex;
@@ -51,7 +69,7 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 35px;
+  margin-bottom: 16px;
 `
 const FromToIcon = styled(Icon)`
   min-width: 25px;
@@ -61,13 +79,15 @@ const FromToIcon = styled(Icon)`
   font-size: 24px;
 `
 const ConfirmForm = styled(Form)`
-  max-width: 440px;
+  padding: 0px;
 `
 const AmountNote = styled(Note)`
   margin-top: 0px;
 `
 const Buttons = styled.div`
-  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-top: -8px;
+  width: 100%;
 `
 
 const ExchangeConfirm = ({
@@ -76,19 +96,34 @@ const ExchangeConfirm = ({
   targetAmount,
   sourceCoin,
   targetCoin,
+  targetFiat,
   currency,
+  fiatCurrencySymbol,
   submitting,
   handleSubmit,
-  onBack
+  close
 }) => (
   <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
-      <Title>
-        <FormattedMessage
-          id='scenes.exchange.confirm.header'
-          defaultMessage='Confirm'
+      <CoinIconTitle>
+        <Icon
+          size='42px'
+          color={sourceCoin.toLowerCase()}
+          name={sourceCoin.toLowerCase() + '-circle-filled'}
         />
-      </Title>
+        <Icon size='12px' name='thick-arrow-right' />
+        <Icon
+          size='42px'
+          color={targetCoin.toLowerCase()}
+          name={targetCoin.toLowerCase() + '-circle-filled'}
+        />
+      </CoinIconTitle>
+      <AmountTitle>
+        <Text size='42px' color='brand-primary'>
+          {fiatCurrencySymbol}
+          {targetFiat}
+        </Text>
+      </AmountTitle>
       <Row>
         <CoinButton
           coin={sourceCoin.toLowerCase()}
@@ -109,10 +144,30 @@ const ExchangeConfirm = ({
         targetCoin={targetCoin}
         currency={currency}
       />
+      {!error && (
+        <Buttons>
+          <ExchangeButton
+            type='submit'
+            nature='primary'
+            disabled={submitting}
+            data-e2e='exchangeCompleteOrderButton'
+          >
+            {!submitting && (
+              <FormattedMessage
+                id='scenes.exchange.confirm.confirm'
+                defaultMessage='Confirm'
+              />
+            )}
+            {submitting && (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            )}
+          </ExchangeButton>
+        </Buttons>
+      )}
       {error ? (
         <ExchangeError
           error={error}
-          onBack={onBack}
+          onBack={close}
           handleSubmit={handleSubmit}
         />
       ) : (
@@ -124,38 +179,6 @@ const ExchangeConfirm = ({
         </AmountNote>
       )}
     </ConfirmWrapper>
-    {!error && (
-      <Buttons>
-        <ExchangeButton
-          type='submit'
-          nature='primary'
-          disabled={submitting}
-          data-e2e='exchangeCompleteOrderButton'
-        >
-          {!submitting && (
-            <FormattedMessage
-              id='scenes.exchange.confirm.confirm'
-              defaultMessage='Confirm'
-            />
-          )}
-          {submitting && (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
-          )}
-        </ExchangeButton>
-        <CancelButton
-          disabled={submitting}
-          onClick={onBack}
-          data-e2e='exchangeCancelOrderButton'
-        >
-          {!submitting && (
-            <FormattedMessage
-              id='scenes.exchange.confirm.cancel'
-              defaultMessage='Cancel'
-            />
-          )}
-        </CancelButton>
-      </Buttons>
-    )}
   </ConfirmForm>
 )
 

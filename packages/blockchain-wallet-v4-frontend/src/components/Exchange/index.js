@@ -52,18 +52,17 @@ export const LargeTableRow = styled(TableRow)`
 export const Note = styled(Text)`
   font-size: 12px;
   line-height: 14px;
-  margin-top: 12px;
   margin-bottom: 28px;
   font-weight: 300;
+  text-align: center;
+  margin-top: 16px;
+  color: ${props => props.theme['gray-4']};
 `
 export const ExchangeButton = styled(Button)`
-  margin-left: 30px;
-  margin-right: 30px;
-  width: calc(100% - 60px);
-`
-export const CancelButton = styled(ExchangeButton)`
-  border: none;
-  margin-top: 10px;
+  width: 100%;
+  height: 56px;
+  weight: 400;
+  font-size: 18px;
 `
 export const ExchangeAmounts = styled.div``
 export const ExchangeAmount = styled(Text)`
