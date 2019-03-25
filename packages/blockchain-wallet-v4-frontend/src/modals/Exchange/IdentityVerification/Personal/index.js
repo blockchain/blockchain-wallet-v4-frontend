@@ -125,7 +125,7 @@ class PersonalContainer extends React.PureComponent {
       activeFieldError={activeFieldError}
       editEmail={this.editEmail}
       updateEmail={actions.updateEmail}
-      sendEmailVerification={this.onSendEmailVerification}
+      sendEmailVerification={actions.sendEmailVerification}
       onPromptForEmailVerification={this.onPromptForEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
