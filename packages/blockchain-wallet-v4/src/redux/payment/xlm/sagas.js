@@ -319,7 +319,7 @@ export default ({ api }) => {
           amount: amount => chain(gen, payment => payment.amount(amount)),
           from: (origin, type) =>
             chain(gen, payment => payment.from(origin, type)),
-          fee: () => chain(gen, payment => payment.fee()),
+          fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
