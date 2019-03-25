@@ -29,7 +29,16 @@ const Header = styled(ModalHeader)`
   border-bottom: 0px;
 `
 class ExchangeConfirmContainer extends React.PureComponent {
+  state = {
+    showOrderInfo: false
+  }
+
+  toggleShowOrderInfo = () => {
+    this.setState({ showOrderInfo: !this.state.showOrderInfo })
+  }
+
   render () {
+    const { showOrderInfo } = this.state
     const { data, actions, close, position, total } = this.props
     const ConfirmCata = data.cata({
       Success: value => (
@@ -37,6 +46,8 @@ class ExchangeConfirmContainer extends React.PureComponent {
           {...value}
           close={close}
           onSubmit={actions.confirmExchange}
+          showOrderInfo={showOrderInfo}
+          toggleShowOrderInfo={this.toggleShowOrderInfo}
         />
       ),
       Failure: message => <DataError message={message} />,

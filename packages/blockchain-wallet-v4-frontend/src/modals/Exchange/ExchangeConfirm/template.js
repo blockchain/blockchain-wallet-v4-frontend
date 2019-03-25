@@ -78,6 +78,39 @@ const FromToIcon = styled(Icon)`
   justify-content: center;
   font-size: 24px;
 `
+const OrderInfoBox = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  cursor: pointer;
+  width: 100%;
+  > * {
+    transition: color 0.1s, transform 0.1s;
+  }
+  ${props =>
+    props.showOrderInfo &&
+    `
+    border-radius: 4px 4px 0px 0px;
+    border-bottom: 0px;
+    margin-bottom: 0px;
+    > span:last-child {
+      transform: rotate(180deg);
+    }
+    & + div {
+      border-radius: 0px 0px 4px 4px;
+    }
+  `}
+  &:hover {
+    * {
+      color: ${props => props.theme['brand-secondary']};
+    }
+  }
+`
 const ConfirmForm = styled(Form)`
   padding: 0px;
 `
@@ -101,6 +134,8 @@ const ExchangeConfirm = ({
   fiatCurrencySymbol,
   submitting,
   handleSubmit,
+  showOrderInfo,
+  toggleShowOrderInfo,
   close
 }) => (
   <ConfirmForm onSubmit={handleSubmit}>
@@ -139,11 +174,22 @@ const ExchangeConfirm = ({
           {`${targetAmount} ${targetCoin}`}
         </CoinButton>
       </Row>
-      <Summary
-        sourceCoin={sourceCoin}
-        targetCoin={targetCoin}
-        currency={currency}
-      />
+      <OrderInfoBox onClick={toggleShowOrderInfo} showOrderInfo={showOrderInfo}>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='scenes.exchange.confirm.orderinfo'
+            defaultMessage='Order Info'
+          />
+        </Text>
+        <Icon name='down-arrow' weight={600} size='14px' color='gray-3' />
+      </OrderInfoBox>
+      {showOrderInfo && (
+        <Summary
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
+      )}
       {!error && (
         <Buttons>
           <ExchangeButton
