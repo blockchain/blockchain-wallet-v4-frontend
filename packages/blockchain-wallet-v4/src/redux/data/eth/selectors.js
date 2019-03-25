@@ -31,20 +31,19 @@ export const getHeight = state => getLatestBlock(state).map(path(['number']))
 export const getNonce = (state, address) =>
   getAddresses(state).map(path([address, 'nonce']))
 
-// TODO: rename to eth
-export const getBalance = (state, token = 'eth') => {
-  return path([dataPath, 'eth', 'info', token])(state).map(
+export const getBalance = state => {
+  return path([dataPath, 'eth', 'info', 'eth'])(state).map(
     prop('final_balance')
   )
 }
-export const getCurrentBalance = (state, token = 'eth') => {
-  return path([dataPath, 'eth', 'current_balance', token])(state)
+export const getCurrentBalance = state => {
+  return path([dataPath, 'eth', 'current_balance', 'eth'])
 }
-export const getTransactions = (state, token = 'eth') => {
-  return path([dataPath, 'eth', 'transactions', token])(state)
+export const getTransactions = state => {
+  return path([dataPath, 'eth', 'transactions', 'eth'])
 }
-export const getTransactionsAtBound = (state, token = 'eth') => {
-  return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
+export const getTransactionsAtBound = state => {
+  return path([dataPath, 'eth', 'transactions_at_bound', 'eth'])
 }
 
 //

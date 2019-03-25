@@ -103,9 +103,11 @@ export default ({ api }) => {
     try {
       const { payload } = action
       const { address, reset } = payload
+      console.info('action payload', address, reset)
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
       const pages = yield select(S.getTransactions)
+      console.info('PAGES HERE', pages)
       const nextPage = reset ? 0 : length(pages)
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
@@ -116,6 +118,7 @@ export default ({ api }) => {
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const page = yield call(__processTxs, txs)
+      console.info('I AM PAGE', page)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))

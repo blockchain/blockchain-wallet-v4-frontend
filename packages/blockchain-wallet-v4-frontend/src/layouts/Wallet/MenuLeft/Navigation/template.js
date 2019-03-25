@@ -61,26 +61,26 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.swap'
             defaultMessage='Swap'
           />
+        </MenuItem>
+      </LinkContainer>
+      <Separator />
+      <LinkContainer to='/pax/transactions' activeClassName='active'>
+        <MenuItem data-e2e='paxLink'>
+          <Icon name='dollars' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.pax'
+            defaultMessage='Paxos'
+          />
           <NewCartridge>
             <Text color='white' size='12' weight='300'>
               <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.transactions.pax.new'
                 defaultMessage='New'
-                id='layouts.wallet.menuleft.navigation.new'
               />
             </Text>
           </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      <MenuItem>
-        <Separator>
-          <Text size='14px' weight={400} uppercase>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions'
-              defaultMessage='Transactions'
-            />
-          </Text>
-        </Separator>
-      </MenuItem>
       <LinkContainer to='/btc/transactions' activeClassName='active'>
         <MenuItem data-e2e='bitcoinLink'>
           <Icon name='btc-circle' />
@@ -115,32 +115,14 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.transactions.xlm'
             defaultMessage='Stellar'
           />
-          <NewCartridge>
-            <Text color='white' size='12' weight='300'>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      <MenuItem>
-        <Separator>
-          <Text size='14px' weight={400} uppercase>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.storage'
-              defaultMessage='Storage'
-            />
-          </Text>
-        </Separator>
-      </MenuItem>
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <Icon name='lock' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.hardwarewallet'
-            defaultMessage='Hardware Wallet'
+            id='layouts.wallet.menuleft.navigation.hardware'
+            defaultMessage='Hardware'
           />
           <HelperTipContainer>
             <TooltipHost id='lockboxRequired'>

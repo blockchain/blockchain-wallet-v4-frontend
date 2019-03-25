@@ -63,7 +63,10 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETH_DATA_FAILURE: {
       const newState = {
         addresses: Remote.Failure(prop('addresses', payload)),
-        info: { eth: Remote.Failure(path('info', 'eth', payload)) },
+        info: {
+          ...state.info,
+          eth: Remote.Failure(path('info', 'eth', payload))
+        },
         latest_block: Remote.Failure(prop('latest_block', payload))
       }
       return mergeRight(state, newState)

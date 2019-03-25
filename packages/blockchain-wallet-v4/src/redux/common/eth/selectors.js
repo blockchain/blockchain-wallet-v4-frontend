@@ -38,4 +38,12 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state => state.dataPath.eth.transactions
+export const getWalletTransactions = state => {
+  return state.dataPath.eth.transactions.eth
+}
+
+// getWalletTransactions :: (state, token) -> Remote([ProcessedTx])
+export const getErc20WalletTransactions = (state, token) => {
+  console.info(state, token)
+  return state.dataPath.eth.transactions[token]
+}

@@ -10,7 +10,7 @@ class TransactionsContainer extends React.PureComponent {
 }
 
 TransactionsContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM', 'BSV']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default TransactionsContainer
