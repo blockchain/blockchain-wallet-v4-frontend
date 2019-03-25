@@ -12,9 +12,9 @@ exports[`PriceChart template Success renders correctly 1`] = `
           "data": Object {
             "dateFormat": "YYYY/mm/dd",
           },
-          "height": 330,
+          "height": 320,
           "spacing": Array [
-            0,
+            25,
             0,
             0,
             0,
@@ -107,7 +107,7 @@ exports[`PriceChart template Success renders correctly 1`] = `
         "yAxis": Object {
           "gridLineColor": "transparent",
           "maxPadding": 0,
-          "minPadding": 0,
+          "minPadding": 0.1,
           "visible": false,
         },
       }

@@ -18,21 +18,29 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['white']} !important;
     }
   }
-  .highcharts-container,
-  .highcharts-root {
-    overflow: visible !important;
-  }
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
     > span:first-child {
       font-weight: 300;
     }
   }
+  .highcharts-container,
+  .highcharts-root {
+    overflow: visible !important;
+  }
   .min-max {
+    opacity: 1;
     padding: 4px 6px;
     border-radius: 4px;
     color: ${props => props.theme['white']};
     background: ${props => props.theme[props.coin.toLowerCase()]};
+    transition: opacity 0.3s;
+  }
+  &:hover {
+    .min-max {
+      opacity: 0;
+      transition: opacity 0.3s 0.3s;
+    }
   }
 `
 
