@@ -83,6 +83,7 @@ export default {
   'stack-of-coins': '\\e972',
   switch: '\\e9b6',
   'sync-regular': '\\e93d',
+  'thick-arrow-right': '\\e91c',
   transactions: '\\e976',
   trash: '\\e951',
   twitter: '\\e916',

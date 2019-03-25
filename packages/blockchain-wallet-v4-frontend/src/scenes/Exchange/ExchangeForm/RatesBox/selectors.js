@@ -1,7 +1,9 @@
-import { curry, prop, path } from 'ramda'
+import { curry, prop, path, lift } from 'ramda'
 
 import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 
 const { formatPair } = model.rates
 
@@ -36,21 +38,32 @@ const formatBestRates = curry(
   })
 )
 
+const transformBalanceMax = curry((currency, limits, rates) => {
+  const balanceMax = path([currency, 'balanceMax'], limits)
+  const sourceToFiatRate = prop('sourceToFiatRate', rates)
+  const symbol = Exchange.getSymbol(currency)
+  const maxFiat = formatFiat(prop('amount', balanceMax) * sourceToFiatRate)
+  return {
+    balanceMax,
+    balanceMaxFiat: symbol + maxFiat
+  }
+})
+
 export const getData = createDeepEqualSelector(
   [
     getCurrentPairRates,
     selectors.modules.rates.getBestRates,
+    selectors.components.exchange.getLimits,
     (state, ownProps) => ownProps
   ],
-  (adviceRatesR, bestRatesR, { currency, sourceCoin, targetCoin }) => {
+  (adviceRatesR, bestRatesR, limitsR, { currency, sourceCoin, targetCoin }) => {
     const ratesR = fallbackToBestRates(
       adviceRatesR,
       bestRatesR.map(formatBestRates(sourceCoin, targetCoin, currency))
     )
     return {
-      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
-      sourceToFiatRate: ratesR.map(prop('sourceToFiatRate')),
-      targetToFiatRate: ratesR.map(prop('targetToFiatRate'))
+      balance: lift(transformBalanceMax(currency))(limitsR, ratesR),
+      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate'))
     }
   }
 )
