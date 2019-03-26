@@ -38,7 +38,7 @@ const fiatAtTime = { value: 33 }
 
 const api = {
   fetchBlockchainData: jest.fn(() => btcFetchData),
-  getBtcFee: jest.fn(() => feeData),
+  getBtcFees: jest.fn(() => feeData),
   getBtcFiatAtTime: jest.fn(() => fiatAtTime),
   getBtcTicker: jest.fn(() => rateData),
   getTransactionHistory: jest.fn(() => transactionHistory)

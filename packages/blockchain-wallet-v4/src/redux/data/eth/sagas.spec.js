@@ -56,7 +56,7 @@ const latest_block = {
 
 const api = {
   getEthData: jest.fn(() => ethFetchData),
-  getEthFee: jest.fn(() => feeData),
+  getEthFees: jest.fn(() => feeData),
   getEthLatestBlock: jest.fn(() => latest_block),
   getEthTicker: jest.fn(() => rateData),
   getEthTransactions: jest.fn(() => ethTransactionData),

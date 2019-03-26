@@ -125,7 +125,7 @@ export default ({ api }) => {
       * init () {
         let fees
         try {
-          fees = yield call(api.getEthFee)
+          fees = yield call(api.getEthFees)
         } catch (e) {
           throw new Error(FETCH_FEES_FAILURE)
         }
