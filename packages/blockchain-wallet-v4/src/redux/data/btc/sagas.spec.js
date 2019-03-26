@@ -110,51 +110,6 @@ describe('btc data sagas', () => {
     })
   })
 
-  describe('fetchFee', () => {
-    const saga = testSaga(dataBtcSagas.fetchFee)
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchFeeLoading())
-    })
-
-    it('should retrieve fee data', () => {
-      saga.next().call(api.getBtcFee)
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(feeData)
-        .put(A.fetchFeeSuccess(feeData))
-        .next()
-        .isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'failed to fetch fee' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchFeeFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add fee data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchFee)
-          .withReducer(reducers)
-          .run()
-          .then(result => {
-            expect(result.storeState.btc).toMatchObject({
-              fee: Remote.Success(feeData)
-            })
-          })
-      })
-    })
-  })
-
   describe('fetchRates', () => {
     const saga = testSaga(dataBtcSagas.fetchRates)
 

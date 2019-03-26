@@ -139,52 +139,6 @@ describe('eth data sagas', () => {
     })
   })
 
-  describe('fetchFee', () => {
-    const saga = testSaga(dataEthSagas.fetchFee)
-    const weiData = convertFeeToWei(feeData)
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchFeeLoading())
-    })
-
-    it('should retrieve fee data', () => {
-      saga.next().call(api.getEthFee)
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(feeData)
-        .put(A.fetchFeeSuccess(weiData))
-        .next()
-        .isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'failed to fetch fee' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchFeeFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add fee data to the state', () => {
-        return expectSaga(dataEthSagas.fetchFee)
-          .withReducer(reducers)
-          .run()
-          .then(result => {
-            expect(result.storeState.eth).toMatchObject({
-              fee: Remote.Success(weiData)
-            })
-          })
-      })
-    })
-  })
-
   describe('fetchRates', () => {
     const saga = testSaga(dataEthSagas.fetchRates)
 

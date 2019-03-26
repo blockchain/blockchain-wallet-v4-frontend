@@ -11,7 +11,6 @@ import {
   sum,
   values
 } from 'ramda'
-import { convertFeeToWei } from '../../../utils/eth'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -55,17 +54,6 @@ export default ({ api }) => {
       yield put(A.fetchDataSuccess(ethData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
-    }
-  }
-
-  const fetchFee = function * () {
-    try {
-      yield put(A.fetchFeeLoading())
-      const data = yield call(api.getEthFee)
-      const weiData = convertFeeToWei(data)
-      yield put(A.fetchFeeSuccess(weiData))
-    } catch (e) {
-      yield put(A.fetchFeeFailure(e.message))
     }
   }
 
@@ -143,7 +131,6 @@ export default ({ api }) => {
   }
   return {
     fetchData,
-    fetchFee,
     fetchLegacyBalance,
     fetchRates,
     fetchLatestBlock,
