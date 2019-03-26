@@ -145,13 +145,13 @@ export const fetchErc20BalanceFailure = (token, error) => ({
   payload: { token, error }
 })
 
-export const fetchErc20Transactions = (token, address, reset) => ({
+export const fetchErc20Transactions = (token, reset) => ({
   type: AT.FETCH_ERC20_TOKEN_TRANSACTIONS,
-  payload: { token, address, reset }
+  payload: { token, reset }
 })
-export const fetchErc20TransactionsLoading = (token, address, reset) => ({
+export const fetchErc20TransactionsLoading = (token, reset) => ({
   type: AT.FETCH_ERC20_TOKEN_TRANSACTIONS_LOADING,
-  payload: { token, address, reset }
+  payload: { token, reset }
 })
 export const fetchErc20TransactionsSuccess = (token, transactions, reset) => ({
   type: AT.FETCH_ERC20_TOKEN_TRANSACTIONS_SUCCESS,

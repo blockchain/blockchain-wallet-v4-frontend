@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -18,7 +17,7 @@ const ContentWrapper = styled.div`
 
 class ContentContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.txActions.initialized()
+    this.props.initTxs()
   }
 
   componentDidUpdate (prevProps) {
@@ -26,21 +25,20 @@ class ContentContainer extends React.PureComponent {
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
     ) {
-      this.props.txActions.initialized()
+      this.props.initTxs()
     }
   }
 
   handleLoadMore = () => {
-    this.props.txActions.loadMore()
+    this.props.loadMoreTxs()
   }
 
   handleRefresh = () => {
-    this.props.dataActions.fetchData()
-    this.props.txActions.initialized()
+    this.props.fetchData()
+    this.props.initTxs()
   }
 
-  handleArchive = address =>
-    this.props.coreWalletActions.setAddressArchived(address, true)
+  handleArchive = address => this.props.setAddressArchived(address)
 
   render () {
     const { empty, pages, coin, currency, search, buySellPartner } = this.props
@@ -68,50 +66,59 @@ class ContentContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  switch (ownProps.coin) {
+  const coin = ownProps.coin
+  switch (coin) {
     case 'BTC':
       return {
-        dataActions: bindActionCreators(actions.core.data.btc, dispatch),
-        txActions: bindActionCreators(
-          actions.components.btcTransactions,
-          dispatch
-        ),
-        coreWalletActions: bindActionCreators(actions.core.wallet, dispatch)
+        fetchData: () => dispatch(actions.core.data.btc.fetchData()),
+        initTxs: () =>
+          dispatch(actions.components.btcTransactions.initialized()),
+        loadMoreTxs: () =>
+          dispatch(actions.components.btcTransactions.loadMore()),
+        setAddressArchived: address =>
+          dispatch(actions.core.wallet.setAddressArchived(address, true))
       }
     case 'BCH':
       return {
-        dataActions: bindActionCreators(actions.core.data.bch, dispatch),
-        txActions: bindActionCreators(
-          actions.components.bchTransactions,
-          dispatch
-        )
+        fetchData: () => dispatch(actions.core.data.bch.fetchData()),
+        initTxs: () =>
+          dispatch(actions.components.bchTransactions.initialized()),
+        loadMoreTxs: () =>
+          dispatch(actions.components.bchTransactions.loadMore())
       }
     case 'BSV':
       return {
-        dataActions: bindActionCreators(actions.core.data.bsv, dispatch),
-        txActions: bindActionCreators(
-          actions.components.bsvTransactions,
-          dispatch
-        )
+        fetchData: () => dispatch(actions.core.data.bsv.fetchData()),
+        initTxs: () =>
+          dispatch(actions.components.bsvTransactions.initialized()),
+        loadMoreTxs: () =>
+          dispatch(actions.components.bsvTransactions.loadMore())
       }
     case 'ETH':
       return {
-        dataActions: bindActionCreators(actions.core.data.eth, dispatch),
-        txActions: bindActionCreators(
-          actions.components.ethTransactions,
-          dispatch
-        )
+        fetchData: () => dispatch(actions.core.data.eth.fetchData()),
+        initTxs: () =>
+          dispatch(actions.components.ethTransactions.initialized()),
+        loadMoreTxs: () =>
+          dispatch(actions.components.ethTransactions.loadMore())
       }
     case 'XLM':
       return {
-        dataActions: bindActionCreators(actions.core.data.xlm, dispatch),
-        txActions: bindActionCreators(
-          actions.components.xlmTransactions,
-          dispatch
-        )
+        fetchData: () => dispatch(actions.core.data.xlm.fetchData()),
+        initTxs: () =>
+          dispatch(actions.components.xlmTransactions.initialized()),
+        loadMoreTxs: () =>
+          dispatch(actions.components.xlmTransactions.loadMore())
       }
     default:
-      return {}
+      // ERC20
+      return {
+        fetchData: coin => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
+        initTxs: coin =>
+          dispatch(actions.components.ethTransactions.initializedErc20(coin)),
+        loadMoreTxs: coin =>
+          dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+      }
   }
 }
 

@@ -183,10 +183,10 @@ export default ({ api }) => {
   }
 
   const fetchErc20Transactions = function * (action) {
-    const { token, address, reset } = action.payload
+    const { token, reset } = action.payload
     try {
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
-      const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
+      const ethAddress = defaultAccountR.getOrFail(CONTEXT_FAILURE)
       const pages = yield select(S.getErc20Transactions, token)
       const nextPage = reset ? 0 : length(pages)
       const txsAtBound = yield select(S.getErc20TransactionsAtBound, token)

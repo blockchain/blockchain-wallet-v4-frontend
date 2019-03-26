@@ -1,4 +1,4 @@
-import { lift, map, path, prop } from 'ramda'
+import { lift, map, path, prop, toLower } from 'ramda'
 import { getAddresses } from '../../data/eth/selectors.js'
 import { getAccounts } from '../../kvStore/eth/selectors.js'
 import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
@@ -44,6 +44,5 @@ export const getWalletTransactions = state => {
 
 // getWalletTransactions :: (state, token) -> Remote([ProcessedTx])
 export const getErc20WalletTransactions = (state, token) => {
-  console.info(state, token)
-  return state.dataPath.eth.transactions[token]
+  return state.dataPath.eth.transactions[toLower(token)]
 }
