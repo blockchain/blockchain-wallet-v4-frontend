@@ -22,6 +22,7 @@ import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
 const transformTx = transactions.eth.transformTx
+const transformErc20Tx = transactions.eth.transformErc20Tx
 
 const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
@@ -103,11 +104,9 @@ export default ({ api }) => {
     try {
       const { payload } = action
       const { address, reset } = payload
-      console.info('action payload', address, reset)
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
       const pages = yield select(S.getTransactions)
-      console.info('PAGES HERE', pages)
       const nextPage = reset ? 0 : length(pages)
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
@@ -118,7 +117,6 @@ export default ({ api }) => {
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const page = yield call(__processTxs, txs)
-      console.info('I AM PAGE', page)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -190,11 +188,19 @@ export default ({ api }) => {
       const pages = yield select(S.getErc20Transactions, token)
       const nextPage = reset ? 0 : length(pages)
       const txsAtBound = yield select(S.getErc20TransactionsAtBound, token)
+      const contractAddr = (yield select(
+        selectors.kvStore.eth.getErc20TokenContractAddr,
+        token
+      )).getOrFail()
       if (txsAtBound && !reset) return
       yield put(A.fetchErc20TransactionsLoading(token, ethAddress, reset))
-      const data = yield call(api.getErc20Transactions, ethAddress, nextPage)
-      // TODO: update path in tx data
-      const txs = path([ethAddress, 'txns'], data)
+      const data = yield call(
+        api.getErc20Transactions,
+        ethAddress,
+        contractAddr,
+        nextPage
+      )
+      const txs = prop('transfers', data)
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
@@ -205,7 +211,6 @@ export default ({ api }) => {
     }
   }
 
-  // TODO: verify if this is needed
   const __processErc20Txs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -213,7 +218,7 @@ export default ({ api }) => {
     const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
     const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, state), txs)
+    return map(transformErc20Tx(ethAddresses, state), txs)
   }
 
   return {

@@ -78,16 +78,6 @@ export const getData = (state, coin) =>
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
-      // TODO: WHY WTF HALP
-      console.info('PAGES', pages)
-      if (typeof pages === 'boolean') {
-        return {
-          currency: 'USD',
-          pages: [],
-          empty: true,
-          search: search.length > 0 || status !== ''
-        }
-      }
       const filteredPages = !isEmpty(pages)
         ? pages.map(map(filterTransactions(status, search)))
         : []

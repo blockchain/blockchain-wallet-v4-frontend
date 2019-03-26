@@ -46,8 +46,9 @@ export default () => {
   //
   // ERC20
   //
-  const initializedErc20 = function * (token) {
+  const initializedErc20 = function * (action) {
     try {
+      const { token } = action.payload
       const initialValues = {
         status: '',
         search: ''
@@ -55,15 +56,18 @@ export default () => {
       yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
       yield put(actions.core.data.eth.fetchErc20Transactions(token, true))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializedErc20', e)
+      )
     }
   }
 
-  const loadMoreErc20 = function * (token) {
+  const loadMoreErc20 = function * (action) {
     try {
+      const { token } = action.payload
       yield put(actions.core.data.eth.fetchErc20Transactions(token))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMoreErc20', e))
     }
   }
 

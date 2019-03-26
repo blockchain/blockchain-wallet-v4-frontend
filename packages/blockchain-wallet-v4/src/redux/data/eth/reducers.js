@@ -157,7 +157,7 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.ETH_TRANSACTIONS_AT_BOUND: {
-      return assocPath(['transactions', 'eth'], payload, state)
+      return assocPath(['transactions_at_bound', 'eth'], payload, state)
     }
     // ERC20
     case AT.FETCH_ERC20_TOKEN_DATA_LOADING: {
@@ -218,7 +218,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
       const { token, isAtBound } = payload
-      return assocPath(['transactions', token], isAtBound, state)
+      return assocPath(['transactions_at_bound', token], isAtBound, state)
     }
     default:
       return state

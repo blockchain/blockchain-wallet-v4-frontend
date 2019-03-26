@@ -16,8 +16,8 @@ import {
   getDefaultAddress,
   getDefaultLabel,
   getEthTxNote
-} from '../redux/kvStore/eth/selectors.js'
-import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors.js'
+} from '../redux/kvStore/eth/selectors'
+import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -93,4 +93,42 @@ export const _transformTx = curry((addresses, state, tx) => {
   }
 })
 
+const getErc20Type = (tx, addresses) => {
+  const lowerAddresses = map(toLower, addresses)
+
+  switch (true) {
+    case includes(tx.accountFrom, lowerAddresses) &&
+      includes(tx.accountTo, lowerAddresses):
+      return 'Transferred'
+    case includes(tx.accountFrom, lowerAddresses):
+      return 'Sent'
+    case includes(tx.accountTo, lowerAddresses):
+      return 'Received'
+    default:
+      return 'Unknown'
+  }
+}
+
+// TODO: combine with eth once responses are updated
+// TODO: figure out labels and notes
+export const _transformErc20Tx = curry((addresses, state, tx) => {
+  const fee = getFee(tx)
+  const type = toLower(getErc20Type(tx, addresses))
+  const amount =
+    type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+  return {
+    blockHeight: tx.blockNumber,
+    type,
+    fee,
+    amount,
+    hash: tx.transactionHash,
+    to: tx.accountTo, // getLabel(tx.to, state),
+    from: tx.accountFrom, // getLabel(tx.from, state),
+    description: null, // getEthTxNote(state, tx.hash).getOrElse(''),
+    timeFormatted: '', // getTime(tx),
+    time: '' // tx.timeStamp
+  }
+})
+
 export const transformTx = _transformTx
+export const transformErc20Tx = _transformErc20Tx

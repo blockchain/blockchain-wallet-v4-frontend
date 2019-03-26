@@ -1,3 +1,4 @@
+import { toLower } from 'ramda'
 import * as AT from './actionTypes'
 
 //
@@ -12,12 +13,14 @@ export const loadMore = () => ({
 //
 // ERC20
 //
-export const initializedErc20 = token => ({
-  type: AT.ETH_TRANSACTIONS_INITIALIZED,
-  payload: token
-})
+export const initializedErc20 = token => {
+  return {
+    type: AT.ERC20_TRANSACTIONS_INITIALIZED,
+    payload: { token: toLower(token) }
+  }
+}
 
 export const loadMoreErc20 = token => ({
-  type: AT.ETH_TRANSACTIONS_LOAD_MORE,
-  payload: token
+  type: AT.ERC20_TRANSACTIONS_LOAD_MORE,
+  payload: { token: toLower(token) }
 })

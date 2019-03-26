@@ -66,8 +66,7 @@ class ContentContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const coin = ownProps.coin
-  switch (coin) {
+  switch (ownProps.coin) {
     case 'BTC':
       return {
         fetchData: () => dispatch(actions.core.data.btc.fetchData()),
@@ -113,11 +112,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     default:
       // ERC20
       return {
-        fetchData: coin => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
-        initTxs: coin =>
-          dispatch(actions.components.ethTransactions.initializedErc20(coin)),
-        loadMoreTxs: coin =>
-          dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+        fetchData: () =>
+          dispatch(actions.core.data.eth.fetchErc20Data(ownProps.coin)),
+        initTxs: () =>
+          dispatch(
+            actions.components.ethTransactions.initializedErc20(ownProps.coin)
+          ),
+        loadMoreTxs: () =>
+          dispatch(
+            actions.components.ethTransactions.loadMoreErc20(ownProps.coin)
+          )
       }
   }
 }
