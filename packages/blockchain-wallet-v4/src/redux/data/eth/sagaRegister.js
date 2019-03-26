@@ -7,7 +7,6 @@ export default ({ api }) => {
 
   return function * coreDataEthSaga () {
     yield takeLatest(AT.FETCH_ETH_DATA, dataEthSagas.fetchData)
-    yield takeLatest(AT.FETCH_ETH_FEE, dataEthSagas.fetchFee)
     yield takeLatest(AT.FETCH_ETH_RATES, dataEthSagas.fetchRates)
     yield fork(dataEthSagas.watchTransactions)
     yield takeLatest(

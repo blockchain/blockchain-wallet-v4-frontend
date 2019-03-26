@@ -64,7 +64,7 @@ CoinSelection.selectAll.mockImplementation(() => {
 CoinSelection.descentDraw.mockImplementation(() => true)
 Coin.fromJS.mockImplementation(() => true)
 
-let api = { getBtcFee: () => feeResult }
+let api = { getBtcFees: () => feeResult }
 
 describe('createPayment', () => {
   let {
@@ -85,7 +85,7 @@ describe('createPayment', () => {
   describe('*init', () => {
     it('should fetch fee values and set to value.fees', () => {
       let gen = payment.init()
-      expect(gen.next().value).toEqual(call(api.getBtcFee))
+      expect(gen.next().value).toEqual(call(api.getBtcFees))
       expect(gen.next(feeResult).value.value().fees).toEqual(feeResult)
       expect(gen.next().done).toEqual(true)
     })

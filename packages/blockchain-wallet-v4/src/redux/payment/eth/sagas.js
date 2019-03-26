@@ -14,6 +14,7 @@ import {
   calculateFee
 } from '../../../utils/eth'
 import { ADDRESS_TYPES } from '../btc/utils'
+import { FETCH_FEES_FAILURE } from '../model'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -27,13 +28,6 @@ const taskToPromise = t =>
     let payment = yield create({ network })
       .chain().amount(myAmount).done()
 */
-
-const fallbackFees = {
-  gasLimit: 21000,
-  priority: 23,
-  regular: 23,
-  limits: { min: 23, max: 23 }
-}
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
@@ -131,9 +125,9 @@ export default ({ api }) => {
       * init () {
         let fees
         try {
-          fees = yield call(api.getEthFee)
+          fees = yield call(api.getEthFees)
         } catch (e) {
-          fees = fallbackFees
+          throw new Error(FETCH_FEES_FAILURE)
         }
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)

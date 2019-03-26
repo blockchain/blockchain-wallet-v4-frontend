@@ -33,16 +33,6 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function * () {
-    try {
-      yield put(A.fetchFeeLoading())
-      const data = yield call(api.getBtcFee)
-      yield put(A.fetchFeeSuccess(data))
-    } catch (e) {
-      yield put(A.fetchFeeFailure(e.message))
-    }
-  }
-
   const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
@@ -160,7 +150,6 @@ export default ({ api }) => {
 
   return {
     fetchData,
-    fetchFee,
     fetchRates,
     fetchFiatAtTime,
     fetchTransactionHistory,
