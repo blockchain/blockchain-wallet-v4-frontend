@@ -54,8 +54,7 @@ const AddBtcWallet = props => {
                 </Label>
                 <Field
                   name='wallet'
-                  autoFocus
-                  validate={[required, unique]}
+                  validate={[unique, required]}
                   component={TextBox}
                   maxLength={30}
                   data-e2e='newWalletNameInput'
