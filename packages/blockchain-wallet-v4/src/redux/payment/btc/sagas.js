@@ -28,6 +28,7 @@ import {
   fromPrivateKey,
   fromLockbox
 } from './utils'
+import { FETCH_FEES_FAILURE } from '../model'
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -42,8 +43,6 @@ export const taskToPromise = t =>
     let payment = yield create({ network })
       .chain().fee(myFee).amount(myAmount).done()
 */
-
-const fallbackFees = { limits: { min: 2, max: 16 }, regular: 5, priority: 11 }
 
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
@@ -271,13 +270,12 @@ export default ({ api }) => {
       },
 
       * init () {
-        let fees
         try {
-          fees = yield call(api.getBtcFee)
+          let fees = yield call(api.getBtcFee)
+          return makePayment(merge(p, { fees }))
         } catch (e) {
-          fees = fallbackFees
+          throw new Error(FETCH_FEES_FAILURE)
         }
-        return makePayment(merge(p, { fees }))
       },
 
       * to (destinations, type) {
