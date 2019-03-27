@@ -6,9 +6,11 @@ import styled from 'styled-components'
 import { defaultTo, replace } from 'ramda'
 
 import {
+  ageOverEighteen,
+  countryUsesZipcode,
+  countryUsesPostalcode,
   required,
   requiredDOB,
-  ageOverEighteen,
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
@@ -144,7 +146,6 @@ const DOBToObject = value => {
     year
   }
 }
-const countryUsesZipcode = code => code === 'US'
 
 const Personal = ({
   invalid,
@@ -170,6 +171,9 @@ const Personal = ({
   editEmail,
   updateEmail
 }) => {
+  const countryUsesZipOrPostcode =
+    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+
   return (
     <IdentityVerificationForm
       activeFieldError={activeFieldError}
@@ -453,27 +457,47 @@ const Personal = ({
                           </FormItem>
                         </FaqFormGroup>
                         <FaqFormGroup>
-                          <FormItem>
-                            <Label htmlFor='postCode'>
-                              {countryUsesZipcode(countryCode) ? (
-                                <FormattedMessage
-                                  id='identityverification.personal.zip'
-                                  defaultMessage='Zip Code *'
+                          <PersonalItem>
+                            {!countryIsUS && (
+                              <PersonalField>
+                                <Label htmlFor='state'>
+                                  <FormattedMessage
+                                    id='identityverification.personal.region'
+                                    defaultMessage='Region'
+                                  />
+                                </Label>
+                                <Field
+                                  name='state'
+                                  errorBottom
+                                  countryCode={countryCode}
+                                  component={TextBox}
                                 />
-                              ) : (
-                                <FormattedMessage
-                                  id='identityverification.personal.postcode'
-                                  defaultMessage='Postcode'
+                              </PersonalField>
+                            )}
+                            {countryUsesZipOrPostcode && (
+                              <PersonalField>
+                                <Label htmlFor='postCode'>
+                                  {countryUsesZipcode(countryCode) ? (
+                                    <FormattedMessage
+                                      id='identityverification.personal.zip'
+                                      defaultMessage='Zip Code *'
+                                    />
+                                  ) : (
+                                    <FormattedMessage
+                                      id='identityverification.personal.postcoderequired'
+                                      defaultMessage='Postcode *'
+                                    />
+                                  )}
+                                </Label>
+                                <Field
+                                  name='postCode'
+                                  errorBottom
+                                  validate={requiredZipCode}
+                                  component={TextBox}
                                 />
-                              )}
-                            </Label>
-                            <Field
-                              name='postCode'
-                              errorBottom
-                              validate={requiredZipCode}
-                              component={TextBox}
-                            />
-                          </FormItem>
+                              </PersonalField>
+                            )}
+                          </PersonalItem>
                         </FaqFormGroup>
                       </AddressWrapper>
                     )}
