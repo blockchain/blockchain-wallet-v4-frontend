@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { toLower } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
@@ -12,7 +13,6 @@ import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent {
   componentDidMount () {
-    // TODO: fetch PAX rates
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
         case 'BCH':
@@ -21,11 +21,12 @@ class FiatDisplayContainer extends React.PureComponent {
           return this.props.btcActions.fetchRates()
         case 'BSV':
           return this.props.bsvActions.fetchRates()
-        case 'PAX':
         case 'ETH':
           return this.props.ethActions.fetchRates()
         case 'XLM':
           return this.props.xlmActions.fetchRates()
+        default:
+          return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
       }
     }
   }

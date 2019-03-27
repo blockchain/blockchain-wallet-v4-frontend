@@ -112,23 +112,36 @@ export const getEthBalanceInfo = createDeepEqualSelector(
     selectors.core.settings.getCurrency
   ],
   (ethBalanceR, ethRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) =>
-      Exchange.convertEtherToFiat({ value, fromUnit: 'WEI', toCurrency, rates })
-        .value
+    const transform = (value, rates, toCurrency) => {
+      return Exchange.convertEtherToFiat({
+        value,
+        fromUnit: 'WEI',
+        toCurrency,
+        rates
+      }).value
+    }
+
     return lift(transform)(ethBalanceR, ethRatesR, currencyR)
   }
 )
 
 export const getPaxBalanceInfo = createDeepEqualSelector(
-  [getPaxBalance, selectors.core.settings.getCurrency],
-  (paxBalanceR, currencyR) => {
-    const transform = (value, toCurrency) => {
-      // TODO PAX
-      // console.info(value, toCurrency)
-      return 0
+  [
+    getPaxBalance,
+    state => selectors.core.data.eth.getErc20Rates(state, 'pax'),
+    selectors.core.settings.getCurrency
+  ],
+  (paxBalanceR, erc20RatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) => {
+      return Exchange.convertPaxToFiat({
+        value,
+        fromUnit: 'WEI',
+        toCurrency,
+        rates
+      }).value
     }
 
-    return lift(transform)(paxBalanceR, currencyR)
+    return lift(transform)(paxBalanceR, erc20RatesR, currencyR)
   }
 )
 

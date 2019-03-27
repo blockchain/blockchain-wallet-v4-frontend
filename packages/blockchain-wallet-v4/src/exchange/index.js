@@ -72,9 +72,28 @@ const transformEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
+const transformPaxToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+  const pairs = Pairs.create(PAX.code, rates)
+  const targetCurrency = prop(toCurrency, Currencies)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], PAX)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, targetCurrency))
+    .chain(Currency.toUnit(targetCurrencyUnit))
+}
+
 const transformEtherToEther = ({ value, fromUnit, toUnit }) => {
   const sourceUnit = path(['units', fromUnit], ETH)
   const targetUnit = path(['units', toUnit], ETH)
+  return Currency.fromUnit({ value, unit: sourceUnit }).chain(
+    Currency.toUnit(targetUnit)
+  )
+}
+
+const transformPaxToPax = ({ value, fromUnit, toUnit }) => {
+  const sourceUnit = path(['units', fromUnit], PAX)
+  const targetUnit = path(['units', toUnit], PAX)
   return Currency.fromUnit({ value, unit: sourceUnit }).chain(
     Currency.toUnit(targetUnit)
   )
@@ -223,8 +242,20 @@ const convertEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   )
 }
 
+const convertPaxToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+  return transformPaxToFiat({ value, fromUnit, toCurrency, rates }).getOrElse(
+    DefaultConversion
+  )
+}
+
 const convertEtherToEther = ({ value, fromUnit, toUnit }) => {
   return transformEtherToEther({ value, fromUnit, toUnit }).getOrElse(
+    DefaultConversion
+  )
+}
+
+const convertPaxToPax = ({ value, fromUnit, toUnit }) => {
+  return transformPaxToPax({ value, fromUnit, toUnit }).getOrElse(
     DefaultConversion
   )
 }
@@ -293,6 +324,10 @@ const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
       return baseToStandard
         ? convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
         : convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+    case 'PAX':
+      return baseToStandard
+        ? convertPaxToPax({ value, fromUnit: 'WEI', toUnit: 'PAX' })
+        : convertPaxToPax({ value, fromUnit: 'PAX', toUnit: 'WEI' })
     case 'BCH':
       return baseToStandard
         ? convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
@@ -335,8 +370,20 @@ const displayEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
     .getOrElse(DefaultDisplay)
 }
 
+const displayPaxToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+  return transformPaxToFiat({ value, fromUnit, toCurrency, rates })
+    .map(Currency.fiatToString)
+    .getOrElse(DefaultDisplay)
+}
+
 const displayEtherToEther = ({ value, fromUnit, toUnit }) => {
   return transformEtherToEther({ value, fromUnit, toUnit })
+    .map(Currency.coinToString)
+    .getOrElse(DefaultDisplay)
+}
+
+const displayPaxToPax = ({ value, fromUnit, toUnit }) => {
+  return transformPaxToPax({ value, fromUnit, toUnit })
     .map(Currency.coinToString)
     .getOrElse(DefaultDisplay)
 }
@@ -396,6 +443,8 @@ const displayCoinToFiat = ({
       return displayBtcToFiat({ value, fromUnit, toCurrency, rates })
     case 'ETH':
       return displayEtherToFiat({ value, fromUnit, toCurrency, rates })
+    case 'PAX':
+      return displayPaxToFiat({ value, fromUnit, toCurrency, rates })
     case 'BCH':
       return displayBchToFiat({ value, fromUnit, toCurrency, rates })
     case 'BSV':
@@ -431,6 +480,8 @@ export {
   convertFiatToBch,
   convertFiatToBsv,
   convertFiatToXlm,
+  convertPaxToFiat,
+  convertPaxToPax,
   convertXlmToFiat,
   convertXlmToXlm,
   convertCoinToCoin,
@@ -442,6 +493,7 @@ export {
   displayEtherToFiat,
   displayEtherToEther,
   displayFiatToBtc,
+  displayPaxToPax,
   displayXlmToFiat,
   displayXlmToXlm,
   displayCoinToFiat,
