@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_ETHEREUM_DATA_LOADING: {
+    case AT.FETCH_ETH_DATA_LOADING: {
       const newState = {
         addresses: Remote.Loading,
         info: Remote.Loading,
@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       }
       return merge(state, newState)
     }
-    case AT.FETCH_ETHEREUM_DATA_SUCCESS: {
+    case AT.FETCH_ETH_DATA_SUCCESS: {
       const newState = {
         addresses: Remote.Success(prop('addresses', payload)),
         info: Remote.Success(prop('info', payload)),
@@ -43,7 +43,7 @@ export default (state = INITIAL_STATE, action) => {
       }
       return merge(state, newState)
     }
-    case AT.FETCH_ETHEREUM_DATA_FAILURE: {
+    case AT.FETCH_ETH_DATA_FAILURE: {
       const newState = {
         addresses: Remote.Failure(prop('addresses', payload)),
         info: Remote.Failure(prop('info', payload)),
@@ -51,60 +51,60 @@ export default (state = INITIAL_STATE, action) => {
       }
       return merge(state, newState)
     }
-    case AT.FETCH_ETHEREUM_FEE_LOADING: {
+    case AT.FETCH_ETH_FEE_LOADING: {
       return assoc('fee', Remote.Loading, state)
     }
-    case AT.FETCH_ETHEREUM_FEE_SUCCESS: {
+    case AT.FETCH_ETH_FEE_SUCCESS: {
       return assoc('fee', Remote.Success(payload), state)
     }
-    case AT.FETCH_ETHEREUM_FEE_FAILURE: {
+    case AT.FETCH_ETH_FEE_FAILURE: {
       return assoc('fee', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_LATEST_BLOCK_LOADING: {
+    case AT.FETCH_ETH_LATEST_BLOCK_LOADING: {
       return state
     }
-    case AT.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS: {
+    case AT.FETCH_ETH_LATEST_BLOCK_SUCCESS: {
       return assoc('latest_block', Remote.Success(payload), state)
     }
-    case AT.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE: {
+    case AT.FETCH_ETH_LATEST_BLOCK_FAILURE: {
       return assoc('latest_block', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_LEGACY_BALANCE_LOADING: {
+    case AT.FETCH_ETH_LEGACY_BALANCE_LOADING: {
       return assoc('legacy_balance', Remote.Loading, state)
     }
-    case AT.FETCH_ETHEREUM_LEGACY_BALANCE_SUCCESS: {
+    case AT.FETCH_ETH_LEGACY_BALANCE_SUCCESS: {
       const { balance } = payload
       return assoc('legacy_balance', Remote.Success(balance), state)
     }
-    case AT.FETCH_ETHEREUM_LEGACY_BALANCE_FAILURE: {
+    case AT.FETCH_ETH_LEGACY_BALANCE_FAILURE: {
       return assoc('legacy_balance', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING: {
+    case AT.FETCH_ETH_CURRENT_BALANCE_LOADING: {
       return assoc('current_balance', Remote.Loading, state)
     }
-    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_SUCCESS: {
+    case AT.FETCH_ETH_CURRENT_BALANCE_SUCCESS: {
       const { balance } = payload
       return assoc('current_balance', Remote.Success(balance), state)
     }
-    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_FAILURE: {
+    case AT.FETCH_ETH_CURRENT_BALANCE_FAILURE: {
       return assoc('current_balance', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_RATES_LOADING: {
+    case AT.FETCH_ETH_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)
     }
-    case AT.FETCH_ETHEREUM_RATES_SUCCESS: {
+    case AT.FETCH_ETH_RATES_SUCCESS: {
       return assoc('rates', Remote.Success(payload), state)
     }
-    case AT.FETCH_ETHEREUM_RATES_FAILURE: {
+    case AT.FETCH_ETH_RATES_FAILURE: {
       return assoc('rates', Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING: {
+    case AT.FETCH_ETH_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
         ? assoc('transactions', [Remote.Loading], state)
         : over(lensProp('transactions'), append(Remote.Loading), state)
     }
-    case AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS: {
+    case AT.FETCH_ETH_TRANSACTIONS_SUCCESS: {
       const { transactions, reset } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
@@ -117,7 +117,7 @@ export default (state = INITIAL_STATE, action) => {
             state
           )
     }
-    case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
+    case AT.FETCH_ETH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.ETH_TRANSACTIONS_AT_BOUND: {

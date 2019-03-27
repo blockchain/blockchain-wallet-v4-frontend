@@ -1,4 +1,4 @@
-import { prop } from 'ramda'
+import { prop, propOr } from 'ramda'
 
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
@@ -8,10 +8,14 @@ const { getSourceFee } = selectors.components.exchange
 
 export const getData = createDeepEqualSelector(
   [getSourceFee, getCurrentPairAmounts],
-  (sourceFee, amountsR) => ({
-    sourceFee,
-    sourceAmount: amountsR.map(prop('sourceAmount')),
-    targetAmount: amountsR.map(prop('targetAmount')),
-    targetFiat: amountsR.map(prop('targetFiat'))
-  })
+  (sourceFee, amountsR) => {
+    return {
+      sourceFee,
+      sourceFeeFiat: propOr(0, 'sourceFiat', sourceFee),
+      sourceFiat: amountsR.map(prop('sourceFiat')),
+      sourceAmount: amountsR.map(prop('sourceAmount')),
+      targetAmount: amountsR.map(prop('targetAmount')),
+      targetFiat: amountsR.map(prop('targetFiat'))
+    }
+  }
 )

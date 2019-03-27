@@ -4,6 +4,7 @@ import { Text, Button } from 'blockchain-info-components'
 export const Wrapper = styled.div`
   padding: 32px;
   max-width: 440px;
+  box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']}};
   border-radius: 8px;
   display: flex;
@@ -23,7 +24,8 @@ export const Title = styled(Text)`
   margin-bottom: 24px;
 `
 export const AmountHeader = styled(ExchangeText)`
-  margin-bottom: 8px;
+  color: ${props => props.color || props.theme['gray-5']};
+  font-size: 16px;
 `
 export const Delimiter = styled.div`
   border-bottom: 1px solid ${props => props.theme['gray-1']}};
@@ -34,30 +36,47 @@ export const Delimiter = styled.div`
 export const TableRow = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
+  padding: 8px 0;
   width: 100%;
-  margin-bottom: 16px;
-  height: 20px;
+`
+export const LargeTableRow = styled(TableRow)`
+  padding: 18px;
+  min-height: 80px;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  &:last-child {
+    border-bottom: 0px;
+  }
 `
 export const Note = styled(Text)`
   font-size: 12px;
   line-height: 14px;
-  margin-top: 12px;
   margin-bottom: 28px;
   font-weight: 300;
+  text-align: center;
+  margin-top: 16px;
+  color: ${props => props.theme['gray-4']};
 `
 export const ExchangeButton = styled(Button)`
-  margin-left: 30px;
-  margin-right: 30px;
-  width: calc(100% - 60px);
+  width: 100%;
+  height: 56px;
+  weight: 400;
+  font-size: 18px;
 `
-export const CancelButton = styled(ExchangeButton)`
-  border: none;
-  margin-top: 10px;
-`
+export const ExchangeAmounts = styled.div``
 export const ExchangeAmount = styled(Text)`
+  display: flex;
   font-weight: 400;
   font-size: 17px;
   line-height: 20px;
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme[props.color || 'brand-primary']};
+`
+export const SubExchangeAmount = styled(ExchangeAmount)`
+  margin-top: 2px;
+  text-align: right;
+  font-weight: 300;
+  font-size: 13px;
+  color: ${props => props.theme['gray-4']};
 `

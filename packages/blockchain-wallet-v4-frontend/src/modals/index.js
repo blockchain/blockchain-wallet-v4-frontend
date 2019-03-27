@@ -22,13 +22,14 @@ import {
 } from './Coinify'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
+  ExchangeConfirm,
   ExchangeDetails,
   ExchangeResults,
-  KycDocResubmit,
   IdentityVerification,
+  KycDocResubmit,
+  SunRiverLinkError,
   SwapUpgrade,
-  UserExists,
-  SunRiverLinkError
+  UserExists
 } from './Exchange'
 import { Confirm, PromptInput, Support } from './Generic'
 import {
@@ -92,6 +93,7 @@ const Modals = () => (
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
+    <ExchangeConfirm />
     <ExchangeDetails />
     <ExchangeResults />
     <KycDocResubmit />

@@ -6,9 +6,11 @@ import styled from 'styled-components'
 import { defaultTo, replace } from 'ramda'
 
 import {
+  ageOverEighteen,
+  countryUsesZipcode,
+  countryUsesPostalcode,
   required,
   requiredDOB,
-  ageOverEighteen,
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
@@ -144,7 +146,6 @@ const DOBToObject = value => {
     year
   }
 }
-const countryUsesZipcode = code => code === 'US'
 
 const Personal = ({
   invalid,
@@ -170,6 +171,9 @@ const Personal = ({
   editEmail,
   updateEmail
 }) => {
+  const countryUsesZipOrPostcode =
+    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+
   return (
     <IdentityVerificationForm
       activeFieldError={activeFieldError}
@@ -233,8 +237,8 @@ const Personal = ({
                       <FormItem>
                         <Label htmlFor='country'>
                           <FormattedMessage
-                            id='identityverification.personal.country'
-                            defaultMessage='Select your country of residence'
+                            id='identityverification.personal.countryrequired'
+                            defaultMessage='Country *'
                           />
                         </Label>
                         <Field
@@ -258,8 +262,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='state'>
                             <FormattedMessage
-                              id='identityverification.personal.state'
-                              defaultMessage='State'
+                              id='identityverification.personal.staterequired'
+                              defaultMessage='State *'
                             />
                           </Label>
                           <Field
@@ -299,8 +303,8 @@ const Personal = ({
                             <PersonalField>
                               <Label htmlFor='firstName'>
                                 <FormattedMessage
-                                  id='identityverification.personal.firstname'
-                                  defaultMessage='First Name'
+                                  id='identityverification.personal.firstnamerequired'
+                                  defaultMessage='First Name *'
                                 />
                               </Label>
                               <Field
@@ -313,8 +317,8 @@ const Personal = ({
                             <PersonalField>
                               <Label htmlFor='lastName'>
                                 <FormattedMessage
-                                  id='identityverification.personal.lastname'
-                                  defaultMessage='Last Name'
+                                  id='identityverification.personal.lastnamerequired'
+                                  defaultMessage='Last Name *'
                                 />
                               </Label>
                               <Field
@@ -353,8 +357,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='dob'>
                             <FormattedMessage
-                              id='identityverification.personal.dateofbirth'
-                              defaultMessage='Date of Birth'
+                              id='identityverification.personal.dateofbirthrequired'
+                              defaultMessage='Date of Birth *'
                             />
                           </Label>
                           <Field
@@ -396,13 +400,13 @@ const Personal = ({
                             <Label htmlFor='line1'>
                               {countryIsUS ? (
                                 <FormattedMessage
-                                  id='identityverification.personal.address_line1'
-                                  defaultMessage='Address Line 1'
+                                  id='identityverification.personal.address_line1required'
+                                  defaultMessage='Address Line 1 *'
                                 />
                               ) : (
                                 <FormattedMessage
-                                  id='identityverification.personal.streetline1'
-                                  defaultMessage='Street Line 1'
+                                  id='identityverification.personal.streetline1required'
+                                  defaultMessage='Street Line 1 *'
                                 />
                               )}
                             </Label>
@@ -440,8 +444,8 @@ const Personal = ({
                           <FormItem>
                             <Label htmlFor='city'>
                               <FormattedMessage
-                                id='identityverification.personal.city'
-                                defaultMessage='City'
+                                id='identityverification.personal.cityrequired'
+                                defaultMessage='City *'
                               />
                             </Label>
                             <Field
@@ -453,27 +457,47 @@ const Personal = ({
                           </FormItem>
                         </FaqFormGroup>
                         <FaqFormGroup>
-                          <FormItem>
-                            <Label htmlFor='postCode'>
-                              {countryUsesZipcode(countryCode) ? (
-                                <FormattedMessage
-                                  id='identityverification.personal.zipcode'
-                                  defaultMessage='Zip Code'
+                          <PersonalItem>
+                            {!countryIsUS && (
+                              <PersonalField>
+                                <Label htmlFor='state'>
+                                  <FormattedMessage
+                                    id='identityverification.personal.region'
+                                    defaultMessage='Region'
+                                  />
+                                </Label>
+                                <Field
+                                  name='state'
+                                  errorBottom
+                                  countryCode={countryCode}
+                                  component={TextBox}
                                 />
-                              ) : (
-                                <FormattedMessage
-                                  id='identityverification.personal.postcode'
-                                  defaultMessage='Postcode'
+                              </PersonalField>
+                            )}
+                            {countryUsesZipOrPostcode && (
+                              <PersonalField>
+                                <Label htmlFor='postCode'>
+                                  {countryUsesZipcode(countryCode) ? (
+                                    <FormattedMessage
+                                      id='identityverification.personal.zip'
+                                      defaultMessage='Zip Code *'
+                                    />
+                                  ) : (
+                                    <FormattedMessage
+                                      id='identityverification.personal.postcoderequired'
+                                      defaultMessage='Postcode *'
+                                    />
+                                  )}
+                                </Label>
+                                <Field
+                                  name='postCode'
+                                  errorBottom
+                                  validate={requiredZipCode}
+                                  component={TextBox}
                                 />
-                              )}
-                            </Label>
-                            <Field
-                              name='postCode'
-                              errorBottom
-                              validate={requiredZipCode}
-                              component={TextBox}
-                            />
-                          </FormItem>
+                              </PersonalField>
+                            )}
+                          </PersonalItem>
                         </FaqFormGroup>
                       </AddressWrapper>
                     )}

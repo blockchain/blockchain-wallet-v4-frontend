@@ -29,14 +29,14 @@ import { actions, actionTypes, selectors, model } from 'data'
 import {
   EXCHANGE_FORM,
   CONFIRM_FORM,
+  CONFIRM_MODAL,
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
   MISSING_DEVICE_ERROR,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
   getTargetCoinsPairedToSource,
-  getSourceCoinsPairedToTarget,
-  EXCHANGE_STEPS
+  getSourceCoinsPairedToTarget
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -54,6 +54,7 @@ import {
   addBalanceLimit,
   selectFee,
   convertStandardToBase,
+  convertSourceToFiat,
   convertSourceToTarget,
   convertBaseToStandard,
   formatLimits
@@ -309,6 +310,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const form = yield select(formValueSelector)
       const provisionalPayment = yield call(getProvisionalPayment)
+      const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
       const fee = convertBaseToStandard(
         sourceCoin,
@@ -318,7 +320,8 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.setSourceFee({
           source: fee,
-          target: convertSourceToTarget(form, rates, fee)
+          target: convertSourceToTarget(form, rates, fee),
+          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
         })
       )
     } catch (e) {
@@ -643,7 +646,8 @@ export default ({ api, coreSagas, networks }) => {
     if (txError) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
-      yield put(A.setStep(EXCHANGE_STEPS.CONFIRM))
+      // yield put(actions.router.replace('/swap', {}))
+      yield put(actions.modals.showModal(CONFIRM_MODAL))
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW))
     }
   }
@@ -735,7 +739,6 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const showConfirmationError = function * (err) {
-    yield put(actions.modals.closeAllModals())
     yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: err }))
     yield put(
       actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(err))
@@ -756,7 +759,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(depositFunds, trade, source, depositCredentials)
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
-      yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))

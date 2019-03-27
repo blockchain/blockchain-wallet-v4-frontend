@@ -15,7 +15,7 @@ export default () => {
         search: ''
       }
       yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
-      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+      yield put(actions.core.data.btc.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -38,7 +38,7 @@ export default () => {
       const onlyShow = equals(source, 'all')
         ? ''
         : source.xpub || source.address
-      yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
+      yield put(actions.core.data.btc.fetchTransactions(onlyShow, false))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
@@ -56,7 +56,7 @@ export default () => {
           const onlyShow = equals(payload, 'all')
             ? ''
             : payload.xpub || payload.address
-          yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
+          yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

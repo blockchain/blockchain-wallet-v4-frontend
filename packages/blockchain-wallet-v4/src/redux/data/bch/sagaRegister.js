@@ -8,9 +8,8 @@ export default ({ api }) => {
 
   return function * coreDataBchSaga () {
     yield takeLatest(kvAT.bch.SET_BCH_ACCOUNT_ARCHIVED, dataBchSagas.fetchData)
-    yield takeLatest(AT.FETCH_BCH_DATA, dataBchSagas.fetchData)
-    yield takeLatest(AT.FETCH_BCH_FEE, dataBchSagas.fetchFee)
     yield takeLatest(AT.FETCH_BCH_RATES, dataBchSagas.fetchRates)
+    yield takeLatest(AT.FETCH_BCH_DATA, dataBchSagas.fetchData)
     yield fork(dataBchSagas.watchTransactions)
     yield takeLatest(
       AT.FETCH_BCH_TRANSACTION_HISTORY,

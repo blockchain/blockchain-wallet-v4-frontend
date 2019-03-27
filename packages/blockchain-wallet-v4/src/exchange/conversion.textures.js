@@ -1,4 +1,4 @@
-const bitcoinRates = {
+const btcRates = {
   USD: {
     '15m': 6589.79,
     last: 6589.79,
@@ -155,7 +155,7 @@ const bitcoinRates = {
   }
 }
 
-const ethereumRates = {
+const ethRates = {
   USD: { '15m': 295.63, last: 295.63, buy: 295.65, sell: 295.61, symbol: '$' },
   AUD: { '15m': 385.01, last: 385.01, buy: 385.03, sell: 384.98, symbol: '$' },
   BRL: { '15m': 967.33, last: 967.33, buy: 967.39, sell: 967.26, symbol: 'R$' },
@@ -264,4 +264,4 @@ const ethereumRates = {
   }
 }
 
-export { bitcoinRates, ethereumRates }
+export { btcRates, ethRates }

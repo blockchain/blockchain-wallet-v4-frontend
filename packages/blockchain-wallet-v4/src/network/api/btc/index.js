@@ -1,14 +1,14 @@
 import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
-  const getBitcoinTicker = () =>
+  const getBtcTicker = () =>
     get({
       url: apiUrl,
       endPoint: '/ticker',
       data: { base: 'BTC' }
     })
 
-  const getBitcoinUnspents = (fromAddresses, confirmations = 0) =>
+  const getBtcUnspents = (fromAddresses, confirmations = 0) =>
     post({
       url: rootUrl,
       endPoint: '/unspent',
@@ -19,20 +19,20 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }
     })
 
-  const getBitcoinFee = () =>
+  const getBtcFees = () =>
     get({
       url: apiUrl,
       endPoint: '/mempool/fees'
     })
 
-  const pushBitcoinTx = txHex =>
+  const pushBtcTx = txHex =>
     post({
       url: rootUrl,
       endPoint: '/pushtx',
       data: { tx: txHex, format: 'plain' }
     })
 
-  const getBitcoinFiatAtTime = (amount, currency, time) =>
+  const getBtcFiatAtTime = (amount, currency, time) =>
     get({
       url: apiUrl,
       endPoint: '/frombtc',
@@ -72,11 +72,11 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
 
   return {
-    getBitcoinTicker,
-    getBitcoinUnspents,
-    getBitcoinFee,
-    pushBitcoinTx,
-    getBitcoinFiatAtTime,
+    getBtcTicker,
+    getBtcUnspents,
+    getBtcFees,
+    pushBtcTx,
+    getBtcFiatAtTime,
     getLatestBlock,
     getRawTx,
     getBalances

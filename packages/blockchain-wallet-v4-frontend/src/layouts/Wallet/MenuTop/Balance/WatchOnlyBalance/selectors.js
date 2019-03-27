@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 export const getBtcWatchOnlyBalance = createDeepEqualSelector(
   [
     selectors.core.wallet.getUnspendableContext,
-    selectors.core.data.bitcoin.getAddresses
+    selectors.core.data.btc.getAddresses
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>

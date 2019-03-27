@@ -228,8 +228,8 @@ export default ({ api }) => {
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.core.data.bch.fetchData())
-      yield put(actions.core.data.bitcoin.fetchData())
-      yield put(actions.core.data.ethereum.fetchData())
+      yield put(actions.core.data.btc.fetchData())
+      yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(
         actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS, {
@@ -328,8 +328,8 @@ export default ({ api }) => {
           yield call(determineLockboxRoute)
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
-          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
-          yield put(actions.core.data.ethereum.fetchTransactions('', true))
+          yield put(actions.core.data.btc.fetchTransactions('', true))
+          yield put(actions.core.data.eth.fetchTransactions('', true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.xlm.fetchTransactions('', true))
         } catch (e) {
@@ -538,8 +538,8 @@ export default ({ api }) => {
       )).getOrElse(null)
     )
 
-    yield put(actions.core.data.bitcoin.fetchTransactions(btcContext, reset))
-    yield put(actions.core.data.ethereum.fetchTransactions(ethContext, reset))
+    yield put(actions.core.data.btc.fetchTransactions(btcContext, reset))
+    yield put(actions.core.data.eth.fetchTransactions(ethContext, reset))
     yield put(actions.core.data.bch.fetchTransactions(bchContext, reset))
     // xlmContext can be empty if not saved to MD yet
     // if empty set transaction list to empty array to avoid mixing tx lists

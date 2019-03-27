@@ -4,6 +4,8 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
 <ComplementaryAmount__ComplementaryAmountContainer>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
+    skeletonHeight="24px"
+    skeletonWidth="60px"
   >
     <Component />
   </StringDisplayContainer>
@@ -14,6 +16,8 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
 <ComplementaryAmount__ComplementaryAmountContainer>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
+    skeletonHeight="24px"
+    skeletonWidth="60px"
   >
     <Component />
   </StringDisplayContainer>
@@ -24,6 +28,8 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
 <ComplementaryAmount__ComplementaryAmountContainer>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
+    skeletonHeight="24px"
+    skeletonWidth="60px"
   >
     <Component />
   </StringDisplayContainer>
@@ -34,6 +40,8 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
 <ComplementaryAmount__ComplementaryAmountContainer>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
+    skeletonHeight="24px"
+    skeletonWidth="60px"
   >
     <Component />
   </StringDisplayContainer>

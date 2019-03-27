@@ -32,6 +32,8 @@ import {
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
+const fallbackFees = { priority: 4, regular: 4 }
+
 /**
   Usage:
     // sequential
@@ -47,7 +49,7 @@ const taskToPromise = t =>
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   const settingsSagas = settingsSagaFactory({ api })
-  const pushBitcoinTx = futurizeP(Task)(api.pushBchTx)
+  const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
       .getBchUnspents(fromData.from, -1)
@@ -279,7 +281,7 @@ export default ({ api }) => {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(pushBitcoinTx(txHex, lockSecret)))
+    return yield call(() => taskToPromise(pushBchTx(txHex, lockSecret)))
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -290,7 +292,9 @@ export default ({ api }) => {
       },
 
       * init () {
-        let fees = yield call(api.getBchFee)
+        let fees = (yield select(S.walletOptions.getBchFees)).getOrElse(
+          fallbackFees
+        )
         return makePayment(merge(p, { fees }))
       },
 

@@ -62,6 +62,10 @@ const LaterButton = styled(FooterButton)`
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
+  componentDidMount () {
+    this.props.preferencesActions.hideUpgradeForAirdropModal()
+  }
+
   render () {
     const { campaign, position, total, close, actions } = this.props
     return (
@@ -128,7 +132,8 @@ UpgradeForAirdrop.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(

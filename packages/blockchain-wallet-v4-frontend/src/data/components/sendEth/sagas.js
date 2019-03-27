@@ -149,7 +149,7 @@ export default ({ coreSagas, networks }) => {
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const ethRates = selectors.core.data.ethereum
+      const ethRates = selectors.core.data.eth
         .getRates(appState)
         .getOrFail('Can not retrieve ethereum rates.')
       const p = yield select(S.getPayment)
@@ -229,26 +229,16 @@ export default ({ coreSagas, networks }) => {
           )
         )
       } else {
-        yield put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-        )
-        yield take(
-          actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-        )
-        yield put(
-          actions.core.kvStore.ethereum.setLatestTxEthereum(
-            payment.value().txId
-          )
-        )
+        yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
+        yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
+        yield put(actions.core.kvStore.eth.setLatestTxEth(payment.value().txId))
       }
       if (path(['description', 'length'], payment.value())) {
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-          yield take(
-            actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-          )
+          yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         }
         yield put(
-          actions.core.kvStore.ethereum.setTxNotesEthereum(
+          actions.core.kvStore.eth.setTxNotesEth(
             payment.value().txId,
             payment.value().description
           )

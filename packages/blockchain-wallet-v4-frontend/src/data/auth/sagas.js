@@ -62,13 +62,13 @@ export default ({ api, coreSagas }) => {
   }
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(
-      selectors.core.kvStore.ethereum.getLegacyAccount
+      selectors.core.kvStore.eth.getLegacyAccount
     )
     const legacyAccount = legacyAccountR.getOrElse(null)
     const { addr, correct } = legacyAccount || {}
-    // If needed, get the ethereum legacy account balance and prompt sweep
+    // If needed, get the eth legacy account balance and prompt sweep
     if (!correct && addr) {
-      const balances = yield call(api.getEthereumBalances, addr)
+      const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
       if (balance > 0) {
         yield put(actions.modals.showModal('TransferEth', { balance, addr }))
@@ -117,9 +117,9 @@ export default ({ api, coreSagas }) => {
       }
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
+      // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(
-        coreSagas.kvStore.ethereum.fetchMetadataEthereum,
+        coreSagas.kvStore.eth.fetchMetadataEth,
         askSecondPasswordEnhancer
       )
       yield call(
@@ -182,11 +182,11 @@ export default ({ api, coreSagas }) => {
     }
   }
   const checkDataErrors = function * () {
-    const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+    const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
     if (Remote.Loading.is(btcDataR)) {
       const btcData = yield take(
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+        actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE
       )
       const error = prop('payload', btcData)
       yield call(checkAndHandleVulnerableAddress, { error })
@@ -265,9 +265,6 @@ export default ({ api, coreSagas }) => {
         } else {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
-      } else if (initialError) {
-        // general error
-        yield put(actions.auth.loginFailure(initialError))
       } else if (error && error.auth_type > 0) {
         // 2fa required
         // dispatch state change to show form
@@ -288,8 +285,11 @@ export default ({ api, coreSagas }) => {
         )
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
-        // Wrong 2fa code error
+      } else if (initialError) {
+        // general error
+        yield put(actions.auth.loginFailure(initialError))
       } else if (
+        // Wrong 2fa code error
         error &&
         is(String, error) &&
         error.includes(wrongAuthCodeErrorMessage)

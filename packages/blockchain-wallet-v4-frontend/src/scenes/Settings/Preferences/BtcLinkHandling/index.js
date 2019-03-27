@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
-import BitcoinLinkHandling from './template'
+import BtcLinkHandling from './template'
 
 const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class BtcLinkHandlingContainer extends React.PureComponent {
@@ -22,7 +22,7 @@ class BtcLinkHandlingContainer extends React.PureComponent {
 
   render () {
     return (
-      <BitcoinLinkHandling
+      <BtcLinkHandling
         warningDisplayed={this.state.warningDisplayed}
         handleClick={this.handleClick}
       />

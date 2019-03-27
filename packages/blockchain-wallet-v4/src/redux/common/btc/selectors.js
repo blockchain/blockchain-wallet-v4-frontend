@@ -160,8 +160,7 @@ export const getAddressesInfo = state => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state =>
-  state.dataPath.bitcoin.transactions
+export const getWalletTransactions = state => state.dataPath.btc.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
