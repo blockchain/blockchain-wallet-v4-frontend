@@ -1,5 +1,5 @@
 import { set, mapped, over } from 'ramda-lens'
-import { assocPath, compose } from 'ramda'
+import { assocPath, compose, toLower } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -47,7 +47,13 @@ export default (state = INITIAL_STATE, action) => {
         KVStoreEntry.value
       )
       let setNote = assocPath(
-        ['ethereum', 'erc20', payload.token, 'tx_notes', payload.txHash],
+        [
+          'ethereum',
+          'erc20',
+          toLower(payload.token),
+          'tx_notes',
+          payload.txHash
+        ],
         payload.txNote
       )
       return over(valueLens, setNote, state)
