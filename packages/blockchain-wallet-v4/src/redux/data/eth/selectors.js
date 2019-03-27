@@ -4,6 +4,9 @@ import { createDeepEqualSelector } from '../../../utils'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
+//
+// ETH
+//
 export const getContext = createDeepEqualSelector(
   [kvStoreSelectors.getContext, getLockboxEthContext],
   (walletContextR, lockboxContextR) => {
@@ -12,44 +15,54 @@ export const getContext = createDeepEqualSelector(
     return concat([walletContext], lockboxContext)
   }
 )
-
 export const getAddresses = path([dataPath, 'eth', 'addresses'])
-
 export const getFee = path([dataPath, 'eth', 'fee'])
-
 export const getInfo = path([dataPath, 'eth', 'info'])
-
 export const getLatestBlock = path([dataPath, 'eth', 'latest_block'])
-
-export const getCurrentBalance = path([dataPath, 'eth', 'current_balance'])
-
-export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
-
-export const getRates = path([dataPath, 'eth', 'rates'])
-
-export const getTransactions = path([dataPath, 'eth', 'transactions'])
-
-// Specific
-export const getBalance = state => getInfo(state).map(prop('final_balance'))
-
 export const getFeeRegular = state => getFee(state).map(prop('regular'))
-
 export const getFeePriority = state => getFee(state).map(prop('priority'))
-
 export const getGasLimit = state => getFee(state).map(prop('gasLimit'))
-
 export const getDefaultAddress = state => getAddresses(state).map(head)
-
 export const getAddress = (state, address) =>
   getAddresses(state).map(prop(address))
-
+export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
+export const getRates = path([dataPath, 'eth', 'rates', 'eth'])
 export const getHeight = state => getLatestBlock(state).map(path(['number']))
-
 export const getNonce = (state, address) =>
   getAddresses(state).map(path([address, 'nonce']))
 
-export const getTransactionsAtBound = path([
-  dataPath,
-  'eth',
-  'transactions_at_bound'
-])
+export const getBalance = state => {
+  return path([dataPath, 'eth', 'info', 'eth'])(state).map(
+    prop('final_balance')
+  )
+}
+export const getCurrentBalance = state => {
+  return path([dataPath, 'eth', 'current_balance', 'eth'])
+}
+export const getTransactions = state => {
+  return path([dataPath, 'eth', 'transactions', 'eth'])
+}
+export const getTransactionsAtBound = state => {
+  return path([dataPath, 'eth', 'transactions_at_bound', 'eth'])
+}
+
+//
+// ERC20
+//
+export const getErc20Rates = (state, token) => {
+  return path([dataPath, 'eth', 'rates', token])(state)
+}
+export const getErc20Balance = (state, token) => {
+  return path([dataPath, 'eth', 'info', token])(state).map(
+    prop('final_balance')
+  )
+}
+export const getErc20CurrentBalance = (state, token) => {
+  return path([dataPath, 'eth', 'current_balance', token])(state)
+}
+export const getErc20Transactions = (state, token) => {
+  return path([dataPath, 'eth', 'transactions', token])(state)
+}
+export const getErc20TransactionsAtBound = (state, token) => {
+  return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
+}

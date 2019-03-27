@@ -1,6 +1,6 @@
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { lift, prop } from 'ramda'
+import { lift, prop, toLower } from 'ramda'
 
 export const getData = (state, coin, amount) => {
   const currencyR = selectors.core.settings
@@ -15,6 +15,8 @@ export const getData = (state, coin, amount) => {
         return selectors.core.data.btc.getRates(state)
       case 'BSV':
         return selectors.core.data.bsv.getRates(state)
+      case 'PAX':
+        return selectors.core.data.eth.getErc20Rates(state, toLower(coin))
       case 'ETH':
         return selectors.core.data.eth.getRates(state)
       case 'XLM':

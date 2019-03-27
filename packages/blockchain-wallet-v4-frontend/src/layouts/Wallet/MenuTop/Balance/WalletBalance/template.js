@@ -1,8 +1,5 @@
 import React from 'react'
-import BtcBalance from './BtcBalance'
-import EthBalance from './EthBalance'
-import BchBalance from './BchBalance'
-import XlmBalance from './XlmBalance'
+import Balance from './Balance'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import {
@@ -29,10 +26,11 @@ const Template = props => (
       />
     </Header>
     <BalancesWrapper className={props.isActive ? 'active' : ''}>
-      <BtcBalance />
-      <EthBalance />
-      <BchBalance />
-      <XlmBalance />
+      <Balance coin='PAX' />
+      <Balance coin='BTC' />
+      <Balance coin='ETH' />
+      <Balance coin='BCH' />
+      <Balance coin='XLM' />
     </BalancesWrapper>
   </Wrapper>
 )

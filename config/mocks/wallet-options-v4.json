@@ -60,6 +60,15 @@
           "exchangeTo": true,
           "exchangeFrom": true
         },
+        "erc20": {
+          "pax": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          }
+        },
         "lastTxFuse": 86400,
         "config": {
           "network": 1

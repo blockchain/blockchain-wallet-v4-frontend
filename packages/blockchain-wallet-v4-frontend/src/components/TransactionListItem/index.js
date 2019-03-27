@@ -35,6 +35,14 @@ class ListItemContainer extends React.PureComponent {
       }
       case 'XLM': {
         this.props.xlmActions.setTxNotesXlm(this.props.transaction.hash, value)
+        break
+      }
+      default: {
+        this.props.ethActions.setTxNoteErc20(
+          this.props.coin,
+          this.props.transaction.hash,
+          value
+        )
       }
     }
   }

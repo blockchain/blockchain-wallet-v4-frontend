@@ -16,6 +16,12 @@ export const coinProps = {
     request: 'RequestEth',
     link: 'https://www.blockchain.com/learning-portal/ether-basics'
   },
+  PAX: {
+    name: 'Paxos',
+    icon: 'dollars',
+    request: 'RequestEth',
+    link: 'https://www.blockchain.com/learning-portal/ether-basics'
+  },
   XLM: {
     name: 'Stellar',
     icon: 'xlm-circle',

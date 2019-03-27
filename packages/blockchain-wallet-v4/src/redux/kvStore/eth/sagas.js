@@ -1,10 +1,11 @@
-import { head, prop, isNil, isEmpty } from 'ramda'
+import { head, keys, mergeRight, prop, isNil, isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { Map } from 'immutable-ext'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
+import { SUPPORTED_ERC20_TOKENS } from './model'
 import { derivationMap, ETH } from '../config'
 import * as eth from '../../../utils/eth'
 import { getMnemonic } from '../../wallet/selectors'
@@ -40,6 +41,7 @@ export default ({ api, networks } = {}) => {
           addr: addr
         }
       ],
+      erc20: SUPPORTED_ERC20_TOKENS,
       tx_notes: {},
       last_tx: null,
       legacy_account: null,
@@ -55,6 +57,7 @@ export default ({ api, networks } = {}) => {
     newkv.value.ethereum.legacy_account = defaultAccount.toJS()
     newkv.value.ethereum.accounts[defaultIndex].addr = addr
     newkv.value.ethereum.accounts[defaultIndex].correct = true
+    newkv.value.ethereum.erc20 = SUPPORTED_ERC20_TOKENS
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
@@ -73,6 +76,15 @@ export default ({ api, networks } = {}) => {
       ) {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
       } else {
+        if (
+          keys(newkv.value.erc20).length !== keys(SUPPORTED_ERC20_TOKENS).length
+        ) {
+          // missing 1 or more supported erc20 token entries, sync with model
+          newkv.value.ethereum.erc20 = mergeRight(
+            SUPPORTED_ERC20_TOKENS,
+            newkv.value.ethereum.erc20
+          )
+        }
         yield put(A.fetchMetadataEthSuccess(newkv))
       }
     } catch (e) {

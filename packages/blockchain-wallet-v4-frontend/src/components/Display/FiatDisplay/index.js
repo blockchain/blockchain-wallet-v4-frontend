@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { toLower } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
@@ -24,13 +25,14 @@ class FiatDisplayContainer extends React.PureComponent {
           return this.props.ethActions.fetchRates()
         case 'XLM':
           return this.props.xlmActions.fetchRates()
+        default:
+          return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
       }
     }
   }
 
   render () {
     const { data, ...rest } = this.props
-
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
       Failure: message => <Error>{message}</Error>,
@@ -42,7 +44,7 @@ class FiatDisplayContainer extends React.PureComponent {
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

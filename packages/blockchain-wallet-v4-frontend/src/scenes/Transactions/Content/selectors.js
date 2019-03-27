@@ -50,19 +50,27 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
-const coinSelectorMap = {
-  ETH: selectors.core.common.eth.getWalletTransactions,
-  BTC: selectors.core.common.btc.getWalletTransactions,
-  BCH: selectors.core.common.bch.getWalletTransactions,
-  BSV: selectors.core.common.bsv.getWalletTransactions,
-  XLM: selectors.core.common.xlm.getWalletTransactions
+const coinSelectorMap = (state, coin) => {
+  switch (coin) {
+    case 'BTC':
+      return selectors.core.common.btc.getWalletTransactions
+    case 'BCH':
+      return selectors.core.common.bch.getWalletTransactions
+    case 'ETH':
+      return selectors.core.common.eth.getWalletTransactions
+    case 'XLM':
+      return selectors.core.common.xlm.getWalletTransactions
+    default:
+      return state =>
+        selectors.core.common.eth.getErc20WalletTransactions(state, coin)
+  }
 }
 
 export const getData = (state, coin) =>
   createSelector(
     [
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap[coin],
+      coinSelectorMap(state, coin),
       selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency
     ],
