@@ -24,7 +24,7 @@ export const getMigrationRedirects = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
-export const getErc20TokenAvailability = curry((state, token) =>
+export const getErc20Availability = curry((state, token) =>
   getWebOptions(state).map(path(['eth', token]))
 )
 

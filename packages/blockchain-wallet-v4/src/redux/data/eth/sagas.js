@@ -155,7 +155,7 @@ export default ({ api }) => {
       yield put(A.fetchErc20DataLoading(token))
       const ethAddrs = yield select(S.getContext)
       const contractAddr = (yield select(
-        selectors.kvStore.eth.getErc20TokenContractAddr,
+        selectors.kvStore.eth.getErc20ContractAddr,
         token
       )).getOrFail()
       const data = yield call(api.getErc20Data, head(ethAddrs), contractAddr)
@@ -188,8 +188,8 @@ export default ({ api }) => {
       const pages = yield select(S.getErc20Transactions, token)
       const nextPage = reset ? 0 : length(pages)
       const txsAtBound = yield select(S.getErc20TransactionsAtBound, token)
-      const contractAddr = (yield select(
-        selectors.kvStore.eth.getErc20TokenContractAddr,
+      const contractAddress = (yield select(
+        selectors.kvStore.eth.getErc20ContractAddr,
         token
       )).getOrFail()
       if (txsAtBound && !reset) return
@@ -197,28 +197,28 @@ export default ({ api }) => {
       const data = yield call(
         api.getErc20Transactions,
         ethAddress,
-        contractAddr,
+        contractAddress,
         nextPage
       )
       const txs = prop('transfers', data)
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
-      const page = yield call(__processErc20Txs, txs)
+      const page = yield call(__processErc20Txs, txs, token)
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))
     } catch (e) {
       yield put(A.fetchErc20TransactionsFailure(token, e.message))
     }
   }
 
-  const __processErc20Txs = function * (txs) {
+  const __processErc20Txs = function * (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
     const lockboxContextR = yield select(getLockboxEthContext)
     const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
     const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformErc20Tx(ethAddresses, state), txs)
+    return map(transformErc20Tx(ethAddresses, state, token), txs)
   }
 
   return {

@@ -79,7 +79,7 @@ export default ({ api, networks } = {}) => {
         if (
           keys(newkv.value.erc20).length !== keys(SUPPORTED_ERC20_TOKENS).length
         ) {
-          // missing 1 or more supported token entries, sync with model
+          // missing 1 or more supported erc20 token entries, sync with model
           newkv.value.ethereum.erc20 = mergeRight(
             SUPPORTED_ERC20_TOKENS,
             newkv.value.ethereum.erc20

@@ -16,19 +16,19 @@ export const getMetadata = path([kvStorePath, ETH])
 export const getAccounts = state =>
   getMetadata(state).map(path(['value', 'ethereum', 'accounts']))
 
-export const getErc20Tokens = state =>
+export const getErc20Accounts = state =>
   getMetadata(state).map(path(['value', 'ethereum', 'erc20']))
 
-export const getErc20Token = (state, token) => {
-  return getErc20Tokens(state).map(path([token]))
+export const getErc20Account = (state, token) => {
+  return getErc20Accounts(state).map(path([token]))
 }
 
-export const getErc20TokenContractAddr = (state, token) => {
-  return getErc20Tokens(state).map(path([token, 'contract']))
+export const getErc20ContractAddr = (state, token) => {
+  return getErc20Accounts(state).map(path([token, 'contract']))
 }
 
-export const getErc20TokenTxNote = (state, token, txHash) =>
-  getErc20Token(state, token).map(path(['tx_notes', txHash]))
+export const getErc20TxNote = (state, token, txHash) =>
+  getErc20Account(state, token).map(path(['tx_notes', txHash]))
 
 export const getContext = state =>
   getAccounts(state).map(

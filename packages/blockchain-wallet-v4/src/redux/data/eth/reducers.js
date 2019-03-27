@@ -166,7 +166,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TOKEN_DATA_SUCCESS: {
       const { token, data } = payload
-      // TODO: figure out what data looks like
       return assocPath(['info', token], Remote.Success(data), state)
     }
     case AT.FETCH_ERC20_TOKEN_DATA_FAILURE: {

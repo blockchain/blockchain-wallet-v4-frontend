@@ -110,7 +110,6 @@ export const getXlmBalance = function * () {
   }
 }
 
-// TODO: dynamically generate forks based on a model of coins and tokens
 export const getAllBalances = function * () {
   const btcT = yield fork(getBtcBalance)
   const bchT = yield fork(getBchBalance)
