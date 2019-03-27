@@ -4699,12 +4699,16 @@
         "id": "identityverification.personal.cityrequired"
       },
       {
+        "defaultMessage": "Region",
+        "id": "identityverification.personal.region"
+      },
+      {
         "defaultMessage": "Zip Code *",
         "id": "identityverification.personal.zip"
       },
       {
-        "defaultMessage": "Postcode",
-        "id": "identityverification.personal.postcode"
+        "defaultMessage": "Postcode *",
+        "id": "identityverification.personal.postcoderequired"
       },
       {
         "defaultMessage": "Failed to save personal data. Please try again",
