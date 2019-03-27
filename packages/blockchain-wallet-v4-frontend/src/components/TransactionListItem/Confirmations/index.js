@@ -54,12 +54,14 @@ const explorers = {
 
 const getMinConfirms = coin => {
   switch (coin) {
-    case 'ETH':
-      return 12
+    case 'BTC':
+    case 'BSV':
+    case 'BCH':
+      return 3
     case 'XLM':
       return 1
     default:
-      return 3
+      return 12
   }
 }
 
