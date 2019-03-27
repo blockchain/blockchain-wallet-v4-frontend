@@ -18,12 +18,7 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const {
-    TIERS,
-    TIERS_STATES,
-    KYC_STATES,
-    DOC_RESUBMISSION_REASONS
-  } = model.profile
+  const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
@@ -35,14 +30,11 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const waitForUserTiers = function * () {
-    yield all([
-      take(
-        actionTypes.core.kvStore.userCredentials
-          .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
-      ),
-      take(actionTypes.modules.profile.FETCH_TIERS_SUCCESS)
-    ])
+  const isKycNotFinished = function * () {
+    yield call(waitForUserData)
+    return (yield select(selectors.modules.profile.getUserKYCState))
+      .map(equals(NONE))
+      .getOrElse(false)
   }
 
   const defineReferralGoal = function * (search) {
@@ -186,10 +178,9 @@ export default ({ api }) => {
       selectors.preferences.getShowAirdropReminderModal
     )
     if (!showAirdropReminderModal) return
-    yield call(waitForUserTiers)
-    const tiersR = yield select(selectors.modules.profile.getTiers)
-    const tiers = tiersR.getOrElse([])
-    if (propEq('state', TIERS_STATES.NONE, tiers[1])) {
+    yield call(waitForUserData)
+    const kycNotFinished = yield call(isKycNotFinished)
+    if (kycNotFinished) {
       return yield put(
         actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
           campaign: 'sunriver'
@@ -206,13 +197,12 @@ export default ({ api }) => {
       selectors.preferences.getShowUpgradeForAirdropModal
     )
     if (!showUpgradeForAirdropModal) return
-    yield call(waitForUserTiers)
-    const tiersR = yield select(selectors.modules.profile.getTiers)
-    const tiers = tiersR.getOrElse([])
-    if (
-      propEq('state', TIERS_STATES.NONE, tiers[1]) &&
-      propEq('state', TIERS_STATES.VERIFIED, tiers[0])
-    ) {
+    yield call(waitForUserData)
+    const kycNotFinished = yield call(isKycNotFinished)
+    const userTiers = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({})
+    if (kycNotFinished && propEq('current', 1, userTiers)) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',
@@ -229,14 +219,13 @@ export default ({ api }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield call(waitForUserTiers)
+    yield call(waitForUserData)
+    const kycNotFinished = yield call(isKycNotFinished)
     const coinifyTokenR = yield select(
       selectors.core.kvStore.buySell.getCoinifyToken
     )
     const coinifyToken = coinifyTokenR.getOrElse(false)
-    const tiersR = yield select(selectors.modules.profile.getTiers)
-    const tiers = tiersR.getOrElse([])
-    if (coinifyToken && propEq('state', TIERS_STATES.NONE, tiers[1])) {
+    if (coinifyToken && kycNotFinished) {
       return yield put(
         actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
       )
@@ -296,11 +285,7 @@ export default ({ api }) => {
     const isFunded = sum(values(balances)) !== 0
     if (!isFunded) return
     yield call(waitForUserData)
-    const kycNotFinished = (yield select(
-      selectors.modules.profile.getUserKYCState
-    ))
-      .map(equals(NONE))
-      .getOrElse(false)
+    const kycNotFinished = yield call(isKycNotFinished)
     if (kycNotFinished)
       yield put(
         actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted')
@@ -498,6 +483,7 @@ export default ({ api }) => {
     runSendBtcGoal,
     runUpgradeForAirdropGoal,
     showInitialModal,
+    isKycNotFinished,
     waitForUserData
   }
 }
