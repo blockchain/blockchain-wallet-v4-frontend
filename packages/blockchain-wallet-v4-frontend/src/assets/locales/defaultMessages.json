@@ -691,196 +691,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verified Email",
-        "id": "coinifyexchangedata.create.createaccount.partner.email_verified"
-      },
-      {
-        "defaultMessage": "Verify Email",
-        "id": "coinifyexchangedata.create.createaccount.partner.email_no_verify"
-      },
-      {
-        "defaultMessage": "Send Again",
-        "id": "coinifyexchangedata.create.createaccount.partner.sendagain"
-      },
-      {
-        "defaultMessage": "Check your inbox. We just sent you an email.",
-        "id": "coinifyexchangedata.create.createaccount.partner.checkyourinbox"
-      },
-      {
-        "defaultMessage": "Email Verified",
-        "id": "coinifyexchangedata.create.createaccount.partner.emailverified"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "continue"
-      },
-      {
-        "defaultMessage": "Unfortunately this email is being used for another account.",
-        "id": "coinifyexchangedata.create.accept.error1"
-      },
-      {
-        "defaultMessage": "Click here",
-        "id": "coinifyexchangedata.create.accept.error2"
-      },
-      {
-        "defaultMessage": "to change it.",
-        "id": "coinifyexchangedata.create.accept.error3"
-      },
-      {
-        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
-        "id": "coinifyexchangedata.create.accept.unknownError"
-      },
-      {
-        "defaultMessage": "try again",
-        "id": "tryagain"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "or"
-      },
-      {
-        "defaultMessage": "contact support.",
-        "id": "contactsupport"
-      },
-      {
-        "defaultMessage": "Error Description: {errorDescription}",
-        "id": "coinifyexchangedata.create.accept.support_error_description"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/AcceptTerms/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Create Account",
-        "id": "coinifyexchangedata.create.header.createaccount"
-      },
-      {
-        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID",
-        "id": "coinifyexchangedata.create.subheader.get_started"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter the email address you'd like to verify:",
-        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
-      },
-      {
-        "defaultMessage": "Send Verification Email",
-        "id": "coinifyexchangedata.create.verifyemail.sendverifyemail"
-      },
-      {
-        "defaultMessage": "Another verification email has been sent! Don't see it? {resend}",
-        "id": "coinifyexchangedata.create.verifyemail.helper.sentverificationemail"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Create/VerifyEmail/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "How is my payment method used?",
-        "id": "scenes.coinify.isx.tradequestion"
-      },
-      {
-        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
-        "id": "scenes.coinify.isx.tradeanswer"
-      },
-      {
-        "defaultMessage": "~{btcValue} BTC",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
-      },
-      {
-        "defaultMessage": "({fiatValue})",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
-      },
-      {
-        "defaultMessage": "Finish later",
-        "id": "scenes.buysell.coinify.isx.finishlater"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/ISignThis/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Credit / Debit",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card"
-      },
-      {
-        "defaultMessage": "The order amount is less than the credit card minimum of {cardMin}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_min"
-      },
-      {
-        "defaultMessage": "Orders over {cardLimit} can only be processed through bank transfer.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_max"
-      },
-      {
-        "defaultMessage": "Credit card payment is not available for this order.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_other"
-      },
-      {
-        "defaultMessage": "Receive bitcoin instantly",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
-      },
-      {
-        "defaultMessage": "3% convenience fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
-      },
-      {
-        "defaultMessage": "Visa or Mastercard",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
-      },
-      {
-        "defaultMessage": "Bank Transfer",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
-      },
-      {
-        "defaultMessage": "The order amount is less than the bank minimum of {bankMin}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_min"
-      },
-      {
-        "defaultMessage": "The order amount is over your bank limit of {bankLimit}.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_max"
-      },
-      {
-        "defaultMessage": "Bank transfers are not available for this order.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_other"
-      },
-      {
-        "defaultMessage": "Receive bitcoin in 2-3 days",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
-      },
-      {
-        "defaultMessage": "0.25% Payment Fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Payment/mediumHelpers.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Select a Payment Method",
-        "id": "components.buysell.coinify.payment.header"
-      },
-      {
-        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency.",
-        "id": "components.buysell.coinify.payment.sub_header1"
-      },
-      {
-        "defaultMessage": "Select the account that you would like to use to fund your purchases. You can always change your payment method.",
-        "id": "components.buysell.coinify.payment.sub_header2"
-      }
-    ],
-    "path": "src/components/BuySell/Coinify/Payment/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "We couldn't find any trades!",
         "id": "scenes.buysell.empty.content.header"
       },
@@ -1036,6 +846,10 @@
         "id": "components.dataerror.archiveaddress"
       },
       {
+        "defaultMessage": "There was a problem fetching fees. Please try again later.",
+        "id": "components.dataerror.feesfetchfailure"
+      },
+      {
         "defaultMessage": "Please",
         "id": "components.dataerror.body"
       },
@@ -1046,7 +860,12 @@
       {
         "defaultMessage": "to refresh.",
         "id": "components.dataerror.refresh"
-      },
+      }
+    ],
+    "path": "src/components/DataError/ErrorHandler.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "Oops, something went wrong here!",
         "id": "components.dataerror.header"
@@ -1521,6 +1340,10 @@
         "id": "scenes.exchangehistory.list.orderstatus.expired"
       },
       {
+        "defaultMessage": "Network Delays",
+        "id": "scenes.exchangehistory.list.orderstatus.delayed"
+      },
+      {
         "defaultMessage": "Unknown",
         "id": "scenes.exchangehistory.list.orderstatus.unknown"
       },
@@ -1539,6 +1362,10 @@
       {
         "defaultMessage": "We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.",
         "id": "components.orderstatus.note.swaprefunded"
+      },
+      {
+        "defaultMessage": "Don’t worry, your exchange is in progress. Swap trades are completed on-chain. If transaction volumes are high, there are sometimes delays.",
+        "id": "components.orderstatus.note.swapdelayed"
       },
       {
         "defaultMessage": "This swap has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.",
@@ -2762,6 +2589,94 @@
       {
         "defaultMessage": ".",
         "id": "scenes.faq.group.walletsecurity.answer4.six"
+      },
+      {
+        "defaultMessage": "Lockbox - Hardware Wallet",
+        "id": "scenes.faq.group.lockbox.title"
+      },
+      {
+        "defaultMessage": "What is a Blockchain Lockbox and where can I buy one?",
+        "id": "scenes.faq.group.lockbox.question1"
+      },
+      {
+        "defaultMessage": "Lockbox is our custom hardware wallet, powered by Ledger. It’s the ultimate option for safe, offline crypto storage that syncs seamlessly with your Blockchain Wallet. You can order yours",
+        "id": "scenes.faq.group.lockbox.answer1.one"
+      },
+      {
+        "defaultMessage": "here",
+        "id": "scenes.faq.group.lockbox.answer1.link"
+      },
+      {
+        "defaultMessage": ".",
+        "id": "scenes.faq.group.lockbox.answer1.two"
+      },
+      {
+        "defaultMessage": "What is a hardware wallet?",
+        "id": "scenes.faq.group.lockbox.question2"
+      },
+      {
+        "defaultMessage": "A hardware wallet is a physical device that is designed to be one of the safest options for cryptocurrency storage based on the way it stores your private keys offline. While your Blockchain Wallet is highly secure, in an event that someone gains access to your login information — Lockbox’s isolation of your private keys, along your device’s unique pin code, greatly reduces the risk of your information being compromised. Your Lockbox also comes equipped with a locked endpoint that is specifically designed to prevent phishing and spoofing attacks.",
+        "id": "scenes.faq.group.lockbox.answer2."
+      },
+      {
+        "defaultMessage": "What cryptocurrencies does Lockbox support?",
+        "id": "scenes.faq.group.lockbox.question3"
+      },
+      {
+        "defaultMessage": "Your Lockbox will always be compatible with the cryptocurrencies supported in your Blockchain Wallet. Currently you can store, receive, send, and exchange BTC, ETH, BCH, and XLM.",
+        "id": "scenes.faq.group.lockbox.answer3."
+      },
+      {
+        "defaultMessage": "How do I transfer funds to or from my Lockbox?",
+        "id": "scenes.faq.group.lockbox.question4"
+      },
+      {
+        "defaultMessage": "You can transfer funds to and from your Lockbox by navigating to send and specifying the outgoing and incoming wallets via the ‘to’ and ‘from’ dropdowns. You do not need to have your device connected to your Wallet in order to receive, but you will need it connected in order to send. Need more help? You can find more detail",
+        "id": "scenes.faq.group.lockbox.answer4.one"
+      },
+      {
+        "defaultMessage": "here",
+        "id": "scenes.faq.group.lockbox.answer4.link"
+      },
+      {
+        "defaultMessage": ".",
+        "id": "scenes.faq.group.lockbox.answer4.two"
+      },
+      {
+        "defaultMessage": "How do I send and receive funds with my Lockbox?",
+        "id": "scenes.faq.group.lockbox.question5"
+      },
+      {
+        "defaultMessage": "You can receive funds without having your Lockbox connected. To receive funds to your device, select “Lockbox” from the left navigation of your Wallet to get to your Lockbox dashboard. Once on your dashboard, select “Request”, along with which currency you wish to receive from the “currency” dropdown. Select “copy” to ensure you communicate the correct address to your sender.",
+        "id": "scenes.faq.group.lockbox.answer5.one"
+      },
+      {
+        "defaultMessage": "To send funds from your Lockbox, make sure you are on your Lockbox dashboard. From there, select “send”, and ensure that you have your Lockbox plugged into your computer. Using the dropdowns, select a currency along with which Lockbox you wish to send funds from. Be certain to have your recipient send you an address for the correct currency that they wish to receive, which you’ll put into the “To” field. Enter the amount you wish to send, and continue to view your transaction details. On your Lockbox, open the corresponding application to the currency you wish to send, and authorize the transaction after making sure the address and/or amount are correct.",
+        "id": "scenes.faq.group.lockbox.answer5.two"
+      },
+      {
+        "defaultMessage": "How can I add or remove cryptocurrency applications from my Lockbox?",
+        "id": "scenes.faq.group.lockbox.question6"
+      },
+      {
+        "defaultMessage": "Cryptocurrency applications can be added or removed via the Lockbox dashboard in your Blockchain Web Wallet. Select “Get Apps” from your dashboard while your device is connected to your computer. From here, you’ll be able to access your app manager to install and uninstall apps. If you haven’t set up your Lockbox yet, you can read more about that process",
+        "id": "scenes.faq.group.lockbox.answer6.one"
+      },
+      {
+        "defaultMessage": "here",
+        "id": "scenes.faq.group.lockbox.answer6.link"
+      },
+      {
+        "defaultMessage": ".",
+        "id": "scenes.faq.group.lockbox.answer6.two"
+      },
+      {
+        "defaultMessage": "Is my Wallet’s backup phrase the same as my Lockbox’s?",
+        "id": "scenes.faq.group.lockbox.question7"
+      },
+      {
+        "defaultMessage": "No, they’re different! As you’ll notice during your device’s initial set up process, you are prompted to record your Lockbox’s 24 word phrase and keep it safely stored offline. This phrase allows you to recover your funds if your Lockbox gets stolen, lost, or damaged - or if you forget your PIN code. As with your Wallet’s phrase, keep in mind that anyone with access to your backup phrase can restore your funds on their own device. We advise to keep this phrase your best kept secret.",
+        "id": "scenes.faq.group.lockbox.answer7."
       },
       {
         "defaultMessage": "Educational Resources",
@@ -4462,6 +4377,84 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Markets are Moving 🚀",
+        "id": "scenes.exchange.confirm.marketsaremoving"
+      },
+      {
+        "defaultMessage": "Whoa! Hold your horses. 🐴",
+        "id": "scenes.exchange.confirm.whoathere"
+      },
+      {
+        "defaultMessage": "You do not have permission to trade right now. Please try again later.",
+        "id": "scenes.exchange.confirm.notradepermission"
+      },
+      {
+        "defaultMessage": "Lockbox device is missing",
+        "id": "scenes.exchange.confirm.missingdevice"
+      },
+      {
+        "defaultMessage": "Oops! Something went wrong.",
+        "id": "scenes.exchange.confirm.oopsheader"
+      },
+      {
+        "defaultMessage": "Due to market movement, your order value is now below the minimum required threshold of {symbol}{amount}.",
+        "id": "scenes.exchange.confirm.orderbelowmin"
+      },
+      {
+        "defaultMessage": "Due to market movement, your order value is now above the maximum allowable threshold of {amount} {symbol}.",
+        "id": "scenes.exchange.confirm.orderabovemax"
+      },
+      {
+        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{annualLimit}.",
+        "id": "scenes.exchange.confirm.annuallimitexceeded"
+      },
+      {
+        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{dailyLimit}.",
+        "id": "scenes.exchange.confirm.dailylimitexceeded"
+      },
+      {
+        "defaultMessage": "We're not sure what happened but we didn't receive your order details. Unfortunately, you're going to have to enter your order again. <b>System error: {error}</b>",
+        "id": "scenes.exchange.confirm.oopsmessage"
+      },
+      {
+        "defaultMessage": "Update Order",
+        "id": "scenes.exchange.confirm.updateorder"
+      },
+      {
+        "defaultMessage": "More Info",
+        "id": "scenes.exchange.confirm.moreinfo"
+      },
+      {
+        "defaultMessage": "Increase My Limits",
+        "id": "scenes.exchange.confirm.increaselimits"
+      },
+      {
+        "defaultMessage": "Try Again",
+        "id": "scenes.exchange.confirm.tryagain"
+      }
+    ],
+    "path": "src/modals/Exchange/ExchangeConfirm/ExchangeError/components.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Order Info",
+        "id": "scenes.exchange.confirm.orderinfo"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "scenes.exchange.confirm.confirm"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.confirm.summary.note"
+      }
+    ],
+    "path": "src/modals/Exchange/ExchangeConfirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Exchange Completed",
         "id": "modals.exchangedetails.title.success"
       },
@@ -4634,16 +4627,16 @@
         "id": "identityverification.personal.verifyemail"
       },
       {
-        "defaultMessage": "Select your country of residence",
-        "id": "identityverification.personal.country"
+        "defaultMessage": "Country *",
+        "id": "identityverification.personal.countryrequired"
       },
       {
         "defaultMessage": "Select country",
         "id": "components.selectboxcountry.label"
       },
       {
-        "defaultMessage": "State",
-        "id": "identityverification.personal.state"
+        "defaultMessage": "State *",
+        "id": "identityverification.personal.staterequired"
       },
       {
         "defaultMessage": "Select your state",
@@ -4658,12 +4651,12 @@
         "id": "identityverification.personal.unavailablenotify"
       },
       {
-        "defaultMessage": "First Name",
-        "id": "identityverification.personal.firstname"
+        "defaultMessage": "First Name *",
+        "id": "identityverification.personal.firstnamerequired"
       },
       {
-        "defaultMessage": "Last Name",
-        "id": "identityverification.personal.lastname"
+        "defaultMessage": "Last Name *",
+        "id": "identityverification.personal.lastnamerequired"
       },
       {
         "defaultMessage": "First & Last Name",
@@ -4674,8 +4667,8 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Date of Birth",
-        "id": "identityverification.personal.dateofbirth"
+        "defaultMessage": "Date of Birth *",
+        "id": "identityverification.personal.dateofbirthrequired"
       },
       {
         "defaultMessage": "Age requirement",
@@ -4686,12 +4679,12 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Address Line 1",
-        "id": "identityverification.personal.address_line1"
+        "defaultMessage": "Address Line 1 *",
+        "id": "identityverification.personal.address_line1required"
       },
       {
-        "defaultMessage": "Street Line 1",
-        "id": "identityverification.personal.streetline1"
+        "defaultMessage": "Street Line 1 *",
+        "id": "identityverification.personal.streetline1required"
       },
       {
         "defaultMessage": "Address Line 2",
@@ -4702,16 +4695,20 @@
         "id": "identityverification.personal.streetline2"
       },
       {
-        "defaultMessage": "City",
-        "id": "identityverification.personal.city"
+        "defaultMessage": "City *",
+        "id": "identityverification.personal.cityrequired"
       },
       {
-        "defaultMessage": "Zip Code",
-        "id": "identityverification.personal.zipcode"
+        "defaultMessage": "Region",
+        "id": "identityverification.personal.region"
       },
       {
-        "defaultMessage": "Postcode",
-        "id": "identityverification.personal.postcode"
+        "defaultMessage": "Zip Code *",
+        "id": "identityverification.personal.zip"
+      },
+      {
+        "defaultMessage": "Postcode *",
+        "id": "identityverification.personal.postcoderequired"
       },
       {
         "defaultMessage": "Failed to save personal data. Please try again",
@@ -7470,59 +7467,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Your limit of {curr}{max} is below the minimum allowed amount.",
-        "id": "buy.quote_input.below_min"
-      },
-      {
-        "defaultMessage": "Enter an amount under your {setMax} limit",
-        "id": "buy.quote_input.over_max"
-      },
-      {
-        "defaultMessage": "Enter an amount above the {setMin} minimum",
-        "id": "buy.quote_input.under_min"
-      },
-      {
-        "defaultMessage": "Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)",
-        "id": "buy.quote_input.over_effective_max"
-      },
-      {
-        "defaultMessage": "buying",
-        "id": "buy.quote_input.effective_max_under_min3"
-      },
-      {
-        "defaultMessage": "swapping",
-        "id": "buy.quote_input.effective_max_under_min5swap"
-      },
-      {
-        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min} BTC.",
-        "id": "buy.quote_input.sell_effective_max_under_min1"
-      },
-      {
-        "defaultMessage": "Add funds by {buyLink} or {exchangeLink}.",
-        "id": "buy.quote_input.sell_effective_max_under_min2"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.continue"
-      },
-      {
-        "defaultMessage": "I want to buy",
-        "id": "buy.output_method.title.buy"
-      },
-      {
-        "defaultMessage": "I want to sell",
-        "id": "buy.output_method.title.sell"
-      },
-      {
-        "defaultMessage": "Loading",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.loading"
-      }
-    ],
-    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Helpers/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "While your identity gets verified, you can sell up to",
         "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
       },
@@ -8211,104 +8155,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Markets are Moving 🚀",
-        "id": "scenes.exchange.confirm.marketsaremoving"
-      },
-      {
-        "defaultMessage": "Whoa! Hold your horses. 🐴",
-        "id": "scenes.exchange.confirm.whoathere"
-      },
-      {
-        "defaultMessage": "You do not have permission to trade right now. Please try again later.",
-        "id": "scenes.exchange.confirm.notradepermission"
-      },
-      {
-        "defaultMessage": "Lockbox device is missing",
-        "id": "scenes.exchange.confirm.missingdevice"
-      },
-      {
-        "defaultMessage": "Oops! Something went wrong.",
-        "id": "scenes.exchange.confirm.oopsheader"
-      },
-      {
-        "defaultMessage": "Due to market movement, your order value is now below the minimum required threshold of {symbol}{amount}.",
-        "id": "scenes.exchange.confirm.orderbelowmin"
-      },
-      {
-        "defaultMessage": "Due to market movement, your order value is now above the maximum allowable threshold of {amount} {symbol}.",
-        "id": "scenes.exchange.confirm.orderabovemax"
-      },
-      {
-        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{annualLimit}.",
-        "id": "scenes.exchange.confirm.annuallimitexceeded"
-      },
-      {
-        "defaultMessage": "There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{dailyLimit}.",
-        "id": "scenes.exchange.confirm.dailylimitexceeded"
-      },
-      {
-        "defaultMessage": "We're not sure what happened but we didn't receive your order details. Unfortunately, you're going to have to enter your order again. <b>System error: {error}</b>",
-        "id": "scenes.exchange.confirm.oopsmessage"
-      },
-      {
-        "defaultMessage": "Update Order",
-        "id": "scenes.exchange.confirm.updateorder"
-      },
-      {
-        "defaultMessage": "More Info",
-        "id": "scenes.exchange.confirm.moreinfo"
-      },
-      {
-        "defaultMessage": "Increase My Limits",
-        "id": "scenes.exchange.confirm.increaselimits"
-      },
-      {
-        "defaultMessage": "Try Again",
-        "id": "scenes.exchange.confirm.tryagain"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeConfirm/ExchangeError/components.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Confirm",
-        "id": "scenes.exchange.confirm.header"
-      },
-      {
-        "defaultMessage": "Rate",
-        "id": "scenes.exchange.exchange.confirm.summary.rates"
-      },
-      {
-        "defaultMessage": "Network Fee",
-        "id": "scenes.exchange.exchange.confirm.summary.sourceFee"
-      },
-      {
-        "defaultMessage": "Value",
-        "id": "scenes.exchange.confirm.value"
-      },
-      {
-        "defaultMessage": "Receive Value",
-        "id": "scenes.exchange.confirm.receivevalue"
-      },
-      {
-        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
-        "id": "scenes.exchange.confirm.summary.note"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "scenes.exchange.confirm.confirm"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.exchange.confirm.cancel"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeConfirm/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Try again",
         "id": "scenes.exchange.exchangeform.tryagain"
       }
@@ -8479,8 +8325,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Rates",
-        "id": "scenes.exchange.exchangeform.summary.rates"
+        "defaultMessage": "Your {sourceCoin} Balance",
+        "id": "scenes.exchange.exchangeform.summary.totalbalance"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/RatesBox/RatesBox.json"
@@ -8497,20 +8343,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Swap",
-        "id": "scenes.exchange.exchangeform.summary.swap"
-      },
-      {
-        "defaultMessage": "Receive",
-        "id": "scenes.exchange.exchangeform.summary.to"
+        "defaultMessage": "Exchange",
+        "id": "scenes.exchange.exchangeform.summary.exchange"
       },
       {
         "defaultMessage": "Fees",
         "id": "scenes.exchange.exchangeform.summary.fees"
       },
       {
-        "defaultMessage": "Swap Value",
-        "id": "scenes.exchange.exchangeform.summary.swapvalue"
+        "defaultMessage": "Send",
+        "id": "scenes.exchange.exchangeform.summary.send"
+      },
+      {
+        "defaultMessage": "Receive",
+        "id": "scenes.exchange.exchangeform.summary.to"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/Summary/Summary.json"
@@ -8528,10 +8374,6 @@
       {
         "defaultMessage": "Sending from Lockbox can only be done while using the Chrome browser",
         "id": "scenes.exchange.exchangeform.blocklockbox"
-      },
-      {
-        "defaultMessage": "Summary",
-        "id": "scenes.exchange.exchangeform.summary.title"
       },
       {
         "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
@@ -9168,33 +9010,58 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Price chart",
-        "id": "scenes.home.pricechart"
+        "defaultMessage": "Current Price",
+        "id": "scenes.home.pricechart.coincurrentprice.currentprice"
       }
     ],
-    "path": "src/scenes/Home/PriceChart/index.json"
+    "path": "src/scenes/Home/PriceChart/CoinCurrentPrice/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "All",
-        "id": "scenes.priceindexseries.timefilters.all"
+        "defaultMessage": "today",
+        "id": "scenes.home.pricechart.coinperformance.day"
       },
       {
-        "defaultMessage": "Year",
-        "id": "scenes.priceindexseries.timefilters.year"
+        "defaultMessage": "this week",
+        "id": "scenes.home.pricechart.coinperformance.week"
       },
       {
-        "defaultMessage": "Month",
-        "id": "scenes.priceindexseries.timefilters.month"
+        "defaultMessage": "this month",
+        "id": "scenes.home.pricechart.coinperformance.month"
+      },
+      {
+        "defaultMessage": "this year",
+        "id": "scenes.home.pricechart.coinperformance.year"
+      },
+      {
+        "defaultMessage": "all time",
+        "id": "scenes.home.pricechart.coinperformance.all"
+      }
+    ],
+    "path": "src/scenes/Home/PriceChart/CoinPerformance/services.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Day",
+        "id": "scenes.priceindexseries.timefilters.day"
       },
       {
         "defaultMessage": "Week",
         "id": "scenes.priceindexseries.timefilters.week"
       },
       {
-        "defaultMessage": "Day",
-        "id": "scenes.priceindexseries.timefilters.day"
+        "defaultMessage": "Month",
+        "id": "scenes.priceindexseries.timefilters.month"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "scenes.priceindexseries.timefilters.year"
+      },
+      {
+        "defaultMessage": "All",
+        "id": "scenes.priceindexseries.timefilters.all"
       }
     ],
     "path": "src/scenes/Home/PriceChart/TimeFilters/template.json"

@@ -19,11 +19,7 @@ class Pages extends React.PureComponent {
         />
       ),
       Failure: message => (
-        <DataError
-          onClick={() => this.props.onRefresh()}
-          message={message}
-          onArchive={this.props.onArchive}
-        />
+        <DataError onClick={this.props.onArchive} message={message} />
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

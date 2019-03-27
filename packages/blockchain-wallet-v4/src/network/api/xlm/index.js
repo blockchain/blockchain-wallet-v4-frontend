@@ -23,6 +23,12 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
 
   const getXlmAccount = publicKey => server.loadAccount(publicKey)
 
+  const getXlmFees = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/mempool/fees/xlm'
+    })
+
   const pushXlmTx = tx => server.submitTransaction(tx)
 
   const getXlmTransactions = ({
@@ -67,6 +73,7 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
     createXlmAccount,
     getLatestLedgerDetails,
     getXlmAccount,
+    getXlmFees,
     getXlmTransactions,
     getXlmTicker,
     pushXlmTx

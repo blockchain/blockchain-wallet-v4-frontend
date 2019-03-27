@@ -148,8 +148,8 @@ const FaqContent = [
             <Link
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer5.link'
@@ -197,8 +197,8 @@ const FaqContent = [
             <Link
               href='https://www.coinify.com/legal/'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer7.link'
@@ -350,8 +350,8 @@ const FaqContent = [
             <Link
               href='https://www.sfox.com/privacy.html'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer4.link'
@@ -382,8 +382,8 @@ const FaqContent = [
             <Link
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer5.link'
@@ -572,8 +572,8 @@ const FaqContent = [
             <Link
               href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer6.link'
@@ -642,8 +642,8 @@ const FaqContent = [
             <Link
               href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer8.link'
@@ -686,8 +686,8 @@ const FaqContent = [
             <Link
               href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer9.link'
@@ -758,7 +758,7 @@ const FaqContent = [
             <Link
               href='https://blockchain.com/explorer'
               target='_blank'
-              size='13px'
+              size='14px'
               weight={300}
             >
               <FormattedMessage
@@ -968,8 +968,8 @@ const FaqContent = [
             <Link
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
-              size='13px'
-              weight={200}
+              size='14px'
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletsecurity.answer4.link'
@@ -981,6 +981,177 @@ const FaqContent = [
               defaultMessage='.'
             />
           </FaqDescription>
+        )
+      }
+    ]
+  },
+  {
+    groupTitleMsg: (
+      <FormattedMessage
+        id='scenes.faq.group.lockbox.title'
+        defaultMessage='Lockbox - Hardware Wallet'
+      />
+    ),
+    groupQuestions: [
+      {
+        answerId: '',
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question1'
+            defaultMessage='What is a Blockchain Lockbox and where can I buy one?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer1.one'
+              defaultMessage='Lockbox is our custom hardware wallet, powered by Ledger. It’s the ultimate option for safe, offline crypto storage that syncs seamlessly with your Blockchain Wallet. You can order yours'
+            />
+            <span>&nbsp;</span>
+            <Link
+              href='https://www.blockchain.com/lockbox'
+              target='_blank'
+              size='14px'
+              weight={300}
+            >
+              <FormattedMessage
+                id='scenes.faq.group.lockbox.answer1.link'
+                defaultMessage='here'
+              />
+            </Link>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer1.two'
+              defaultMessage='.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question2'
+            defaultMessage='What is a hardware wallet?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.answer2.'
+            defaultMessage='A hardware wallet is a physical device that is designed to be one of the safest options for cryptocurrency storage based on the way it stores your private keys offline. While your Blockchain Wallet is highly secure, in an event that someone gains access to your login information — Lockbox’s isolation of your private keys, along your device’s unique pin code, greatly reduces the risk of your information being compromised. Your Lockbox also comes equipped with a locked endpoint that is specifically designed to prevent phishing and spoofing attacks.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question3'
+            defaultMessage='What cryptocurrencies does Lockbox support?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.answer3.'
+            defaultMessage='Your Lockbox will always be compatible with the cryptocurrencies supported in your Blockchain Wallet. Currently you can store, receive, send, and exchange BTC, ETH, BCH, and XLM.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question4'
+            defaultMessage='How do I transfer funds to or from my Lockbox?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer4.one'
+              defaultMessage='You can transfer funds to and from your Lockbox by navigating to send and specifying the outgoing and incoming wallets via the ‘to’ and ‘from’ dropdowns. You do not need to have your device connected to your Wallet in order to receive, but you will need it connected in order to send. Need more help? You can find more detail'
+            />
+            <span>&nbsp;</span>
+            <Link
+              href='https://blockchain.zendesk.com/hc/en-us/articles/360018296692-Transferring-funds-between-your-Lockbox-and-web-wallet'
+              target='_blank'
+              size='14px'
+              weight={300}
+            >
+              <FormattedMessage
+                id='scenes.faq.group.lockbox.answer4.link'
+                defaultMessage='here'
+              />
+            </Link>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer4.two'
+              defaultMessage='.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question5'
+            defaultMessage='How do I send and receive funds with my Lockbox?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer5.one'
+              defaultMessage='You can receive funds without having your Lockbox connected. To receive funds to your device, select “Lockbox” from the left navigation of your Wallet to get to your Lockbox dashboard. Once on your dashboard, select “Request”, along with which currency you wish to receive from the “currency” dropdown. Select “copy” to ensure you communicate the correct address to your sender.'
+            />
+            <br />
+            <br />
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer5.two'
+              defaultMessage='To send funds from your Lockbox, make sure you are on your Lockbox dashboard. From there, select “send”, and ensure that you have your Lockbox plugged into your computer. Using the dropdowns, select a currency along with which Lockbox you wish to send funds from. Be certain to have your recipient send you an address for the correct currency that they wish to receive, which you’ll put into the “To” field. Enter the amount you wish to send, and continue to view your transaction details. On your Lockbox, open the corresponding application to the currency you wish to send, and authorize the transaction after making sure the address and/or amount are correct.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question6'
+            defaultMessage='How can I add or remove cryptocurrency applications from my Lockbox?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer6.one'
+              defaultMessage='Cryptocurrency applications can be added or removed via the Lockbox dashboard in your Blockchain Web Wallet. Select “Get Apps” from your dashboard while your device is connected to your computer. From here, you’ll be able to access your app manager to install and uninstall apps. If you haven’t set up your Lockbox yet, you can read more about that process'
+            />
+            <span>&nbsp;</span>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360018292712-Step-1-Connecting-your-new-device'
+              target='_blank'
+              size='14px'
+              weight={300}
+            >
+              <FormattedMessage
+                id='scenes.faq.group.lockbox.answer6.link'
+                defaultMessage='here'
+              />
+            </Link>
+            <FormattedMessage
+              id='scenes.faq.group.lockbox.answer6.two'
+              defaultMessage='.'
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.question7'
+            defaultMessage='Is my Wallet’s backup phrase the same as my Lockbox’s?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.lockbox.answer7.'
+            defaultMessage='No, they’re different! As you’ll notice during your device’s initial set up process, you are prompted to record your Lockbox’s 24 word phrase and keep it safely stored offline. This phrase allows you to recover your funds if your Lockbox gets stolen, lost, or damaged - or if you forget your PIN code. As with your Wallet’s phrase, keep in mind that anyone with access to your backup phrase can restore your funds on their own device. We advise to keep this phrase your best kept secret.'
+          />
         )
       }
     ]

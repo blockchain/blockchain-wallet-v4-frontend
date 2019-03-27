@@ -25,10 +25,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
   }
 
-  const getBsvFee = () => {
-    return Promise.resolve({ priority: 5, regular: 4 })
-  }
-
   const getBsvTicker = () =>
     get({
       url: apiUrl,
@@ -72,7 +68,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   return {
     fetchBsvData,
-    getBsvFee,
     getBsvTicker,
     getBsvUnspents,
     getBsvRawTx,

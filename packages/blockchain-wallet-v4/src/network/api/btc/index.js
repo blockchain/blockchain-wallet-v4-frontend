@@ -19,7 +19,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }
     })
 
-  const getBtcFee = () =>
+  const getBtcFees = () =>
     get({
       url: apiUrl,
       endPoint: '/mempool/fees'
@@ -74,7 +74,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   return {
     getBtcTicker,
     getBtcUnspents,
-    getBtcFee,
+    getBtcFees,
     pushBtcTx,
     getBtcFiatAtTime,
     getLatestBlock,

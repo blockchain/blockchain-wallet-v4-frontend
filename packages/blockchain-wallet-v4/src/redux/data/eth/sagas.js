@@ -12,7 +12,6 @@ import {
   sum,
   values
 } from 'ramda'
-import { convertFeeToWei } from '../../../utils/eth'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -59,17 +58,6 @@ export default ({ api }) => {
       yield put(A.fetchDataSuccess(ethData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
-    }
-  }
-
-  const fetchFee = function * () {
-    try {
-      yield put(A.fetchFeeLoading())
-      const data = yield call(api.getEthFee)
-      const weiData = convertFeeToWei(data)
-      yield put(A.fetchFeeSuccess(weiData))
-    } catch (e) {
-      yield put(A.fetchFeeFailure(e.message))
     }
   }
 
@@ -180,12 +168,12 @@ export default ({ api }) => {
       yield put(A.fetchErc20RatesLoading(token))
       // TODO: call real endpoint
       const data = {
-        "USD": {
-          "15m": 1.00,
-          "last": 1.00,
-          "buy": 1.00,
-          "sell": 1.00,
-          "symbol": "$"
+        USD: {
+          '15m': 1.0,
+          last: 1.0,
+          buy: 1.0,
+          sell: 1.0,
+          symbol: '$'
         }
       }
       yield put(A.fetchErc20RatesSuccess(token, data))
@@ -245,7 +233,6 @@ export default ({ api }) => {
   return {
     fetchData,
     fetchErc20Data,
-    fetchFee,
     fetchLegacyBalance,
     fetchRates,
     fetchErc20Rates,

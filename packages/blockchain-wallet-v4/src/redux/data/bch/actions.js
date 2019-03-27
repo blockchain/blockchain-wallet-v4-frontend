@@ -17,18 +17,6 @@ export const fetchDataFailure = error => ({
   payload: error
 })
 
-// FETCH_BCH_FEE
-export const fetchFee = () => ({ type: AT.FETCH_BCH_FEE })
-export const fetchFeeLoading = () => ({ type: AT.FETCH_BCH_FEE_LOADING })
-export const fetchFeeSuccess = data => ({
-  type: AT.FETCH_BCH_FEE_SUCCESS,
-  payload: data
-})
-export const fetchFeeFailure = error => ({
-  type: AT.FETCH_BCH_FEE_FAILURE,
-  payload: error
-})
-
 // FETCH_BCH_RATES
 export const fetchRates = () => ({ type: AT.FETCH_BCH_RATES })
 export const fetchRatesLoading = () => ({ type: AT.FETCH_BCH_RATES_LOADING })

@@ -38,7 +38,7 @@ const fiatAtTime = { value: 33 }
 
 const api = {
   fetchBlockchainData: jest.fn(() => btcFetchData),
-  getBtcFee: jest.fn(() => feeData),
+  getBtcFees: jest.fn(() => feeData),
   getBtcFiatAtTime: jest.fn(() => fiatAtTime),
   getBtcTicker: jest.fn(() => rateData),
   getTransactionHistory: jest.fn(() => transactionHistory)
@@ -104,51 +104,6 @@ describe('btc data sagas', () => {
               ),
               info: Remote.Success(btcFetchData.wallet),
               latest_block: Remote.Success(btcFetchData.info.latest_block)
-            })
-          })
-      })
-    })
-  })
-
-  describe('fetchFee', () => {
-    const saga = testSaga(dataBtcSagas.fetchFee)
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchFeeLoading())
-    })
-
-    it('should retrieve fee data', () => {
-      saga.next().call(api.getBtcFee)
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(feeData)
-        .put(A.fetchFeeSuccess(feeData))
-        .next()
-        .isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'failed to fetch fee' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchFeeFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add fee data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchFee)
-          .withReducer(reducers)
-          .run()
-          .then(result => {
-            expect(result.storeState.btc).toMatchObject({
-              fee: Remote.Success(feeData)
             })
           })
       })
