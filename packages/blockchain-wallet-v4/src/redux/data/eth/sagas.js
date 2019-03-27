@@ -153,6 +153,7 @@ export default ({ api }) => {
     const { token } = action.payload
     try {
       yield put(A.fetchErc20DataLoading(token))
+      yield put(A.fetchErc20Rates(token))
       const ethAddrs = yield select(S.getContext)
       const contractAddr = (yield select(
         selectors.kvStore.eth.getErc20ContractAddr,
@@ -170,6 +171,26 @@ export default ({ api }) => {
       yield put(A.fetchErc20DataSuccess(token, tokenData))
     } catch (e) {
       yield put(A.fetchErc20DataFailure(token, e.message))
+    }
+  }
+
+  const fetchErc20Rates = function * (action) {
+    const { token } = action.payload
+    try {
+      yield put(A.fetchErc20RatesLoading(token))
+      // TODO: call real endpoint
+      const data = {
+        "USD": {
+          "15m": 1.00,
+          "last": 1.00,
+          "buy": 1.00,
+          "sell": 1.00,
+          "symbol": "$"
+        }
+      }
+      yield put(A.fetchErc20RatesSuccess(token, data))
+    } catch (e) {
+      yield put(A.fetchErc20RatesFailure(token, e.message))
     }
   }
 
@@ -227,6 +248,7 @@ export default ({ api }) => {
     fetchFee,
     fetchLegacyBalance,
     fetchRates,
+    fetchErc20Rates,
     fetchLatestBlock,
     fetchTransactions,
     fetchErc20Transactions,

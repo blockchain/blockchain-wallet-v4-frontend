@@ -128,6 +128,23 @@ export const fetchErc20DataFailure = (token, error) => ({
   payload: { token, error }
 })
 
+export const fetchErc20Rates = token => ({
+  type: AT.FETCH_ERC20_RATES,
+  payload: { token }
+})
+export const fetchErc20RatesLoading = (token) => ({
+  type: AT.FETCH_ERC20_RATES_LOADING,
+  payload: { token }
+})
+export const fetchErc20RatesSuccess = (token, data) => ({
+  type: AT.FETCH_ERC20_RATES_SUCCESS,
+  payload: { token, data }
+})
+export const fetchErc20RatesFailure = (token, error) => ({
+  type: AT.FETCH_ERC20_RATES_FAILURE,
+  payload: { token, error }
+})
+
 export const fetchErc20Balance = token => ({
   type: AT.FETCH_ERC20_TOKEN_BALANCE,
   payload: { token }

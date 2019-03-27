@@ -26,7 +26,7 @@ export const getDefaultAddress = state => getAddresses(state).map(head)
 export const getAddress = (state, address) =>
   getAddresses(state).map(prop(address))
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
-export const getRates = path([dataPath, 'eth', 'rates'])
+export const getRates = path([dataPath, 'eth', 'rates', 'eth'])
 export const getHeight = state => getLatestBlock(state).map(path(['number']))
 export const getNonce = (state, address) =>
   getAddresses(state).map(path([address, 'nonce']))
@@ -49,6 +49,9 @@ export const getTransactionsAtBound = state => {
 //
 // ERC20
 //
+export const getErc20Rates = (state, token) => {
+  return path([dataPath, 'eth', 'rates', token])(state)
+}
 export const getErc20Balance = (state, token) => {
   return path([dataPath, 'eth', 'info', token])(state).map(
     prop('final_balance')

@@ -3,7 +3,7 @@ import * as Currency from './currency'
 import * as Pairs from './pairs'
 import * as Currencies from './currencies'
 
-const { BCH, BTC, BSV, ETH, XLM } = Currencies
+const { BCH, BTC, BSV, ETH, PAX, XLM } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -358,6 +358,7 @@ const displayBchToBch = ({ value, fromUnit, toUnit }) => {
     .map(Currency.coinToString)
     .getOrElse(DefaultDisplay)
 }
+
 const displayBsvToBsv = ({ value, fromUnit, toUnit }) => {
   return transformBsvToBsv({ value, fromUnit, toUnit })
     .map(Currency.coinToString)
