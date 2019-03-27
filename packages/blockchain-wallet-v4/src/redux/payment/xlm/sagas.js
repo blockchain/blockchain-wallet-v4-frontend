@@ -8,12 +8,16 @@ import { xlm as xlmSigner } from '../../../signer'
 import {
   isValidAddress,
   calculateEffectiveBalance,
-  calculateFee,
+  calculateFee as utilsCalculateFee,
   calculateReserve,
   overflowsFullBalance,
   overflowsEffectiveBalance
 } from '../../../utils/xlm'
-import { isString, isPositiveInteger } from '../../../utils/checks'
+import {
+  isString,
+  isPositiveInteger,
+  isPositiveNumber
+} from '../../../utils/checks'
 import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
 import settingsSagaFactory from '../../../redux/settings/sagas'
@@ -85,6 +89,18 @@ export default ({ api }) => {
     }
   }
 
+  const calculateFee = function * (fee, fees) {
+    if (isPositiveNumber(fee)) {
+      return yield call(utilsCalculateFee, fee, NUMBER_OF_OPERATIONS)
+    }
+
+    if (['regular', 'priority'].indexOf(fee) > -1) {
+      return yield call(utilsCalculateFee, fees[fee], NUMBER_OF_OPERATIONS)
+    }
+
+    throw new Error('no_fee_set')
+  }
+
   const createOperation = (to, value, destinationAccountExists) => {
     const amount = convertXlmToXlm({
       value,
@@ -111,13 +127,6 @@ export default ({ api }) => {
     } catch (e) {
       return false
     }
-  }
-
-  const getFee = function * () {
-    const baseFee = (yield select(S.data.xlm.getBaseFee)).getOrFail(
-      new Error(NO_LEDGER_ERROR)
-    )
-    return yield call(calculateFee, baseFee, NUMBER_OF_OPERATIONS)
   }
 
   const getReserve = function * (accountId) {
@@ -158,8 +167,10 @@ export default ({ api }) => {
       },
 
       * init () {
-        const fee = yield call(getFee)
-        return makePayment(merge(p, { fee }))
+        const fees = yield call(api.getXlmFees)
+        const baseFee = prop('regular', fees)
+        const fee = yield call(calculateFee, baseFee, fees)
+        return makePayment(merge(p, { fee, fees }))
       },
 
       * from (origin, type) {
@@ -220,14 +231,16 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      fee () {
-        return makePayment(p)
+      * fee (value) {
+        const fee = yield call(calculateFee, value, prop('fees', p))
+        return makePayment(p, { fee })
       },
 
       * build () {
         const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
+        const fee = prop('fee', p)
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
@@ -236,7 +249,7 @@ export default ({ api }) => {
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
         account = decrementSequenceNumber(p, account)
-        const txBuilder = new StellarSdk.TransactionBuilder(account)
+        const txBuilder = new StellarSdk.TransactionBuilder(account, { fee })
         const operation = yield call(
           createOperation,
           to,
@@ -306,7 +319,7 @@ export default ({ api }) => {
           amount: amount => chain(gen, payment => payment.amount(amount)),
           from: (origin, type) =>
             chain(gen, payment => payment.from(origin, type)),
-          fee: () => chain(gen, payment => payment.fee()),
+          fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),

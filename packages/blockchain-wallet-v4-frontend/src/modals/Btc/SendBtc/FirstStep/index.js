@@ -46,7 +46,9 @@ class FirstStep extends React.Component {
           excludeHDWallets={this.props.excludeHDWallets}
         />
       ),
-      Failure: () => <DataError onClick={() => this.handleRefresh} />,
+      Failure: message => (
+        <DataError onClick={this.handleRefresh} message={message} />
+      ),
       NotAsked: () => <Loading />,
       Loading: () => <Loading />
     })

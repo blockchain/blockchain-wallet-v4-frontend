@@ -32,6 +32,8 @@ import {
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
+const fallbackFees = { priority: 4, regular: 4 }
+
 /**
   Usage:
     // sequential
@@ -290,7 +292,9 @@ export default ({ api }) => {
       },
 
       * init () {
-        let fees = yield call(api.getBchFee)
+        let fees = (yield select(S.walletOptions.getBchFees)).getOrElse(
+          fallbackFees
+        )
         return makePayment(merge(p, { fees }))
       },
 

@@ -34,6 +34,7 @@ describe('goals sagas', () => {
     runSwapUpgradeGoal,
     runWelcomeGoal,
     showInitialModal,
+    isKycNotFinished,
     waitForUserData
   } = goalsSagas({ api })
   const mathCopy = global.Math
@@ -444,8 +445,8 @@ describe('goals sagas', () => {
         .next({ btc: 33234, eth: 534 })
         .call(waitForUserData)
         .next()
-        .select(selectors.modules.profile.getUserKYCState)
-        .next(Remote.of(model.profile.KYC_STATES.NONE))
+        .call(isKycNotFinished)
+        .next(true)
         .put(actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted'))
         .next()
         .isDone()

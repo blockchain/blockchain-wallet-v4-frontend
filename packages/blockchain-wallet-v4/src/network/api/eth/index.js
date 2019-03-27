@@ -30,7 +30,7 @@ export default ({ apiUrl, get, post }) => {
       data: { page }
     })
 
-  const getEthFee = () =>
+  const getEthFees = () =>
     get({
       url: apiUrl,
       endPoint: '/mempool/fees/eth'
@@ -67,7 +67,7 @@ export default ({ apiUrl, get, post }) => {
     checkContract,
     getEthBalances,
     getEthData,
-    getEthFee,
+    getEthFees,
     getEthLatestBlock,
     getEthTicker,
     getEthTransaction,

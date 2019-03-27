@@ -147,6 +147,12 @@ export const requiredDOB = value =>
 export const requiredUsZipcode = value =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
+export const countryUsesPostalcode = countryCode => {
+  return path([countryCode, 'postalCodeFormat'], postalCodes)
+}
+
+export const countryUsesZipcode = countryCode => countryCode === 'US'
+
 export const requiredZipCode = (value, allVals) => {
   const countryCode = path(['country', 'code'], allVals)
   // If country does not have a postal code format it's not required

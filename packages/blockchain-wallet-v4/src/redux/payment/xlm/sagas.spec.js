@@ -8,7 +8,6 @@ import createPaymentFactory, {
   MEMO_TYPES,
   NUMBER_OF_OPERATIONS,
   NO_ACCOUNT_ERROR,
-  NO_LEDGER_ERROR,
   NO_DEFAULT_ACCOUNT_ERROR,
   INVALID_ADDRESS_TYPE_ERROR,
   INVALID_ADDRESS_ERROR,
@@ -31,26 +30,33 @@ import { convertXlmToXlm } from '../../../exchange'
 jest.mock('../../selectors')
 jest.mock('../../../signer')
 
+const STUB_XLM_FEES = {
+  limits: {
+    min: 1250,
+    max: 174886
+  },
+  regular: 78118,
+  priority: 78118
+}
 const [MEMO_ID, MEMO_TEXT] = MEMO_TYPES
-const STUB_BASE_FEE = 100
 const STUB_BASE_RESERVE = 500000
 const STUB_BALANCE = 10000000
 const STUB_NUMBER_OF_ENTRIES = 0
 const STUB_EFFECTIVE_BALANCE =
   STUB_BALANCE -
   STUB_BASE_RESERVE * (2 + STUB_NUMBER_OF_ENTRIES) -
-  STUB_BASE_FEE
+  STUB_XLM_FEES.regular
 const STUB_OTHER_BALANCE = 9000000
 const STUB_OTHER_EFFECTIVE_BALANCE =
   STUB_OTHER_BALANCE -
   STUB_BASE_RESERVE * (2 + STUB_NUMBER_OF_ENTRIES) -
-  STUB_BASE_FEE
+  STUB_XLM_FEES.regular
 const STUB_AMOUNT = 100000
 const DEFAULT_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const OTHER_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const STUB_DEFAULT_ACCOUNT = {
   base_reserve_in_stroops: STUB_BASE_RESERVE,
-  base_fee_in_stroops: STUB_BASE_FEE,
+  base_fee_in_stroops: STUB_XLM_FEES.regular,
   balances: [{ asset_type: 'native', balance: STUB_BALANCE }],
   subentry_count: 0
 }
@@ -69,6 +75,7 @@ const STUB_TX_RESULT = {
 
 const api = {
   getXlmAccount: jest.fn(() => STUB_OTHER_ACCOUNT),
+  getXlmFees: jest.fn(() => STUB_XLM_FEES),
   pushXlmTx: jest.fn(() => STUB_TX_RESULT)
 }
 
@@ -79,7 +86,6 @@ S.data.xlm.getBalance.mockImplementation(() => id => {
   if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_BALANCE)
   return null
 })
-S.data.xlm.getBaseFee.mockReturnValue(Remote.of(STUB_BASE_FEE))
 S.data.xlm.getBaseReserve.mockReturnValue(Remote.of(STUB_BASE_RESERVE))
 S.data.xlm.getNumberOfEntries.mockReturnValue(() =>
   Remote.of(STUB_NUMBER_OF_ENTRIES)
@@ -120,14 +126,7 @@ describe('payment', () => {
         .run()
         .then(prop('returnValue'))
       expect(payment.value().fee).toBe(
-        String(NUMBER_OF_OPERATIONS * STUB_BASE_FEE)
-      )
-    })
-
-    it('should throw if no base fee is available', () => {
-      S.data.xlm.getBaseFee.mockReturnValueOnce(Remote.NotAsked)
-      return expect(expectSaga(payment.init).run()).rejects.toThrowError(
-        new Error(NO_LEDGER_ERROR)
+        String(NUMBER_OF_OPERATIONS * STUB_XLM_FEES.regular)
       )
     })
   })

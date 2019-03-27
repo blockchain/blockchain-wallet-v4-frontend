@@ -1,63 +1,78 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
 import { getData } from './selectors'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import StringDisplay from 'components/Display/StringDisplay'
-import { ExchangeText } from 'components/Exchange'
+import { LargeTableRow, Wrapper } from 'components/Exchange'
 
-const RatesWrapper = styled.div`
-  padding-top: 17px;
-  padding-bottom: 4px;
-  background-color: ${props => props.theme['white-blue']};
-  width: 100%;
+const RatesWrapper = styled(Wrapper)`
+  padding: 0;
+`
+const RateText = styled(Text)`
+  font-size: 12px;
+`
+const TotalBalanceWrapper = styled.div`
+  text-align: left;
+  > ${RateText} {
+    margin-bottom: 2px;
+  }
+`
+const RateWrapper = styled.div`
+  text-align: right;
+`
+const Row = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-`
-const RatesRow = styled(ExchangeText)`
-  text-align: center;
-  margin-bottom: 16px;
-`
-const RatesTitle = styled(RatesRow)`
-  font-weight: 400;
-  margin-bottom: 12px;
 `
 
 export const RatesBox = ({
+  balance,
   sourceCoin,
   targetCoin,
-  currency,
-  sourceToTargetRate,
-  sourceToFiatRate,
-  targetToFiatRate
+  sourceToTargetRate
 }) => (
   <RatesWrapper>
-    <RatesTitle>
-      <FormattedMessage
-        id='scenes.exchange.exchangeform.summary.rates'
-        defaultMessage='Rates'
-      />
-    </RatesTitle>
-    <RatesRow>
-      <StringDisplay>
-        {sourceToTargetRate.map(
-          rate => `1 ${sourceCoin} = ${rate} ${targetCoin}`
-        )}
-      </StringDisplay>
-    </RatesRow>
-    <RatesRow>
-      <StringDisplay>
-        {sourceToFiatRate.map(rate => `1 ${sourceCoin} = ${rate} ${currency}`)}
-      </StringDisplay>
-    </RatesRow>
-    <RatesRow>
-      <StringDisplay>
-        {targetToFiatRate.map(rate => `1 ${targetCoin} = ${rate} ${currency}`)}
-      </StringDisplay>
-    </RatesRow>
+    <LargeTableRow>
+      <TotalBalanceWrapper>
+        <RateText>
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.summary.totalbalance'
+            defaultMessage='Your {sourceCoin} Balance'
+            values={{ sourceCoin }}
+          />
+        </RateText>
+        <RateText>
+          {balance.cata({
+            Success: ({ balanceMax, balanceMaxFiat }) => {
+              return (
+                <Row>
+                  <RateText color='success'>{balanceMaxFiat} </RateText>
+                  <span>&nbsp;</span>
+                  <RateText>
+                    {path(['amount'], balanceMax)}{' '}
+                    {path(['symbol'], balanceMax)}
+                  </RateText>
+                </Row>
+              )
+            },
+            Failure: () => null,
+            Loading: () => <SkeletonRectangle height='14px' width='60px' />,
+            NotAsked: () => <SkeletonRectangle height='14px' width='60px' />
+          })}
+        </RateText>
+      </TotalBalanceWrapper>
+      <RateWrapper>
+        <RateText color='brand-primary'>1 ${sourceCoin} =</RateText>
+        <RateText>
+          <StringDisplay>
+            {sourceToTargetRate.map(rate => `${rate} ${targetCoin}`)}
+          </StringDisplay>
+        </RateText>
+      </RateWrapper>
+    </LargeTableRow>
   </RatesWrapper>
 )
 

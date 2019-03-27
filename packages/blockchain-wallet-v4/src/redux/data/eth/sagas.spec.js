@@ -56,7 +56,7 @@ const latest_block = {
 
 const api = {
   getEthData: jest.fn(() => ethFetchData),
-  getEthFee: jest.fn(() => feeData),
+  getEthFees: jest.fn(() => feeData),
   getEthLatestBlock: jest.fn(() => latest_block),
   getEthTicker: jest.fn(() => rateData),
   getEthTransactions: jest.fn(() => ethTransactionData),
@@ -133,52 +133,6 @@ describe('eth data sagas', () => {
               addresses: Remote.Success(ethData.addresses),
               info: Remote.Success(ethData.info),
               latest_block: Remote.Success(ethData.latest_block)
-            })
-          })
-      })
-    })
-  })
-
-  describe('fetchFee', () => {
-    const saga = testSaga(dataEthSagas.fetchFee)
-    const weiData = convertFeeToWei(feeData)
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchFeeLoading())
-    })
-
-    it('should retrieve fee data', () => {
-      saga.next().call(api.getEthFee)
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(feeData)
-        .put(A.fetchFeeSuccess(weiData))
-        .next()
-        .isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'failed to fetch fee' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchFeeFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add fee data to the state', () => {
-        return expectSaga(dataEthSagas.fetchFee)
-          .withReducer(reducers)
-          .run()
-          .then(result => {
-            expect(result.storeState.eth).toMatchObject({
-              fee: Remote.Success(weiData)
             })
           })
       })

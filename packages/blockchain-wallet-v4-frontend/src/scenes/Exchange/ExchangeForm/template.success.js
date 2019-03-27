@@ -11,7 +11,7 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper as BorderWrapper, Note } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
@@ -321,30 +321,22 @@ const Success = ({
         <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <BorderWrapper>
-          <Title>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.title'
-              defaultMessage='Summary'
-            />
-          </Title>
-          <Summary
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
+        <Summary
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
+        <RatesBox
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
+        <Note>
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.summary.note'
+            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
           />
-          <Note>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.note'
-              defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
-            />
-          </Note>
-          <RatesBox
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
-          />
-        </BorderWrapper>
+        </Note>
       </ColumnRight>
     </Wrapper>
   )
