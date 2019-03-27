@@ -30,6 +30,13 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
+  const isKycNotFinished = function * () {
+    yield call(waitForUserData)
+    return (yield select(selectors.modules.profile.getUserKYCState))
+      .map(equals(NONE))
+      .getOrElse(false)
+  }
+
   const defineReferralGoal = function * (search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -172,11 +179,7 @@ export default ({ api }) => {
     )
     if (!showAirdropReminderModal) return
     yield call(waitForUserData)
-    const kycNotFinished = (yield select(
-      selectors.modules.profile.getUserKYCState
-    ))
-      .map(equals(NONE))
-      .getOrElse(false)
+    const kycNotFinished = yield call(isKycNotFinished)
     if (kycNotFinished) {
       return yield put(
         actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
@@ -195,11 +198,7 @@ export default ({ api }) => {
     )
     if (!showUpgradeForAirdropModal) return
     yield call(waitForUserData)
-    const kycNotFinished = (yield select(
-      selectors.modules.profile.getUserKYCState
-    ))
-      .map(equals(NONE))
-      .getOrElse(false)
+    const kycNotFinished = yield call(isKycNotFinished)
     const userTiers = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({})
@@ -221,11 +220,7 @@ export default ({ api }) => {
     yield put(actions.goals.deleteGoal(id))
 
     yield call(waitForUserData)
-    const kycNotFinished = (yield select(
-      selectors.modules.profile.getUserKYCState
-    ))
-      .map(equals(NONE))
-      .getOrElse(false)
+    const kycNotFinished = yield call(isKycNotFinished)
     const coinifyTokenR = yield select(
       selectors.core.kvStore.buySell.getCoinifyToken
     )
@@ -290,11 +285,7 @@ export default ({ api }) => {
     const isFunded = sum(values(balances)) !== 0
     if (!isFunded) return
     yield call(waitForUserData)
-    const kycNotFinished = (yield select(
-      selectors.modules.profile.getUserKYCState
-    ))
-      .map(equals(NONE))
-      .getOrElse(false)
+    const kycNotFinished = yield call(isKycNotFinished)
     if (kycNotFinished)
       yield put(
         actions.goals.addInitialModal('swapGetStarted', 'SwapGetStarted')
