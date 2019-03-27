@@ -483,6 +483,7 @@ export default ({ api }) => {
     runSendBtcGoal,
     runUpgradeForAirdropGoal,
     showInitialModal,
+    isKycNotFinished,
     waitForUserData
   }
 }
