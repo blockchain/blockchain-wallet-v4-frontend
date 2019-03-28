@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 15px 30px;
+  padding: 10px 30px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   z-index: 10;
@@ -54,11 +54,8 @@ const MenuTop = props => (
   <Wrapper>
     <LeftContainer>
       <TextContainer inline>
-        <Text size='28px' weight={200} uppercase>
-          Be Your Own Bank
-        </Text>
-        <Text size='20px' weight={200}>
-          <sup>®</sup>
+        <Text size='20px' weight={200} uppercase color='gray-3'>
+          Be Your Own Bank.
         </Text>
       </TextContainer>
       <Actions />

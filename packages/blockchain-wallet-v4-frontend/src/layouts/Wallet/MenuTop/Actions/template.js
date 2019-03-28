@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   margin-top: 8px;
 
   @media (min-width: 768px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 `
 const ActionButton = styled(IconButton)`
@@ -29,6 +29,10 @@ const ActionButton = styled(IconButton)`
   `};
 `
 
+const ButtonText = styled(Text)`
+  margin-left: 6px;
+`
+
 const Actions = ({
   handleSend,
   handleRequest,
@@ -37,33 +41,37 @@ const Actions = ({
 }) => (
   <Wrapper>
     <ActionButton
-      name='send'
+      name='paper-airplane-filled'
       disabled={!sendAvailable}
       onClick={handleSend}
       min='100px'
       data-e2e='sendButton'
+      nature='gray-3'
+      height='36px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
     <ActionButton
       style={spacing('ml-15')}
       disabled={!requestAvailable}
-      name='request'
+      name='download-filled'
       onClick={handleRequest}
       min='100px'
       data-e2e='requestButton'
+      nature='gray-3'
+      height='36px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
   </Wrapper>
 )

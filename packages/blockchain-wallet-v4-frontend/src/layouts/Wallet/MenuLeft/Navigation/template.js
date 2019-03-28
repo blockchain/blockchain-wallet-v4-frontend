@@ -27,7 +27,7 @@ const NewCartridge = styled(Cartridge)`
   background-color: ${props => props.theme['white']};
   letter-spacing: 1px;
   margin-left: auto;
-  margin-right: 1px;
+  margin-right: -4px;
   padding: 4px 10px;
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;

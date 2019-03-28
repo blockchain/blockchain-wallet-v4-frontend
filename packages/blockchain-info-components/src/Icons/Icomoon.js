@@ -33,6 +33,7 @@ export default {
   'down-arrow-in-circle': '\\e943',
   'down-triangle': '\\e95f',
   download: '\\e960',
+  download2: '\\e9c5',
   'download-filled': '\\e913',
   email: '\\e961',
   'envelope-regular': '\\e984',

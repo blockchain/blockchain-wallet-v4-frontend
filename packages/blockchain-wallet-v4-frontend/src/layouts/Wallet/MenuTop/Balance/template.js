@@ -26,22 +26,27 @@ const Wrapper = styled.div`
   }
 `
 const BalanceText = styled(Text)`
-  font-size: 20px;
+  margin-right: 4px;
+  font-size: 18px;
   @media (max-width: 767px) {
-    font-size: 16px;
+    font-size: 14px;
   }
 `
 const BalanceDropdown = styled.div`
-  margin-top: 4px;
+  margin: 4px -10px 0 0;
   > div > ul {
-    right: 0;
+    right: 8px;
     padding: 0;
     position: absolute;
   }
+  > div > div > div > div {
+    font-weight: 300;
+    color: ${props => props.theme['brand-primary']};
+  }
   > div > div > span:last-child {
-    top: 1px;
-    right: 10px;
-    font-size: 11px;
+    top: 0;
+    right: 14px;
+    font-size: 9px;
     font-weight: 600;
     position: relative;
   }
@@ -139,14 +144,13 @@ const getBalanceMessage = path => {
 
 const Success = props => (
   <Wrapper>
-    <BalanceText weight={300} data-e2e='totalBalance'>
+    <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
       {getBalanceMessage(props.path)}
     </BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
         forceSelected
-        color={'gray-5'}
         toggleOnCallback={false}
         selectedComponent={getSelectedComponent(props.path)}
         components={getComponentOrder()}

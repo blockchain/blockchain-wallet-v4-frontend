@@ -38,6 +38,8 @@ const selectColor = (nature, disabled) => {
       return 'white'
     case 'dark':
       return 'white'
+    case 'gray-3':
+      return 'gray-3'
     default:
       return 'gray-6'
   }

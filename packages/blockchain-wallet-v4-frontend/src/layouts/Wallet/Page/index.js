@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100% - 115px);
+  height: calc(100% - 100px);
   width: 100%;
   overflow-y: auto;
 `

@@ -49,7 +49,7 @@ const Content = styled.div`
   }
 `
 const Top = styled.div`
-  height: 115px;
+  height: 100px;
   width: 100%;
   ${media.mobile`
     height: 150px;
