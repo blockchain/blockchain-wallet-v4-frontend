@@ -13,7 +13,7 @@ import {
 const TotalRow = styled.div`
   display: flex;
   flex-direction: row;
-  height: 70px;
+  height: 60px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `

@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 
-import ActivityList from './ActivityList'
-import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import Balances from './Balances'
 import Banners from './Banners'
@@ -27,7 +25,6 @@ const ColumnWrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
   width: 100%;
   @media (min-width: 992px) {
     flex-direction: row;
@@ -62,11 +59,9 @@ const Home = () => (
     <ColumnWrapper>
       <ColumnLeft>
         <Balances />
-        <ActivityList />
       </ColumnLeft>
       <ColumnRight>
         <PriceChart />
-        <DidYouKnow />
       </ColumnRight>
     </ColumnWrapper>
   </Wrapper>
