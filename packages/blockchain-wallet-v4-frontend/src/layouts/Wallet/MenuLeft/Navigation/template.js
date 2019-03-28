@@ -69,7 +69,7 @@ const Navigation = props => {
           <Icon name='dollars' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.pax'
-            defaultMessage='Paxos'
+            defaultMessage='USD Pax'
           />
           <NewCartridge>
             <Text color='white' size='12' weight='300'>

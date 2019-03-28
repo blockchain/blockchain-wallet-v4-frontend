@@ -82,7 +82,7 @@ const getBalanceMessage = path => {
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.paxbalance'
-          defaultMessage='Paxos Balance'
+          defaultMessage='USD Pax Balance'
         />
       )
     case path.includes('btc'):

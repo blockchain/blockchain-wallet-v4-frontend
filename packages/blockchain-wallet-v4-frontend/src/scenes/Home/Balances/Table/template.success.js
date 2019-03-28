@@ -28,8 +28,8 @@ const Success = props => {
           <div>
             <HomeCoinBalanceCell
               coin='PAX'
-              coinName='Paxos'
-              coinIcon='pax-circle-filled'
+              coinName='USD Pax'
+              coinIcon='dollars'
               balance={balances.paxBalance}
             />
           </div>
