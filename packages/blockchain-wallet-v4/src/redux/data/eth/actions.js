@@ -132,7 +132,7 @@ export const fetchErc20Rates = token => ({
   type: AT.FETCH_ERC20_RATES,
   payload: { token }
 })
-export const fetchErc20RatesLoading = (token) => ({
+export const fetchErc20RatesLoading = token => ({
   type: AT.FETCH_ERC20_RATES_LOADING,
   payload: { token }
 })
