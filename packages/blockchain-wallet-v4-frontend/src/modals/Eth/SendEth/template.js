@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendEth = props => (
   <Modal size='large' position={props.position} total={props.total}>
-    <ModalHeader icon='send' onClose={props.closeAll}>
+    <ModalHeader icon='paper-airplane-filled' onClose={props.closeAll}>
       <FormattedMessage
         id='modals.sendether.title'
         defaultMessage='Send Ether'
