@@ -25,8 +25,8 @@ import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
 //
 // Shared Utils
 //
-export const getTime = tx => {
-  const date = moment.unix(tx.timeStamp).local()
+export const getTime = timeStamp => {
+  const date = moment.unix(timeStamp).local()
   return equals(date.year(), moment().year())
     ? date.format('MMMM D @ h:mm A')
     : date.format('MMMM D YYYY @ h:mm A')
@@ -88,16 +88,16 @@ export const _transformTx = curry((addresses, state, tx) => {
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
   return {
-    blockHeight: tx.blockNumber,
-    type,
-    fee,
     amount,
-    hash: tx.hash,
-    to: getLabel(tx.to, state, ''),
-    from: getLabel(tx.from, state, ''),
+    blockHeight: tx.blockNumber,
     description: getEthTxNote(state, tx.hash).getOrElse(''),
-    timeFormatted: getTime(tx),
-    time: tx.timeStamp
+    fee,
+    from: getLabel(tx.from, state, ''),
+    hash: tx.hash,
+    time: tx.timeStamp,
+    timeFormatted: getTime(tx.timeStamp),
+    to: getLabel(tx.to, state, ''),
+    type
   }
 })
 
@@ -126,8 +126,8 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     fee: 0,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
-    timeFormatted: '', // getTime(tx),
-    time: '', // tx.timeStamp
+    timeFormatted: getTime(tx.timeStamp || ''),
+    time: tx.timeStamp || '',
     to: getErc20Label(tx.to, token, state),
     type
   }
