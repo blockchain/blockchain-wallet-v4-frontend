@@ -1,13 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
+import { FormattedMessage } from 'react-intl'
 
+import { Text } from 'blockchain-info-components'
 import {
   HomeBalanceRow,
   HomeBalanceTable,
-  HomeCoinBalanceCell,
-  HomeBalanceAmount
+  HomeCoinBalanceCell
 } from 'components/Balances'
+
+const TotalRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+`
+
+const HomeTitle = styled.div`
+  flex-grow: 1;
+  padding: 10px 20px;
+`
+
+const HomeBalanceAmount = styled(Text)`
+  padding: 10px 20px;
+  font-size: 28px;
+  font-weight: 300;
+  color: ${props => props.theme['brand-primary']};
+`
 
 const TxLink = styled(LinkContainer)`
   &:hover {
@@ -18,11 +39,21 @@ const Success = props => {
   const { viewType, balances } = props
   return (
     <HomeBalanceTable>
-      <HomeBalanceRow>
-        <HomeBalanceAmount data-e2e='homeBalanceAmt'>
-          {balances.totalBalance.totalBalance}
-        </HomeBalanceAmount>
-      </HomeBalanceRow>
+      <TotalRow>
+        <HomeTitle>
+          <Text size='20px' weight={300}>
+            <FormattedMessage
+              id='components.balances.home.total'
+              defaultMessage='Total Balance'
+            />
+          </Text>
+        </HomeTitle>
+        <div>
+          <HomeBalanceAmount data-e2e='homeBalanceAmt'>
+            {balances.totalBalance.totalBalance}
+          </HomeBalanceAmount>
+        </div>
+      </TotalRow>
       <HomeBalanceRow data-e2e='balanceTablePax'>
         <TxLink to={'/pax/transactions'}>
           <div>

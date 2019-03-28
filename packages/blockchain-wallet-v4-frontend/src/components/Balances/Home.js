@@ -29,13 +29,6 @@ export const HomeBalanceRow = styled.div`
   }
 `
 
-export const HomeBalanceAmount = styled(Text)`
-  margin: 5px 0;
-  font-size: 28px;
-  font-weight: 300;
-  color: ${props => props.theme['brand-primary']};
-`
-
 const Wrapper = styled.div`
   display: flex;
   align-items: center;

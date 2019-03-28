@@ -100,8 +100,8 @@ class TabsContainer extends React.PureComponent {
           <TabIcon name='lock' size='28px' />
           <TabHeader data-e2e='lockboxTab'>
             <FormattedMessage
-              id='scenes.home.balance.lockbox'
-              defaultMessage='Lockbox'
+              id='scenes.home.balance.hardware'
+              defaultMessage='Hardware'
             />
           </TabHeader>
         </Tab>
