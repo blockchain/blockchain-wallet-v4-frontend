@@ -47,7 +47,7 @@ const Actions = ({
       min='100px'
       data-e2e='sendButton'
       nature='gray-3'
-      height='36px'
+      height='40px'
     >
       <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage
@@ -64,7 +64,7 @@ const Actions = ({
       min='100px'
       data-e2e='requestButton'
       nature='gray-3'
-      height='36px'
+      height='40px'
     >
       <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage

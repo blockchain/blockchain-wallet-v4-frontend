@@ -122,11 +122,16 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
-          <Icon name='lock' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.hardware'
-            defaultMessage='Hardware'
+          <Icon
+            name='hardware'
+            style={{ fontSize: '20px', paddingLeft: '6px' }}
           />
+          <span style={{ marginLeft: '-6px' }}>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.hardware'
+              defaultMessage='Hardware'
+            />
+          </span>
           <HelperTipContainer>
             <TooltipHost id='lockboxRequired'>
               <TooltipIcon name='info' />

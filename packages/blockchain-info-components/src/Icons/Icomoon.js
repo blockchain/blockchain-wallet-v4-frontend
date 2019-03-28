@@ -45,6 +45,7 @@ export default {
   forbidden: '\\e904',
   globe: '\\e945',
   'hamburger-menu': '\\e919',
+  hardware: '\\e91e',
   home: '\\e946',
   'id-card': '\\e981',
   info: '\\e902',
@@ -97,5 +98,6 @@ export default {
   'wallet-filled': '\\e939',
   xlm: '\\e90a',
   'xlm-circle': '\\e909',
-  'xlm-circle-filled': '\\e90c'
+  'xlm-circle-filled': '\\e90c',
+  'xlm-new': '\\e91d'
 }

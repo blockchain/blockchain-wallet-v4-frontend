@@ -85,7 +85,7 @@ class TabsContainer extends React.PureComponent {
           className={currentTab === 'wallet' ? 'active' : ''}
           onClick={() => this.handleClick('wallet')}
         >
-          <TabIcon name='wallet' />
+          <TabIcon name='wallet-filled' size='24px' />
           <TabHeader data-e2e='walletTab'>
             <FormattedMessage
               id='scenes.home.balance.wallet'
@@ -97,7 +97,7 @@ class TabsContainer extends React.PureComponent {
           className={currentTab === 'lockbox' ? 'active' : ''}
           onClick={() => this.handleClick('lockbox')}
         >
-          <TabIcon name='lock' size='28px' />
+          <TabIcon name='hardware' size='24px' />
           <TabHeader data-e2e='lockboxTab'>
             <FormattedMessage
               id='scenes.home.balance.hardware'
