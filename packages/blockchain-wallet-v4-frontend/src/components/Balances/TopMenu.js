@@ -24,13 +24,11 @@ const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  font-size: 20px;
-  font-weight: 200;
   padding-right: 15px;
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme['gray-3']};
+      color: ${props => props.theme['brand-primary']};
     }
   }
 `
@@ -46,8 +44,8 @@ export const CoinBalanceWrapper = props => {
         coin={props.coin}
         cursor='pointer'
         mobileSize='14px'
-        size='20px'
-        weight={200}
+        size='18px'
+        weight={300}
       >
         {props.balance}
       </CoinDisplay>
@@ -55,8 +53,8 @@ export const CoinBalanceWrapper = props => {
         coin={props.coin}
         cursor='pointer'
         mobileSize='14px'
-        size='20px'
-        weight={200}
+        size='18px'
+        weight={300}
       >
         {props.balance}
       </FiatDisplay>

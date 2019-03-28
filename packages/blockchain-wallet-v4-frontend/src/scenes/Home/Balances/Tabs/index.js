@@ -20,7 +20,7 @@ const Tab = styled.div`
   justify-content: center;
   cursor: pointer;
   @media (min-width: 768px) {
-    padding: 12px 5px;
+    padding: 13px 5px;
   }
   &:after {
     display: block;

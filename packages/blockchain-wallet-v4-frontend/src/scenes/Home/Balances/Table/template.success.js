@@ -25,7 +25,7 @@ const HomeTitle = styled.div`
 
 const HomeBalanceAmount = styled(Text)`
   padding: 10px 20px;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 300;
   color: ${props => props.theme['brand-primary']};
 `

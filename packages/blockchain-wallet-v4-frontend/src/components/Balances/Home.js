@@ -65,28 +65,28 @@ export const HomeCoinBalanceCell = props => {
         <CoinName color={'gray-5'}>{coinName}</CoinName>
       </Coin>
       <Amount>
-        <CoinDisplay
-          coin={coin}
-          size='14px'
-          cursor='pointer'
-          mobileSize='14px'
-          color='gray-5'
-          weight={300}
-          data-e2e={coin + 'Balance'}
-        >
-          {balance}
-        </CoinDisplay>
         <FiatDisplay
           coin={coin}
-          size='14px'
+          size='16px'
           cursor='pointer'
-          mobileSize='14px'
-          color='gray-3'
+          mobileSize='16px'
+          color='brand-primary'
           weight={300}
           data-e2e={coin + 'FiatBalance'}
         >
           {balance}
         </FiatDisplay>
+        <CoinDisplay
+          coin={coin}
+          size='12px'
+          cursor='pointer'
+          mobileSize='12px'
+          color='gray-3'
+          weight={300}
+          data-e2e={coin + 'Balance'}
+        >
+          {balance}
+        </CoinDisplay>
       </Amount>
     </Wrapper>
   )
