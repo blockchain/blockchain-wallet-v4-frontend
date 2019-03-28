@@ -23,8 +23,8 @@ const Success = ({
   return (
     <Wrapper>
       <Text size='12px' color={priceChange >= 0 ? 'success' : 'sent'}>
-        {Exchange.getSymbol(currency) + Currency.formatFiat(priceChange)} (%
-        {Currency.formatFiat(pricePercentageChange)})
+        {Exchange.getSymbol(currency) + Currency.formatFiat(priceChange)} (
+        {Currency.formatFiat(pricePercentageChange)}%)
       </Text>
       <Text size='12px' color='lightblue-gray'>
         {getPriceChartTime(priceChartTime)}
