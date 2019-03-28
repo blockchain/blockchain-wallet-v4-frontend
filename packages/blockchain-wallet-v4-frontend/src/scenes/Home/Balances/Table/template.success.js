@@ -15,7 +15,7 @@ const TotalRow = styled.div`
   flex-direction: row;
   height: 70px;
   align-items: center;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
 const HomeTitle = styled.div`

@@ -23,11 +23,14 @@ const HelperTipContainer = styled.div`
 `
 
 const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme['white']} !important;
-  background-color: ${props => props.theme['brand-secondary']};
-  text-transform: capitalize;
+  color: #f28b24 !important;
+  background-color: ${props => props.theme['white']};
+  letter-spacing: 1px;
   margin-left: auto;
-  margin-right: 5px;
+  margin-right: 1px;
+  padding: 4px 10px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 4px;
 `
 
 const Navigation = props => {
@@ -72,7 +75,7 @@ const Navigation = props => {
             defaultMessage='USD Pax'
           />
           <NewCartridge>
-            <Text color='white' size='12' weight='300'>
+            <Text color='#F28B24' size='12' weight='500' uppercase>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.transactions.pax.new'
                 defaultMessage='New'
