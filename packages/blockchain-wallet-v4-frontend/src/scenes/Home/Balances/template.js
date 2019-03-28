@@ -21,7 +21,7 @@ const BalancesTable = props => {
       <Tabs {...props} />
       {currentTab === 'total' && <Table viewType='Total' />}
       {currentTab === 'wallet' && <Table viewType='Wallet' />}
-      {currentTab === 'lockbox' && <Table viewType='Lockbox' />}
+      {currentTab === 'lockbox' && <Table viewType='Hardware' />}
     </Wrapper>
   )
 }

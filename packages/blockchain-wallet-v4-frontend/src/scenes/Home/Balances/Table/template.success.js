@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
 import {
@@ -42,9 +42,10 @@ const Success = props => {
       <TotalRow>
         <HomeTitle>
           <Text size='20px' weight={300}>
-            <FormattedMessage
+            <FormattedHTMLMessage
               id='components.balances.home.total'
-              defaultMessage='Total Balance'
+              defaultMessage='{viewType} Balance'
+              values={{ viewType }}
             />
           </Text>
         </HomeTitle>
@@ -67,7 +68,7 @@ const Success = props => {
         </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow data-e2e='balanceTableBtc'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/btc/transactions'}>
+        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/btc/transactions'}>
           <div>
             <HomeCoinBalanceCell
               coin='BTC'
@@ -79,7 +80,7 @@ const Success = props => {
         </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow data-e2e='balanceTableEth'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/eth/transactions'}>
+        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/eth/transactions'}>
           <div>
             <HomeCoinBalanceCell
               coin='ETH'
@@ -91,7 +92,7 @@ const Success = props => {
         </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow data-e2e='balanceTableBch'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/bch/transactions'}>
+        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/bch/transactions'}>
           <div>
             <HomeCoinBalanceCell
               coin='BCH'
@@ -103,7 +104,7 @@ const Success = props => {
         </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow data-e2e='balanceTableXlm'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/xlm/transactions'}>
+        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/xlm/transactions'}>
           <div>
             <HomeCoinBalanceCell
               coin='XLM'

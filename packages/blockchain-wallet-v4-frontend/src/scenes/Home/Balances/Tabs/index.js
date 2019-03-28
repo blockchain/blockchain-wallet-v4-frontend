@@ -14,13 +14,13 @@ const Tabs = styled.div`
 const Tab = styled.div`
   width: 33%;
   display: flex;
-  padding: 10px 5px;
+  padding: 6px 5px;
   position: relative;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   @media (min-width: 768px) {
-    padding: 15px 5px;
+    padding: 12px 5px;
   }
   &:after {
     display: block;
@@ -31,7 +31,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 2px ${props => props.theme['gray-6']};
+    border-bottom: solid 3px ${props => props.theme['brand-secondary']};
   }
   > * {
     color: ${props => props.theme['gray-2']};
@@ -43,7 +43,7 @@ const Tab = styled.div`
       transform: scaleX(1);
     }
     > * {
-      color: ${props => props.theme['gray-6']};
+      color: ${props => props.theme['brand-primary']};
     }
   }
 `

@@ -13,7 +13,7 @@ export const getData = createDeepEqualSelector(
   (lockboxBalancesR, totalBalancesR, walletBalancesR, viewType) => {
     if (viewType === 'Wallet') {
       return walletBalancesR
-    } else if (viewType === 'Lockbox') {
+    } else if (viewType === 'Hardware') {
       return lockboxBalancesR
     }
     return totalBalancesR
