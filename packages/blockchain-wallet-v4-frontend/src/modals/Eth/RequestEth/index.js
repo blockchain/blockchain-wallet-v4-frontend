@@ -90,7 +90,7 @@ class RequestEthContainer extends React.PureComponent {
         position={this.props.position}
         total={this.props.total}
       >
-        <ModalHeader icon='request' onClose={this.props.closeAll}>
+        <ModalHeader icon='download2' onClose={this.props.closeAll}>
           <FormattedMessage
             id='modals.requestether.title'
             defaultMessage='Request Ether'

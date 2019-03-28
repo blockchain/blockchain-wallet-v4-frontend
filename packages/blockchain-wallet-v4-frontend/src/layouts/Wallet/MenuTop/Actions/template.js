@@ -59,7 +59,7 @@ const Actions = ({
     <ActionButton
       style={spacing('ml-15')}
       disabled={!requestAvailable}
-      name='download-filled'
+      name='download2'
       onClick={handleRequest}
       min='100px'
       data-e2e='requestButton'
