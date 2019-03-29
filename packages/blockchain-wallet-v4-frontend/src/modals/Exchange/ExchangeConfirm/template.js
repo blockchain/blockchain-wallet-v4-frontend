@@ -9,6 +9,7 @@ import { ExchangeButton, Note, Title, Wrapper } from 'components/Exchange'
 import { Form } from 'components/Form'
 import ExchangeError from './ExchangeError'
 import Summary from '../../../scenes/Exchange/ExchangeForm/Summary'
+import TargetFiatAmount from '../../../scenes/Exchange/ExchangeForm/Summary/TargetFiatAmount'
 
 const { CONFIRM_FORM } = model.components.exchange
 
@@ -129,9 +130,7 @@ const ExchangeConfirm = ({
   targetAmount,
   sourceCoin,
   targetCoin,
-  targetFiat,
   currency,
-  fiatCurrencySymbol,
   submitting,
   handleSubmit,
   showOrderInfo,
@@ -154,10 +153,13 @@ const ExchangeConfirm = ({
         />
       </CoinIconTitle>
       <AmountTitle>
-        <Text size='42px' color='brand-primary'>
-          {fiatCurrencySymbol}
-          {targetFiat}
-        </Text>
+        <TargetFiatAmount
+          targetAmount={targetAmount}
+          targetCoin={targetCoin}
+          color='brand-primary'
+          weight={300}
+          size='42px'
+        />
       </AmountTitle>
       <Row>
         <CoinButton
