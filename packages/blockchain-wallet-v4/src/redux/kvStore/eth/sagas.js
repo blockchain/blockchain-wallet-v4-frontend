@@ -81,8 +81,8 @@ export default ({ api, networks } = {}) => {
         ) {
           // missing 1 or more supported erc20 token entries, sync with model
           newkv.value.ethereum.erc20 = mergeRight(
-            SUPPORTED_ERC20_TOKENS,
-            newkv.value.ethereum.erc20
+            newkv.value.ethereum.erc20,
+            SUPPORTED_ERC20_TOKENS
           )
         }
         yield put(A.fetchMetadataEthSuccess(newkv))
