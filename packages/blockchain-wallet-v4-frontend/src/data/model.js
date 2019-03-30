@@ -26,6 +26,7 @@ import * as rates from './modules/rates/model'
  * learnMoreLink:     [OPTIONAL] external url explaining coin/token
  * campaign:          [OPTIONAL] string indicating active campaign for coin/token
  * airdrop:           [OPTIONAL] metadata about current campaign/airdrop
+ * showNewTagSidenav: [OPTIONAL] show new tag in sidenav for coin/token (coin must be inSIDENAV_COIN_ORDER const)
  */
 const COIN_MODELS = {
   BTC: {
@@ -40,7 +41,8 @@ const COIN_MODELS = {
     minConfirmations: 3,
     name: 'Bitcoin',
     txExplorerBaseUrl: 'https://blockchain.com/btc/tx',
-    txListAppRoute: '/btc/transactions'
+    txListAppRoute: '/btc/transactions',
+    showNewTagSidenav: false
   },
   BCH: {
     campaign: null,
@@ -54,7 +56,8 @@ const COIN_MODELS = {
     minConfirmations: 3,
     name: 'Bitcoin Cash',
     txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx',
-    txListAppRoute: '/bch/transactions'
+    txListAppRoute: '/bch/transactions',
+    showNewTagSidenav: false
   },
   BSV: {
     campaign: null,
@@ -68,7 +71,8 @@ const COIN_MODELS = {
     minConfirmations: 3,
     name: 'Bitcoin SV',
     txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction',
-    txListAppRoute: null
+    txListAppRoute: null,
+    showNewTagSidenav: false
   },
   ETH: {
     campaign: null,
@@ -82,7 +86,8 @@ const COIN_MODELS = {
     minConfirmations: 12,
     name: 'Ethereum',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
-    txListAppRoute: '/eth/transactions'
+    txListAppRoute: '/eth/transactions',
+    showNewTagSidenav: false
   },
   PAX: {
     campaign: null,
@@ -96,7 +101,8 @@ const COIN_MODELS = {
     minConfirmations: 12,
     name: 'Paxos',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
-    txListAppRoute: '/pax/transactions'
+    txListAppRoute: '/pax/transactions',
+    showNewTagSidenav: true
   },
   XLM: {
     airdrop: {
@@ -116,13 +122,17 @@ const COIN_MODELS = {
     minConfirmations: 1,
     name: 'Stellar',
     txExplorerBaseUrl: 'https://stellarchain.io/tx',
-    txListAppRoute: '/xlm/transactions'
+    txListAppRoute: '/xlm/transactions',
+    showNewTagSidenav: false
   }
 }
 
+const SIDENAV_COIN_ORDER = ['PAX', 'BTC', 'ETH', 'BCH', 'XLM']
+
 const coins = {
   COIN_MODELS,
-  FULL_SUPPORT_COINS: filter(c => c.fullSupport, COIN_MODELS)
+  FULL_SUPPORT_COINS: filter(c => c.fullSupport, COIN_MODELS),
+  SIDENAV_COIN_ORDER
 }
 
 export { analytics, coins, components, form, logs, profile, rates }

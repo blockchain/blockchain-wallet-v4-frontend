@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { map, values } from 'ramda'
+
+import { model } from 'data'
 import { Cartridge } from '@blockchain-com/components'
 import {
   Wrapper,
@@ -17,6 +20,8 @@ import {
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
+
+const { COIN_MODELS, SIDENAV_COIN_ORDER } = model.coins
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
@@ -36,6 +41,35 @@ const NewCartridge = styled(Cartridge)`
 const Navigation = props => {
   const { ...rest } = props
   const { lockboxOpened, lockboxDevices } = rest
+
+  const buildSideNav = () => {
+    const coinNavItems = []
+    const buildItem = coin => (
+      <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
+        <MenuItem data-e2e={`${coin.coinCode}link`}>
+          <Icon name={`${coin.iconName}-circle`} />
+          {coin.displayName}
+          {coin.showNewTagSidenav && (
+            <NewCartridge>
+              <Text color='#F28B24' size='12' weight='500' uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.transactions.new'
+                  defaultMessage='New'
+                />
+              </Text>
+            </NewCartridge>
+          )}
+        </MenuItem>
+      </LinkContainer>
+    )
+    values(
+      map(coinOrder => {
+        coinNavItems.push(buildItem(COIN_MODELS[coinOrder]))
+      }, SIDENAV_COIN_ORDER)
+    )
+
+    return coinNavItems
+  }
 
   return (
     <Wrapper {...rest}>
@@ -67,59 +101,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <Separator />
-      <LinkContainer to='/pax/transactions' activeClassName='active'>
-        <MenuItem data-e2e='paxLink'>
-          <Icon name='dollars' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.pax'
-            defaultMessage='USD Pax'
-          />
-          <NewCartridge>
-            <Text color='#F28B24' size='12' weight='500' uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.pax.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/btc/transactions' activeClassName='active'>
-        <MenuItem data-e2e='bitcoinLink'>
-          <Icon name='btc-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
-            defaultMessage='Bitcoin'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/eth/transactions' activeClassName='active'>
-        <MenuItem data-e2e='etherLink'>
-          <Icon name='eth-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.ether'
-            defaultMessage='Ether'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/bch/transactions' activeClassName='active'>
-        <MenuItem data-e2e='bitcoinCashLink'>
-          <Icon name='bch-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.bch'
-            defaultMessage='Bitcoin Cash'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/xlm/transactions' activeClassName='active'>
-        <MenuItem data-e2e='stellarLink'>
-          <Icon name='xlm-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.xlm'
-            defaultMessage='Stellar'
-          />
-        </MenuItem>
-      </LinkContainer>
+      {buildSideNav()}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <Icon
