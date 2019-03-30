@@ -26,6 +26,7 @@ import * as rates from './modules/rates/model'
  * iconName:          [REQUIRED] name of the icon for coin/token
  * minConfirmations:  [REQUIRED] confirmations needed for tx
  * isErc20:           [REQUIRED] bool indicating if the coin is an ERC20 token
+ * hasLockboxSupport: [REQUIRED] bool indicating if the coin is available on lockbox
  * primaryColor:      [REQUIRED] primary color of coin/token used for icons and text
  * txListAppRoute:    [OPTIONAL] app route for coin/token tx list page
  * learnMoreLink:     [OPTIONAL] external url explaining coin/token
@@ -40,15 +41,16 @@ const COIN_MODELS = {
     coinCodeDisplay: 'BTC',
     displayName: 'Bitcoin',
     fullSupport: true,
+    hasLockboxSupport: true,
     iconName: 'btc-circle',
     isErc20: false,
     learnMoreLink: 'https://www.blockchain.com/learning-portal/bitcoin-faq',
     minConfirmations: 3,
     name: 'Bitcoin',
+    primaryColor: '#FF9B22',
     txExplorerBaseUrl: 'https://blockchain.com/btc/tx',
     txListAppRoute: '/btc/transactions',
-    showNewTagSidenav: false,
-    primaryColor: '#FF9B22'
+    showNewTagSidenav: false
   },
   BCH: {
     campaign: null,
@@ -56,15 +58,16 @@ const COIN_MODELS = {
     coinCodeDisplay: 'BCH',
     displayName: 'Bitcoin Cash',
     fullSupport: true,
+    hasLockboxSupport: true,
     iconName: 'bch-circle',
     isErc20: false,
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin Cash',
+    primaryColor: '#3EDC89',
     txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx',
     txListAppRoute: '/bch/transactions',
-    showNewTagSidenav: false,
-    primaryColor: '#3EDC89'
+    showNewTagSidenav: false
   },
   BSV: {
     campaign: null,
@@ -72,15 +75,16 @@ const COIN_MODELS = {
     coinCodeDisplay: 'BSV',
     displayName: 'Bitcoin SV',
     fullSupport: false,
+    hasLockboxSupport: false,
     iconName: 'bsv',
     isErc20: false,
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin SV',
+    primaryColor: '#EAB300',
     txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction',
     txListAppRoute: null,
-    showNewTagSidenav: false,
-    primaryColor: '#EAB300'
+    showNewTagSidenav: false
   },
   ETH: {
     campaign: null,
@@ -88,15 +92,16 @@ const COIN_MODELS = {
     coinCodeDisplay: 'ETH',
     displayName: 'Ethereum',
     fullSupport: true,
+    hasLockboxSupport: true,
     iconName: 'eth-circle',
     isErc20: false,
     learnMoreLink: 'https://www.blockchain.com/learning-portal/ether-basics',
     minConfirmations: 12,
     name: 'Ethereum',
+    primaryColor: '#473BCB',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
     txListAppRoute: '/eth/transactions',
-    showNewTagSidenav: false,
-    primaryColor: '#473BCB'
+    showNewTagSidenav: false
   },
   PAX: {
     campaign: null,
@@ -104,15 +109,16 @@ const COIN_MODELS = {
     coinCodeDisplay: 'USDp',
     displayName: 'USD Pax',
     fullSupport: true,
+    hasLockboxSupport: false,
     iconName: 'dollars',
     isErc20: true,
     learnMoreLink: null,
     minConfirmations: 12,
     name: 'Paxos',
+    primaryColor: '#0C6CF2',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
     txListAppRoute: '/pax/transactions',
-    showNewTagSidenav: true,
-    primaryColor: '#0C6CF2'
+    showNewTagSidenav: true
   },
   XLM: {
     airdrop: {
@@ -126,21 +132,29 @@ const COIN_MODELS = {
     coinCodeDisplay: 'XLM',
     displayName: 'Stellar',
     fullSupport: true,
+    hasLockboxSupport: true,
     iconName: 'xlm-circle',
     isErc20: false,
     learnMoreLink: '',
     minConfirmations: 1,
     name: 'Stellar',
+    primaryColor: '#08b5e5',
     txExplorerBaseUrl: 'https://stellarchain.io/tx',
     txListAppRoute: '/xlm/transactions',
-    showNewTagSidenav: false,
-    primaryColor: '#08b5e5'
+    showNewTagSidenav: false
   }
 }
 
 const coins = {
   COIN_MODELS,
   FULL_SUPPORT_COINS: filter(c => c.fullSupport, COIN_MODELS),
+  HOMEPAGE_BALANCE_LIST: [
+    COIN_MODELS.PAX,
+    COIN_MODELS.BTC,
+    COIN_MODELS.ETH,
+    COIN_MODELS.BCH,
+    COIN_MODELS.XLM
+  ],
   SIDENAV_COIN_LIST: [
     COIN_MODELS.PAX,
     COIN_MODELS.BTC,

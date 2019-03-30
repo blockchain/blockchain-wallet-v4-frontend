@@ -2,7 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedHTMLMessage } from 'react-intl'
+import { map, toLower, values } from 'ramda'
 
+import { model } from 'data'
 import { Text } from 'blockchain-info-components'
 import {
   HomeBalanceRow,
@@ -10,6 +12,7 @@ import {
   HomeCoinBalanceCell
 } from 'components/Balances'
 
+const { HOMEPAGE_BALANCE_LIST } = model.coins
 const TotalRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -17,19 +20,16 @@ const TotalRow = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
 const HomeTitle = styled.div`
   flex-grow: 1;
   padding: 10px 20px;
 `
-
 const HomeBalanceAmount = styled(Text)`
   padding: 10px 20px;
   font-size: 22px;
   font-weight: 300;
   color: ${props => props.theme['brand-primary']};
 `
-
 const TxLink = styled(LinkContainer)`
   &:hover {
     cursor: pointer;
@@ -55,66 +55,25 @@ const Success = props => {
           </HomeBalanceAmount>
         </div>
       </TotalRow>
-      <HomeBalanceRow data-e2e='balanceTablePax'>
-        <TxLink to={'/pax/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='PAX'
-              coinName='USD Pax'
-              coinIcon='dollars'
-              balance={balances.paxBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableBtc'>
-        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/btc/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='BTC'
-              coinName='Bitcoin'
-              coinIcon='btc-circle-filled'
-              balance={balances.btcBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableEth'>
-        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/eth/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='ETH'
-              coinName='Ether'
-              coinIcon='eth-circle-filled'
-              balance={balances.ethBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableBch'>
-        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/bch/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='BCH'
-              coinName='Bitcoin Cash'
-              coinIcon='bch-circle-filled'
-              balance={balances.bchBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableXlm'>
-        <TxLink to={viewType === 'Hardware' ? '/lockbox' : '/xlm/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='XLM'
-              coinName='Stellar'
-              coinIcon='xlm-circle-filled'
-              balance={balances.xlmBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
+      {values(
+        map(
+          coin => (
+            <HomeBalanceRow data-e2e={`${toLower(coin.coinCode)}BalanceTable`}>
+              <TxLink to={coin.txListAppRoute}>
+                <div>
+                  <HomeCoinBalanceCell
+                    coin={coin.coinCode}
+                    coinName={coin.displayName}
+                    coinIcon={coin.iconName}
+                    balance={balances.paxBalance}
+                  />
+                </div>
+              </TxLink>
+            </HomeBalanceRow>
+          ),
+          HOMEPAGE_BALANCE_LIST
+        )
+      )}
     </HomeBalanceTable>
   )
 }
