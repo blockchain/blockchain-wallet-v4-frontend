@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { includes } from 'ramda'
 
+import { model } from 'data'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import LockboxBalance from './LockboxBalance'
@@ -9,10 +12,9 @@ import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
 import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
-
-import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
 
+const { COIN_MODELS, SUPPORTED_COINS } = model.coins
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,80 +54,28 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getComponentOrder = () => [
-  <WalletBalance />,
-  <LockboxBalance />,
-  <PendingBalance />,
-  <WatchOnlyBalance />,
-  <CurrencySwitch />
-]
-
-const getSelectedComponent = path => {
+const getSelectedComponent = coinOrLocation => {
   switch (true) {
-    case path.includes('pax'):
-      return <Balance large coin='PAX' />
-    case path.includes('btc'):
-      return <Balance large coin='BTC' />
-    case path.includes('eth'):
-      return <Balance large coin='ETH' />
-    case path.includes('bch'):
-      return <Balance large coin='BCH' />
-    case path.includes('bsv'):
-      return <Balance large coin='BSV' />
-    case path.includes('xlm'):
-      return <Balance large coin='XLM' />
-    case path.includes('lockbox'):
+    case includes(coinOrLocation, SUPPORTED_COINS):
+      return <Balance large coin={coinOrLocation} />
+    case coinOrLocation.includes('LOCKBOX'):
       return <LockboxTotalBalance />
     default:
       return <TotalBalance large />
   }
 }
 
-const getBalanceMessage = path => {
+const getBalanceMessage = coinOrLocation => {
   switch (true) {
-    case path.includes('pax'):
+    case includes(coinOrLocation, SUPPORTED_COINS):
       return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.paxbalance'
-          defaultMessage='USD Pax Balance'
+        <FormattedHTMLMessage
+          id='scenes.wallet.menutop.balance.balance'
+          defaultMessage='{coin} Balance'
+          values={{ coin: COIN_MODELS[coinOrLocation].displayName }}
         />
       )
-    case path.includes('btc'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.btcbalance'
-          defaultMessage='Bitcoin Balance'
-        />
-      )
-    case path.includes('eth'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.ethbalance'
-          defaultMessage='Ether Balance'
-        />
-      )
-    case path.includes('bch'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.bchbalance'
-          defaultMessage='Bitcoin Cash Balance'
-        />
-      )
-    case path.includes('bsv'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.bsvbalance'
-          defaultMessage='Bitcoin SV Balance'
-        />
-      )
-    case path.includes('xlm'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.xlmbalance'
-          defaultMessage='Stellar Balance'
-        />
-      )
-    case path.includes('lockbox'):
+    case coinOrLocation.includes('LOCKBOX'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.lockboxbalance'
@@ -145,16 +95,21 @@ const getBalanceMessage = path => {
 const Success = props => (
   <Wrapper>
     <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
-      {getBalanceMessage(props.path)}
+      {getBalanceMessage(props.coinOrLocation)}
     </BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
         forceSelected
         toggleOnCallback={false}
-        selectedComponent={getSelectedComponent(props.path)}
-        components={getComponentOrder()}
-        callback={() => {}}
+        selectedComponent={getSelectedComponent(props.coinOrLocation)}
+        components={[
+          <WalletBalance />,
+          <LockboxBalance />,
+          <PendingBalance />,
+          <WatchOnlyBalance />,
+          <CurrencySwitch />
+        ]}
       />
     </BalanceDropdown>
   </Wrapper>
