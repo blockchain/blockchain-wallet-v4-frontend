@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Palette } from '../Colors'
-import { keysIn } from 'ramda'
 
 const BaseText = styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -32,7 +30,6 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(Palette())),
   altFont: PropTypes.bool,
   cursor: PropTypes.string,
   opacity: PropTypes.number

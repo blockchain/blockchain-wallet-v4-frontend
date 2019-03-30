@@ -165,7 +165,8 @@ Button.propTypes = {
     'warning',
     'dark',
     'success',
-    'empty-secondary'
+    'empty-secondary',
+    'gray-3'
   ]),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,

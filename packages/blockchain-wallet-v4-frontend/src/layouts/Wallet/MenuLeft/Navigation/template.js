@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { map, toLower, values } from 'ramda'
+import { mapObjIndexed, toLower, values } from 'ramda'
 
 import { model } from 'data'
 import { Cartridge } from '@blockchain-com/components'
@@ -70,15 +70,19 @@ const Navigation = props => {
       </LinkContainer>
       <Separator />
       {values(
-        map(
-          coin => (
-            <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
+        mapObjIndexed(
+          (coin, i) => (
+            <LinkContainer
+              key={i}
+              to={coin.txListAppRoute}
+              activeClassName='active'
+            >
               <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
                 <Icon name={coin.icons.circle} />
                 {coin.displayName}
                 {coin.showNewTagSidenav && (
                   <NewCartridge>
-                    <Text color='#F28B24' size='12' weight='500' uppercase>
+                    <Text color='#F28B24' size='12' weight={500} uppercase>
                       <FormattedMessage
                         id='layouts.wallet.menuleft.navigation.transactions.new'
                         defaultMessage='New'

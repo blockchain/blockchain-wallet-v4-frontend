@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedHTMLMessage } from 'react-intl'
-import { map, toLower, values } from 'ramda'
+import { mapObjIndexed, toLower, values } from 'ramda'
 
 import { model } from 'data'
 import { Text } from 'blockchain-info-components'
@@ -56,9 +56,12 @@ const Success = props => {
         </div>
       </TotalRow>
       {values(
-        map(
-          coin => (
-            <HomeBalanceRow data-e2e={`${toLower(coin.coinCode)}BalanceTable`}>
+        mapObjIndexed(
+          (coin, i) => (
+            <HomeBalanceRow
+              key={i}
+              data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
+            >
               <TxLink to={coin.txListAppRoute}>
                 <div>
                   <HomeCoinBalanceCell
