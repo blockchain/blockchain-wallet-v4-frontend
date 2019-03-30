@@ -1,4 +1,4 @@
-// import { keys } from 'ramda'
+import { filter } from 'ramda'
 import * as analytics from './analytics/model'
 import * as components from './components/model'
 import * as form from './form/model'
@@ -22,6 +22,7 @@ import * as rates from './modules/rates/model'
  * iconName:          [REQUIRED] name of the icon for coin/token
  * minConfirmations:  [REQUIRED] confirmations needed for tx
  * isErc20:           [REQUIRED] bool indicating if the coin is an ERC20 token
+ * txListAppRoute:    [OPTIONAL] app route for coin/token tx list page
  * learnMoreLink:     [OPTIONAL] external url explaining coin/token
  * campaign:          [OPTIONAL] string indicating active campaign for coin/token
  * airdrop:           [OPTIONAL] metadata about current campaign/airdrop
@@ -38,7 +39,8 @@ const COIN_MODELS = {
     learnMoreLink: 'https://www.blockchain.com/learning-portal/bitcoin-faq',
     minConfirmations: 3,
     name: 'Bitcoin',
-    txExplorerBaseUrl: 'https://blockchain.com/btc/tx'
+    txExplorerBaseUrl: 'https://blockchain.com/btc/tx',
+    txListAppRoute: '/btc/transactions'
   },
   BCH: {
     campaign: null,
@@ -51,7 +53,8 @@ const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin Cash',
-    txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx'
+    txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx',
+    txListAppRoute: '/bch/transactions'
   },
   BSV: {
     campaign: null,
@@ -64,7 +67,8 @@ const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin SV',
-    txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction'
+    txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction',
+    txListAppRoute: null
   },
   ETH: {
     campaign: null,
@@ -77,7 +81,8 @@ const COIN_MODELS = {
     learnMoreLink: 'https://www.blockchain.com/learning-portal/ether-basics',
     minConfirmations: 12,
     name: 'Ethereum',
-    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx'
+    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
+    txListAppRoute: '/eth/transactions'
   },
   PAX: {
     campaign: null,
@@ -90,7 +95,8 @@ const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 12,
     name: 'Paxos',
-    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx'
+    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
+    txListAppRoute: '/pax/transactions'
   },
   XLM: {
     airdrop: {
@@ -109,13 +115,14 @@ const COIN_MODELS = {
     learnMoreLink: '',
     minConfirmations: 1,
     name: 'Stellar',
-    txExplorerBaseUrl: 'https://stellarchain.io/tx'
+    txExplorerBaseUrl: 'https://stellarchain.io/tx',
+    txListAppRoute: '/xlm/transactions'
   }
 }
 
 const coins = {
-  COIN_MODELS
-  // supportedCoinList: keys(coinModels)
+  COIN_MODELS,
+  FULL_SUPPORT_COINS: filter(c => c.fullSupport, COIN_MODELS)
 }
 
 export { analytics, coins, components, form, logs, profile, rates }
