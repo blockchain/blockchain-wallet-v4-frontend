@@ -78,9 +78,10 @@ export const getData = (state, coin) =>
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
-      const filteredPages = !isEmpty(pages)
-        ? pages.map(map(filterTransactions(status, search)))
-        : []
+      const filteredPages =
+        pages && !isEmpty(pages)
+          ? pages.map(map(filterTransactions(status, search)))
+          : []
       const partnerData = prop('value', buySellMetadata.getOrElse())
       const currency = currencyR.getOrElse('')
 

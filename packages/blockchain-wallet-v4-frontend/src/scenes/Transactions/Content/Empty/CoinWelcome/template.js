@@ -44,7 +44,7 @@ const CoinRow = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: ${props => lighten(0.4, props.theme[props.coin])};
+  background-color: ${props => lighten(0.4, props.primaryColor)};
   ${media.mobile`
     width: 100%;
   `};
@@ -76,6 +76,7 @@ const LearnMoreLink = styled(Link)`
 
 const Welcome = props => {
   const { availability, coin, coinList, handleRequest, partner } = props
+  const currentCoin = coinList[coin]
 
   return (
     <Wrapper>
@@ -90,11 +91,11 @@ const Welcome = props => {
           </Text>
           <Content weight={300}>
             <FormattedMessage
-              id='scenes.transaction.content.empty.sendreqswap'
+              id='scenes.transaction.content.empty.sendrequestswap'
               defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
               values={{
-                coinName: coinList[coin].displayName,
-                coinCode: coinList[coin].coinCodeDisplay
+                coinName: currentCoin.displayName,
+                coinCode: currentCoin.coinCodeDisplay
               }}
             />
           </Content>
@@ -152,10 +153,10 @@ const Welcome = props => {
             </LinkContainer>
           </ButtonContainer>
         </Row>
-        <CoinRow coin={coin.toLowerCase()}>
+        <CoinRow primaryColor={currentCoin.primaryColor}>
           <Icon
-            name={coinList[coin].iconName}
-            color={coin.toLowerCase()}
+            name={currentCoin.iconName}
+            color={currentCoin.primaryColor}
             size='160px'
           />
         </CoinRow>

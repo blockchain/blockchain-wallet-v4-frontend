@@ -6,10 +6,14 @@ import * as logs from './logs/model'
 import * as profile from './modules/profile/model'
 import * as rates from './modules/rates/model'
 
-// TODO:
-// blockchain-wallet-v4/src/redux/data/eth/model.js
-// blockchain-wallet-v4/src/exchange/currencies/PAX.js
-// /blockchain-wallet-v4/src/redux/kvStore/eth/model.js
+// TODO list:
+// update all components to use primary color code from this model instead of info-components theme
+// update home page balance component to use this model
+// update home page charts component to use this model
+// move this model to core package and add the following data to model
+//      blockchain-wallet-v4/src/redux/data/eth/model.js
+//      blockchain-wallet-v4/src/exchange/currencies/PAX.js
+//      blockchain-wallet-v4/src/redux/kvStore/eth/model.js
 
 // COIN MODEL OVERVIEW
 /*
@@ -22,6 +26,7 @@ import * as rates from './modules/rates/model'
  * iconName:          [REQUIRED] name of the icon for coin/token
  * minConfirmations:  [REQUIRED] confirmations needed for tx
  * isErc20:           [REQUIRED] bool indicating if the coin is an ERC20 token
+ * primaryColor:      [REQUIRED] primary color of coin/token used for icons and text
  * txListAppRoute:    [OPTIONAL] app route for coin/token tx list page
  * learnMoreLink:     [OPTIONAL] external url explaining coin/token
  * campaign:          [OPTIONAL] string indicating active campaign for coin/token
@@ -42,7 +47,8 @@ const COIN_MODELS = {
     name: 'Bitcoin',
     txExplorerBaseUrl: 'https://blockchain.com/btc/tx',
     txListAppRoute: '/btc/transactions',
-    showNewTagSidenav: false
+    showNewTagSidenav: false,
+    primaryColor: '#FF9B22'
   },
   BCH: {
     campaign: null,
@@ -57,7 +63,8 @@ const COIN_MODELS = {
     name: 'Bitcoin Cash',
     txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx',
     txListAppRoute: '/bch/transactions',
-    showNewTagSidenav: false
+    showNewTagSidenav: false,
+    primaryColor: '#3EDC89'
   },
   BSV: {
     campaign: null,
@@ -72,7 +79,8 @@ const COIN_MODELS = {
     name: 'Bitcoin SV',
     txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction',
     txListAppRoute: null,
-    showNewTagSidenav: false
+    showNewTagSidenav: false,
+    primaryColor: '#EAB300'
   },
   ETH: {
     campaign: null,
@@ -87,7 +95,8 @@ const COIN_MODELS = {
     name: 'Ethereum',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
     txListAppRoute: '/eth/transactions',
-    showNewTagSidenav: false
+    showNewTagSidenav: false,
+    primaryColor: '#473BCB'
   },
   PAX: {
     campaign: null,
@@ -102,7 +111,8 @@ const COIN_MODELS = {
     name: 'Paxos',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
     txListAppRoute: '/pax/transactions',
-    showNewTagSidenav: true
+    showNewTagSidenav: true,
+    primaryColor: '#0C6CF2'
   },
   XLM: {
     airdrop: {
@@ -123,10 +133,12 @@ const COIN_MODELS = {
     name: 'Stellar',
     txExplorerBaseUrl: 'https://stellarchain.io/tx',
     txListAppRoute: '/xlm/transactions',
-    showNewTagSidenav: false
+    showNewTagSidenav: false,
+    primaryColor: '#08b5e5'
   }
 }
 
+// TODO: dont export this list, instead build list of coin models in correct order
 const SIDENAV_COIN_ORDER = ['PAX', 'BTC', 'ETH', 'BCH', 'XLM']
 
 const coins = {

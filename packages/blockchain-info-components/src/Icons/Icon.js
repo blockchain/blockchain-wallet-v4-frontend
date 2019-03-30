@@ -8,7 +8,7 @@ import { keysIn } from 'ramda'
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
-  color: ${props => props.theme[props.color]};
+  color: ${props => props.theme[props.color] || props.color};
   -webkit-font-smoothing: antialiased;
   cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
   display: flex;
