@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 import { connect } from 'react-redux'
 
+import { model } from 'data'
 import { getBlockHeight } from './selectors'
-
 import {
   Icon,
   Link,
@@ -14,6 +14,8 @@ import {
   TooltipHost,
   Tooltip
 } from 'blockchain-info-components'
+
+const { COIN_MODELS } = model.coins
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,32 +46,11 @@ const IconWrapper = styled.div`
   }
 `
 
-const explorers = {
-  BCH: 'https://www.blockchain.com/bch/tx',
-  BTC: 'https://blockchain.com/btc/tx',
-  BSV: 'https://blockchair.com/bitcoin-sv/transaction',
-  ETH: 'https://www.blockchain.com/eth/tx',
-  XLM: 'https://stellarchain.io/tx'
-}
-
-const getMinConfirms = coin => {
-  switch (coin) {
-    case 'BTC':
-    case 'BSV':
-    case 'BCH':
-      return 3
-    case 'XLM':
-      return 1
-    default:
-      return 12
-  }
-}
-
 const Confirmations = props => {
   const { blockHeight, coin, txBlockHeight } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
-  const minConfirmations = getMinConfirms(coin)
+  const minConfirmations = COIN_MODELS[coin].minConfirmations
 
   return (
     <Wrapper>
@@ -103,7 +84,7 @@ const Confirmations = props => {
           </TransactionTooltip>
         )}
         <Link
-          href={`${explorers[coin]}/${props.hash}`}
+          href={`${COIN_MODELS[coin].txExplorerBaseUrl}/${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
         >

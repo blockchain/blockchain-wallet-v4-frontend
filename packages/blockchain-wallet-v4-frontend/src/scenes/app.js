@@ -126,15 +126,16 @@ class App extends React.PureComponent {
                     />
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     {values(
-                      map(coin => {
-                        return (
+                      map(
+                        coin => (
                           <WalletLayout
                             path={coin.txListAppRoute}
                             component={Transactions}
                             coin={coin.coinCode}
                           />
-                        )
-                      }, FULL_SUPPORT_COINS)
+                        ),
+                        FULL_SUPPORT_COINS
+                      )
                     )}
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
