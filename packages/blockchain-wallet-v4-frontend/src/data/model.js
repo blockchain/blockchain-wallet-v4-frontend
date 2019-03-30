@@ -23,7 +23,7 @@ import * as rates from './modules/rates/model'
  * coinCode:          [REQUIRED] real coin code (hidden from user)
  * coinCodeDisplay:   [REQUIRED] display coin code (shown to user)
  * txExplorerBaseUrl: [REQUIRED] base url to coin/token tx explorer
- * iconName:          [REQUIRED] name of the icon for coin/token
+ * icons:             [REQUIRED] map of the various icons for coin/token
  * minConfirmations:  [REQUIRED] confirmations needed for tx
  * isErc20:           [REQUIRED] bool indicating if the coin is an ERC20 token
  * hasLockboxSupport: [REQUIRED] bool indicating if the coin is available on lockbox
@@ -42,7 +42,11 @@ const COIN_MODELS = {
     displayName: 'Bitcoin',
     fullSupport: true,
     hasLockboxSupport: true,
-    iconName: 'btc-circle',
+    icons: {
+      default: 'btc',
+      circle: 'btc-circle',
+      circleFilled: 'btc-circle-filled'
+    },
     isErc20: false,
     learnMoreLink: 'https://www.blockchain.com/learning-portal/bitcoin-faq',
     minConfirmations: 3,
@@ -59,7 +63,11 @@ const COIN_MODELS = {
     displayName: 'Bitcoin Cash',
     fullSupport: true,
     hasLockboxSupport: true,
-    iconName: 'bch-circle',
+    icons: {
+      default: 'bch',
+      circle: 'bch-circle',
+      circleFilled: 'bch-circle-filled'
+    },
     isErc20: false,
     learnMoreLink: null,
     minConfirmations: 3,
@@ -76,7 +84,9 @@ const COIN_MODELS = {
     displayName: 'Bitcoin SV',
     fullSupport: false,
     hasLockboxSupport: false,
-    iconName: 'bsv',
+    icons: {
+      default: 'bsv'
+    },
     isErc20: false,
     learnMoreLink: null,
     minConfirmations: 3,
@@ -93,7 +103,11 @@ const COIN_MODELS = {
     displayName: 'Ethereum',
     fullSupport: true,
     hasLockboxSupport: true,
-    iconName: 'eth-circle',
+    icons: {
+      default: 'eth',
+      circle: 'eth-circle',
+      circleFilled: 'eth-circle-filled'
+    },
     isErc20: false,
     learnMoreLink: 'https://www.blockchain.com/learning-portal/ether-basics',
     minConfirmations: 12,
@@ -110,7 +124,11 @@ const COIN_MODELS = {
     displayName: 'USD Pax',
     fullSupport: true,
     hasLockboxSupport: false,
-    iconName: 'dollars',
+    icons: {
+      default: 'dollars',
+      circle: 'dollars',
+      circleFilled: 'dollars'
+    },
     isErc20: true,
     learnMoreLink: null,
     minConfirmations: 12,
@@ -133,7 +151,11 @@ const COIN_MODELS = {
     displayName: 'Stellar',
     fullSupport: true,
     hasLockboxSupport: true,
-    iconName: 'xlm-circle',
+    icons: {
+      default: 'xlm',
+      circle: 'xlm-circle',
+      circleFilled: 'xlm-circle-filled'
+    },
     isErc20: false,
     learnMoreLink: '',
     minConfirmations: 1,

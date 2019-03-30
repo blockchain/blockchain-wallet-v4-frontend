@@ -64,7 +64,7 @@ const Success = props => {
                   <HomeCoinBalanceCell
                     coin={coin.coinCode}
                     coinName={coin.displayName}
-                    coinIcon={coin.iconName}
+                    coinIcon={coin.icons.circleFilled}
                     balance={balances.paxBalance}
                   />
                 </div>

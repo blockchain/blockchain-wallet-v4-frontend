@@ -154,7 +154,7 @@ const Welcome = props => {
         </Row>
         <CoinRow primaryColor={currentCoin.primaryColor}>
           <Icon
-            name={currentCoin.iconName}
+            name={currentCoin.icons.circle}
             color={currentCoin.primaryColor}
             size='160px'
           />

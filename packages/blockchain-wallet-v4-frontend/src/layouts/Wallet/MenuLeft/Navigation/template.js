@@ -74,7 +74,7 @@ const Navigation = props => {
           coin => (
             <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
               <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
-                <Icon name={coin.iconName} />
+                <Icon name={coin.icons.circle} />
                 {coin.displayName}
                 {coin.showNewTagSidenav && (
                   <NewCartridge>
