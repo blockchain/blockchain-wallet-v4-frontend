@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { coinProps } from './model'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -79,7 +78,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const WelcomeAirdrop = props => {
-  const { coin, onboardingActions } = props
+  const { coin, coinList, onboardingActions } = props
 
   return (
     <Wrapper>
@@ -89,19 +88,19 @@ const WelcomeAirdrop = props => {
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.yourcoinwallet'
               defaultMessage='We Now Offer {coinName} ({coin})'
-              values={{ coinName: coinProps[coin].name, coin }}
+              values={{ coinName: coinList[coin].name, coin }}
             />
           </Text>
           <Content weight={300}>
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.sendreqexchange'
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              values={{ coinName: coinList[coin].name, coin }}
             />
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.completeprofileforairdrop'
               defaultMessage='Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              values={{ coinName: coinList[coin].name, coin }}
             />
           </Content>
           <ButtonContainer>
@@ -110,7 +109,7 @@ const WelcomeAirdrop = props => {
               fullwidth
               onClick={() =>
                 onboardingActions.airdropReminderSubmitClicked(
-                  coinProps[coin].campaign
+                  coinList[coin].campaign
                 )
               }
             >
@@ -124,17 +123,17 @@ const WelcomeAirdrop = props => {
         </Row>
         <CoinRow coin={coin.toLowerCase()}>
           <Image
-            name={coinProps[coin].airdrop.image}
+            name={coinList[coin].airdrop.image}
             width='75%'
             srcset={{
-              [`${coinProps[coin].airdrop.image}2`]: '2x',
-              [`${coinProps[coin].airdrop.image}3`]: '3x'
+              [`${coinList[coin].airdrop.image}2`]: '2x',
+              [`${coinList[coin].airdrop.image}3`]: '3x'
             }}
           />
         </CoinRow>
       </Container>
-      {coinProps[coin].airdrop.link && (
-        <LearnMoreContainer href={coinProps[coin].airdrop.link} target='_blank'>
+      {coinList[coin].airdrop.link && (
+        <LearnMoreContainer href={coinList[coin].airdrop.link} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transactions.content.empty.explanation'

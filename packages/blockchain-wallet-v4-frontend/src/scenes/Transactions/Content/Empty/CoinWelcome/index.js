@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { coinProps } from './model'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import {
   getAvailability,
   getCanBuyBtc,
@@ -12,6 +11,8 @@ import {
 } from './selectors'
 import Welcome from './template'
 import WelcomeAirdrop from './template.airdrop'
+
+const { COIN_MODELS } = model.coins
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
@@ -28,6 +29,7 @@ class CoinWelcomeContainer extends React.PureComponent {
     return canAirdrop ? (
       <WelcomeAirdrop
         coin={coin}
+        coinList={COIN_MODELS}
         domains={domains}
         onboardingActions={onboardingActions}
       />
@@ -35,8 +37,9 @@ class CoinWelcomeContainer extends React.PureComponent {
       <Welcome
         availability={availability}
         coin={coin}
+        coinList={COIN_MODELS}
         partner={partner}
-        handleRequest={() => modalActions.showModal(coinProps[coin].request)}
+        handleRequest={() => modalActions.showModal(COIN_MODELS[coin].request)}
       />
     )
   }

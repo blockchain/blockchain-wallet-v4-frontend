@@ -8,7 +8,6 @@ import { lighten } from 'polished'
 
 import { model } from 'data'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { coinProps } from './model'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -76,7 +75,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const Welcome = props => {
-  const { availability, coin, handleRequest, partner } = props
+  const { availability, coin, coinList, handleRequest, partner } = props
 
   return (
     <Wrapper>
@@ -92,8 +91,11 @@ const Welcome = props => {
           <Content weight={300}>
             <FormattedMessage
               id='scenes.transaction.content.empty.sendreqswap'
-              defaultMessage='Send, Request and Swap {coinName} ({coin}) directly from your Blockchain Wallet.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
+              values={{
+                coinName: coinList[coin].displayName,
+                coinCode: coinList[coin].coinCodeDisplay
+              }}
             />
           </Content>
           <ButtonContainer>
@@ -152,14 +154,14 @@ const Welcome = props => {
         </Row>
         <CoinRow coin={coin.toLowerCase()}>
           <Icon
-            name={coinProps[coin].icon}
+            name={`${coinList[coin].iconName}-circle`}
             color={coin.toLowerCase()}
             size='160px'
           />
         </CoinRow>
       </Container>
-      {coinProps[coin].link && (
-        <LearnMoreContainer href={coinProps[coin].link} target='_blank'>
+      {coinList[coin].learnMoreLink && (
+        <LearnMoreContainer href={coinList[coin].learnMoreLink} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transaction.content.empty.getstarted.explanation'

@@ -33,7 +33,10 @@ const CoinDisplay = props => {
       {showIcon && coin === 'BTC' && (
         <Icon name='btc' size={size} weight={weight} color={color} />
       )}
-      {showIcon && coin === ('ETH' || 'PAX') && (
+      {showIcon && coin === 'PAX' && (
+        <Icon name='dollars' size={size} weight={weight} color={color} />
+      )}
+      {showIcon && coin === 'ETH' && (
         <Icon name='eth' size={size} weight={weight} color={color} />
       )}
       {showIcon && coin === 'BCH' && (
