@@ -56,8 +56,9 @@ const Success = props => {
         </div>
       </TotalRow>
       {values(
-        mapObjIndexed(
-          (coin, i) => (
+        mapObjIndexed((coin, i) => {
+          if (viewType === 'Hardware' && !coin.hasLockboxSupport) return
+          return (
             <HomeBalanceRow
               key={i}
               data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
@@ -73,9 +74,8 @@ const Success = props => {
                 </div>
               </TxLink>
             </HomeBalanceRow>
-          ),
-          HOMEPAGE_BALANCE_LIST
-        )
+          )
+        }, HOMEPAGE_BALANCE_LIST)
       )}
     </HomeBalanceTable>
   )
