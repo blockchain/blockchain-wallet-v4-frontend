@@ -69,7 +69,7 @@ const Success = props => {
                     coin={coin.coinCode}
                     coinName={coin.displayName}
                     coinIcon={coin.icons.circleFilled}
-                    balance={balances.paxBalance}
+                    balance={balances[`${toLower(coin.coinCode)}Balance`]}
                   />
                 </div>
               </TxLink>
