@@ -3,7 +3,7 @@ import { Redirect, Switch } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
-import { mapObjIndexed, values } from 'ramda'
+import { map, values } from 'ramda'
 import { createGlobalStyle } from 'styled-components'
 
 import { model, selectors } from 'data'
@@ -126,10 +126,9 @@ class App extends React.PureComponent {
                     />
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     {values(
-                      mapObjIndexed(
-                        (coin, i) => (
+                      map(
+                        coin => (
                           <WalletLayout
-                            key={i}
                             path={coin.txListAppRoute}
                             component={Transactions}
                             coin={coin.coinCode}
