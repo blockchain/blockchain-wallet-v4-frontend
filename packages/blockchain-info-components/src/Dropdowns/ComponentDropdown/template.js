@@ -110,7 +110,7 @@ Dropdown.defaultProps = {
 
 Dropdown.propTypes = {
   selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  callback: PropTypes.func.isRequired,
+  callback: PropTypes.func,
   toggled: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
