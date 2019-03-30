@@ -154,7 +154,7 @@ const Welcome = props => {
         </Row>
         <CoinRow coin={coin.toLowerCase()}>
           <Icon
-            name={`${coinList[coin].iconName}-circle`}
+            name={coinList[coin].iconName}
             color={coin.toLowerCase()}
             size='160px'
           />

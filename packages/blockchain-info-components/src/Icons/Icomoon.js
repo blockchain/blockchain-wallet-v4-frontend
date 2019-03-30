@@ -27,7 +27,7 @@ export default {
   'comment-alt-regular': '\\e982',
   'credit-card': '\\e941',
   'credit-card-filled': '\\e90e',
-  'dollars-circle': '\\e942',
+  dollars: '\\e942',
   'down-arrow': '\\e944',
   'down-arrow-filled': '\\e911',
   'down-arrow-in-circle': '\\e943',

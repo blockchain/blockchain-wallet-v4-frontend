@@ -43,7 +43,7 @@ const buildCoinSideNav = () => {
   const buildItem = coin => (
     <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
       <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
-        <Icon name={`${coin.iconName}-circle`} />
+        <Icon name={coin.iconName} />
         {coin.displayName}
         {coin.showNewTagSidenav && (
           <NewCartridge>
