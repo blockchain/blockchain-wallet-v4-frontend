@@ -60,7 +60,7 @@ const LearnMoreContainer = styled(Link)`
   width: 640px;
   display: flex;
   justify-content: space-between;
-  margin: 0px auto 25px;
+  margin: 0 auto 25px;
   padding: 25px;
   border-radius: 3px;
   box-sizing: border-box;
@@ -75,8 +75,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const Welcome = props => {
-  const { availability, coin, coinList, handleRequest, partner } = props
-  const currentCoin = coinList[coin]
+  const { availability, currentCoin, handleRequest, partner } = props
 
   return (
     <Wrapper>
@@ -86,7 +85,7 @@ const Welcome = props => {
             <FormattedMessage
               id='scenes.transaction.content.empty.yourcoinwallet'
               defaultMessage='Your {coin} Wallet'
-              values={{ coin }}
+              values={{ coin: currentCoin.coinCodeDisplay }}
             />
           </Text>
           <Content weight={300}>
@@ -110,7 +109,7 @@ const Welcome = props => {
                   <FormattedMessage
                     id='scenes.transaction.content.empty.buy'
                     defaultMessage='Buy {coin}'
-                    values={{ coin }}
+                    values={{ coin: currentCoin.coinCodeDisplay }}
                   />
                 </Button>
               </LinkContainer>
@@ -124,7 +123,7 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.request'
                   defaultMessage='Get {coin}'
-                  values={{ coin }}
+                  values={{ coin: currentCoin.coinCodeDisplay }}
                 />
               </Button>
             )}
@@ -132,8 +131,8 @@ const Welcome = props => {
               to={{
                 pathname: '/swap',
                 state: {
-                  from: coin === 'BTC' ? 'ETH' : 'BTC',
-                  to: coin,
+                  from: currentCoin.coinCodeDisplay === 'BTC' ? 'ETH' : 'BTC',
+                  to: currentCoin.coinCodeDisplay,
                   amount: '0',
                   fix: model.rates.FIX_TYPES.BASE_IN_FIAT
                 }
@@ -147,7 +146,7 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.swap'
                   defaultMessage='Swap {coin}'
-                  values={{ coin }}
+                  values={{ coin: currentCoin.coinCodeDisplay }}
                 />
               </Button>
             </LinkContainer>
@@ -161,8 +160,8 @@ const Welcome = props => {
           />
         </CoinRow>
       </Container>
-      {coinList[coin].learnMoreLink && (
-        <LearnMoreContainer href={coinList[coin].learnMoreLink} target='_blank'>
+      {currentCoin.learnMoreLink && (
+        <LearnMoreContainer href={currentCoin.learnMoreLink} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transaction.content.empty.getstarted.explanation'
@@ -190,7 +189,7 @@ const Welcome = props => {
 
 Welcome.propTypes = {
   availability: PropTypes.object.isRequired,
-  coin: PropTypes.string.isRequired,
+  currentCoin: PropTypes.object.isRequired,
   partner: PropTypes.string.isRequired,
   handleRequest: PropTypes.func.isRequired
 }

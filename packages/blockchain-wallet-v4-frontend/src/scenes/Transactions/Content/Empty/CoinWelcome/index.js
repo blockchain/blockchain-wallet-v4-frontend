@@ -25,19 +25,18 @@ class CoinWelcomeContainer extends React.PureComponent {
       ...rest
     } = this.props
     const { modalActions, onboardingActions } = rest
+    const currentCoin = COIN_MODELS[coin]
 
     return canAirdrop ? (
       <WelcomeAirdrop
-        coin={coin}
-        coinList={COIN_MODELS}
+        currentCoin={currentCoin}
         domains={domains}
         onboardingActions={onboardingActions}
       />
     ) : (
       <Welcome
         availability={availability}
-        coin={coin}
-        coinList={COIN_MODELS}
+        currentCoin={currentCoin}
         partner={partner}
         handleRequest={() => modalActions.showModal(COIN_MODELS[coin].request)}
       />

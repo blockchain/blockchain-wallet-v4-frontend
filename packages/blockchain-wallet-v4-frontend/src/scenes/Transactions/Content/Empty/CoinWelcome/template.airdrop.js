@@ -63,7 +63,7 @@ const LearnMoreContainer = styled(Link)`
   width: 640px;
   display: flex;
   justify-content: space-between;
-  margin: 0px auto 25px;
+  margin: 0 auto 25px;
   padding: 25px;
   border-radius: 3px;
   box-sizing: border-box;
@@ -78,7 +78,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const WelcomeAirdrop = props => {
-  const { coin, coinList, onboardingActions } = props
+  const { currentCoin, onboardingActions } = props
 
   return (
     <Wrapper>
@@ -86,21 +86,24 @@ const WelcomeAirdrop = props => {
         <Row>
           <Text size='24px' weight={400} color='brand-primary'>
             <FormattedMessage
-              id='scenes.transaction.content.empty.airdrop.yourcoinwallet'
-              defaultMessage='We Now Offer {coinName} ({coin})'
-              values={{ coinName: coinList[coin].name, coin }}
+              id='scenes.transaction.content.empty.airdrop.wallet'
+              defaultMessage='We Now Offer {coinName} ({coinCode})'
+              values={{
+                coinName: currentCoin.displayName,
+                coinCode: currentCoin.coinCodeDisplay
+              }}
             />
           </Text>
           <Content weight={300}>
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.sendreqexchange'
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'
-              values={{ coinName: coinList[coin].name, coin }}
+              values={{ coin: currentCoin.coinCodeDisplay }}
             />
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.completeprofileforairdrop'
               defaultMessage='Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.'
-              values={{ coinName: coinList[coin].name, coin }}
+              values={{ coin: currentCoin.coinCodeDisplay }}
             />
           </Content>
           <ButtonContainer>
@@ -109,31 +112,31 @@ const WelcomeAirdrop = props => {
               fullwidth
               onClick={() =>
                 onboardingActions.airdropReminderSubmitClicked(
-                  coinList[coin].campaign
+                  currentCoin.campaign
                 )
               }
             >
               <FormattedMessage
                 id='scenes.transaction.content.empty.airdrop.claim'
                 defaultMessage='Claim Your Free {coin} Now'
-                values={{ coin }}
+                values={{ coin: currentCoin.coinCodeDisplay }}
               />
             </Button>
           </ButtonContainer>
         </Row>
-        <CoinRow coin={coin.toLowerCase()}>
+        <CoinRow>
           <Image
-            name={coinList[coin].airdrop.image}
+            name={currentCoin.airdrop.image}
             width='75%'
             srcset={{
-              [`${coinList[coin].airdrop.image}2`]: '2x',
-              [`${coinList[coin].airdrop.image}3`]: '3x'
+              [`${currentCoin.airdrop.image}2`]: '2x',
+              [`${currentCoin.airdrop.image}3`]: '3x'
             }}
           />
         </CoinRow>
       </Container>
-      {coinList[coin].airdrop.link && (
-        <LearnMoreContainer href={coinList[coin].airdrop.link} target='_blank'>
+      {currentCoin.airdrop.link && (
+        <LearnMoreContainer href={currentCoin.airdrop.link} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transactions.content.empty.explanation'
@@ -160,7 +163,7 @@ const WelcomeAirdrop = props => {
 }
 
 WelcomeAirdrop.propTypes = {
-  coin: PropTypes.string.isRequired,
+  currentCoin: PropTypes.object.isRequired,
   domains: PropTypes.object.isRequired
 }
 
