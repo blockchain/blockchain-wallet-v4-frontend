@@ -53,6 +53,13 @@ exports[`ListItemContainer renders correctly 1`] = `
         "updateMetadataEth": [Function],
       }
     }
+    logActions={
+      Object {
+        "logErrorMessage": [Function],
+        "logInfoMessage": [Function],
+        "setLogLevel": [Function],
+      }
+    }
     preferencesActions={
       Object {
         "hideAirdropClaimModal": [Function],
