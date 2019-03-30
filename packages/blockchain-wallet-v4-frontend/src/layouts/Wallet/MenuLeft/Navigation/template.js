@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { map, values } from 'ramda'
+import { map, toLower, values } from 'ramda'
 
 import { model } from 'data'
 import { Cartridge } from '@blockchain-com/components'
@@ -38,38 +38,38 @@ const NewCartridge = styled(Cartridge)`
   border-radius: 4px;
 `
 
+const buildCoinSideNav = () => {
+  const coinNavItems = []
+  const buildItem = coin => (
+    <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
+      <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
+        <Icon name={`${coin.iconName}-circle`} />
+        {coin.displayName}
+        {coin.showNewTagSidenav && (
+          <NewCartridge>
+            <Text color='#F28B24' size='12' weight='500' uppercase>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.transactions.new'
+                defaultMessage='New'
+              />
+            </Text>
+          </NewCartridge>
+        )}
+      </MenuItem>
+    </LinkContainer>
+  )
+  values(
+    map(coinOrder => {
+      coinNavItems.push(buildItem(COIN_MODELS[coinOrder]))
+    }, SIDENAV_COIN_ORDER)
+  )
+
+  return coinNavItems
+}
+
 const Navigation = props => {
   const { ...rest } = props
   const { lockboxOpened, lockboxDevices } = rest
-
-  const buildSideNav = () => {
-    const coinNavItems = []
-    const buildItem = coin => (
-      <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
-        <MenuItem data-e2e={`${coin.coinCode}link`}>
-          <Icon name={`${coin.iconName}-circle`} />
-          {coin.displayName}
-          {coin.showNewTagSidenav && (
-            <NewCartridge>
-              <Text color='#F28B24' size='12' weight='500' uppercase>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.transactions.new'
-                  defaultMessage='New'
-                />
-              </Text>
-            </NewCartridge>
-          )}
-        </MenuItem>
-      </LinkContainer>
-    )
-    values(
-      map(coinOrder => {
-        coinNavItems.push(buildItem(COIN_MODELS[coinOrder]))
-      }, SIDENAV_COIN_ORDER)
-    )
-
-    return coinNavItems
-  }
 
   return (
     <Wrapper {...rest}>
@@ -101,7 +101,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <Separator />
-      {buildSideNav()}
+      {buildCoinSideNav()}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <Icon
