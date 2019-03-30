@@ -1,3 +1,4 @@
+import { Remote } from 'blockchain-wallet-v4/src'
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
 
 export const getData = (state, ownProps) => {
@@ -12,9 +13,9 @@ export const getData = (state, ownProps) => {
       return balanceSelectors.getEthBalance(state)
     case 'XLM':
       return balanceSelectors.getXlmBalance(state)
-    default:
-      // fallback to erc20
-      // TODO: make generic
+    case 'PAX':
       return balanceSelectors.getPaxBalance(state)
+    default:
+      return Remote.Failure('Unsupported Coin Code')
   }
 }

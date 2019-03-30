@@ -1,6 +1,9 @@
 import React from 'react'
-import Balance from './Balance'
 import { FormattedMessage } from 'react-intl'
+import { map } from 'ramda'
+
+import { model } from 'data'
+import Balance from './Balance'
 import { Icon } from 'blockchain-info-components'
 import {
   Wrapper,
@@ -9,6 +12,7 @@ import {
   HeaderText
 } from 'components/Balances'
 
+const { HOMEPAGE_BALANCE_LIST } = model.coins
 const Template = props => (
   <Wrapper>
     <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
@@ -26,11 +30,12 @@ const Template = props => (
       />
     </Header>
     <BalancesWrapper className={props.isActive ? 'active' : ''}>
-      <Balance coin='PAX' />
-      <Balance coin='BTC' />
-      <Balance coin='ETH' />
-      <Balance coin='BCH' />
-      <Balance coin='XLM' />
+      {map(
+        coin => (
+          <Balance coin={coin.coinCode} />
+        ),
+        HOMEPAGE_BALANCE_LIST
+      )}
     </BalancesWrapper>
   </Wrapper>
 )

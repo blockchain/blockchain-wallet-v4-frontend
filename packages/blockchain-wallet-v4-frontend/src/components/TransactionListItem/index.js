@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { includes } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import TransactionListItem from './template'
 
+const { ERC20_COIN_LIST } = model.coins
 class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
@@ -13,35 +15,37 @@ class ListItemContainer extends React.PureComponent {
   }
 
   handleEditDescription = value => {
-    switch (this.props.coin) {
-      case 'ETH': {
-        this.props.ethActions.setTxNotesEth(this.props.transaction.hash, value)
+    const { coin, transaction } = this.props
+    switch (true) {
+      case coin === 'ETH': {
+        this.props.ethActions.setTxNotesEth(transaction.hash, value)
         break
       }
-      case 'BTC': {
-        this.props.walletActions.setTransactionNote(
-          this.props.transaction.hash,
-          value
-        )
+      case coin === 'BTC': {
+        this.props.walletActions.setTransactionNote(transaction.hash, value)
         break
       }
-      case 'BCH': {
-        this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
+      case coin === 'BCH': {
+        this.props.bchActions.setTxNotesBch(transaction.hash, value)
         break
       }
-      case 'BSV': {
-        this.props.bsvActions.setTxNotesBsv(this.props.transaction.hash, value)
+      case coin === 'BSV': {
+        this.props.bsvActions.setTxNotesBsv(transaction.hash, value)
         break
       }
-      case 'XLM': {
-        this.props.xlmActions.setTxNotesXlm(this.props.transaction.hash, value)
+      case coin === 'XLM': {
+        this.props.xlmActions.setTxNotesXlm(transaction.hash, value)
+        break
+      }
+      case includes(coin, ERC20_COIN_LIST): {
+        this.props.ethActions.setTxNoteErc20(coin, transaction.hash, value)
         break
       }
       default: {
-        this.props.ethActions.setTxNoteErc20(
-          this.props.coin,
-          this.props.transaction.hash,
-          value
+        this.props.logActions.logErrorMessage(
+          'components/TransactionListItem',
+          'handleEditDescription',
+          'Unsupported Coin Code'
         )
       }
     }
@@ -64,11 +68,12 @@ class ListItemContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
+  logActions: bindActionCreators(actions.logs, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  walletActions: bindActionCreators(actions.core.wallet, dispatch),
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 

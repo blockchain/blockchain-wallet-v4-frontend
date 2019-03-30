@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { path } from 'ramda'
+import { includes, path } from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Content from './template'
 
 const Wrapper = styled.div`
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const ContentWrapper = styled.div`
   height: 100%;
 `
-
+const { ERC20_COIN_LIST } = model.coins
 class ContentContainer extends React.PureComponent {
   componentDidMount () {
     this.props.initTxs()
@@ -66,8 +66,9 @@ class ContentContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  switch (ownProps.coin) {
-    case 'BTC':
+  const { coin } = ownProps
+  switch (true) {
+    case coin === 'BTC':
       return {
         fetchData: () => dispatch(actions.core.data.btc.fetchData()),
         initTxs: () =>
@@ -77,7 +78,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setAddressArchived: address =>
           dispatch(actions.core.wallet.setAddressArchived(address, true))
       }
-    case 'BCH':
+    case coin === 'BCH':
       return {
         fetchData: () => dispatch(actions.core.data.bch.fetchData()),
         initTxs: () =>
@@ -85,7 +86,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         loadMoreTxs: () =>
           dispatch(actions.components.bchTransactions.loadMore())
       }
-    case 'BSV':
+    case coin === 'BSV':
       return {
         fetchData: () => dispatch(actions.core.data.bsv.fetchData()),
         initTxs: () =>
@@ -93,7 +94,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         loadMoreTxs: () =>
           dispatch(actions.components.bsvTransactions.loadMore())
       }
-    case 'ETH':
+    case coin === 'ETH':
       return {
         fetchData: () => dispatch(actions.core.data.eth.fetchData()),
         initTxs: () =>
@@ -101,7 +102,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         loadMoreTxs: () =>
           dispatch(actions.components.ethTransactions.loadMore())
       }
-    case 'XLM':
+    case coin === 'XLM':
       return {
         fetchData: () => dispatch(actions.core.data.xlm.fetchData()),
         initTxs: () =>
@@ -109,8 +110,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         loadMoreTxs: () =>
           dispatch(actions.components.xlmTransactions.loadMore())
       }
-    default:
-      // ERC20
+    case includes(coin, ERC20_COIN_LIST):
       return {
         fetchData: () =>
           dispatch(actions.core.data.eth.fetchErc20Data(ownProps.coin)),
@@ -123,6 +123,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             actions.components.ethTransactions.loadMoreErc20(ownProps.coin)
           )
       }
+    default:
+      return {}
   }
 }
 

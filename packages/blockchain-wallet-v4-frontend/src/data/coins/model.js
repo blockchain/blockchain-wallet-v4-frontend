@@ -1,4 +1,4 @@
-import { filter } from 'ramda'
+import { filter, keys } from 'ramda'
 
 // TODO list:
 // update all components to use primary color code from this model instead of info-components theme
@@ -160,6 +160,7 @@ export const COIN_MODELS = {
   }
 }
 
+export const ERC20_COIN_LIST = keys(filter(c => c.isErc20, COIN_MODELS))
 export const FULL_SUPPORT_COINS = filter(c => c.fullSupport, COIN_MODELS)
 export const HOMEPAGE_BALANCE_LIST = [
   COIN_MODELS.PAX,

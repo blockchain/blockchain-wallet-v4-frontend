@@ -2,31 +2,35 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { toLower } from 'ramda'
+import { includes, toLower } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
+const { ERC20_COIN_LIST } = model.coins
 class FiatDisplayContainer extends React.PureComponent {
   componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      switch (this.props.coin) {
-        case 'BCH':
+      const { coin } = this.props
+      switch (true) {
+        case coin === 'BCH':
           return this.props.bchActions.fetchRates()
-        case 'BTC':
+        case coin === 'BTC':
           return this.props.btcActions.fetchRates()
-        case 'BSV':
+        case coin === 'BSV':
           return this.props.bsvActions.fetchRates()
-        case 'ETH':
+        case coin === 'ETH':
           return this.props.ethActions.fetchRates()
-        case 'XLM':
+        case coin === 'XLM':
           return this.props.xlmActions.fetchRates()
-        default:
+        case includes(coin, ERC20_COIN_LIST):
           return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
+        default:
+          return Remote.Failure('Unsupported Coin Code')
       }
     }
   }

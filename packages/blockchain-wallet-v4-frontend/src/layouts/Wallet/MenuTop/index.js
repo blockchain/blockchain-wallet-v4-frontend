@@ -50,7 +50,7 @@ const TextContainer = styled.div`
   }
 `
 
-const MenuTop = props => (
+const MenuTop = () => (
   <Wrapper>
     <LeftContainer>
       <TextContainer inline>

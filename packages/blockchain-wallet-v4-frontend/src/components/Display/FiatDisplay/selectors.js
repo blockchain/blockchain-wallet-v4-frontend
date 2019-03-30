@@ -1,6 +1,8 @@
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { selectors } from 'data'
-import { lift, prop, toLower } from 'ramda'
+import { model, selectors } from 'data'
+import { includes, lift, prop, toLower } from 'ramda'
+
+const { ERC20_COIN_LIST } = model.coins
 
 export const getData = (state, coin, amount) => {
   const currencyR = selectors.core.settings
@@ -8,21 +10,21 @@ export const getData = (state, coin, amount) => {
     .map(prop('currency'))
 
   const getCoinRates = coin => {
-    switch (coin) {
-      case 'BCH':
+    switch (true) {
+      case coin === 'BCH':
         return selectors.core.data.bch.getRates(state)
-      case 'BTC':
+      case coin === 'BTC':
         return selectors.core.data.btc.getRates(state)
-      case 'BSV':
+      case coin === 'BSV':
         return selectors.core.data.bsv.getRates(state)
-      case 'PAX':
-        return selectors.core.data.eth.getErc20Rates(state, toLower(coin))
-      case 'ETH':
+      case coin === 'ETH':
         return selectors.core.data.eth.getRates(state)
-      case 'XLM':
+      case coin === 'XLM':
         return selectors.core.data.xlm.getRates(state)
+      case includes(coin, ERC20_COIN_LIST):
+        return selectors.core.data.eth.getErc20Rates(state, toLower(coin))
       default:
-        return Remote.Failure('Coin code incorrect')
+        return Remote.Failure('Unsupported Coin Code')
     }
   }
 
