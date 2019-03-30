@@ -21,12 +21,10 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 
-const { COIN_MODELS, SIDENAV_COIN_ORDER } = model.coins
-
+const { SIDENAV_COIN_LIST } = model.coins
 const HelperTipContainer = styled.div`
   margin-left: auto;
 `
-
 const NewCartridge = styled(Cartridge)`
   color: #f28b24 !important;
   background-color: ${props => props.theme['white']};
@@ -37,36 +35,6 @@ const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
-
-const buildCoinSideNav = () => {
-  const coinNavItems = []
-  const buildItem = coin => (
-    <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
-      <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
-        <Icon name={coin.iconName} />
-        {coin.displayName}
-        {coin.showNewTagSidenav && (
-          <NewCartridge>
-            <Text color='#F28B24' size='12' weight='500' uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
-        )}
-      </MenuItem>
-    </LinkContainer>
-  )
-  values(
-    map(coinOrder => {
-      coinNavItems.push(buildItem(COIN_MODELS[coinOrder]))
-    }, SIDENAV_COIN_ORDER)
-  )
-
-  return coinNavItems
-}
-
 const Navigation = props => {
   const { ...rest } = props
   const { lockboxOpened, lockboxDevices } = rest
@@ -101,7 +69,29 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <Separator />
-      {buildCoinSideNav()}
+      {values(
+        map(
+          coin => (
+            <LinkContainer to={coin.txListAppRoute} activeClassName='active'>
+              <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
+                <Icon name={coin.iconName} />
+                {coin.displayName}
+                {coin.showNewTagSidenav && (
+                  <NewCartridge>
+                    <Text color='#F28B24' size='12' weight='500' uppercase>
+                      <FormattedMessage
+                        id='layouts.wallet.menuleft.navigation.transactions.new'
+                        defaultMessage='New'
+                      />
+                    </Text>
+                  </NewCartridge>
+                )}
+              </MenuItem>
+            </LinkContainer>
+          ),
+          SIDENAV_COIN_LIST
+        )
+      )}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <Icon

@@ -138,13 +138,16 @@ const COIN_MODELS = {
   }
 }
 
-// TODO: dont export this list, instead build list of coin models in correct order
-const SIDENAV_COIN_ORDER = ['PAX', 'BTC', 'ETH', 'BCH', 'XLM']
-
 const coins = {
   COIN_MODELS,
   FULL_SUPPORT_COINS: filter(c => c.fullSupport, COIN_MODELS),
-  SIDENAV_COIN_ORDER
+  SIDENAV_COIN_LIST: [
+    COIN_MODELS.PAX,
+    COIN_MODELS.BTC,
+    COIN_MODELS.ETH,
+    COIN_MODELS.BCH,
+    COIN_MODELS.XLM
+  ]
 }
 
 export { analytics, coins, components, form, logs, profile, rates }
