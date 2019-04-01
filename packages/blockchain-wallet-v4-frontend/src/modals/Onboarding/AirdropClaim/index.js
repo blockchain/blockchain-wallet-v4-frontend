@@ -110,8 +110,8 @@ class AirdropClaim extends React.PureComponent {
           ) : (
             <Copy weight={300}>
               <FormattedMessage
-                id='modals.airdropclaim.completeprofile'
-                defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
+                id='modals.airdropclaim.completeprofilefree'
+                defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
                 values={{
                   coinName: prop('coinName', CAMPAIGNS[campaign]),
                   coinCode: prop('coinCode', CAMPAIGNS[campaign])

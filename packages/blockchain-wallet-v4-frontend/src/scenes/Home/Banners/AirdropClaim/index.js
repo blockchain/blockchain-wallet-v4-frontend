@@ -79,8 +79,8 @@ export const AirdropReminderBanner = ({ actions, campaign, submitting }) => (
     <Column>
       <LargeText>
         <FormattedMessage
-          defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
-          id='scenes.home.banners.airdropclaim.title_1'
+          defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
+          id='scenes.home.banners.airdropclaim.titlefreecoin'
           values={{
             coinName: prop('coinName', CAMPAIGNS[campaign]),
             coinCode: prop('coinCode', CAMPAIGNS[campaign])

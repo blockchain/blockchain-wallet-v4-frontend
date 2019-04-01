@@ -6,7 +6,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = 
     <RatesBox__TotalBalanceWrapper>
       <RatesBox__RateText>
         <FormattedMessage
-          defaultMessage="Your {sourceCoin} Balance"
+          defaultMessage="{sourceCoin} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalance"
           values={
             Object {
@@ -36,7 +36,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = 
       <RatesBox__RateText
         color="brand-primary"
       >
-        1 $
+        1 
         BTC
          =
       </RatesBox__RateText>
@@ -59,7 +59,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = 
     <RatesBox__TotalBalanceWrapper>
       <RatesBox__RateText>
         <FormattedMessage
-          defaultMessage="Your {sourceCoin} Balance"
+          defaultMessage="{sourceCoin} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalance"
           values={
             Object {
@@ -89,7 +89,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = 
       <RatesBox__RateText
         color="brand-primary"
       >
-        1 $
+        1 
         BTC
          =
       </RatesBox__RateText>
@@ -112,7 +112,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = 
     <RatesBox__TotalBalanceWrapper>
       <RatesBox__RateText>
         <FormattedMessage
-          defaultMessage="Your {sourceCoin} Balance"
+          defaultMessage="{sourceCoin} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalance"
           values={
             Object {
@@ -142,7 +142,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = 
       <RatesBox__RateText
         color="brand-primary"
       >
-        1 $
+        1 
         BTC
          =
       </RatesBox__RateText>
@@ -165,7 +165,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = 
     <RatesBox__TotalBalanceWrapper>
       <RatesBox__RateText>
         <FormattedMessage
-          defaultMessage="Your {sourceCoin} Balance"
+          defaultMessage="{sourceCoin} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalance"
           values={
             Object {
@@ -195,7 +195,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = 
       <RatesBox__RateText
         color="brand-primary"
       >
-        1 $
+        1 
         BTC
          =
       </RatesBox__RateText>
