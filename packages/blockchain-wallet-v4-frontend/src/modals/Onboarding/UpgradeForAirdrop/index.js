@@ -88,8 +88,8 @@ class UpgradeForAirdrop extends React.PureComponent {
           </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.upgradeforairdrop.completeprofileforairdrop'
-              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get $25 of free {coinName} ({coinCode}).'
+              id='modals.upgradeforairdrop.completeprofileforairdropfree'
+              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).'
               values={{
                 coinName: prop('coinName', CAMPAIGNS[campaign]),
                 coinCode: prop('coinCode', CAMPAIGNS[campaign])

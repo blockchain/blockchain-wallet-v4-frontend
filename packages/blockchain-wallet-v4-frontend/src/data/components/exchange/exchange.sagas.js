@@ -430,6 +430,8 @@ export default ({ api, coreSagas, networks }) => {
     const form = yield select(formValueSelector)
     const sourceCoin = path(['source', 'coin'], form)
     const targetCoin = path(['target', 'coin'], form)
+    if (!sourceCoin || !targetCoin) return
+
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(
       changeAdviceSubscription,

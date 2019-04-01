@@ -225,7 +225,7 @@
     "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.stellar.org",
+    "horizon": "https://horizon.blockchain.info",
     "veriff": "https://magic.veriff.me"
   }
 }

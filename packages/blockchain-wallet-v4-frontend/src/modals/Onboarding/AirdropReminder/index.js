@@ -88,8 +88,8 @@ class AirdropReminder extends React.PureComponent {
           </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.airdropreminder.completeprofiletoday'
-              defaultMessage='Complete your profile today and we will airdrop  $25 of free {coinName} ({coinCode}) in your Wallet.'
+              id='modals.airdropreminder.completeprofiletodayfree'
+              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
               values={{
                 coinName: prop('coinName', CAMPAIGNS[campaign]),
                 coinCode: prop('coinCode', CAMPAIGNS[campaign])
