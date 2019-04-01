@@ -51,7 +51,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const { FULL_SUPPORT_COINS } = model.coins
+const { SIDENAV_COIN_LIST } = model.coins
 
 class App extends React.PureComponent {
   render () {
@@ -134,7 +134,7 @@ class App extends React.PureComponent {
                             coin={coin.coinCode}
                           />
                         ),
-                        FULL_SUPPORT_COINS
+                        SIDENAV_COIN_LIST
                       )
                     )}
                     {isAuthenticated ? (

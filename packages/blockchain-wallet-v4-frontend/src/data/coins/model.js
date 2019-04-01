@@ -10,7 +10,6 @@ import { filter, keys } from 'ramda'
 
 // COIN MODEL OVERVIEW
 /*
- * fullSupport:       [REQUIRED] bool indicating if coin has sidenav link, send & request
  * name:              [REQUIRED] real name of coin/token (hidden from user)
  * displayName:       [REQUIRED] display name of coin/token (shown to user)
  * coinCode:          [REQUIRED] real coin code (hidden from user)
@@ -33,7 +32,6 @@ export const COIN_MODELS = {
     coinCode: 'BTC',
     coinCodeDisplay: 'BTC',
     displayName: 'Bitcoin',
-    fullSupport: true,
     hasLockboxSupport: true,
     icons: {
       default: 'btc',
@@ -54,7 +52,6 @@ export const COIN_MODELS = {
     coinCode: 'BCH',
     coinCodeDisplay: 'BCH',
     displayName: 'Bitcoin Cash',
-    fullSupport: true,
     hasLockboxSupport: true,
     icons: {
       default: 'bch',
@@ -75,7 +72,6 @@ export const COIN_MODELS = {
     coinCode: 'BSV',
     coinCodeDisplay: 'BSV',
     displayName: 'Bitcoin SV',
-    fullSupport: false,
     hasLockboxSupport: false,
     icons: {
       default: 'bsv'
@@ -94,7 +90,6 @@ export const COIN_MODELS = {
     coinCode: 'ETH',
     coinCodeDisplay: 'ETH',
     displayName: 'Ethereum',
-    fullSupport: true,
     hasLockboxSupport: true,
     icons: {
       default: 'eth',
@@ -115,7 +110,6 @@ export const COIN_MODELS = {
     coinCode: 'PAX',
     coinCodeDisplay: 'USDp',
     displayName: 'USD Pax',
-    fullSupport: true,
     hasLockboxSupport: false,
     icons: {
       default: 'dollars',
@@ -142,7 +136,6 @@ export const COIN_MODELS = {
     coinCode: 'XLM',
     coinCodeDisplay: 'XLM',
     displayName: 'Stellar',
-    fullSupport: true,
     hasLockboxSupport: true,
     icons: {
       default: 'xlm',
@@ -159,14 +152,9 @@ export const COIN_MODELS = {
     showNewTagSidenav: false
   }
 }
-// list of all partial and fully supported coins
-export const SUPPORTED_COINS = keys(COIN_MODELS)
 
 // list of supported ERC 20 tokens
 export const ERC20_COIN_LIST = keys(filter(c => c.isErc20, COIN_MODELS))
-
-// list of fully supported coins (has tx page, send/receive)
-export const FULL_SUPPORT_COINS = filter(c => c.fullSupport, COIN_MODELS)
 
 // NOTE: renders in order of array
 export const HOMEPAGE_BALANCE_LIST = [

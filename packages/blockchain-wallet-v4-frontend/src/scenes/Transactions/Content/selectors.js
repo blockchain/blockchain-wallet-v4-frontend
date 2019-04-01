@@ -59,6 +59,8 @@ const coinSelectorMap = (state, coin) => {
       return selectors.core.common.btc.getWalletTransactions
     case coin === 'BCH':
       return selectors.core.common.bch.getWalletTransactions
+    case coin === 'BSV':
+      return selectors.core.common.bsv.getWalletTransactions
     case coin === 'ETH':
       return selectors.core.common.eth.getWalletTransactions
     case coin === 'XLM':

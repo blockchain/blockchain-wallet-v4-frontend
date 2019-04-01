@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { includes } from 'ramda'
+import { equals, keys, includes, toUpper } from 'ramda'
 
 import { model } from 'data'
 import TotalBalance from './TotalBalance'
@@ -14,7 +14,7 @@ import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
 
-const { COIN_MODELS, SUPPORTED_COINS } = model.coins
+const { COIN_MODELS } = model.coins
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,32 +54,32 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getSelectedComponent = coinOrLocation => {
+const getSelectedComponent = coinOrRoute => {
   switch (true) {
-    case includes(coinOrLocation, SUPPORTED_COINS):
-      return <Balance large coin={coinOrLocation} />
-    case coinOrLocation.includes('LOCKBOX'):
+    case equals(coinOrRoute, 'LOCKBOX'):
       return <LockboxTotalBalance />
+    case includes(toUpper(coinOrRoute), keys(COIN_MODELS)):
+      return <Balance large coin={toUpper(coinOrRoute)} />
     default:
       return <TotalBalance large />
   }
 }
 
-const getBalanceMessage = coinOrLocation => {
+const getBalanceMessage = coinOrRoute => {
   switch (true) {
-    case includes(coinOrLocation, SUPPORTED_COINS):
-      return (
-        <FormattedHTMLMessage
-          id='scenes.wallet.menutop.balance.balance'
-          defaultMessage='{coin} Balance'
-          values={{ coin: COIN_MODELS[coinOrLocation].displayName }}
-        />
-      )
-    case coinOrLocation.includes('LOCKBOX'):
+    case equals(coinOrRoute, 'LOCKBOX'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.lockboxbalance'
           defaultMessage='Lockbox Balance'
+        />
+      )
+    case includes(toUpper(coinOrRoute), keys(COIN_MODELS)):
+      return (
+        <FormattedHTMLMessage
+          id='scenes.wallet.menutop.balance.balance'
+          defaultMessage='{coin} Balance'
+          values={{ coin: COIN_MODELS[toUpper(coinOrRoute)].displayName }}
         />
       )
     default:
@@ -95,14 +95,14 @@ const getBalanceMessage = coinOrLocation => {
 const Success = props => (
   <Wrapper>
     <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
-      {getBalanceMessage(props.coinOrLocation)}
+      {getBalanceMessage(props.coinOrRoute)}
     </BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
         forceSelected
         toggleOnCallback={false}
-        selectedComponent={getSelectedComponent(props.coinOrLocation)}
+        selectedComponent={getSelectedComponent(props.coinOrRoute)}
         components={[
           <WalletBalance />,
           <LockboxBalance />,
