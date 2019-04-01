@@ -1,4 +1,13 @@
-import { head, keys, mergeRight, prop, isNil, isEmpty } from 'ramda'
+import {
+  includes,
+  filter,
+  forEach,
+  head,
+  keys,
+  prop,
+  isNil,
+  isEmpty
+} from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 import { set } from 'ramda-lens'
 import * as A from './actions'
@@ -77,12 +86,19 @@ export default ({ api, networks } = {}) => {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
       } else {
         if (
-          keys(newkv.value.erc20).length !== keys(SUPPORTED_ERC20_TOKENS).length
+          keys(newkv.value.ethereum.erc20).length !==
+          keys(SUPPORTED_ERC20_TOKENS).length
         ) {
-          // missing 1 or more supported erc20 token entries, sync with model
-          newkv.value.ethereum.erc20 = mergeRight(
-            newkv.value.ethereum.erc20,
-            SUPPORTED_ERC20_TOKENS
+          // missing 1 or more supported erc20 token entries, add each to kvStore
+          const newTokens = filter(
+            c => !includes(c, keys(newkv.value.ethereum.erc20)),
+            keys(SUPPORTED_ERC20_TOKENS)
+          )
+          forEach(
+            token =>
+              (newkv.value.ethereum.erc20[token] =
+                SUPPORTED_ERC20_TOKENS[token]),
+            newTokens
           )
         }
         yield put(A.fetchMetadataEthSuccess(newkv))
