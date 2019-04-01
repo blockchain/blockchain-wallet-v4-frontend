@@ -44,7 +44,7 @@ const CoinRow = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: ${props => lighten(0.4, props.primaryColor)};
+  background-color: ${props => lighten(0.4, props.theme[props.color])};
   ${media.mobile`
     width: 100%;
   `};
@@ -152,10 +152,10 @@ const Welcome = props => {
             </LinkContainer>
           </ButtonContainer>
         </Row>
-        <CoinRow primaryColor={currentCoin.primaryColor}>
+        <CoinRow color={currentCoin.colorCode}>
           <Icon
             name={currentCoin.icons.circle}
-            color={currentCoin.primaryColor}
+            color={currentCoin.colorCode}
             size='160px'
           />
         </CoinRow>

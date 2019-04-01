@@ -1,7 +1,6 @@
 import { filter, keys } from 'ramda'
 
 // TODO list:
-// update all components to use primary color code from this model instead of info-components theme
 // update home page charts component to use this model
 // move this model to core package and add the following data to model
 //      blockchain-wallet-v4/src/redux/data/eth/model.js
@@ -19,7 +18,7 @@ import { filter, keys } from 'ramda'
  * minConfirmations:  [REQUIRED] confirmations needed for tx
  * isErc20:           [REQUIRED] bool indicating if the coin is an ERC20 token
  * hasLockboxSupport: [REQUIRED] bool indicating if the coin is available on lockbox
- * primaryColor:      [REQUIRED] primary color of coin/token used for icons and text
+ * colorCode:         [REQUIRED] primary color of coin/token used for icons and text
  * txListAppRoute:    [OPTIONAL] app route for coin/token tx list page
  * learnMoreLink:     [OPTIONAL] external url explaining coin/token
  * campaign:          [OPTIONAL] string indicating active campaign for coin/token
@@ -31,6 +30,7 @@ export const COIN_MODELS = {
     campaign: null,
     coinCode: 'BTC',
     coinCodeDisplay: 'BTC',
+    colorCode: 'btc',
     displayName: 'Bitcoin',
     hasLockboxSupport: true,
     icons: {
@@ -42,7 +42,6 @@ export const COIN_MODELS = {
     learnMoreLink: 'https://www.blockchain.com/learning-portal/bitcoin-faq',
     minConfirmations: 3,
     name: 'Bitcoin',
-    primaryColor: '#FF9B22',
     txExplorerBaseUrl: 'https://blockchain.com/btc/tx',
     txListAppRoute: '/btc/transactions',
     showNewTagSidenav: false
@@ -51,6 +50,7 @@ export const COIN_MODELS = {
     campaign: null,
     coinCode: 'BCH',
     coinCodeDisplay: 'BCH',
+    colorCode: 'bch',
     displayName: 'Bitcoin Cash',
     hasLockboxSupport: true,
     icons: {
@@ -62,7 +62,6 @@ export const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin Cash',
-    primaryColor: '#3EDC89',
     txExplorerBaseUrl: 'https://www.blockchain.com/bch/tx',
     txListAppRoute: '/bch/transactions',
     showNewTagSidenav: false
@@ -71,6 +70,7 @@ export const COIN_MODELS = {
     campaign: null,
     coinCode: 'BSV',
     coinCodeDisplay: 'BSV',
+    colorCode: 'bsv',
     displayName: 'Bitcoin SV',
     hasLockboxSupport: false,
     icons: {
@@ -80,7 +80,6 @@ export const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 3,
     name: 'Bitcoin SV',
-    primaryColor: '#EAB300',
     txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction',
     txListAppRoute: null,
     showNewTagSidenav: false
@@ -89,6 +88,7 @@ export const COIN_MODELS = {
     campaign: null,
     coinCode: 'ETH',
     coinCodeDisplay: 'ETH',
+    colorCode: 'eth',
     displayName: 'Ethereum',
     hasLockboxSupport: true,
     icons: {
@@ -100,7 +100,6 @@ export const COIN_MODELS = {
     learnMoreLink: 'https://www.blockchain.com/learning-portal/ether-basics',
     minConfirmations: 12,
     name: 'Ethereum',
-    primaryColor: '#473BCB',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
     txListAppRoute: '/eth/transactions',
     showNewTagSidenav: false
@@ -109,6 +108,7 @@ export const COIN_MODELS = {
     campaign: null,
     coinCode: 'PAX',
     coinCodeDisplay: 'USDp',
+    colorCode: 'pax',
     displayName: 'USD Pax',
     hasLockboxSupport: false,
     icons: {
@@ -120,7 +120,6 @@ export const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 12,
     name: 'Paxos',
-    primaryColor: '#0C6CF2',
     txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
     txListAppRoute: '/pax/transactions',
     showNewTagSidenav: true
@@ -132,6 +131,7 @@ export const COIN_MODELS = {
         'https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway',
       image: 'stellar-planet'
     },
+    colorCode: 'xlm',
     campaign: 'sunriver',
     coinCode: 'XLM',
     coinCodeDisplay: 'XLM',
@@ -146,7 +146,6 @@ export const COIN_MODELS = {
     learnMoreLink: '',
     minConfirmations: 1,
     name: 'Stellar',
-    primaryColor: '#08b5e5',
     txExplorerBaseUrl: 'https://stellarchain.io/tx',
     txListAppRoute: '/xlm/transactions',
     showNewTagSidenav: false
