@@ -9,9 +9,10 @@ import SendEth from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
+const { COIN_MODELS } = model.coins
 class SendEthContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized()
+    this.props.actions.initialized(this.props.coin || 'ETH')
   }
 
   componentWillUnmount () {
@@ -20,16 +21,23 @@ class SendEthContainer extends React.PureComponent {
 
   render () {
     const { step, position, total, closeAll } = this.props
+    const coin = COIN_MODELS[this.props.coin || 'ETH']
     return (
-      <SendEth position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep />}
-        {step === 2 && <SecondStep />}
+      <SendEth
+        position={position}
+        total={total}
+        closeAll={closeAll}
+        coin={coin}
+      >
+        {step === 1 && <FirstStep coin={coin} />}
+        {step === 2 && <SecondStep coin={coin} />}
       </SendEth>
     )
   }
 }
 
 SendEthContainer.propTypes = {
+  coin: PropTypes.string,
   step: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,

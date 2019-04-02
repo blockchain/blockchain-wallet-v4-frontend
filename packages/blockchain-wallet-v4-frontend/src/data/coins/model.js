@@ -1,6 +1,7 @@
 import { filter, keys } from 'ramda'
 
 // TODO list:
+// combine with or put this into wallet options
 // update home page charts component to use this model
 // move this model to core package and add the following data to model
 //      blockchain-wallet-v4/src/redux/data/eth/model.js
@@ -120,7 +121,7 @@ export const COIN_MODELS = {
     learnMoreLink: null,
     minConfirmations: 12,
     name: 'Paxos',
-    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx', // TODO
+    txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
     txListAppRoute: '/pax/transactions',
     showNewTagSidenav: true
   },

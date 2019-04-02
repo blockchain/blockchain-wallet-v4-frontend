@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+
+import { model } from 'data'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
-
 import { getCoins } from './selectors'
 
+const { COIN_MODELS } = model.coins
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -28,10 +30,7 @@ const renderItem = props => {
   const { value, text, ...rest } = props
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
+      <Icon name={COIN_MODELS[value].icons.circle} size='22px' weight={300} />
       <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
         {text}
       </Text>
@@ -46,10 +45,7 @@ const renderDisplay = (props, children) => {
     : 'currencyOption'
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
+      <Icon name={COIN_MODELS[value].icons.circle} size='22px' weight={300} />
       <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
         {children}
       </Text>

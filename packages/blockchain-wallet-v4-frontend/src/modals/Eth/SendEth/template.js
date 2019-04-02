@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage } from 'react-intl'
 
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendEth = props => (
   <Modal size='large' position={props.position} total={props.total}>
     <ModalHeader icon='paper-airplane-filled' onClose={props.closeAll}>
-      <FormattedMessage
-        id='modals.sendether.title'
-        defaultMessage='Send Ether'
+      <FormattedHTMLMessage
+        id='modals.sendeth.cointitle'
+        defaultMessage='Send {displayName}'
+        values={{ displayName: props.coin.displayName }}
       />
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>

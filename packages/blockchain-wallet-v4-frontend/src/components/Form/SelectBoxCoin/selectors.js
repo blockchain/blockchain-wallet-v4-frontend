@@ -1,18 +1,16 @@
-import { prop } from 'ramda'
+import { map, prop, reject, values } from 'ramda'
 
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 
-/**
- * @param {*} state
- * @param {{ type: 'send' | 'request' }} param1
- */
+const { COIN_MODELS } = model.coins
+// TODO: better way to exclude BSV via model
 export const getCoins = (state, { type }) =>
-  [
-    { text: 'Bitcoin', value: 'BTC' },
-    { text: 'Ether', value: 'ETH' },
-    { text: 'Bitcoin Cash', value: 'BCH' },
-    { text: 'Stellar', value: 'XLM' }
-  ].filter(({ value }) =>
+  values(
+    map(
+      x => ({ text: x.displayName, value: x.coinCode }),
+      reject(c => c.coinCode === 'BSV', COIN_MODELS)
+    )
+  ).filter(({ value }) =>
     selectors.core.walletOptions
       .getCoinAvailability(state, value)
       .map(prop(type))

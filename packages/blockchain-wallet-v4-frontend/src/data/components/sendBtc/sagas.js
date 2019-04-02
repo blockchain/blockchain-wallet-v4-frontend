@@ -1,4 +1,4 @@
-import { equals, path, prop, nth, is, identity } from 'ramda'
+import { equals, path, prop, nth, is, identity, includes } from 'ramda'
 import { call, select, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as A from './actions'
@@ -21,6 +21,8 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const DUST = 546
 const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
+const { ERC20_COIN_LIST } = model.coins
+
 export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
@@ -124,25 +126,28 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'coin':
-          switch (payload) {
-            case 'ETH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL)
-              )
-              break
-            }
-            case 'BCH': {
+          switch (true) {
+            case payload === 'BCH': {
               yield put(actions.modals.closeAllModals())
               yield put(
                 actions.modals.showModal(model.components.sendBch.MODAL)
               )
               break
             }
-            case 'XLM': {
+            case payload === 'XLM': {
               yield put(actions.modals.closeAllModals())
               yield put(
                 actions.modals.showModal(model.components.sendXlm.MODAL)
+              )
+              break
+            }
+            case payload === 'ETH':
+            case includes(payload, ERC20_COIN_LIST): {
+              yield put(actions.modals.closeAllModals())
+              yield put(
+                actions.modals.showModal(model.components.sendEth.MODAL, {
+                  coin: payload
+                })
               )
               break
             }

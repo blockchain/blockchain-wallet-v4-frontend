@@ -3,7 +3,6 @@ import { prop, path } from 'ramda'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
-import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 
@@ -97,5 +96,3 @@ export const convertFeeToWei = fees => ({
     max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
-
-export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')
