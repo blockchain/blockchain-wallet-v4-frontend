@@ -596,12 +596,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(changeSubscription)
       yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(updateMinMax)
-      yield put(
-        actions.analytics.logEvent([
-          ...SWAP_EVENTS.FIXTURES_CHANGED,
-          `${fix} ${pair} ${newInputField}`
-        ])
-      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeFix', e))
     }
