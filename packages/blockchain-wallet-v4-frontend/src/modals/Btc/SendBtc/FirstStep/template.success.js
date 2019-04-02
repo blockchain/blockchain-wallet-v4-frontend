@@ -218,10 +218,9 @@ const FirstStep = props => {
               ) : (
                 <AddressButton
                   onClick={() => handleToToggle()}
-                  cursor
                   data-e2e='pencilArrowButton'
                 >
-                  <Icon name='pencil' size='13px' />
+                  <Icon name='pencil' size='13px' cursor />
                 </AddressButton>
               )
             ) : null}
