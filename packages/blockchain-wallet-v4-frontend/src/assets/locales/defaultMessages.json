@@ -5834,8 +5834,8 @@
         "id": "modals.airdropclaim.thanksforparticipating"
       },
       {
-        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
-        "id": "modals.airdropclaim.completeprofile"
+        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
+        "id": "modals.airdropclaim.completeprofilefree"
       },
       {
         "defaultMessage": "Claim My Free {coinCode} Now",
@@ -5855,8 +5855,8 @@
         "id": "modals.airdropreminder.getfreecrypto"
       },
       {
-        "defaultMessage": "Complete your profile today and we will airdrop  $25 of free {coinName} ({coinCode}) in your Wallet.",
-        "id": "modals.airdropreminder.completeprofiletoday"
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
+        "id": "modals.airdropreminder.completeprofiletodayfree"
       },
       {
         "defaultMessage": "Get Started",
@@ -5897,8 +5897,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $25 of free Stellar (XLM).",
-        "id": "modals.coinifyupgrade.completeprofilenow"
+        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $50 of free Stellar (XLM).",
+        "id": "modals.coinifyupgrade.completeprofilenowforfree"
       },
       {
         "defaultMessage": "Complete My Profile Now",
@@ -5939,8 +5939,8 @@
         "id": "modals.upgradeforairdrop.getfreecrypto"
       },
       {
-        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get $25 of free {coinName} ({coinCode}).",
-        "id": "modals.upgradeforairdrop.completeprofileforairdrop"
+        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).",
+        "id": "modals.upgradeforairdrop.completeprofileforairdropfree"
       },
       {
         "defaultMessage": "Upgrade Now",
@@ -8325,7 +8325,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Your {sourceCoin} Balance",
+        "defaultMessage": "{sourceCoin} available for Swap",
         "id": "scenes.exchange.exchangeform.summary.totalbalance"
       }
     ],
@@ -8697,8 +8697,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away $25 of {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
-        "id": "scenes.home.banners.airdropclaim.title_1"
+        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
+        "id": "scenes.home.banners.airdropclaim.titlefreecoin"
       },
       {
         "defaultMessage": "Get Free Crypto",
@@ -8710,8 +8710,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Complete your profile today and we will airdrop $25 of free {coinName} ({coinCode}) in your Wallet.",
-        "id": "scenes.home.banners.airdrop.completeprofile"
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
+        "id": "scenes.home.banners.airdrop.completeprofilefreecoin"
       },
       {
         "defaultMessage": "Get Free Crypto",
@@ -11474,8 +11474,8 @@
         "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
       },
       {
-        "defaultMessage": "Complete your profile today and we will airdrop $25 of free {coinName} ({coin}) in your Wallet.",
-        "id": "scenes.transaction.content.empty.airdrop.completeprofileforairdrop"
+        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.",
+        "id": "scenes.transaction.content.empty.airdrop.completeprofileforairdropfree"
       },
       {
         "defaultMessage": "Claim Your Free {coin} Now",
