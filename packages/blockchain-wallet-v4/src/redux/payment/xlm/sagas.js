@@ -233,7 +233,7 @@ export default ({ api }) => {
 
       * fee (value) {
         const fee = yield call(calculateFee, value, prop('fees', p))
-        return makePayment(p, { fee })
+        return makePayment(merge(p, { fee }))
       },
 
       * build () {
