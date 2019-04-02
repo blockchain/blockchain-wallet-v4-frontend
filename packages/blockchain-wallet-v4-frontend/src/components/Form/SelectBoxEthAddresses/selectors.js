@@ -2,7 +2,7 @@ import { concat, curry, filter, has, map, sequence } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
-export const getData = (state, ownProps) => {
+export const getEthData = (state, ownProps) => {
   const { exclude = [], excludeLockbox } = ownProps
   const displayEtherFixed = data => {
     const etherAmount = Exchange.convertEtherToEther(data)
@@ -41,6 +41,53 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox'))
+    ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
+  }
+
+  return getAddressesData()
+}
+
+export const getErc20Data = (state, ownProps) => {
+  const { coin, exclude = [] } = ownProps
+  const displayErc20Fixed = data => {
+    // TODO: make more generic for dynamic ERC20
+    switch (true) {
+      case coin === 'PAX':
+        const paxAmount = Exchange.convertPaxToPax(data)
+        return Exchange.displayPaxToPax({
+          value: Number(paxAmount.value).toFixed(8),
+          fromUnit: 'PAX',
+          toUnit: 'PAX'
+        })
+      default:
+        return {}
+    }
+  }
+  const excluded = filter(x => !exclude.includes(x.label))
+  const buildDisplay = (label, balance) => {
+    let erc20BalanceDisplay = displayErc20Fixed({
+      value: balance,
+      fromUnit: 'WEI',
+      toUnit: coin
+    })
+    return label + ` (${erc20BalanceDisplay})`
+  }
+  const toDropdown = c => [
+    {
+      label: buildDisplay(c.label, c.balance),
+      value: c
+    }
+  ]
+  const toGroup = curry((label, options) => [{ label, options }])
+
+  const getAddressesData = () => {
+    return sequence(Remote.of, [
+      selectors.core.common.eth
+        .getErc20AccountBalances(state, coin)
+        .map(excluded)
+        .map(toDropdown)
+        .map(toGroup('Wallet')),
+      Remote.of([]) // TODO: future lockbox support for ERC20
     ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
   }
 

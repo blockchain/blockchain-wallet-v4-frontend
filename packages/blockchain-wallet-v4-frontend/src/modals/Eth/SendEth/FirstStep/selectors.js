@@ -66,7 +66,7 @@ export const getData = createDeepEqualSelector(
         }
       ]
 
-      return {
+      const t = {
         effectiveBalance,
         unconfirmedTx,
         isContract,
@@ -84,6 +84,7 @@ export const getData = createDeepEqualSelector(
         balanceStatus: balanceR,
         excludeLockbox
       }
+      return t
     }
     return paymentR.map(transform)
   }

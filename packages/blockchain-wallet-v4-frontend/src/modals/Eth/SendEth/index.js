@@ -15,6 +15,12 @@ class SendEthContainer extends React.PureComponent {
     this.props.actions.initialized(this.props.coin || 'ETH')
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.coin !== this.props.coin) {
+      this.props.actions.initialized(this.props.coin || 'ETH')
+    }
+  }
+
   componentWillUnmount () {
     this.props.actions.destroyed()
   }
@@ -27,10 +33,10 @@ class SendEthContainer extends React.PureComponent {
         position={position}
         total={total}
         closeAll={closeAll}
-        coin={coin}
+        coinDisplayName={coin.displayName}
       >
-        {step === 1 && <FirstStep coin={coin} />}
-        {step === 2 && <SecondStep coin={coin} />}
+        {step === 1 && <FirstStep coin={coin.coinCode} />}
+        {step === 2 && <SecondStep />}
       </SendEth>
     )
   }

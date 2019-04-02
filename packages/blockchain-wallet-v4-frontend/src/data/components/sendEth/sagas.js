@@ -25,9 +25,9 @@ export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
-      // TODO: update for ERC20
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
+      let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
@@ -36,14 +36,27 @@ export default ({ coreSagas, networks }) => {
       payment =
         from && type ? yield payment.from(from, type) : yield payment.from()
       const defaultFee = path(['fees', 'regular'], payment.value())
-      const ethAccountR = yield select(
-        selectors.core.common.eth.getAccountBalances
-      )
-      const defaultAccountR = ethAccountR.map(head)
-      const initialValues = {
-        coin: 'ETH',
-        fee: defaultFee,
-        from: defaultAccountR.getOrElse({})
+      if (includes(prop('payload', action), ERC20_COIN_LIST)) {
+        const token = prop('payload', action)
+        const erc20AccountR = yield select(
+          selectors.core.common.eth.getErc20AccountBalances,
+          token
+        )
+        initialValues = {
+          coin: token,
+          fee: defaultFee,
+          from: erc20AccountR.getOrElse({})
+        }
+      } else {
+        const ethAccountR = yield select(
+          selectors.core.common.eth.getAccountBalances
+        )
+        const defaultAccountR = ethAccountR.map(head)
+        initialValues = {
+          coin: 'ETH',
+          fee: defaultFee,
+          from: defaultAccountR.getOrElse({})
+        }
       }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))

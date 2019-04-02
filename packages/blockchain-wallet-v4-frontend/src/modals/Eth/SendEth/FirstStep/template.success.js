@@ -63,6 +63,7 @@ const WarningBanners = styled(Banner)`
 `
 const FirstStep = props => {
   const {
+    coin,
     pristine,
     invalid,
     submitting,
@@ -117,6 +118,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            coin={coin}
           />
         </FormItem>
       </FormGroup>

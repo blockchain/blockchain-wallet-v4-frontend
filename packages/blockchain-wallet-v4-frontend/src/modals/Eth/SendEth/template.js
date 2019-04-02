@@ -9,8 +9,8 @@ const SendEth = props => (
     <ModalHeader icon='paper-airplane-filled' onClose={props.closeAll}>
       <FormattedHTMLMessage
         id='modals.sendeth.cointitle'
-        defaultMessage='Send {displayName}'
-        values={{ displayName: props.coin.displayName }}
+        defaultMessage='Send {coinDisplayName}'
+        values={{ coinDisplayName: props.coinDisplayName }}
       />
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>
@@ -18,6 +18,7 @@ const SendEth = props => (
 )
 
 SendEth.propTypes = {
+  coinDisplayName: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired

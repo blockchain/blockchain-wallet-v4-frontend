@@ -15,10 +15,11 @@ class FirstStep extends React.PureComponent {
   }
 
   render () {
-    const { data, actions } = this.props
+    const { data, actions, coin } = this.props
     return data.cata({
       Success: value => (
         <Success
+          coin={coin}
           fee={value.fee}
           from={value.from}
           isContract={value.isContract}
