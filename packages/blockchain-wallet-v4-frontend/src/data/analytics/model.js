@@ -16,10 +16,8 @@ export const ADDRESS_EVENTS = {
 }
 export const KYC_EVENTS = {
   FORMS: {
-    EDIT_ADDRESS: ['kyc', 'onboarding', 'forms', 'edit_address'],
-    EDIT_COUNTRY: ['kyc', 'onboarding', 'forms', 'edit_country'],
-    EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
-    UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
+    PERSONAL: ['kyc', 'personal_form'],
+    UPDATE_PHONE_NUMBER: ['kyc', 'personal_form', 'mobile']
   },
   ONBOARDING_START: ['kyc', 'onboarding', 'kyc_onboarding_start'],
   SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
