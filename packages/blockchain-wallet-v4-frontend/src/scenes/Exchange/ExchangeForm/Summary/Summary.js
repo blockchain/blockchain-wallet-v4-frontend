@@ -17,6 +17,7 @@ import {
   Wrapper as BorderWrapper
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
+import TargetFiatAmount from './TargetFiatAmount'
 
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
@@ -32,7 +33,6 @@ const SummaryExchangeAmount = styled(ExchangeAmount)`
 const SummaryStringDisplay = styled(StringDisplay)`
   justify-content: flex-end;
 `
-
 export class Summary extends React.PureComponent {
   render () {
     const {
@@ -43,8 +43,7 @@ export class Summary extends React.PureComponent {
       sourceFiat,
       sourceFeeFiat,
       targetAmount,
-      targetCoin,
-      targetFiat
+      targetCoin
     } = this.props
 
     const fiatCurrencySymbol = Exchange.getSymbol(currency)
@@ -156,15 +155,12 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <SummaryStringDisplay
-                data-e2e='exchangeSummaryTargetFiatValue'
-                skeletonHeight='20px'
-                skeletonWidth='46px'
-              >
-                {targetFiat.map(amount =>
-                  formatAmount(true, fiatCurrencySymbol, amount)
-                )}
-              </SummaryStringDisplay>
+              <TargetFiatAmount
+                targetAmount={targetAmount}
+                targetCoin={targetCoin}
+                color='brand-primary'
+                weight={400}
+              />
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
               <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>

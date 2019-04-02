@@ -4,11 +4,13 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { model } from 'data'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ExchangeButton, Note, Title, Wrapper } from 'components/Exchange'
 import { Form } from 'components/Form'
 import ExchangeError from './ExchangeError'
 import Summary from '../../../scenes/Exchange/ExchangeForm/Summary'
+import TargetFiatAmount from '../../../scenes/Exchange/ExchangeForm/Summary/TargetFiatAmount'
 
 const { CONFIRM_FORM } = model.components.exchange
 
@@ -50,6 +52,7 @@ const CoinButton = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  white-space: nowrap;
   background-color: ${props => props.theme[props.coin]};
   border: 1px solid ${props => props.theme[props.coin]};
   color: ${props => props.theme.white};
@@ -129,9 +132,7 @@ const ExchangeConfirm = ({
   targetAmount,
   sourceCoin,
   targetCoin,
-  targetFiat,
   currency,
-  fiatCurrencySymbol,
   submitting,
   handleSubmit,
   showOrderInfo,
@@ -154,10 +155,13 @@ const ExchangeConfirm = ({
         />
       </CoinIconTitle>
       <AmountTitle>
-        <Text size='42px' color='brand-primary'>
-          {fiatCurrencySymbol}
-          {targetFiat}
-        </Text>
+        <TargetFiatAmount
+          targetAmount={Remote.of(targetAmount)}
+          targetCoin={targetCoin}
+          color='brand-primary'
+          weight={300}
+          size='42px'
+        />
       </AmountTitle>
       <Row>
         <CoinButton

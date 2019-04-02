@@ -1,6 +1,5 @@
 import { selectors, model } from 'data'
 import { lift, path } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
 
 const { formatPair } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
@@ -15,10 +14,8 @@ export const getData = state => {
   const amountsR = getAmounts(pair, state)
 
   const transform = (currency, amounts) => ({
-    fiatCurrencySymbol: Exchange.getSymbol(currency),
     sourceAmount: amounts.sourceAmount,
     targetAmount: amounts.targetAmount,
-    targetFiat: amounts.targetFiat,
     sourceCoin,
     targetCoin,
     currency
