@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
+import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { formatAmount } from '../services'
@@ -29,7 +30,9 @@ const SummaryWrapper = styled(BorderWrapper)`
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
 `
-
+const TooltipWrapAmountHeader = styled(AmountHeader)`
+  display: flex;
+`
 const SummaryStringDisplay = styled(StringDisplay)`
   justify-content: flex-end;
 `
@@ -83,12 +86,19 @@ export class Summary extends React.PureComponent {
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <AmountHeader>
+          <TooltipWrapAmountHeader>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.fees'
-              defaultMessage='Fees'
+              id='scenes.exchange.exchangeform.summary.networkfees'
+              defaultMessage='Network Fees'
             />
-          </AmountHeader>
+            <TooltipHost id='exchange.networkfees'>
+              <TooltipIcon
+                name='question-in-circle-filled'
+                color='lightblue-gray'
+                size='18px'
+              />
+            </TooltipHost>
+          </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
               color='gray-5'

@@ -157,6 +157,12 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
+        <Tooltip id='exchange.networkfees'>
+          <FormattedMessage
+            id='scenes.exchange.networkfees'
+            defaultMessage='These are the fees paid to the Miners of the network.'
+          />
+        </Tooltip>
         <Tooltip id='exchange.changeinput' place='bottom'>
           <FormattedMessage
             id='scenes.exchange.changeinput'
