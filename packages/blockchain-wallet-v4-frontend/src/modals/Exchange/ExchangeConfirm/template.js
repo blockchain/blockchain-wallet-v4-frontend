@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { model } from 'data'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ExchangeButton, Note, Title, Wrapper } from 'components/Exchange'
 import { Form } from 'components/Form'
@@ -51,6 +52,7 @@ const CoinButton = styled.div`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  white-space: nowrap;
   background-color: ${props => props.theme[props.coin]};
   border: 1px solid ${props => props.theme[props.coin]};
   color: ${props => props.theme.white};
@@ -154,7 +156,7 @@ const ExchangeConfirm = ({
       </CoinIconTitle>
       <AmountTitle>
         <TargetFiatAmount
-          targetAmount={targetAmount}
+          targetAmount={Remote.of(targetAmount)}
           targetCoin={targetCoin}
           color='brand-primary'
           weight={300}

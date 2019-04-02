@@ -7,40 +7,25 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 // So fallback for targetFiat to our ticker API (FiatDisplay)
 export class TargetFiatAmount extends React.PureComponent {
   render () {
-    return this.props.targetAmount.cata ? (
-      this.props.targetAmount.cata({
-        Success: value => (
-          <FiatDisplay
-            data-e2e='exchangeSummaryTargetFiatValue'
-            coin={this.props.targetCoin}
-            {...this.props}
-          >
-            {
-              Exchange.convertCoinToCoin({
-                value,
-                coin: this.props.targetCoin
-              }).value
-            }
-          </FiatDisplay>
-        ),
-        NotAsked: () => <SkeletonRectangle height='26px' width='40px' />,
-        Loading: () => <SkeletonRectangle height='26px' width='40px' />,
-        Failure: () => <SkeletonRectangle height='26px' width='40px' />
-      })
-    ) : (
-      <FiatDisplay
-        data-e2e='exchangeSummaryTargetFiatValue'
-        coin={this.props.targetCoin}
-        {...this.props}
-      >
-        {
-          Exchange.convertCoinToCoin({
-            value: this.props.targetAmount,
-            coin: this.props.targetCoin
-          }).value
-        }
-      </FiatDisplay>
-    )
+    return this.props.targetAmount.cata({
+      Success: value => (
+        <FiatDisplay
+          data-e2e='exchangeSummaryTargetFiatValue'
+          coin={this.props.targetCoin}
+          {...this.props}
+        >
+          {
+            Exchange.convertCoinToCoin({
+              value,
+              coin: this.props.targetCoin
+            }).value
+          }
+        </FiatDisplay>
+      ),
+      NotAsked: () => <SkeletonRectangle height='26px' width='40px' />,
+      Loading: () => <SkeletonRectangle height='26px' width='40px' />,
+      Failure: () => <SkeletonRectangle height='26px' width='40px' />
+    })
   }
 }
 
