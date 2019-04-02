@@ -1539,6 +1539,10 @@
         "id": "scenes.exchange.shapeshift.firststep.tooltip2"
       },
       {
+        "defaultMessage": "These are the fees paid to the Miners of the network.",
+        "id": "scenes.exchange.networkfees"
+      },
+      {
         "defaultMessage": "Change Input",
         "id": "scenes.exchange.changeinput"
       },
@@ -8326,7 +8330,7 @@
     "descriptors": [
       {
         "defaultMessage": "{sourceCoin} available for Swap",
-        "id": "scenes.exchange.exchangeform.summary.totalbalance"
+        "id": "scenes.exchange.exchangeform.summary.totalbalanceforswap"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/RatesBox/RatesBox.json"
@@ -8347,8 +8351,8 @@
         "id": "scenes.exchange.exchangeform.summary.exchange"
       },
       {
-        "defaultMessage": "Fees",
-        "id": "scenes.exchange.exchangeform.summary.fees"
+        "defaultMessage": "Network Fees",
+        "id": "scenes.exchange.exchangeform.summary.networkfees"
       },
       {
         "defaultMessage": "Send",
