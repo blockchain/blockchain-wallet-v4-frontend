@@ -62,6 +62,7 @@ import {
 
 export const logLocation = 'exchange/sagas'
 export const renewLimitsDelay = 30 * 1000
+const fallbackSourceFees = { source: 0, target: 0, mempoolFees: {} }
 
 let renewLimitsTask = null
 export default ({ api, coreSagas, networks }) => {
@@ -326,12 +327,7 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     } catch (e) {
-      yield put(
-        A.setSourceFee({
-          source: 0,
-          target: 0
-        })
-      )
+      yield put(A.setSourceFee(fallbackSourceFees))
     }
   }
 
@@ -781,7 +777,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
-      yield put(A.setSourceFee({ source: 0, target: 0 }))
+      yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield cancel(renewLimitsTask)
     } catch (e) {
