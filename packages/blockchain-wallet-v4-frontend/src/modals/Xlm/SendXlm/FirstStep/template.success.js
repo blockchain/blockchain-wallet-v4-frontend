@@ -41,7 +41,7 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { NoAccountTemplate } from './NoAccountTemplate'
 import { ErrorBanner } from './ErrorBanner'
-import { XlmFiatConvertor } from './XlmFiatConvertor'
+import { XlmFiatConverter } from './XlmFiatConverter'
 import { InfoBanner } from './InfoBanner'
 import { SelectBoxMemo } from './SelectBoxMemo'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
@@ -215,7 +215,7 @@ const FirstStep = props => {
               </FormLabel>
               <Field
                 name='amount'
-                component={XlmFiatConvertor}
+                component={XlmFiatConverter}
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}

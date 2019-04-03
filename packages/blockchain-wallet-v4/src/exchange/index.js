@@ -61,6 +61,17 @@ const transformFiatToEther = ({ value, fromCurrency, toUnit, rates }) => {
     .chain(Currency.toUnit(targetUnit))
 }
 
+const transformFiatToPax = ({ value, fromCurrency, toUnit, rates }) => {
+  const pairs = Pairs.create(PAX.code, rates)
+  const sourceCurrency = prop(fromCurrency, Currencies)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], PAX)
+  return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
+    .chain(Currency.convert(pairs, PAX))
+    .chain(Currency.toUnit(targetUnit))
+}
+
 const transformEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   const pairs = Pairs.create(ETH.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
@@ -232,6 +243,12 @@ const convertBtcToBtc = ({ value, fromUnit, toUnit }) => {
 
 const convertFiatToEther = ({ value, fromCurrency, toUnit, rates }) => {
   return transformFiatToEther({ value, fromCurrency, toUnit, rates }).getOrElse(
+    DefaultConversion
+  )
+}
+
+const convertFiatToPax = ({ value, fromCurrency, toUnit, rates }) => {
+  return transformFiatToPax({ value, fromCurrency, toUnit, rates }).getOrElse(
     DefaultConversion
   )
 }
@@ -451,6 +468,8 @@ const displayCoinToFiat = ({
       return displayBsvToFiat({ value, fromUnit, toCurrency, rates })
     case 'XLM':
       return displayXlmToFiat({ value, fromUnit, toCurrency, rates })
+    default:
+      return 'Unsupported Coin Code'
   }
 }
 
@@ -464,9 +483,109 @@ const getSymbol = currency => {
   return path(['units', tradeUnit, 'symbol'], data)
 }
 
+const convertFiatToCoin = (value, unit, currency, rates) => {
+  switch (true) {
+    case unit === 'BTC':
+      return convertFiatToBtc({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'ETH':
+      return convertFiatToEther({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'PAX':
+      return convertFiatToPax({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'BCH':
+      return convertFiatToBch({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'BSV':
+      return convertFiatToBsv({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'XLM':
+      return convertFiatToXlm({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    default:
+      return 'Unsupported Coin Code'
+  }
+}
+
+const convertCoinToFiat = (value, unit, currency, rates) => {
+  switch (true) {
+    case unit === 'BTC':
+      return convertBtcToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'ETH':
+      return convertEtherToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'PAX':
+      return convertPaxToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'BCH':
+      return convertBchToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'BSV':
+      return convertBsvToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    case unit === 'XLM':
+      return convertXlmToFiat({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
+    default:
+      return 'Unsupported Coin Code'
+  }
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
+  convertFiatToCoin,
+  convertCoinToFiat,
   convertBtcToFiat,
   convertBtcToBtc,
   convertBchToFiat,

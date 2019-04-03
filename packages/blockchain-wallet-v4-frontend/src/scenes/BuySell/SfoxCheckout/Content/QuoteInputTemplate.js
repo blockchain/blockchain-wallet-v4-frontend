@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
 `
-const FiatConvertorInput = styled.div`
+const FiatConverterInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,7 +121,7 @@ const limitsHelper = (quoteR, limits) => {
     .getOrElse(null)
 }
 
-const FiatConvertor = props => {
+const FiatConverter = props => {
   const {
     value,
     fiat,
@@ -143,7 +143,7 @@ const FiatConvertor = props => {
 
   return (
     <Wrapper>
-      <FiatConvertorInput>
+      <FiatConverterInput>
         <Container>
           <TextInput
             placeholder='0'
@@ -170,7 +170,7 @@ const FiatConvertor = props => {
           />
           <Unit>{currency}</Unit>
         </Container>
-      </FiatConvertorInput>
+      </FiatConverterInput>
       {meta.touched && meta.error && (
         <Error
           onClick={handleErrorClick}
@@ -213,7 +213,7 @@ const FiatConvertor = props => {
   )
 }
 
-FiatConvertor.propTypes = {
+FiatConverter.propTypes = {
   coin: PropTypes.string,
   fiat: PropTypes.string,
   unit: PropTypes.string.isRequired,
@@ -226,4 +226,4 @@ FiatConvertor.propTypes = {
   handleErrorClick: PropTypes.func
 }
 
-export default FiatConvertor
+export default FiatConverter

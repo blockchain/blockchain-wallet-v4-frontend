@@ -14,13 +14,13 @@ const Wrapper = styled.div`
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
 `
-const FiatConvertorInput = styled.div`
+const FiatConverterInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 `
 const Container = styled.div`
   position: relative;
@@ -59,7 +59,7 @@ const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const Convertor = props => {
+const Converter = props => {
   const {
     coin,
     disabled,
@@ -78,7 +78,7 @@ const Convertor = props => {
 
   return (
     <Wrapper className={className}>
-      <FiatConvertorInput>
+      <FiatConverterInput>
         <Container>
           <TextInput
             value={coin}
@@ -107,7 +107,7 @@ const Convertor = props => {
           />
           <Unit>{currency}</Unit>
         </Container>
-      </FiatConvertorInput>
+      </FiatConverterInput>
       {meta.touched && meta.error && (
         <Error
           errorBottom={errorBottom}
@@ -115,7 +115,7 @@ const Convertor = props => {
           weight={300}
           color='error'
           className='error'
-          data-e2e='fiatConvertorError'
+          data-e2e='fiatConverterError'
         >
           {meta.error}
         </Error>
@@ -124,7 +124,7 @@ const Convertor = props => {
   )
 }
 
-Convertor.propTypes = {
+Converter.propTypes = {
   coin: PropTypes.string,
   fiat: PropTypes.string,
   unit: PropTypes.string.isRequired,
@@ -135,4 +135,4 @@ Convertor.propTypes = {
   handleFocus: PropTypes.func.isRequired
 }
 
-export default Convertor
+export default Converter

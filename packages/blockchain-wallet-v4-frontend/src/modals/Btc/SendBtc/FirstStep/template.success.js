@@ -21,7 +21,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
@@ -231,7 +231,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            component={FiatConvertor}
+            component={FiatConverter}
             validate={[
               required,
               invalidAmount,
