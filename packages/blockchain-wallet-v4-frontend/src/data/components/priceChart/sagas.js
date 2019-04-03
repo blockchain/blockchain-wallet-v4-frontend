@@ -1,6 +1,7 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, take } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import { calculateStart, calculateScale } from 'services/ChartService'
 
@@ -17,6 +18,7 @@ export default ({ coreSagas }) => {
    */
   const initialized = function * (action) {
     try {
+      yield take(actionTypes.core.settings.FETCH_SETTINGS_SUCCESS)
       const { coin, time } = action.payload
       const currencyR = yield select(selectors.core.settings.getCurrency)
       const start = calculateStart(coin, time)
