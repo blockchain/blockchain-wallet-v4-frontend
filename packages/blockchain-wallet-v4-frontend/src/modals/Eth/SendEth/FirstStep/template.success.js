@@ -269,9 +269,9 @@ const FirstStep = props => {
               )}
               {feeToggled && (
                 <FeeOptionsContainer>
-                  <RegularFeeLink fee={regularFee} />
+                  <RegularFeeLink fee={regularFee} coin={coin} />
                   <span>&nbsp;</span>
-                  <PriorityFeeLink fee={priorityFee} />
+                  <PriorityFeeLink fee={priorityFee} coin={coin} />
                 </FeeOptionsContainer>
               )}
             </FeeFormLabel>
@@ -279,6 +279,7 @@ const FirstStep = props => {
               <FeePerByteContainer>
                 <Field
                   data-e2e={`${coin}CustomFeeInput`}
+                  coin={coin}
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required, minimumFee]}
