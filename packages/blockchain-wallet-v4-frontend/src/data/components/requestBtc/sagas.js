@@ -1,11 +1,15 @@
 import { put, select, take } from 'redux-saga/effects'
 import { identity, prop } from 'ramda'
+import { model } from 'data'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import Btc from '@ledgerhq/hw-app-btc'
+
+const { TRANSACTION_EVENTS } = model.analytics
+const { PAYMENT_REQUEST } = TRANSACTION_EVENTS
 
 export default ({ networks }) => {
   const logLocation = 'components/requestBtc/sagas'
@@ -18,6 +22,7 @@ export default ({ networks }) => {
         yield put(
           actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message)
         )
+        yield put(actions.analytics.logEvent([...PAYMENT_REQUEST, 'BTC']))
       } else {
         throw new Error(setHDLabelError)
       }

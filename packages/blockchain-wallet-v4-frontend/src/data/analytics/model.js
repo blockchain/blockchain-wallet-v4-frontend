@@ -101,6 +101,7 @@ export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],
   REQUEST: ['transactions', 'request'],
   EDIT_DESCRIPTION: ['transactions', 'edit_description'],
+  PAYMENT_REQUEST: ['transactions', 'payment_request'],
   SEND_FAILURE: ['send_failure']
 }
 export const WALLET_EVENTS = {
