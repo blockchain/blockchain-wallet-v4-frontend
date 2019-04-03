@@ -24,8 +24,8 @@ export const KYC_EVENTS = {
   STEP_CHANGE: ['kyc', 'onboarding', 'kyc_onboarding_step_to_'],
   SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
   SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
-  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
-  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number', 'failure']
+  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number_success'],
+  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number_failure']
 }
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
@@ -100,7 +100,8 @@ export const SWAP_EVENTS = {
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],
   REQUEST: ['transactions', 'request'],
-  EDIT_DESCRIPTION: ['transactions', 'edit_description']
+  EDIT_DESCRIPTION: ['transactions', 'edit_description'],
+  SEND_FAILURE: ['send_failure']
 }
 export const WALLET_EVENTS = {
   ADD_NEW: ['wallets', 'add_new'],

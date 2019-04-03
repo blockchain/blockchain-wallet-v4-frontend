@@ -304,6 +304,13 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'BCH',
+            e
+          ])
+        )
         yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
       }
     }
