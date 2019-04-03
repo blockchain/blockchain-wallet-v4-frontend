@@ -2,11 +2,9 @@ import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { assoc, path, prop, is } from 'ramda'
 
-import * as actions from '../actions.js'
-import * as actionTypes from '../actionTypes.js'
-import * as selectors from '../selectors.js'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
@@ -17,6 +15,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
+
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
@@ -27,6 +26,8 @@ export const emailMismatch2faErrorMessage =
   'Error: Email entered does not match the email address associated with this wallet'
 export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
+
+const { LOGIN_EVENTS } = model.analytics
 
 export default ({ api, coreSagas }) => {
   const upgradeWallet = function * () {
@@ -72,6 +73,7 @@ export default ({ api, coreSagas }) => {
       const balance = path([addr, 'balance'], balances)
       if (balance > 0) {
         yield put(actions.modals.showModal('TransferEth', { balance, addr }))
+        yield put(actions.analytics.logEvent(LOGIN_EVENTS.TRANSFER_ETH_LEGACY))
       }
     }
   }

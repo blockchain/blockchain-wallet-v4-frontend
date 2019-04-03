@@ -14,6 +14,9 @@ export const ADDRESS_EVENTS = {
   SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
   SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
+export const LOGIN_EVENTS = {
+  TRANSFER_ETH_LEGACY: ['login', 'transfer_eth_legacy']
+}
 export const KYC_EVENTS = {
   FORMS: {
     PERSONAL: ['kyc', 'personal_form'],
