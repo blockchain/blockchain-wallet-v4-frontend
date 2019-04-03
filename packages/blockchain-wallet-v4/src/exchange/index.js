@@ -581,6 +581,13 @@ const convertCoinToFiat = (value, unit, currency, rates) => {
   }
 }
 
+// TODO: clean up public vs private exports, should just export the following
+// convertFiatToCoin
+// convertCoinToFiat
+// convertFiatToCoin
+// convertCoinToCoin
+// displayFiatToCoin
+// displayCoinToFiat
 export {
   DefaultConversion,
   DefaultDisplay,

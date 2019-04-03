@@ -1,5 +1,5 @@
 import { call, select, put, take } from 'redux-saga/effects'
-import { equals, identity, includes, path, prop, head } from 'ramda'
+import { equals, identity, includes, path, prop, propOr, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -25,25 +25,22 @@ export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
-      const from = path(['payload', 'from'], action)
-      const type = path(['payload', 'type'], action)
+      const coin = propOr('ETH', 'payload', action)
       let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })
       payment = yield payment.init()
-      payment =
-        from && type ? yield payment.from(from, type) : yield payment.from()
+      payment = yield payment.from(coin)
       const defaultFee = path(['fees', 'regular'], payment.value())
-      if (includes(prop('payload', action), ERC20_COIN_LIST)) {
-        const token = prop('payload', action)
+      if (includes(coin, ERC20_COIN_LIST)) {
         const erc20AccountR = yield select(
           selectors.core.common.eth.getErc20AccountBalances,
-          token
+          coin
         )
         initialValues = {
-          coin: token,
+          coin,
           fee: defaultFee,
           from: erc20AccountR.getOrElse({})
         }
@@ -53,7 +50,7 @@ export default ({ coreSagas, networks }) => {
         )
         const defaultAccountR = ethAccountR.map(head)
         initialValues = {
-          coin: 'ETH',
+          coin,
           fee: defaultFee,
           from: defaultAccountR.getOrElse({})
         }
@@ -138,9 +135,10 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
+          const coin = prop('coin', payload)
           const source = prop('address', payload)
           const fromType = prop('type', payload)
-          payment = yield payment.from(source, fromType)
+          payment = yield payment.from(coin, source, fromType)
           break
         case 'to':
           payment = yield payment.to(payload)
