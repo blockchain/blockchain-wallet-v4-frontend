@@ -1,5 +1,7 @@
-import { model, selectors } from 'data'
 import { includes, lift, toLower } from 'ramda'
+
+import { model, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const { ERC20_COIN_LIST } = model.coins
 export const getData = (state, ownProps) => {
@@ -7,10 +9,12 @@ export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
   let ratesR
 
-  if (includes(coin, ERC20_COIN_LIST)) {
-    ratesR = selectors.core.data.eth.getErc20Rates(state, toLower(coin))
-  } else {
-    ratesR = selectors.core.data[toLower(coin)].getRates(state)
+  try {
+    ratesR = includes(coin, ERC20_COIN_LIST)
+      ? selectors.core.data.eth.getErc20Rates(state, toLower(coin))
+      : selectors.core.data[toLower(coin)].getRates(state)
+  } catch (e) {
+    ratesR = Remote.Failure('Unsupported Coin Code: Rates selector missing')
   }
 
   const transform = (currency, rates) => ({

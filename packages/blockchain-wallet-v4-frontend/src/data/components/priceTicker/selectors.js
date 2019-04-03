@@ -1,55 +1,17 @@
-import { lift } from 'ramda'
+import { includes, lift, toLower } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../../selectors'
+import { model } from 'data'
 
+const { ERC20_COIN_LIST } = model.coins
 const selectRates = (coin, state) => {
-  switch (coin) {
-    case 'BCH':
-      return selectors.core.data.bch.getRates(state)
-    case 'BTC':
-      return selectors.core.data.btc.getRates(state)
-    case 'ETH':
-      return selectors.core.data.eth.getRates(state)
-    case 'XLM':
-      return selectors.core.data.xlm.getRates(state)
-    default:
-      return Remote.Failure(`Could not find rates for coin ${coin}.`)
-  }
-}
-
-const convertCoinToFiat = (coin, rates, currency) => {
-  switch (coin) {
-    case 'BCH':
-      return Exchange.displayBchToFiat({
-        value: 1,
-        fromUnit: 'BCH',
-        toCurrency: currency,
-        rates
-      })
-    case 'BTC':
-      return Exchange.displayBtcToFiat({
-        value: 1,
-        fromUnit: 'BTC',
-        toCurrency: currency,
-        rates
-      })
-    case 'ETH':
-      return Exchange.displayEtherToFiat({
-        value: 1,
-        fromUnit: 'ETH',
-        toCurrency: currency,
-        rates
-      })
-    case 'XLM':
-      return Exchange.displayXlmToFiat({
-        value: 1,
-        digits: 4,
-        fromUnit: 'XLM',
-        toCurrency: currency,
-        rates
-      })
-    default:
-      return Remote.Failure(`Could not convert coin ${coin} to fiat.`)
+  try {
+    return includes(coin, ERC20_COIN_LIST)
+      ? selectors.core.data.eth.getErc20Rates(state, toLower(coin))
+      : selectors.core.data[toLower(coin)].getRates(state)
+  } catch (e) {
+    return Remote.Failure('Unsupported Coin Code: Rates selector missing')
   }
 }
 
@@ -59,7 +21,13 @@ export const getData = (coin, state) => {
 
   const transform = (rates, currency) => ({
     coin: `1 ${coin}`,
-    fiat: convertCoinToFiat(coin, rates, currency)
+    fiat: Exchange.displayCoinToFiat({
+      fromCoin: coin,
+      value: 1,
+      fromUnit: coin,
+      toCurrency: currency,
+      rates
+    })
   })
 
   return lift(transform)(ratesR, currencyR)
