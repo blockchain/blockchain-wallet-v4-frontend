@@ -7,23 +7,43 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
 
 import {
-  ExchangeText,
-  ExchangeAmount,
   AmountHeader,
   Delimiter,
+  ExchangeText,
+  ExchangeAmount,
+  Note,
   TableRow,
-  Note
+  Title
 } from 'components/Exchange'
 import { OrderStatus, selectColor, OrderNote } from 'components/OrderStatus'
 import {
   Button,
   Link,
+  Icon,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
 } from 'blockchain-info-components'
 
+const CoinIconTitle = styled(Title)`
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: initial;
+  span:nth-child(2) {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: ${props => props.theme['white']};
+    justify-content: center;
+    align-items: center;
+    margin: 0px -6px;
+    z-index: 1;
+  }
+`
 const ExchangeResultsFooter = styled(ModalFooter)`
   > div {
     justify-content: center;
@@ -218,6 +238,19 @@ export const ExchangeResults = ({
   const headerColor = color === 'error' ? color : 'gray-5'
   return (
     <Modal size='small' position={position} total={total}>
+      <CoinIconTitle>
+        <Icon
+          size='42px'
+          color={sourceCoin.toLowerCase()}
+          name={sourceCoin.toLowerCase() + '-circle-filled'}
+        />
+        <Icon size='12px' name='thick-arrow-right' />
+        <Icon
+          size='42px'
+          color={targetCoin.toLowerCase()}
+          name={targetCoin.toLowerCase() + '-circle-filled'}
+        />
+      </CoinIconTitle>
       <ResultsHeader onClose={close} color={headerColor}>
         <StatusCircle color={color} />
         <OrderStatus status={status} />
