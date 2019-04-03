@@ -39,7 +39,7 @@ export const RatesBox = ({
       <TotalBalanceWrapper>
         <RateText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.totalbalance'
+            id='scenes.exchange.exchangeform.summary.totalbalanceforswap'
             defaultMessage='{sourceCoin} available for Swap'
             values={{ sourceCoin }}
           />

@@ -16,18 +16,16 @@ export const ADDRESS_EVENTS = {
 }
 export const KYC_EVENTS = {
   FORMS: {
-    EDIT_ADDRESS: ['kyc', 'onboarding', 'forms', 'edit_address'],
-    EDIT_COUNTRY: ['kyc', 'onboarding', 'forms', 'edit_country'],
-    EDIT_EMAIL: ['kyc', 'onboarding', 'forms', 'edit_email'],
-    UPDATE_PHONE_NUMBER: ['kyc', 'onboarding', 'forms', 'update_phone_number']
+    PERSONAL: ['kyc', 'personal_form'],
+    UPDATE_PHONE_NUMBER: ['kyc', 'personal_form', 'mobile']
   },
   ONBOARDING_START: ['kyc', 'onboarding', 'kyc_onboarding_start'],
   SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
   STEP_CHANGE: ['kyc', 'onboarding', 'kyc_onboarding_step_to_'],
   SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
   SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
-  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number', 'success'],
-  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number', 'failure']
+  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number_success'],
+  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number_failure']
 }
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
@@ -91,7 +89,9 @@ export const SWAP_EVENTS = {
   ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
   REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
   SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
-  FIXTURES_CHANGED: ['swap', 'order_form', 'fixtures_changed'],
+  FIAT_TO_CRYPTO_CHANGE: ['swap', 'order_form', 'fiat_to_crypto_change'],
+  CRYPTO_TO_FIAT_CHANGE: ['swap', 'order_form', 'crypto_to_fiat_change'],
+  EXCHANGE_RECEIVE_CHANGE: ['swap', 'order_form', 'exchange_receive_change'],
   VALUE_INPUT: ['swap', 'order_form', 'value_input'],
   USE_MIN: ['swap', 'order_form', 'use_min'],
   USE_MAX: ['swap', 'order_form', 'use_max'],
@@ -100,7 +100,9 @@ export const SWAP_EVENTS = {
 export const TRANSACTION_EVENTS = {
   SEND: ['transactions', 'send'],
   REQUEST: ['transactions', 'request'],
-  EDIT_DESCRIPTION: ['transactions', 'edit_description']
+  EDIT_DESCRIPTION: ['transactions', 'edit_description'],
+  PAYMENT_REQUEST: ['transactions', 'payment_request'],
+  SEND_FAILURE: ['send_failure']
 }
 export const WALLET_EVENTS = {
   ADD_NEW: ['wallets', 'add_new'],
