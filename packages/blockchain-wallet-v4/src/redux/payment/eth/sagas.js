@@ -72,7 +72,9 @@ export default ({ api }) => {
         const appState = yield select(identity)
         const mnemonicT = S.wallet.getMnemonic(appState, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+        // TODO
+        const sign = data =>
+          taskToPromise(eth.signErc20(network, mnemonic, data))
         return yield call(sign, raw)
       }
       case ADDRESS_TYPES.LOCKBOX: {
