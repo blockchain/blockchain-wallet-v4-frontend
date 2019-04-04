@@ -28,8 +28,8 @@ class SecondStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -13,12 +13,12 @@ import SecondStep from './SecondStep'
 const { COIN_MODELS } = model.coins
 class SendEthContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized(this.props.coin || 'ETH')
+    this.props.actions.initialized(propOr('ETH', 'coin', this.props))
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.coin !== this.props.coin) {
-      this.props.actions.initialized(this.props.coin || 'ETH')
+      this.props.actions.initialized(propOr('ETH', 'coin', this.props))
     }
   }
 
