@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { propOr } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model, selectors } from 'data'
@@ -27,7 +28,7 @@ class SendEthContainer extends React.PureComponent {
 
   render () {
     const { step, position, total, closeAll } = this.props
-    const coin = COIN_MODELS[this.props.coin || 'ETH']
+    const coin = COIN_MODELS[propOr('ETH', 'coin', this.props)]
     return (
       <SendEth
         position={position}
@@ -36,7 +37,9 @@ class SendEthContainer extends React.PureComponent {
         coinDisplayName={coin.displayName}
       >
         {step === 1 && <FirstStep coin={coin.coinCode} />}
-        {step === 2 && <SecondStep />}
+        {step === 2 && (
+          <SecondStep coin={coin.coinCode} coinDisplayName={coin.displayName} />
+        )}
       </SendEth>
     )
   }
