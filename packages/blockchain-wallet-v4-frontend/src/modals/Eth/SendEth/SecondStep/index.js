@@ -9,12 +9,13 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data, actions } = this.props
+    console.info('TODO::: 2nd Step props', this.props)
     return data.cata({
       Success: value => (
         <Success
-          coin='ETH'
+          coin="ETH"
           {...value}
           handleBack={actions.sendEthSecondStepCancelClicked}
           handleSubmit={actions.sendEthSecondStepSubmitClicked}

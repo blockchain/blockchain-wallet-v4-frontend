@@ -8,14 +8,16 @@ import { Link } from 'blockchain-info-components'
 
 const MaximumAmountLink = props => (
   <Link
-    size='12px'
+    size="12px"
     weight={300}
-    onClick={props.actions.sendEthFirstStepMaximumAmountClicked}
+    onClick={() =>
+      props.actions.sendEthFirstStepMaximumAmountClicked(props.coin)
+    }
     data-e2e={`${props.coin}MaximumAmountLink`}
   >
     <FormattedMessage
-      id='modals.sendeth.maximumamountlink.maximum'
-      defaultMessage='maximum'
+      id="modals.sendeth.maximumamountlink.maximum"
+      defaultMessage="maximum"
     />
   </Link>
 )

@@ -16,8 +16,9 @@ export const sendEthPaymentUpdatedFailure = e => ({
   type: AT.SEND_ETH_PAYMENT_UPDATED_FAILURE,
   payload: e
 })
-export const sendEthFirstStepMaximumAmountClicked = () => ({
-  type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED
+export const sendEthFirstStepMaximumAmountClicked = coinCode => ({
+  type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED,
+  payload: coinCode
 })
 export const sendEthFirstStepSubmitClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED

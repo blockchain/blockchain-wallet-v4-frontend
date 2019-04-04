@@ -32,8 +32,7 @@ const Summary = styled.div`
   align-items: center;
   background-color: ${props => props.theme['gray-1']};
   padding: 10px 0;
-  margin: 5px 0;
-  margin-bottom: 25px;
+  margin: 5px 0 25px;
 
   & > * {
     padding: 10px 0;
@@ -68,73 +67,73 @@ const Success = props => {
   return (
     <Wrapper>
       <Row>
-        <Text size='16px' weight={500}>
+        <Text size="16px" weight={500}>
           <FormattedMessage
-            id='modals.sendeth.secondstep.from'
-            defaultMessage='From:'
+            id="modals.sendeth.secondstep.from"
+            defaultMessage="From:"
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='ethFromWallet'>
+        <Text size="16px" weight={300} data-e2e="ethFromWallet">
           {fromAddress}
         </Text>
       </Row>
       <Row>
-        <Text size='16px' weight={500}>
+        <Text size="16px" weight={500}>
           <FormattedMessage
-            id='modals.sendeth.secondstep.to'
-            defaultMessage='To:'
+            id="modals.sendeth.secondstep.to"
+            defaultMessage="To:"
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='ethToAddress'>
+        <Text size="16px" weight={300} data-e2e="ethToAddress">
           {toAddress}
         </Text>
       </Row>
       {description && (
         <Row>
-          <Text size='16px' weight={500}>
+          <Text size="16px" weight={500}>
             <FormattedMessage
-              id='modals.sendeth.secondstep.note'
-              defaultMessage='Note:'
+              id="modals.sendeth.secondstep.note"
+              defaultMessage="Note:"
             />
           </Text>
-          <Text size='16px' weight={300} data-e2e='ethSendDescription'>
+          <Text size="16px" weight={300} data-e2e="ethSendDescription">
             {description}
           </Text>
         </Row>
       )}
       <Row>
-        <Text size='16px' weight={500}>
+        <Text size="16px" weight={500}>
           <FormattedMessage
-            id='modals.sendeth.secondstep.payment'
-            defaultMessage='Payment:'
+            id="modals.sendeth.secondstep.payment"
+            defaultMessage="Payment:"
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size="16px" weight={300}>
           <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
       <Row>
-        <Text size='16px' weight={500}>
+        <Text size="16px" weight={500}>
           <FormattedMessage
-            id='modals.sendeth.secondstep.fee'
-            defaultMessage='Fee:'
+            id="modals.sendeth.secondstep.fee"
+            defaultMessage="Fee:"
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size="16px" weight={300}>
           <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size='16px' weight={300} color='sent'>
+        <Text size="16px" weight={300} color="sent">
           <FormattedMessage
-            id='modals.sendeth.secondstep.total'
-            defaultMessage='Total'
+            id="modals.sendeth.secondstep.total"
+            defaultMessage="Total"
           />
         </Text>
-        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
+        <CoinDisplay coin={coin} size="30px" weight={600} color="sent">
           {total}
         </CoinDisplay>
-        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
+        <FiatDisplay coin={coin} size="20px" weight={300} color="sent">
           {total}
         </FiatDisplay>
       </Summary>
@@ -142,29 +141,29 @@ const Success = props => {
         <Button
           onClick={handleSubmit}
           disabled={submitting}
-          nature='primary'
+          nature="primary"
           fullwidth
-          data-e2e='ethSendSubmitButton'
+          data-e2e="ethSendSubmitButton"
         >
           {!submitting ? (
             <FormattedMessage
-              id='modals.sendeth.secondstep.send'
-              defaultMessage='Send Ether'
+              id="modals.sendeth.secondstep.send"
+              defaultMessage="Send Ether"
             />
           ) : (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
+            <HeartbeatLoader height="20px" width="20px" color="white" />
           )}
         </Button>
         <Link
           onClick={!submitting && handleBack}
           disabled={submitting}
-          size='13px'
+          size="13px"
           weight={300}
-          data-e2e='ethSendBackLink'
+          data-e2e="ethSendBackLink"
         >
           <FormattedMessage
-            id='modals.sendeth.sendconfirm.back'
-            defaultMessage='Go Back'
+            id="modals.sendeth.sendconfirm.back"
+            defaultMessage="Go Back"
           />
         </Link>
       </Footer>

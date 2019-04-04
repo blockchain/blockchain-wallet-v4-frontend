@@ -1,5 +1,14 @@
 import { call, select, put, take } from 'redux-saga/effects'
-import { equals, identity, includes, path, prop, propOr, head } from 'ramda'
+import {
+  equals,
+  identity,
+  includes,
+  path,
+  prop,
+  propOr,
+  head,
+  toLower
+} from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -23,7 +32,7 @@ const { ERC20_COIN_LIST } = model.coins
 
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const coin = propOr('ETH', 'payload', action)
       let initialValues = {}
@@ -64,11 +73,11 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function*() {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
@@ -76,6 +85,7 @@ export default ({ coreSagas, networks }) => {
         payment: p.getOrElse({}),
         network: networks.eth
       })
+      // TODO: add erc20 support to build
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
@@ -86,7 +96,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -144,11 +154,10 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.to(payload)
           break
         case 'amount':
-          const ethAmount = prop('coin', payload)
-          const weiAmount = Exchange.convertEtherToEther({
-            value: ethAmount,
-            fromUnit: 'ETH',
-            toUnit: 'WEI'
+          const coinCode = prop('coinCode', payload)
+          const weiAmount = Exchange.convertCoinToCoin({
+            value: prop('coin', payload),
+            coin: coinCode
           }).value
           payment = yield payment.amount(weiAmount)
           break
@@ -167,28 +176,38 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function*(action) {
     try {
+      const coinCode = prop('coin', action.payload)
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
-        .getOrFail('Can not retrieve currency.')
-      const ethRates = selectors.core.data.eth
-        .getRates(appState)
-        .getOrFail('Can not retrieve ethereum rates.')
-      const p = yield select(S.getPayment)
-      const payment = p.getOrElse({})
+        .getOrFail('Failed to get currency')
+      let rates, fiat
+      if (equals(coinCode, 'ETH')) {
+        rates = selectors.core.data.eth
+          .getRates(appState)
+          .getOrFail('Failed to get ETH rates')
+      } else {
+        const ratesR = yield select(
+          selectors.core.data.eth.getErc20Rates,
+          toLower(coinCode)
+        )
+        rates = ratesR.getOrFail(`Failed to get ${coinCode} rates`)
+      }
+      const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertEtherToEther({
+      const coin = Exchange.convertCoinToCoin({
         value: effectiveBalance,
-        fromUnit: 'WEI',
-        toUnit: 'ETH'
+        coin: coinCode,
+        baseToStandard: true
       }).value
-      const fiat = Exchange.convertEtherToFiat({
+      fiat = Exchange.convertCoinUnitToFiat({
+        coin: coinCode,
         value: effectiveBalance,
         fromUnit: 'WEI',
         toCurrency: currency,
-        rates: ethRates
+        rates: rates
       }).value
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
@@ -198,7 +217,8 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function*() {
+    // TODO: ERC20 Support
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
@@ -313,7 +333,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const regularFeeClicked = function * () {
+  const regularFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -326,7 +346,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const priorityFeeClicked = function * () {
+  const priorityFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -339,7 +359,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const minimumFeeClicked = function * () {
+  const minimumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -352,7 +372,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const toToggled = function * () {
+  const toToggled = function*() {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -360,7 +380,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumFeeClicked = function * () {
+  const maximumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})

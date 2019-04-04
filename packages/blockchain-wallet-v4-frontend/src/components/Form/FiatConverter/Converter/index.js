@@ -6,11 +6,13 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import Converter from './template'
 
 const convertFiatToCoin = (value, unit, currency, rates) => ({
+  coinCode: unit,
   coin: Exchange.convertFiatToCoin(value, unit, currency, rates),
   fiat: value
 })
 
 const convertCoinToFiat = (value, unit, currency, rates) => ({
+  coinCode: unit,
   coin: value,
   fiat: Exchange.convertCoinToFiat(value, unit, currency, rates)
 })
@@ -18,7 +20,7 @@ const convertCoinToFiat = (value, unit, currency, rates) => ({
 class ConverterContainer extends React.PureComponent {
   state = { coin: '', fiat: '' }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.value, prevState)) {
       return nextProps.value
     }
@@ -51,7 +53,7 @@ class ConverterContainer extends React.PureComponent {
     this.props.onFocus(this.state)
   }
 
-  render () {
+  render() {
     const { coin, fiat } = this.state
     const {
       disabled,
@@ -61,7 +63,7 @@ class ConverterContainer extends React.PureComponent {
       errorBottom,
       className
     } = this.props
-
+    console.info('FIAT', fiat)
     return (
       <Converter
         coin={coin}

@@ -331,6 +331,61 @@ const convertXlmToXlm = ({ value, fromUnit, toUnit }) => {
   )
 }
 
+const convertCoinUnitToFiat = ({
+  coin,
+  value,
+  fromUnit,
+  toCurrency,
+  rates
+}) => {
+  switch (coin) {
+    case 'BTC':
+      return transformBtcToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    case 'ETH':
+      return transformEtherToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    case 'PAX':
+      return transformPaxToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    case 'BCH':
+      return transformBchToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    case 'BSV':
+      return transformBsvToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    case 'XLM':
+      return transformXlmToFiat({
+        value,
+        fromUnit,
+        toCurrency,
+        rates
+      }).getOrElse(DefaultConversion)
+    default:
+      return 'Unsupported Coin Code'
+  }
+}
+
 const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
   switch (coin) {
     case 'BTC':
@@ -537,43 +592,43 @@ const convertCoinToFiat = (value, unit, currency, rates) => {
     case unit === 'BTC':
       return convertBtcToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     case unit === 'ETH':
       return convertEtherToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     case unit === 'PAX':
       return convertPaxToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     case unit === 'BCH':
       return convertBchToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     case unit === 'BSV':
       return convertBsvToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     case unit === 'XLM':
       return convertXlmToFiat({
         value,
-        fromCurrency: currency,
-        toUnit: unit,
+        toCurrency: currency,
+        fromUnit: unit,
         rates: rates
       }).value
     default:
@@ -624,5 +679,6 @@ export {
   displayXlmToXlm,
   displayCoinToFiat,
   displayFiatToFiat,
-  getSymbol
+  getSymbol,
+  convertCoinUnitToFiat
 }
