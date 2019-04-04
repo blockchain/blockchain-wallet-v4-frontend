@@ -8,12 +8,13 @@ import { model } from 'data'
 
 import {
   AmountHeader,
-  Delimiter,
   ExchangeText,
   ExchangeAmount,
+  ExchangeAmounts,
+  LargeTableRow,
   Note,
-  TableRow,
-  Title
+  Title,
+  Wrapper as BorderWrapper
 } from 'components/Exchange'
 import { OrderStatus, selectColor, OrderNote } from 'components/OrderStatus'
 import {
@@ -21,11 +22,25 @@ import {
   Link,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 
+const SummaryWrapper = styled(BorderWrapper)`
+  padding: 0;
+  width: 100%;
+  margin-bottom: 16px;
+`
+const SummaryNote = styled(Note)`
+  font-size: 13px;
+  line-height: auto;
+  margin-bottom: 24px;
+`
+const Header = styled(ModalHeader)`
+  padding: 20px 20px 0 0;
+  border-bottom: 0px;
+`
 const CoinIconTitle = styled(Title)`
   width: 100%;
   margin-bottom: 16px;
@@ -44,41 +59,33 @@ const CoinIconTitle = styled(Title)`
     z-index: 1;
   }
 `
-const ExchangeResultsFooter = styled(ModalFooter)`
-  > div {
-    justify-content: center;
-  }
-`
 const StatusCircle = styled.div`
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  margin-right: 10px;
-  background-color: ${props => props.theme[props.color]};
-`
-
-const ResultsHeader = styled(ModalHeader)`
-  .headerText {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: ${props => props.theme[props.color]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  &:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: ${props => props.theme[props.color]};
   }
 `
-
-const ResultAmountHeader = styled(AmountHeader)`
-  margin-bottom: 0;
-  margin-top: 8px;
+const MidTableRow = styled(LargeTableRow)`
+  min-height: auto;
 `
-
 const OrderRow = styled(AmountHeader)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   font-weight: 600;
   margin-bottom: 24px;
+  white-space: nowrap;
 `
-
+const SummaryExchangeAmount = styled(ExchangeAmount)`
+  justify-content: flex-end;
+`
 const StrikeThrough = styled.s`
   color: ${props => props.theme['brand-tertiary']};
 `
@@ -96,60 +103,54 @@ const {
   FINISHED
 } = STATES
 
-const getSourceMessage = (status, coin) => {
+const getSourceMessage = status => {
   switch (status) {
     case EXPIRED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.exchange'
-          defaultMessage='Exchange {coin}'
-          values={{ coin }}
+          id='modals.exchangeresults.exchangecoin'
+          defaultMessage='Exchange'
         />
       )
     case FINISHED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.deposited'
-          defaultMessage='{coin} Deposited'
-          values={{ coin }}
+          id='modals.exchangeresults.depositedcoin'
+          defaultMessage='Deposited'
         />
       )
     case REFUNDED:
     case PENDING_REFUND:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.broadcast'
-          defaultMessage='{coin} Broadcast'
-          values={{ coin }}
+          id='modals.exchangeresults.broadcastcoin'
+          defaultMessage='Broadcast'
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.exchange'
-          defaultMessage='Exchange {coin}'
-          values={{ coin }}
+          id='modals.exchangeresults.exchangecoin'
+          defaultMessage='Exchange'
         />
       )
   }
 }
 
-const getTargetMessage = (status, coin) => {
+const getTargetMessage = status => {
   switch (status) {
     case FINISHED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.received'
-          defaultMessage='{coin} Received'
-          values={{ coin }}
+          id='modals.exchangeresults.coinreceived'
+          defaultMessage='Received'
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.receive'
-          defaultMessage='Receive {coin}'
-          values={{ coin }}
+          id='modals.exchangeresults.receivecoin'
+          defaultMessage='Receive'
         />
       )
   }
@@ -174,7 +175,7 @@ const getRefundMessage = status => {
   }
 }
 
-const getButton = (status, close) => {
+const getButton = status => {
   switch (status) {
     case EXPIRED:
     case FAILED:
@@ -183,7 +184,7 @@ const getButton = (status, close) => {
           target='_blank'
           href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551'
         >
-          <Button nature='primary' size='13px' weight={300}>
+          <Button fullwidth height='56px' nature='primary' weight={300}>
             <FormattedMessage
               id='modals.exchangedetails.support'
               defaultMessage='Contact Support'
@@ -192,20 +193,7 @@ const getButton = (status, close) => {
         </Link>
       )
     default:
-      return (
-        <Button
-          data-e2e='exchangeResultsClose'
-          nature='primary'
-          size='13px'
-          weight={300}
-          onClick={close}
-        >
-          <FormattedMessage
-            id='modals.exchange.exchangeresults.close'
-            defaultMessage='Close'
-          />
-        </Button>
-      )
+      return null
   }
 }
 
@@ -228,130 +216,139 @@ export const ExchangeResults = ({
   withdrawalAmount,
   targetFiat,
   currency,
-  fee,
   rate,
   refundAmount
 }) => {
   const color = ifElse(equals('transferred'), always('brand-yellow'), identity)(
     selectColor(status)
   )
-  const headerColor = color === 'error' ? color : 'gray-5'
   return (
     <Modal size='small' position={position} total={total}>
-      <CoinIconTitle>
-        <Icon
-          size='42px'
-          color={sourceCoin.toLowerCase()}
-          name={sourceCoin.toLowerCase() + '-circle-filled'}
-        />
-        <Icon size='12px' name='thick-arrow-right' />
-        <Icon
-          size='42px'
-          color={targetCoin.toLowerCase()}
-          name={targetCoin.toLowerCase() + '-circle-filled'}
-        />
-      </CoinIconTitle>
-      <ResultsHeader onClose={close} color={headerColor}>
-        <StatusCircle color={color} />
-        <OrderStatus status={status} />
-      </ResultsHeader>
+      <Header onClose={close} />
       <ModalBody>
+        <CoinIconTitle>
+          <Icon
+            size='42px'
+            color={sourceCoin.toLowerCase()}
+            name={sourceCoin.toLowerCase() + '-circle-filled'}
+          />
+          <Icon size='12px' name='thick-arrow-right' />
+          <Icon
+            size='42px'
+            color={targetCoin.toLowerCase()}
+            name={targetCoin.toLowerCase() + '-circle-filled'}
+          />
+        </CoinIconTitle>
         {status !== FINISHED && (
-          <Note>
+          <SummaryNote>
             <OrderNote status={status} />
-          </Note>
+          </SummaryNote>
         )}
         <OrderRow>
-          <FormattedMessage
-            id='modals.exchangeresults.order'
-            defaultMessage='Order'
-          />
+          <Text weight={600}>
+            <FormattedMessage
+              id='modals.exchangeresults.orderid'
+              defaultMessage='Order ID'
+            />
+          </Text>
           {id}
         </OrderRow>
-        <ResultAmountHeader>
-          {getSourceMessage(status, sourceCoin)}
-        </ResultAmountHeader>
-        <ExchangeAmount data-e2e='exchangeResultsSourceValue'>
-          {`${depositAmount} ${sourceCoin}`}
-        </ExchangeAmount>
-        {!includes(status, [REFUNDED, PENDING_REFUND]) && (
-          <React.Fragment>
-            <ResultAmountHeader>
-              {getTargetMessage(status, targetCoin)}
-            </ResultAmountHeader>
-            <ExchangeAmount data-e2e='exchangeResultsTargetValue'>
-              {getTargetAmount(withdrawalAmount, targetCoin, status)}
-            </ExchangeAmount>
-          </React.Fragment>
-        )}
-        <Delimiter />
-        {includes(status, [
-          FINISHED,
-          PENDING_DEPOSIT,
-          PENDING_EXECUTION,
-          PENDING_WITHDRAWAL,
-          FINISHED_DEPOSIT
-        ]) && (
-          <TableRow>
+        <SummaryWrapper>
+          <LargeTableRow>
             <ExchangeText>
               <FormattedMessage
-                id='modals.exchangeresults.value'
-                defaultMessage='Total Value'
+                id='modals.exchangeresults.status'
+                defaultMessage='Status'
               />
-              {status === FINISHED && (
-                <React.Fragment>
-                  &nbsp;
-                  <FormattedMessage
-                    id='modals.exchangeresults.valuenotcie'
-                    defaultMessage='(when exchanged)'
-                  />
-                </React.Fragment>
-              )}
             </ExchangeText>
-            <ExchangeText weight={300}>{`${
-              status === FINISHED ? '' : '~'
-            } ${targetFiat} ${currency}`}</ExchangeText>
-          </TableRow>
-        )}
-        <TableRow>
-          <ExchangeText>
-            <FormattedMessage
-              id='modals.exchangeresults.fee'
-              defaultMessage='Network Fee'
-            />
-          </ExchangeText>
-          <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
-        </TableRow>
-        {rate &&
-          includes(status, [
+            <SummaryExchangeAmount color='gray-5'>
+              <StatusCircle color={color} marginRight='4px' />
+              <OrderStatus status={status} />
+            </SummaryExchangeAmount>
+          </LargeTableRow>
+          <LargeTableRow>
+            <ExchangeText>{getSourceMessage(status)}</ExchangeText>
+            <ExchangeAmounts>
+              <SummaryExchangeAmount
+                color='gray-5'
+                data-e2e='exchangeResultsSourceValue'
+              >
+                {`${depositAmount} ${sourceCoin}`}
+              </SummaryExchangeAmount>
+            </ExchangeAmounts>
+          </LargeTableRow>
+          {!includes(status, [REFUNDED, PENDING_REFUND]) && (
+            <LargeTableRow>
+              <ExchangeText>{getTargetMessage(status)}</ExchangeText>
+              <ExchangeAmounts>
+                <SummaryExchangeAmount
+                  color='gray-5'
+                  data-e2e='exchangeResultsTargetValue'
+                >
+                  {getTargetAmount(withdrawalAmount, targetCoin, status)}
+                </SummaryExchangeAmount>
+              </ExchangeAmounts>
+            </LargeTableRow>
+          )}
+          {includes(status, [
             FINISHED,
             PENDING_DEPOSIT,
             PENDING_EXECUTION,
             PENDING_WITHDRAWAL,
             FINISHED_DEPOSIT
           ]) && (
-            <TableRow>
+            <MidTableRow>
               <ExchangeText>
                 <FormattedMessage
-                  id='modals.exchangeresults.rate'
-                  defaultMessage='Exchange rate'
+                  id='modals.exchangeresults.value'
+                  defaultMessage='Total Value'
                 />
+                {status === FINISHED && (
+                  <React.Fragment>
+                    &nbsp;
+                    <FormattedMessage
+                      id='modals.exchangeresults.valuenotcie'
+                      defaultMessage='(when exchanged)'
+                    />
+                  </React.Fragment>
+                )}
               </ExchangeText>
-              <ExchangeText
-                weight={300}
-              >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
-            </TableRow>
+              <ExchangeText weight={300}>{`${
+                status === FINISHED ? '' : '~'
+              } ${targetFiat} ${currency}`}</ExchangeText>
+            </MidTableRow>
           )}
-        {includes(status, [REFUNDED, PENDING_REFUND]) && (
-          <TableRow>
-            <ExchangeText>{getRefundMessage(status)}</ExchangeText>
-            <ExchangeText weight={300}>{`${
-              status === REFUNDED ? '' : '~'
-            } ${refundAmount}`}</ExchangeText>
-          </TableRow>
-        )}
+          {rate &&
+            includes(status, [
+              FINISHED,
+              PENDING_DEPOSIT,
+              PENDING_EXECUTION,
+              PENDING_WITHDRAWAL,
+              FINISHED_DEPOSIT
+            ]) && (
+              <MidTableRow>
+                <ExchangeText>
+                  <FormattedMessage
+                    id='modals.exchangeresults.rate'
+                    defaultMessage='Exchange rate'
+                  />
+                </ExchangeText>
+                <ExchangeText
+                  weight={300}
+                >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
+              </MidTableRow>
+            )}
+          {includes(status, [REFUNDED, PENDING_REFUND]) && (
+            <MidTableRow>
+              <ExchangeText>{getRefundMessage(status)}</ExchangeText>
+              <ExchangeText weight={300}>{`${
+                status === REFUNDED ? '' : '~'
+              } ${refundAmount}`}</ExchangeText>
+            </MidTableRow>
+          )}
+        </SummaryWrapper>
+        {getButton(status)}
       </ModalBody>
-      <ExchangeResultsFooter>{getButton(status, close)}</ExchangeResultsFooter>
     </Modal>
   )
 }
