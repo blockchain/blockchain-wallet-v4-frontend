@@ -183,6 +183,7 @@ export default ({ coreSagas, networks }) => {
           .create({ network: networks.eth })
           .chain()
           .amount(amount)
+          .fees(fees)
         break
       case 'XLM':
         payment = coreSagas.payment.xlm
