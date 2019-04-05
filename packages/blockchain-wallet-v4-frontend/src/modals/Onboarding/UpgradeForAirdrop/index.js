@@ -62,6 +62,10 @@ const LaterButton = styled(FooterButton)`
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
+  componentDidMount () {
+    this.props.preferencesActions.hideUpgradeForAirdropModal()
+  }
+
   render () {
     const { campaign, position, total, close, actions } = this.props
     return (
@@ -84,8 +88,8 @@ class UpgradeForAirdrop extends React.PureComponent {
           </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.upgradeforairdrop.completeprofileforairdrop'
-              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get $25 of free {coinName} ({coinCode}).'
+              id='modals.upgradeforairdrop.completeprofileforairdropfree'
+              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).'
               values={{
                 coinName: prop('coinName', CAMPAIGNS[campaign]),
                 coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -128,7 +132,8 @@ UpgradeForAirdrop.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(

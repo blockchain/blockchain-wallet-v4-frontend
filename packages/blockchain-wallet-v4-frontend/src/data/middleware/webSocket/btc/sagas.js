@@ -56,12 +56,12 @@ export default ({ api, btcSocket }) => {
           const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
           if (oldChecksum !== newChecksum) {
             yield call(refreshWrapper)
-            yield put(actions.core.data.bitcoin.fetchData())
+            yield put(actions.core.data.btc.fetchData())
           }
           break
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
-          const context = yield select(selectors.core.data.bitcoin.getContext)
+          const context = yield select(selectors.core.data.btc.getContext)
           const data = yield call(api.fetchBlockchainData, context, {
             n: 50,
             offset: 0
@@ -77,7 +77,7 @@ export default ({ api, btcSocket }) => {
             }
           }
           // Refresh data
-          yield put(actions.core.data.bitcoin.fetchData())
+          yield put(actions.core.data.btc.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
@@ -88,15 +88,13 @@ export default ({ api, btcSocket }) => {
             const onlyShow = equals(source, 'all')
               ? ''
               : prop('xpub', source) || prop('address', source)
-            yield put(
-              actions.core.data.bitcoin.fetchTransactions(onlyShow, true)
-            )
+            yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
           }
           break
         case 'block':
           const newBlock = message.x
           yield put(
-            actions.core.data.bitcoin.setBitcoinLatestBlock(
+            actions.core.data.btc.setBtcLatestBlock(
               newBlock.blockIndex,
               newBlock.hash,
               newBlock.height,

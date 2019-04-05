@@ -8,8 +8,8 @@ import styled from 'styled-components'
 import { model } from 'data'
 import {
   required,
-  validBitcoinAddress,
-  validBitcoinPrivateKey
+  validBtcAddress,
+  validBtcPrivateKey
 } from 'services/FormHelper'
 import {
   Banner,
@@ -136,7 +136,7 @@ const FirstStep = props => {
                 component={TextBox}
                 validate={[
                   required,
-                  validBitcoinPrivateKey,
+                  validBtcPrivateKey,
                   isAddressDerivedFromPriv
                 ]}
                 autoFocus
@@ -197,7 +197,7 @@ const FirstStep = props => {
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
                 normalize={removeWhitespace}
-                validate={[required, validBitcoinAddress]}
+                validate={[required, validBtcAddress]}
                 data-e2e='sendBtcAddressTextBox'
               />
             )}
@@ -209,11 +209,17 @@ const FirstStep = props => {
             />
             {enableToggle ? (
               !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
+                <AddressButton
+                  onClick={() => handleToToggle()}
+                  data-e2e='downArrowButton'
+                >
                   <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
               ) : (
-                <AddressButton onClick={() => handleToToggle()}>
+                <AddressButton
+                  onClick={() => handleToToggle()}
+                  data-e2e='pencilArrowButton'
+                >
                   <Icon name='pencil' size='13px' cursor />
                 </AddressButton>
               )

@@ -27,10 +27,7 @@ describe('ListItemContainer', () => {
         <ListItemContainer transaction={tx} coin='ETH' store={store} />
       )
       const instance = component.dive().instance()
-      const spy = jest.spyOn(
-        instance.props.ethereumActions,
-        'setTxNotesEthereum'
-      )
+      const spy = jest.spyOn(instance.props.ethActions, 'setTxNotesEth')
       instance.handleEditDescription()
       expect(spy).toHaveBeenCalled()
     })

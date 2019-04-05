@@ -3,32 +3,43 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { calculateStart, calculateInterval } from 'services/ChartService'
-import { getConfig } from './services'
+import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  svg {
+  * {
     font-family: 'Montserrat', Helvetica, sans-serif !important;
+  }
+  svg {
     .highcharts-background {
       fill: ${props => props.theme['white']} !important;
     }
-    .highcharts-axis-labels {
-      text {
-        font-size: 11px;
-        fill: ${props => props.theme['gray-5']} !important;
-      }
+  }
+  .highcharts-tooltip span {
+    padding: 0px 2px 2px 2px;
+    > span:first-child {
+      font-weight: 300;
     }
-    .highcharts-tooltip {
-      text {
-        font-size: 12px;
-        fill: ${props => props.theme['gray-5']} !important;
-      }
-    }
-    .highcharts-series {
-      path:first-child {
-        font-size: 12px;
-        stroke: ${props => props.theme['brand-secondary']} !important;
-      }
+  }
+  .highcharts-container,
+  .highcharts-root {
+    overflow: visible !important;
+  }
+  .min-max {
+    opacity: 1;
+    padding: 4px 6px;
+    border-radius: 4px;
+    color: ${props => props.theme['white']};
+    background: ${props => props.theme[props.coin.toLowerCase()]};
+    transition: opacity 0.3s;
+  }
+  &:hover {
+    .min-max {
+      opacity: 0;
+      transition: opacity 0.3s 0.3s;
     }
   }
 `
@@ -40,14 +51,25 @@ class Chart extends React.PureComponent {
     const decimals = coin === 'XLM' ? 4 : 2
     const start = calculateStart(coin, time)
     const interval = calculateInterval(coin, time)
-    const config = getConfig(start, interval, currency, data, decimals)
-    this.state = { start, interval, config }
+    const config = getConfig(start, interval, coin, currency, data, decimals)
+    this.state = { config, start, interval, decimals }
+  }
+
+  handleCallback = chart => {
+    const { currency, data } = this.props
+    const { decimals } = this.state
+
+    renderMinMax(chart, { currency, data, decimals })
   }
 
   render () {
     return (
-      <Wrapper>
-        <ReactHighcharts config={this.state.config} isPureConfig />
+      <Wrapper coin={this.props.coin}>
+        <ReactHighcharts
+          config={this.state.config}
+          callback={this.handleCallback}
+          isPureConfig
+        />
       </Wrapper>
     )
   }

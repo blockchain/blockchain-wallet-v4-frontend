@@ -80,8 +80,8 @@ export const AirdropReminderBanner = ({
     <Column>
       <LargeText>
         <FormattedMessage
-          defaultMessage='Complete your profile today and we will airdrop $25 of free {coinName} ({coinCode}) in your Wallet.'
-          id='scenes.home.banners.airdrop.completeprofile'
+          defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
+          id='scenes.home.banners.airdrop.completeprofilefreecoin'
           values={{
             coinName: prop('coinName', CAMPAIGNS[campaign]),
             coinCode: prop('coinCode', CAMPAIGNS[campaign])

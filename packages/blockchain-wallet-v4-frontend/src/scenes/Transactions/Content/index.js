@@ -40,6 +40,7 @@ class ContentContainer extends React.PureComponent {
   }
 
   handleArchive = address =>
+    this.props.coreWalletActions &&
     this.props.coreWalletActions.setAddressArchived(address, true)
 
   render () {
@@ -71,7 +72,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   switch (ownProps.coin) {
     case 'BTC':
       return {
-        dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+        dataActions: bindActionCreators(actions.core.data.btc, dispatch),
         txActions: bindActionCreators(
           actions.components.btcTransactions,
           dispatch
@@ -96,7 +97,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
     case 'ETH':
       return {
-        dataActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+        dataActions: bindActionCreators(actions.core.data.eth, dispatch),
         txActions: bindActionCreators(
           actions.components.ethTransactions,
           dispatch

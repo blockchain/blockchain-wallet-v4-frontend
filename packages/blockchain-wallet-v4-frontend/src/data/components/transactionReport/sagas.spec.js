@@ -54,7 +54,7 @@ describe('transactionReport sagas', () => {
     let saga = testSaga(destroyed)
 
     it('should clear btc tx history', () => {
-      saga.next().put(actions.core.data.bitcoin.clearTransactionHistory())
+      saga.next().put(actions.core.data.btc.clearTransactionHistory())
     })
 
     it('should clear bch tx history', () => {
@@ -102,7 +102,7 @@ describe('transactionReport sagas', () => {
       saga
         .next(MOCK_FORM_VALUES)
         .put(
-          actions.core.data.bitcoin.fetchTransactionHistory(
+          actions.core.data.btc.fetchTransactionHistory(
             MOCK_FORM_VALUES.from.address,
             START_DATE,
             END_DATE
@@ -126,7 +126,7 @@ describe('transactionReport sagas', () => {
       saga
         .next(MOCK_FORM_VALUES)
         .put(
-          actions.core.data.bitcoin.fetchTransactionHistory(
+          actions.core.data.btc.fetchTransactionHistory(
             MOCK_FORM_VALUES.from.address,
             START_DATE,
             END_DATE

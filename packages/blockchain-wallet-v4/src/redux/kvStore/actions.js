@@ -1,5 +1,5 @@
 import * as whatsNew from './whatsNew/actions'
-import * as ethereum from './eth/actions'
+import * as eth from './eth/actions'
 import * as shapeShift from './shapeShift/actions'
 import * as buySell from './buySell/actions'
 import * as contacts from './contacts/actions'
@@ -14,7 +14,7 @@ import * as xlm from './xlm/actions'
 export {
   root,
   whatsNew,
-  ethereum,
+  eth,
   shapeShift,
   buySell,
   contacts,

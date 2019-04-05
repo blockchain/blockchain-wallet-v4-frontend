@@ -6,9 +6,11 @@ import styled from 'styled-components'
 import { defaultTo, replace } from 'ramda'
 
 import {
+  ageOverEighteen,
+  countryUsesZipcode,
+  countryUsesPostalcode,
   required,
   requiredDOB,
-  ageOverEighteen,
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
@@ -144,7 +146,6 @@ const DOBToObject = value => {
     year
   }
 }
-const countryUsesZipcode = code => code === 'US'
 
 const Personal = ({
   invalid,
@@ -164,12 +165,16 @@ const Personal = ({
   activeFieldError,
   onCountrySelect,
   onStateSelect,
+  onFieldBlur,
   onPromptForEmailVerification,
   handleSubmit,
   sendEmailVerification,
   editEmail,
   updateEmail
 }) => {
+  const countryUsesZipOrPostcode =
+    countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
+
   return (
     <IdentityVerificationForm
       activeFieldError={activeFieldError}
@@ -219,6 +224,7 @@ const Personal = ({
                             verificationSent={emailStep === EMAIL_STEPS.verify}
                             verified={emailVerified}
                             onVerificationSend={sendEmailVerification}
+                            onBlur={() => onFieldBlur('email')}
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
@@ -233,8 +239,8 @@ const Personal = ({
                       <FormItem>
                         <Label htmlFor='country'>
                           <FormattedMessage
-                            id='identityverification.personal.country'
-                            defaultMessage='Select your country of residence'
+                            id='identityverification.personal.countryrequired'
+                            defaultMessage='Country *'
                           />
                         </Label>
                         <Field
@@ -244,6 +250,7 @@ const Personal = ({
                           component={SelectBox}
                           menuPlacement='auto'
                           onChange={onCountrySelect}
+                          onBlur={() => onFieldBlur('country')}
                           label={
                             <FormattedMessage
                               id='components.selectboxcountry.label'
@@ -258,8 +265,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='state'>
                             <FormattedMessage
-                              id='identityverification.personal.state'
-                              defaultMessage='State'
+                              id='identityverification.personal.staterequired'
+                              defaultMessage='State *'
                             />
                           </Label>
                           <Field
@@ -269,6 +276,7 @@ const Personal = ({
                             component={SelectBox}
                             menuPlacement='auto'
                             onChange={onStateSelect}
+                            onBlur={() => onFieldBlur('state')}
                             label={
                               <FormattedMessage
                                 id='identityverification.personal.label.state'
@@ -299,28 +307,30 @@ const Personal = ({
                             <PersonalField>
                               <Label htmlFor='firstName'>
                                 <FormattedMessage
-                                  id='identityverification.personal.firstname'
-                                  defaultMessage='First Name'
+                                  id='identityverification.personal.firstnamerequired'
+                                  defaultMessage='First Name *'
                                 />
                               </Label>
                               <Field
                                 name='firstName'
                                 validate={required}
                                 component={TextBox}
+                                onBlur={() => onFieldBlur('firstName')}
                                 errorBottom
                               />
                             </PersonalField>
                             <PersonalField>
                               <Label htmlFor='lastName'>
                                 <FormattedMessage
-                                  id='identityverification.personal.lastname'
-                                  defaultMessage='Last Name'
+                                  id='identityverification.personal.lastnamerequired'
+                                  defaultMessage='Last Name *'
                                 />
                               </Label>
                               <Field
                                 name='lastName'
                                 validate={required}
                                 component={TextBox}
+                                onBlur={() => onFieldBlur('lastName')}
                                 errorBottom
                               />
                             </PersonalField>
@@ -353,8 +363,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='dob'>
                             <FormattedMessage
-                              id='identityverification.personal.dateofbirth'
-                              defaultMessage='Date of Birth'
+                              id='identityverification.personal.dateofbirthrequired'
+                              defaultMessage='Date of Birth *'
                             />
                           </Label>
                           <Field
@@ -367,6 +377,7 @@ const Personal = ({
                             countryIsUS={countryIsUS}
                             parse={objectToDOB}
                             format={DOBToObject}
+                            onBlur={() => onFieldBlur('dob')}
                           />
                         </FormItem>
                         {activeField === 'dob' && !mobile && !tablet && (
@@ -396,13 +407,13 @@ const Personal = ({
                             <Label htmlFor='line1'>
                               {countryIsUS ? (
                                 <FormattedMessage
-                                  id='identityverification.personal.address_line1'
-                                  defaultMessage='Address Line 1'
+                                  id='identityverification.personal.address_line1required'
+                                  defaultMessage='Address Line 1 *'
                                 />
                               ) : (
                                 <FormattedMessage
-                                  id='identityverification.personal.streetline1'
-                                  defaultMessage='Street Line 1'
+                                  id='identityverification.personal.streetline1required'
+                                  defaultMessage='Street Line 1 *'
                                 />
                               )}
                             </Label>
@@ -411,6 +422,7 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
+                              onBlur={() => onFieldBlur('line1')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -433,6 +445,7 @@ const Personal = ({
                               name='line2'
                               errorBottom
                               component={TextBox}
+                              onBlur={() => onFieldBlur('line2')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -440,8 +453,8 @@ const Personal = ({
                           <FormItem>
                             <Label htmlFor='city'>
                               <FormattedMessage
-                                id='identityverification.personal.city'
-                                defaultMessage='City'
+                                id='identityverification.personal.cityrequired'
+                                defaultMessage='City *'
                               />
                             </Label>
                             <Field
@@ -449,31 +462,54 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
+                              onBlur={() => onFieldBlur('city')}
                             />
                           </FormItem>
                         </FaqFormGroup>
                         <FaqFormGroup>
-                          <FormItem>
-                            <Label htmlFor='postCode'>
-                              {countryUsesZipcode(countryCode) ? (
-                                <FormattedMessage
-                                  id='identityverification.personal.zipcode'
-                                  defaultMessage='Zip Code'
+                          <PersonalItem>
+                            {!countryIsUS && (
+                              <PersonalField>
+                                <Label htmlFor='state'>
+                                  <FormattedMessage
+                                    id='identityverification.personal.region'
+                                    defaultMessage='Region'
+                                  />
+                                </Label>
+                                <Field
+                                  name='state'
+                                  errorBottom
+                                  countryCode={countryCode}
+                                  onBlur={() => onFieldBlur('state')}
+                                  component={TextBox}
                                 />
-                              ) : (
-                                <FormattedMessage
-                                  id='identityverification.personal.postcode'
-                                  defaultMessage='Postcode'
+                              </PersonalField>
+                            )}
+                            {countryUsesZipOrPostcode && (
+                              <PersonalField>
+                                <Label htmlFor='postCode'>
+                                  {countryUsesZipcode(countryCode) ? (
+                                    <FormattedMessage
+                                      id='identityverification.personal.zip'
+                                      defaultMessage='Zip Code *'
+                                    />
+                                  ) : (
+                                    <FormattedMessage
+                                      id='identityverification.personal.postcoderequired'
+                                      defaultMessage='Postcode *'
+                                    />
+                                  )}
+                                </Label>
+                                <Field
+                                  name='postCode'
+                                  onBlur={() => onFieldBlur('postCode')}
+                                  errorBottom
+                                  validate={requiredZipCode}
+                                  component={TextBox}
                                 />
-                              )}
-                            </Label>
-                            <Field
-                              name='postCode'
-                              errorBottom
-                              validate={requiredZipCode}
-                              component={TextBox}
-                            />
-                          </FormItem>
+                              </PersonalField>
+                            )}
+                          </PersonalItem>
                         </FaqFormGroup>
                       </AddressWrapper>
                     )}

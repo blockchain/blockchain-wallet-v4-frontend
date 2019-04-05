@@ -12,7 +12,7 @@ export default () => {
         search: ''
       }
       yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
-      yield put(actions.core.data.ethereum.fetchTransactions(null, true))
+      yield put(actions.core.data.eth.fetchTransactions(null, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -20,7 +20,7 @@ export default () => {
 
   const loadMore = function * () {
     try {
-      yield put(actions.core.data.ethereum.fetchTransactions())
+      yield put(actions.core.data.eth.fetchTransactions())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
@@ -33,7 +33,7 @@ export default () => {
       if (!equals(WALLET_TX_SEARCH, form)) return
       switch (field) {
         case 'source':
-          yield put(actions.core.data.ethereum.fetchTransactions())
+          yield put(actions.core.data.eth.fetchTransactions())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

@@ -28,6 +28,7 @@ import {
   fromPrivateKey,
   fromLockbox
 } from './utils'
+import { FETCH_FEES_FAILURE } from '../model'
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -43,14 +44,12 @@ export const taskToPromise = t =>
       .chain().fee(myFee).amount(myAmount).done()
 */
 
-const fallbackFees = { limits: { min: 2, max: 16 }, regular: 5, priority: 11 }
-
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const __pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
+  const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
     api
-      .getBitcoinUnspents(fromData.from, -1)
+      .getBtcUnspents(fromData.from, -1)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
@@ -261,7 +260,7 @@ export default ({ api }) => {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(__pushBitcoinTx(txHex)))
+    return yield call(() => taskToPromise(__pushBtcTx(txHex)))
   }
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -271,13 +270,12 @@ export default ({ api }) => {
       },
 
       * init () {
-        let fees
         try {
-          fees = yield call(api.getBitcoinFee)
+          let fees = yield call(api.getBtcFees)
+          return makePayment(merge(p, { fees }))
         } catch (e) {
-          fees = fallbackFees
+          throw new Error(FETCH_FEES_FAILURE)
         }
-        return makePayment(merge(p, { fees }))
       },
 
       * to (destinations, type) {
@@ -398,6 +396,6 @@ export default ({ api }) => {
     __calculateSignature,
     __calculateSweepSelection,
     __getWalletUnspent,
-    __pushBitcoinTx
+    __pushBtcTx
   }
 }

@@ -9,7 +9,8 @@ import { RatesBox } from './RatesBox'
 const props = {
   sourceCoin: 'BTC',
   targetCoin: 'ETH',
-  currency: '$'
+  currency: '$',
+  balance: Remote.of({ balanceMax: {}, balanceMaxFiat: '$1000.00' })
 }
 
 const STUB_RATE = 100
@@ -23,28 +24,15 @@ const rateValues = {
 
 describe('Exchange RatesBox', () => {
   forEachObjIndexed(
-    (sourceToTargetRate, sourceToTargetRateIndex) =>
-      forEachObjIndexed(
-        (sourceToFiatRate, sourceToFiatRateIndex) =>
-          forEachObjIndexed(
-            (targetToFiatRate, targetToFiatRateIndex) =>
-              it(`should render correct rates for sourceToTargetRate ${sourceToTargetRateIndex}, sourceToFiatRate ${sourceToFiatRateIndex}, targetToFiatRate ${targetToFiatRateIndex}`, () => {
-                const component = shallow(
-                  <RatesBox
-                    {...props}
-                    sourceToTargetRate={sourceToTargetRate}
-                    sourceToFiatRate={sourceToFiatRate}
-                    targetToFiatRate={targetToFiatRate}
-                  />
-                )
+    sourceToTargetRate =>
+      it('should render correct rates for sourceToTarget', () => {
+        const component = shallow(
+          <RatesBox {...props} sourceToTargetRate={sourceToTargetRate} />
+        )
 
-                const tree = toJson(component)
-                expect(tree).toMatchSnapshot()
-              }),
-            rateValues
-          ),
-        rateValues
-      ),
+        const tree = toJson(component)
+        expect(tree).toMatchSnapshot()
+      }),
     rateValues
   )
 })

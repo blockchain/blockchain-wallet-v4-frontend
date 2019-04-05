@@ -3,9 +3,9 @@ import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 
 export const getData = (state, ownProps) => {
   const { receiveAddress } = ownProps
-  const amount = formValueSelector('requestBitcoin')(state, 'amount')
-  const message = formValueSelector('requestBitcoin')(state, 'message')
-  const satoshis = Exchange.convertBitcoinToBitcoin({
+  const amount = formValueSelector('requestBtc')(state, 'amount')
+  const message = formValueSelector('requestBtc')(state, 'message')
+  const satoshis = Exchange.convertBtcToBtc({
     value: amount.coin,
     fromUnit: 'BTC',
     toUnit: 'SAT'

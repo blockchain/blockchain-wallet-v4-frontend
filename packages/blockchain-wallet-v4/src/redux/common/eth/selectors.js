@@ -38,5 +38,4 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state =>
-  state.dataPath.ethereum.transactions
+export const getWalletTransactions = state => state.dataPath.eth.transactions

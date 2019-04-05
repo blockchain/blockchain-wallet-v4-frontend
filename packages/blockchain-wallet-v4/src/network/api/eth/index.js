@@ -1,11 +1,11 @@
-export default ({ rootUrl, apiUrl, get, post }) => {
+export default ({ apiUrl, get, post }) => {
   const checkContract = address =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${address}/isContract`
     })
 
-  const getEthereumBalances = context =>
+  const getEthBalances = context =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
@@ -13,7 +13,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }/balance`
     })
 
-  const getEthereumData = context =>
+  const getEthData = context =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
@@ -21,7 +21,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }`
     })
 
-  const getEthereumTransactions = (context, page = 0) =>
+  const getEthTransactions = (context, page = 0) =>
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
@@ -30,32 +30,32 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { page }
     })
 
-  const getEthereumFee = () =>
+  const getEthFees = () =>
     get({
       url: apiUrl,
       endPoint: '/mempool/fees/eth'
     })
 
-  const getEthereumLatestBlock = () =>
+  const getEthLatestBlock = () =>
     get({
       url: apiUrl,
       endPoint: '/eth/latestblock'
     })
 
-  const getEthereumTicker = () =>
+  const getEthTicker = () =>
     get({
       url: apiUrl,
       endPoint: '/ticker',
       data: { base: 'ETH' }
     })
 
-  const getEthereumTransaction = hash =>
+  const getEthTransaction = hash =>
     get({
       url: apiUrl,
       endPoint: `/eth/tx/${hash}`
     })
 
-  const pushEthereumTx = rawTx =>
+  const pushEthTx = rawTx =>
     post({
       url: apiUrl,
       endPoint: '/eth/pushtx',
@@ -65,13 +65,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   return {
     checkContract,
-    getEthereumBalances,
-    getEthereumData,
-    getEthereumFee,
-    getEthereumLatestBlock,
-    getEthereumTicker,
-    getEthereumTransaction,
-    getEthereumTransactions,
-    pushEthereumTx
+    getEthBalances,
+    getEthData,
+    getEthFees,
+    getEthLatestBlock,
+    getEthTicker,
+    getEthTransaction,
+    getEthTransactions,
+    pushEthTx
   }
 }

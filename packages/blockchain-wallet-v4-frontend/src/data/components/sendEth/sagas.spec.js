@@ -312,32 +312,26 @@ describe('sendEth sagas', () => {
     it('should update latest transaction time', () => {
       saga
         .next()
-        .put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-        )
+        .put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
     })
 
     it('should wait until fetch metadata success action is published', () => {
-      saga
-        .next()
-        .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
+      saga.next().take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
     })
 
     it('should update latest transaction', () => {
       saga
         .next(paymentMock)
-        .put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
+        .put(actions.core.kvStore.eth.setLatestTxEth(txId))
         .save(beforeError)
     })
 
     it('should set transaction note if payment has description', () => {
       saga
         .next()
-        .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
+        .take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         .next()
-        .put(
-          actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
-        )
+        .put(actions.core.kvStore.eth.setTxNotesEth(txId, description))
     })
 
     it('should route to eth tx list', () => {
@@ -387,6 +381,18 @@ describe('sendEth sagas', () => {
               'secondStepSubmitClicked',
               error
             )
+          )
+      })
+
+      it('should log SEND_FAILURE event', () => {
+        saga
+          .next()
+          .put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.SEND_FAILURE,
+              'ETH',
+              error
+            ])
           )
       })
 

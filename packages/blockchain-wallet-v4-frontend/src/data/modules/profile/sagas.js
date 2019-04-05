@@ -165,7 +165,15 @@ export default ({ api, coreSagas }) => {
   const generateRetailToken = function * () {
     const guid = yield select(selectors.core.wallet.getGuid)
     const sharedKey = yield select(selectors.core.wallet.getSharedKey)
-    const { token } = yield call(api.generateRetailToken, guid, sharedKey)
+    const coinifyId = (yield select(
+      selectors.core.kvStore.buySell.getCoinifyUser
+    )).getOrElse(null)
+    const { token } = yield call(
+      api.generateRetailToken,
+      guid,
+      sharedKey,
+      coinifyId
+    )
     return token
   }
 

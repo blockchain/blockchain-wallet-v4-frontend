@@ -339,7 +339,7 @@ describe('sendBtc sagas', () => {
     })
 
     it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+      saga.next(paymentMock).put(actions.core.data.btc.fetchData())
     })
 
     it('should put btc payment updated success action', () => {
@@ -402,6 +402,18 @@ describe('sendBtc sagas', () => {
               'secondStepSubmitClicked',
               error
             )
+          )
+      })
+
+      it('should log SEND_FAILURE event', () => {
+        saga
+          .next()
+          .put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.SEND_FAILURE,
+              'BTC',
+              error
+            ])
           )
       })
 

@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   margin-top: 15px;
+  border-radius: 4px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
   @media (max-height: 800px), (max-width: 992px) {

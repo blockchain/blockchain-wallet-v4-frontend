@@ -141,7 +141,6 @@ export const MinimumAmountMessage = () => (
 export const MaximumAmountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error' data-e2e='exchangeAboveMax'>
-      >
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.maximumamount'
         defaultMessage='Amount is above maximum.'

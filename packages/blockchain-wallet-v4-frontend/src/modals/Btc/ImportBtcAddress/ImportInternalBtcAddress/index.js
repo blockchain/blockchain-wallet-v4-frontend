@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   margin-top: 15px;
 `
 
-class ImportInternalBitcoinAddress extends React.PureComponent {
+class ImportInternalBtcAddress extends React.PureComponent {
   render () {
     return (
       <Wrapper>
@@ -22,4 +22,4 @@ class ImportInternalBitcoinAddress extends React.PureComponent {
   }
 }
 
-export default ImportInternalBitcoinAddress
+export default ImportInternalBtcAddress

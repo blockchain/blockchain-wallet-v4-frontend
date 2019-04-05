@@ -29,14 +29,14 @@ import { actions, actionTypes, selectors, model } from 'data'
 import {
   EXCHANGE_FORM,
   CONFIRM_FORM,
+  CONFIRM_MODAL,
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
   MISSING_DEVICE_ERROR,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
   getTargetCoinsPairedToSource,
-  getSourceCoinsPairedToTarget,
-  EXCHANGE_STEPS
+  getSourceCoinsPairedToTarget
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -54,6 +54,7 @@ import {
   addBalanceLimit,
   selectFee,
   convertStandardToBase,
+  convertSourceToFiat,
   convertSourceToTarget,
   convertBaseToStandard,
   formatLimits
@@ -61,6 +62,7 @@ import {
 
 export const logLocation = 'exchange/sagas'
 export const renewLimitsDelay = 30 * 1000
+const fallbackSourceFees = { source: 0, target: 0, mempoolFees: {} }
 
 let renewLimitsTask = null
 export default ({ api, coreSagas, networks }) => {
@@ -309,6 +311,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const form = yield select(formValueSelector)
       const provisionalPayment = yield call(getProvisionalPayment)
+      const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
       const fee = convertBaseToStandard(
         sourceCoin,
@@ -318,16 +321,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.setSourceFee({
           source: fee,
-          target: convertSourceToTarget(form, rates, fee)
+          mempoolFees: provisionalPayment.fees,
+          target: convertSourceToTarget(form, rates, fee),
+          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
         })
       )
     } catch (e) {
-      yield put(
-        A.setSourceFee({
-          source: 0,
-          target: 0
-        })
-      )
+      yield put(A.setSourceFee(fallbackSourceFees))
     }
   }
 
@@ -427,6 +427,8 @@ export default ({ api, coreSagas, networks }) => {
     const form = yield select(formValueSelector)
     const sourceCoin = path(['source', 'coin'], form)
     const targetCoin = path(['target', 'coin'], form)
+    if (!sourceCoin || !targetCoin) return
+
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(
       changeAdviceSubscription,
@@ -590,12 +592,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(changeSubscription)
       yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(updateMinMax)
-      yield put(
-        actions.analytics.logEvent([
-          ...SWAP_EVENTS.FIXTURES_CHANGED,
-          `${fix} ${pair} ${newInputField}`
-        ])
-      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeFix', e))
     }
@@ -643,7 +639,8 @@ export default ({ api, coreSagas, networks }) => {
     if (txError) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
-      yield put(A.setStep(EXCHANGE_STEPS.CONFIRM))
+      // yield put(actions.router.replace('/swap', {}))
+      yield put(actions.modals.showModal(CONFIRM_MODAL))
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW))
     }
   }
@@ -689,7 +686,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const depositFunds = function * (trade, source, depositCredentials) {
+  const depositFunds = function * (trade, source, fees, depositCredentials) {
     let txId = null
     try {
       const {
@@ -704,6 +701,7 @@ export default ({ api, coreSagas, networks }) => {
         depositAddress,
         source.type,
         convertStandardToBase(symbol, value),
+        fees,
         depositMemo
       )
       // Sign transaction
@@ -735,7 +733,6 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const showConfirmationError = function * (err) {
-    yield put(actions.modals.closeAllModals())
     yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: err }))
     yield put(
       actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(err))
@@ -750,13 +747,13 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const pair = getCurrentPair(form)
+    const fees = yield select(S.getMempoolFees)
     try {
       const depositCredentials = yield call(getDepositCredentials, source)
       const trade = yield call(createTrade, source, target, pair)
-      yield call(depositFunds, trade, source, depositCredentials)
+      yield call(depositFunds, trade, source, fees, depositCredentials)
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
-      yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
@@ -780,7 +777,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
-      yield put(A.setSourceFee({ source: 0, target: 0 }))
+      yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield cancel(renewLimitsTask)
     } catch (e) {

@@ -45,9 +45,16 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
   return (
     <TableRow dataE2e={dataE2e}>
       <AddressTableCell width='50%'>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+        <AddressCell
+          size='13px'
+          data-e2e={`${
+            archived ? 'archived' : 'unarchived'
+          }ImportedAddressName`}
+        >
+          {address.addr}
+        </AddressCell>
         {address.priv == null && (
-          <Banner label type='informational'>
+          <Banner label type='informational' data-e2e='nonSpendableBadge'>
             <FormattedMessage
               id='scenes.settings.addresses.btc.addressrow.watchonly'
               defaultMessage='Non-Spendable'

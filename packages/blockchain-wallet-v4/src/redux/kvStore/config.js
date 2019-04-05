@@ -3,7 +3,7 @@ export const BUYSELL = 'buySell'
 export const BTC = 'btc'
 export const BSV = 'bsv'
 export const CONTACTS = 'contacts'
-export const ETHEREUM = 'ethereum'
+export const ETH = 'eth'
 export const LOCKBOX = 'lockbox'
 export const ROOT = 'root'
 export const SHAPESHIFT = 'shapeshift'
@@ -16,7 +16,7 @@ export const derivationMap = {
   [WHATSNEW]: 2,
   [BUYSELL]: 3,
   [CONTACTS]: 4,
-  [ETHEREUM]: 5,
+  [ETH]: 5,
   [SHAPESHIFT]: 6,
   [BCH]: 7,
   [BTC]: 8,
