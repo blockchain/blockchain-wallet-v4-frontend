@@ -4512,24 +4512,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Exchange {coin}",
-        "id": "modals.exchangeresults.exchange"
+        "defaultMessage": "Exchange",
+        "id": "modals.exchangeresults.exchangecoin"
       },
       {
-        "defaultMessage": "{coin} Deposited",
-        "id": "modals.exchangeresults.deposited"
+        "defaultMessage": "Deposited",
+        "id": "modals.exchangeresults.depositedcoin"
       },
       {
-        "defaultMessage": "{coin} Broadcast",
-        "id": "modals.exchangeresults.broadcast"
+        "defaultMessage": "Broadcast",
+        "id": "modals.exchangeresults.broadcastcoin"
       },
       {
-        "defaultMessage": "{coin} Received",
-        "id": "modals.exchangeresults.received"
+        "defaultMessage": "Received",
+        "id": "modals.exchangeresults.coinreceived"
       },
       {
-        "defaultMessage": "Receive {coin}",
-        "id": "modals.exchangeresults.receive"
+        "defaultMessage": "Receive",
+        "id": "modals.exchangeresults.receivecoin"
       },
       {
         "defaultMessage": "Total refunded",
@@ -4544,12 +4544,12 @@
         "id": "modals.exchangedetails.support"
       },
       {
-        "defaultMessage": "Close",
-        "id": "modals.exchange.exchangeresults.close"
+        "defaultMessage": "Order ID",
+        "id": "modals.exchangeresults.orderid"
       },
       {
-        "defaultMessage": "Order",
-        "id": "modals.exchangeresults.order"
+        "defaultMessage": "Status",
+        "id": "modals.exchangeresults.status"
       },
       {
         "defaultMessage": "Total Value",
@@ -4558,10 +4558,6 @@
       {
         "defaultMessage": "(when exchanged)",
         "id": "modals.exchangeresults.valuenotcie"
-      },
-      {
-        "defaultMessage": "Network Fee",
-        "id": "modals.exchangeresults.fee"
       },
       {
         "defaultMessage": "Exchange rate",
