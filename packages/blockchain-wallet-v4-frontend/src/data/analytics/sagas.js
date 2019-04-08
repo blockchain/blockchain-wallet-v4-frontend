@@ -73,6 +73,18 @@ export default ({ api }) => {
     }
   }
 
+  const createABTest = function * (action) {
+    try {
+      const { test } = action.payload
+      yield call(postMessage, {
+        method: 'AbTesting:: create',
+        messageData: test
+      })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logABTest', e))
+    }
+  }
+
   const logPageView = function * (action) {
     try {
       const { route } = action.payload
@@ -124,6 +136,7 @@ export default ({ api }) => {
   }
 
   return {
+    createABTest,
     logEvent,
     logPageView,
     logGoal,

@@ -758,8 +758,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
-      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
+      yield put(
+        actions.analytics.logEvent([
+          ...SWAP_EVENTS.ORDER_CONFIRM,
+          path(['deposit', 'value', trade])
+        ])
+      )
     } catch (err) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM_ERROR))
       return yield call(showConfirmationError, err)
