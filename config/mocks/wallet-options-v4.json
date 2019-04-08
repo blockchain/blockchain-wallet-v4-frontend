@@ -128,8 +128,8 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
-          "iSignThisDomain": "https://stage-verify.isignthis.com"
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
+          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com"
         }
       },
       "sfox": {

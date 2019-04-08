@@ -401,11 +401,13 @@ describe('create user credentials saga', () => {
         expect(api.generateRetailToken).toHaveBeenCalledTimes(1)
         expect(api.generateRetailToken).toHaveBeenCalledWith(
           stubGuid,
-          stubSharedKey,
-          stubCoinifyId
+          stubSharedKey
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
+        expect(api.createUser).toHaveBeenCalledWith(
+          stubRetailToken,
+          stubCoinifyId
+        )
       })
   })
 })

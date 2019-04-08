@@ -1,4 +1,11 @@
-export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
+export default ({
+  nabuUrl,
+  get,
+  post,
+  authorizedGet,
+  authorizedPost,
+  authorizedPut
+}) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,
@@ -108,6 +115,14 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       endPoint: '/kyc/verifications/mobile-email'
     })
 
+  const sendCoinifyKyc = coinifyTraderId =>
+    authorizedPut({
+      url: nabuUrl,
+      endPoint: `/kyc/update-coinify-id`,
+      contentType: `application/json`,
+      data: { coinifyTraderId }
+    })
+
   return {
     getSupportedCountries,
     getSupportedDocuments,
@@ -116,6 +131,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     fetchKycConfig,
     fetchOnfidoSDKKey,
     fetchUploadData,
+    sendCoinifyKyc,
     fetchTiers,
     fetchVeriffUrl,
     selectTier,

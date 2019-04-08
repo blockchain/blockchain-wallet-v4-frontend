@@ -15,11 +15,7 @@ import {
   VerifyMessage
 } from './Btc'
 import { BsvGetStarted, SendBsv } from './Bsv'
-import {
-  CoinifyDeleteBank,
-  CoinifyExchangeData,
-  CoinifyTradeDetails
-} from './Coinify'
+import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeConfirm,
@@ -86,7 +82,6 @@ const Modals = () => (
     <AutoDisconnection />
     <BsvGetStarted />
     <CoinifyDeleteBank />
-    <CoinifyExchangeData />
     <CoinifyTradeDetails />
     <CoinifyUpgrade />
     <Confirm />
