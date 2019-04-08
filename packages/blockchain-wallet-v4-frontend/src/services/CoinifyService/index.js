@@ -10,9 +10,12 @@ import {
   toLower,
   mapObjIndexed
 } from 'ramda'
+import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { KYC_STATES } from '../../data/modules/profile/model'
+const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
@@ -247,7 +250,7 @@ export const statusHelper = status => {
     case 'awaiting_transfer_in':
     case 'processing':
       return {
-        color: 'transferred',
+        color: 'btc',
         text: (
           <FormattedMessage
             id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing'
@@ -334,12 +337,7 @@ export const bodyStatusHelper = (status, isBuy) => {
         }
       case 'completed':
         return {
-          text: (
-            <FormattedMessage
-              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed'
-              defaultMessage='Your buy trade is complete!'
-            />
-          )
+          text: ''
         }
       case 'rejected':
         return {
@@ -482,210 +480,161 @@ export const kycBodyHelper = status => {
 
 export const kycHeaderHelper = status => {
   switch (status) {
-    case 'processing':
+    case NONE:
       return {
-        color: 'transferred',
+        color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.processing'
-            defaultMessage='Identity Verification Processing'
+            id='scenes.buy_sell.coinify.kyc.header.incomplete'
+            defaultMessage='Incomplete'
           />
         )
       }
-    case 'reviewing':
+    case PENDING:
       return {
-        color: 'transferred',
+        color: 'brand-primary',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.reviewing'
-            defaultMessage='Identity Verification In Review'
+            id='scenes.buy_sell.coinify.kyc.header.pending'
+            defaultMessage='Pending'
           />
         )
       }
-    case 'pending':
+    case UNDER_REVIEW:
       return {
-        color: 'transferred',
+        color: 'btc',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.pending'
-            defaultMessage='Identity Verification Incomplete'
+            id='scenes.buy_sell.coinify.kyc.header.reviewing'
+            defaultMessage='In Review'
           />
         )
       }
-    case 'completed':
+    case VERIFIED:
       return {
         color: 'success',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.completed'
-            defaultMessage='Identity Verification Completed'
+            id='scenes.buy_sell.coinify.kyc.header.completed'
+            defaultMessage='Completed'
           />
         )
       }
-    case 'rejected':
+    case REJECTED:
       return {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.rejected'
-            defaultMessage='Identity Verification Denied'
+            id='scenes.buy_sell.coinify.kyc.header.failed'
+            defaultMessage='Failed'
           />
         )
       }
-    case 'failed':
+    case EXPIRED:
       return {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.failed'
-            defaultMessage='Identity Verification Failed'
-          />
-        )
-      }
-    case 'cancelled':
-      return {
-        color: 'error',
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.cancelled'
-            defaultMessage='Identity Verification Cancelled'
-          />
-        )
-      }
-    case 'expired':
-      return {
-        color: 'error',
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.expired'
-            defaultMessage='Identity Verification Expired'
+            id='scenes.buy_sell.coinify.kyc.header.expired'
+            defaultMessage='Expired'
           />
         )
       }
     default:
       return {
         color: '',
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.unknown'
-            defaultMessage='Unknown'
-          />
-        )
+        text: ''
       }
   }
 }
 
 export const kycNotificationBodyHelper = status => {
   switch (status) {
-    case 'reviewing':
-    case 'processing':
+    case UNDER_REVIEW:
       return {
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.processing'
-            defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support'
+            id='scenes.buysell.coinify.kyc.underreview'
+            defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
           />
         )
       }
-    case 'pending':
+    case PENDING:
       return {
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.pending'
+            id='scenes.buysell.coinify.kyc.pending'
+            defaultMessage={
+              'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy & sell cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
+            }
+            values={{
+              note: (
+                <strong>
+                  <br />
+                  <br />
+                  Note:
+                </strong>
+              )
+            }}
+          />
+        )
+      }
+    case NONE:
+      return {
+        text: (
+          <FormattedMessage
+            id='scenes.buysell.coinify.kyc.none'
             defaultMessage="It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits."
           />
         )
       }
-    case 'completed':
+    case VERIFIED:
       return {
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.completed'
+            id='scenes.buysell.coinify.kyc.verified'
             defaultMessage='Your identity verification is complete! Your limits have been raised.'
           />
         )
       }
-    case 'rejected':
+    case REJECTED:
       return {
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.rejected'
-            defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.'
+            id='scenes.buysell.coinify.kyc.rejected_learn_more'
+            defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. {learnMore}'
+            values={{
+              learnMore: (
+                <Link
+                  size='13px'
+                  weight={300}
+                  href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <FormattedMessage
+                    id='scenes.buysell.coinify.kyc.learn_more'
+                    defaultMessage='Learn more.'
+                  />
+                </Link>
+              )
+            }}
           />
         )
       }
-    case 'failed':
+    case EXPIRED:
       return {
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.failed'
-            defaultMessage='Your identity verification has failed. Please contact support.'
-          />
-        )
-      }
-    case 'cancelled':
-      return {
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.cancelled'
-            defaultMessage='Your identity verification was cancelled. Please try again.'
-          />
-        )
-      }
-    case 'expired':
-      return {
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.expired'
-            defaultMessage='Your identity verification request has expired. Please try again.'
+            id='scenes.buysell.coinify.kyc.expired'
+            defaultMessage='Your identity verification request has expired.'
           />
         )
       }
     default:
       return {
         color: '',
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.unknown'
-            defaultMessage='Unknown'
-          />
-        )
-      }
-  }
-}
-
-export const kycNotificationButtonHelper = status => {
-  switch (status) {
-    case 'pending':
-      return {
-        color: 'transferred',
-        text: (
-          <FormattedMessage
-            id='scenes.buy_sell.kyc_notification.complete'
-            defaultMessage='Complete Verification'
-          />
-        )
-      }
-    case 'expired':
-    case 'rejected':
-      return {
-        color: 'error',
-        text: (
-          <FormattedMessage
-            id='scenes.buy_sell.kyc_notification.tryagain'
-            defaultMessage='Try Again'
-          />
-        )
-      }
-    default:
-      return {
-        color: '',
-        text: (
-          <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.unknown'
-            defaultMessage='Unknown'
-          />
-        )
+        text: ''
       }
   }
 }
@@ -693,7 +642,15 @@ export const kycNotificationButtonHelper = status => {
 export const showKycStatus = state =>
   any(equals(state), ['pending', 'rejected']) ? state : false
 
-export const getReasonExplanation = (reason, time) => {
+export const getReasonExplanation = (reason, time, verified) => {
+  if (!verified)
+    return (
+      <FormattedMessage
+        id='scenes.coinify.cannottradereason.notverified'
+        defaultMessage='Trading is disabled because you have not completed identity verification.'
+      />
+    )
+
   const ONE_DAY_MS = 86400000
   const canTradeAfter = time
   const days = isNaN(canTradeAfter)

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { find, map, propEq } from 'ramda'
+import { find, map, prop, propEq, test, head } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
@@ -37,6 +37,25 @@ class PersonalContainer extends React.PureComponent {
 
   componentDidMount () {
     this.fetchData()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { coinifyUserCountry, formActions, countryData } = this.props
+    // change form field on mount to coinify country if on buy-sell since we're skipping country selection
+    if (
+      test(/buy-sell/, this.props.pathName) &&
+      (!Remote.Success.is(prevProps.countryData) &&
+        Remote.Success.is(countryData))
+    ) {
+      const supportedCountries = prop(
+        'supportedCountries',
+        countryData.getOrElse()
+      )
+      const isUserCountry = propEq('code', coinifyUserCountry)
+      const countryObject = head(supportedCountries.filter(isUserCountry))
+      if (countryObject)
+        formActions.change(PERSONAL_FORM, 'country', countryObject)
+    }
   }
 
   scrollTop = () => {

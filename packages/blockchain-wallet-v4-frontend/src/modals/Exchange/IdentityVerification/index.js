@@ -18,6 +18,7 @@ import Loading from './template.loading'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
+import CoinifyCreate from 'components/BuySell/Coinify/Create'
 import MoreInfo from './MoreInfo'
 import Submitted from './Submitted'
 
@@ -89,6 +90,12 @@ const KycStepIndicator = styled(StepIndicator)`
 const { STEPS, KYC_MODAL } = model.components.identityVerification
 
 const stepMap = {
+  [STEPS.coinify]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.coinify'
+      defaultMessage='Account'
+    />
+  ),
   [STEPS.personal]: (
     <FormattedMessage
       id='modals.identityverification.steps.personal'
@@ -151,11 +158,13 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions } = this.props
+
     if (step) {
       const kycEvents = clone(KYC_EVENTS.STEP_CHANGE)
       kycEvents[2] += step
       this.props.analyticsActions.logEvent([...kycEvents])
     }
+    if (step === STEPS.coinify) return <CoinifyCreate />
     if (step === STEPS.personal)
       return (
         <Personal

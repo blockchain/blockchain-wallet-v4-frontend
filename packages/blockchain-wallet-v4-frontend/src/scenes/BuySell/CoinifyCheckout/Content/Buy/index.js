@@ -6,25 +6,19 @@ import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 
-class CoinifyBuyContainer extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.startBuy = this.startBuy.bind(this)
-  }
-
+class CoinifyBuyContainer extends React.PureComponent {
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
-    this.props.coinifyDataActions.fetchTrades()
-    this.props.coinifyDataActions.getKyc()
-    this.props.coinifyDataActions.fetchSubscriptions()
+    this.props.coinifyActions.fetchCoinifyData()
+    this.props.coinifyActions.compareCoinifyKyc()
     if (this.props.step === 'isx') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
     }
   }
 
-  startBuy () {
+  startBuy = () => {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
@@ -38,18 +32,13 @@ class CoinifyBuyContainer extends React.Component {
       modalActions,
       coinifyActions,
       coinifyDataActions,
-      buyQuoteR,
-      currency,
-      paymentMedium,
-      trade,
       formActions,
-      canTrade,
+      coinifyBusy,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
+    const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
 
     const busy = coinifyBusy.cata({
@@ -62,52 +51,42 @@ class CoinifyBuyContainer extends React.Component {
     return data.cata({
       Success: value => (
         <Success
-          value={value}
-          showModal={showModal}
-          buyQuoteR={buyQuoteR}
+          busy={busy}
+          clearTradeError={coinifyNotAsked}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
+          handleKycAction={() => showModal(KYC_MODAL)}
+          initiateBuy={this.startBuy}
           refreshQuote={refreshBuyQuote}
-          currency={currency}
-          checkoutBusy={checkoutBusy}
           setMax={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
           setMin={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
-          paymentMedium={paymentMedium}
-          initiateBuy={this.startBuy}
-          step={step}
-          busy={busy}
-          clearTradeError={() => coinifyNotAsked()}
-          trade={trade}
-          handleKycAction={kyc => openKYC(kyc)}
-          changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
-          canTrade={canTrade}
-          subscriptions={subscriptions}
-          trades={trades}
+          showModal={showModal}
+          value={value}
+          {...rest}
         />
       ),
       Failure: e => <Failure error={e} />,
       Loading: () => <Loading />,
-      NotAsked: () => <div>Not Asked</div>
+      NotAsked: () => <Loading />
     })
   }
 }
-
-const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(CoinifyBuyContainer)

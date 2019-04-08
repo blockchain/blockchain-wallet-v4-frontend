@@ -287,6 +287,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This change address belongs to your wallet'
           />
         </Tooltip>
+        <Tooltip id='buysellOrderReview'>
+          <FormattedMessage
+            id='buysellOrderReview.tooltip'
+            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
+          />
+        </Tooltip>
         <Tooltip id='identityverification.headerhelper'>
           <TextGroup inline>
             <Text color='white' weight={300} size='12px'>

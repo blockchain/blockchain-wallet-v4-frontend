@@ -24,6 +24,13 @@ import {
 const TableTitle = styled(Text)`
   padding-top: 10px;
 `
+const StatusCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: ${props => props.theme[props.color]};
+`
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -33,6 +40,11 @@ const ButtonRow = styled.div`
 const StyledOrderDetailsTable = styled(OrderDetailsTable)`
   margin-top: 10px;
   margin-bottom: 10px;
+`
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 const Trade = ({ trade, close, status, subscriptions }) => {
@@ -53,9 +65,12 @@ const Trade = ({ trade, close, status, subscriptions }) => {
   return (
     <Fragment>
       <ModalHeader onClose={close}>
-        <Text color={headerStatus.color}>
-          {trade.isBuy ? `Buy Trade` : 'Sell Trade'} {headerStatus.text}
-        </Text>
+        <HeaderContainer>
+          <StatusCircle color={headerStatus.color} />
+          <Text size='20px' weight={300}>
+            {headerStatus.text}
+          </Text>
+        </HeaderContainer>
       </ModalHeader>
       <ModalBody>
         <Text size='13px' weight={300}>
