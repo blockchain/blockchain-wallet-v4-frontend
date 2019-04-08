@@ -1154,7 +1154,7 @@ describe('coinifySagas', () => {
     })
 
     it('should call the backend to sync with coinify KYC', () => {
-      saga.next(USER).call(api.sendCoinifyKyc, USER)
+      saga.next(USER).call(api.sendCoinifyKyc, USER.getOrElse(null))
     })
 
     describe('error handling', () => {
