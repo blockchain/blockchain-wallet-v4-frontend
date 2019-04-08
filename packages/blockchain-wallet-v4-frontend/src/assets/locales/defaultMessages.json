@@ -691,6 +691,196 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Verified Email",
+        "id": "coinifyexchangedata.create.createaccount.partner.email_verified"
+      },
+      {
+        "defaultMessage": "Verify Email",
+        "id": "coinifyexchangedata.create.createaccount.partner.email_no_verify"
+      },
+      {
+        "defaultMessage": "Send Again",
+        "id": "coinifyexchangedata.create.createaccount.partner.sendagain"
+      },
+      {
+        "defaultMessage": "Check your inbox. We just sent you an email.",
+        "id": "coinifyexchangedata.create.createaccount.partner.checkyourinbox"
+      },
+      {
+        "defaultMessage": "Email Verified",
+        "id": "coinifyexchangedata.create.createaccount.partner.emailverified"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "continue"
+      },
+      {
+        "defaultMessage": "Unfortunately this email is being used for another account.",
+        "id": "coinifyexchangedata.create.accept.error1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "coinifyexchangedata.create.accept.error2"
+      },
+      {
+        "defaultMessage": "to change it.",
+        "id": "coinifyexchangedata.create.accept.error3"
+      },
+      {
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "id": "coinifyexchangedata.create.accept.unknownError"
+      },
+      {
+        "defaultMessage": "try again",
+        "id": "tryagain"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "or"
+      },
+      {
+        "defaultMessage": "contact support.",
+        "id": "contactsupport"
+      },
+      {
+        "defaultMessage": "Error Description: {errorDescription}",
+        "id": "coinifyexchangedata.create.accept.support_error_description"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/AcceptTerms/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Create Account",
+        "id": "coinifyexchangedata.create.header.createaccount"
+      },
+      {
+        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID",
+        "id": "coinifyexchangedata.create.subheader.get_started"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter the email address you'd like to verify:",
+        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
+      },
+      {
+        "defaultMessage": "Send Verification Email",
+        "id": "coinifyexchangedata.create.verifyemail.sendverifyemail"
+      },
+      {
+        "defaultMessage": "Another verification email has been sent! Don't see it? {resend}",
+        "id": "coinifyexchangedata.create.verifyemail.helper.sentverificationemail"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/VerifyEmail/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "How is my payment method used?",
+        "id": "scenes.coinify.isx.tradequestion"
+      },
+      {
+        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
+        "id": "scenes.coinify.isx.tradeanswer"
+      },
+      {
+        "defaultMessage": "~{btcValue} BTC",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
+      },
+      {
+        "defaultMessage": "({fiatValue})",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
+      },
+      {
+        "defaultMessage": "Finish later",
+        "id": "scenes.buysell.coinify.isx.finishlater"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/ISignThis/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Credit / Debit",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card"
+      },
+      {
+        "defaultMessage": "The order amount is less than the credit card minimum of {cardMin}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_min"
+      },
+      {
+        "defaultMessage": "Orders over {cardLimit} can only be processed through bank transfer.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_max"
+      },
+      {
+        "defaultMessage": "Credit card payment is not available for this order.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.disabled_other"
+      },
+      {
+        "defaultMessage": "Receive bitcoin instantly",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
+      },
+      {
+        "defaultMessage": "3% convenience fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
+      },
+      {
+        "defaultMessage": "Visa or Mastercard",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
+      },
+      {
+        "defaultMessage": "Bank Transfer",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
+      },
+      {
+        "defaultMessage": "The order amount is less than the bank minimum of {bankMin}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_min"
+      },
+      {
+        "defaultMessage": "The order amount is over your bank limit of {bankLimit}.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_max"
+      },
+      {
+        "defaultMessage": "Bank transfers are not available for this order.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.disabled_other"
+      },
+      {
+        "defaultMessage": "Receive bitcoin in 2-3 days",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
+      },
+      {
+        "defaultMessage": "0.25% Payment Fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Payment/mediumHelpers.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Select a Payment Method",
+        "id": "components.buysell.coinify.payment.header"
+      },
+      {
+        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency.",
+        "id": "components.buysell.coinify.payment.sub_header1"
+      },
+      {
+        "defaultMessage": "Select the account that you would like to use to fund your purchases. You can always change your payment method.",
+        "id": "components.buysell.coinify.payment.sub_header2"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Payment/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We couldn't find any trades!",
         "id": "scenes.buysell.empty.content.header"
       },
@@ -980,8 +1170,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Quote expires in: {timeLeft}",
-        "id": "scenes.exchange.secondstep.expiry"
+        "defaultMessage": "This quote will refresh in: {timeLeft}",
+        "id": "scenes.exchange.secondstep.expiry_text"
       },
       {
         "defaultMessage": "This rate will expire after {time}.",
@@ -1617,6 +1807,10 @@
       {
         "defaultMessage": "This change address belongs to your wallet",
         "id": "txlist.change.tooltip.description"
+      },
+      {
+        "defaultMessage": "Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.",
+        "id": "buysellOrderReview.tooltip"
       },
       {
         "defaultMessage": "Need help verifying your identity?",
@@ -3648,309 +3842,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Under the limit",
-        "id": "coinifyexchangedata.confirm.underlimit"
-      },
-      {
-        "defaultMessage": "Over the limit",
-        "id": "coinifyexchangedata.confirm.overlimit"
-      },
-      {
-        "defaultMessage": "Please confirm your order details before we redirect you to our secure payment provider.",
-        "id": "coinifyexchangedata.confirm.subheader"
-      },
-      {
-        "defaultMessage": "Confirm Buy Order",
-        "id": "coinifyexchangedata.confirm.header"
-      },
-      {
-        "defaultMessage": "Amount",
-        "id": "coinifyexchangedata.confirm.amount"
-      },
-      {
-        "defaultMessage": "Payment Fee",
-        "id": "coinifyexchangedata.confirm.fee"
-      },
-      {
-        "defaultMessage": "Total Cost",
-        "id": "coinifyexchangedata.confirm.totalcost"
-      },
-      {
-        "defaultMessage": "Edit Order",
-        "id": "coinifyexchangedata.confirm.editorder"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "coinifyexchangedata.confirm.canceledit"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "coinifyexchangedata.confirm.confirm"
-      },
-      {
-        "defaultMessage": "Update",
-        "id": "coinifyexchangedata.confirm.update"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/Confirm/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "What is Coinify?",
-        "id": "coinifysignup.acceptterms.helper1.question"
-      },
-      {
-        "defaultMessage": "Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet",
-        "id": "coinifysignup.acceptterms.helper1.answer"
-      },
-      {
-        "defaultMessage": "Create Your Account",
-        "id": "coinifyexchangedata.create.verifyemail.partner.header.createyouraccount"
-      },
-      {
-        "defaultMessage": "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling.",
-        "id": "coinifyexchangedata.create.accept.partner.header.acceptterms"
-      },
-      {
-        "defaultMessage": "Verified Email Address",
-        "id": "coinifyexchangedata.create.createaccount.partner.verifiedemail"
-      },
-      {
-        "defaultMessage": "edit",
-        "id": "coinifyexchangedata.create.createaccount.partner.edit"
-      },
-      {
-        "defaultMessage": "edit email",
-        "id": "coinifyexchangedata.create.createaccount.partner.editemail"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "coinifyexchangedata.create.continue"
-      },
-      {
-        "defaultMessage": "Unfortunately this email is being used for another account.",
-        "id": "coinifyexchangedata.create.accept.error1"
-      },
-      {
-        "defaultMessage": "Click here",
-        "id": "coinifyexchangedata.create.accept.error2"
-      },
-      {
-        "defaultMessage": "to change it.",
-        "id": "coinifyexchangedata.create.accept.error3"
-      },
-      {
-        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
-        "id": "coinifyexchangedata.create.accept.unknownError"
-      },
-      {
-        "defaultMessage": "try again",
-        "id": "coinifyexchangedata.create.accept.tryagain"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "coinifyexchangedata.create.accept.or"
-      },
-      {
-        "defaultMessage": "contact support.",
-        "id": "coinifyexchangedata.create.accept.contactsupport"
-      },
-      {
-        "defaultMessage": "Error Description: {errorDescription}",
-        "id": "coinifyexchangedata.create.accept.support_error_description"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/Create/AcceptTerms/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "That code doesn't match. {resend} or {changeEmail}.",
-        "id": "coinifyexchangedata.create.verifyemail.helper.error"
-      },
-      {
-        "defaultMessage": "Another code has been sent!",
-        "id": "coinifyexchangedata.create.verifyemail.helper.sentanothercode"
-      },
-      {
-        "defaultMessage": "Didn't receive your email? {resend} or {changeEmail}.",
-        "id": "coinifyexchangedata.create.verifyemail.helper.didntreceive"
-      },
-      {
-        "defaultMessage": "Verify Your Email",
-        "id": "coinifyexchangedata.create.verifyemail.partner.header.verifyemail"
-      },
-      {
-        "defaultMessage": "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.",
-        "id": "coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode"
-      },
-      {
-        "defaultMessage": "Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours.",
-        "id": "coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress"
-      },
-      {
-        "defaultMessage": "Enter your verification code:",
-        "id": "coinifyexchangedata.create.verifyemail.code"
-      },
-      {
-        "defaultMessage": "Enter the email address you'd like to verify:",
-        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "coinifyexchangedata.create.verifyemail.continue"
-      },
-      {
-        "defaultMessage": "Send Verification Code Email",
-        "id": "coinifyexchangedata.create.verifyemail.sendverificationemail"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/Create/VerifyEmail/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Create Account",
-        "id": "modals.coinifyexchangedata.steps.account"
-      },
-      {
-        "defaultMessage": "Identity Verification",
-        "id": "modals.coinifyexchangedata.steps.identityverify"
-      },
-      {
-        "defaultMessage": "Start buying and selling in two simple steps.",
-        "id": "coinifyexchangedata.header.start"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Why do you need this information?",
-        "id": "scenes.coinify.isx.kycquestion"
-      },
-      {
-        "defaultMessage": "Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.",
-        "id": "scenes.coinify.isx.kycanswer"
-      },
-      {
-        "defaultMessage": "How is my payment method used?",
-        "id": "scenes.coinify.isx.tradequestion"
-      },
-      {
-        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
-        "id": "scenes.coinify.isx.tradeanswer"
-      },
-      {
-        "defaultMessage": "~{btcValue} BTC",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
-      },
-      {
-        "defaultMessage": "({fiatValue})",
-        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
-      },
-      {
-        "defaultMessage": "Finish later",
-        "id": "scenes.buysell.coinify.isx.finishlater"
-      },
-      {
-        "defaultMessage": "I'll do this later",
-        "id": "scenes.buysell.coinify.isx.dolater"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/ISignThis/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Credit / Debit",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card"
-      },
-      {
-        "defaultMessage": "Receive bitcoin instantly",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
-      },
-      {
-        "defaultMessage": "3% convenience fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
-      },
-      {
-        "defaultMessage": "Visa or Mastercard",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
-      },
-      {
-        "defaultMessage": "{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit"
-      },
-      {
-        "defaultMessage": "Use Credit/Debit card",
-        "id": "coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit"
-      },
-      {
-        "defaultMessage": "Bank Transfer",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
-      },
-      {
-        "defaultMessage": "The quoted amount is more than your current bank limit.",
-        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
-      },
-      {
-        "defaultMessage": "Bank transfers are unavailable until Identity Verification has been finished.",
-        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
-      },
-      {
-        "defaultMessage": "Finish Identity Verification",
-        "id": "scenes.buysell.coinifyexchangedata.payment.bank.finishkyc"
-      },
-      {
-        "defaultMessage": "One time ID verification",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail1"
-      },
-      {
-        "defaultMessage": "Receive bitcoin in 2-3 days",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
-      },
-      {
-        "defaultMessage": "0.25% Payment Fee",
-        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/Payment/mediumHelpers.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Are there transaction fees?",
-        "id": "coinifyexchangedata.payment.helper1.question"
-      },
-      {
-        "defaultMessage": "There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.",
-        "id": "coinifyexchangedata.payment.helper1.answer"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "coinifyexchangedata.payment.continue"
-      },
-      {
-        "defaultMessage": "Select Payment Method",
-        "id": "coinifyexchangedata.payment.header"
-      },
-      {
-        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method.",
-        "id": "coinifyexchangedata.payment.subheader"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "coinifyexchangedata.payment.cancel"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyExchangeData/Payment/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Buy Trade Awaiting Funds",
         "id": "modals.coinifytradedetails.banktransfer.header"
       },
@@ -3960,19 +3851,6 @@
       }
     ],
     "path": "src/modals/Coinify/CoinifyTradeDetails/BankTransfer.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Buy & Sell Bitcoin",
-        "id": "modals.coinifytradedetails.kyc.identityverification.header"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.coinifytradedetails.kyc.close"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyTradeDetails/Kyc.json"
   },
   {
     "descriptors": [
@@ -4568,6 +4446,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Account",
+        "id": "modals.identityverification.steps.coinify"
+      },
       {
         "defaultMessage": "Personal",
         "id": "modals.identityverification.steps.personal"
@@ -7467,12 +7349,69 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "While your identity gets verified, you can sell up to",
-        "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
+        "defaultMessage": "Your limit of {curr}{max} is below the minimum allowed amount.",
+        "id": "buy.quote_input.below_min"
       },
       {
-        "defaultMessage": "While your identity gets verified, you can buy up to",
-        "id": "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy"
+        "defaultMessage": "Enter an amount under your {setMax} limit",
+        "id": "buy.quote_input.over_max"
+      },
+      {
+        "defaultMessage": "Enter an amount above the {setMin} minimum",
+        "id": "buy.quote_input.under_min"
+      },
+      {
+        "defaultMessage": "Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)",
+        "id": "buy.quote_input.over_effective_max"
+      },
+      {
+        "defaultMessage": "buying",
+        "id": "buy.quote_input.effective_max_under_min3"
+      },
+      {
+        "defaultMessage": "swapping",
+        "id": "buy.quote_input.effective_max_under_min5swap"
+      },
+      {
+        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min} BTC.",
+        "id": "buy.quote_input.sell_effective_max_under_min1"
+      },
+      {
+        "defaultMessage": "Add funds by {buyLink} or {exchangeLink}.",
+        "id": "buy.quote_input.sell_effective_max_under_min2"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.continue"
+      },
+      {
+        "defaultMessage": "I want to buy",
+        "id": "buy.output_method.title.buy"
+      },
+      {
+        "defaultMessage": "I want to sell",
+        "id": "buy.output_method.title.sell"
+      },
+      {
+        "defaultMessage": "Loading",
+        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.loading"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Helpers/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Identity Verification",
+        "id": "scenes.buy_sell.kyc_notification.header"
+      },
+      {
+        "defaultMessage": "Complete Verification",
+        "id": "scenes.buy_sell.kyc_notification.complete"
+      },
+      {
+        "defaultMessage": "*Please note, users who have verified their identity with Coinify before November 2018 will need to verify their identity with us again. We apologize for the inconvenience.",
+        "id": "scenes.buy_sell.kyc_notification.note"
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/KYCNotification/template.json"
@@ -7505,24 +7444,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "I want to buy",
-        "id": "buy.output_method.title.buy"
-      },
-      {
-        "defaultMessage": "I want to sell",
-        "id": "buy.output_method.title.sell"
-      },
-      {
-        "defaultMessage": "Loading",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.loading"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.continue"
-      },
-      {
-        "defaultMessage": "Amount",
-        "id": "scenes.buysell.coinifycheckout.content.ordercheckout.amount"
+        "defaultMessage": "Bitcoin",
+        "id": "bitcoin"
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/OrderCheckout.json"
@@ -7630,88 +7553,48 @@
         "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere"
       },
       {
-        "defaultMessage": "Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader"
+        "defaultMessage": "Please confirm your order details before we direct you to our secure payment provider.",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader"
       },
       {
-        "defaultMessage": "Exchange Rate",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.exchangerate"
+        "defaultMessage": "Please confirm your order details.",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.sell.revieworder.subheader"
       },
       {
-        "defaultMessage": "BTC Amount to Purchase",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttopurchase"
+        "defaultMessage": "Exchange rate",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.exchange_rate"
       },
       {
-        "defaultMessage": "BTC Amount to Sell",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttosell"
+        "defaultMessage": "Purchase",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_purchase"
       },
       {
-        "defaultMessage": "BTC Transaction Fee",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctransactionfee"
+        "defaultMessage": "Sell",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_sell"
       },
       {
-        "defaultMessage": "BTC to be Received",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctobereceived"
+        "defaultMessage": "Transaction Fee",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tx_fee"
+      },
+      {
+        "defaultMessage": "To Be Received",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.to_be_received"
       },
       {
         "defaultMessage": "Amount",
         "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amount"
       },
       {
-        "defaultMessage": "Trading Fee",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tradingfee"
+        "defaultMessage": "Payment Fee",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.payment_fee"
       },
       {
         "defaultMessage": "Total Cost",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totalcost"
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_cost"
       },
       {
-        "defaultMessage": "Total to be Received",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totaltobereceived"
-      },
-      {
-        "defaultMessage": "How long will the buy order take?",
-        "id": "coinifyexchangedata.cyo.helper1.question"
-      },
-      {
-        "defaultMessage": "How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).",
-        "id": "coinifyexchangedata.cyo.helper1.answer"
-      },
-      {
-        "defaultMessage": "Why does the exchange rate change?",
-        "id": "coinifyexchangedata.cyo.helper2.question"
-      },
-      {
-        "defaultMessage": "When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate.",
-        "id": "coinifyexchangedata.cyo.helper2.answer"
-      },
-      {
-        "defaultMessage": "The small print",
-        "id": "coinifyexchangedata.cyo.helper3.question"
-      },
-      {
-        "defaultMessage": "To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.",
-        "id": "coinifyexchangedata.cyo.helper3.answer"
-      },
-      {
-        "defaultMessage": "Terms of Service",
-        "id": "tos"
-      },
-      {
-        "defaultMessage": "Privacy Policy",
-        "id": "coinifyexchangedata.cyo.helper3.privacypolicy"
-      },
-      {
-        "defaultMessage": "contact support",
-        "id": "coinifyexchangedata.cyo.contactsupport"
-      },
-      {
-        "defaultMessage": "How long will the sell order take?",
-        "id": "coinifyexchangedata.cyo.helper4.question"
-      },
-      {
-        "defaultMessage": "If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout.",
-        "id": "coinifyexchangedata.cyo.helper4.answer"
+        "defaultMessage": "To Receive",
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_to_receive"
       },
       {
         "defaultMessage": "Sorry, something went wrong with your trade:",
@@ -7727,61 +7610,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Your limit of {curr}{max} is below the minimum allowed amount.",
-        "id": "buy.quote_input.below_min"
+        "defaultMessage": "By clicking here, I accept that Coinify will process my order upon receipt of funds, and that the order will be executed at the available exchange rate at that time, which may differ from the displayed rate. I also accept Coinify's {terms}.",
+        "id": "scenes.buysell.coinify.sell.orderreview.accept_terms"
       },
       {
-        "defaultMessage": "Enter an amount under your {setMax} limit",
-        "id": "buy.quote_input.over_max"
-      },
-      {
-        "defaultMessage": "Enter an amount above the {setMin} minimum",
-        "id": "buy.quote_input.under_min"
-      },
-      {
-        "defaultMessage": "Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)",
-        "id": "buy.quote_input.over_effective_max"
-      },
-      {
-        "defaultMessage": "You don't have enough funds to sell the minimum amount, {min}.",
-        "id": "buy.quote_input.not_enough_funds_minimum"
-      },
-      {
-        "defaultMessage": "Your remaining sell limit is {max}",
-        "id": "sell.quote_input.remaining_sell_limit"
-      },
-      {
-        "defaultMessage": "Your remaining buy limit is {max}",
-        "id": "buy.quote_input.remaining_buy_limit"
-      },
-      {
-        "defaultMessage": "Your remaining card buy limit is {cardMax}",
-        "id": "buy.quote_input.remaining_card_buy_limit"
-      },
-      {
-        "defaultMessage": "Your remaining bank buy limit is {bankMax}",
-        "id": "buy.quote_input.remaining_bank_buy_limit"
-      },
-      {
-        "defaultMessage": "Increase your limit.",
-        "id": "buysell.quote_input.increase_limits"
-      }
-    ],
-    "path": "src/scenes/BuySell/CoinifyCheckout/Content/QuoteInputTemplate.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "I accept that Coinify will process my order upon completion of the bitcoin transaction, and that bitcoin will be traded at the available exchange rate at the time, which may differ from the displayed rate.",
-        "id": "scenes.buysell.coinify.sell.orderreview.checkboxtext"
+        "defaultMessage": "Terms of Service",
+        "id": "components.terms.coinify.tos"
       },
       {
         "defaultMessage": "Submit",
         "id": "submit"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.buysell.coinify.sell.orderreview.cancel"
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/ReviewForm/index.json"
@@ -8110,44 +7948,32 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.",
-        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelystate"
+        "defaultMessage": "Buy & Sell Bitcoin",
+        "id": "scenes.buysell.selectpartner.header.buy_bitcoin"
       },
       {
-        "defaultMessage": "Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.",
-        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelycountry"
+        "defaultMessage": "You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.",
+        "id": "scenes.buysell.selectpartner.subheader_coinify"
       },
       {
-        "defaultMessage": "Notify Me When This Becomes Available",
-        "id": "scenes.buysell.selectpartner.unavailable.notifyme"
+        "defaultMessage": "You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.",
+        "id": "scenes.buysell.selectpartner.subheader_sfox"
       },
       {
-        "defaultMessage": "Thanks!",
-        "id": "scenes.buysell.selectpartner.unavailable.thanks"
+        "defaultMessage": "You can buy & sell Bitcoin (BTC) from your Wallet.",
+        "id": "scenes.buysell.selectpartner.subheader_nopartner"
       },
       {
-        "defaultMessage": "We will send an email to {email} once buy & sell are available for your area.",
-        "id": "scenes.buysell.selectpartner.unavailable.sendemail"
+        "defaultMessage": "Next",
+        "id": "scenes.buysell.selectpartner.button"
       },
       {
-        "defaultMessage": "Introducing Buy & Sell",
-        "id": "scenes.buysell.selectpartner.header"
+        "defaultMessage": "What's my country for?",
+        "id": "scenes.buysell.selectpartner.countryquestion"
       },
       {
-        "defaultMessage": "You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.",
-        "id": "scenes.buysell.selectpartner.subheader"
-      },
-      {
-        "defaultMessage": "Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!",
-        "id": "scenes.buysell.selectpartner.subheader2"
-      },
-      {
-        "defaultMessage": "Select your country:",
-        "id": "scenes.buysell.selectpartner.selectcountry"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.buysell.selectpartner.getstarted"
+        "defaultMessage": "Due to local laws, Blockchain can only operate in permitted regions.",
+        "id": "scenes.buysell.selectpartner.countryanswer"
       }
     ],
     "path": "src/scenes/BuySell/template.json"
@@ -11710,10 +11536,6 @@
         "id": "scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing"
       },
       {
-        "defaultMessage": "Your buy trade is complete!",
-        "id": "scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed"
-      },
-      {
         "defaultMessage": "Your buy trade has been rejected. Please contact support.",
         "id": "scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected"
       },
@@ -11766,76 +11588,60 @@
         "id": "scenes.coinify.detailsmodal.kyc.cancelled.unknown"
       },
       {
-        "defaultMessage": "Identity Verification Processing",
-        "id": "scenes.coinify_details_modal.kyc.header.processing"
+        "defaultMessage": "Incomplete",
+        "id": "scenes.buy_sell.coinify.kyc.header.incomplete"
       },
       {
-        "defaultMessage": "Identity Verification In Review",
-        "id": "scenes.coinify_details_modal.kyc.header.reviewing"
+        "defaultMessage": "Pending",
+        "id": "scenes.buy_sell.coinify.kyc.header.pending"
       },
       {
-        "defaultMessage": "Identity Verification Incomplete",
-        "id": "scenes.coinify_details_modal.kyc.header.pending"
+        "defaultMessage": "In Review",
+        "id": "scenes.buy_sell.coinify.kyc.header.reviewing"
       },
       {
-        "defaultMessage": "Identity Verification Completed",
-        "id": "scenes.coinify_details_modal.kyc.header.completed"
+        "defaultMessage": "Completed",
+        "id": "scenes.buy_sell.coinify.kyc.header.completed"
       },
       {
-        "defaultMessage": "Identity Verification Denied",
-        "id": "scenes.coinify_details_modal.kyc.header.rejected"
+        "defaultMessage": "Failed",
+        "id": "scenes.buy_sell.coinify.kyc.header.failed"
       },
       {
-        "defaultMessage": "Identity Verification Failed",
-        "id": "scenes.coinify_details_modal.kyc.header.failed"
+        "defaultMessage": "Expired",
+        "id": "scenes.buy_sell.coinify.kyc.header.expired"
       },
       {
-        "defaultMessage": "Identity Verification Cancelled",
-        "id": "scenes.coinify_details_modal.kyc.header.cancelled"
+        "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
+        "id": "scenes.buysell.coinify.kyc.underreview"
       },
       {
-        "defaultMessage": "Identity Verification Expired",
-        "id": "scenes.coinify_details_modal.kyc.header.expired"
-      },
-      {
-        "defaultMessage": "Unknown",
-        "id": "scenes.coinify_details_modal.kyc.header.unknown"
-      },
-      {
-        "defaultMessage": "Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support",
-        "id": "scenes.coinify_details_modal.kyc.processing"
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy & sell cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
+        "id": "scenes.buysell.coinify.kyc.pending"
       },
       {
         "defaultMessage": "It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits.",
-        "id": "scenes.coinify_details_modal.kyc.pending"
+        "id": "scenes.buysell.coinify.kyc.none"
       },
       {
         "defaultMessage": "Your identity verification is complete! Your limits have been raised.",
-        "id": "scenes.coinify_details_modal.kyc.completed"
+        "id": "scenes.buysell.coinify.kyc.verified"
       },
       {
-        "defaultMessage": "There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.",
-        "id": "scenes.coinify_details_modal.kyc.rejected"
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. {learnMore}",
+        "id": "scenes.buysell.coinify.kyc.rejected_learn_more"
       },
       {
-        "defaultMessage": "Your identity verification has failed. Please contact support.",
-        "id": "scenes.coinify_details_modal.kyc.failed"
+        "defaultMessage": "Learn more.",
+        "id": "scenes.buysell.coinify.kyc.learn_more"
       },
       {
-        "defaultMessage": "Your identity verification was cancelled. Please try again.",
-        "id": "scenes.coinify_details_modal.kyc.cancelled"
+        "defaultMessage": "Your identity verification request has expired.",
+        "id": "scenes.buysell.coinify.kyc.expired"
       },
       {
-        "defaultMessage": "Your identity verification request has expired. Please try again.",
-        "id": "scenes.coinify_details_modal.kyc.expired"
-      },
-      {
-        "defaultMessage": "Complete Verification",
-        "id": "scenes.buy_sell.kyc_notification.complete"
-      },
-      {
-        "defaultMessage": "Try Again",
-        "id": "scenes.buy_sell.kyc_notification.tryagain"
+        "defaultMessage": "Trading is disabled because you have not completed identity verification.",
+        "id": "scenes.coinify.cannottradereason.notverified"
       },
       {
         "defaultMessage": "Trading is disabled because your first trade has not completed yet.",
