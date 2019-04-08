@@ -530,8 +530,9 @@ export default ({ api, coreSagas, networks }) => {
         equals(tier2State, TIERS_STATES.VERIFIED) &&
         equals(levelName, COINIFY_USER_LEVELS.ONE)
       ) {
-        const user = yield select(selectors.core.data.coinify.getUserId)
-        if (user.getOrElse(null)) yield call(api.sendCoinifyKyc, user)
+        const coinifyUserR = yield select(selectors.core.data.coinify.getUserId)
+        const user = coinifyUserR.getOrElse(null)
+        if (user) yield call(api.sendCoinifyKyc, user)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'compareKyc', e))
