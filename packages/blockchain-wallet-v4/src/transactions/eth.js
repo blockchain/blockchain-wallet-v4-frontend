@@ -126,8 +126,8 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     fee: 0,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
-    timeFormatted: getTime(tx.timeStamp || ''),
-    time: tx.timeStamp || '',
+    timeFormatted: getTime(tx.timestamp),
+    time: tx.timestamp,
     to: getErc20Label(tx.to, token, state),
     type
   }
