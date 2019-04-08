@@ -51,17 +51,15 @@ export const getErc20Data = (state, ownProps) => {
   const { coin, exclude = [] } = ownProps
   const displayErc20Fixed = data => {
     // TODO: make more generic for dynamic ERC20
-    switch (true) {
-      case coin === 'PAX':
-        const paxAmount = Exchange.convertPaxToPax(data)
-        return Exchange.displayPaxToPax({
-          value: Number(paxAmount.value).toFixed(8),
-          fromUnit: 'PAX',
-          toUnit: 'PAX'
-        })
-      default:
-        return {}
+    if (coin === 'PAX') {
+      const paxAmount = Exchange.convertPaxToPax(data)
+      return Exchange.displayPaxToPax({
+        value: Number(paxAmount.value).toFixed(8),
+        fromUnit: 'PAX',
+        toUnit: 'PAX'
+      })
     }
+    return {}
   }
   const excluded = filter(x => !exclude.includes(x.label))
   const buildDisplay = (label, balance) => {

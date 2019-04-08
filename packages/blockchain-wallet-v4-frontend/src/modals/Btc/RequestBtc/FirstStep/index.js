@@ -18,19 +18,26 @@ class FirstStepContainer extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     this.props.data.map(x => {
-      if (equals(prop('coin', x), 'ETH')) {
+      if (equals(prop('coin', x), 'PAX')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEth', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'PAX',
+          lockboxIndex: this.props.lockboxIndex
+        })
+      } else if (equals(prop('coin', x), 'ETH')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'ETH',
           lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBch', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.BCH', {
           lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'XLM')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestXlm', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.XLM', {
           lockboxIndex: this.props.lockboxIndex
         })
       }

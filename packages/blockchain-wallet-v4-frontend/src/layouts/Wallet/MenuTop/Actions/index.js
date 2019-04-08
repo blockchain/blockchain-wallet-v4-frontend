@@ -1,47 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { keys, includes, toUpper } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import Actions from './template'
 
+const { COIN_MODELS, ERC20_COIN_LIST } = model.coins
 class ActionsContainer extends React.PureComponent {
-  handleSend = () => {
+  showModal = type => {
     const { coin, lockboxPath, lockboxDeviceId } = this.props
-
-    switch (coin) {
-      case 'eth':
-        return this.props.modalActions.showModal(model.components.sendEth.MODAL)
-      case 'bch':
-        return this.props.modalActions.showModal(model.components.sendBch.MODAL)
-      case 'xlm':
-        return this.props.modalActions.showModal(model.components.sendXlm.MODAL)
-      default:
-        return this.props.modalActions.showModal(
-          model.components.sendBtc.MODAL,
-          {
-            lockboxIndex: lockboxPath ? lockboxDeviceId : null
-          }
-        )
+    if (includes(coin, ERC20_COIN_LIST)) {
+      return this.props.modalActions.showModal(`@MODAL.${type}.ETH`, {
+        coin: toUpper(coin)
+      })
+    } else if (includes(coin, keys(COIN_MODELS))) {
+      return this.props.modalActions.showModal(`@MODAL.${type}.${coin}`, {
+        lockboxIndex: lockboxPath ? lockboxDeviceId : null
+      })
     }
-  }
-
-  handleRequest = () => {
-    const { coin, lockboxPath, lockboxDeviceId } = this.props
-
-    switch (coin) {
-      case 'bch':
-        return this.props.modalActions.showModal('RequestBch')
-      case 'eth':
-        return this.props.modalActions.showModal('RequestEth')
-      case 'xlm':
-        return this.props.modalActions.showModal('RequestXlm')
-      default:
-        return this.props.modalActions.showModal('RequestBtc', {
-          lockboxIndex: lockboxPath ? lockboxDeviceId : null
-        })
-    }
+    return this.props.modalActions.showModal(`@MODAL.${type}.BTC`, {
+      lockboxIndex: lockboxPath ? lockboxDeviceId : null
+    })
   }
 
   render () {
@@ -50,8 +31,7 @@ class ActionsContainer extends React.PureComponent {
       <Actions
         sendAvailable={sendAvailable}
         requestAvailable={requestAvailable}
-        handleSend={this.handleSend}
-        handleRequest={this.handleRequest}
+        showModal={this.showModal}
       />
     )
   }

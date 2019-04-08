@@ -32,7 +32,7 @@ const { ERC20_COIN_LIST } = model.coins
 
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
-  const initialized = function*(action) {
+  const initialized = function * (action) {
     try {
       const coin = propOr('ETH', 'payload', action)
       let initialValues = {}
@@ -73,11 +73,11 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
@@ -96,7 +96,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -110,39 +110,12 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'coin':
-          switch (true) {
-            case payload === 'BTC': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBtc.MODAL)
-              )
-              break
-            }
-            case payload === 'BCH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBch.MODAL)
-              )
-              break
-            }
-            case payload === 'XLM': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendXlm.MODAL)
-              )
-              break
-            }
-            case payload === 'ETH':
-            case includes(payload, ERC20_COIN_LIST): {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL, {
-                  coin: payload
-                })
-              )
-              break
-            }
-          }
+          yield put(actions.modals.closeAllModals())
+          yield put(
+            actions.modals.showModal(`@MODAL.SEND.${payload}`, {
+              coin: payload
+            })
+          )
           break
         case 'from':
           const coin = prop('coin', payload)
@@ -176,7 +149,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumAmountClicked = function*(action) {
+  const maximumAmountClicked = function * (action) {
     try {
       const coinCode = prop('coin', action.payload)
       const appState = yield select(identity)
@@ -217,7 +190,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     // TODO: ERC20 Support
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
@@ -333,7 +306,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const regularFeeClicked = function*() {
+  const regularFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -346,7 +319,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const priorityFeeClicked = function*() {
+  const priorityFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -359,7 +332,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const minimumFeeClicked = function*() {
+  const minimumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -372,7 +345,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change(FORM, 'to', ''))
     } catch (e) {
@@ -380,7 +353,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const maximumFeeClicked = function*() {
+  const maximumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})

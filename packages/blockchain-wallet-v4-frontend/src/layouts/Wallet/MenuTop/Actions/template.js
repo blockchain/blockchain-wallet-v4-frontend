@@ -33,17 +33,12 @@ const ButtonText = styled(Text)`
   margin-left: 6px;
 `
 
-const Actions = ({
-  handleSend,
-  handleRequest,
-  sendAvailable,
-  requestAvailable
-}) => (
+const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
   <Wrapper>
     <ActionButton
       name='paper-airplane-filled'
       disabled={!sendAvailable}
-      onClick={handleSend}
+      onClick={() => showModal('SEND')}
       min='100px'
       data-e2e='sendButton'
       nature='gray-3'
@@ -60,7 +55,7 @@ const Actions = ({
       style={spacing('ml-15')}
       disabled={!requestAvailable}
       name='download2'
-      onClick={handleRequest}
+      onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'
       nature='gray-3'
@@ -79,8 +74,7 @@ const Actions = ({
 Actions.propTypes = {
   sendAvailable: PropTypes.bool.isRequired,
   requestAvailable: PropTypes.bool.isRequired,
-  handleSend: PropTypes.func.isRequired,
-  handleRequest: PropTypes.func.isRequired
+  showModal: PropTypes.func.isRequired
 }
 
 export default Actions

@@ -1,18 +1,21 @@
 import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { propOr } from 'ramda'
+import { FormattedHTMLMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
+
 import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
-import { FormattedMessage } from 'react-intl'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const { TRANSACTION_EVENTS } = model.analytics
+const { COIN_MODELS } = model.coins
 class RequestEthContainer extends React.PureComponent {
   componentDidMount () {
     this.init()
@@ -23,26 +26,35 @@ class RequestEthContainer extends React.PureComponent {
 
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBtc', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.BTC', {
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBch', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.BCH', {
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'XLM') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestXlm', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.XLM', {
         lockboxIndex: this.props.lockboxIndex
       })
+    } else if (coin === 'PAX' || (coin === 'ETH' && prevProps.coin !== coin)) {
+      if (
+        !Remote.Success.is(prevProps.initialValues) &&
+        Remote.Success.is(this.props.initialValues)
+      ) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: coin,
+          lockboxIndex: this.props.lockboxIndex
+        })
+      }
     }
-    if (
-      !Remote.Success.is(prevProps.initialValues) &&
-      Remote.Success.is(this.props.initialValues)
-    ) {
-      this.init()
-    }
+  }
+
+  componentWillUnmount () {
+    this.props.formActions.reset('requestEth')
   }
 
   init = () => {
@@ -63,13 +75,21 @@ class RequestEthContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, closeAll, selection, coins } = this.props
-
+    const {
+      coin,
+      coins,
+      closeAll,
+      data,
+      position,
+      total,
+      selection
+    } = this.props
     const content = data.cata({
       Success: val => (
         <Success
           {...this.props}
           type={val.type}
+          coin={coin}
           coins={coins}
           closeAll={closeAll}
           selection={selection}
@@ -85,15 +105,14 @@ class RequestEthContainer extends React.PureComponent {
     })
 
     return (
-      <Modal
-        size='large'
-        position={this.props.position}
-        total={this.props.total}
-      >
-        <ModalHeader icon='download2' onClose={this.props.closeAll}>
-          <FormattedMessage
-            id='modals.requestether.title'
-            defaultMessage='Request Ether'
+      <Modal size='large' position={position} total={total}>
+        <ModalHeader icon='download2' onClose={closeAll}>
+          <FormattedHTMLMessage
+            id='modals.requesteth.title'
+            defaultMessage='Request {displayName}'
+            values={{
+              displayName: COIN_MODELS[coin].displayName
+            }}
           />
         </ModalHeader>
         <ModalBody>{content}</ModalBody>
@@ -103,9 +122,11 @@ class RequestEthContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state),
+  data: getData(state, propOr('ETH', 'coin', ownProps)),
   initialValues: getInitialValues(state, ownProps),
-  coin: formValueSelector('requestEth')(state, 'coin')
+  coin:
+    formValueSelector('requestEth')(state, 'coin') ||
+    propOr('ETH', 'coin', ownProps)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -120,7 +141,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('RequestEth'),
+  modalEnhancer('@MODAL.REQUEST.ETH'),
   connect(
     mapStateToProps,
     mapDispatchToProps

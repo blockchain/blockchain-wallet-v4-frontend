@@ -10,10 +10,10 @@ export const getData = createSelector(
   ],
   (pathname, getCoinAvailability) => {
     const params = pathname.split('/')
-    const coin = params[1]
-    const availability = getCoinAvailability(toUpper(coin))
+    const coin = toUpper(params[1])
+    const availability = getCoinAvailability(coin)
     return {
-      coin,
+      coin: coin,
       sendAvailable: availability.map(propOr(true, 'send')).getOrElse(false),
       requestAvailable: availability
         .map(propOr(true, 'request'))
