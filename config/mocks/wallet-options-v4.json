@@ -2,7 +2,7 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 1,
+        "analyticsSiteId": 2,
         "enableDomainMigrationRedirects": true,
         "environment": "dev",
         "announcements": {

@@ -116,37 +116,6 @@ export const WALLET_EVENTS = {
   UNARCHIVE: ['wallets', 'unarchive']
 }
 
-export const MIN_MAX_AB = trigger => ({
-  name: 'MinMaxExchange',
-  percentage: 100,
-  includedTargets: [
-    { attribute: 'url', inverted: '0', type: 'any', value: '' }
-  ],
-  excludedTargets: [],
-  variations: [
-    {
-      name: 'original',
-      activate: function (event) {
-        window.parent.postMessage(
-          { from: 'matomo', to: 'swap', command: 'original' },
-          '*'
-        )
-      }
-    },
-    {
-      percentage: 50,
-      name: 'no_min_max_exchange',
-      activate: function (event) {
-        window.parent.postMessage(
-          { from: 'matomo', to: 'swap', command: 'no_min_max_exchange' },
-          '*'
-        )
-      }
-    }
-  ],
-  trigger: function (trigger) {
-    if (trigger) {
-      return true
-    }
-  }
-})
+export const MIN_MAX_AB = {
+  name: 'MinMaxExchange'
+}

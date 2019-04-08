@@ -77,7 +77,7 @@ export default ({ api }) => {
     try {
       const { test } = action.payload
       yield call(postMessage, {
-        method: 'AbTesting:: create',
+        method: 'AbTesting::create',
         messageData: test
       })
     } catch (e) {
