@@ -4,90 +4,85 @@ import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
-  kycNotificationBodyHelper,
-  kycNotificationButtonHelper
+  kycNotificationBodyHelper
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
-import { path } from 'ramda'
-import media from 'services/ResponsiveService'
+import { prop, equals } from 'ramda'
+import { model } from 'data'
 
-const ISXContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 12px 15px;
-  border: 1px solid #dddddd;
-`
+const { NONE } = model.profile.KYC_STATES
+
 const Wrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 10px;
+`
+const KycContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
-const LimitsNotice = styled.div`
-  background-color: #ffe6b4;
-  padding: 12px 15px;
+const Header = styled.div`
+  flex-direction: column;
+  display: flex;
+  div:first-child {
+    margin-bottom: 5px;
+  }
+`
+const Divider = styled.div`
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  padding-top: 20px;
   margin-bottom: 20px;
-  ${media.mobile`
-    margin: 10px 0px;
-  `};
+`
+const CompleteButton = styled(Button)`
+  border-radius: 6px;
+`
+const VerificationText = styled(Text)`
+  margin-top: 20px;
 `
 
 const KYCNotification = props => {
-  const { kyc, onTrigger, symbol, limits, type, canTrade } = props
+  const { onTrigger, kycState } = props
 
-  const status = path(['state'], kyc)
-  const header = kycHeaderHelper(status)
-  const body = kycNotificationBodyHelper(status)
-
-  let effBal = limits.effectiveMax / 1e8
-  let sellMax = Math.min(effBal, limits.max)
+  const header = kycHeaderHelper(kycState)
+  const body = kycNotificationBodyHelper(kycState)
 
   return (
     <Wrapper>
-      {(status === 'pending' || status === 'reviewing') && canTrade ? (
-        <LimitsNotice>
-          <Text size='12px' weight={300}>
-            {type === 'sell' ? (
-              <Fragment>
-                <FormattedMessage
-                  id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell'
-                  defaultMessage='While your identity gets verified, you can sell up to '
-                />
-                {sellMax} BTC.
-              </Fragment>
-            ) : (
-              <Fragment>
-                <FormattedMessage
-                  id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy'
-                  defaultMessage='While your identity gets verified, you can buy up to '
-                />{' '}
-                {symbol}
-                {limits.max}.
-              </Fragment>
-            )}
+      <KycContainer>
+        <Header>
+          <Text size='14px'>
+            <FormattedMessage
+              id='scenes.buy_sell.kyc_notification.header'
+              defaultMessage='Identity Verification'
+            />
           </Text>
-        </LimitsNotice>
-      ) : null}
-      <ISXContainer>
-        <Text
-          size='13px'
-          color='brand-primary'
-          weight={400}
-          style={spacing('mb-20')}
-        >
-          {path(['text'], header)}
-        </Text>
+          <Text size='13px' color={prop('color', header)} weight={400}>
+            {prop('text', header)}
+          </Text>
+        </Header>
+        <Divider />
         <Text size='13px' weight={300} style={spacing('mb-20')}>
-          {path(['text'], body)}
+          {prop('text', body)}
         </Text>
-        {status === 'pending' ||
-        status === 'rejected' ||
-        status === 'expired' ? (
-          <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
-            <Text size='13px' color='brand-secondary'>
-              {path(['text'], kycNotificationButtonHelper(status))}
-            </Text>
-          </Button>
+        {equals(NONE, kycState) ? (
+          <Fragment>
+            <CompleteButton onClick={onTrigger} nature='empty-secondary'>
+              <Text size='13px' color='brand-secondary'>
+                <FormattedMessage
+                  id='scenes.buy_sell.kyc_notification.complete'
+                  defaultMessage='Complete Verification'
+                />
+              </Text>
+            </CompleteButton>
+            <VerificationText size='12px' weight={300}>
+              <FormattedMessage
+                id='scenes.buy_sell.kyc_notification.note'
+                defaultMessage='*Please note, users who have verified their identity with Coinify before November 2018 will need to verify their identity with us again. We apologize for the inconvenience.'
+              />
+            </VerificationText>
+          </Fragment>
         ) : null}
-      </ISXContainer>
+      </KycContainer>
     </Wrapper>
   )
 }
