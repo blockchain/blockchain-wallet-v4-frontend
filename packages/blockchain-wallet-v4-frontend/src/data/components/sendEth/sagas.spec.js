@@ -338,8 +338,12 @@ describe('sendEth sagas', () => {
       saga.next().put(actions.router.push('/eth/transactions'))
     })
 
-    it('should display succcess message', () => {
-      saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+    it('should display success message', () => {
+      saga.next().put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Ethereum'
+        })
+      )
     })
 
     it('should log to analytics', () => {
@@ -387,7 +391,11 @@ describe('sendEth sagas', () => {
       it('should display error message', () => {
         saga
           .next()
-          .put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+          .put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Ethereum'
+            })
+          )
           .next()
       })
     })

@@ -372,7 +372,11 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/btc/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin'
+          })
+        )
       }
       yield put(
         actions.analytics.logEvent([
@@ -400,7 +404,11 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
-        yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Bitcoin'
+          })
+        )
       }
     }
   }

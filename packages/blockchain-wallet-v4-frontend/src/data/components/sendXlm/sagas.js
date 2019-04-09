@@ -205,7 +205,11 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/xlm/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Stellar'
+          })
+        )
       }
       yield put(destroy(FORM))
       yield put(
@@ -233,7 +237,11 @@ export default ({ coreSagas }) => {
             e
           )
         )
-        yield put(actions.alerts.displayError(C.SEND_XLM_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Stellar'
+          })
+        )
       }
     }
   }

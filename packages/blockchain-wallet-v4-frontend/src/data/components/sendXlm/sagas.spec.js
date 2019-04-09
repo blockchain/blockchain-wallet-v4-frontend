@@ -291,7 +291,11 @@ describe('sendXlm sagas', () => {
     })
 
     it('should display success message', () => {
-      saga.next().put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
+      saga.next().put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Stellar'
+        })
+      )
     })
 
     it('should destroy form', () => {
@@ -344,7 +348,11 @@ describe('sendXlm sagas', () => {
       it('should display error message', () => {
         saga
           .next()
-          .put(actions.alerts.displayError(C.SEND_XLM_ERROR))
+          .put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Stellar'
+            })
+          )
           .next()
       })
     })

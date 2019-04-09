@@ -23,12 +23,20 @@ export default ({ coreSagas, networks }) => {
       yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/eth/transactions'))
-      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      yield put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Ethereum'
+        })
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'confirmTransferEth', e)
       )
-      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Ethereum'
+        })
+      )
     }
   }
 
