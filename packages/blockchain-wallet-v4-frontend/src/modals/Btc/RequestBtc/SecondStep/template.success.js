@@ -74,7 +74,7 @@ const SecondStep = props => {
             />
           </Text>
           <LinkContainer>
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={300} data-e2e='requestBtcLinkText'>
               {link}
             </Text>
           </LinkContainer>

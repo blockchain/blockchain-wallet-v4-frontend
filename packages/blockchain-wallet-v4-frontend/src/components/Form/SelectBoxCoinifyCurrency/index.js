@@ -13,27 +13,37 @@ const CustomSelectBox = styled(SelectBox)`
     border-left: none;
   }
   .bc__control {
-    border: 1px solid ${props => props.theme['gray-2']};
+    background-color: ${props => props.theme['white']};
+    cursor: ${props => props.disabled && 'not-allowed'};
+    border: 1px solid ${props => props.theme[props.borderColor]};
     border-left: none;
+    min-height: 72px;
     > .bc__value-container {
       > .bc__single-value {
         right: 0px;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: 300;
-        color: ${props => props.theme['gray-4']};
+        color: ${props =>
+          props.disabled ? props.theme['gray-2'] : props.theme['gray-5']};
       }
     }
     > .bc__indicators {
+      > .bc__dropdown-indicator {
+        color: ${props =>
+          props.disabled
+            ? props.theme['gray-2']
+            : props.theme['brand-secondary']};
+      }
       > .bc__indicator-separator {
         display: none;
       }
     }
     &:hover {
-      border: 1px solid ${props => props.theme['gray-2']};
+      border: 1px solid ${props => props.theme['gray-1']};
       border-left: none;
     }
     &:active {
-      border: 1px solid ${props => props.theme['gray-2']};
+      border: 1px solid ${props => props.theme['gray-1']};
       border-left: none;
     }
   }

@@ -132,6 +132,7 @@ export default ({ coreSagas, networks }) => {
           .create({})
           .chain()
           .init()
+          .fee('priority')
           .from(addressOrIndex, addressType)
           .done()
         break
@@ -154,6 +155,7 @@ export default ({ coreSagas, networks }) => {
     targetAddress,
     addressType,
     amount,
+    fees,
     memo
   ) {
     let payment
@@ -162,40 +164,31 @@ export default ({ coreSagas, networks }) => {
         payment = coreSagas.payment.bch
           .create({ network: networks.bch })
           .chain()
-          .init()
-          .fee('priority')
           .amount(parseInt(amount))
         break
       case 'BSV':
         payment = coreSagas.payment.bsv
           .create({ network: networks.bsv })
           .chain()
-          .init()
-          .fee('priority')
           .amount(parseInt(amount))
         break
       case 'BTC':
         payment = coreSagas.payment.btc
           .create({ network: networks.btc })
           .chain()
-          .init()
-          .fee('priority')
           .amount(parseInt(amount))
         break
       case 'ETH':
         payment = coreSagas.payment.eth
           .create({ network: networks.eth })
           .chain()
-          .init()
-          .fee('priority')
           .amount(amount)
+          .fees(fees)
         break
       case 'XLM':
         payment = coreSagas.payment.xlm
           .create()
           .chain()
-          .init()
-          .from(sourceAddressOrIndex, addressType)
           .memoType('text')
           .memo(memo)
           .amount(amount)
@@ -211,6 +204,7 @@ export default ({ coreSagas, networks }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
+      .fee(fees.priority)
       .from(sourceAddressOrIndex, addressType)
       .to(targetAddress, ADDRESS_TYPES.ADDRESS)
       .build()

@@ -53,6 +53,7 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  color: ${props => props.color && props.theme[props.color]};
   ${media.mobile`
     font-size: 20px;
     font-weight: 500;
@@ -141,7 +142,7 @@ export const FieldMimic = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 85%;
+  width: ${props => props.width || '85%'};
   justify-content: space-between;
   ${media.mobile`
     border: none;

@@ -58,7 +58,7 @@ export const getKycDocResubmissionStatus = compose(
 )
 
 export const getTiers = path(['profile', 'userTiers'])
-export const getTier = curry((tierIndex, state) =>
+export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
 )
 export const getLastAttemptedTier = compose(

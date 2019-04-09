@@ -12,7 +12,6 @@ import SecondStep from './SecondStep'
 class SendXlmContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized()
-    this.props.fetchData()
   }
 
   componentWillUnmount () {

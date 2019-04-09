@@ -377,7 +377,7 @@ export default ({ api, options }) => {
 
   const fetchSubscriptions = function * () {
     try {
-      const coinify = yield call(getCoinify)
+      // const coinify = yield call(getCoinify)
       yield put(A.fetchSubscriptionsLoading())
       const subs = yield apply(coinify, coinify.getSubscriptions)
       yield put(A.fetchSubscriptionsSuccess(subs))

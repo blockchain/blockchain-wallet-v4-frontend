@@ -39,8 +39,8 @@ export const RatesBox = ({
       <TotalBalanceWrapper>
         <RateText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.totalbalance'
-            defaultMessage='Your {sourceCoin} Balance'
+            id='scenes.exchange.exchangeform.summary.totalbalanceforswap'
+            defaultMessage='{sourceCoin} available for Swap'
             values={{ sourceCoin }}
           />
         </RateText>
@@ -65,7 +65,7 @@ export const RatesBox = ({
         </RateText>
       </TotalBalanceWrapper>
       <RateWrapper>
-        <RateText color='brand-primary'>1 ${sourceCoin} =</RateText>
+        <RateText color='brand-primary'>1 {sourceCoin} =</RateText>
         <RateText>
           <StringDisplay>
             {sourceToTargetRate.map(rate => `${rate} ${targetCoin}`)}

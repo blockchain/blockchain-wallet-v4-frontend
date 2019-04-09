@@ -40,6 +40,7 @@ class ContentContainer extends React.PureComponent {
   }
 
   handleArchive = address =>
+    this.props.coreWalletActions &&
     this.props.coreWalletActions.setAddressArchived(address, true)
 
   render () {
