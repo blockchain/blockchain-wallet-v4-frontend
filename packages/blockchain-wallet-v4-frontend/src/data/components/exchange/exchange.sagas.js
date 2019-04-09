@@ -19,6 +19,7 @@ import {
   last,
   or,
   path,
+  pathOr,
   prop,
   propOr
 } from 'ramda'
@@ -727,7 +728,16 @@ export default ({ api, coreSagas, networks }) => {
       if (prop('coin', source) === 'ETH')
         yield spawn(updateLatestEthTrade, txId)
     } catch (err) {
-      yield call(api.failTrade, trade.id, err, txId)
+      if (prop('coin', source) === 'XLM') {
+        const xlmErrMessage = pathOr(
+          err,
+          ['response', 'data', 'extras', 'result_codes'],
+          err
+        )
+        yield call(api.failTrade, trade.id, xlmErrMessage, txId)
+      } else {
+        yield call(api.failTrade, trade.id, err, txId)
+      }
       throw err
     }
   }
