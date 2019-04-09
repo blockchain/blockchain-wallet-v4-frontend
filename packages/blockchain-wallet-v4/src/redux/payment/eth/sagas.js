@@ -65,16 +65,18 @@ export default ({ api }) => {
     password,
     transport,
     scrambleKey,
-    raw
+    raw,
+    isErc20
   ) {
     switch (raw.fromType) {
       case ADDRESS_TYPES.ACCOUNT: {
         const appState = yield select(identity)
         const mnemonicT = S.wallet.getMnemonic(appState, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        // TODO
         const sign = data =>
-          taskToPromise(eth.signErc20(network, mnemonic, data))
+          isErc20
+            ? taskToPromise(eth.signErc20(network, mnemonic, data))
+            : taskToPromise(eth.sign(network, mnemonic, data))
         return yield call(sign, raw)
       }
       case ADDRESS_TYPES.LOCKBOX: {
@@ -101,7 +103,6 @@ export default ({ api }) => {
 
     const latestTxR = yield select(latestTxS, address)
     const latestTxTimestampR = yield select(latestTxTimestampS, address)
-
     const latestTx = latestTxR.getOrElse(undefined)
     const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
 
@@ -131,7 +132,7 @@ export default ({ api }) => {
         return p
       },
 
-      * init () {
+      * init ({ isErc20 } = { isErc20: false }) {
         let fees
         try {
           fees = yield call(api.getEthFees)
@@ -139,7 +140,9 @@ export default ({ api }) => {
           throw new Error(FETCH_FEES_FAILURE)
         }
         const gasPrice = prop('regular', fees)
-        const gasLimit = prop('gasLimit', fees)
+        const gasLimit = isErc20
+          ? prop('gasLimitContract', fees)
+          : prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
 
         return makePayment(mergeRight(p, { fees, fee, feeInGwei: gasPrice }))
@@ -195,7 +198,7 @@ export default ({ api }) => {
         )
       },
 
-      * fee (value, origin) {
+      * fee (value, origin, isErc20) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
@@ -205,7 +208,9 @@ export default ({ api }) => {
         const fees = prop('fees', p)
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
-        const gasLimit = path(['fees', 'gasLimit'], p)
+        const gasLimit = isErc20
+          ? path(['fees', 'gasLimitContract'], p)
+          : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
         const data = yield call(api.getEthBalances, account)
         const balance = path([account, 'balance'], data)
@@ -217,13 +222,15 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 
-      * build () {
+      * build ({ isErc20 } = { isErc20: false }) {
         const fromData = prop('from', p)
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
-        const gasLimit = path(['fees', 'gasLimit'], p)
+        const gasLimit = isErc20
+          ? path(['fees', 'gasLimitContract'], p)
+          : path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', fromData)
         const from = prop('address', fromData)
         const fromType = prop('type', fromData)
@@ -249,7 +256,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign (password, transport, scrambleKey) {
+      * sign (password, transport, scrambleKey, isErc20) {
         try {
           const signed = yield call(
             calculateSignature,
@@ -257,7 +264,8 @@ export default ({ api }) => {
             password,
             transport,
             scrambleKey,
-            p.raw
+            p.raw,
+            isErc20
           )
           return makePayment(mergeRight(p, { signed }))
         } catch (e) {

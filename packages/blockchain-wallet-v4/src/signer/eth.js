@@ -12,29 +12,22 @@ const toHex = value => {
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }
 
+// TODO: send contract address to method, figure out fees
 export const signErc20 = curry((network = 1, mnemonic, data) => {
   const { index, to, amount, nonce, gasPrice, gasLimit } = data
   const privateKey = eth.getPrivateKey(mnemonic, index)
-  const cData = {
-    methodId: '0xa9059cbb',
-    paddedAddress: EthereumAbi.rawEncode(['address'], [to]),
-    paddedAmount: EthereumAbi.rawEncode(['uint256'], [amount])
-  }
-  const t =
-    cData.methodId +
-    cData.paddedAddress.toString('hex') +
-    cData.paddedAmount.toString('hex')
-  // const t = cData.methodId + '0x' + cData.paddedAddress.toString('hex') + '0x' + cData.paddedAmount.toString('hex')
-
-  console.info('YOOOO', t)
+  const transferMethodHex = '0xa9059cbb'
   const txParams = {
     to: '0x8e870d67f660d95d5be530380d0ec0bd388289e1', // contract address
     nonce: toHex(nonce),
     gasPrice: toHex(gasPrice),
     gasLimit: toHex(gasLimit),
-    value: 0,
+    value: toHex(0),
     chainId: network,
-    data: t
+    data:
+      transferMethodHex +
+      EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
+      EthereumAbi.rawEncode(['uint256'], [amount]).toString('hex')
   }
   const tx = new EthereumTx(txParams)
   tx.sign(privateKey)
@@ -44,7 +37,6 @@ export const signErc20 = curry((network = 1, mnemonic, data) => {
 
 export const sign = curry((network = 1, mnemonic, data) => {
   const { index, to, amount, nonce, gasPrice, gasLimit } = data
-  console.info('AMOUNT::', amount)
   const privateKey = eth.getPrivateKey(mnemonic, index)
   const txParams = {
     to,
@@ -55,10 +47,8 @@ export const sign = curry((network = 1, mnemonic, data) => {
     chainId: network
   }
   const tx = new EthereumTx(txParams)
-  debugger
   tx.sign(privateKey)
   const rawTx = '0x' + tx.serialize().toString('hex')
-  debugger
   return Task.of(rawTx)
 })
 
@@ -89,7 +79,6 @@ export const signWithLockbox = function * (
 
 export const serialize = (network, raw, signature) => {
   const { to, amount, nonce, gasPrice, gasLimit } = raw
-
   const txParams = {
     to,
     nonce: toHex(nonce),

@@ -651,6 +651,23 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Second password successfully disabled'
         />
       )
+    case C.SEND_COIN_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_coin_success'
+          defaultMessage='Your {coinName} transaction is now pending!'
+          values={data}
+        />
+      )
+    case C.SEND_COIN_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_coin_error'
+          defaultMessage='Your {coinName} transaction failed to send. Please try again.'
+          values={data}
+        />
+      )
+    // TODO: delete coin specific
     case C.SEND_BCH_ERROR:
       return (
         <FormattedMessage

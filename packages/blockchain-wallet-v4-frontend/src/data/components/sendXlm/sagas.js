@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, path, prop, head } from 'ramda'
+import { equals, includes, path, prop, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -20,6 +20,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
+const { ERC20_COIN_LIST } = model.coins
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
 export default ({ coreSagas }) => {
@@ -70,9 +71,10 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
+          const modalName = includes(payload, ERC20_COIN_LIST) ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${payload}`, {
+            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
               coin: payload
             })
           )

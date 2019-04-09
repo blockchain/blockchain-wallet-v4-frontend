@@ -28,22 +28,23 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
-const { ERC20_COIN_LIST } = model.coins
+const { COIN_MODELS, ERC20_COIN_LIST } = model.coins
 
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
       const coin = propOr('ETH', 'payload', action)
+      const isErc20 = includes(coin, ERC20_COIN_LIST)
       let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })
-      payment = yield payment.init()
+      payment = yield payment.init({ isErc20 })
       payment = yield payment.from(coin)
       const defaultFee = path(['fees', 'regular'], payment.value())
-      if (includes(coin, ERC20_COIN_LIST)) {
+      if (isErc20) {
         const erc20AccountR = yield select(
           selectors.core.common.eth.getErc20AccountBalances,
           coin
@@ -79,14 +80,15 @@ export default ({ coreSagas, networks }) => {
 
   const firstStepSubmitClicked = function * () {
     try {
+      const { coin } = yield select(selectors.form.getFormValues(FORM))
+      const isErc20 = includes(coin, ERC20_COIN_LIST)
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
-      // TODO: add erc20 support to build
-      payment = yield payment.build()
+      payment = yield payment.build({ isErc20 })
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.sendEthPaymentUpdatedFailure(e))
@@ -102,6 +104,8 @@ export default ({ coreSagas, networks }) => {
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals(FORM, form)) return
+      const { coin } = yield select(selectors.form.getFormValues(FORM))
+      const isErc20 = includes(coin, ERC20_COIN_LIST)
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
@@ -110,9 +114,10 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'coin':
+          const modalName = isErc20 ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${payload}`, {
+            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
               coin: payload
             })
           )
@@ -139,7 +144,7 @@ export default ({ coreSagas, networks }) => {
           break
         case 'fee':
           const account = path(['from', 'address'], payment.value())
-          payment = yield payment.fee(parseInt(payload), account)
+          payment = yield payment.fee(parseInt(payload), account, isErc20)
           break
       }
 
@@ -162,11 +167,10 @@ export default ({ coreSagas, networks }) => {
           .getRates(appState)
           .getOrFail('Failed to get ETH rates')
       } else {
-        const ratesR = yield select(
+        rates = (yield select(
           selectors.core.data.eth.getErc20Rates,
           toLower(coinCode)
-        )
-        rates = ratesR.getOrFail(`Failed to get ${coinCode} rates`)
+        )).getOrFail(`Failed to get ${coinCode} rates`)
       }
       const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
@@ -191,7 +195,8 @@ export default ({ coreSagas, networks }) => {
   }
 
   const secondStepSubmitClicked = function * () {
-    // TODO: ERC20 Support
+    const { coin } = yield select(selectors.form.getFormValues(FORM))
+    const coinModel = COIN_MODELS[coin]
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
@@ -205,7 +210,7 @@ export default ({ coreSagas, networks }) => {
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
+        payment = yield payment.sign(password, null, null, coinModel.isErc20)
       } else {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
@@ -218,7 +223,12 @@ export default ({ coreSagas, networks }) => {
         )
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
-        payment = yield payment.sign(null, transport, scrambleKey)
+        payment = yield payment.sign(
+          null,
+          transport,
+          scrambleKey,
+          coinModel.isErc20
+        )
       }
       // Publish payment
       payment = yield payment.publish()
@@ -246,10 +256,13 @@ export default ({ coreSagas, networks }) => {
           )
         )
       } else {
+        // TODO: ERC20
         yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
         yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         yield put(actions.core.kvStore.eth.setLatestTxEth(payment.value().txId))
       }
+      // Notes
+      // TODO: ERC20
       if (path(['description', 'length'], payment.value())) {
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
           yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
@@ -272,16 +285,20 @@ export default ({ coreSagas, networks }) => {
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
-        yield put(actions.router.push('/eth/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+        yield put(actions.router.push(coinModel.txListAppRoute))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: coinModel.displayName
+          })
+        )
       }
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
-          'ETH',
+          coin,
           Exchange.convertCoinToCoin({
             value: payment.value().amount,
-            coin: 'ETH',
+            coin,
             baseToStandard: true
           }).value
         ])
@@ -290,7 +307,6 @@ export default ({ coreSagas, networks }) => {
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
-      // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -301,7 +317,11 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
-        yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: coinModel.displayName
+          })
+        )
       }
     }
   }
