@@ -66,7 +66,7 @@ export default ({ coreSagas, networks }) => {
         .build()
         .done()).value()
     } catch (e) {
-      return {}
+      throw e
     }
   }
 
