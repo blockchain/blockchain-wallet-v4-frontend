@@ -77,7 +77,10 @@ const Navigation = props => {
               to={coin.txListAppRoute}
               activeClassName='active'
             >
-              <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
+              <MenuItem
+                data-e2e={`${toLower(coin.coinCode)}Link`}
+                colorCode={coin.colorCode}
+              >
                 <Icon
                   name={coin.icons.circle}
                   className={coin.coinCode === 'PAX' ? 'small' : ''}

@@ -2281,6 +2281,29 @@
       "setIdx": 1,
       "setId": 2,
       "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M896 512h-160l-224 224-224-224h-160l-128 256v64h1024v-64l-128-256zM0 896h1024v64h-1024v-64zM576 320v-256h-128v256h-224l288 288 288-288h-224z"
+        ],
+        "tags": ["download", "save", "store"],
+        "defaultCode": 59845,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "download2, save4",
+        "name": "download2",
+        "order": 7,
+        "id": 198,
+        "prevSize": 32,
+        "code": 59845
+      },
+      "setIdx": 2,
+      "setId": 1,
+      "iconIdx": 197
     }
   ],
   "height": 1024,
