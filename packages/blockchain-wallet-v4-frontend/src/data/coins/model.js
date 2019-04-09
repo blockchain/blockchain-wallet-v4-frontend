@@ -113,9 +113,9 @@ export const COIN_MODELS = {
     displayName: 'USD Pax',
     hasLockboxSupport: false,
     icons: {
-      default: 'dollars',
-      circle: 'dollars',
-      circleFilled: 'dollars'
+      default: 'usdp',
+      circle: 'usdp',
+      circleFilled: 'usdp'
     },
     isErc20: true,
     learnMoreLink: null,

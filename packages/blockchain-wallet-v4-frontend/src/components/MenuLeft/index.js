@@ -31,6 +31,13 @@ export const MenuItem = styled.li`
     margin-right: 10px;
   }
 
+  & > span:first-child.small {
+    font-size: 22px;
+    width: 30px;
+    margin-right: 7px;
+    margin-left: 3px;
+  }
+
   &.active {
     font-weight: 400;
 

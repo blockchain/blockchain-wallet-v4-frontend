@@ -78,7 +78,10 @@ const Navigation = props => {
               activeClassName='active'
             >
               <MenuItem data-e2e={`${toLower(coin.coinCode)}Link`}>
-                <Icon name={coin.icons.circle} />
+                <Icon
+                  name={coin.icons.circle}
+                  className={coin.coinCode === 'PAX' ? 'small' : ''}
+                />
                 {coin.displayName}
                 {coin.showNewTagSidenav && (
                   <NewCartridge>

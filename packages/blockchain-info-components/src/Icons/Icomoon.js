@@ -92,6 +92,7 @@ export default {
   'up-arrow': '\\e953',
   'up-arrow-in-circle': '\\e952',
   'usb-icon': '\\e95a',
+  usdp: '\\e91d',
   user: '\\e955',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
