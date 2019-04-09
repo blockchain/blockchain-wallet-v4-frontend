@@ -29,7 +29,6 @@ export const MenuItem = styled.li`
     width: 30px;
     font-size: 28px;
     margin-right: 10px;
-    color: ${props => props.theme[props.colorCode]};
   }
 
   & > span:first-child.small {
@@ -37,15 +36,20 @@ export const MenuItem = styled.li`
     width: 30px;
     margin-right: 7px;
     margin-left: 3px;
-    color: ${props => props.theme[props.colorCode]};
   }
 
   &.active {
-    font-weight: 600;
+    font-weight: 400;
+
+    & > *:not(div) {
+      color: ${props => props.theme['marketing-primary']};
+    }
   }
 
   &:hover {
-    font-weight: 500;
+    & > *:not(div) {
+      color: ${props => props.theme['textBlack']};
+    }
   }
 `
 export const SubMenu = styled.ul`

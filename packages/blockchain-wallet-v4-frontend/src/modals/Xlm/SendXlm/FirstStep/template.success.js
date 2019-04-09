@@ -227,26 +227,6 @@ const FirstStep = props => {
           {error && <ErrorBanner error={error} />}
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='description'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.description'
-                  defaultMessage='Description: '
-                />
-                <TooltipHost id='sendxlm.firststep.sharetooltip'>
-                  <TooltipIcon name='question-in-circle' />
-                </TooltipHost>
-              </FormLabel>
-              <Field
-                name='description'
-                component={TextAreaDebounced}
-                placeholder="What's this transaction for? (optional)"
-                fullwidth
-                data-e2e='sendXlmDescription'
-              />
-            </FormItem>
-          </FormGroup>
-          <FormGroup margin={'15px'}>
-            <FormItem>
               <FormLabel for='memo'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.memo'
@@ -273,6 +253,26 @@ const FirstStep = props => {
                   data-e2e='sendXlmMemoType'
                 />
               </MemoField>
+            </FormItem>
+          </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='description'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.description'
+                  defaultMessage='Description: '
+                />
+                <TooltipHost id='sendxlm.firststep.sharetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </FormLabel>
+              <Field
+                name='description'
+                component={TextAreaDebounced}
+                placeholder="What's this transaction for? (optional)"
+                fullwidth
+                data-e2e='sendXlmDescription'
+              />
             </FormItem>
           </FormGroup>
           <FormGroup inline margin={'10px'}>
