@@ -123,9 +123,14 @@ const Onboard = props => {
   return (
     <Wrapper>
       <IntroContainer>
-        <GetStartedContainer>
+        <GetStartedContainer height='325px' url='url(/img/lockbox@2x.png)'>
           <GetStartedContent>
-            <GetStartedHeader size='26px' weight={400} color='brand-primary'>
+            <GetStartedHeader
+              size='26px'
+              weight={400}
+              color='brand-primary'
+              width='200px'
+            >
               <FormattedMessage
                 id='scenes.lockbox.welcome.title'
                 defaultMessage='Secure Your Crypto Offline'

@@ -6,6 +6,8 @@ export const getOptions = path([walletOptionsPath])
 export const getDomains = state => getOptions(state).map(prop('domains'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
+export const getWalletHelperUrl = state =>
+  getDomains(state).map(prop('walletHelper'))
 // specific
 export const getAppEnv = state =>
   getWebOptions(state).map(path(['application', 'environment']))
@@ -28,9 +30,19 @@ export const getMigrationRedirects = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
+
+// partners
+export const getSFOXCountries = state =>
+  getWebOptions(state).map(path(['sfox', 'countries']))
+export const getSFOXStates = state =>
+  getWebOptions(state).map(path(['sfox', 'states']))
+export const getCoinifyCountries = state =>
+  getWebOptions(state).map(path(['coinify', 'countries']))
+export const getISignThisDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
+export const getCoinifyPaymentDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
 export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
-export const getWalletHelperUrl = state =>
-  getDomains(state).map(prop('walletHelper'))
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>

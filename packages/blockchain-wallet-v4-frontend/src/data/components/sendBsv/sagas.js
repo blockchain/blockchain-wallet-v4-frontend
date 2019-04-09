@@ -236,6 +236,13 @@ export default ({ coreSagas, networks }) => {
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )
       yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND_FAILURE,
+          'BSV',
+          e
+        ])
+      )
+      yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {
           coinName: 'Bitcoin SV'
         })

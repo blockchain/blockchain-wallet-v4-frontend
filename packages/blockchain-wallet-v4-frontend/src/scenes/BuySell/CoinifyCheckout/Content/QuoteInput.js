@@ -4,10 +4,9 @@ import {
   QuoteInputTemplateBuy,
   QuoteInputTemplateSell
 } from './QuoteInputTemplate'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { path } from 'ramda'
 import { getQuoteInputData } from './selectors'
 import Loading from 'components/BuySell/Loading'
 
@@ -19,16 +18,12 @@ class QuoteInput extends Component {
   render () {
     const {
       data,
-      changeTab,
-      symbol,
-      setMax,
-      setMin,
       checkoutError,
-      increaseLimit,
       defaultCurrency,
       limits,
       disabled,
-      type
+      type,
+      verified
     } = this.props
     return data.cata({
       Success: value => {
@@ -37,17 +32,11 @@ class QuoteInput extends Component {
         return (
           <QuoteInputTemplate
             val={value}
-            changeTab={changeTab}
             disabled={disabled}
-            unit={'__required__'}
-            currency={'__required__'}
             limits={limits}
             defaultCurrency={defaultCurrency}
-            symbol={symbol}
-            setMax={setMax}
-            setMin={setMin}
             checkoutError={checkoutError}
-            increaseLimit={increaseLimit}
+            verified={verified}
           />
         )
       },
@@ -66,14 +55,14 @@ QuoteInput.propTypes = {
   checkoutError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  checkoutError: path(['coinify', 'checkoutError'], state),
+const mapStateToProps = state => ({
+  checkoutError: selectors.components.coinify.getCoinifyCheckoutError(state),
   data: getQuoteInputData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  actions: bindActionCreators(actions.modules.coinify, dispatch)
+  actions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 export default connect(

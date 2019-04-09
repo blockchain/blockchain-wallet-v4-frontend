@@ -402,6 +402,18 @@ describe('sendBsv sagas', () => {
           )
       })
 
+      it('should log SEND_FAILURE event', () => {
+        saga
+          .next()
+          .put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.SEND_FAILURE,
+              'BSV',
+              error
+            ])
+          )
+      })
+
       it('should display error message', () => {
         saga
           .next()

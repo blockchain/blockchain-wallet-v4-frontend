@@ -318,6 +318,13 @@ export default ({ coreSagas, networks }) => {
           )
         )
         yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'ETH',
+            e
+          ])
+        )
+        yield put(
           actions.alerts.displayError(C.SEND_COIN_ERROR, {
             coinName: coinModel.displayName
           })

@@ -401,6 +401,18 @@ describe('sendBch sagas', () => {
           )
       })
 
+      it('should log SEND_FAILURE event', () => {
+        saga
+          .next()
+          .put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.SEND_FAILURE,
+              'BCH',
+              error
+            ])
+          )
+      })
+
       it('should display error message', () => {
         saga
           .next()

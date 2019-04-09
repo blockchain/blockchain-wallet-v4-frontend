@@ -18,6 +18,7 @@ import buySellSellBtc from './img/buy-sell-sell-btc.svg'
 import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
+import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
@@ -40,6 +41,8 @@ import kycGetStarted from './img/kyc-get-started.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
+import poweredByCoinify from './img/powered_by_coinify.svg'
+import poweredBySfox from './img/powered_by_sfox.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -48,6 +51,7 @@ import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
+import sfoxLanding from './img/sfox-landing.png'
 import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import stellarPlanet from './img/stellar-planet.png'
@@ -114,6 +118,7 @@ export default {
   'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
+  'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
   'email-error': emailError,
   'email-success': emailSuccess,
@@ -165,12 +170,15 @@ export default {
   'lockbox-send-review2': sendReview2,
   'lockbox-send-review3': sendReview3,
   'micro-deposits-whole': microDepositsWhole,
+  'powered-by-coinify': poweredByCoinify,
+  'powered-by-sfox': poweredBySfox,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,
   'qr-code': qrCode,
   rocket: rocket,
   search: search,
   'select-arrow': selectArrow,
+  'sfox-landing': sfoxLanding,
   'sfox-logo': sfoxLogo,
   shapeshiftLogo: shapeshiftLogo,
   smartphone: smartphone,

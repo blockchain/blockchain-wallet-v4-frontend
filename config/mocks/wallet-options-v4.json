@@ -141,8 +141,8 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
-          "iSignThisDomain": "https://stage-verify.isignthis.com"
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
+          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com"
         }
       },
       "sfox": {
@@ -238,7 +238,7 @@
     "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.stellar.org",
+    "horizon": "https://horizon.blockchain.info",
     "veriff": "https://magic.veriff.me"
   }
 }

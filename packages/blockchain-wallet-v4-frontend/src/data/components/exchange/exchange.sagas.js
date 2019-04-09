@@ -19,6 +19,7 @@ import {
   last,
   or,
   path,
+  pathOr,
   prop,
   propOr
 } from 'ramda'
@@ -62,6 +63,7 @@ import {
 
 export const logLocation = 'exchange/sagas'
 export const renewLimitsDelay = 30 * 1000
+const fallbackSourceFees = { source: 0, target: 0, mempoolFees: {} }
 
 let renewLimitsTask = null
 export default ({ api, coreSagas, networks }) => {
@@ -320,17 +322,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.setSourceFee({
           source: fee,
+          mempoolFees: provisionalPayment.fees,
           target: convertSourceToTarget(form, rates, fee),
           sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
         })
       )
     } catch (e) {
-      yield put(
-        A.setSourceFee({
-          source: 0,
-          target: 0
-        })
-      )
+      yield put(A.setSourceFee(fallbackSourceFees))
     }
   }
 
@@ -430,6 +428,8 @@ export default ({ api, coreSagas, networks }) => {
     const form = yield select(formValueSelector)
     const sourceCoin = path(['source', 'coin'], form)
     const targetCoin = path(['target', 'coin'], form)
+    if (!sourceCoin || !targetCoin) return
+
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(
       changeAdviceSubscription,
@@ -593,12 +593,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(changeSubscription)
       yield call(checkLatestTx, path(['source', 'coin'], form))
       yield call(updateMinMax)
-      yield put(
-        actions.analytics.logEvent([
-          ...SWAP_EVENTS.FIXTURES_CHANGED,
-          `${fix} ${pair} ${newInputField}`
-        ])
-      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeFix', e))
     }
@@ -693,7 +687,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const depositFunds = function * (trade, source, depositCredentials) {
+  const depositFunds = function * (trade, source, fees, depositCredentials) {
     let txId = null
     try {
       const {
@@ -708,6 +702,7 @@ export default ({ api, coreSagas, networks }) => {
         depositAddress,
         source.type,
         convertStandardToBase(symbol, value),
+        fees,
         depositMemo
       )
       // Sign transaction
@@ -733,7 +728,16 @@ export default ({ api, coreSagas, networks }) => {
       if (prop('coin', source) === 'ETH')
         yield spawn(updateLatestEthTrade, txId)
     } catch (err) {
-      yield call(api.failTrade, trade.id, err, txId)
+      if (prop('coin', source) === 'XLM') {
+        const xlmErrMessage = pathOr(
+          err,
+          ['response', 'data', 'extras', 'result_codes'],
+          err
+        )
+        yield call(api.failTrade, trade.id, xlmErrMessage, txId)
+      } else {
+        yield call(api.failTrade, trade.id, err, txId)
+      }
       throw err
     }
   }
@@ -753,10 +757,11 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const pair = getCurrentPair(form)
+    const fees = yield select(S.getMempoolFees)
     try {
       const depositCredentials = yield call(getDepositCredentials, source)
       const trade = yield call(createTrade, source, target, pair)
-      yield call(depositFunds, trade, source, depositCredentials)
+      yield call(depositFunds, trade, source, fees, depositCredentials)
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
@@ -782,7 +787,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
-      yield put(A.setSourceFee({ source: 0, target: 0 }))
+      yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield cancel(renewLimitsTask)
     } catch (e) {

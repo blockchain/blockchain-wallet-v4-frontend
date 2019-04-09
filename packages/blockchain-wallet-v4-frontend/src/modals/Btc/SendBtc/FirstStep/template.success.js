@@ -209,11 +209,17 @@ const FirstStep = props => {
             />
             {enableToggle ? (
               !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
+                <AddressButton
+                  onClick={() => handleToToggle()}
+                  data-e2e='downArrowButton'
+                >
                   <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
               ) : (
-                <AddressButton onClick={() => handleToToggle()}>
+                <AddressButton
+                  onClick={() => handleToToggle()}
+                  data-e2e='pencilArrowButton'
+                >
                   <Icon name='pencil' size='13px' cursor />
                 </AddressButton>
               )

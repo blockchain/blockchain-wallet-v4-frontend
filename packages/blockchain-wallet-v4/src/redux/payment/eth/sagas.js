@@ -296,6 +296,10 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { txId }))
       },
 
+      fees (fees) {
+        return makePayment(mergeRight(p, { fees }))
+      },
+
       description (message) {
         return isString(message)
           ? makePayment(mergeRight(p, { description: message }))
@@ -315,6 +319,7 @@ export default ({ api }) => {
           from: (origin, type) =>
             chain(gen, payment => payment.from(origin, type)),
           fee: value => chain(gen, payment => payment.fee(value)),
+          fees: fees => chain(gen, payment => payment.fees(fees)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),

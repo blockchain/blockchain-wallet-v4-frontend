@@ -238,6 +238,13 @@ export default ({ coreSagas }) => {
           )
         )
         yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'XLM',
+            e
+          ])
+        )
+        yield put(
           actions.alerts.displayError(C.SEND_COIN_ERROR, {
             coinName: 'Stellar'
           })

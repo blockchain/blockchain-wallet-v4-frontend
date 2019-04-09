@@ -409,6 +409,18 @@ describe('sendBtc sagas', () => {
           )
       })
 
+      it('should log SEND_FAILURE event', () => {
+        saga
+          .next()
+          .put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.SEND_FAILURE,
+              'BTC',
+              error
+            ])
+          )
+      })
+
       it('should display error message', () => {
         saga.next().put(
           actions.alerts.displayError(C.SEND_COIN_ERROR, {
