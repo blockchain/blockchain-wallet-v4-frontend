@@ -1,3 +1,4 @@
+import * as coinify from './coinify/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
@@ -17,6 +18,7 @@ import * as uploadDocuments from './uploadDocuments/selectors'
 import * as veriff from './veriff/selectors'
 
 export {
+  coinify,
   identityVerification,
   exchange,
   exchangeHistory,

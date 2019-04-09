@@ -415,6 +415,13 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'BTC',
+            e
+          ])
+        )
         yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
       }
     }

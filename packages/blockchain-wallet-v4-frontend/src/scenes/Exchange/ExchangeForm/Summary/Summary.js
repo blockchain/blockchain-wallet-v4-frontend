@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
+import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { formatAmount } from '../services'
@@ -17,6 +18,7 @@ import {
   Wrapper as BorderWrapper
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
+import TargetFiatAmount from './TargetFiatAmount'
 
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
@@ -28,11 +30,12 @@ const SummaryWrapper = styled(BorderWrapper)`
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
 `
-
+const TooltipWrapAmountHeader = styled(AmountHeader)`
+  display: flex;
+`
 const SummaryStringDisplay = styled(StringDisplay)`
   justify-content: flex-end;
 `
-
 export class Summary extends React.PureComponent {
   render () {
     const {
@@ -43,8 +46,7 @@ export class Summary extends React.PureComponent {
       sourceFiat,
       sourceFeeFiat,
       targetAmount,
-      targetCoin,
-      targetFiat
+      targetCoin
     } = this.props
 
     const fiatCurrencySymbol = Exchange.getSymbol(currency)
@@ -84,12 +86,19 @@ export class Summary extends React.PureComponent {
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <AmountHeader>
+          <TooltipWrapAmountHeader>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.fees'
-              defaultMessage='Fees'
+              id='scenes.exchange.exchangeform.summary.networkfees'
+              defaultMessage='Network Fees'
             />
-          </AmountHeader>
+            <TooltipHost id='exchange.networkfees'>
+              <TooltipIcon
+                name='question-in-circle-filled'
+                color='lightblue-gray'
+                size='18px'
+              />
+            </TooltipHost>
+          </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
               color='gray-5'
@@ -156,15 +165,12 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <SummaryStringDisplay
-                data-e2e='exchangeSummaryTargetFiatValue'
-                skeletonHeight='20px'
-                skeletonWidth='46px'
-              >
-                {targetFiat.map(amount =>
-                  formatAmount(true, fiatCurrencySymbol, amount)
-                )}
-              </SummaryStringDisplay>
+              <TargetFiatAmount
+                targetAmount={targetAmount}
+                targetCoin={targetCoin}
+                color='brand-primary'
+                weight={400}
+              />
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
               <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>

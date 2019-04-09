@@ -9,7 +9,6 @@ import { spacing } from 'services/StyleService'
 import { RadioButton } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  BorderBox,
   Form,
   CancelWrapper,
   ColLeft,
@@ -20,6 +19,7 @@ import {
   ColRightInner,
   Row
 } from 'components/IdentityVerification'
+import { SellContainer } from 'components/BuySell/styled'
 
 const RowContent = styled(Row)`
   padding-left: 10px;
@@ -27,6 +27,10 @@ const RowContent = styled(Row)`
 `
 const ClickableIcon = styled(Icon)`
   cursor: pointer;
+`
+const BankLabel = styled.label``
+const CenteredRow = styled(Row)`
+  align-items: center;
 `
 
 const SelectAccounts = props => {
@@ -46,7 +50,7 @@ const SelectAccounts = props => {
   return (
     <Form>
       <ColLeft>
-        <BorderBox>
+        <SellContainer>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
@@ -63,20 +67,22 @@ const SelectAccounts = props => {
           </InputWrapper>
           {bankAccounts &&
             bankAccounts.map((b, index) => (
-              <Row key={index}>
+              <CenteredRow key={index}>
                 <Field
                   name='iban'
                   component={RadioButton}
                   props={{ id: `iban${index}`, value: index }}
                 />
                 <RowContent>
-                  <Text weight={300}>{path(['_account', '_number'], b)}</Text>
+                  <BankLabel htmlFor={`iban${index}`}>
+                    <Text weight={300}>{path(['_account', '_number'], b)}</Text>
+                  </BankLabel>
                   <ClickableIcon
                     name='trash'
                     onClick={() => deleteBankAccount(b)}
                   />
                 </RowContent>
-              </Row>
+              </CenteredRow>
             ))}
           <StepTransition
             next
@@ -91,7 +97,7 @@ const SelectAccounts = props => {
               defaultMessage='Add new account'
             />
           </StepTransition>
-        </BorderBox>
+        </SellContainer>
       </ColLeft>
       <ColRight>
         <ColRightInner>

@@ -11,7 +11,7 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: 40px;
+  height: ${props => props.height || '40px'};
 `
 const Error = styled(Text)`
   white-space: nowrap;
@@ -99,12 +99,13 @@ class NumberBoxDebounced extends React.Component {
       meta,
       placeholder,
       unit,
+      height,
       ...rest
     } = this.props
     const errorState = getErrorState(meta)
 
     return (
-      <Container className={className}>
+      <Container className={className} height={height}>
         <NumberInput
           value={this.state.value}
           errorState={errorState}
@@ -113,6 +114,7 @@ class NumberBoxDebounced extends React.Component {
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          height={height}
           {...rest}
         />
         {meta.touched && meta.error && (

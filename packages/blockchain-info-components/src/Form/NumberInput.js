@@ -11,17 +11,19 @@ const BaseNumberInput = styled.input.attrs({
   min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
   padding: 6px 12px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: ${props => props.size || '14px'};
   font-weight: 300;
-  color: ${props => props.theme['gray-5']};
-  background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  color: ${props =>
+    props.color ? props.theme[props.color] : props.theme['gray-5']};
+  background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
+  border-top: ${props => (props.borderTopNone ? 'none' : '')};
+  cursor: ${props => props.disabled && 'not-allowed'};
   -moz-appearance: textfield;
   &::placeholder {
     color: ${props => props.theme['gray-3']};

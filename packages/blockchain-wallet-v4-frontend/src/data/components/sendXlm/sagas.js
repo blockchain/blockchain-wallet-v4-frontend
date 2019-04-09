@@ -248,6 +248,13 @@ export default ({ coreSagas }) => {
             e
           )
         )
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'XLM',
+            e
+          ])
+        )
         yield put(actions.alerts.displayError(C.SEND_XLM_ERROR))
       }
     }

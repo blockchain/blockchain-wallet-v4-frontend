@@ -2,8 +2,13 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, Link } from 'blockchain-info-components'
-import renderFaq from 'components/FaqDropdown'
+import {
+  Text,
+  Link,
+  Icon,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
@@ -12,80 +17,133 @@ import {
   OrderDetailsRow
 } from 'components/BuySell/OrderDetails'
 import {
-  BorderBox,
-  Row,
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
+import media from 'services/ResponsiveService'
+import { BackButton } from 'components/BuySell/styled'
 
-const ExchangeRateWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 20px;
+  justify-content: center;
 `
+const OrderReviewContainer = styled.div`
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+const CenteredPartnerSubHeader = styled(PartnerSubHeader)`
+  text-align: center;
+`
+const CountdownTimerWrapper = styled.div`
+  display: flex;
+  margin-right: 10px;
+  margin-bottom: 10px;
+`
+const ErrorContainer = styled.div`
+  width: 450px;
+  margin: 0 auto 50px auto;
+  text-align: center;
+  ${media.mobile`
+    width: 90%;
+  `};
+`
+const Header = styled(PartnerHeader)`
+  ${media.mobile`
+    margin-top: 25px;
+  `};
+`
+const FeeText = styled(Text)`
+  display: flex;
+  align-items: center;
+`
+
+const FONT_SIZE = '16px'
+const FONT_COLOR = 'brand-primary'
 
 const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`)
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
-  <Row>
-    <BorderBox>
-      <PartnerHeader weight={600} style={spacing('mb-10')}>
+  <Wrapper>
+    <OrderReviewContainer>
+      <StepTransition restart Component={BackButton}>
+        <Icon name='left-arrow' size='20px' color='brand-secondary' cursor />
+      </StepTransition>
+      <Header color={FONT_COLOR}>
         <FormattedMessage
           id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere'
           defaultMessage="You're almost there"
         />
-      </PartnerHeader>
-      <PartnerSubHeader weight={300} style={spacing('mb-20')}>
-        <FormattedMessage
-          id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader'
-          defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.'
-        />
-      </PartnerSubHeader>
-      <ExchangeRateWrapper>
-        <Text size='12px' weight={500} style={spacing('mr-10')}>
+      </Header>
+      <CenteredPartnerSubHeader weight={300}>
+        {type === 'buy' ? (
           <FormattedMessage
-            id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate'
-            defaultMessage='Exchange Rate'
+            id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
+            defaultMessage='Please confirm your order details before we direct you to our secure payment provider.'
           />
-        </Text>
-        <Text size='12px' weight={300}>
-          1 BTC = {rateHelper(quoteR)}
-        </Text>
-      </ExchangeRateWrapper>
-      <OrderDetailsTable style={spacing('mt-10')}>
-        <OrderDetailsRow short noBorderBottom>
+        ) : (
+          <FormattedMessage
+            id='scenes.buysell.coinifycheckout.content.orderreview.sell.revieworder.subheader'
+            defaultMessage='Please confirm your order details.'
+          />
+        )}
+      </CenteredPartnerSubHeader>
+      <OrderDetailsTable width='400px' padding='20px 20px 10px 20px'>
+        <OrderDetailsRow short noPaddingTop noBorderBottom>
+          <Text size={FONT_SIZE} weight={400}>
+            <FormattedMessage
+              id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.exchange_rate'
+              defaultMessage='Exchange rate'
+            />
+          </Text>
+          <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
+            1 BTC = {rateHelper(quoteR)}
+          </Text>
+        </OrderDetailsRow>
+        <CountdownTimerWrapper>
+          {quoteR
+            .map(q => (
+              <CountdownTimer
+                expiryDate={q.expiresAt.getTime()}
+                handleExpiry={onRefreshQuote}
+                tooltipExpiryTime='15 minutes'
+                hideTooltip
+              />
+            ))
+            .getOrElse(null)}
+        </CountdownTimerWrapper>
+        <OrderDetailsRow short noBorderBottom borderTop>
           {type === 'buy' ? (
-            <Text size='13px' weight={300}>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttopurchase'
-                defaultMessage='BTC Amount to Purchase'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_purchase'
+                defaultMessage='Purchase'
               />
             </Text>
           ) : (
-            <Text size='13px' weight={300}>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttosell'
-                defaultMessage='BTC Amount to Sell'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_sell'
+                defaultMessage='Sell'
               />
             </Text>
           )}
-          <Text size='13px' weight={300}>
+          <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
             {quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         {type === 'buy' ? (
           <OrderDetailsRow short noBorderBottom>
-            <Text size='13px' weight={300}>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctransactionfee'
-                defaultMessage='BTC Transaction Fee'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tx_fee'
+                defaultMessage='Transaction Fee'
               />
             </Text>
-            <Text size='13px' weight={300}>
+            <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
               -
               {quoteR
                 .map(q => reviewOrder.renderMinerFeeRow(q, medium, type))
@@ -96,13 +154,13 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         ) : null}
         {type === 'buy' ? (
           <OrderDetailsRow short>
-            <Text size='13px' weight={300}>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctobereceived'
-                defaultMessage='BTC to be Received'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.to_be_received'
+                defaultMessage='To Be Received'
               />
             </Text>
-            <Text size='13px' weight={300} color='success'>
+            <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
               {quoteR
                 .map(q => reviewOrder.renderBtcToBeReceived(q, medium, type))
                 .getOrElse('~')}{' '}
@@ -111,24 +169,27 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           </OrderDetailsRow>
         ) : null}
         <OrderDetailsRow short noBorderBottom>
-          <Text size='13px' weight={300}>
+          <Text size={FONT_SIZE} weight={400}>
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amount'
               defaultMessage='Amount'
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
             {quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         <OrderDetailsRow short noBorderBottom>
-          <Text size='13px' weight={300}>
+          <FeeText size={FONT_SIZE} weight={400}>
             <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tradingfee'
-              defaultMessage='Trading Fee'
+              id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.payment_fee'
+              defaultMessage='Payment Fee'
             />
-          </Text>
-          <Text size='13px' weight={300}>
+            <TooltipHost id='buysellOrderReview'>
+              <TooltipIcon name='info' />
+            </TooltipHost>
+          </FeeText>
+          <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
             {quoteR
               .map(q => reviewOrder.renderFeeRow(q, medium, type))
               .getOrElse('~')}
@@ -136,156 +197,43 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </OrderDetailsRow>
         <OrderDetailsRow short>
           {type === 'buy' ? (
-            <Text size='13px' weight={400}>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totalcost'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_cost'
                 defaultMessage='Total Cost'
               />
             </Text>
           ) : (
-            <Text size='13px' weight={400} color='success'>
+            <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totaltobereceived'
-                defaultMessage='Total to be Received'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_to_receive'
+                defaultMessage='To Receive'
               />
             </Text>
           )}
-          <Text size='13px' weight={400} color={type !== 'buy' && 'success'}>
+          <Text size={FONT_SIZE} weight={500} color={FONT_COLOR}>
             {quoteR
               .map(q => reviewOrder.renderTotalRow(q, medium, type))
               .getOrElse('~')}
           </Text>
         </OrderDetailsRow>
       </OrderDetailsTable>
-      {quoteR
-        .map(q => (
-          <CountdownTimer
-            style={spacing('mt-20')}
-            expiryDate={q.expiresAt.getTime()}
-            handleExpiry={onRefreshQuote}
-            tooltipExpiryTime='15 minutes'
-          />
-        ))
-        .getOrElse(null)}
-    </BorderBox>
-  </Row>
+    </OrderReviewContainer>
+  </Wrapper>
 )
 
-const faqQuestions = [
-  {
-    question: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper1.question'
-        defaultMessage='How long will the buy order take?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper1.answer'
-        defaultMessage='How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).'
-      />
-    )
-  },
-  {
-    question: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper2.question'
-        defaultMessage='Why does the exchange rate change?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper2.answer'
-        defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate."
-      />
-    )
-  },
-  {
-    question: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper3.question'
-        defaultMessage='The small print'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper3.answer'
-        defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
-        values={{
-          tos: (
-            <Link
-              size='12px'
-              weight={300}
-              href='https://www.coinify.com/legal'
-              target='_blank'
-              rel='noreferrer noopener'
-            >
-              <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-            </Link>
-          ),
-          privacyPolicy: (
-            <Link
-              size='12px'
-              weight={300}
-              href='https://www.coinify.com/legal/policy'
-              target='_blank'
-              rel='noreferrer noopener'
-            >
-              <FormattedMessage
-                id='coinifyexchangedata.cyo.helper3.privacypolicy'
-                defaultMessage='Privacy Policy'
-              />
-            </Link>
-          ),
-          supportLink: (
-            <Link
-              target='_blank'
-              rel='noreferrer noopener'
-              href='https://support.blockchain.com'
-              size='12px'
-              weight={300}
-            >
-              <FormattedMessage
-                id='coinifyexchangedata.cyo.contactsupport'
-                defaultMessage='contact support'
-              />
-            </Link>
-          )
-        }}
-      />
-    )
-  }
-]
-
-const sellQuestions = [
-  {
-    question: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper4.question'
-        defaultMessage='How long will the sell order take?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='coinifyexchangedata.cyo.helper4.answer'
-        defaultMessage='If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout.'
-      />
-    )
-  }
-]
 export const OrderSubmit = props => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props
-  const questions =
-    type === 'sell' ? sellQuestions.concat(faqQuestions) : faqQuestions
+  const { busy, clearTradeError, onSubmit, quoteR } = props
+
   return (
     <Fragment>
       {busy.error ? (
-        <div onClick={() => clearTradeError()}>
+        <ErrorContainer onClick={() => clearTradeError()}>
           <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
             <FormattedMessage
               id='scenes.buysell.orderreview.wrong'
               defaultMessage='Sorry, something went wrong with your trade:'
-            />
+            />{' '}
             {busy.error_description}
           </Text>
           <span>
@@ -296,11 +244,10 @@ export const OrderSubmit = props => {
               />
             </StepTransition>
           </span>
-        </div>
+        </ErrorContainer>
       ) : (
         <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} />
       )}
-      {renderFaq(questions)}
     </Fragment>
   )
 }

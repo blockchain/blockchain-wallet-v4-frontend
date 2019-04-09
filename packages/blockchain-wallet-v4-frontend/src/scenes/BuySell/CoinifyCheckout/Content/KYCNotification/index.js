@@ -1,53 +1,43 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { equals, prop } from 'ramda'
+import { equals } from 'ramda'
 
 import { getData } from './selectors'
 import Success from './template'
 
-class KYCNotificationContainer extends React.Component {
-  componentWillUnmount () {
-    const { kyc, showKycCompleted } = this.props
+const { VERIFIED } = model.profile.KYC_STATES
 
-    if (showKycCompleted && equals(prop('state', kyc), 'completed')) {
+class KYCNotificationContainer extends React.PureComponent {
+  componentWillUnmount () {
+    const { showKycCompleted, kycState } = this.props
+
+    if (showKycCompleted && equals(kycState, VERIFIED)) {
       this.props.preferencesActions.hideKycCompleted()
     }
   }
 
   render () {
-    const {
-      canTrade,
-      kyc,
-      limits,
-      onTrigger,
-      showKycCompleted,
-      symbol,
-      type
-    } = this.props
-
-    return showKycCompleted || !equals(prop('state', kyc), 'completed') ? (
+    const { canTrade, limits, onTrigger, symbol, type, kycState } = this.props
+    return (
       <Success
-        kyc={kyc}
         canTrade={canTrade}
         limits={limits}
         onTrigger={onTrigger}
-        showKycCompleted={showKycCompleted}
         symbol={symbol}
         type={type}
+        kycState={kycState}
       />
-    ) : null
+    )
   }
 }
-
-const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(KYCNotificationContainer)
