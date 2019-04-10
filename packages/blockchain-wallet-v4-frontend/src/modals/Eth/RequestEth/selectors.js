@@ -1,9 +1,8 @@
-import { model, selectors } from 'data'
+import { selectors } from 'data'
 import { head, includes, lift, prop, propOr, nth, toLower } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 const extractAddress = addr => prop('addr', head(addr))
-const { ERC20_COIN_LIST } = model.coins
 export const getData = (state, coin) => {
   const to = formValueSelector('requestEth')(state, 'to')
   const accountsR = selectors.core.kvStore.eth.getAccounts(state)
@@ -25,6 +24,7 @@ export const getData = (state, coin) => {
 }
 export const getInitialValues = (state, ownProps) => {
   const coin = propOr('ETH', 'coin', ownProps)
+  const erc20List = selectors.core.walletOptions.getErc20CoinList(state)
   const to = to => ({ to, coin })
   if (ownProps.lockboxIndex != null) {
     return selectors.core.common.eth
@@ -32,7 +32,7 @@ export const getInitialValues = (state, ownProps) => {
       .map(nth(ownProps.lockboxIndex))
       .map(to)
       .getOrFail()
-  } else if (includes(coin, ERC20_COIN_LIST)) {
+  } else if (includes(coin, erc20List)) {
     return selectors.core.common.eth
       .getErc20AccountBalances(state, toLower(coin))
       .map(to)

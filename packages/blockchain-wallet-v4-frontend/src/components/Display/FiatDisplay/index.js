@@ -5,33 +5,20 @@ import { bindActionCreators } from 'redux'
 import { includes, toLower } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions, model } from 'data'
+import { actions, selectors } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const { ERC20_COIN_LIST } = model.coins
 class FiatDisplayContainer extends React.PureComponent {
   componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      const { coin } = this.props
-      switch (true) {
-        case coin === 'BCH':
-          return this.props.bchActions.fetchRates()
-        case coin === 'BTC':
-          return this.props.btcActions.fetchRates()
-        case coin === 'BSV':
-          return this.props.bsvActions.fetchRates()
-        case coin === 'ETH':
-          return this.props.ethActions.fetchRates()
-        case coin === 'XLM':
-          return this.props.xlmActions.fetchRates()
-        case includes(coin, ERC20_COIN_LIST):
-          return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
-        default:
-          return Remote.Failure('Unsupported Coin Code')
+      const { coin, erc20List } = this.props
+      if (includes(coin, erc20List)) {
+        return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
       }
+      return this.props[`${toLower(coin)}Actions`].fetchRates()
     }
   }
 
@@ -52,7 +39,8 @@ FiatDisplayContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coin, ownProps.children)
+  data: getData(state, ownProps.coin, ownProps.children),
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,5 +1,3 @@
-import { filter, keys } from 'ramda'
-
 // TODO list:
 // combine with or put this into wallet options
 // update home page charts component to use this model
@@ -152,6 +150,3 @@ export const COIN_MODELS = {
     showNewTagSidenav: false
   }
 }
-
-// list of supported ERC 20 tokens
-export const ERC20_COIN_LIST = keys(filter(c => c.isErc20, COIN_MODELS))

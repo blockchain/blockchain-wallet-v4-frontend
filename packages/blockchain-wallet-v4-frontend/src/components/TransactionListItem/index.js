@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { includes } from 'ramda'
 
-import { actions, model } from 'data'
+import { actions, selectors } from 'data'
 import TransactionListItem from './template'
 
-const { ERC20_COIN_LIST } = model.coins
 class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
@@ -15,7 +14,8 @@ class ListItemContainer extends React.PureComponent {
   }
 
   handleEditDescription = value => {
-    const { coin, transaction } = this.props
+    const { coin, erc20List, transaction } = this.props
+    // TODO: remove switch and make generic
     switch (true) {
       case coin === 'ETH': {
         this.props.ethActions.setTxNotesEth(transaction.hash, value)
@@ -37,7 +37,7 @@ class ListItemContainer extends React.PureComponent {
         this.props.xlmActions.setTxNotesXlm(transaction.hash, value)
         break
       }
-      case includes(coin, ERC20_COIN_LIST): {
+      case includes(coin, erc20List): {
         this.props.ethActions.setTxNoteErc20(coin, transaction.hash, value)
         break
       }
@@ -67,6 +67,10 @@ class ListItemContainer extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
+})
+
 const mapDispatchToProps = dispatch => ({
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
@@ -78,6 +82,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ListItemContainer)

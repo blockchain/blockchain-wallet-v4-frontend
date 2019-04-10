@@ -21,7 +21,6 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const DUST = 546
 const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
-const { ERC20_COIN_LIST } = model.coins
 export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
@@ -113,10 +112,12 @@ export default ({ coreSagas, networks }) => {
   const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
+      if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals(FORM, form)) return
-
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
@@ -125,7 +126,7 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, ERC20_COIN_LIST) ? 'ETH' : payload
+          const modalName = includes(payload, erc20List) ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`@MODAL.SEND.${modalName}`, {

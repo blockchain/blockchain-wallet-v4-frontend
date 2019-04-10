@@ -28,14 +28,17 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
-const { COIN_MODELS, ERC20_COIN_LIST } = model.coins
+const { COIN_MODELS } = model.coins
 
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
       const coin = propOr('ETH', 'payload', action)
-      const isErc20 = includes(coin, ERC20_COIN_LIST)
+      const isErc20 = includes(coin, erc20List)
       let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
@@ -80,8 +83,11 @@ export default ({ coreSagas, networks }) => {
 
   const firstStepSubmitClicked = function * () {
     try {
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
       const { coin } = yield select(selectors.form.getFormValues(FORM))
-      const isErc20 = includes(coin, ERC20_COIN_LIST)
+      const isErc20 = includes(coin, erc20List)
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
@@ -101,11 +107,14 @@ export default ({ coreSagas, networks }) => {
   const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
+      if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals(FORM, form)) return
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
       const { coin } = yield select(selectors.form.getFormValues(FORM))
-      const isErc20 = includes(coin, ERC20_COIN_LIST)
+      const isErc20 = includes(coin, erc20List)
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
