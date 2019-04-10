@@ -158,7 +158,7 @@ export default ({ api }) => {
       }
       yield put(A.fetchErc20DataSuccess(token, tokenData))
     } catch (e) {
-      yield put(A.fetchErc20DataFailure(token, e.message))
+      yield put(A.fetchErc20DataFailure(token, prop('message', e)))
     }
   }
 

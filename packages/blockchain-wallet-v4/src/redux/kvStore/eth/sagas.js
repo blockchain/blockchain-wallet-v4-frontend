@@ -1,9 +1,11 @@
 import {
+  assoc,
   includes,
   filter,
   forEach,
   head,
   keys,
+  pathOr,
   prop,
   isNil,
   isEmpty
@@ -60,6 +62,18 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEth(newkv))
   }
 
+  const createErc20 = function * ({ newkv }) {
+    const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
+    const newTokens = filter(
+      c => !includes(c, keys(erc20)),
+      keys(SUPPORTED_ERC20_TOKENS)
+    )
+    forEach(token => (erc20[token] = SUPPORTED_ERC20_TOKENS[token]), newTokens)
+    const ethereum = assoc('erc20', erc20, newkv.value.ethereum)
+    const newkvErc20 = set(KVStoreEntry.value, { ethereum }, newkv)
+    yield put(A.fetchMetadataEthSuccess(newkvErc20))
+  }
+
   const transitionFromLegacy = function * ({ newkv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
@@ -84,23 +98,13 @@ export default ({ api, networks } = {}) => {
         !prop('correct', head(newkv.value.ethereum.accounts))
       ) {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
+      } else if (
+        keys(newkv.value.ethereum.erc20).length !==
+        keys(SUPPORTED_ERC20_TOKENS).length
+      ) {
+        // missing 1 or more supported erc20 token entries, add each to kvStore
+        yield call(createErc20, { newkv })
       } else {
-        if (
-          keys(newkv.value.ethereum.erc20).length !==
-          keys(SUPPORTED_ERC20_TOKENS).length
-        ) {
-          // missing 1 or more supported erc20 token entries, add each to kvStore
-          const newTokens = filter(
-            c => !includes(c, keys(newkv.value.ethereum.erc20)),
-            keys(SUPPORTED_ERC20_TOKENS)
-          )
-          forEach(
-            token =>
-              (newkv.value.ethereum.erc20[token] =
-                SUPPORTED_ERC20_TOKENS[token]),
-            newTokens
-          )
-        }
         yield put(A.fetchMetadataEthSuccess(newkv))
       }
     } catch (e) {
