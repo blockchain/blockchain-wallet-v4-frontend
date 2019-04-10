@@ -35,6 +35,9 @@ export const getCoinAvailability = curry((state, coin) =>
 )
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x => keys(filter(c => c.isErc20, x)))
+export const getCoinModel = (state, coin) => {
+  getSupportedCoins(state).map(prop(coin))
+}
 
 // partners
 export const getSFOXCountries = state =>

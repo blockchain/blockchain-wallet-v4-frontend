@@ -28,7 +28,6 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
-const { COIN_MODELS } = model.coins
 
 export const logLocation = 'components/sendEth/sagas'
 export default ({ coreSagas, networks }) => {
@@ -205,7 +204,10 @@ export default ({ coreSagas, networks }) => {
 
   const secondStepSubmitClicked = function * () {
     const { coin } = yield select(selectors.form.getFormValues(FORM))
-    const coinModel = COIN_MODELS[coin]
+    const coinModel = (yield select(
+      selectors.core.walletOptions.getCoinModel,
+      coin
+    )).getOrFail()
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({

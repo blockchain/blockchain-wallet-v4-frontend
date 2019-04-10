@@ -7,7 +7,7 @@ import { formValueSelector } from 'redux-form'
 
 import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, model } from 'data'
+import { actions, selectors, model } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -15,7 +15,6 @@ import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const { TRANSACTION_EVENTS } = model.analytics
-const { COIN_MODELS } = model.coins
 class RequestEthContainer extends React.PureComponent {
   componentDidMount () {
     this.init()
@@ -82,7 +81,8 @@ class RequestEthContainer extends React.PureComponent {
       data,
       position,
       total,
-      selection
+      selection,
+      supportedCoins
     } = this.props
     const content = data.cata({
       Success: val => (
@@ -111,7 +111,7 @@ class RequestEthContainer extends React.PureComponent {
             id='modals.requesteth.title'
             defaultMessage='Request {displayName}'
             values={{
-              displayName: COIN_MODELS[coin].displayName
+              displayName: supportedCoins[coin].displayName
             }}
           />
         </ModalHeader>
@@ -126,7 +126,10 @@ const mapStateToProps = (state, ownProps) => ({
   initialValues: getInitialValues(state, ownProps),
   coin:
     formValueSelector('requestEth')(state, 'coin') ||
-    propOr('ETH', 'coin', ownProps)
+    propOr('ETH', 'coin', ownProps),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({

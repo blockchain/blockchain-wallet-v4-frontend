@@ -85,7 +85,7 @@ export const getErc20Data = (state, ownProps) => {
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      Remote.of([]) // TODO: future lockbox support for ERC20
+      Remote.of([])
     ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
   }
 

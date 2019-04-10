@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { equals, keys, includes, toUpper } from 'ramda'
 
-import { model } from 'data'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import LockboxBalance from './LockboxBalance'
@@ -14,7 +13,6 @@ import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
 
-const { COIN_MODELS } = model.coins
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,18 +52,18 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getSelectedComponent = coinOrRoute => {
+const getSelectedComponent = (coinOrRoute, supportCoins) => {
   switch (true) {
     case equals(coinOrRoute, 'LOCKBOX'):
       return <LockboxTotalBalance />
-    case includes(toUpper(coinOrRoute), keys(COIN_MODELS)):
+    case includes(toUpper(coinOrRoute), keys(supportCoins)):
       return <Balance large coin={toUpper(coinOrRoute)} />
     default:
       return <TotalBalance large />
   }
 }
 
-const getBalanceMessage = coinOrRoute => {
+const getBalanceMessage = (coinOrRoute, supportCoins) => {
   switch (true) {
     case equals(coinOrRoute, 'LOCKBOX'):
       return (
@@ -74,12 +72,12 @@ const getBalanceMessage = coinOrRoute => {
           defaultMessage='Lockbox Balance'
         />
       )
-    case includes(toUpper(coinOrRoute), keys(COIN_MODELS)):
+    case includes(toUpper(coinOrRoute), keys(supportCoins)):
       return (
         <FormattedHTMLMessage
           id='scenes.wallet.menutop.balance.balance'
           defaultMessage='{coin} Balance'
-          values={{ coin: COIN_MODELS[toUpper(coinOrRoute)].displayName }}
+          values={{ coin: supportCoins[toUpper(coinOrRoute)].displayName }}
         />
       )
     default:
@@ -92,27 +90,30 @@ const getBalanceMessage = coinOrRoute => {
   }
 }
 
-const Success = props => (
-  <Wrapper>
-    <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
-      {getBalanceMessage(props.coinOrRoute)}
-    </BalanceText>
-    <BalanceDropdown>
-      <ComponentDropdown
-        down
-        forceSelected
-        toggleOnCallback={false}
-        selectedComponent={getSelectedComponent(props.coinOrRoute)}
-        components={[
-          <WalletBalance />,
-          <LockboxBalance />,
-          <PendingBalance />,
-          <WatchOnlyBalance />,
-          <CurrencySwitch />
-        ]}
-      />
-    </BalanceDropdown>
-  </Wrapper>
-)
+const Success = props => {
+  const { coinOrRoute, supportCoins } = props
+  return (
+    <Wrapper>
+      <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
+        {getBalanceMessage(coinOrRoute, supportCoins)}
+      </BalanceText>
+      <BalanceDropdown>
+        <ComponentDropdown
+          down
+          forceSelected
+          toggleOnCallback={false}
+          selectedComponent={getSelectedComponent(coinOrRoute, supportCoins)}
+          components={[
+            <WalletBalance />,
+            <LockboxBalance />,
+            <PendingBalance />,
+            <WatchOnlyBalance />,
+            <CurrencySwitch />
+          ]}
+        />
+      </BalanceDropdown>
+    </Wrapper>
+  )
+}
 
 export default Success

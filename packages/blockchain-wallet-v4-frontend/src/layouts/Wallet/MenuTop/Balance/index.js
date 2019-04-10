@@ -2,15 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { any, append, filter, head, keys, toUpper } from 'ramda'
 
-import { model } from 'data'
 import { getData } from './selectors'
 import Template from './template'
-const { COIN_MODELS } = model.coins
 
 class Balance extends React.PureComponent {
   render () {
-    const { path } = this.props
-    const coins = append('LOCKBOX', keys(COIN_MODELS))
+    const { path, supportCoins } = this.props
+    const coins = append('LOCKBOX', keys(supportCoins))
     const coinOrRoute = head(
       filter(
         path => any(coin => coin === toUpper(path))(coins),

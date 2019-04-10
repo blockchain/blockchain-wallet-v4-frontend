@@ -10,7 +10,6 @@ import SendEth from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-const { COIN_MODELS } = model.coins
 class SendEthContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized(propOr('ETH', 'coin', this.props))
@@ -27,8 +26,8 @@ class SendEthContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll } = this.props
-    const coin = COIN_MODELS[propOr('ETH', 'coin', this.props)]
+    const { step, position, total, closeAll, supportedCoins } = this.props
+    const coin = supportedCoins[propOr('ETH', 'coin', this.props)]
     return (
       <SendEth
         position={position}
@@ -54,7 +53,10 @@ SendEthContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  step: selectors.components.sendEth.getStep(state)
+  step: selectors.components.sendEth.getStep(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({

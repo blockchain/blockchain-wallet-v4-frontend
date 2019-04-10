@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 import { connect } from 'react-redux'
 
-import { model } from 'data'
+import { selectors } from 'data'
 import { getBlockHeight } from './selectors'
 import {
   Icon,
@@ -14,8 +14,6 @@ import {
   TooltipHost,
   Tooltip
 } from 'blockchain-info-components'
-
-const { COIN_MODELS } = model.coins
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,10 +45,10 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = props => {
-  const { blockHeight, coin, txBlockHeight } = props
+  const { blockHeight, coin, txBlockHeight, supportedCoins } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
-  const minConfirmations = COIN_MODELS[coin].minConfirmations
+  const minConfirmations = supportedCoins[coin].minConfirmations
 
   return (
     <Wrapper>
@@ -84,7 +82,7 @@ const Confirmations = props => {
           </TransactionTooltip>
         )}
         <Link
-          href={`${COIN_MODELS[coin].txExplorerBaseUrl}/${props.hash}`}
+          href={`${supportedCoins[coin].txExplorerBaseUrl}/${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
         >
@@ -124,7 +122,10 @@ Confirmations.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  blockHeight: getBlockHeight(state, ownProps.coin)
+  blockHeight: getBlockHeight(state, ownProps.coin),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 export default connect(mapStateToProps)(Confirmations)

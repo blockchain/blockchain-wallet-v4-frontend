@@ -1,14 +1,16 @@
 import { map, prop, reject, values } from 'ramda'
 
-import { model, selectors } from 'data'
+import { selectors } from 'data'
 
-const { COIN_MODELS } = model.coins
 // TODO: better way to exclude BSV via model
-export const getCoins = (state, { type }) =>
-  values(
+export const getCoins = (state, { type }) => {
+  const supportedCoins = selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
+  return values(
     map(
       x => ({ text: x.displayName, value: x.coinCode }),
-      reject(c => c.coinCode === 'BSV', COIN_MODELS)
+      reject(c => c.coinCode === 'BSV', supportedCoins)
     )
   ).filter(({ value }) =>
     selectors.core.walletOptions
@@ -16,3 +18,4 @@ export const getCoins = (state, { type }) =>
       .map(prop(type))
       .getOrElse(false)
   )
+}
