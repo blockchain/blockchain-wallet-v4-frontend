@@ -4,14 +4,16 @@ import { prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-const { ERC20_COIN_LIST } = model.coins
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getToToggled,
     selectors.components.sendEth.getFeeToggled,
     (state, coin) => {
-      return includes(coin, ERC20_COIN_LIST)
+      const erc20List = selectors.core.walletOptions
+        .getErc20CoinList(state)
+        .getOrFail()
+      return includes(coin, erc20List)
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },

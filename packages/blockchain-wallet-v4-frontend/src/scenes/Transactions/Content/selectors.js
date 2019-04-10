@@ -1,7 +1,4 @@
 import { createSelector } from 'reselect'
-
-import { Remote } from 'blockchain-wallet-v4/src'
-import { selectors, model } from 'data'
 import {
   all,
   curry,
@@ -16,13 +13,14 @@ import {
   map,
   filter,
   path,
-  propOr
+  propOr,
+  toLower
 } from 'ramda'
+
+import { selectors, model } from 'data'
 import { hasAccount } from 'services/ExchangeService'
 
 const { WALLET_TX_SEARCH } = model.form
-const { ERC20_COIN_LIST } = model.coins
-
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
     propSatisfies(
@@ -54,23 +52,14 @@ const filterTransactions = curry((status, criteria, transactions) => {
 })
 
 const coinSelectorMap = (state, coin) => {
-  switch (true) {
-    case coin === 'BTC':
-      return selectors.core.common.btc.getWalletTransactions
-    case coin === 'BCH':
-      return selectors.core.common.bch.getWalletTransactions
-    case coin === 'BSV':
-      return selectors.core.common.bsv.getWalletTransactions
-    case coin === 'ETH':
-      return selectors.core.common.eth.getWalletTransactions
-    case coin === 'XLM':
-      return selectors.core.common.xlm.getWalletTransactions
-    case includes(coin, ERC20_COIN_LIST):
-      return state =>
-        selectors.core.common.eth.getErc20WalletTransactions(state, coin)
-    default:
-      return Remote.Failure('Unsupported Coin Code')
+  const erc20List = selectors.core.walletOptions
+    .getErc20CoinList(state)
+    .getOrFail()
+  if (includes(coin, erc20List)) {
+    return state =>
+      selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
+  return selectors.core.common[toLower(coin)].getWalletTransactions
 }
 
 export const getData = (state, coin) =>

@@ -7,11 +7,11 @@ import { actions, model } from 'data'
 import { getData } from './selectors'
 import Actions from './template'
 
-const { COIN_MODELS, ERC20_COIN_LIST } = model.coins
+const { COIN_MODELS } = model.coins
 class ActionsContainer extends React.PureComponent {
   showModal = type => {
-    const { coin, lockboxPath, lockboxDeviceId } = this.props
-    if (includes(coin, ERC20_COIN_LIST)) {
+    const { coin, erc20List, lockboxPath, lockboxDeviceId } = this.props
+    if (includes(coin, erc20List)) {
       return this.props.modalActions.showModal(`@MODAL.${type}.ETH`, {
         coin: toUpper(coin)
       })

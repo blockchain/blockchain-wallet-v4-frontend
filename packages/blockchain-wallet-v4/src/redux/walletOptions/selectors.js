@@ -1,4 +1,4 @@
-import { curry, path, prop, toUpper } from 'ramda'
+import { curry, keys, filter, path, prop, toUpper } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
@@ -33,6 +33,8 @@ export const getEthTxFuse = state =>
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
+export const getErc20CoinList = state =>
+  getSupportedCoins(state).map(x => keys(filter(c => c.isErc20, x)))
 
 // partners
 export const getSFOXCountries = state =>

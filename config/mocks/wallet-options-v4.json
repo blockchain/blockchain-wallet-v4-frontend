@@ -138,6 +138,7 @@
             "circle": "usdp",
             "circleFilled": "usdp"
           },
+          "isErc20": true,
           "minConfirmations": 12,
           "name": "Paxos",
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
