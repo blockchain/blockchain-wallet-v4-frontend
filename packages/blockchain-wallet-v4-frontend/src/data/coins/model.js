@@ -155,21 +155,3 @@ export const COIN_MODELS = {
 
 // list of supported ERC 20 tokens
 export const ERC20_COIN_LIST = keys(filter(c => c.isErc20, COIN_MODELS))
-
-// NOTE: renders in order of array
-export const HOMEPAGE_BALANCE_LIST = [
-  COIN_MODELS.PAX,
-  COIN_MODELS.BTC,
-  COIN_MODELS.ETH,
-  COIN_MODELS.BCH,
-  COIN_MODELS.XLM
-]
-
-// NOTE: renders in order of array
-export const SIDENAV_COIN_LIST = [
-  COIN_MODELS.PAX,
-  COIN_MODELS.BTC,
-  COIN_MODELS.ETH,
-  COIN_MODELS.BCH,
-  COIN_MODELS.XLM
-]

@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 
-import { model } from 'data'
 import { Cartridge } from '@blockchain-com/components'
 import {
   Wrapper,
@@ -21,7 +20,6 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 
-const { SIDENAV_COIN_LIST } = model.coins
 const HelperTipContainer = styled.div`
   margin-left: auto;
 `
@@ -37,7 +35,14 @@ const NewCartridge = styled(Cartridge)`
 `
 const Navigation = props => {
   const { ...rest } = props
-  const { lockboxOpened, lockboxDevices } = rest
+  const { lockboxOpened, lockboxDevices, supportedCoins } = rest
+  const coinOrder = [
+    supportedCoins.PAX,
+    supportedCoins.BTC,
+    supportedCoins.ETH,
+    supportedCoins.BCH,
+    supportedCoins.XLM
+  ]
 
   return (
     <Wrapper {...rest}>
@@ -99,7 +104,7 @@ const Navigation = props => {
               </MenuItem>
             </LinkContainer>
           ),
-          SIDENAV_COIN_LIST
+          coinOrder
         )
       )}
       <LinkContainer to='/lockbox' activeClassName='active'>

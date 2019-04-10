@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedHTMLMessage } from 'react-intl'
 import { mapObjIndexed, toLower, values } from 'ramda'
 
-import { model } from 'data'
 import { Text } from 'blockchain-info-components'
 import {
   HomeBalanceRow,
@@ -12,7 +11,6 @@ import {
   HomeCoinBalanceCell
 } from 'components/Balances'
 
-const { HOMEPAGE_BALANCE_LIST } = model.coins
 const TotalRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -36,7 +34,15 @@ const TxLink = styled(LinkContainer)`
   }
 `
 const Success = props => {
-  const { viewType, balances } = props
+  const { viewType, balances, supportedCoins } = props
+  const coinOrder = [
+    supportedCoins.PAX,
+    supportedCoins.BTC,
+    supportedCoins.ETH,
+    supportedCoins.BCH,
+    supportedCoins.XLM
+  ]
+
   return (
     <HomeBalanceTable>
       <TotalRow>
@@ -75,7 +81,7 @@ const Success = props => {
               </TxLink>
             </HomeBalanceRow>
           )
-        }, HOMEPAGE_BALANCE_LIST)
+        }, coinOrder)
       )}
     </HomeBalanceTable>
   )

@@ -6,7 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { map, values } from 'ramda'
 import { createGlobalStyle } from 'styled-components'
 
-import { model, selectors } from 'data'
+import { selectors } from 'data'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
@@ -51,11 +51,16 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const { SIDENAV_COIN_LIST } = model.coins
-
 class App extends React.PureComponent {
   render () {
-    const { store, history, messages, persistor, isAuthenticated } = this.props
+    const {
+      store,
+      history,
+      messages,
+      persistor,
+      isAuthenticated,
+      supportedCoins
+    } = this.props
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>
@@ -127,14 +132,15 @@ class App extends React.PureComponent {
                     <WalletLayout path='/lockbox' component={Lockbox} />
                     {values(
                       map(
-                        coin => (
-                          <WalletLayout
-                            path={coin.txListAppRoute}
-                            component={Transactions}
-                            coin={coin.coinCode}
-                          />
-                        ),
-                        SIDENAV_COIN_LIST
+                        coin =>
+                          coin.txListAppRoute && (
+                            <WalletLayout
+                              path={coin.txListAppRoute}
+                              component={Transactions}
+                              coin={coin.coinCode}
+                            />
+                          ),
+                        supportedCoins
                       )
                     )}
                     {isAuthenticated ? (
@@ -157,7 +163,10 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 export default connect(mapStateToProps)(App)
