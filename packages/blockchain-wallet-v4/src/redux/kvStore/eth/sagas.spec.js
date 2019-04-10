@@ -7,7 +7,6 @@ import { walletV3 } from '../../../../data'
 import { derivationMap, ETH } from '../config'
 import { set } from 'ramda-lens'
 import { getMetadataXpriv } from '../root/selectors'
-import { SUPPORTED_ERC20_TOKENS } from './model'
 
 const api = {
   fetchKVStore: () => {}
@@ -41,7 +40,7 @@ const mockNewEthEntry = {
   last_tx: null,
   legacy_account: null,
   last_tx_timestamp: null,
-  erc20: SUPPORTED_ERC20_TOKENS
+  erc20: ['pax']
 }
 
 const newkv = set(

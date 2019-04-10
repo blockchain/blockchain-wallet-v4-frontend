@@ -14,13 +14,13 @@ import {
 } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
-import { SUPPORTED_ERC20_TOKENS } from './model'
 
+// TODO: figure out how to pull ERC20 from walletOptions state
 const buildStateWithTokens = defaultValue =>
   compose(
     reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
     prepend('eth')
-  )(SUPPORTED_ERC20_TOKENS)
+  )(['pax'])
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
