@@ -1,4 +1,4 @@
-import { curry, path, prop, toLower } from 'ramda'
+import { curry, path, prop, toUpper } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
@@ -8,17 +8,8 @@ export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
 export const getWalletHelperUrl = state =>
   getDomains(state).map(prop('walletHelper'))
-// specific
 export const getAppEnv = state =>
   getWebOptions(state).map(path(['application', 'environment']))
-export const getBtcNetwork = state =>
-  getWebOptions(state).map(path(['btc', 'config', 'network']))
-export const getBchFees = state =>
-  getWebOptions(state).map(path(['bch', 'config', 'fees']))
-export const getBsvFees = state =>
-  getWebOptions(state).map(path(['bsv', 'config', 'fees']))
-export const getEthTxFuse = state =>
-  getWebOptions(state).map(path(['eth', 'lastTxFuse']))
 export const getAnalyticsSiteId = state =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = state =>
@@ -27,8 +18,20 @@ export const getMigrationRedirects = state =>
   getWebOptions(state).map(
     path(['application', 'enableDomainMigrationRedirects'])
   )
+export const getSupportedCoins = state =>
+  getOptions(state).map(path(['platforms', 'web', 'coins']))
+
+// coins
+export const getBtcNetwork = state =>
+  getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
+export const getBchFees = state =>
+  getSupportedCoins(state).map(path(['BCH', 'config', 'fees']))
+export const getBsvFees = state =>
+  getSupportedCoins(state).map(path(['BSV', 'config', 'fees']))
+export const getEthTxFuse = state =>
+  getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
 export const getCoinAvailability = curry((state, coin) =>
-  getWebOptions(state).map(path([toLower(coin), 'availability']))
+  getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
 
 // partners

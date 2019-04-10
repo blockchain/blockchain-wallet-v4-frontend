@@ -85,11 +85,13 @@ const configureStore = () => {
       const reauthenticate = () =>
         store.dispatch(actions.modules.profile.signIn())
       const networks = {
-        btc: Bitcoin.networks[options.platforms.web.btc.config.network],
-        bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
-        bsv: BitcoinCash.networks[options.platforms.web.btc.config.network],
-        eth: options.platforms.web.eth.config.network,
-        xlm: options.platforms.web.xlm.config.network
+        btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
+        bch:
+          BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
+        bsv:
+          BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
+        eth: options.platforms.web.coins.ETH.config.network,
+        xlm: options.platforms.web.coins.XLM.config.network
       }
       const api = createWalletApi({
         options,
