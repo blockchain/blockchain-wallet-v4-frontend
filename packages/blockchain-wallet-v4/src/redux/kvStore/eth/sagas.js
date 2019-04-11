@@ -136,6 +136,7 @@ export default ({ api, networks } = {}) => {
 
   return {
     createEth,
+    createNewErc20Entry,
     deriveAccount,
     fetchMetadataEth,
     transitionFromLegacy
