@@ -70,85 +70,6 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  let prevBalanceSource
-  let prevBalance
-  let balanceTask
-  const calculateEffectiveBalanceMemo = function * (source) {
-    if (!equals(source, prevBalanceSource)) {
-      if (balanceTask) cancel(balanceTask)
-      balanceTask = yield fork(calculateEffectiveBalance, source)
-      prevBalance = yield join(balanceTask)
-      prevBalanceSource = source
-      balanceTask = null
-    }
-    return prevBalance
-  }
-
-  const calculateEffectiveBalance = function * (source) {
-    const coin = prop('coin', source)
-    const addressOrIndex = prop('address', source)
-    const addressType = prop('type', source)
-    let payment
-
-    switch (coin) {
-      case 'BCH':
-        payment = yield coreSagas.payment.bch
-          .create({ network: networks.bch })
-          .chain()
-          .init()
-          .fee('priority')
-          .from(addressOrIndex, addressType)
-          .done()
-        break
-      case 'BSV':
-        payment = yield coreSagas.payment.bsv
-          .create({ network: networks.bsv })
-          .chain()
-          .init()
-          .fee('priority')
-          .from(addressOrIndex, addressType)
-          .done()
-        break
-      case 'BTC':
-        payment = yield coreSagas.payment.btc
-          .create({ network: networks.btc })
-          .chain()
-          .init()
-          .fee('priority')
-          .from(addressOrIndex, addressType)
-          .done()
-        break
-      case 'ETH':
-        payment = yield coreSagas.payment.eth
-          .create({ network: networks.eth })
-          .chain()
-          .init()
-          .fee('priority')
-          .from(addressOrIndex, addressType)
-          .done()
-        break
-      case 'XLM':
-        payment = yield coreSagas.payment.xlm
-          .create({})
-          .chain()
-          .init()
-          .fee('priority')
-          .from(addressOrIndex, addressType)
-          .done()
-        break
-      default:
-        yield put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'calculateEffectiveBalance',
-            'Could not get effective balance.'
-          )
-        )
-        throw new Error('Could not get effective balance.')
-    }
-    return prop('effectiveBalance', payment.value())
-  }
-
   const createPayment = function * (
     coin,
     sourceAddressOrIndex,
@@ -305,7 +226,6 @@ export default ({ coreSagas, networks }) => {
   return {
     calculatePaymentMemo,
     calculateProvisionalPayment,
-    calculateEffectiveBalanceMemo,
     createPayment,
     getDefaultAccount,
     updateLatestEthTrade,
