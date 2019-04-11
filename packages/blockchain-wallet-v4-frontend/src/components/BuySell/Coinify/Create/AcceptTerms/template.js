@@ -150,7 +150,36 @@ const AcceptTerms = props => {
             <TermsContainer>
               {emailVerified ? (
                 <Fragment>
-                  <TermsText size='12px' weight={300} />
+                  <TermsText size='12px' weight={300}>
+                    <FormattedMessage
+                      id='coinifyexchangedata.create.createaccount.partner.byclicking'
+                      defaultMessage="By clicking continue, I agree to Coinify's {ToS} & {Privacy}"
+                      values={{
+                        ToS: (
+                          <Link
+                            href='https://www.coinify.com/legal'
+                            size='12px'
+                            weight={300}
+                            rel='noreferrer noopener'
+                            target='_blank'
+                          >
+                            Terms of Service
+                          </Link>
+                        ),
+                        Privacy: (
+                          <Link
+                            href='https://www.coinify.com/legal/policy'
+                            size='12px'
+                            weight={300}
+                            rel='noreferrer noopener'
+                            target='_blank'
+                          >
+                            Privacy Policy
+                          </Link>
+                        )
+                      }}
+                    />
+                  </TermsText>
                   <Button
                     nature='primary'
                     type='submit'
