@@ -7,8 +7,6 @@ import * as selectors from '../../selectors.js'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
-import * as model from '../../model'
-const { STEPS } = model.components.identityVerification
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 const networks = { btc: 'bitcoin' }
@@ -74,13 +72,12 @@ describe('coinifySagas', () => {
   })
 
   describe('coinify signup - new KYC user', () => {
-    let { coinifySignup, sendCoinifyKYC } = coinifySagas({
+    let { coinifySignup } = coinifySagas({
       coreSagas,
       networks
     })
 
     const COUNTRY = 'GB'
-    const PROFILE = Remote.of({ id: '5' })
 
     let saga = testSaga(coinifySignup)
     const beforeDetermine = 'beforeDetermine'
@@ -99,29 +96,6 @@ describe('coinifySagas', () => {
         .next()
         .select(selectors.core.data.coinify.getProfile)
         .save(beforeDetermine)
-    })
-
-    it('should get tier 2 data', () => {
-      saga.next(PROFILE).select(selectors.modules.profile.getTier, 2)
-    })
-
-    it('should call sendCoinifyKYC', () => {
-      const tier2Data = Remote.of({ state: 'none' })
-      saga
-        .next(tier2Data)
-        .put(coinifyActions.coinifyNotAsked())
-        .next()
-        .call(sendCoinifyKYC)
-    })
-
-    it('should set verification step to personal if state is NONE', () => {
-      saga
-        .next()
-        .put(
-          actions.components.identityVerification.setVerificationStep(
-            STEPS.personal
-          )
-        )
     })
 
     it('should handle an error', () => {
