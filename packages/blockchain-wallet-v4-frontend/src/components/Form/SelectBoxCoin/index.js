@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { pathOr } from 'ramda'
 
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
@@ -32,7 +33,7 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <Icon
-          name={supportedCoins[value].icons.circle}
+          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
           size='22px'
           weight={300}
         />
@@ -51,7 +52,7 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <Icon
-          name={supportedCoins[value].icons.circle}
+          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
           size='22px'
           weight={300}
         />

@@ -4,13 +4,24 @@ import toJson from 'enzyme-to-json'
 import ListItemContainer from './index'
 import configureStore from 'redux-mock-store'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+import {
+  getOptions,
+  getSupportedCoins,
+  getErc20CoinList
+} from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
+
+jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
 jest.mock('./template', () => () => {
   return <div />
 })
-
 jest.mock('blockchain-info-components', () => ({
   TooltipRebuild: jest.fn()
 }))
+
+getOptions.mockImplementation(() => Remote.of({}))
+getSupportedCoins.mockImplementation(() => Remote.of({}))
+getErc20CoinList.mockImplementation(() => Remote.of({}))
 
 const store = configureStore([])({})
 const tx = { hash: '123abc' }

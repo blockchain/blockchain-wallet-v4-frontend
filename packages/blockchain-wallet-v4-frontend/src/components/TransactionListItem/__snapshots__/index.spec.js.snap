@@ -39,6 +39,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBsv": [Function],
       }
     }
+    erc20List={Object {}}
     ethActions={
       Object {
         "createMetadataEth": [Function],
@@ -84,6 +85,27 @@ exports[`ListItemContainer renders correctly 1`] = `
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
+      }
+    }
+    storeSubscription={
+      Subscription {
+        "listeners": Object {
+          "clear": [Function],
+          "get": [Function],
+          "notify": [Function],
+          "subscribe": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": [Function],
       }
     }
     walletActions={
