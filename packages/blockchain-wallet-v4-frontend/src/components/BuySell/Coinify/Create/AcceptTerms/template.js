@@ -157,7 +157,7 @@ const AcceptTerms = props => {
                     disabled={invalid || busy || signupError}
                   >
                     {!busy ? (
-                      <Text color='white' uppercase>
+                      <Text color='white'>
                         <FormattedMessage
                           id='continue'
                           defaultMessage='Continue'
