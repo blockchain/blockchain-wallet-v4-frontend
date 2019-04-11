@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
@@ -6,8 +5,7 @@ import * as StellarSdk from 'stellar-sdk'
 
 import * as S from './selectors'
 import * as A from './actions'
-import * as selectors from '../../selectors'
-import sagas, { TX_PER_PAGE, sumBigNumbers } from './sagas'
+import sagas, { sumBigNumbers } from './sagas'
 import Remote from '../../../remote'
 
 const STUB_LEDGER = {
@@ -19,26 +17,14 @@ const OTHER_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const STUB_ACCOUNT = {
   account_id: STUB_ACCOUNT_ID,
   subentry_count: 1,
-  balances: [
-    {
-      asset_type: 'native',
-      balance: 10000000000
-    }
-  ]
+  balances: [{ asset_type: 'native', balance: 10000000000 }]
 }
 const OTHER_ACCOUNT = {
   account_id: OTHER_ACCOUNT_ID,
   subentry_count: 1,
-  balances: [
-    {
-      asset_type: 'native',
-      balance: 10000000000
-    }
-  ]
+  balances: [{ asset_type: 'native', balance: 10000000000 }]
 }
-
 const STUB_TXS = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]
-
 const api = {
   createXlmAccount: jest.fn(),
   getLatestLedgerDetails: jest.fn(() => STUB_LEDGER),
@@ -49,18 +35,8 @@ const api = {
   }),
   getXlmTransactions: jest.fn(() => STUB_TXS)
 }
-
-const networks = {
-  xlm: 'testnet'
-}
-
-const {
-  createAccounts,
-  fetchData,
-  fetchLedgerDetails,
-  fetchTransactions,
-  __processTxs
-} = sagas({
+const networks = { xlm: 'testnet' }
+const { createAccounts, fetchData, fetchLedgerDetails } = sagas({
   api,
   networks
 })
@@ -165,205 +141,3 @@ describe('create account saga', () => {
       .run()
   })
 })
-
-// describe('fetch transactions saga', () => {
-//   it('should fetch transactions', () =>
-//     expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [call(__processTxs)],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading())
-//       .call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .put(A.transactionsAtBound(true))
-//       .call(__processTxs, STUB_TXS)
-//       .put(A.fetchTransactionsSuccess(STUB_TXS))
-//       .run())
-
-//   it('  ', () =>
-//     expectSaga(fetchTransactions, { payload: { accountId: OTHER_ACCOUNT_ID } })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading())
-//       .call(api.getXlmTransactions, {
-//         publicKey: OTHER_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .put(A.transactionsAtBound(true))
-//       .call(__processTxs, STUB_TXS)
-//       .put(A.fetchTransactionsSuccess(STUB_TXS))
-//       .run())
-
-//   it('should not fetch txs if atBound is true', () =>
-//     expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactionsAtBound), true],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .not.put(A.fetchTransactionsLoading())
-//       .not.call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .not.put(A.transactionsAtBound(true))
-//       .not.put(A.fetchTransactionsSuccess(STUB_TXS))
-//       .run())
-
-//   it('should not fetch txs if last page is Loading', () =>
-//     expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactionsAtBound), false],
-//         [select(S.getTransactions), [Remote.Loading]]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .not.put(A.fetchTransactionsLoading())
-//       .not.call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .not.put(A.transactionsAtBound(true))
-//       .not.put(A.fetchTransactionsSuccess(STUB_TXS))
-//       .run())
-
-//   it('should fetch txs if atBound is true and reset them', () =>
-//     expectSaga(fetchTransactions, { payload: { reset: true } })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactionsAtBound), true],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading(true))
-//       .call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: true
-//       })
-//       .put(A.transactionsAtBound(true))
-//       .call(__processTxs, STUB_TXS)
-//       .put(A.fetchTransactionsSuccess(STUB_TXS, true))
-//       .run())
-
-//   it('should set atBound to false if tx length is bigger or equal to TX_PER_PAGE', () => {
-//     const fullPage = new Array(TX_PER_PAGE).fill({})
-//     return expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [call.fn(api.getXlmTransactions), fullPage],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading())
-//       .call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .put(A.transactionsAtBound(false))
-//       .put(A.fetchTransactionsSuccess(fullPage))
-//       .run()
-//   })
-
-//   it('should set atBound to true and empty txs on 404 response', () => {
-//     api.getXlmTransactions.mockRejectedValueOnce({ response: { status: 404 } })
-//     return expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading())
-//       .call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .put(A.fetchTransactionsSuccess([]))
-//       .put(A.transactionsAtBound(true))
-//       .run()
-//   })
-
-//   it('should set error on error response', () => {
-//     const errorMessage = 'message'
-//     const error = new Error(errorMessage)
-//     api.getXlmTransactions.mockRejectedValueOnce(error)
-//     return expectSaga(fetchTransactions, { payload: {} })
-//       .provide([
-//         [
-//           select(selectors.kvStore.xlm.getDefaultAccountId),
-//           Remote.of(STUB_ACCOUNT_ID)
-//         ],
-//         [select(S.getTransactions), []]
-//       ])
-//       .select(selectors.kvStore.xlm.getDefaultAccountId)
-//       .select(S.getTransactions)
-//       .call(__processTxs, STUB_TXS)
-//       .select(S.getTransactionsAtBound)
-//       .put(A.fetchTransactionsLoading())
-//       .call(api.getXlmTransactions, {
-//         publicKey: STUB_ACCOUNT_ID,
-//         limit: TX_PER_PAGE,
-//         pagingToken: null,
-//         reset: undefined
-//       })
-//       .put(A.fetchTransactionsFailure(errorMessage))
-//       .run()
-//   })
-// })

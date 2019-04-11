@@ -1,6 +1,5 @@
-/* eslint-disable */
 import { select } from 'redux-saga/effects'
-import { path, append, sum, values, length } from 'ramda'
+import { path, sum, values, length } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -10,7 +9,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 import reducers from '../reducers'
-import { convertFeeToWei } from '../../../utils/eth'
 
 const ethFetchData = {
   '0x8790143B84A1A12ADA4aF057D7096A937143a476': {
