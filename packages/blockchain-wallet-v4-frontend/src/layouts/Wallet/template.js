@@ -18,8 +18,6 @@ import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 
-import media from 'services/ResponsiveService'
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,11 +47,7 @@ const Content = styled.div`
   }
 `
 const Top = styled.div`
-  height: 100px;
   width: 100%;
-  ${media.mobile`
-    height: 150px;
-  `};
 `
 
 // TODO: @header issue

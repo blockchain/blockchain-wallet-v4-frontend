@@ -12,14 +12,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
-  height: 80px;
-  padding: 0 20px;
+  align-items: center;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-radius: 4px;
-  margin-top: 15px;
   overflow: hidden;
+  padding: 20px;
+
+  @media (min-width: 1200px) {
+    height: 80px;
+    padding: 0 20px;
+    align-items: flex-start;
+  }
 `
 
 const Column = styled.div`
