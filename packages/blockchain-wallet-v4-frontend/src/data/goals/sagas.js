@@ -335,6 +335,19 @@ export default ({ api }) => {
     }
   }
 
+  const runPaxGoal = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    const hasSeen = (yield select(
+      selectors.core.kvStore.eth.getErc20HasSeen,
+      'PAX'
+    )).getOrElse(false)
+    if (hasSeen) return
+
+    yield put(actions.core.kvStore.eth.setErc20HasSeen('PAX'))
+    yield put(actions.goals.addInitialModal('pax', 'PaxWelcome'))
+  }
+
   const runWelcomeGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -372,15 +385,19 @@ export default ({ api }) => {
       swapGetStarted,
       swapUpgrade,
       airdropClaim,
+      pax,
       bsv,
       welcome
     } = initialModals
-    if (kycDocResubmit)
+    if (kycDocResubmit) {
       return yield put(actions.modals.showModal(kycDocResubmit.name))
-    if (sunriver)
+    }
+    if (sunriver) {
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
-    if (payment)
+    }
+    if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    }
     if (coinifyUpgrade) {
       return yield put(
         actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
@@ -396,21 +413,28 @@ export default ({ api }) => {
         actions.modals.showModal(airdropReminder.name, airdropReminder.data)
       )
     }
-    if (swapGetStarted)
+    if (swapGetStarted) {
       return yield put(
         actions.modals.showModal(swapGetStarted.name, swapGetStarted.data)
       )
-    if (swapUpgrade)
+    }
+    if (swapUpgrade) {
       return yield put(
         actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
       )
-    if (airdropClaim)
+    }
+    if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
+    }
+    if (pax) {
+      return yield put(actions.modals.showModal(pax.name))
+    }
     if (bsv) {
       return yield put(actions.modals.showModal(bsv.name))
     }
-    if (welcome)
+    if (welcome) {
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
+    }
   }
 
   const runGoal = function * (goal) {
@@ -446,6 +470,9 @@ export default ({ api }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
+        case 'pax':
+          yield call(runPaxGoal, goal)
+          break
         case 'bsv':
           yield call(runBsvGoal, goal)
           break
@@ -478,6 +505,7 @@ export default ({ api }) => {
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
     runBsvGoal,
+    runPaxGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,

@@ -74,6 +74,17 @@ export default (state = INITIAL_STATE, action) => {
       let setTxTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], payload)
       return over(valueLens, setTxTimestamp, state)
     }
+    case AT.SET_ERC0_HAS_SEEN: {
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setHasSeen = assocPath(
+        ['ethereum', 'erc20', toLower(payload.token), 'has_seen'],
+        true
+      )
+      return over(valueLens, setHasSeen, state)
+    }
     default:
       return state
   }

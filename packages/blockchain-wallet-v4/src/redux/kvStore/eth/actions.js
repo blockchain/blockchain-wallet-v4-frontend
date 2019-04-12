@@ -42,3 +42,7 @@ export const setLatestTxTimestampEth = timestamp => ({
   type: AT.SET_LATEST_TX_TIMESTAMP_ETH,
   payload: timestamp
 })
+export const setErc20HasSeen = token => ({
+  type: AT.SET_ERC0_HAS_SEEN,
+  payload: { token }
+})

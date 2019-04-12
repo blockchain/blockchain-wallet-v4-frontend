@@ -12,21 +12,33 @@ import {
   Image,
   Modal,
   ModalHeader,
-  ModalBody
+  ModalBody,
+  Text
 } from 'blockchain-info-components'
 
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
-  border: 0;
+  border: none;
   > span {
-    color: ${props => props.theme['gray-1']};
+    &:hover {
+      cursor: pointer;
+    }
   }
+  z-index: 99;
 `
 const Container = styled.div`
   text-align: center;
   > div:nth-child(2) {
-    margin: 10px 0 20px 0;
+    margin: -8px 0 8px;
   }
+`
+const GetButton = styled(Button)`
+  height: 56px;
+  margin-top: 44px;
+  font-size: 18px;
+`
+const BannerImage = styled(Image)`
+  height: 25%;
 `
 
 class PaxWelcomeContainer extends React.PureComponent {
@@ -38,17 +50,29 @@ class PaxWelcomeContainer extends React.PureComponent {
   render () {
     const { close, position, total } = this.props
     return (
-      <Modal size='medium' position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <WelcomeModalHeader onClose={close} />
-        <Image name='airdrop-welcome' width='100%' />
         <ModalBody>
           <Container>
-            <Button nature='primary' fullwidth onClick={this.onGetPax}>
+            <BannerImage
+              name='coin-dollar'
+              srcset={{
+                'coin-dollar2': '2x',
+                'coin-dollar3': '3x'
+              }}
+            />
+            <Text size='20px' weight={300}>
+              <FormattedMessage
+                id='modals.paxwelcome.intro'
+                defaultMessage='Introducing USD Pax, a safe and stable digital dollar in your wallet'
+              />
+            </Text>
+            <GetButton nature='primary' fullwidth onClick={this.onGetPax}>
               <FormattedMessage
                 id='modals.paxwelcome.getpax'
                 defaultMessage='Get USD Pax'
               />
-            </Button>
+            </GetButton>
           </Container>
         </ModalBody>
       </Modal>

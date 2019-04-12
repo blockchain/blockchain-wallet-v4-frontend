@@ -16,7 +16,13 @@ import {
 } from './Btc'
 import { BsvGetStarted, SendBsv } from './Bsv'
 import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
-import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
+import {
+  PaxWelcome,
+  RequestEth,
+  SendEth,
+  ShowEthPrivateKey,
+  TransferEth
+} from './Eth'
 import {
   ExchangeConfirm,
   ExchangeDetails,
@@ -104,6 +110,7 @@ const Modals = () => (
     <MobileNumberVerify />
     <Onfido />
     <PairingCode />
+    <PaxWelcome />
     <PromptInput />
     <QRCode />
     <RequestBch />
