@@ -55,7 +55,10 @@ const MenuTop = () => (
     <LeftContainer>
       <TextContainer inline>
         <Text size='20px' weight={200} uppercase color='gray-3'>
-          Be Your Own Bank.
+          Be Your Own Bank
+        </Text>
+        <Text size='15px' weight={200} color='gray-3'>
+          <sup>®</sup>
         </Text>
       </TextContainer>
       <Actions />
