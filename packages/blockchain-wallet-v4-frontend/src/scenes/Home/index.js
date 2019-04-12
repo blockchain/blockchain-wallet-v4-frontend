@@ -11,15 +11,13 @@ ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  @media (max-width: 400px) {
-    margin: 0 5px;
-  }
-  @media (min-width: 400px), (max-width: 992px) {
-    margin: 0 10px;
-  }
+  padding: 25px;
   @media (min-width: 992px) {
-    margin: 0 30px;
+    padding: 30px;
   }
+`
+const BannerWrapper = styled.div`
+  margin-bottom: 25px;
 `
 const ColumnWrapper = styled.section`
   display: flex;
@@ -37,25 +35,28 @@ const Column = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
+  max-width: 600px;
   box-sizing: border-box;
-  @media (max-height: 800px), (max-width: 992px) {
+  @media (max-height: 800px), (max-width: 991px) {
     height: auto;
     display: block;
   }
 `
 const ColumnLeft = styled(Column)`
-  padding: 15px 10px 10px 0;
-  @media (max-width: 992px) {
-    padding: 15px 0 0 0;
+  padding: 0 0 25px 0;
+  @media (min-width: 992px) {
+    padding: 0px 30px 0 0;
   }
 `
 const ColumnRight = styled(Column)`
-  padding: 15px 0 10px 0;
+  padding: 0px 0 0 0;
 `
 
 const Home = () => (
   <Wrapper>
-    <Banners />
+    <BannerWrapper>
+      <Banners />
+    </BannerWrapper>
     <ColumnWrapper>
       <ColumnLeft>
         <Balances />

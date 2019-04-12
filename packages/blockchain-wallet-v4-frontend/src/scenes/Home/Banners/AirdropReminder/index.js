@@ -17,11 +17,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 150px;
-  background-color: #0d0d42;
   border-radius: 4px;
-  padding: 0 15px;
-  margin-top: 15px;
+  padding: 15px;
   box-sizing: border-box;
   overflow: hidden;
   background-size: cover;
@@ -37,6 +34,10 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     background-size: cover;
     background-repeat: no-repeat;
+  }
+
+  @media (max-width: 1199px) {
+    background-color: #0d0d42;
   }
 `
 
@@ -59,7 +60,12 @@ const LargeText = styled(Text).attrs({
   color: 'white',
   size: '16px',
   weight: 500
-})``
+})`
+  @media (max-width: 1199px) {
+    font-size: 14px;
+    weight: 400;
+  }
+`
 const GetStartedButton = styled(Button).attrs({
   nature: 'primary',
   width: '200px',
@@ -68,6 +74,9 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
   span:last-child {
     margin-left: 8px;
+  }
+  @media (max-width: 1199px) {
+    margin-top: 10px;
   }
 `
 export const AirdropReminderBanner = ({
