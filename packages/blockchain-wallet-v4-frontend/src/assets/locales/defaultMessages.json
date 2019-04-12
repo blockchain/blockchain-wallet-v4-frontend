@@ -711,6 +711,10 @@
         "id": "coinifyexchangedata.create.createaccount.partner.emailverified"
       },
       {
+        "defaultMessage": "By clicking continue, I agree to Coinify's {ToS} & {Privacy}",
+        "id": "coinifyexchangedata.create.createaccount.partner.byclicking"
+      },
+      {
         "defaultMessage": "Continue",
         "id": "continue"
       },
@@ -756,8 +760,8 @@
         "id": "coinifyexchangedata.create.header.createaccount"
       },
       {
-        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID",
-        "id": "coinifyexchangedata.create.subheader.get_started"
+        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info and ID",
+        "id": "coinifyexchangedata.create.subheader.getstartedverify"
       }
     ],
     "path": "src/components/BuySell/Coinify/Create/template.json"
