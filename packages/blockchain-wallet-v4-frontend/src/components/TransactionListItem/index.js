@@ -38,7 +38,7 @@ class ListItemContainer extends React.PureComponent {
         break
       }
       case includes(coin, erc20List): {
-        this.props.ethActions.setTxNoteErc20(coin, transaction.hash, value)
+        this.props.ethActions.setTxNotesErc20(coin, transaction.hash, value)
         break
       }
       default: {

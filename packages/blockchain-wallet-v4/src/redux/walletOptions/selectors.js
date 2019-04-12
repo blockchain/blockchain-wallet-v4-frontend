@@ -19,7 +19,7 @@ export const getMigrationRedirects = state =>
     path(['application', 'enableDomainMigrationRedirects'])
   )
 export const getSupportedCoins = state =>
-  getOptions(state).map(path(['platforms', 'web', 'coins']))
+  getWebOptions(state).map(prop('coins'))
 
 // coins
 export const getBtcNetwork = state =>
@@ -35,9 +35,8 @@ export const getCoinAvailability = curry((state, coin) =>
 )
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x => keys(filter(c => c.isErc20, x)))
-export const getCoinModel = (state, coin) => {
-  getSupportedCoins(state).map(prop(coin))
-}
+export const getCoinModel = (state, coin) =>
+  getSupportedCoins(state).map(x => prop(toUpper(coin), x))
 
 // partners
 export const getSFOXCountries = state =>

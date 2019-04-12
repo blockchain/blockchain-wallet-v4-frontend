@@ -267,23 +267,31 @@ export default ({ coreSagas, networks }) => {
           )
         )
       } else {
-        // TODO: ERC20
         yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
         yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         yield put(actions.core.kvStore.eth.setLatestTxEth(payment.value().txId))
       }
       // Notes
-      // TODO: ERC20
       if (path(['description', 'length'], payment.value())) {
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
           yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         }
-        yield put(
-          actions.core.kvStore.eth.setTxNotesEth(
-            payment.value().txId,
-            payment.value().description
+        if (coinModel.isErc20) {
+          yield put(
+            actions.core.kvStore.eth.setTxNotesErc20(
+              coin,
+              payment.value().txId,
+              payment.value().description
+            )
           )
-        )
+        } else {
+          yield put(
+            actions.core.kvStore.eth.setTxNotesEth(
+              payment.value().txId,
+              payment.value().description
+            )
+          )
+        }
       }
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {

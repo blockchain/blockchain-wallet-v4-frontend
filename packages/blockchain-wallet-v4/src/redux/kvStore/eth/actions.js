@@ -30,7 +30,7 @@ export const setTxNotesEth = (txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_ETH,
   payload: { txHash, txNote }
 })
-export const setTxNoteErc20 = (token, txHash, txNote) => ({
+export const setTxNotesErc20 = (token, txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_ERC20,
   payload: { token, txHash, txNote }
 })
