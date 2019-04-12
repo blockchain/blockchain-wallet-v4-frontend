@@ -11,6 +11,7 @@ import {
 } from './selectors'
 import Welcome from './template'
 import WelcomeAirdrop from './template.airdrop'
+import WelcomePax from './template.pax'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
@@ -32,6 +33,8 @@ class CoinWelcomeContainer extends React.PureComponent {
         domains={domains}
         onboardingActions={onboardingActions}
       />
+    ) : currentCoin.coinCode === 'PAX' ? (
+      <WelcomePax availability={availability} currentCoin={currentCoin} />
     ) : (
       <Welcome
         availability={availability}
