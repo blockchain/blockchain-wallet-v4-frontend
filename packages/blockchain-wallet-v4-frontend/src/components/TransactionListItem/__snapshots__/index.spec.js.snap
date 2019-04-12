@@ -47,6 +47,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataEthFailure": [Function],
         "fetchMetadataEthLoading": [Function],
         "fetchMetadataEthSuccess": [Function],
+        "setErc20HasSeen": [Function],
         "setLatestTxEth": [Function],
         "setLatestTxTimestampEth": [Function],
         "setTxNotesErc20": [Function],
