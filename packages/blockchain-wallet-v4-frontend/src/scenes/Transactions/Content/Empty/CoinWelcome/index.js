@@ -7,7 +7,8 @@ import {
   getAvailability,
   getCanBuyBtc,
   getCanAirdrop,
-  getDomains
+  getDomains,
+  isTier2Verified
 } from './selectors'
 import Welcome from './template'
 import WelcomeAirdrop from './template.airdrop'
@@ -22,6 +23,7 @@ class CoinWelcomeContainer extends React.PureComponent {
       domains,
       partner,
       supportedCoins,
+      isTier2Verified,
       ...rest
     } = this.props
     const { modalActions, onboardingActions } = rest
@@ -34,7 +36,11 @@ class CoinWelcomeContainer extends React.PureComponent {
         onboardingActions={onboardingActions}
       />
     ) : currentCoin.coinCode === 'PAX' ? (
-      <WelcomePax availability={availability} currentCoin={currentCoin} />
+      <WelcomePax
+        availability={availability}
+        currentCoin={currentCoin}
+        isTier2Verified={isTier2Verified}
+      />
     ) : (
       <Welcome
         availability={availability}
@@ -53,6 +59,7 @@ const mapStateToProps = (state, ownProps) => ({
   partner: getCanBuyBtc(state, ownProps),
   domains: getDomains(state),
   availability: getAvailability(state, ownProps),
+  isTier2Verified: isTier2Verified(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

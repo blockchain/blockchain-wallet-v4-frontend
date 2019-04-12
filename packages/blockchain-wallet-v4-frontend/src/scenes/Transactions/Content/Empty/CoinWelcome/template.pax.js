@@ -58,7 +58,7 @@ const SubTextGroup = styled(TextGroup)`
 `
 
 const WelcomePax = props => {
-  const { availability, handleRequest } = props
+  const { availability, handleRequest, isTier2Verified } = props
 
   return (
     <Wrapper>
@@ -137,29 +137,44 @@ const WelcomePax = props => {
         </Row>
         <Row>
           <Column style={{ paddingRight: '20px' }}>
-            <LinkContainer
-              to={{
-                pathname: '/swap',
-                state: {
-                  from: 'BTC',
-                  to: 'PAX',
-                  amount: '0',
-                  fix: model.rates.FIX_TYPES.BASE_IN_FIAT
-                }
-              }}
-            >
-              <FooterButton
-                nature='primary'
-                onClick={handleRequest}
-                fullwidth
-                disabled={!availability.request}
+            {isTier2Verified ? (
+              <LinkContainer
+                to={{
+                  pathname: '/swap',
+                  state: {
+                    from: 'BTC',
+                    to: 'PAX',
+                    amount: '0',
+                    fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+                  }
+                }}
               >
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.pax.swap'
-                  defaultMessage='Swap for USDp Now'
-                />
-              </FooterButton>
-            </LinkContainer>
+                <FooterButton
+                  nature='primary'
+                  onClick={handleRequest}
+                  fullwidth
+                  disabled={!availability.exchangeTo}
+                >
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.pax.swap'
+                    defaultMessage='Swap for USDp Now'
+                  />
+                </FooterButton>
+              </LinkContainer>
+            ) : (
+              <LinkContainer to={'/swap/profile'}>
+                <FooterButton
+                  nature='primary'
+                  onClick={handleRequest}
+                  fullwidth
+                >
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.pax.unlock'
+                    defaultMessage='Unlock Your USDp Wallet'
+                  />
+                </FooterButton>
+              </LinkContainer>
+            )}
           </Column>
           <Column style={{ paddingLeft: '20px' }}>
             <Link
@@ -187,7 +202,8 @@ const WelcomePax = props => {
 
 WelcomePax.propTypes = {
   availability: PropTypes.object.isRequired,
-  currentCoin: PropTypes.object.isRequired
+  currentCoin: PropTypes.object.isRequired,
+  isTier2Verified: PropTypes.bool.isRequired
 }
 
 export default WelcomePax
