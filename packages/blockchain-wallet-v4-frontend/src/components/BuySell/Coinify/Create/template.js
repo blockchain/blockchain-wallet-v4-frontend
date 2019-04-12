@@ -45,8 +45,8 @@ const Create = props => {
             </PartnerHeader>
             <SubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.create.subheader.get_started'
-                defaultMessage="To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID"
+                id='coinifyexchangedata.create.subheader.getstartedverify'
+                defaultMessage="To get started, create and verify your account in a matter of minutes. We'll need your email, personal info and ID"
               />
             </SubHeader>
             {determineStep === EMAIL && (
