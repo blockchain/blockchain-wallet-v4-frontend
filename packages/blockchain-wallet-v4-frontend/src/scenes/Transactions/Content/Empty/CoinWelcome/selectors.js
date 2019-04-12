@@ -1,5 +1,4 @@
 import { selectors } from 'data'
-import { coinProps } from './model'
 import { path, propOr, toUpper } from 'ramda'
 
 export const getDomains = state =>
@@ -7,10 +6,13 @@ export const getDomains = state =>
 
 export const getCanAirdrop = (state, ownProps) => {
   const { coin } = ownProps
+  const supportedCoins = selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
   const userData = selectors.modules.profile.getUserData(state).getOrElse({})
   return (
-    path([coin, 'airdrop'], coinProps) &&
-    !path(['tags', path([coin, 'airdrop', 'name'], coinProps)], userData)
+    path([coin, 'airdrop'], supportedCoins) &&
+    !path(['tags', path([coin, 'airdrop', 'name'], supportedCoins)], userData)
   )
 }
 

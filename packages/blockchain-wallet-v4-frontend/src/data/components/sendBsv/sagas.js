@@ -212,7 +212,11 @@ export default ({ coreSagas, networks }) => {
         )
       }
       yield put(actions.router.push('/settings/addresses/bsv'))
-      yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
+      yield put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Bitcoin SV'
+        })
+      )
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
@@ -238,7 +242,11 @@ export default ({ coreSagas, networks }) => {
           e
         ])
       )
-      yield put(actions.alerts.displayError(C.SEND_BSV_ERROR))
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Bitcoin SV'
+        })
+      )
     }
   }
 

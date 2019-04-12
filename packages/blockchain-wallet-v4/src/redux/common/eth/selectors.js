@@ -1,10 +1,13 @@
-import { lift, map, path, prop } from 'ramda'
-import { getAddresses } from '../../data/eth/selectors.js'
-import { getAccounts } from '../../kvStore/eth/selectors.js'
-import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
+import { head, keys, lift, map, path, prop, toLower, toUpper } from 'ramda'
+import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
+import { getAccounts, getErc20Account } from '../../kvStore/eth/selectors'
+import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
+//
+// ETH
+//
 export const getAccountBalances = state => {
   const digest = (addresses, account) => ({
     coin: 'ETH',
@@ -38,4 +41,30 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-export const getWalletTransactions = state => state.dataPath.eth.transactions
+export const getWalletTransactions = state => {
+  return state.dataPath.eth.transactions.eth
+}
+
+//
+// ERC20
+//
+
+// getWalletTransactions :: (state, token) -> Remote([ProcessedTx])
+export const getErc20WalletTransactions = (state, token) => {
+  return state.dataPath.eth.transactions[toLower(token)]
+}
+
+export const getErc20AccountBalances = (state, token) => {
+  const digest = (ethAccount, erc20Balance, erc20Account) => ({
+    coin: toUpper(token),
+    label: erc20Account.label,
+    balance: erc20Balance,
+    address: head(keys(ethAccount)), // '0x8e870d67f660d95d5be530380d0ec0bd388289e1'
+    type: ADDRESS_TYPES.ACCOUNT
+  })
+  return lift(digest)(
+    getAddresses(state),
+    getErc20Balance(state, toLower(token)),
+    getErc20Account(state, toLower(token))
+  )
+}

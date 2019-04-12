@@ -12,7 +12,6 @@ import {
   Remote
 } from 'blockchain-wallet-v4/src'
 import sendBtcReducer from 'data/components/sendBtc/reducers'
-
 import modalsReducer from 'data/modals/reducers'
 import sendBtcSaga from 'data/components/sendBtc/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
@@ -25,7 +24,10 @@ import {
   getSettings
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getRates as getBtcRates } from 'blockchain-wallet-v4/src/redux/data/btc/selectors'
-import { getRates as getEthRates } from 'blockchain-wallet-v4/src/redux/data/eth/selectors'
+import {
+  getRates as getEthRates,
+  getErc20Rates
+} from 'blockchain-wallet-v4/src/redux/data/eth/selectors'
 import { getRates as getBchRates } from 'blockchain-wallet-v4/src/redux/data/bch/selectors'
 import { getRates as getXlmRates } from 'blockchain-wallet-v4/src/redux/data/xlm/selectors'
 import { getRates as getBsvRates } from 'blockchain-wallet-v4/src/redux/data/bsv/selectors'
@@ -44,15 +46,15 @@ import {
 import { getDevices } from 'blockchain-wallet-v4/src/redux/kvStore/lockbox/selectors'
 import {
   getCoinAvailability,
-  getBtcNetwork
+  getBtcNetwork,
+  getErc20CoinList,
+  getSupportedCoins
 } from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
-
 import { Form } from 'components/Form'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 jest.useFakeTimers()
-
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
@@ -79,7 +81,6 @@ const networks = {
   }
 }
 const coreSagas = coreSagasFactory({ api: {}, networks })
-
 const paymentMock = {
   change: '123changeaddress',
   coins: [{ value: 10000 }],
@@ -100,7 +101,6 @@ const paymentMock = {
   description: jest.fn(() => paymentMock),
   chain: jest.fn()
 }
-
 const btcAccountsMock = [
   {
     index: 0,
@@ -114,9 +114,7 @@ const btcAccountsMock = [
     }
   }
 ]
-
 const addressesMock = []
-
 const accountBalanceMock = [
   {
     balance: 701687,
@@ -129,7 +127,6 @@ const accountBalanceMock = [
       'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N'
   }
 ]
-
 const ratesMock = {
   USD: {
     '15m': 4000,
@@ -139,14 +136,20 @@ const ratesMock = {
     symbol: '$'
   }
 }
-
 const coinAvailability = {
   send: true,
   request: true,
-  lockbox: true,
-  exchange: true
+  lockbox: false,
+  exchangeTo: true,
+  exchangeFrom: true
 }
-
+const supportedCoins = {
+  BTC: {
+    coinCode: 'BTC',
+    displayName: 'Bitcoin',
+    icons: { circle: '' }
+  }
+}
 const settingsMock = {
   currency: 'USD'
 }
@@ -163,11 +166,14 @@ getDevices.mockImplementation(() => Remote.of([]))
 getCoinAvailability.mockImplementation(
   curry((state, value) => Remote.of(coinAvailability))
 )
+getSupportedCoins.mockImplementation(() => Remote.of(supportedCoins))
 getBtcNetwork.mockImplementation(() => Remote.of('bitcoin'))
 getAddressesBalances.mockImplementation(() => Remote.of(accountBalanceMock))
 getLockboxBtcBalances.mockImplementation(() => Remote.of([]))
 getBtcRates.mockImplementation(() => Remote.of(ratesMock))
 getEthRates.mockImplementation(() => Remote.of(ratesMock))
+getErc20Rates.mockImplementation(() => Remote.of(ratesMock))
+getErc20CoinList.mockImplementation(() => Remote.of([]))
 getBchRates.mockImplementation(() => Remote.of(ratesMock))
 getXlmRates.mockImplementation(() => Remote.of(ratesMock))
 getBsvRates.mockImplementation(() => Remote.of(ratesMock))
@@ -181,17 +187,14 @@ describe('SendBtc Modal', () => {
   const reducers = {
     spy: spyReducer,
     modals: modalsReducer,
-    components: combineReducers({
-      sendBtc: sendBtcReducer
-    }),
+    components: combineReducers({ sendBtc: sendBtcReducer }),
     [paths.settingsPath]: coreReducers.settings
   }
   const sagas = [
     sendBtcSaga({ coreSagas, networks }),
     settingsSagas({ coreSagas })
   ]
-  let store
-  let wrapper
+  let store, wrapper
   beforeEach(() => {
     store = createTestStore(reducers, sagas)
     wrapper = mount(

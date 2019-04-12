@@ -1,5 +1,5 @@
 import { model, selectors } from 'data'
-import { curry, prop } from 'ramda'
+import { curry, prop, toLower } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -157,6 +157,18 @@ export const ethFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.lockbox
         .getLockboxEthAccount(state, from.address)
         .map(prop('label'))
+        .getOrElse(from.address)
+    default:
+      return from.address
+  }
+})
+
+export const erc20FromLabel = curry((coin, payment, state) => {
+  const from = payment.from
+  switch (from.type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.eth
+        .getErc20AccountLabel(state, toLower(coin))
         .getOrElse(from.address)
     default:
       return from.address

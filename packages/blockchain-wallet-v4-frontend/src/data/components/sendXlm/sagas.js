@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, path, prop, head } from 'ramda'
+import { equals, includes, path, prop, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -62,37 +62,24 @@ export default ({ coreSagas }) => {
   const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
+      if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals(FORM, form)) return
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
       let payment = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
         case 'coin':
-          switch (payload) {
-            case 'BTC': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBtc.MODAL)
-              )
-              break
-            }
-            case 'BCH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBch.MODAL)
-              )
-              break
-            }
-            case 'ETH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL)
-              )
-              break
-            }
-          }
+          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          yield put(actions.modals.closeAllModals())
+          yield put(
+            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
+              coin: payload
+            })
+          )
           break
         case 'from':
           const source = prop('address', payload)
@@ -220,7 +207,11 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/xlm/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Stellar'
+          })
+        )
       }
       yield put(destroy(FORM))
       yield put(
@@ -255,7 +246,11 @@ export default ({ coreSagas }) => {
             e
           ])
         )
-        yield put(actions.alerts.displayError(C.SEND_XLM_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Stellar'
+          })
+        )
       }
     }
   }

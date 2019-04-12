@@ -26,28 +26,37 @@ export const invalidAmount = (value, allValues, props) => {
 
 export const maximumAmount = (value, allValues, props) => {
   try {
-    const valueEth = prop('coin', value)
+    const coinValue = prop('coin', value)
+    const coin = prop('coin', props)
     const effectiveBalanceWei = prop('effectiveBalance', props)
-    const effectiveBalanceEth = Exchange.convertEtherToEther({
+    const effectiveBalance = Exchange.convertCoinToCoin({
       value: effectiveBalanceWei,
-      fromUnit: 'WEI',
-      toUnit: 'ETH'
+      coin,
+      baseToStandard: true
     }).value
-    return new BigNumber(valueEth).isLessThanOrEqualTo(
-      new BigNumber(effectiveBalanceEth || 0)
+    return new BigNumber(coinValue).isLessThanOrEqualTo(
+      new BigNumber(effectiveBalance || 0)
     ) ? (
       undefined
     ) : (
-      <MaximumAmountMessage />
+      <MaximumAmountMessage coin={coin} />
     )
   } catch (e) {}
 }
 
 export const minimumFee = (value, allValues, props) =>
-  value && parseInt(value) >= props.minFee ? undefined : <MinimumFeeMessage />
+  value && parseInt(value) >= props.minFee ? (
+    undefined
+  ) : (
+    <MinimumFeeMessage coin={props.coin} />
+  )
 
 export const maximumFee = (value, allValues, props) =>
-  value && parseInt(value) <= props.maxFee ? undefined : <MaximumFeeMessage />
+  value && parseInt(value) <= props.maxFee ? (
+    undefined
+  ) : (
+    <MaximumFeeMessage coin={props.coin} />
+  )
 
 export const shouldError = ({
   values,

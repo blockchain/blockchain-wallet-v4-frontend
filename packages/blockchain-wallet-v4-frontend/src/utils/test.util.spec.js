@@ -3,18 +3,16 @@ import React from 'react'
 
 describe('Test.Utils', () => {
   describe('testPropTypes()', () => {
-    /* eslint-disable */
     const fakeComponent = props => {
       return (
         <div
           size={props.size}
           weight={props.weight}
           deepObj={props.obj}
-          onClick={() => console.log('click')}
+          onClick={() => {}}
         />
       )
     }
-    /* eslint-enable */
 
     it('should test that valid prop types are valid', () => {
       expect(

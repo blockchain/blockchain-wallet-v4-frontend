@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { prop, propOr, path, isEmpty } from 'ramda'
+import { prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -9,10 +9,18 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getToToggled,
     selectors.components.sendEth.getFeeToggled,
-    selectors.core.data.eth.getCurrentBalance,
+    (state, coin) => {
+      const erc20List = selectors.core.walletOptions
+        .getErc20CoinList(state)
+        .getOrFail()
+      return includes(coin, erc20List)
+        ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
+        : selectors.core.data.eth.getCurrentBalance(state)
+    },
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
-    selectors.core.walletOptions.getCoinAvailability
+    (state, coin) =>
+      selectors.core.walletOptions.getCoinAvailability(state, coin)
   ],
   (
     paymentR,
@@ -21,13 +29,10 @@ export const getData = createDeepEqualSelector(
     balanceR,
     lockboxDevicesR,
     formValues,
-    coinAvailabilityR
+    coinAvailability
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
-    const excludeLockbox = !prop(
-      'lockbox',
-      coinAvailabilityR('ETH').getOrElse({})
-    )
+    const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)

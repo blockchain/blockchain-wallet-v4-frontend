@@ -13,6 +13,9 @@ import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, ETH])
 
+//
+// ETH
+//
 export const getAccounts = state =>
   getMetadata(state).map(path(['value', 'ethereum', 'accounts']))
 
@@ -56,3 +59,23 @@ export const getLatestTx = state =>
 
 export const getLatestTxTimestamp = state =>
   getMetadata(state).map(path(['value', 'ethereum', 'last_tx_timestamp']))
+
+//
+// ERC20
+//
+export const getErc20Accounts = state =>
+  getMetadata(state).map(path(['value', 'ethereum', 'erc20']))
+
+export const getErc20Account = (state, token) => {
+  return getErc20Accounts(state).map(path([token]))
+}
+
+export const getErc20ContractAddr = (state, token) => {
+  return getErc20Accounts(state).map(path([token, 'contract']))
+}
+
+export const getErc20TxNote = (state, token, txHash) =>
+  getErc20Account(state, token).map(path(['tx_notes', txHash]))
+
+export const getErc20AccountLabel = (state, token) =>
+  getErc20Account(state, token).map(prop('label'))

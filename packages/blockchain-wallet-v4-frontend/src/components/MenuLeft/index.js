@@ -7,8 +7,6 @@ export const Wrapper = styled.div`
   justify-content: space-around;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 13px;
-  text-transform: ;
   color: ${props => props.theme['gray-5']};
 `
 export const MenuItem = styled.li`
@@ -20,7 +18,7 @@ export const MenuItem = styled.li`
   box-sizing: border-box;
   cursor: pointer;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 14px;
   width: 100%;
   & > *:not(div) {
     cursor: pointer;
@@ -31,6 +29,13 @@ export const MenuItem = styled.li`
     width: 30px;
     font-size: 28px;
     margin-right: 10px;
+  }
+
+  & > span:first-child.small {
+    font-size: 22px;
+    width: 30px;
+    margin-right: 7px;
+    margin-left: 3px;
   }
 
   &.active {
@@ -65,7 +70,7 @@ export const SubMenuItem = styled.li`
   box-sizing: border-box;
   text-transform: none;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 
   &.active {
@@ -76,5 +81,5 @@ export const SubMenuItem = styled.li`
   }
 `
 export const Separator = styled.div`
-  margin-top: 30px;
+  margin-top: 15px;
 `

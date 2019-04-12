@@ -5,15 +5,15 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import Convertor from './Convertor'
+import Converter from './Converter'
 
-class FiatConvertorContainer extends React.PureComponent {
+class FiatConverterContainer extends React.PureComponent {
   render () {
     const { input, meta, data, disabled, errorBottom, className } = this.props
 
     return data.cata({
       Success: value => (
-        <Convertor
+        <Converter
           {...value}
           className={className}
           meta={meta}
@@ -33,7 +33,7 @@ class FiatConvertorContainer extends React.PureComponent {
   }
 }
 
-FiatConvertorContainer.propTypes = {
+FiatConverterContainer.propTypes = {
   input: PropTypes.shape({
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -43,11 +43,11 @@ FiatConvertorContainer.propTypes = {
       PropTypes.number.isRequired
     ])
   }).isRequired,
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(FiatConvertorContainer)
+export default connect(mapStateToProps)(FiatConverterContainer)

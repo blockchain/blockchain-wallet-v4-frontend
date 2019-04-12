@@ -18,7 +18,7 @@ import {
   Link
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
@@ -63,6 +63,7 @@ const WarningBanners = styled(Banner)`
 `
 const FirstStep = props => {
   const {
+    coin,
     pristine,
     invalid,
     submitting,
@@ -117,6 +118,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            coin={coin}
           />
         </FormItem>
       </FormGroup>
@@ -217,15 +219,15 @@ const FirstStep = props => {
           <Field
             name='amount'
             disabled={unconfirmedTx}
-            component={FiatConvertor}
-            coin='ETH'
+            component={FiatConverter}
+            coin={coin}
             validate={[
               required,
               invalidAmount,
               insufficientFunds,
               maximumAmount
             ]}
-            data-e2e='sendEth'
+            data-e2e={`${coin}Send`}
           />
         </FormItem>
       </FormGroup>
@@ -243,8 +245,8 @@ const FirstStep = props => {
           <Field
             name='description'
             component={TextAreaDebounced}
-            placeholder="What's this transaction for? (optional)?"
-            data-e2e='sendEthDescription'
+            placeholder="What's this transaction for? (optional)"
+            data-e2e={`${coin}SendDescription`}
             fullwidth
           />
         </FormItem>
@@ -267,16 +269,17 @@ const FirstStep = props => {
               )}
               {feeToggled && (
                 <FeeOptionsContainer>
-                  <RegularFeeLink fee={regularFee} />
+                  <RegularFeeLink fee={regularFee} coin={coin} />
                   <span>&nbsp;</span>
-                  <PriorityFeeLink fee={priorityFee} />
+                  <PriorityFeeLink fee={priorityFee} coin={coin} />
                 </FeeOptionsContainer>
               )}
             </FeeFormLabel>
             {feeToggled && (
               <FeePerByteContainer>
                 <Field
-                  data-e2e='ethCustomFeeInput'
+                  data-e2e={`${coin}CustomFeeInput`}
+                  coin={coin}
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required, minimumFee]}
@@ -298,7 +301,7 @@ const FirstStep = props => {
             weight={300}
             capitalize
             onClick={handleFeeToggle}
-            data-e2e='ethCustomizeFeeLink'
+            data-e2e={`${coin}CustomizeFeeLink`}
           >
             {feeToggled ? (
               <FormattedMessage
@@ -335,7 +338,7 @@ const FirstStep = props => {
             isContract ||
             Remote.Loading.is(balanceStatus)
           }
-          data-e2e='ethSendContinue'
+          data-e2e={`${coin}SendContinue`}
         >
           <FormattedMessage
             id='modals.sendeth.firststep.continue'
@@ -348,6 +351,7 @@ const FirstStep = props => {
 }
 
 FirstStep.propTypes = {
+  coin: PropTypes.string.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   fee: PropTypes.string.isRequired,

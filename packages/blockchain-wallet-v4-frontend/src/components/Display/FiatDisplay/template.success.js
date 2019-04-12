@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { toLower } from 'ramda'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,7 +19,6 @@ const FiatText = styled(Text)`
 
 const FiatDisplay = props => {
   const {
-    showIcon,
     coin,
     children,
     size,
@@ -33,9 +31,6 @@ const FiatDisplay = props => {
 
   return (
     <Wrapper className={className}>
-      {showIcon && (
-        <Icon name={toLower(coin)} size={size} weight={weight} color={color} />
-      )}
       <FiatText
         mobileSize={mobileSize}
         size={size}
@@ -51,9 +46,8 @@ const FiatDisplay = props => {
 }
 
 FiatDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired,
+  coin: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
-  showIcon: PropTypes.bool,
   size: PropTypes.string,
   weight: PropTypes.number,
   color: PropTypes.string,
@@ -62,7 +56,6 @@ FiatDisplay.propTypes = {
 }
 
 FiatDisplay.defaultProps = {
-  showIcon: false,
   size: '16px',
   weight: 300,
   color: 'gray-5',

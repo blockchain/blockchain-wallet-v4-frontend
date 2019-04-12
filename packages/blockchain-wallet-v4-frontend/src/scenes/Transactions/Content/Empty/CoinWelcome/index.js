@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { coinProps } from './model'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import {
   getAvailability,
   getCanBuyBtc,
@@ -21,22 +20,26 @@ class CoinWelcomeContainer extends React.PureComponent {
       canAirdrop,
       domains,
       partner,
+      supportedCoins,
       ...rest
     } = this.props
     const { modalActions, onboardingActions } = rest
+    const currentCoin = supportedCoins[coin]
 
     return canAirdrop ? (
       <WelcomeAirdrop
-        coin={coin}
+        currentCoin={currentCoin}
         domains={domains}
         onboardingActions={onboardingActions}
       />
     ) : (
       <Welcome
         availability={availability}
-        coin={coin}
+        currentCoin={currentCoin}
         partner={partner}
-        handleRequest={() => modalActions.showModal(coinProps[coin].request)}
+        handleRequest={() =>
+          modalActions.showModal(supportedCoins[coin].request)
+        }
       />
     )
   }
@@ -46,7 +49,10 @@ const mapStateToProps = (state, ownProps) => ({
   canAirdrop: getCanAirdrop(state, ownProps),
   partner: getCanBuyBtc(state, ownProps),
   domains: getDomains(state),
-  availability: getAvailability(state, ownProps)
+  availability: getAvailability(state, ownProps),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -55,7 +61,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 CoinWelcomeContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default connect(

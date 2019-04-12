@@ -19,7 +19,7 @@ const Success = props => {
 }
 
 Success.propTypes = {
-  balance: PropTypes.number.isRequired
+  balance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 }
 
 export default Success

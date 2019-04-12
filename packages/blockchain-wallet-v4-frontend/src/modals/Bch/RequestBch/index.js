@@ -21,19 +21,26 @@ class RequestBchContainer extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     this.props.data.map(x => {
-      if (equals(prop('coin', x), 'ETH')) {
+      if (equals(prop('coin', x), 'PAX')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEth', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'PAX',
+          lockboxIndex: this.props.lockboxIndex
+        })
+      } else if (equals(prop('coin', x), 'ETH')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'ETH',
           lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBtc', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.BTC', {
           lockboxIndex: this.props.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'XLM')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestXlm', {
+        this.props.modalActions.showModal('@MODAL.REQUEST.XLM', {
           lockboxIndex: this.props.lockboxIndex
         })
       }
@@ -95,7 +102,7 @@ class RequestBchContainer extends React.PureComponent {
         position={this.props.position}
         total={this.props.total}
       >
-        <ModalHeader icon='request' onClose={this.props.closeAll}>
+        <ModalHeader icon='download2' onClose={this.props.closeAll}>
           <FormattedMessage
             id='modals.requestbch.title'
             defaultMessage='Request Bitcoin Cash'
@@ -124,7 +131,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('RequestBch'),
+  modalEnhancer('@MODAL.REQUEST.BCH'),
   connect(
     mapStateToProps,
     mapDispatchToProps

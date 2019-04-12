@@ -36,7 +36,8 @@ describe('walletOptions selectors', () => {
       send: true,
       request: true,
       lockbox: true,
-      exchange: true
+      exchangeFrom: true,
+      exchangeTo: true
     }
     expect(selectors.getCoinAvailability(successState, 'BTC')).toEqual(
       Remote.of(expected)
@@ -47,8 +48,9 @@ describe('walletOptions selectors', () => {
     const expected = {
       send: true,
       request: true,
-      lockbox: false,
-      exchange: false
+      lockbox: true,
+      exchangeFrom: true,
+      exchangeTo: true
     }
     expect(selectors.getCoinAvailability(successState, 'ETH')).toEqual(
       Remote.of(expected)

@@ -1,9 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { pathOr } from 'ramda'
+
+import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
-
 import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
@@ -24,48 +26,51 @@ const HeaderWrapper = styled.div`
   }
 `
 
-const renderItem = props => {
-  const { value, text, ...rest } = props
-  return (
-    <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
-      <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
-        {text}
-      </Text>
-    </HeaderWrapper>
-  )
-}
-
-const renderDisplay = (props, children) => {
-  const { value, ...rest } = props
-  const e2eTag = value
-    ? value.toLowerCase() + 'CurrencyOption'
-    : 'currencyOption'
-  return (
-    <HeaderWrapper {...rest}>
-      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
-      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
-      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
-      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
-      <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
-        {children}
-      </Text>
-    </HeaderWrapper>
-  )
-}
-
 class SelectBoxCoin extends React.PureComponent {
+  renderItem = props => {
+    const { supportedCoins } = this.props
+    const { value, text, ...rest } = props
+    return (
+      <HeaderWrapper {...rest}>
+        <Icon
+          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
+          size='22px'
+          weight={300}
+        />
+        <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
+          {text}
+        </Text>
+      </HeaderWrapper>
+    )
+  }
+  renderDisplay = (props, children) => {
+    const { supportedCoins } = this.props
+    const { value, ...rest } = props
+    const e2eTag = value
+      ? value.toLowerCase() + 'CurrencyOption'
+      : 'currencyOption'
+    return (
+      <HeaderWrapper {...rest}>
+        <Icon
+          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
+          size='22px'
+          weight={300}
+        />
+        <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
+          {children}
+        </Text>
+      </HeaderWrapper>
+    )
+  }
   render () {
-    const { coins, ...rest } = this.props
+    const { coins, supportedCoins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (
       <SelectBox
+        supportedCoins={supportedCoins}
         elements={elements}
-        templateDisplay={renderDisplay}
-        templateItem={renderItem}
+        templateDisplay={this.renderDisplay}
+        templateItem={this.renderItem}
         {...rest}
       />
     )
@@ -73,7 +78,10 @@ class SelectBoxCoin extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  coins: getCoins(state, ownProps)
+  coins: getCoins(state, ownProps),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 export default connect(mapStateToProps)(SelectBoxCoin)

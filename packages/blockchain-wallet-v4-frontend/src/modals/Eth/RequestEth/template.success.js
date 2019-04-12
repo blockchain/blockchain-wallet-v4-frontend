@@ -55,6 +55,7 @@ const BannerContainer = styled.div`
 
 const RequestEth = props => {
   const {
+    coin,
     handleSubmit,
     handleOpenLockbox,
     address,
@@ -72,7 +73,7 @@ const RequestEth = props => {
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.requestether.coin'
+              id='modals.requesteth.coin'
               defaultMessage='Currency:'
             />
           </FormLabel>
@@ -96,6 +97,7 @@ const RequestEth = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            coin={coin}
           />
         </FormItem>
       </FormGroup>
@@ -103,7 +105,7 @@ const RequestEth = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requestether.share'
+              id='modals.requesteth.share'
               defaultMessage='Copy & Share Address:'
             />
             <TooltipHost id='reqEthShare'>
@@ -154,14 +156,14 @@ const RequestEth = props => {
       )}
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+          <FormattedMessage id='modals.requesteth.or' defaultMessage='Or' />
         </Text>
       </Separator>
       <QRCodeContainer>
         <ScanMessage>
           <Text size='14px'>
             <FormattedMessage
-              id='modals.requestether.scan'
+              id='modals.requesteth.scan'
               defaultMessage='Scan QR Code:'
             />
             <TooltipHost id='reqEthScan'>
@@ -181,7 +183,7 @@ const RequestEth = props => {
         data-e2e='requestEthDoneButton'
         fullwidth
       >
-        <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+        <FormattedMessage id='modals.requesteth.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

@@ -41,7 +41,7 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { NoAccountTemplate } from './NoAccountTemplate'
 import { ErrorBanner } from './ErrorBanner'
-import { XlmFiatConvertor } from './XlmFiatConvertor'
+import { XlmFiatConverter } from './XlmFiatConverter'
 import { InfoBanner } from './InfoBanner'
 import { SelectBoxMemo } from './SelectBoxMemo'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
@@ -215,7 +215,7 @@ const FirstStep = props => {
               </FormLabel>
               <Field
                 name='amount'
-                component={XlmFiatConvertor}
+                component={XlmFiatConverter}
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
@@ -225,26 +225,6 @@ const FirstStep = props => {
           </FormGroup>
           {amountActive && !error && <InfoBanner {...props} />}
           {error && <ErrorBanner error={error} />}
-          <FormGroup margin={'15px'}>
-            <FormItem>
-              <FormLabel for='description'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.description'
-                  defaultMessage='Description: '
-                />
-                <TooltipHost id='sendxlm.firststep.sharetooltip'>
-                  <TooltipIcon name='question-in-circle' />
-                </TooltipHost>
-              </FormLabel>
-              <Field
-                name='description'
-                component={TextAreaDebounced}
-                placeholder="What's this transaction for? (optional)"
-                fullwidth
-                data-e2e='sendXlmDescription'
-              />
-            </FormItem>
-          </FormGroup>
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel for='memo'>
@@ -273,6 +253,26 @@ const FirstStep = props => {
                   data-e2e='sendXlmMemoType'
                 />
               </MemoField>
+            </FormItem>
+          </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='description'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.description'
+                  defaultMessage='Description: '
+                />
+                <TooltipHost id='sendxlm.firststep.sharetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </FormLabel>
+              <Field
+                name='description'
+                component={TextAreaDebounced}
+                placeholder="What's this transaction for? (optional)"
+                fullwidth
+                data-e2e='sendXlmDescription'
+              />
             </FormItem>
           </FormGroup>
           <FormGroup inline margin={'10px'}>

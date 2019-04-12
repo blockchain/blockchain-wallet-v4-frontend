@@ -1,77 +1,88 @@
 import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
+import { FormattedHTMLMessage } from 'react-intl'
+import { mapObjIndexed, toLower, values } from 'ramda'
 
+import { Text } from 'blockchain-info-components'
 import {
   HomeBalanceRow,
   HomeBalanceTable,
-  HomeCoinBalanceCell,
-  HomeBalanceAmount
+  HomeCoinBalanceCell
 } from 'components/Balances'
 
+const TotalRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  align-items: center;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+const HomeTitle = styled.div`
+  flex-grow: 1;
+  padding: 10px 20px;
+`
+const HomeBalanceAmount = styled(Text)`
+  padding: 10px 20px;
+  font-size: 22px;
+  font-weight: 300;
+  color: ${props => props.theme['brand-primary']};
+`
 const TxLink = styled(LinkContainer)`
   &:hover {
     cursor: pointer;
   }
 `
 const Success = props => {
-  const { viewType, balances } = props
+  const { viewType, balances, supportedCoins } = props
+  const coinOrder = [
+    supportedCoins.PAX,
+    supportedCoins.BTC,
+    supportedCoins.ETH,
+    supportedCoins.BCH,
+    supportedCoins.XLM
+  ]
 
   return (
     <HomeBalanceTable>
-      <HomeBalanceRow>
-        <HomeBalanceAmount data-e2e='homeBalanceAmt'>
-          {balances.totalBalance.totalBalance}
-        </HomeBalanceAmount>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableBtc'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/btc/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='BTC'
-              coinName='Bitcoin'
-              coinIcon='btc-circle-filled'
-              balance={balances.btcBalance}
+      <TotalRow>
+        <HomeTitle>
+          <Text size='20px' weight={300}>
+            <FormattedHTMLMessage
+              id='components.balances.home.total'
+              defaultMessage='{viewType} Balance'
+              values={{ viewType }}
             />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableEth'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/eth/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='ETH'
-              coinName='Ether'
-              coinIcon='eth-circle-filled'
-              balance={balances.ethBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableBch'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/bch/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='BCH'
-              coinName='Bitcoin Cash'
-              coinIcon='bch-circle-filled'
-              balance={balances.bchBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
-      <HomeBalanceRow data-e2e='balanceTableXlm'>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/xlm/transactions'}>
-          <div>
-            <HomeCoinBalanceCell
-              coin='XLM'
-              coinName='Stellar'
-              coinIcon='xlm-circle-filled'
-              balance={balances.xlmBalance}
-            />
-          </div>
-        </TxLink>
-      </HomeBalanceRow>
+          </Text>
+        </HomeTitle>
+        <div>
+          <HomeBalanceAmount data-e2e='homeBalanceAmt'>
+            {balances.totalBalance.totalBalance}
+          </HomeBalanceAmount>
+        </div>
+      </TotalRow>
+      {values(
+        mapObjIndexed((coin, i) => {
+          if (viewType === 'Hardware' && !coin.hasLockboxSupport) return
+          return (
+            <HomeBalanceRow
+              key={i}
+              data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
+            >
+              <TxLink to={coin.txListAppRoute}>
+                <div>
+                  <HomeCoinBalanceCell
+                    coin={coin.coinCode}
+                    coinName={coin.displayName}
+                    coinIcon={coin.icons.circleFilled}
+                    balance={balances[`${toLower(coin.coinCode)}Balance`]}
+                  />
+                </div>
+              </TxLink>
+            </HomeBalanceRow>
+          )
+        }, coinOrder)
+      )}
     </HomeBalanceTable>
   )
 }

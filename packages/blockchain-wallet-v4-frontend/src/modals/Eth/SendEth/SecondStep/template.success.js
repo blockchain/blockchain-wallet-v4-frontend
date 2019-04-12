@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -32,8 +32,7 @@ const Summary = styled.div`
   align-items: center;
   background-color: ${props => props.theme['gray-1']};
   padding: 10px 0;
-  margin: 5px 0;
-  margin-bottom: 25px;
+  margin: 5px 0 25px;
 
   & > * {
     padding: 10px 0;
@@ -55,6 +54,7 @@ const Success = props => {
   const {
     submitting,
     coin,
+    coinDisplayName,
     fromAddress,
     toAddress,
     description,
@@ -74,7 +74,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='ethFromWallet'>
+        <Text size='16px' weight={300} data-e2e={`${coin}FromWallet`}>
           {fromAddress}
         </Text>
       </Row>
@@ -85,7 +85,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='ethToAddress'>
+        <Text size='16px' weight={300} data-e2e={`${coin}ToAddress`}>
           {toAddress}
         </Text>
       </Row>
@@ -97,7 +97,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300} data-e2e='ethSendDescription'>
+          <Text size='16px' weight={300} data-e2e={`${coin}SendDescription`}>
             {description}
           </Text>
         </Row>
@@ -121,7 +121,7 @@ const Success = props => {
           />
         </Text>
         <Text size='16px' weight={300}>
-          <ComboDisplay coin={coin}>{fee}</ComboDisplay>
+          <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
@@ -144,12 +144,13 @@ const Success = props => {
           disabled={submitting}
           nature='primary'
           fullwidth
-          data-e2e='ethSendSubmitButton'
+          data-e2e={`${coin}SendSubmitButton`}
         >
           {!submitting ? (
-            <FormattedMessage
-              id='modals.sendeth.secondstep.send'
-              defaultMessage='Send Ether'
+            <FormattedHTMLMessage
+              id='modals.sendeth.secondstep.sendcoin'
+              defaultMessage='Send {coinDisplayName}'
+              values={{ coinDisplayName }}
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -160,7 +161,7 @@ const Success = props => {
           disabled={submitting}
           size='13px'
           weight={300}
-          data-e2e='ethSendBackLink'
+          data-e2e={`${coin}SendBackLink`}
         >
           <FormattedMessage
             id='modals.sendeth.sendconfirm.back'

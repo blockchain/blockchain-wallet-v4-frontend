@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   margin-top: 8px;
 
   @media (min-width: 768px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 `
 const ActionButton = styled(IconButton)`
@@ -29,41 +29,44 @@ const ActionButton = styled(IconButton)`
   `};
 `
 
-const Actions = ({
-  handleSend,
-  handleRequest,
-  sendAvailable,
-  requestAvailable
-}) => (
+const ButtonText = styled(Text)`
+  margin-left: 6px;
+`
+
+const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
   <Wrapper>
     <ActionButton
-      name='send'
+      name='paper-airplane-filled'
       disabled={!sendAvailable}
-      onClick={handleSend}
+      onClick={() => showModal('SEND')}
       min='100px'
       data-e2e='sendButton'
+      nature='gray-3'
+      height='40px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
     <ActionButton
       style={spacing('ml-15')}
       disabled={!requestAvailable}
-      name='request'
-      onClick={handleRequest}
+      name='download2'
+      onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'
+      nature='gray-3'
+      height='40px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={400} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
   </Wrapper>
 )
@@ -71,8 +74,7 @@ const Actions = ({
 Actions.propTypes = {
   sendAvailable: PropTypes.bool.isRequired,
   requestAvailable: PropTypes.bool.isRequired,
-  handleSend: PropTypes.func.isRequired,
-  handleRequest: PropTypes.func.isRequired
+  showModal: PropTypes.func.isRequired
 }
 
 export default Actions

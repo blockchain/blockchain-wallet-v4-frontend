@@ -651,74 +651,20 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Second password successfully disabled'
         />
       )
-    case C.SEND_BCH_ERROR:
+    case C.SEND_COIN_SUCCESS:
       return (
         <FormattedMessage
-          id='components.alerts.send_bch_error'
-          defaultMessage='Your bitcoin cash transaction failed to send. Please try again.'
+          id='components.alerts.send_coin_success'
+          defaultMessage='Your {coinName} transaction is now pending!'
+          values={data}
         />
       )
-    case C.SEND_BCH_SUCCESS:
+    case C.SEND_COIN_ERROR:
       return (
         <FormattedMessage
-          id='components.alerts.send_bch_success'
-          defaultMessage='Your bitcoin cash transaction is now pending'
-        />
-      )
-    case C.SEND_BSV_ERROR:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_bsv_error'
-          defaultMessage='Your Bitcoin SV transaction failed to send. Please try again.'
-        />
-      )
-    case C.SEND_BSV_SUCCESS:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_bsv_success'
-          defaultMessage='Your Bitcoin SV transaction is now pending'
-        />
-      )
-    case C.SEND_BTC_ERROR:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_btc_error'
-          defaultMessage='Your bitcoin transaction failed to send. Please try again.'
-        />
-      )
-    case C.SEND_BTC_SUCCESS:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_btc_success'
-          defaultMessage='Your bitcoin transaction is now pending'
-        />
-      )
-    case C.SEND_ETH_ERROR:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_eth_error'
-          defaultMessage='Your ether transaction failed to send. Please try again.'
-        />
-      )
-    case C.SEND_ETH_SUCCESS:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_eth_success'
-          defaultMessage='Your ether transaction is now pending'
-        />
-      )
-    case C.SEND_XLM_ERROR:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_xlm_error'
-          defaultMessage='Your stellar transaction failed to send. Please try again.'
-        />
-      )
-    case C.SEND_XLM_SUCCESS:
-      return (
-        <FormattedMessage
-          id='components.alerts.send_xlm_success'
-          defaultMessage='Your stellar transaction is now pending'
+          id='components.alerts.send_coin_error'
+          defaultMessage='Your {coinName} transaction failed to send. Please try again.'
+          values={data}
         />
       )
     case C.SMS_RESEND_ERROR:

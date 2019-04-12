@@ -12,6 +12,7 @@ export const getData = (state, ownProps) => {
             .getOrElse(null)
         })
       }
+    case 'PAX':
     case 'XLM':
       return { data: Remote.of({}) }
     default:

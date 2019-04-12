@@ -12,7 +12,7 @@ const PriorityFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendEthFirstStepPriorityFeeClicked}
-    data-e2e='ethPriorityFeeLink'
+    data-e2e={`${props.coin}PriorityFeeLink`}
   >
     <FormattedMessage
       id='modals.sendeth.priorityfeelink.priority'

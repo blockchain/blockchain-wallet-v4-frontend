@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, path, prop, nth, is, identity } from 'ramda'
+import { equals, path, prop, nth, is, identity, includes } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -91,10 +91,12 @@ export default ({ coreSagas, networks }) => {
   const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
+      if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals(FORM, form)) return
-
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
@@ -103,29 +105,13 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'coin':
-          switch (payload) {
-            case 'BTC': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBtc.MODAL)
-              )
-              break
-            }
-            case 'ETH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL)
-              )
-              break
-            }
-            case 'XLM': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendXlm.MODAL)
-              )
-              break
-            }
-          }
+          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          yield put(actions.modals.closeAllModals())
+          yield put(
+            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
+              coin: payload
+            })
+          )
           break
         case 'from':
           const fromType = prop('type', payload)
@@ -276,7 +262,11 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/bch/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin Cash'
+          })
+        )
       }
       yield put(
         actions.analytics.logEvent([
@@ -311,7 +301,11 @@ export default ({ coreSagas, networks }) => {
             e
           ])
         )
-        yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Bitcoin Cash'
+          })
+        )
       }
     }
   }

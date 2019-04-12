@@ -18,7 +18,7 @@ import {
   Banner
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
@@ -179,7 +179,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            component={FiatConvertor}
+            component={FiatConverter}
             validate={[required, invalidAmountMin, invalidAmountMax]}
             coin='BTC'
             data-e2e='requestBtc'

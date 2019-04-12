@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 import { connect } from 'react-redux'
 
+import { selectors } from 'data'
 import { getBlockHeight } from './selectors'
-
 import {
   Icon,
   Link,
@@ -44,30 +44,11 @@ const IconWrapper = styled.div`
   }
 `
 
-const explorers = {
-  BCH: 'https://www.blockchain.com/bch/tx',
-  BTC: 'https://blockchain.com/btc/tx',
-  BSV: 'https://blockchair.com/bitcoin-sv/transaction',
-  ETH: 'https://www.blockchain.com/eth/tx',
-  XLM: 'https://stellarchain.io/tx'
-}
-
-const getMinConfirms = coin => {
-  switch (coin) {
-    case 'ETH':
-      return 12
-    case 'XLM':
-      return 1
-    default:
-      return 3
-  }
-}
-
 const Confirmations = props => {
-  const { blockHeight, coin, txBlockHeight } = props
+  const { blockHeight, coin, txBlockHeight, supportedCoins } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
-  const minConfirmations = getMinConfirms(coin)
+  const minConfirmations = supportedCoins[coin].minConfirmations
 
   return (
     <Wrapper>
@@ -101,7 +82,7 @@ const Confirmations = props => {
           </TransactionTooltip>
         )}
         <Link
-          href={`${explorers[coin]}/${props.hash}`}
+          href={`${supportedCoins[coin].txExplorerBaseUrl}/${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
         >
@@ -141,7 +122,10 @@ Confirmations.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  blockHeight: getBlockHeight(state, ownProps.coin)
+  blockHeight: getBlockHeight(state, ownProps.coin),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 export default connect(mapStateToProps)(Confirmations)

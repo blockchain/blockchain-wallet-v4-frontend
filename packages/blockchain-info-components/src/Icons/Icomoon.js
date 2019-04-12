@@ -33,6 +33,7 @@ export default {
   'down-arrow-in-circle': '\\e943',
   'down-triangle': '\\e95f',
   download: '\\e960',
+  download2: '\\e9c5',
   'download-filled': '\\e913',
   email: '\\e961',
   'envelope-regular': '\\e984',
@@ -44,6 +45,7 @@ export default {
   forbidden: '\\e904',
   globe: '\\e945',
   'hamburger-menu': '\\e919',
+  hardware: '\\e91e',
   home: '\\e946',
   'id-card': '\\e981',
   info: '\\e902',
@@ -90,11 +92,13 @@ export default {
   'up-arrow': '\\e953',
   'up-arrow-in-circle': '\\e952',
   'usb-icon': '\\e95a',
+  usdp: '\\e91d',
   user: '\\e955',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
   'wallet-filled': '\\e939',
   xlm: '\\e90a',
   'xlm-circle': '\\e909',
-  'xlm-circle-filled': '\\e90c'
+  'xlm-circle-filled': '\\e90c',
+  'xlm-new': '\\e91d'
 }

@@ -17,7 +17,9 @@ const BaseTextAreaInput = styled.textarea`
   border: 1px solid ${props => props.theme['gray-2']};
 
   &::-webkit-input-placeholder {
-    color: ${props => props.theme['gray-2']};
+    font-weight: 300;
+    opacity: 0.4;
+    color: ${props => props.theme['gray-3']};
   }
 `
 

@@ -41,7 +41,7 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: calc(100% - 270px);
+  width: calc(100% - 250px);
   background-color: ${props => props.theme['white']};
 
   @media (max-width: 768px) {
@@ -49,7 +49,7 @@ const Content = styled.div`
   }
 `
 const Top = styled.div`
-  height: 115px;
+  height: 100px;
   width: 100%;
   ${media.mobile`
     height: 150px;

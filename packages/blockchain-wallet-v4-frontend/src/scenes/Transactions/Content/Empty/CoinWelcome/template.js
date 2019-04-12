@@ -8,7 +8,6 @@ import { lighten } from 'polished'
 
 import { model } from 'data'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { coinProps } from './model'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -45,7 +44,7 @@ const CoinRow = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: ${props => lighten(0.4, props.theme[props.coin])};
+  background-color: ${props => lighten(0.4, props.theme[props.color])};
   ${media.mobile`
     width: 100%;
   `};
@@ -61,7 +60,7 @@ const LearnMoreContainer = styled(Link)`
   width: 640px;
   display: flex;
   justify-content: space-between;
-  margin: 0px auto 25px;
+  margin: 0 auto 25px;
   padding: 25px;
   border-radius: 3px;
   box-sizing: border-box;
@@ -76,7 +75,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const Welcome = props => {
-  const { availability, coin, handleRequest, partner } = props
+  const { availability, currentCoin, handleRequest, partner } = props
 
   return (
     <Wrapper>
@@ -86,14 +85,17 @@ const Welcome = props => {
             <FormattedMessage
               id='scenes.transaction.content.empty.yourcoinwallet'
               defaultMessage='Your {coin} Wallet'
-              values={{ coin }}
+              values={{ coin: currentCoin.coinCodeDisplay }}
             />
           </Text>
           <Content weight={300}>
             <FormattedMessage
-              id='scenes.transaction.content.empty.sendreqswap'
-              defaultMessage='Send, Request and Swap {coinName} ({coin}) directly from your Blockchain Wallet.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              id='scenes.transaction.content.empty.sendrequestswap'
+              defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
+              values={{
+                coinName: currentCoin.displayName,
+                coinCode: currentCoin.coinCodeDisplay
+              }}
             />
           </Content>
           <ButtonContainer>
@@ -107,7 +109,7 @@ const Welcome = props => {
                   <FormattedMessage
                     id='scenes.transaction.content.empty.buy'
                     defaultMessage='Buy {coin}'
-                    values={{ coin }}
+                    values={{ coin: currentCoin.coinCodeDisplay }}
                   />
                 </Button>
               </LinkContainer>
@@ -121,7 +123,7 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.request'
                   defaultMessage='Get {coin}'
-                  values={{ coin }}
+                  values={{ coin: currentCoin.coinCodeDisplay }}
                 />
               </Button>
             )}
@@ -129,8 +131,8 @@ const Welcome = props => {
               to={{
                 pathname: '/swap',
                 state: {
-                  from: coin === 'BTC' ? 'ETH' : 'BTC',
-                  to: coin,
+                  from: currentCoin.coinCodeDisplay === 'BTC' ? 'ETH' : 'BTC',
+                  to: currentCoin.coinCodeDisplay,
                   amount: '0',
                   fix: model.rates.FIX_TYPES.BASE_IN_FIAT
                 }
@@ -144,22 +146,22 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.swap'
                   defaultMessage='Swap {coin}'
-                  values={{ coin }}
+                  values={{ coin: currentCoin.coinCodeDisplay }}
                 />
               </Button>
             </LinkContainer>
           </ButtonContainer>
         </Row>
-        <CoinRow coin={coin.toLowerCase()}>
+        <CoinRow color={currentCoin.colorCode}>
           <Icon
-            name={coinProps[coin].icon}
-            color={coin.toLowerCase()}
+            name={currentCoin.icons.circle}
+            color={currentCoin.colorCode}
             size='160px'
           />
         </CoinRow>
       </Container>
-      {coinProps[coin].link && (
-        <LearnMoreContainer href={coinProps[coin].link} target='_blank'>
+      {currentCoin.learnMoreLink && (
+        <LearnMoreContainer href={currentCoin.learnMoreLink} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transaction.content.empty.getstarted.explanation'
@@ -187,8 +189,8 @@ const Welcome = props => {
 
 Welcome.propTypes = {
   availability: PropTypes.object.isRequired,
-  coin: PropTypes.string.isRequired,
-  partner: PropTypes.string.isRequired,
+  currentCoin: PropTypes.object.isRequired,
+  partner: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 

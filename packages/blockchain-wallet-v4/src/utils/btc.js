@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, Transaction, crypto } from 'bitcoinjs-lib'
+import { address, networks, ECPair, crypto } from 'bitcoinjs-lib'
 import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { fromPublicKey } from 'bip32'
@@ -245,8 +245,6 @@ export const getWifAddress = (key, compressed = true) => {
   key.compressed = oldFlag
   return result
 }
-
-export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
 
 export const compressPublicKey = publicKey => {
   const prefix = (publicKey[64] & 1) !== 0 ? 0x03 : 0x02

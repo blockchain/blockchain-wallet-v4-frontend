@@ -10,8 +10,8 @@ export const Container = styled.div`
   position: absolute;
   flex-direction: column;
   justify-content: space-between;
-  left: ${props => (props.toggled ? '0' : '-270px')};
-  width: 270px;
+  left: ${props => (props.toggled ? '0' : '-250px')};
+  width: 250px;
   height: 100%;
   padding: 15px;
   overflow: scroll;
@@ -26,10 +26,10 @@ export const Container = styled.div`
 
   @media (min-width: 768px) {
     display: flex;
-    flex: 0 0 270px;
+    flex: 0 0 250px;
     position: relative;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
   }
 `
 

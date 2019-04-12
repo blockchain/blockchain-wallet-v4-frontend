@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { selectors, model } from 'data'
 import {
   all,
   curry,
@@ -14,12 +13,14 @@ import {
   map,
   filter,
   path,
-  propOr
+  propOr,
+  toLower
 } from 'ramda'
+
+import { selectors, model } from 'data'
 import { hasAccount } from 'services/ExchangeService'
 
 const { WALLET_TX_SEARCH } = model.form
-
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
     propSatisfies(
@@ -50,19 +51,22 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
-const coinSelectorMap = {
-  ETH: selectors.core.common.eth.getWalletTransactions,
-  BTC: selectors.core.common.btc.getWalletTransactions,
-  BCH: selectors.core.common.bch.getWalletTransactions,
-  BSV: selectors.core.common.bsv.getWalletTransactions,
-  XLM: selectors.core.common.xlm.getWalletTransactions
+const coinSelectorMap = (state, coin) => {
+  const erc20List = selectors.core.walletOptions
+    .getErc20CoinList(state)
+    .getOrFail()
+  if (includes(coin, erc20List)) {
+    return state =>
+      selectors.core.common.eth.getErc20WalletTransactions(state, coin)
+  }
+  return selectors.core.common[toLower(coin)].getWalletTransactions
 }
 
 export const getData = (state, coin) =>
   createSelector(
     [
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap[coin],
+      coinSelectorMap(state, coin),
       selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency
     ],
@@ -70,9 +74,10 @@ export const getData = (state, coin) =>
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
-      const filteredPages = !isEmpty(pages)
-        ? pages.map(map(filterTransactions(status, search)))
-        : []
+      const filteredPages =
+        pages && !isEmpty(pages)
+          ? pages.map(map(filterTransactions(status, search)))
+          : []
       const partnerData = prop('value', buySellMetadata.getOrElse())
       const currency = currencyR.getOrElse('')
 

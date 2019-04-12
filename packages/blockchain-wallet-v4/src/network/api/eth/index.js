@@ -1,4 +1,7 @@
 export default ({ apiUrl, get, post }) => {
+  //
+  // ETH
+  //
   const checkContract = address =>
     get({
       url: apiUrl,
@@ -63,15 +66,33 @@ export default ({ apiUrl, get, post }) => {
       data: { rawTx }
     })
 
+  //
+  // ERC20
+  //
+  const getErc20Data = (ethAddr, tokenAddr) =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`
+    })
+
+  const getErc20Transactions = (ethAddr, tokenAddr, page = 0) =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`,
+      data: { page }
+    })
+
   return {
     checkContract,
     getEthBalances,
     getEthData,
+    getErc20Data,
     getEthFees,
     getEthLatestBlock,
     getEthTicker,
     getEthTransaction,
     getEthTransactions,
+    getErc20Transactions,
     pushEthTx
   }
 }

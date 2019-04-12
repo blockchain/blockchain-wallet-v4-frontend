@@ -11,7 +11,7 @@ const MaximumFeeLink = props => (
     size='12px'
     weight={300}
     onClick={props.actions.sendEthFirstStepMaximumFeeClicked}
-    data-e2e='ethMaximumFeeLink'
+    data-e2e={`${props.coin}MaximumFeeLink`}
   >
     <FormattedMessage
       id='modals.sendeth.maximumfeelink.userecupperlimit'

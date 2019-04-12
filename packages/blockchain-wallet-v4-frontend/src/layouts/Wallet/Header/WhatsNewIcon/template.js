@@ -47,8 +47,8 @@ const WhatsNewIcon = props => {
 }
 
 WhatsNewIcon.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  numOfNewAnnouncements: PropTypes.number.isRequired
+  handleClick: PropTypes.func,
+  numOfNewAnnouncements: PropTypes.number
 }
 
 export default WhatsNewIcon
