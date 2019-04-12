@@ -12,9 +12,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
 
 jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
-jest.mock('./template', () => () => {
-  return <div />
-})
+jest.mock('./template', () => () => <div />)
 jest.mock('blockchain-info-components', () => ({
   TooltipRebuild: jest.fn()
 }))

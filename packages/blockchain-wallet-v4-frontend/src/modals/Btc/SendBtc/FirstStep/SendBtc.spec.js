@@ -12,7 +12,6 @@ import {
   Remote
 } from 'blockchain-wallet-v4/src'
 import sendBtcReducer from 'data/components/sendBtc/reducers'
-
 import modalsReducer from 'data/modals/reducers'
 import sendBtcSaga from 'data/components/sendBtc/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
@@ -188,17 +187,14 @@ describe('SendBtc Modal', () => {
   const reducers = {
     spy: spyReducer,
     modals: modalsReducer,
-    components: combineReducers({
-      sendBtc: sendBtcReducer
-    }),
+    components: combineReducers({ sendBtc: sendBtcReducer }),
     [paths.settingsPath]: coreReducers.settings
   }
   const sagas = [
     sendBtcSaga({ coreSagas, networks }),
     settingsSagas({ coreSagas })
   ]
-  let store
-  let wrapper
+  let store, wrapper
   beforeEach(() => {
     store = createTestStore(reducers, sagas)
     wrapper = mount(
