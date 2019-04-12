@@ -25,19 +25,6 @@ export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'components/coinify/sagas'
 
 export default ({ api, coreSagas, networks }) => {
-  const handleAfterSignup = function * (user) {
-    try {
-      yield call(api.sendCoinifyKyc, user)
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'handleAfterSignup', e)
-      )
-    } finally {
-      yield put(actions.modals.closeAllModals())
-      yield put(A.fetchCoinifyData())
-    }
-  }
-
   const coinifySignup = function * () {
     try {
       yield put(A.coinifyLoading())
@@ -48,26 +35,26 @@ export default ({ api, coreSagas, networks }) => {
       if (profileR.error)
         return yield put(A.coinifyFailure(JSON.parse(profileR.error)))
 
-      const tier2DataR = yield select(selectors.modules.profile.getTier, 2)
-      const tier2Data = tier2DataR.getOrElse(null)
-      const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
-      if (kycIsNone) {
-        yield put(A.coinifyNotAsked())
-        // TODO: might need to remove this Nabu call
-        // we need to tell Nabu about the new user so it can handle the user being verified later on
-        yield call(sendCoinifyKYC)
-        return yield put(
-          actions.components.identityVerification.setVerificationStep(
-            STEPS.personal
-          )
-        )
-      }
-
       yield put(A.coinifyNotAsked())
-      // TODO: might need to remove this Nabu call and just close the modal and refetch here
-      // if not NONE, tell backend about signup and send user to coinify checkout - user is either verified, pending, failed, etc..
-      const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
-      yield call(handleAfterSignup, user)
+
+      const userTiersR = yield select(selectors.modules.profile.getUserTiers)
+      const userTiers = userTiersR.getOrElse({
+        current: 0,
+        selected: 2,
+        next: 1
+      })
+      const { current } = userTiers
+      const step = current === 0 ? STEPS.personal : STEPS.verify
+
+      yield call(sendCoinifyKYC)
+
+      if (current < 2) {
+        return yield put(
+          actions.components.identityVerification.setVerificationStep(step)
+        )
+      } else {
+        return yield put(actions.modals.closeAllModals())
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
       yield put(actions.alerts.displayError(C.COINIFY_SIGNUP_ERROR))
@@ -561,7 +548,6 @@ export default ({ api, coreSagas, networks }) => {
     deleteBankAccount,
     fetchCoinifyData,
     finishTrade,
-    handleAfterSignup,
     handleChange,
     initialized,
     initializePayment,

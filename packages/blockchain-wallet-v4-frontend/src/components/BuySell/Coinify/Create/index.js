@@ -22,8 +22,13 @@ class CreateContainer extends PureComponent {
 
   componentDidUpdate (prevProps) {
     if (!prevProps.emailVerified && this.props.emailVerified) {
+      this.updateCreate(CREATE)
       this.props.coinifyFrontendActions.coinifyNotAsked()
     }
+  }
+
+  updateCreate (step) {
+    this.setState({ create: step })
   }
 
   render () {

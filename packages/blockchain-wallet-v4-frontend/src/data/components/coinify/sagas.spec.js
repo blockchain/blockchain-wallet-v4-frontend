@@ -7,8 +7,6 @@ import * as selectors from '../../selectors.js'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
-import * as model from '../../model'
-const { STEPS } = model.components.identityVerification
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 const networks = { btc: 'bitcoin' }
@@ -74,13 +72,12 @@ describe('coinifySagas', () => {
   })
 
   describe('coinify signup - new KYC user', () => {
-    let { coinifySignup, sendCoinifyKYC } = coinifySagas({
+    let { coinifySignup } = coinifySagas({
       coreSagas,
       networks
     })
 
     const COUNTRY = 'GB'
-    const PROFILE = Remote.of({ id: '5' })
 
     let saga = testSaga(coinifySignup)
     const beforeDetermine = 'beforeDetermine'
@@ -99,29 +96,6 @@ describe('coinifySagas', () => {
         .next()
         .select(selectors.core.data.coinify.getProfile)
         .save(beforeDetermine)
-    })
-
-    it('should get tier 2 data', () => {
-      saga.next(PROFILE).select(selectors.modules.profile.getTier, 2)
-    })
-
-    it('should call sendCoinifyKYC', () => {
-      const tier2Data = Remote.of({ state: 'none' })
-      saga
-        .next(tier2Data)
-        .put(coinifyActions.coinifyNotAsked())
-        .next()
-        .call(sendCoinifyKYC)
-    })
-
-    it('should set verification step to personal if state is NONE', () => {
-      saga
-        .next()
-        .put(
-          actions.components.identityVerification.setVerificationStep(
-            STEPS.personal
-          )
-        )
     })
 
     it('should handle an error', () => {
@@ -145,56 +119,6 @@ describe('coinifySagas', () => {
           .next()
           .put(actions.alerts.displayError(C.COINIFY_SIGNUP_ERROR))
       })
-    })
-  })
-
-  describe('coinify signup - existing KYC user', () => {
-    let { coinifySignup, handleAfterSignup } = coinifySagas({
-      coreSagas,
-      networks
-    })
-
-    const COUNTRY = 'GB'
-    const PROFILE = Remote.of({ user: '5' })
-
-    let saga = testSaga(coinifySignup)
-    const beforeDetermine = 'beforeDetermine'
-
-    it('should select the country from state', () => {
-      saga.next().put(coinifyActions.coinifyLoading())
-      saga.next().select(selectors.components.coinify.getCoinifyCountry)
-    })
-
-    it('should call core signup with the payload', () => {
-      saga.next(COUNTRY).call(coreSagas.data.coinify.signup, COUNTRY)
-    })
-
-    it('should select the profile', () => {
-      saga
-        .next()
-        .select(selectors.core.data.coinify.getProfile)
-        .save(beforeDetermine)
-    })
-
-    it('should get tier 2 data', () => {
-      saga.next(PROFILE).select(selectors.modules.profile.getTier, 2)
-    })
-
-    it('should call handleAfterSignup with the userId', () => {
-      const tier2Data = Remote.of({ state: 'verified' })
-      saga
-        .next(tier2Data)
-        .put(coinifyActions.coinifyNotAsked())
-        .next()
-        .call(handleAfterSignup, '5')
-    })
-
-    it('should handle an error', () => {
-      const errorProfile = { error: '{"error": "signup_error"}' }
-      saga
-        .restore(beforeDetermine)
-        .next(errorProfile)
-        .put(coinifyActions.coinifyFailure(JSON.parse(errorProfile.error)))
     })
   })
 

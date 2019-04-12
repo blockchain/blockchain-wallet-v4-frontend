@@ -19,6 +19,7 @@ import {
   last,
   or,
   path,
+  pathOr,
   prop,
   propOr
 } from 'ramda'
@@ -83,7 +84,6 @@ export default ({ api, coreSagas, networks }) => {
   const {
     calculatePaymentMemo,
     calculateProvisionalPayment,
-    calculateEffectiveBalanceMemo,
     getDefaultAccount,
     createPayment,
     updateLatestEthTrade,
@@ -153,8 +153,12 @@ export default ({ api, coreSagas, networks }) => {
         }
       }
     }
-    const effectiveBalance = yield call(calculateEffectiveBalanceMemo, source)
-    const balance = getEffectiveBalanceStandard(sourceCoin, effectiveBalance)
+    const payment = yield call(getProvisionalPayment)
+    const balance = getEffectiveBalanceStandard(
+      sourceCoin,
+      payment.effectiveBalance
+    )
+    yield call(updateSourceFee, payment)
     const rates = yield call(getBestRates)
     const rate = path([formatPair(fiatCurrency, sourceCoin), 'price'], rates)
     return {
@@ -182,9 +186,9 @@ export default ({ api, coreSagas, networks }) => {
       )(quote)
     }
 
-    if (Remote.Failure.is(amountsR)) throw amountsR.error
+    if (Remote.Failure.is(amountsR)) return S.adviceToAmount(0)
 
-    return amountsR.getOrFail(NO_ADVICE_ERROR)
+    return amountsR.getOrFail(S.adviceToAmount(0))
   }
 
   const exchangeFormInitialized = function * ({ payload }) {
@@ -307,10 +311,10 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const updateSourceFee = function * () {
+  const updateSourceFee = function * (payment) {
     try {
       const form = yield select(formValueSelector)
-      const provisionalPayment = yield call(getProvisionalPayment)
+      const provisionalPayment = yield payment || call(getProvisionalPayment)
       const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
       const fee = convertBaseToStandard(
@@ -727,7 +731,16 @@ export default ({ api, coreSagas, networks }) => {
       if (prop('coin', source) === 'ETH')
         yield spawn(updateLatestEthTrade, txId)
     } catch (err) {
-      yield call(api.failTrade, trade.id, err, txId)
+      if (prop('coin', source) === 'XLM') {
+        const xlmErrMessage = pathOr(
+          err,
+          ['response', 'data', 'extras', 'result_codes'],
+          err
+        )
+        yield call(api.failTrade, trade.id, xlmErrMessage, txId)
+      } else {
+        yield call(api.failTrade, trade.id, err, txId)
+      }
       throw err
     }
   }
