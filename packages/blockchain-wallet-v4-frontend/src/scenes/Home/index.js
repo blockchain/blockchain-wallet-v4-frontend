@@ -16,9 +16,6 @@ const Wrapper = styled.div`
     padding: 30px;
   }
 `
-const BannerWrapper = styled.div`
-  margin-bottom: 25px;
-`
 const ColumnWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -54,9 +51,7 @@ const ColumnRight = styled(Column)`
 
 const Home = () => (
   <Wrapper>
-    <BannerWrapper>
-      <Banners />
-    </BannerWrapper>
+    <Banners />
     <ColumnWrapper>
       <ColumnLeft>
         <Balances />
