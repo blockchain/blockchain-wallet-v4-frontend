@@ -66,10 +66,7 @@ const Error = props => {
           </Text>
         </React.Fragment>
       )}
-      <Link
-        target='_blank'
-        href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000020183'
-      >
+      <Link target='_blank' href='https://support.blockchain.com/'>
         <Button
           nature='primary'
           fullwidth

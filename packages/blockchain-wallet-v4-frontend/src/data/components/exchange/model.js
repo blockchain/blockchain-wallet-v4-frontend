@@ -14,15 +14,9 @@ import {
 import { Remote } from 'blockchain-wallet-v4'
 import { splitPair } from 'data/modules/rates/model'
 
-export const EXCHANGE_STEPS = {
-  STATE_REGISTRATION: 0,
-  EXCHANGE_FORM: 1,
-  CONFIRM: 2,
-  EXCHANGE_RESULT: 3
-}
-
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
+export const CONFIRM_MODAL = '@EXCHANGE.CONFIRM_MODAL'
 
 export const SHAPESHIFT_PAIRS = Remote.of([
   'BTC-BCH',

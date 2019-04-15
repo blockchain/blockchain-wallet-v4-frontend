@@ -3,7 +3,7 @@ import Buy from './Buy'
 import Sell from './Sell'
 import OrderHistory from './OrderHistory'
 
-class Checkout extends React.Component {
+class Checkout extends React.PureComponent {
   render () {
     const { type } = this.props
     switch (type) {

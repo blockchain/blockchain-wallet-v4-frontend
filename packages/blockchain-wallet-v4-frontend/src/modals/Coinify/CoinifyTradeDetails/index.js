@@ -7,34 +7,28 @@ import { Modal } from 'blockchain-info-components'
 
 import BankTransfer from './BankTransfer'
 import Trade from './Trade'
-import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
     const { trade, status, subscriptions } = this.props
 
     const renderComponent = trade => {
-      if (trade.constructor.name === 'Trade') {
-        if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in') {
-          return <BankTransfer trade={trade} close={this.props.close} />
-        } else {
-          return (
-            <Trade
-              status={status}
-              trade={trade}
-              close={this.props.close}
-              subscriptions={subscriptions}
-            />
-          )
-        }
-      } else {
-        return <Kyc status={status} close={this.props.close} />
-      }
+      if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in')
+        return <BankTransfer trade={trade} close={this.props.close} />
+
+      return (
+        <Trade
+          status={status}
+          trade={trade}
+          close={this.props.close}
+          subscriptions={subscriptions}
+        />
+      )
     }
 
     return (
       <Modal
-        size='large'
+        size='medium'
         position={this.props.position}
         total={this.props.total}
       >

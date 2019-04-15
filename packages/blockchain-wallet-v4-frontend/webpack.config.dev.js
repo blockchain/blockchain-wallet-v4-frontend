@@ -258,9 +258,7 @@ module.exports = {
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
           envConfig.WALLET_HELPER_DOMAIN
-        } ${
-          envConfig.ROOT_URL
-        } https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        } ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080`,
         `child-src ${iSignThisDomain} ${coinifyPaymentDomain}  ${
           envConfig.WALLET_HELPER_DOMAIN
         } blob:`,

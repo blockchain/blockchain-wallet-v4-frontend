@@ -46,6 +46,12 @@ export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])
 export const getTargetFee = path(['components', 'exchange', 'targetFee'])
 export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
+export const getMempoolFees = path([
+  'components',
+  'exchange',
+  'sourceFee',
+  'mempoolFees'
+])
 export const showError = path(['components', 'exchange', 'showError'])
 export const getTxError = path(['components', 'exchange', 'txError'])
 

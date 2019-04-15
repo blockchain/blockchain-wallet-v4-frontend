@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { find, map, propEq } from 'ramda'
+import { find, map, prop, propEq, test, head } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
@@ -28,11 +28,7 @@ const getCountryElements = countries => [
 ]
 
 const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
-const {
-  EDIT_ADDRESS,
-  EDIT_COUNTRY,
-  EDIT_EMAIL
-} = model.analytics.KYC_EVENTS.FORMS
+const { PERSONAL } = model.analytics.KYC_EVENTS.FORMS
 
 class PersonalContainer extends React.PureComponent {
   state = {
@@ -41,6 +37,25 @@ class PersonalContainer extends React.PureComponent {
 
   componentDidMount () {
     this.fetchData()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { coinifyUserCountry, formActions, countryData } = this.props
+    // change form field on mount to coinify country if on buy-sell since we're skipping country selection
+    if (
+      test(/buy-sell/, this.props.pathName) &&
+      (!Remote.Success.is(prevProps.countryData) &&
+        Remote.Success.is(countryData))
+    ) {
+      const supportedCountries = prop(
+        'supportedCountries',
+        countryData.getOrElse()
+      )
+      const isUserCountry = propEq('code', coinifyUserCountry)
+      const countryObject = head(supportedCountries.filter(isUserCountry))
+      if (countryObject)
+        formActions.change(PERSONAL_FORM, 'country', countryObject)
+    }
   }
 
   scrollTop = () => {
@@ -53,17 +68,19 @@ class PersonalContainer extends React.PureComponent {
     this.props.actions.fetchStates()
   }
 
+  logEvent = val => {
+    this.props.analyticsActions.logEvent([...PERSONAL, val])
+  }
+
   selectAddress = (e, address) => {
     e.preventDefault()
     this.props.actions.selectAddress(address)
-    this.props.analyticsActions.logEvent(EDIT_ADDRESS)
   }
 
   onCountryChange = (e, value) => {
     e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
-    this.props.analyticsActions.logEvent(EDIT_COUNTRY)
   }
 
   onPromptForEmailVerification = e => {
@@ -74,7 +91,6 @@ class PersonalContainer extends React.PureComponent {
 
   editEmail = () => {
     this.props.actions.setEmailStep(EMAIL_STEPS.edit)
-    this.props.analyticsActions.logEvent(EDIT_EMAIL)
   }
 
   renderForm = ({
@@ -125,10 +141,11 @@ class PersonalContainer extends React.PureComponent {
       activeFieldError={activeFieldError}
       editEmail={this.editEmail}
       updateEmail={actions.updateEmail}
-      sendEmailVerification={this.onSendEmailVerification}
+      sendEmailVerification={actions.sendEmailVerification}
       onPromptForEmailVerification={this.onPromptForEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
+      onFieldBlur={this.logEvent}
       onSubmit={handleSubmit}
     />
   )

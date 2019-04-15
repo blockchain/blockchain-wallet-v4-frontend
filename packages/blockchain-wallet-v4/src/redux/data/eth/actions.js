@@ -14,18 +14,6 @@ export const fetchDataFailure = error => ({
   payload: error
 })
 
-// FETCH_ETH_FEE
-export const fetchFee = () => ({ type: AT.FETCH_ETH_FEE })
-export const fetchFeeLoading = () => ({ type: AT.FETCH_ETH_FEE_LOADING })
-export const fetchFeeSuccess = data => ({
-  type: AT.FETCH_ETH_FEE_SUCCESS,
-  payload: data
-})
-export const fetchFeeFailure = error => ({
-  type: AT.FETCH_ETH_FEE_FAILURE,
-  payload: error
-})
-
 // FETCH_ETH_LATEST_BLOCK
 export const fetchLatestBlock = () => ({
   type: AT.FETCH_ETH_LATEST_BLOCK

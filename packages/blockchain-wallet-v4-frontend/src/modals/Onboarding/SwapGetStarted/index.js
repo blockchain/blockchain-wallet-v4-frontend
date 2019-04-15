@@ -61,6 +61,10 @@ const CenteredText = styled(Text)`
 `
 
 class SwapGetStarted extends React.PureComponent {
+  componentDidMount () {
+    this.props.preferencesActions.hideKycGetStarted()
+  }
+
   render () {
     const { position, total, close, actions } = this.props
     return (
@@ -106,7 +110,8 @@ class SwapGetStarted extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(

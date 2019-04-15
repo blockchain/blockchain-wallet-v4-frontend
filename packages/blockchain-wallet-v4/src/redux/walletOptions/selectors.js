@@ -11,6 +11,10 @@ export const getAppEnv = state =>
   getWebOptions(state).map(path(['application', 'environment']))
 export const getBtcNetwork = state =>
   getWebOptions(state).map(path(['btc', 'config', 'network']))
+export const getBchFees = state =>
+  getWebOptions(state).map(path(['bch', 'config', 'fees']))
+export const getBsvFees = state =>
+  getWebOptions(state).map(path(['bsv', 'config', 'fees']))
 export const getEthTxFuse = state =>
   getWebOptions(state).map(path(['eth', 'lastTxFuse']))
 export const getAnalyticsSiteId = state =>
@@ -25,12 +29,21 @@ export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
 
+// partners
+export const getSFOXCountries = state =>
+  getWebOptions(state).map(path(['sfox', 'countries']))
+export const getSFOXStates = state =>
+  getWebOptions(state).map(path(['sfox', 'states']))
+export const getCoinifyCountries = state =>
+  getWebOptions(state).map(path(['coinify', 'countries']))
+export const getISignThisDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
+export const getCoinifyPaymentDomain = state =>
+  getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
 export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
-// wallet helper
+
 export const getWalletHelperUrl = state =>
   getDomains(state).map(prop('walletHelper'))
-
-// SFOX / plaid
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>

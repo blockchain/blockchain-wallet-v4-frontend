@@ -218,3 +218,12 @@ export const convertSourceToTarget = (form, rates, amount) => {
     multiply(getRate(rates, targetCoin, sourceCoin))
   )(amount)
 }
+
+export const convertSourceToFiat = (form, fiatCurrency, rates, amount) => {
+  const sourceCoin = path(['source', 'coin'], form)
+
+  return compose(
+    toFixed(2, false),
+    multiply(getRate(rates, sourceCoin, fiatCurrency))
+  )(amount)
+}

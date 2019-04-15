@@ -157,6 +157,12 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
+        <Tooltip id='exchange.networkfees'>
+          <FormattedMessage
+            id='scenes.exchange.networkfees'
+            defaultMessage='These are the fees paid to the Miners of the network.'
+          />
+        </Tooltip>
         <Tooltip id='exchange.changeinput' place='bottom'>
           <FormattedMessage
             id='scenes.exchange.changeinput'
@@ -279,6 +285,12 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='txlist.change.tooltip.description'
             defaultMessage='This change address belongs to your wallet'
+          />
+        </Tooltip>
+        <Tooltip id='buysellOrderReview'>
+          <FormattedMessage
+            id='buysellOrderReview.tooltip'
+            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
           />
         </Tooltip>
         <Tooltip id='identityverification.headerhelper'>

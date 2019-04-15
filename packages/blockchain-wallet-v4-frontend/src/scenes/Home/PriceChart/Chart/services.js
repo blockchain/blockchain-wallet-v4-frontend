@@ -5,9 +5,9 @@ import { head, last, map, sort } from 'ramda'
 
 export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   chart: {
-    height: 330,
+    height: 320,
     type: 'area',
-    spacing: [0, 0, 0, 0],
+    spacing: [25, 0, 0, 0],
     data: {
       dateFormat: 'YYYY/mm/dd'
     }
@@ -17,7 +17,7 @@ export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   },
   yAxis: {
     visible: false,
-    minPadding: 0,
+    minPadding: 0.1,
     maxPadding: 0,
     gridLineColor: 'transparent'
   },
@@ -126,13 +126,14 @@ const getMinMaxIndex = data => {
   return [minIndex, maxIndex]
 }
 
-const renderPoint = (chart, pointData) => {
+const renderPoint = (chart, pointData, isPointGreaterThanCounterPoint) => {
   const [point, value] = pointData
+  const xPadding = isPointGreaterThanCounterPoint ? -50 : 5
 
   chart.renderer
     .text(
       `<div class='min-max'>${value}</div>`,
-      point.plotX + chart.plotLeft + 10,
+      point.plotX + chart.plotLeft + xPadding,
       point.plotY + chart.plotTop - 10,
       true
     )
@@ -155,6 +156,6 @@ export const renderMinMax = (chart, { currency, data, decimals }) => {
     currency + Currency.formatFiat(min, decimals)
   ]
 
-  renderPoint(chart, maxPoint)
-  renderPoint(chart, minPoint)
+  renderPoint(chart, maxPoint, maxIndex > minIndex)
+  renderPoint(chart, minPoint, minIndex > maxIndex)
 }

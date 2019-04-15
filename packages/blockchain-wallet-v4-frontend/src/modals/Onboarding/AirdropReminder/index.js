@@ -62,6 +62,10 @@ const LaterButton = styled(FooterButton)`
 `
 
 class AirdropReminder extends React.PureComponent {
+  componentDidMount () {
+    this.props.preferencesActions.hideAirdropReminderModal()
+  }
+
   render () {
     const { campaign, position, total, close, actions } = this.props
     return (
@@ -84,8 +88,8 @@ class AirdropReminder extends React.PureComponent {
           </Text>
           <Copy weight={300}>
             <FormattedMessage
-              id='modals.airdropreminder.completeprofiletoday'
-              defaultMessage='Complete your profile today and we will airdrop  $25 of free {coinName} ({coinCode}) in your Wallet.'
+              id='modals.airdropreminder.completeprofiletodayfree'
+              defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'
               values={{
                 coinName: prop('coinName', CAMPAIGNS[campaign]),
                 coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -128,7 +132,8 @@ AirdropReminder.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.onboarding, dispatch)
+  actions: bindActionCreators(actions.components.onboarding, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(

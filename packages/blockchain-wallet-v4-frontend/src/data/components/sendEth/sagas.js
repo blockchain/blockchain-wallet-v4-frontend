@@ -284,6 +284,13 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.SEND_FAILURE,
+            'ETH',
+            e
+          ])
+        )
         yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
       }
     }

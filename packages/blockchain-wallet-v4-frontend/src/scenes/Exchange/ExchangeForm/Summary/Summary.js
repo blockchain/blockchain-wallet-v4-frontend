@@ -1,21 +1,41 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
+import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { formatAmount } from '../services'
 import { getData } from './selectors'
 import {
-  ExchangeText,
-  ExchangeAmount,
   AmountHeader,
-  Delimiter,
-  TableRow
+  ExchangeAmount,
+  ExchangeAmounts,
+  SubExchangeAmount,
+  LargeTableRow,
+  Wrapper as BorderWrapper
 } from 'components/Exchange'
 import StringDisplay from 'components/Display/StringDisplay'
+import TargetFiatAmount from './TargetFiatAmount'
 
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
+const SummaryWrapper = styled(BorderWrapper)`
+  padding: 0;
+  width: 100%;
+  margin-bottom: 24px;
+`
+const SummaryExchangeAmount = styled(ExchangeAmount)`
+  justify-content: flex-end;
+`
+const TooltipWrapAmountHeader = styled(AmountHeader)`
+  display: flex;
+`
+const SummaryStringDisplay = styled(StringDisplay)`
+  justify-content: flex-end;
+`
 export class Summary extends React.PureComponent {
   render () {
     const {
@@ -23,87 +43,149 @@ export class Summary extends React.PureComponent {
       sourceAmount,
       sourceCoin,
       sourceFee,
+      sourceFiat,
+      sourceFeeFiat,
       targetAmount,
-      targetCoin,
-      targetFiat
+      targetCoin
     } = this.props
+
+    const fiatCurrencySymbol = Exchange.getSymbol(currency)
+
     return (
-      <React.Fragment>
-        <TableRow>
+      <SummaryWrapper>
+        <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.swap'
-              defaultMessage='Swap'
+              id='scenes.exchange.exchangeform.summary.exchange'
+              defaultMessage='Exchange'
             />
           </AmountHeader>
-          <ExchangeAmount>
-            <StringDisplay data-e2e='exchangeSummarySourceValue'>
-              {sourceAmount.map(amount =>
-                coinToString({
-                  value: add(amount, sourceFee.source),
-                  unit: { symbol: sourceCoin },
-                  minDigits: 2
-                })
-              )}
-            </StringDisplay>
-          </ExchangeAmount>
-        </TableRow>
-        <TableRow>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount color='gray-5'>
+              <SummaryStringDisplay
+                data-e2e='exchangeSummarySwapFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
+              >
+                {sourceFiat.map(amount =>
+                  formatAmount(true, fiatCurrencySymbol, amount)
+                )}
+              </SummaryStringDisplay>
+            </SummaryExchangeAmount>
+            <SubExchangeAmount color='gray-5'>
+              <SummaryStringDisplay data-e2e='exchangeSummarySwapValue'>
+                {sourceAmount.map(amount =>
+                  coinToString({
+                    value: amount,
+                    unit: { symbol: sourceCoin },
+                    minDigits: 2
+                  })
+                )}
+              </SummaryStringDisplay>
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
+          <TooltipWrapAmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.networkfees'
+              defaultMessage='Network Fees'
+            />
+            <TooltipHost id='exchange.networkfees'>
+              <TooltipIcon
+                name='question-in-circle-filled'
+                color='lightblue-gray'
+                size='18px'
+              />
+            </TooltipHost>
+          </TooltipWrapAmountHeader>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount
+              color='gray-5'
+              data-e2e='exchangeSummaryFeeFiatValue'
+            >
+              {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
+            </SummaryExchangeAmount>
+            <SubExchangeAmount
+              color='gray-5'
+              data-e2e='exchangeSummaryFeeValue'
+            >
+              {coinToString({
+                value: sourceFee.source,
+                unit: { symbol: sourceCoin },
+                minDigits: 2
+              })}
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
           <AmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.send'
+              defaultMessage='Send'
+            />
+          </AmountHeader>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount color='gray-5'>
+              -
+              <SummaryStringDisplay
+                data-e2e='exchangeSummaryTotalFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
+              >
+                {sourceFiat.map(amount =>
+                  formatAmount(
+                    true,
+                    fiatCurrencySymbol,
+                    add(amount, sourceFeeFiat)
+                  )
+                )}
+              </SummaryStringDisplay>
+            </SummaryExchangeAmount>
+            <SubExchangeAmount color='gray-5'>
+              -
+              <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
+                {sourceAmount.map(amount =>
+                  coinToString({
+                    value: add(amount, sourceFee.source),
+                    unit: { symbol: sourceCoin },
+                    minDigits: 2
+                  })
+                )}
+              </SummaryStringDisplay>
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
+          <AmountHeader color='brand-primary' weight={500}>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.to'
               defaultMessage='Receive'
             />
           </AmountHeader>
-          <ExchangeAmount>
-            <StringDisplay data-e2e='exchangeSummaryTargetValue'>
-              {targetAmount.map(amount =>
-                coinToString({
-                  value: amount,
-                  unit: { symbol: targetCoin },
-                  minDigits: 2
-                })
-              )}
-            </StringDisplay>
-          </ExchangeAmount>
-        </TableRow>
-        <Delimiter />
-        <TableRow>
-          <ExchangeText>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.fees'
-              defaultMessage='Fees'
-            />
-          </ExchangeText>
-          <ExchangeAmount data-e2e='exchangeSummaryFeeValue'>
-            {coinToString({
-              value: sourceFee.source,
-              unit: { symbol: sourceCoin },
-              minDigits: 2
-            })}
-          </ExchangeAmount>
-        </TableRow>
-        <TableRow>
-          <ExchangeText>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.swapvalue'
-              defaultMessage='Swap Value'
-            />
-          </ExchangeText>
-          <ExchangeAmount>
-            <StringDisplay data-e2e='exchangeSummarySwapValue'>
-              {targetFiat.map(amount =>
-                coinToString({
-                  value: amount,
-                  unit: { symbol: currency },
-                  minDigits: 2,
-                  maxDigits: 2
-                })
-              )}
-            </StringDisplay>
-          </ExchangeAmount>
-        </TableRow>
-      </React.Fragment>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount>
+              <TargetFiatAmount
+                targetAmount={targetAmount}
+                targetCoin={targetCoin}
+                color='brand-primary'
+                weight={400}
+              />
+            </SummaryExchangeAmount>
+            <SubExchangeAmount color='gray-5'>
+              <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>
+                {targetAmount.map(amount =>
+                  coinToString({
+                    value: amount,
+                    unit: { symbol: targetCoin },
+                    minDigits: 2
+                  })
+                )}
+              </SummaryStringDisplay>
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+      </SummaryWrapper>
     )
   }
 }

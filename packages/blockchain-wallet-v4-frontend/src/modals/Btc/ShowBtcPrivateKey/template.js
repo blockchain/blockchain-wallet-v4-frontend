@@ -15,6 +15,13 @@ import {
 import { spacing, flex } from 'services/StyleService'
 import { utils } from 'blockchain-wallet-v4/src'
 
+const DropdownWrapper = styled.div`
+  position: relative;
+  width: 60%;
+  height: auto;
+  background-color: ${props => props.theme['white']};
+`
+
 const DetailTable = styled.div`
   min-width: 0;
   > div {
@@ -94,7 +101,7 @@ const SecondStep = ({
         </DetailRowText>
         {':'}
         &nbsp;
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={300} data-e2e='btcAddressValue'>
           {addr}
         </Text>
       </DetailRow>
@@ -114,7 +121,7 @@ const SecondStep = ({
             </Text>
           ),
           keyString => (
-            <KeyText size='14px' weight={300}>
+            <KeyText size='14px' weight={300} data-e2e='btcPrivateKeyValue'>
               {keyString}
             </KeyText>
           )
@@ -129,13 +136,15 @@ const SecondStep = ({
         </DetailRowText>
         {':'}
         &nbsp;
-        <KeySelectInput
-          label='Export Format'
-          value={format}
-          searchEnabled={false}
-          onChange={onChangeFormat}
-          elements={formats}
-        />
+        <DropdownWrapper data-e2e='dropdownSelect'>
+          <KeySelectInput
+            label='Export Format'
+            value={format}
+            searchEnabled={false}
+            onChange={onChangeFormat}
+            elements={formats}
+          />
+        </DropdownWrapper>
       </DetailRow>
     </DetailTable>
   </div>
@@ -166,6 +175,7 @@ const ShowBtcPrivateKeyTemplate = ({
         weight={300}
         style={spacing('mr-15')}
         onClick={close}
+        data-e2e='btcPrivateKeyCloseButton'
       >
         <FormattedMessage
           id='modals.showbtcpriv.close'
@@ -173,7 +183,11 @@ const ShowBtcPrivateKeyTemplate = ({
         />
       </Text>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button
+          nature='primary'
+          onClick={onContinue}
+          data-e2e='btcPrivateKeyContinueButton'
+        >
           <FormattedMessage
             id='modals.showbtcpriv.continue'
             defaultMessage='Continue'

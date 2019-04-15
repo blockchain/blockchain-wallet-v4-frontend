@@ -1,17 +1,19 @@
-import KycDocResubmit from './KycDocResubmit'
+import ExchangeConfirm from './ExchangeConfirm'
 import ExchangeDetails from './ExchangeDetails'
 import ExchangeResults from './ExchangeResults'
 import IdentityVerification from './IdentityVerification'
+import KycDocResubmit from './KycDocResubmit'
+import SunRiverLinkError from './SunRiverLinkError'
 import SwapUpgrade from './SwapUpgrade'
 import UserExists from './UserExists'
-import SunRiverLinkError from './SunRiverLinkError'
 
 export {
-  KycDocResubmit,
+  ExchangeConfirm,
   ExchangeDetails,
   ExchangeResults,
   IdentityVerification,
+  KycDocResubmit,
+  SunRiverLinkError,
   SwapUpgrade,
-  UserExists,
-  SunRiverLinkError
+  UserExists
 }
