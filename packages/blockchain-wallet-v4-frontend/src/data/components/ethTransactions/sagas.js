@@ -1,6 +1,8 @@
-import { put } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import { equals, path } from 'ramda'
-import { actions, model } from 'data'
+
+import { actions, model, selectors } from 'data'
+import * as C from 'services/AlertService'
 
 export default () => {
   const { WALLET_TX_SEARCH } = model.form
@@ -55,6 +57,12 @@ export default () => {
       }
       yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
       yield put(actions.core.data.eth.fetchErc20Transactions(token, true))
+      const lowEthBalance = yield select(
+        selectors.core.data.eth.getLowEthBalanceWarning()
+      )
+      if (lowEthBalance) {
+        yield put(actions.alerts.displayWarning(C.ETH_LOW_BALANCE_WARNING))
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializedErc20', e)

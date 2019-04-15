@@ -31,7 +31,8 @@ const INITIAL_STATE = {
   legacy_balance: Remote.NotAsked,
   rates: buildStateWithTokens(Remote.NotAsked),
   transactions: buildStateWithTokens([]),
-  transactions_at_bound: buildStateWithTokens(false)
+  transactions_at_bound: buildStateWithTokens(false),
+  warn_low_eth_balance: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -158,6 +159,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.ETH_TRANSACTIONS_AT_BOUND: {
       return assocPath(['transactions_at_bound', 'eth'], payload, state)
+    }
+    case AT.CHECK_LOW_ETH_BALANCE_SUCCESS: {
+      return assoc('warn_low_eth_balance', payload, state)
     }
     // ERC20
     case AT.FETCH_ERC20_TOKEN_DATA_LOADING: {

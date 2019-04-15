@@ -15,6 +15,7 @@ import {
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import * as Exchange from '../../../exchange'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
@@ -56,6 +57,7 @@ export default ({ api }) => {
         latest_block: latestBlock
       }
       yield put(A.fetchDataSuccess(ethData))
+      yield call(checkForLowEthBalance)
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }
@@ -132,6 +134,21 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchLegacyBalanceFailure())
     }
+  }
+
+  const checkForLowEthBalance = function * () {
+    const paxBalance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
+    const weiBalance = (yield select(S.getBalance)).getOrFail()
+    const ethRates = (yield select(S.getRates)).getOrFail()
+    const ethBalance = Exchange.convertEtherToFiat({
+      value: weiBalance,
+      fromUnit: 'WEI',
+      toCurrency: 'USD',
+      rates: ethRates
+    }).value
+    // less than $1 eth and has PAX, set warning flag to true
+    const showWarning = parseInt(ethBalance) < 1 && paxBalance > 0
+    yield put(A.checkLowEthBalanceSuccess(showWarning))
   }
 
   //
@@ -231,6 +248,7 @@ export default ({ api }) => {
   }
 
   return {
+    checkForLowEthBalance,
     fetchData,
     fetchErc20Data,
     fetchLegacyBalance,

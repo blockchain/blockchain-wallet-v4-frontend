@@ -102,9 +102,15 @@ export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_ETH_TRANSACTIONS_FAILURE,
   payload: error
 })
-
 export const transactionsAtBound = payload => ({
   type: AT.ETH_TRANSACTIONS_AT_BOUND,
+  payload
+})
+export const checkLowEthBalance = () => ({
+  type: AT.CHECK_LOW_ETH_BALANCE
+})
+export const checkLowEthBalanceSuccess = payload => ({
+  type: AT.CHECK_LOW_ETH_BALANCE_SUCCESS,
   payload
 })
 
