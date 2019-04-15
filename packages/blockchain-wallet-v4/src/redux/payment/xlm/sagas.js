@@ -257,6 +257,10 @@ export default ({ api }) => {
           destinationAccountExists
         )
         txBuilder.addOperation(operation)
+        const timeout = (yield select(
+          S.walletOptions.getXlmSendTimeOutSeconds
+        )).getOrElse(10)
+        txBuilder.setTimeout(timeout)
         if (memo && memoType) {
           txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
         }
