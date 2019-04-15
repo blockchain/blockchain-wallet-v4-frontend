@@ -1,17 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { transparentize, darken } from 'polished'
-
+import { darken } from 'polished'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   height: 65px;
   width: 100%;
   background-color: ${props => props.theme['white']};
-
   @media (min-width: 768px) {
-    width: 500px;
+    width: 550px;
+    border-radius: 8px;
   }
 `
 const Container = styled.div`
@@ -24,16 +23,10 @@ const Container = styled.div`
   height: 100%;
   padding: 15px 10px 15px 25px;
   box-sizing: border-box;
-  background: ${props => transparentize(0.9, props.theme[props.color])};
-  color: ${props => props.theme[props.color]};
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  border-top: 6px solid
-    ${props => transparentize(0.8, props.theme[props.color])};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
+  background: ${props => props.theme['white']};
+  border-left: 6px solid ${props => props.theme[props.color]};
+  border-radius: 8px;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
 `
 const Content = styled.div`
   display: flex;
@@ -43,20 +36,11 @@ const Content = styled.div`
   flex: 100%;
   margin-right: 10px;
   box-sizing: border-box;
-
-  & > :first-child {
-    text-transform: uppercase;
-  }
-
-  @media (min-width: 768px) {
-    & > :first-child {
-      display: none;
-    }
-  }
 `
-const Close = styled(Icon)`
+const CloseIcon = styled(Icon)`
+  margin-right: 8px;
   &:hover {
-    color: ${props => darken(0.2, props.theme[props.color])}!important;
+    color: ${props => darken(0.5, props.theme['gray-4'])}!important;
   }
 `
 
@@ -66,27 +50,27 @@ const selectColor = type => {
       return 'success'
     case 'error':
       return 'error'
-    case 'info':
-      return 'brand-secondary'
+    case 'warn':
+      return 'orange'
     default:
       return 'brand-secondary'
   }
 }
 
 const Toast = props => {
-  const { nature, onClose, children } = props
+  const { children, nature, onClose } = props
   const color = selectColor(nature)
 
   return (
     <Wrapper>
       <Container color={color} data-e2e='toastMessage'>
         <Content>{children}</Content>
-        <Close
+        <CloseIcon
           data-e2e='toastMessageClose'
           name='close'
-          size='20px'
-          weight={300}
-          color={color}
+          size='14px'
+          weight={600}
+          color='gray-4'
           cursor
           onClick={onClose}
         />
