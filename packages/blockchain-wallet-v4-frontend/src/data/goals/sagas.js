@@ -16,11 +16,14 @@ import { actions, actionTypes, model, selectors } from 'data'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
+import profileSagas from 'data/modules/profile/sagas'
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
+
+  const { createUser } = profileSagas({ api })
 
   const logLocation = 'goals/sagas'
 
@@ -219,12 +222,13 @@ export default ({ api }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield call(waitForUserData)
+    const userData = yield call(waitForUserData)
     const kycNotFinished = yield call(isKycNotFinished)
     const coinifyTokenR = yield select(
       selectors.core.kvStore.buySell.getCoinifyToken
     )
     const coinifyToken = coinifyTokenR.getOrElse(false)
+    if (!userData) yield call(createUser)
     if (coinifyToken && kycNotFinished) {
       return yield put(
         actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
