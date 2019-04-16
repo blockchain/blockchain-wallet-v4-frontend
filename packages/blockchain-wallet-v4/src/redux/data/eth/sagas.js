@@ -139,7 +139,8 @@ export default ({ api }) => {
   }
 
   const checkForLowEthBalance = function * () {
-    const paxBalance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
+    // TODO: check for any erc20 balance in future
+    const erc20Balance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
     const ethRates = (yield select(S.getRates)).getOrFail()
     const ethBalance = Exchange.convertEtherToFiat({
@@ -149,7 +150,7 @@ export default ({ api }) => {
       rates: ethRates
     }).value
     // less than $1 eth and has PAX, set warning flag to true
-    const showWarning = parseInt(ethBalance) < 1 && paxBalance > 0
+    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
     yield put(A.checkLowEthBalanceSuccess(showWarning))
   }
 
