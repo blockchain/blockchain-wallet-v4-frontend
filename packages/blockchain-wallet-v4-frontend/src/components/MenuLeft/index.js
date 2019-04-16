@@ -20,6 +20,9 @@ export const MenuItem = styled.li`
   font-weight: 300;
   font-size: 14px;
   width: 100%;
+  &:hover {
+    color: ${props => props.theme['marketing-primary']};
+  }
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
@@ -30,18 +33,13 @@ export const MenuItem = styled.li`
   }
   & > span:first-child {
     width: 30px;
-    font-size: 22px;
     margin-right: 10px;
   }
   &.active {
     font-weight: 400;
-
     & > *:not(div) {
       color: ${props => props.theme['marketing-primary']};
     }
-  }
-  &:hover {
-    color: ${props => props.theme['marketing-primary']};
   }
 `
 export const SubMenu = styled.ul`

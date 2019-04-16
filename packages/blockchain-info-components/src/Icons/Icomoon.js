@@ -14,6 +14,7 @@ export default {
   camera: '\\e959',
   caret: '\\e917',
   cart: '\\e988',
+  'cart-filled': '\\e920',
   chart: '\\e95b',
   check: '\\e910',
   checkmark: '\\e95d',
@@ -47,6 +48,7 @@ export default {
   'hamburger-menu': '\\e919',
   hardware: '\\e91e',
   home: '\\e946',
+  'home-filled': '\\e924',
   'id-card': '\\e981',
   info: '\\e902',
   'left-arrow': '\\e947',
@@ -56,7 +58,6 @@ export default {
   'map-pin': '\\e94a',
   mobile: '\\e967',
   'nav-buy': '\\e988',
-  'nav-home': '\\e946',
   'nav-switch': '\\e903',
   'open-in-new-tab': '\\e979',
   'open-source': '\\e968',
@@ -86,6 +87,7 @@ export default {
   switch: '\\e9b6',
   'sync-regular': '\\e93d',
   'thick-arrow-right': '\\e91c',
+  'thick-arrow-switch': '\\e922',
   transactions: '\\e976',
   trash: '\\e951',
   twitter: '\\e916',
@@ -99,6 +101,5 @@ export default {
   'wallet-filled': '\\e939',
   xlm: '\\e90a',
   'xlm-circle': '\\e909',
-  'xlm-circle-filled': '\\e90c',
-  'xlm-new': '\\e91d'
+  'xlm-circle-filled': '\\e91f'
 }
