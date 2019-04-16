@@ -164,7 +164,8 @@
           "coinCodeDisplay": "XLM",
           "colorCode": "xlm",
           "config": {
-            "network": "public"
+            "network": "public",
+            "sendTimeOutSeconds": 10
           },
           "displayName": "Stellar",
           "hasLockboxSupport": true,

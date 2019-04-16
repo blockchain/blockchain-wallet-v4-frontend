@@ -7,7 +7,9 @@ import {
   propEq,
   path,
   prop,
-  toLower
+  mapObjIndexed,
+  toLower,
+  values
 } from 'ramda'
 import { ETH } from '../config'
 import { kvStorePath } from '../../paths'
@@ -58,6 +60,10 @@ export const getErc20Account = (state, token) =>
   getErc20Accounts(state).map(path([token]))
 export const getErc20ContractAddr = (state, token) =>
   getErc20Accounts(state).map(path([token, 'contract']))
+export const getErc20ContractAddrs = state =>
+  getErc20Accounts(state)
+    .map(mapObjIndexed(prop('contract')))
+    .map(values)
 export const getErc20TxNote = (state, token, txHash) =>
   getErc20Account(state, token).map(path(['tx_notes', txHash]))
 export const getErc20AccountLabel = (state, token) =>
