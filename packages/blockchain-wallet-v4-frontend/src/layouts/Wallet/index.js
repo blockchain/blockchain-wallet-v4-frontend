@@ -26,7 +26,7 @@ class WalletLayoutContainer extends React.PureComponent {
       <Route
         path={path}
         render={props => (
-          <WalletLayout location={props.location}>
+          <WalletLayout location={props.location} coin={this.props.coin}>
             <Component computedMatch={computedMatch} {...rest} />
           </WalletLayout>
         )}

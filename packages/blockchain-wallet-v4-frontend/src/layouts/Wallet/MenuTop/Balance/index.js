@@ -7,15 +7,20 @@ import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
-    const { path, supportCoins } = this.props
-    const coins = append('LOCKBOX', keys(supportCoins))
+    const { path, supportedCoins } = this.props
+    const coins = append('LOCKBOX', keys(supportedCoins))
     const coinOrRoute = head(
       filter(
         path => any(coin => coin === toUpper(path))(coins),
         path.split('/')
       )
     )
-    return <Template coinOrRoute={coinOrRoute || 'TOTAL'} />
+    return (
+      <Template
+        coinOrRoute={coinOrRoute || 'TOTAL'}
+        supportedCoins={supportedCoins}
+      />
+    )
   }
 }
 

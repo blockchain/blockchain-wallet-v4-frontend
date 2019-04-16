@@ -6,8 +6,8 @@ export const getData = createDeepEqualSelector(
     selectors.router.getPathname,
     selectors.core.walletOptions.getSupportedCoins
   ],
-  (path, supportCoinsR) => ({
+  (path, supportedCoinsR) => ({
     path,
-    supportCoins: supportCoinsR.getOrFail()
+    supportedCoins: supportedCoinsR.getOrElse({})
   })
 )

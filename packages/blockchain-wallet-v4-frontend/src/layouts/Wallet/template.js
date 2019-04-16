@@ -53,7 +53,7 @@ const Top = styled.div`
 // TODO: @header issue
 // change this so that pages control their own scroll
 const WalletLayout = props => {
-  const { location, children } = props
+  const { coin, location, children } = props
 
   return (
     <Wrapper>
@@ -72,17 +72,8 @@ const WalletLayout = props => {
             <Top>
               <MenuTop />
             </Top>
-            {location.pathname.includes('/btc/transactions') && (
-              <Menu coin='BTC' />
-            )}
-            {location.pathname.includes('/bch/transactions') && (
-              <Menu coin='BCH' />
-            )}
-            {location.pathname.includes('/eth/transactions') && (
-              <Menu coin='ETH' />
-            )}
-            {location.pathname.includes('/xlm/transactions') && (
-              <Menu coin='XLM' />
+            {location.pathname.includes('/transactions') && (
+              <Menu coin={coin} />
             )}
             {location.pathname.includes('/swap') && (
               <ExchangeMenu
