@@ -90,7 +90,7 @@ const WelcomeAirdrop = props => {
               defaultMessage='We Now Offer {coinName} ({coinCode})'
               values={{
                 coinName: currentCoin.displayName,
-                coinCode: currentCoin.coinCodeDisplay
+                coinCode: currentCoin.coinTicker
               }}
             />
           </Text>
@@ -98,14 +98,14 @@ const WelcomeAirdrop = props => {
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.sendreqexchange'
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'
-              values={{ coin: currentCoin.coinCodeDisplay }}
+              values={{ coin: currentCoin.coinTicker }}
             />
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.completeprofileforairdropfree'
               defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.'
               values={{
                 coinName: currentCoin.displayName,
-                coin: currentCoin.coinCodeDisplay
+                coin: currentCoin.coinTicker
               }}
             />
           </Content>
@@ -122,7 +122,7 @@ const WelcomeAirdrop = props => {
               <FormattedMessage
                 id='scenes.transaction.content.empty.airdrop.claim'
                 defaultMessage='Claim Your Free {coin} Now'
-                values={{ coin: currentCoin.coinCodeDisplay }}
+                values={{ coin: currentCoin.coinTicker }}
               />
             </Button>
           </ButtonContainer>

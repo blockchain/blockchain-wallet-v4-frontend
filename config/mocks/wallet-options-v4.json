@@ -20,12 +20,12 @@
             "exchangeFrom": true
           },
           "coinCode": "BTC",
-          "coinCodeDisplay": "BTC",
+          "coinTicker": "BTC",
           "colorCode": "btc",
+          "displayName": "Bitcoin",
           "config": {
             "network": "bitcoin"
           },
-          "displayName": "Bitcoin",
           "hasLockboxSupport": true,
           "icons": {
             "default": "btc",
@@ -34,7 +34,6 @@
           },
           "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
           "minConfirmations": 3,
-          "name": "Bitcoin",
           "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
           "txListAppRoute": "/btc/transactions"
         },
@@ -47,15 +46,15 @@
             "exchangeFrom": true
           },
           "coinCode": "BCH",
-          "coinCodeDisplay": "BCH",
+          "coinTicker": "BCH",
           "colorCode": "bch",
+          "displayName": "Bitcoin Cash",
           "config": {
             "fees": {
               "regular": 4,
               "priority": 4
             }
           },
-          "displayName": "Bitcoin Cash",
           "hasLockboxSupport": true,
           "icons": {
             "default": "bch",
@@ -63,7 +62,6 @@
             "circleFilled": "bch-circle-filled"
           },
           "minConfirmations": 3,
-          "name": "Bitcoin Cash",
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
         },
@@ -76,22 +74,20 @@
             "exchangeFrom": true
           },
           "coinCode": "BSV",
-          "coinCodeDisplay": "BSV",
+          "coinTicker": "BSV",
           "colorCode": "bsv",
+          "displayName": "Bitcoin SV",
           "config": {
             "fees": {
               "regular": 4,
               "priority": 4
             }
           },
-          "displayName": "Bitcoin SV",
           "hasLockboxSupport": false,
           "icons": {
             "default": "bsv"
           },
-          "isErc20": false,
           "minConfirmations": 3,
-          "name": "Bitcoin SV",
           "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
         "ETH": {
@@ -103,12 +99,12 @@
             "exchangeFrom": true
           },
           "coinCode": "ETH",
-          "coinCodeDisplay": "ETH",
+          "coinTicker": "ETH",
           "colorCode": "eth",
+          "displayName": "Ethereum",
           "config": {
             "network": 1
           },
-          "displayName": "Ethereum",
           "hasLockboxSupport": true,
           "icons": {
             "default": "eth",
@@ -116,7 +112,6 @@
             "circleFilled": "eth-circle-filled"
           },
           "minConfirmations": 12,
-          "name": "Ethereum",
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/eth/transactions"
         },
@@ -129,7 +124,7 @@
             "exchangeFrom": true
           },
           "coinCode": "PAX",
-          "coinCodeDisplay": "USDp",
+          "coinTicker": "USDp",
           "colorCode": "pax",
           "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
           "displayName": "USD Pax",
@@ -139,16 +134,13 @@
             "circle": "usdp",
             "circleFilled": "usdp"
           },
-          "isErc20": true,
           "minConfirmations": 12,
-          "name": "Paxos",
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/pax/transactions",
           "showNewTagSidenav": true
         },
         "XLM": {
           "airdrop": {
-            "name": "SUNRIVER",
             "link": "https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway",
             "image": "stellar-planet"
           },
@@ -161,13 +153,13 @@
           },
           "campaign": "sunriver",
           "coinCode": "XLM",
-          "coinCodeDisplay": "XLM",
+          "coinTicker": "XLM",
           "colorCode": "xlm",
+          "displayName": "Stellar",
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 10
           },
-          "displayName": "Stellar",
           "hasLockboxSupport": true,
           "icons": {
             "default": "xlm",
@@ -175,7 +167,6 @@
             "circleFilled": "xlm-circle-filled"
           },
           "minConfirmations": 1,
-          "name": "Stellar",
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
           "txListAppRoute": "/xlm/transactions"
         }

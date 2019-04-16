@@ -36,7 +36,7 @@ export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
 export const getErc20CoinList = state =>
-  getSupportedCoins(state).map(x => keys(filter(c => c.isErc20, x)))
+  getSupportedCoins(state).map(x => keys(filter(c => c.contractAddress, x)))
 export const getCoinModel = (state, coin) =>
   getSupportedCoins(state).map(x => prop(toUpper(coin), x))
 
