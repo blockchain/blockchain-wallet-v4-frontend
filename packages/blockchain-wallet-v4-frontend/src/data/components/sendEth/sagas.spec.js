@@ -238,7 +238,6 @@ describe('sendEth sagas', () => {
         .next(
           Remote.of({
             displayName: 'Ethereum',
-            isErc20: false,
             txListAppRoute: '/eth/transactions'
           })
         )

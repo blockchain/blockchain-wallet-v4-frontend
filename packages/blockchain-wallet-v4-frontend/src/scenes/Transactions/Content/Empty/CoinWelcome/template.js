@@ -85,7 +85,7 @@ const Welcome = props => {
             <FormattedMessage
               id='scenes.transaction.content.empty.yourcoinwallet'
               defaultMessage='Your {coin} Wallet'
-              values={{ coin: currentCoin.coinCodeDisplay }}
+              values={{ coin: currentCoin.coinTicker }}
             />
           </Text>
           <Content weight={300}>
@@ -94,7 +94,7 @@ const Welcome = props => {
               defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
               values={{
                 coinName: currentCoin.displayName,
-                coinCode: currentCoin.coinCodeDisplay
+                coinCode: currentCoin.coinTicker
               }}
             />
           </Content>
@@ -109,7 +109,7 @@ const Welcome = props => {
                   <FormattedMessage
                     id='scenes.transaction.content.empty.buy'
                     defaultMessage='Buy {coin}'
-                    values={{ coin: currentCoin.coinCodeDisplay }}
+                    values={{ coin: currentCoin.coinTicker }}
                   />
                 </Button>
               </LinkContainer>
@@ -123,7 +123,7 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.request'
                   defaultMessage='Get {coin}'
-                  values={{ coin: currentCoin.coinCodeDisplay }}
+                  values={{ coin: currentCoin.coinTicker }}
                 />
               </Button>
             )}
@@ -131,8 +131,8 @@ const Welcome = props => {
               to={{
                 pathname: '/swap',
                 state: {
-                  from: currentCoin.coinCodeDisplay === 'BTC' ? 'ETH' : 'BTC',
-                  to: currentCoin.coinCodeDisplay,
+                  from: currentCoin.coinTicker === 'BTC' ? 'ETH' : 'BTC',
+                  to: currentCoin.coinTicker,
                   amount: '0',
                   fix: model.rates.FIX_TYPES.BASE_IN_FIAT
                 }
@@ -146,7 +146,7 @@ const Welcome = props => {
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.swap'
                   defaultMessage='Swap {coin}'
-                  values={{ coin: currentCoin.coinCodeDisplay }}
+                  values={{ coin: currentCoin.coinTicker }}
                 />
               </Button>
             </LinkContainer>

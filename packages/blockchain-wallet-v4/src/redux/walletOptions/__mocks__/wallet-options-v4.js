@@ -20,7 +20,7 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'BTC',
-          coinCodeDisplay: 'BTC',
+          coinTicker: 'BTC',
           colorCode: 'btc',
           config: {
             network: 'bitcoin'
@@ -48,7 +48,7 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'BCH',
-          coinCodeDisplay: 'BCH',
+          coinTicker: 'BCH',
           colorCode: 'bch',
           config: {
             fees: {
@@ -77,7 +77,7 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'BSV',
-          coinCodeDisplay: 'BSV',
+          coinTicker: 'BSV',
           colorCode: 'bsv',
           config: {
             fees: {
@@ -90,7 +90,6 @@ export default {
           icons: {
             default: 'bsv'
           },
-          isErc20: false,
           minConfirmations: 3,
           name: 'Bitcoin SV',
           txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction'
@@ -104,7 +103,7 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'ETH',
-          coinCodeDisplay: 'ETH',
+          coinTicker: 'ETH',
           colorCode: 'eth',
           config: {
             network: 1
@@ -131,7 +130,7 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'PAX',
-          coinCodeDisplay: 'USDp',
+          coinTicker: 'USDp',
           colorCode: 'pax',
           contractAddress: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
           displayName: 'USD Pax',
@@ -141,7 +140,6 @@ export default {
             circle: 'usdp',
             circleFilled: 'usdp'
           },
-          isErc20: true,
           minConfirmations: 12,
           name: 'Paxos',
           txExplorerBaseUrl: 'https://www.blockchain.com/eth/tx',
@@ -164,7 +162,7 @@ export default {
           },
           campaign: 'sunriver',
           coinCode: 'XLM',
-          coinCodeDisplay: 'XLM',
+          coinTicker: 'XLM',
           colorCode: 'xlm',
           config: {
             network: 'public'

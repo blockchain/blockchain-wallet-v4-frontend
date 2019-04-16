@@ -238,7 +238,7 @@ export default ({ coreSagas, networks }) => {
           null,
           transport,
           scrambleKey,
-          coinModel.isErc20
+          coinModel.contractAddress
         )
       }
       // Publish payment
@@ -276,7 +276,7 @@ export default ({ coreSagas, networks }) => {
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
           yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         }
-        if (coinModel.isErc20) {
+        if (coinModel.contractAddress) {
           yield put(
             actions.core.kvStore.eth.setTxNotesErc20(
               coin,
