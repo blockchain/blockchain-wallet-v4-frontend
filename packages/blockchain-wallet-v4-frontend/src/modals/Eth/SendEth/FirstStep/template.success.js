@@ -233,7 +233,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {hasErc20Balance && (
+      {hasErc20Balance && coin === 'ETH' && (
         <LowBalanceWarning
           effectiveBalance={props.effectiveBalance}
           totalBalance={props.from.balance}
