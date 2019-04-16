@@ -52,18 +52,18 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getSelectedComponent = (coinOrRoute, supportCoins) => {
+const getSelectedComponent = (coinOrRoute, supportedCoins) => {
   switch (true) {
     case equals(coinOrRoute, 'LOCKBOX'):
       return <LockboxTotalBalance />
-    case includes(toUpper(coinOrRoute), keys(supportCoins)):
+    case includes(toUpper(coinOrRoute), keys(supportedCoins)):
       return <Balance large coin={toUpper(coinOrRoute)} />
     default:
       return <TotalBalance large />
   }
 }
 
-const getBalanceMessage = (coinOrRoute, supportCoins) => {
+const getBalanceMessage = (coinOrRoute, supportedCoins) => {
   switch (true) {
     case equals(coinOrRoute, 'LOCKBOX'):
       return (
@@ -72,12 +72,12 @@ const getBalanceMessage = (coinOrRoute, supportCoins) => {
           defaultMessage='Lockbox Balance'
         />
       )
-    case includes(toUpper(coinOrRoute), keys(supportCoins)):
+    case includes(toUpper(coinOrRoute), keys(supportedCoins)):
       return (
         <FormattedHTMLMessage
           id='scenes.wallet.menutop.balance.balance'
           defaultMessage='{coin} Balance'
-          values={{ coin: supportCoins[toUpper(coinOrRoute)].displayName }}
+          values={{ coin: supportedCoins[toUpper(coinOrRoute)].displayName }}
         />
       )
     default:
@@ -91,18 +91,18 @@ const getBalanceMessage = (coinOrRoute, supportCoins) => {
 }
 
 const Success = props => {
-  const { coinOrRoute, supportCoins } = props
+  const { coinOrRoute, supportedCoins } = props
   return (
     <Wrapper>
       <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
-        {getBalanceMessage(coinOrRoute, supportCoins)}
+        {getBalanceMessage(coinOrRoute, supportedCoins)}
       </BalanceText>
       <BalanceDropdown>
         <ComponentDropdown
           down
           forceSelected
           toggleOnCallback={false}
-          selectedComponent={getSelectedComponent(coinOrRoute, supportCoins)}
+          selectedComponent={getSelectedComponent(coinOrRoute, supportedCoins)}
           components={[
             <WalletBalance />,
             <LockboxBalance />,
