@@ -39,6 +39,7 @@ class FirstStep extends React.PureComponent {
           handleFeeToggle={actions.sendEthFirstStepFeeToggled}
           balanceStatus={value.balanceStatus}
           excludeLockbox={value.excludeLockbox}
+          hasErc20Balance={value.hasErc20Balance}
         />
       ),
       Failure: message => <Error>{message}</Error>,
