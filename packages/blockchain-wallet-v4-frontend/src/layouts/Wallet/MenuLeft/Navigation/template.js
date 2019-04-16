@@ -86,10 +86,7 @@ const Navigation = props => {
                 data-e2e={`${toLower(coin.coinCode)}Link`}
                 colorCode={coin.colorCode}
               >
-                <Icon
-                  name={coin.icons.circle}
-                  className={coin.coinCode === 'PAX' ? 'small' : ''}
-                />
+                <Icon name={coin.icons.circleFilled} />
                 {coin.displayName}
                 {coin.showNewTagSidenav && (
                   <NewCartridge>
@@ -111,9 +108,9 @@ const Navigation = props => {
         <MenuItem data-e2e='lockboxLink'>
           <Icon
             name='hardware'
-            style={{ fontSize: '20px', paddingLeft: '6px' }}
+            style={{ fontSize: '22px', paddingLeft: '4px' }}
           />
-          <span style={{ marginLeft: '-6px' }}>
+          <span style={{ marginLeft: '-5px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'

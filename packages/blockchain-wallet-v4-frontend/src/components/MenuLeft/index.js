@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   justify-content: space-around;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme['gray-4']};
 `
 export const MenuItem = styled.li`
   display: flex;
@@ -23,21 +23,16 @@ export const MenuItem = styled.li`
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-4']};
+    &:hover {
+      color: ${props => props.theme['marketing-primary']};
+    }
   }
   & > span:first-child {
     width: 30px;
-    font-size: 28px;
+    font-size: 22px;
     margin-right: 10px;
   }
-
-  & > span:first-child.small {
-    font-size: 22px;
-    width: 30px;
-    margin-right: 7px;
-    margin-left: 3px;
-  }
-
   &.active {
     font-weight: 400;
 
@@ -45,11 +40,8 @@ export const MenuItem = styled.li`
       color: ${props => props.theme['marketing-primary']};
     }
   }
-
   &:hover {
-    & > *:not(div) {
-      color: ${props => props.theme['textBlack']};
-    }
+    color: ${props => props.theme['marketing-primary']};
   }
 `
 export const SubMenu = styled.ul`
