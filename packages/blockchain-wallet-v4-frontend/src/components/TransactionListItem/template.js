@@ -153,6 +153,16 @@ const TransactionListItem = ({
             </Banner>
           </BannerWrapper>
         )}
+        {transaction.erc20 && (
+          <BannerWrapper>
+            <Banner label='true' type='informational'>
+              <FormattedMessage
+                id='components.txlistitem.erc20'
+                defaultMessage='ERC-20 Gas'
+              />
+            </Banner>
+          </BannerWrapper>
+        )}
         {prop('partnerLabel', transaction) ? (
           <PartnerLabel
             txType={prop('type', transaction)}

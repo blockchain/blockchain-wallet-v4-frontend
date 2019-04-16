@@ -1,5 +1,6 @@
 import {
   any,
+  contains,
   curry,
   includes,
   equals,
@@ -82,7 +83,7 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, state, tx) => {
+export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
   const fee = getFee(tx)
   const type = toLower(getType(tx, addresses))
   const amount =
@@ -97,6 +98,7 @@ export const _transformTx = curry((addresses, state, tx) => {
     time: tx.timeStamp,
     timeFormatted: getTime(tx.timeStamp),
     to: getLabel(tx.to, state, ''),
+    erc20: contains(tx.to, erc20Contracts),
     type
   }
 })
