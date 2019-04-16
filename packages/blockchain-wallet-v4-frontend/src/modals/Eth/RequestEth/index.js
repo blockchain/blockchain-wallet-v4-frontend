@@ -12,7 +12,6 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestEthContainer extends React.PureComponent {
@@ -38,17 +37,19 @@ class RequestEthContainer extends React.PureComponent {
       this.props.modalActions.showModal('@MODAL.REQUEST.XLM', {
         lockboxIndex: this.props.lockboxIndex
       })
-    } else if (coin === 'PAX' || (coin === 'ETH' && prevProps.coin !== coin)) {
-      if (
-        !Remote.Success.is(prevProps.initialValues) &&
-        Remote.Success.is(this.props.initialValues)
-      ) {
-        this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
-          coin: coin,
-          lockboxIndex: this.props.lockboxIndex
-        })
-      }
+    } else if (coin === 'PAX' && prevProps.coin !== coin) {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin,
+        lockboxIndex: this.props.lockboxIndex
+      })
+    } else if (coin === 'ETH' && prevProps.coin !== coin) {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        lockboxIndex: this.props.lockboxIndex
+      })
+    } else if (this.props.initialValues.coin !== prevProps.initialValues.coin) {
+      this.props.formActions.initialize('requestEth', this.props.initialValues)
     }
   }
 
@@ -56,20 +57,20 @@ class RequestEthContainer extends React.PureComponent {
     this.props.formActions.reset('requestEth')
   }
 
-  init = () => {
+  init () {
     this.props.formActions.initialize('requestEth', this.props.initialValues)
   }
 
-  onSubmit = () => {
+  onSubmit () {
     this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'ETH'])
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh = () => {
+  handleRefresh () {
     this.props.kvStoreEthActions.fetchMetadataEth()
   }
 
-  handleOpenLockbox = () => {
+  handleOpenLockbox () {
     this.props.requestEthActions.openLockboxAppClicked()
   }
 

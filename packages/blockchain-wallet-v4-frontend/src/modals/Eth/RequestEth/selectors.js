@@ -24,7 +24,9 @@ export const getData = (state, coin) => {
 }
 export const getInitialValues = (state, ownProps) => {
   const coin = propOr('ETH', 'coin', ownProps)
-  const erc20List = selectors.core.walletOptions.getErc20CoinList(state)
+  const erc20List = selectors.core.walletOptions
+    .getErc20CoinList(state)
+    .getOrElse([])
   const to = to => ({ to, coin })
   if (ownProps.lockboxIndex != null) {
     return selectors.core.common.eth
