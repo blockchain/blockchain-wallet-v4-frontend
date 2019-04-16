@@ -71,5 +71,8 @@ export const SubMenuItem = styled.li`
   }
 `
 export const Separator = styled.div`
-  margin-top: 15px;
+  margin: 8px 0 14px 6px;
+  width: 20px;
+  height: 1px;
+  background-color: #ccd2de;
 `
