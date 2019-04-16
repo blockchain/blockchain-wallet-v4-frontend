@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['white']};
   @media (min-width: 768px) {
-    width: 550px;
+    width: 515px;
     border-radius: 8px;
   }
 `

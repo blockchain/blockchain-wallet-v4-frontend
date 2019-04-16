@@ -7,19 +7,19 @@ import { Toast } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 65px;
-  right: 22px;
-  width: 100%;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
   z-index: 1050;
-
   & > * {
     margin-top: 5px;
   }
-
+  @media (max-width: 768px) {
+    bottom: 10px;
+    right: 10px;
+    width: 95%;
+  }
   @media (min-width: 768px) {
     top: 65px;
     right: 22px;
