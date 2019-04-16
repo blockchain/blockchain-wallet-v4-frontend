@@ -42,32 +42,6 @@ describe('lockbox reducers', () => {
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should set check device authenticity to loading', () => {
-    const action = actions.checkDeviceAuthenticityLoading()
-    const expectedState = assoc('isAuthentic', Remote.Loading, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should set check device authenticity to failure', () => {
-    const action = actions.checkDeviceAuthenticityFailure(false)
-    const expectedState = assoc(
-      'isAuthentic',
-      Remote.Failure({ isAuthentic: false }),
-      INITIAL_STATE
-    )
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should set check device authenticity to success', () => {
-    const action = actions.checkDeviceAuthenticitySuccess(true)
-    const expectedState = assoc(
-      'isAuthentic',
-      Remote.Success({ isAuthentic: true }),
-      INITIAL_STATE
-    )
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
   it('should set firmware update step', () => {
     const action = actions.changeFirmwareUpdateStep('connect-device')
     const expectedState = assocPath(

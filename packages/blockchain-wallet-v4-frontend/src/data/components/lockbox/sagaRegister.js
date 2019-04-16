@@ -49,10 +49,6 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
     yield takeLatest(
-      AT.CHECK_DEVICE_AUTHENTICITY,
-      lockboxSagas.checkDeviceAuthenticity
-    )
-    yield takeLatest(
       AT.UNINSTALL_APPLICATION,
       lockboxSagas.uninstallApplication
     )
