@@ -8,6 +8,6 @@ export const getData = createDeepEqualSelector(
   ],
   (path, supportCoinsR) => ({
     path,
-    supportCoins: supportCoinsR.getOrFail()
+    supportCoins: supportCoinsR.getOrElse({})
   })
 )
