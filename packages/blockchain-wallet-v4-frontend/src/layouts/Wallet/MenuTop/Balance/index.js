@@ -15,7 +15,12 @@ class Balance extends React.PureComponent {
         path.split('/')
       )
     )
-    return <Template coinOrRoute={coinOrRoute || 'TOTAL'} />
+    return (
+      <Template
+        coinOrRoute={coinOrRoute || 'TOTAL'}
+        supportCoins={supportCoins}
+      />
+    )
   }
 }
 
