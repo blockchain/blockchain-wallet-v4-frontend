@@ -11,7 +11,7 @@ const Footer = props => {
     <Wrapper>
       <LinkContainer to='/security-center' activeClassName='active'>
         <MenuItem data-e2e='securityCenterLink'>
-          <Icon name='security' size='22px' />
+          <Icon name='shield' size='21px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.footer.securitycenter'
             defaultMessage='Security Center'
@@ -24,7 +24,7 @@ const Footer = props => {
         className={settingsOpened ? 'active' : ''}
       >
         <MenuItem data-e2e='settingsLink'>
-          <Icon name='settings' size='22px' />
+          <Icon name='cog-filled' size='19px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.footer.settings'
             defaultMessage='Settings'
