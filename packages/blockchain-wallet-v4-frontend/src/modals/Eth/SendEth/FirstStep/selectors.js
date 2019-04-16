@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { prop, propOr, path, includes, isEmpty } from 'ramda'
+import { gt, prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -17,6 +17,7 @@ export const getData = createDeepEqualSelector(
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
+    state => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX'),
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
     (state, coin) =>
@@ -27,12 +28,15 @@ export const getData = createDeepEqualSelector(
     toToggled,
     feeToggled,
     balanceR,
+    paxBalanceR,
     lockboxDevicesR,
     formValues,
     coinAvailability
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
     const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
+    // TODO: include any/all ERC20 balances in future
+    const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
@@ -87,6 +91,7 @@ export const getData = createDeepEqualSelector(
         maxFee,
         feeElements,
         balanceStatus: balanceR,
+        hasErc20Balance,
         excludeLockbox
       }
     }

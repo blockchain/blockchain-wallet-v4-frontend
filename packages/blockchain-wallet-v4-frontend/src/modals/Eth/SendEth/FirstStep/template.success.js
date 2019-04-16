@@ -39,6 +39,7 @@ import {
   minimumFee,
   maximumFee
 } from './validation'
+import LowBalanceWarning from './LowBalanceWarning'
 import {
   Row,
   ColLeft,
@@ -82,7 +83,8 @@ const FirstStep = props => {
     priorityFee,
     handleFeeToggle,
     balanceStatus,
-    excludeLockbox
+    excludeLockbox,
+    hasErc20Balance
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
@@ -231,6 +233,12 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
+      {hasErc20Balance && coin === 'ETH' && (
+        <LowBalanceWarning
+          effectiveBalance={props.effectiveBalance}
+          totalBalance={props.from.balance}
+        />
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='description'>
@@ -359,7 +367,8 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   toToggled: PropTypes.bool.isRequired,
   handleToToggle: PropTypes.func.isRequired,
-  unconfirmedTx: PropTypes.bool
+  unconfirmedTx: PropTypes.bool,
+  hasErc20Balance: PropTypes.bool.isRequired
 }
 
 export default reduxForm({

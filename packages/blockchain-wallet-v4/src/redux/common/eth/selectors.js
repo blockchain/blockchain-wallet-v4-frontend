@@ -59,7 +59,7 @@ export const getErc20AccountBalances = (state, token) => {
     coin: toUpper(token),
     label: erc20Account.label,
     balance: erc20Balance,
-    address: head(keys(ethAccount)), // '0x8e870d67f660d95d5be530380d0ec0bd388289e1'
+    address: head(keys(ethAccount)),
     type: ADDRESS_TYPES.ACCOUNT
   })
   return lift(digest)(

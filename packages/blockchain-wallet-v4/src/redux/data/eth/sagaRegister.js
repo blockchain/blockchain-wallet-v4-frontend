@@ -17,5 +17,9 @@ export default ({ api }) => {
       dataEthSagas.fetchLegacyBalance
     )
     yield takeLatest(AT.FETCH_ETH_LATEST_BLOCK, dataEthSagas.fetchLatestBlock)
+    yield takeLatest(
+      AT.CHECK_LOW_ETH_BALANCE,
+      dataEthSagas.checkForLowEthBalance
+    )
   }
 }

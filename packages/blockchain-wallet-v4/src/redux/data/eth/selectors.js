@@ -36,15 +36,14 @@ export const getBalance = state => {
     prop('final_balance')
   )
 }
-export const getCurrentBalance = state => {
-  return path([dataPath, 'eth', 'current_balance', 'eth'])
-}
-export const getTransactions = state => {
-  return path([dataPath, 'eth', 'transactions', 'eth'])
-}
-export const getTransactionsAtBound = state => {
-  return path([dataPath, 'eth', 'transactions_at_bound', 'eth'])
-}
+export const getCurrentBalance = () =>
+  path([dataPath, 'eth', 'current_balance', 'eth'])
+export const getTransactions = () =>
+  path([dataPath, 'eth', 'transactions', 'eth'])
+export const getTransactionsAtBound = () =>
+  path([dataPath, 'eth', 'transactions_at_bound', 'eth'])
+export const getLowEthBalanceWarning = () =>
+  path([dataPath, 'eth', 'warn_low_eth_balance'])
 
 //
 // ERC20

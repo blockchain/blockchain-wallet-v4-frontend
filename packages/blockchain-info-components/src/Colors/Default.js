@@ -46,6 +46,7 @@ export default {
   blackAlpha05: 'rgba(0,0,0,0.05)',
   // Colors
   red: '#FF0000',
+  orange: '#F28B24',
   // Service Announcements
   info: '#4A90E2',
   // Coins

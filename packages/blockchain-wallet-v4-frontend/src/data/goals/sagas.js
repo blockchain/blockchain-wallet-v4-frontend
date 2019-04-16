@@ -369,7 +369,6 @@ export default ({ api }) => {
           'login success'
         )
       )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
     }
   }
 

@@ -155,9 +155,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
-      if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e)

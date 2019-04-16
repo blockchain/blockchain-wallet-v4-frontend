@@ -9,6 +9,8 @@ const display = (nature, message, data, persist) => ({
   type: ALERTS_SHOW,
   payload: { id: generateId(), nature, message, data, persist }
 })
+export const displayWarning = (message, data, persist) =>
+  display('warn', message, data, persist)
 
 export const displayInfo = (message, data, persist) =>
   display('info', message, data, persist)

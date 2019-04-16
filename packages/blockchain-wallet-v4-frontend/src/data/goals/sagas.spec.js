@@ -353,8 +353,6 @@ describe('goals sagas', () => {
             )
           )
           .next()
-          .put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-          .next()
           .isDone()
       })
     })
