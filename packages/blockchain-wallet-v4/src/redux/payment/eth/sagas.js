@@ -145,7 +145,9 @@ export default ({ api }) => {
           : prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
 
-        return makePayment(mergeRight(p, { fees, fee, feeInGwei: gasPrice }))
+        return makePayment(
+          mergeRight(p, { fees, fee, feeInGwei: gasPrice, isErc20 })
+        )
       },
 
       * to (destination) {
@@ -198,7 +200,7 @@ export default ({ api }) => {
         )
       },
 
-      * fee (value, origin, isErc20) {
+      * fee (value, origin) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
@@ -208,7 +210,7 @@ export default ({ api }) => {
         const fees = prop('fees', p)
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
-        const gasLimit = isErc20
+        const gasLimit = p.isErc20
           ? path(['fees', 'gasLimitContract'], p)
           : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
@@ -222,13 +224,13 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 
-      * build ({ isErc20 } = { isErc20: false }) {
+      * build () {
         const fromData = prop('from', p)
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
-        const gasLimit = isErc20
+        const gasLimit = p.isErc20
           ? path(['fees', 'gasLimitContract'], p)
           : path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', fromData)
@@ -256,7 +258,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign (password, transport, scrambleKey, isErc20) {
+      * sign (password, transport, scrambleKey) {
         try {
           const signed = yield call(
             calculateSignature,
@@ -265,7 +267,7 @@ export default ({ api }) => {
             transport,
             scrambleKey,
             p.raw,
-            isErc20
+            p.isErc20
           )
           return makePayment(mergeRight(p, { signed }))
         } catch (e) {

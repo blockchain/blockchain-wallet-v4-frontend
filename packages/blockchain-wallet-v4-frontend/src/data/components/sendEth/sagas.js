@@ -82,18 +82,13 @@ export default ({ coreSagas, networks }) => {
 
   const firstStepSubmitClicked = function * () {
     try {
-      const erc20List = (yield select(
-        selectors.core.walletOptions.getErc20CoinList
-      )).getOrFail()
-      const { coin } = yield select(selectors.form.getFormValues(FORM))
-      const isErc20 = includes(coin, erc20List)
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdatedLoading())
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
-      payment = yield payment.build({ isErc20 })
+      payment = yield payment.build()
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.sendEthPaymentUpdatedFailure(e))
@@ -152,7 +147,7 @@ export default ({ coreSagas, networks }) => {
           break
         case 'fee':
           const account = path(['from', 'address'], payment.value())
-          payment = yield payment.fee(parseInt(payload), account, isErc20)
+          payment = yield payment.fee(parseInt(payload), account)
           break
       }
 
@@ -221,7 +216,7 @@ export default ({ coreSagas, networks }) => {
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password, null, null, coinModel.isErc20)
+        payment = yield payment.sign(password, null, null)
       } else {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
@@ -234,12 +229,7 @@ export default ({ coreSagas, networks }) => {
         )
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
-        payment = yield payment.sign(
-          null,
-          transport,
-          scrambleKey,
-          coinModel.contractAddress
-        )
+        payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
       payment = yield payment.publish()
