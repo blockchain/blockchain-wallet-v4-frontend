@@ -2,20 +2,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Alert",
-        "id": "components.alerts.alert"
+        "defaultMessage": "Running Low!",
+        "id": "components.alerts.loweth.header"
       },
       {
-        "defaultMessage": "Success",
-        "id": "components.alerts.success"
+        "defaultMessage": "Sending USD Pax requires ETH. Your balance is low, Swap to get more ETH.",
+        "id": "components.alerts.loweth.body"
       },
       {
-        "defaultMessage": "Error",
-        "id": "components.alerts.error"
-      },
-      {
-        "defaultMessage": "Alert",
-        "id": "components.alerts.default"
+        "defaultMessage": "Learn More.",
+        "id": "components.alerts.loweth.learnmore"
       },
       {
         "defaultMessage": "Error adding address.",
@@ -210,10 +206,6 @@
         "id": "components.alerts.login_failed"
       },
       {
-        "defaultMessage": "Login successful",
-        "id": "components.alerts.login_successful"
-      },
-      {
         "defaultMessage": "Failed to sign message.",
         "id": "components.alerts.message_sign_error"
       },
@@ -358,44 +350,12 @@
         "id": "components.alerts.second_password_disabled_success"
       },
       {
-        "defaultMessage": "Your bitcoin cash transaction failed to send. Please try again.",
-        "id": "components.alerts.send_bch_error"
+        "defaultMessage": "Your {coinName} transaction is now pending!",
+        "id": "components.alerts.send_coin_success"
       },
       {
-        "defaultMessage": "Your bitcoin cash transaction is now pending",
-        "id": "components.alerts.send_bch_success"
-      },
-      {
-        "defaultMessage": "Your Bitcoin SV transaction failed to send. Please try again.",
-        "id": "components.alerts.send_bsv_error"
-      },
-      {
-        "defaultMessage": "Your Bitcoin SV transaction is now pending",
-        "id": "components.alerts.send_bsv_success"
-      },
-      {
-        "defaultMessage": "Your bitcoin transaction failed to send. Please try again.",
-        "id": "components.alerts.send_btc_error"
-      },
-      {
-        "defaultMessage": "Your bitcoin transaction is now pending",
-        "id": "components.alerts.send_btc_success"
-      },
-      {
-        "defaultMessage": "Your ether transaction failed to send. Please try again.",
-        "id": "components.alerts.send_eth_error"
-      },
-      {
-        "defaultMessage": "Your ether transaction is now pending",
-        "id": "components.alerts.send_eth_success"
-      },
-      {
-        "defaultMessage": "Your stellar transaction failed to send. Please try again.",
-        "id": "components.alerts.send_xlm_error"
-      },
-      {
-        "defaultMessage": "Your stellar transaction is now pending",
-        "id": "components.alerts.send_xlm_success"
+        "defaultMessage": "Your {coinName} transaction failed to send. Please try again.",
+        "id": "components.alerts.send_coin_error"
       },
       {
         "defaultMessage": "Error sending SMS verification code.",
@@ -594,7 +554,7 @@
         "id": "components.alerts.unknown_error"
       }
     ],
-    "path": "src/components/Alerts/template.json"
+    "path": "src/components/Alerts/messages.json"
   },
   {
     "descriptors": [
@@ -1915,6 +1875,10 @@
         "id": "components.txlistitem.rbf"
       },
       {
+        "defaultMessage": "ERC-20 Gas",
+        "id": "components.txlistitem.erc20"
+      },
+      {
         "defaultMessage": "Description",
         "id": "components.txlistitem.description"
       },
@@ -2033,39 +1997,11 @@
       },
       {
         "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.new"
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       },
       {
-        "defaultMessage": "Transactions",
-        "id": "layouts.wallet.menuleft.navigation.transactions"
-      },
-      {
-        "defaultMessage": "Bitcoin",
-        "id": "layouts.wallet.menuleft.navigation.transactions.bitcoin"
-      },
-      {
-        "defaultMessage": "Ether",
-        "id": "layouts.wallet.menuleft.navigation.transactions.ether"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash",
-        "id": "layouts.wallet.menuleft.navigation.transactions.bch"
-      },
-      {
-        "defaultMessage": "Stellar",
-        "id": "layouts.wallet.menuleft.navigation.transactions.xlm"
-      },
-      {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.xlm.new"
-      },
-      {
-        "defaultMessage": "Storage",
-        "id": "layouts.wallet.menuleft.navigation.storage"
-      },
-      {
-        "defaultMessage": "Hardware Wallet",
-        "id": "layouts.wallet.menuleft.navigation.hardwarewallet"
+        "defaultMessage": "Hardware",
+        "id": "layouts.wallet.menuleft.navigation.hardware"
       },
       {
         "defaultMessage": "{deviceName}",
@@ -2166,28 +2102,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Bitcoin Balance",
-        "id": "scenes.wallet.menutop.balance.bitcoinbalance"
-      },
-      {
-        "defaultMessage": "Ether Balance",
-        "id": "scenes.wallet.menutop.balance.etherbalance"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash Balance",
-        "id": "scenes.wallet.menutop.balance.bchbalance"
-      },
-      {
-        "defaultMessage": "Bitcoin SV Balance",
-        "id": "scenes.wallet.menutop.balance.bsvbalance"
-      },
-      {
-        "defaultMessage": "Stellar Balance",
-        "id": "scenes.wallet.menutop.balance.xlmbalance"
-      },
-      {
         "defaultMessage": "Lockbox Balance",
         "id": "scenes.wallet.menutop.balance.lockboxbalance"
+      },
+      {
+        "defaultMessage": "{coin} Balance",
+        "id": "scenes.wallet.menutop.balance.balance"
       },
       {
         "defaultMessage": "Total Balance",
@@ -2209,37 +2129,10 @@
     "descriptors": [
       {
         "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.bchbalance.error.refresh"
+        "id": "wallet.menutop.balance.error.refresh"
       }
     ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.bsvbalance.error.refresh"
-      }
-    ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BsvBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.btcbalance.error.refresh"
-      }
-    ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.ethbalance.error.refresh"
-      }
-    ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/EthBalance/template.error.json"
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/Balance/template.error.json"
   },
   {
     "descriptors": [
@@ -2249,15 +2142,6 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.xlmbalance.error.refresh"
-      }
-    ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/XlmBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -3941,8 +3825,21 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Request Ether",
-        "id": "modals.requestether.title"
+        "defaultMessage": "Introducing USD Pax, a safe and stable digital dollar in your wallet",
+        "id": "modals.paxwelcome.intro"
+      },
+      {
+        "defaultMessage": "Get USD Pax",
+        "id": "modals.paxwelcome.getpax"
+      }
+    ],
+    "path": "src/modals/Eth/PaxWelcome/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request {displayName}",
+        "id": "modals.requesteth.title"
       }
     ],
     "path": "src/modals/Eth/RequestEth/index.json"
@@ -3951,7 +3848,7 @@
     "descriptors": [
       {
         "defaultMessage": "Currency:",
-        "id": "modals.requestether.coin"
+        "id": "modals.requesteth.coin"
       },
       {
         "defaultMessage": "Receive to:",
@@ -3959,7 +3856,7 @@
       },
       {
         "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestether.share"
+        "id": "modals.requesteth.share"
       },
       {
         "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
@@ -3979,18 +3876,35 @@
       },
       {
         "defaultMessage": "Or",
-        "id": "modals.requestether.or"
+        "id": "modals.requesteth.or"
       },
       {
         "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestether.scan"
+        "id": "modals.requesteth.scan"
       },
       {
         "defaultMessage": "Done",
-        "id": "modals.requestether.done"
+        "id": "modals.requesteth.done"
       }
     ],
     "path": "src/modals/Eth/RequestEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Running low!",
+        "id": "modals.sendeth.lowbalancewarning.title"
+      },
+      {
+        "defaultMessage": "You'll need ETH to send your ERC20 Token, USD Pax.",
+        "id": "modals.sendeth.lowbalancewarning.explain"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "modals.sendeth.lowbalancewarning.learn"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/LowBalanceWarning/index.json"
   },
   {
     "descriptors": [
@@ -4163,8 +4077,8 @@
         "id": "modals.sendeth.secondstep.total"
       },
       {
-        "defaultMessage": "Send Ether",
-        "id": "modals.sendeth.secondstep.send"
+        "defaultMessage": "Send {coinDisplayName}",
+        "id": "modals.sendeth.secondstep.sendcoin"
       },
       {
         "defaultMessage": "Go Back",
@@ -4176,8 +4090,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Send Ether",
-        "id": "modals.sendether.title"
+        "defaultMessage": "Send {coinDisplayName}",
+        "id": "modals.sendeth.cointitle"
       }
     ],
     "path": "src/modals/Eth/SendEth/template.json"
@@ -6976,12 +6890,12 @@
         "id": "modals.sendxlm.firststep.amount"
       },
       {
-        "defaultMessage": "Description:",
-        "id": "modals.sendxlm.firststep.description"
-      },
-      {
         "defaultMessage": "Memo:",
         "id": "modals.sendxlm.firststep.memo"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendxlm.firststep.description"
       },
       {
         "defaultMessage": "Transaction Fee:",
@@ -8480,32 +8394,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "No transactions yet? No problem.",
-        "id": "scenes.home.activitylist.empty.notx"
-      },
-      {
-        "defaultMessage": "Get started by adding some funds to your wallet!",
-        "id": "scenes.home.activitylist.empty.funds"
-      },
-      {
-        "defaultMessage": "Buy Bitcoin",
-        "id": "scenes.home.activitylist.empty.buybitcoin"
-      },
-      {
-        "defaultMessage": "Request Funds",
-        "id": "scenes.home.activitylist.empty.requestfunds"
+        "defaultMessage": "{viewType} Balance",
+        "id": "components.balances.home.total"
       }
     ],
-    "path": "src/scenes/Home/ActivityList/Empty/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Recent Activity",
-        "id": "scenes.home.activitylist.title"
-      }
-    ],
-    "path": "src/scenes/Home/ActivityList/template.success.json"
+    "path": "src/scenes/Home/Balances/Table/template.success.json"
   },
   {
     "descriptors": [
@@ -8518,8 +8411,8 @@
         "id": "scenes.home.balance.wallet"
       },
       {
-        "defaultMessage": "Lockbox",
-        "id": "scenes.home.balance.lockbox"
+        "defaultMessage": "Hardware",
+        "id": "scenes.home.balance.hardware"
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
@@ -8587,255 +8480,6 @@
       }
     ],
     "path": "src/scenes/Home/Banners/Swap/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "We don’t store your password",
-        "id": "scenes.home.didyouknow.title1"
-      },
-      {
-        "defaultMessage": "How it works",
-        "id": "scenes.home.didyouknow.title2"
-      },
-      {
-        "defaultMessage": "Why does my balance change?",
-        "id": "scenes.home.didyouknow.title3"
-      },
-      {
-        "defaultMessage": "Our wallet is open source",
-        "id": "scenes.home.didyouknow.title4"
-      },
-      {
-        "defaultMessage": "Set your own fees",
-        "id": "scenes.home.didyouknow.title5"
-      },
-      {
-        "defaultMessage": "Blockchain optimizes your fees",
-        "id": "scenes.home.didyouknow.title6"
-      },
-      {
-        "defaultMessage": "Transaction fees",
-        "id": "scenes.home.didyouknow.title7"
-      },
-      {
-        "defaultMessage": "Use Your Blockchain wallet on mobile",
-        "id": "scenes.home.didyouknow.title8"
-      },
-      {
-        "defaultMessage": "Top security tips",
-        "id": "scenes.home.didyouknow.title9"
-      },
-      {
-        "defaultMessage": "Your wallet ID is not an address",
-        "id": "scenes.home.didyouknow.title10"
-      },
-      {
-        "defaultMessage": "Report phishing sites",
-        "id": "scenes.home.didyouknow.title11"
-      },
-      {
-        "defaultMessage": "Identifying SSL protection",
-        "id": "scenes.home.didyouknow.title12"
-      },
-      {
-        "defaultMessage": "We can’t suspend or lock your wallet",
-        "id": "scenes.home.didyouknow.title13"
-      },
-      {
-        "defaultMessage": "What are phishing scams?",
-        "id": "scenes.home.didyouknow.title14"
-      },
-      {
-        "defaultMessage": "Scam warning: Bitcoin cannot be doubled",
-        "id": "scenes.home.didyouknow.title15"
-      },
-      {
-        "defaultMessage": "Investment Scams",
-        "id": "scenes.home.didyouknow.title16"
-      },
-      {
-        "defaultMessage": "How can I spot an investment scam?",
-        "id": "scenes.home.didyouknow.title17"
-      },
-      {
-        "defaultMessage": "What are private keys?",
-        "id": "scenes.home.didyouknow.title18"
-      },
-      {
-        "defaultMessage": "Where are my private keys?",
-        "id": "scenes.home.didyouknow.title19"
-      },
-      {
-        "defaultMessage": "What makes a password secure?",
-        "id": "scenes.home.didyouknow.title20"
-      },
-      {
-        "defaultMessage": "How do fees work in my wallet?",
-        "id": "scenes.home.didyouknow.title22"
-      },
-      {
-        "defaultMessage": "How often do I have to back up my wallet?",
-        "id": "scenes.home.didyouknow.title23"
-      },
-      {
-        "defaultMessage": "We never see or store your password, which means if you forget it, we cannot reset it. Be sure to record your 12-word backup phrase in the",
-        "id": "scenes.home.didyouknow.content1.one"
-      },
-      {
-        "defaultMessage": "Security Center",
-        "id": "scenes.home.didyouknow.content1.navlink"
-      },
-      {
-        "defaultMessage": "to ensure you never lose access to your funds.",
-        "id": "scenes.home.didyouknow.content1.two"
-      },
-      {
-        "defaultMessage": "Client side encryption keeps you firmly in control of your funds. Not even we have access. Your wallet is encrypted within your browser before it’s sent to our servers.",
-        "id": "scenes.home.didyouknow.content2"
-      },
-      {
-        "defaultMessage": "Your bitcoin, ether, and bitcoin cash balances will never change. However, as their exchange rates fluctuate, you will see changes in the local currency estimation of your wallet balance. Simply click the balance to switch between bitcoin, ether, or bitcoin cash and your local currency.",
-        "id": "scenes.home.didyouknow.content3"
-      },
-      {
-        "defaultMessage": "All the code related to our wallet is open source. Go to our",
-        "id": "scenes.home.didyouknow.content4.one"
-      },
-      {
-        "defaultMessage": "Github repo",
-        "id": "scenes.faq.group.walletfunctionality.content4.link"
-      },
-      {
-        "defaultMessage": "to contribute to the development of our wallet.",
-        "id": "scenes.home.didyouknow.content4.two"
-      },
-      {
-        "defaultMessage": "Want to set your own bitcoin fees? You can! Just click on ‘Customize Fee’ in the send screen.",
-        "id": "scenes.home.didyouknow.content5"
-      },
-      {
-        "defaultMessage": "We adjust your fees dynamically depending on network conditions and the size of your transaction to ensure your transaction gets confirmed quickly.",
-        "id": "scenes.home.didyouknow.content6"
-      },
-      {
-        "defaultMessage": "Transaction fees are needed for sending any funds, and are collected by the network of miners of each currency. To assure your transaction is confirmed, we automatically include an appropriate fee based on network standards.",
-        "id": "scenes.home.didyouknow.content7"
-      },
-      {
-        "defaultMessage": "Download our mobile app on your",
-        "id": "scenes.home.didyouknow.content8.one"
-      },
-      {
-        "defaultMessage": "Android",
-        "id": "scenes.faq.group.didyouknow.content8.linkone"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "scenes.home.didyouknow.content8.two"
-      },
-      {
-        "defaultMessage": "iOS",
-        "id": "scenes.home.didyouknow.content8.linktwo"
-      },
-      {
-        "defaultMessage": "device to use your wallet on the go.",
-        "id": "scenes.home.didyouknow.content8.three"
-      },
-      {
-        "defaultMessage": "Keep your wallet safe and secure by visiting the Security Center to record your backup phrase and enable 2-step Verification. We also recommend using a unique, random password that’s at least 16 characters or more!",
-        "id": "scenes.home.didyouknow.content9"
-      },
-      {
-        "defaultMessage": "It‘s like a username, and you only use it to log in to your wallet. To send/receive any digital currencies, you need an address. To find your address, click Request, and select a digital asset in the currency dropdown.",
-        "id": "scenes.home.didyouknow.content10"
-      },
-      {
-        "defaultMessage": "Did you know you can help us take down phishing sites? Report them directly to Google using",
-        "id": "scenes.home.didyouknow.content11"
-      },
-      {
-        "defaultMessage": "this form",
-        "id": "scenes.home.didyouknow.content11.link"
-      },
-      {
-        "defaultMessage": ". Bookmark it so it’s always on hand!",
-        "id": "scenes.home.didyouknow.content11.two"
-      },
-      {
-        "defaultMessage": "Did you know you can identify whether a site protects your sensitive information with SSL? Simply look for a green lock in the left of your browser’s URL bar.",
-        "id": "scenes.home.didyouknow.content12"
-      },
-      {
-        "defaultMessage": "Beware of emails that say your Blockchain Wallet is suspended or locked. Because we’re non-custodial, you’re the only one who can manage your funds, keep them secure, and access your wallet. Learn more about this topic",
-        "id": "scenes.home.didyouknow.content13.one"
-      },
-      {
-        "defaultMessage": "here",
-        "id": "scenes.home.didyouknow.content12.link"
-      },
-      {
-        "defaultMessage": ".",
-        "id": "scenes.home.didyouknow.content13.two"
-      },
-      {
-        "defaultMessage": "Phishing scams exist to try and deceive users into providing personal or financial information. Outsmart them by learning about the",
-        "id": "scenes.home.didyouknow.content14.one"
-      },
-      {
-        "defaultMessage": "most common tricks",
-        "id": "scenes.home.didyouknow.content14.link"
-      },
-      {
-        "defaultMessage": "used.",
-        "id": "scenes.home.didyouknow.content14.two"
-      },
-      {
-        "defaultMessage": "Like gold, bitcoins can never be doubled or multiplied. This is because the total number of coins and how they can be generated are already built-in to the protocol code. If a company claims they’ve discovered a magic doubling formula, consider that a sure-fire sign they’re a scam.",
-        "id": "scenes.home.didyouknow.content15"
-      },
-      {
-        "defaultMessage": "Blockchain does not offer bitcoin investment opportunities, but scams exist that desperately want you to believe otherwise. If one of these scams sneak their way into your inbox, be sure to do us a solid and grab a screenshot to share with our support team before you delete it.",
-        "id": "scenes.home.didyouknow.content16"
-      },
-      {
-        "defaultMessage": "Legitimate investing platforms do exist, but their scheming counterparts present some serious red flags: they’ll contact you through an unsolicited email, and they’ll guarantee profits. Before investing with any platform, always do your research about the company’s reputation, location, and contact details.",
-        "id": "scenes.home.didyouknow.content17"
-      },
-      {
-        "defaultMessage": "Every address has an accompanying private key, which is what indicates ownership or control over funds at that particular address. In other words, whoever has the private key can spend those funds.",
-        "id": "scenes.home.didyouknow.content18"
-      },
-      {
-        "defaultMessage": "Your Blockchain Wallet backup phrase serves as the copy of your private keys. You can find this phrase in your",
-        "id": "scenes.home.didyouknow.content19.one"
-      },
-      {
-        "defaultMessage": "Security Center",
-        "id": "scenes.home.didyouknow.content19.navlink"
-      },
-      {
-        "defaultMessage": ". It makes backing up a one-time process for all funds except Imported Addresses.",
-        "id": "scenes.home.didyouknow.content19.two"
-      },
-      {
-        "defaultMessage": "Your passwords are considered secure as long as they are 16 characters minimum, unique, and include a diverse range of letters, numbers, and symbols.",
-        "id": "scenes.home.didyouknow.content20"
-      },
-      {
-        "defaultMessage": "Our wallet uses a dynamic fee structure. This means that when you send bitcoin, fees adjust based on network conditions & your transaction size.",
-        "id": "scenes.home.didyouknow.content22"
-      },
-      {
-        "defaultMessage": "You only have to write down your Wallet Backup Phrase *once* to make sure all funds (except Imported Addresses) are backed up. To make sure your imported addresses are backed up too, transfer your funds to your wallet by using Send.",
-        "id": "scenes.home.didyouknow.content23"
-      },
-      {
-        "defaultMessage": "Did you know?",
-        "id": "scenes.home.didyouknow.title"
-      }
-    ],
-    "path": "src/scenes/Home/DidYouKnow/template.json"
   },
   {
     "descriptors": [
@@ -11296,8 +10940,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We Now Offer {coinName} ({coin})",
-        "id": "scenes.transaction.content.empty.airdrop.yourcoinwallet"
+        "defaultMessage": "We Now Offer {coinName} ({coinCode})",
+        "id": "scenes.transaction.content.empty.airdrop.wallet"
       },
       {
         "defaultMessage": "{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.",
@@ -11329,8 +10973,8 @@
         "id": "scenes.transaction.content.empty.yourcoinwallet"
       },
       {
-        "defaultMessage": "Send, Request and Swap {coinName} ({coin}) directly from your Blockchain Wallet.",
-        "id": "scenes.transaction.content.empty.sendreqswap"
+        "defaultMessage": "Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.",
+        "id": "scenes.transaction.content.empty.sendrequestswap"
       },
       {
         "defaultMessage": "Buy {coin}",
@@ -11354,6 +10998,55 @@
       }
     ],
     "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "A Digital US Dollar in Your Wallet",
+        "id": "scenes.transaction.content.empty.pax.title"
+      },
+      {
+        "defaultMessage": "USD Pax is a crypto asset 100% backed by funds held in regulated US banks and lives on the Ethereum blockchain.",
+        "id": "scenes.transaction.content.empty.pax.subtitle"
+      },
+      {
+        "defaultMessage": "Store Value",
+        "id": "scenes.transaction.content.empty.pax.fact1.1"
+      },
+      {
+        "defaultMessage": "in a stable, USD-backed account.",
+        "id": "scenes.transaction.content.empty.pax.fact1.2"
+      },
+      {
+        "defaultMessage": "Send",
+        "id": "scenes.transaction.content.empty.pax.fact2.1"
+      },
+      {
+        "defaultMessage": "to anyone in the world — anywhere, anytime.",
+        "id": "scenes.transaction.content.empty.pax.fact2.2"
+      },
+      {
+        "defaultMessage": "Trade",
+        "id": "scenes.transaction.content.empty.pax.fact3.1"
+      },
+      {
+        "defaultMessage": "into other cryptos and manage risk.",
+        "id": "scenes.transaction.content.empty.pax.fact3.2"
+      },
+      {
+        "defaultMessage": "Swap for USDp Now",
+        "id": "scenes.transaction.content.empty.pax.swap"
+      },
+      {
+        "defaultMessage": "Unlock Your USDp Wallet",
+        "id": "scenes.transaction.content.empty.pax.unlock"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.content.empty.getstarted.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.pax.json"
   },
   {
     "descriptors": [
