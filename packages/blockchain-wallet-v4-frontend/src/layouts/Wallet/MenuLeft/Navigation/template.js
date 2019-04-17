@@ -48,7 +48,7 @@ const Navigation = props => {
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
-          <Icon name='nav-home' />
+          <Icon name='home-filled' size='19px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.dashboard'
             defaultMessage='Dashboard'
@@ -57,7 +57,7 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
         <MenuItem data-e2e='buyAndSellLink'>
-          <Icon name='nav-buy' />
+          <Icon name='cart-filled' size='20px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.buysell'
             defaultMessage='Buy & Sell'
@@ -66,7 +66,7 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
-          <Icon name='nav-switch' />
+          <Icon name='thick-arrow-switch' size='20px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.swap'
             defaultMessage='Swap'
@@ -86,10 +86,7 @@ const Navigation = props => {
                 data-e2e={`${toLower(coin.coinCode)}Link`}
                 colorCode={coin.colorCode}
               >
-                <Icon
-                  name={coin.icons.circle}
-                  className={coin.coinCode === 'PAX' ? 'small' : ''}
-                />
+                <Icon name={coin.icons.circleFilled} size='20px' />
                 {coin.displayName}
                 {coin.showNewTagSidenav && (
                   <NewCartridge>
@@ -109,11 +106,8 @@ const Navigation = props => {
       )}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
-          <Icon
-            name='hardware'
-            style={{ fontSize: '20px', paddingLeft: '6px' }}
-          />
-          <span style={{ marginLeft: '-6px' }}>
+          <Icon name='hardware' style={{ paddingLeft: '2px' }} size='20px' />
+          <span style={{ marginLeft: '-2px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'
