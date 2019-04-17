@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { includes, toLower } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
@@ -26,7 +27,14 @@ class FiatDisplayContainer extends React.PureComponent {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
-      Failure: message => <Error>{message}</Error>,
+      Failure: message => (
+        <Error>
+          <FormattedMessage
+            id='components.fiatdisplay.error'
+            defaultMessage='Failed to fetch rates'
+          />
+        </Error>
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
