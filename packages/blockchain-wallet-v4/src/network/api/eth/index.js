@@ -69,6 +69,12 @@ export default ({ apiUrl, get, post }) => {
   //
   // ERC20
   //
+  const getErc20Ticker = token =>
+    get({
+      url: apiUrl,
+      endPoint: '/ticker',
+      data: { base: token }
+    })
   const getErc20Data = (ethAddr, tokenAddr) =>
     get({
       url: apiUrl,
@@ -92,6 +98,7 @@ export default ({ apiUrl, get, post }) => {
     getEthTicker,
     getEthTransaction,
     getEthTransactions,
+    getErc20Ticker,
     getErc20Transactions,
     pushEthTx
   }

@@ -10,6 +10,7 @@ import {
   path,
   prop,
   sum,
+  toUpper,
   values
 } from 'ramda'
 import * as A from './actions'
@@ -186,16 +187,7 @@ export default ({ api }) => {
     const { token } = action.payload
     try {
       yield put(A.fetchErc20RatesLoading(token))
-      // TODO: call real endpoint
-      const data = {
-        USD: {
-          '15m': 1.0,
-          last: 1.0,
-          buy: 1.0,
-          sell: 1.0,
-          symbol: '$'
-        }
-      }
+      const data = yield call(api.getErc20Ticker, toUpper(token))
       yield put(A.fetchErc20RatesSuccess(token, data))
     } catch (e) {
       yield put(A.fetchErc20RatesFailure(token, e.message))
