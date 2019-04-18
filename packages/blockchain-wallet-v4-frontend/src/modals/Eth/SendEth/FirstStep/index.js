@@ -40,6 +40,7 @@ class FirstStep extends React.PureComponent {
           balanceStatus={value.balanceStatus}
           excludeLockbox={value.excludeLockbox}
           hasErc20Balance={value.hasErc20Balance}
+          isFeeSufficientForTx={value.isFeeSufficientForTx}
         />
       ),
       Failure: message => <Error>{message}</Error>,

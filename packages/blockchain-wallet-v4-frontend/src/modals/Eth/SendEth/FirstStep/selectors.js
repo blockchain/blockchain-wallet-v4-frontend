@@ -17,6 +17,7 @@ export const getData = createDeepEqualSelector(
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
+    state => selectors.core.data.eth.getBalance(state),
     state => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX'),
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
@@ -28,6 +29,7 @@ export const getData = createDeepEqualSelector(
     toToggled,
     feeToggled,
     balanceR,
+    ethBalanceR,
     paxBalanceR,
     lockboxDevicesR,
     formValues,
@@ -35,6 +37,7 @@ export const getData = createDeepEqualSelector(
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
     const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
+    const ethBalance = ethBalanceR.getOrElse(0)
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
@@ -49,6 +52,7 @@ export const getData = createDeepEqualSelector(
       const priorityFee = path(['fees', 'priority'], payment)
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
+      const isFeeSufficientForTx = ethBalance >= fee
       const feeElements = [
         {
           group: '',
@@ -79,6 +83,7 @@ export const getData = createDeepEqualSelector(
         effectiveBalance,
         unconfirmedTx,
         isContract,
+        isFeeSufficientForTx,
         fee,
         toToggled,
         feeToggled,
