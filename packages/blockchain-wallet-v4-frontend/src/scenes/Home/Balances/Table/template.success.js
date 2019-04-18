@@ -64,12 +64,14 @@ const Success = props => {
       {values(
         mapObjIndexed((coin, i) => {
           if (viewType === 'Hardware' && !coin.hasLockboxSupport) return
+          const link =
+            viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
             <HomeBalanceRow
               key={i}
               data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
             >
-              <TxLink to={coin.txListAppRoute}>
+              <TxLink to={link}>
                 <div>
                   <HomeCoinBalanceCell
                     coin={coin.coinCode}
