@@ -40,6 +40,7 @@ import {
   maximumFee
 } from './validation'
 import LowBalanceWarning from './LowBalanceWarning'
+import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import {
   Row,
   ColLeft,
@@ -84,11 +85,13 @@ const FirstStep = props => {
     handleFeeToggle,
     balanceStatus,
     excludeLockbox,
-    hasErc20Balance
+    hasErc20Balance,
+    isFeeSufficientForTx
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
     isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+  const isFeeSufficientForErc20Tx = coin === 'ETH' || isFeeSufficientForTx
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -335,6 +338,7 @@ const FirstStep = props => {
           </Text>
         </CustomFeeAlertBanner>
       ) : null}
+      {!isFeeSufficientForErc20Tx && <LowEthWarningForErc20 />}
       <FormGroup>
         <Button
           type='submit'
@@ -344,6 +348,7 @@ const FirstStep = props => {
             submitting ||
             invalid ||
             isContract ||
+            !isFeeSufficientForErc20Tx ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}
