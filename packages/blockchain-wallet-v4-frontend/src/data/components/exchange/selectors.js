@@ -2,7 +2,7 @@ import {
   all,
   any,
   compose,
-  contains,
+  includes,
   curry,
   defaultTo,
   filter,
@@ -44,7 +44,6 @@ export const getStep = path(['components', 'exchange', 'step'])
 export const getLimits = path(['components', 'exchange', 'limits'])
 export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])
-export const getTargetFee = path(['components', 'exchange', 'targetFee'])
 export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
 export const getMempoolFees = path([
   'components',
@@ -192,6 +191,25 @@ export const getActiveEthAccounts = createDeepEqualSelector(
   }
 )
 
+export const getActiveErc20Accounts = createDeepEqualSelector(
+  [
+    (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
+    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token)
+  ],
+  (erc20AccountR, erc20BalanceR) => {
+    const transform = (erc20Account, erc20Balance) => [
+      {
+        coin: 'PAX',
+        label: prop('label', erc20Account),
+        address: prop('contract', erc20Account),
+        balance: erc20Balance,
+        type: ADDRESS_TYPES.ACCOUNT
+      }
+    ]
+    return lift(transform)(erc20AccountR, erc20BalanceR)
+  }
+)
+
 export const getActiveXlmAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
@@ -225,28 +243,32 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   }
 )
 
+// TODO: make dynamic
 export const getActiveAccountsR = state => {
   const accounts = {
-    BTC: getActiveBtcAccounts(state),
     BCH: getActiveBchAccounts(state),
+    BTC: getActiveBtcAccounts(state),
     BSV: getActiveBsvAccounts(state),
     ETH: getActiveEthAccounts(state),
+    PAX: getActiveErc20Accounts(state, 'pax'),
     XLM: getActiveXlmAccounts(state)
   }
 
-  const isntLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
-  if (any(isntLoaded, values(accounts))) return Remote.Loading
+  const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+  if (any(isNotLoaded, values(accounts))) return Remote.Loading
 
   return Remote.of(map(coinAccounts => coinAccounts.getOrElse([]), accounts))
 }
 
+// TODO: make dynamic
 export const getActiveAccounts = compose(
   accounts =>
     accounts.getOrElse({
-      BTC: [],
       BCH: [],
+      BTC: [],
       BSV: [],
       ETH: [],
+      PAX: [],
       XLM: []
     }),
   getActiveAccountsR
@@ -278,8 +300,9 @@ const getInitialCoins = (
     requestedSourceCoin,
     requestedTargetCoin
   )
-  if (contains(requestedPair, availablePairs))
+  if (includes(requestedPair, availablePairs)) {
     return [requestedSourceCoin, requestedTargetCoin]
+  }
 
   const initialSourceCoin = defaultTo(
     requestedSourceCoin,
@@ -305,7 +328,6 @@ const getInitialAccounts = (
   if (!from || !to) return {}
 
   const availableSourceCoins = getAvailableSourceCoins(availablePairs)
-
   const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
     from,
     to,

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
-import { contains, head, last } from 'ramda'
+import { includes, head, last } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -184,7 +184,7 @@ const Success = ({
   swapCoinAndFiat,
   swapFix
 }) => {
-  const swapDisabled = !contains(
+  const swapDisabled = !includes(
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
