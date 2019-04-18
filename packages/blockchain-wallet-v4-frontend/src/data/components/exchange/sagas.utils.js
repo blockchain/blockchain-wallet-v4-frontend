@@ -1,5 +1,5 @@
 import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
-import { always, contains, equals, head, prop, toLower } from 'ramda'
+import { always, includes, equals, head, prop, toLower } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { selectors, actions, actionTypes } from 'data'
@@ -48,16 +48,17 @@ export default ({ coreSagas, networks }) => {
         BCH: bchOptions,
         BSV: bsvOptions,
         ETH: ethOptions,
+        PAX: ethOptions,
         XLM: xlmOptions
       })
       const payment = yield coreSagas.payment[toLower(coin)]
         .create({ network })
         .chain()
-        .init()
+        .init({ isErc20: coin === 'PAX', coin })
         .fee('priority')
         .from(addressOrIndex, addressType)
         .done()
-      if (contains(coin, ['ETH', 'XLM'])) return payment.value()
+      if (includes(coin, ['ETH', 'XLM'])) return payment.value()
 
       return (yield payment
         .chain()
@@ -99,6 +100,7 @@ export default ({ coreSagas, networks }) => {
           .chain()
           .amount(parseInt(amount))
         break
+      case 'PAX':
       case 'ETH':
         payment = coreSagas.payment.eth
           .create({ network: networks.eth })
@@ -137,30 +139,36 @@ export default ({ coreSagas, networks }) => {
   }
 
   const getDefaultBchAccountValue = function * () {
-    const bchAccounts = yield select(S.getActiveBchAccounts)
+    const bchAccounts = yield select(S.bchGetActiveAccounts)
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
   const getDefaultBsvAccountValue = function * () {
-    const bsvAccounts = yield select(S.getActiveBsvAccounts)
+    const bsvAccounts = yield select(S.bsvGetActiveAccounts)
     return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
   }
 
   const getDefaultBtcAccountValue = function * () {
-    const btcAccounts = yield select(S.getActiveBtcAccounts)
+    const btcAccounts = yield select(S.btcGetActiveAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
   }
 
   const getDefaultEthAccountValue = function * () {
-    const ethAccounts = yield select(S.getActiveEthAccounts)
+    const ethAccounts = yield select(S.ethGetActiveAccounts)
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
   }
 
+  const getDefaultErc20AccountValue = function * () {
+    const erc20Accounts = yield select(S.erc20GetActiveAccounts)
+    return head(erc20Accounts.getOrFail('Could not get ERC20 accounts.'))
+  }
+
   const getDefaultXlmAccountValue = function * () {
-    const xlmAccounts = yield select(S.getActiveXlmAccounts)
+    const xlmAccounts = yield select(S.xlmGetActiveAccounts)
     return head(xlmAccounts.getOrFail('Could not get XLM accounts.'))
   }
 
+  // TODO: make dynamic list in future
   const getDefaultAccount = function * (coin) {
     switch (coin) {
       case 'BCH':
@@ -171,6 +179,8 @@ export default ({ coreSagas, networks }) => {
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':
         return yield call(getDefaultEthAccountValue)
+      case 'PAX':
+        return yield call(getDefaultErc20AccountValue)
       case 'XLM':
         return yield call(getDefaultXlmAccountValue)
       default:

@@ -77,7 +77,7 @@ export const getRates = curry((pair, state) =>
 
 const isActive = propEq('archived', false)
 
-export const getActiveBchAccounts = createDeepEqualSelector(
+export const bchGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
@@ -115,7 +115,7 @@ export const getActiveBchAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveBsvAccounts = createDeepEqualSelector(
+export const bsvGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bsv.getAddresses,
@@ -146,7 +146,7 @@ export const getActiveBsvAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveBtcAccounts = createDeepEqualSelector(
+export const btcGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.btc.getAddresses,
@@ -173,7 +173,7 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveEthAccounts = createDeepEqualSelector(
+export const ethGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses,
     coreSelectors.kvStore.eth.getAccounts,
@@ -202,28 +202,29 @@ export const getActiveEthAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveErc20Accounts = createDeepEqualSelector(
+export const erc20GetActiveAccounts = createDeepEqualSelector(
   [
+    coreSelectors.data.eth.getAddresses,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
     (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
     state => coreSelectors.walletOptions.getCoinIcons(state, 'pax')
   ],
-  (erc20AccountR, erc20BalanceR, coinIconsR) => {
-    const transform = (erc20Account, erc20Balance, coinIcons) => [
+  (ethDataR, erc20AccountR, erc20BalanceR, coinIconsR) => {
+    const transform = (ethData, erc20Account, erc20Balance, coinIcons) => [
       {
         coin: 'PAX',
         label: prop('label', erc20Account),
-        address: prop('contract', erc20Account),
+        address: prop('account', ethData),
         balance: erc20Balance,
         type: ADDRESS_TYPES.ACCOUNT,
         icon: prop('default', coinIcons)
       }
     ]
-    return lift(transform)(erc20AccountR, erc20BalanceR, coinIconsR)
+    return lift(transform)(ethDataR, erc20AccountR, erc20BalanceR, coinIconsR)
   }
 )
 
-export const getActiveXlmAccounts = createDeepEqualSelector(
+export const xlmGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
@@ -258,15 +259,15 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   }
 )
 
-// TODO: make dynamic
+// TODO: make dynamic list in future
 export const getActiveAccountsR = state => {
   const accounts = {
-    BCH: getActiveBchAccounts(state),
-    BTC: getActiveBtcAccounts(state),
-    BSV: getActiveBsvAccounts(state),
-    ETH: getActiveEthAccounts(state),
-    PAX: getActiveErc20Accounts(state, 'pax'),
-    XLM: getActiveXlmAccounts(state)
+    BCH: bchGetActiveAccounts(state),
+    BTC: btcGetActiveAccounts(state),
+    BSV: bsvGetActiveAccounts(state),
+    ETH: ethGetActiveAccounts(state),
+    PAX: erc20GetActiveAccounts(state, 'pax'),
+    XLM: xlmGetActiveAccounts(state)
   }
 
   const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
@@ -275,7 +276,7 @@ export const getActiveAccountsR = state => {
   return Remote.of(map(coinAccounts => coinAccounts.getOrElse([]), accounts))
 }
 
-// TODO: make dynamic
+// TODO: make dynamic list in future
 export const getActiveAccounts = compose(
   accounts =>
     accounts.getOrElse({
