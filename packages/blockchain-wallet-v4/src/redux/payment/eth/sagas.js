@@ -6,8 +6,7 @@ import {
   path,
   identity,
   indexOf,
-  toLower,
-  equals
+  toLower
 } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
@@ -132,7 +131,7 @@ export default ({ api }) => {
         return p
       },
 
-      * init ({ isErc20 } = { isErc20: false }) {
+      * init ({ isErc20, coin }) {
         let fees
         try {
           fees = yield call(api.getEthFees)
@@ -146,7 +145,7 @@ export default ({ api }) => {
         const fee = calculateFee(gasPrice, gasLimit)
 
         return makePayment(
-          mergeRight(p, { fees, fee, feeInGwei: gasPrice, isErc20 })
+          mergeRight(p, { fees, fee, feeInGwei: gasPrice, isErc20, coin })
         )
       },
 
@@ -173,16 +172,11 @@ export default ({ api }) => {
         }
         const ethData = yield call(api.getEthBalances, account)
         const nonce = path([account, 'nonce'], ethData)
-        let balance
-        if (equals(coin, 'ETH')) {
-          balance = path([account, 'balance'], ethData)
-        } else {
-          const balanceR = yield select(
-            S.data.eth.getErc20Balance,
-            toLower(coin)
-          )
-          balance = balanceR.getOrFail('missing_erc20_balance')
-        }
+        let balance = p.isErc20
+          ? (yield select(S.data.eth.getErc20Balance, toLower(coin))).getOrFail(
+              'missing_erc20_balance'
+            )
+          : path([account, 'balance'], ethData)
 
         const effectiveBalance = calculateEffectiveBalance(
           balance,
@@ -201,26 +195,40 @@ export default ({ api }) => {
       },
 
       * fee (value, origin) {
+        let contract
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
         }
+        if (p.isErc20) {
+          contract = (yield select(
+            S.kvStore.eth.getErc20ContractAddr,
+            toLower(p.coin)
+          )).getOrFail('missing_contract_addr')
+        }
         // value can be in gwei or string ('regular' or 'priority')
         const fees = prop('fees', p)
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
+
         const gasLimit = p.isErc20
           ? path(['fees', 'gasLimitContract'], p)
           : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
-        const data = yield call(api.getEthBalances, account)
-        const balance = path([account, 'balance'], data)
-        let effectiveBalance = calculateEffectiveBalance(
-          // balance + fee need to be in wei
-          balance,
-          fee
-        )
+
+        const data = p.isErc20
+          ? yield call(api.getErc20Data, account, contract)
+          : yield call(api.getEthBalances, account)
+
+        const balancePath = p.isErc20
+          ? path(['balance'])
+          : path([account, 'balance'])
+
+        const balance = balancePath(data)
+        // balance + fee need to be in wei
+        let effectiveBalance = calculateEffectiveBalance(balance, fee)
+        console.log(effectiveBalance)
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 

@@ -43,7 +43,7 @@ export default ({ coreSagas, networks }) => {
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })
-      payment = yield payment.init({ isErc20 })
+      payment = yield payment.init({ isErc20, coin })
       payment = yield payment.from(coin)
       const defaultFee = path(['fees', 'regular'], payment.value())
       if (isErc20) {

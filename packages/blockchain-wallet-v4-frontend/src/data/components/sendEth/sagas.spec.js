@@ -83,7 +83,7 @@ describe('sendEth sagas', () => {
       fee: 10
     }
 
-    it('should fetch erc20 list', () => {
+    it('should select erc20 list', () => {
       saga.next().select(selectors.core.walletOptions.getErc20CoinList)
     })
 
@@ -154,15 +154,8 @@ describe('sendEth sagas', () => {
     const saga = testSaga(firstStepSubmitClicked)
     const beforeError = 'beforeError'
 
-    it('should fetch erc20 list', () => {
-      saga.next().select(selectors.core.walletOptions.getErc20CoinList)
-    })
-
     it('should select payment', () => {
-      saga
-        .next(Remote.of([]))
-        .next({ coin: 'ETH' })
-        .select(S.getPayment)
+      saga.next({ coin: 'ETH' }).select(S.getPayment)
     })
 
     it('should put loading action', () => {
