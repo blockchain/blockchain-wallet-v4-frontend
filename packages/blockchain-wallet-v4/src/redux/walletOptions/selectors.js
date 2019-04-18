@@ -39,6 +39,8 @@ export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x => keys(filter(c => c.contractAddress, x)))
 export const getCoinModel = (state, coin) =>
   getSupportedCoins(state).map(x => prop(toUpper(coin), x))
+export const getCoinIcons = (state, coin) =>
+  getCoinModel(state, coin).map(path(['icons']))
 
 // partners
 export const getSFOXCountries = state =>

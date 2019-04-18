@@ -83,13 +83,12 @@ const ItemIcon = styled(Icon)`
   color: ${selectItemIconColor} !important;
 `
 
-const getIconName = coin => `${toLower(coin)}`
-
 const renderDisplay = (props, children) => {
   const coin = pathOr('', ['value', 'coin'], props)
+  const icon = pathOr('', ['value', 'icon'], props)
   return (
     <DisplayWrapper className={props.className} coin={toLower(coin)}>
-      {<DisplayIcon name={getIconName(coin)} />}
+      {<DisplayIcon name={icon} />}
       <Text>{children}</Text>
     </DisplayWrapper>
   )
@@ -97,16 +96,11 @@ const renderDisplay = (props, children) => {
 
 const renderItem = item => {
   const coin = pathOr('', ['value', 'coin'], item)
+  const icon = pathOr('', ['value', 'icon'], item)
   const isSelected = prop('isSelected', item)
   return (
     <ItemWrapper>
-      {
-        <ItemIcon
-          coin={toLower(coin)}
-          isSelected={isSelected}
-          name={getIconName(coin)}
-        />
-      }
+      {<ItemIcon coin={toLower(coin)} isSelected={isSelected} name={icon} />}
       <Text>{item.text}</Text>
     </ItemWrapper>
   )

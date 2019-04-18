@@ -82,10 +82,11 @@ export const getActiveBchAccounts = createDeepEqualSelector(
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
     coreSelectors.kvStore.bch.getAccounts,
-    coreSelectors.common.bch.getLockboxBchBalances
+    coreSelectors.common.bch.getLockboxBchBalances,
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'bch')
   ],
-  (bchAccounts, bchDataR, bchMetadataR, lockboxBchAccountsR) => {
-    const transform = (bchData, bchMetadata, lockboxBchAccounts) =>
+  (bchAccounts, bchDataR, bchMetadataR, lockboxBchAccountsR, coinIconsR) => {
+    const transform = (bchData, bchMetadata, lockboxBchAccounts, coinIcons) =>
       bchAccounts
         .map(acc => {
           const index = prop('index', acc)
@@ -99,12 +100,18 @@ export const getActiveBchAccounts = createDeepEqualSelector(
             label: prop('label', metadata) || xpub,
             address: index,
             balance: prop('final_balance', data),
-            type: ADDRESS_TYPES.ACCOUNT
+            type: ADDRESS_TYPES.ACCOUNT,
+            icon: prop('default', coinIcons)
           }
         })
         .filter(isActive)
         .concat(lockboxBchAccounts)
-    return lift(transform)(bchDataR, bchMetadataR, lockboxBchAccountsR)
+    return lift(transform)(
+      bchDataR,
+      bchMetadataR,
+      lockboxBchAccountsR,
+      coinIconsR
+    )
   }
 )
 
@@ -112,10 +119,11 @@ export const getActiveBsvAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bsv.getAddresses,
-    coreSelectors.kvStore.bsv.getAccounts
+    coreSelectors.kvStore.bsv.getAccounts,
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'bsv')
   ],
-  (bsvAccounts, bsvDataR, bsvMetadataR) => {
-    const transform = (bsvData, bsvMetadata) =>
+  (bsvAccounts, bsvDataR, bsvMetadataR, coinIconsR) => {
+    const transform = (bsvData, bsvMetadata, coinIcons) =>
       bsvAccounts
         .map(acc => {
           const index = prop('index', acc)
@@ -129,11 +137,12 @@ export const getActiveBsvAccounts = createDeepEqualSelector(
             label: prop('label', metadata) || xpub,
             address: index,
             balance: prop('final_balance', data),
-            type: ADDRESS_TYPES.ACCOUNT
+            type: ADDRESS_TYPES.ACCOUNT,
+            icon: prop('default', coinIcons)
           }
         })
         .filter(isActive)
-    return lift(transform)(bsvDataR, bsvMetadataR)
+    return lift(transform)(bsvDataR, bsvMetadataR, coinIconsR)
   }
 )
 
@@ -141,10 +150,11 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.btc.getAddresses,
-    coreSelectors.common.btc.getLockboxBtcBalances
+    coreSelectors.common.btc.getLockboxBtcBalances,
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'btc')
   ],
-  (btcAccounts, btcDataR, lockboxBtcAccountsR) => {
-    const transform = (btcData, lockboxBtcAccounts) => {
+  (btcAccounts, btcDataR, lockboxBtcAccountsR, coinIconsR) => {
+    const transform = (btcData, lockboxBtcAccounts, coinIcons) => {
       return btcAccounts
         .map(acc => ({
           archived: prop('archived', acc),
@@ -152,13 +162,14 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
           label: prop('label', acc) || prop('xpub', acc),
           address: prop('index', acc),
           balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
-          type: ADDRESS_TYPES.ACCOUNT
+          type: ADDRESS_TYPES.ACCOUNT,
+          icon: prop('default', coinIcons)
         }))
         .filter(isActive)
         .concat(lockboxBtcAccounts)
     }
 
-    return lift(transform)(btcDataR, lockboxBtcAccountsR)
+    return lift(transform)(btcDataR, lockboxBtcAccountsR, coinIconsR)
   }
 )
 
@@ -166,47 +177,49 @@ export const getActiveEthAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses,
     coreSelectors.kvStore.eth.getAccounts,
-    coreSelectors.common.eth.getLockboxEthBalances
+    coreSelectors.common.eth.getLockboxEthBalances,
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'eth')
   ],
-  (ethDataR, ethMetadataR, lockboxEthDataR) => {
-    const transform = (ethData, ethMetadata, lockboxEthData) =>
+  (ethDataR, ethMetadataR, lockboxEthDataR, coinIconsR) => {
+    const transform = (ethData, ethMetadata, lockboxEthData, coinIcons) =>
       ethMetadata
         .map(acc => {
           const address = prop('addr', acc)
           const data = prop(address, ethData)
 
           return {
-            archived: prop('archived', acc),
             coin: 'ETH',
             label: prop('label', acc) || address,
             address,
             balance: prop('balance', data),
-            type: ADDRESS_TYPES.ACCOUNT
+            type: ADDRESS_TYPES.ACCOUNT,
+            icon: prop('default', coinIcons)
           }
         })
-        .filter(isActive)
         .concat(lockboxEthData)
 
-    return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR)
+    return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR, coinIconsR)
   }
 )
 
 export const getActiveErc20Accounts = createDeepEqualSelector(
   [
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
-    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token)
+    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'pax')
   ],
-  (erc20AccountR, erc20BalanceR) => {
-    const transform = (erc20Account, erc20Balance) => [
+  (erc20AccountR, erc20BalanceR, coinIconsR) => {
+    const transform = (erc20Account, erc20Balance, coinIcons) => [
       {
         coin: 'PAX',
         label: prop('label', erc20Account),
         address: prop('contract', erc20Account),
         balance: erc20Balance,
-        type: ADDRESS_TYPES.ACCOUNT
+        type: ADDRESS_TYPES.ACCOUNT,
+        icon: prop('default', coinIcons)
       }
     ]
-    return lift(transform)(erc20AccountR, erc20BalanceR)
+    return lift(transform)(erc20AccountR, erc20BalanceR, coinIconsR)
   }
 )
 
@@ -214,10 +227,11 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
-    coreSelectors.common.xlm.getLockboxXlmBalances
+    coreSelectors.common.xlm.getLockboxXlmBalances,
+    state => coreSelectors.walletOptions.getCoinIcons(state, 'xlm')
   ],
-  (xlmData, xlmMetadataR, lockboxXlmDataR) => {
-    const transform = (xlmMetadata, lockboxXlmData) =>
+  (xlmData, xlmMetadataR, lockboxXlmDataR, coinIconsR) => {
+    const transform = (xlmMetadata, lockboxXlmData, coinIcons) =>
       xlmMetadata
         .map(acc => {
           const address = prop('publicKey', acc)
@@ -233,13 +247,14 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
             address,
             balance,
             noAccount,
-            type: ADDRESS_TYPES.ACCOUNT
+            type: ADDRESS_TYPES.ACCOUNT,
+            icon: prop('default', coinIcons)
           }
         })
         .filter(isActive)
         .concat(lockboxXlmData)
 
-    return lift(transform)(xlmMetadataR, lockboxXlmDataR)
+    return lift(transform)(xlmMetadataR, lockboxXlmDataR, coinIconsR)
   }
 )
 

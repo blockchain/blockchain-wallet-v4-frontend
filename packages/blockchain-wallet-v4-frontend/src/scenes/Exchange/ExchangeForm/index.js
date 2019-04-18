@@ -70,7 +70,7 @@ class ExchangeForm extends React.Component {
           1
         ])
 
-  logSwapExchnageReceive = () =>
+  logSwapExchangeReceive = () =>
     this.props.analyticsActions.logEvent([
       ...SWAP_EVENTS.EXCHANGE_RECEIVE_CHANGE,
       1
@@ -107,7 +107,7 @@ class ExchangeForm extends React.Component {
             }}
             handleInputBlur={this.addZero}
             swapFix={compose(
-              this.logSwapExchnageReceive,
+              this.logSwapExchangeReceive,
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
             )}
