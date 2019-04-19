@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { CreatableInput, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
+import { CreatableInputField, SelectBox } from 'components/Form'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -34,13 +35,9 @@ const renderItem = item => (
 
 export default props => {
   const { input, meta, ...rest } = props
-  return (
-    <CreatableInput
-      {...input}
-      {...meta}
-      {...rest}
-      templateItem={renderItem}
-      grouped
-    />
+  return rest.isCreatable ? (
+    <CreatableInputField {...props} templateItem={renderItem} grouped />
+  ) : (
+    <SelectBox {...props} templateItem={renderItem} grouped />
   )
 }

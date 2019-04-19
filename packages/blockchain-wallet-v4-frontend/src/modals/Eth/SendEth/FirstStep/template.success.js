@@ -158,6 +158,7 @@ const FirstStep = props => {
               includeAll={false}
               hideIndicator
               hideErrors
+              isCreatable
             />
             <QRCodeCapture
               scanType='ethAddress'
