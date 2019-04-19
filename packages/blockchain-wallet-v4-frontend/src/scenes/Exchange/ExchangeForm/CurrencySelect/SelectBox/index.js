@@ -58,20 +58,20 @@ const ItemWrapper = styled.div`
 const Text = styled.span`
   position: relative;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 12px;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;
   cursor: pointer;
   width: 100%;
-  padding-left: 5px;
+  padding-left: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `
 
 const DisplayIcon = styled(Icon)`
-  font-size: 28px;
+  font-size: 26px;
   color: ${props => props.theme.white};
 `
 
@@ -79,7 +79,7 @@ const selectItemIconColor = props =>
   props.isSelected ? props.theme.white : props.theme[props.coin]
 
 const ItemIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 20px;
   color: ${selectItemIconColor} !important;
 `
 
