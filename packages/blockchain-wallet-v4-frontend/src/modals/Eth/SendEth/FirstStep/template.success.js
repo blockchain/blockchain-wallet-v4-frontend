@@ -155,9 +155,8 @@ const FirstStep = props => {
               validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
               exclude={[from.label]}
+              openMenuOnClick={false}
               includeAll={false}
-              hideIndicator
-              hideErrors
               isCreatable
             />
             <QRCodeCapture

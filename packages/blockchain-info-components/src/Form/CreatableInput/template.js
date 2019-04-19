@@ -19,6 +19,14 @@ const MultiValueContainer = props => {
   )
 }
 
+const getComponents = isMulti =>
+  isMulti
+    ? {
+        DropdownIndicator: null,
+        MultiValueContainer
+      }
+    : { MultiValueContainer }
+
 const CreatableInput = props => {
   const {
     value,
@@ -26,6 +34,7 @@ const CreatableInput = props => {
     inputValue,
     isMulti,
     menuIsOpen,
+    openMenuOnClick,
     options,
     placeholder,
     handleBlur,
@@ -47,12 +56,10 @@ const CreatableInput = props => {
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}
+      openMenuOnClick={openMenuOnClick}
       placeholder={placeholder}
       inputValue={inputValue}
-      components={{
-        DropdownIndicator: null,
-        MultiValueContainer
-      }}
+      components={getComponents(isMulti)}
       value={value}
       // Components
       multiValueContainer={multiValueContainer}

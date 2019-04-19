@@ -45,19 +45,23 @@ class CreatableInputContainer extends React.PureComponent {
     this.setState({ inputValue })
   }
 
+  handleMultiChange = (inputValue, value) => {
+    this.setState({
+      inputValue: '',
+      value: [...value, createOption(inputValue)]
+    })
+    if (this.props.onChange) {
+      this.props.onChange({ value: [...value, createOption(inputValue)] })
+    }
+  }
+
   handleKeyDown = event => {
     const { inputValue, value } = this.state
-    if (!inputValue) return
+    if (!inputValue || !this.props.isMulti) return
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)]
-        })
-        if (this.props.onChange) {
-          this.props.onChange({ value: [...value, createOption(inputValue)] })
-        }
+        this.handleMultiChange(inputValue, value)
         event.preventDefault()
     }
   }
@@ -67,12 +71,12 @@ class CreatableInputContainer extends React.PureComponent {
     if (!inputValue) return
     switch (event.type) {
       case 'blur':
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)]
-        })
         if (this.props.onChange) {
-          this.props.onChange({ value: [...value, createOption(inputValue)] })
+          if (this.props.isMulti) {
+            this.handleMultiChange(inputValue, value)
+          } else {
+            this.handleChange(createOption(inputValue))
+          }
         }
     }
   }
@@ -91,6 +95,7 @@ class CreatableInputContainer extends React.PureComponent {
         isClearable
         isMulti={this.props.isMulti}
         menuIsOpen={this.props.menuIsOpen}
+        openMenuOnClick={this.props.openMenuOnClick}
         options={this.props.options}
         placeholder={this.props.placeholder || ''}
         value={value}

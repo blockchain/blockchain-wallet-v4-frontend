@@ -36,7 +36,7 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 500px;
+  width: 100%;
   > div:last-child {
     width: 100%;
   }
