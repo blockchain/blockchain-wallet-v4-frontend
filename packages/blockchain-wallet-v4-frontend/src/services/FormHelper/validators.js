@@ -90,12 +90,15 @@ export const validPasswordStretchingNumber = value =>
     <M.InvalidPasswordStretchingNumberMessage />
   )
 
-export const validEthAddress = ({ value }) =>
-  utils.eth.isValidAddress(propOr(value, 'address', value)) ? (
+export const validEthAddress = ({ value: dropdownValue }) => {
+  if (!dropdownValue) return
+  const { value } = dropdownValue
+  return utils.eth.isValidAddress(propOr(value, ['address'], value)) ? (
     undefined
   ) : (
     <M.InvalidEtherAddressMessage />
   )
+}
 
 export const validXlmAddress = value =>
   utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
