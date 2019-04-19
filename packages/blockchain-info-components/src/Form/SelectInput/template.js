@@ -28,7 +28,7 @@ const StyledSelect = styled(Select)`
     background-color: ${props => props.theme['white']};
     cursor: pointer;
     min-height: 40px;
-    border-radius: 0;
+    border-radius: 4px;
     border: 1px solid ${props => props.theme[props.borderColor]};
     &:hover {
       border: 1px solid ${props => props.theme[props.borderColor]};

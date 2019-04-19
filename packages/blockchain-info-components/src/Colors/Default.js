@@ -19,7 +19,7 @@ export default {
   'marketing-secondary': '#153A62',
   // Grays
   'gray-1': '#EAEAEA',
-  'gray-2': '#CCCCCC',
+  'gray-2': '#DFE3EB',
   'gray-3': '#999B9E',
   'gray-4': '#757679',
   'gray-5': '#5F5F5F',
