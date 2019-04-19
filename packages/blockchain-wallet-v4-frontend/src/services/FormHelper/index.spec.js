@@ -137,9 +137,9 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validEtherAddress()', () => {
+  describe('validEthAddress()', () => {
     it('returns correct string if invalid ether addr passed', () => {
-      expect(FormHelper.validEtherAddress('notanaddress')).toEqual(
+      expect(FormHelper.validEthAddress('notanaddress')).toEqual(
         <M.InvalidEtherAddressMessage />
       )
     })

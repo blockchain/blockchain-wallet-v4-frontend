@@ -4,6 +4,7 @@ import { components } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
+  width: 100%;
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
 `
@@ -23,6 +24,9 @@ const CreatableInput = props => {
     value,
     autoFocus,
     inputValue,
+    isMulti,
+    menuIsOpen,
+    options,
     placeholder,
     handleBlur,
     handleChange,
@@ -34,10 +38,11 @@ const CreatableInput = props => {
   return (
     <StyledCreatableSelect
       isClearable
-      isMulti
-      menuIsOpen={false}
+      options={options}
+      isMulti={isMulti}
       classNamePrefix='bc'
       autoFocus={autoFocus}
+      menuIsOpen={menuIsOpen}
       onBlur={handleBlur}
       onChange={handleChange}
       onKeyDown={handleKeyDown}

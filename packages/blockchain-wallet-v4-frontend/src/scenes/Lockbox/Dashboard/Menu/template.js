@@ -118,7 +118,9 @@ const Menu = props => {
               </Text>
               <Field
                 name='search'
+                isMulti
                 autoFocus
+                menuIsOpen={false}
                 defaultValue={formValues}
                 component={CreatableInputField}
                 multiValueContainer={multiValueContainer}

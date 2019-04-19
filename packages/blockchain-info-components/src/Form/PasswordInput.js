@@ -21,6 +21,7 @@ const BasePasswordInput = styled.input.attrs({
   user-select: text;
   font-family: 'Montserrat', Helvetica, sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
+  border-radius: 4px;
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};
   }

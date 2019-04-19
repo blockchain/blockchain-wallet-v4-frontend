@@ -12,7 +12,7 @@ const toHex = value => {
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }
 
-// TODO: send contract address to method, figure out fees
+// TODO: ERC20 send contract address to method, figure out fees
 export const signErc20 = curry((network = 1, mnemonic, data) => {
   const { index, to, amount, nonce, gasPrice, gasLimit } = data
   const privateKey = eth.getPrivateKey(mnemonic, index)

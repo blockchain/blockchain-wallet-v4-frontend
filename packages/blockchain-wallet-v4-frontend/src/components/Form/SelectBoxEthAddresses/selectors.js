@@ -25,7 +25,7 @@ export const getEthData = (state, ownProps) => {
   }
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
-  const toGroup = curry((label, options) => [{ label, options }])
+  const toGroup = curry((label, options) => [{ label, options, value: '' }])
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
@@ -50,7 +50,7 @@ export const getEthData = (state, ownProps) => {
 export const getErc20Data = (state, ownProps) => {
   const { coin, exclude = [] } = ownProps
   const displayErc20Fixed = data => {
-    // TODO: make more generic for dynamic ERC20
+    // TODO: ERC20 make more generic
     if (coin === 'PAX') {
       const paxAmount = Exchange.convertPaxToPax(data)
       return Exchange.displayPaxToPax({

@@ -7,12 +7,11 @@ import styled from 'styled-components'
 
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEtherAddress } from 'services/FormHelper'
+import { required, validEthAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Text,
-  Icon,
   TooltipHost,
   TooltipIcon,
   Link
@@ -27,7 +26,6 @@ import {
   SelectBox,
   SelectBoxCoin,
   SelectBoxEthAddresses,
-  TextBox,
   TextAreaDebounced
 } from 'components/Form'
 import {
@@ -49,7 +47,6 @@ import {
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
-  AddressButton,
   FeeOptionsContainer,
   FeePerByteContainer
 } from 'components/Send'
@@ -57,7 +54,6 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -72,12 +68,9 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
-    destination,
     isContract,
-    toToggled,
     feeToggled,
     enableToggle,
-    handleToToggle,
     from,
     feeElements,
     regularFee,
@@ -156,44 +149,22 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            {toToggled && (
-              <Field
-                name='to'
-                component={SelectBoxEthAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
-              />
-            )}
-            {!toToggled && (
-              <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                normalize={removeWhitespace}
-                validate={[required, validEtherAddress]}
-              />
-            )}
+            <Field
+              name='to'
+              placeholder='Paste or scan an address, or select a destination'
+              validate={[required, validEthAddress]}
+              component={SelectBoxEthAddresses}
+              exclude={[from.label]}
+              includeAll={false}
+              hideIndicator
+              hideErrors
+            />
             <QRCodeCapture
               scanType='ethAddress'
               border={
                 enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
               }
             />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>
