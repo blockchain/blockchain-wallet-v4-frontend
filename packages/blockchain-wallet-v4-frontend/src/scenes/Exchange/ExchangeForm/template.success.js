@@ -63,14 +63,14 @@ const ColumnRight = styled.div`
   }
 `
 const SwapReceiveRow = styled(Row)`
-  padding-bottom: 0;
+  padding: 22px 32px 0 32px;
 `
 const SwapReceiveGap = styled(Cell)`
   min-width: 50px;
 `
 const AmountRow = styled(Row)`
   position: relative;
-  padding: 16px 32px 0 32px;
+  padding: 4px 32px 0 32px;
   justify-content: center;
   border: 4px solid transparent;
 `

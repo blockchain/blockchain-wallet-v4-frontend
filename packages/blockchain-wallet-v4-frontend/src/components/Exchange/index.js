@@ -27,12 +27,6 @@ export const AmountHeader = styled(ExchangeText)`
   color: ${props => props.color || props.theme['gray-5']};
   font-size: 16px;
 `
-export const Delimiter = styled.div`
-  border-bottom: 1px solid ${props => props.theme['gray-1']}};
-  width: 100%;
-  margin-top: 6px;
-  margin-bottom: 25px;
-`
 export const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,8 +37,8 @@ export const TableRow = styled.div`
   width: 100%;
 `
 export const LargeTableRow = styled(TableRow)`
-  padding: 18px;
-  min-height: 80px;
+  padding: 10px 18px;
+  min-height: 72px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   &:last-child {
     border-bottom: 0px;

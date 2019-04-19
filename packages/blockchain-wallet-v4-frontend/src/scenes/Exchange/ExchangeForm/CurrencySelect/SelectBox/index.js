@@ -32,7 +32,7 @@ const ExchangeSelect = styled(SelectBox)`
 const DisplayWrapper = styled.div`
   border-radius: 3px;
   background-color: ${props => props.theme[props.coin]};
-  min-height: 40px;
+  min-height: 30px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
