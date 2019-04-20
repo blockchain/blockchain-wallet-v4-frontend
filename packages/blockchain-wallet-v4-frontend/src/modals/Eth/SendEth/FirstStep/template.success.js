@@ -158,6 +158,8 @@ const FirstStep = props => {
               openMenuOnClick={false}
               includeAll={false}
               isCreatable
+              noOptionsMessage={() => null}
+              isValidNewOption={() => false}
             />
             <QRCodeCapture
               scanType='ethAddress'

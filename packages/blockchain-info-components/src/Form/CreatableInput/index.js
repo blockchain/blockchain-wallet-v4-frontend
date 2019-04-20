@@ -100,6 +100,8 @@ class CreatableInputContainer extends React.PureComponent {
         placeholder={this.props.placeholder || ''}
         value={value}
         // Components
+        noOptionsMessage={this.props.noOptionsMessage}
+        isValidNewOption={this.props.isValidNewOption}
         multiValueContainer={this.props.multiValueContainer}
       />
     )

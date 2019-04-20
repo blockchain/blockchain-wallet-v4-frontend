@@ -41,7 +41,9 @@ const CreatableInput = props => {
     handleChange,
     handleKeyDown,
     handleInputChange,
-    multiValueContainer
+    multiValueContainer,
+    isValidNewOption,
+    noOptionsMessage
   } = props
 
   return (
@@ -62,6 +64,8 @@ const CreatableInput = props => {
       components={getComponents(isMulti)}
       value={value}
       // Components
+      noOptionsMessage={noOptionsMessage}
+      isValidNewOption={isValidNewOption}
       multiValueContainer={multiValueContainer}
     />
   )
