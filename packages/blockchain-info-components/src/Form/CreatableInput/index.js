@@ -1,5 +1,5 @@
 import React from 'react'
-import { difference, head, pathOr, isEmpty } from 'ramda'
+import { difference, equals, head, pathOr, isEmpty } from 'ramda'
 import CreatableInput from './template'
 
 const components = {
@@ -31,6 +31,10 @@ class CreatableInputContainer extends React.PureComponent {
     if (diff) {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ value: [...prevValue, diff] })
+    }
+    if (!this.props.isMulti && !equals(newValue, prevValue)) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ value: newValue })
     }
   }
 
