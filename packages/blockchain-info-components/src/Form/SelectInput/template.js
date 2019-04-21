@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
-import { transparentize } from 'polished'
 
 const StyledSelect = styled(Select)`
   font-weight: 400;
@@ -70,7 +69,7 @@ const StyledSelect = styled(Select)`
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
     &.bc__option--is-focused {
-      background-color: ${props => transparentize(0.9, props.theme['white'])};
+      background-color: ${props => props.theme['white']};
       color: ${props => props.theme['brand-primary']};
     }
     &.bc__option--is-selected {
