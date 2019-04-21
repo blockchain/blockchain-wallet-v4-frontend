@@ -70,7 +70,6 @@ const FirstStep = props => {
     unconfirmedTx,
     isContract,
     feeToggled,
-    enableToggle,
     from,
     feeElements,
     regularFee,
@@ -163,9 +162,7 @@ const FirstStep = props => {
             />
             <QRCodeCapture
               scanType='ethAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-              }
+              border={['top', 'bottom', 'right', 'left']}
             />
           </Row>
           {unconfirmedTx && (

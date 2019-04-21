@@ -11,17 +11,18 @@ const ItemWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
   overflow-x: scroll;
-  & > * {
-    margin-left: 5px;
-  }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;
     height: 0 !important;
+  }
+  > div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `
 

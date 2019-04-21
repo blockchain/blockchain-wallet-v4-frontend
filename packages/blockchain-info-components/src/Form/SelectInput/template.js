@@ -6,7 +6,7 @@ import { equals, flatten, filter, head, assoc, path } from 'ramda'
 import { transparentize } from 'polished'
 
 const StyledSelect = styled(Select)`
-  font-weight: 300;
+  font-weight: 400;
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
@@ -14,8 +14,23 @@ const StyledSelect = styled(Select)`
     background-color: ${props => props.theme['white']};
   }
 
+  .bc__menu-list {
+    padding: 0;
+  }
+
+  .bc__group {
+    padding-bottom: 0;
+    > div:nth-child(2) {
+      .bc__option {
+        padding-top: 6px;
+      }
+    }
+  }
+
   .bc__group-heading {
-    color: ${props => props.theme['gray-3']};
+    font-weight: 400;
+    margin-bottom: 0px;
+    color: ${props => props.theme['gray-5']};
   }
 
   .bc__placeholder {
@@ -55,25 +70,29 @@ const StyledSelect = styled(Select)`
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
     &.bc__option--is-focused {
-      background-color: ${props =>
-        transparentize(0.9, props.theme['brand-secondary'])};
+      background-color: ${props => transparentize(0.9, props.theme['white'])};
+      color: ${props => props.theme['brand-primary']};
     }
     &.bc__option--is-selected {
-      color: ${props => props.theme['white']};
-      background-color: ${props => props.theme['brand-secondary']};
+      color: ${props => props.theme['brand-primary']};
+      background-color: ${props => props.theme['white']};
       &:hover {
-        background-color: ${props => props.theme['brand-secondary']};
+        color: ${props => props.theme['brand-primary']};
       }
       * {
-        color: ${props => props.theme['white']};
+        color: ${props => props.theme['brand-primary']};
       }
     }
-    :hover: {
-      background-color: ${props =>
-        transparentize(0.9, props.theme['brand-secondary'])};
+    &:hover {
+      background-color: ${props => props.theme['white']};
+      * {
+        color: ${props => props.theme['brand-primary']};
+      }
     }
     * {
+      font-weight: 400;
       color: ${props => props.theme['gray-5']};
+      transition: color 0.3s;
     }
   }
 

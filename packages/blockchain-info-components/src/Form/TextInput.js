@@ -15,7 +15,7 @@ const BaseTextInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
