@@ -35,7 +35,7 @@ const BaseDateInput = styled(ReactDatetime)`
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid ${props => props.theme['gray-2']};
-    border-radius: 5px;
+    border-radius: 4px;
   }
 
   &.rdtOpen .rdtPicker {

@@ -15,6 +15,7 @@ const BaseTextAreaInput = styled.textarea`
   font-family: 'Montserrat', Helvetica, sans-serif;
   resize: ${props => (props.resize ? 'initial' : 'none')};
   border: 1px solid ${props => props.theme['gray-2']};
+  border-radius: 4px;
 
   &::-webkit-input-placeholder {
     font-weight: 300;

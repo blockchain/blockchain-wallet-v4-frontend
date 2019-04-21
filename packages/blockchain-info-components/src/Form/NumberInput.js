@@ -20,6 +20,7 @@ const BaseNumberInput = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
+  border-radius: 4px;
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-top: ${props => (props.borderTopNone ? 'none' : '')};
