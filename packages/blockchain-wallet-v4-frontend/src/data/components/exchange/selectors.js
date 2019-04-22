@@ -204,28 +204,22 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
 
 export const erc20GetActiveAccounts = createDeepEqualSelector(
   [
-    coreSelectors.data.eth.getDefaultAddress,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
     (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
     state => coreSelectors.walletOptions.getCoinIcons(state, 'pax')
   ],
-  (ethAddressR, erc20AccountR, erc20BalanceR, coinIconsR) => {
-    const transform = (ethAddress, erc20Account, erc20Balance, coinIcons) => [
+  (erc20AccountR, erc20BalanceR, coinIconsR) => {
+    const transform = (erc20Account, erc20Balance, coinIcons) => [
       {
         coin: 'PAX',
         label: prop('label', erc20Account),
-        address: ethAddress,
+        address: null,
         balance: erc20Balance,
         type: ADDRESS_TYPES.ACCOUNT,
         icon: prop('default', coinIcons)
       }
     ]
-    return lift(transform)(
-      ethAddressR,
-      erc20AccountR,
-      erc20BalanceR,
-      coinIconsR
-    )
+    return lift(transform)(erc20AccountR, erc20BalanceR, coinIconsR)
   }
 )
 

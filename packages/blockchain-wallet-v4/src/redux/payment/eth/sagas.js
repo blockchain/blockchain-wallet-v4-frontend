@@ -164,7 +164,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from (coin, origin, type) {
+      * from (origin, type) {
         let account = origin
         if (isNil(origin) || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
@@ -173,9 +173,10 @@ export default ({ api }) => {
         const ethData = yield call(api.getEthBalances, account)
         const nonce = path([account, 'nonce'], ethData)
         let balance = p.isErc20
-          ? (yield select(S.data.eth.getErc20Balance, toLower(coin))).getOrFail(
-              'missing_erc20_balance'
-            )
+          ? (yield select(
+              S.data.eth.getErc20Balance,
+              toLower(p.coin)
+            )).getOrFail('missing_erc20_balance')
           : path([account, 'balance'], ethData)
 
         const effectiveBalance = calculateEffectiveBalance(
@@ -228,7 +229,6 @@ export default ({ api }) => {
         const balance = balancePath(data)
         // balance + fee need to be in wei
         let effectiveBalance = calculateEffectiveBalance(balance, fee)
-        console.log(effectiveBalance)
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 
@@ -323,7 +323,7 @@ export default ({ api }) => {
           })
 
         const makeChain = gen => ({
-          init: () => chain(gen, payment => payment.init()),
+          init: values => chain(gen, payment => payment.init(values)),
           to: address => chain(gen, payment => payment.to(address)),
           amount: amount => chain(gen, payment => payment.amount(amount)),
           from: (origin, type) =>

@@ -44,7 +44,7 @@ export default ({ coreSagas, networks }) => {
         network: networks.eth
       })
       payment = yield payment.init({ isErc20, coin })
-      payment = yield payment.from(coin)
+      payment = yield payment.from()
       const defaultFee = path(['fees', 'regular'], payment.value())
       if (isErc20) {
         const erc20AccountR = yield select(
@@ -126,10 +126,9 @@ export default ({ coreSagas, networks }) => {
           )
           break
         case 'from':
-          const coin = prop('coin', payload)
           const source = prop('address', payload)
           const fromType = prop('type', payload)
-          payment = yield payment.from(coin, source, fromType)
+          payment = yield payment.from(source, fromType)
           break
         case 'to':
           payment = yield payment.to(payload)

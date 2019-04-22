@@ -23,12 +23,18 @@ export default ({ coreSagas, networks }) => {
   let prevPaymentAmount
   let prevPayment
   let paymentTask
+  let isSourceErc20
 
-  const calculatePaymentMemo = function * (source, amount, isSourceErc20) {
+  const calculatePaymentMemo = function * (source, amount) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
     ) {
+      const coin = prop('coin', source)
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
+      isSourceErc20 = includes(coin, erc20List)
       if (paymentTask) cancel(paymentTask)
       paymentTask = yield fork(
         calculateProvisionalPayment,
@@ -44,20 +50,22 @@ export default ({ coreSagas, networks }) => {
     return prevPayment
   }
 
-  const calculateProvisionalPayment = function * (source, amount, isSourceErc20) {
+  const calculateProvisionalPayment = function * (source, amount) {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
-      const [network, provisionalScript] = prop(coin, {
-        BTC: btcOptions,
-        BCH: bchOptions,
-        BSV: bsvOptions,
-        ETH: ethOptions,
-        PAX: ethOptions,
-        XLM: xlmOptions
-      })
-      const payment = yield coreSagas.payment[toLower(coin)]
+      const [network, provisionalScript] = isSourceErc20
+        ? ethOptions
+        : prop(coin, {
+            BTC: btcOptions,
+            BCH: bchOptions,
+            BSV: bsvOptions,
+            ETH: ethOptions,
+            XLM: xlmOptions
+          })
+      const paymentType = isSourceErc20 ? 'eth' : toLower(coin)
+      const payment = yield coreSagas.payment[paymentType]
         .create({ network })
         .chain()
         .init({ isErc20: isSourceErc20, coin })

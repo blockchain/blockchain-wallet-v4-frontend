@@ -301,19 +301,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const getProvisionalPayment = function * (memo = true, isSourceErc20) {
+  const getProvisionalPayment = function * (memo = true) {
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const amounts = yield call(getAmounts, getCurrentPair(form))
     const sourceAmount = prop('sourceAmount', amounts)
-    return memo
-      ? yield call(calculatePaymentMemo, source, sourceAmount, isSourceErc20)
-      : yield call(
-          calculateProvisionalPayment,
-          source,
-          sourceAmount,
-          isSourceErc20
-        )
+    return yield call(
+      memo ? calculatePaymentMemo : calculateProvisionalPayment,
+      source,
+      sourceAmount
+    )
   }
 
   const updateSourceFee = function * (payment) {
@@ -325,7 +322,7 @@ export default ({ api, coreSagas, networks }) => {
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
       const provisionalPayment = yield payment ||
-        call(getProvisionalPayment, true, isSourceErc20)
+        call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
         sourceCoin,
