@@ -24,7 +24,7 @@ import {
   propOr
 } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4'
+import { Exchange, Remote } from 'blockchain-wallet-v4'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { actions, actionTypes, selectors, model } from 'data'
 import {
@@ -36,6 +36,7 @@ import {
   MISSING_DEVICE_ERROR,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
+  INSUFFICIENT_ETH_FOR_TX_FEE,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget
 } from './model'
@@ -329,21 +330,35 @@ export default ({ api, coreSagas, networks }) => {
         selectFee(sourceCoin, provisionalPayment, isSourceErc20)
       )
       const rates = yield call(getBestRates)
-      yield put(
-        A.setSourceFee({
-          source: fee,
-          mempoolFees: provisionalPayment.fees,
-          target: convertSourceToTarget(form, rates, fee),
-          sourceFiat: convertSourceToFiat(
-            form,
-            fiatCurrency,
-            rates,
-            fee,
-            isSourceErc20
-          ),
+      const sourceFees = {
+        source: fee,
+        mempoolFees: provisionalPayment.fees,
+        target: convertSourceToTarget(form, rates, fee),
+        sourceFiat: convertSourceToFiat(
+          form,
+          fiatCurrency,
+          rates,
+          fee,
           isSourceErc20
-        })
-      )
+        ),
+        isSourceErc20
+      }
+      // ensure for sufficient eth balance for erc20 swap
+      if (isSourceErc20) {
+        const ethBalanceInWei = (yield select(
+          selectors.core.data.eth.getBalance
+        )).getOrElse(0)
+        let ethBalance = Exchange.convertEtherToEther({
+          value: ethBalanceInWei,
+          fromUnit: 'WEI',
+          toUnit: 'ETH'
+        }).value
+        if (fee >= ethBalance) {
+          sourceFees.insufficentEthBalance = true
+          yield put(A.setTxError(INSUFFICIENT_ETH_FOR_TX_FEE))
+        }
+      }
+      yield put(A.setSourceFee(sourceFees))
     } catch (e) {
       yield put(A.setSourceFee(fallbackSourceFees))
     }

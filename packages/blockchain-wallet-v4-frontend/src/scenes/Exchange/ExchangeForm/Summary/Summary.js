@@ -37,20 +37,11 @@ const SummaryStringDisplay = styled(StringDisplay)`
 
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
-const sufficientEthForSwap = (EthBalanceInWei, txFeeInEth) => {
-  let ethBalance = Exchange.convertEtherToEther({
-    value: EthBalanceInWei,
-    fromUnit: 'WEI',
-    toUnit: 'ETH'
-  }).value
-  return ethBalance >= txFeeInEth
-}
-
 export class Summary extends React.PureComponent {
   render () {
     const {
       currency,
-      EthBalanceInWei,
+      insufficientEthBalance,
       sourceAmount,
       sourceCoin,
       sourceFee,
@@ -112,23 +103,13 @@ export class Summary extends React.PureComponent {
           </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
-              color={
-                sourceFee.isSourceErc20 &&
-                !sufficientEthForSwap(EthBalanceInWei, sourceFee.source)
-                  ? 'error'
-                  : 'gray-5'
-              }
+              color={insufficientEthBalance ? 'error' : 'gray-5'}
               data-e2e='exchangeSummaryFeeFiatValue'
             >
               {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
             </SummaryExchangeAmount>
             <SubExchangeAmount
-              color={
-                sourceFee.isSourceErc20 &&
-                !sufficientEthForSwap(EthBalanceInWei, sourceFee.source)
-                  ? 'error'
-                  : 'gray-5'
-              }
+              color={insufficientEthBalance ? 'error' : 'gray-5'}
               data-e2e='exchangeSummaryFeeValue'
             >
               {coinToString({

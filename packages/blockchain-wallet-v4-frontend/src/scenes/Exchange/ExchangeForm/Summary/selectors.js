@@ -6,8 +6,8 @@ import { getCurrentPairAmounts } from '../selectors'
 
 const { getSourceFee } = selectors.components.exchange
 export const getData = createDeepEqualSelector(
-  [getSourceFee, getCurrentPairAmounts, selectors.core.data.eth.getBalance],
-  (sourceFee, amountsR, ethBalanceR) => {
+  [getSourceFee, getCurrentPairAmounts],
+  (sourceFee, amountsR) => {
     return {
       sourceFee,
       sourceFeeFiat: propOr(0, 'sourceFiat', sourceFee),
@@ -15,7 +15,7 @@ export const getData = createDeepEqualSelector(
       sourceAmount: amountsR.map(prop('sourceAmount')),
       targetAmount: amountsR.map(prop('targetAmount')),
       targetFiat: amountsR.map(prop('targetFiat')),
-      EthBalanceInWei: ethBalanceR.getOrElse(0)
+      insufficientEthBalance: propOr(false, 'insufficientEthBalance', sourceFee)
     }
   }
 )
