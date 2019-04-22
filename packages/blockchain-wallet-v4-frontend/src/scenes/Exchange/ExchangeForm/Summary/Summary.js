@@ -112,7 +112,7 @@ export class Summary extends React.PureComponent {
             >
               {coinToString({
                 value: sourceFee.source,
-                unit: { symbol: sourceCoin },
+                unit: { symbol: sourceFee.isSourceErc20 ? 'ETH' : sourceCoin },
                 minDigits: 2
               })}
             </SubExchangeAmount>
@@ -143,11 +143,13 @@ export class Summary extends React.PureComponent {
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
-              -
+              <span>-</span>
               <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
                 {sourceAmount.map(amount =>
                   coinToString({
-                    value: add(amount, sourceFee.source),
+                    value: sourceFee.isSourceErc20
+                      ? amount
+                      : add(amount, sourceFee.source),
                     unit: { symbol: sourceCoin },
                     minDigits: 2
                   })

@@ -326,7 +326,7 @@ export default ({ api, coreSagas, networks }) => {
       const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
         sourceCoin,
-        selectFee(sourceCoin, provisionalPayment)
+        selectFee(sourceCoin, provisionalPayment, isSourceErc20)
       )
       const rates = yield call(getBestRates)
       yield put(
@@ -334,7 +334,13 @@ export default ({ api, coreSagas, networks }) => {
           source: fee,
           mempoolFees: provisionalPayment.fees,
           target: convertSourceToTarget(form, rates, fee),
-          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee),
+          sourceFiat: convertSourceToFiat(
+            form,
+            fiatCurrency,
+            rates,
+            fee,
+            isSourceErc20
+          ),
           isSourceErc20
         })
       )

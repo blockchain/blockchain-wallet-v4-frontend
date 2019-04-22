@@ -57,7 +57,10 @@ export const minimum = (val1, val2) => {
   return new BigNumber(val1).isLessThan(val2) ? val1 : val2
 }
 
-export const selectFee = (coin, payment) => {
+export const selectFee = (coin, payment, isSourceErc20) => {
+  if (isSourceErc20 || coin === 'ETH') {
+    return prop('fee', payment)
+  }
   switch (coin) {
     case 'BCH':
       return path(['selection', 'fee'], payment)
@@ -65,9 +68,6 @@ export const selectFee = (coin, payment) => {
       return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
-    case 'PAX':
-    case 'ETH':
-      return prop('fee', payment)
     case 'XLM':
       return prop('fee', payment)
   }
@@ -157,11 +157,17 @@ export const convertSourceToTarget = (form, rates, amount) => {
   )(amount)
 }
 
-export const convertSourceToFiat = (form, fiatCurrency, rates, amount) => {
+export const convertSourceToFiat = (
+  form,
+  fiatCurrency,
+  rates,
+  amount,
+  isSourceErc20
+) => {
   const sourceCoin = path(['source', 'coin'], form)
 
   return compose(
     toFixed(2, false),
-    multiply(getRate(rates, sourceCoin, fiatCurrency))
+    multiply(getRate(rates, isSourceErc20 ? 'ETH' : sourceCoin, fiatCurrency))
   )(amount)
 }
