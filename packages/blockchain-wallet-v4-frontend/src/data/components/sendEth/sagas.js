@@ -4,6 +4,7 @@ import {
   identity,
   includes,
   path,
+  pathOr,
   prop,
   propOr,
   head,
@@ -132,7 +133,8 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.from(coin, source, fromType)
           break
         case 'to':
-          payment = yield payment.to(payload.value.value)
+          const value = pathOr({}, ['value', 'value'], payload)
+          payment = yield payment.to(value)
           break
         case 'amount':
           const coinCode = prop('coinCode', payload)

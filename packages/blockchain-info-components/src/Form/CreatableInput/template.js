@@ -63,6 +63,10 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       }
     }
 
+    .bc__clear-indicator {
+      display: none;
+    }
+
     input {
       border: none !important;
     }
@@ -137,8 +141,8 @@ const getComponents = isMulti =>
 
 const CreatableInput = props => {
   const {
-    value,
     autoFocus,
+    errorState,
     inputValue,
     isMulti,
     menuIsOpen,
@@ -151,10 +155,11 @@ const CreatableInput = props => {
     handleInputChange,
     multiValueContainer,
     isValidNewOption,
-    noOptionsMessage
+    noOptionsMessage,
+    value
   } = props
 
-  const borderColor = selectBorderColor()
+  const borderColor = selectBorderColor(errorState)
 
   return (
     <StyledCreatableSelect

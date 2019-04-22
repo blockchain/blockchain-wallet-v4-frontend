@@ -41,7 +41,7 @@ class CreatableInputContainer extends React.PureComponent {
   handleChange = value => {
     this.setState({ value })
     if (this.props.onChange) {
-      this.props.onChange({ value })
+      !value ? this.props.onChange(value) : this.props.onChange({ value })
     }
   }
 
@@ -91,6 +91,7 @@ class CreatableInputContainer extends React.PureComponent {
       <CreatableInput
         autoFocus={this.props.autoFocus}
         components={components}
+        errorState={this.props.errorState}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleKeyDown={this.handleKeyDown}

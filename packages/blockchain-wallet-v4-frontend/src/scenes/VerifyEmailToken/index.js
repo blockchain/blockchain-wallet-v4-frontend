@@ -1,19 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
-
-const Wrapper = styled.div`
-  width: 340px;
-  padding: 35px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
-`
+import { Wrapper } from 'components/Public'
 
 class VerifyEmailToken extends React.PureComponent {
   state = {

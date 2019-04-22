@@ -59,6 +59,10 @@ const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
 `
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
+
 const FirstStep = props => {
   const {
     coin,
@@ -91,8 +95,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendether.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendether.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -105,8 +109,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendEther.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendEther.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -143,8 +147,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendeth.firststep.to'
-              defaultMessage='To:'
+              id='modals.sendeth.firststep.tocoin'
+              defaultMessage='To'
             />
           </FormLabel>
           <Row>
@@ -187,8 +191,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendeth.firststep.amount'
-              defaultMessage='Enter amount:'
+              id='modals.sendeth.firststep.sendamount'
+              defaultMessage='Amount'
             />
           </FormLabel>
           <Field
@@ -216,8 +220,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='description'>
             <FormattedMessage
-              id='modals.sendeth.firststep.description'
-              defaultMessage='Description: '
+              id='modals.sendeth.firststep.desc'
+              defaultMessage='Description'
             />
             <TooltipHost id='sendeth.firststep.sharetooltip'>
               <TooltipIcon name='question-in-circle' />
@@ -237,8 +241,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendeth.firststep.fee'
-                defaultMessage='Transaction Fee:'
+                id='modals.sendeth.firststep.networkfee'
+                defaultMessage='Network Fee'
               />
               <span>&nbsp;</span>
               {!feeToggled && (
@@ -274,11 +278,11 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='14px' coin='ETH'>
+          <ComboDisplay size='13px' coin='ETH'>
             {fee}
           </ComboDisplay>
           <Link
-            size='13px'
+            size='12px'
             weight={300}
             capitalize
             onClick={handleFeeToggle}
@@ -291,8 +295,8 @@ const FirstStep = props => {
               />
             ) : (
               <FormattedMessage
-                id='modals.sendeth.firststep.edit'
-                defaultMessage='Customize fee'
+                id='modals.sendeth.firststep.customizefee'
+                defaultMessage='Customize Fee'
               />
             )}
           </Link>
@@ -309,10 +313,12 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {!isFeeSufficientForErc20Tx && <LowEthWarningForErc20 />}
-      <FormGroup>
+      <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
+          height='56px'
+          size='18px'
           disabled={
             pristine ||
             submitting ||
@@ -328,7 +334,7 @@ const FirstStep = props => {
             defaultMessage='Continue'
           />
         </Button>
-      </FormGroup>
+      </SubmitFormGroup>
     </Form>
   )
 }

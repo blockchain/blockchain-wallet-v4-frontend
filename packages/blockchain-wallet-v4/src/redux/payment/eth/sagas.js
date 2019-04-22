@@ -228,7 +228,6 @@ export default ({ api }) => {
         const balance = balancePath(data)
         // balance + fee need to be in wei
         let effectiveBalance = calculateEffectiveBalance(balance, fee)
-        console.log(effectiveBalance)
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 
