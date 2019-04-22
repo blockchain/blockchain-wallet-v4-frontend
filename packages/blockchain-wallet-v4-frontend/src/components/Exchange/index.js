@@ -72,5 +72,5 @@ export const SubExchangeAmount = styled(ExchangeAmount)`
   text-align: right;
   font-weight: 300;
   font-size: 13px;
-  color: ${props => props.theme['gray-4']};
+  color: ${props => props.theme[props.color || 'gray-4']};
 `
