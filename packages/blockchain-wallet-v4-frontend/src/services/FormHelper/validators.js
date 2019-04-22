@@ -19,7 +19,7 @@ import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { all, any, concat, equals, path, takeWhile, prop } from 'ramda'
+import { all, any, concat, equals, path, takeWhile, prop, propOr } from 'ramda'
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -90,8 +90,15 @@ export const validPasswordStretchingNumber = value =>
     <M.InvalidPasswordStretchingNumberMessage />
   )
 
-export const validEtherAddress = value =>
-  utils.eth.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
+export const validEthAddress = ({ value: dropdownValue }) => {
+  if (!dropdownValue) return
+  const { value } = dropdownValue
+  return utils.eth.isValidAddress(propOr(value, ['address'], value)) ? (
+    undefined
+  ) : (
+    <M.InvalidEtherAddressMessage />
+  )
+}
 
 export const validXlmAddress = value =>
   utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />

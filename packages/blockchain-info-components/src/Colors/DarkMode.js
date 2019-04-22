@@ -45,12 +45,14 @@ export default {
   blackAlpha75: 'rgba(28,28,28,28.75)',
   blackAlpha05: 'rgba(28,28,28,28.05)',
   // Colors
-  red: '#FF0000',
+  red: '#651D1E',
+  orange: '#F28B24',
   // Service Announcements
   info: '#2C5687',
   // Coins
   btc: '#FF9B22',
   bch: '#3EDC89',
   eth: '#473BCB',
+  pax: '#0C6CF2',
   xlm: '#08b5e5'
 }

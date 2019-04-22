@@ -15,7 +15,7 @@ class ListItemContainer extends React.PureComponent {
 
   handleEditDescription = value => {
     const { coin, erc20List, transaction } = this.props
-    // TODO: remove switch and make generic
+    // TODO: ERC20 make more generic
     switch (true) {
       case coin === 'ETH': {
         this.props.ethActions.setTxNotesEth(transaction.hash, value)

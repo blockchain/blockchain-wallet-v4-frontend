@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, TextInput, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { Text, TextInput } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,18 +35,12 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   position: absolute;
-  color: ${props => props.theme['gray-4']};
+  color: ${props => props.theme['text-black']};
 `
-const ArrowLeft = styled(Icon)`
-  margin-left: 10px;
-  color: #bbb;
-`
-const ArrowRight = styled(Icon)`
-  margin-left: -10px;
-  margin-right: 10px;
-  color: #bbb;
+const Equals = styled(Text)`
+  margin: 0 8px;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -81,6 +76,21 @@ const Converter = props => {
       <FiatConverterInput>
         <Container>
           <TextInput
+            value={fiat}
+            disabled={disabled}
+            placeholder={Exchange.getSymbol(currency) + '0.00'}
+            onBlur={handleBlur}
+            onChange={handleFiatChange}
+            onFocus={handleFocus}
+            errorState={errorState}
+            data-e2e={`${props['data-e2e']}FiatAmount`}
+            noLastPass
+          />
+          <Unit>{currency}</Unit>
+        </Container>
+        <Equals color='textBlack'>=</Equals>
+        <Container>
+          <TextInput
             value={coin}
             disabled={disabled}
             placeholder='0'
@@ -89,23 +99,9 @@ const Converter = props => {
             onFocus={handleFocus}
             errorState={errorState}
             data-e2e={`${props['data-e2e']}CryptoAmount`}
+            noLastPass
           />
           <Unit>{unit}</Unit>
-        </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
-        <Container>
-          <TextInput
-            value={fiat}
-            disabled={disabled}
-            placeholder='0'
-            onBlur={handleBlur}
-            onChange={handleFiatChange}
-            onFocus={handleFocus}
-            errorState={errorState}
-            data-e2e={`${props['data-e2e']}FiatAmount`}
-          />
-          <Unit>{currency}</Unit>
         </Container>
       </FiatConverterInput>
       {meta.touched && meta.error && (

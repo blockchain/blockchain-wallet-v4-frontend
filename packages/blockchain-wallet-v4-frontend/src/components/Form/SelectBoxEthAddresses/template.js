@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
+import { CreatableInputField, SelectBox } from 'components/Form'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -11,17 +11,18 @@ const ItemWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
   overflow-x: scroll;
-  & > * {
-    margin-left: 5px;
-  }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;
     height: 0 !important;
+  }
+  > div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `
 
@@ -33,6 +34,11 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-export default props => (
-  <SelectBox {...props} templateItem={renderItem} grouped />
-)
+export default props => {
+  const { input, meta, ...rest } = props
+  return rest.isCreatable ? (
+    <CreatableInputField {...props} templateItem={renderItem} grouped />
+  ) : (
+    <SelectBox {...props} templateItem={renderItem} grouped />
+  )
+}

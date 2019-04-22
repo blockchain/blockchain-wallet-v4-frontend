@@ -47,7 +47,7 @@ class CoinWelcomeContainer extends React.PureComponent {
         currentCoin={currentCoin}
         partner={partner}
         handleRequest={() =>
-          modalActions.showModal(supportedCoins[coin].request)
+          modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
         }
       />
     )
