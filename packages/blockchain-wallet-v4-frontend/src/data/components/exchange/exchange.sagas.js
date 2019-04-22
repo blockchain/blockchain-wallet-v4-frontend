@@ -301,25 +301,32 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const getProvisionalPayment = function * (memo = true) {
+  const getProvisionalPayment = function * (memo = true, isSourceErc20) {
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const amounts = yield call(getAmounts, getCurrentPair(form))
     const sourceAmount = prop('sourceAmount', amounts)
-    return yield call(
-      memo ? calculatePaymentMemo : calculateProvisionalPayment,
-      source,
-      sourceAmount
-    )
+    return memo
+      ? yield call(calculatePaymentMemo, source, sourceAmount, isSourceErc20)
+      : yield call(
+          calculateProvisionalPayment,
+          source,
+          sourceAmount,
+          isSourceErc20
+        )
   }
 
-  // TODO: ERC20
   const updateSourceFee = function * (payment) {
     try {
       const form = yield select(formValueSelector)
-      const provisionalPayment = yield payment || call(getProvisionalPayment)
-      const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
+      const isSourceErc20 = includes(sourceCoin, erc20List)
+      const provisionalPayment = yield payment ||
+        call(getProvisionalPayment, true, isSourceErc20)
+      const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
         sourceCoin,
         selectFee(sourceCoin, provisionalPayment)
@@ -330,7 +337,8 @@ export default ({ api, coreSagas, networks }) => {
           source: fee,
           mempoolFees: provisionalPayment.fees,
           target: convertSourceToTarget(form, rates, fee),
-          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
+          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee),
+          isSourceErc20
         })
       )
     } catch (e) {

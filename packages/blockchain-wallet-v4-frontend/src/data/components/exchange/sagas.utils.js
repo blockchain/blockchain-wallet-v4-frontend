@@ -14,18 +14,28 @@ const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
 const PROVISIONAL_BSV_SCRIPT = '0000000000000000000000000'
 export default ({ coreSagas, networks }) => {
   const logLocation = 'components/exchange/sagas.utils'
-
+  const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
+  const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
+  const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
+  const ethOptions = [networks.eth, null]
+  const xlmOptions = [null, null]
   let prevPaymentSource
   let prevPaymentAmount
   let prevPayment
   let paymentTask
-  const calculatePaymentMemo = function * (source, amount) {
+
+  const calculatePaymentMemo = function * (source, amount, isSourceErc20) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
     ) {
       if (paymentTask) cancel(paymentTask)
-      paymentTask = yield fork(calculateProvisionalPayment, source, amount)
+      paymentTask = yield fork(
+        calculateProvisionalPayment,
+        source,
+        amount,
+        isSourceErc20
+      )
       prevPayment = yield join(paymentTask)
       prevPaymentSource = source
       prevPaymentAmount = amount
@@ -33,12 +43,8 @@ export default ({ coreSagas, networks }) => {
     }
     return prevPayment
   }
-  const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
-  const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
-  const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
-  const ethOptions = [networks.eth, null]
-  const xlmOptions = [null, null]
-  const calculateProvisionalPayment = function * (source, amount) {
+
+  const calculateProvisionalPayment = function * (source, amount, isSourceErc20) {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
@@ -54,11 +60,12 @@ export default ({ coreSagas, networks }) => {
       const payment = yield coreSagas.payment[toLower(coin)]
         .create({ network })
         .chain()
-        .init({ isErc20: coin === 'PAX', coin })
+        .init({ isErc20: isSourceErc20, coin })
         .fee('priority')
         .from(addressOrIndex, addressType)
         .done()
-      if (includes(coin, ['ETH', 'XLM'])) return payment.value()
+      if (isSourceErc20 || includes(coin, ['ETH', 'XLM']))
+        return payment.value()
 
       return (yield payment
         .chain()

@@ -1,4 +1,4 @@
-import { concat, head, path, prop } from 'ramda'
+import { concat, head, keys, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
 import { createDeepEqualSelector } from '../../../utils'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
@@ -22,7 +22,8 @@ export const getLatestBlock = path([dataPath, 'eth', 'latest_block'])
 export const getFeeRegular = state => getFee(state).map(prop('regular'))
 export const getFeePriority = state => getFee(state).map(prop('priority'))
 export const getGasLimit = state => getFee(state).map(prop('gasLimit'))
-export const getDefaultAddress = state => getAddresses(state).map(head)
+export const getDefaultAddress = state =>
+  getAddresses(state).map(addr => head(keys(addr)))
 export const getAddress = (state, address) =>
   getAddresses(state).map(prop(address))
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
