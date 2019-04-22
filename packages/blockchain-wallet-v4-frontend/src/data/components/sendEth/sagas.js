@@ -52,10 +52,11 @@ export default ({ coreSagas, networks }) => {
           selectors.core.common.eth.getErc20AccountBalances,
           coin
         )
+        const defaultErc20AccountR = erc20AccountR.map(head)
         initialValues = {
           coin,
           fee: defaultFee,
-          from: erc20AccountR.getOrElse({})
+          from: defaultErc20AccountR.getOrElse({})
         }
       } else {
         const ethAccountR = yield select(

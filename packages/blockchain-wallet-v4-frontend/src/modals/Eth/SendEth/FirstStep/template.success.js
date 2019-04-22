@@ -154,7 +154,8 @@ const FirstStep = props => {
           <Row>
             <Field
               name='to'
-              placeholder='Paste or scan an address, or select a destination'
+              coin={coin}
+              placeholder='Paste, scan, or select destination'
               validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
               exclude={[from.label]}

@@ -62,20 +62,15 @@ export const getErc20Data = (state, ownProps) => {
     return {}
   }
   const excluded = filter(x => !exclude.includes(x.label))
-  const buildDisplay = (label, balance) => {
+  const buildDisplay = wallet => {
     let erc20BalanceDisplay = displayErc20Fixed({
-      value: balance,
+      value: wallet.balance,
       fromUnit: 'WEI',
       toUnit: coin
     })
-    return label + ` (${erc20BalanceDisplay})`
+    return wallet.label + ` (${erc20BalanceDisplay})`
   }
-  const toDropdown = c => [
-    {
-      label: buildDisplay(c.label, c.balance),
-      value: c
-    }
-  ]
+  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
 
   const getAddressesData = () => {
