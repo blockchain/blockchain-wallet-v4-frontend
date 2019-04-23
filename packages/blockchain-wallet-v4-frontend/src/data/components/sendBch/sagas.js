@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, path, prop, nth, is, identity, includes } from 'ramda'
+import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -131,16 +131,17 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'to':
-          const toType = prop('type', payload)
+          const value = pathOr({}, ['value', 'value'], payload)
+          const toType = prop('type', value)
           switch (toType) {
             case ADDRESS_TYPES.ACCOUNT:
-              payment = yield payment.to(payload.index, toType)
+              payment = yield payment.to(value.index, toType)
               break
             case ADDRESS_TYPES.LOCKBOX:
-              payment = yield payment.to(payload.xpub, toType)
+              payment = yield payment.to(value.xpub, toType)
               break
             default:
-              const address = prop('address', payload) || payload
+              const address = prop('address', value) || value
               payment = yield payment.to(address, toType)
           }
           break
@@ -163,14 +164,6 @@ export default ({ coreSagas, networks }) => {
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
-    }
-  }
-
-  const toToggled = function * () {
-    try {
-      yield put(change(FORM, 'to', ''))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
   }
 
@@ -313,7 +306,6 @@ export default ({ coreSagas, networks }) => {
   return {
     initialized,
     destroyed,
-    toToggled,
     maximumAmountClicked,
     firstStepSubmitClicked,
     secondStepSubmitClicked,

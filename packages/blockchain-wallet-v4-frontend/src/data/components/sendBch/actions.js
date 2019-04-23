@@ -16,10 +16,6 @@ export const sendBchPaymentUpdatedFailure = e => ({
   type: AT.SEND_BCH_PAYMENT_UPDATED_FAILURE,
   payload: e
 })
-export const sendBchFirstStepToToggled = val => ({
-  type: AT.SEND_BCH_FIRST_STEP_TO_TOGGLED,
-  payload: val
-})
 export const sendBchFirstStepMaximumAmountClicked = () => ({
   type: AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED
 })

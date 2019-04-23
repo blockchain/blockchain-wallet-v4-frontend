@@ -81,19 +81,31 @@ class QRCodeCaptureContainer extends React.PureComponent {
     try {
       const { address, options } = bip21.decode(data, 'bitcoincash')
       const { amount, message } = options
-      this.props.formActions.change(BCH_FORM, 'to', address)
+      this.props.formActions.change(
+        BCH_FORM,
+        'to',
+        this.createNewValue(address)
+      )
       this.props.formActions.change(BCH_FORM, 'amount', amount)
       this.props.formActions.change(BCH_FORM, 'description', message)
       this.setState({ bchAddressToggled: false })
     } catch (e) {
       try {
         if (utils.bch.isCashAddr(data)) {
-          this.props.formActions.change(BCH_FORM, 'to', data)
+          this.props.formActions.change(
+            BCH_FORM,
+            'to',
+            this.createNewValue(data)
+          )
           return
         }
         // try legacy addr
         if (utils.btc.isValidBtcAddress(data, this.props.network)) {
-          this.props.formActions.change(BCH_FORM, 'to', data)
+          this.props.formActions.change(
+            BCH_FORM,
+            'to',
+            this.createNewValue(data)
+          )
           return
         }
         // throw error
