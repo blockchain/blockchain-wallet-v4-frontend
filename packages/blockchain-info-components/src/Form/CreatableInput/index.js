@@ -71,6 +71,7 @@ class CreatableInputContainer extends React.PureComponent {
   }
 
   handleBlur = event => {
+    this.props.onBlur()
     const { inputValue, value } = this.state
     if (!inputValue) return
     switch (event.type) {

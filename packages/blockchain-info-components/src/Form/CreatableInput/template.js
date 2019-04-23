@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { flatten, length, prop } from 'ramda'
 import { components } from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
 
@@ -63,7 +64,15 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       }
     }
 
+    .bc__value-container {
+      cursor: text;
+    }
+
     .bc__clear-indicator {
+      display: none;
+    }
+
+    .bc__indicator-separator {
       display: none;
     }
 
@@ -104,6 +113,14 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 
     .bc__single-value {
       color: ${props.theme['gray-5']};
+    }
+  `}
+
+  ${props =>
+    props.isOptionsEmpty &&
+    `
+    .bc__dropdown-indicator {
+      display: none;
     }
   `}
 `
@@ -160,6 +177,8 @@ const CreatableInput = props => {
   } = props
 
   const borderColor = selectBorderColor(errorState)
+  const flatOptions = flatten(options.map(prop('options')))
+  const isOptionsEmpty = !length(flatOptions)
 
   return (
     <StyledCreatableSelect
@@ -177,6 +196,8 @@ const CreatableInput = props => {
       openMenuOnClick={openMenuOnClick}
       placeholder={placeholder}
       inputValue={inputValue}
+      indicatorSeparator={null}
+      isOptionsEmpty={isOptionsEmpty}
       components={getComponents(isMulti)}
       value={value}
       // Components

@@ -7,7 +7,6 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
-    selectors.components.sendEth.getToToggled,
     selectors.components.sendEth.getFeeToggled,
     (state, coin) => {
       const erc20List = selectors.core.walletOptions
@@ -26,7 +25,6 @@ export const getData = createDeepEqualSelector(
   ],
   (
     paymentR,
-    toToggled,
     feeToggled,
     balanceR,
     ethBalanceR,
@@ -85,7 +83,6 @@ export const getData = createDeepEqualSelector(
         isContract,
         isFeeSufficientForTx,
         fee,
-        toToggled,
         feeToggled,
         enableToggle,
         destination,
