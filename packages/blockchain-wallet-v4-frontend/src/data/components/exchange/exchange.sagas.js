@@ -354,7 +354,7 @@ export default ({ api, coreSagas, networks }) => {
           toUnit: 'ETH'
         }).value
         if (fee >= ethBalance) {
-          sourceFees.insufficentEthBalance = true
+          sourceFees.insufficientEthBalance = true
           yield put(A.setTxError(INSUFFICIENT_ETH_FOR_TX_FEE))
         }
       }
