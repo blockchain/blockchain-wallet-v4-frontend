@@ -510,8 +510,8 @@
         "id": "components.alerts.bch_address_incorrect"
       },
       {
-        "defaultMessage": "Invalid Ether Address.",
-        "id": "components.alerts.eth_address_incorrect"
+        "defaultMessage": "Invalid Ethereum Address.",
+        "id": "components.alerts.ethereum_address_incorrect"
       },
       {
         "defaultMessage": "Invalid Stellar Address.",
@@ -1026,6 +1026,15 @@
       }
     ],
     "path": "src/components/DataError/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Failed to fetch rates",
+        "id": "components.fiatdisplay.error"
+      }
+    ],
+    "path": "src/components/Display/FiatDisplay/template.error.json"
   },
   {
     "descriptors": [
@@ -3909,6 +3918,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Not Enough Eth",
+        "id": "modals.sendeth.lowethwarningforerc20.title"
+      },
+      {
+        "defaultMessage": "You'll need ETH to send your ERC20 Token, USD Pax.",
+        "id": "modals.sendeth.lowethwarningforerc20.explain"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "modals.sendeth.lowethwarningforerc20.learn"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/LowEthWarningForErc20/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "maximum",
         "id": "modals.sendeth.maximumamountlink.maximum"
       }
@@ -3967,12 +3993,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Currency:",
-        "id": "modals.sendether.firststep.coin"
+        "defaultMessage": "Currency",
+        "id": "modals.sendether.firststep.currency"
       },
       {
-        "defaultMessage": "From:",
-        "id": "modals.sendEther.firststep.from"
+        "defaultMessage": "From",
+        "id": "modals.sendEther.firststep.fromwallet"
       },
       {
         "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
@@ -3983,8 +4009,8 @@
         "id": "modals.sendeth.firststep.warnbrowswer"
       },
       {
-        "defaultMessage": "To:",
-        "id": "modals.sendeth.firststep.to"
+        "defaultMessage": "To",
+        "id": "modals.sendeth.firststep.tocoin"
       },
       {
         "defaultMessage": "Please wait until your previous transaction confirms.",
@@ -3995,24 +4021,24 @@
         "id": "modals.sendeth.contractaddr"
       },
       {
-        "defaultMessage": "Enter amount:",
-        "id": "modals.sendeth.firststep.amount"
+        "defaultMessage": "Amount",
+        "id": "modals.sendeth.firststep.sendamount"
       },
       {
-        "defaultMessage": "Description:",
-        "id": "modals.sendeth.firststep.description"
+        "defaultMessage": "Description",
+        "id": "modals.sendeth.firststep.desc"
       },
       {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendeth.firststep.fee"
+        "defaultMessage": "Network Fee",
+        "id": "modals.sendeth.firststep.networkfee"
       },
       {
         "defaultMessage": "Cancel",
         "id": "modals.sendeth.firststep.cancel"
       },
       {
-        "defaultMessage": "Customize fee",
-        "id": "modals.sendeth.firststep.edit"
+        "defaultMessage": "Customize Fee",
+        "id": "modals.sendeth.firststep.customizefee"
       },
       {
         "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
@@ -8016,6 +8042,10 @@
       {
         "defaultMessage": "This amount will leave your Wallet with an insufficient balance.",
         "id": "scenes.exchange.exchangeform.error.reserveoverflow"
+      },
+      {
+        "defaultMessage": "Insufficient ETH balance to send ERC-20 token.",
+        "id": "scenes.exchange.exchangeform.error.insufficientethfortxfee"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/Error/validationMessages.json"
@@ -11386,8 +11416,8 @@
         "id": "formhelper.invalidemail"
       },
       {
-        "defaultMessage": "Invalid Ether address",
-        "id": "formhelper.invalidetheraddress"
+        "defaultMessage": "Invalid Ethereum address",
+        "id": "formhelper.invalid_ethereum_address"
       },
       {
         "defaultMessage": "Invalid Stellar address",
