@@ -21,7 +21,6 @@ class FirstStep extends React.PureComponent {
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
           onSubmit={actions.sendEthFirstStepSubmitClicked}
-          toToggled={value.toToggled}
           feeToggled={value.feeToggled}
           destination={value.destination}
           enableToggle={value.enableToggle}

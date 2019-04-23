@@ -64,6 +64,10 @@ const StyledSelect = styled(Select)`
     }
   }
 
+  .bc__indicator-separator {
+    display: none;
+  }
+
   .bc__option {
     cursor: pointer;
     color: ${props => props.theme['gray-5']};

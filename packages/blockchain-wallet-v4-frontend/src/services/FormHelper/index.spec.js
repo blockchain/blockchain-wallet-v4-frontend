@@ -141,7 +141,7 @@ describe('FormHelper', () => {
     it('returns correct string if invalid ether addr passed', () => {
       expect(
         FormHelper.validEthAddress({ value: { value: 'notanaddress' } })
-      ).toEqual(<M.InvalidEtherAddressMessage />)
+      ).toEqual(<M.InvalidEthAddressMessage />)
     })
 
     it('returns undefined if valid ether addr is given', () => {

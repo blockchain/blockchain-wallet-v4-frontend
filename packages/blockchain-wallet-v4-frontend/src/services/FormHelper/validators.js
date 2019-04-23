@@ -12,6 +12,7 @@ import {
   isSSN
 } from 'services/ValidationHelper'
 
+import isObject from 'isobject'
 import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
 import { validate } from 'postal-codes-js'
@@ -96,7 +97,7 @@ export const validEthAddress = ({ value: dropdownValue }) => {
   return utils.eth.isValidAddress(propOr(value, ['address'], value)) ? (
     undefined
   ) : (
-    <M.InvalidEtherAddressMessage />
+    <M.InvalidEthAddressMessage />
   )
 }
 
@@ -104,6 +105,12 @@ export const validXlmAddress = value =>
   utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
 
 export const validBtcAddress = (value, allValues, props) => {
+  if (isObject(value)) {
+    const { value: dropdownValue } = value
+    const { value: option } = dropdownValue
+    if (prop('xpub', option)) return
+    if (prop('address', option)) return
+  }
   return utils.btc.isValidBtcAddress(value, props.network) ? (
     undefined
   ) : (

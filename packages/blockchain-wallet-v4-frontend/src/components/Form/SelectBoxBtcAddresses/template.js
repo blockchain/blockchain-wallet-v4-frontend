@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { path } from 'ramda'
 
 import { Banner, Text } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
+import { CreatableInputField, SelectBox } from 'components/Form'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -49,6 +49,11 @@ const renderItem = item => {
   )
 }
 
-export default props => (
-  <SelectBox {...props} templateItem={renderItem} grouped />
-)
+export default props => {
+  const { input, meta, ...rest } = props
+  return rest.isCreatable ? (
+    <CreatableInputField {...props} templateItem={renderItem} grouped />
+  ) : (
+    <SelectBox {...props} templateItem={renderItem} grouped />
+  )
+}

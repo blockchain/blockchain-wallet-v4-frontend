@@ -14,7 +14,6 @@ import {
 import {
   Banner,
   Button,
-  Icon,
   Link,
   Text,
   TooltipHost,
@@ -50,7 +49,6 @@ import {
   ColLeft,
   ColRight,
   CustomFeeAlertBanner,
-  AddressButton,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
@@ -61,12 +59,15 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
 `
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
+
 const FirstStep = props => {
   const {
     invalid,
@@ -80,9 +81,6 @@ const FirstStep = props => {
   const {
     from,
     watchOnly,
-    destination,
-    toToggled,
-    enableToggle,
     feePerByte,
     feePerByteToggled,
     feePerByteElements,
@@ -102,8 +100,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendbtc.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -116,8 +114,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendbtc.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -175,55 +173,26 @@ const FirstStep = props => {
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.sendbtc.firststep.to'
-              defaultMessage='To:'
+              defaultMessage='To'
             />
           </FormLabel>
           <Row>
-            {toToggled && (
-              <Field
-                name='to'
-                component={SelectBoxBtcAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
-              />
-            )}
-            {!toToggled && (
-              <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                normalize={removeWhitespace}
-                validate={[required, validBtcAddress]}
-                data-e2e='sendBtcAddressTextBox'
-              />
-            )}
+            <Field
+              name='to'
+              placeholder='Paste, scan, or select destination'
+              component={SelectBoxBtcAddresses}
+              validate={[required, validBtcAddress]}
+              exclude={[from.label]}
+              openMenuOnClick={false}
+              includeAll={false}
+              isCreatable
+              noOptionsMessage={() => null}
+              isValidNewOption={() => false}
+            />
             <QRCodeCapture
               scanType='btcAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-              }
+              border={['top', 'bottom', 'right', 'left']}
             />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton
-                  onClick={() => handleToToggle()}
-                  data-e2e='downArrowButton'
-                >
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton
-                  onClick={() => handleToToggle()}
-                  data-e2e='pencilArrowButton'
-                >
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
@@ -231,8 +200,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.amount'
-              defaultMessage='Enter Amount:'
+              id='modals.sendbtc.firststep.sendamount'
+              defaultMessage='Amount'
             />
           </FormLabel>
           <Field
@@ -254,8 +223,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendbtc.firststep.description'
-              defaultMessage='Description: '
+              id='modals.sendbtc.firststep.desc'
+              defaultMessage='Description'
             />
             <TooltipHost id='sendbtc.firststep.sharetooltip'>
               <TooltipIcon name='question-in-circle' />
@@ -275,8 +244,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendbtc.firststep.txfee'
-                defaultMessage='Transaction Fee:'
+                id='modals.sendbtc.firststep.networkfee'
+                defaultMessage='Network Fee'
               />
               <span>&nbsp;</span>
               {!feePerByteToggled && (
@@ -311,11 +280,11 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='14px' coin='BTC'>
+          <ComboDisplay size='13px' coin='BTC'>
             {totalFee}
           </ComboDisplay>
           <Link
-            size='13px'
+            size='12px'
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
@@ -328,8 +297,8 @@ const FirstStep = props => {
               />
             ) : (
               <FormattedMessage
-                id='modals.sendbtc.firststep.edit'
-                defaultMessage='Customize fee'
+                id='modals.sendbtc.firststep.customizefee'
+                defaultMessage='Customize Fee'
               />
             )}
           </Link>
@@ -362,7 +331,7 @@ const FirstStep = props => {
           </Text>
         )}
       </FormGroup>
-      <FormGroup>
+      <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
@@ -374,7 +343,7 @@ const FirstStep = props => {
             defaultMessage='Continue'
           />
         </Button>
-      </FormGroup>
+      </SubmitFormGroup>
     </Form>
   )
 }
@@ -382,7 +351,6 @@ const FirstStep = props => {
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  toToggled: PropTypes.bool.isRequired,
   feePerByteToggled: PropTypes.bool.isRequired,
   feePerByteElements: PropTypes.array.isRequired,
   regularFeePerByte: PropTypes.number.isRequired,

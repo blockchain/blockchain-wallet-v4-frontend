@@ -383,14 +383,6 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const toToggled = function * () {
-    try {
-      yield put(change(FORM, 'to', ''))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
-    }
-  }
-
   const maximumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
@@ -414,7 +406,6 @@ export default ({ coreSagas, networks }) => {
     secondStepSubmitClicked,
     formChanged,
     regularFeeClicked,
-    priorityFeeClicked,
-    toToggled
+    priorityFeeClicked
   }
 }
