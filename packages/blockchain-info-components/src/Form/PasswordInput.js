@@ -13,7 +13,7 @@ const BasePasswordInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   background-image: none;
@@ -21,6 +21,7 @@ const BasePasswordInput = styled.input.attrs({
   user-select: text;
   font-family: 'Montserrat', Helvetica, sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
+  border-radius: 4px;
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};
   }

@@ -945,8 +945,8 @@ export const getAlertContent = (message, data = undefined) => {
     case C.ETH_ADDRESS_INVALID:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.eth_address_incorrect'
-          defaultMessage='Invalid Ether Address.'
+          id='components.alerts.ethereum_address_incorrect'
+          defaultMessage='Invalid Ethereum Address.'
         />
       )
     case C.XLM_ADDRESS_INVALID:

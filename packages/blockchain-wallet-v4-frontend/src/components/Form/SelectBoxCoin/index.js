@@ -17,10 +17,6 @@ const HeaderWrapper = styled.div`
   height: 100%;
   box-sizing: border-box;
   text-overflow: ellipsis;
-
-  & > * {
-    margin-left: 5px;
-  }
   & > :first-child {
     margin-right: 5px;
   }
@@ -33,11 +29,11 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <Icon
-          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
-          size='22px'
-          weight={300}
+          name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
+          color='textBlack'
+          size='20px'
         />
-        <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
+        <Text size='14px' cursor='pointer' data-e2e=''>
           {text}
         </Text>
       </HeaderWrapper>
@@ -52,11 +48,11 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <Icon
-          name={pathOr('', [value, 'icons', 'circle'], supportedCoins)}
-          size='22px'
-          weight={300}
+          name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
+          color='textBlack'
+          size='20px'
         />
-        <Text size='14px' weight={300} cursor='pointer' data-e2e={e2eTag}>
+        <Text size='14px' cursor='pointer' data-e2e={e2eTag}>
           {children}
         </Text>
       </HeaderWrapper>

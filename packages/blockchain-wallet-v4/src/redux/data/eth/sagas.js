@@ -140,7 +140,7 @@ export default ({ api }) => {
   }
 
   const checkForLowEthBalance = function * () {
-    // TODO: check for any erc20 balance in future
+    // TODO: ERC20 check for any erc20 balance in future
     const erc20Balance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
     const ethRates = (yield select(S.getRates)).getOrFail()

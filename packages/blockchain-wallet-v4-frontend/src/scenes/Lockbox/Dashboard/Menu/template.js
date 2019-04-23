@@ -36,7 +36,7 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 500px;
+  width: 100%;
   > div:last-child {
     width: 100%;
   }
@@ -118,7 +118,9 @@ const Menu = props => {
               </Text>
               <Field
                 name='search'
+                isMulti
                 autoFocus
+                menuIsOpen={false}
                 defaultValue={formValues}
                 component={CreatableInputField}
                 multiValueContainer={multiValueContainer}

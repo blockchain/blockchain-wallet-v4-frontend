@@ -4,6 +4,7 @@ import {
   identity,
   includes,
   path,
+  pathOr,
   prop,
   propOr,
   head,
@@ -51,10 +52,11 @@ export default ({ coreSagas, networks }) => {
           selectors.core.common.eth.getErc20AccountBalances,
           coin
         )
+        const defaultErc20AccountR = erc20AccountR.map(head)
         initialValues = {
           coin,
           fee: defaultFee,
-          from: erc20AccountR.getOrElse({})
+          from: defaultErc20AccountR.getOrElse({})
         }
       } else {
         const ethAccountR = yield select(
@@ -131,7 +133,8 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.from(source, fromType)
           break
         case 'to':
-          payment = yield payment.to(payload)
+          const value = pathOr({}, ['value', 'value'], payload)
+          payment = yield payment.to(value)
           break
         case 'amount':
           const coinCode = prop('coinCode', payload)

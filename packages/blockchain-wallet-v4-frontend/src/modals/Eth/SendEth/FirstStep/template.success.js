@@ -7,12 +7,11 @@ import styled from 'styled-components'
 
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEtherAddress } from 'services/FormHelper'
+import { required, validEthAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Text,
-  Icon,
   TooltipHost,
   TooltipIcon,
   Link
@@ -27,7 +26,6 @@ import {
   SelectBox,
   SelectBoxCoin,
   SelectBoxEthAddresses,
-  TextBox,
   TextAreaDebounced
 } from 'components/Form'
 import {
@@ -49,7 +47,6 @@ import {
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
-  AddressButton,
   FeeOptionsContainer,
   FeePerByteContainer
 } from 'components/Send'
@@ -57,12 +54,15 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
 `
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
+
 const FirstStep = props => {
   const {
     coin,
@@ -72,12 +72,8 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
-    destination,
     isContract,
-    toToggled,
     feeToggled,
-    enableToggle,
-    handleToToggle,
     from,
     feeElements,
     regularFee,
@@ -99,8 +95,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendether.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendether.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -113,8 +109,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendEther.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendEther.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -151,49 +147,28 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendeth.firststep.to'
-              defaultMessage='To:'
+              id='modals.sendeth.firststep.tocoin'
+              defaultMessage='To'
             />
           </FormLabel>
           <Row>
-            {toToggled && (
-              <Field
-                name='to'
-                component={SelectBoxEthAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
-              />
-            )}
-            {!toToggled && (
-              <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                normalize={removeWhitespace}
-                validate={[required, validEtherAddress]}
-              />
-            )}
+            <Field
+              name='to'
+              coin={coin}
+              placeholder='Paste, scan, or select destination'
+              validate={[required, validEthAddress]}
+              component={SelectBoxEthAddresses}
+              exclude={[from.label]}
+              openMenuOnClick={false}
+              includeAll={false}
+              isCreatable
+              noOptionsMessage={() => null}
+              isValidNewOption={() => false}
+            />
             <QRCodeCapture
               scanType='ethAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-              }
+              border={['top', 'bottom', 'right', 'left']}
             />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>
@@ -217,8 +192,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendeth.firststep.amount'
-              defaultMessage='Enter amount:'
+              id='modals.sendeth.firststep.sendamount'
+              defaultMessage='Amount'
             />
           </FormLabel>
           <Field
@@ -246,8 +221,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='description'>
             <FormattedMessage
-              id='modals.sendeth.firststep.description'
-              defaultMessage='Description: '
+              id='modals.sendeth.firststep.desc'
+              defaultMessage='Description'
             />
             <TooltipHost id='sendeth.firststep.sharetooltip'>
               <TooltipIcon name='question-in-circle' />
@@ -267,8 +242,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendeth.firststep.fee'
-                defaultMessage='Transaction Fee:'
+                id='modals.sendeth.firststep.networkfee'
+                defaultMessage='Network Fee'
               />
               <span>&nbsp;</span>
               {!feeToggled && (
@@ -304,11 +279,11 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='14px' coin='ETH'>
+          <ComboDisplay size='13px' coin='ETH'>
             {fee}
           </ComboDisplay>
           <Link
-            size='13px'
+            size='12px'
             weight={300}
             capitalize
             onClick={handleFeeToggle}
@@ -321,8 +296,8 @@ const FirstStep = props => {
               />
             ) : (
               <FormattedMessage
-                id='modals.sendeth.firststep.edit'
-                defaultMessage='Customize fee'
+                id='modals.sendeth.firststep.customizefee'
+                defaultMessage='Customize Fee'
               />
             )}
           </Link>
@@ -339,10 +314,12 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {!isFeeSufficientForErc20Tx && <LowEthWarningForErc20 />}
-      <FormGroup>
+      <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
+          height='56px'
+          size='18px'
           disabled={
             pristine ||
             submitting ||
@@ -358,7 +335,7 @@ const FirstStep = props => {
             defaultMessage='Continue'
           />
         </Button>
-      </FormGroup>
+      </SubmitFormGroup>
     </Form>
   )
 }

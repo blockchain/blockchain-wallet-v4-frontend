@@ -46,8 +46,8 @@ export const InvalidEmailMessage = () => (
 export const ValidEmailNotAllowed = () => 'valid_email_not_allowed'
 export const InvalidEtherAddressMessage = () => (
   <FormattedMessage
-    id='formhelper.invalidetheraddress'
-    defaultMessage='Invalid Ether address'
+    id='formhelper.invalid_ethereum_address'
+    defaultMessage='Invalid Ethereum address'
   />
 )
 export const InvalidXlmAddressMessage = () => (

@@ -3,17 +3,12 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
-  handleToToggle = val => {
-    this.props.formActions.touch(model.components.sendEth.FORM, 'to')
-    this.props.actions.sendEthFirstStepToToggled(val)
-  }
-
   render () {
     const { data, actions, coin } = this.props
     return data.cata({
@@ -28,7 +23,6 @@ class FirstStep extends React.PureComponent {
           onSubmit={actions.sendEthFirstStepSubmitClicked}
           toToggled={value.toToggled}
           feeToggled={value.feeToggled}
-          handleToToggle={this.handleToToggle}
           destination={value.destination}
           enableToggle={value.enableToggle}
           minFee={value.minFee}

@@ -55,13 +55,15 @@ export const getErc20WalletTransactions = (state, token) => {
 }
 
 export const getErc20AccountBalances = (state, token) => {
-  const digest = (ethAccount, erc20Balance, erc20Account) => ({
-    coin: toUpper(token),
-    label: erc20Account.label,
-    balance: erc20Balance,
-    address: head(keys(ethAccount)),
-    type: ADDRESS_TYPES.ACCOUNT
-  })
+  const digest = (ethAccount, erc20Balance, erc20Account) => [
+    {
+      coin: toUpper(token),
+      label: erc20Account.label,
+      balance: erc20Balance,
+      address: head(keys(ethAccount)),
+      type: ADDRESS_TYPES.ACCOUNT
+    }
+  ]
   return lift(digest)(
     getAddresses(state),
     getErc20Balance(state, toLower(token)),

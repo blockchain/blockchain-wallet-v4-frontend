@@ -9,7 +9,7 @@ export const getCoins = (state, { type }) => {
     .getOrFail()
   return values(
     map(
-      x => ({ text: x.displayName, value: x.coinCode }),
+      x => ({ text: x.coinCode, value: x.coinCode }),
       reject(c => c.coinCode === 'BSV', supportedCoins)
     )
   ).filter(({ value }) =>
