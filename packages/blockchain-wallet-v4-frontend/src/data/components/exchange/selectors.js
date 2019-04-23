@@ -202,6 +202,7 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
+// TODO: make generic, dont hardcore PAX
 export const erc20GetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getDefaultAddress,
