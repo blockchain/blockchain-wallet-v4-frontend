@@ -43,12 +43,13 @@ export class Summary extends React.PureComponent {
       currency,
       insufficientEthBalance,
       sourceAmount,
-      sourceCoin,
+      sourceCoinTicker,
       sourceFee,
       sourceFiat,
       sourceFeeFiat,
       targetAmount,
-      targetCoin
+      targetCoin,
+      targetCoinTicker
     } = this.props
 
     const fiatCurrencySymbol = Exchange.getSymbol(currency)
@@ -79,7 +80,7 @@ export class Summary extends React.PureComponent {
                 {sourceAmount.map(amount =>
                   coinToString({
                     value: amount,
-                    unit: { symbol: sourceCoin },
+                    unit: { symbol: sourceCoinTicker },
                     minDigits: 2
                   })
                 )}
@@ -114,7 +115,9 @@ export class Summary extends React.PureComponent {
             >
               {coinToString({
                 value: sourceFee.source,
-                unit: { symbol: sourceFee.isSourceErc20 ? 'ETH' : sourceCoin },
+                unit: {
+                  symbol: sourceFee.isSourceErc20 ? 'ETH' : sourceCoinTicker
+                },
                 minDigits: 2
               })}
             </SubExchangeAmount>
@@ -152,7 +155,7 @@ export class Summary extends React.PureComponent {
                     value: sourceFee.isSourceErc20
                       ? amount
                       : add(amount, sourceFee.source),
-                    unit: { symbol: sourceCoin },
+                    unit: { symbol: sourceCoinTicker },
                     minDigits: 2
                   })
                 )}
@@ -181,7 +184,7 @@ export class Summary extends React.PureComponent {
                 {targetAmount.map(amount =>
                   coinToString({
                     value: amount,
-                    unit: { symbol: targetCoin },
+                    unit: { symbol: targetCoinTicker },
                     minDigits: 2
                   })
                 )}
