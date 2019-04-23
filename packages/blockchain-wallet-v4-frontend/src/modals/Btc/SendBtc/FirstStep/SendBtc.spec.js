@@ -32,7 +32,6 @@ import { getRates as getBchRates } from 'blockchain-wallet-v4/src/redux/data/bch
 import { getRates as getXlmRates } from 'blockchain-wallet-v4/src/redux/data/xlm/selectors'
 import { getRates as getBsvRates } from 'blockchain-wallet-v4/src/redux/data/bsv/selectors'
 import {
-  getToToggled,
   getFeePerByteToggled,
   getPayment
 } from 'data/components/sendBtc/selectors'
@@ -154,7 +153,6 @@ const settingsMock = {
   currency: 'USD'
 }
 
-getToToggled.mockImplementation(() => false)
 getFeePerByteToggled.mockImplementation(() => false)
 getPayment.mockImplementation(() => Remote.of(paymentMock))
 getActiveHDAccounts.mockImplementation(() => Remote.of(btcAccountsMock))
