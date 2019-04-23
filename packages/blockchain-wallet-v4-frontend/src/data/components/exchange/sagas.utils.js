@@ -36,12 +36,7 @@ export default ({ coreSagas, networks }) => {
       )).getOrElse([])
       isSourceErc20 = includes(coin, erc20List)
       if (paymentTask) cancel(paymentTask)
-      paymentTask = yield fork(
-        calculateProvisionalPayment,
-        source,
-        amount,
-        isSourceErc20
-      )
+      paymentTask = yield fork(calculateProvisionalPayment, source, amount)
       prevPayment = yield join(paymentTask)
       prevPaymentSource = source
       prevPaymentAmount = amount
@@ -72,8 +67,9 @@ export default ({ coreSagas, networks }) => {
         .fee('priority')
         .from(addressOrIndex, addressType)
         .done()
-      if (isSourceErc20 || includes(coin, ['ETH', 'XLM']))
+      if (isSourceErc20 || includes(coin, ['ETH', 'XLM'])) {
         return payment.value()
+      }
 
       return (yield payment
         .chain()
