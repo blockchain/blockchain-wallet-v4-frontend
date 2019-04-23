@@ -157,7 +157,7 @@ export const convertSourceToTarget = (form, rates, amount) => {
   )(amount)
 }
 
-export const convertSourceToFiat = (
+export const convertSourceFeesToFiat = (
   form,
   fiatCurrency,
   rates,

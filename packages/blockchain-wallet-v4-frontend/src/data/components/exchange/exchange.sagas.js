@@ -56,7 +56,7 @@ import {
   addBalanceLimit,
   selectFee,
   convertStandardToBase,
-  convertSourceToFiat,
+  convertSourceFeesToFiat,
   convertSourceToTarget,
   convertBaseToStandard,
   formatLimits
@@ -334,7 +334,7 @@ export default ({ api, coreSagas, networks }) => {
         source: fee,
         mempoolFees: provisionalPayment.fees,
         target: convertSourceToTarget(form, rates, fee),
-        sourceFiat: convertSourceToFiat(
+        sourceFiat: convertSourceFeesToFiat(
           form,
           fiatCurrency,
           rates,
