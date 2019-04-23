@@ -118,13 +118,20 @@ export const validBtcAddress = (value, allValues, props) => {
   )
 }
 
-export const validBchAddress = (value, allValues, props) =>
-  utils.btc.isValidBtcAddress(value, props.network) ||
-  utils.bch.isCashAddr(value) ? (
+export const validBchAddress = (value, allValues, props) => {
+  if (isObject(value)) {
+    const { value: dropdownValue } = value
+    const { value: option } = dropdownValue
+    if (prop('xpub', option)) return
+    if (prop('address', option)) return
+  }
+  return utils.btc.isValidBtcAddress(value, props.network) ||
+    utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
     <M.InvalidBchAddressMessage />
   )
+}
 
 export const validEmailCode = value =>
   isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />

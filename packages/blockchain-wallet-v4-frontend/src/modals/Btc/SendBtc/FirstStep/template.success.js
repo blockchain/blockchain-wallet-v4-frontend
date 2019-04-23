@@ -172,7 +172,7 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.to'
+              id='modals.sendbtc.firststep.towallet'
               defaultMessage='To'
             />
           </FormLabel>
@@ -335,6 +335,8 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
+          height='56px'
+          size='18px'
           data-e2e='sendBtcContinue'
           disabled={submitting || invalid || pristine || disableLockboxSend}
         >
