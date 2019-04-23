@@ -127,17 +127,19 @@ const Buttons = styled.div`
 `
 
 const ExchangeConfirm = ({
-  error,
-  sourceAmount,
-  targetAmount,
-  sourceCoin,
-  targetCoin,
+  close,
   currency,
-  submitting,
+  error,
   handleSubmit,
   showOrderInfo,
-  toggleShowOrderInfo,
-  close
+  sourceAmount,
+  sourceCoin,
+  sourceCoinIcon,
+  submitting,
+  targetAmount,
+  targetCoin,
+  targetCoinIcon,
+  toggleShowOrderInfo
 }) => (
   <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
@@ -145,13 +147,13 @@ const ExchangeConfirm = ({
         <Icon
           size='42px'
           color={sourceCoin.toLowerCase()}
-          name={sourceCoin.toLowerCase() + '-circle-filled'}
+          name={sourceCoinIcon}
         />
         <Icon size='12px' name='thick-arrow-right' />
         <Icon
           size='42px'
           color={targetCoin.toLowerCase()}
-          name={targetCoin.toLowerCase() + '-circle-filled'}
+          name={targetCoinIcon}
         />
       </CoinIconTitle>
       <AmountTitle>
