@@ -24,11 +24,9 @@ export const getData = state => {
   const transform = (currency, amounts, sourceCoinModel, targetCoinModel) => ({
     currency,
     sourceAmount: amounts.sourceAmount,
-    sourceCoin,
-    sourceCoinIcon: path(['icons', 'circleFilled'], sourceCoinModel),
+    sourceCoinModel,
     targetAmount: amounts.targetAmount,
-    targetCoin,
-    targetCoinIcon: path(['icons', 'circleFilled'], targetCoinModel)
+    targetCoinModel
   })
 
   return lift(transform)(
