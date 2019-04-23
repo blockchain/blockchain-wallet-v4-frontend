@@ -27,7 +27,7 @@ export const MinMaxValue = styled.div`
   font-size: 14px;
 `
 const MinMaxRow = styled(Row)`
-  padding-bottom: 23px;
+  padding: 20px 32px;
 `
 export class MinMaxButtons extends React.PureComponent {
   render () {

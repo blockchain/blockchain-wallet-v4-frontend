@@ -78,9 +78,9 @@ describe('sendEth sagas', () => {
     const mockAccount = Remote.of([{ addr: '0x123' }])
     const beforeEnd = 'beforeEnd'
     const initialValues = {
-      from: { addr: '0x123' },
       coin: { from: 'fromethaddress', type: 'ACCOUNT' },
-      fee: 10
+      fee: 10,
+      from: { addr: '0x123' }
     }
 
     it('should select erc20 list', () => {
@@ -102,9 +102,7 @@ describe('sendEth sagas', () => {
 
     it('should set payment from values based on payload', () => {
       saga.next(paymentMock)
-
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith({ from, type })
     })
 
     it('should select default account', () => {

@@ -32,7 +32,7 @@ const ExchangeSelect = styled(SelectBox)`
 const DisplayWrapper = styled.div`
   border-radius: 3px;
   background-color: ${props => props.theme[props.coin]};
-  min-height: 40px;
+  min-height: 30px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -58,20 +58,20 @@ const ItemWrapper = styled.div`
 const Text = styled.span`
   position: relative;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 12px;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;
   cursor: pointer;
   width: 100%;
-  padding-left: 5px;
+  padding-left: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `
 
 const DisplayIcon = styled(Icon)`
-  font-size: 28px;
+  font-size: 26px;
   color: ${props => props.theme.white};
 `
 
@@ -79,17 +79,16 @@ const selectItemIconColor = props =>
   props.isSelected ? props.theme.white : props.theme[props.coin]
 
 const ItemIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 20px;
   color: ${selectItemIconColor} !important;
 `
 
-const getIconName = coin => `${toLower(coin)}`
-
 const renderDisplay = (props, children) => {
   const coin = pathOr('', ['value', 'coin'], props)
+  const icon = pathOr('', ['value', 'icon'], props)
   return (
     <DisplayWrapper className={props.className} coin={toLower(coin)}>
-      {<DisplayIcon name={getIconName(coin)} />}
+      {<DisplayIcon name={icon} />}
       <Text>{children}</Text>
     </DisplayWrapper>
   )
@@ -97,16 +96,11 @@ const renderDisplay = (props, children) => {
 
 const renderItem = item => {
   const coin = pathOr('', ['value', 'coin'], item)
+  const icon = pathOr('', ['value', 'icon'], item)
   const isSelected = prop('isSelected', item)
   return (
     <ItemWrapper>
-      {
-        <ItemIcon
-          coin={toLower(coin)}
-          isSelected={isSelected}
-          name={getIconName(coin)}
-        />
-      }
+      {<ItemIcon coin={toLower(coin)} isSelected={isSelected} name={icon} />}
       <Text>{item.text}</Text>
     </ItemWrapper>
   )

@@ -11,7 +11,7 @@ import {
 import { delay } from 'redux-saga'
 import {
   compose,
-  contains,
+  includes,
   converge,
   equals,
   head,
@@ -24,7 +24,7 @@ import {
   propOr
 } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4'
+import { Exchange, Remote } from 'blockchain-wallet-v4'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { actions, actionTypes, selectors, model } from 'data'
 import {
@@ -36,6 +36,7 @@ import {
   MISSING_DEVICE_ERROR,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
+  INSUFFICIENT_ETH_FOR_TX_FEE,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget
 } from './model'
@@ -55,7 +56,7 @@ import {
   addBalanceLimit,
   selectFee,
   convertStandardToBase,
-  convertSourceToFiat,
+  convertSourceFeesToFiat,
   convertSourceToTarget,
   convertBaseToStandard,
   formatLimits
@@ -115,11 +116,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const getLimits = function * (currency) {
     const limitsR = yield select(S.getLimits)
-    if (Remote.Loading.is(limitsR))
+    if (Remote.Loading.is(limitsR)) {
       return path(
         ['payload', 'limits', currency],
         yield take(AT.FETCH_LIMITS_SUCCESS)
       )
+    }
     return limitsR.map(prop(currency)).getOrFail(NO_LIMITS_ERROR)
   }
 
@@ -268,8 +270,9 @@ export default ({ api, coreSagas, networks }) => {
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
       )
-      if (!renewLimitsTask)
+      if (!renewLimitsTask) {
         renewLimitsTask = yield spawn(renewLimits, renewLimitsDelay)
+      }
     } catch (e) {
       yield put(A.fetchLimitsError(e))
       yield put(
@@ -314,32 +317,61 @@ export default ({ api, coreSagas, networks }) => {
   const updateSourceFee = function * (payment) {
     try {
       const form = yield select(formValueSelector)
-      const provisionalPayment = yield payment || call(getProvisionalPayment)
-      const fiatCurrency = yield call(getFiatCurrency)
       const sourceCoin = path(['source', 'coin'], form)
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
+      const isSourceErc20 = includes(sourceCoin, erc20List)
+      const provisionalPayment = yield payment ||
+        call(getProvisionalPayment, true)
+      const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
         sourceCoin,
-        selectFee(sourceCoin, provisionalPayment)
+        selectFee(sourceCoin, provisionalPayment, isSourceErc20)
       )
       const rates = yield call(getBestRates)
-      yield put(
-        A.setSourceFee({
-          source: fee,
-          mempoolFees: provisionalPayment.fees,
-          target: convertSourceToTarget(form, rates, fee),
-          sourceFiat: convertSourceToFiat(form, fiatCurrency, rates, fee)
-        })
-      )
+      const sourceFees = {
+        source: fee,
+        mempoolFees: provisionalPayment.fees,
+        target: convertSourceToTarget(form, rates, fee),
+        sourceFiat: convertSourceFeesToFiat(
+          form,
+          fiatCurrency,
+          rates,
+          fee,
+          isSourceErc20
+        ),
+        isSourceErc20
+      }
+      // ensure for sufficient eth balance for erc20 swap
+      if (isSourceErc20) {
+        const ethBalanceInWei = (yield select(
+          selectors.core.data.eth.getBalance
+        )).getOrElse(0)
+        let ethBalance = Exchange.convertEtherToEther({
+          value: ethBalanceInWei,
+          fromUnit: 'WEI',
+          toUnit: 'ETH'
+        }).value
+        if (fee >= ethBalance) {
+          sourceFees.insufficientEthBalance = true
+          yield put(A.setTxError(INSUFFICIENT_ETH_FOR_TX_FEE))
+        }
+      }
+      yield put(A.setSourceFee(sourceFees))
     } catch (e) {
       yield put(A.setSourceFee(fallbackSourceFees))
     }
   }
 
   const checkLatestTx = function * (coin) {
+    const erc20List = (yield select(
+      selectors.core.walletOptions.getErc20CoinList
+    )).getOrFail()
     const currentError = yield select(formErrorSelector)
     try {
       yield put(A.setTxError(null))
-      if (coin !== 'ETH') return
+      if (coin !== 'ETH' && !includes(coin, erc20List)) return
       yield put(actions.form.startAsyncValidation(EXCHANGE_FORM))
       const provisionalPayment = yield call(getProvisionalPayment, false)
       if (provisionalPayment.unconfirmedTx) throw LATEST_TX_ERROR
@@ -509,11 +541,12 @@ export default ({ api, coreSagas, networks }) => {
       const pairs = (yield select(S.getAvailablePairs)).getOrElse([])
       const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
       let newTargetCoin = null
-      if (equals(sourceCoin, targetCoin))
-        newTargetCoin = contains(prevSourceCoin, pairedCoins)
+      if (equals(sourceCoin, targetCoin)) {
+        newTargetCoin = includes(prevSourceCoin, pairedCoins)
           ? prevSourceCoin
           : last(pairedCoins)
-      if (!contains(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
+      }
+      if (!includes(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
       if (newTargetCoin) {
         const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
@@ -542,11 +575,12 @@ export default ({ api, coreSagas, networks }) => {
       const pairs = (yield select(S.getAvailablePairs)).getOrElse([])
       const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
       let newSourceCoin = null
-      if (equals(sourceCoin, targetCoin))
-        newSourceCoin = contains(prevTargetCoin, pairedCoins)
+      if (equals(sourceCoin, targetCoin)) {
+        newSourceCoin = includes(prevTargetCoin, pairedCoins)
           ? prevTargetCoin
           : head(pairedCoins)
-      if (!contains(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
+      }
+      if (!includes(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
       if (newSourceCoin) {
         const newSource = yield call(getDefaultAccount, newSourceCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
@@ -643,7 +677,6 @@ export default ({ api, coreSagas, networks }) => {
     if (txError) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
-      // yield put(actions.router.replace('/swap', {}))
       yield put(actions.modals.showModal(CONFIRM_MODAL))
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW))
     }
@@ -692,12 +725,16 @@ export default ({ api, coreSagas, networks }) => {
 
   const depositFunds = function * (trade, source, fees, depositCredentials) {
     let txId = null
+    const sourceCoin = prop('coin', source)
     try {
       const {
         depositAddress,
         depositMemo,
         deposit: { symbol, value }
       } = trade
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrFail()
       let payment = yield call(
         createPayment,
         symbol,
@@ -728,10 +765,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.modals.closeAllModals())
       }
 
-      if (prop('coin', source) === 'ETH')
+      if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
         yield spawn(updateLatestEthTrade, txId)
+      }
     } catch (err) {
-      if (prop('coin', source) === 'XLM') {
+      if (sourceCoin === 'XLM') {
         const xlmErrMessage = pathOr(
           err,
           ['response', 'data', 'extras', 'result_codes'],

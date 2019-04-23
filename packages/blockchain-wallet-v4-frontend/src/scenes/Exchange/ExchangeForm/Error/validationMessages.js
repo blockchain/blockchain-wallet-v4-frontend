@@ -28,7 +28,8 @@ const {
   ORDER_ERROR,
   CREATE_ACCOUNT_ERROR,
   NO_ACCOUNT_ERROR,
-  RESERVE_ERROR
+  RESERVE_ERROR,
+  INSUFFICIENT_ETH_FOR_TX_FEE
 } = model.components.exchange
 
 const { MIN_ERROR: MIN_RATES_ERROR, MAX_ERROR: MAX_RATES_ERROR } = model.rates
@@ -285,6 +286,17 @@ export const ReserveOverflowMessage = () => (
   </Wrapper>
 )
 
+export const InsufficientEthForTxFee = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.insufficientethfortxfee'
+        defaultMessage='Insufficient ETH balance to send ERC-20 token.'
+      />
+    </Text>
+  </Wrapper>
+)
+
 export const getErrorMessage = error => {
   if (error === NO_LIMITS_ERROR) return NoLimitsMessage
   if (error === MINIMUM_NO_LINK_ERROR) return MinimumNoLinkMessage
@@ -305,5 +317,6 @@ export const getErrorMessage = error => {
   if (error === CREATE_ACCOUNT_ERROR) return CreateTargetXlmAccountMessage
   if (error === NO_ACCOUNT_ERROR) return NoSourceXlmAccountMessage
   if (error === RESERVE_ERROR) return ReserveOverflowMessage
+  if (error === INSUFFICIENT_ETH_FOR_TX_FEE) return InsufficientEthForTxFee
   return NoAdviceMessage
 }

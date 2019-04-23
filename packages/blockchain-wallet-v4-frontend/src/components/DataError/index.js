@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
@@ -39,10 +38,6 @@ const DataErrorContainer = props => {
       </Empty>
     </Wrapper>
   )
-}
-
-DataErrorContainer.propTypes = {
-  onClick: PropTypes.func.isRequired
 }
 
 export default DataErrorContainer

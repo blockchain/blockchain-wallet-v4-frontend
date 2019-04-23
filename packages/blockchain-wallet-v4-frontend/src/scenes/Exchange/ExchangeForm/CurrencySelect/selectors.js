@@ -1,12 +1,13 @@
 import {
-  always,
   compose,
-  contains,
+  includes,
   curry,
-  flip,
   map,
+  path,
   prop,
-  unnest
+  unnest,
+  gt,
+  length
 } from 'ramda'
 
 import { selectors, model } from 'data'
@@ -18,45 +19,39 @@ const {
 } = model.components.exchange
 const { formatPair } = model.rates
 
-const getCoinFullName = flip(prop)({
-  BTC: 'Bitcoin',
-  BCH: 'Bitcoin Cash',
-  BSV: 'Bitcoin SV',
-  ETH: 'Ether',
-  XLM: 'Stellar'
-})
-
-const generateItems = ({ coin, accounts }) => {
-  const getText =
-    accounts.length === 1 ? always(getCoinFullName(coin)) : prop('label')
-  return accounts.map(account => ({
+const generateItems = ({ coin, accounts }, supportedCoins) =>
+  accounts.map(account => ({
     value: account,
-    text: getText(account)
+    text: gt(length(accounts), 1)
+      ? prop('label', account)
+      : path([coin, 'displayName'], supportedCoins)
   }))
-}
 
-const generateGroups = curry((accounts, availableCurrencies) => {
-  const items = compose(
-    unnest,
-    map(generateItems),
-    map(coin => ({ coin, accounts: prop(coin, accounts) }))
-  )(availableCurrencies)
-  return [{ group: '', items }]
-})
+const generateGroups = curry(
+  (accounts, supportedCoins, availableCurrencies) => {
+    const items = compose(
+      unnest,
+      map(item => generateItems(item, supportedCoins)),
+      map(coin => ({ coin, accounts: prop(coin, accounts) }))
+    )(availableCurrencies)
+    return [{ group: '', items }]
+  }
+)
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.exchange.getActiveAccounts,
+    state => selectors.core.walletOptions.getSupportedCoins(state).getOrFail(),
     (state, ownProps) => ownProps
   ],
-  (accounts, { availablePairs, sourceCoin, targetCoin }) => {
+  (accounts, supportedCoins, { availablePairs, sourceCoin, targetCoin }) => {
     const availableSourceCoins = getAvailableSourceCoins(availablePairs)
     const availableTargetCoins = getAvailableTargetCoins(availablePairs)
-    const generateActiveGroups = generateGroups(accounts)
+    const generateActiveGroups = generateGroups(accounts, supportedCoins)
     return {
       fromElements: generateActiveGroups(availableSourceCoins),
       toElements: generateActiveGroups(availableTargetCoins),
-      swapDisabled: !contains(
+      swapDisabled: !includes(
         formatPair(targetCoin, sourceCoin),
         availablePairs
       )

@@ -89,7 +89,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -228,7 +230,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -367,7 +371,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -506,7 +512,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -645,7 +653,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -784,7 +794,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -923,7 +935,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1062,7 +1076,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1201,7 +1217,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1340,7 +1358,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1479,7 +1499,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1618,7 +1640,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1757,7 +1781,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -1896,7 +1922,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2035,7 +2063,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2174,7 +2204,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2313,7 +2345,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2452,7 +2486,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2591,7 +2627,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2730,7 +2768,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -2869,7 +2909,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3008,7 +3050,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3147,7 +3191,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3286,7 +3332,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3425,7 +3473,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3564,7 +3614,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3703,7 +3755,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3842,7 +3896,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -3981,7 +4037,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4120,7 +4178,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4259,7 +4319,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4398,7 +4460,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4537,7 +4601,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4676,7 +4742,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4815,7 +4883,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -4954,7 +5024,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5093,7 +5165,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5232,7 +5306,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5371,7 +5447,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5510,7 +5588,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5649,7 +5729,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5788,7 +5870,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -5927,7 +6011,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6066,7 +6152,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6205,7 +6293,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6344,7 +6434,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6483,7 +6575,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6622,7 +6716,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6761,7 +6857,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -6900,7 +6998,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7039,7 +7139,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7178,7 +7280,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7317,7 +7421,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7456,7 +7562,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7595,7 +7703,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7734,7 +7844,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -7873,7 +7985,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8012,7 +8126,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8151,7 +8267,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8290,7 +8408,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8429,7 +8549,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8568,7 +8690,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8707,7 +8831,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8846,7 +8972,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -8985,7 +9113,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9124,7 +9254,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9263,7 +9395,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9402,7 +9536,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9541,7 +9677,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9680,7 +9818,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9819,7 +9959,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -9958,7 +10100,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10097,7 +10241,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10236,7 +10382,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10375,7 +10523,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10514,7 +10664,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10653,7 +10805,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10792,7 +10946,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -10931,7 +11087,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11070,7 +11228,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11209,7 +11369,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11348,7 +11510,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11487,7 +11651,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11626,7 +11792,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11765,7 +11933,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -11904,7 +12074,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12043,7 +12215,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12182,7 +12356,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12321,7 +12497,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12460,7 +12638,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12599,7 +12779,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12738,7 +12920,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -12877,7 +13061,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13016,7 +13202,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13155,7 +13343,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13294,7 +13484,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13433,7 +13625,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13572,7 +13766,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13711,7 +13907,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13850,7 +14048,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -13989,7 +14189,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14128,7 +14330,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14267,7 +14471,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14406,7 +14612,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14545,7 +14753,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14684,7 +14894,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14823,7 +15035,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -14962,7 +15176,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15101,7 +15317,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15240,7 +15458,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15379,7 +15599,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15518,7 +15740,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15657,7 +15881,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15796,7 +16022,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -15935,7 +16163,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16074,7 +16304,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16213,7 +16445,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16352,7 +16586,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16491,7 +16727,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16630,7 +16868,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16769,7 +17009,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -16908,7 +17150,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17047,7 +17291,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17186,7 +17432,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17325,7 +17573,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17464,7 +17714,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17603,7 +17855,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17742,7 +17996,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -17881,7 +18137,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18020,7 +18278,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18159,7 +18419,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18298,7 +18560,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18437,7 +18701,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18576,7 +18842,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18715,7 +18983,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18854,7 +19124,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -18993,7 +19265,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19132,7 +19406,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19271,7 +19547,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19410,7 +19688,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19549,7 +19829,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19688,7 +19970,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19827,7 +20111,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -19966,7 +20252,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20105,7 +20393,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20244,7 +20534,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20383,7 +20675,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20522,7 +20816,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20661,7 +20957,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20800,7 +21098,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -20939,7 +21239,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21078,7 +21380,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21217,7 +21521,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21356,7 +21662,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21495,7 +21803,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21634,7 +21944,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21773,7 +22085,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -21912,7 +22226,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22051,7 +22367,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22190,7 +22508,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22329,7 +22649,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22468,7 +22790,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22607,7 +22931,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22746,7 +23072,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -22885,7 +23213,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23024,7 +23354,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23163,7 +23495,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23302,7 +23636,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23441,7 +23777,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23580,7 +23918,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23719,7 +24059,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23858,7 +24200,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -23997,7 +24341,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24136,7 +24482,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24275,7 +24623,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24414,7 +24764,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24553,7 +24905,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24692,7 +25046,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24831,7 +25187,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -24970,7 +25328,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25109,7 +25469,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25248,7 +25610,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25387,7 +25751,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25526,7 +25892,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25665,7 +26033,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25804,7 +26174,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -25943,7 +26315,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26082,7 +26456,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26221,7 +26597,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26360,7 +26738,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26499,7 +26879,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26638,7 +27020,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26777,7 +27161,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -26916,7 +27302,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27055,7 +27443,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27194,7 +27584,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27333,7 +27725,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27472,7 +27866,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27611,7 +28007,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27750,7 +28148,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -27889,7 +28289,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28028,7 +28430,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28167,7 +28571,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28306,7 +28712,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28445,7 +28853,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28584,7 +28994,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28723,7 +29135,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -28862,7 +29276,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29001,7 +29417,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29140,7 +29558,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29279,7 +29699,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29418,7 +29840,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29557,7 +29981,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29696,7 +30122,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29835,7 +30263,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -29974,7 +30404,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30113,7 +30545,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30252,7 +30686,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30391,7 +30827,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30530,7 +30968,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30669,7 +31109,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30808,7 +31250,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -30947,7 +31391,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31086,7 +31532,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31225,7 +31673,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31364,7 +31814,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31503,7 +31955,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31642,7 +32096,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31781,7 +32237,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -31920,7 +32378,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32059,7 +32519,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32198,7 +32660,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32337,7 +32801,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32476,7 +32942,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32615,7 +33083,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32754,7 +33224,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -32893,7 +33365,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33032,7 +33506,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33171,7 +33647,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33310,7 +33788,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33449,7 +33929,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33588,7 +34070,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33727,7 +34211,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -33866,7 +34352,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34005,7 +34493,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34144,7 +34634,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34283,7 +34775,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34422,7 +34916,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34561,7 +35057,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34700,7 +35198,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34839,7 +35339,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -34978,7 +35480,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -35117,7 +35621,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -35256,7 +35762,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -35395,7 +35903,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >
@@ -35534,7 +36044,9 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
       <Exchange__SubExchangeAmount
         color="gray-5"
       >
-        -
+        <span>
+          -
+        </span>
         <Summary__SummaryStringDisplay
           data-e2e="exchangeSummaryTotalValue"
         >

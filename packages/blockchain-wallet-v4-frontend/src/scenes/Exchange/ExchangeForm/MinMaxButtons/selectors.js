@@ -1,4 +1,4 @@
-import { contains, equals, gte, isNil, prop } from 'ramda'
+import { includes, equals, gte, isNil, prop } from 'ramda'
 
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors, model } from 'data'
@@ -25,7 +25,7 @@ export const getData = createDeepEqualSelector(
     maxSymbol: prop('symbol', max),
     maxAmount: prop('amount', max),
     disabled:
-      contains(error, [
+      includes(error, [
         NO_LIMITS_ERROR,
         MINIMUM_NO_LINK_ERROR,
         REACHED_DAILY_ERROR,
