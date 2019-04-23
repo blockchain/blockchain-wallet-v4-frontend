@@ -7,7 +7,6 @@ import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.sendBtc.getToToggled,
     selectors.components.sendBtc.getFeePerByteToggled,
     selectors.components.sendBtc.getPayment,
     selectors.core.common.btc.getActiveHDAccounts,
@@ -18,7 +17,6 @@ export const getData = createDeepEqualSelector(
     selectors.core.walletOptions.getCoinAvailability
   ],
   (
-    toToggled,
     feePerByteToggled,
     paymentR,
     btcAccountsR,
@@ -80,7 +78,6 @@ export const getData = createDeepEqualSelector(
       return {
         from,
         network,
-        toToggled,
         enableToggle,
         feePerByte,
         feePerByteToggled,

@@ -21,13 +21,13 @@ const Error = styled.label`
 
 const CreatableInputField = props => {
   const { input, meta, hideErrors, errorBottom, ...rest } = props
-  const { dirty, invalid, error, pristine } = meta
-  const errorState = dirty && invalid ? 'invalid' : 'initial'
+  const { touched, invalid, error, pristine } = meta
+  const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
     <Container>
       <CreatableInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(dirty || !pristine) && error && !hideErrors && (
+      {(touched || !pristine) && error && !hideErrors && (
         <Error errorBottom={errorBottom}>{error}</Error>
       )}
     </Container>

@@ -347,7 +347,6 @@ FirstStep.propTypes = {
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  toToggled: PropTypes.bool.isRequired,
   handleToToggle: PropTypes.func.isRequired,
   unconfirmedTx: PropTypes.bool,
   hasErc20Balance: PropTypes.bool.isRequired
