@@ -15,7 +15,7 @@ import {
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  padding-top: 30px;
+  padding-top: 20px;
 `
 const Container = styled.div`
   display: flex;

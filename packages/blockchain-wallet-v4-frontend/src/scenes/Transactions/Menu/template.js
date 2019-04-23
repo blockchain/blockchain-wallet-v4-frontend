@@ -91,6 +91,7 @@ const SearchIcon = styled(Icon)`
 
 const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
 const ACCOUNT_FILTER_COINS = ['BTC', 'BCH']
+const TX_EXPORT_COINS = ['BTC', 'BCH']
 
 const EthPrivateKeys = () => (
   <Link weight={300} size='12px'>
@@ -139,7 +140,7 @@ const Menu = props => {
         </Controls>
         <Controls>
           <Search>
-            {includes(coin, PRIVATE_KEY_EXPORT_COINS) ? (
+            {includes(coin, PRIVATE_KEY_EXPORT_COINS) && (
               <EthPrivateKeysWrapper>
                 {isLegacyEthAddr ? (
                   <ComponentDropdown
@@ -182,7 +183,8 @@ const Menu = props => {
                   </Link>
                 )}
               </EthPrivateKeysWrapper>
-            ) : (
+            )}
+            {includes(coin, TX_EXPORT_COINS) && (
               <ReportingIcon
                 name='up-arrow-in-circle'
                 size='28px'
