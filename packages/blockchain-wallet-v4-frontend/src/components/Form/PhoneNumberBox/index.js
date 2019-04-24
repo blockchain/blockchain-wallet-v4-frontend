@@ -31,7 +31,8 @@ const Container = styled.div`
   }
   * {
     outline: none;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 300;
     font-size: 14px;
   }

@@ -25,7 +25,8 @@ const ButtonContainer = styled.div`
 `
 const Button = styled.div`
   display: inline;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const DropdownIcon = styled(Icon)`
   padding-left: 2px;
@@ -63,7 +64,8 @@ const DropdownItem = styled.li`
   color: ${props => props.theme['gray-5']};
   cursor: pointer;
   padding: 3px 20px;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 300;
   text-align: left;

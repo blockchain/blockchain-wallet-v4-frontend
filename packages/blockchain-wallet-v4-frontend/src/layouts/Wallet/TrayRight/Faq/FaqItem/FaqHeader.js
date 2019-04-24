@@ -13,7 +13,8 @@ const Wrapper = styled.div`
   font-weight: 300;
   padding: 5px 0;
   font-size: 14px;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   cursor: pointer;
   color: ${props => props.theme['gray-5']};
 `

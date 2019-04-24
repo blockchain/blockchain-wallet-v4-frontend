@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 const SettingDescription = styled.div`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 200;
   font-size: 14px;
   margin-top: 5px;

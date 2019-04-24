@@ -5,7 +5,8 @@ import { Palette } from '../Colors'
 import { keysIn } from 'ramda'
 
 const BaseLink = styled.a`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
   color: ${props => props.theme[props.color]};

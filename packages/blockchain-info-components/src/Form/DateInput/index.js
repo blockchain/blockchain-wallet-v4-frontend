@@ -14,7 +14,8 @@ const BaseDateInput = styled(ReactDatetime)`
     min-height: 40px;
     padding: 6px 12px;
     box-sizing: border-box;
-    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 300;
     color: ${props => props.theme['gray-5']};
@@ -61,7 +62,8 @@ const BaseDateInput = styled(ReactDatetime)`
     height: 28px;
   }
   .rdtPicker td {
-    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -129,7 +131,8 @@ const BaseDateInput = styled(ReactDatetime)`
     width: 14.2857%;
     border-bottom: none;
     cursor: default;
-    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 300;
     color: ${props => props.theme['gray-5']};
@@ -137,7 +140,8 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker th.rdtSwitch {
     width: 100px;
     height: 30px;
-    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 300;
     border: 1px solid ${props => props.theme['gray-1']};
@@ -152,7 +156,8 @@ const BaseDateInput = styled(ReactDatetime)`
     align-items: center;
     width: 30px;
     height: 30px;
-    font-family: 'Montserrat', Helvetica, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
     font-weight: 300;
     border: 1px solid ${props => props.theme['gray-1']};

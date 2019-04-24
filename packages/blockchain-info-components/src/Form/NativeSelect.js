@@ -16,7 +16,8 @@ const BaseSelectInput = styled.select`
   background-repeat: no-repeat;
   background-position: center right 10px;
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   margin-left: ${props => (props.inline ? '5px' : '0px')};

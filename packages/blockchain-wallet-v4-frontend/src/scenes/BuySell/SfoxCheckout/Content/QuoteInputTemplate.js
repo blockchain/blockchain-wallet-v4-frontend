@@ -17,7 +17,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const FiatConverterInput = styled.div`
   display: flex;

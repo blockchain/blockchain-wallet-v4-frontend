@@ -29,7 +29,8 @@ const CheckoutWrapper = styled.div`
   box-sizing: border-box;
   height: calc(100% - 56px);
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   flex-direction: row;
   display: flex;
   @media (min-height: 800px) {

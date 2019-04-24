@@ -26,7 +26,8 @@ const AddressBox = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${props => props.theme['gray-1']};
 `
 const CopyButton = styled(Button)`

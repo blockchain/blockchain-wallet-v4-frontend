@@ -19,7 +19,8 @@ const BasePasswordInput = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-radius: 4px;
   &::-webkit-input-placeholder {

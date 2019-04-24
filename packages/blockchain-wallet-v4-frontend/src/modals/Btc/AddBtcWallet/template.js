@@ -16,7 +16,8 @@ import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 const Wrapper = styled.div`
   font-weight: 300;
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const Label = styled.label`
   display: block;

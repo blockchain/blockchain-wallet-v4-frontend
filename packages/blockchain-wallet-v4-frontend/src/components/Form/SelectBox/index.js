@@ -17,7 +17,8 @@ const Error = styled.label`
   height: 15px;
   font-size: 12px;
   font-weight: 300;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: ${props => props.theme['error']};
 `
 

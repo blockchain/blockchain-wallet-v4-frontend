@@ -51,7 +51,8 @@ const InstructionList = styled.ol`
   padding-left: 10px;
 `
 const Instruction = styled.li`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 13px;
   font-weight: 300;
   color: ${props => props.theme['gray-6']};

@@ -59,7 +59,8 @@ const CoinButton = styled.div`
   padding: 10px 15px;
   border-radius: 3px;
   flex: 1;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 300;
   font-size: 14px;
   line-height: 1;

@@ -6,7 +6,8 @@ import { equals, flatten, filter, head, assoc, path } from 'ramda'
 
 const StyledSelect = styled(Select)`
   font-weight: 400;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
   .bc__menu {

@@ -22,6 +22,7 @@ export const WalletLink = styled(NavLink)`
   color: ${props => props.theme['brand-secondary']};
   font-size: 10px;
   font-weight: 300;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   text-decoration: none;
 `
