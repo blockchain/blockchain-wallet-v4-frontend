@@ -13,7 +13,21 @@ const BASE_PROPS = {
   targetFiat: '1000',
   currency: 'USD',
   rate: '0.06',
-  fee: '0.0001'
+  fee: '0.0001',
+  sourceCoinModel: {
+    icons: {
+      circleFilled: 'btc-circle-filled'
+    },
+    coinTicker: 'BTC',
+    colorCode: 'btc'
+  },
+  targetCoinModel: {
+    icons: {
+      circleFilled: 'eth-circle-filled'
+    },
+    coinTicker: 'ETH',
+    colorCode: 'eth'
+  }
 }
 
 const PENDING_EXECUTION = {

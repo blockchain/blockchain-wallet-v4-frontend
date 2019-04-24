@@ -212,7 +212,6 @@ export const ExchangeResults = ({
   close,
   status,
   id,
-  sourceCoin,
   sourceCoinModel,
   targetCoin,
   targetCoinModel,
