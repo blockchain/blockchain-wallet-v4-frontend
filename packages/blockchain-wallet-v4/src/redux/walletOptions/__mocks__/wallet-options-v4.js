@@ -170,8 +170,8 @@ export default {
           displayName: 'Stellar',
           hasLockboxSupport: true,
           icons: {
-            default: 'xlm',
-            circle: 'xlm-circle',
+            default: 'xlm-circle-filled',
+            circle: 'xlm-circle-filled',
             circleFilled: 'xlm-circle-filled'
           },
           minConfirmations: 1,
