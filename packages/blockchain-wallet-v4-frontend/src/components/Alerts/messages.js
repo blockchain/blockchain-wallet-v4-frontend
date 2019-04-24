@@ -55,7 +55,9 @@ export const getAlertContent = (message, data = undefined) => {
               </Text>
               <Text>
                 <Link
-                  href={'https://support.blockchain.com'}
+                  href={
+                    'https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
+                  }
                   target='_blank'
                   weight={400}
                   size='12px'

@@ -17,7 +17,7 @@ export default props => (
       <FormattedMessage
         id='wallet.menutop.balance.error.refresh'
         defaultMessage='Refresh {curr} data'
-        values={{ curr: props.coin }}
+        values={{ curr: props.coinTicker ? props.coinTicker : props.coin }}
       />
     </ErrorLink>
   </Wrapper>

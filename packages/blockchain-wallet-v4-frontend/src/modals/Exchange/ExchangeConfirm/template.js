@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { model } from 'data'
+import { path, prop } from 'ramda'
 
+import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { ExchangeButton, Note, Title, Wrapper } from 'components/Exchange'
@@ -133,12 +134,10 @@ const ExchangeConfirm = ({
   handleSubmit,
   showOrderInfo,
   sourceAmount,
-  sourceCoin,
-  sourceCoinIcon,
+  sourceCoinModel,
   submitting,
   targetAmount,
-  targetCoin,
-  targetCoinIcon,
+  targetCoinModel,
   toggleShowOrderInfo
 }) => (
   <ConfirmForm onSubmit={handleSubmit}>
@@ -146,20 +145,20 @@ const ExchangeConfirm = ({
       <CoinIconTitle>
         <Icon
           size='42px'
-          color={sourceCoin.toLowerCase()}
-          name={sourceCoinIcon}
+          color={prop('colorCode', sourceCoinModel)}
+          name={path(['icons', 'circleFilled'], sourceCoinModel)}
         />
         <Icon size='12px' name='thick-arrow-right' />
         <Icon
           size='42px'
-          color={targetCoin.toLowerCase()}
-          name={targetCoinIcon}
+          color={prop('colorCode', targetCoinModel)}
+          name={path(['icons', 'circleFilled'], targetCoinModel)}
         />
       </CoinIconTitle>
       <AmountTitle>
         <TargetFiatAmount
           targetAmount={Remote.of(targetAmount)}
-          targetCoin={targetCoin}
+          targetCoin={prop('coinCode', targetCoinModel)}
           color='brand-primary'
           weight={300}
           size='42px'
@@ -167,17 +166,17 @@ const ExchangeConfirm = ({
       </AmountTitle>
       <Row>
         <CoinButton
-          coin={sourceCoin.toLowerCase()}
+          coin={prop('colorCode', sourceCoinModel)}
           data-e2e='exchangeConfirmSourceValue'
         >
-          {`${sourceAmount} ${sourceCoin}`}
+          {`${sourceAmount} ${prop('coinTicker', sourceCoinModel)}`}
         </CoinButton>
         <FromToIcon name='short-right-arrow' />
         <CoinButton
-          coin={targetCoin.toLowerCase()}
+          coin={prop('colorCode', targetCoinModel)}
           data-e2e='exchangeConfirmTargetValue'
         >
-          {`${targetAmount} ${targetCoin}`}
+          {`${targetAmount} ${prop('coinTicker', targetCoinModel)}`}
         </CoinButton>
       </Row>
       <OrderInfoBox onClick={toggleShowOrderInfo} showOrderInfo={showOrderInfo}>
@@ -191,8 +190,8 @@ const ExchangeConfirm = ({
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary
-          sourceCoin={sourceCoin}
-          targetCoin={targetCoin}
+          sourceCoin={prop('coinCode', sourceCoinModel)}
+          targetCoin={prop('coinCode', targetCoinModel)}
           currency={currency}
         />
       )}

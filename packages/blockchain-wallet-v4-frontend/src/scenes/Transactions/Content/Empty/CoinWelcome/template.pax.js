@@ -15,7 +15,7 @@ import {
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  padding-top: 30px;
+  padding-top: 20px;
 `
 const Container = styled.div`
   display: flex;
@@ -178,7 +178,7 @@ const WelcomePax = props => {
           </Column>
           <Column style={{ paddingLeft: '20px' }}>
             <Link
-              href='https://support.blockchain.com'
+              href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
               target='_blank'
               style={{ width: '100%' }}
             >
