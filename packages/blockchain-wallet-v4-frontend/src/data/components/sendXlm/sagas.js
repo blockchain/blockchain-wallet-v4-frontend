@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, includes, path, prop, head } from 'ramda'
+import { equals, includes, path, pathOr, prop, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -87,7 +87,8 @@ export default ({ coreSagas }) => {
           payment = yield call(setFrom, payment, source, fromType)
           break
         case 'to':
-          payment = yield call(payment.to, payload)
+          const value = pathOr({}, ['value', 'value'], payload)
+          payment = yield call(payment.to, value)
           break
         case 'amount':
           const xlmAmount = prop('coin', payload)
@@ -270,14 +271,6 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const toToggled = function * () {
-    try {
-      yield put(change(FORM, 'to', ''))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
-    }
-  }
-
   return {
     initialized,
     destroyed,
@@ -285,7 +278,6 @@ export default ({ coreSagas }) => {
     maximumAmountClicked,
     secondStepSubmitClicked,
     formChanged,
-    toToggled,
     setFrom
   }
 }

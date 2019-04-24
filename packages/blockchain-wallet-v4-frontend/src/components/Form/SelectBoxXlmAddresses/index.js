@@ -11,7 +11,9 @@ class SelectBoxXlmAddresses extends React.PureComponent {
 
     return data.cata({
       Success: value => {
-        return <SelectBoxXlm elements={value.data} {...rest} />
+        return (
+          <SelectBoxXlm options={value.data} elements={value.data} {...rest} />
+        )
       },
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
