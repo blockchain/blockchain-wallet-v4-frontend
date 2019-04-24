@@ -1884,8 +1884,8 @@
         "id": "components.txlistitem.rbf"
       },
       {
-        "defaultMessage": "ERC-20 Gas",
-        "id": "components.txlistitem.erc20"
+        "defaultMessage": "USDp Fee",
+        "id": "components.txlistitem.paxfee"
       },
       {
         "defaultMessage": "Description",
@@ -3027,12 +3027,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Currency:",
-        "id": "modals.sendBch.firststep.coin"
+        "defaultMessage": "Currency",
+        "id": "modals.sendBch.firststep.currency"
       },
       {
-        "defaultMessage": "From:",
-        "id": "modals.sendBch.firststep.from"
+        "defaultMessage": "From",
+        "id": "modals.sendBch.firststep.fromwallet"
       },
       {
         "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
@@ -3043,20 +3043,20 @@
         "id": "modals.sendbch.firststep.warnbrowswer"
       },
       {
-        "defaultMessage": "To:",
-        "id": "modals.sendBch.firststep.to"
+        "defaultMessage": "To",
+        "id": "modals.sendBch.firststep.towallet"
       },
       {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.sendbch.firststep.amount"
+        "defaultMessage": "Amount",
+        "id": "modals.sendbch.firststep.sendamount"
       },
       {
-        "defaultMessage": "Description:",
-        "id": "modals.sendBch.firststep.description"
+        "defaultMessage": "Description",
+        "id": "modals.sendBch.firststep.desc"
       },
       {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendBch.firststep.txfee"
+        "defaultMessage": "Network Fee",
+        "id": "modals.sendBch.firststep.networkfee"
       },
       {
         "defaultMessage": "Continue",
@@ -3500,12 +3500,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Currency:",
-        "id": "modals.sendbtc.firststep.coin"
+        "defaultMessage": "Currency",
+        "id": "modals.sendbtc.firststep.currency"
       },
       {
-        "defaultMessage": "From:",
-        "id": "modals.sendbtc.firststep.from"
+        "defaultMessage": "From",
+        "id": "modals.sendbtc.firststep.fromwallet"
       },
       {
         "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
@@ -3516,28 +3516,28 @@
         "id": "modals.sendbtc.firststep.warnbrowser"
       },
       {
-        "defaultMessage": "To:",
-        "id": "modals.sendbtc.firststep.to"
+        "defaultMessage": "To",
+        "id": "modals.sendbtc.firststep.towallet"
       },
       {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.sendbtc.firststep.amount"
+        "defaultMessage": "Amount",
+        "id": "modals.sendbtc.firststep.sendamount"
       },
       {
-        "defaultMessage": "Description:",
-        "id": "modals.sendbtc.firststep.description"
+        "defaultMessage": "Description",
+        "id": "modals.sendbtc.firststep.desc"
       },
       {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendbtc.firststep.txfee"
+        "defaultMessage": "Network Fee",
+        "id": "modals.sendbtc.firststep.networkfee"
       },
       {
         "defaultMessage": "Cancel",
         "id": "modals.sendbtc.firststep.cancel"
       },
       {
-        "defaultMessage": "Customize fee",
-        "id": "modals.sendbtc.firststep.edit"
+        "defaultMessage": "Customize Fee",
+        "id": "modals.sendbtc.firststep.customizefee"
       },
       {
         "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
@@ -6892,12 +6892,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Currency:",
-        "id": "modals.sendxlm.firststep.coin"
+        "defaultMessage": "Currency",
+        "id": "modals.sendxlm.firststep.currency"
       },
       {
-        "defaultMessage": "From:",
-        "id": "modals.sendxlm.firststep.from"
+        "defaultMessage": "From",
+        "id": "modals.sendxlm.firststep.fromwallet"
       },
       {
         "defaultMessage": "You will need to connect your Lockbox to complete this transaction.",
@@ -6908,20 +6908,20 @@
         "id": "modals.sendxlm.firststep.warnbrowswer"
       },
       {
-        "defaultMessage": "To:",
-        "id": "modals.sendxlm.firststep.to"
+        "defaultMessage": "To",
+        "id": "modals.sendxlm.firststep.sendto"
       },
       {
-        "defaultMessage": "Enter amount:",
-        "id": "modals.sendxlm.firststep.amount"
+        "defaultMessage": "Enter amount",
+        "id": "modals.sendxlm.firststep.sendamount"
       },
       {
-        "defaultMessage": "Memo:",
-        "id": "modals.sendxlm.firststep.memo"
+        "defaultMessage": "Memo",
+        "id": "modals.sendxlm.firststep.txmemo"
       },
       {
-        "defaultMessage": "Description:",
-        "id": "modals.sendxlm.firststep.description"
+        "defaultMessage": "Description",
+        "id": "modals.sendxlm.firststep.desc"
       },
       {
         "defaultMessage": "Transaction Fee:",
@@ -8099,8 +8099,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "{sourceCoin} available for Swap",
-        "id": "scenes.exchange.exchangeform.summary.totalbalanceforswap"
+        "defaultMessage": "{sourceCoinTicker} available for Swap",
+        "id": "scenes.exchange.exchangeform.summary.totalbalanceavailable"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/RatesBox/RatesBox.json"
@@ -11000,23 +11000,23 @@
     "descriptors": [
       {
         "defaultMessage": "Your {coin} Wallet",
-        "id": "scenes.transaction.content.empty.yourcoinwallet"
+        "id": "scenes.transaction.content.empty.newcoinwallet"
       },
       {
         "defaultMessage": "Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.",
-        "id": "scenes.transaction.content.empty.sendrequestswap"
+        "id": "scenes.transaction.content.empty.newcoinswap"
       },
       {
         "defaultMessage": "Buy {coin}",
-        "id": "scenes.transaction.content.empty.buy"
+        "id": "scenes.transaction.content.empty.newcoinbuy"
       },
       {
         "defaultMessage": "Get {coin}",
-        "id": "scenes.transaction.content.empty.getstarted.request"
+        "id": "scenes.transaction.content.empty.getstarted.newcoinrequest"
       },
       {
         "defaultMessage": "Swap {coin}",
-        "id": "scenes.transaction.content.empty.getstarted.swap"
+        "id": "scenes.transaction.content.empty.getstarted.newcoinswap"
       },
       {
         "defaultMessage": "We've put together a page explaining all of this.",
