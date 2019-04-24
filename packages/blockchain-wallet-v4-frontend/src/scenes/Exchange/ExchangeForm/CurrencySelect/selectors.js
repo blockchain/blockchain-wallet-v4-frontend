@@ -20,15 +20,15 @@ const {
 const { formatPair } = model.rates
 
 const generateItems = ({ coin, accounts }, supportedCoins) =>
-  accounts.map(account => ({
-    value: {
-      ...account,
-      icon: path([coin, 'icons', 'default'], supportedCoins)
-    },
-    text: gt(length(accounts), 1)
-      ? prop('label', account)
-      : path([coin, 'displayName'], supportedCoins)
-  }))
+  accounts.map(account => {
+    account.icon = path([coin, 'icons', 'default'], supportedCoins)
+    return {
+      value: account,
+      text: gt(length(accounts), 1)
+        ? prop('label', account)
+        : path([coin, 'displayName'], supportedCoins)
+    }
+  })
 
 const generateGroups = curry(
   (accounts, supportedCoins, availableCurrencies) => {
