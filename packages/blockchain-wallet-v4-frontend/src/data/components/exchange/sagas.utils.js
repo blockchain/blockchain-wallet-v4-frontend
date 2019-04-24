@@ -116,6 +116,8 @@ export default ({ coreSagas, networks }) => {
         payment = coreSagas.payment.eth
           .create({ network: networks.eth })
           .chain()
+          .setIsErc20(isSourceErc20)
+          .setCoin(coin)
           .amount(amount)
           .fees(fees)
         break

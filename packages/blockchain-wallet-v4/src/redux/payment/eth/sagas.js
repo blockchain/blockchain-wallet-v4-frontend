@@ -310,6 +310,14 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { fees }))
       },
 
+      setIsErc20 (isErc20) {
+        return makePayment(mergeRight(p, { isErc20 }))
+      },
+
+      setCoin (coin) {
+        return makePayment(mergeRight(p, { coin }))
+      },
+
       description (message) {
         return isString(message)
           ? makePayment(mergeRight(p, { description: message }))
@@ -333,6 +341,8 @@ export default ({ api }) => {
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
+          setIsErc20: val => chain(gen, payment => payment.setIsErc20(val)),
+          setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
           description: message =>
             chain(gen, payment => payment.description(message)),
           * done () {
