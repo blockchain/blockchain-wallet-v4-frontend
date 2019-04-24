@@ -2,9 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { always, includes, identity, ifElse, equals } from 'ramda'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 
+import { model, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { model } from 'data'
 
 import {
   AmountHeader,
@@ -211,7 +213,9 @@ export const ExchangeResults = ({
   status,
   id,
   sourceCoin,
+  sourceCoinModel,
   targetCoin,
+  targetCoinModel,
   depositAmount,
   withdrawalAmount,
   targetFiat,
@@ -229,14 +233,14 @@ export const ExchangeResults = ({
         <CoinIconTitle>
           <Icon
             size='42px'
-            color={sourceCoin.toLowerCase()}
-            name={sourceCoin.toLowerCase() + '-circle-filled'}
+            color={sourceCoinModel.colorCode}
+            name={sourceCoinModel.icons.circleFilled}
           />
           <Icon size='12px' name='thick-arrow-right' />
           <Icon
             size='42px'
-            color={targetCoin.toLowerCase()}
-            name={targetCoin.toLowerCase() + '-circle-filled'}
+            color={targetCoinModel.colorCode}
+            name={targetCoinModel.icons.circleFilled}
           />
         </CoinIconTitle>
         {status !== FINISHED && (
@@ -273,7 +277,7 @@ export const ExchangeResults = ({
                 color='gray-5'
                 data-e2e='exchangeResultsSourceValue'
               >
-                {`${depositAmount} ${sourceCoin}`}
+                {`${depositAmount} ${sourceCoinModel.coinTicker}`}
               </SummaryExchangeAmount>
             </ExchangeAmounts>
           </LargeTableRow>
@@ -333,9 +337,9 @@ export const ExchangeResults = ({
                     defaultMessage='Exchange rate'
                   />
                 </ExchangeText>
-                <ExchangeText
-                  weight={300}
-                >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
+                <ExchangeText weight={300}>{`1 ${
+                  sourceCoinModel.coinTicker
+                } = ${rate} ${targetCoinModel.coinTicker}`}</ExchangeText>
               </MidTableRow>
             )}
           {includes(status, [REFUNDED, PENDING_REFUND]) && (
@@ -353,4 +357,18 @@ export const ExchangeResults = ({
   )
 }
 
-export default modalEnhancer(RESULTS_MODAL)(ExchangeResults)
+const mapStateToProps = (state, ownProps) => ({
+  sourceCoinModel: selectors.core.walletOptions
+    .getCoinModel(state, ownProps.sourceCoin)
+    .getOrFail(),
+  targetCoinModel: selectors.core.walletOptions
+    .getCoinModel(state, ownProps.targetCoin)
+    .getOrFail()
+})
+
+const enhance = compose(
+  modalEnhancer(RESULTS_MODAL),
+  connect(mapStateToProps)
+)
+
+export default enhance(ExchangeResults)
