@@ -12,7 +12,9 @@ class PagesContainer extends React.PureComponent {
   showDetails = () => {
     const { modalActions, deposit, isShapeShiftTrade } = this.props
     isShapeShiftTrade
-      ? modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
+      ? modalActions.showModal('ShapeshiftTradeDetails', {
+          depositAddress: deposit
+        })
       : modalActions.showModal(RESULTS_MODAL, this.props)
   }
 

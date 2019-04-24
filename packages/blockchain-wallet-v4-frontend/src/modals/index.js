@@ -25,7 +25,7 @@ import {
 } from './Eth'
 import {
   ExchangeConfirm,
-  ExchangeDetails,
+  ShapeshiftTradeDetails,
   ExchangeResults,
   IdentityVerification,
   KycDocResubmit,
@@ -95,7 +95,6 @@ const Modals = () => (
     <DeleteAddressLabel />
     <EditTxDescription />
     <ExchangeConfirm />
-    <ExchangeDetails />
     <ExchangeResults />
     <KycDocResubmit />
     <IdentityVerification />
@@ -123,6 +122,7 @@ const Modals = () => (
     <SendBsv />
     <SendEth />
     <SendXlm />
+    <ShapeshiftTradeDetails />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
     <ShowXlmPrivateKey />

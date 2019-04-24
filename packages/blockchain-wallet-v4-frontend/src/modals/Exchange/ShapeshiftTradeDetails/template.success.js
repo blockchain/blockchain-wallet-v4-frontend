@@ -58,35 +58,35 @@ const getModalHeader = status => {
     case 'complete':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.success'
+          id='modals.exchange.shapeshifttradedetails.title.success'
           defaultMessage='Exchange Completed'
         />
       )
     case 'resolved':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.refunded'
+          id='modals.exchange.shapeshifttradedetails.title.refunded'
           defaultMessage='Trade Refunded'
         />
       )
     case 'failed':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.failed'
+          id='modals.exchange.shapeshifttradedetails.title.failed'
           defaultMessage='Trade Failed'
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.inprogress'
+          id='modals.exchanged.shapeshifttradedetails.title.inprogress'
           defaultMessage='Exchange in Progress'
         />
       )
   }
 }
 
-const ExchangeDetails = props => {
+const ShapeshiftTradeDetails = props => {
   const { position, total, close, ...rest } = props
   const {
     status,
@@ -112,12 +112,12 @@ const ExchangeDetails = props => {
           <Notice>
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='modals.exchangedetails.explain'
+                id='modals.exchange.shapeshifttradedetails.explain'
                 defaultMessage='Your exchange is complete.'
               />
               <span>&nbsp;</span>
               <FormattedMessage
-                id='modals.exchangedetails.explain2'
+                id='modals.exchange.shapeshifttradedetails.explain2'
                 defaultMessage='It may take a few minutes for the funds to show in your balance.'
               />
             </Text>
@@ -128,7 +128,7 @@ const ExchangeDetails = props => {
             <TableCell>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.deposited'
+                  id='modals.exchange.shapeshifttradedetails.deposited'
                   defaultMessage='{coin} Deposited'
                   values={{ coin: sourceCoin }}
                 />
@@ -144,7 +144,7 @@ const ExchangeDetails = props => {
             <TableCell>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.received'
+                  id='modals.exchange.shapeshifttradedetails.received'
                   defaultMessage='{coin} to be Received'
                   values={{ coin: targetCoin }}
                 />
@@ -160,7 +160,7 @@ const ExchangeDetails = props => {
             <TableCell>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.exchangerate'
+                  id='modals.exchange.shapeshifttradedetails.exchangerate'
                   defaultMessage='Exchange rate'
                 />
               </Text>
@@ -178,7 +178,7 @@ const ExchangeDetails = props => {
             <TableCell>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.fee'
+                  id='modals.exchange.shapeshifttradedetails.fee'
                   defaultMessage='Transaction fee'
                 />
               </Text>
@@ -196,7 +196,7 @@ const ExchangeDetails = props => {
             <TableCell>
               <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.orderid'
+                  id='modals.exchange.shapeshifttradedetails.orderid'
                   defaultMessage='Order ID'
                 />
               </Text>
@@ -213,7 +213,7 @@ const ExchangeDetails = props => {
       <ModalFooter align='right'>
         <Button nature='primary' size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id='modals.exchange.exchangedetails.close'
+            id='modals.exchange.shapeshifttradedetails.close'
             defaultMessage='Close'
           />
         </Button>
@@ -222,7 +222,7 @@ const ExchangeDetails = props => {
   )
 }
 
-ExchangeDetails.propTypes = {
+ShapeshiftTradeDetails.propTypes = {
   status: PropTypes.string.isRequired,
   sourceCoin: PropTypes.string.isRequired,
   targetCoin: PropTypes.string.isRequired,
@@ -234,4 +234,4 @@ ExchangeDetails.propTypes = {
   withdrawalAmount: PropTypes.string.isRequired
 }
 
-export default ExchangeDetails
+export default ShapeshiftTradeDetails
