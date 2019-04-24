@@ -137,7 +137,7 @@ const FirstStep = props => {
             />
             <QRCodeCapture
               scanType='bchAddress'
-              border={['top', 'bottom', 'right', 'left']}
+              border={['top', 'bottom', 'right']}
             />
           </Row>
         </FormItem>
