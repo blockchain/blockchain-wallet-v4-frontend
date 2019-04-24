@@ -7,7 +7,7 @@ exports[`IconButton component default renders correctly 1`] = `
     cursor={false}
     name="test"
     size="16px"
-    weight={500}
+    weight={400}
   />
 </IconButton__BaseIconButton>
 `;

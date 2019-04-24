@@ -14,21 +14,21 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -162,21 +162,21 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -310,21 +310,21 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__OrderRow>
@@ -455,21 +455,21 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -599,21 +599,21 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -743,21 +743,21 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -856,21 +856,21 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>
@@ -1000,21 +1000,21 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         cursor={false}
         name="btc-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="gray-5"
         cursor={false}
         name="thick-arrow-right"
         size="12px"
-        weight={500}
+        weight={400}
       />
       <Icon
         color="eth"
         cursor={false}
         name="eth-circle-filled"
         size="42px"
-        weight={500}
+        weight={400}
       />
     </ExchangeResults__CoinIconTitle>
     <ExchangeResults__SummaryNote>

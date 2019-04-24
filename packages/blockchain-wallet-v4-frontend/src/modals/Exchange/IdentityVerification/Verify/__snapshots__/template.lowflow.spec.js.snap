@@ -61,7 +61,7 @@ exports[`HighFlow should render correctly 1`] = `
               opacity={1}
               size="18px"
               uppercase={false}
-              weight={500}
+              weight={400}
             >
               <FormattedMessage
                 defaultMessage="How do I enable my camera and microphone?"
