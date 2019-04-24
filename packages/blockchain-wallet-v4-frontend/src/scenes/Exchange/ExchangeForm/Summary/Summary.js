@@ -173,7 +173,7 @@ export class Summary extends React.PureComponent {
                 targetAmount={targetAmount}
                 targetCoin={targetCoin}
                 color='brand-primary'
-                weight={400}
+                weight={500}
               />
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>

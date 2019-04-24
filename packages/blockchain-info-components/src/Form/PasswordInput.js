@@ -13,7 +13,7 @@ const BasePasswordInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   background-image: none;

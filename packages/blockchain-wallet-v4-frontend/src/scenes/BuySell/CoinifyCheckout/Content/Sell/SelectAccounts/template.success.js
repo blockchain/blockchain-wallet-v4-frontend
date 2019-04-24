@@ -75,7 +75,7 @@ const SelectAccounts = props => {
                 />
                 <RowContent>
                   <BankLabel htmlFor={`iban${index}`}>
-                    <Text weight={300}>{path(['_account', '_number'], b)}</Text>
+                    <Text weight={400}>{path(['_account', '_number'], b)}</Text>
                   </BankLabel>
                   <ClickableIcon
                     name='trash'

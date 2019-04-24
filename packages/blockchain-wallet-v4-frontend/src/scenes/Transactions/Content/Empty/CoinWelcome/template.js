@@ -81,14 +81,14 @@ const Welcome = props => {
     <Wrapper>
       <Container>
         <Row>
-          <Text size='24px' weight={400} color='brand-primary'>
+          <Text size='24px' weight={500} color='brand-primary'>
             <FormattedMessage
               id='scenes.transaction.content.empty.yourcoinwallet'
               defaultMessage='Your {coin} Wallet'
               values={{ coin: currentCoin.coinTicker }}
             />
           </Text>
-          <Content weight={300}>
+          <Content weight={400}>
             <FormattedMessage
               id='scenes.transaction.content.empty.sendrequestswap'
               defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'

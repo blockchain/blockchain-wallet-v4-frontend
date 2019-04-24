@@ -75,7 +75,7 @@ const Tab = styled.div`
   }
 `
 const TabHeader = styled(Text)`
-  font-weight: 300;
+  font-weight: 400;
   @media (min-width: 768px) {
     font-size: 20px;
   }

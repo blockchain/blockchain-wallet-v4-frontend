@@ -93,7 +93,7 @@ const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
 const ACCOUNT_FILTER_COINS = ['BTC', 'BCH']
 
 const EthPrivateKeys = () => (
-  <Link weight={300} size='12px'>
+  <Link weight={500} size='12px'>
     <FormattedMessage
       id='scenes.transactions.menu.ethprivatekeys'
       defaultMessage='Private Keys'
@@ -171,7 +171,7 @@ const Menu = props => {
                 ) : (
                   <Link
                     size={'12px'}
-                    weight={300}
+                    weight={400}
                     onClick={onShowPrivateKey}
                     data-e2e='exportPrivateKeyLink'
                   >

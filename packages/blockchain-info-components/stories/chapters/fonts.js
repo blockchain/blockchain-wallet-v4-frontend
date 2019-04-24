@@ -17,13 +17,13 @@ storiesOf('Fonts', module)
       <Text size='20px' weight={100}>
         {sample}
       </Text>
-      <Text size='20px' weight={200}>
-        {sample}
-      </Text>
-      <Text size='20px' weight={300}>
+      <Text size='20px' weight={400}>
         {sample}
       </Text>
       <Text size='20px' weight={400}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={500}>
         {sample}
       </Text>
       <Text size='20px' weight={500}>

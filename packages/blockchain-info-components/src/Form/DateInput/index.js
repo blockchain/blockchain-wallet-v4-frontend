@@ -17,7 +17,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
     background-image: none;
@@ -134,7 +134,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
     color: ${props => props.theme['gray-5']};
   }
   .rdtPicker th.rdtSwitch {
@@ -143,7 +143,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
     border: 1px solid ${props => props.theme['gray-1']};
     border-radius: 5px;
     box-sizing: border-box;
@@ -159,7 +159,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
-    font-weight: 300;
+    font-weight: 400;
     border: 1px solid ${props => props.theme['gray-1']};
     border-radius: 5px;
     box-sizing: border-box;

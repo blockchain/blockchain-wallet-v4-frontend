@@ -53,7 +53,7 @@ const AuthenticityStep = props => {
       <ModalBody>
         {connection.app !== 'DASHBOARD' ? (
           <ConnectStep>
-            <ConnectSubtitle size='16px' weight={400} color='gray-4'>
+            <ConnectSubtitle size='16px' weight={500} color='gray-4'>
               <FormattedHTMLMessage
                 id='modals.lockbox.appmanager.connectdevice'
                 defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'
@@ -79,13 +79,13 @@ const AuthenticityStep = props => {
             </Text>
             <Loader width='100px' height='100px' />
             <TextGroup inline>
-              <Text size='14px' weight={400}>
+              <Text size='14px' weight={500}>
                 <FormattedMessage
                   id='modals.lockbox.authenticity.note'
                   defaultMessage='Note:'
                 />
               </Text>
-              <Text size='14px' weight={300}>
+              <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='modals.lockbox.authenticity.notetext'
                   defaultMessage='Allow the device manager onto the device if prompted.'

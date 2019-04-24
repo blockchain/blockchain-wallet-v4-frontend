@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
     > span:first-child {
-      font-weight: 300;
+      font-weight: 400;
     }
   }
   .highcharts-container,

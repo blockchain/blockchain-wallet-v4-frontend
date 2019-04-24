@@ -61,7 +61,7 @@ const CoinButton = styled.div`
   flex: 1;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   line-height: 1;
   text-decoration: none;
@@ -162,7 +162,7 @@ const ExchangeConfirm = ({
           targetAmount={Remote.of(targetAmount)}
           targetCoin={targetCoin}
           color='brand-primary'
-          weight={300}
+          weight={400}
           size='42px'
         />
       </AmountTitle>
@@ -182,7 +182,7 @@ const ExchangeConfirm = ({
         </CoinButton>
       </Row>
       <OrderInfoBox onClick={toggleShowOrderInfo} showOrderInfo={showOrderInfo}>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.exchange.confirm.orderinfo'
             defaultMessage='Order Info'

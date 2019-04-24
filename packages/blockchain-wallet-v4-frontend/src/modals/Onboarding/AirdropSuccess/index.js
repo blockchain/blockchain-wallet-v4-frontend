@@ -52,7 +52,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: 48px;
-  font-weight: 300;
+  font-weight: 400;
   min-width: auto;
   padding: 14px;
 `
@@ -108,14 +108,14 @@ class AirdropSuccess extends React.PureComponent {
           }}
         />
         <Body>
-          <Text size='24px' weight={300}>
+          <Text size='24px' weight={400}>
             <FormattedMessage
               id='modals.airdropsuccess.airdroponitsway'
               defaultMessage='Your {coinCode} is on its way!'
               values={{ coinCode: prop('coinCode', CAMPAIGNS[campaign]) }}
             />
           </Text>
-          <Copy weight={300}>
+          <Copy weight={400}>
             <FormattedMessage
               id='modals.airdropsuccess.sharethewealth'
               defaultMessage='Share the wealth with friends and family. Literally.'

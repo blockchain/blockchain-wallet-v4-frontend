@@ -59,9 +59,9 @@ const renderItem = props => {
         name={coinValue + '-circle-filled'}
         color={coinValue}
         size='22px'
-        weight={300}
+        weight={400}
       />
-      <Text size='14px' weight={300} cursor='pointer' data-e2e=''>
+      <Text size='14px' weight={400} cursor='pointer' data-e2e=''>
         {text}
       </Text>
     </HeaderWrapper>
@@ -79,11 +79,11 @@ const renderDisplay = (props, children) => {
         name={coinValue + '-circle-filled'}
         color={coinValue}
         size='22px'
-        weight={300}
+        weight={400}
       />
       <CoinText
         size='18px'
-        weight={400}
+        weight={500}
         color='black'
         cursor='pointer'
         data-e2e={e2eTag}

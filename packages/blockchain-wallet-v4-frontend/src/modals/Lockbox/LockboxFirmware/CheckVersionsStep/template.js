@@ -41,7 +41,7 @@ const CheckVersionsStep = props => {
       </LoaderContainer>
       <Content>
         {status ? (
-          <Text weight={300}>
+          <Text weight={400}>
             <FormattedMessage
               id='modals.lockboxfirmware.checkversionsstep.updateavailable'
               defaultMessage='A new firmware, version {status}, is available for your device! Click continue to start installing.'
@@ -49,7 +49,7 @@ const CheckVersionsStep = props => {
             />
           </Text>
         ) : (
-          <Text size='15px' weight={300}>
+          <Text size='15px' weight={400}>
             <FormattedMessage
               id='modals.lockboxfirmware.checkversionsstep.subtitle'
               defaultMessage='Please wait while we check for updates for your device.'

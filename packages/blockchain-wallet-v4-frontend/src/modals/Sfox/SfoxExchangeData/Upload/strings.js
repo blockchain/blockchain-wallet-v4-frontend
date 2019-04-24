@@ -19,7 +19,7 @@ const TitleStrings = props =>
           defaultMessage='To further confirm your identity and ensure that you can trade at the maximum limit, we need a picture of your government issued ID. Make sure that your legal name and date of birth are clearly visible.'
         />
       </PartnerSubHeader>
-      <Text weight={400} style={spacing('mt-15')}>
+      <Text weight={500} style={spacing('mt-15')}>
         <FormattedMessage
           id='sfoxexchangedata.upload.id.info'
           defaultMessage='1. Photo ID Verification'
@@ -62,13 +62,13 @@ const TitleStrings = props =>
           defaultMessage='The document must be dated within the last 6 months, and should clearly display your address.'
         />
       </PartnerSubHeader>
-      <Text weight={400} style={spacing('mt-15')}>
+      <Text weight={500} style={spacing('mt-15')}>
         <FormattedMessage
           id='sfoxexchangedata.upload.address.id'
           defaultMessage='2. Proof of Address Verification'
         />
       </Text>
-      <Text weight={300} size='14px' style={spacing('mt-15')}>
+      <Text weight={400} size='14px' style={spacing('mt-15')}>
         <FormattedMessage
           id='sfoxexchangedata.upload.address.info'
           defaultMessage='- Utility bill (mobile phone bills not accepted)'

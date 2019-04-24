@@ -40,7 +40,7 @@ const Coin = styled.div`
 `
 const CoinName = styled(Text)`
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
 `
 const CoinIcon = styled(Icon)`
   font-size: 32px;
@@ -71,7 +71,7 @@ export const HomeCoinBalanceCell = props => {
           cursor='pointer'
           mobileSize='16px'
           color='brand-primary'
-          weight={300}
+          weight={400}
           data-e2e={coin + 'FiatBalance'}
         >
           {balance}
@@ -82,7 +82,7 @@ export const HomeCoinBalanceCell = props => {
           cursor='pointer'
           mobileSize='12px'
           color='gray-3'
-          weight={300}
+          weight={400}
           data-e2e={coin + 'Balance'}
         >
           {balance}

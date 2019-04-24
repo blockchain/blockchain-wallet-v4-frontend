@@ -41,7 +41,7 @@ const UpgradeWallet = props => {
       <ModalBody>
         <Carousel height={300} auto>
           <Slide>
-            <Text size='18px' weight={300}>
+            <Text size='18px' weight={400}>
               <FormattedMessage
                 id='modals.upgradewallet.title1'
                 defaultMessage='Completely updated design and user experience'
@@ -50,7 +50,7 @@ const UpgradeWallet = props => {
             <Image name='wallet-v3-new-design' width='100%' />
           </Slide>
           <Slide>
-            <Text size='20px' weight={300}>
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='modals.upgradewallet.title2'
                 defaultMessage='Robust security center'
@@ -59,7 +59,7 @@ const UpgradeWallet = props => {
             <Image name='wallet-v3-security-upgrade' width='100%' />
           </Slide>
           <Slide>
-            <Text size='20px' weight={300}>
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='modals.upgradewallet.title3'
                 defaultMessage='Simplified backup and recovery'
@@ -68,7 +68,7 @@ const UpgradeWallet = props => {
             <Image name='wallet-v3-backup' width='100%' />
           </Slide>
           <Slide>
-            <Text size='20px' weight={300}>
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='modals.upgradewallet.title4'
                 defaultMessage='Customized fund management'

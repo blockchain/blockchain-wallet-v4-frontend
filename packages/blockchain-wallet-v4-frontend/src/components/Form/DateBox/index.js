@@ -30,7 +30,7 @@ const DateBox = field => {
     <Container>
       <DateInput {...field.input} errorState={errorState} locale={locale()} />
       {field.meta.touched && field.meta.error && (
-        <Error size='12px' weight={300} color='error'>
+        <Error size='12px' weight={400} color='error'>
           {field.meta.error}
         </Error>
       )}

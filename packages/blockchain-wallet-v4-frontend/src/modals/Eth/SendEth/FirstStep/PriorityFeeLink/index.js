@@ -10,7 +10,7 @@ import { Link } from 'blockchain-info-components'
 const PriorityFeeLink = props => (
   <Link
     size='12px'
-    weight={300}
+    weight={400}
     onClick={props.actions.sendEthFirstStepPriorityFeeClicked}
     data-e2e={`${props.coin}PriorityFeeLink`}
   >

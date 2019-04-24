@@ -13,7 +13,7 @@ const FormLabel = props => {
 
   return (
     <Label {...rest} htmlFor={props.for}>
-      <Text size={'14px'} weight={400}>
+      <Text size={'14px'} weight={500}>
         {children}
       </Text>
     </Label>

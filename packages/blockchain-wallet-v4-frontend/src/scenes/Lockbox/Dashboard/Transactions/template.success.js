@@ -46,7 +46,7 @@ const LockboxTransactions = props => {
           <HeartbeatLoader />
         ) : transactionsAtBounds ? (
           length(transactions) ? (
-            <Text weight={300} size='18px'>
+            <Text weight={400} size='18px'>
               <FormattedMessage
                 id='scenes.lockbox.dashboard.transactions.thatsit'
                 defaultMessage="That's it! No more transactions 📭"

@@ -28,7 +28,7 @@ const ItemWrapper = styled.div`
 
 const renderItem = item => (
   <ItemWrapper data-e2e='ethAddressOption'>
-    <Text weight={300} size='14px'>
+    <Text weight={400} size='14px'>
       {item.text}
     </Text>
   </ItemWrapper>

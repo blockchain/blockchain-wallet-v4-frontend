@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 export default () => (
   <Wrapper>
-    <Text size='10px' weight={300} color='red'>
+    <Text size='10px' weight={400} color='red'>
       <FormattedMessage
         id='components.fiatdisplay.error'
         defaultMessage='Failed to fetch rates'

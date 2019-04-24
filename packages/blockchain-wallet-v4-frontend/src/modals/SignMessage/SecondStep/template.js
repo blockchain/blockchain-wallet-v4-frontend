@@ -39,29 +39,29 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <DetailRow>
-        <Text size='14px' weight={400}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
             id='modals.signmessage.secondstep.address'
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={300} data-e2e='signMessageAddressValue'>
+        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
       <DetailRow>
-        <Text size='14px' weight={400}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
             id='modals.signmessage.secondstep.message'
             defaultMessage='Message:'
           />
         </Text>
-        <Text size='14px' weight={300} data-e2e='signMessageMsgValue'>
+        <Text size='14px' weight={400} data-e2e='signMessageMsgValue'>
           {message}
         </Text>
       </DetailRow>
       <DetailRow column>
-        <Text size='14px' weight={400}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
             id='modals.signmessage.secondstep.signature'
             defaultMessage='Signature:'
@@ -72,7 +72,7 @@ const SecondStep = props => {
       <SubmitRow>
         <ClickableText
           size='14px'
-          weight={300}
+          weight={400}
           onClick={resetForm}
           data-e2e='signMessageResetFormButton'
         >

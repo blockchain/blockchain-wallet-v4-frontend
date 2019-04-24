@@ -36,7 +36,7 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   position: absolute;
   color: ${props => props.theme['text-black']};
 `
@@ -109,7 +109,7 @@ const Converter = props => {
         <Error
           errorBottom={errorBottom}
           size='13px'
-          weight={300}
+          weight={400}
           color='error'
           className='error'
           data-e2e='fiatConverterError'

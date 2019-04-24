@@ -124,7 +124,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -265,7 +265,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -406,7 +406,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -547,7 +547,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -688,7 +688,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -829,7 +829,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -970,7 +970,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1111,7 +1111,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1252,7 +1252,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1393,7 +1393,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1534,7 +1534,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1675,7 +1675,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1816,7 +1816,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -1957,7 +1957,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2098,7 +2098,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2239,7 +2239,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2380,7 +2380,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2521,7 +2521,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2662,7 +2662,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2803,7 +2803,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -2944,7 +2944,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3085,7 +3085,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3226,7 +3226,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3367,7 +3367,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3508,7 +3508,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3649,7 +3649,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3790,7 +3790,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -3931,7 +3931,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4072,7 +4072,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4213,7 +4213,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4354,7 +4354,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4495,7 +4495,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4636,7 +4636,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4777,7 +4777,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -4918,7 +4918,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5059,7 +5059,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5200,7 +5200,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5341,7 +5341,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5482,7 +5482,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5623,7 +5623,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5764,7 +5764,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -5905,7 +5905,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6046,7 +6046,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6187,7 +6187,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6328,7 +6328,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6469,7 +6469,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6610,7 +6610,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6751,7 +6751,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -6892,7 +6892,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7033,7 +7033,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7174,7 +7174,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7315,7 +7315,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7456,7 +7456,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7597,7 +7597,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7738,7 +7738,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -7879,7 +7879,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8020,7 +8020,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8161,7 +8161,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8302,7 +8302,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8443,7 +8443,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8584,7 +8584,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8725,7 +8725,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -8866,7 +8866,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9007,7 +9007,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9148,7 +9148,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9289,7 +9289,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9430,7 +9430,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9571,7 +9571,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9712,7 +9712,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9853,7 +9853,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -9994,7 +9994,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10135,7 +10135,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10276,7 +10276,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10417,7 +10417,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10558,7 +10558,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10699,7 +10699,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10840,7 +10840,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -10981,7 +10981,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11122,7 +11122,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11263,7 +11263,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11404,7 +11404,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11545,7 +11545,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11686,7 +11686,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11827,7 +11827,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -11968,7 +11968,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12109,7 +12109,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12250,7 +12250,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12391,7 +12391,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12532,7 +12532,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12673,7 +12673,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12814,7 +12814,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -12955,7 +12955,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13096,7 +13096,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13237,7 +13237,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13378,7 +13378,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13519,7 +13519,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13660,7 +13660,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13801,7 +13801,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -13942,7 +13942,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14083,7 +14083,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14224,7 +14224,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14365,7 +14365,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14506,7 +14506,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14647,7 +14647,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14788,7 +14788,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -14929,7 +14929,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15070,7 +15070,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15211,7 +15211,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15352,7 +15352,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15493,7 +15493,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15634,7 +15634,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15775,7 +15775,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -15916,7 +15916,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16057,7 +16057,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16198,7 +16198,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16339,7 +16339,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16480,7 +16480,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16621,7 +16621,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16762,7 +16762,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -16903,7 +16903,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17044,7 +17044,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17185,7 +17185,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17326,7 +17326,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17467,7 +17467,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17608,7 +17608,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17749,7 +17749,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -17890,7 +17890,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18031,7 +18031,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18172,7 +18172,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18313,7 +18313,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18454,7 +18454,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18595,7 +18595,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18736,7 +18736,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -18877,7 +18877,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19018,7 +19018,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19159,7 +19159,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19300,7 +19300,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19441,7 +19441,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19582,7 +19582,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19723,7 +19723,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -19864,7 +19864,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20005,7 +20005,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20146,7 +20146,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20287,7 +20287,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20428,7 +20428,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20569,7 +20569,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20710,7 +20710,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20851,7 +20851,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -20992,7 +20992,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21133,7 +21133,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21274,7 +21274,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21415,7 +21415,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21556,7 +21556,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21697,7 +21697,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21838,7 +21838,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -21979,7 +21979,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22120,7 +22120,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22261,7 +22261,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22402,7 +22402,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22543,7 +22543,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22684,7 +22684,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22825,7 +22825,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -22966,7 +22966,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23107,7 +23107,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23248,7 +23248,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23389,7 +23389,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23530,7 +23530,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23671,7 +23671,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23812,7 +23812,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -23953,7 +23953,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24094,7 +24094,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24235,7 +24235,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24376,7 +24376,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24517,7 +24517,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24658,7 +24658,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24799,7 +24799,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -24940,7 +24940,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25081,7 +25081,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25222,7 +25222,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25363,7 +25363,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25504,7 +25504,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25645,7 +25645,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25786,7 +25786,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -25927,7 +25927,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26068,7 +26068,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26209,7 +26209,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26350,7 +26350,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26491,7 +26491,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26632,7 +26632,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26773,7 +26773,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -26914,7 +26914,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27055,7 +27055,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27196,7 +27196,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27337,7 +27337,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27478,7 +27478,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27619,7 +27619,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27760,7 +27760,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -27901,7 +27901,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28042,7 +28042,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28183,7 +28183,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28324,7 +28324,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28465,7 +28465,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28606,7 +28606,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28747,7 +28747,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -28888,7 +28888,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29029,7 +29029,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29170,7 +29170,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29311,7 +29311,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29452,7 +29452,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29593,7 +29593,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29734,7 +29734,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -29875,7 +29875,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30016,7 +30016,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30157,7 +30157,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30298,7 +30298,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30439,7 +30439,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30580,7 +30580,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30721,7 +30721,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -30862,7 +30862,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31003,7 +31003,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31144,7 +31144,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31285,7 +31285,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31426,7 +31426,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31567,7 +31567,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31708,7 +31708,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31849,7 +31849,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -31990,7 +31990,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32131,7 +32131,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32272,7 +32272,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32413,7 +32413,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32554,7 +32554,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32695,7 +32695,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32836,7 +32836,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -32977,7 +32977,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33118,7 +33118,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33259,7 +33259,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33400,7 +33400,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33541,7 +33541,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33682,7 +33682,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33823,7 +33823,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -33964,7 +33964,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34105,7 +34105,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34246,7 +34246,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34387,7 +34387,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34528,7 +34528,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34669,7 +34669,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34810,7 +34810,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -34951,7 +34951,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35092,7 +35092,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35233,7 +35233,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35374,7 +35374,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35515,7 +35515,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35656,7 +35656,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35797,7 +35797,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -35938,7 +35938,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount
@@ -36079,7 +36079,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
             }
           }
           targetCoin="ETH"
-          weight={400}
+          weight={500}
         />
       </Summary__SummaryExchangeAmount>
       <Exchange__SubExchangeAmount

@@ -38,7 +38,7 @@ const FooterLink = styled(Link)`
 const FooterButton = styled(Button)`
   height: 100%;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 15px 0;
   margin-bottom: 32px;
 `

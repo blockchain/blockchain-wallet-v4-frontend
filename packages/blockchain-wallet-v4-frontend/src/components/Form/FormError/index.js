@@ -11,7 +11,7 @@ const FormError = props => {
   const { children, position } = props
   return (
     <Error
-      weight={300}
+      weight={400}
       size='12px'
       color='error'
       position={position}

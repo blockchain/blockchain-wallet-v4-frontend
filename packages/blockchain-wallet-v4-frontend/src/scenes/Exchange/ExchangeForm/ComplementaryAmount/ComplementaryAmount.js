@@ -7,7 +7,7 @@ import { formatAmount } from '../services'
 import StringDisplay from 'components/Display/StringDisplay'
 
 const ComplementaryAmountContainer = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   font-size: 20px;
   line-height: 24px;
   position: relative;

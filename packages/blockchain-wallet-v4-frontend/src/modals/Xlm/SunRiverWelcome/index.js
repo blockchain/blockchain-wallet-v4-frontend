@@ -62,13 +62,13 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     if (kycState === KYC_STATES.VERIFIED) {
       return (
         <Container>
-          <Text size='26px' weight={300}>
+          <Text size='26px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.title'
               defaultMessage='Thank you for already verifying your identity'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.subtitle'
               defaultMessage='Hang tight, your XLM is on its way.'
@@ -88,13 +88,13 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     ) {
       return (
         <Container>
-          <Text size='26px' weight={300}>
+          <Text size='26px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.title'
               defaultMessage='Thank you for completing your Identity Verification'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.subtitle'
               defaultMessage='Your application is still under review. Once verified, you will receive your XLM.'
@@ -114,13 +114,13 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     ) {
       return (
         <Container>
-          <Text size='26px' weight={300}>
+          <Text size='26px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.title'
               defaultMessage='Finish Identity Verification'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.subtitle'
               defaultMessage="Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap."
@@ -141,13 +141,13 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     } else {
       return (
         <Container>
-          <Text size='26px' weight={300}>
+          <Text size='26px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.title'
               defaultMessage='Start Identity Verification'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.subtitle'
               defaultMessage="Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap."

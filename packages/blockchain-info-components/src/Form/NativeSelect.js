@@ -6,7 +6,7 @@ const BaseSelectInput = styled.select`
   height: 30px;
   width: 160px;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 2px 6px;
   outline: none;
   appearance: none;

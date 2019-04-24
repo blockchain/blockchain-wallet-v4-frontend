@@ -25,9 +25,9 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   height: 100%;
 `
 const LeftContainer = styled(Container)`
@@ -44,7 +44,7 @@ const RightContainer = styled(Container)`
 `
 const TextContainer = styled.div`
   display: none;
-  margin-left: -2px;
+  margin-left: 20px;
   @media (min-width: 850px) {
     display: flex;
   }
@@ -53,15 +53,15 @@ const TextContainer = styled.div`
 const MenuTop = () => (
   <Wrapper>
     <LeftContainer>
+      <Actions />
       <TextContainer inline>
-        <Text size='20px' weight={200} uppercase color='gray-3'>
+        <Text size='16px' weight={500} uppercase color='gray-3'>
           Be Your Own Bank
         </Text>
-        <Text size='15px' weight={200} color='gray-3'>
+        <Text size='15px' weight={400} color='gray-3'>
           <sup>®</sup>
         </Text>
       </TextContainer>
-      <Actions />
     </LeftContainer>
     <RightContainer>
       <Balance />

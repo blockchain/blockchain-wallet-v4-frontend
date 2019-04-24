@@ -97,13 +97,13 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         defaultMessage="You're almost there"
       />
     </PartnerHeader>
-    <PartnerSubHeader size='14px' weight={300} style={spacing('mb-20')}>
+    <PartnerSubHeader size='14px' weight={400} style={spacing('mb-20')}>
       <FormattedMessage
         id='buy.sfoxcheckout.revieworder.subtext'
         defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.'
       />
     </PartnerSubHeader>
-    <Text size='14px' weight={300} style={spacing('mt-20')}>
+    <Text size='14px' weight={400} style={spacing('mt-20')}>
       <FormattedMessage
         id='buy.sfoxcheckout.connectedaccount'
         defaultMessage='Your Connected Account'
@@ -123,7 +123,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
           defaultMessage='Exchange Rate'
         />
       </Text>
-      <Text size='12px' weight={300}>
+      <Text size='12px' weight={400}>
         1 BTC ={' '}
         {quoteR
           .map(q => {
@@ -149,21 +149,21 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
     <OrderDetailsTable style={spacing('mt-10')}>
       <OrderDetailsRow>
         {type === 'buy' ? (
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.amounttopurchase'
               defaultMessage='BTC Amount to Purchase'
             />
           </Text>
         ) : (
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.amounttosell'
               defaultMessage='BTC Amount to Sell'
             />
           </Text>
         )}
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           {quoteR
             .map(quote => reviewOrder.renderFirstRow(quote, type))
             .getOrElse('~')}
@@ -171,7 +171,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       </OrderDetailsRow>
       <OrderDetailsRow>
         <ToolTipWrapper>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.tradingfee'
               defaultMessage='Trading Fee'
@@ -181,7 +181,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
             </TooltipHost>
           </Text>
         </ToolTipWrapper>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           {quoteR
             .map(quote => `$${(+quote.feeAmount).toFixed(2)}`)
             .getOrElse('~')}
@@ -189,34 +189,34 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       </OrderDetailsRow>
       <OrderDetailsRow>
         {type === 'buy' ? (
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.totalcost'
               defaultMessage='Total Cost'
             />
           </Text>
         ) : (
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.totaltobereceived'
               defaultMessage='Total to be Received'
             />
           </Text>
         )}
-        <Text size='13px' weight={300} color='success'>
+        <Text size='13px' weight={400} color='success'>
           {quoteR
             .map(quote => reviewOrder.renderTotal(quote, type))
             .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
             id='buy.sfoxcheckout.orderdetails.fundsdelivery'
             defaultMessage='Estimated Delivery of Funds'
           />
         </Text>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           {quoteR.map(quote => reviewOrder.renderDate(quote)).getOrElse('~')}
         </Text>
       </OrderDetailsRow>
@@ -248,7 +248,7 @@ export const OrderSubmit = ({
           Sorry, something went wrong with your trade: {busy.message}
         </Text>
         <span onClick={() => clearTradeError()}>
-          <StepTransition prev Component={Link} weight={300} size='13px'>
+          <StepTransition prev Component={Link} weight={400} size='13px'>
             <FormattedMessage
               id='buy.sfoxcheckout.orderdetails.try_again'
               defaultMessage='Try again'

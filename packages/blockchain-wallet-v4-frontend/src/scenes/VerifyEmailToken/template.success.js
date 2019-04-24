@@ -26,7 +26,7 @@ const Success = props => {
       </LogoWrapper>
       <Text
         size='18px'
-        weight={400}
+        weight={500}
         color='marketing-primary'
         style={{ 'margin-top': '15px' }}
       >
@@ -50,7 +50,7 @@ const Success = props => {
           </Button>
         </Link>
       ) : (
-        <Text style={{ marginTop: '16px' }} size='15px' weight={300}>
+        <Text style={{ marginTop: '16px' }} size='15px' weight={400}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return'
             defaultMessage='Return to the previous tab to access your Blockchain Wallet.'

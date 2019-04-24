@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/lib/Creatable'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;
-  font-weight: 400;
+  font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
@@ -29,7 +29,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   }
 
   .bc__group-heading {
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 0px;
     color: ${props => props.theme['gray-5']};
   }
@@ -106,7 +106,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
         }
       }
       * {
-        font-weight: 400;
+        font-weight: 500;
         color: ${props.theme['gray-5']};
         transition: color 0.3s;
       }

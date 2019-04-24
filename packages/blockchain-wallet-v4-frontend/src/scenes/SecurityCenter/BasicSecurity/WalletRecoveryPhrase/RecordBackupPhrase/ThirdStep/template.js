@@ -64,7 +64,7 @@ const ThirdStep = props => {
 
   return (
     <Wrapper>
-      <InstructionsText size='14px' weight={400}>
+      <InstructionsText size='14px' weight={500}>
         <FormattedMessage
           id='scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase'
           defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.'
@@ -76,7 +76,7 @@ const ThirdStep = props => {
             <WordContainer key={index}>
               <Text
                 size='14px'
-                weight={300}
+                weight={400}
                 style={{ marginBottom: '4px' }}
                 data-e2e='wordLabel'
               >
@@ -99,7 +99,7 @@ const ThirdStep = props => {
             nature='empty'
             data-e2e='reviewBackupPhraseButton'
           >
-            <Text weight={300} cursor='pointer'>
+            <Text weight={400} cursor='pointer'>
               <FormattedMessage
                 id='scenes.securitycenter.walletrecoveryphrase.thirdstep.review'
                 defaultMessage='Review Backup Phrase'

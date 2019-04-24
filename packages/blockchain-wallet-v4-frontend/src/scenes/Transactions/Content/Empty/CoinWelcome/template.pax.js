@@ -48,7 +48,7 @@ const FooterButton = styled(Button)`
   height: 54px;
   width: 100%;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
 `
 const SubTextGroup = styled(TextGroup)`
   padding-right: 30px;
@@ -66,13 +66,13 @@ const WelcomePax = props => {
         <Row>
           <Column>
             <div>
-              <Text size='24px' weight={400} color='brand-primary'>
+              <Text size='24px' weight={500} color='brand-primary'>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.pax.title'
                   defaultMessage='A Digital US Dollar in Your Wallet'
                 />
               </Text>
-              <Text weight={300} style={{ marginTop: '16px' }}>
+              <Text weight={400} style={{ marginTop: '16px' }}>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.pax.subtitle'
                   defaultMessage='USD Pax is a crypto asset 100% backed by funds held in regulated US banks and lives on the Ethereum blockchain.'
@@ -93,13 +93,13 @@ const WelcomePax = props => {
         </Row>
         <Row>
           <SubTextGroup inline>
-            <Text size='14px' weight={400} color='brand-primary'>
+            <Text size='14px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact1.1'
                 defaultMessage='Store Value'
               />
             </Text>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact1.2'
                 defaultMessage='in a stable, USD-backed account.'
@@ -107,13 +107,13 @@ const WelcomePax = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup inline>
-            <Text size='14px' weight={400} color='brand-primary'>
+            <Text size='14px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact2.1'
                 defaultMessage='Send'
               />
             </Text>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact2.2'
                 defaultMessage='to anyone in the world — anywhere, anytime.'
@@ -121,13 +121,13 @@ const WelcomePax = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup inline>
-            <Text size='14px' weight={400} color='brand-primary'>
+            <Text size='14px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact3.1'
                 defaultMessage='Trade'
               />
             </Text>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact3.2'
                 defaultMessage='into other cryptos and manage risk.'

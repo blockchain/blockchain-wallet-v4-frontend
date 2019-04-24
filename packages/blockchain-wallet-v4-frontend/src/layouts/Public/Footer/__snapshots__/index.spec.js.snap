@@ -13,7 +13,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
       href="https://blockchain.com/explorer"
       size="12px"
       uppercase={true}
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="Data"
@@ -26,7 +26,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
       href="https://blockchain.com/about"
       size="12px"
       uppercase={true}
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="About"
@@ -39,7 +39,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
       href="https://blog.blockchain.com"
       size="12px"
       uppercase={true}
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="Blog"
@@ -52,7 +52,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
       href="https://support.blockchain.com"
       size="12px"
       uppercase={true}
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="Support"
@@ -70,7 +70,7 @@ exports[`Public Footer Component should match snapshot 1`] = `
       href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
       size="12px"
       target="_blank"
-      weight={200}
+      weight={400}
     >
       Version 
       v4.2.0

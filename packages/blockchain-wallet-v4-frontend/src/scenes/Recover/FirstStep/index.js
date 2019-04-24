@@ -44,7 +44,7 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300}>
+        <Text size='24px' weight={400}>
           <FormattedMessage
             id='scenes.recover.firststep.funds'
             defaultMessage='Recover Funds'
@@ -57,7 +57,7 @@ const FirstStep = props => {
           />
         </Text>
       </Header>
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.recover.firststep.explain'
           defaultMessage='Recover funds from your lost wallet'
@@ -66,7 +66,7 @@ const FirstStep = props => {
       <Separator />
       <Form onSubmit={handleSubmit}>
         <TextGroup>
-          <Text size='13px' weight={300} color='error'>
+          <Text size='13px' weight={400} color='error'>
             <FormattedMessage
               id='scenes.recover.firststep.warning'
               defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.'
@@ -81,7 +81,7 @@ const FirstStep = props => {
                 defaultMessage='Your Backup Phrase'
               />
             </MnemonicLabel>
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.recover.firststep.mnemonic_explain'
                 defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
@@ -98,7 +98,7 @@ const FirstStep = props => {
         </FormGroup>
         <Footer>
           <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={400}>
               <FormattedMessage
                 id='scenes.recover.firststep.back'
                 defaultMessage='Go Back'

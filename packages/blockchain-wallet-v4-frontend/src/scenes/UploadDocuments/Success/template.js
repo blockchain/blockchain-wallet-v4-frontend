@@ -39,7 +39,7 @@ const UploadDocumentsSuccess = ({ reference }) => (
       />
     </Text>
     <TextGroup inline>
-      <Text color='brand-primary' size='16px' weight={300}>
+      <Text color='brand-primary' size='16px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.success.reference'
           defaultMessage='Reference '
@@ -47,7 +47,7 @@ const UploadDocumentsSuccess = ({ reference }) => (
       </Text>
       <Text>{reference}</Text>
     </TextGroup>
-    <SuccessText color='brand-primary' size='20px' weight={300}>
+    <SuccessText color='brand-primary' size='20px' weight={400}>
       <FormattedMessage
         id='scenes.uploaddoc.success.explanation'
         defaultMessage='We have received your files. A Blockchain Team Member 
@@ -57,7 +57,7 @@ const UploadDocumentsSuccess = ({ reference }) => (
     </SuccessText>
     <Button nature='primary'>
       <NavLink style={{ textDecoration: 'none' }} to='/login'>
-        <Text color='white' size='16px' weight={300}>
+        <Text color='white' size='16px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.success.return'
             defaultMessage='Return to the wallet'

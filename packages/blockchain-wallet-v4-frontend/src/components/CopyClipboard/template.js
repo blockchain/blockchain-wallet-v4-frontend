@@ -18,7 +18,7 @@ const AddressBox = styled.span`
   width: 100%;
   height: 36px;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   overflow: hidden;
   line-height: 36px;
   padding-left: 10px;

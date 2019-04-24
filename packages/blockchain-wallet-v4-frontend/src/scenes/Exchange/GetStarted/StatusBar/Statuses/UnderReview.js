@@ -42,14 +42,14 @@ export const UnderReview = () => (
   <Wrapper>
     <Row>
       <Icon />
-      <Text color='white' size='14px' weight={400}>
+      <Text color='white' size='14px' weight={500}>
         <FormattedMessage
           id='scenes.exchange.getstarted.status.underreview.title'
           defaultMessage='Account verification under review'
         />
       </Text>
     </Row>
-    <Text size='14px' weight={300}>
+    <Text size='14px' weight={400}>
       <FormattedMessage
         id='scenes.exchange.getstarted.status.underreview.description'
         defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'

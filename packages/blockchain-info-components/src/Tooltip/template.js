@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip'
 
 const StyledTip = styled(ReactTooltip)`
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 400;
   text-align: left;
   padding: 7px 12px;
   text-transform: none;

@@ -101,7 +101,7 @@ class CoinActions extends React.PureComponent {
       case 'Error':
         return (
           <AppActions>
-            <Text size='11px' weight={400}>
+            <Text size='11px' weight={500}>
               {coinState.error}
             </Text>
             <StatusIcon name='alert-filled' color='error' size='40px' />
@@ -166,7 +166,7 @@ const LockboxAppManager = props => {
         </IconBox>
         <div>
           <NameContainer>
-            <Text size='14px' weight={400} color={'gray-5'}>
+            <Text size='14px' weight={500} color={'gray-5'}>
               {name}
             </Text>
             {equals('btc', coinLower) && requireBtc && (
@@ -182,7 +182,7 @@ const LockboxAppManager = props => {
               </RequiredBadge>
             )}
           </NameContainer>
-          <Text size='11px' weight={300}>
+          <Text size='11px' weight={400}>
             {equals('Updating', prop('status', coinState)) ? (
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.changeType'

@@ -7,7 +7,7 @@ exports[`UnderReview renders correctly 1`] = `
     <text
       color="white"
       size="14px"
-      weight={400}
+      weight={500}
     >
       <FormattedMessage
         defaultMessage="Account verification under review"
@@ -18,7 +18,7 @@ exports[`UnderReview renders correctly 1`] = `
   </UnderReview__Row>
   <text
     size="14px"
-    weight={300}
+    weight={400}
   >
     <FormattedMessage
       defaultMessage="We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process."

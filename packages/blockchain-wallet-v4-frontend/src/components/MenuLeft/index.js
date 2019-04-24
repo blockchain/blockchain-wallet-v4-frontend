@@ -18,7 +18,7 @@ export const MenuItem = styled.li`
   margin-bottom: 8px;
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 14px;
   width: 100%;
   &:hover {
@@ -37,7 +37,7 @@ export const MenuItem = styled.li`
     margin-right: 10px;
   }
   &.active {
-    font-weight: 400;
+    font-weight: 500;
     & > *:not(div) {
       color: ${props => props.theme['marketing-primary']};
     }
@@ -60,13 +60,13 @@ export const SubMenuItem = styled.li`
   padding: 4px 0;
   box-sizing: border-box;
   text-transform: none;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   cursor: pointer;
 
   &.active {
     & > * {
-      font-weight: 400;
+      font-weight: 500;
       color: ${props => props.theme['marketing-primary']};
     }
   }

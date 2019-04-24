@@ -53,14 +53,14 @@ const AddBankDetails = props => {
                 defaultMessage='Who owns this bank account?  This information should match the holder’s bank statement. '
               />
             </PartnerSubHeader>
-            <FieldText weight={300} size='12px'>
+            <FieldText weight={400} size='12px'>
               <FormattedMessage
                 id='coinifyexchangedata.addcustomerdetails.fullname'
                 defaultMessage='Account Holder’s Full Name'
               />
             </FieldText>
             <Field name='fullname' validate={[required]} component={TextBox} />
-            <FieldText weight={300} size='12px'>
+            <FieldText weight={400} size='12px'>
               <FormattedMessage
                 id='coinifyexchangedata.addcustomerdetails.street'
                 defaultMessage='Street Address'
@@ -69,7 +69,7 @@ const AddBankDetails = props => {
             <Field name='street' validate={[required]} component={TextBox} />
             <SpaceRow>
               <Col>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addcustomerdetails.city'
                     defaultMessage='City'
@@ -78,7 +78,7 @@ const AddBankDetails = props => {
                 <Field name='city' validate={[required]} component={TextBox} />
               </Col>
               <Col>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addcustomerdetails.postcode'
                     defaultMessage='Postal Code'
@@ -91,7 +91,7 @@ const AddBankDetails = props => {
                 />
               </Col>
             </SpaceRow>
-            <FieldText weight={300} size='12px'>
+            <FieldText weight={400} size='12px'>
               <FormattedMessage
                 id='coinifyexchangedata.addcustomerdetails.country'
                 defaultMessage='Country'

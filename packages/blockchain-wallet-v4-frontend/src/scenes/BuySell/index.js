@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const CheckoutWrapper = styled.div`
   width: 100%;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 30px 30px;
   box-sizing: border-box;
   height: calc(100% - 56px);

@@ -101,7 +101,7 @@ class ISignThisContainer extends PureComponent {
               if (this.state.quoteExpired) {
                 return (
                   <Fragment>
-                    <QuoteExpiredText size='11px' weight={300}>
+                    <QuoteExpiredText size='11px' weight={400}>
                       <FormattedMessage
                         id='scenes.buysell.coinify.isx.quoteexpiredbtc'
                         defaultMessage='~{btcValue} BTC'
@@ -143,7 +143,7 @@ class ISignThisContainer extends PureComponent {
               fullwidth
               onClick={coinifyActions.cancelISX}
             >
-              <Text size='13px' weight={300} color='brand-secondary'>
+              <Text size='13px' weight={400} color='brand-secondary'>
                 <FormattedMessage
                   id='scenes.buysell.coinify.isx.finishlater'
                   defaultMessage='Finish later'

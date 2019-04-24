@@ -86,7 +86,7 @@ class TrayRightContainer extends React.PureComponent {
         }}
       >
         <Header>
-          <Text size='20px' weight={300}>
+          <Text size='20px' weight={400}>
             {content === 'faq' && (
               <FormattedMessage
                 id='layouts.wallet.trayright.faq'

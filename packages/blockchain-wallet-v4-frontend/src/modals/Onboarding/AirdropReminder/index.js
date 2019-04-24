@@ -46,7 +46,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: auto;
-  font-weight: 300;
+  font-weight: 400;
   padding: 15px 0;
 `
 const LaterButton = styled(FooterButton)`
@@ -80,13 +80,13 @@ class AirdropReminder extends React.PureComponent {
           }}
         />
         <Body>
-          <Text size='24px' weight={300}>
+          <Text size='24px' weight={400}>
             <FormattedMessage
               id='modals.airdropreminder.getfreecrypto'
               defaultMessage='Get Free Crypto'
             />
           </Text>
-          <Copy weight={300}>
+          <Copy weight={400}>
             <FormattedMessage
               id='modals.airdropreminder.completeprofiletodayfree'
               defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.'

@@ -73,7 +73,7 @@ const Success = props => {
             defaultMessage='From:'
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='btcFromWallet'>
+        <Text size='16px' weight={400} data-e2e='btcFromWallet'>
           {fromAddress}
         </Text>
       </Row>
@@ -84,7 +84,7 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300} data-e2e='btcToAddress'>
+        <Text size='16px' weight={400} data-e2e='btcToAddress'>
           {toAddress}
         </Text>
       </Row>
@@ -96,7 +96,7 @@ const Success = props => {
               defaultMessage='Note:'
             />
           </Text>
-          <Text size='16px' weight={300} data-e2e='btcSendDescription'>
+          <Text size='16px' weight={400} data-e2e='btcSendDescription'>
             {description}
           </Text>
         </Row>
@@ -108,7 +108,7 @@ const Success = props => {
             defaultMessage='Payment:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={400}>
           <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
@@ -119,12 +119,12 @@ const Success = props => {
             defaultMessage='Fee:'
           />
         </Text>
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={400}>
           <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size='16px' weight={300} color='sent'>
+        <Text size='16px' weight={400} color='sent'>
           <FormattedMessage
             id='modals.sendbtc.secontstep.total'
             defaultMessage='Total'
@@ -133,7 +133,7 @@ const Success = props => {
         <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
           {total}
         </CoinDisplay>
-        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
+        <FiatDisplay coin={coin} size='20px' weight={400} color='sent'>
           {total}
         </FiatDisplay>
       </Summary>
@@ -158,7 +158,7 @@ const Success = props => {
           onClick={!submitting && handleBack}
           disabled={submitting}
           size='13px'
-          weight={300}
+          weight={400}
           data-e2e='btcSendBackLink'
         >
           <FormattedMessage

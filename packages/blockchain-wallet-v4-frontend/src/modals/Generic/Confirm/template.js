@@ -19,7 +19,7 @@ import {
 } from './helpers'
 
 const Wrapper = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['gray-5']};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -56,7 +56,7 @@ const ConfirmTemplate = ({
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
         <ModalBody>
           {image && <ModalImage name={image} />}
-          <Text size={'16px'} weight={300}>
+          <Text size={'16px'} weight={400}>
             {selectMessage(message, messageValues)}
           </Text>
         </ModalBody>

@@ -54,7 +54,7 @@ const SmsAuth = props => {
         <SmsAuthContainer>
           {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
             <Fragment>
-              <Text size='14px' weight={200}>
+              <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entermobile'
                   defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
@@ -76,7 +76,7 @@ const SmsAuth = props => {
             </Fragment>
           ) : (
             <Fragment>
-              <Text size='14px' weight={200}>
+              <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entercode'
                   defaultMessage='Enter your verification code below and click submit.'
@@ -88,7 +88,7 @@ const SmsAuth = props => {
                   component={TextBox}
                   validate={[required]}
                 />
-                <Link weight={200} size='12px' onClick={changeMobileNumber}>
+                <Link weight={500} size='12px' onClick={changeMobileNumber}>
                   Change mobile number
                 </Link>
                 <Button type='submit' nature='primary' disabled={!code}>

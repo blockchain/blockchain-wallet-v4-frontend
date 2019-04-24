@@ -151,7 +151,7 @@ const WalletRecoveryPhrase = props => {
               defaultMessage='Security Tip'
             />
           </Text>
-          <Text weight={200} size='12px'>
+          <Text weight={400} size='12px'>
             <FormattedMessage
               id='scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore'
               defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.'

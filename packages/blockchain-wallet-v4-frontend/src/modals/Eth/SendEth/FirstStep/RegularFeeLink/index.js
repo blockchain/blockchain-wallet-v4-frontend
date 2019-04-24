@@ -10,7 +10,7 @@ import { Link } from 'blockchain-info-components'
 const RegularFeeLink = props => (
   <Link
     size='12px'
-    weight={300}
+    weight={400}
     onClick={props.actions.sendEthFirstStepRegularFeeClicked}
     data-e2e={`${props.coin}RegularFeeLink`}
   >

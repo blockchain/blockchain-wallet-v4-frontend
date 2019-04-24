@@ -184,7 +184,7 @@ const getButton = status => {
           target='_blank'
           href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551'
         >
-          <Button fullwidth height='56px' nature='primary' weight={300}>
+          <Button fullwidth height='56px' nature='primary' weight={400}>
             <FormattedMessage
               id='modals.exchangedetails.support'
               defaultMessage='Contact Support'
@@ -313,7 +313,7 @@ export const ExchangeResults = ({
                   </React.Fragment>
                 )}
               </ExchangeText>
-              <ExchangeText weight={300}>{`${
+              <ExchangeText weight={400}>{`${
                 status === FINISHED ? '' : '~'
               } ${targetFiat} ${currency}`}</ExchangeText>
             </MidTableRow>
@@ -334,14 +334,14 @@ export const ExchangeResults = ({
                   />
                 </ExchangeText>
                 <ExchangeText
-                  weight={300}
+                  weight={400}
                 >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
               </MidTableRow>
             )}
           {includes(status, [REFUNDED, PENDING_REFUND]) && (
             <MidTableRow>
               <ExchangeText>{getRefundMessage(status)}</ExchangeText>
-              <ExchangeText weight={300}>{`${
+              <ExchangeText weight={400}>{`${
                 status === REFUNDED ? '' : '~'
               } ${refundAmount}`}</ExchangeText>
             </MidTableRow>

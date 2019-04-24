@@ -12,7 +12,7 @@ const BaseTextAreaInput = styled.textarea`
   background-image: none;
   outline-width: 0;
   user-select: text;
-  font-weight: 400;
+  font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   resize: ${props => (props.resize ? 'initial' : 'none')};

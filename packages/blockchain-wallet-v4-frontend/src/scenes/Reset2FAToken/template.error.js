@@ -21,7 +21,7 @@ const Error = props => {
       <Icon name='alert-filled' color='red' size='40px' />
       <ErrorText
         size='16px'
-        weight={300}
+        weight={400}
         color='red'
         style={{ 'margin-top': '25px' }}
       >

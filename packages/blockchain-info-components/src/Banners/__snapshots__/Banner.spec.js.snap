@@ -9,13 +9,13 @@ exports[`Banner component type alert renders correctly 1`] = `
     cursor={false}
     name="bell"
     size="18px"
-    weight={300}
+    weight={400}
   />
   <Banner__BannerContent
     color="brand-secondary"
     size="12px"
     uppercase={false}
-    weight={400}
+    weight={500}
   >
     ALERT
   </Banner__BannerContent>
@@ -32,13 +32,13 @@ exports[`Banner component type caution renders correctly 1`] = `
     cursor={false}
     name="alert-filled"
     size="18px"
-    weight={300}
+    weight={400}
   />
   <Banner__BannerContent
     color="brand-yellow"
     size="12px"
     uppercase={false}
-    weight={400}
+    weight={500}
   >
     ALERT
   </Banner__BannerContent>
@@ -53,7 +53,7 @@ exports[`Banner component type standard renders correctly 1`] = `
     color="brand-secondary"
     size="12px"
     uppercase={false}
-    weight={400}
+    weight={500}
   >
     STANDARD
   </Banner__BannerContent>
@@ -69,13 +69,13 @@ exports[`Banner component type success renders correctly 1`] = `
     cursor={false}
     name="checkmark-in-circle"
     size="18px"
-    weight={300}
+    weight={400}
   />
   <Banner__BannerContent
     color="success"
     size="12px"
     uppercase={false}
-    weight={400}
+    weight={500}
   >
     SUCCESS
   </Banner__BannerContent>
@@ -91,13 +91,13 @@ exports[`Banner component type warning renders correctly 1`] = `
     cursor={false}
     name="alert-filled"
     size="18px"
-    weight={300}
+    weight={400}
   />
   <Banner__BannerContent
     color="error"
     size="12px"
     uppercase={true}
-    weight={400}
+    weight={500}
   >
     WARNING
   </Banner__BannerContent>

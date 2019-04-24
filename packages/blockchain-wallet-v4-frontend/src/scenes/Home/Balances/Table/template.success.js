@@ -25,7 +25,7 @@ const HomeTitle = styled.div`
 const HomeBalanceAmount = styled(Text)`
   padding: 10px 20px;
   font-size: 22px;
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['brand-primary']};
 `
 const TxLink = styled(LinkContainer)`
@@ -47,7 +47,7 @@ const Success = props => {
     <HomeBalanceTable>
       <TotalRow>
         <HomeTitle>
-          <Text size='20px' weight={300}>
+          <Text size='20px' weight={400}>
             <FormattedHTMLMessage
               id='components.balances.home.total'
               defaultMessage='{viewType} Balance'

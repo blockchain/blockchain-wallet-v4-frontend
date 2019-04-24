@@ -137,7 +137,7 @@ class VerifyMobile extends Component {
               />
             </PartnerSubHeader>
             <MobileInput>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
                   id='sfoxexchangedata.create.mobile.entermobilenumber'
                   defaultMessage='Enter your digits here:'
@@ -167,7 +167,7 @@ class VerifyMobile extends Component {
             </MobileInput>
             {this.props.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.create.mobile.entercode'
                     defaultMessage='Enter the code we just sent to your phone:'

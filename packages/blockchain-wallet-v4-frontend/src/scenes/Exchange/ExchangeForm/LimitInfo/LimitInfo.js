@@ -16,7 +16,7 @@ import { TIERS } from 'components/IdentityVerification/TierCard/model'
 import { levelName } from 'components/IdentityVerification/TierCard/services'
 
 const LimitText = styled(ExchangeText)`
-  font-weight: 400;
+  font-weight: 500;
 `
 const LimitRow = styled(Row)`
   padding-top: 0;
