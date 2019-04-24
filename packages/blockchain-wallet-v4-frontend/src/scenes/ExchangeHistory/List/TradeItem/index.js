@@ -18,6 +18,7 @@ class PagesContainer extends React.PureComponent {
 
   render () {
     const {
+      coinModels,
       status,
       date,
       sourceCoin,
@@ -29,6 +30,7 @@ class PagesContainer extends React.PureComponent {
 
     return (
       <TradeItem
+        coinModels={coinModels}
         status={status}
         date={date}
         sourceCoin={sourceCoin}

@@ -12,6 +12,7 @@ class ListContainer extends React.PureComponent {
 
   render () {
     const {
+      coinModels,
       complete,
       incomplete,
       showComplete,
@@ -22,6 +23,7 @@ class ListContainer extends React.PureComponent {
 
     return (
       <List
+        coinModels={coinModels}
         complete={complete}
         incomplete={incomplete}
         showComplete={showComplete}

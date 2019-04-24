@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-
+import { pathOr } from 'ramda'
 import { model } from 'data'
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
@@ -30,13 +30,14 @@ const tradeDateHelper = (date, isMobile = false) => {
 
 const TradeItem = props => {
   const {
-    status,
+    coinModels,
     date,
-    sourceCoin,
-    targetCoin,
     depositAmount,
-    withdrawalAmount,
-    handleClick
+    handleClick,
+    sourceCoin,
+    status,
+    targetCoin,
+    withdrawalAmount
   } = props
 
   return (
@@ -84,7 +85,11 @@ const TradeItem = props => {
               data-e2e='exchangeHistoryOrderSource'
               size={mobile ? '12px' : '14px'}
               weight={300}
-            >{`${depositAmount} ${sourceCoin}`}</Text>
+            >{`${depositAmount} ${pathOr(
+              '',
+              [sourceCoin, 'coinTicker'],
+              coinModels
+            )}`}</Text>
           </TableCell>
           <TableCell width='20%'>
             <Text
@@ -96,7 +101,11 @@ const TradeItem = props => {
                   ? 'gray-5'
                   : 'gray-2'
               }
-            >{`${withdrawalAmount} ${targetCoin}`}</Text>
+            >{`${withdrawalAmount} ${pathOr(
+              '',
+              [targetCoin, 'coinTicker'],
+              coinModels
+            )}`}</Text>
           </TableCell>
         </TableRow>
       )}
@@ -105,6 +114,7 @@ const TradeItem = props => {
 }
 
 TradeItem.propTypes = {
+  coinModels: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   sourceCoin: PropTypes.string.isRequired,

@@ -41,6 +41,7 @@ const LoaderRow = styled(TableRow)`
 
 const List = props => {
   const {
+    coinModels,
     complete,
     incomplete,
     showComplete,
@@ -141,7 +142,7 @@ const List = props => {
               </TableCell>
             </TableHeader>
             {complete.map((trade, index) => (
-              <TradeItem key={index} trade={trade} />
+              <TradeItem key={index} trade={trade} coinModels={coinModels} />
             ))}
             {loadingNextPage && (
               <LoaderRow>
