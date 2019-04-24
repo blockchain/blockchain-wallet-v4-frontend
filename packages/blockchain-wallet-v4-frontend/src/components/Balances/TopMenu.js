@@ -62,7 +62,7 @@ export const CoinBalanceWrapper = props => {
   ) : (
     <CoinBalanceSwitchable>
       <Text size='12px' weight={300}>
-        {props.coin}
+        {props.coinTicker ? props.coinTicker : props.coin}
       </Text>
       <SwitchableDisplay size='12px' weight={400} coin={props.coin}>
         {props.balance}
@@ -88,7 +88,7 @@ export const LoadingBalance = props => {
   ) : (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={300}>
-        {props.coin}
+        {props.coinTicker}
       </Text>
       <SkeletonRectangle width='40px' height='14px' bgColor='white-blue' />
     </CoinSkeletonWrapper>

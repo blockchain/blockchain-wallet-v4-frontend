@@ -25,13 +25,20 @@ class Balance extends React.PureComponent {
   }
 
   render () {
-    const { coin, data, large } = this.props
+    const { coin, coinTicker, data, large } = this.props
 
     return data.cata({
-      Success: value => <Success balance={value} large={large} coin={coin} />,
+      Success: value => (
+        <Success
+          balance={value}
+          large={large}
+          coin={coin}
+          coinTicker={coinTicker}
+        />
+      ),
       Failure: () => <Error onRefresh={this.handleRefresh} />,
-      Loading: () => <LoadingBalance large={large} coin={coin} />,
-      NotAsked: () => <LoadingBalance large={large} coin={coin} />
+      Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
+      NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />
     })
   }
 }
