@@ -43,11 +43,6 @@ const SelectBoxCoin = styled(SelectBox)`
     max-width: none;
     top: initial;
   }
-  .bc__option--is-selected {
-    * {
-      color: ${props => props.theme['white']} !important;
-    }
-  }
 `
 
 const renderItem = props => {
