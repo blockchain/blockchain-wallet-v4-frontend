@@ -37,6 +37,7 @@ class RequestEthContainer extends React.PureComponent {
       this.props.modalActions.showModal('@MODAL.REQUEST.XLM', {
         lockboxIndex: this.props.lockboxIndex
       })
+      // TODO: ERC20 make more generic
     } else if (coin === 'PAX' && prevProps.coin !== coin) {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
@@ -57,20 +58,20 @@ class RequestEthContainer extends React.PureComponent {
     this.props.formActions.reset('requestEth')
   }
 
-  init () {
+  init = () => {
     this.props.formActions.initialize('requestEth', this.props.initialValues)
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'ETH'])
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.kvStoreEthActions.fetchMetadataEth()
   }
 
-  handleOpenLockbox () {
+  handleOpenLockbox = () => {
     this.props.requestEthActions.openLockboxAppClicked()
   }
 
