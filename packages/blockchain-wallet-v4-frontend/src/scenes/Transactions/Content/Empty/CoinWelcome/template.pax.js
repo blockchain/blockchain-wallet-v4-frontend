@@ -153,7 +153,6 @@ const WelcomePax = props => {
                   nature='primary'
                   onClick={handleRequest}
                   fullwidth
-                  disabled={!availability.exchangeTo}
                 >
                   <FormattedMessage
                     id='scenes.transaction.content.empty.pax.swap'

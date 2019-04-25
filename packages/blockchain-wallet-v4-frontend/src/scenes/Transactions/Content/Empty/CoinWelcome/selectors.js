@@ -1,7 +1,6 @@
-import { path, propOr, propEq, toUpper, filter } from 'ramda'
+import { path, propOr, toUpper } from 'ramda'
 
-import { selectors, model } from 'data'
-const { TIERS_STATES } = model.profile
+import { selectors } from 'data'
 
 export const getDomains = state =>
   selectors.core.walletOptions.getDomains(state).getOrElse(false)
@@ -35,9 +34,5 @@ export const getAvailability = (state, ownProps) => {
   }
 }
 export const isTier2Verified = state => {
-  return selectors.modules.profile
-    .getTiers(state)
-    .map(filter(propEq('index', 2)))
-    .map(propEq('state', TIERS_STATES.VERIFIED))
-    .getOrElse(false)
+  return selectors.modules.profile.getUserTiers(state).getOrElse(false)
 }
