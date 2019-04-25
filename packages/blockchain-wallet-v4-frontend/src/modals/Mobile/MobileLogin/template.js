@@ -51,9 +51,10 @@ const InstructionList = styled.ol`
   padding-left: 10px;
 `
 const Instruction = styled.li`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['gray-6']};
 `
 const BadgesContainer = styled.div`
@@ -76,7 +77,7 @@ const MobileLogin = props => {
         />
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='modals.mobilelogin.explain'
             defaultMessage='Follow these steps to log into your web wallet using your mobile device'
@@ -87,7 +88,7 @@ const MobileLogin = props => {
             <QRReader onScan={handleScan} onError={handleError} />
           </QRCodeContainer>
           <InstructionsContainer>
-            <Text size='16px' weight={400} color='brand-primary'>
+            <Text size='16px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='modals.mobilelogin.login'
                 defaultMessage='Logging in with Mobile'
@@ -127,7 +128,7 @@ const MobileLogin = props => {
         </BadgesContainer>
       </ModalBody>
       <ModalFooter>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={500} onClick={close}>
           <FormattedMessage
             id='modals.mobilelogin.cancel'
             defaultMessage='Cancel'

@@ -9,7 +9,7 @@ import { Link } from 'blockchain-info-components'
 const MinimumFeeLink = props => (
   <Link
     size='12px'
-    weight={300}
+    weight={400}
     onClick={props.actions.sendEthFirstStepMinimumFeeClicked}
     data-e2e={`${props.coin}MinimumFeeLink`}
   >

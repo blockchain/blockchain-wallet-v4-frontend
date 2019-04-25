@@ -21,14 +21,14 @@ const UninstallApps = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size='22px' weight={400}>
+        <Text size='22px' weight={500}>
           <FormattedMessage
             id='modals.lockboxfirmware.uninstallapps.title'
             defaultMessage='Verify Your Device'
           />
         </Text>
         <Content>
-          <Text weight={300}>
+          <Text weight={400}>
             <FormattedMessage
               id='modals.lockboxfirmware.uninstallapps.message1'
               defaultMessage="Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being."
@@ -41,7 +41,7 @@ const UninstallApps = props => {
               defaultMessage='Also, please verify the below on your device before continuing.'
             />
           </Text>
-          <Text size='14px' weight={300} style={{ marginTop: '16px' }}>
+          <Text size='14px' weight={400} style={{ marginTop: '16px' }}>
             <b>{status}</b>
           </Text>
           <BlockchainLoader

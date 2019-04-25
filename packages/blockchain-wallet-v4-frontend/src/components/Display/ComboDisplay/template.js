@@ -25,9 +25,9 @@ const ComboDisplay = props => {
     <Wrapper>
       <CoinDisplay {...props} />
       <Container>
-        <Text weight={300}>(</Text>
+        <Text weight={400}>(</Text>
         <FiatDisplay {...props} />
-        <Text weight={300}>)</Text>
+        <Text weight={400}>)</Text>
       </Container>
     </Wrapper>
   )

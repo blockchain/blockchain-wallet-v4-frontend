@@ -51,7 +51,7 @@ const MicroDeposits = props => {
       <Modal size='medium' position={position} total={total}>
         <ModalBody>
           <TextWrapper>
-            <Text size='22px' weight={300}>
+            <Text size='22px' weight={400}>
               <FormattedMessage
                 id='sfoxmicrodeposits.success'
                 defaultMessage='YOU ARE NOW READY TO BUY & SELL'
@@ -78,7 +78,7 @@ const MicroDeposits = props => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+              <Text size='14px' weight={500} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id='sfoxmicrodeposits.deposit1'
                   defaultMessage='Deposit 1'
@@ -94,7 +94,7 @@ const MicroDeposits = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+              <Text size='14px' weight={500} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id='sfoxmicrodeposits.deposit2'
                   defaultMessage='Deposit 2'
@@ -117,13 +117,13 @@ const MicroDeposits = props => {
             />
           </Button>
           {status instanceof Error ? (
-            <ErrorText size='13px' weight={300}>
+            <ErrorText size='13px' weight={400}>
               <FormattedMessage
                 id='sfoxmicrodeposits.error'
                 defaultMessage='The amounts entered do not match the deposits. {tryAgain}'
                 values={{
                   tryAgain: (
-                    <Link size='13px' weight={300} onClick={tryAgain}>
+                    <Link size='13px' weight={400} onClick={tryAgain}>
                       <FormattedMessage
                         id='try_again'
                         defaultMessage='Try again.'

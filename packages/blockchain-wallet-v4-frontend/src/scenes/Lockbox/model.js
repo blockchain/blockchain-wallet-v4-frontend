@@ -54,7 +54,7 @@ export const TourTooltip = ({
         {step.content && <TooltipContent>{step.content}</TooltipContent>}
         <TooltipFooter isLastStep={isLastStep}>
           {!isLastStep && (
-            <ClickableText size='13px' weight={300} {...skipProps}>
+            <ClickableText size='13px' weight={400} {...skipProps}>
               <FormattedMessage
                 id='scenes.lockbox.tour.skip'
                 defaultMessage='Skip Tour'
@@ -106,13 +106,13 @@ export const TOUR_STEPS = [
     target: '.tour-step1',
     content: (
       <React.Fragment>
-        <StepTitle weight={400}>
+        <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepone.title'
             defaultMessage='Welcome to your Lockbox!'
           />
         </StepTitle>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepone.content'
             defaultMessage="This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets."
@@ -131,13 +131,13 @@ export const TOUR_STEPS = [
     target: '.tour-step2',
     content: (
       <React.Fragment>
-        <StepTitle weight={400}>
+        <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.steptwo.title'
             defaultMessage='Asset List'
           />
         </StepTitle>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.lockbox.tour.steptwo.content'
             defaultMessage='Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.'
@@ -156,13 +156,13 @@ export const TOUR_STEPS = [
     target: '.tour-step3',
     content: (
       <React.Fragment>
-        <StepTitle weight={400}>
+        <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepthree.title'
             defaultMessage='Transaction Search'
           />
         </StepTitle>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepthree.addfilters'
             defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.'
@@ -181,13 +181,13 @@ export const TOUR_STEPS = [
     target: '.tour-step4',
     content: (
       <React.Fragment>
-        <StepTitle weight={400}>
+        <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfour.title'
             defaultMessage='App Manager'
           />
         </StepTitle>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfour.content'
             defaultMessage='Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.'
@@ -206,13 +206,13 @@ export const TOUR_STEPS = [
     target: '.tour-step5',
     content: (
       <React.Fragment>
-        <StepTitle weight={400}>
+        <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfive.title'
             defaultMessage='Lockbox Settings'
           />
         </StepTitle>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfive.content'
             defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'

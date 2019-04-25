@@ -186,7 +186,7 @@ const Item = styled.li`
         color: ${props => props.theme['white']};
         display: block;
         font-size: 12px;
-        font-weight: 300;
+        font-weight: 400;
         opacity: 0;
         padding-left: 20px;
       }

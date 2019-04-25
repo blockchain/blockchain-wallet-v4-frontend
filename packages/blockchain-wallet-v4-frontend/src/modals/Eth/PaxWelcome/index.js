@@ -61,7 +61,7 @@ class PaxWelcomeContainer extends React.PureComponent {
                 'coin-dollar3': '3x'
               }}
             />
-            <Text size='20px' weight={300}>
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='modals.paxwelcome.intro'
                 defaultMessage='Introducing USD Pax, a safe and stable digital dollar in your wallet'

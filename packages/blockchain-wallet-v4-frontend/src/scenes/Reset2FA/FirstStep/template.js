@@ -46,7 +46,7 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300}>
+        <Text size='24px' weight={400}>
           <FormattedMessage
             id='scenes.reset2fa.firststep.reset'
             defaultMessage='Reset 2FA'
@@ -61,13 +61,13 @@ const FirstStep = props => {
       </Header>
       <Separator />
       <TextGroup>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
             id='scenes.reset2fa.firststep.explain'
             defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.'
           />
         </Text>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
             id='scenes.reset2fa.firststep.explain2'
             defaultMessage='Note: Your IP address and browser information will be recorded upon submission.'
@@ -91,14 +91,14 @@ const FirstStep = props => {
               placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX'
             />
             <TextGroup inline>
-              <Text size='12px' weight={300}>
+              <Text size='12px' weight={400}>
                 <FormattedMessage
                   id='scenes.reset2fa.firststep.firststepform.guidexplain'
                   defaultMessage='If you forgot your wallet identifier, please'
                 />
               </Text>
               <LinkContainer to='/reminder'>
-                <Link size='12px' weight={300}>
+                <Link size='12px' weight={500}>
                   <FormattedMessage
                     id='scenes.reset2fa.firststep.look'
                     defaultMessage='look it up here.'
@@ -121,7 +121,7 @@ const FirstStep = props => {
               validate={[required, validEmail]}
               component={TextBox}
             />
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.firststepform.emailexplain'
                 defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)."
@@ -143,7 +143,7 @@ const FirstStep = props => {
               validate={[validNullableEmail]}
               component={TextBox}
             />
-            <InfoMsg size='12px' weight={300}>
+            <InfoMsg size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.newEmailExplain'
                 defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address."
@@ -153,7 +153,7 @@ const FirstStep = props => {
         </FormGroup>
         <Footer>
           <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.back'
                 defaultMessage='Go Back'

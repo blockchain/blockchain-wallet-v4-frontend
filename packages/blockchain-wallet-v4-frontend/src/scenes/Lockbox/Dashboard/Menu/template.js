@@ -110,7 +110,7 @@ const Menu = props => {
         <StyledCreatableInputContainer>
           {onDashboard ? (
             <SearchContainer className='tour-step3'>
-              <Text size='20px' weight={400}>
+              <Text size='20px' weight={500}>
                 <FormattedMessage
                   id='scenes.lockbox.menu.transactions'
                   defaultMessage='Transactions'
@@ -133,7 +133,7 @@ const Menu = props => {
               />
             </SearchContainer>
           ) : (
-            <Text size='20px' weight={400}>
+            <Text size='20px' weight={500}>
               <FormattedMessage
                 id='scenes.lockbox.menu.settings'
                 defaultMessage='Settings'

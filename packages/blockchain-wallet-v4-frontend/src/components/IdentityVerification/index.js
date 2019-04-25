@@ -80,7 +80,7 @@ export const Title = styled.div`
 
 export const Subtitle = styled.div`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 15px;
 `
 
@@ -122,7 +122,7 @@ export const CenteredWrapper = styled.div`
 export const CancelWrapper = styled(CenteredWrapper)`
   a {
     color: #545456;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
   }
 `
@@ -170,7 +170,7 @@ export const IdentityVerificationForm = styled(Form)`
 
 export const IdentityVerificationHeader = styled(PartnerHeader)`
   margin-top: 40px;
-  font-weight: 400;
+  font-weight: 500;
   position: relative;
   font-size: 24px;
   ${media.mobile`
@@ -179,7 +179,7 @@ export const IdentityVerificationHeader = styled(PartnerHeader)`
 `
 
 export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 10px;
   ${media.mobile`
     font-size: 16px;
@@ -219,7 +219,7 @@ export const FaqFormGroup = styled(FormGroup)`
 
 export const Label = styled.label`
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 12px;
   display: block;
 `

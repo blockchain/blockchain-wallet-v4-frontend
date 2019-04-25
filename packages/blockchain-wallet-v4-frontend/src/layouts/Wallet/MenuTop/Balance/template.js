@@ -15,32 +15,32 @@ import { ComponentDropdown, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: relative;
 
   @media (min-width: 850px) {
-    align-items: flex-end;
+    align-items: center;
   }
 `
 const BalanceText = styled(Text)`
-  margin-right: 4px;
-  font-size: 18px;
+  margin-right: 8px;
+  font-size: 14px;
   @media (max-width: 767px) {
     font-size: 14px;
   }
 `
 const BalanceDropdown = styled.div`
-  margin: 4px -10px 0 0;
+  margin: -2px -10px 0 0;
   > div > ul {
     right: 8px;
     padding: 0;
     position: absolute;
   }
   > div > div > div > div {
-    font-weight: 300;
+    font-weight: 400;
     color: ${props => props.theme['brand-primary']};
   }
   > div > div > span:last-child {
@@ -94,7 +94,7 @@ const Success = props => {
   const { coinOrRoute, supportedCoins } = props
   return (
     <Wrapper>
-      <BalanceText weight={200} data-e2e='totalBalance' color='gray-3'>
+      <BalanceText weight={500} data-e2e='totalBalance' color='gray-3'>
         {getBalanceMessage(coinOrRoute, supportedCoins)}
       </BalanceText>
       <BalanceDropdown>

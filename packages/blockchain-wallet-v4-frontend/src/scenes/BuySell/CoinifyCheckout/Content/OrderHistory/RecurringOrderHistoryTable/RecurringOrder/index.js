@@ -99,7 +99,7 @@ class RecurringOrder extends React.Component {
                   <StatusText
                     color={prop('isActive', subscription) ? 'success' : 'error'}
                     size='13px'
-                    weight={300}
+                    weight={400}
                   >
                     {prop('isActive', subscription) ? (
                       <FormattedMessage
@@ -115,7 +115,7 @@ class RecurringOrder extends React.Component {
                   </StatusText>
                 </TableCell>
                 <TableCell width='50%'>
-                  <Link size='13px' weight={400} onClick={this.toggleRow}>
+                  <Link size='13px' weight={500} onClick={this.toggleRow}>
                     {mobile ? (
                       <FormattedMessage
                         id='scenes.buysell.orderhistory.recurring.order.manage2'
@@ -131,7 +131,7 @@ class RecurringOrder extends React.Component {
                 </TableCell>
               </StatusContainer>
               <TableCell width='30%'>
-                <Frequency size='13px' weight={300}>
+                <Frequency size='13px' weight={400}>
                   {path(['frequency'], subscription)}
                 </Frequency>
               </TableCell>
@@ -212,7 +212,7 @@ class RecurringOrder extends React.Component {
                   nature='warning'
                   onClick={() => handleCancelSubscription(subscription)}
                 >
-                  <Text size='13px' weight={300} color='white'>
+                  <Text size='13px' weight={400} color='white'>
                     <FormattedMessage
                       id='scenes.buysell.orderhistory.recurring.cancelorder'
                       defaultMessage='Cancel Recurring Order'

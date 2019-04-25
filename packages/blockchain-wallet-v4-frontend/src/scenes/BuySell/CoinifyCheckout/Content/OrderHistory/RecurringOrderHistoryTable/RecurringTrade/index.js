@@ -62,7 +62,7 @@ const RecurringTradeItem = props => {
           {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
             <Link
               size='13px'
-              weight={300}
+              weight={400}
               capitalize
               onClick={() => handleFinish(trade)}
             >
@@ -74,7 +74,7 @@ const RecurringTradeItem = props => {
           ) : (
             <Link
               size='13px'
-              weight={300}
+              weight={400}
               capitalize
               onClick={() => handleClick(trade)}
             >
@@ -92,7 +92,7 @@ const RecurringTradeItem = props => {
             <Text
               opacity={trade.state === 'processing'}
               size='13px'
-              weight={300}
+              weight={400}
             >
               {tradeDateHelper(trade, mobile)}
             </Text>
@@ -103,7 +103,7 @@ const RecurringTradeItem = props => {
         <Text
           opacity={trade.state === 'processing'}
           size='13px'
-          weight={300}
+          weight={400}
         >{`${exchangeAmount} ${trade.inCurrency}`}</Text>
       </TableCell>
       <TableCell width='20%'>
@@ -111,7 +111,7 @@ const RecurringTradeItem = props => {
           <Text
             opacity={trade.state === 'processing'}
             size='13px'
-            weight={300}
+            weight={400}
           >{`${receiveAmount} ${trade.outCurrency}`}</Text>
         </TableCell>
         <TableCell width='20%'>
@@ -123,7 +123,7 @@ const RecurringTradeItem = props => {
               onClick={() => handleTradeCancel(trade)}
               name='trash'
               size='14px'
-              weight={300}
+              weight={400}
               color='error'
             />
           ) : null}

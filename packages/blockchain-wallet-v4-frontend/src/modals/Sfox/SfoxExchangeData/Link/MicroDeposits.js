@@ -34,20 +34,20 @@ class MicroDeposits extends Component {
         </PartnerHeader>
         {onStep === 'welcome' ? (
           <Fragment>
-            <Text size='13px' weight={300}>
+            <Text size='13px' weight={400}>
               <FormattedMessage
                 id='sfoxexchangedata.link.micro.description'
                 defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.'
               />
             </Text>
             <TextGroup inline style={spacing('mt-10')}>
-              <Text size='13px' weight={400}>
+              <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='sfoxexchangedata.link.micro.bear'
                   defaultMessage='Bear with us:'
                 />
               </Text>
-              <Text size='13px' weight={300}>
+              <Text size='13px' weight={400}>
                 <FormattedMessage
                   id='sfoxexchangedata.link.micro.description2'
                   defaultMessage='receiving these deposits can take up to 5 business days.'

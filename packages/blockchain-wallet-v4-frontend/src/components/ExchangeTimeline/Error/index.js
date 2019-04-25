@@ -35,19 +35,19 @@ const Error = props => (
       <Icon name='alert-filled' size='40px' color='error' />
     </Circle>
     <TextGroup inline>
-      <Text size='13px' weight={300}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
           id='components.exchangetimeline.error.failed'
           defaultMessage='This trade has failed.'
         />
       </Text>
-      <Text size='13px' weight={300}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
           id='components.exchangetimeline.error.failed2'
           defaultMessage='Any funds broadcast from your wallet will be returned minus the transaction fee.'
         />
       </Text>
-      <Text size='13px' weight={300}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
           id='components.exchangetimeline.error.failed3'
           defaultMessage='Please return to the exchange tab to start a new trade'

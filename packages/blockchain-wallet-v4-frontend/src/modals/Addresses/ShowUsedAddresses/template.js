@@ -48,7 +48,7 @@ const ShowUsedAddresses = props => {
         </HeaderWrapper>
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='modals.showusedaddresses.message'
             defaultMessage='Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.'
@@ -58,7 +58,7 @@ const ShowUsedAddresses = props => {
       <ModalFooter align='right'>
         <CancelBtn
           size='small'
-          weight={300}
+          weight={400}
           style={spacing('mr-15')}
           onClick={close}
           data-e2e='cancelShowUsedAddressesButton'

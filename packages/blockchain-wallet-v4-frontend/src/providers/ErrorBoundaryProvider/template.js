@@ -51,7 +51,7 @@ const ErrorBoundary = props => {
         <TitleGroup inline>
           <Icon name='alert-filled' size='28px' color='brand-primary' />
           <Text
-            weight={300}
+            weight={400}
             size={'22px'}
             color='brand-primary'
             style={{ paddingLeft: '8px' }}
@@ -65,14 +65,14 @@ const ErrorBoundary = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={300} size={'14px'} color='gray-5'>
+          <Text weight={400} size={'14px'} color='gray-5'>
             <FormattedMessage
               id='modal.errorboundary.message'
               defaultMessage="We're sorry, but it seems like something is not quite right. Please try again or contact support if the problem persists."
             />
           </Text>
         </TextGroup>
-        <Text weight={300} size={'14px'}>
+        <Text weight={400} size={'14px'}>
           <ErrorDetails>
             <summary>Error Details</summary>
             {error && error.toString()}

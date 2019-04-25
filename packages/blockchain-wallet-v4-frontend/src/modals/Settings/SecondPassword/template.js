@@ -41,7 +41,7 @@ const SecondPassword = props => {
       <ModalFooter align='spaced'>
         <Link
           size='13px'
-          weight={300}
+          weight={400}
           onClick={close}
           data-e2e='secondPasswordModalCancelButton'
         >

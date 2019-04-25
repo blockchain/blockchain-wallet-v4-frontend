@@ -45,20 +45,20 @@ export const UserExists = ({ position, total, email, closeAll }) => {
         />
       </Header>
       <ModalBody>
-        <Row size='14px' weight={300}>
+        <Row size='14px' weight={400}>
           <FormattedHTMLMessage
             id='modals.userexists.emailused'
             defaultMessage='You may have started the verification process in a different Blockchain Wallet.'
             values={{ email }}
           />
         </Row>
-        <Row size='14px' weight={300}>
+        <Row size='14px' weight={400}>
           <FormattedHTMLMessage
             id='modals.userexists.kycnotcomplete'
             defaultMessage='In order to complete verification, please consider using another email address.'
           />
         </Row>
-        <Row size='14px' weight={300}>
+        <Row size='14px' weight={400}>
           <FormattedMessage
             id='modals.userexists.kyccomplete'
             defaultMessage='If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.'

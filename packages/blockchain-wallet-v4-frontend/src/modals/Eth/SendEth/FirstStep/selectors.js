@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { gt, prop, propOr, path, includes, isEmpty } from 'ramda'
+import { head, gt, prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -17,7 +17,8 @@ export const getData = createDeepEqualSelector(
         : selectors.core.data.eth.getCurrentBalance(state)
     },
     state => selectors.core.data.eth.getBalance(state),
-    state => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX'),
+    state =>
+      selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
     (state, coin) =>

@@ -42,12 +42,13 @@ const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
   html, body {overflow: hidden;}
   // hide scrollbars
-  ::-webkit-scrollbar { 
-    display: none; 
+  ::-webkit-scrollbar {
+    display: none;
   }
   * {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-font-smoothing: antialiased;
   }
 `
 
@@ -133,7 +134,8 @@ class App extends React.PureComponent {
                     {values(
                       map(
                         coin =>
-                          coin.txListAppRoute && (
+                          coin.txListAppRoute &&
+                          coin.invited && (
                             <WalletLayout
                               path={coin.txListAppRoute}
                               component={Transactions}

@@ -171,7 +171,7 @@ const FirstStep = props => {
             />
           </Row>
           {unconfirmedTx && (
-            <Text color='error' size='12px' weight={300}>
+            <Text color='error' size='12px' weight={400}>
               <FormattedMessage
                 id='modals.sendeth.unconfirmedtransactionmessage'
                 defaultMessage='Please wait until your previous transaction confirms.'
@@ -179,7 +179,7 @@ const FirstStep = props => {
             </Text>
           )}
           {isContract && (
-            <Text color='error' size='12px' weight={300}>
+            <Text color='error' size='12px' weight={400}>
               <FormattedMessage
                 id='modals.sendeth.contractaddr'
                 defaultMessage='Sending to contract addresses is disabled.'
@@ -284,7 +284,7 @@ const FirstStep = props => {
           </ComboDisplay>
           <Link
             size='12px'
-            weight={300}
+            weight={400}
             capitalize
             onClick={handleFeeToggle}
             data-e2e={`${coin}CustomizeFeeLink`}

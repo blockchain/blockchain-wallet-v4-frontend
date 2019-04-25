@@ -16,7 +16,7 @@ exports[`User Exists modal Renders correctly 1`] = `
   >
     <UserExists__Row
       size="14px"
-      weight={300}
+      weight={400}
     >
       <FormattedHTMLMessage
         defaultMessage="You may have started the verification process in a different Blockchain Wallet."
@@ -30,7 +30,7 @@ exports[`User Exists modal Renders correctly 1`] = `
     </UserExists__Row>
     <UserExists__Row
       size="14px"
-      weight={300}
+      weight={400}
     >
       <FormattedHTMLMessage
         defaultMessage="In order to complete verification, please consider using another email address."
@@ -40,7 +40,7 @@ exports[`User Exists modal Renders correctly 1`] = `
     </UserExists__Row>
     <UserExists__Row
       size="14px"
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet."

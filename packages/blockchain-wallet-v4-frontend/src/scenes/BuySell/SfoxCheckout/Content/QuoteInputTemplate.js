@@ -17,7 +17,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const FiatConverterInput = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   position: absolute;
   color: ${props => props.theme['gray-4']};
 `
@@ -175,14 +176,14 @@ const FiatConverter = props => {
         <Error
           onClick={handleErrorClick}
           size='13px'
-          weight={300}
+          weight={400}
           color='error'
         >
           {meta.error}
         </Error>
       )}
       {limits && (
-        <Error size='13px' weight={300} color='error'>
+        <Error size='13px' weight={400} color='error'>
           {getLimitsError(value, limits, disabledReason, fiat, cryptoMax)}
         </Error>
       )}

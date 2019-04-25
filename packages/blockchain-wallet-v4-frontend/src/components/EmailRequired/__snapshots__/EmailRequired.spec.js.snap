@@ -26,7 +26,7 @@ exports[`EmailRequired component renders correctly 1`] = `
       opacity={1}
       size="18px"
       uppercase={false}
-      weight={300}
+      weight={400}
     >
       <FormattedMessage
         defaultMessage="Email is required to use this feature."
@@ -54,7 +54,7 @@ exports[`EmailRequired component renders correctly 1`] = `
         color="brand-secondary"
         size="18px"
         uppercase={false}
-        weight={400}
+        weight={500}
       >
         <FormattedMessage
           defaultMessage="Add email"

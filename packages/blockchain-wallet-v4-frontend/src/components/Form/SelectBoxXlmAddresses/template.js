@@ -20,15 +20,13 @@ const ItemWrapper = styled.div`
     height: 0 !important;
   }
   > div {
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `
 
 const renderItem = item => (
   <ItemWrapper data-e2e='xlmAddressOption'>
-    <Text weight={300} size='14px'>
+    <Text weight={400} size='14px'>
       {item.text}
     </Text>
   </ItemWrapper>

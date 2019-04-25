@@ -102,7 +102,7 @@ const ShapeshiftTradeDetails = props => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <Text size='20px' weight={300} capitalize>
+        <Text size='20px' weight={400} capitalize>
           {getModalHeader(status)}
         </Text>
       </ModalHeader>
@@ -110,7 +110,7 @@ const ShapeshiftTradeDetails = props => {
         <ExchangeTimeline status={status} />
         {status === 'complete' && (
           <Notice>
-            <Text size='13px' weight={300}>
+            <Text size='13px' weight={400}>
               <FormattedMessage
                 id='modals.exchange.shapeshifttradedetails.explain'
                 defaultMessage='Your exchange is complete.'
@@ -126,7 +126,7 @@ const ShapeshiftTradeDetails = props => {
         <Table>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.exchange.shapeshifttradedetails.deposited'
                   defaultMessage='{coin} Deposited'
@@ -135,14 +135,14 @@ const ShapeshiftTradeDetails = props => {
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size='13px' weight={400} uppercase>
                 {`${depositAmount} ${sourceCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.exchange.shapeshifttradedetails.received'
                   defaultMessage='{coin} to be Received'
@@ -151,14 +151,14 @@ const ShapeshiftTradeDetails = props => {
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size='13px' weight={400} uppercase>
                 {`${withdrawalAmount} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.exchange.shapeshifttradedetails.exchangerate'
                   defaultMessage='Exchange rate'
@@ -169,14 +169,14 @@ const ShapeshiftTradeDetails = props => {
               </TooltipHost>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size='13px' weight={400} uppercase>
                 {`1 ${sourceCoin} = ${quotedRate} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.exchange.shapeshifttradedetails.fee'
                   defaultMessage='Transaction fee'
@@ -187,14 +187,14 @@ const ShapeshiftTradeDetails = props => {
               </TooltipHost>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size='13px' weight={400} uppercase>
                 {`${minerFee} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.exchange.shapeshifttradedetails.orderid'
                   defaultMessage='Order ID'
@@ -202,7 +202,7 @@ const ShapeshiftTradeDetails = props => {
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300}>
+              <Text size='13px' weight={400}>
                 SFT-
                 {orderId}
               </Text>
@@ -211,7 +211,7 @@ const ShapeshiftTradeDetails = props => {
         </Table>
       </ModalBody>
       <ModalFooter align='right'>
-        <Button nature='primary' size='13px' weight={300} onClick={close}>
+        <Button nature='primary' size='13px' weight={400} onClick={close}>
           <FormattedMessage
             id='modals.exchange.shapeshifttradedetails.close'
             defaultMessage='Close'

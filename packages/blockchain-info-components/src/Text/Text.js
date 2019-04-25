@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const BaseText = styled.div`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   text-transform: ${props =>

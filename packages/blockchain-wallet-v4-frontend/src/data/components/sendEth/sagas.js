@@ -191,7 +191,7 @@ export default ({ coreSagas, networks }) => {
         toCurrency: currency,
         rates: rates
       }).value
-      yield put(change(FORM, 'amount', { coin, fiat }))
+      yield put(change(FORM, 'amount', { coin, fiat, coinCode }))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)

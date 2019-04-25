@@ -63,7 +63,7 @@ const ConfirmDisable2FA = props => {
       <ModalBody>
         <Wrapper extraCopy={extraCopy}>
           <Container extraCopy={extraCopy}>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='modals.disable2fa.sure'
                 defaultMessage='Are you sure you wish to disable the'
@@ -71,7 +71,7 @@ const ConfirmDisable2FA = props => {
               {` ${authName}?`}
             </Text>
             {extraCopy ? (
-              <Text style={spacing('mt-10')} size='14px' weight={300}>
+              <Text style={spacing('mt-10')} size='14px' weight={400}>
                 {extraCopy}
               </Text>
             ) : (
@@ -82,7 +82,7 @@ const ConfirmDisable2FA = props => {
       </ModalBody>
       <ModalFooter align='right'>
         <Buttons>
-          <Text size='12px' weight={200} cursor='pointer' onClick={closeAll}>
+          <Text size='12px' weight={400} cursor='pointer' onClick={closeAll}>
             Close
           </Text>
           <Button nature='warning' onClick={handleContinue}>

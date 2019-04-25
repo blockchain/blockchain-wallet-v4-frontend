@@ -13,7 +13,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const FiatConverterInput = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   position: absolute;
   color: ${props => props.theme['text-black']};
 `
@@ -108,7 +109,7 @@ const Converter = props => {
         <Error
           errorBottom={errorBottom}
           size='13px'
-          weight={300}
+          weight={400}
           color='error'
           className='error'
           data-e2e='fiatConverterError'

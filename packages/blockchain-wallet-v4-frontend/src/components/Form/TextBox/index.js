@@ -61,7 +61,7 @@ const TextBox = field => {
       {touched && error && (
         <Error
           size='12px'
-          weight={300}
+          weight={400}
           color='error'
           errorBottom={errorBottom}
           data-e2e='textBoxError'
@@ -70,7 +70,7 @@ const TextBox = field => {
         </Error>
       )}
       {touched && !error && warning && (
-        <Error size='12px' weight={300} color='sent' errorBottom={errorBottom}>
+        <Error size='12px' weight={400} color='sent' errorBottom={errorBottom}>
           {warning}
         </Error>
       )}

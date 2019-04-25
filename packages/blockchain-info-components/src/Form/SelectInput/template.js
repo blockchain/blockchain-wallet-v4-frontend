@@ -5,8 +5,9 @@ import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
 
 const StyledSelect = styled(Select)`
-  font-weight: 400;
-  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
   .bc__menu {
@@ -27,7 +28,7 @@ const StyledSelect = styled(Select)`
   }
 
   .bc__group-heading {
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 0px;
     color: ${props => props.theme['gray-5']};
   }
@@ -93,7 +94,7 @@ const StyledSelect = styled(Select)`
       }
     }
     * {
-      font-weight: 400;
+      font-weight: 500;
       color: ${props => props.theme['gray-5']};
       transition: color 0.3s;
     }

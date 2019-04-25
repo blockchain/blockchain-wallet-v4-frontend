@@ -57,8 +57,9 @@ const ItemWrapper = styled.div`
 `
 const Text = styled.span`
   position: relative;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 500;
   font-size: 12px;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;

@@ -5,7 +5,8 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   justify-content: space-around;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   color: ${props => props.theme['gray-4']};
 `
@@ -17,7 +18,7 @@ export const MenuItem = styled.li`
   margin-bottom: 8px;
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 14px;
   width: 100%;
   &:hover {
@@ -36,7 +37,7 @@ export const MenuItem = styled.li`
     margin-right: 10px;
   }
   &.active {
-    font-weight: 400;
+    font-weight: 500;
     & > *:not(div) {
       color: ${props => props.theme['marketing-primary']};
     }
@@ -59,13 +60,13 @@ export const SubMenuItem = styled.li`
   padding: 4px 0;
   box-sizing: border-box;
   text-transform: none;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   cursor: pointer;
 
   &.active {
     & > * {
-      font-weight: 400;
+      font-weight: 500;
       color: ${props => props.theme['marketing-primary']};
     }
   }

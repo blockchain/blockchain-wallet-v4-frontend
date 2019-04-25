@@ -64,7 +64,7 @@ const DocumentListWrapper = styled.div`
   margin-top: 12px;
   font-size: 16px;
   line-height: 20px;
-  font-weight: 300;
+  font-weight: 400;
   > span:not(:first-child) {
     margin-top: 10px;
   }
@@ -189,7 +189,7 @@ const Verify = ({
                     />
                   </ResubmissionSubHeader>
                   <ResubmitChecklist>
-                    <Text size='16px' weight={300}>
+                    <Text size='16px' weight={400}>
                       <FormattedMessage
                         id='identityverification.verify.resubmit.reason.intro'
                         defaultMessage='Main reasons for this to happen are'
@@ -197,7 +197,7 @@ const Verify = ({
                       :
                     </Text>
                     {resubmissionTipList.map(t => (
-                      <Text key={t.key} size='16px' weight={300}>
+                      <Text key={t.key} size='16px' weight={400}>
                         {t}
                       </Text>
                     ))}
@@ -209,7 +209,7 @@ const Verify = ({
                         defaultMessage='Remember to turn the camera on'
                       />
                     </Text>
-                    <Text size='16px' weight={300} style={{ margin: '5px 0' }}>
+                    <Text size='16px' weight={400} style={{ margin: '5px 0' }}>
                       <FormattedMessage
                         id='identityverification.verify.resubmit.camera.two'
                         defaultMessage='Click allow on the pop up that will appear on the next screen.'
@@ -261,7 +261,7 @@ const Verify = ({
                     defaultMessage='How do I enable my camera and microphone?'
                   />
                 </Text>
-                <Text weight={300}>
+                <Text weight={400}>
                   <FormattedMessage
                     id='identityverification.verify.instructions'
                     defaultMessage='Click allow when prompted above or enable in your browser settings.'

@@ -108,7 +108,7 @@ const AcceptTerms = props => {
             </VerifiedText>
             <VerifiedContainer>
               <FieldMimic width='100%'>
-                <Text size='14px' weight={300}>
+                <Text size='14px' weight={400}>
                   {email}
                 </Text>
               </FieldMimic>
@@ -122,7 +122,7 @@ const AcceptTerms = props => {
               ) : null}
             </VerifiedContainer>
             {create === VERIFY ? (
-              <SentEmailText size='14px' weight={300}>
+              <SentEmailText size='14px' weight={400}>
                 <FormattedMessage
                   id='coinifyexchangedata.create.createaccount.partner.checkyourinbox'
                   defaultMessage='Check your inbox. We just sent you an email.'
@@ -150,7 +150,7 @@ const AcceptTerms = props => {
             <TermsContainer>
               {emailVerified ? (
                 <Fragment>
-                  <TermsText size='12px' weight={300}>
+                  <TermsText size='12px' weight={400}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.createaccount.partner.byclicking'
                       defaultMessage="By clicking continue, I agree to Coinify's {ToS} & {Privacy}"
@@ -159,7 +159,7 @@ const AcceptTerms = props => {
                           <Link
                             href='https://www.coinify.com/legal'
                             size='12px'
-                            weight={300}
+                            weight={500}
                             rel='noreferrer noopener'
                             target='_blank'
                           >
@@ -170,7 +170,7 @@ const AcceptTerms = props => {
                           <Link
                             href='https://www.coinify.com/legal/policy'
                             size='12px'
-                            weight={300}
+                            weight={500}
                             rel='noreferrer noopener'
                             target='_blank'
                           >
@@ -207,7 +207,7 @@ const AcceptTerms = props => {
               {prop('error', signupError) === EMAIL_IN_USE_ERROR &&
               create !== VERIFY ? (
                 <TextGroup inline>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error1'
                       defaultMessage='Unfortunately this email is being used for another account. '
@@ -217,7 +217,7 @@ const AcceptTerms = props => {
                     size='12px'
                     color='brand-secondary'
                     cursor='pointer'
-                    weight={300}
+                    weight={400}
                     onClick={props.editEmail}
                   >
                     <FormattedMessage
@@ -225,7 +225,7 @@ const AcceptTerms = props => {
                       defaultMessage='Click here '
                     />
                   </Text>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error3'
                       defaultMessage='to change it.'
@@ -234,26 +234,26 @@ const AcceptTerms = props => {
                 </TextGroup>
               ) : signupError && create !== VERIFY ? (
                 <TextGroup inline>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.unknownError'
                       defaultMessage="We're sorry, but something unexpected went wrong. Please "
                     />
                   </Text>
-                  <Link size='12px' weight={300} onClick={clearError}>
+                  <Link size='12px' weight={500} onClick={clearError}>
                     <FormattedMessage
                       id='tryagain'
                       defaultMessage='try again'
                     />
                   </Link>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={500}>
                     <FormattedMessage id='or' defaultMessage='or' />
                   </Text>
                   <Link
                     target='_blank'
                     href='https://support.blockchain.com'
                     size='12px'
-                    weight={300}
+                    weight={500}
                     rel='noreferrer noopener'
                   >
                     <FormattedMessage
@@ -262,7 +262,7 @@ const AcceptTerms = props => {
                     />
                   </Link>
                   <br />
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.support_error_description'
                       defaultMessage='Error Description: {errorDescription}'

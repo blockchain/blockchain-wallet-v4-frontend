@@ -80,7 +80,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: 48px;
-  font-weight: 300;
+  font-weight: 400;
   min-width: auto;
   padding: 14px;
 `

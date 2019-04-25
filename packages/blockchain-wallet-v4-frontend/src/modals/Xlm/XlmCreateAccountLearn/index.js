@@ -24,16 +24,16 @@ const Header = styled.div`
 `
 const Title = styled(Text)`
   font-size: 22px;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 16px;
 `
 const Paragraph = styled(Text)`
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 400;
 `
 const StyledLink = styled(Link)`
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 400;
 `
 const BackIcon = styled(Icon)`
   font-size: 20px;

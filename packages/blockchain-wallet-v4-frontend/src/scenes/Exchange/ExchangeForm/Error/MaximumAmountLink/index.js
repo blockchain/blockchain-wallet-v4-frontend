@@ -15,7 +15,7 @@ const MaximumAmountLink = props => (
     &nbsp;
     <Link
       size='12px'
-      weight={300}
+      weight={400}
       onClick={props.actions.useMax}
       data-e2e='exchangeUseMaxLink'
     >

@@ -149,7 +149,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer5.link'
@@ -198,7 +198,7 @@ const FaqContent = [
               href='https://www.coinify.com/legal/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer7.link'
@@ -351,7 +351,7 @@ const FaqContent = [
               href='https://www.sfox.com/privacy.html'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer4.link'
@@ -383,7 +383,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer5.link'
@@ -573,7 +573,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer6.link'
@@ -643,7 +643,7 @@ const FaqContent = [
               href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer8.link'
@@ -687,7 +687,7 @@ const FaqContent = [
               href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer9.link'
@@ -759,7 +759,7 @@ const FaqContent = [
               href='https://blockchain.com/explorer'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer11.link'
@@ -969,7 +969,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletsecurity.answer4.link'
@@ -1012,7 +1012,7 @@ const FaqContent = [
               href='https://www.blockchain.com/lockbox'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer1.link'
@@ -1072,7 +1072,7 @@ const FaqContent = [
               href='https://blockchain.zendesk.com/hc/en-us/articles/360018296692-Transferring-funds-between-your-Lockbox-and-web-wallet'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer4.link'
@@ -1126,7 +1126,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/articles/360018292712-Step-1-Connecting-your-new-device'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer6.link'

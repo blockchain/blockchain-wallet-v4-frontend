@@ -72,13 +72,13 @@ const Payment = props => {
               defaultMessage='Select a Payment Method'
             />
           </HeaderText>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='components.buysell.coinify.payment.sub_header1'
               defaultMessage='You can link your bank account or credit card to buy cryptocurrency.'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='components.buysell.coinify.payment.sub_header2'
               defaultMessage='Select the account that you would like to use to fund your purchases. You can always change your payment method.'

@@ -33,6 +33,12 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
+  const waitForUserInvitations = function * () {
+    const invitations = yield select(selectors.core.settings.getInvitations)
+    if (Remote.Success.is(invitations)) return
+    yield take(actionTypes.core.settings.FETCH_SETTINGS_SUCCESS)
+  }
+
   const isKycNotFinished = function * () {
     yield call(waitForUserData)
     return (yield select(selectors.modules.profile.getUserKYCState))
@@ -342,11 +348,16 @@ export default ({ api }) => {
   const runPaxGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
+    yield call(waitForUserInvitations)
+    const invitations = (yield select(
+      selectors.core.settings.getInvitations
+    )).getOrElse({ PAX: false })
+    const invited = prop('PAX', invitations)
     const hasSeen = (yield select(
       selectors.core.kvStore.eth.getErc20HasSeen,
       'PAX'
     )).getOrElse(false)
-    if (hasSeen) return
+    if (hasSeen || !invited) return
 
     yield put(actions.core.kvStore.eth.setErc20HasSeen('PAX'))
     yield put(actions.goals.addInitialModal('pax', 'PaxWelcome'))

@@ -8,7 +8,8 @@ const Wrapper = styled.a`
   justify-content: center;
   align-items: center;
   padding: 5px 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: ${props =>

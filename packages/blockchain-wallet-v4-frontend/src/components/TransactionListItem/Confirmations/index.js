@@ -53,14 +53,14 @@ const Confirmations = props => {
   return (
     <Wrapper>
       {confirmations >= minConfirmations ? (
-        <Text size='14px' weight={300} color='received'>
+        <Text size='14px' weight={400} color='received'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
             defaultMessage='Transaction Confirmed'
           />
         </Text>
       ) : (
-        <ConfirmationsText size='14px' weight={300} color='gray-3'>
+        <ConfirmationsText size='14px' weight={400} color='gray-3'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
             defaultMessage='Pending: {count}/{total} Confirmations'
@@ -105,7 +105,7 @@ const Confirmations = props => {
           href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
           target='_blank'
           size='11px'
-          weight={300}
+          weight={500}
           altFont
         >
           Learn more.

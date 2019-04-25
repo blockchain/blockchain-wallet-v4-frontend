@@ -47,7 +47,7 @@ const Wrapper = styled.div`
 `
 
 export const NoAdviceMessage = () => (
-  <Text size='12px' weight={300} color='error'>
+  <Text size='12px' weight={400} color='error'>
     <FormattedMessage
       id='scenes.exchange.exchangeform.error.noadvicemessage'
       defaultMessage='Failed to fetch the rates for current amount.'
@@ -57,7 +57,7 @@ export const NoAdviceMessage = () => (
 
 export const NoLimitsMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.nolimitsmessage'
         defaultMessage='Failed to get trade limits.'
@@ -70,7 +70,7 @@ export const NoLimitsMessage = () => (
 
 export const MinimumNoLinkMessage = ({ min }) => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       {min ? (
         <FormattedMessage
           id='scenes.exchange.exchangeform.error.balancebelowmin'
@@ -95,7 +95,7 @@ export const MinimumNoLinkMessage = ({ min }) => (
 
 export const ReachedDailyLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.dailylimitreached'
         defaultMessage="You've reached your daily trade limit"
@@ -106,7 +106,7 @@ export const ReachedDailyLimitMessage = () => (
 
 export const ReachedWeeklyLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.weeklylimitreached'
         defaultMessage="You've reached your weekly trade limit"
@@ -117,7 +117,7 @@ export const ReachedWeeklyLimitMessage = () => (
 
 export const ReachedAnnualLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.annuallimitreached'
         defaultMessage="You've reached your annual trade limit"
@@ -128,7 +128,7 @@ export const ReachedAnnualLimitMessage = () => (
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error' data-e2e='exchangeBelowMin'>
+    <Text size='12px' weight={400} color='error' data-e2e='exchangeBelowMin'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.mamountminimum'
         defaultMessage='Amount is below minimum.'
@@ -141,7 +141,7 @@ export const MinimumAmountMessage = () => (
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error' data-e2e='exchangeAboveMax'>
+    <Text size='12px' weight={400} color='error' data-e2e='exchangeAboveMax'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.maximumamount'
         defaultMessage='Amount is above maximum.'
@@ -154,7 +154,7 @@ export const MaximumAmountMessage = () => (
 
 export const BalanceLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.balancelimit'
         defaultMessage='Not enough funds.'
@@ -167,7 +167,7 @@ export const BalanceLimitMessage = () => (
 
 export const DailyLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.dailylimit'
         defaultMessage='Amount exceeds your daily trade limit.'
@@ -180,7 +180,7 @@ export const DailyLimitMessage = () => (
 
 export const WeeklyLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.weeklylimit'
         defaultMessage='Amount exceeds your weekly trade limit.'
@@ -193,7 +193,7 @@ export const WeeklyLimitMessage = () => (
 
 export const AnnualLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.annuallimit'
         defaultMessage='Amount exceeds your annual trade limit.'
@@ -206,7 +206,7 @@ export const AnnualLimitMessage = () => (
 
 export const OrderLimitMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.orderlimit'
         defaultMessage='Amount exceeds single trade limit.'
@@ -219,7 +219,7 @@ export const OrderLimitMessage = () => (
 
 export const LatestTxMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.latesttx'
         defaultMessage='Please wait until our previous transaction confirms.'
@@ -237,7 +237,7 @@ export const LatestTxMessage = () => (
 
 export const LatestTxFetchFailedMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.latesttxfetchfailed'
         defaultMessage='Failed to get previous transaction.'
@@ -255,7 +255,7 @@ export const LatestTxFetchFailedMessage = () => (
 
 export const CreateTargetXlmAccountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.createtargetxlmaccount'
         defaultMessage='1 XLM is required to create a new account.'
@@ -266,7 +266,7 @@ export const CreateTargetXlmAccountMessage = () => (
 
 export const NoSourceXlmAccountMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.nosourcexlmaccount'
         defaultMessage='Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.'
@@ -277,7 +277,7 @@ export const NoSourceXlmAccountMessage = () => (
 
 export const ReserveOverflowMessage = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.reserveoverflow'
         defaultMessage='This amount will leave your Wallet with an insufficient balance.'
@@ -288,7 +288,7 @@ export const ReserveOverflowMessage = () => (
 
 export const InsufficientEthForTxFee = () => (
   <Wrapper>
-    <Text size='12px' weight={300} color='error'>
+    <Text size='12px' weight={400} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.error.insufficientethfortxfee'
         defaultMessage='Insufficient ETH balance to send ERC-20 token.'

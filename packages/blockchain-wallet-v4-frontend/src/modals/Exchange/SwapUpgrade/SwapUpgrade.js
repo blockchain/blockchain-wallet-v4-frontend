@@ -43,7 +43,7 @@ const FooterButton = styled(Button).attrs({
 })`
   height: auto;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 15px 0;
   margin-bottom: 32px;
 `

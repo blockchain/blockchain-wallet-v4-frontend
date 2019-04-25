@@ -104,7 +104,7 @@ const Success = ({
         >
           {wallet.archived ? (
             <Link
-              weight={400}
+              weight={500}
               size='13px'
               onClick={() => onUnarchive(wallet.index)}
               data-e2e='btcUnarchiveWalletLink'
@@ -116,7 +116,7 @@ const Success = ({
             </Link>
           ) : (
             <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-              <Link weight={400} size='13px' data-e2e='btcManageWalletLink'>
+              <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.manage'
                   defaultMessage='Manage'

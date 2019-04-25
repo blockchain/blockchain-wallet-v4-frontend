@@ -73,7 +73,7 @@ const TabMenuBuySellStatus = props => {
       </TabMenu>
       {partner && (
         <PartnerWrapper>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.exchange.menutop.poweredby'
               defaultMessage='Powered by'

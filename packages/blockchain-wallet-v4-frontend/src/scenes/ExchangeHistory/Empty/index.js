@@ -36,7 +36,7 @@ const CenteredTextGroup = styled(TextGroup)`
 const Empty = () => (
   <Wrapper>
     <Transactions>
-      <Text size='24px' weight={200} capitalize>
+      <Text size='24px' weight={400} capitalize>
         <ExchangeIcon name='exchange' size='24px' />
         <FormattedMessage
           id='scenes.exchangehistory.empty.history'

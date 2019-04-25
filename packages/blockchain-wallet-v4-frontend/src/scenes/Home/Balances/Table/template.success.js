@@ -25,7 +25,7 @@ const HomeTitle = styled.div`
 const HomeBalanceAmount = styled(Text)`
   padding: 10px 20px;
   font-size: 22px;
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['brand-primary']};
 `
 const TxLink = styled(LinkContainer)`
@@ -47,7 +47,7 @@ const Success = props => {
     <HomeBalanceTable>
       <TotalRow>
         <HomeTitle>
-          <Text size='20px' weight={300}>
+          <Text size='20px' weight={400}>
             <FormattedHTMLMessage
               id='components.balances.home.total'
               defaultMessage='{viewType} Balance'
@@ -67,21 +67,23 @@ const Success = props => {
           const link =
             viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
-            <HomeBalanceRow
-              key={i}
-              data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
-            >
-              <TxLink to={link}>
-                <div>
-                  <HomeCoinBalanceCell
-                    coin={coin.coinCode}
-                    coinName={coin.displayName}
-                    coinIcon={coin.icons.circleFilled}
-                    balance={balances[`${toLower(coin.coinCode)}Balance`]}
-                  />
-                </div>
-              </TxLink>
-            </HomeBalanceRow>
+            coin.invited && (
+              <HomeBalanceRow
+                key={i}
+                data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
+              >
+                <TxLink to={link}>
+                  <div>
+                    <HomeCoinBalanceCell
+                      coin={coin.coinCode}
+                      coinName={coin.displayName}
+                      coinIcon={coin.icons.circleFilled}
+                      balance={balances[`${toLower(coin.coinCode)}Balance`]}
+                    />
+                  </div>
+                </TxLink>
+              </HomeBalanceRow>
+            )
           )
         }, coinOrder)
       )}

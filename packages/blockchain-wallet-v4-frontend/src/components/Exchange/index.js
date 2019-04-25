@@ -15,10 +15,10 @@ export const Wrapper = styled.div`
 export const ExchangeText = styled(Text)`
   font-size: 14px;
   line-height: 20px;
-  font-weight: 300;
+  font-weight: 400;
 `
 export const Title = styled(Text)`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   line-height: 19px;
   margin-bottom: 24px;
@@ -48,7 +48,7 @@ export const Note = styled(Text)`
   font-size: 12px;
   line-height: 14px;
   margin-bottom: 28px;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
   margin-top: 16px;
   color: ${props => props.theme['gray-4']};
@@ -62,7 +62,7 @@ export const ExchangeButton = styled(Button)`
 export const ExchangeAmounts = styled.div``
 export const ExchangeAmount = styled(Text)`
   display: flex;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 17px;
   line-height: 20px;
   color: ${props => props.theme[props.color || 'brand-primary']};
@@ -70,7 +70,7 @@ export const ExchangeAmount = styled(Text)`
 export const SubExchangeAmount = styled(ExchangeAmount)`
   margin-top: 2px;
   text-align: right;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13px;
   color: ${props => props.theme[props.color || 'gray-4']};
 `

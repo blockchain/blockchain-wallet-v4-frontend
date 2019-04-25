@@ -26,7 +26,7 @@ const IconColumn = styled.div`
 `
 
 const buildMessageTemplate = messageText => (
-  <Text size='13px' weight={400}>
+  <Text size='13px' weight={500}>
     {messageText}
   </Text>
 )
@@ -59,7 +59,7 @@ export const getAlertContent = (message, data = undefined) => {
                     'https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
                   }
                   target='_blank'
-                  weight={400}
+                  weight={500}
                   size='12px'
                 >
                   <FormattedMessage

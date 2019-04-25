@@ -1,6 +1,10 @@
 import MockWalletOptions from './__mocks__/wallet-options-v4'
 import * as selectors from './selectors'
+import { getInvitations } from '../settings/selectors'
 import Remote from '../../remote'
+
+jest.mock('../settings/selectors')
+getInvitations.mockReturnValue(Remote.of({}))
 
 describe('walletOptions selectors', () => {
   const successState = {

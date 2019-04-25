@@ -6,7 +6,7 @@ const Container = styled.div`
   border-bottom: 1px solid #979797;
   padding: 20px 0px;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   opacity: 0.7;
 `
 const Question = styled.div`
