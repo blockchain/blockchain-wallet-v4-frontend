@@ -181,7 +181,8 @@ export default ({ api }) => {
 
         const effectiveBalance = calculateEffectiveBalance(
           balance,
-          prop('fee', p)
+          prop('fee', p),
+          prop('isErc20', p)
         )
         const from = {
           type: type || ADDRESS_TYPES.ACCOUNT,
@@ -228,7 +229,11 @@ export default ({ api }) => {
 
         const balance = balancePath(data)
         // balance + fee need to be in wei
-        let effectiveBalance = calculateEffectiveBalance(balance, fee)
+        let effectiveBalance = calculateEffectiveBalance(
+          balance,
+          fee,
+          p.isErc20
+        )
         return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
       },
 

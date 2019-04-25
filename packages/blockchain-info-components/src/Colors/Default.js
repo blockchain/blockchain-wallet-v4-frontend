@@ -55,5 +55,5 @@ export default {
   bsv: '#EAB300',
   eth: '#473BCB',
   pax: '#0C6CF2',
-  xlm: '#000000'
+  xlm: '#121D33'
 }

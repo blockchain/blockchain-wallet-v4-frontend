@@ -69,8 +69,9 @@ export const calculateFee = (gasPrice, gasLimit) => {
   }).value
 }
 
-export const calculateEffectiveBalance = (balance, fee) => {
+export const calculateEffectiveBalance = (balance, fee, isErc20) => {
   const balanceB = new BigNumber(balance)
+  if (isErc20) return balanceB.toString()
   const feeB = new BigNumber(fee)
   const effectiveBalanceB = balanceB.minus(feeB)
   const zeroB = new BigNumber('0')
