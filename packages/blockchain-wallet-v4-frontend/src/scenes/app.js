@@ -134,7 +134,8 @@ class App extends React.PureComponent {
                     {values(
                       map(
                         coin =>
-                          coin.txListAppRoute && (
+                          coin.txListAppRoute &&
+                          coin.invited && (
                             <WalletLayout
                               path={coin.txListAppRoute}
                               component={Transactions}

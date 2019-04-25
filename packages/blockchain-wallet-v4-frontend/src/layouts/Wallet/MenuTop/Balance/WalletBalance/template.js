@@ -39,9 +39,10 @@ const Template = props => {
       </Header>
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {map(
-          coin => (
-            <Balance coin={coin.coinCode} coinTicker={coin.coinTicker} />
-          ),
+          coin =>
+            coin.invited && (
+              <Balance coin={coin.coinCode} coinTicker={coin.coinTicker} />
+            ),
           coinOrder
         )}
       </BalancesWrapper>

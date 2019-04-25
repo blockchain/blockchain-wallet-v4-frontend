@@ -10,7 +10,7 @@ export const getCoins = (state, { type }) => {
   return values(
     map(
       x => ({ text: x.coinCode, value: x.coinCode }),
-      reject(c => c.coinCode === 'BSV', supportedCoins)
+      reject(c => c.coinCode === 'BSV' || !c.invited, supportedCoins)
     )
   ).filter(({ value }) =>
     selectors.core.walletOptions
