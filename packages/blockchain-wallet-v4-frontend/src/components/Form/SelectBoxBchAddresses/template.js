@@ -17,17 +17,12 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   overflow-x: scroll;
   -ms-overflow-style: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   &::-webkit-scrollbar {
     width: 0 !important;
     height: 0 !important;
   }
   > div {
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `
 

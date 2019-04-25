@@ -20,9 +20,7 @@ const ItemWrapper = styled.div`
     height: 0 !important;
   }
   > div {
-    overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `
 
