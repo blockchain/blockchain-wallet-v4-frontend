@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { actions, selectors } from 'data'
 import {
+  currentUserTier,
   getAvailability,
   getCanBuyBtc,
   getCanAirdrop,
-  getDomains,
-  isTier2Verified
+  getDomains
 } from './selectors'
 import Welcome from './template'
 import WelcomeAirdrop from './template.airdrop'
@@ -20,10 +20,10 @@ class CoinWelcomeContainer extends React.PureComponent {
       availability,
       coin,
       canAirdrop,
+      currentUserTier,
       domains,
       partner,
       supportedCoins,
-      isTier2Verified,
       ...rest
     } = this.props
     const { modalActions, onboardingActions } = rest
@@ -39,7 +39,7 @@ class CoinWelcomeContainer extends React.PureComponent {
       <WelcomePax
         availability={availability}
         currentCoin={currentCoin}
-        isTier2Verified={isTier2Verified}
+        currentUserTier={currentUserTier}
       />
     ) : (
       <Welcome
@@ -59,7 +59,7 @@ const mapStateToProps = (state, ownProps) => ({
   partner: getCanBuyBtc(state, ownProps),
   domains: getDomains(state),
   availability: getAvailability(state, ownProps),
-  isTier2Verified: isTier2Verified(state),
+  currentUserTier: currentUserTier(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

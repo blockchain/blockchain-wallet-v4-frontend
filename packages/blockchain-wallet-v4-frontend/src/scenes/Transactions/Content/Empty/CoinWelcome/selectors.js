@@ -33,6 +33,6 @@ export const getAvailability = (state, ownProps) => {
     request: availability.map(propOr(true, 'request')).getOrElse(false)
   }
 }
-export const isTier2Verified = state => {
-  return selectors.modules.profile.getUserTiers(state).getOrElse(false)
+export const currentUserTier = state => {
+  return selectors.modules.profile.getUserTiers(state).getOrElse({ current: 0 })
 }
