@@ -803,6 +803,9 @@ export default ({ api, coreSagas, networks }) => {
     const hasReceivedEthAirdrop = (yield select(
       selectors.modules.profile.hasReceivedEthAirdrop
     )).getOrElse(true)
+    const userTier = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({ current: 1 })
     try {
       const depositCredentials = yield call(getDepositCredentials, source)
       const trade = yield call(createTrade, source, target, pair)
@@ -810,7 +813,12 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
-      if (!hasReceivedEthAirdrop && target.coin === 'PAX') {
+      // check for eth airdrop eligibility
+      if (
+        !hasReceivedEthAirdrop &&
+        equals('PAX', target.coin) &&
+        equals(2, userTier)
+      ) {
         yield put(
           actions.modals.showModal(ETH_AIRDROP_MODAL, {
             tradeData: formatExchangeTrade(trade)
