@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { anyPass, propEq } from 'ramda'
+import { equals } from 'ramda'
 
 import { getData } from './selectors'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
@@ -33,10 +33,7 @@ const Notifications = ({
   sourceCoin,
   targetCoin
 }) => {
-  const showPaxWarning = anyPass([
-    propEq('PAX', sourceCoin),
-    propEq('PAX', targetCoin)
-  ])
+  const showPaxWarning = equals('PAX', sourceCoin) || equals('PAX', targetCoin)
   return (
     <React.Fragment>
       {showPaxWarning && (

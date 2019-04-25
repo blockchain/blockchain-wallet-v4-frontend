@@ -6,6 +6,7 @@ import {
   equals,
   find,
   findLast,
+  hasPath,
   lift,
   path,
   pathOr,
@@ -28,8 +29,8 @@ export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
-export const getPowerPaxTag = compose(
-  lift(path(['tags', 'POWER_PAX'])),
+export const hasReceivedEthAirdrop = compose(
+  lift(hasPath(['tags', 'POWER_PAX'])),
   getUserData
 )
 export const isUserCreated = compose(

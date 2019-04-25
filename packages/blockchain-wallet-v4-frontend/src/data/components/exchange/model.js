@@ -13,6 +13,7 @@ import {
 
 import { splitPair } from 'data/modules/rates/model'
 
+export const ETH_AIRDROP_MODAL = '@EXCHANGE.ETH_AIRDROP_MODAL'
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
 export const CONFIRM_MODAL = '@EXCHANGE.CONFIRM_MODAL'

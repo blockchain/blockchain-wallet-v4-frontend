@@ -28,15 +28,16 @@ import { Exchange, Remote } from 'blockchain-wallet-v4'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { actions, actionTypes, selectors, model } from 'data'
 import {
-  EXCHANGE_FORM,
   CONFIRM_FORM,
   CONFIRM_MODAL,
-  NO_ADVICE_ERROR,
-  NO_LIMITS_ERROR,
-  MISSING_DEVICE_ERROR,
+  ETH_AIRDROP_MODAL,
+  EXCHANGE_FORM,
+  INSUFFICIENT_ETH_FOR_TX_FEE,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
-  INSUFFICIENT_ETH_FOR_TX_FEE,
+  MISSING_DEVICE_ERROR,
+  NO_ADVICE_ERROR,
+  NO_LIMITS_ERROR,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget
 } from './model'
@@ -799,6 +800,9 @@ export default ({ api, coreSagas, networks }) => {
     const target = prop('target', form)
     const pair = getCurrentPair(form)
     const fees = yield select(S.getMempoolFees)
+    const showEthAirdrop = (yield select(
+      selectors.modules.profile.hasReceivedEthAirdrop
+    )).getOrElse(false)
     try {
       const depositCredentials = yield call(getDepositCredentials, source)
       const trade = yield call(createTrade, source, target, pair)
@@ -806,9 +810,17 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
-      yield put(
-        actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
-      )
+      if (showEthAirdrop) {
+        yield put(
+          actions.modals.showModal(ETH_AIRDROP_MODAL, {
+            tradeData: formatExchangeTrade(trade)
+          })
+        )
+      } else {
+        yield put(
+          actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
+        )
+      }
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
     } catch (err) {

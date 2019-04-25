@@ -24,11 +24,12 @@ import {
   TransferEth
 } from './Eth'
 import {
+  EthAirdrop,
   ExchangeConfirm,
-  ShapeshiftTradeDetails,
   ExchangeResults,
-  IdentityVerification,
   KycDocResubmit,
+  IdentityVerification,
+  ShapeshiftTradeDetails,
   SunRiverLinkError,
   SwapUpgrade,
   UserExists
@@ -94,6 +95,7 @@ const Modals = () => (
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
+    <EthAirdrop />
     <ExchangeConfirm />
     <ExchangeResults />
     <KycDocResubmit />
