@@ -11,6 +11,7 @@ import {
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
 import { walletOptionsPath } from '../paths'
+import { createDeepEqualSelector } from '../../utils'
 
 // general
 export const getOptions = path([walletOptionsPath])
@@ -29,19 +30,19 @@ export const getMigrationRedirects = state =>
   getWebOptions(state).map(
     path(['application', 'enableDomainMigrationRedirects'])
   )
-export const getSupportedCoins = state => {
-  const addInvited = (obj, coin) => {
-    const invitations = getInvitations(state)
-    const invited = invitations.map(prop(coin)).getOrElse(false)
-    return set(lensProp('invited'), invited, obj)
-  }
-
-  return getWebOptions(state)
-    .map(prop('coins'))
-    .map(mapObjIndexed(addInvited))
-}
 
 // coins
+export const getSupportedCoins = createDeepEqualSelector(
+  [getInvitations, getWebOptions],
+  (invitationsR, webOptionsR) => {
+    const addInvited = (obj, coin) => {
+      const invited = invitationsR.map(prop(coin)).getOrElse(false)
+      return set(lensProp('invited'), invited, obj)
+    }
+
+    return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
+  }
+)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
