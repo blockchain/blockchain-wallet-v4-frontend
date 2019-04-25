@@ -44,7 +44,7 @@ const BannerImage = styled(Image)`
 class PaxWelcomeContainer extends React.PureComponent {
   onGetPax = () => {
     this.props.modalActions.closeModal()
-    this.props.routerActions.push('/swap')
+    this.props.routerActions.push('/pax/transactions')
   }
 
   render () {

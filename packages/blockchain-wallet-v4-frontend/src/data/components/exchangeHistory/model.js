@@ -7,6 +7,7 @@ export const PER_PAGE = 20
 
 export const DATE_FORMAT = 'DD MMMM YYYY, HH:mm'
 
+export const ETH_AIRDROP_MODAL = '@EXCHANGE.ETH_AIRDROP_MODAL'
 export const RESULTS_MODAL = '@EXCHANGE.RESULTS_MODAL'
 
 export const STATES = {

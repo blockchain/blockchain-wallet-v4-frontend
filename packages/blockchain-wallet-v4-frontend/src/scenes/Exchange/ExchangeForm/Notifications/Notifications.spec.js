@@ -4,14 +4,12 @@ import { mount } from 'enzyme'
 
 import { actions } from 'data'
 import { TIERS_STATES } from 'data/modules/profile/model'
-import {} from 'data/components/identityVerification/model'
 import profileReducer from 'data/modules/profile/reducers'
-
 import LimitInfo from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
-describe('Profile Settings', () => {
+describe('Swap Notifications', () => {
   beforeEach(() => {
     dispatchSpy.mockClear()
   })

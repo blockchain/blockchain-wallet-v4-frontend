@@ -23,6 +23,8 @@ import coinDollar2 from './img/coin-dollar@2x.png'
 import coinDollar3 from './img/coin-dollar@3x.png'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
+import ethAirdrop from './img/eth-airdrop.png'
+import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -126,6 +128,8 @@ export default {
   'coin-dollar3': coinDollar3,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
+  'eth-airdrop': ethAirdrop,
+  'eth-airdrop2': ethAirdrop2,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,

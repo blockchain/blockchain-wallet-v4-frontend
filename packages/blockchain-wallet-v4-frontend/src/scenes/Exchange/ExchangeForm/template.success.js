@@ -17,7 +17,7 @@ import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import Error from './Error'
 import LimitInfo from './LimitInfo'
-import VerificationInfo from './VerificationInfo'
+import Notifications from './Notifications'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -319,7 +319,7 @@ const Success = ({
             <LimitInfo />
           </Form>
         </FormWrapper>
-        <VerificationInfo />
+        <Notifications sourceCoin={sourceCoin} targetCoin={targetCoin} />
       </ColumnLeft>
       <ColumnRight>
         <Summary
