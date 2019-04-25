@@ -50,7 +50,7 @@ class DeviceTitle extends React.PureComponent {
     const linkTo = onDashboard
       ? `/lockbox/settings/${deviceIndex}`
       : `/lockbox/dashboard/${deviceIndex}`
-    const icon = onDashboard ? 'settings-filled' : 'transactions'
+    const icon = onDashboard ? 'cog-filled' : 'transactions'
 
     return deviceInfo ? (
       <Wrapper>
