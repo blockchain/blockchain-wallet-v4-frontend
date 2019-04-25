@@ -24,7 +24,7 @@ export const getData = createDeepEqualSelector(
     const allAttemptedTiersRejected = !getLastUnrejectedTier(take(last, tiers))
     const nextTierAvailable = next > last
     return {
-      showNotification: allAttemptedTiersRejected && !nextTierAvailable
+      showRejectedNotification: allAttemptedTiersRejected && !nextTierAvailable
     }
   }
 )

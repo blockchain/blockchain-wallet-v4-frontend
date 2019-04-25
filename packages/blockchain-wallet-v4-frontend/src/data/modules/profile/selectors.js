@@ -28,6 +28,10 @@ export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
+export const getPowerPaxTag = compose(
+  lift(path(['tags', 'POWER_PAX'])),
+  getUserData
+)
 export const isUserCreated = compose(
   lift(equals(USER_ACTIVATION_STATES.CREATED)),
   getUserActivationState
