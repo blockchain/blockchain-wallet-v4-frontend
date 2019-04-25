@@ -800,9 +800,9 @@ export default ({ api, coreSagas, networks }) => {
     const target = prop('target', form)
     const pair = getCurrentPair(form)
     const fees = yield select(S.getMempoolFees)
-    const showEthAirdrop = (yield select(
+    const hasReceivedEthAirdrop = (yield select(
       selectors.modules.profile.hasReceivedEthAirdrop
-    )).getOrElse(false)
+    )).getOrElse(true)
     try {
       const depositCredentials = yield call(getDepositCredentials, source)
       const trade = yield call(createTrade, source, target, pair)
@@ -810,7 +810,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
-      if (showEthAirdrop) {
+      if (!hasReceivedEthAirdrop && target.coin === 'PAX') {
         yield put(
           actions.modals.showModal(ETH_AIRDROP_MODAL, {
             tradeData: formatExchangeTrade(trade)
