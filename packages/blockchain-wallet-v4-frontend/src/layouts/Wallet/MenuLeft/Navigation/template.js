@@ -76,31 +76,33 @@ const Navigation = props => {
       <Separator />
       {values(
         mapObjIndexed(
-          (coin, i) => (
-            <LinkContainer
-              key={i}
-              to={coin.txListAppRoute}
-              activeClassName='active'
-            >
-              <MenuItem
-                data-e2e={`${toLower(coin.coinCode)}Link`}
-                colorCode={coin.colorCode}
+          (coin, i) =>
+            coin.txListAppRoute &&
+            coin.invited && (
+              <LinkContainer
+                key={i}
+                to={coin.txListAppRoute}
+                activeClassName='active'
               >
-                <Icon name={coin.icons.circleFilled} size='20px' />
-                {coin.displayName}
-                {coin.showNewTagSidenav && (
-                  <NewCartridge>
-                    <Text color='#F28B24' size='12' weight={500} uppercase>
-                      <FormattedMessage
-                        id='layouts.wallet.menuleft.navigation.transactions.new'
-                        defaultMessage='New'
-                      />
-                    </Text>
-                  </NewCartridge>
-                )}
-              </MenuItem>
-            </LinkContainer>
-          ),
+                <MenuItem
+                  data-e2e={`${toLower(coin.coinCode)}Link`}
+                  colorCode={coin.colorCode}
+                >
+                  <Icon name={coin.icons.circleFilled} size='20px' />
+                  {coin.displayName}
+                  {coin.showNewTagSidenav && (
+                    <NewCartridge>
+                      <Text color='#F28B24' size='12' weight={500} uppercase>
+                        <FormattedMessage
+                          id='layouts.wallet.menuleft.navigation.transactions.new'
+                          defaultMessage='New'
+                        />
+                      </Text>
+                    </NewCartridge>
+                  )}
+                </MenuItem>
+              </LinkContainer>
+            ),
           coinOrder
         )
       )}

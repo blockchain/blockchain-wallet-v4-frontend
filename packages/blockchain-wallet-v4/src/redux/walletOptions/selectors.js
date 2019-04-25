@@ -1,4 +1,15 @@
-import { curry, keys, filter, path, prop, toUpper } from 'ramda'
+import {
+  curry,
+  keys,
+  filter,
+  lensProp,
+  mapObjIndexed,
+  path,
+  prop,
+  toUpper,
+  set
+} from 'ramda'
+import { getInvitations } from '../settings/selectors'
 import { walletOptionsPath } from '../paths'
 
 // general
@@ -18,8 +29,17 @@ export const getMigrationRedirects = state =>
   getWebOptions(state).map(
     path(['application', 'enableDomainMigrationRedirects'])
   )
-export const getSupportedCoins = state =>
-  getWebOptions(state).map(prop('coins'))
+export const getSupportedCoins = state => {
+  const addInvited = (obj, coin) => {
+    const invitations = getInvitations(state)
+    const invited = invitations.map(prop(coin)).getOrElse(false)
+    return set(lensProp('invited'), invited, obj)
+  }
+
+  return getWebOptions(state)
+    .map(prop('coins'))
+    .map(mapObjIndexed(addInvited))
+}
 
 // coins
 export const getBtcNetwork = state =>

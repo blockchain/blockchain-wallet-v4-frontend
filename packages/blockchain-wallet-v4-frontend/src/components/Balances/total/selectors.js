@@ -1,4 +1,4 @@
-import { add, concat, lift, map, reduce } from 'ramda'
+import { add, concat, lift, map, prop, reduce } from 'ramda'
 import { selectors } from 'data'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
@@ -119,9 +119,12 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   [
     getPaxBalance,
     state => selectors.core.data.eth.getErc20Rates(state, 'pax'),
-    selectors.core.settings.getCurrency
+    selectors.core.settings.getCurrency,
+    selectors.core.settings.getInvitations
   ],
-  (paxBalanceR, erc20RatesR, currencyR) => {
+  (paxBalanceR, erc20RatesR, currencyR, invitationsR) => {
+    const invitations = invitationsR.getOrElse({ PAX: false })
+    const invited = prop('PAX', invitations)
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertPaxToFiat({
         value,
@@ -131,7 +134,9 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
       }).value
     }
 
-    return lift(transform)(paxBalanceR, erc20RatesR, currencyR)
+    return invited
+      ? lift(transform)(paxBalanceR, erc20RatesR, currencyR)
+      : Remote.Success(0)
   }
 )
 

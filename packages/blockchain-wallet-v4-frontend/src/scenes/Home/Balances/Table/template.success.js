@@ -67,21 +67,23 @@ const Success = props => {
           const link =
             viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
-            <HomeBalanceRow
-              key={i}
-              data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
-            >
-              <TxLink to={link}>
-                <div>
-                  <HomeCoinBalanceCell
-                    coin={coin.coinCode}
-                    coinName={coin.displayName}
-                    coinIcon={coin.icons.circleFilled}
-                    balance={balances[`${toLower(coin.coinCode)}Balance`]}
-                  />
-                </div>
-              </TxLink>
-            </HomeBalanceRow>
+            coin.invited && (
+              <HomeBalanceRow
+                key={i}
+                data-e2e={`${toLower(coin.coinCode)}BalanceTable`}
+              >
+                <TxLink to={link}>
+                  <div>
+                    <HomeCoinBalanceCell
+                      coin={coin.coinCode}
+                      coinName={coin.displayName}
+                      coinIcon={coin.icons.circleFilled}
+                      balance={balances[`${toLower(coin.coinCode)}Balance`]}
+                    />
+                  </div>
+                </TxLink>
+              </HomeBalanceRow>
+            )
           )
         }, coinOrder)
       )}
