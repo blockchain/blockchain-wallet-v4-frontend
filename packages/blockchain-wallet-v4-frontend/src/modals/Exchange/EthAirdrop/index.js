@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
@@ -30,22 +30,22 @@ const AirdropModalHeader = styled(ModalHeader)`
 const Container = styled.div`
   text-align: center;
   > div:nth-child(2) {
-    margin: -8px 0 8px;
+    margin: 8px 0;
   }
 `
-const BannerImage = styled(Image)`
-  height: 25%;
+const SummaryText = styled(Text)`
+  margin: 16px 0 24px;
+  line-height: 18px;
 `
 
 const ViewTradeButton = styled(Button)`
-  height: 56px;
-  margin-top: 44px;
-  font-size: 18px;
+  height: 44px;
+  font-size: 16px;
 `
 
 class EthAirdrop extends React.PureComponent {
   onViewTradeStatus = () => {
-    this.props.modalActions.closeModal()
+    this.props.closeModal()
     this.props.showExchangeResultsModal(this.props.tradeData)
   }
 
@@ -56,31 +56,30 @@ class EthAirdrop extends React.PureComponent {
         <AirdropModalHeader onClose={close} />
         <ModalBody>
           <Container>
-            <BannerImage
-              name='coin-dollar'
+            <Image
+              name='eth-airdrop'
               srcset={{
-                'coin-dollar2': '2x',
-                'coin-dollar3': '3x'
+                'eth-airdrop2': '2x'
               }}
             />
-            <Text size='20px' weight={300}>
+            <Text size='28px' weight={300} color='brand-primary'>
               <FormattedMessage
                 id='modals.exchange.ethairdrop.success'
                 defaultMessage='Success!'
               />
             </Text>
-            <Text size='16px' weight={300}>
+            <Text size='14px' weight={300} color='brand-primary'>
               <FormattedMessage
                 id='modals.exchange.ethairdrop.firstorder'
                 defaultMessage='Your first USD Pax order has been placed!'
               />
             </Text>
-            <Text size='12px' weight={300}>
-              <FormattedMessage
+            <SummaryText size='13px' weight={300}>
+              <FormattedHTMLMessage
                 id='modals.exchange.ethairdrop.explain'
-                defaultMessage='Even better, since you need ETH to make USD Pax trades, we will airdrop enough ETH into your Wallet to cover your first 3 transactions 🙌🏻'
+                defaultMessage='Even better, since you need <b>ETH</b> to make <b>USD Pax</b> trades, we will airdrop enough <b>ETH</b> into your Wallet to cover your first 3 transactions 🙌🏻'
               />
-            </Text>
+            </SummaryText>
             <ViewTradeButton
               nature='primary'
               fullwidth
@@ -99,8 +98,9 @@ class EthAirdrop extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  showExchangeResultsModal: () =>
-    dispatch(actions.modals.showModal(RESULTS_MODAL))
+  closeModal: () => dispatch(actions.modals.closeAllModals()),
+  showExchangeResultsModal: tradeData =>
+    dispatch(actions.modals.showModal(RESULTS_MODAL, tradeData))
 })
 
 const enhance = compose(

@@ -27,10 +27,10 @@ import {
 import { Exchange, Remote } from 'blockchain-wallet-v4'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { actions, actionTypes, selectors, model } from 'data'
+import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
 import {
   CONFIRM_FORM,
   CONFIRM_MODAL,
-  ETH_AIRDROP_MODAL,
   EXCHANGE_FORM,
   INSUFFICIENT_ETH_FOR_TX_FEE,
   LATEST_TX_ERROR,
