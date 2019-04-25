@@ -1,11 +1,10 @@
-import { prop, propOr, lift, isEmpty } from 'ramda'
+import { prop, propOr, lift } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendXlm.getPayment,
-    selectors.components.sendXlm.getToToggled,
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
@@ -17,7 +16,6 @@ export const getData = createDeepEqualSelector(
   ],
   (
     paymentR,
-    toToggled,
     balanceR,
     lockboxXlmAccountsR,
     currencyR,
@@ -27,7 +25,6 @@ export const getData = createDeepEqualSelector(
     noAccount,
     coinAvailabilityR
   ) => {
-    const enableToggle = !isEmpty(lockboxXlmAccountsR.getOrElse([]))
     const excludeLockbox = !prop(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
@@ -48,8 +45,6 @@ export const getData = createDeepEqualSelector(
         activeField,
         effectiveBalance,
         fee,
-        toToggled,
-        enableToggle,
         destination,
         from,
         reserve,

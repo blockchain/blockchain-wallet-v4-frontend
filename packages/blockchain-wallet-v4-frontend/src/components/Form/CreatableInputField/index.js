@@ -4,8 +4,9 @@ import { CreatableInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
   height: auto;
+  width: 100%;
+  max-width: ${props => props.maxWidth || '100%'};
 `
 const Error = styled.label`
   position: absolute;
@@ -26,7 +27,7 @@ const CreatableInputField = props => {
   const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
-    <Container>
+    <Container maxWidth={props.maxWidth}>
       <CreatableInput {...input} {...meta} {...rest} errorState={errorState} />
       {(touched || !pristine) && error && !hideErrors && (
         <Error errorBottom={errorBottom}>{error}</Error>

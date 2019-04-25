@@ -21,6 +21,9 @@ const HeaderWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const ItemIcon = styled(Icon)`
+  color: ${props => props.theme[props.color]} !important;
+`
 
 class SelectBoxCoin extends React.PureComponent {
   renderItem = props => {
@@ -28,9 +31,9 @@ class SelectBoxCoin extends React.PureComponent {
     const { value, text, ...rest } = props
     return (
       <HeaderWrapper {...rest}>
-        <Icon
+        <ItemIcon
           name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
-          color='textBlack'
+          color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
           size='20px'
         />
         <Text size='14px' cursor='pointer' data-e2e=''>
@@ -47,9 +50,9 @@ class SelectBoxCoin extends React.PureComponent {
       : 'currencyOption'
     return (
       <HeaderWrapper {...rest}>
-        <Icon
+        <ItemIcon
           name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
-          color='textBlack'
+          color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
           size='20px'
         />
         <Text size='14px' cursor='pointer' data-e2e={e2eTag}>

@@ -83,14 +83,14 @@ const Welcome = props => {
         <Row>
           <Text size='24px' weight={500} color='brand-primary'>
             <FormattedMessage
-              id='scenes.transaction.content.empty.yourcoinwallet'
+              id='scenes.transaction.content.empty.newcoinwallet'
               defaultMessage='Your {coin} Wallet'
               values={{ coin: currentCoin.coinTicker }}
             />
           </Text>
           <Content weight={400}>
             <FormattedMessage
-              id='scenes.transaction.content.empty.sendrequestswap'
+              id='scenes.transaction.content.empty.newcoinswap'
               defaultMessage='Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
               values={{
                 coinName: currentCoin.displayName,
@@ -107,7 +107,7 @@ const Welcome = props => {
                   disabled={!availability.exchange}
                 >
                   <FormattedMessage
-                    id='scenes.transaction.content.empty.buy'
+                    id='scenes.transaction.content.empty.newcoinbuy'
                     defaultMessage='Buy {coin}'
                     values={{ coin: currentCoin.coinTicker }}
                   />
@@ -121,7 +121,7 @@ const Welcome = props => {
                 disabled={!availability.request}
               >
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.getstarted.request'
+                  id='scenes.transaction.content.empty.getstarted.newcoinrequest'
                   defaultMessage='Get {coin}'
                   values={{ coin: currentCoin.coinTicker }}
                 />
@@ -144,7 +144,7 @@ const Welcome = props => {
                 disabled={!availability.exchange}
               >
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.getstarted.swap'
+                  id='scenes.transaction.content.empty.getstarted.newcoinswap'
                   defaultMessage='Swap {coin}'
                   values={{ coin: currentCoin.coinTicker }}
                 />

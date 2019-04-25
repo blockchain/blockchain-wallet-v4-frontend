@@ -101,8 +101,15 @@ export const validEthAddress = ({ value: dropdownValue }) => {
   )
 }
 
-export const validXlmAddress = value =>
-  utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
+export const validXlmAddress = ({ value: dropdownValue }) => {
+  if (!dropdownValue) return
+  const { value } = dropdownValue
+  return utils.xlm.isValidAddress(value) ? (
+    undefined
+  ) : (
+    <M.InvalidXlmAddressMessage />
+  )
+}
 
 export const validBtcAddress = (value, allValues, props) => {
   if (isObject(value)) {

@@ -37,6 +37,7 @@ export const getInitialValues = (state, ownProps) => {
   } else if (includes(coin, erc20List)) {
     return selectors.core.common.eth
       .getErc20AccountBalances(state, toLower(coin))
+      .map(head)
       .map(to)
       .getOrFail()
   }

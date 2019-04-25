@@ -98,7 +98,5 @@ export default {
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
   'wallet-filled': '\\e939',
-  xlm: '\\e90a',
-  'xlm-circle': '\\e909',
   'xlm-circle-filled': '\\e91f'
 }

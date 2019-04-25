@@ -154,7 +154,11 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanXlmAddress (data) {
     const { address } = utils.xlm.decodeXlmURI(data)
     if (utils.xlm.isValidAddress(address)) {
-      this.props.formActions.change(XLM_FORM, 'to', address)
+      this.props.formActions.change(
+        XLM_FORM,
+        'to',
+        this.createNewValue(address)
+      )
     } else {
       this.props.alertActions.displayError(C.XLM_ADDRESS_INVALID)
     }

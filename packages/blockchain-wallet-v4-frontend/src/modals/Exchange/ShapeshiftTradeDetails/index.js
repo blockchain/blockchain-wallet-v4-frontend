@@ -11,7 +11,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 const { VIEW_ORDER_DETAILS } = model.analytics.SWAP_EVENTS
-class ExchangeDetailsContainer extends React.PureComponent {
+class ShapeshiftTradeDetailsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.modalInitialized(this.props.depositAddress)
     this.props.analyticsActions.logEvent(VIEW_ORDER_DETAILS)
@@ -35,7 +35,7 @@ class ExchangeDetailsContainer extends React.PureComponent {
   }
 }
 
-ExchangeDetailsContainer.propTypes = {
+ShapeshiftTradeDetailsContainer.propTypes = {
   depositAddress: PropTypes.string.isRequired
 }
 
@@ -49,11 +49,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ExchangeDetails'),
+  modalEnhancer('ShapeshiftTradeDetails'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(ExchangeDetailsContainer)
+export default enhance(ShapeshiftTradeDetailsContainer)

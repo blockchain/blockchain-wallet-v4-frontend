@@ -157,8 +157,8 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.erc20'
-                defaultMessage='ERC-20 Gas'
+                id='components.txlistitem.paxfee'
+                defaultMessage='USDp Fee'
               />
             </Banner>
           </BannerWrapper>

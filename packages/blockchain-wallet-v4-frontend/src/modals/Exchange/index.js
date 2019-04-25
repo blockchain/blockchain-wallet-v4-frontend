@@ -1,5 +1,5 @@
 import ExchangeConfirm from './ExchangeConfirm'
-import ExchangeDetails from './ExchangeDetails'
+import ShapeshiftTradeDetails from './ShapeshiftTradeDetails'
 import ExchangeResults from './ExchangeResults'
 import IdentityVerification from './IdentityVerification'
 import KycDocResubmit from './KycDocResubmit'
@@ -9,7 +9,7 @@ import UserExists from './UserExists'
 
 export {
   ExchangeConfirm,
-  ExchangeDetails,
+  ShapeshiftTradeDetails,
   ExchangeResults,
   IdentityVerification,
   KycDocResubmit,

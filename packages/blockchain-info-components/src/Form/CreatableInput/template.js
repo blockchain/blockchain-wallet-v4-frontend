@@ -178,8 +178,8 @@ const CreatableInput = props => {
   } = props
 
   const borderColor = selectBorderColor(errorState)
-  const flatOptions = flatten(options.map(prop('options')))
-  const isOptionsEmpty = !length(flatOptions)
+  const flatOptions = !isMulti && flatten(options.map(prop('options')))
+  const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
     <StyledCreatableSelect
