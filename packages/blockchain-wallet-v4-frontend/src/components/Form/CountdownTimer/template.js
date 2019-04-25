@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 
 const CountdownTimer = props => (
   <Wrapper {...props}>
-    <Text size='11px' weight={300} color='gray-3'>
+    <Text size='11px' weight={400} color='gray-3'>
       <FormattedMessage
         id='scenes.exchange.secondstep.expiry_text'
         defaultMessage='This quote will refresh in: {timeLeft}'

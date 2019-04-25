@@ -86,17 +86,17 @@ class SfoxTradeDetails extends React.PureComponent {
           </Text>
         </ModalHeader>
         <ModalBody>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             {bodyStatus.text}
           </Text>
-          <Text style={spacing('pt-5')} size='13px' weight={300}>
+          <Text style={spacing('pt-5')} size='13px' weight={400}>
             <FormattedMessage
               id='sfoxtradedetails.orderdetails.tradeid'
               defaultMessage='Your order ID is: SFX-{id}'
               values={{ id }}
             />
           </Text>
-          <Text style={spacing('mt-20')} size='14px' weight={400}>
+          <Text style={spacing('mt-20')} size='14px' weight={500}>
             {isBuy ? (
               <FormattedMessage
                 id='sfoxtradedetails.orderdetails.method'
@@ -116,27 +116,27 @@ class SfoxTradeDetails extends React.PureComponent {
           <OrderDetailsTable style={spacing('mt-10')}>
             <OrderDetailsRow>
               {isBuy ? (
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.amounttopurchase'
                     defaultMessage='BTC Amount to Purchase'
                   />
                 </Text>
               ) : (
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.amounttosell'
                     defaultMessage='BTC Amount to Sell'
                   />
                 </Text>
               )}
-              <Text size='13px' weight={300}>
+              <Text size='13px' weight={400}>
                 {renderFirstRow(trade)}
               </Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
               <ToolTipWrapper>
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.tradingfee'
                     defaultMessage='Trading Fee'
@@ -146,37 +146,37 @@ class SfoxTradeDetails extends React.PureComponent {
                   </TooltipHost>
                 </Text>
               </ToolTipWrapper>
-              <Text size='13px' weight={300}>{`$${feeAmount.toFixed(2)}`}</Text>
+              <Text size='13px' weight={400}>{`$${feeAmount.toFixed(2)}`}</Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
               {isBuy ? (
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.totalcost'
                     defaultMessage='Total Cost'
                   />
                 </Text>
               ) : (
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.totaltobereceived'
                     defaultMessage='Total to be Received'
                   />
                 </Text>
               )}
-              <Text size='13px' weight={300} color='success'>
+              <Text size='13px' weight={400} color='success'>
                 {renderTotal(trade)}
               </Text>
             </OrderDetailsRow>
             {expectedDelivery && (
               <OrderDetailsRow>
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='sfoxtradedetails.orderdetails.fundsdelivery'
                     defaultMessage='Estimated Delivery of Funds'
                   />
                 </Text>
-                <Text size='13px' weight={300}>
+                <Text size='13px' weight={400}>
                   {moment(expectedDelivery).format('dddd, MMMM Do YYYY')}
                 </Text>
               </OrderDetailsRow>

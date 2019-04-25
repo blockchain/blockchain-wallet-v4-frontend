@@ -48,10 +48,7 @@ const Tab = styled.div`
   }
 `
 const TabHeader = styled(Text)`
-  font-weight: 300;
-  @media (min-width: 768px) {
-    font-size: 20px;
-  }
+  font-weight: 500;
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;

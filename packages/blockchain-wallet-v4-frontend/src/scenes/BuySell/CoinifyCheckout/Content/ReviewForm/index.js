@@ -43,7 +43,7 @@ const ReviewForm = props => {
           hideErrors
         />
         <TermsLabel htmlFor='terms'>
-          <Text size='11px' weight={300}>
+          <Text size='11px' weight={400}>
             <FormattedMessage
               id='scenes.buysell.coinify.sell.orderreview.accept_terms'
               defaultMessage="By clicking here, I accept that Coinify will process my order upon receipt of funds, and that the order will be executed at the available exchange rate at that time, which may differ from the displayed rate. I also accept Coinify's {terms}."
@@ -51,7 +51,7 @@ const ReviewForm = props => {
                 terms: (
                   <Link
                     size='11px'
-                    weight={300}
+                    weight={400}
                     href='https://www.coinify.com/legal'
                     target='_blank'
                     rel='noreferrer noopener'

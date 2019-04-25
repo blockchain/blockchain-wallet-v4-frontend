@@ -92,7 +92,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   input {
     outline: 0;
     position: relative;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 72px;
     line-height: 88px;
     height: 88px;
@@ -102,7 +102,8 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     max-width: 100%;
     border: none;
     text-align: center;
-    font-family: Montserrat;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
   }
@@ -139,7 +140,7 @@ const CurrencyBox = styled(Text)`
   align-items: center;
   height: 88px;
   font-size: 72px;
-  font-weight: 300;
+  font-weight: 400;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
@@ -209,7 +210,7 @@ const Success = ({
                     if (!sourceActive) swapFix()
                   }}
                   size='14px'
-                  weight={400}
+                  weight={500}
                 >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.swap'
@@ -235,7 +236,7 @@ const Success = ({
                     if (!targetActive) swapFix()
                   }}
                   size='14px'
-                  weight={400}
+                  weight={500}
                 >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.to'

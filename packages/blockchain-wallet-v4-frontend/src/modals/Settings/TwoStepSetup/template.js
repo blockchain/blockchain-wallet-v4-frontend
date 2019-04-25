@@ -71,7 +71,7 @@ const TwoStepSetup = props => {
         />
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='modals.twostepsetup'
             defaultMessage='Are you sure to disable two factor authentication ?'
@@ -79,7 +79,7 @@ const TwoStepSetup = props => {
         </Text>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={400} onClick={close}>
           <FormattedMessage
             id='modals.twostepsetup.cancel'
             defaultMessage='Cancel'
@@ -103,13 +103,13 @@ const TwoStepSetup = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.twostepsetup.explain'
               defaultMessage='Protect your wallet from unauthorized access by enabling 2-step Setup.'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.twostepsetup.explain2'
               defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet.'
@@ -119,7 +119,7 @@ const TwoStepSetup = props => {
         <Wrapper>
           <Container onClick={handleGoogleAuthenticator}>
             <Image name='google-authenticator' height='100px' />
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='modals.twostepsetup.usegoogle'
                 defaultMessage='Google Authenticator'
@@ -128,7 +128,7 @@ const TwoStepSetup = props => {
           </Container>
           <Container onClick={handleYubico}>
             <Image name='yubikey' height='100px' />
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='modals.twostepsetup.useyubikey'
                 defaultMessage='Yubikey'
@@ -137,7 +137,7 @@ const TwoStepSetup = props => {
           </Container>
           <Container onClick={handleMobile}>
             <Image name='smartphone' height='100px' />
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='modals.twostepsetup.usemobile'
                 defaultMessage='Mobile number'
@@ -147,7 +147,7 @@ const TwoStepSetup = props => {
         </Wrapper>
       </ModalBody>
       <ModalFooter>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={400} onClick={close}>
           <FormattedMessage
             id='modals.twostepsetup.cancel'
             defaultMessage='Cancel'

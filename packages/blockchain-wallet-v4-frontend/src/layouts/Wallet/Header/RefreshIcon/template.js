@@ -21,7 +21,7 @@ const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
   <TooltipHost id='refresh.tooltip'>
     <Link
       size='14px'
-      weight={300}
+      weight={400}
       color='white'
       uppercase
       onClick={handleRefresh}

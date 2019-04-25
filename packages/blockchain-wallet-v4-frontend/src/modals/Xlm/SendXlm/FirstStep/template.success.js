@@ -254,7 +254,7 @@ const FirstStep = props => {
                   defaultMessage='Transaction Fee:'
                 />
               </Text>
-              <Text size='16px' weight={300}>
+              <Text size='16px' weight={400}>
                 <ComboDisplay coin='XLM'>{fee}</ComboDisplay>
               </Text>
             </FormItem>

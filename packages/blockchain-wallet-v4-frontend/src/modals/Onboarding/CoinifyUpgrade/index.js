@@ -35,7 +35,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: auto;
-  font-weight: 300;
+  font-weight: 400;
   padding: 15px 0;
 `
 const LaterButton = styled(FooterButton)`
@@ -56,7 +56,7 @@ class CoinifyUpgrade extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Body>
-          <Copy weight={300}>
+          <Copy weight={400}>
             <FormattedMessage
               id='modals.coinifyupgrade.completeprofilenowforfree'
               defaultMessage='Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $50 of free Stellar (XLM).'

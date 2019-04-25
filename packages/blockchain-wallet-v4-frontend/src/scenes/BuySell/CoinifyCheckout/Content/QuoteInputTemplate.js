@@ -12,7 +12,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   ${media.mobile`
     height: 100px;
   `};
@@ -41,7 +42,7 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   position: absolute;
   color: ${props => props.theme['gray-2']};
   padding-right: 42px;

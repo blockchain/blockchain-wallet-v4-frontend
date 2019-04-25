@@ -155,7 +155,7 @@ const RequestEth = props => {
         </BannerContainer>
       )}
       <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
+        <Text size='14px' weight={400} uppercase>
           <FormattedMessage id='modals.requesteth.or' defaultMessage='Or' />
         </Text>
       </Separator>

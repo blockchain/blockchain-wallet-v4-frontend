@@ -47,7 +47,7 @@ const TradeItem = props => {
           <StatusContainer width='30%' mobileWidth='25%'>
             <TableCell width='50%'>
               <Text
-                weight={300}
+                weight={400}
                 size={mobile ? '12px' : '14px'}
                 capitalize
                 color={selectColor(status)}
@@ -59,7 +59,7 @@ const TradeItem = props => {
             <TableCell width='50%'>
               <Link
                 size={mobile ? '12px' : '14px'}
-                weight={300}
+                weight={400}
                 capitalize
                 onClick={handleClick}
                 data-e2e='exchangeHistoryViewDetails'
@@ -74,7 +74,7 @@ const TradeItem = props => {
           <TableCell width='30%' mobileWidth='18%'>
             <Text
               size={mobile ? '12px' : '14px'}
-              weight={300}
+              weight={400}
               data-e2e='exchangeHistoryOrderDate'
             >
               {tradeDateHelper(date, mobile)}
@@ -84,7 +84,7 @@ const TradeItem = props => {
             <Text
               data-e2e='exchangeHistoryOrderSource'
               size={mobile ? '12px' : '14px'}
-              weight={300}
+              weight={400}
             >{`${depositAmount} ${pathOr(
               '',
               [sourceCoin, 'coinTicker'],
@@ -95,7 +95,7 @@ const TradeItem = props => {
             <Text
               data-e2e='exchangeHistoryOrderTarget'
               size={mobile ? '12px' : '14px'}
-              weight={300}
+              weight={400}
               color={
                 status === 'complete' || status === FINISHED
                   ? 'gray-5'

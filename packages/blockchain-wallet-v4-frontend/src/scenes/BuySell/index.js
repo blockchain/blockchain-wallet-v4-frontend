@@ -24,12 +24,13 @@ const Wrapper = styled.div`
 const CheckoutWrapper = styled.div`
   width: 100%;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 30px 30px;
   box-sizing: border-box;
   height: calc(100% - 56px);
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   flex-direction: row;
   display: flex;
   @media (min-height: 800px) {

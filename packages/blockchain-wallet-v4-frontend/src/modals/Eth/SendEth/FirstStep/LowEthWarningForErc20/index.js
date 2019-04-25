@@ -12,13 +12,13 @@ const LowEthWarningForErc20 = () => {
   return (
     <WarningWrapper>
       <WarningLeftColumn>
-        <WarningHeader size='14px' weight={400} color='orange'>
+        <WarningHeader size='14px' weight={500} color='orange'>
           <FormattedMessage
             id='modals.sendeth.lowethwarningforerc20.title'
             defaultMessage='Not Enough Eth'
           />
         </WarningHeader>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
             id='modals.sendeth.lowethwarningforerc20.explain'
             defaultMessage="You'll need ETH to send your ERC20 Token, USD Pax."
@@ -28,7 +28,7 @@ const LowEthWarningForErc20 = () => {
       <WarningRightColumn>
         <Link
           size='13px'
-          weight={400}
+          weight={500}
           href='https://support.blockchain.com'
           target='_blank'
         >

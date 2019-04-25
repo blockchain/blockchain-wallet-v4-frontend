@@ -27,16 +27,16 @@ const Header = styled.div`
 `
 const Title = styled(Text)`
   font-size: 22px;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 16px;
 `
 const Paragraph = styled(Text)`
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 400;
 `
 const StyledLink = styled(Link)`
   font-size: 14px;
-  font-weight: 200;
+  font-weight: 400;
 `
 const BackIcon = styled(Icon)`
   font-size: 20px;
@@ -50,7 +50,7 @@ const Row = styled.div`
   align-items: center;
 `
 const Bold = styled.b`
-  font-weight: 400;
+  font-weight: 500;
 `
 class XlmCreateAccountLearn extends React.PureComponent {
   render () {

@@ -14,7 +14,7 @@ const BigButton = styled(Button)`
   height: 56px;
   border-radius: 6px;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 500;
   transition: box-shadow 0.3s;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   &:disabled {

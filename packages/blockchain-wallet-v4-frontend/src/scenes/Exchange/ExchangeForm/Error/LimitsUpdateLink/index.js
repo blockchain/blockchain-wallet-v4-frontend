@@ -9,7 +9,7 @@ import { Link } from 'blockchain-info-components'
 const LimitsUpdateLink = props => (
   <Link
     size='12px'
-    weight={300}
+    weight={400}
     onClick={props.actions.updateLimits}
     data-e2e='retryLink'
   >

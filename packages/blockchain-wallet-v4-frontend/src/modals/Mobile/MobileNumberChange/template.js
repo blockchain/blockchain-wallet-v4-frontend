@@ -51,14 +51,14 @@ const MobileNumberChange = props => {
           />
         </ModalHeader>
         <ModalBody>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.mobilenumberchange.explain'
               defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.'
             />
           </Text>
           <MobileNumber>
-            <Text size='14px' weight={300} style={spacing('pr-5')}>
+            <Text size='14px' weight={400} style={spacing('pr-5')}>
               <FormattedMessage
                 id='modals.mobilenumberchange.mobile'
                 defaultMessage='Mobile number: '
@@ -75,7 +75,7 @@ const MobileNumberChange = props => {
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>
-          <Link size='13px' weight={300} onClick={close}>
+          <Link size='13px' weight={500} onClick={close}>
             <FormattedMessage
               id='modals.mobilenumberchange.cancel'
               defaultMessage='Cancel'

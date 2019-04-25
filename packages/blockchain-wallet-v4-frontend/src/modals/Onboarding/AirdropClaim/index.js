@@ -48,7 +48,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: auto;
-  font-weight: 300;
+  font-weight: 400;
   padding: 15px 0;
 `
 const LaterButton = styled(FooterButton)`
@@ -90,14 +90,14 @@ class AirdropClaim extends React.PureComponent {
           }}
         />
         <Body>
-          <Text size='24px' weight={300}>
+          <Text size='24px' weight={400}>
             <FormattedMessage
               id='modals.airdropclaim.getfreecrypto'
               defaultMessage='Get Free Crypto'
             />
           </Text>
           {isCampaignTagged ? (
-            <Copy weight={300}>
+            <Copy weight={400}>
               <FormattedMessage
                 id='modals.airdropclaim.thanksforparticipating'
                 defaultMessage='Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!'
@@ -108,7 +108,7 @@ class AirdropClaim extends React.PureComponent {
               />
             </Copy>
           ) : (
-            <Copy weight={300}>
+            <Copy weight={400}>
               <FormattedMessage
                 id='modals.airdropclaim.completeprofilefree'
                 defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.'

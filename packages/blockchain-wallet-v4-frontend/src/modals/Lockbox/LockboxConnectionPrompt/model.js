@@ -27,7 +27,7 @@ export const CONFIRM_STEPS = {
             defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
             values={{ appName }}
           />
-          <Text weight={400} size='14px' style={{ marginTop: '20px' }}>
+          <Text weight={500} size='14px' style={{ marginTop: '20px' }}>
             <FormattedMessage
               id='modals.lockbox.connectionprompt.connect.managernote'
               defaultMessage='Note: If you do not have the {appName} app on your device you can install it via the App Manager.'

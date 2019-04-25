@@ -26,7 +26,7 @@ class ThirdStep extends React.PureComponent {
     return (
       <Wrapper>
         <Header>
-          <Text size='24px' weight={300}>
+          <Text size='24px' weight={400}>
             <FormattedMessage
               id='scenes.reset2fa.thirdstep.title'
               defaultMessage='Reset 2FA'
@@ -35,13 +35,13 @@ class ThirdStep extends React.PureComponent {
         </Header>
         <Separator />
         <TextGroup inline>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.reset2fa.thirdstep.message'
               defaultMessage='Thank you for submitting a two-factor authentication reset request. Please check your email for further instructions.'
             />
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.reset2fa.thirdstep.info'
               defaultMessage='This process usually takes two weeks. If you would like to learn more about the reset process, visit our '
@@ -49,7 +49,7 @@ class ThirdStep extends React.PureComponent {
           </Text>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://support.blockchain.com/hc/en-us/articles/360000286426-I-lost-my-2FA-device-How-do-I-get-back-into-my-wallet-'
             target='_blank'
           >

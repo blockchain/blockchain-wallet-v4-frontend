@@ -52,7 +52,7 @@ const TwoStepYubico = props => {
         </ModalHeader>
         <ModalBody>
           <Code>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='modals.twostepyubico.explain'
                 defaultMessage='Pair with your yubikey:'
@@ -62,7 +62,7 @@ const TwoStepYubico = props => {
           </Code>
         </ModalBody>
         <ModalFooter align='spaced'>
-          <Link size='13px' weight={300} onClick={close} capitalize>
+          <Link size='13px' weight={400} onClick={close} capitalize>
             <FormattedMessage
               id='modals.twostepyubico.back'
               defaultMessage='Go Back'

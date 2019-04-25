@@ -12,9 +12,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 10px;
   width: auto;
-  margin-top: 8px;
 
   @media (min-width: 768px) {
     margin-top: 0;
@@ -44,7 +42,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       nature='gray-3'
       height='40px'
     >
-      <ButtonText size='13px' weight={400} color='gray-5'>
+      <ButtonText size='13px' weight={500} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
@@ -61,7 +59,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       nature='gray-3'
       height='40px'
     >
-      <ButtonText size='13px' weight={400} color='gray-5'>
+      <ButtonText size='13px' weight={500} color='gray-5'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'

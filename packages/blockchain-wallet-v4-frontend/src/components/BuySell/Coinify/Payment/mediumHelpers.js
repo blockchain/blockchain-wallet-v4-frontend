@@ -100,9 +100,9 @@ export function CardOption ({ handlePaymentClick, disabled }) {
         validate={[required]}
         disabled={isDisabled}
       />
-      <Text size='12px' weight={300}>
+      <Text size='12px' weight={400}>
         {isDisabled ? (
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             {prop('type', disabled) === 'under_card' ? (
               <FormattedMessage
                 id='coinifyexchangedata.payment.mediumhelpers.card.disabled_min'
@@ -123,7 +123,7 @@ export function CardOption ({ handlePaymentClick, disabled }) {
             )}
           </Text>
         ) : (
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='coinifyexchangedata.payment.mediumhelpers.card.detail1'
               defaultMessage='Receive bitcoin instantly'
@@ -178,7 +178,7 @@ export function BankOption ({ handlePaymentClick, disabled }) {
         disabled={isDisabled}
       />
       {isDisabled ? (
-        <Text size='12px' weight={300}>
+        <Text size='12px' weight={400}>
           {prop('type', disabled) === 'under_bank' ? (
             <FormattedMessage
               id='coinifyexchangedata.payment.mediumhelpers.bank.disabled_min'
@@ -199,7 +199,7 @@ export function BankOption ({ handlePaymentClick, disabled }) {
           )}
         </Text>
       ) : (
-        <Text size='12px' weight={300}>
+        <Text size='12px' weight={400}>
           <FormattedMessage
             id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
             defaultMessage='Receive bitcoin in 2-3 days'

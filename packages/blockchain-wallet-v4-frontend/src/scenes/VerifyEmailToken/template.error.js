@@ -26,7 +26,7 @@ const Error = props => {
           </LogoWrapper>
           <Text
             size='18px'
-            weight={400}
+            weight={500}
             color='marketing-primary'
             style={{ 'margin-top': '10px' }}
           >
@@ -35,7 +35,7 @@ const Error = props => {
               defaultMessage='Your email is already verified.'
             />
           </Text>
-          <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
+          <Text style={{ marginTop: '8px' }} size='15px' weight={400}>
             <FormattedMessage
               id='scenes.verifyemailtoken.error.alreadyverified.message'
               defaultMessage='If this was not you, feel free to contact us.'
@@ -49,7 +49,7 @@ const Error = props => {
           </LogoWrapper>
           <Text
             size='18px'
-            weight={400}
+            weight={500}
             color='marketing-primary'
             style={{ 'margin-top': '10px' }}
           >
@@ -58,7 +58,7 @@ const Error = props => {
               defaultMessage='Something went wrong.'
             />
           </Text>
-          <Text style={{ marginTop: '8px' }} size='15px' weight={300}>
+          <Text style={{ marginTop: '8px' }} size='15px' weight={400}>
             <FormattedMessage
               id='scenes.verifyemailtoken.error.tryagain'
               defaultMessage='Try logging in again or contact support.'

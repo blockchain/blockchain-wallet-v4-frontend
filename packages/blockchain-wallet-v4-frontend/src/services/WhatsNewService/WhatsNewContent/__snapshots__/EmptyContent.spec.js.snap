@@ -14,7 +14,7 @@ exports[`EmptyContent renders correctly 1`] = `
   <text
     color="gray-3"
     size="12px"
-    weight={300}
+    weight={400}
   >
     <FormattedHTMLMessage
       defaultMessage="Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>."

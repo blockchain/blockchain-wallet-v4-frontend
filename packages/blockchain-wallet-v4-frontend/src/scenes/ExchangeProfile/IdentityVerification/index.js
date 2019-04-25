@@ -165,7 +165,7 @@ const IdentityVerification = () => {
         </TierRow>
         <SecurityColumn>
           <Icon name='lock' size='32px' />
-          <Text weight={300}>
+          <Text weight={400}>
             <FormattedMessage
               id='scenes.exchange.exchangeprofile.encryption'
               defaultMessage='Your information is kept safe with bank level security

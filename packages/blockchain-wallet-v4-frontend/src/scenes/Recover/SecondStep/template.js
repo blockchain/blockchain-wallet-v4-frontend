@@ -53,7 +53,7 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={300}>
+        <Text size='30px' weight={400}>
           <FormattedMessage
             id='scenes.recover.secondstep.funds'
             defaultMessage='Recover Funds'
@@ -66,7 +66,7 @@ const SecondStep = props => {
           />
         </Text>
       </Header>
-      <Text size='13px' weight={300}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
           id='scenes.recover.secondstep.explain'
           defaultMessage='Recover funds from your lost wallet'
@@ -124,7 +124,7 @@ const SecondStep = props => {
           </Field>
         </FormGroup>
         <Footer>
-          <GoBackLink onClick={previousStep} size='13px' weight={300}>
+          <GoBackLink onClick={previousStep} size='13px' weight={400}>
             <FormattedMessage
               id='scenes.recover.secondstep.back'
               defaultMessage='Go Back'

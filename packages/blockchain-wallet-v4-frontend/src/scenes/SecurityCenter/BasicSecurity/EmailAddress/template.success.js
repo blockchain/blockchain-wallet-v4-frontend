@@ -192,7 +192,7 @@ const EmailAddress = props => {
             </EmailButton>
             <ChangeEmailText
               color='brand-secondary'
-              weight={300}
+              weight={400}
               onClick={props.handleChangeEmailView}
             >
               <FormattedMessage

@@ -71,15 +71,15 @@ function Choices (props) {
             : () => props.chooseMethod('google')
         }
       >
-        <SecurityIcon name='lock' size='18px' weight={400} />
+        <SecurityIcon name='lock' size='18px' weight={500} />
         <ChoiceDescription>
-          <Text weight={300} size='14px'>
+          <Text weight={400} size='14px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.useauthenticatortitle'
               defaultMessage='Authenticator App'
             />
           </Text>
-          <Text weight={200} size='12px'>
+          <Text weight={400} size='12px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.useauthenticator'
               defaultMessage='Use app-generated codes'
@@ -100,13 +100,13 @@ function Choices (props) {
           <Image name='yubikey' height='18px' width='18px' />
         </YubikeyWrapper>
         <ChoiceDescription>
-          <Text weight={300} size='14px'>
+          <Text weight={400} size='14px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.useyubikey.title'
               defaultMessage='Yubikey'
             />
           </Text>
-          <Text weight={200} size='12px'>
+          <Text weight={400} size='12px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.useyubikey'
               defaultMessage='Pair with your Yubikey'
@@ -123,15 +123,15 @@ function Choices (props) {
             : () => props.chooseMethod('sms')
         }
       >
-        <SecurityIcon name='mobile' size='18px' weight={400} />
+        <SecurityIcon name='mobile' size='18px' weight={500} />
         <ChoiceDescription>
-          <Text weight={300} size='14px'>
+          <Text weight={400} size='14px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.smstitle'
               defaultMessage='Mobile Phone Number'
             />
           </Text>
-          <Text weight={200} size='12px'>
+          <Text weight={400} size='12px'>
             <FormattedMessage
               id='scenes.security.twostepsetup.sms'
               defaultMessage='Use codes sent via SMS'

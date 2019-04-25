@@ -102,7 +102,7 @@ const AddressWrapper = styled.div`
 `
 const EmailVerificationLabel = styled(Text)`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 16px;
   display: block;
 `
@@ -110,7 +110,7 @@ const EmailVerificationLabel = styled(Text)`
 const KycEmailVerification = styled(EmailVerification)`
   label {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 12px;
     display: block;
   }

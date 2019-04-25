@@ -91,7 +91,7 @@ const SelectPartner = props => {
         <GetStartedContent>
           <GetStartedHeader
             size='26px'
-            weight={400}
+            weight={500}
             color='brand-primary'
             width='300px'
           >
@@ -100,7 +100,7 @@ const SelectPartner = props => {
               defaultMessage='Buy & Sell Bitcoin'
             />
           </GetStartedHeader>
-          <GetStartedText size='17px' weight={300}>
+          <GetStartedText size='17px' weight={400}>
             {getPartner().name === 'COINIFY' ? (
               <FormattedMessage
                 id='scenes.buysell.selectpartner.subheader_coinify'
@@ -162,7 +162,7 @@ const SelectPartner = props => {
                 defaultMessage="What's my country for?"
               />
             </Text>
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.buysell.selectpartner.countryanswer'
                 defaultMessage='Due to local laws, Blockchain can only operate in permitted regions.'

@@ -44,7 +44,7 @@ const VerifyEmail = props => {
         <ColLeft>
           <WideInputWrapper>
             <EmailInput>
-              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+              <Text size='14px' weight={500} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id='coinifyexchangedata.create.verifyemail.enteremail.youwouldlike'
                   defaultMessage="Enter the email address you'd like to verify:"

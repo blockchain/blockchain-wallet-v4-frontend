@@ -34,7 +34,7 @@ const ItemWrapper = styled.div`
 const renderItem = item => {
   return (
     <ItemWrapper data-e2e='bchAddressOption'>
-      <Text weight={300} size='14px'>
+      <Text weight={400} size='14px'>
         {item.text}
       </Text>
       {path(['value', 'watchOnly'], item) && (

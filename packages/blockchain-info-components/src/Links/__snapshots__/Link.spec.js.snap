@@ -7,7 +7,7 @@ exports[`Link component default renders correctly 1`] = `
   color="brand-secondary"
   size="16px"
   uppercase={false}
-  weight={400}
+  weight={500}
 >
   <span>
     tab

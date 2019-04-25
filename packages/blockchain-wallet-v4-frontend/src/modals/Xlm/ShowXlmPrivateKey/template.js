@@ -44,7 +44,7 @@ const FirstStep = () => (
         defaultMessage='Warning'
       />
     </Text>
-    <Text size='14px' style={spacing('mt-10')} weight={300}>
+    <Text size='14px' style={spacing('mt-10')} weight={400}>
       <FormattedMessage
         id='modals.showxlmpriv.warning.message'
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
@@ -60,7 +60,7 @@ const SecondStep = ({ addr, balance, priv }) => (
     </div>
     <DetailTable>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showxlmpriv.balance'
             defaultMessage='Balance'
@@ -73,7 +73,7 @@ const SecondStep = ({ addr, balance, priv }) => (
         </CoinDisplay>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showxlmpriv.address'
             defaultMessage='Address'
@@ -83,14 +83,14 @@ const SecondStep = ({ addr, balance, priv }) => (
         &nbsp;
         <DataRowText
           size='14px'
-          weight={300}
+          weight={400}
           data-e2e='xlmPrivateKeyModalAddress'
         >
           {addr}
         </DataRowText>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showxlmpriv.priv_key'
             defaultMessage='Private Key'
@@ -100,7 +100,7 @@ const SecondStep = ({ addr, balance, priv }) => (
         &nbsp;
         <DataRowText
           size='14px'
-          weight={300}
+          weight={400}
           data-e2e='xlmPrivateKeyModalPrivKey'
         >
           {priv}
@@ -136,7 +136,7 @@ const ShowPrivateKeyTemplate = ({
       <Text
         cursor='pointer'
         size='small'
-        weight={300}
+        weight={400}
         style={spacing('mr-15')}
         onClick={close}
         data-e2e='xlmPrivateKeyModalClose'

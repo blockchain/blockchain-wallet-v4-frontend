@@ -78,7 +78,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           defaultMessage="You're almost there"
         />
       </Header>
-      <CenteredPartnerSubHeader weight={300}>
+      <CenteredPartnerSubHeader weight={400}>
         {type === 'buy' ? (
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
@@ -93,7 +93,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
       </CenteredPartnerSubHeader>
       <OrderDetailsTable width='400px' padding='20px 20px 10px 20px'>
         <OrderDetailsRow short noPaddingTop noBorderBottom>
-          <Text size={FONT_SIZE} weight={400}>
+          <Text size={FONT_SIZE} weight={500}>
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.exchange_rate'
               defaultMessage='Exchange rate'
@@ -117,14 +117,14 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </CountdownTimerWrapper>
         <OrderDetailsRow short noBorderBottom borderTop>
           {type === 'buy' ? (
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_purchase'
                 defaultMessage='Purchase'
               />
             </Text>
           ) : (
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btc_sell'
                 defaultMessage='Sell'
@@ -137,7 +137,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </OrderDetailsRow>
         {type === 'buy' ? (
           <OrderDetailsRow short noBorderBottom>
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tx_fee'
                 defaultMessage='Transaction Fee'
@@ -154,7 +154,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         ) : null}
         {type === 'buy' ? (
           <OrderDetailsRow short>
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.to_be_received'
                 defaultMessage='To Be Received'
@@ -169,7 +169,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           </OrderDetailsRow>
         ) : null}
         <OrderDetailsRow short noBorderBottom>
-          <Text size={FONT_SIZE} weight={400}>
+          <Text size={FONT_SIZE} weight={500}>
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amount'
               defaultMessage='Amount'
@@ -180,7 +180,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           </Text>
         </OrderDetailsRow>
         <OrderDetailsRow short noBorderBottom>
-          <FeeText size={FONT_SIZE} weight={400}>
+          <FeeText size={FONT_SIZE} weight={500}>
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.payment_fee'
               defaultMessage='Payment Fee'
@@ -197,14 +197,14 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </OrderDetailsRow>
         <OrderDetailsRow short>
           {type === 'buy' ? (
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_cost'
                 defaultMessage='Total Cost'
               />
             </Text>
           ) : (
-            <Text size={FONT_SIZE} weight={400}>
+            <Text size={FONT_SIZE} weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_to_receive'
                 defaultMessage='To Receive'
@@ -229,7 +229,7 @@ export const OrderSubmit = props => {
     <Fragment>
       {busy.error ? (
         <ErrorContainer onClick={() => clearTradeError()}>
-          <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
+          <Text weight={400} color='error' size='13px' style={spacing('mb-5')}>
             <FormattedMessage
               id='scenes.buysell.orderreview.wrong'
               defaultMessage='Sorry, something went wrong with your trade:'
@@ -237,7 +237,7 @@ export const OrderSubmit = props => {
             {busy.error_description}
           </Text>
           <span>
-            <StepTransition restart Component={Link} weight={300} size='13px'>
+            <StepTransition restart Component={Link} weight={400} size='13px'>
               <FormattedMessage
                 id='scenes.buysell.orderreview.try_again'
                 defaultMessage='Try again'

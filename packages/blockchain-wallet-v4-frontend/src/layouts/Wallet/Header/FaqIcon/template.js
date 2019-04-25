@@ -41,7 +41,7 @@ const FaqIcon = props => {
     <TooltipHost id='faq.tooltip'>
       <FaqLink
         size='14px'
-        weight={400}
+        weight={500}
         color='white'
         onClick={handleClick}
         highlighted={highlighted}

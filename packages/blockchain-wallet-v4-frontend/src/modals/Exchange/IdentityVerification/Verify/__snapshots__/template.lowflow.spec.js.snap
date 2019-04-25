@@ -78,7 +78,7 @@ exports[`HighFlow should render correctly 1`] = `
               opacity={1}
               size="16px"
               uppercase={false}
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 defaultMessage="Click allow when prompted above or enable in your browser settings."

@@ -84,7 +84,7 @@ const WelcomeAirdrop = props => {
     <Wrapper>
       <Container>
         <Row>
-          <Text size='24px' weight={400} color='brand-primary'>
+          <Text size='24px' weight={500} color='brand-primary'>
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.wallet'
               defaultMessage='We Now Offer {coinName} ({coinCode})'
@@ -94,7 +94,7 @@ const WelcomeAirdrop = props => {
               }}
             />
           </Text>
-          <Content weight={300}>
+          <Content weight={400}>
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.sendreqexchange'
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'

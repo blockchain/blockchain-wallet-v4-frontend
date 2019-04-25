@@ -56,12 +56,12 @@ const KYCNotification = props => {
               defaultMessage='Identity Verification'
             />
           </Text>
-          <Text size='13px' color={prop('color', header)} weight={400}>
+          <Text size='13px' color={prop('color', header)} weight={500}>
             {prop('text', header)}
           </Text>
         </Header>
         <Divider />
-        <Text size='13px' weight={300} style={spacing('mb-20')}>
+        <Text size='13px' weight={400} style={spacing('mb-20')}>
           {prop('text', body)}
         </Text>
         {equals(NONE, kycState) ? (
@@ -74,7 +74,7 @@ const KYCNotification = props => {
                 />
               </Text>
             </CompleteButton>
-            <VerificationText size='12px' weight={300}>
+            <VerificationText size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.buy_sell.kyc_notification.note'
                 defaultMessage='*Please note, users who have verified their identity with Coinify before November 2018 will need to verify their identity with us again. We apologize for the inconvenience.'

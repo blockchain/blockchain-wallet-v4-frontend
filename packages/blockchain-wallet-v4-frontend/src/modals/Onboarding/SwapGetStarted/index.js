@@ -40,7 +40,7 @@ const Footer = styled.div`
 `
 const FooterButton = styled(Button)`
   height: auto;
-  font-weight: 300;
+  font-weight: 400;
   padding: 15px 0;
 `
 const LaterButton = styled(FooterButton)`
@@ -70,7 +70,7 @@ class SwapGetStarted extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <CenteredText color='white' size='20px' weight={400}>
+          <CenteredText color='white' size='20px' weight={500}>
             <FormattedMessage
               defaultMessage="Trading your crypto doesn't mean trading away control."
               id='modals.swapgetstarted.trading_your_crypto'
@@ -78,7 +78,7 @@ class SwapGetStarted extends React.PureComponent {
           </CenteredText>
         </Header>
         <Body data-e2e='swapGetStarted'>
-          <Text size='16x' weight={300}>
+          <Text size='16x' weight={400}>
             <FormattedMessage
               defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
               id='modals.swapgetstarted.description'

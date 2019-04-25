@@ -76,7 +76,7 @@ export const SunRiverLinkError = ({ position, total, error, closeAll }) => {
         />
       </Header>
       <ModalBody>
-        <Row size='14px' weight={300}>
+        <Row size='14px' weight={400}>
           {getErrorMessage(error)}
         </Row>
       </ModalBody>

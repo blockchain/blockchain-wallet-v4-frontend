@@ -61,7 +61,7 @@ const FirstStep = props => {
   return (
     <FirstStepContainer>
       <PrintContainer>
-        <Text size='12px' weight={400}>
+        <Text size='12px' weight={500}>
           <FormattedMessage
             id='modals.recoveryphrase.firststep.explain4'
             defaultMessage='We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.'

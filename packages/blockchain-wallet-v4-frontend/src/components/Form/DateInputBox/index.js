@@ -223,7 +223,7 @@ class DateInputBox extends React.PureComponent {
         {meta.touched && error && (
           <Error
             size='12px'
-            weight={300}
+            weight={400}
             color='error'
             errorBottom={errorBottom}
           >
@@ -233,7 +233,7 @@ class DateInputBox extends React.PureComponent {
         {meta.touched && !error && meta.warning && (
           <Error
             size='12px'
-            weight={300}
+            weight={400}
             color='sent'
             errorBottom={errorBottom}
           >

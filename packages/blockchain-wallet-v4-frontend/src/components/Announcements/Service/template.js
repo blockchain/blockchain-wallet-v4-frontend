@@ -112,7 +112,7 @@ const Announcement = props => {
               })}
             {action && action.title && (
               <ActionLink href={action.link} color={textColor} target='_blank'>
-                <Text weight={400} color={textColor} size='14px'>
+                <Text weight={500} color={textColor} size='14px'>
                   {action.title[lang] ? action.title[lang] : action.title.en}
                 </Text>
               </ActionLink>

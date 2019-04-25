@@ -69,7 +69,7 @@ const TradeItem = props => {
       <TableCell width='15%' mobileWidth='20%'>
         {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
           <OrderHistoryLink
-            weight={300}
+            weight={400}
             capitalize
             onClick={() => handleFinish(trade)}
           >
@@ -80,7 +80,7 @@ const TradeItem = props => {
           </OrderHistoryLink>
         ) : (
           <OrderHistoryLink
-            weight={300}
+            weight={400}
             capitalize
             onClick={() => handleClick(trade)}
           >
@@ -94,7 +94,7 @@ const TradeItem = props => {
       <TableCell width='30%' mobileWidth='20%'>
         <MediaContextConsumer>
           {({ mobile }) => (
-            <OrderHistoryText opacity={getOpacity(trade)} weight={300}>
+            <OrderHistoryText opacity={getOpacity(trade)} weight={400}>
               {tradeDateHelper(trade, mobile)}
             </OrderHistoryText>
           )}
@@ -103,14 +103,14 @@ const TradeItem = props => {
       <TableCell width='20%' hideMobile>
         <OrderHistoryText
           opacity={getOpacity(trade)}
-          weight={300}
+          weight={400}
         >{`${exchangeAmount} ${prop('inCurrency', trade)}`}</OrderHistoryText>
       </TableCell>
       <TableCell width='20%' mobileWidth='35%'>
         <TableCell width='80%'>
           <OrderHistoryText
             opacity={getOpacity(trade)}
-            weight={300}
+            weight={400}
           >{`${receiveAmount} ${prop('outCurrency', trade)}`}</OrderHistoryText>
         </TableCell>
         <TableCell width='20%'>
@@ -122,7 +122,7 @@ const TradeItem = props => {
               onClick={() => handleTradeCancel(trade)}
               name='trash'
               size='14px'
-              weight={300}
+              weight={400}
               color='error'
             />
           ) : null}
