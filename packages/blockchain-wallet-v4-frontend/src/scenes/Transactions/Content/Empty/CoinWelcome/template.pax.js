@@ -58,8 +58,7 @@ const SubTextGroup = styled(TextGroup)`
 `
 
 const WelcomePax = props => {
-  const { availability, handleRequest, isTier2Verified } = props
-
+  const { availability, handleRequest, currentUserTier } = props
   return (
     <Wrapper>
       <Container>
@@ -137,7 +136,7 @@ const WelcomePax = props => {
         </Row>
         <Row>
           <Column style={{ paddingRight: '20px' }}>
-            {isTier2Verified ? (
+            {currentUserTier.current === 2 ? (
               <LinkContainer
                 to={{
                   pathname: '/swap',
@@ -153,7 +152,6 @@ const WelcomePax = props => {
                   nature='primary'
                   onClick={handleRequest}
                   fullwidth
-                  disabled={!availability.exchangeTo}
                 >
                   <FormattedMessage
                     id='scenes.transaction.content.empty.pax.swap'
@@ -203,7 +201,7 @@ const WelcomePax = props => {
 WelcomePax.propTypes = {
   availability: PropTypes.object.isRequired,
   currentCoin: PropTypes.object.isRequired,
-  isTier2Verified: PropTypes.bool.isRequired
+  currentUserTier: PropTypes.object.isRequired
 }
 
 export default WelcomePax
