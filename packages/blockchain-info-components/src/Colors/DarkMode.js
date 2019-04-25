@@ -54,5 +54,5 @@ export default {
   bch: '#3EDC89',
   eth: '#473BCB',
   pax: '#0C6CF2',
-  xlm: '#08b5e5'
+  xlm: '#F0F2F7'
 }
