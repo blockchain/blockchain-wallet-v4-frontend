@@ -154,8 +154,8 @@ const WelcomePax = props => {
                   fullwidth
                 >
                   <FormattedMessage
-                    id='scenes.transaction.content.empty.pax.swap'
-                    defaultMessage='Swap for USDp Now'
+                    id='scenes.transaction.content.empty.pax.swappax'
+                    defaultMessage='Swap for PAX Now'
                   />
                 </FooterButton>
               </LinkContainer>
@@ -167,8 +167,8 @@ const WelcomePax = props => {
                   fullwidth
                 >
                   <FormattedMessage
-                    id='scenes.transaction.content.empty.pax.unlock'
-                    defaultMessage='Unlock Your USDp Wallet'
+                    id='scenes.transaction.content.empty.pax.unlockpax'
+                    defaultMessage='Unlock Your PAX Wallet'
                   />
                 </FooterButton>
               </LinkContainer>

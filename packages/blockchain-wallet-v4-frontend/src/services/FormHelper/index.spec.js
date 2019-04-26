@@ -212,7 +212,7 @@ describe('FormHelper', () => {
       ).toEqual(<M.InvalidBchAddressMessage />)
     })
 
-    it('returns undefined if valid bth addr is given', () => {
+    it('returns undefined if valid bch addr is given', () => {
       expect(
         FormHelper.validBchAddress(
           'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',

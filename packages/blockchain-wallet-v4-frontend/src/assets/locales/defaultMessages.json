@@ -1884,8 +1884,8 @@
         "id": "components.txlistitem.rbf"
       },
       {
-        "defaultMessage": "USDp Fee",
-        "id": "components.txlistitem.paxfee"
+        "defaultMessage": "PAX Fee",
+        "id": "components.txlistitem.feepax"
       },
       {
         "defaultMessage": "Description",
@@ -11093,12 +11093,12 @@
         "id": "scenes.transaction.content.empty.pax.fact3.2"
       },
       {
-        "defaultMessage": "Swap for USDp Now",
-        "id": "scenes.transaction.content.empty.pax.swap"
+        "defaultMessage": "Swap for PAX Now",
+        "id": "scenes.transaction.content.empty.pax.swappax"
       },
       {
-        "defaultMessage": "Unlock Your USDp Wallet",
-        "id": "scenes.transaction.content.empty.pax.unlock"
+        "defaultMessage": "Unlock Your PAX Wallet",
+        "id": "scenes.transaction.content.empty.pax.unlockpax"
       },
       {
         "defaultMessage": "Learn More",

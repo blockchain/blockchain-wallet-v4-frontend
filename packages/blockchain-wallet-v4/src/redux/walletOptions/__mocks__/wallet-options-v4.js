@@ -130,15 +130,15 @@ export default {
             exchangeFrom: true
           },
           coinCode: 'PAX',
-          coinTicker: 'USDp',
+          coinTicker: 'PAX',
           colorCode: 'pax',
           contractAddress: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
           displayName: 'USD Pax',
           hasLockboxSupport: false,
           icons: {
-            default: 'usdp',
-            circle: 'usdp',
-            circleFilled: 'usdp'
+            default: 'pax',
+            circle: 'pax',
+            circleFilled: 'pax'
           },
           minConfirmations: 12,
           name: 'Paxos',
