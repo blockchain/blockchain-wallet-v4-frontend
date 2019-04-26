@@ -86,7 +86,7 @@ const TradeItem = props => {
               size={mobile ? '12px' : '14px'}
               weight={400}
             >{`${depositAmount} ${pathOr(
-              '',
+              sourceCoin,
               [sourceCoin, 'coinTicker'],
               coinModels
             )}`}</Text>
@@ -102,7 +102,7 @@ const TradeItem = props => {
                   : 'gray-2'
               }
             >{`${withdrawalAmount} ${pathOr(
-              '',
+              targetCoin,
               [targetCoin, 'coinTicker'],
               coinModels
             )}`}</Text>

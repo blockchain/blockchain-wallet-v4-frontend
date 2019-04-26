@@ -636,6 +636,48 @@ const convertCoinToFiat = (value, unit, currency, rates) => {
   }
 }
 
+const displayCoinToCoin = (value, toUnit) => {
+  switch (toUnit) {
+    case 'BCH':
+      return displayBchToBch({
+        fromUnit: 'SAT',
+        toUnit,
+        value
+      })
+    case 'BTC':
+      return displayBtcToBtc({
+        fromUnit: 'SAT',
+        toUnit,
+        value
+      })
+    case 'BSV':
+      return displayBsvToBsv({
+        fromUnit: 'SAT',
+        toUnit,
+        value
+      })
+    case 'PAX':
+      const paxAmount = convertPaxToPax({ value, fromUnit: 'WEI', toUnit })
+      return displayPaxToPax({
+        value: Number(paxAmount.value).toFixed(8),
+        fromUnit: 'PAX',
+        toUnit
+      })
+    case 'ETH':
+      const ethAmount = convertEtherToEther({ value, fromUnit: 'WEI', toUnit })
+      return displayEtherToEther({
+        value: Number(ethAmount.value).toFixed(8),
+        fromUnit: 'ETH',
+        toUnit
+      })
+    case 'XLM':
+      return displayXlmToXlm({
+        fromUnit: 'STROOP',
+        toUnit,
+        value
+      })
+  }
+}
 // TODO: clean up public vs private exports, should just export the following
 // convertFiatToCoin
 // convertCoinToFiat
@@ -677,6 +719,7 @@ export {
   displayPaxToPax,
   displayXlmToFiat,
   displayXlmToXlm,
+  displayCoinToCoin,
   displayCoinToFiat,
   displayFiatToFiat,
   getSymbol,
