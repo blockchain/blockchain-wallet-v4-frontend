@@ -64,7 +64,12 @@ export const CoinBalanceWrapper = props => {
       <Text size='12px' weight={400}>
         {props.coinTicker ? props.coinTicker : props.coin}
       </Text>
-      <SwitchableDisplay size='12px' weight={500} coin={props.coin}>
+      <SwitchableDisplay
+        size='12px'
+        weight={500}
+        coin={props.coin}
+        hideCoinTicker
+      >
         {props.balance}
       </SwitchableDisplay>
     </CoinBalanceSwitchable>

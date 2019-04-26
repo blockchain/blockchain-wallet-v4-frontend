@@ -3838,8 +3838,8 @@
         "id": "modals.paxwelcome.intro"
       },
       {
-        "defaultMessage": "Get USD Pax",
-        "id": "modals.paxwelcome.getpax"
+        "defaultMessage": "Learn More",
+        "id": "modals.paxwelcome.learnmore"
       }
     ],
     "path": "src/modals/Eth/PaxWelcome/index.json"

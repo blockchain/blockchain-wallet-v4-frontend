@@ -69,8 +69,8 @@ class PaxWelcomeContainer extends React.PureComponent {
             </Text>
             <GetButton nature='primary' fullwidth onClick={this.onGetPax}>
               <FormattedMessage
-                id='modals.paxwelcome.getpax'
-                defaultMessage='Get USD Pax'
+                id='modals.paxwelcome.learnmore'
+                defaultMessage='Learn More'
               />
             </GetButton>
           </Container>
