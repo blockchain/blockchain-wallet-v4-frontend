@@ -5,26 +5,18 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import ComboDisplay from 'components/Display/ComboDisplay'
+import {
+  ExchangeAmount,
+  ExchangeAmounts,
+  LargeTableRow,
+  SubExchangeAmount,
+  Wrapper
+} from 'components/Exchange'
 
-const Wrapper = styled.div``
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 0;
-
-  & > * {
-    width: 150px;
-  }
-  & > :last-child {
-    width: 100%;
-  }
-  &:first-child {
-    padding-top: 0px;
-  }
+const ConfirmWrapper = styled(Wrapper)`
+  padding: 0px;s
 `
+
 const Summary = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,11 +30,16 @@ const Summary = styled.div`
     padding: 10px 0;
   }
 `
+const TextTo = styled(Text)`
+  max-width: 60%;
+  word-break: break-all;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 16px;
   width: 100%;
 
   & > :first-child {
@@ -66,78 +63,98 @@ const Success = props => {
   } = props
 
   return (
-    <Wrapper>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendeth.secondstep.from'
-            defaultMessage='From:'
-          />
-        </Text>
-        <Text size='16px' weight={400} data-e2e={`${coin}FromWallet`}>
-          {fromAddress}
-        </Text>
-      </Row>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendeth.secondstep.to'
-            defaultMessage='To:'
-          />
-        </Text>
-        <Text size='16px' weight={400} data-e2e={`${coin}ToAddress`}>
-          {toAddress}
-        </Text>
-      </Row>
-      {description && (
-        <Row>
+    <React.Fragment>
+      <ConfirmWrapper>
+        <LargeTableRow>
           <Text size='16px' weight={500}>
             <FormattedMessage
-              id='modals.sendeth.secondstep.note'
-              defaultMessage='Note:'
+              id='modals.sendeth.secondstep.from'
+              defaultMessage='From:'
             />
           </Text>
-          <Text size='16px' weight={400} data-e2e={`${coin}SendDescription`}>
-            {description}
+          <Text size='16px' weight={400} data-e2e={`${coin}FromWallet`}>
+            {fromAddress}
           </Text>
-        </Row>
-      )}
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendeth.secondstep.payment'
-            defaultMessage='Payment:'
-          />
-        </Text>
-        <Text size='16px' weight={400}>
-          <ComboDisplay coin={coin}>{amount}</ComboDisplay>
-        </Text>
-      </Row>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendeth.secondstep.fee'
-            defaultMessage='Fee:'
-          />
-        </Text>
-        <Text size='16px' weight={400}>
-          <ComboDisplay coin='ETH'>{fee}</ComboDisplay>
-        </Text>
-      </Row>
-      <Summary>
-        <Text size='16px' weight={400} color='sent'>
-          <FormattedMessage
-            id='modals.sendeth.secondstep.total'
-            defaultMessage='Total'
-          />
-        </Text>
-        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
-          {total}
-        </CoinDisplay>
-        <FiatDisplay coin={coin} size='20px' weight={400} color='sent'>
-          {total}
-        </FiatDisplay>
-      </Summary>
+        </LargeTableRow>
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendeth.secondstep.to'
+              defaultMessage='To:'
+            />
+          </Text>
+          <TextTo size='14px' weight={400} data-e2e={`${coin}ToAddress`}>
+            {toAddress}
+          </TextTo>
+        </LargeTableRow>
+        {description && (
+          <LargeTableRow>
+            <Text size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.sendeth.secondstep.note'
+                defaultMessage='Note:'
+              />
+            </Text>
+            <Text size='16px' weight={400} data-e2e={`${coin}SendDescription`}>
+              {description}
+            </Text>
+          </LargeTableRow>
+        )}
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendeth.secondstep.payment'
+              defaultMessage='Payment:'
+            />
+          </Text>
+          <ExchangeAmounts>
+            <ExchangeAmount>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
+                {amount}
+              </FiatDisplay>
+            </ExchangeAmount>
+            <SubExchangeAmount>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
+                {amount}
+              </CoinDisplay>
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendeth.secondstep.fee'
+              defaultMessage='Fee:'
+            />
+          </Text>
+          <ExchangeAmounts>
+            <ExchangeAmount>
+              <FiatDisplay size='16px' weight={500} coin='ETH'>
+                {fee}
+              </FiatDisplay>
+            </ExchangeAmount>
+            <SubExchangeAmount>
+              <CoinDisplay size='14px' weight={300} coin='ETH'>
+                {fee}
+              </CoinDisplay>
+            </SubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <Summary>
+          <Text size='16px' weight={400} color='sent'>
+            <FormattedMessage
+              id='modals.sendeth.secondstep.total'
+              defaultMessage='Total'
+            />
+          </Text>
+          <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
+            {total}
+          </CoinDisplay>
+          <FiatDisplay coin={coin} size='20px' weight={400} color='sent'>
+            {total}
+          </FiatDisplay>
+        </Summary>
+      </ConfirmWrapper>
       <Footer>
         <Button
           onClick={handleSubmit}
@@ -169,7 +186,7 @@ const Success = props => {
           />
         </Link>
       </Footer>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 
