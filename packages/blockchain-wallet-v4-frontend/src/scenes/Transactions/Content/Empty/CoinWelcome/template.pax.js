@@ -67,8 +67,14 @@ const WelcomePax = props => {
             <div>
               <Text size='24px' weight={500} color='brand-primary'>
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.pax.title'
-                  defaultMessage='A Digital US Dollar in Your Wallet'
+                  id='scenes.transaction.content.empty.pax.title1'
+                  defaultMessage='A Digital US Dollar in'
+                />
+              </Text>
+              <Text size='24px' weight={500} color='brand-primary'>
+                <FormattedMessage
+                  id='scenes.transaction.content.empty.pax.title2'
+                  defaultMessage='Your Wallet'
                 />
               </Text>
               <Text weight={400} style={{ marginTop: '16px' }}>
