@@ -16,7 +16,8 @@ export const getAccountBalances = state => {
     address: account.addr,
     type: ADDRESS_TYPES.ACCOUNT
   })
-  return map(lift(digest)(getAddresses(state)), getAccounts(state))
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getAccounts(state))
 }
 
 export const getLockboxEthBalances = state => {
