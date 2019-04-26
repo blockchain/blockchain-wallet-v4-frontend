@@ -138,7 +138,7 @@ export const validBchAddress = (value, allValues, props) => {
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
   return utils.btc.isValidBtcAddress(address, props.network) ||
-    utils.bch.isCashAddr(value) ? (
+    utils.bch.isCashAddr(address) ? (
     undefined
   ) : (
     <M.InvalidBchAddressMessage />
