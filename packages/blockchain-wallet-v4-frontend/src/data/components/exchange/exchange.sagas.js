@@ -822,7 +822,7 @@ export default ({ api, coreSagas, networks }) => {
       if (
         !hasReceivedEthAirdrop &&
         equals('PAX', target.coin) &&
-        equals(2, userTier)
+        equals(2, userTier.current)
       ) {
         yield put(
           actions.modals.showModal(ETH_AIRDROP_MODAL, {
