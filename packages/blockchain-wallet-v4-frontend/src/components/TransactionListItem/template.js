@@ -157,8 +157,8 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.paxfee'
-                defaultMessage='USDp Fee'
+                id='components.txlistitem.feepax'
+                defaultMessage='PAX Fee'
               />
             </Banner>
           </BannerWrapper>
