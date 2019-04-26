@@ -7,7 +7,8 @@ import {
   prop,
   unnest,
   gt,
-  length
+  length,
+  sort
 } from 'ramda'
 
 import { selectors, model } from 'data'
@@ -30,12 +31,14 @@ const generateItems = ({ coin, accounts }, supportedCoins) =>
     }
   })
 
+const coinOrder = ['PAX', 'BTC', 'BCH', 'ETH', 'XLM']
 const generateGroups = curry(
   (accounts, supportedCoins, availableCurrencies) => {
     const items = compose(
       unnest,
       map(item => generateItems(item, supportedCoins)),
-      map(coin => ({ coin, accounts: prop(coin, accounts) }))
+      map(coin => ({ coin, accounts: prop(coin, accounts) })),
+      sort((a, b) => coinOrder.indexOf(a) - coinOrder.indexOf(b))
     )(availableCurrencies)
     return [{ group: '', items }]
   }
