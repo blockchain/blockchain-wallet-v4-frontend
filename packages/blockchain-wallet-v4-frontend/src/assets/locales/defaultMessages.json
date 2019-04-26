@@ -2422,8 +2422,8 @@
         "id": "scenes.faq.group.walletfunctionality.question1"
       },
       {
-        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same.",
-        "id": "scenes.faq.group.walletfunctionality.answer1.one"
+        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD Pax transactions, your address will remain the same.",
+        "id": "scenes.faq.group.walletfunctionality.answer1.one.updated"
       },
       {
         "defaultMessage": "Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, enter the recipient’s address in the ‘To’ field and enter how much you would like to send.",
@@ -2502,8 +2502,8 @@
         "id": "scenes.faq.group.walletfunctionality.question8"
       },
       {
-        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.",
-        "id": "scenes.faq.group.walletfunctionality.answer8.one.new"
+        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. By design,  transactions on cryptocurrency networks are designed to be irreversible and we have no control over them. Knowing this, it’s extremely important to make sure your transaction details are correct before you click send.",
+        "id": "scenes.faq.group.walletfunctionality.answer8.one"
       },
       {
         "defaultMessage": "To learn more about why transactions can’t be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on",
@@ -2566,20 +2566,20 @@
         "id": "scenes.faq.group.walletfunctionality.answer11.one"
       },
       {
-        "defaultMessage": "Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.",
-        "id": "scenes.faq.group.walletfunctionality.answer11.two"
+        "defaultMessage": "We launched our Bitcoin explorer in August 2011 as a resource for the community to study bitcoin transactions, learn about the health of the network, and watch real-time incoming transactions.",
+        "id": "scenes.faq.group.walletfunctionality.answer11.two.new"
       },
       {
-        "defaultMessage": "To look up a bitcoin transaction, users can visit",
-        "id": "scenes.faq.group.walletfunctionality.answer11.three"
+        "defaultMessage": "From 2018-2019, we launched our Ethereum and Bitcoin Cash explorers — further broadening the way crypto data is found and analyzed in a visually intuitive way. Visit",
+        "id": "scenes.faq.group.walletfunctionality.answer11.three.new"
       },
       {
         "defaultMessage": "https://www.blockchain.com/explorer",
         "id": "scenes.faq.group.walletfunctionality.answer11.link"
       },
       {
-        "defaultMessage": "and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.",
-        "id": "scenes.faq.group.walletfunctionality.answer11.four"
+        "defaultMessage": "and use the search bar to learn more about a particular BTC, ETH or BCH address, transaction hash, or block number.",
+        "id": "scenes.faq.group.walletfunctionality.answer11.four.new"
       },
       {
         "defaultMessage": "Why did my bitcoin cash address change?",
@@ -2594,12 +2594,36 @@
         "id": "scenes.faq.group.walletfunctionality.answer12.two"
       },
       {
-        "defaultMessage": "What is Bitcoin Cash ABC vs. BSV?",
-        "id": "scenes.faq.group.walletfunctionality.abcvsbsvq"
+        "defaultMessage": "What is USD Pax and how does it differ from the other cryptocurrencies in my wallet?",
+        "id": "scenes.faq.group.walletfunctionality.question13"
       },
       {
-        "defaultMessage": "Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.",
-        "id": "scenes.faq.group.walletfunctionality.abcvsbsva"
+        "defaultMessage": "USD Pax is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD Pax functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.",
+        "id": "scenes.faq.group.walletfunctionality.answer13"
+      },
+      {
+        "defaultMessage": "Why do I need a small amount of ETH to send or exchange PAX?",
+        "id": "scenes.faq.group.walletfunctionality.question14"
+      },
+      {
+        "defaultMessage": "USD Pax is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.",
+        "id": "scenes.faq.group.walletfunctionality.answer14"
+      },
+      {
+        "defaultMessage": "How does USD Pax remain stable?",
+        "id": "scenes.faq.group.walletfunctionality.question15"
+      },
+      {
+        "defaultMessage": "USD Pax is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.",
+        "id": "scenes.faq.group.walletfunctionality.answer15"
+      },
+      {
+        "defaultMessage": "How do I get USD Pax into my bank account?",
+        "id": "scenes.faq.group.walletfunctionality.question16"
+      },
+      {
+        "defaultMessage": "Although the price of USD Pax is pegged to USD, USD Pax remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).",
+        "id": "scenes.faq.group.walletfunctionality.answer16"
       },
       {
         "defaultMessage": "Wallet Security",
@@ -11061,8 +11085,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "A Digital US Dollar in Your Wallet",
-        "id": "scenes.transaction.content.empty.pax.title"
+        "defaultMessage": "A Digital US Dollar in",
+        "id": "scenes.transaction.content.empty.pax.title1"
+      },
+      {
+        "defaultMessage": "Your Wallet",
+        "id": "scenes.transaction.content.empty.pax.title2"
       },
       {
         "defaultMessage": "USD Pax is a crypto asset 100% backed by funds held in regulated US banks and lives on the Ethereum blockchain.",
@@ -11422,11 +11450,11 @@
       },
       {
         "defaultMessage": "Invalid Bitcoin address",
-        "id": "formhelper.invalidbitcoinaddress"
+        "id": "formhelper.invalidbtcaddress"
       },
       {
-        "defaultMessage": "Invalid Bitcoin cash address",
-        "id": "formhelper.invalidbitcoincashaddress"
+        "defaultMessage": "Invalid Bitcoin Cash address",
+        "id": "formhelper.invalidbchaddress"
       },
       {
         "defaultMessage": "Invalid Bitcoin Private Key",
