@@ -331,6 +331,10 @@ export default ({ api, coreSagas, networks }) => {
         selectFee(sourceCoin, provisionalPayment, isSourceErc20)
       )
       const rates = yield call(getBestRates)
+      // For ERC20, fallback to eth ticker
+      const fallbackEthRates = (yield select(
+        selectors.core.data.eth.getRates
+      )).getOrElse({})
       const sourceFees = {
         source: fee,
         mempoolFees: provisionalPayment.fees,
@@ -340,7 +344,8 @@ export default ({ api, coreSagas, networks }) => {
           fiatCurrency,
           rates,
           fee,
-          isSourceErc20
+          isSourceErc20,
+          fallbackEthRates
         ),
         isSourceErc20
       }

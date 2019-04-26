@@ -141,11 +141,15 @@ export const formatLimits = ({ currency, ...limits }) =>
     assoc('maxFiatLimit', limits.maxPossibleOrder)
   )(limits)
 
-const getRate = (rates, source, target) =>
-  compose(
+const getRate = (rates, source, target) => {
+  const pathTo = prop(target, rates)
+    ? [target, 'last']
+    : [formatPair(source, target), 'price']
+  return compose(
     rate => new BigNumber(rate).toFixed(14),
-    pathOr(0, [formatPair(source, target), 'price'])
+    pathOr(0, pathTo)
   )(rates)
+}
 
 export const convertSourceToTarget = (form, rates, amount) => {
   const sourceCoin = path(['source', 'coin'], form)
@@ -162,12 +166,14 @@ export const convertSourceFeesToFiat = (
   fiatCurrency,
   rates,
   amount,
-  isSourceErc20
+  isSourceErc20,
+  fallbackEthRates
 ) => {
-  const sourceCoin = path(['source', 'coin'], form)
+  const sourceCoin = isSourceErc20 ? 'ETH' : path(['source', 'coin'], form)
+  const sourceRates = isSourceErc20 ? fallbackEthRates : rates
 
   return compose(
     toFixed(2, false),
-    multiply(getRate(rates, isSourceErc20 ? 'ETH' : sourceCoin, fiatCurrency))
+    multiply(getRate(sourceRates, sourceCoin, fiatCurrency))
   )(amount)
 }
