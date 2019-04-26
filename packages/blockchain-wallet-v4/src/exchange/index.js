@@ -658,18 +658,16 @@ const displayCoinToCoin = (value, toUnit) => {
       })
     case 'PAX':
       const paxAmount = convertPaxToPax({ value, fromUnit: 'WEI', toUnit })
-        .value
       return displayPaxToPax({
-        value: Number(paxAmount).toFixed(8),
-        fromUnit: 'WEI',
+        value: Number(paxAmount.value).toFixed(8),
+        fromUnit: 'PAX',
         toUnit
       })
     case 'ETH':
       const ethAmount = convertEtherToEther({ value, fromUnit: 'WEI', toUnit })
-        .value
       return displayEtherToEther({
-        value: Number(ethAmount).toFixed(8),
-        fromUnit: 'WEI',
+        value: Number(ethAmount.value).toFixed(8),
+        fromUnit: 'ETH',
         toUnit
       })
     case 'XLM':
