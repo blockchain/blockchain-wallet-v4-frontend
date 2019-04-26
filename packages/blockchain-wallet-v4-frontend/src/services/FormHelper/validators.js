@@ -112,13 +112,16 @@ export const validXlmAddress = ({ value: dropdownValue }) => {
 }
 
 export const validBtcAddress = (value, allValues, props) => {
+  let address = value
   if (isObject(value)) {
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return
     if (prop('address', option)) return
+    if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
-  return utils.btc.isValidBtcAddress(value, props.network) ? (
+
+  return utils.btc.isValidBtcAddress(address, props.network) ? (
     undefined
   ) : (
     <M.InvalidBtcAddressMessage />
@@ -126,13 +129,15 @@ export const validBtcAddress = (value, allValues, props) => {
 }
 
 export const validBchAddress = (value, allValues, props) => {
+  let address = value
   if (isObject(value)) {
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return
     if (prop('address', option)) return
+    if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
-  return utils.btc.isValidBtcAddress(value, props.network) ||
+  return utils.btc.isValidBtcAddress(address, props.network) ||
     utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
