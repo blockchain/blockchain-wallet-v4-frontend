@@ -180,8 +180,8 @@ const FirstStep = props => {
             <FormItem>
               <FormLabel for='amount'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.sendamount'
-                  defaultMessage='Enter amount'
+                  id='modals.sendxlm.firststep.sendamountto'
+                  defaultMessage='Amount'
                 />
               </FormLabel>
               <Field
