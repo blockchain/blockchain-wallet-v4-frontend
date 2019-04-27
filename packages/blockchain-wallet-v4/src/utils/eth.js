@@ -81,8 +81,6 @@ export const calculateEffectiveBalance = (balance, fee, isErc20) => {
 }
 
 export const calculateTransactionAmount = (amount, fee) => {
-  console.log(amount)
-  console.log(fee)
   return new BigNumber.sum(amount, new BigNumber(fee)).toString()
 }
 
