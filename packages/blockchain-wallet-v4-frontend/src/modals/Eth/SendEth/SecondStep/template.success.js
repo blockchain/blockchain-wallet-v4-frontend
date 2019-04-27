@@ -14,24 +14,17 @@ import {
 } from 'components/Exchange'
 
 const ConfirmWrapper = styled(Wrapper)`
-  padding: 0px;s
+  padding: 0px;
 `
-
-const Summary = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme['gray-1']};
-  padding: 10px 0;
-  margin: 5px 0 25px;
-
-  & > * {
-    padding: 10px 0;
-  }
+const SummaryExchangeAmount = styled(ExchangeAmount)`
+  justify-content: flex-end;
+`
+const SummarySubExchangeAmount = styled(SubExchangeAmount)`
+  justify-content: flex-end;
 `
 const TextTo = styled(Text)`
   max-width: 60%;
+  text-align: right;
   word-break: break-all;
 `
 const Footer = styled.div`
@@ -57,7 +50,7 @@ const Success = props => {
     description,
     amount,
     fee,
-    total,
+    totalFiat,
     handleBack,
     handleSubmit
   } = props
@@ -108,16 +101,16 @@ const Success = props => {
             />
           </Text>
           <ExchangeAmounts>
-            <ExchangeAmount>
+            <SummaryExchangeAmount>
               <FiatDisplay size='16px' weight={500} coin={coin}>
                 {amount}
               </FiatDisplay>
-            </ExchangeAmount>
-            <SubExchangeAmount>
+            </SummaryExchangeAmount>
+            <SummarySubExchangeAmount>
               <CoinDisplay size='14px' weight={300} coin={coin}>
                 {amount}
               </CoinDisplay>
-            </SubExchangeAmount>
+            </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
@@ -128,35 +121,34 @@ const Success = props => {
             />
           </Text>
           <ExchangeAmounts>
-            <ExchangeAmount>
+            <SummaryExchangeAmount>
               <FiatDisplay size='16px' weight={500} coin='ETH'>
                 {fee}
               </FiatDisplay>
-            </ExchangeAmount>
-            <SubExchangeAmount>
+            </SummaryExchangeAmount>
+            <SummarySubExchangeAmount>
               <CoinDisplay size='14px' weight={300} coin='ETH'>
                 {fee}
               </CoinDisplay>
-            </SubExchangeAmount>
+            </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
-        <Summary>
-          <Text size='16px' weight={400} color='sent'>
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
             <FormattedMessage
               id='modals.sendeth.secondstep.total'
               defaultMessage='Total'
             />
           </Text>
-          <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
-            {total}
-          </CoinDisplay>
-          <FiatDisplay coin={coin} size='20px' weight={400} color='sent'>
-            {total}
-          </FiatDisplay>
-        </Summary>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount>-{totalFiat}</SummaryExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
       </ConfirmWrapper>
       <Footer>
         <Button
+          height='56px'
+          size='18px'
           onClick={handleSubmit}
           disabled={submitting}
           nature='primary'

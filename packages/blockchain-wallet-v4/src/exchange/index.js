@@ -253,7 +253,7 @@ const convertFiatToPax = ({ value, fromCurrency, toUnit, rates }) => {
   )
 }
 
-const convertEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+const convertEthToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   return transformEtherToFiat({ value, fromUnit, toCurrency, rates }).getOrElse(
     DefaultConversion
   )
@@ -597,7 +597,7 @@ const convertCoinToFiat = (value, unit, currency, rates) => {
         rates: rates
       }).value
     case unit === 'ETH':
-      return convertEtherToFiat({
+      return convertEthToFiat({
         value,
         toCurrency: currency,
         fromUnit: unit,
@@ -696,7 +696,7 @@ export {
   convertBchToBch,
   convertBsvToFiat,
   convertBsvToBsv,
-  convertEtherToFiat,
+  convertEthToFiat,
   convertEtherToEther,
   convertFiatToBtc,
   convertFiatToEther,
