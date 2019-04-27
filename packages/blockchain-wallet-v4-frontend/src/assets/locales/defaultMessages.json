@@ -3121,28 +3121,28 @@
         "id": "modals.sendbch.secondstep.note"
       },
       {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendbch.secondstep.payment"
+        "defaultMessage": "Amount:",
+        "id": "modals.sendbch.secondstep.amount"
       },
       {
         "defaultMessage": "Fee:",
         "id": "modals.sendbch.secondstep.fee"
       },
       {
-        "defaultMessage": "Total",
-        "id": "modals.sendbch.secondstep.total"
+        "defaultMessage": "Total:",
+        "id": "modals.sendbch.secondstep.sendtotal"
       },
       {
-        "defaultMessage": "Are you sure this is a bitcoin cash address? Sending funds to a bitcoin address by accident will result in loss of funds.",
-        "id": "modals.sendbch.secondstep.bch_address_warning"
+        "defaultMessage": "Are you sure this is a Bitcoin Cash address? Sending funds to a Bitcoin address by accident will result in loss of funds.",
+        "id": "modals.sendbch.secondstep.bchaddrwarning"
       },
       {
         "defaultMessage": "Send Bitcoin Cash",
         "id": "modals.sendbch.secondstep.send"
       },
       {
-        "defaultMessage": "Go back",
-        "id": "modals.sendbch.secondstep.back"
+        "defaultMessage": "Go Back",
+        "id": "modals.sendbch.secondstep.goback"
       }
     ],
     "path": "src/modals/Bch/SendBch/SecondStep/template.success.json"
@@ -3634,24 +3634,24 @@
         "id": "modals.sendbtc.secondstep.note"
       },
       {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendbtc.secondstep.payment"
+        "defaultMessage": "Amount:",
+        "id": "modals.sendbtc.secondstep.amount"
       },
       {
         "defaultMessage": "Fee:",
         "id": "modals.sendbtc.secondstep.fee"
       },
       {
-        "defaultMessage": "Total",
-        "id": "modals.sendbtc.secontstep.total"
+        "defaultMessage": "Total:",
+        "id": "modals.sendbtc.secontstep.sendtotal"
       },
       {
         "defaultMessage": "Send Bitcoin",
         "id": "modals.sendbtc.secondstep.send"
       },
       {
-        "defaultMessage": "Go back",
-        "id": "scenes.sendbtc.secondstep.back"
+        "defaultMessage": "Go Back",
+        "id": "scenes.sendbtc.secondstep.goback"
       }
     ],
     "path": "src/modals/Btc/SendBtc/SecondStep/template.success.json"
@@ -6957,8 +6957,8 @@
         "id": "modals.sendxlm.firststep.sendto"
       },
       {
-        "defaultMessage": "Enter amount",
-        "id": "modals.sendxlm.firststep.sendamount"
+        "defaultMessage": "Amount",
+        "id": "modals.sendxlm.firststep.sendamountto"
       },
       {
         "defaultMessage": "Memo",
@@ -7035,16 +7035,16 @@
         "id": "modals.sendxlm.secondstep.memo"
       },
       {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendxlm.secondstep.payment"
+        "defaultMessage": "Amount:",
+        "id": "modals.sendxlm.secondstep.amount"
       },
       {
         "defaultMessage": "Fee:",
         "id": "modals.sendxlm.secondstep.fee"
       },
       {
-        "defaultMessage": "Total",
-        "id": "modals.sendxlm.secondstep.total"
+        "defaultMessage": "Total:",
+        "id": "modals.sendxlm.secondstep.sendtotal"
       },
       {
         "defaultMessage": "Send Stellar",
