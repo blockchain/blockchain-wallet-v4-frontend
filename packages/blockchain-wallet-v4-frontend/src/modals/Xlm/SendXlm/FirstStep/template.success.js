@@ -254,8 +254,10 @@ const FirstStep = props => {
                   defaultMessage='Transaction Fee:'
                 />
               </Text>
-              <Text size='16px' weight={400}>
-                <ComboDisplay coin='XLM'>{fee}</ComboDisplay>
+              <Text>
+                <ComboDisplay size='13px' coin='XLM'>
+                  {fee}
+                </ComboDisplay>
               </Text>
             </FormItem>
           </FormGroup>
@@ -265,6 +267,8 @@ const FirstStep = props => {
                * HACK: redux-form blurs on mousedown, and we change form
                * layout on blur preventing the onClick submit
                */
+              height='56px'
+              size='18px'
               onMouseDown={submit}
               nature='primary'
               disabled={
