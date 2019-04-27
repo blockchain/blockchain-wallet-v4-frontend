@@ -103,7 +103,7 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   ],
   (ethBalanceR, ethRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) => {
-      return Exchange.convertEtherToFiat({
+      return Exchange.convertEthToFiat({
         value,
         fromUnit: 'WEI',
         toCurrency,

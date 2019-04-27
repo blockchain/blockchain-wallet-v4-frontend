@@ -144,7 +144,7 @@ export default ({ api }) => {
     const erc20Balance = (yield select(S.getErc20Balance, 'pax')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
     const ethRates = (yield select(S.getRates)).getOrFail()
-    const ethBalance = Exchange.convertEtherToFiat({
+    const ethBalance = Exchange.convertEthToFiat({
       value: weiBalance,
       fromUnit: 'WEI',
       toCurrency: 'USD',
