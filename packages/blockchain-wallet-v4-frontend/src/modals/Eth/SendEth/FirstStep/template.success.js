@@ -73,6 +73,7 @@ const FirstStep = props => {
     handleSubmit,
     unconfirmedTx,
     isContract,
+    isContractChecked,
     feeToggled,
     from,
     feeElements,
@@ -325,6 +326,7 @@ const FirstStep = props => {
             submitting ||
             invalid ||
             isContract ||
+            !isContractChecked ||
             !isFeeSufficientForErc20Tx ||
             Remote.Loading.is(balanceStatus)
           }

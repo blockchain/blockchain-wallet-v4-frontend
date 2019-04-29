@@ -18,11 +18,11 @@ class FirstStep extends React.PureComponent {
           fee={value.fee}
           from={value.from}
           isContract={value.isContract}
+          isContractChecked={value.isContractChecked}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
           onSubmit={actions.sendEthFirstStepSubmitClicked}
           feeToggled={value.feeToggled}
-          destination={value.destination}
           enableToggle={value.enableToggle}
           minFee={value.minFee}
           maxFee={value.maxFee}

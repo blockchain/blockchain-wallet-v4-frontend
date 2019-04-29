@@ -4,6 +4,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
+  isContract: Remote.NotAsked,
   payment: Remote.NotAsked,
   feeToggled: false
 }
@@ -24,6 +25,15 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SEND_ETH_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.SEND_ETH_CHECK_IS_CONTRACT_LOADING: {
+      return assoc('isContract', Remote.Loading, state)
+    }
+    case AT.SEND_ETH_CHECK_IS_CONTRACT_SUCCESS: {
+      return assoc('isContract', Remote.Success(payload), state)
+    }
+    case AT.SEND_ETH_CHECK_IS_CONTRACT_FAILURE: {
+      return assoc('isContract', Remote.Failure(payload), state)
     }
     case AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)

@@ -135,9 +135,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           payment = yield payment.to(value)
-          const isContract = yield call(api.checkContract, value)
-          payment = yield payment.setIsContract(prop('contract', isContract))
-          break
+          yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+          yield put(A.sendEthCheckIsContract(value))
+          return
         case 'amount':
           const coinCode = prop('coinCode', payload)
           const weiAmount = Exchange.convertCoinToCoin({
@@ -364,6 +364,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkIsContract = function * ({ payload }) {
+    try {
+      yield put(A.sendEthCheckIsContractLoading())
+      const { contract } = yield call(api.checkContract, payload)
+      yield put(A.sendEthCheckIsContractSuccess(contract))
+    } catch (e) {
+      yield put(A.sendEthCheckIsContractFailure(e))
+    }
+  }
+
   const priorityFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
@@ -405,6 +415,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     initialized,
+    checkIsContract,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,

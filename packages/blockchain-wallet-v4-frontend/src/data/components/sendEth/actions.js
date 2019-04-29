@@ -32,6 +32,21 @@ export const sendEthSecondStepCancelClicked = () => ({
 export const sendEthFirstStepFeeToggled = () => ({
   type: AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED
 })
+export const sendEthCheckIsContract = address => ({
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT,
+  payload: address
+})
+export const sendEthCheckIsContractLoading = () => ({
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT_LOADING
+})
+export const sendEthCheckIsContractSuccess = isContract => ({
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT_SUCCESS,
+  payload: isContract
+})
+export const sendEthCheckIsContractFailure = e => ({
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT_FAILURE,
+  payload: e
+})
 export const sendEthFirstStepRegularFeeClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED
 })

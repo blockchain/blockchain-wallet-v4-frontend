@@ -4,9 +4,12 @@ import { head, gt, prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
+import { Remote } from 'blockchain-wallet-v4/src'
+
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
+    selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
     (state, coin) => {
       const erc20List = selectors.core.walletOptions
@@ -26,6 +29,7 @@ export const getData = createDeepEqualSelector(
   ],
   (
     paymentR,
+    isContractR,
     feeToggled,
     balanceR,
     ethBalanceR,
@@ -43,7 +47,6 @@ export const getData = createDeepEqualSelector(
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
-      const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
       const from = prop('from', formValues)
       const regularFee = path(['fees', 'regular'], payment)
@@ -51,6 +54,8 @@ export const getData = createDeepEqualSelector(
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
       const isFeeSufficientForTx = ethBalance >= fee
+      const isContract = isContractR.getOrElse(false)
+      const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
           group: '',
@@ -81,6 +86,7 @@ export const getData = createDeepEqualSelector(
         effectiveBalance,
         unconfirmedTx,
         isContract,
+        isContractChecked,
         isFeeSufficientForTx,
         fee,
         feeToggled,
