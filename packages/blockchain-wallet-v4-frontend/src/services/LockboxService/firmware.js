@@ -3,23 +3,6 @@ import qs from 'qs'
 import utils from './utils'
 import constants from './constants'
 
-// checks if device is authentic
-const checkDeviceAuthenticity = (transport, baseUrl, params) => {
-  return new Promise(async (resolve, reject) => {
-    const url =
-      `${baseUrl}${constants.socketPaths.authenticity}` +
-      `?${qs.stringify(params)}`
-
-    // check authenticity
-    const res = await utils.mapSocketError(
-      utils.createDeviceSocket(transport, url).toPromise()
-    )
-    /* eslint-disable  prefer-promise-reject-errors */
-    !res || res !== '0000' || res.errMsg ? reject(false) : resolve(true)
-    /* eslint-enable  prefer-promise-reject-errors */
-  })
-}
-
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
@@ -137,7 +120,6 @@ const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
 }
 
 export default {
-  checkDeviceAuthenticity,
   getDeviceFirmwareInfo,
   installFinalFirmware,
   installOsuFirmware

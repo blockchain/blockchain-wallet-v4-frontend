@@ -4,7 +4,6 @@ import { Remote, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as CC from 'services/ConfirmService'
 import * as S from './selectors'
-import * as AT from './actionTypes'
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
@@ -20,7 +19,6 @@ Lockbox.utils.createBtcBchConnection = jest.fn()
 Lockbox.utils.deriveDeviceInfo = jest.fn()
 Lockbox.utils.getDeviceInfo = jest.fn()
 Lockbox.utils.getXlmPublicKey = jest.fn()
-Lockbox.firmware.checkDeviceAuthenticity = jest.fn()
 SagaService.promptForLockbox = jest.fn()
 SagaService.confirm = jest.fn()
 
@@ -100,7 +98,6 @@ const mdAccountsEntryMock = {
 
 describe('lockbox sagas', () => {
   const {
-    checkDeviceAuthenticity,
     deleteDevice,
     deriveLatestAppInfo,
     determineLockboxRoute,
@@ -231,106 +228,6 @@ describe('lockbox sagas', () => {
     })
     it('should mark uninstall success', () => {
       saga.next().put(A.appChangeSuccess(payload.appName, 'uninstall'))
-    })
-  })
-
-  describe('checkDeviceAuthenticity', () => {
-    const payload = { deviceIndex: 0 }
-    const saga = testSaga(checkDeviceAuthenticity, { payload })
-    const mockTransport = { timeout: 60 }
-    const mockDeviceInfo = {
-      providerId: 1,
-      targetId: 2,
-      fullVersion: '1.4.3'
-    }
-    const mockDeviceVersion = { id: 3 }
-    const mockLedgerSocketUrl = 'wss://api.ledgerwallet.fakedotcom'
-    const mockFirmware = { perso: 11 }
-
-    it('should select deviceType from kvStore', () => {
-      saga.next().select(selectors.core.kvStore.lockbox.getDevice, 0)
-    })
-
-    it('should poll for device dashboard', () => {
-      saga
-        .next(Remote.of({ device_type: 'ledger' }))
-        .put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
-    })
-
-    it('should take the device connection', () => {
-      saga.next().take(AT.SET_CONNECTION_INFO)
-    })
-
-    it('should set checkDeviceAuthenticity to loading', () => {
-      saga.next().put(A.checkDeviceAuthenticityLoading())
-    })
-
-    it('should get deviceType from getCurrentConnection', () => {
-      saga.next().select(S.getCurrentConnection)
-    })
-
-    it('should call to get base device info', () => {
-      saga
-        .next({ transport: mockTransport })
-        .call(Lockbox.utils.getDeviceInfo, mockTransport)
-    })
-
-    it('should call to get full device info from api', () => {
-      saga.next(mockDeviceInfo).call(api.getDeviceVersion, {
-        provider: mockDeviceInfo.providerId,
-        target_id: mockDeviceInfo.targetId
-      })
-    })
-
-    it('should call to get full firmware info from api', () => {
-      saga.next(mockDeviceVersion).call(api.getCurrentFirmware, {
-        device_version: mockDeviceVersion.id,
-        version_name: mockDeviceInfo.fullVersion,
-        provider: mockDeviceInfo.providerId
-      })
-    })
-
-    it('should select ledger socket url', () => {
-      saga.next(mockFirmware).select(selectors.core.walletOptions.getDomains)
-    })
-
-    it('should call to confirm device authenticity', () => {
-      saga
-        .next(Remote.of({ ledgerSocket: mockLedgerSocketUrl }))
-        .call(
-          Lockbox.firmware.checkDeviceAuthenticity,
-          mockTransport,
-          mockLedgerSocketUrl,
-          { targetId: mockDeviceInfo.targetId, perso: mockFirmware.perso }
-        )
-    })
-
-    it('should put device auth success action', () => {
-      saga.next(true).put(A.checkDeviceAuthenticitySuccess(true))
-    })
-
-    it('should end', () => {
-      saga.next().isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'device auth failed' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.checkDeviceAuthenticityFailure(false))
-        .next()
-        .put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'checkDeviceAuthenticity',
-            error
-          )
-        )
-        .next()
-        .isDone()
     })
   })
 
