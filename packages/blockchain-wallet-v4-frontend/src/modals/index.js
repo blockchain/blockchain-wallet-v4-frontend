@@ -37,7 +37,6 @@ import {
 import { Confirm, PromptInput, Support } from './Generic'
 import {
   LockboxAppManager,
-  LockboxAuthenticityCheck,
   LockboxFirmware,
   LockboxSetup,
   LockboxConnectionPrompt,
@@ -101,7 +100,6 @@ const Modals = () => (
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAuthenticityCheck disableOutsideClose />
     <LockboxAppManager disableOutsideClose />
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />

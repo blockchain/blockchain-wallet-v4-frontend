@@ -168,10 +168,26 @@ const ConnectDeviceStep = props => {
             </Text>
             <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id='modals.lockboxsetup.connectdevice.new.stepfive'
-                defaultMessage="Ensure your device's dashboard is open. Hint: You should see the settings icon."
+                id='modals.lockboxsetup.connectdevice.new.stepfivenew'
+                defaultMessage="Ensure your device's dashboard is open."
               />
             </Text>
+          </Row>
+          <Row>
+            <TextGroup inline style={{ marginTop: '6px' }}>
+              <Text size='12px' weight={500}>
+                <FormattedHTMLMessage
+                  id='modals.lockboxsetup.connectdevice.new.hint'
+                  defaultMessage='Hint:'
+                />
+              </Text>
+              <Text size='12px' weight={300}>
+                <FormattedHTMLMessage
+                  id='modals.lockboxsetup.connectdevice.new.settingshint'
+                  defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
+                />
+              </Text>
+            </TextGroup>
           </Row>
         </React.Fragment>
       ) : (
@@ -191,10 +207,24 @@ const ConnectDeviceStep = props => {
           </StepText>
           <StepText size='13px' weight={400}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.stepthree'
+              id='modals.lockboxsetup.connectdevice.existing.stepthreenew'
               defaultMessage='3. Ensure the device dashboard is open and you are not in an application.'
             />
           </StepText>
+          <TextGroup inline style={{ marginTop: '6px' }}>
+            <Text size='12px' weight={500}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.hint'
+                defaultMessage='Hint:'
+              />
+            </Text>
+            <Text size='12px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.settingshint'
+                defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
+              />
+            </Text>
+          </TextGroup>
         </Instructions>
       )}
       <ButtonContainer>

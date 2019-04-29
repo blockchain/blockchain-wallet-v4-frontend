@@ -128,59 +128,6 @@ export default ({ api }) => {
     }
   }
 
-  // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function * (action) {
-    try {
-      const { deviceIndex } = action.payload
-      const deviceR = yield select(
-        selectors.core.kvStore.lockbox.getDevice,
-        deviceIndex
-      )
-      const deviceType = prop('device_type', deviceR.getOrFail())
-      // poll for device connection on dashboard
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      // device connection made
-      yield take(AT.SET_CONNECTION_INFO)
-      yield put(A.checkDeviceAuthenticityLoading())
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const firmware = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-
-      const domainsR = yield select(selectors.core.walletOptions.getDomains)
-      const domains = domainsR.getOrElse({
-        ledgerSocket: 'wss://api.ledgerwallet.com'
-      })
-
-      // open socket and check if device is authentic
-      const isDeviceAuthentic = yield call(
-        Lockbox.firmware.checkDeviceAuthenticity,
-        transport,
-        domains.ledgerSocket,
-        {
-          targetId: deviceInfo.targetId,
-          perso: firmware.perso
-        }
-      )
-      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
-    } catch (e) {
-      yield put(A.checkDeviceAuthenticityFailure(false))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
-      )
-    }
-  }
-
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function * () {
     try {
@@ -827,7 +774,6 @@ export default ({ api }) => {
   }
 
   return {
-    checkDeviceAuthenticity,
     deleteDevice,
     deriveLatestAppInfo,
     determineLockboxRoute,

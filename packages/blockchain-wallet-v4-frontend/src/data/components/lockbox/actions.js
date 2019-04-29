@@ -81,26 +81,6 @@ export const saveNewDeviceKvStoreFailure = payload => ({
   payload
 })
 
-// DEVICE AUTHENTICITY
-export const checkDeviceAuthenticity = deviceIndex => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY,
-  payload: { deviceIndex }
-})
-export const checkDeviceAuthenticityLoading = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
-})
-export const checkDeviceAuthenticityFailure = isAuthentic => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
-  payload: { isAuthentic }
-})
-export const checkDeviceAuthenticitySuccess = isAuthentic => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
-  payload: { isAuthentic }
-})
-export const resetDeviceAuthenticity = () => ({
-  type: AT.RESET_DEVICE_AUTHENTICITY
-})
-
 // UPDATE
 export const updateDeviceName = (deviceIndex, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
