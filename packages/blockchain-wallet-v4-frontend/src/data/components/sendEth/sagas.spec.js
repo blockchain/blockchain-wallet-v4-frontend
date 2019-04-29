@@ -343,6 +343,7 @@ describe('sendEth sagas', () => {
 
       it('should log SEND_FAILURE event', () => {
         saga
+          .next(false)
           .next()
           .put(
             actions.analytics.logEvent([

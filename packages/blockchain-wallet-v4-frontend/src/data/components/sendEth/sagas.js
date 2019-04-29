@@ -328,11 +328,16 @@ export default ({ coreSagas, networks }) => {
             e
           )
         )
+        const lowEthBalance = yield select(
+          selectors.core.data.eth.getLowEthBalanceWarning()
+        )
         yield put(
           actions.analytics.logEvent([
             ...TRANSACTION_EVENTS.SEND_FAILURE,
-            'ETH',
-            e
+            coin,
+            coinModel.contractAddress && lowEthBalance
+              ? 'Potentially insufficient ETH for TX'
+              : e
           ])
         )
         yield put(
