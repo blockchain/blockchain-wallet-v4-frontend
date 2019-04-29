@@ -222,8 +222,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer8.one.new'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.coinify.answer8.one.new1'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD Pax. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
