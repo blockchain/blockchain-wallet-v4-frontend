@@ -5,7 +5,6 @@ import * as bowser from 'bowser'
 
 import { Banner, Text } from 'blockchain-info-components'
 import AddDevice from './AddDevice'
-import AuthenticateDevice from './AuthenticateDevice'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
 import RestoreDevice from './RestoreDevice'
@@ -40,10 +39,6 @@ export default class LockboxSettings extends React.PureComponent {
         )}
         <RenameDevice deviceIndex={deviceIndex} />
         <UpdateDevice
-          deviceIndex={deviceIndex}
-          isBrowserChrome={isBrowserChrome}
-        />
-        <AuthenticateDevice
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />
