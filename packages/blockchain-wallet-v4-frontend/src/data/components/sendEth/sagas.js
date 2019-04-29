@@ -31,7 +31,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const { TRANSACTION_EVENTS } = model.analytics
 
 export const logLocation = 'components/sendEth/sagas'
-export default ({ coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
       const erc20List = (yield select(
@@ -135,6 +135,8 @@ export default ({ coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           payment = yield payment.to(value)
+          const isContract = yield call(api.checkContract, value)
+          payment = yield payment.setIsContract(prop('contract', isContract))
           break
         case 'amount':
           const coinCode = prop('coinCode', payload)
