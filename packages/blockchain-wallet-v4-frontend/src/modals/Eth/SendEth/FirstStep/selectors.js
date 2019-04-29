@@ -45,7 +45,6 @@ export const getData = createDeepEqualSelector(
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
-      const destination = prop('to', formValues)
       const from = prop('from', formValues)
       const regularFee = path(['fees', 'regular'], payment)
       const priorityFee = path(['fees', 'priority'], payment)
@@ -86,7 +85,6 @@ export const getData = createDeepEqualSelector(
         fee,
         feeToggled,
         enableToggle,
-        destination,
         from,
         regularFee,
         priorityFee,

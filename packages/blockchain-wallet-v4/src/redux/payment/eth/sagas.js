@@ -149,15 +149,12 @@ export default ({ api }) => {
         )
       },
 
-      * to (destination) {
+      to (destination) {
         let to = calculateTo(destination)
         if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
         }
-        const isContract = yield call(api.checkContract, to.address)
-        return makePayment(
-          mergeRight(p, { to: to, isContract: isContract.contract })
-        )
+        return makePayment(mergeRight(p, { to: to }))
       },
 
       amount (amount) {
@@ -313,6 +310,10 @@ export default ({ api }) => {
 
       fees (fees) {
         return makePayment(mergeRight(p, { fees }))
+      },
+
+      setIsContract (isContract) {
+        return makePayment(mergeRight(p, { isContract }))
       },
 
       setIsErc20 (isErc20) {

@@ -57,7 +57,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendBch: sendBch({ coreSagas, networks }),
   sendBtc: sendBtc({ coreSagas, networks }),
   sendBsv: sendBsv({ coreSagas, networks }),
-  sendEth: sendEth({ coreSagas, networks }),
+  sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
