@@ -2290,8 +2290,8 @@
         "id": "scenes.faq.group.coinify.question8"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.coinify.answer8.one.new"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD Pax. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.coinify.answer8.one.new1"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -5039,47 +5039,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Authenticate Device",
-        "id": "modals.lockbox.authenticity.title"
-      },
-      {
-        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
-        "id": "modals.lockbox.appmanager.connectdevice"
-      },
-      {
-        "defaultMessage": "Verifying your device's authenticity",
-        "id": "modals.lockbox.authenticity.content"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockbox.authenticity.note"
-      },
-      {
-        "defaultMessage": "Allow the device manager onto the device if prompted.",
-        "id": "modals.lockbox.authenticity.notetext"
-      },
-      {
-        "defaultMessage": "Congratulations!",
-        "id": "modals.lockbox.authenticity.success1"
-      },
-      {
-        "defaultMessage": "Your device appears to be genuine!",
-        "id": "modals.lockbox.authenticity.success2"
-      },
-      {
-        "defaultMessage": "Your device does not appear to be genuine. Please reach out to our support team before using this device.",
-        "id": "modals.lockbox.authenticity.failed"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.lockbox.authenticity.close"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxAuthenticityCheck/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Connect Your Lockbox",
         "id": "modals.lockbox.connectionprompt.connect.title"
       },
@@ -5325,8 +5284,16 @@
         "id": "modals.lockboxsetup.connectdevice.new.five"
       },
       {
-        "defaultMessage": "Ensure your device's dashboard is open. Hint: You should see the settings icon.",
-        "id": "modals.lockboxsetup.connectdevice.new.stepfive"
+        "defaultMessage": "Ensure your device's dashboard is open.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepfivenew"
+      },
+      {
+        "defaultMessage": "Hint:",
+        "id": "modals.lockboxsetup.connectdevice.new.hint"
+      },
+      {
+        "defaultMessage": "If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word \"Settings\".",
+        "id": "modals.lockboxsetup.connectdevice.new.settingshint"
       },
       {
         "defaultMessage": "1. Connect your {deviceType} to your computer with the supplied USB cable.",
@@ -5338,7 +5305,7 @@
       },
       {
         "defaultMessage": "3. Ensure the device dashboard is open and you are not in an application.",
-        "id": "modals.lockboxsetup.connectdevice.existing.stepthree"
+        "id": "modals.lockboxsetup.connectdevice.existing.stepthreenew"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -8674,23 +8641,6 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Authenticate Device",
-        "id": "scenes.lockbox.settings.authenticate.title"
-      },
-      {
-        "defaultMessage": "Ensure your device is genuine, and not fraudulent or counterfeit",
-        "id": "scenes.lockbox.settings.authenticate.description"
-      },
-      {
-        "defaultMessage": "Authenticate",
-        "id": "scenes.lockbox.settings.authenticate.start"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/AuthenticateDevice/template.json"
   },
   {
     "descriptors": [
