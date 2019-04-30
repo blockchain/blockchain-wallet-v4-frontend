@@ -40,7 +40,7 @@ export const getData = createDeepEqualSelector(
       sfoxStates,
       coinifyCountries
     ) => {
-      const { next } = userTiers
+      const { next } = userTiers || { next: 1 }
       const lastAttemptedTier = getLastAttemptedTier(tiers) || {
         index: 0,
         state: TIERS_STATES.NONE
