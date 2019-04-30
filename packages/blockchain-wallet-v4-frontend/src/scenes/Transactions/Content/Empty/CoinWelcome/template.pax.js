@@ -79,8 +79,8 @@ const WelcomePax = props => {
               </Text>
               <Text weight={400} style={{ marginTop: '16px' }}>
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.pax.subtitle'
-                  defaultMessage='USD Pax is a crypto asset 100% backed by funds held in regulated US banks and lives on the Ethereum blockchain.'
+                  id='scenes.transaction.content.empty.pax.subtitle2'
+                  defaultMessage='USD Pax is a crypto asset 100% backed by funds held in regulated US banks. 1 PAX equals 1 US Dollar.'
                 />
               </Text>
             </div>
