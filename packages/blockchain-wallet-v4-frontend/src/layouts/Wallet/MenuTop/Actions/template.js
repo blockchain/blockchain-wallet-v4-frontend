@@ -19,6 +19,9 @@ const Wrapper = styled.div`
   }
 `
 const ActionButton = styled(IconButton)`
+  > span {
+    color: ${props => props.theme['brand-primary']};
+  }
   ${media.mobile`
     padding: 10px 10px;
     div:last-of-type {
@@ -39,10 +42,9 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       onClick={() => showModal('SEND')}
       min='100px'
       data-e2e='sendButton'
-      nature='gray-3'
       height='40px'
     >
-      <ButtonText size='13px' weight={500} color='gray-5'>
+      <ButtonText size='13px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
@@ -56,10 +58,9 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'
-      nature='gray-3'
       height='40px'
     >
-      <ButtonText size='13px' weight={500} color='gray-5'>
+      <ButtonText size='13px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'
