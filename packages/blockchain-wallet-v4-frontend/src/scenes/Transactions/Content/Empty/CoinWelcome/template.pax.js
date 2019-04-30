@@ -142,7 +142,7 @@ const WelcomePax = props => {
         </Row>
         <Row>
           <Column style={{ paddingRight: '20px' }}>
-            {currentUserTier.current === 2 ? (
+            {currentUserTier && currentUserTier.current === 2 ? (
               <LinkContainer
                 to={{
                   pathname: '/swap',
