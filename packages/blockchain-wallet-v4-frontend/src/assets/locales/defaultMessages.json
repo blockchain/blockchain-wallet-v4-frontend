@@ -7920,6 +7920,10 @@
         "id": "scenes.buysell.selectpartner.subheader_nopartner"
       },
       {
+        "defaultMessage": "Disabled Due to Identity Verification Issue",
+        "id": "scenes.buysell.selectpartner.cannottrade"
+      },
+      {
         "defaultMessage": "Next",
         "id": "scenes.buysell.selectpartner.button"
       },

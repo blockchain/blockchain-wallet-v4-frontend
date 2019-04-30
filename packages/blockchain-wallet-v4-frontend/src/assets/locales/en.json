@@ -1300,6 +1300,7 @@
   "scenes.buysell.orderreview.try_again": "Try again",
   "scenes.buysell.orderreview.wrong": "Sorry, something went wrong with your trade:",
   "scenes.buysell.selectpartner.button": "Next",
+  "scenes.buysell.selectpartner.cannottrade": "Disabled Due to Identity Verification Issue",
   "scenes.buysell.selectpartner.countryanswer": "Due to local laws, Blockchain can only operate in permitted regions.",
   "scenes.buysell.selectpartner.countryquestion": "What's my country for?",
   "scenes.buysell.selectpartner.header.buy_bitcoin": "Buy & Sell Bitcoin",
