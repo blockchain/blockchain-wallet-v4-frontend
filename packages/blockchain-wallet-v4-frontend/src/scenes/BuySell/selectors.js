@@ -1,7 +1,13 @@
-import { lift, pathOr, takeWhile } from 'ramda'
+import { lift, pathOr, take, takeWhile } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
+
+const {
+  TIERS_STATES,
+  getLastAttemptedTier,
+  getLastUnrejectedTier
+} = model.profile
 
 export const getData = createDeepEqualSelector(
   [
@@ -11,7 +17,9 @@ export const getData = createDeepEqualSelector(
     selectors.components.coinify.getCoinifySignupStep,
     selectors.core.walletOptions.getSFOXCountries,
     selectors.core.walletOptions.getSFOXStates,
-    selectors.core.walletOptions.getCoinifyCountries
+    selectors.core.walletOptions.getCoinifyCountries,
+    state => selectors.modules.profile.getUserTiers(state).getOrElse({}),
+    state => selectors.modules.profile.getTiers(state).getOrElse([])
   ],
   (
     optionsR,
@@ -20,7 +28,9 @@ export const getData = createDeepEqualSelector(
     coinifySignupStep,
     sfoxCountriesR,
     sfoxStatesR,
-    coinifyCountriesR
+    coinifyCountriesR,
+    userTiers,
+    tiers
   ) => {
     const transform = (
       options,
@@ -30,6 +40,16 @@ export const getData = createDeepEqualSelector(
       sfoxStates,
       coinifyCountries
     ) => {
+      const { next } = userTiers
+      const lastAttemptedTier = getLastAttemptedTier(tiers) || {
+        index: 0,
+        state: TIERS_STATES.NONE
+      }
+      const last = lastAttemptedTier.index
+      const allAttemptedTiersRejected = !getLastUnrejectedTier(
+        take(last, tiers)
+      )
+      const nextTierAvailable = next > last
       return {
         options,
         buySell,
@@ -37,7 +57,9 @@ export const getData = createDeepEqualSelector(
         coinifySignupStep,
         sfoxCountries,
         sfoxStates,
-        coinifyCountries
+        coinifyCountries,
+        showRejectedNotification:
+          allAttemptedTiersRejected && !nextTierAvailable
       }
     }
     return lift(transform)(

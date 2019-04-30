@@ -51,7 +51,15 @@ const FieldWrapper = styled(Intro)`
 `
 
 const SelectPartner = props => {
-  const { invalid, pristine, fields, sfoxStates, handleSubmit, options } = props
+  const {
+    invalid,
+    pristine,
+    fields,
+    sfoxStates,
+    handleSubmit,
+    options,
+    showRejectedNotification
+  } = props
   const { country, stateSelection } = fields
 
   const onSfoxWhitelist = usState =>
@@ -142,17 +150,26 @@ const SelectPartner = props => {
                   </FormItem>
                 </FormGroup>
               ) : null}
-              <Button
-                nature='primary'
-                type='submit'
-                disabled={invalid || pristine}
-                style={spacing('mt-20')}
-              >
-                <FormattedMessage
-                  id='scenes.buysell.selectpartner.button'
-                  defaultMessage='Next'
-                />
-              </Button>
+              {
+                <Button
+                  nature={showRejectedNotification ? 'warning' : 'primary'}
+                  type='submit'
+                  disabled={invalid || pristine || showRejectedNotification}
+                  style={spacing('mt-20')}
+                >
+                  {showRejectedNotification ? (
+                    <FormattedMessage
+                      id='scenes.buysell.selectpartner.cannottrade'
+                      defaultMessage='Disabled Due to Identity Verification Issue'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.buysell.selectpartner.button'
+                      defaultMessage='Next'
+                    />
+                  )}
+                </Button>
+              }
             </Form>
           </FieldWrapper>
           <CountryFAQText>
