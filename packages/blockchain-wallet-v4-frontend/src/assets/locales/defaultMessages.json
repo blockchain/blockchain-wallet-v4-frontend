@@ -11047,8 +11047,8 @@
         "id": "scenes.transaction.content.empty.pax.title2"
       },
       {
-        "defaultMessage": "USD Pax is a crypto asset 100% backed by funds held in regulated US banks and lives on the Ethereum blockchain.",
-        "id": "scenes.transaction.content.empty.pax.subtitle"
+        "defaultMessage": "USD Pax is a crypto asset 100% backed by funds held in regulated US banks. 1 PAX equals 1 US Dollar.",
+        "id": "scenes.transaction.content.empty.pax.subtitle2"
       },
       {
         "defaultMessage": "Store Value",
