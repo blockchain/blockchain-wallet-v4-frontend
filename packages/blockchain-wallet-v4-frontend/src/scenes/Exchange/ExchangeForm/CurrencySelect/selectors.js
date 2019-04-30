@@ -5,6 +5,7 @@ import {
   map,
   path,
   prop,
+  reject,
   unnest,
   gt,
   length,
@@ -38,6 +39,7 @@ const generateGroups = curry(
       unnest,
       map(item => generateItems(item, supportedCoins)),
       map(coin => ({ coin, accounts: prop(coin, accounts) })),
+      reject(coin => !path([coin, 'invited'], supportedCoins)),
       sort((a, b) => coinOrder.indexOf(a) - coinOrder.indexOf(b))
     )(availableCurrencies)
     return [{ group: '', items }]
