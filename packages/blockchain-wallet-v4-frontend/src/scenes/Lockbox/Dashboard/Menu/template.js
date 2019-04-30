@@ -36,7 +36,7 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 500px;
+  width: 100%;
   > div:last-child {
     width: 100%;
   }
@@ -110,7 +110,7 @@ const Menu = props => {
         <StyledCreatableInputContainer>
           {onDashboard ? (
             <SearchContainer className='tour-step3'>
-              <Text size='20px' weight={400}>
+              <Text size='20px' weight={500}>
                 <FormattedMessage
                   id='scenes.lockbox.menu.transactions'
                   defaultMessage='Transactions'
@@ -118,7 +118,9 @@ const Menu = props => {
               </Text>
               <Field
                 name='search'
+                isMulti
                 autoFocus
+                menuIsOpen={false}
                 defaultValue={formValues}
                 component={CreatableInputField}
                 multiValueContainer={multiValueContainer}
@@ -131,7 +133,7 @@ const Menu = props => {
               />
             </SearchContainer>
           ) : (
-            <Text size='20px' weight={400}>
+            <Text size='20px' weight={500}>
               <FormattedMessage
                 id='scenes.lockbox.menu.settings'
                 defaultMessage='Settings'

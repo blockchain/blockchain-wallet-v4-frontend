@@ -27,14 +27,15 @@ const BaseButton = styled.button.attrs({
   line-height: 1;
   text-transform: ${props =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => (props.jumbo ? '16px' : props.size)};
-  font-weight: ${props => (props.jumbo ? '500' : '300')};
+  font-weight: ${props => (props.jumbo ? '600' : '600')};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
   color: ${props => props.theme[props.color]};
   background-color: ${props => props.theme[props.backgroundColor]};
-  border-radius: ${props => (props.rounded ? '20px' : '3px')};
+  border-radius: ${props => (props.rounded ? '20px' : '4px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
@@ -165,7 +166,8 @@ Button.propTypes = {
     'warning',
     'dark',
     'success',
-    'empty-secondary'
+    'empty-secondary',
+    'gray-3'
   ]),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,

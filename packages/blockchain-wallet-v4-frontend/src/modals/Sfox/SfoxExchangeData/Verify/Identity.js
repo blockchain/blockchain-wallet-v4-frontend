@@ -76,7 +76,7 @@ const Identity = props => {
               <FormItem>
                 <Text
                   size='14px'
-                  weight={400}
+                  weight={500}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
@@ -97,7 +97,7 @@ const Identity = props => {
               <FormItem>
                 <Text
                   size='14px'
-                  weight={400}
+                  weight={500}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
@@ -124,7 +124,7 @@ const Identity = props => {
                 )}
                 <Link
                   size='12px'
-                  weight={300}
+                  weight={400}
                   onClick={toggleSSN}
                   style={spacing('mt-5')}
                 >
@@ -169,7 +169,7 @@ const Identity = props => {
               <Text
                 size='12px'
                 color='error'
-                weight={300}
+                weight={400}
                 onClick={handleReset}
               >
                 <FormattedMessage

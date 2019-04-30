@@ -12,15 +12,16 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 10px;
   width: auto;
-  margin-top: 8px;
 
   @media (min-width: 768px) {
-    margin-top: 0px;
+    margin-top: 0;
   }
 `
 const ActionButton = styled(IconButton)`
+  > span {
+    color: ${props => props.theme['brand-primary']};
+  }
   ${media.mobile`
     padding: 10px 10px;
     div:last-of-type {
@@ -29,41 +30,42 @@ const ActionButton = styled(IconButton)`
   `};
 `
 
-const Actions = ({
-  handleSend,
-  handleRequest,
-  sendAvailable,
-  requestAvailable
-}) => (
+const ButtonText = styled(Text)`
+  margin-left: 6px;
+`
+
+const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
   <Wrapper>
     <ActionButton
-      name='send'
+      name='paper-airplane-filled'
       disabled={!sendAvailable}
-      onClick={handleSend}
+      onClick={() => showModal('SEND')}
       min='100px'
       data-e2e='sendButton'
+      height='40px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
     <ActionButton
       style={spacing('ml-15')}
       disabled={!requestAvailable}
-      name='request'
-      onClick={handleRequest}
+      name='download2'
+      onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'
+      height='40px'
     >
-      <Text size='14px' weight={400}>
+      <ButtonText size='13px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'
         />
-      </Text>
+      </ButtonText>
     </ActionButton>
   </Wrapper>
 )
@@ -71,8 +73,7 @@ const Actions = ({
 Actions.propTypes = {
   sendAvailable: PropTypes.bool.isRequired,
   requestAvailable: PropTypes.bool.isRequired,
-  handleSend: PropTypes.func.isRequired,
-  handleRequest: PropTypes.func.isRequired
+  showModal: PropTypes.func.isRequired
 }
 
 export default Actions

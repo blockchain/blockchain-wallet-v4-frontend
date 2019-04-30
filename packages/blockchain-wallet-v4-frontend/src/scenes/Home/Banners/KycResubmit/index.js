@@ -12,14 +12,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
-  height: 80px;
-  padding: 0 20px;
+  align-items: center;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-radius: 4px;
-  margin-top: 15px;
   overflow: hidden;
+  padding: 20px;
+
+  @media (min-width: 1200px) {
+    height: 80px;
+    padding: 0 20px;
+    align-items: flex-start;
+  }
 `
 
 const Column = styled.div`
@@ -50,13 +54,13 @@ const ResubmitBtn = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <Title size='16px' weight={400}>
+      <Title size='16px' weight={500}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.title'
           defaultMessage='Documents Needed'
         />
       </Title>
-      <Text size='13px' weight={300}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.subtitle'
           defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."

@@ -67,10 +67,10 @@ const Banner = props => {
       label={label}
       data-e2e={props['data-e2e']}
     >
-      {icon && <Icon name={icon} size='18px' weight={300} color={color} />}
+      {icon && <Icon name={icon} size='18px' weight={400} color={color} />}
       <BannerContent
         size='12px'
-        weight={400}
+        weight={500}
         color={color}
         uppercase={uppercase}
         inline={inline}

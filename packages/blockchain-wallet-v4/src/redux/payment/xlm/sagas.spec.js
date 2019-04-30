@@ -91,6 +91,7 @@ S.data.xlm.getNumberOfEntries.mockReturnValue(() =>
   Remote.of(STUB_NUMBER_OF_ENTRIES)
 )
 S.kvStore.xlm.getDefaultAccountId.mockReturnValue(Remote.of(DEFAULT_ACCOUNT_ID))
+S.walletOptions.getXlmSendTimeOutSeconds.mockReturnValue(Remote.of(10))
 S.data.xlm.getAccount.mockImplementation(id => () => {
   if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_DEFAULT_ACCOUNT)
   if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_ACCOUNT)

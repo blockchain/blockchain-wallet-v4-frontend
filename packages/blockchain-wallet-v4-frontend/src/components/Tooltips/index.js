@@ -146,7 +146,7 @@ class Tooltips extends React.PureComponent {
             />
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://info.shapeshift.io/about'
               target='_blank'
             >
@@ -232,7 +232,7 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='swaplimit.airdrops.tooltip'>
           <TextGroup size='12px' inline>
-            <Text color='white' weight={300} size='12px'>
+            <Text color='white' weight={400} size='12px'>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible'
                 defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
@@ -240,7 +240,7 @@ class Tooltips extends React.PureComponent {
             </Text>
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program'
               target='_blank'
             >
@@ -287,9 +287,15 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This change address belongs to your wallet'
           />
         </Tooltip>
+        <Tooltip id='buysellOrderReview'>
+          <FormattedMessage
+            id='buysellOrderReview.tooltip'
+            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
+          />
+        </Tooltip>
         <Tooltip id='identityverification.headerhelper'>
           <TextGroup inline>
-            <Text color='white' weight={300} size='12px'>
+            <Text color='white' weight={400} size='12px'>
               <FormattedMessage
                 id='identityverification.tooltip.headerhelper'
                 defaultMessage='Need help verifying your identity?'
@@ -297,7 +303,7 @@ class Tooltips extends React.PureComponent {
             </Text>
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000186571'
               target='_blank'
             >

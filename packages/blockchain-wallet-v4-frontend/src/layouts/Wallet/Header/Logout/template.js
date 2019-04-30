@@ -27,7 +27,7 @@ const Logout = props => {
   return (
     <LogoutLink
       size='14px'
-      weight={300}
+      weight={400}
       color='white'
       onClick={handleLogout}
       data-e2e='logoutLink'

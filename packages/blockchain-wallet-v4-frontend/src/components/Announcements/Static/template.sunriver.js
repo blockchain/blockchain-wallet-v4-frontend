@@ -30,7 +30,7 @@ const SunRiverKycReminder = props => {
         </Text>
       </ItemWrapper>
       <ItemWrapper>
-        <Action color='white' size='16px' weight={400} onClick={goToKyc}>
+        <Action color='white' size='16px' weight={500} onClick={goToKyc}>
           <FormattedMessage
             id='layouts.wallet.header.announcements.sunriverkycremdinder.completenow'
             defaultMessage='Complete Now'

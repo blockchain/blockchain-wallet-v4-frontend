@@ -31,7 +31,7 @@ describe('Banner component', () => {
 
   it('type caution renders correctly', () => {
     const component = shallow(
-      <Banner type='caution' size='12px' weight={200} width='130%'>
+      <Banner type='caution' size='12px' weight={400} width='130%'>
         ALERT
       </Banner>
     )

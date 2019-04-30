@@ -5,12 +5,7 @@ import { actions, selectors } from 'data'
 import Alerts from './template.js'
 
 class AlertsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  handleClose (id) {
+  handleClose = id => {
     this.props.alertActions.dismissAlert(id)
   }
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData, getBtcData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -11,11 +11,6 @@ import DataError from 'components/DataError'
 class FirstStep extends React.Component {
   handleRefresh = () => {
     this.props.actions.initialized()
-  }
-
-  handleToToggle = val => {
-    this.props.formActions.touch(model.components.sendBtc.FORM, 'to')
-    this.props.actions.sendBtcFirstStepToToggled(val)
   }
 
   render () {
@@ -28,7 +23,6 @@ class FirstStep extends React.Component {
           network={value.network}
           watchOnly={value.watchOnly}
           enableToggle={value.enableToggle}
-          toToggled={value.toToggled}
           destination={value.destination}
           feePerByte={value.feePerByte}
           feePerByteToggled={value.feePerByteToggled}
@@ -41,7 +35,6 @@ class FirstStep extends React.Component {
           totalFee={value.totalFee}
           onSubmit={actions.sendBtcFirstStepSubmitClicked}
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
-          handleToToggle={this.handleToToggle}
           excludeLockbox={value.excludeLockbox}
           excludeHDWallets={this.props.excludeHDWallets}
         />

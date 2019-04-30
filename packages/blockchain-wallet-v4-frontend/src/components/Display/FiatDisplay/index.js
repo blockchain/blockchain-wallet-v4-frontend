@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { includes, toLower } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -13,27 +14,19 @@ import Success from './template.success'
 class FiatDisplayContainer extends React.PureComponent {
   componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      switch (this.props.coin) {
-        case 'BCH':
-          return this.props.bchActions.fetchRates()
-        case 'BTC':
-          return this.props.btcActions.fetchRates()
-        case 'BSV':
-          return this.props.bsvActions.fetchRates()
-        case 'ETH':
-          return this.props.ethActions.fetchRates()
-        case 'XLM':
-          return this.props.xlmActions.fetchRates()
+      const { coin, erc20List } = this.props
+      if (includes(coin, erc20List)) {
+        return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
       }
+      return this.props[`${toLower(coin)}Actions`].fetchRates()
     }
   }
 
   render () {
     const { data, ...rest } = this.props
-
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
-      Failure: message => <Error>{message}</Error>,
+      Failure: () => <Error />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -42,11 +35,12 @@ class FiatDisplayContainer extends React.PureComponent {
 
 FiatDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coin, ownProps.children)
+  data: getData(state, ownProps.coin, ownProps.children),
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({

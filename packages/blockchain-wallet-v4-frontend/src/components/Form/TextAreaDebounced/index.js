@@ -92,7 +92,7 @@ class TextAreaDebounced extends React.Component {
           {...rest}
         />
         {meta.touched && meta.error && (
-          <Error size='12px' weight={300} color='error'>
+          <Error size='12px' weight={400} color='error'>
             {meta.error}
           </Error>
         )}

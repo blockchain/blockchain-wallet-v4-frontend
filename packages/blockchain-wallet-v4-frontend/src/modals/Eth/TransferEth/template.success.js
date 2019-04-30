@@ -46,19 +46,19 @@ const Success = props => {
       </ModalHeader>
       <ModalBody loading={loading}>
         <TextGroup inline>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.transfereth.beta'
               defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.transfereth.updated'
               defaultMessage="Because of this, we've updated your ether address and are requiring a transfer of your funds."
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.transfereth.old'
               defaultMessage="Don't worry, your old address is still valid."
@@ -73,7 +73,7 @@ const Success = props => {
                 defaultMessage='Send ETH From:'
               />
             </Text>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               {from}
             </Text>
           </Row>
@@ -84,7 +84,7 @@ const Success = props => {
                 defaultMessage='To:'
               />
             </Text>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               {val.to}
             </Text>
           </Row>

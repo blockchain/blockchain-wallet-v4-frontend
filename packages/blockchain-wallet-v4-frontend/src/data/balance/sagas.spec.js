@@ -1,11 +1,9 @@
-import { createMockTask } from 'redux-saga/utils'
 import { testSaga } from 'redux-saga-test-plan'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors.js'
 import {
-  getAllBalances,
   getEthBalance,
   getBtcBalance,
   getBchBalance,
@@ -15,60 +13,7 @@ import {
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 
-describe('analyticsSagas', () => {
-  describe('reportBalanceStats', () => {
-    let saga = testSaga(getAllBalances)
-
-    const btcTask = createMockTask()
-    const ethTask = createMockTask()
-    const bchTask = createMockTask()
-    const xlmTask = createMockTask()
-    const btc = {}
-    const bch = {}
-    const eth = {}
-    const xlm = {}
-
-    it('should fork getEthBalance', () => {
-      saga.next().fork(getEthBalance)
-    })
-
-    it('should fork getBtcBalance', () => {
-      saga.next(ethTask).fork(getBtcBalance)
-    })
-
-    it('should fork getBchBalance', () => {
-      saga.next(btcTask).fork(getBchBalance)
-    })
-
-    it('should fork getXlmBalance', () => {
-      saga.next(bchTask).fork(getXlmBalance)
-    })
-
-    it('should join the btc Task', () => {
-      saga.next(xlmTask).join(btcTask)
-    })
-
-    it('should join the eth Task', () => {
-      saga.next(btc).join(ethTask)
-    })
-
-    it('should join the bch Task', () => {
-      saga.next(eth).join(bchTask)
-    })
-
-    it('should join the xlm Task', () => {
-      saga.next(bch).join(xlmTask)
-    })
-
-    it('should return all balances', () => {
-      saga
-        .next(xlm)
-        .returns({ btc, bch, eth, xlm })
-        .next()
-        .isDone()
-    })
-  })
-
+describe('balanceSagas', () => {
   describe('getEthBalance', () => {
     describe('balance is Loading', () => {
       let saga = testSaga(getEthBalance)

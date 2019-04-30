@@ -14,13 +14,13 @@ const Tabs = styled.div`
 const Tab = styled.div`
   width: 33%;
   display: flex;
-  padding: 10px 5px;
+  padding: 6px 5px;
   position: relative;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   @media (min-width: 768px) {
-    padding: 15px 5px;
+    padding: 13px 5px;
   }
   &:after {
     display: block;
@@ -31,7 +31,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 2px ${props => props.theme['gray-6']};
+    border-bottom: solid 3px ${props => props.theme['brand-secondary']};
   }
   > * {
     color: ${props => props.theme['gray-2']};
@@ -43,15 +43,12 @@ const Tab = styled.div`
       transform: scaleX(1);
     }
     > * {
-      color: ${props => props.theme['gray-6']};
+      color: ${props => props.theme['brand-primary']};
     }
   }
 `
 const TabHeader = styled(Text)`
-  font-weight: 300;
-  @media (min-width: 768px) {
-    font-size: 20px;
-  }
+  font-weight: 500;
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;
@@ -85,7 +82,7 @@ class TabsContainer extends React.PureComponent {
           className={currentTab === 'wallet' ? 'active' : ''}
           onClick={() => this.handleClick('wallet')}
         >
-          <TabIcon name='wallet' />
+          <TabIcon name='wallet-filled' size='24px' />
           <TabHeader data-e2e='walletTab'>
             <FormattedMessage
               id='scenes.home.balance.wallet'
@@ -97,11 +94,11 @@ class TabsContainer extends React.PureComponent {
           className={currentTab === 'lockbox' ? 'active' : ''}
           onClick={() => this.handleClick('lockbox')}
         >
-          <TabIcon name='lock' size='28px' />
+          <TabIcon name='hardware' size='24px' />
           <TabHeader data-e2e='lockboxTab'>
             <FormattedMessage
-              id='scenes.home.balance.lockbox'
-              defaultMessage='Lockbox'
+              id='scenes.home.balance.hardware'
+              defaultMessage='Hardware'
             />
           </TabHeader>
         </Tab>

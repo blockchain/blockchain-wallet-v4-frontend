@@ -7,11 +7,12 @@ import { formatAmount } from '../services'
 import StringDisplay from 'components/Display/StringDisplay'
 
 const ComplementaryAmountContainer = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   font-size: 20px;
   line-height: 24px;
   position: relative;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   justify-self: center;
   margin-top: 10px;
 `

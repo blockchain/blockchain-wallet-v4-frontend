@@ -43,7 +43,7 @@ const CheckBox = ({ children, className, ...field }) => {
         </CheckBoxInput>
       </Container>
       {field.meta.touched && field.meta.error && !field.hideErrors && (
-        <Error size='12px' weight={300} color='error' data-e2e='termsError'>
+        <Error size='12px' weight={400} color='error' data-e2e='termsError'>
           {field.meta.error}
         </Error>
       )}

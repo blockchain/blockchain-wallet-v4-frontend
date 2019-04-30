@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { filter, contains, path, prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
-import ISignThis from 'modals/Coinify/CoinifyExchangeData/ISignThis'
+import ISignThis from 'components/BuySell/Coinify/ISignThis'
 
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'
@@ -70,7 +70,7 @@ const OrderHistory = props => {
       <OrderHistoryWrapper>
         {pendingTrades.length > 0 && (
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size='15px' weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.trades.pending'
                 defaultMessage='Pending Orders'
@@ -93,7 +93,7 @@ const OrderHistory = props => {
         )}
         {subscriptions.length > 0 && (
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size='15px' weight={500}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.trades.recurring'
                 defaultMessage='Recurring Orders'
@@ -116,7 +116,7 @@ const OrderHistory = props => {
           </OrderHistoryContent>
         )}
         <OrderHistoryContent>
-          <Text size='15px' weight={400}>
+          <Text size='15px' weight={500}>
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.trades.completed'
               defaultMessage='Completed Orders'

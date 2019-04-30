@@ -30,6 +30,10 @@ export const setTxNotesEth = (txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_ETH,
   payload: { txHash, txNote }
 })
+export const setTxNotesErc20 = (token, txHash, txNote) => ({
+  type: AT.SET_TRANSACTION_NOTE_ERC20,
+  payload: { token, txHash, txNote }
+})
 export const setLatestTxEth = txHash => ({
   type: AT.SET_LATEST_TX_ETH,
   payload: txHash
@@ -37,4 +41,8 @@ export const setLatestTxEth = txHash => ({
 export const setLatestTxTimestampEth = timestamp => ({
   type: AT.SET_LATEST_TX_TIMESTAMP_ETH,
   payload: timestamp
+})
+export const setErc20HasSeen = token => ({
+  type: AT.SET_ERC0_HAS_SEEN,
+  payload: { token }
 })

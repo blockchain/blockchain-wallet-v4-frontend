@@ -61,7 +61,7 @@ ComponentDropdown.defaultProps = {
 }
 
 ComponentDropdown.propTypes = {
-  callback: PropTypes.func.isRequired,
+  callback: PropTypes.func,
   toggleOnCallback: PropTypes.bool,
   opened: PropTypes.bool,
   uppercase: PropTypes.bool,

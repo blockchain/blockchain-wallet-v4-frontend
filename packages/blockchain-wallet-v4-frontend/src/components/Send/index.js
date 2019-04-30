@@ -71,5 +71,5 @@ export const FeePerByteContainer = styled.div`
   margin-bottom: 10px;
 `
 export const CustomFeeAlertBanner = styled(Banner)`
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 `

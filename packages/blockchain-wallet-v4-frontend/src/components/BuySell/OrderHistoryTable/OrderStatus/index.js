@@ -91,7 +91,7 @@ const OrderStatus = props => {
   const style = selectStyle(status)
 
   return (
-    <OrderHistoryText size='13px' weight={300} {...style}>
+    <OrderHistoryText size='13px' weight={400} {...style}>
       {renderStatus(status, isBuy)}
     </OrderHistoryText>
   )

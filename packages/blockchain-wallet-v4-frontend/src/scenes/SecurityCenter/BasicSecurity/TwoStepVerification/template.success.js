@@ -56,7 +56,7 @@ const DisableContainer = styled.div`
     align-items: flex-start;
   }
   span.heavy {
-    font-weight: 400;
+    font-weight: 500;
   }
   a.link {
     cursor: pointer;
@@ -156,7 +156,7 @@ const TwoStepVerification = props => {
             <DisableLinkContainer style={spacing('pl-25')}>
               <DisableLinkText
                 size='14px'
-                weight={300}
+                weight={400}
                 flexRow='true'
                 pulse={props.pulse}
               >
@@ -181,7 +181,7 @@ const TwoStepVerification = props => {
           <React.Fragment>
             <div />
             <DisableContainer style={spacing('pl-25')}>
-              <Text weight={200} size='14px'>
+              <Text weight={400} size='14px'>
                 <FormattedMessage
                   id='scenes.security.2fa.sms.success'
                   defaultMessage='Two-factor authentication is set up with {authName} for number {number}.'
@@ -193,7 +193,7 @@ const TwoStepVerification = props => {
               </Text>
               <DisableLinkText
                 size='14px'
-                weight={300}
+                weight={400}
                 flexRow='true'
                 pulse={props.pulse}
               >
@@ -332,7 +332,7 @@ const TwoStepVerification = props => {
       </SecurityTwoStepContainer>
       {uiState.verifyToggled ? (
         <SecurityTip>
-          <TipText weight={200} size='12px'>
+          <TipText weight={400} size='12px'>
             <FormattedMessage
               id='scenes.securitycenter.2fa.tip'
               defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for '

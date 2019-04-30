@@ -15,24 +15,26 @@ export default ({
       data: { jwt: retailToken }
     })
 
-  const generateRetailToken = (guid, sharedKey, coinifyId) =>
+  const generateRetailToken = (guid, sharedKey) =>
     get({
       url: rootUrl,
       endPoint: '/wallet/signed-retail-token',
       data: {
         guid,
-        sharedKey,
-        coinifyId
+        sharedKey
       }
     })
 
-  const createUser = retailToken => {
+  const createUser = (retailToken, coinifyId) => {
     return post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
       data: {
-        jwt: retailToken
+        jwt: retailToken,
+        metadata: {
+          'coinify-trader-id': coinifyId
+        }
       }
     })
   }

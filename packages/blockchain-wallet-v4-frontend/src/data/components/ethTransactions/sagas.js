@@ -1,10 +1,15 @@
-import { put } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import { equals, path } from 'ramda'
-import { actions, model } from 'data'
+
+import { actions, model, selectors } from 'data'
+import * as C from 'services/AlertService'
 
 export default () => {
   const { WALLET_TX_SEARCH } = model.form
   const logLocation = 'components/ethTransactions/sagas'
+  //
+  // ETH
+  //
   const initialized = function * () {
     try {
       const initialValues = {
@@ -40,9 +45,45 @@ export default () => {
     }
   }
 
+  //
+  // ERC20
+  //
+  const initializedErc20 = function * (action) {
+    try {
+      const { token } = action.payload
+      const initialValues = {
+        status: '',
+        search: ''
+      }
+      yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
+      yield put(actions.core.data.eth.fetchErc20Transactions(token, true))
+      const lowEthBalance = yield select(
+        selectors.core.data.eth.getLowEthBalanceWarning()
+      )
+      if (lowEthBalance) {
+        yield put(actions.alerts.displayWarning(C.ETH_LOW_BALANCE_WARNING))
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializedErc20', e)
+      )
+    }
+  }
+
+  const loadMoreErc20 = function * (action) {
+    try {
+      const { token } = action.payload
+      yield put(actions.core.data.eth.fetchErc20Transactions(token))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMoreErc20', e))
+    }
+  }
+
   return {
-    initialized,
     formChanged,
-    loadMore
+    initialized,
+    initializedErc20,
+    loadMore,
+    loadMoreErc20
   }
 }

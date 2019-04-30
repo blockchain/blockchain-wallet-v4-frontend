@@ -2,16 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import { CancelWrapper, CenteredWrapper } from 'components/IdentityVerification'
+import { CenteredWrapper } from 'components/IdentityVerification'
+import { SubmitButton } from 'components/BuySell/styled'
 import { CheckBox } from 'components/Form'
-import { StepTransition } from 'components/Utilities/Stepper'
 import { required } from 'services/FormHelper'
+import media from 'services/ResponsiveService'
 
 const OrderSubmitForm = styled.form`
+  width: 450px;
   margin-bottom: 30px;
+  margin: 0 auto;
+  ${media.mobile`
+    width: 90%;
+  `}
 `
 const TermsWrapper = styled.div`
   display: flex;
@@ -19,6 +25,9 @@ const TermsWrapper = styled.div`
 `
 const TermsLabel = styled.label`
   padding-top: 3px;
+`
+const MarginCenteredWrapper = styled(CenteredWrapper)`
+  margin-bottom: 50px;
 `
 
 const ReviewForm = props => {
@@ -34,16 +43,32 @@ const ReviewForm = props => {
           hideErrors
         />
         <TermsLabel htmlFor='terms'>
-          <Text size='11px' weight={300}>
+          <Text size='11px' weight={400}>
             <FormattedMessage
-              id='scenes.buysell.coinify.sell.orderreview.checkboxtext'
-              defaultMessage='I accept that Coinify will process my order upon completion of the bitcoin transaction, and that bitcoin will be traded at the available exchange rate at the time, which may differ from the displayed rate.'
+              id='scenes.buysell.coinify.sell.orderreview.accept_terms'
+              defaultMessage="By clicking here, I accept that Coinify will process my order upon receipt of funds, and that the order will be executed at the available exchange rate at that time, which may differ from the displayed rate. I also accept Coinify's {terms}."
+              values={{
+                terms: (
+                  <Link
+                    size='11px'
+                    weight={400}
+                    href='https://www.coinify.com/legal'
+                    target='_blank'
+                    rel='noreferrer noopener'
+                  >
+                    <FormattedMessage
+                      id='components.terms.coinify.tos'
+                      defaultMessage='Terms of Service'
+                    />
+                  </Link>
+                )
+              }}
             />
           </Text>
         </TermsLabel>
       </TermsWrapper>
-      <CenteredWrapper>
-        <Button
+      <MarginCenteredWrapper>
+        <SubmitButton
           nature='primary'
           fullwidth
           disabled={submitting || invalid || !Remote.Success.is(quoteR) || busy}
@@ -54,16 +79,8 @@ const ReviewForm = props => {
           ) : (
             <FormattedMessage id='submit' defaultMessage='Submit' />
           )}
-        </Button>
-      </CenteredWrapper>
-      <CancelWrapper>
-        <StepTransition restart Component={Link}>
-          <FormattedMessage
-            id='scenes.buysell.coinify.sell.orderreview.cancel'
-            defaultMessage='Cancel'
-          />
-        </StepTransition>
-      </CancelWrapper>
+        </SubmitButton>
+      </MarginCenteredWrapper>
     </OrderSubmitForm>
   )
 }

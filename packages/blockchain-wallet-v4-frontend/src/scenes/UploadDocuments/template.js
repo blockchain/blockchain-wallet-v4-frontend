@@ -107,24 +107,24 @@ const UploadDocuments = ({
   <Wrapper>
     <TextContainer>
       <TextGroup inline>
-        <Text color='brand-primary' size='20px' weight={300}>
+        <Text color='brand-primary' size='20px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.hello'
             defaultMessage='Hello '
           />
         </Text>
-        <Text color='brand-primary' size='20px' weight={300}>
+        <Text color='brand-primary' size='20px' weight={400}>
           {prop('firstName', data)},
         </Text>
       </TextGroup>
-      <Text color='brand-primary' size='20px' weight={300}>
+      <Text color='brand-primary' size='20px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.verify'
           defaultMessage='We need to verify your identity in order to allow buys,
           sells or exchanges.'
         />
       </Text>
-      <Text color='brand-primary' size='20px' weight={300}>
+      <Text color='brand-primary' size='20px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.doc'
           defaultMessage='Please upload the following document: '
@@ -132,7 +132,7 @@ const UploadDocuments = ({
       </Text>
       {prop('documentsTypes', data) &&
         data.documentsTypes.map((type, index) => (
-          <Text color='brand-primary' key={index} size='20px' weight={300}>
+          <Text color='brand-primary' key={index} size='20px' weight={400}>
             {type}
           </Text>
         ))}
@@ -154,7 +154,7 @@ const UploadDocuments = ({
         {files.length === 0 ? (
           <Fragment>
             {isMobile.matches ? (
-              <Link onClick={openDropzone} weight={300}>
+              <Link onClick={openDropzone} weight={500}>
                 <FormattedMessage
                   id='scenes.uploaddoc.browsefiles'
                   defaultMessage='Browse files'
@@ -162,20 +162,20 @@ const UploadDocuments = ({
               </Link>
             ) : (
               <Fragment>
-                <Text color='brand-primary' size='20px' weight={300}>
+                <Text color='brand-primary' size='20px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.dragdrop'
                     defaultMessage='Drag &amp; Drop'
                   />
                 </Text>
                 <TextGroup inline>
-                  <Text color='brand-primary' weight={300}>
+                  <Text color='brand-primary' weight={400}>
                     <FormattedMessage
                       id='scenes.uploaddoc.placefiles'
                       defaultMessage='Place your files here, '
                     />
                   </Text>
-                  <Link onClick={openDropzone} weight={300}>
+                  <Link onClick={openDropzone} weight={500}>
                     <FormattedMessage
                       id='scenes.uploaddoc.browse'
                       defaultMessage='or browse'
@@ -187,7 +187,7 @@ const UploadDocuments = ({
             <Icons>
               <IdContainer>
                 <FasPassport />
-                <Text color='brand-primary' size='12px' weight={300}>
+                <Text color='brand-primary' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.passport'
                     defaultMessage='Passport'
@@ -196,7 +196,7 @@ const UploadDocuments = ({
               </IdContainer>
               <IdContainer>
                 <FasIdBadge />
-                <Text color='brand-primary' size='12px' weight={300}>
+                <Text color='brand-primary' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.drivinglicense'
                     defaultMessage='Driving license'
@@ -205,7 +205,7 @@ const UploadDocuments = ({
               </IdContainer>
               <IdContainer>
                 <FasIdCard />
-                <Text color='brand-primary' size='12px' weight={300}>
+                <Text color='brand-primary' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.idcard'
                     defaultMessage='ID Card'
@@ -220,10 +220,10 @@ const UploadDocuments = ({
               {files.map((file, index) => (
                 <FileContainer key={index}>
                   <FileInfo>
-                    <Text color='brand-primary' size='12px' weight={200}>
+                    <Text color='brand-primary' size='12px' weight={400}>
                       {file.name}
                     </Text>
-                    <Text color='brand-primary' size='12px' weight={200}>
+                    <Text color='brand-primary' size='12px' weight={400}>
                       {`${(file.size / 1024 / 1024).toFixed(2)} MB`}
                     </Text>
                   </FileInfo>
@@ -232,7 +232,7 @@ const UploadDocuments = ({
                     cursor='pointer'
                     onClick={() => deleteFileAt(index)}
                     size='12px'
-                    weight={300}
+                    weight={400}
                   >
                     <FormattedMessage
                       id='scenes.uploaddoc.deletedoc'
@@ -242,7 +242,7 @@ const UploadDocuments = ({
                 </FileContainer>
               ))}
             </FilesList>
-            <Link cursor='pointer' onClick={openDropzone} weight={300}>
+            <Link cursor='pointer' onClick={openDropzone} weight={500}>
               <FormattedMessage
                 id='scenes.uploaddoc.browsecomputer'
                 defaultMessage='Browse my computer'
@@ -250,7 +250,7 @@ const UploadDocuments = ({
             </Link>
           </Fragment>
         )}
-        <Text color='gray-3' size='14px' weight={300}>
+        <Text color='gray-3' size='14px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.filesize'
             defaultMessage='Please upload a JPG, PNG or PDF up to 3MB in size.'

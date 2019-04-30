@@ -11,7 +11,7 @@ import Menu from './Menu'
 
 const Wrapper = styled.div`
   height: 100%;
-  width: calc(100% - 270px);
+  width: calc(100% - 250px);
   position: fixed;
 
   @media (max-width: 770px) {

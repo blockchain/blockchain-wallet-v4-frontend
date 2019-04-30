@@ -9,7 +9,6 @@ import { required, validIban, validBIC } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  BorderBox,
   Form,
   ColLeft,
   InputWrapper,
@@ -19,6 +18,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import { TextBox } from 'components/Form'
+import { SellContainer } from 'components/BuySell/styled'
 
 const CancelWrapper = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const CancelWrapper = styled.div`
   margin-top: 15px;
   a {
     color: #545456;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
   }
 `
@@ -49,7 +49,7 @@ const AddBankDetails = props => {
   return (
     <Form>
       <ColLeft>
-        <BorderBox>
+        <SellContainer>
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
@@ -65,14 +65,14 @@ const AddBankDetails = props => {
             </PartnerSubHeader>
             {isCurrencyDKK ? (
               <FieldWrapper>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addbankdetails.accountno'
                     defaultMessage='Account Number'
                   />
                 </FieldText>
                 <Field name='iban' validate={[required]} component={TextBox} />
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addbankdetails.reg'
                     defaultMessage='REG Number'
@@ -82,7 +82,7 @@ const AddBankDetails = props => {
               </FieldWrapper>
             ) : (
               <FieldWrapper>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addbankdetails.iban'
                     defaultMessage='International Bank Account (IBAN)'
@@ -93,7 +93,7 @@ const AddBankDetails = props => {
                   validate={[required, validIban]}
                   component={TextBox}
                 />
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={400} size='12px'>
                   <FormattedMessage
                     id='coinifyexchangedata.addbankdetails.bic'
                     defaultMessage='Bank Identifier Code (BIC)'
@@ -106,14 +106,14 @@ const AddBankDetails = props => {
                 />
               </FieldWrapper>
             )}
-            <Text weight={300} size='12px'>
+            <Text weight={400} size='12px'>
               <FormattedMessage
                 id='coinifyexchangedata.addbankdetails.incomplete'
                 defaultMessage='Note: Incomplete or incorrect details will cause processing delays.'
               />
             </Text>
           </InputWrapper>
-        </BorderBox>
+        </SellContainer>
       </ColLeft>
       <ColRight>
         <ColRightInner>

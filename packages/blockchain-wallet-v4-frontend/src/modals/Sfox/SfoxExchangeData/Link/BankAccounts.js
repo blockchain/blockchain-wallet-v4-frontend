@@ -43,7 +43,7 @@ class BankAccounts extends Component {
           {this.props.data.map(bank => {
             return <Bank bank={bank} onInputClick={this.onInputClick} />
           })}
-          <HolderText size='18px' weight={400}>
+          <HolderText size='18px' weight={500}>
             <FormattedMessage
               id='sfoxexchangedata.link.accountholder'
               defaultMessage='Account Holder'

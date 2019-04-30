@@ -27,20 +27,20 @@ const Logout = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='22px' weight={300}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
             id='scenes.logout.title'
             defaultMessage='You are now logged out!'
           />
         </Text>
         {secondsRemaining >= 6 ? null : (
-          <Text size='12px' weight={200}>
+          <Text size='12px' weight={400}>
             Refreshing in {secondsRemaining} seconds...
           </Text>
         )}
       </Header>
       <Separator />
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.logout.message'
           defaultMessage='Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.'
@@ -53,7 +53,7 @@ const Logout = props => {
             defaultMessage='De-Authorize Browser'
           />
         </Button>
-        <Link size='13px' weight={300} onClick={onGoToLogin}>
+        <Link size='13px' weight={500} onClick={onGoToLogin}>
           <FormattedMessage
             id='scenes.logout.continue'
             defaultMessage='Continue to Login'

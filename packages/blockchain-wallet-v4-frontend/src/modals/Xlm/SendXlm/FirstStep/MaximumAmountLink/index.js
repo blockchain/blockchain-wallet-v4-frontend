@@ -10,7 +10,7 @@ const MaximumAmountLink = props => (
   <Link
     data-e2e='xlmMaximumAmountLink'
     size='12px'
-    weight={300}
+    weight={400}
     onClick={props.actions.firstStepMaximumAmountClicked}
   >
     {`${props.effectiveBalance} XLM`}

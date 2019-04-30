@@ -11,31 +11,21 @@ import {
   uniq
 } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4'
 import { splitPair } from 'data/modules/rates/model'
 
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
 export const CONFIRM_MODAL = '@EXCHANGE.CONFIRM_MODAL'
 
-export const SHAPESHIFT_PAIRS = Remote.of([
-  'BTC-BCH',
-  'BTC-ETH',
-  'BCH-BTC',
-  'BCH-ETH',
-  'ETH-BTC',
-  'ETH-BCH'
-])
-
 export const MINIMUM_NO_LINK_ERROR =
-  'Amount is lower than mimimum. Trade Impossible'
+  'Amount is lower than minimum. Trade Impossible'
 export const NO_VALUE_ERROR = 'No value'
 export const REACHED_DAILY_ERROR = 'Reached daily limit'
 export const REACHED_WEEKLY_ERROR = 'Reached weekly limit'
 export const REACHED_ANNUAL_ERROR = 'Reached annual limit'
 export const NO_ADVICE_ERROR = 'No advice present'
 export const NO_LIMITS_ERROR = 'No limits present'
-export const MINIMUM_ERROR = 'Amount is lower than mimimum'
+export const MINIMUM_ERROR = 'Amount is lower than minimum'
 export const BALANCE_ERROR = 'Insufficient funds'
 export const DAILY_ERROR = "You've reached daily trade limit"
 export const WEEKLY_ERROR = "You've reached weekly trade limit"
@@ -53,6 +43,7 @@ export const ORDER_ABOVE_MAX_LIMIT = 'ORDER_ABOVE_MAX_LIMIT'
 export const DAILY_LIMIT_EXCEEDED = 'DAILY_LIMIT_EXCEEDED'
 export const WEEKLY_LIMIT_EXCEEDED = 'WEEKLY_LIMIT_EXCEEDED'
 export const ANNUAL_LIMIT_EXCEEDED = 'ANNUAL_LIMIT_EXCEEDED'
+export const INSUFFICIENT_ETH_FOR_TX_FEE = 'INSUFFICIENT_ETH_FOR_TX_FEE'
 
 export const SWAP_ERROR_CODES = {
   41: ORDER_BELOW_MIN_LIMIT,
@@ -62,7 +53,7 @@ export const SWAP_ERROR_CODES = {
   47: ANNUAL_LIMIT_EXCEEDED
 }
 
-const currenciesOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'BSV']
+const currenciesOrder = ['BTC', 'PAX', 'ETH', 'BCH', 'XLM', 'BSV']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
 
 const getPairedCoins = curry(

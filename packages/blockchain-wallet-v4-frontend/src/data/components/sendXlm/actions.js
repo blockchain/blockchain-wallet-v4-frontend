@@ -28,10 +28,6 @@ export const secondStepSubmitClicked = () => ({
 export const secondStepCancelClicked = () => ({
   type: AT.SECOND_STEP_CANCEL_CLICKED
 })
-export const firstStepToToggled = val => ({
-  type: AT.FIRST_STEP_TO_TOGGLED,
-  payload: val
-})
 export const firstStepFeeToggled = () => ({
   type: AT.FIRST_STEP_FEE_TOGGLED
 })

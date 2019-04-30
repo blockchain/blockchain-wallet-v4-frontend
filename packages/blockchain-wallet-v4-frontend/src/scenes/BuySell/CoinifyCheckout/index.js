@@ -8,10 +8,15 @@ const Wrapper = styled.div`
 `
 
 const CoinifyCheckoutContainer = props => {
-  const { type, options, value } = props
+  const { type, options, value, countrySelection } = props
   return (
     <Wrapper>
-      <Content type={type} options={options} value={value} />
+      <Content
+        type={type}
+        options={options}
+        value={value}
+        countrySelection={countrySelection}
+      />
     </Wrapper>
   )
 }

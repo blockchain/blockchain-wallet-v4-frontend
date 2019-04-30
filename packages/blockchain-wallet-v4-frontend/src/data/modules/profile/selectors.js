@@ -6,6 +6,7 @@ import {
   equals,
   find,
   findLast,
+  hasPath,
   lift,
   path,
   pathOr,
@@ -26,6 +27,10 @@ export const getUserKYCState = compose(
 )
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
+  getUserData
+)
+export const hasReceivedEthAirdrop = compose(
+  lift(hasPath(['tags', 'POWER_PAX'])),
   getUserData
 )
 export const isUserCreated = compose(
@@ -58,7 +63,7 @@ export const getKycDocResubmissionStatus = compose(
 )
 
 export const getTiers = path(['profile', 'userTiers'])
-export const getTier = curry((tierIndex, state) =>
+export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
 )
 export const getLastAttemptedTier = compose(

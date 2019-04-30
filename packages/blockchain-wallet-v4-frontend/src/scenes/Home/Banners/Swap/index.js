@@ -14,14 +14,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 150px;
   background-color: #0d0d42;
   border-radius: 4px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-top: 15px;
   box-sizing: border-box;
   overflow: hidden;
+  padding: 15px;
 
   @media (min-width: 1200px) {
     display: flex;
@@ -67,7 +64,7 @@ const MediumText = styled(Text).attrs({
 const BackgroundImage = styled(Image)`
   display: none;
   height: 125%;
-  @media (min-width: 1200px) {
+  @media (max-width: 1199px) {
     display: block;
   }
 `
@@ -77,6 +74,9 @@ const GetStartedButton = styled(Button).attrs({
   height: '40px'
 })`
   font-weight: 500;
+  @media (max-width: 1199px) {
+    margin-top: 15px;
+  }
 `
 export const SwapBanner = ({
   kycNotFinished,

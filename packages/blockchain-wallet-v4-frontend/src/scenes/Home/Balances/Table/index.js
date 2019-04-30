@@ -3,18 +3,24 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class Table extends React.PureComponent {
   render () {
-    const { data, viewType } = this.props
+    const { data, supportedCoins, viewType } = this.props
 
     if (data.cata) {
       return data.cata({
-        Success: values => <Success balances={values} viewType={viewType} />,
+        Success: values => (
+          <Success
+            balances={values}
+            viewType={viewType}
+            supportedCoins={supportedCoins}
+          />
+        ),
         Failure: msg => (
           <Error handleRefresh={this.props.actions.refreshClicked}>{msg}</Error>
         ),
@@ -28,7 +34,10 @@ class Table extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps)
+  data: getData(state, ownProps),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -29,7 +29,7 @@ const APIAccess = () => {
             target='_blank'
             rel='noopener noreferrer'
             size='13px'
-            weight={300}
+            weight={500}
           >
             <FormattedMessage
               id='scenes.securitycenter.advanced.apiaccess.description.part2'

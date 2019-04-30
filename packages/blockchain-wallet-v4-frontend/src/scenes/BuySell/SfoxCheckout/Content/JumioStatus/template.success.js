@@ -13,11 +13,11 @@ const Title = styled(Text)`
 `
 const Body = styled(Text)`
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
 `
 const Link = styled(Text)`
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   cursor: pointer;
   margin-top: 10px;
   text-decoration: underline;
@@ -47,14 +47,14 @@ export const Success = ({
   const profileStatusHelper = () => {
     return (
       <ProfileStatus>
-        <Text weight={300} size={'14px'}>
+        <Text weight={400} size={'14px'}>
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.buylimit'
             defaultMessage='Buy Limit: {buyLimit}'
             values={{ buyLimit: '$' + profile.limits.buy }}
           />
         </Text>
-        <Text weight={300} size={'14px'}>
+        <Text weight={400} size={'14px'}>
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.selllimit'
             defaultMessage='Sell Limit: {sellLimit}'

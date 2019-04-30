@@ -105,7 +105,7 @@ const Success = props => {
         >
           {isArchived ? (
             <Link
-              weight={400}
+              weight={500}
               size='13px'
               onClick={() => onSetArchived(wallet.value, false)}
               data-e2e='bchUnarchiveWalletLink'
@@ -121,7 +121,7 @@ const Success = props => {
               forceSelected
               color={'gray-5'}
               selectedComponent={
-                <Link weight={400} size='13px' data-e2e='bchManageWalletLink'>
+                <Link weight={500} size='13px' data-e2e='bchManageWalletLink'>
                   <FormattedMessage
                     id='scenes.settings.addresses.bch.wallets.manage'
                     defaultMessage='Manage Wallet'

@@ -2,6 +2,7 @@ import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import bsvTransactions from './bsvTransactions/sagas'
+import coinify from './coinify/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
@@ -35,6 +36,7 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   btcTransactions: btcTransactions(),
   bsvTransactions: bsvTransactions(),
+  coinify: coinify({ api, coreSagas }),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
@@ -55,7 +57,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendBch: sendBch({ coreSagas, networks }),
   sendBtc: sendBtc({ coreSagas, networks }),
   sendBsv: sendBsv({ coreSagas, networks }),
-  sendEth: sendEth({ coreSagas, networks }),
+  sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),

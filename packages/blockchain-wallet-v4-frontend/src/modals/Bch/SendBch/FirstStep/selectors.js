@@ -1,14 +1,10 @@
-import { length, prop, path, isEmpty } from 'ramda'
+import { prop, path } from 'ramda'
 import { model, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
-  const toToggled = selectors.components.sendBch.getToToggled(state)
   const paymentR = selectors.components.sendBch.getPayment(state)
-  const lockboxEnabled = !isEmpty(
-    selectors.core.kvStore.lockbox.getDevices(state).getOrElse([])
-  )
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
     'BCH'
@@ -18,11 +14,6 @@ export const getData = state => {
     .getBtcNetwork(state)
     .getOrElse('bitcoin')
   const network = Bitcoin.networks[networkType]
-  const bchAccountsLength = length(
-    selectors.core.kvStore.bch.getAccounts(state).getOrElse([])
-  )
-
-  const enableToggle = bchAccountsLength > 1 || lockboxEnabled
 
   const transform = payment => {
     const minFeePerByte = path(['fees', 'limit', 'min'], payment)
@@ -38,8 +29,6 @@ export const getData = state => {
     return {
       from,
       network,
-      toToggled,
-      enableToggle,
       effectiveBalance,
       minFeePerByte,
       maxFeePerByte,

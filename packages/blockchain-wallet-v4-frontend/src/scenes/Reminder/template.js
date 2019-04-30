@@ -83,7 +83,7 @@ const Reminder = props => {
         </FormGroup>
         <Footer>
           <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.reminder.back'
                 defaultMessage='Go Back'
@@ -113,7 +113,7 @@ const Reminder = props => {
     return (
       <React.Fragment>
         <SuccessMessages>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='scenes.reminder.thanks'
               defaultMessage='Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly.'
@@ -134,13 +134,13 @@ const Reminder = props => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300}>
+      <Text size='24px' weight={400}>
         <FormattedMessage
           id='scenes.reminder.remind'
           defaultMessage='Remind Me'
         />
       </Text>
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.reminder.explain'
           defaultMessage="Lost your wallet ID? We'll send it to you via your email."

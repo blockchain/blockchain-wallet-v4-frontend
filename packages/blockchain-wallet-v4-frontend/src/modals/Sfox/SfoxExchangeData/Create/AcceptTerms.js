@@ -67,7 +67,7 @@ const faqQuestions = [
           defaultMessage='Personal information can be changed by submitting a request to'
         />
         <span>&nbsp;</span>
-        <Link href='mailto:support@sfox.com' size='13px' weight={200}>
+        <Link href='mailto:support@sfox.com' size='13px' weight={400}>
           <FormattedMessage
             id='scenes.sfoxsignup.acceptterms.helper2.link'
             defaultMessage='support@sfox.com'
@@ -87,7 +87,7 @@ const AcceptTermsContainer = styled.div`
   flex-direction: row;
   margin-top: 25px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   a {
     color: ${props => props.theme['brand-secondary']};
     text-decoration: none;
@@ -196,10 +196,10 @@ class AcceptTerms extends Component {
                 </Text>
                 <VerifiedContainer>
                   <FieldMimic>
-                    <Text size='14px' weight={300}>
+                    <Text size='14px' weight={400}>
                       {email}
                     </Text>
-                    <EditLink onClick={editEmail} size='14px' weight={300}>
+                    <EditLink onClick={editEmail} size='14px' weight={400}>
                       {window.outerWidth > 480 ? (
                         <FormattedMessage
                           id='sfoxexchangedata.create.createaccount.partner.edit'
@@ -233,10 +233,10 @@ class AcceptTerms extends Component {
                 </Text>
                 <VerifiedContainer>
                   <FieldMimic>
-                    <Text size='14px' weight={300}>
+                    <Text size='14px' weight={400}>
                       {smsNumber}
                     </Text>
-                    <EditLink onClick={editMobile} size='14px' weight={300}>
+                    <EditLink onClick={editMobile} size='14px' weight={400}>
                       {window.outerWidth > 480 ? (
                         <FormattedMessage
                           id='sfoxexchangedata.create.createaccount.partner.edit'
@@ -296,7 +296,7 @@ class AcceptTerms extends Component {
               {error &&
               error.message.toLowerCase() === 'user is already registered' ? (
                 <InlineTextWrapper>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.error'
                       defaultMessage='Unfortunately this email is being used for another account.'
@@ -304,7 +304,7 @@ class AcceptTerms extends Component {
                   </Text>
                   <Link
                     size='12px'
-                    weight={300}
+                    weight={400}
                     onClick={() => {
                       sfoxNotAsked()
                       needsChangeEmail()
@@ -315,7 +315,7 @@ class AcceptTerms extends Component {
                       defaultMessage='Click here'
                     />
                   </Link>
-                  <Text size='12px' weight={300} color='error'>
+                  <Text size='12px' weight={400} color='error'>
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.tochangeit'
                       defaultMessage=' to change it.'
@@ -324,19 +324,19 @@ class AcceptTerms extends Component {
                 </InlineTextWrapper>
               ) : error ? (
                 <InlineTextWrapper>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.unknownError'
                       defaultMessage="We're sorry, but something unexpected went wrong. Please "
                     />
                   </Text>
-                  <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
+                  <Link size='12px' weight={400} onClick={() => sfoxNotAsked()}>
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.tryagain'
                       defaultMessage='try again'
                     />
                   </Link>
-                  <Text size='12px' color='error' weight={300}>
+                  <Text size='12px' color='error' weight={400}>
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.or'
                       defaultMessage='or'
@@ -346,7 +346,7 @@ class AcceptTerms extends Component {
                     target='_blank'
                     href='https://support.blockchain.com'
                     size='12px'
-                    weight={300}
+                    weight={400}
                   >
                     <FormattedMessage
                       id='sfoxexchangedata.create.accept.contactsupport'

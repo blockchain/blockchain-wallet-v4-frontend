@@ -116,7 +116,7 @@ class UnusedAddressesContainer extends React.PureComponent {
         >
           <WalletLabelCell>
             <Text
-              weight={400}
+              weight={500}
               style={{ marginRight: 10 }}
               data-e2e='btcWalletName'
             >
@@ -137,7 +137,7 @@ class UnusedAddressesContainer extends React.PureComponent {
             color={'gray-5'}
             selectedComponent={
               <Link
-                weight={400}
+                weight={500}
                 size='13px'
                 data-e2e='btcWalletMoreOptionsDropdown'
               >
@@ -195,14 +195,14 @@ class UnusedAddressesContainer extends React.PureComponent {
             ].filter(x => x)}
           />
         </div>
-        <Text weight={400} size='14px' style={{ marginTop: 25 }}>
+        <Text weight={500} size='14px' style={{ marginTop: 25 }}>
           <FormattedMessage
             id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title'
             defaultMessage='Unused Addresses'
           />
         </Text>
         <Text
-          weight={200}
+          weight={400}
           size='small'
           style={{ marginTop: 10, marginBottom: 15 }}
         >

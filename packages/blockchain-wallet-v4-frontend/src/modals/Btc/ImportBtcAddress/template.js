@@ -14,13 +14,14 @@ import ImportInternalBtcAddress from './ImportInternalBtcAddress'
 import ImportExternalBtcAddress from './ImportExternalBtcAddress'
 
 const Wrapper = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const Title = styled.div`
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 15px;
 `
 const RadioContainer = styled.div`

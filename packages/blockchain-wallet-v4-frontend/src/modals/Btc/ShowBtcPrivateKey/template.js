@@ -57,7 +57,7 @@ const FirstStep = () => (
         defaultMessage='Warning'
       />
     </Text>
-    <Text size='14px' style={spacing('mt-10')} weight={300}>
+    <Text size='14px' style={spacing('mt-10')} weight={400}>
       <FormattedMessage
         id='modals.showbtcpriv.warning.message'
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
@@ -80,7 +80,7 @@ const SecondStep = ({
     </div>
     <DetailTable>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showbtcpriv.balance'
             defaultMessage='Balance'
@@ -93,7 +93,7 @@ const SecondStep = ({
         </CoinDisplay>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showbtcpriv.address'
             defaultMessage='Address'
@@ -101,12 +101,12 @@ const SecondStep = ({
         </DetailRowText>
         {':'}
         &nbsp;
-        <Text size='14px' weight={300} data-e2e='btcAddressValue'>
+        <Text size='14px' weight={400} data-e2e='btcAddressValue'>
           {addr}
         </Text>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showbtcpriv.priv_key'
             defaultMessage='Private Key'
@@ -116,19 +116,19 @@ const SecondStep = ({
         &nbsp;
         {utils.btc.formatPrivateKeyString(priv, format, addr).fold(
           error => (
-            <Text size='14px' weight={300} color='error'>
+            <Text size='14px' weight={400} color='error'>
               {error.message}
             </Text>
           ),
           keyString => (
-            <KeyText size='14px' weight={300} data-e2e='btcPrivateKeyValue'>
+            <KeyText size='14px' weight={400} data-e2e='btcPrivateKeyValue'>
               {keyString}
             </KeyText>
           )
         )}
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size='14px' weight={500}>
           <FormattedMessage
             id='modals.showbtcpriv.priv_key_format'
             defaultMessage='Private Key Format'
@@ -172,7 +172,7 @@ const ShowBtcPrivateKeyTemplate = ({
       <Text
         cursor='pointer'
         size='small'
-        weight={300}
+        weight={400}
         style={spacing('mr-15')}
         onClick={close}
         data-e2e='btcPrivateKeyCloseButton'

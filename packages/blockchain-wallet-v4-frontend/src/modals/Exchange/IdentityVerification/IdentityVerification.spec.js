@@ -29,7 +29,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last, values, pickAll, compose, head } from 'ramda'
+import { last, values, pickAll, compose, head, find, pathEq, path } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -42,7 +42,13 @@ import {
   getSmsNumber
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
+import {
+  getCountry,
+  getProfile
+} from 'blockchain-wallet-v4/src/redux/data/coinify/selectors'
 import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
+import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
+import { getCoinifyBusy } from 'data/components/coinify/selectors'
 
 const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
@@ -55,6 +61,8 @@ jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('data/components/identityVerification/selectors')
+jest.mock('data/components/coinify/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/data/coinify/selectors')
 
 const POSSIBLE_ADDRESSES = [
   {
@@ -109,15 +117,18 @@ getUserId.mockImplementation(() => Remote.of(123))
 getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
 getSmsNumber.mockImplementation(() => Remote.of(''))
-getEmail.mockImplementation(() => Remote.of('email@email.com'))
-getEmailVerified.mockImplementation(() => Remote.of(true))
+getEmail.mockImplementation(() => Remote.of(stubMail))
+getEmailVerified.mockImplementation(() => Remote.of(1))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
 getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
 getStates.mockImplementation(() => Remote.Success([]))
+getCountry.mockImplementation(() => Remote.of('FR'))
+getProfile.mockImplementation(() => Remote.of({ _country: 'FR' }))
 getSteps.mockReturnValue(Remote.of(['personal', 'mobile', 'verify']))
+getCoinifyBusy.mockImplementation(() => Remote.Success({}))
 
 profileSagas.createUser = jest.fn()
 
@@ -446,6 +457,65 @@ describe('IdentityVerification Modal', () => {
             .props().disabled
         ).toBe(false)
       })
+    })
+  })
+
+  describe('coinify signup step - verified email', () => {
+    beforeEach(() => {
+      getVerificationStep.mockImplementation(() => STEPS.coinify)
+      store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
+      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
+      getEmailVerified.mockImplementation(() => Remote.of(1))
+      wrapper.update()
+    })
+
+    it('should have the submit button enabled when email is verified', async () => {
+      wrapper.unmount().mount()
+      expect(wrapper.find(TermsText)).toHaveLength(1)
+      expect(wrapper.find('button').props().disabled).toBe(false)
+    })
+
+    it('should move to the personal step when continue is clicked', async () => {
+      wrapper.find('button').simulate('click')
+
+      let calls = dispatchSpy.mock.calls
+      let findSetVerificationStepAction = find(
+        pathEq(
+          [0, 'type'],
+          actionTypes.components.identityVerification.SET_VERIFICATION_STEP
+        )
+      )
+      expect(head(findSetVerificationStepAction(calls)).payload).toEqual({
+        step: STEPS.personal
+      })
+    })
+  })
+
+  describe('coinify signup step - unverified email', () => {
+    beforeEach(() => {
+      getVerificationStep.mockImplementation(() => STEPS.coinify)
+      store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
+      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
+      getEmailVerified.mockImplementation(() => Remote.of(0))
+      wrapper.update()
+    })
+
+    it('should render the Send Again button and also send a verification email', async () => {
+      wrapper.unmount().mount()
+      expect(
+        wrapper
+          .find('button')
+          .first()
+          .props().children.props.defaultMessage
+      ).toEqual('Send Again')
+      let calls = dispatchSpy.mock.calls
+      let findUpdateEmailAction = find(
+        pathEq([0, 'type'], actionTypes.modules.securityCenter.UPDATE_EMAIL)
+      )
+      let updateEmailAction = findUpdateEmailAction(calls)
+      expect(path(['payload', 'email'], head(updateEmailAction))).toEqual(
+        stubMail
+      )
     })
   })
 })

@@ -20,11 +20,11 @@ const Error = ({ message, onArchive }) => {
   return (
     <ErrorContainer>
       <Image name='empty-search' width='260px' />
-      <MessageText size='18px' weight={300}>
+      <MessageText size='18px' weight={400}>
         {message}
       </MessageText>
       <Button nature='primary' onClick={() => onArchive(vulnerableAddress)}>
-        <Text size='16px' weight={300} color='white'>
+        <Text size='16px' weight={400} color='white'>
           <FormattedMessage
             id='scenes.settings.addresses.btc.wallets.addresserror'
             defaultMessage='Archive Address'

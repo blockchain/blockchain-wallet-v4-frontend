@@ -11,24 +11,23 @@ const ItemWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
   overflow-x: scroll;
-  & > * {
-    margin-left: 5px;
-  }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;
     height: 0 !important;
+  }
+  > div {
+    white-space: nowrap;
   }
 `
 
 const renderItem = item => {
   return (
     <ItemWrapper data-e2e='bsvAddressOption'>
-      <Text weight={300} size='14px'>
+      <Text weight={400} size='14px'>
         {item.text}
       </Text>
     </ItemWrapper>

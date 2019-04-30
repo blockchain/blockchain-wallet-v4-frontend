@@ -63,7 +63,7 @@ class KycDocResubmit extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <Text size='20px' weight={400}>
+          <Text size='20px' weight={500}>
             <FormattedMessage
               defaultMessage='Documents Needed'
               id='modals.exchange.docresubmit.title'
@@ -71,7 +71,7 @@ class KycDocResubmit extends React.PureComponent {
           </Text>
         </Header>
         <Body>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               defaultMessage="We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
               id='modals.exchange.docresubmit.body1'

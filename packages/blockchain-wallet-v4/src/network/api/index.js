@@ -47,6 +47,7 @@ export default ({
       nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       ...http
     }),
     ...lockbox({ ledgerUrl, ...http }),

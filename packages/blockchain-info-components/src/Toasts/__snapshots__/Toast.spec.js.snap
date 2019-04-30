@@ -11,14 +11,14 @@ exports[`Toast component default renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Toast__Close
-      color="brand-secondary"
+    <Toast__CloseIcon
+      color="gray-4"
       cursor={true}
       data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
-      size="20px"
-      weight={300}
+      size="14px"
+      weight={600}
     />
   </Toast__Container>
 </Toast__Wrapper>
@@ -35,14 +35,14 @@ exports[`Toast component error renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Toast__Close
-      color="error"
+    <Toast__CloseIcon
+      color="gray-4"
       cursor={true}
       data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
-      size="20px"
-      weight={300}
+      size="14px"
+      weight={600}
     />
   </Toast__Container>
 </Toast__Wrapper>
@@ -59,14 +59,14 @@ exports[`Toast component success renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Toast__Close
-      color="success"
+    <Toast__CloseIcon
+      color="gray-4"
       cursor={true}
       data-e2e="toastMessageClose"
       name="close"
       onClick={[Function]}
-      size="20px"
-      weight={300}
+      size="14px"
+      weight={600}
     />
   </Toast__Container>
 </Toast__Wrapper>

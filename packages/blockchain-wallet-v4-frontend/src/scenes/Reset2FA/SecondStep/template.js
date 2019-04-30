@@ -45,7 +45,7 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={300}>
+        <Text size='30px' weight={400}>
           <FormattedMessage
             id='scenes.reset2fa.secondstep.reset2fa'
             defaultMessage='Reset 2FA'
@@ -72,14 +72,14 @@ const SecondStep = props => {
           validate={[required]}
           component={CaptchaBox}
         />
-        <WaitingText size='12px' weight={300}>
+        <WaitingText size='12px' weight={400}>
           <FormattedMessage
             id='scenes.reset2fa.secondstep.waitingperiod'
             defaultMessage='Please note that reset requests are fully automated and require a mandatory waiting period before being approved.'
           />
         </WaitingText>
         <Footer>
-          <BackLink onClick={previousStep} size='13px' weight={300}>
+          <BackLink onClick={previousStep} size='13px' weight={400}>
             <FormattedMessage
               id='scenes.reset2fa.secondstep.back'
               defaultMessage='Go Back'

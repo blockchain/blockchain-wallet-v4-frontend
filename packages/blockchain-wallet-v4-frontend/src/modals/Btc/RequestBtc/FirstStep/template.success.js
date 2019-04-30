@@ -18,7 +18,7 @@ import {
   Banner
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
@@ -108,7 +108,7 @@ const FirstStep = props => {
             </div>
             <QRText
               size='14px'
-              weight={300}
+              weight={400}
               color='brand-secondary'
               onClick={handleClickQRCode}
               data-e2e='btcRequestAddressQrCode'
@@ -162,7 +162,7 @@ const FirstStep = props => {
         </BannerContainer>
       )}
       <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
+        <Text size='14px' weight={400} uppercase>
           <FormattedMessage
             id='modals.requestbitcoin.firststep.or'
             defaultMessage='Or'
@@ -179,7 +179,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            component={FiatConvertor}
+            component={FiatConverter}
             validate={[required, invalidAmountMin, invalidAmountMax]}
             coin='BTC'
             data-e2e='requestBtc'

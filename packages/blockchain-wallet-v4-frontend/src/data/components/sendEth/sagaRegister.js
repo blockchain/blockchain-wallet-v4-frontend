@@ -3,13 +3,12 @@ import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
 import sagas from './sagas'
 
-export default ({ coreSagas, networks }) => {
-  const sendEthSagas = sagas({ coreSagas, networks })
+export default ({ api, coreSagas, networks }) => {
+  const sendEthSagas = sagas({ api, coreSagas, networks })
 
   return function * sendEthSaga () {
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthSagas.initialized)
     yield takeLatest(AT.SEND_ETH_DESTROYED, sendEthSagas.destroyed)
-    yield takeLatest(AT.SEND_ETH_FIRST_STEP_TO_TOGGLED, sendEthSagas.toToggled)
     yield takeLatest(
       AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED,
       sendEthSagas.firstStepSubmitClicked
@@ -23,6 +22,10 @@ export default ({ coreSagas, networks }) => {
       sendEthSagas.secondStepSubmitClicked
     )
     yield takeLatest(actionTypes.CHANGE, sendEthSagas.formChanged)
+    yield takeLatest(
+      AT.SEND_ETH_CHECK_IS_CONTRACT,
+      sendEthSagas.checkIsContract
+    )
     yield takeLatest(
       AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED,
       sendEthSagas.regularFeeClicked

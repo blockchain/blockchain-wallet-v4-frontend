@@ -30,7 +30,7 @@ const AddressCell = styled(Text)`
 
 const MoreOptions = () => (
   <Link
-    weight={200}
+    weight={400}
     size='small'
     data-e2e='importedAddressesMoreOptionsDropdown'
   >

@@ -11,7 +11,8 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   * {
-    font-family: 'Montserrat', Helvetica, sans-serif !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
   }
   svg {
     .highcharts-background {
@@ -21,7 +22,7 @@ const Wrapper = styled.div`
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
     > span:first-child {
-      font-weight: 300;
+      font-weight: 400;
     }
   }
   .highcharts-container,

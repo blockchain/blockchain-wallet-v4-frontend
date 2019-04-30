@@ -35,7 +35,7 @@ const ClickableText = styled(Text)`
 `
 const AppManagerLink = styled(ClickableText)`
   margin: 0 -1px 0 -2px;
-  font-weight: 400;
+  font-weight: 500;
 `
 const TimeoutHeader = styled.div`
   display: flex;
@@ -77,13 +77,13 @@ const PairDeviceStep = props => {
   return btcOpenTimeout ? (
     <Wrapper>
       <TimeoutHeader>
-        <Text size='20px' weight={400} style={{ marginTop: '10px' }}>
+        <Text size='20px' weight={500} style={{ marginTop: '10px' }}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.header'
             defaultMessage='Are you having issues?'
           />
         </Text>
-        <Text size='15px' weight={300} style={{ marginTop: '4px' }}>
+        <Text size='15px' weight={400} style={{ marginTop: '4px' }}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.subheader'
             defaultMessage='Check the following errors:'
@@ -100,7 +100,7 @@ const PairDeviceStep = props => {
               hideErrors
             />
             <CheckboxLabel>
-              <Text size='12px' weight={300}>
+              <Text size='12px' weight={400}>
                 <FormattedHTMLMessage
                   id='modals.lockboxsetup.pairdevice.timeout.issue1'
                   defaultMessage='My device is connected with the supplied USB cable.'
@@ -117,7 +117,7 @@ const PairDeviceStep = props => {
             />
             <CheckboxLabel>
               <TextGroup inline>
-                <Text size='12px' weight={300}>
+                <Text size='12px' weight={400}>
                   <FormattedHTMLMessage
                     id='modals.lockboxsetup.pairdevice.timeout.issue2.part1'
                     defaultMessage='I have installed the Bitcoin app. If you do not have the app installed, click'
@@ -125,7 +125,7 @@ const PairDeviceStep = props => {
                 </Text>
                 <AppManagerLink
                   size='12px'
-                  weight={300}
+                  weight={400}
                   onClick={onGoToAppManager}
                 >
                   <FormattedHTMLMessage
@@ -133,7 +133,7 @@ const PairDeviceStep = props => {
                     defaultMessage='here'
                   />
                 </AppManagerLink>
-                <Text size='12px' weight={300}>
+                <Text size='12px' weight={400}>
                   <FormattedHTMLMessage
                     id='modals.lockboxsetup.pairdevice.timeout.issue2.part3'
                     defaultMessage='to install it.'
@@ -150,7 +150,7 @@ const PairDeviceStep = props => {
               hideErrors
             />
             <CheckboxLabel>
-              <Text size='12px' weight={300}>
+              <Text size='12px' weight={400}>
                 <FormattedHTMLMessage
                   id='modals.lockboxsetup.pairdevice.timeout.issue3'
                   defaultMessage='The Bitcoin app is open on my device. Use the top buttons to scroll left or right to the Bitcoin app. Then press the top two buttons to open the app.'
@@ -161,7 +161,7 @@ const PairDeviceStep = props => {
         </FormGroup>
       </Form>
       <ContactSupportText inline>
-        <Text size='11px' weight={300}>
+        <Text size='11px' weight={400}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.support'
             defaultMessage='Completed the above and still having issues?'
@@ -171,7 +171,7 @@ const PairDeviceStep = props => {
           href={supportLink}
           target='_blank'
           size='11px'
-          weight={400}
+          weight={500}
         >
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.supportlink'
@@ -200,7 +200,7 @@ const PairDeviceStep = props => {
         width='95%'
       />
       <IntroWrapper>
-        <Text size='12px' weight={300}>
+        <Text size='12px' weight={400}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.intro'
             defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
@@ -208,7 +208,7 @@ const PairDeviceStep = props => {
           />
         </Text>
         {showBtcWarning && (
-          <ExportKeysText size='12px' weight={400}>
+          <ExportKeysText size='12px' weight={500}>
             <FormattedHTMLMessage
               id='modals.lockboxsetup.pairdevice.exportkeyswarning'
               defaultMessage='Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.'
@@ -224,7 +224,7 @@ const PairDeviceStep = props => {
         )}
       </IntroWrapper>
       <TextGroup inline style={{ marginBottom: '14px' }}>
-        <Text size='10px' weight={300}>
+        <Text size='10px' weight={400}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.install'
             defaultMessage="Don't have the Bitcoin app on your {deviceType}? Install it"

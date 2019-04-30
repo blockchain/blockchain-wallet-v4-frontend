@@ -19,11 +19,6 @@ export const sendBtcPaymentUpdatedFailure = err => ({
   payload: err
 })
 
-export const sendBtcFirstStepToToggled = val => ({
-  type: AT.SEND_BTC_FIRST_STEP_TO_TOGGLED,
-  payload: val
-})
-
 export const sendBtcFirstStepFeePerByteToggled = () => ({
   type: AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED
 })

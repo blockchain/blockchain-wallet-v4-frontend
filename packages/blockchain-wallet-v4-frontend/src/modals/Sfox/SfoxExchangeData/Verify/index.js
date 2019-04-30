@@ -35,7 +35,7 @@ const faqQuestions = [
           href='https://www.sfox.com/privacy.html'
           target='_blank'
           size='12px'
-          weight={200}
+          weight={400}
         >
           <FormattedMessage
             id='scenes.buysell.sfoxsignup.verify.address.helper1.link'

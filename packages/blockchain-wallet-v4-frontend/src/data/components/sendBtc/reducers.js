@@ -1,10 +1,9 @@
-import { isNil, assoc } from 'ramda'
+import { assoc } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
-  toToggled: false,
   feePerByteToggled: false,
   payment: Remote.NotAsked
 }
@@ -16,13 +15,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SEND_BTC_INITIALIZED:
     case AT.SEND_BTC_DESTROYED: {
       return INITIAL_STATE
-    }
-    case AT.SEND_BTC_FIRST_STEP_TO_TOGGLED: {
-      return assoc(
-        'toToggled',
-        isNil(payload) ? !state.toToggled : payload,
-        state
-      )
     }
     case AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED: {
       return assoc('feePerByteToggled', !state.feePerByteToggled, state)

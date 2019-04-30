@@ -1,9 +1,6 @@
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
-import { path, prop } from 'ramda'
-import { combineReducers } from 'redux'
 
-import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
@@ -77,20 +74,21 @@ describe('sendEth sagas', () => {
     const from = 'fromethaddress'
     const type = 'ACCOUNT'
     const payload = { from, type }
-
     const saga = testSaga(initialized, { payload })
     const mockAccount = Remote.of([{ addr: '0x123' }])
-
+    const beforeEnd = 'beforeEnd'
     const initialValues = {
-      from: { addr: '0x123' },
-      coin: 'ETH',
-      fee: 10
+      coin: { from: 'fromethaddress', type: 'ACCOUNT' },
+      fee: 10,
+      from: { addr: '0x123' }
     }
 
-    const beforeEnd = 'beforeEnd'
+    it('should select erc20 list', () => {
+      saga.next().select(selectors.core.walletOptions.getErc20CoinList)
+    })
 
     it('should trigger a loading action', () => {
-      saga.next().put(A.sendEthPaymentUpdatedLoading())
+      saga.next(Remote.of([])).put(A.sendEthPaymentUpdatedLoading())
     })
 
     it('should create payment', () => {
@@ -104,31 +102,7 @@ describe('sendEth sagas', () => {
 
     it('should set payment from values based on payload', () => {
       saga.next(paymentMock)
-
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(from, type)
-    })
-
-    it('should call payment from without params if from was not passed', () => {
-      const { from, ...payloadWithoutFrom } = payload
-      paymentMock.from.mockClear()
-      return expectSaga(initialized, { payload: payloadWithoutFrom })
-        .run()
-        .then(() => {
-          expect(paymentMock.from).toHaveBeenCalledTimes(1)
-          expect(paymentMock.from).toHaveBeenCalledWith()
-        })
-    })
-
-    it('should call payment from without params if type was not passed', () => {
-      const { type, ...payloadWithoutType } = payload
-      paymentMock.from.mockClear()
-      return expectSaga(initialized, { payload: payloadWithoutType })
-        .run()
-        .then(() => {
-          expect(paymentMock.from).toHaveBeenCalledTimes(1)
-          expect(paymentMock.from).toHaveBeenCalledWith()
-        })
     })
 
     it('should select default account', () => {
@@ -167,33 +141,6 @@ describe('sendEth sagas', () => {
           .isDone()
       })
     })
-
-    describe('state change', () => {
-      let resultingState = {}
-
-      beforeEach(async () => {
-        resultingState = await expectSaga(initialized, { payload })
-          .withReducer(combineReducers(rootReducer))
-          .run()
-          .then(prop('storeState'))
-      })
-
-      it('should produce correct form state', () => {
-        const form = path(FORM.split('.'), resultingState.form)
-        expect(form.initial).toEqual(form.values)
-        expect(form.initial).toEqual({
-          from: {},
-          coin: 'ETH',
-          fee: 10
-        })
-      })
-
-      it('should produce correct sendEth payment state', () => {
-        expect(resultingState.components.sendEth.payment).toEqual(
-          Remote.Success(value)
-        )
-      })
-    })
   })
 
   describe('eth send first step submit', () => {
@@ -203,11 +150,10 @@ describe('sendEth sagas', () => {
     })
 
     const saga = testSaga(firstStepSubmitClicked)
-
     const beforeError = 'beforeError'
 
     it('should select payment', () => {
-      saga.next().select(S.getPayment)
+      saga.next({ coin: 'ETH' }).select(S.getPayment)
     })
 
     it('should put loading action', () => {
@@ -260,7 +206,6 @@ describe('sendEth sagas', () => {
 
   describe('eth send second step submit', () => {
     const saga = testSaga(secondStepSubmitClicked)
-    const secondPassword = 'password'
     const description = 'description'
     const txId = 'txId'
     const beforeError = 'beforeError'
@@ -272,8 +217,22 @@ describe('sendEth sagas', () => {
       paymentMock.publish.mockClear()
     })
 
+    it('should fetch coin model', () => {
+      saga
+        .next()
+        .next({ coin: 'ETH' })
+        .select(selectors.core.walletOptions.getCoinModel, 'ETH')
+    })
+
     it('should put start submit action', () => {
-      saga.next().put(actions.form.startSubmit(FORM))
+      saga
+        .next(
+          Remote.of({
+            displayName: 'Ethereum',
+            txListAppRoute: '/eth/transactions'
+          })
+        )
+        .put(actions.form.startSubmit(FORM))
     })
 
     it('should select payment', () => {
@@ -292,14 +251,8 @@ describe('sendEth sagas', () => {
       })
     })
 
-    it('should sign payment with second passowrd', () => {
-      saga.next(secondPassword)
-      expect(paymentMock.sign).toHaveBeenCalledTimes(1)
-      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
-    })
-
     it('should publish payment', () => {
-      saga.next(paymentMock)
+      saga.next().next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
@@ -338,8 +291,12 @@ describe('sendEth sagas', () => {
       saga.next().put(actions.router.push('/eth/transactions'))
     })
 
-    it('should display succcess message', () => {
-      saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+    it('should display success message', () => {
+      saga.next().put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Ethereum'
+        })
+      )
     })
 
     it('should log to analytics', () => {
@@ -386,6 +343,7 @@ describe('sendEth sagas', () => {
 
       it('should log SEND_FAILURE event', () => {
         saga
+          .next(false)
           .next()
           .put(
             actions.analytics.logEvent([
@@ -399,7 +357,11 @@ describe('sendEth sagas', () => {
       it('should display error message', () => {
         saga
           .next()
-          .put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+          .put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Ethereum'
+            })
+          )
           .next()
       })
     })

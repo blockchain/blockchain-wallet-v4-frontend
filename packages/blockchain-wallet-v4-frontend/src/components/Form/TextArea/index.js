@@ -37,7 +37,7 @@ const TextArea = field => {
         data-e2e={field['data-e2e']}
       />
       {field.meta.touched && field.meta.error && (
-        <Error size='12px' weight={300} color='error'>
+        <Error size='12px' weight={400} color='error'>
           {field.meta.error}
         </Error>
       )}

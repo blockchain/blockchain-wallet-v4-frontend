@@ -5,7 +5,7 @@ exports[`PriceChart template error renders correctly 1`] = `
   <text
     color="red"
     size="12px"
-    weight={300}
+    weight={400}
   >
     Error message
   </text>

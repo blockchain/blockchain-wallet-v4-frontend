@@ -5,7 +5,7 @@ exports[`Pending renders correctly 1`] = `
   <text
     color="white"
     size="14px"
-    weight={400}
+    weight={500}
   >
     <FormattedMessage
       defaultMessage="Account verification in progress"
@@ -15,7 +15,7 @@ exports[`Pending renders correctly 1`] = `
   </text>
   <text
     size="14px"
-    weight={300}
+    weight={400}
   >
     <FormattedMessage
       defaultMessage="We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency. You should receive an update within 5 minutes."

@@ -10,16 +10,29 @@ export const getData = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
   const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
+  const sourceCoinModelR = selectors.core.walletOptions.getCoinModel(
+    state,
+    sourceCoin
+  )
+  const targetCoinModelR = selectors.core.walletOptions.getCoinModel(
+    state,
+    targetCoin
+  )
   const pair = formatPair(sourceCoin, targetCoin)
   const amountsR = getAmounts(pair, state)
 
-  const transform = (currency, amounts) => ({
+  const transform = (currency, amounts, sourceCoinModel, targetCoinModel) => ({
+    currency,
     sourceAmount: amounts.sourceAmount,
+    sourceCoinModel,
     targetAmount: amounts.targetAmount,
-    sourceCoin,
-    targetCoin,
-    currency
+    targetCoinModel
   })
 
-  return lift(transform)(currencyR, amountsR)
+  return lift(transform)(
+    currencyR,
+    amountsR,
+    sourceCoinModelR,
+    targetCoinModelR
+  )
 }

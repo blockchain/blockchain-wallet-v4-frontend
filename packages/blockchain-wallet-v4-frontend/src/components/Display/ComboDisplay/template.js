@@ -25,16 +25,16 @@ const ComboDisplay = props => {
     <Wrapper>
       <CoinDisplay {...props} />
       <Container>
-        <Text weight={300}>(</Text>
+        <Text weight={400}>(</Text>
         <FiatDisplay {...props} />
-        <Text weight={300}>)</Text>
+        <Text weight={400}>)</Text>
       </Container>
     </Wrapper>
   )
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default ComboDisplay

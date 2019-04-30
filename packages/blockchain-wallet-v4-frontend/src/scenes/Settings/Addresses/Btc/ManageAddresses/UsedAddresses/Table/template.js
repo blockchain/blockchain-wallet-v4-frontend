@@ -67,7 +67,7 @@ const UsedTableEntry = ({ address, search }) => {
         <Link
           href={`https://blockchain.com/btc/address/${address.address}`}
           size='small'
-          weight={300}
+          weight={400}
           target='_blank'
           data-e2e='btcUsedAddressLink'
         >
@@ -82,7 +82,7 @@ const UsedTableEntry = ({ address, search }) => {
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         <Text size='13px'>
-          <CoinDisplay coin={'BTC'} size='13px' weight={300}>
+          <CoinDisplay coin={'BTC'} size='13px' weight={400}>
             {address.final_balance}
           </CoinDisplay>
         </Text>
@@ -93,7 +93,7 @@ const UsedTableEntry = ({ address, search }) => {
 
 const UsedAddressesTable = ({ usedAddresses, search }) => (
   <React.Fragment>
-    <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
+    <Text weight={400} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
       <FormattedMessage
         id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.message'
         defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'
@@ -107,7 +107,7 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
       </UsedTable>
     ) : (
       <Text
-        weight={300}
+        weight={400}
         style={{ marginTop: 20, textAlign: 'center' }}
         data-e2e='btcNoUsedAddresses'
       >

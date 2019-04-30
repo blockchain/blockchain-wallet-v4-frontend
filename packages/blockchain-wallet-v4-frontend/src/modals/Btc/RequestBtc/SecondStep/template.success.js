@@ -47,7 +47,7 @@ const SecondStep = props => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit}>
-        <SubHeader size='14px' weight={300}>
+        <SubHeader size='14px' weight={400}>
           <FormattedMessage
             id='modals.requestbitcoin.secondstep.explain'
             defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.'
@@ -63,7 +63,7 @@ const SecondStep = props => {
           <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>
             {satoshis}
           </CoinDisplay>
-          <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>
+          <FiatDisplay size='20px' weight={400} color='received' coin='BTC'>
             {satoshis}
           </FiatDisplay>
           <Text size='16px'>
@@ -74,7 +74,7 @@ const SecondStep = props => {
             />
           </Text>
           <LinkContainer>
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={400} data-e2e='requestBtcLinkText'>
               {link}
             </Text>
           </LinkContainer>
@@ -104,7 +104,7 @@ const SecondStep = props => {
         <Link
           onClick={previousStep}
           size='13px'
-          weight={300}
+          weight={400}
           data-e2e='requestBtcGoBack'
         >
           <FormattedMessage

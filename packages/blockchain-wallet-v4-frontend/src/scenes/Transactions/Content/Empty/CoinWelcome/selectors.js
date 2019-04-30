@@ -1,16 +1,19 @@
-import { selectors } from 'data'
-import { coinProps } from './model'
 import { path, propOr, toUpper } from 'ramda'
+
+import { selectors } from 'data'
 
 export const getDomains = state =>
   selectors.core.walletOptions.getDomains(state).getOrElse(false)
 
 export const getCanAirdrop = (state, ownProps) => {
   const { coin } = ownProps
+  const supportedCoins = selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
   const userData = selectors.modules.profile.getUserData(state).getOrElse({})
   return (
-    path([coin, 'airdrop'], coinProps) &&
-    !path(['tags', path([coin, 'airdrop', 'name'], coinProps)], userData)
+    path([coin, 'airdrop'], supportedCoins) &&
+    !path(['tags', path([coin, 'airdrop', 'name'], supportedCoins)], userData)
   )
 }
 
@@ -29,4 +32,7 @@ export const getAvailability = (state, ownProps) => {
     exchange: availability.map(propOr(true, 'exchange')).getOrElse(false),
     request: availability.map(propOr(true, 'request')).getOrElse(false)
   }
+}
+export const currentUserTier = state => {
+  return selectors.modules.profile.getUserTiers(state).getOrElse({ current: 0 })
 }

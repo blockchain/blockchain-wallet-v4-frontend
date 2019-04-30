@@ -24,7 +24,7 @@ const CoinifyDeleteBank = props => {
         />
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
             id='modals.coinifydeletebank.explain'
             defaultMessage='Are you sure you want to delete this bank account?'
@@ -32,7 +32,7 @@ const CoinifyDeleteBank = props => {
         </Text>
       </ModalBody>
       <ModalFooter align='spaced'>
-        <Link size='13px' weight={300} onClick={close}>
+        <Link size='13px' weight={400} onClick={close}>
           <FormattedMessage
             id='modals.coinifydeletebank.cancel'
             defaultMessage='Cancel'

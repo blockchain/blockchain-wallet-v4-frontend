@@ -1,16 +1,13 @@
 import { formValueSelector } from 'redux-form'
-import { lift, path } from 'ramda'
-import { selectors } from 'data'
+import { lift, equals, prop } from 'ramda'
+import { selectors, model } from 'data'
+
+const { TIERS_STATES } = model.profile
 
 export const getUserData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const payment = path(['coinify', 'payment'], state)
-  const kyc = selectors.core.data.coinify.getKyc(state)
-  return lift((profile, payment, kyc) => ({ profile, payment, kyc }))(
-    profile,
-    payment,
-    kyc
-  )
+  const payment = selectors.components.coinify.getCoinifyPayment(state)
+  return lift((profile, payment) => ({ profile, payment }))(profile, payment)
 }
 
 export const getTrades = state =>
@@ -23,24 +20,28 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
-export const getBase = state =>
-  path(['form', 'exchangeCheckout', 'active'], state)
-
-export const getErrors = state =>
-  path(['form', 'exchangeCheckout', 'syncErrors'], state)
-
-export const getData = state => ({
-  base: getBase(state),
-  data: getUserData(state),
-  sellQuoteR: getQuote(state),
-  trade: getTrade(state),
-  errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
-  defaultCurrency: getCurrency(state),
-  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
-  paymentMedium: path(['coinify', 'medium'], state),
-  step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  checkoutError: path(['coinify', 'checkoutError'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
-})
+export const getData = state => {
+  const kycState = selectors.modules.profile
+    .getUserKYCState(state)
+    .getOrElse(false)
+  const tier2Data = selectors.modules.profile.getTier(state, 2).getOrElse(null)
+  const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
+  return {
+    data: getUserData(state),
+    sellQuoteR: getQuote(state),
+    trade: getTrade(state),
+    currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
+    defaultCurrency: getCurrency(state),
+    checkoutBusy: selectors.components.coinify.getCoinifyCheckoutBusy(state),
+    paymentMedium: selectors.components.coinify.getCoinifyMedium(state),
+    step: selectors.components.coinify.getCoinifyCheckoutStep(state),
+    coinifyBusy: selectors.components.coinify.getCoinifyBusy(state),
+    checkoutError: selectors.components.coinify.getCoinifyCheckoutError(state),
+    canTrade: selectors.core.data.coinify.canTrade(state),
+    cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
+    canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
+    kycState,
+    kycVerified,
+    level: selectors.core.data.coinify.getLevel(state)
+  }
+}

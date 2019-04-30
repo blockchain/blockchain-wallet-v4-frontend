@@ -50,14 +50,10 @@ describe('App Store Config', () => {
     domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' },
     platforms: {
       web: {
-        btc: {
-          config: { network: 'bitcoin' }
-        },
-        eth: {
-          config: { network: 1 }
-        },
-        xlm: {
-          config: { network: 'public' }
+        coins: {
+          BTC: { config: { network: 'bitcoin' } },
+          ETH: { config: { network: 1 } },
+          XLM: { config: { network: 'public' } }
         }
       }
     }

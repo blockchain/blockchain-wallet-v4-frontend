@@ -33,7 +33,7 @@ const EditDescription = props => {
         <DisplayContainer>
           <Text
             size='14px'
-            weight={300}
+            weight={400}
             data-e2e='transactionListItemDescription'
           >
             {value}
@@ -44,7 +44,7 @@ const EditDescription = props => {
         <DisplayContainer data-e2e='transactionListItemAddDescription'>
           <Text
             size='14px'
-            weight={300}
+            weight={400}
             cursor='pointer'
             data-e2e='editTransactionDescriptionLink'
           >

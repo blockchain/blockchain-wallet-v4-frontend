@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 export default props => (
   <Wrapper>
-    <Text size='12px' weight={300} color='red'>
+    <Text size='12px' weight={400} color='red'>
       {props.children}
     </Text>
   </Wrapper>

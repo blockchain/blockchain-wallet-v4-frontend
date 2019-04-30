@@ -18,7 +18,7 @@ const EmailRequired = () => (
   <Wrapper>
     <Image name='empty-search' width='260px' />
     <TextGroup inline style={{ marginTop: '10px' }}>
-      <Text size='18px' weight={300}>
+      <Text size='18px' weight={400}>
         <FormattedMessage
           id='components.emailrequired.emailrequired'
           defaultMessage='Email is required to use this feature.'

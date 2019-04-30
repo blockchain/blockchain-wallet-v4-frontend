@@ -123,15 +123,20 @@ const Onboard = props => {
   return (
     <Wrapper>
       <IntroContainer>
-        <GetStartedContainer>
+        <GetStartedContainer height='325px' url='url(/img/lockbox@2x.png)'>
           <GetStartedContent>
-            <GetStartedHeader size='26px' weight={400} color='brand-primary'>
+            <GetStartedHeader
+              size='26px'
+              weight={500}
+              color='brand-primary'
+              width='200px'
+            >
               <FormattedMessage
                 id='scenes.lockbox.welcome.title'
                 defaultMessage='Secure Your Crypto Offline'
               />
             </GetStartedHeader>
-            <GetStartedText size='17px' weight={300}>
+            <GetStartedText size='17px' weight={400}>
               <FormattedMessage
                 id='scenes.lockbox.welcome.subtitle'
                 defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
@@ -148,7 +153,7 @@ const Onboard = props => {
               />
             </GetStartedButton>
             <SetupGuideContainer>
-              <Text size='13px' weight={300}>
+              <Text size='13px' weight={400}>
                 <FormattedMessage
                   id='scenes.lockbox.welcome.trouble'
                   defaultMessage='Having trouble? View our'
@@ -160,7 +165,7 @@ const Onboard = props => {
                 }
                 target='_blank'
               >
-                <SetupGuideText size='13px' weight={300}>
+                <SetupGuideText size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.lockbox.welcome.setupguide'
                     defaultMessage='Setup Guide'
@@ -170,7 +175,7 @@ const Onboard = props => {
             </SetupGuideContainer>
           </GetStartedContent>
           <PoweredByContainer>
-            <PoweredByText size='11px' weight={300} color='brand-primary'>
+            <PoweredByText size='11px' weight={400} color='brand-primary'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.poweredby'
                 defaultMessage='Powered By'

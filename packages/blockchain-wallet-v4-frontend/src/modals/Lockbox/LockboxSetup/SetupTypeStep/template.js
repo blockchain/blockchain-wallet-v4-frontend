@@ -66,13 +66,13 @@ const SetupTypeStep = props => {
         onClick={() => handleStepChange('new')}
       >
         <TextGroup>
-          <Text size='14px' weight={300} color='white'>
+          <Text size='14px' weight={400} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.new'
               defaultMessage='Set up new device'
             />
           </Text>
-          <Text size='10px' weight={300} color='white'>
+          <Text size='10px' weight={400} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.newlength'
               defaultMessage='10-15 Minutes'
@@ -86,13 +86,13 @@ const SetupTypeStep = props => {
         onClick={() => handleStepChange('existing')}
       >
         <TextGroup>
-          <Text size='14px' weight={300} color='white'>
+          <Text size='14px' weight={400} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.existing'
               defaultMessage='Sign in with PIN'
             />
           </Text>
-          <Text size='10px' weight={300} color='white'>
+          <Text size='10px' weight={400} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.existinglength'
               defaultMessage='2-3 Minutes'

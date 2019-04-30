@@ -7,7 +7,7 @@ import Link from '../Link'
 const DefaultButton = styled('button', 'input[type=submit]')`
   display: inline-block;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   padding: 0 1rem;
   border-radius: var(--smBorderRadius);
   text-align: center;

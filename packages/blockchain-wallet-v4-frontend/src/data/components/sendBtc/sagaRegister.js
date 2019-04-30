@@ -9,7 +9,6 @@ export default ({ coreSagas, networks }) => {
   return function * sendBtcSaga () {
     yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcSagas.initialized)
     yield takeLatest(AT.SEND_BTC_DESTROYED, sendBtcSagas.destroyed)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, sendBtcSagas.toToggled)
     yield takeLatest(
       AT.SEND_BTC_FIRST_STEP_MINIMUM_AMOUNT_CLICKED,
       sendBtcSagas.minimumAmountClicked

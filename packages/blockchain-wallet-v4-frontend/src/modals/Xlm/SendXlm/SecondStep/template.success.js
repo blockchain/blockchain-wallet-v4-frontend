@@ -3,173 +3,175 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import {
-  Button,
-  Link,
-  HeartbeatLoader,
-  Text,
-  TooltipHost
-} from 'blockchain-info-components'
+  ExchangeAmount,
+  ExchangeAmounts,
+  LargeTableRow,
+  SubExchangeAmount,
+  Wrapper
+} from 'components/Exchange'
+import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import ComboDisplay from 'components/Display/ComboDisplay'
 
-const Wrapper = styled.div``
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 0;
-
-  & > * {
-    width: 150px;
-  }
-  & > :last-child {
-    width: 100%;
-  }
-  &:first-child {
-    padding-top: 0px;
-  }
+const ConfirmWrapper = styled(Wrapper)`
+  padding: 0px;
 `
-const Summary = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme['gray-1']};
-  padding: 10px 0;
-  margin: 5px 0;
-  margin-bottom: 25px;
-
-  & > * {
-    padding: 10px 0;
-  }
+const SummaryExchangeAmount = styled(ExchangeAmount)`
+  justify-content: flex-end;
+`
+const SummarySubExchangeAmount = styled(SubExchangeAmount)`
+  justify-content: flex-end;
+`
+const TextTo = styled(Text)`
+  max-width: 60%;
+  text-align: right;
+  word-break: break-all;
 `
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 16px;
   width: 100%;
 
   & > :first-child {
     margin-bottom: 15px;
   }
 `
-const CoinTooltipHost = styled(TooltipHost)`
-  overflow: hidden;
-`
-const CoinText = styled(Text)`
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
 
 const Success = props => {
   const {
-    submitting,
+    amount,
     coin,
-    fromAddress,
-    toAddress,
     description,
+    fee,
+    fromAddress,
+    handleBack,
+    handleSubmit,
     memo,
     memoType,
-    amount,
-    fee,
-    total,
-    handleBack,
-    handleSubmit
+    submitting,
+    toAddress,
+    total
   } = props
 
   return (
-    <Wrapper>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendxlm.secondstep.from'
-            defaultMessage='From:'
-          />
-        </Text>
-        <Text size='16px' weight={300} data-e2e='xlmFromWallet'>
-          {fromAddress}
-        </Text>
-      </Row>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendxlm.secondstep.to'
-            defaultMessage='To:'
-          />
-        </Text>
-        <CoinTooltipHost id='sendxlm.addr' tip={toAddress}>
-          <CoinText size='16px' weight={300} data-e2e='xlmToAddress'>
-            {toAddress}
-          </CoinText>
-        </CoinTooltipHost>
-      </Row>
-      {description && (
-        <Row>
+    <React.Fragment>
+      <ConfirmWrapper>
+        <LargeTableRow>
           <Text size='16px' weight={500}>
             <FormattedMessage
-              id='modals.sendxlm.secondstep.note'
-              defaultMessage='Note:'
+              id='modals.sendxlm.secondstep.from'
+              defaultMessage='From:'
             />
           </Text>
-          <Text size='16px' weight={300} data-e2e='xlmSendDescription'>
-            {description}
+          <Text size='16px' weight={400} data-e2e='xlmFromWallet'>
+            {fromAddress}
           </Text>
-        </Row>
-      )}
-      {memo && (
-        <Row>
-          <Text size='16px' weight={500} data-e2e='xlmSendMemo'>
+        </LargeTableRow>
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id='modals.sendxlm.secondstep.memo'
-              defaultMessage='Memo'
+              id='modals.sendxlm.secondstep.to'
+              defaultMessage='To:'
             />
           </Text>
-          <Text size='16px' weight={300}>
-            {` ${memoType}: ${memo}`}
+          <TextTo size='16px' weight={400} data-e2e='xlmToAddress'>
+            {toAddress}
+          </TextTo>
+        </LargeTableRow>
+        {description && (
+          <LargeTableRow>
+            <Text size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.sendxlm.secondstep.note'
+                defaultMessage='Note:'
+              />
+            </Text>
+            <Text size='16px' weight={400} data-e2e='xlmSendDescription'>
+              {description}
+            </Text>
+          </LargeTableRow>
+        )}
+        {memo && (
+          <LargeTableRow>
+            <Text size='16px' weight={500} data-e2e='xlmSendMemo'>
+              <FormattedMessage
+                id='modals.sendxlm.secondstep.memo'
+                defaultMessage='Memo'
+              />
+            </Text>
+            <Text size='16px' weight={400}>
+              {` ${memoType}: ${memo}`}
+            </Text>
+          </LargeTableRow>
+        )}
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendxlm.secondstep.amount'
+              defaultMessage='Amount:'
+            />
           </Text>
-        </Row>
-      )}
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendxlm.secondstep.payment'
-            defaultMessage='Payment:'
-          />
-        </Text>
-        <Text size='16px' weight={300}>
-          <ComboDisplay coin={coin}>{amount}</ComboDisplay>
-        </Text>
-      </Row>
-      <Row>
-        <Text size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.sendxlm.secondstep.fee'
-            defaultMessage='Fee:'
-          />
-        </Text>
-        <Text size='16px' weight={300}>
-          <ComboDisplay coin={coin}>{fee}</ComboDisplay>
-        </Text>
-      </Row>
-      <Summary>
-        <Text size='16px' weight={300} color='sent'>
-          <FormattedMessage
-            id='modals.sendxlm.secondstep.total'
-            defaultMessage='Total'
-          />
-        </Text>
-        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
-          {total}
-        </CoinDisplay>
-        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
-          {total}
-        </FiatDisplay>
-      </Summary>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
+                {amount}
+              </FiatDisplay>
+            </SummaryExchangeAmount>
+            <SummarySubExchangeAmount>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
+                {amount}
+              </CoinDisplay>
+            </SummarySubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendxlm.secondstep.fee'
+              defaultMessage='Fee:'
+            />
+          </Text>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
+                {fee}
+              </FiatDisplay>
+            </SummaryExchangeAmount>
+            <SummarySubExchangeAmount>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
+                {fee}
+              </CoinDisplay>
+            </SummarySubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+        <LargeTableRow>
+          <Text size='16px' weight={400}>
+            <FormattedMessage
+              id='modals.sendxlm.secondstep.sendtotal'
+              defaultMessage='Total:'
+            />
+          </Text>
+          <ExchangeAmounts>
+            <SummaryExchangeAmount>
+              <FiatDisplay coin={coin} size='16px' weight={500}>
+                {total}
+              </FiatDisplay>
+            </SummaryExchangeAmount>
+            <SummarySubExchangeAmount>
+              <CoinDisplay coin={coin} size='14px' weight={300}>
+                {total}
+              </CoinDisplay>
+            </SummarySubExchangeAmount>
+          </ExchangeAmounts>
+        </LargeTableRow>
+      </ConfirmWrapper>
       <Footer>
         <Button
+          height='56px'
+          size='18px'
           onClick={handleSubmit}
           disabled={submitting}
           nature='primary'
@@ -189,7 +191,7 @@ const Success = props => {
           onClick={!submitting && handleBack}
           disabled={submitting}
           size='13px'
-          weight={300}
+          weight={400}
           data-e2e='xlmSendBackLink'
         >
           <FormattedMessage
@@ -198,7 +200,7 @@ const Success = props => {
           />
         </Link>
       </Footer>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 

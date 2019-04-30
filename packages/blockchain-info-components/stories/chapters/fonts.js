@@ -8,18 +8,38 @@ import { Text } from '../../src'
 const sample = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
 storiesOf('Fonts', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
-  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('Montserrat', () =>
-    <div>
-      <Text size='20px' weight={100}>{sample}</Text>
-      <Text size='20px' weight={200}>{sample}</Text>
-      <Text size='20px' weight={300}>{sample}</Text>
-      <Text size='20px' weight={400}>{sample}</Text>
-      <Text size='20px' weight={500}>{sample}</Text>
-      <Text size='20px' weight={600}>{sample}</Text>
-      <Text size='20px' weight={700}>{sample}</Text>
-      <Text size='20px' weight={800}>{sample}</Text>
-      <Text size='20px' weight={900}>{sample}</Text>
-    </div>
+  .addDecorator(story => <Layout>{story()}</Layout>)
+  .addDecorator((story, context) =>
+    withInfo({ text: 'Documentation', inline: true })(story)(context)
   )
+  .add('Inter', () => (
+    <div>
+      <Text size='20px' weight={100}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={400}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={400}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={500}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={500}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={600}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={700}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={800}>
+        {sample}
+      </Text>
+      <Text size='20px' weight={900}>
+        {sample}
+      </Text>
+    </div>
+  ))

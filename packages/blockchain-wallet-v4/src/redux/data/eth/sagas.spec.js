@@ -1,16 +1,12 @@
-/* eslint-disable */
-import { select } from 'redux-saga/effects'
-import { path, append, sum, values, length } from 'ramda'
+import { path, length } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
-import reducers from '../reducers'
-import { convertFeeToWei } from '../../../utils/eth'
 
 const ethFetchData = {
   '0x8790143B84A1A12ADA4aF057D7096A937143a476': {
@@ -71,17 +67,6 @@ describe('eth data sagas', () => {
       '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1'
     )
 
-    const ethData = {
-      addresses: ethFetchData,
-      info: {
-        n_tx: sum(values(ethFetchData).map(obj => obj.txn_count)),
-        total_received: sum(values(ethFetchData).map(obj => obj.totalReceived)),
-        total_sent: sum(values(ethFetchData).map(obj => obj.totalSent)),
-        final_balance: sum(values(ethFetchData).map(obj => obj.balance))
-      },
-      latest_block: latest_block
-    }
-
     const saga = testSaga(dataEthSagas.fetchData)
 
     it('should put loading state', () => {
@@ -98,14 +83,15 @@ describe('eth data sagas', () => {
         .call(api.getEthData, mockContext.getOrFail())
     })
 
-    it('should retrieve latest_block info', () => {
+    it('should retrieve latest_block info and end', () => {
       saga.next(ethFetchData).call(api.getEthLatestBlock)
     })
 
-    it('should dispatch success action', () => {
+    it('should check for low eth balance and end', () => {
       saga
-        .next(latest_block)
-        .put(A.fetchDataSuccess(ethData))
+        .next()
+        .next()
+        .call(dataEthSagas.checkForLowEthBalance)
         .next()
         .isDone()
     })
@@ -120,22 +106,6 @@ describe('eth data sagas', () => {
         .put(A.fetchDataFailure(error.message))
         .next()
         .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add eth data to the state', () => {
-        return expectSaga(dataEthSagas.fetchData)
-          .withReducer(reducers)
-          .provide([[select(S.getContext), mockContext]])
-          .run()
-          .then(result => {
-            expect(result.storeState.eth).toMatchObject({
-              addresses: Remote.Success(ethData.addresses),
-              info: Remote.Success(ethData.info),
-              latest_block: Remote.Success(ethData.latest_block)
-            })
-          })
-      })
     })
   })
 
@@ -168,19 +138,6 @@ describe('eth data sagas', () => {
         .put(A.fetchRatesFailure(error.message))
         .next()
         .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add rate data to the state', () => {
-        return expectSaga(dataEthSagas.fetchRates)
-          .withReducer(reducers)
-          .run()
-          .then(result => {
-            expect(result.storeState.eth).toMatchObject({
-              rates: Remote.Success(rateData)
-            })
-          })
-      })
     })
   })
 
@@ -298,54 +255,5 @@ describe('eth data sagas', () => {
         .next()
         .isDone()
     })
-
-    // describe('state change', () => {
-    //   it('should add transaction data to the state', () => {
-    //     return expectSaga(dataEthSagas.fetchTransactions, {
-    //       payload: {
-    //         reset: true
-    //       }
-    //     })
-    //       .withReducer(reducers)
-    //       .provide([
-    //         [select(selectors.kvStore.eth.getContext), mockContextR],
-    //         [select(S.getTransactions), pages]
-    //       ])
-    //       .run()
-    //       .then(result => {
-    //         expect(result.storeState.eth).toMatchObject({
-    //           transactions: [
-    //             Remote.Success(path([mockContext, 'txns'], ethTransactionData))
-    //           ]
-    //         })
-    //       })
-    //   })
-
-    //   it('should append transaction data to the state if reset is false', () => {
-    //     const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
-    //     return expectSaga(dataEthSagas.fetchTransactions, {
-    //       payload: { reset: false }
-    //     })
-    //       .withReducer(reducers)
-    //       .withState({
-    //         eth: {
-    //           transactions: [Remote.Success(initTx)]
-    //         }
-    //       })
-    //       .provide([
-    //         [select(selectors.kvStore.eth.getContext), mockContextR],
-    //         [select(S.getTransactions), pages]
-    //       ])
-    //       .run()
-    //       .then(result => {
-    //         expect(result.storeState.eth).toMatchObject({
-    //           transactions: append(
-    //             Remote.Success(path([mockContext, 'txns'], ethTransactionData)),
-    //             [Remote.Success(initTx)]
-    //           )
-    //         })
-    //       })
-    //   })
-    // })
   })
 })

@@ -28,7 +28,7 @@ const AutoDisconnection = props => {
           />
         </ModalHeader>
         <ModalBody>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.autodisconnection.explain'
               defaultMessage="You've been inactive for {duration} minutes."
@@ -36,7 +36,7 @@ const AutoDisconnection = props => {
             />
           </Text>
           <br />
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.autodisconnection.explain2'
               defaultMessage="Click 'Cancel' if you don't want to be logged out automatically."
@@ -44,7 +44,7 @@ const AutoDisconnection = props => {
           </Text>
         </ModalBody>
         <ModalFooter align='spaced'>
-          <Link size='13px' weight={300} onClick={handleCancel}>
+          <Link size='13px' weight={400} onClick={handleCancel}>
             <FormattedMessage
               id='modals.autodisconnection.cancel'
               defaultMessage='Cancel'

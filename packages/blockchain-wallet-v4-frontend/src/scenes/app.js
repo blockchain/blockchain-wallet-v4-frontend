@@ -3,10 +3,11 @@ import { Redirect, Switch } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
-import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import { map, values } from 'ramda'
 import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
+import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -41,18 +42,26 @@ const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
   html, body {overflow: hidden;}
   // hide scrollbars
-  ::-webkit-scrollbar { 
-    display: none; 
+  ::-webkit-scrollbar {
+    display: none;
   }
   * {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-font-smoothing: antialiased;
   }
 `
 
 class App extends React.PureComponent {
   render () {
-    const { store, history, messages, persistor, isAuthenticated } = this.props
+    const {
+      store,
+      history,
+      messages,
+      persistor,
+      isAuthenticated,
+      supportedCoins
+    } = this.props
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>
@@ -93,26 +102,6 @@ class App extends React.PureComponent {
                     <WalletLayout path='/home' component={Home} />
                     <WalletLayout path='/buy-sell' component={BuySell} />
                     <WalletLayout
-                      path='/btc/transactions'
-                      component={Transactions}
-                      coin='BTC'
-                    />
-                    <WalletLayout
-                      path='/eth/transactions'
-                      component={Transactions}
-                      coin='ETH'
-                    />
-                    <WalletLayout
-                      path='/bch/transactions'
-                      component={Transactions}
-                      coin='BCH'
-                    />
-                    <WalletLayout
-                      path='/xlm/transactions'
-                      component={Transactions}
-                      coin='XLM'
-                    />
-                    <WalletLayout
                       path='/swap/history'
                       component={ExchangeHistory}
                     />
@@ -142,6 +131,20 @@ class App extends React.PureComponent {
                       component={General}
                     />
                     <WalletLayout path='/lockbox' component={Lockbox} />
+                    {values(
+                      map(
+                        coin =>
+                          coin.txListAppRoute &&
+                          coin.invited && (
+                            <WalletLayout
+                              path={coin.txListAppRoute}
+                              component={Transactions}
+                              coin={coin.coinCode}
+                            />
+                          ),
+                        supportedCoins
+                      )
+                    )}
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
@@ -162,7 +165,10 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state)
+  isAuthenticated: selectors.auth.isAuthenticated(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
 })
 
 export default connect(mapStateToProps)(App)
