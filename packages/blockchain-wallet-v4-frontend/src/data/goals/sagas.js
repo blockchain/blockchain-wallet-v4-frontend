@@ -234,7 +234,7 @@ export default ({ api }) => {
       selectors.core.kvStore.buySell.getCoinifyToken
     )
     const coinifyToken = coinifyTokenR.getOrElse(false)
-    if (!userData) yield call(createUser)
+    if (!userData && coinifyToken) yield call(createUser)
     if (coinifyToken && kycNotFinished) {
       return yield put(
         actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
