@@ -101,7 +101,7 @@
           "coinCode": "ETH",
           "coinTicker": "ETH",
           "colorCode": "eth",
-          "displayName": "Ethereum",
+          "displayName": "Ether",
           "config": {
             "network": 1
           },
@@ -111,6 +111,7 @@
             "circle": "eth-circle",
             "circleFilled": "eth-circle-filled"
           },
+          "lastTxFuse": 600,
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/eth/transactions"
