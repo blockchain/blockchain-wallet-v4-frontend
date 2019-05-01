@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { includes } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import TransactionListItem from './template'
 
+const { TRANSACTION_EVENTS } = model.analytics
 class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
@@ -51,17 +52,25 @@ class ListItemContainer extends React.PureComponent {
     }
   }
 
+  onViewTxDetails = coin => {
+    this.props.analyticsActions.logEvent([
+      ...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER,
+      coin
+    ])
+  }
+
   render () {
     const { coin, currency, transaction, buySellPartner } = this.props
     return (
       <TransactionListItem
+        buySellPartner={buySellPartner}
         coin={coin}
         currency={currency}
-        isToggled={this.state.isToggled}
-        handleToggle={this.handleToggle}
-        transaction={transaction}
-        buySellPartner={buySellPartner}
         handleEditDescription={this.handleEditDescription}
+        handleToggle={this.handleToggle}
+        isToggled={this.state.isToggled}
+        onViewTxDetails={this.onViewTxDetails}
+        transaction={transaction}
       />
     )
   }
@@ -72,6 +81,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),

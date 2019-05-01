@@ -45,7 +45,13 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = props => {
-  const { blockHeight, coin, txBlockHeight, supportedCoins } = props
+  const {
+    blockHeight,
+    coin,
+    txBlockHeight,
+    supportedCoins,
+    onViewTxDetails
+  } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
   const minConfirmations = supportedCoins[coin].minConfirmations
@@ -85,6 +91,7 @@ const Confirmations = props => {
           href={`${supportedCoins[coin].txExplorerBaseUrl}/${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
+          onClick={() => onViewTxDetails(coin)}
         >
           <Icon
             name='open-in-new-tab'
