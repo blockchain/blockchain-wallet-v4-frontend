@@ -115,3 +115,7 @@ export const WALLET_EVENTS = {
   SHOW_XPUB: ['wallets', 'show_xpub'],
   UNARCHIVE: ['wallets', 'unarchive']
 }
+export const GENERAL_EVENTS = {
+  VIEW_WHATS_NEW: ['general', 'view_whats_new'],
+  VIEW_FAQ: ['general', 'view_faq']
+}
