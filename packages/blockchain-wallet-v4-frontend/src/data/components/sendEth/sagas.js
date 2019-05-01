@@ -135,7 +135,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           payment = yield payment.to(value)
+          // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+          // After updating payment success check if to isContract
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':

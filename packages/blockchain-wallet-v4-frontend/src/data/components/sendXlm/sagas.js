@@ -22,7 +22,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
-export default ({ coreSagas }) => {
+export default ({ api, coreSagas }) => {
   const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
@@ -88,8 +88,12 @@ export default ({ coreSagas }) => {
           break
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
-          payment = yield call(payment.to, value)
-          break
+          payment = yield payment.to(value)
+          // Do not block payment update when to is changed w/ destinationAccount check
+          yield put(A.paymentUpdatedSuccess(payment.value()))
+          // After updating payment success check if destinationAccount exists
+          yield put(A.sendXlmCheckDestinationAccountExists(value))
+          return
         case 'amount':
           const xlmAmount = prop('coin', payload)
           const stroopAmount = Exchange.convertXlmToXlm({
@@ -113,6 +117,38 @@ export default ({ coreSagas }) => {
       yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
+    }
+  }
+
+  const checkAccountExistance = function * (id) {
+    try {
+      yield call(api.getXlmAccount, id)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  const checkDestinationAccountExists = function * ({ payload }) {
+    try {
+      yield put(A.sendXlmCheckDestinationAccountExistsLoading())
+      const destinationAccountExists = yield call(
+        checkAccountExistance,
+        payload
+      )
+
+      let payment = (yield select(S.getPayment)).getOrElse({})
+      payment = yield call(coreSagas.payment.xlm.create, { payment })
+      payment = yield payment.setDestinationAccountExists(
+        destinationAccountExists
+      )
+
+      yield put(A.paymentUpdatedSuccess(payment.value()))
+      yield put(
+        A.sendXlmCheckDestinationAccountExistsSuccess(destinationAccountExists)
+      )
+    } catch (e) {
+      yield put(A.sendXlmCheckDestinationAccountExistsFailure(e))
     }
   }
 
@@ -273,6 +309,7 @@ export default ({ coreSagas }) => {
 
   return {
     initialized,
+    checkDestinationAccountExists,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,

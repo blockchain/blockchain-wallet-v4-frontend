@@ -84,6 +84,7 @@ const FirstStep = props => {
     balanceStatus,
     error,
     handleSubmit,
+    isDestinationChecked,
     submit,
     excludeLockbox
   } = props
@@ -276,6 +277,7 @@ const FirstStep = props => {
                 submitting ||
                 invalid ||
                 disableLockboxSend ||
+                !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }
               data-e2e='xlmSendContinue'
