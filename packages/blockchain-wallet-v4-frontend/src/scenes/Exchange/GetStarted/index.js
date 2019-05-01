@@ -62,14 +62,6 @@ const Row = styled.div`
     margin-bottom: ${props => props.marginBottom || 'none'};
   }
 `
-const PreviewImage = styled(Image).attrs({
-  name: 'kyc-get-started'
-})`
-  width: 410px;
-  @media (max-width: 1200px) {
-    width: 350px;
-  }
-`
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
   size: '16px',
@@ -86,6 +78,10 @@ const PrimaryText = styled(Text).attrs({
 })`
   display: inline;
   white-space: nowrap;
+`
+const IntroImage = styled(Image)`
+  box-shadow: 6px 8px 8px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
 `
 
 export const GetStarted = () => (
@@ -158,7 +154,14 @@ export const GetStarted = () => (
         </Row>
       </Column>
       <Column>
-        <PreviewImage />
+        <IntroImage
+          width='400px'
+          name='swap-intro'
+          srcset={{
+            'swap-intro2': '2x',
+            'swap-intro3': '3x'
+          }}
+        />
       </Column>
     </Container>
   </Wrapper>
