@@ -102,9 +102,9 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
-        <Tooltip id='sendether.firststep.sharetooltip'>
+        <Tooltip id='sendeth.firststep.description'>
           <FormattedMessage
-            id='modals.sendether.firststep.sharetooltip'
+            id='modals.sendeth.firststep.description'
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
