@@ -104,7 +104,16 @@ exports[`StatusBar renders correctly 1`] = `
       </GetStarted__Row>
     </GetStarted__Column>
     <GetStarted__Column>
-      <GetStarted__PreviewImage />
+      <GetStarted__IntroImage
+        name="swap-intro"
+        srcset={
+          Object {
+            "swap-intro2": "2x",
+            "swap-intro3": "3x",
+          }
+        }
+        width="400px"
+      />
     </GetStarted__Column>
   </GetStarted__Container>
 </GetStarted__Wrapper>

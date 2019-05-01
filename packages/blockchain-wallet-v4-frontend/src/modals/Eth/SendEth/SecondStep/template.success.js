@@ -144,11 +144,7 @@ const Success = props => {
           <ExchangeAmounts>
             {coin === 'ETH' ? (
               <React.Fragment>
-                <SummaryExchangeAmount>
-                  <FiatDisplay coin={coin} size='16px' weight={500}>
-                    {totalCrypto}
-                  </FiatDisplay>
-                </SummaryExchangeAmount>
+                <SummaryExchangeAmount>{totalFiat}</SummaryExchangeAmount>
                 <SummarySubExchangeAmount>
                   <CoinDisplay coin={coin} size='14px' weight={300}>
                     {totalCrypto}
