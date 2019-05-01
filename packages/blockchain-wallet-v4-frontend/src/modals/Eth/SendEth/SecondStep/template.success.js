@@ -50,6 +50,7 @@ const Success = props => {
     description,
     amount,
     fee,
+    totalCrypto,
     totalFiat,
     handleBack,
     handleSubmit
@@ -141,7 +142,22 @@ const Success = props => {
             />
           </Text>
           <ExchangeAmounts>
-            <SummaryExchangeAmount>-{totalFiat}</SummaryExchangeAmount>
+            {coin === 'ETH' ? (
+              <React.Fragment>
+                <SummaryExchangeAmount>
+                  <FiatDisplay coin={coin} size='16px' weight={500}>
+                    {totalCrypto}
+                  </FiatDisplay>
+                </SummaryExchangeAmount>
+                <SummarySubExchangeAmount>
+                  <CoinDisplay coin={coin} size='14px' weight={300}>
+                    {totalCrypto}
+                  </CoinDisplay>
+                </SummarySubExchangeAmount>
+              </React.Fragment>
+            ) : (
+              <SummaryExchangeAmount>-{totalFiat}</SummaryExchangeAmount>
+            )}
           </ExchangeAmounts>
         </LargeTableRow>
       </ConfirmWrapper>
