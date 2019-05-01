@@ -72,10 +72,16 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
           />
         </Tooltip>
-        <Tooltip id='reqEthShare'>
+        <Tooltip id='requesteth.shareaddress'>
           <FormattedMessage
-            id='modals.requestether.sharetooltip'
+            id='modals.requesteth.shareaddress'
             defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
+          />
+        </Tooltip>
+        <Tooltip id='requestpax.shareaddress'>
+          <FormattedMessage
+            id='modals.requesteth.erc20.shareaddress'
+            defaultMessage='Share this address with others, and they can send you PAX directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
         <Tooltip id='reqXlmShare'>
@@ -84,10 +90,16 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
-        <Tooltip id='reqEthScan'>
+        <Tooltip id='requesteth.qrcode'>
           <FormattedMessage
-            id='modals.requestether.scan_tooltip'
-            defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+            id='modals.requesteth.qrcode'
+            defaultMessage='Ask the sender to scan this QR code with their ETH wallet'
+          />
+        </Tooltip>
+        <Tooltip id='requestpax.qrcode'>
+          <FormattedMessage
+            id='modals.requesteth.erc20.qrcode'
+            defaultMessage='Ask the sender to scan this QR code with their PAX wallet'
           />
         </Tooltip>
         <Tooltip id='reqXlmScan'>
