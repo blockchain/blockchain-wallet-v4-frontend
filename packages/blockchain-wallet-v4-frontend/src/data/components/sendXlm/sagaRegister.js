@@ -3,8 +3,8 @@ import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const sendXlmSagas = sagas({ coreSagas })
+export default ({ api, coreSagas }) => {
+  const sendXlmSagas = sagas({ api, coreSagas })
 
   return function * sendXlmSaga () {
     yield takeLatest(AT.INITIALIZED, sendXlmSagas.initialized)
@@ -20,6 +20,10 @@ export default ({ coreSagas }) => {
     yield takeLatest(
       AT.SECOND_STEP_SUBMIT_CLICKED,
       sendXlmSagas.secondStepSubmitClicked
+    )
+    yield takeLatest(
+      AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS,
+      sendXlmSagas.checkDestinationAccountExists
     )
     yield takeLatest(actionTypes.CHANGE, sendXlmSagas.formChanged)
   }

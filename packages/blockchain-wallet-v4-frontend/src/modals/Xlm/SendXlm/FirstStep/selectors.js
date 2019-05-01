@@ -1,10 +1,12 @@
 import { prop, propOr, lift } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendXlm.getPayment,
+    selectors.components.sendXlm.getCheckDestination,
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
@@ -16,6 +18,7 @@ export const getData = createDeepEqualSelector(
   ],
   (
     paymentR,
+    checkDestinationR,
     balanceR,
     lockboxXlmAccountsR,
     currencyR,
@@ -40,12 +43,14 @@ export const getData = createDeepEqualSelector(
       const fee = propOr('0', 'fee', payment)
       const destination = prop('to', formValues)
       const from = prop('from', formValues)
+      const isDestinationChecked = Remote.Success.is(checkDestinationR)
 
       return {
         activeField,
         effectiveBalance,
         fee,
         destination,
+        isDestinationChecked,
         from,
         reserve,
         currency,
