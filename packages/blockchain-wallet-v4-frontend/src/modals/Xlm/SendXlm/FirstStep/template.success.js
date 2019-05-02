@@ -11,6 +11,7 @@ import { required, validXlmAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
+  Link,
   Text,
   TooltipHost,
   TooltipIcon
@@ -75,18 +76,19 @@ const MemoField = styled.div`
 const FirstStep = props => {
   const {
     activeField,
-    pristine,
-    invalid,
-    submitting,
-    fee,
-    noAccount,
-    from,
     balanceStatus,
     error,
+    excludeLockbox,
+    fee,
+    from,
     handleSubmit,
+    invalid,
     isDestinationChecked,
+    isDestinationExchange,
+    noAccount,
+    pristine,
     submit,
-    excludeLockbox
+    submitting
   } = props
   const amountActive = activeField === 'amount'
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -226,7 +228,30 @@ const FirstStep = props => {
                 />
               </MemoField>
             </FormItem>
+            {isDestinationExchange && (
+              <WarningBanners type='info' data-e2e='sendXlmToExchangeAddress'>
+                <Text color='warning' size='12px'>
+                  <FormattedMessage
+                    id='modals.sendxlm.firststep.sendtoexchange'
+                    defaultMessage='Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.'
+                  />
+                  <Link
+                    href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
+                    target='_blank'
+                    size='11px'
+                    weight={700}
+                    altFont
+                  >
+                    <FormattedMessage
+                      id='modals.sendxlm.firststep.sendtoexchangelearn'
+                      defaultMessage='Learn More'
+                    />
+                  </Link>
+                </Text>
+              </WarningBanners>
+            )}
           </FormGroup>
+
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel for='description'>

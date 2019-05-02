@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
     )
-    const destinationIsExchange = isDestinationExchangeR.getOrElse(false)
+    const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
@@ -55,11 +55,11 @@ export const getData = createDeepEqualSelector(
         destination,
         destinationAccountExists,
         effectiveBalance,
-        destinationIsExchange,
         excludeLockbox,
         fee,
         from,
         isDestinationChecked,
+        isDestinationExchange,
         noAccount,
         rates,
         reserve
