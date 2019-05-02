@@ -14,6 +14,7 @@ const animationRule = css`
 `
 
 export const SpinningIcon = styled(Icon)`
+  margin-top: 2px;
   animation: ${({ rotating }) => rotating && animationRule};
 `
 
@@ -29,7 +30,7 @@ const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
     >
       <SpinningIcon
         name='refresh'
-        size='16px'
+        size='24px'
         color='white'
         cursor
         rotating={rotating}
