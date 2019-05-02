@@ -322,6 +322,8 @@ export default ({ api }) => {
           memo: memo => chain(gen, payment => payment.memo(memo)),
           memoType: memoType =>
             chain(gen, payment => payment.memoType(memoType)),
+          setDestinationAccountExists: value =>
+            chain(gen, payment => payment.setDestinationAccountExists(value)),
           * done () {
             return yield gen()
           }

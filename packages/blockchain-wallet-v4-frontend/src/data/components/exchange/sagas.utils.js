@@ -128,6 +128,7 @@ export default ({ coreSagas, networks }) => {
           .memoType('text')
           .memo(memo)
           .amount(amount)
+          .setDestinationAccountExists(true)
         break
       default:
         yield put(
