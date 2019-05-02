@@ -7,6 +7,7 @@ export const getData = createDeepEqualSelector(
   [
     selectors.components.sendXlm.getPayment,
     selectors.components.sendXlm.getCheckDestination,
+    selectors.components.sendXlm.getIsDestinationExchange,
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
@@ -19,6 +20,7 @@ export const getData = createDeepEqualSelector(
   (
     paymentR,
     checkDestinationR,
+    isDestinationExchangeR,
     balanceR,
     lockboxXlmAccountsR,
     currencyR,
@@ -32,6 +34,7 @@ export const getData = createDeepEqualSelector(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
     )
+    const destinationIsExchange = isDestinationExchangeR.getOrElse(false)
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
@@ -47,18 +50,19 @@ export const getData = createDeepEqualSelector(
 
       return {
         activeField,
-        effectiveBalance,
-        fee,
-        destination,
-        isDestinationChecked,
-        from,
-        reserve,
-        currency,
-        rates,
-        destinationAccountExists,
         balanceStatus: balanceR,
+        currency,
+        destination,
+        destinationAccountExists,
+        effectiveBalance,
+        destinationIsExchange,
+        excludeLockbox,
+        fee,
+        from,
+        isDestinationChecked,
         noAccount,
-        excludeLockbox
+        rates,
+        reserve
       }
     }
     return lift(transform)(paymentR, currencyR, ratesR)

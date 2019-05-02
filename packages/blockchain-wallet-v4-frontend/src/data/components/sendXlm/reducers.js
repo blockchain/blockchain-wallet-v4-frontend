@@ -5,6 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   step: 1,
   checkDestination: Remote.NotAsked,
+  isDestinationExchange: Remote.NotAsked,
   payment: Remote.NotAsked,
   feeToggled: false,
   showNoAccountForm: false
@@ -35,6 +36,15 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_FAILURE: {
       return assoc('checkDestination', Remote.Failure(payload), state)
+    }
+    case AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_LOADING: {
+      return assoc('isDestinationExchange', Remote.Loading, state)
+    }
+    case AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_SUCCESS: {
+      return assoc('isDestinationExchange', Remote.Success(payload), state)
+    }
+    case AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_FAILURE: {
+      return assoc('isDestinationExchange', Remote.Failure(payload), state)
     }
     case AT.FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)
