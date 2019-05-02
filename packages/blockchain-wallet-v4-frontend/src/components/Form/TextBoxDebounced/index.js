@@ -90,12 +90,12 @@ class TextBoxDebounced extends React.Component {
           onBlur={this.handleBlur}
         />
         {meta.touched && meta.error && (
-          <Error size='12px' weight={300} color='error'>
+          <Error size='12px' weight={400} color='error'>
             {meta.error}
           </Error>
         )}
         {meta.touched && !meta.error && meta.warning && (
-          <Error size='12px' weight={300} color='sent'>
+          <Error size='12px' weight={400} color='sent'>
             {meta.warning}
           </Error>
         )}

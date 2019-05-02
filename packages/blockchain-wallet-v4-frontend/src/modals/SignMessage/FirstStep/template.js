@@ -34,13 +34,13 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>
-        <Text size='14px' weight={400}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
             id='modals.signmessage.firststep.address'
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={300} data-e2e='signMessageAddressValue'>
+        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
@@ -65,7 +65,7 @@ const FirstStep = props => {
         <SubmitRow>
           <ClickableText
             size='14px'
-            weight={300}
+            weight={400}
             onClick={closeAll}
             data-e2e='signMessageCloseButton'
           >

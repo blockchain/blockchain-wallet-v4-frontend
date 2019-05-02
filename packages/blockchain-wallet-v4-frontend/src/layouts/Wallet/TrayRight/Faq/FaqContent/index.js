@@ -149,7 +149,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer5.link'
@@ -198,7 +198,7 @@ const FaqContent = [
               href='https://www.coinify.com/legal/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.coinify.answer7.link'
@@ -222,8 +222,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer8.one.new'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.coinify.answer8.one.new1'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD Pax. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -351,7 +351,7 @@ const FaqContent = [
               href='https://www.sfox.com/privacy.html'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer4.link'
@@ -383,7 +383,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.sfox.answer5.link'
@@ -487,8 +487,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer1.one'
-              defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same.'
+              id='scenes.faq.group.walletfunctionality.answer1.one.updated'
+              defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD Pax transactions, your address will remain the same.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -573,7 +573,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer6.link'
@@ -629,8 +629,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer8.one.new'
-              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.'
+              id='scenes.faq.group.walletfunctionality.answer8.one'
+              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. By design,  transactions on cryptocurrency networks are designed to be irreversible and we have no control over them. Knowing this, it’s extremely important to make sure your transaction details are correct before you click send.'
             />
             <br />
             <br />
@@ -643,7 +643,7 @@ const FaqContent = [
               href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer8.link'
@@ -687,7 +687,7 @@ const FaqContent = [
               href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer9.link'
@@ -745,21 +745,21 @@ const FaqContent = [
             <br />
             <br />
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer11.two'
-              defaultMessage='Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.'
+              id='scenes.faq.group.walletfunctionality.answer11.two.new'
+              defaultMessage='We launched our Bitcoin explorer in August 2011 as a resource for the community to study bitcoin transactions, learn about the health of the network, and watch real-time incoming transactions.'
             />
             <br />
             <br />
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer11.three'
-              defaultMessage='To look up a bitcoin transaction, users can visit'
+              id='scenes.faq.group.walletfunctionality.answer11.three.new'
+              defaultMessage='From 2018-2019, we launched our Ethereum and Bitcoin Cash explorers — further broadening the way crypto data is found and analyzed in a visually intuitive way. Visit'
             />
             <span>&nbsp;</span>
             <Link
               href='https://blockchain.com/explorer'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer11.link'
@@ -768,8 +768,8 @@ const FaqContent = [
             </Link>
             <span>&nbsp;</span>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer11.four'
-              defaultMessage='and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.'
+              id='scenes.faq.group.walletfunctionality.answer11.four.new'
+              defaultMessage='and use the search bar to learn more about a particular BTC, ETH or BCH address, transaction hash, or block number.'
             />
           </FaqDescription>
         )
@@ -798,17 +798,57 @@ const FaqContent = [
       {
         question: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.abcvsbsvq'
-            defaultMessage='What is Bitcoin Cash ABC vs. BSV?'
+            id='scenes.faq.group.walletfunctionality.question13'
+            defaultMessage='What is USD Pax and how does it differ from the other cryptocurrencies in my wallet?'
           />
         ),
         answer: (
-          <FaqDescription>
-            <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.abcvsbsva'
-              defaultMessage='Bitcoin Cash (BCH) experienced a hard fork on November 15th, 2018, resulting in two split coins: Bitcoin Cash ABC (BCH) and Bitcoin Cash SV (BSV). As with any hard fork — our users are our priority. We chose to go forward with BCHABC because it was the stronger network. BSV subsequently showed strength and stability as well, which is why we made it available in your Wallet’s settings tab to claim, send and exchange.'
-            />
-          </FaqDescription>
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.answer13'
+            defaultMessage='USD Pax is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD Pax functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.question14'
+            defaultMessage='Why do I need a small amount of ETH to send or exchange PAX?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.answer14'
+            defaultMessage='USD Pax is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.question15'
+            defaultMessage='How does USD Pax remain stable?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.answer15'
+            defaultMessage='USD Pax is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.question16'
+            defaultMessage='How do I get USD Pax into my bank account?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.walletfunctionality.answer16'
+            defaultMessage='Although the price of USD Pax is pegged to USD, USD Pax remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).'
+          />
         )
       }
     ]
@@ -969,7 +1009,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/requests/new'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletsecurity.answer4.link'
@@ -1012,7 +1052,7 @@ const FaqContent = [
               href='https://www.blockchain.com/lockbox'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer1.link'
@@ -1072,7 +1112,7 @@ const FaqContent = [
               href='https://blockchain.zendesk.com/hc/en-us/articles/360018296692-Transferring-funds-between-your-Lockbox-and-web-wallet'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer4.link'
@@ -1126,7 +1166,7 @@ const FaqContent = [
               href='https://support.blockchain.com/hc/en-us/articles/360018292712-Step-1-Connecting-your-new-device'
               target='_blank'
               size='14px'
-              weight={300}
+              weight={400}
             >
               <FormattedMessage
                 id='scenes.faq.group.lockbox.answer6.link'

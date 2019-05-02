@@ -18,7 +18,7 @@ class SwitchableDisplayContainer extends React.PureComponent {
 
 SwitchableDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired,
+  coin: PropTypes.string.isRequired,
   coinDisplayed: PropTypes.bool.isRequired
 }
 

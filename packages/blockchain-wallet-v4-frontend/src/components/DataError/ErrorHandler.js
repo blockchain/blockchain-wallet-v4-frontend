@@ -20,11 +20,11 @@ const ErrorHandler = props => {
   if (vulnerableAddress) {
     return (
       <React.Fragment>
-        <MessageText size='18px' weight={300}>
+        <MessageText size='18px' weight={400}>
           {message}
         </MessageText>
         <Button nature='primary' onClick={() => onClick(vulnerableAddress)}>
-          <Text size='18px' weight={300} color='white'>
+          <Text size='18px' weight={400} color='white'>
             <FormattedMessage
               id='components.dataerror.archiveaddress'
               defaultMessage='Archive Address'
@@ -35,7 +35,7 @@ const ErrorHandler = props => {
     )
   } else if (errorMessage === FETCH_FEES_FAILURE) {
     return (
-      <Text size='16px' weight={300}>
+      <Text size='16px' weight={400}>
         <FormattedMessage
           id='components.dataerror.feesfetchfailure'
           defaultMessage='There was a problem fetching fees. Please try again later.'
@@ -45,7 +45,7 @@ const ErrorHandler = props => {
   } else {
     return (
       <TextGroup inline>
-        <Text size='18px' weight={300}>
+        <Text size='18px' weight={400}>
           <FormattedMessage
             id='components.dataerror.body'
             defaultMessage='Please '
@@ -57,7 +57,7 @@ const ErrorHandler = props => {
             defaultMessage='click here'
           />
         </Link>
-        <Text size='18px' weight={300}>
+        <Text size='18px' weight={400}>
           <FormattedMessage
             id='components.dataerror.refresh'
             defaultMessage=' to refresh.'

@@ -83,7 +83,7 @@ export const getLimitsError = (
       )
     case 'effective_max_under_min':
       const buyLink = (
-        <Link size='13px' weight={300} onClick={() => changeTab('buy')}>
+        <Link size='13px' weight={400} onClick={() => changeTab('buy')}>
           <FormattedMessage
             id='buy.quote_input.effective_max_under_min3'
             defaultMessage='buying'
@@ -152,7 +152,7 @@ export const submitButtonHelper = (
 
   if (!canTrade) {
     return (
-      <Error size='13px' weight={300} color='error'>
+      <Error size='13px' weight={400} color='error'>
         {reasonExplanation}
       </Error>
     )

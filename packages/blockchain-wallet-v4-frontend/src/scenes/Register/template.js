@@ -65,18 +65,18 @@ const Register = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300} capitalize data-e2e='signupHeader'>
+        <Text size='24px' weight={400} capitalize data-e2e='signupHeader'>
           <FormattedMessage
             id='scenes.register.create'
             defaultMessage='Create your Wallet'
           />
         </Text>
         <TextGroup inline>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage id='scenes.register.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/login'>
-            <Link size='13px' weight={300} data-e2e='signupLinkToLogin'>
+            <Link size='13px' weight={500} data-e2e='signupLinkToLogin'>
               <FormattedMessage
                 id='scenes.register.login'
                 defaultMessage='Login'
@@ -85,7 +85,7 @@ const Register = props => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='14px' weight={300} altFont>
+      <Text size='14px' weight={400} altFont>
         <FormattedMessage
           id='scenes.register.explain'
           defaultMessage='Sign up for a free wallet below'
@@ -140,7 +140,7 @@ const Register = props => {
           </FormItem>
           {passwordLength > 0 && (
             <div>
-              <PasswordTip size='12px' weight={200}>
+              <PasswordTip size='12px' weight={400}>
                 {passwordStrength <= 1 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.weak'

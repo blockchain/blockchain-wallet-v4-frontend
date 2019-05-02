@@ -34,7 +34,7 @@ class RequestBtcContainer extends React.PureComponent {
 }
 
 const enhance = compose(
-  modalEnhancer('RequestBtc'),
+  modalEnhancer('@MODAL.REQUEST.BTC'),
   wizardProvider('requestBtc', 2)
 )
 

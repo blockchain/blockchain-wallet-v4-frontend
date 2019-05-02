@@ -20,12 +20,10 @@ import {
 import StringDisplay from 'components/Display/StringDisplay'
 import TargetFiatAmount from './TargetFiatAmount'
 
-const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
-
 const SummaryWrapper = styled(BorderWrapper)`
   padding: 0;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 `
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
@@ -36,17 +34,22 @@ const TooltipWrapAmountHeader = styled(AmountHeader)`
 const SummaryStringDisplay = styled(StringDisplay)`
   justify-content: flex-end;
 `
+
+const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
+
 export class Summary extends React.PureComponent {
   render () {
     const {
       currency,
+      insufficientEthBalance,
       sourceAmount,
-      sourceCoin,
+      sourceCoinTicker,
       sourceFee,
       sourceFiat,
       sourceFeeFiat,
       targetAmount,
-      targetCoin
+      targetCoin,
+      targetCoinTicker
     } = this.props
 
     const fiatCurrencySymbol = Exchange.getSymbol(currency)
@@ -77,7 +80,7 @@ export class Summary extends React.PureComponent {
                 {sourceAmount.map(amount =>
                   coinToString({
                     value: amount,
-                    unit: { symbol: sourceCoin },
+                    unit: { symbol: sourceCoinTicker },
                     minDigits: 2
                   })
                 )}
@@ -101,18 +104,20 @@ export class Summary extends React.PureComponent {
           </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
-              color='gray-5'
+              color={insufficientEthBalance ? 'error' : 'gray-5'}
               data-e2e='exchangeSummaryFeeFiatValue'
             >
               {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
             </SummaryExchangeAmount>
             <SubExchangeAmount
-              color='gray-5'
+              color={insufficientEthBalance ? 'error' : 'gray-5'}
               data-e2e='exchangeSummaryFeeValue'
             >
               {coinToString({
                 value: sourceFee.source,
-                unit: { symbol: sourceCoin },
+                unit: {
+                  symbol: sourceFee.isSourceErc20 ? 'ETH' : sourceCoinTicker
+                },
                 minDigits: 2
               })}
             </SubExchangeAmount>
@@ -143,12 +148,14 @@ export class Summary extends React.PureComponent {
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
-              -
+              <span>-</span>
               <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
                 {sourceAmount.map(amount =>
                   coinToString({
-                    value: add(amount, sourceFee.source),
-                    unit: { symbol: sourceCoin },
+                    value: sourceFee.isSourceErc20
+                      ? amount
+                      : add(amount, sourceFee.source),
+                    unit: { symbol: sourceCoinTicker },
                     minDigits: 2
                   })
                 )}
@@ -169,7 +176,7 @@ export class Summary extends React.PureComponent {
                 targetAmount={targetAmount}
                 targetCoin={targetCoin}
                 color='brand-primary'
-                weight={400}
+                weight={500}
               />
             </SummaryExchangeAmount>
             <SubExchangeAmount color='gray-5'>
@@ -177,7 +184,7 @@ export class Summary extends React.PureComponent {
                 {targetAmount.map(amount =>
                   coinToString({
                     value: amount,
-                    unit: { symbol: targetCoin },
+                    unit: { symbol: targetCoinTicker },
                     minDigits: 2
                   })
                 )}

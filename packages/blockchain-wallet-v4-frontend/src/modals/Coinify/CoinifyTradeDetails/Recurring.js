@@ -45,7 +45,7 @@ const Recurring = ({ trade, subscription }) => {
   return (
     <RecurringTradeWrapper>
       <HeaderWrapper>
-        <Text color='brand-secondary' weight={400} size='14px'>
+        <Text color='brand-secondary' weight={500} size='14px'>
           <FormattedMessage
             id='orderdetails.recurring.thisisrecurring'
             defaultMessage='This is a Recurring Order'
@@ -58,7 +58,7 @@ const Recurring = ({ trade, subscription }) => {
       <RecurringBox>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={300} size='13px'>
+            <Text color='brand-secondary' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.amount'
                 defaultMessage='Amount:'
@@ -66,7 +66,7 @@ const Recurring = ({ trade, subscription }) => {
             </Text>
           </RecurringKey>
           <RecurringValue>
-            <Text weight={300} size='13px'>
+            <Text weight={400} size='13px'>
               {`${Currency.formatFiat(prop('inAmount', trade) / 100)} ${prop(
                 'inCurrency',
                 trade
@@ -76,7 +76,7 @@ const Recurring = ({ trade, subscription }) => {
         </RecurringRow>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={300} size='13px'>
+            <Text color='brand-secondary' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.frequency'
                 defaultMessage='Frequency:'
@@ -84,7 +84,7 @@ const Recurring = ({ trade, subscription }) => {
             </Text>
           </RecurringKey>
           <RecurringValue>
-            <Text weight={300} size='13px'>
+            <Text weight={400} size='13px'>
               {
                 <FormattedMessage
                   id='orderdetails.recurring.frequencybody'
@@ -97,7 +97,7 @@ const Recurring = ({ trade, subscription }) => {
         </RecurringRow>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={300} size='13px'>
+            <Text color='brand-secondary' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.duration'
                 defaultMessage='Duration:'
@@ -105,7 +105,7 @@ const Recurring = ({ trade, subscription }) => {
             </Text>
           </RecurringKey>
           <RecurringValue>
-            <Text weight={300} size='13px'>
+            <Text weight={400} size='13px'>
               {prop('endTime', subscription) ? (
                 <FormattedMessage
                   id='orderdetails.recurring.duration.endtime'

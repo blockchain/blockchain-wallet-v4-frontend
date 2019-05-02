@@ -4,6 +4,11 @@ import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
   switch (ownProps.coin) {
+    case 'BTC':
+    case 'BCH':
+      return {
+        data: getDataBtcBch(state, ownProps.coin)
+      }
     case 'ETH':
       return {
         data: Remote.of({
@@ -12,11 +17,7 @@ export const getData = (state, ownProps) => {
             .getOrElse(null)
         })
       }
-    case 'XLM':
-      return { data: Remote.of({}) }
     default:
-      return {
-        data: getDataBtcBch(state, ownProps.coin)
-      }
+      return { data: Remote.of({}) }
   }
 }

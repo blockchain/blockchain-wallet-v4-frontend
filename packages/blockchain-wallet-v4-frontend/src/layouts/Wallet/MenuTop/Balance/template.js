@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { equals, keys, includes, toUpper } from 'ramda'
 
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
@@ -7,119 +9,75 @@ import LockboxBalance from './LockboxBalance'
 import LockboxTotalBalance from './LockboxBalance/TotalBalance'
 import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
-import BtcBalance from './WalletBalance/BtcBalance'
-import BchBalance from './WalletBalance/BchBalance'
-import BsvBalance from './WalletBalance/BsvBalance'
-import EthBalance from './WalletBalance/EthBalance'
-import XlmBalance from './WalletBalance/XlmBalance'
+import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
-
-import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: relative;
 
   @media (min-width: 850px) {
-    align-items: flex-end;
+    align-items: center;
   }
 `
 const BalanceText = styled(Text)`
-  font-size: 20px;
+  margin-right: 8px;
+  font-size: 14px;
   @media (max-width: 767px) {
-    font-size: 16px;
+    font-size: 14px;
   }
 `
 const BalanceDropdown = styled.div`
-  margin-top: 4px;
+  margin: -2px -10px 0 0;
   > div > ul {
-    right: 0;
+    right: 8px;
     padding: 0;
     position: absolute;
   }
+  > div > div > div > div {
+    font-weight: 400;
+    color: ${props => props.theme['brand-primary']};
+  }
   > div > div > span:last-child {
-    top: 1px;
-    right: 10px;
-    font-size: 11px;
+    top: 0;
+    right: 14px;
+    font-size: 9px;
     font-weight: 600;
     position: relative;
   }
 `
 
-const getComponentOrder = () => [
-  <WalletBalance />,
-  <LockboxBalance />,
-  <PendingBalance />,
-  <WatchOnlyBalance />,
-  <CurrencySwitch />
-]
-
-const getSelectedComponent = path => {
+const getSelectedComponent = (coinOrRoute, supportedCoins) => {
   switch (true) {
-    case path.includes('btc'):
-      return <BtcBalance large />
-    case path.includes('eth'):
-      return <EthBalance large />
-    case path.includes('bch'):
-      return <BchBalance large />
-    case path.includes('bsv'):
-      return <BsvBalance large />
-    case path.includes('xlm'):
-      return <XlmBalance large />
-    case path.includes('lockbox'):
+    case equals(coinOrRoute, 'LOCKBOX'):
       return <LockboxTotalBalance />
+    case includes(toUpper(coinOrRoute), keys(supportedCoins)):
+      return <Balance large coin={toUpper(coinOrRoute)} />
     default:
       return <TotalBalance large />
   }
 }
 
-const getBalanceMessage = path => {
+const getBalanceMessage = (coinOrRoute, supportedCoins) => {
   switch (true) {
-    case path.includes('btc'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.bitcoinbalance'
-          defaultMessage='Bitcoin Balance'
-        />
-      )
-    case path.includes('eth'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.etherbalance'
-          defaultMessage='Ether Balance'
-        />
-      )
-    case path.includes('bch'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.bchbalance'
-          defaultMessage='Bitcoin Cash Balance'
-        />
-      )
-    case path.includes('bsv'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.bsvbalance'
-          defaultMessage='Bitcoin SV Balance'
-        />
-      )
-    case path.includes('xlm'):
-      return (
-        <FormattedMessage
-          id='scenes.wallet.menutop.balance.xlmbalance'
-          defaultMessage='Stellar Balance'
-        />
-      )
-    case path.includes('lockbox'):
+    case equals(coinOrRoute, 'LOCKBOX'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.lockboxbalance'
           defaultMessage='Lockbox Balance'
+        />
+      )
+    case includes(toUpper(coinOrRoute), keys(supportedCoins)):
+      return (
+        <FormattedHTMLMessage
+          id='scenes.wallet.menutop.balance.balance'
+          defaultMessage='{coin} Balance'
+          values={{ coin: supportedCoins[toUpper(coinOrRoute)].displayName }}
         />
       )
     default:
@@ -132,23 +90,30 @@ const getBalanceMessage = path => {
   }
 }
 
-const Success = props => (
-  <Wrapper>
-    <BalanceText weight={300} data-e2e='totalBalance'>
-      {getBalanceMessage(props.path)}
-    </BalanceText>
-    <BalanceDropdown>
-      <ComponentDropdown
-        down
-        forceSelected
-        color={'gray-5'}
-        toggleOnCallback={false}
-        selectedComponent={getSelectedComponent(props.path)}
-        components={getComponentOrder()}
-        callback={() => {}}
-      />
-    </BalanceDropdown>
-  </Wrapper>
-)
+const Success = props => {
+  const { coinOrRoute, supportedCoins } = props
+  return (
+    <Wrapper>
+      <BalanceText weight={500} data-e2e='totalBalance' color='gray-3'>
+        {getBalanceMessage(coinOrRoute, supportedCoins)}
+      </BalanceText>
+      <BalanceDropdown>
+        <ComponentDropdown
+          down
+          forceSelected
+          toggleOnCallback={false}
+          selectedComponent={getSelectedComponent(coinOrRoute, supportedCoins)}
+          components={[
+            <WalletBalance />,
+            <LockboxBalance />,
+            <PendingBalance />,
+            <WatchOnlyBalance />,
+            <CurrencySwitch />
+          ]}
+        />
+      </BalanceDropdown>
+    </Wrapper>
+  )
+}
 
 export default Success

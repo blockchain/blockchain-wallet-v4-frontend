@@ -19,6 +19,10 @@ const LinkContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  > img {
+    margin-right: 20px;
+  }
+
   & > a {
     padding: 10px;
   }
@@ -43,7 +47,7 @@ const Footer = () => {
         <Link
           href='https://blockchain.com/explorer'
           size='12px'
-          weight={300}
+          weight={500}
           color='white'
           uppercase
         >
@@ -55,7 +59,7 @@ const Footer = () => {
         <Link
           href='https://blockchain.com/about'
           size='12px'
-          weight={300}
+          weight={500}
           color='white'
           uppercase
         >
@@ -67,7 +71,7 @@ const Footer = () => {
         <Link
           href='https://blog.blockchain.com'
           size='12px'
-          weight={300}
+          weight={500}
           color='white'
           uppercase
         >
@@ -79,7 +83,7 @@ const Footer = () => {
         <Link
           href='https://support.blockchain.com'
           size='12px'
-          weight={300}
+          weight={500}
           color='white'
           uppercase
         >
@@ -95,7 +99,7 @@ const Footer = () => {
           href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
           target='_blank'
           size='12px'
-          weight={200}
+          weight={500}
           color='white'
         >
           Version {APP_VERSION}

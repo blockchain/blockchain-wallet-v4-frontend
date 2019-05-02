@@ -12,7 +12,7 @@ exports[`Lockbox Balances Component should prompt user to use Chrome if coin is 
   </Lockbox__IconBox>
   <Component
     size="12px"
-    weight={300}
+    weight={400}
   >
     <FormattedMessage
       defaultMessage="Use the Chrome browser to add {coin} to your Lockbox"
@@ -41,12 +41,12 @@ exports[`Lockbox Balances Component should prompt user to user to add coin if no
     <Connect(FiatDisplayContainer)
       coin="BTC"
       size="14px"
-      weight={400}
+      weight={500}
     />
     <Connect(CoinDisplayContainer)
       coin="BTC"
       size="13px"
-      weight={200}
+      weight={400}
     />
   </Lockbox__Balance>
 </Lockbox__Wrapper>
@@ -66,12 +66,12 @@ exports[`Lockbox Balances Component should render and match default snapshot 1`]
     <Connect(FiatDisplayContainer)
       coin="BTC"
       size="14px"
-      weight={400}
+      weight={500}
     />
     <Connect(CoinDisplayContainer)
       coin="BTC"
       size="13px"
-      weight={200}
+      weight={400}
     />
   </Lockbox__Balance>
 </Lockbox__Wrapper>

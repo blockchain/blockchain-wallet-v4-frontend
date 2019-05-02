@@ -104,7 +104,7 @@ const IdentityVerification = () => {
                 defaultMessage='Swap Limits'
               />
             </SwapText>
-            <SwapText size='14px' weight={300}>
+            <SwapText size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.sawp_limit'
                 defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
@@ -117,7 +117,7 @@ const IdentityVerification = () => {
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='12px' weight={300}>
+              <SwapText size='12px' weight={400}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learn_more_limits'
                   defaultMessage="We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"

@@ -31,8 +31,9 @@ const Container = styled.div`
   }
   * {
     outline: none;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
     font-size: 14px;
   }
 `
@@ -92,7 +93,7 @@ class PhoneNumberBox extends React.Component {
         {touched && error && (
           <Error
             size='12px'
-            weight={300}
+            weight={400}
             color='error'
             errorBottom={errorBottom}
           >
@@ -102,7 +103,7 @@ class PhoneNumberBox extends React.Component {
         {touched && !error && warning && (
           <Error
             size='12px'
-            weight={300}
+            weight={400}
             color='sent'
             errorBottom={errorBottom}
           >

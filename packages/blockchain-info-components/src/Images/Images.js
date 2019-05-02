@@ -18,8 +18,13 @@ import buySellSellBtc from './img/buy-sell-sell-btc.svg'
 import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
+import coinDollar from './img/coin-dollar.png'
+import coinDollar2 from './img/coin-dollar@2x.png'
+import coinDollar3 from './img/coin-dollar@3x.png'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
+import ethAirdrop from './img/eth-airdrop.png'
+import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -118,8 +123,13 @@ export default {
   'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
+  'coin-dollar': coinDollar,
+  'coin-dollar2': coinDollar2,
+  'coin-dollar3': coinDollar3,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
+  'eth-airdrop': ethAirdrop,
+  'eth-airdrop2': ethAirdrop2,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,

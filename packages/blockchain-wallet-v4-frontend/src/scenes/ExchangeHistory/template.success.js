@@ -6,6 +6,7 @@ import List from './List'
 
 const Success = props => {
   const {
+    coinModels,
     complete,
     incomplete,
     showComplete,
@@ -18,6 +19,7 @@ const Success = props => {
     <Empty />
   ) : (
     <List
+      coinModels={coinModels}
       complete={complete}
       incomplete={incomplete}
       showComplete={showComplete}

@@ -54,16 +54,33 @@ export const getData = createDeepEqualSelector(
     getCurrentPairRates,
     selectors.modules.rates.getBestRates,
     selectors.components.exchange.getLimits,
+    (state, ownProps) =>
+      selectors.core.walletOptions
+        .getCoinModel(state, ownProps.sourceCoin)
+        .getOrElse({}),
+    (state, ownProps) =>
+      selectors.core.walletOptions
+        .getCoinModel(state, ownProps.targetCoin)
+        .getOrElse({}),
     (state, ownProps) => ownProps
   ],
-  (adviceRatesR, bestRatesR, limitsR, { currency, sourceCoin, targetCoin }) => {
+  (
+    adviceRatesR,
+    bestRatesR,
+    limitsR,
+    sourceCoinModel,
+    targetCoinModel,
+    { currency, sourceCoin, targetCoin }
+  ) => {
     const ratesR = fallbackToBestRates(
       adviceRatesR,
       bestRatesR.map(formatBestRates(sourceCoin, targetCoin, currency))
     )
     return {
       balance: lift(transformBalanceMax(currency))(limitsR, ratesR),
-      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate'))
+      sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
+      sourceCoinTicker: prop('coinTicker', sourceCoinModel),
+      targetCoinTicker: prop('coinTicker', targetCoinModel)
     }
   }
 )

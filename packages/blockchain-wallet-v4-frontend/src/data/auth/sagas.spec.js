@@ -490,18 +490,6 @@ describe('authSagas', () => {
       saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent)
     })
 
-    it("should display success if it's not first login", () => {
-      const beforeEnd = 'beforeEnd'
-
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-        .save(beforeEnd)
-        .next()
-        .isDone()
-        .restore(beforeEnd)
-    })
-
     it("should not display success if it's first login", () => {
       const firstLogin = true
       return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)

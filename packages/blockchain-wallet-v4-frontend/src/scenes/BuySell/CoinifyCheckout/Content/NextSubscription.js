@@ -38,20 +38,20 @@ const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
 
   return (
     <NextRecurringWrapper>
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.buysell.coinifycheckout.content.nextsubscription.title'
           defaultMessage='Your Next Recurring Order is Scheduled'
         />
       </Text>
       <NextRecurringRow>
-        <Text size='13px' weight={300}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.nextsubscription.amount'
             defaultMessage='Amount:'
           />
         </Text>
-        <Text weight={200} size='13px'>
+        <Text weight={400} size='13px'>
           {`${Currency.formatFiat(prop('inAmount', nextTrade) / 100)} ${prop(
             'inCurrency',
             nextTrade
@@ -59,13 +59,13 @@ const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
         </Text>
       </NextRecurringRow>
       <NextRecurringRow>
-        <Text weight={300} size='13px'>
+        <Text weight={400} size='13px'>
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.nextsubscription.frequency'
             defaultMessage='Frequency:'
           />
         </Text>
-        <Text weight={200} size='13px'>
+        <Text weight={400} size='13px'>
           {
             <FormattedMessage
               id='scenes.buysell.coinifycheckout.content.nextsubscription.frequencybody'
@@ -76,7 +76,7 @@ const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
         </Text>
       </NextRecurringRow>
       <LinkContainer>
-        <Link weight={300} size='13px' onClick={manageOrder}>
+        <Link weight={400} size='13px' onClick={manageOrder}>
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.nextsubscription.manageorder'
             defaultMessage='Manage This Order'

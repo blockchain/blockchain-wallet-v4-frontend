@@ -41,13 +41,13 @@ const BtcLinkHandling = props => {
         </Button>
         {warningDisplayed && (
           <TextGroup inline>
-            <Text size='14px' weight={300} color='error'>
+            <Text size='14px' weight={400} color='error'>
               <FormattedMessage
                 id='scenes.settings.preferences.bitcoinlinkhandling.unknownstatus'
                 defaultMessage="We can't detect whether or not handling of bitcoin links has been enabled."
               />
             </Text>
-            <Text size='14px' weight={300} color='error'>
+            <Text size='14px' weight={400} color='error'>
               <FormattedMessage
                 id='scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2'
                 defaultMessage='If it has already been enabled, nothing will happen.'

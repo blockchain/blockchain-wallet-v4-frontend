@@ -87,6 +87,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
+    yield put(actions.goals.saveGoal('pax'))
     yield put(actions.goals.saveGoal('bsv'))
   }
 
@@ -154,9 +155,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
-      if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e)

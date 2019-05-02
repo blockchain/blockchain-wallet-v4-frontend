@@ -1,5 +1,5 @@
 import { set, mapped, over } from 'ramda-lens'
-import { assocPath, compose } from 'ramda'
+import { assocPath, compose, toLower } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -41,6 +41,23 @@ export default (state = INITIAL_STATE, action) => {
       )
       return over(valueLens, setNote, state)
     }
+    case AT.SET_TRANSACTION_NOTE_ERC20: {
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setNote = assocPath(
+        [
+          'ethereum',
+          'erc20',
+          toLower(payload.token),
+          'tx_notes',
+          payload.txHash
+        ],
+        payload.txNote
+      )
+      return over(valueLens, setNote, state)
+    }
     case AT.SET_LATEST_TX_ETH: {
       let valueLens = compose(
         mapped,
@@ -56,6 +73,17 @@ export default (state = INITIAL_STATE, action) => {
       )
       let setTxTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], payload)
       return over(valueLens, setTxTimestamp, state)
+    }
+    case AT.SET_ERC0_HAS_SEEN: {
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setHasSeen = assocPath(
+        ['ethereum', 'erc20', toLower(payload.token), 'has_seen'],
+        true
+      )
+      return over(valueLens, setHasSeen, state)
     }
     default:
       return state

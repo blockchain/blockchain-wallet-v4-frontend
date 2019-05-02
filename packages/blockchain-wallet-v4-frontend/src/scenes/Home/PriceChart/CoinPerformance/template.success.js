@@ -14,6 +14,19 @@ const Wrapper = styled.div`
   }
 `
 
+const buildPriceDisplay = (currency, priceChange, pricePercentageChange) => {
+  let priceFormatted
+  if (priceChange < 0) {
+    priceFormatted = `-${Exchange.getSymbol(currency)}${Currency.formatFiat(
+      priceChange
+    ).substring(1)}`
+  } else {
+    priceFormatted =
+      Exchange.getSymbol(currency) + Currency.formatFiat(priceChange)
+  }
+  return `${priceFormatted} (${Currency.formatFiat(pricePercentageChange)}%)`
+}
+
 const Success = ({
   currency,
   priceChartTime,
@@ -23,8 +36,7 @@ const Success = ({
   return (
     <Wrapper>
       <Text size='12px' color={priceChange >= 0 ? 'success' : 'sent'}>
-        {Exchange.getSymbol(currency) + Currency.formatFiat(priceChange)} (
-        {Currency.formatFiat(pricePercentageChange)}%)
+        {buildPriceDisplay(currency, priceChange, pricePercentageChange)}
       </Text>
       <Text size='12px' color='lightblue-gray'>
         {getPriceChartTime(priceChartTime)}

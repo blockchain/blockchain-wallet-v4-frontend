@@ -51,7 +51,15 @@ const FieldWrapper = styled(Intro)`
 `
 
 const SelectPartner = props => {
-  const { invalid, pristine, fields, sfoxStates, handleSubmit, options } = props
+  const {
+    invalid,
+    pristine,
+    fields,
+    sfoxStates,
+    handleSubmit,
+    options,
+    showRejectedNotification
+  } = props
   const { country, stateSelection } = fields
 
   const onSfoxWhitelist = usState =>
@@ -91,7 +99,7 @@ const SelectPartner = props => {
         <GetStartedContent>
           <GetStartedHeader
             size='26px'
-            weight={400}
+            weight={500}
             color='brand-primary'
             width='300px'
           >
@@ -100,7 +108,7 @@ const SelectPartner = props => {
               defaultMessage='Buy & Sell Bitcoin'
             />
           </GetStartedHeader>
-          <GetStartedText size='17px' weight={300}>
+          <GetStartedText size='17px' weight={400}>
             {getPartner().name === 'COINIFY' ? (
               <FormattedMessage
                 id='scenes.buysell.selectpartner.subheader_coinify'
@@ -142,17 +150,26 @@ const SelectPartner = props => {
                   </FormItem>
                 </FormGroup>
               ) : null}
-              <Button
-                nature='primary'
-                type='submit'
-                disabled={invalid || pristine}
-                style={spacing('mt-20')}
-              >
-                <FormattedMessage
-                  id='scenes.buysell.selectpartner.button'
-                  defaultMessage='Next'
-                />
-              </Button>
+              {
+                <Button
+                  nature={showRejectedNotification ? 'warning' : 'primary'}
+                  type='submit'
+                  disabled={invalid || pristine || showRejectedNotification}
+                  style={spacing('mt-20')}
+                >
+                  {showRejectedNotification ? (
+                    <FormattedMessage
+                      id='scenes.buysell.selectpartner.cannottrade'
+                      defaultMessage='Disabled Due to Identity Verification Issue'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.buysell.selectpartner.button'
+                      defaultMessage='Next'
+                    />
+                  )}
+                </Button>
+              }
             </Form>
           </FieldWrapper>
           <CountryFAQText>
@@ -162,7 +179,7 @@ const SelectPartner = props => {
                 defaultMessage="What's my country for?"
               />
             </Text>
-            <Text size='12px' weight={300}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
                 id='scenes.buysell.selectpartner.countryanswer'
                 defaultMessage='Due to local laws, Blockchain can only operate in permitted regions.'

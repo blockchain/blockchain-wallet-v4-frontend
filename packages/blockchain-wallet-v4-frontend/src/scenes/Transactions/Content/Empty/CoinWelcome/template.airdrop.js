@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { coinProps } from './model'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -64,7 +63,7 @@ const LearnMoreContainer = styled(Link)`
   width: 640px;
   display: flex;
   justify-content: space-between;
-  margin: 0px auto 25px;
+  margin: 0 auto 25px;
   padding: 25px;
   border-radius: 3px;
   box-sizing: border-box;
@@ -79,29 +78,35 @@ const LearnMoreLink = styled(Link)`
 `
 
 const WelcomeAirdrop = props => {
-  const { coin, onboardingActions } = props
+  const { currentCoin, onboardingActions } = props
 
   return (
     <Wrapper>
       <Container>
         <Row>
-          <Text size='24px' weight={400} color='brand-primary'>
+          <Text size='24px' weight={500} color='brand-primary'>
             <FormattedMessage
-              id='scenes.transaction.content.empty.airdrop.yourcoinwallet'
-              defaultMessage='We Now Offer {coinName} ({coin})'
-              values={{ coinName: coinProps[coin].name, coin }}
+              id='scenes.transaction.content.empty.airdrop.wallet'
+              defaultMessage='We Now Offer {coinName} ({coinCode})'
+              values={{
+                coinName: currentCoin.displayName,
+                coinCode: currentCoin.coinTicker
+              }}
             />
           </Text>
-          <Content weight={300}>
+          <Content weight={400}>
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.sendreqexchange'
               defaultMessage='{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              values={{ coin: currentCoin.coinTicker }}
             />
             <FormattedMessage
               id='scenes.transaction.content.empty.airdrop.completeprofileforairdropfree'
               defaultMessage='Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.'
-              values={{ coinName: coinProps[coin].name, coin }}
+              values={{
+                coinName: currentCoin.displayName,
+                coin: currentCoin.coinTicker
+              }}
             />
           </Content>
           <ButtonContainer>
@@ -110,31 +115,31 @@ const WelcomeAirdrop = props => {
               fullwidth
               onClick={() =>
                 onboardingActions.airdropReminderSubmitClicked(
-                  coinProps[coin].campaign
+                  currentCoin.campaign
                 )
               }
             >
               <FormattedMessage
                 id='scenes.transaction.content.empty.airdrop.claim'
                 defaultMessage='Claim Your Free {coin} Now'
-                values={{ coin }}
+                values={{ coin: currentCoin.coinTicker }}
               />
             </Button>
           </ButtonContainer>
         </Row>
-        <CoinRow coin={coin.toLowerCase()}>
+        <CoinRow>
           <Image
-            name={coinProps[coin].airdrop.image}
+            name={currentCoin.airdrop.image}
             width='75%'
             srcset={{
-              [`${coinProps[coin].airdrop.image}2`]: '2x',
-              [`${coinProps[coin].airdrop.image}3`]: '3x'
+              [`${currentCoin.airdrop.image}2`]: '2x',
+              [`${currentCoin.airdrop.image}3`]: '3x'
             }}
           />
         </CoinRow>
       </Container>
-      {coinProps[coin].airdrop.link && (
-        <LearnMoreContainer href={coinProps[coin].airdrop.link} target='_blank'>
+      {currentCoin.airdrop.link && (
+        <LearnMoreContainer href={currentCoin.airdrop.link} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
               id='scenes.transactions.content.empty.explanation'
@@ -161,7 +166,7 @@ const WelcomeAirdrop = props => {
 }
 
 WelcomeAirdrop.propTypes = {
-  coin: PropTypes.string.isRequired,
+  currentCoin: PropTypes.object.isRequired,
   domains: PropTypes.object.isRequired
 }
 

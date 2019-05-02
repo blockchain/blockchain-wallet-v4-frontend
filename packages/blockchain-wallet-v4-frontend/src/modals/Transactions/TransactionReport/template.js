@@ -91,7 +91,7 @@ const FirstStep = props => {
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.transactionreport.wallet'
                   defaultMessage='Select wallet'
@@ -108,7 +108,7 @@ const FirstStep = props => {
               />
             </Row>
             <Row>
-              <Text size='13px' weight={400} capitalize>
+              <Text size='13px' weight={500} capitalize>
                 <FormattedMessage
                   id='modals.transactionreport.timerange'
                   defaultMessage='Select time range'
@@ -136,7 +136,7 @@ const FirstStep = props => {
           <Footer>
             <Link
               size='13px'
-              weight={300}
+              weight={400}
               fullwidth
               onClick={closeAll}
               data-e2e='closeReport'

@@ -1,6 +1,10 @@
 import MockWalletOptions from './__mocks__/wallet-options-v4'
 import * as selectors from './selectors'
+import { getInvitations } from '../settings/selectors'
 import Remote from '../../remote'
+
+jest.mock('../settings/selectors')
+getInvitations.mockReturnValue(Remote.of({}))
 
 describe('walletOptions selectors', () => {
   const successState = {
@@ -36,7 +40,8 @@ describe('walletOptions selectors', () => {
       send: true,
       request: true,
       lockbox: true,
-      exchange: true
+      exchangeFrom: true,
+      exchangeTo: true
     }
     expect(selectors.getCoinAvailability(successState, 'BTC')).toEqual(
       Remote.of(expected)
@@ -47,8 +52,9 @@ describe('walletOptions selectors', () => {
     const expected = {
       send: true,
       request: true,
-      lockbox: false,
-      exchange: false
+      lockbox: true,
+      exchangeFrom: true,
+      exchangeTo: true
     }
     expect(selectors.getCoinAvailability(successState, 'ETH')).toEqual(
       Remote.of(expected)

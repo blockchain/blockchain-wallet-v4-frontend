@@ -40,14 +40,14 @@ const Settings = props => {
                 validate={[isValidAutoLogoutTime]}
               />
             </FormItem>
-            <Text size='14' weight={300} style={spacing('pl-10')}>
+            <Text size='14' weight={400} style={spacing('pl-10')}>
               <FormattedMessage
                 id='scenes.settings.preferences.autologout.updateform.minutes'
                 defaultMessage='Minutes'
               />
             </Text>
           </Wrapper>
-          <Text size='12px' color='gray-3' weight={300}>
+          <Text size='12px' color='gray-3' weight={400}>
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.bounds'
               defaultMessage='Must be between 1 and 1440 minutes.'

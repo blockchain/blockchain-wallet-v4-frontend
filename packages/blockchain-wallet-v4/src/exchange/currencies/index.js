@@ -19,6 +19,7 @@ import ISK from './ISK'
 import JPY from './JPY'
 import KRW from './KRW'
 import NZD from './NZD'
+import PAX from './PAX'
 import PLN from './PLN'
 import RUB from './RUB'
 import SEK from './SEK'
@@ -42,6 +43,7 @@ export {
   CNY,
   DKK,
   GBP,
+  PAX,
   HKD,
   INR,
   ISK,

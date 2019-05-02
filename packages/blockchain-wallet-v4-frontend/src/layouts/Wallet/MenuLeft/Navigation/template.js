@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { mapObjIndexed, toLower, values } from 'ramda'
+
 import { Cartridge } from '@blockchain-com/components'
 import {
   Wrapper,
@@ -21,24 +23,32 @@ import {
 const HelperTipContainer = styled.div`
   margin-left: auto;
 `
-
 const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme['white']} !important;
-  background-color: ${props => props.theme['brand-secondary']};
-  text-transform: capitalize;
+  color: #f28b24 !important;
+  background-color: ${props => props.theme['white']};
+  letter-spacing: 1px;
   margin-left: auto;
-  margin-right: 5px;
+  margin-right: -4px;
+  padding: 4px 10px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 4px;
 `
-
 const Navigation = props => {
   const { ...rest } = props
-  const { lockboxOpened, lockboxDevices } = rest
+  const { lockboxOpened, lockboxDevices, supportedCoins } = rest
+  const coinOrder = [
+    supportedCoins.PAX,
+    supportedCoins.BTC,
+    supportedCoins.ETH,
+    supportedCoins.BCH,
+    supportedCoins.XLM
+  ]
 
   return (
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
-          <Icon name='nav-home' />
+          <Icon name='home-filled' size='19px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.dashboard'
             defaultMessage='Dashboard'
@@ -47,7 +57,7 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
         <MenuItem data-e2e='buyAndSellLink'>
-          <Icon name='nav-buy' />
+          <Icon name='cart-filled' size='20px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.buysell'
             defaultMessage='Buy & Sell'
@@ -56,92 +66,55 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
-          <Icon name='nav-switch' />
+          <Icon name='thick-arrow-switch' size='20px' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.swap'
             defaultMessage='Swap'
           />
-          <NewCartridge>
-            <Text color='white' size='12' weight='300'>
-              <FormattedMessage
-                defaultMessage='New'
-                id='layouts.wallet.menuleft.navigation.new'
-              />
-            </Text>
-          </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      <MenuItem>
-        <Separator>
-          <Text size='14px' weight={400} uppercase>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions'
-              defaultMessage='Transactions'
-            />
-          </Text>
-        </Separator>
-      </MenuItem>
-      <LinkContainer to='/btc/transactions' activeClassName='active'>
-        <MenuItem data-e2e='bitcoinLink'>
-          <Icon name='btc-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
-            defaultMessage='Bitcoin'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/eth/transactions' activeClassName='active'>
-        <MenuItem data-e2e='etherLink'>
-          <Icon name='eth-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.ether'
-            defaultMessage='Ether'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/bch/transactions' activeClassName='active'>
-        <MenuItem data-e2e='bitcoinCashLink'>
-          <Icon name='bch-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.bch'
-            defaultMessage='Bitcoin Cash'
-          />
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/xlm/transactions' activeClassName='active'>
-        <MenuItem data-e2e='stellarLink'>
-          <Icon name='xlm-circle' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.transactions.xlm'
-            defaultMessage='Stellar'
-          />
-          <NewCartridge>
-            <Text color='white' size='12' weight='300'>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
-        </MenuItem>
-      </LinkContainer>
-      <MenuItem>
-        <Separator>
-          <Text size='14px' weight={400} uppercase>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.storage'
-              defaultMessage='Storage'
-            />
-          </Text>
-        </Separator>
-      </MenuItem>
+      <Separator />
+      {values(
+        mapObjIndexed(
+          (coin, i) =>
+            coin.txListAppRoute &&
+            coin.invited && (
+              <LinkContainer
+                key={i}
+                to={coin.txListAppRoute}
+                activeClassName='active'
+              >
+                <MenuItem
+                  data-e2e={`${toLower(coin.coinCode)}Link`}
+                  colorCode={coin.colorCode}
+                >
+                  <Icon name={coin.icons.circleFilled} size='20px' />
+                  {coin.displayName}
+                  {coin.showNewTagSidenav && (
+                    <NewCartridge>
+                      <Text color='#F28B24' size='12' weight={500} uppercase>
+                        <FormattedMessage
+                          id='layouts.wallet.menuleft.navigation.transactions.new'
+                          defaultMessage='New'
+                        />
+                      </Text>
+                    </NewCartridge>
+                  )}
+                </MenuItem>
+              </LinkContainer>
+            ),
+          coinOrder
+        )
+      )}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
-          <Icon name='lock' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.hardwarewallet'
-            defaultMessage='Hardware Wallet'
-          />
+          <Icon name='hardware' style={{ paddingLeft: '2px' }} size='20px' />
+          <span style={{ marginLeft: '-2px' }}>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.hardware'
+              defaultMessage='Hardware'
+            />
+          </span>
           <HelperTipContainer>
             <TooltipHost id='lockboxRequired'>
               <TooltipIcon name='info' />

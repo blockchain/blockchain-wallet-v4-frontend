@@ -21,7 +21,7 @@ class CoinDisplayContainer extends React.PureComponent {
 
 CoinDisplayContainer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 CoinDisplayContainer.defaultProps = {
@@ -29,7 +29,7 @@ CoinDisplayContainer.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(ownProps.coin, ownProps.children)
+  data: getData(ownProps.coin, ownProps.children, ownProps.hideCoinTicker)
 })
 
 export default connect(mapStateToProps)(CoinDisplayContainer)

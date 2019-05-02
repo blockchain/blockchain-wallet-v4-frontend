@@ -24,13 +24,11 @@ const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  font-size: 20px;
-  font-weight: 200;
   padding-right: 15px;
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme['gray-3']};
+      color: ${props => props.theme['brand-primary']};
     }
   }
 `
@@ -46,8 +44,8 @@ export const CoinBalanceWrapper = props => {
         coin={props.coin}
         cursor='pointer'
         mobileSize='14px'
-        size='20px'
-        weight={200}
+        size='18px'
+        weight={400}
       >
         {props.balance}
       </CoinDisplay>
@@ -55,18 +53,23 @@ export const CoinBalanceWrapper = props => {
         coin={props.coin}
         cursor='pointer'
         mobileSize='14px'
-        size='20px'
-        weight={200}
+        size='18px'
+        weight={400}
       >
         {props.balance}
       </FiatDisplay>
     </CoinBalanceMain>
   ) : (
     <CoinBalanceSwitchable>
-      <Text size='12px' weight={300}>
-        {props.coin}
+      <Text size='12px' weight={400}>
+        {props.coinTicker ? props.coinTicker : props.coin}
       </Text>
-      <SwitchableDisplay size='12px' weight={400} coin={props.coin}>
+      <SwitchableDisplay
+        size='12px'
+        weight={500}
+        coin={props.coin}
+        hideCoinTicker
+      >
         {props.balance}
       </SwitchableDisplay>
     </CoinBalanceSwitchable>
@@ -89,8 +92,8 @@ export const LoadingBalance = props => {
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
-      <Text size='12px' weight={300}>
-        {props.coin}
+      <Text size='12px' weight={400}>
+        {props.coinTicker}
       </Text>
       <SkeletonRectangle width='40px' height='14px' bgColor='white-blue' />
     </CoinSkeletonWrapper>

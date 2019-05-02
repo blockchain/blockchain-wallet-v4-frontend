@@ -10,71 +10,166 @@
           "wallet": {}
         }
       },
-      "btc": {
-        "availability": {
-          "send": true,
-          "request": true,
-          "lockbox": true,
-          "exchangeTo": true,
-          "exchangeFrom": true
+      "coins": {
+        "BTC": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": true,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          },
+          "coinCode": "BTC",
+          "coinTicker": "BTC",
+          "colorCode": "btc",
+          "displayName": "Bitcoin",
+          "config": {
+            "network": "bitcoin"
+          },
+          "hasLockboxSupport": true,
+          "icons": {
+            "default": "btc",
+            "circle": "btc-circle",
+            "circleFilled": "btc-circle-filled"
+          },
+          "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
+          "txListAppRoute": "/btc/transactions"
         },
-        "config": {
-          "network": "bitcoin"
-        }
-      },
-      "bch": {
-        "availability": {
-          "send": true,
-          "request": true,
-          "lockbox": true,
-          "exchangeTo": true,
-          "exchangeFrom": true
+        "BCH": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": true,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          },
+          "coinCode": "BCH",
+          "coinTicker": "BCH",
+          "colorCode": "bch",
+          "displayName": "Bitcoin Cash",
+          "config": {
+            "fees": {
+              "regular": 4,
+              "priority": 4
+            }
+          },
+          "hasLockboxSupport": true,
+          "icons": {
+            "default": "bch",
+            "circle": "bch-circle",
+            "circleFilled": "bch-circle-filled"
+          },
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
+          "txListAppRoute": "/bch/transactions"
         },
-        "config": {
-          "fees": {
-            "regular": 4,
-            "priority": 4
-          }
-        }
-      },
-      "bsv": {
-        "availability": {
-          "send": true,
-          "request": false,
-          "lockbox": false,
-          "exchangeTo": false,
-          "exchangeFrom": true
+        "BSV": {
+          "availability": {
+            "send": true,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": true
+          },
+          "coinCode": "BSV",
+          "coinTicker": "BSV",
+          "colorCode": "bsv",
+          "displayName": "Bitcoin SV",
+          "config": {
+            "fees": {
+              "regular": 4,
+              "priority": 4
+            }
+          },
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "bsv"
+          },
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
-        "config": {
-          "fees": {
-            "regular": 4,
-            "priority": 4
-          }
-        }
-      },
-      "eth": {
-        "availability": {
-          "send": true,
-          "request": true,
-          "lockbox": true,
-          "exchangeTo": true,
-          "exchangeFrom": true
+        "ETH": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": true,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          },
+          "coinCode": "ETH",
+          "coinTicker": "ETH",
+          "colorCode": "eth",
+          "displayName": "Ether",
+          "config": {
+            "network": 1
+          },
+          "hasLockboxSupport": true,
+          "icons": {
+            "default": "eth",
+            "circle": "eth-circle",
+            "circleFilled": "eth-circle-filled"
+          },
+          "lastTxFuse": 600,
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/eth/transactions"
         },
-        "lastTxFuse": 86400,
-        "config": {
-          "network": 1
-        }
-      },
-      "xlm": {
-        "availability": {
-          "send": true,
-          "request": true,
-          "lockbox": true,
-          "exchangeTo": true,
-          "exchangeFrom": true
+        "PAX": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          },
+          "coinCode": "PAX",
+          "coinTicker": "PAX",
+          "colorCode": "pax",
+          "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
+          "displayName": "USD Pax",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "pax",
+            "circle": "pax",
+            "circleFilled": "pax"
+          },
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/pax/transactions",
+          "showNewTagSidenav": true
         },
-        "config": {
-          "network": "public"
+        "XLM": {
+          "airdrop": {
+            "link": "https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway",
+            "image": "stellar-planet"
+          },
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": true,
+            "exchangeTo": true,
+            "exchangeFrom": true
+          },
+          "campaign": "sunriver",
+          "coinCode": "XLM",
+          "coinTicker": "XLM",
+          "colorCode": "xlm",
+          "displayName": "Stellar",
+          "config": {
+            "network": "public",
+            "sendTimeOutSeconds": 10
+          },
+          "hasLockboxSupport": true,
+          "icons": {
+            "default": "xlm-circle-filled",
+            "circle": "xlm-circle-filled",
+            "circleFilled": "xlm-circle-filled"
+          },
+          "minConfirmations": 1,
+          "txExplorerBaseUrl": "https://stellarchain.io/tx",
+          "txListAppRoute": "/xlm/transactions"
         }
       },
       "coinify": {

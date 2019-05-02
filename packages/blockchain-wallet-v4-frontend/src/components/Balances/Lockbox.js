@@ -57,15 +57,15 @@ export const CurrencyItem = props => {
       </IconBox>
       {props.isSaved ? (
         <Balance>
-          <FiatDisplay size='14px' weight={400} coin={props.coin.toUpperCase()}>
+          <FiatDisplay size='14px' weight={500} coin={props.coin.toUpperCase()}>
             {props.balance}
           </FiatDisplay>
-          <CoinDisplay size='13px' weight={200} coin={props.coin.toUpperCase()}>
+          <CoinDisplay size='13px' weight={400} coin={props.coin.toUpperCase()}>
             {props.balance}
           </CoinDisplay>
         </Balance>
       ) : isBrowserChrome ? (
-        <Link size='11px' weight={300}>
+        <Link size='11px' weight={500}>
           <FormattedMessage
             id='components.balances.savecointolockbox'
             defaultMessage='Click here to add {coin} to your Lockbox'
@@ -73,7 +73,7 @@ export const CurrencyItem = props => {
           />
         </Link>
       ) : (
-        <Text size='12px' weight={300}>
+        <Text size='12px' weight={400}>
           <FormattedMessage
             id='components.balances.savecointolockboxbrowser'
             defaultMessage='Use the Chrome browser to add {coin} to your Lockbox'

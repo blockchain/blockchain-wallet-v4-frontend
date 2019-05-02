@@ -30,18 +30,18 @@ const Row = styled.div`
 
 export const RatesBox = ({
   balance,
-  sourceCoin,
-  targetCoin,
-  sourceToTargetRate
+  sourceToTargetRate,
+  sourceCoinTicker,
+  targetCoinTicker
 }) => (
   <RatesWrapper>
     <LargeTableRow>
       <TotalBalanceWrapper>
         <RateText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.totalbalanceforswap'
-            defaultMessage='{sourceCoin} available for Swap'
-            values={{ sourceCoin }}
+            id='scenes.exchange.exchangeform.summary.totalbalanceavailable'
+            defaultMessage='{sourceCoinTicker} available for Swap'
+            values={{ sourceCoinTicker }}
           />
         </RateText>
         <RateText>
@@ -65,10 +65,10 @@ export const RatesBox = ({
         </RateText>
       </TotalBalanceWrapper>
       <RateWrapper>
-        <RateText color='brand-primary'>1 {sourceCoin} =</RateText>
+        <RateText color='brand-primary'>1 {sourceCoinTicker} =</RateText>
         <RateText>
           <StringDisplay>
-            {sourceToTargetRate.map(rate => `${rate} ${targetCoin}`)}
+            {sourceToTargetRate.map(rate => `${rate} ${targetCoinTicker}`)}
           </StringDisplay>
         </RateText>
       </RateWrapper>

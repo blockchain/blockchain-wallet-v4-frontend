@@ -15,7 +15,7 @@ const Terms = props => {
     case 'shapeshift':
       return (
         <TermsContainer>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.shapeshift.read'
               defaultMessage="I agree to ShapeShift's"
@@ -26,7 +26,7 @@ const Terms = props => {
             href='https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf'
             target='_blank'
             size='12px'
-            weight={300}
+            weight={500}
           >
             <FormattedMessage
               id='scenes.register.registerform.shapeshift.terms'
@@ -38,7 +38,7 @@ const Terms = props => {
     case 'coinify':
       return (
         <TermsContainer>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='buysellexchangedata.create.accept.terms'
               defaultMessage="I accept Blockchain's "
@@ -47,7 +47,7 @@ const Terms = props => {
           <span>&nbsp;</span>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.blockchain.com/terms/index.html'
             target='_blank'
           >
@@ -58,13 +58,13 @@ const Terms = props => {
           </Link>
           <span>,</span>
           <span>&nbsp;</span>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             {`Coinify's`}
           </Text>
           <span>&nbsp;</span>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.coinify.com/legal'
             target='_blank'
           >
@@ -78,7 +78,7 @@ const Terms = props => {
           <span>&nbsp;</span>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.coinify.com/legal/policy'
             target='_blank'
           >
@@ -92,7 +92,7 @@ const Terms = props => {
     case 'sfox':
       return (
         <TermsContainer>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='buysellexchangedata.create.accept.terms'
               defaultMessage="I accept Blockchain's "
@@ -101,7 +101,7 @@ const Terms = props => {
           <span>&nbsp;</span>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.blockchain.com/terms/index.html'
             target='_blank'
           >
@@ -112,13 +112,13 @@ const Terms = props => {
           </Link>
           <span>,</span>
           <span>&nbsp;</span>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             {`SFOX's`}
           </Text>
           <span>&nbsp;</span>
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.sfox.com/terms.html'
             target='_blank'
           >
@@ -132,7 +132,7 @@ const Terms = props => {
           &nbsp;
           <Link
             size='12px'
-            weight={300}
+            weight={500}
             href='https://www.sfox.com/privacy.html'
             target='_blank'
           >
@@ -146,7 +146,7 @@ const Terms = props => {
     case 'blockchain-kyc':
       return (
         <TermsContainer>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.blockchainkyc.read'
               defaultMessage='By hitting continue, I agree to Blockchain’s'
@@ -158,7 +158,7 @@ const Terms = props => {
             tabIndex='-1'
             target='_blank'
             size='12px'
-            weight={300}
+            weight={500}
           >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.terms'
@@ -173,7 +173,7 @@ const Terms = props => {
             tabIndex='-1'
             target='_blank'
             size='12px'
-            weight={300}
+            weight={500}
           >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.privacypolicy'
@@ -185,7 +185,7 @@ const Terms = props => {
     default:
       return (
         <TermsContainer>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.blockchain.read'
               defaultMessage='I have read and agreed to the'
@@ -196,7 +196,7 @@ const Terms = props => {
             href='https://www.blockchain.com/legal/terms'
             target='_blank'
             size='12px'
-            weight={300}
+            weight={500}
             data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
@@ -205,7 +205,7 @@ const Terms = props => {
             />
           </Link>
           &nbsp;
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             &
           </Text>
           &nbsp;
@@ -213,7 +213,7 @@ const Terms = props => {
             href='https://www.blockchain.com/legal/privacy'
             target='_blank'
             size='12px'
-            weight={300}
+            weight={500}
             data-e2e='blockchainPrivacyLink'
           >
             <FormattedMessage

@@ -60,7 +60,7 @@ const Success = props => {
           <InfoWrapper>
             <Text
               size='24px'
-              weight={400}
+              weight={500}
               color='gray-5'
               style={{ 'margin-top': '25px' }}
             >
@@ -71,7 +71,7 @@ const Success = props => {
             </Text>
             <Text
               size='13px'
-              weight={300}
+              weight={400}
               color='gray-5'
               style={{ 'margin-top': '10px' }}
             >
@@ -82,21 +82,21 @@ const Success = props => {
             </Text>
             <DeviceInfoWrapper>
               <DeviceInfoHeader>
-                <Text size='16px' weight={400} color='success'>
+                <Text size='16px' weight={500} color='success'>
                   <FormattedMessage
                     id='scenes.authorizelogin.yourdevice'
                     defaultMessage='Your Device'
                   />
                 </Text>
                 &nbsp;
-                <Text size='16px' weight={400} color='gray-5'>
+                <Text size='16px' weight={500} color='gray-5'>
                   <FormattedMessage
                     id='scenes.authorizelogin.vs'
                     defaultMessage='vs.'
                   />
                 </Text>
                 &nbsp;
-                <Text size='16px' weight={400} color='error'>
+                <Text size='16px' weight={500} color='error'>
                   <FormattedMessage
                     id='scenes.authorizelogin.requestingdevice'
                     defaultMessage='Requesting Device'
@@ -200,7 +200,7 @@ const Success = props => {
                 />
               </Button>
               &nbsp;
-              <Text size='12px' weight={300}>
+              <Text size='12px' weight={400}>
                 <FormattedMessage
                   id='scenes.authorizelogin.or'
                   defaultMessage='Or'
@@ -225,7 +225,7 @@ const Success = props => {
           )}
           <Text
             size='16px'
-            weight={300}
+            weight={400}
             color='gray-5'
             style={{ 'margin-top': '25px' }}
           >

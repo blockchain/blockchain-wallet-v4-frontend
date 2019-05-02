@@ -3,32 +3,26 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
-  handleToToggle = val => {
-    this.props.formActions.touch(model.components.sendEth.FORM, 'to')
-    this.props.actions.sendEthFirstStepToToggled(val)
-  }
-
   render () {
-    const { data, actions } = this.props
+    const { data, actions, coin } = this.props
     return data.cata({
       Success: value => (
         <Success
+          coin={coin}
           fee={value.fee}
           from={value.from}
           isContract={value.isContract}
+          isContractChecked={value.isContractChecked}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
           onSubmit={actions.sendEthFirstStepSubmitClicked}
-          toToggled={value.toToggled}
           feeToggled={value.feeToggled}
-          handleToToggle={this.handleToToggle}
-          destination={value.destination}
           enableToggle={value.enableToggle}
           minFee={value.minFee}
           maxFee={value.maxFee}
@@ -38,6 +32,8 @@ class FirstStep extends React.PureComponent {
           handleFeeToggle={actions.sendEthFirstStepFeeToggled}
           balanceStatus={value.balanceStatus}
           excludeLockbox={value.excludeLockbox}
+          hasErc20Balance={value.hasErc20Balance}
+          isFeeSufficientForTx={value.isFeeSufficientForTx}
         />
       ),
       Failure: message => <Error>{message}</Error>,
@@ -47,8 +43,8 @@ class FirstStep extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = dispatch => ({

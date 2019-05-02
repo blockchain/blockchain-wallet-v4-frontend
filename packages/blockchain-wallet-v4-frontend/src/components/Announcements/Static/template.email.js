@@ -89,7 +89,7 @@ const EmailReminder = props => {
 
 EmailReminder.propTypes = {
   email: PropTypes.string.isRequired,
-  emailReminded: PropTypes.bool.isRequired,
+  emailReminded: PropTypes.bool,
   onEmailResend: PropTypes.func.isRequired
 }
 

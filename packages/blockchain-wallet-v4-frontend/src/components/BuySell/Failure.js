@@ -24,7 +24,7 @@ const link = (
     href='https://support.blockchain.com/hc/en-us/requests/new'
     target='_blank'
     size='16px'
-    weight={300}
+    weight={500}
   >
     <FormattedMessage
       id='buysell.general.failure.here'
@@ -35,20 +35,20 @@ const link = (
 
 const Failure = ({ message, refresh }) => (
   <Container>
-    <Text weight={300} size='16px'>
+    <Text weight={400} size='16px'>
       <FormattedMessage
         id='buysell.general.failure.message'
         defaultMessage='Sorry, an error has occurred while connecting to your exchange partner.'
       />
     </Text>
-    <Text weight={300} size='16px'>
+    <Text weight={400} size='16px'>
       <FormattedMessage
         id='buysell.general.failure.message2'
         defaultMessage='If the problem continues, please reach out to our support team {supportLink}'
         values={{ supportLink: link }}
       />
     </Text>
-    <Text weight={300} size='14px'>
+    <Text weight={400} size='14px'>
       <FormattedMessage
         id='buysell.general.failure.message3'
         defaultMessage='Error code: {err}'

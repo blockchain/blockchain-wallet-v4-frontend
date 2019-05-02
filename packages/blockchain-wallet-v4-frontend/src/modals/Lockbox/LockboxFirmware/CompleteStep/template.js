@@ -24,14 +24,14 @@ const CompleteStep = props => {
       {status === 'uptodate' && (
         <React.Fragment>
           <Title>
-            <Text weight={400}>
+            <Text weight={500}>
               <FormattedMessage
                 id='modals.lockboxfirmware.completestep.uptodate.title'
                 defaultMessage='Device Up-to-date!'
               />
             </Text>
             <Content>
-              <Text weight={300}>
+              <Text weight={400}>
                 <FormattedMessage
                   id='modals.lockboxfirmware.completestep.uptodate.message'
                   defaultMessage='Your device is already up-to-date.'

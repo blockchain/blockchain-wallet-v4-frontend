@@ -114,18 +114,18 @@ const Login = props => {
       <MobileLogin />
       <Modals />
       <Header>
-        <Text size='24px' weight={300} capitalize>
+        <Text size='24px' weight={400} capitalize>
           <FormattedMessage
             id='scenes.login.welcome'
             defaultMessage='Welcome back!'
           />
         </Text>
         <TextGroup inline>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/signup'>
-            <Link size='13px' weight={300} data-e2e='signupLink'>
+            <Link size='13px' weight={500} data-e2e='signupLink'>
               <FormattedMessage
                 id='scenes.login.register'
                 defaultMessage='Sign Up'
@@ -134,7 +134,7 @@ const Login = props => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.login.explain'
           defaultMessage='Sign in to your wallet below'
@@ -175,7 +175,7 @@ const Login = props => {
               <Text
                 size='12px'
                 color='error'
-                weight={300}
+                weight={400}
                 data-e2e='walletIdError'
               >
                 <FormattedMessage
@@ -184,7 +184,7 @@ const Login = props => {
                 />
               </Text>
               <LinkContainer to='/reminder'>
-                <Link size='12px' weight={300}>
+                <Link size='12px' weight={500}>
                   <FormattedMessage
                     id='scenes.login.clickhere'
                     defaultMessage='click here.'
@@ -194,7 +194,7 @@ const Login = props => {
             </GuidError>
           )}
           {showGuidInvalidError ? (
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               {isGuidEmailAddress ? (
                 <FormattedMessage
                   id='scenes.login.isguidemailerror'
@@ -207,7 +207,7 @@ const Login = props => {
                 />
               )}{' '}
               <LinkContainer to='/reminder'>
-                <Link size='14px' weight={300}>
+                <Link size='14px' weight={500}>
                   <FormattedMessage
                     id='scenes.login.clickhere'
                     defaultMessage='click here.'
@@ -217,19 +217,19 @@ const Login = props => {
             </Text>
           ) : (
             <LoginTextGroup inline>
-              <Text size='12px' color='gray-3' weight={300}>
+              <Text size='12px' color='gray-3' weight={400}>
                 <FormattedMessage
                   id='scenes.login.info'
                   defaultMessage='Find the login link in your email,'
                 />
               </Text>
-              <Text size='12px' color='gray-3' weight={300}>
+              <Text size='12px' color='gray-3' weight={400}>
                 <FormattedMessage
                   id='scenes.login.info2'
                   defaultMessage='e.g. blockchain.info/wallet/1111-222-333...'
                 />
               </Text>
-              <Text size='12px' color='gray-3' weight={300}>
+              <Text size='12px' color='gray-3' weight={400}>
                 <FormattedMessage
                   id='scenes.login.info3'
                   defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.'
@@ -312,7 +312,7 @@ const Login = props => {
               {authType === 5 && (
                 <ResendSmsLink
                   size='12px'
-                  weight={300}
+                  weight={400}
                   onClick={handleSmsResend}
                 >
                   <FormattedMessage
@@ -350,7 +350,7 @@ const Login = props => {
         <Footer>
           <Link
             size='13px'
-            weight={300}
+            weight={500}
             onClick={handleMobile}
             data-e2e='loginViaMobileLink'
           >
@@ -360,14 +360,14 @@ const Login = props => {
             />
           </Link>
           <TextGroup inline>
-            <Text size='13px' weight={300}>
+            <Text size='13px' weight={400}>
               <FormattedMessage
                 id='scenes.login.troubles'
                 defaultMessage='Having some trouble?'
               />
             </Text>
             <LinkContainer to='/help'>
-              <Link size='13px' weight={300} data-e2e='loginGetHelp'>
+              <Link size='13px' weight={500} data-e2e='loginGetHelp'>
                 <FormattedMessage
                   id='scenes.login.options'
                   defaultMessage='Get help logging in'

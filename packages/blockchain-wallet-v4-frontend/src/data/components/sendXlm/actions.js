@@ -28,9 +28,20 @@ export const secondStepSubmitClicked = () => ({
 export const secondStepCancelClicked = () => ({
   type: AT.SECOND_STEP_CANCEL_CLICKED
 })
-export const firstStepToToggled = val => ({
-  type: AT.FIRST_STEP_TO_TOGGLED,
-  payload: val
+export const sendXlmCheckDestinationAccountExists = address => ({
+  type: AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS,
+  payload: address
+})
+export const sendXlmCheckDestinationAccountExistsLoading = () => ({
+  type: AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_LOADING
+})
+export const sendXlmCheckDestinationAccountExistsSuccess = isContract => ({
+  type: AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_SUCCESS,
+  payload: isContract
+})
+export const sendXlmCheckDestinationAccountExistsFailure = e => ({
+  type: AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_FAILURE,
+  payload: e
 })
 export const firstStepFeeToggled = () => ({
   type: AT.FIRST_STEP_FEE_TOGGLED

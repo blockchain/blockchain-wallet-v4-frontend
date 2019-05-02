@@ -79,7 +79,7 @@ const OrText = styled.p`
   }
 `
 const GoBackLink = styled(Link)`
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13px;
   margin-top: 15px;
   display: flex;
@@ -132,7 +132,7 @@ const faqQuestions = [
           defaultMessage='Yes, you can change your bank account by emailing'
         />
         <span>&nbsp;</span>
-        <Link href='mailto:support@sfox.com' size='13px' weight={200}>
+        <Link href='mailto:support@sfox.com' size='13px' weight={400}>
           <FormattedMessage
             id='scenes.buysell.sfoxsignup.link.helper1.link'
             defaultMessage='support@sfox.com'
@@ -317,12 +317,12 @@ const BankLink = props => {
       <Fragment>
         {linkError ? (
           <Fragment>
-            <Text size='13px' weight={300} color='error'>
+            <Text size='13px' weight={400} color='error'>
               {linkError}
             </Text>
             <Link
               size='13px'
-              weight={300}
+              weight={400}
               onClick={() => {
                 equals(linkError, 'There was an error linking your bank')
                   ? resetAccountHolder()

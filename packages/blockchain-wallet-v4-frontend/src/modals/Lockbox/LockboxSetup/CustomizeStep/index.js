@@ -34,13 +34,13 @@ class CustomizeStepContainer extends React.PureComponent {
           name='lockbox-onboard-customize'
           width='100%'
         />
-        <IntroText size='13px' weight={300}>
+        <IntroText size='13px' weight={400}>
           <FormattedMessage
             id='modals.lockboxsetup.customizestep.title'
             defaultMessage='Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.'
           />
         </IntroText>
-        <ReminderText size='10px' weight={300}>
+        <ReminderText size='10px' weight={400}>
           <FormattedMessage
             id='modals.lockboxsetup.customizestep.reminder'
             defaultMessage="Don't worry you can always change them later."

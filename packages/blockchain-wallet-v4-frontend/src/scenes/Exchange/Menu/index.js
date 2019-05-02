@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 12px 30px;
+  padding: 6px 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
@@ -25,7 +25,7 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 42px;
+      top: 37px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};

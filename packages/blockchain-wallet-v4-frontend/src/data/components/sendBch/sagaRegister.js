@@ -9,7 +9,6 @@ export default ({ coreSagas, networks }) => {
   return function * sendBchSaga () {
     yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchSagas.initialized)
     yield takeLatest(AT.SEND_BCH_DESTROYED, sendBchSagas.destroyed)
-    yield takeLatest(AT.SEND_BCH_FIRST_STEP_TO_TOGGLED, sendBchSagas.toToggled)
     yield takeLatest(
       AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED,
       sendBchSagas.maximumAmountClicked

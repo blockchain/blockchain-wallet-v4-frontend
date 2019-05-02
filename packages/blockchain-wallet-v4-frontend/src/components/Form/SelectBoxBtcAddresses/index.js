@@ -9,7 +9,9 @@ class SelectBoxBtcAddresses extends React.PureComponent {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => {
-        return <SelectBoxBtc elements={value.data} {...rest} />
+        return (
+          <SelectBoxBtc options={value.data} elements={value.data} {...rest} />
+        )
       },
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,

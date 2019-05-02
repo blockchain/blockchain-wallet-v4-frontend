@@ -1,5 +1,14 @@
 import { call, select } from 'redux-saga/effects'
-import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
+import {
+  equals,
+  filter,
+  identity,
+  includes,
+  is,
+  isEmpty,
+  prop,
+  propEq
+} from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 import EthUtil from 'ethereumjs-util'
 import { selectors } from 'data'
@@ -8,12 +17,19 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const selectReceiveAddress = function * (source, networks) {
   const appState = yield select(identity)
+  const erc20List = (yield select(
+    selectors.core.walletOptions.getErc20CoinList
+  )).getOrFail()
   const coin = prop('coin', source)
   const type = prop('type', source)
   const address = prop('address', source)
   if (equals('XLM', coin) && is(String, address)) return address
-  if (equals('ETH', coin) && is(String, address))
+  if (
+    (includes(coin, erc20List) || equals('ETH', coin)) &&
+    is(String, address)
+  ) {
     return EthUtil.toChecksumAddress(address)
+  }
   if (equals('BCH', coin)) {
     const selector =
       type !== ADDRESS_TYPES.LOCKBOX

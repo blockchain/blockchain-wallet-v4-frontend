@@ -1,2 +1,2 @@
 export const FORM = '@SEND.BSV.FORM'
-export const MODAL = '@SEND.BSV.MODAL'
+export const MODAL = '@MODAL.SEND.BSV'

@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { equals, path, prop, head } from 'ramda'
+import { equals, includes, path, pathOr, prop, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
@@ -22,7 +22,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
-export default ({ coreSagas }) => {
+export default ({ api, coreSagas }) => {
   const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
@@ -62,37 +62,24 @@ export default ({ coreSagas }) => {
   const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
+      if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals(FORM, form)) return
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
       let payment = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
         case 'coin':
-          switch (payload) {
-            case 'BTC': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBtc.MODAL)
-              )
-              break
-            }
-            case 'BCH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBch.MODAL)
-              )
-              break
-            }
-            case 'ETH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL)
-              )
-              break
-            }
-          }
+          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          yield put(actions.modals.closeAllModals())
+          yield put(
+            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
+              coin: payload
+            })
+          )
           break
         case 'from':
           const source = prop('address', payload)
@@ -100,8 +87,13 @@ export default ({ coreSagas }) => {
           payment = yield call(setFrom, payment, source, fromType)
           break
         case 'to':
-          payment = yield call(payment.to, payload)
-          break
+          const value = pathOr({}, ['value', 'value'], payload)
+          payment = yield payment.to(value)
+          // Do not block payment update when to is changed w/ destinationAccount check
+          yield put(A.paymentUpdatedSuccess(payment.value()))
+          // After updating payment success check if destinationAccount exists
+          yield put(A.sendXlmCheckDestinationAccountExists(value))
+          return
         case 'amount':
           const xlmAmount = prop('coin', payload)
           const stroopAmount = Exchange.convertXlmToXlm({
@@ -125,6 +117,38 @@ export default ({ coreSagas }) => {
       yield put(A.paymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
+    }
+  }
+
+  const checkAccountExistance = function * (id) {
+    try {
+      yield call(api.getXlmAccount, id)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  const checkDestinationAccountExists = function * ({ payload }) {
+    try {
+      yield put(A.sendXlmCheckDestinationAccountExistsLoading())
+      const destinationAccountExists = yield call(
+        checkAccountExistance,
+        payload
+      )
+
+      let payment = (yield select(S.getPayment)).getOrElse({})
+      payment = yield call(coreSagas.payment.xlm.create, { payment })
+      payment = yield payment.setDestinationAccountExists(
+        destinationAccountExists
+      )
+
+      yield put(A.paymentUpdatedSuccess(payment.value()))
+      yield put(
+        A.sendXlmCheckDestinationAccountExistsSuccess(destinationAccountExists)
+      )
+    } catch (e) {
+      yield put(A.sendXlmCheckDestinationAccountExistsFailure(e))
     }
   }
 
@@ -220,7 +244,11 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/xlm/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Stellar'
+          })
+        )
       }
       yield put(destroy(FORM))
       yield put(
@@ -255,7 +283,11 @@ export default ({ coreSagas }) => {
             e
           ])
         )
-        yield put(actions.alerts.displayError(C.SEND_XLM_ERROR))
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Stellar'
+          })
+        )
       }
     }
   }
@@ -275,22 +307,14 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const toToggled = function * () {
-    try {
-      yield put(change(FORM, 'to', ''))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
-    }
-  }
-
   return {
     initialized,
+    checkDestinationAccountExists,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
     secondStepSubmitClicked,
     formChanged,
-    toToggled,
     setFrom
   }
 }

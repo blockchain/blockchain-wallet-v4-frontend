@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-
+import { pathOr } from 'ramda'
 import { model } from 'data'
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
@@ -30,13 +30,14 @@ const tradeDateHelper = (date, isMobile = false) => {
 
 const TradeItem = props => {
   const {
-    status,
+    coinModels,
     date,
-    sourceCoin,
-    targetCoin,
     depositAmount,
-    withdrawalAmount,
-    handleClick
+    handleClick,
+    sourceCoin,
+    status,
+    targetCoin,
+    withdrawalAmount
   } = props
 
   return (
@@ -46,7 +47,7 @@ const TradeItem = props => {
           <StatusContainer width='30%' mobileWidth='25%'>
             <TableCell width='50%'>
               <Text
-                weight={300}
+                weight={400}
                 size={mobile ? '12px' : '14px'}
                 capitalize
                 color={selectColor(status)}
@@ -58,7 +59,7 @@ const TradeItem = props => {
             <TableCell width='50%'>
               <Link
                 size={mobile ? '12px' : '14px'}
-                weight={300}
+                weight={400}
                 capitalize
                 onClick={handleClick}
                 data-e2e='exchangeHistoryViewDetails'
@@ -73,7 +74,7 @@ const TradeItem = props => {
           <TableCell width='30%' mobileWidth='18%'>
             <Text
               size={mobile ? '12px' : '14px'}
-              weight={300}
+              weight={400}
               data-e2e='exchangeHistoryOrderDate'
             >
               {tradeDateHelper(date, mobile)}
@@ -83,20 +84,28 @@ const TradeItem = props => {
             <Text
               data-e2e='exchangeHistoryOrderSource'
               size={mobile ? '12px' : '14px'}
-              weight={300}
-            >{`${depositAmount} ${sourceCoin}`}</Text>
+              weight={400}
+            >{`${depositAmount} ${pathOr(
+              sourceCoin,
+              [sourceCoin, 'coinTicker'],
+              coinModels
+            )}`}</Text>
           </TableCell>
           <TableCell width='20%'>
             <Text
               data-e2e='exchangeHistoryOrderTarget'
               size={mobile ? '12px' : '14px'}
-              weight={300}
+              weight={400}
               color={
                 status === 'complete' || status === FINISHED
                   ? 'gray-5'
                   : 'gray-2'
               }
-            >{`${withdrawalAmount} ${targetCoin}`}</Text>
+            >{`${withdrawalAmount} ${pathOr(
+              targetCoin,
+              [targetCoin, 'coinTicker'],
+              coinModels
+            )}`}</Text>
           </TableCell>
         </TableRow>
       )}
@@ -105,6 +114,7 @@ const TradeItem = props => {
 }
 
 TradeItem.propTypes = {
+  coinModels: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   sourceCoin: PropTypes.string.isRequired,

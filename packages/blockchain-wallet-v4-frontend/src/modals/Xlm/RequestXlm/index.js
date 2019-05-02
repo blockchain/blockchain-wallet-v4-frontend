@@ -23,17 +23,24 @@ class RequestXlmContainer extends React.PureComponent {
     const { coin } = this.props
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBtc', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.BTC', {
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBch', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.BCH', {
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'ETH') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestEth', {
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin: 'ETH',
+        lockboxIndex: this.props.lockboxIndex
+      })
+    } else if (coin === 'PAX') {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin: 'PAX',
         lockboxIndex: this.props.lockboxIndex
       })
     }
@@ -89,7 +96,7 @@ class RequestXlmContainer extends React.PureComponent {
         position={this.props.position}
         total={this.props.total}
       >
-        <ModalHeader icon='request' onClose={this.props.closeAll}>
+        <ModalHeader icon='download2' onClose={this.props.closeAll}>
           <FormattedMessage
             id='modals.requestxlm.title'
             defaultMessage='Request Stellar'
@@ -120,7 +127,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('RequestXlm'),
+  modalEnhancer('@MODAL.REQUEST.XLM'),
   connect(
     mapStateToProps,
     mapDispatchToProps

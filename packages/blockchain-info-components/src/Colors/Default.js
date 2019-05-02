@@ -11,7 +11,7 @@ export default {
   received: '#00BABC',
   transferred: '#799EB2',
   // State
-  error: '#CA3A3C',
+  error: '#D93B30',
   warn: '#FF9F90',
   success: '#00A76F',
   // Marketing
@@ -19,7 +19,7 @@ export default {
   'marketing-secondary': '#153A62',
   // Grays
   'gray-1': '#EAEAEA',
-  'gray-2': '#CCCCCC',
+  'gray-2': '#DFE3EB',
   'gray-3': '#999B9E',
   'gray-4': '#757679',
   'gray-5': '#5F5F5F',
@@ -31,7 +31,7 @@ export default {
   porcelain: '#F4F6F7',
   // Blacks
   black: '#000000',
-  textBlack: '#030E26',
+  textBlack: '#121D33',
   // Blues
   purple: '#0D3578',
   'deep-blue': '#152343',
@@ -45,7 +45,8 @@ export default {
   blackAlpha75: 'rgba(0,0,0,0.75)',
   blackAlpha05: 'rgba(0,0,0,0.05)',
   // Colors
-  red: '#FF0000',
+  red: '#D93B30',
+  orange: '#F28B24',
   // Service Announcements
   info: '#4A90E2',
   // Coins
@@ -53,5 +54,6 @@ export default {
   bch: '#3EDC89',
   bsv: '#EAB300',
   eth: '#473BCB',
-  xlm: '#08b5e5'
+  pax: '#0C6CF2',
+  xlm: '#121D33'
 }

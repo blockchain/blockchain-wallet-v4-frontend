@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
@@ -7,24 +8,42 @@ import AirdropReminder from './AirdropReminder'
 import KycResubmit from './KycResubmit'
 import Swap from './Swap'
 
+const BannerWrapper = styled.div`
+  margin-bottom: 25px;
+`
+
 class Banners extends React.PureComponent {
   render () {
     const { bannerToShow, kycNotFinished, isSunRiverTagged } = this.props
 
     switch (bannerToShow) {
       case 'resubmit':
-        return <KycResubmit />
+        return (
+          <BannerWrapper>
+            <KycResubmit />
+          </BannerWrapper>
+        )
       case 'airdropReminder':
         return (
-          <AirdropReminder
-            campaign='sunriver'
-            isSunRiverTagged={isSunRiverTagged}
-          />
+          <BannerWrapper>
+            <AirdropReminder
+              campaign='sunriver'
+              isSunRiverTagged={isSunRiverTagged}
+            />
+          </BannerWrapper>
         )
       case 'airdropClaim':
-        return <AirdropClaim campaign='sunriver' />
+        return (
+          <BannerWrapper>
+            <AirdropClaim campaign='sunriver' />
+          </BannerWrapper>
+        )
       case 'swap':
-        return <Swap kycNotFinished={kycNotFinished} />
+        return (
+          <BannerWrapper>
+            <Swap kycNotFinished={kycNotFinished} />
+          </BannerWrapper>
+        )
       default:
         return null
     }

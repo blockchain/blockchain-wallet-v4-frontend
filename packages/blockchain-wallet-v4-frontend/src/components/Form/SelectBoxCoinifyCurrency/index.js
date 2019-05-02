@@ -22,7 +22,7 @@ const CustomSelectBox = styled(SelectBox)`
       > .bc__single-value {
         right: 0px;
         font-size: 18px;
-        font-weight: 300;
+        font-weight: 400;
         color: ${props =>
           props.disabled ? props.theme['gray-2'] : props.theme['gray-5']};
       }

@@ -38,7 +38,7 @@ const ReviewForm = props => {
           hideErrors
         />
         <TermsLabel htmlFor='terms'>
-          <Text size='11px' weight={300}>
+          <Text size='11px' weight={400}>
             <FormattedMessage
               id='scenes.buysell.sfox.orderreview.checkboxtext'
               defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.'

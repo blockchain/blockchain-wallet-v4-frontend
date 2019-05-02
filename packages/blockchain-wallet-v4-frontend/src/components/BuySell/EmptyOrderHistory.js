@@ -40,7 +40,7 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
             />
           </Header>
           <TextGroup inline>
-            <Text size='18px' weight={300}>
+            <Text size='18px' weight={400}>
               <FormattedMessage
                 id='scenes.buysell.empty.content.goto'
                 defaultMessage='To get started, go to '

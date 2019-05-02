@@ -137,18 +137,18 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validEtherAddress()', () => {
+  describe('validEthAddress()', () => {
     it('returns correct string if invalid ether addr passed', () => {
-      expect(FormHelper.validEtherAddress('notanaddress')).toEqual(
-        <M.InvalidEtherAddressMessage />
-      )
+      expect(
+        FormHelper.validEthAddress({ value: { value: 'notanaddress' } })
+      ).toEqual(<M.InvalidEthAddressMessage />)
     })
 
     it('returns undefined if valid ether addr is given', () => {
       expect(
-        FormHelper.validEtherAddress(
-          '0x1d409aC5ca371B436C0DF3979F832745671044a5'
-        )
+        FormHelper.validEthAddress({
+          value: { value: '0x1d409aC5ca371B436C0DF3979F832745671044a5' }
+        })
       ).toBeUndefined()
     })
   })
@@ -212,7 +212,7 @@ describe('FormHelper', () => {
       ).toEqual(<M.InvalidBchAddressMessage />)
     })
 
-    it('returns undefined if valid bth addr is given', () => {
+    it('returns undefined if valid bch addr is given', () => {
       expect(
         FormHelper.validBchAddress(
           'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',

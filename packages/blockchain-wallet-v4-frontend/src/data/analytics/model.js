@@ -35,7 +35,6 @@ export const LOCKBOX_EVENTS = {
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
   SETTINGS: {
     ADD_DEVICE: ['lockbox', 'settings', 'add_device'],
-    AUTHENTICATE_DEVICE: ['lockbox', 'settings', 'check_authenticity'],
     FIRMWARE_UPDATE: ['lockbox', 'settings', 'firmware_update'],
     RENAME_DEVICE: ['lockbox', 'settings', 'rename_device'],
     REMOVE_DEVICE: ['lockbox', 'settings', 'remove_device'],

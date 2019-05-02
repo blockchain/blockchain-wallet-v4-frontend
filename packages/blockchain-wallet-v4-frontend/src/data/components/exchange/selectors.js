@@ -2,7 +2,7 @@ import {
   all,
   any,
   compose,
-  contains,
+  includes,
   curry,
   defaultTo,
   filter,
@@ -44,7 +44,6 @@ export const getStep = path(['components', 'exchange', 'step'])
 export const getLimits = path(['components', 'exchange', 'limits'])
 export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])
-export const getTargetFee = path(['components', 'exchange', 'targetFee'])
 export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
 export const getMempoolFees = path([
   'components',
@@ -78,7 +77,7 @@ export const getRates = curry((pair, state) =>
 
 const isActive = propEq('archived', false)
 
-export const getActiveBchAccounts = createDeepEqualSelector(
+export const bchGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
@@ -109,7 +108,7 @@ export const getActiveBchAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveBsvAccounts = createDeepEqualSelector(
+export const bsvGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bsv.getAddresses,
@@ -138,7 +137,7 @@ export const getActiveBsvAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveBtcAccounts = createDeepEqualSelector(
+export const btcGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.btc.getAddresses,
@@ -163,7 +162,7 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
   }
 )
 
-export const getActiveEthAccounts = createDeepEqualSelector(
+export const ethGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses,
     coreSelectors.kvStore.eth.getAccounts,
@@ -177,7 +176,6 @@ export const getActiveEthAccounts = createDeepEqualSelector(
           const data = prop(address, ethData)
 
           return {
-            archived: prop('archived', acc),
             coin: 'ETH',
             label: prop('label', acc) || address,
             address,
@@ -185,14 +183,34 @@ export const getActiveEthAccounts = createDeepEqualSelector(
             type: ADDRESS_TYPES.ACCOUNT
           }
         })
-        .filter(isActive)
         .concat(lockboxEthData)
 
     return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR)
   }
 )
 
-export const getActiveXlmAccounts = createDeepEqualSelector(
+// TODO: make generic, dont hardcore PAX
+export const erc20GetActiveAccounts = createDeepEqualSelector(
+  [
+    coreSelectors.data.eth.getDefaultAddress,
+    (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
+    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token)
+  ],
+  (ethAddressR, erc20AccountR, erc20BalanceR) => {
+    const transform = (ethAddress, erc20Account, erc20Balance) => [
+      {
+        coin: 'PAX',
+        label: prop('label', erc20Account),
+        address: ethAddress,
+        balance: erc20Balance,
+        type: ADDRESS_TYPES.ACCOUNT
+      }
+    ]
+    return lift(transform)(ethAddressR, erc20AccountR, erc20BalanceR)
+  }
+)
+
+export const xlmGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
@@ -225,28 +243,32 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
   }
 )
 
+// TODO: make dynamic list in future from wallet options getSupportedCoins
 export const getActiveAccountsR = state => {
   const accounts = {
-    BTC: getActiveBtcAccounts(state),
-    BCH: getActiveBchAccounts(state),
-    BSV: getActiveBsvAccounts(state),
-    ETH: getActiveEthAccounts(state),
-    XLM: getActiveXlmAccounts(state)
+    BCH: bchGetActiveAccounts(state),
+    BTC: btcGetActiveAccounts(state),
+    BSV: bsvGetActiveAccounts(state),
+    ETH: ethGetActiveAccounts(state),
+    PAX: erc20GetActiveAccounts(state, 'pax'),
+    XLM: xlmGetActiveAccounts(state)
   }
 
-  const isntLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
-  if (any(isntLoaded, values(accounts))) return Remote.Loading
+  const isNotLoaded = coinAccounts => Remote.Loading.is(coinAccounts)
+  if (any(isNotLoaded, values(accounts))) return Remote.Loading
 
   return Remote.of(map(coinAccounts => coinAccounts.getOrElse([]), accounts))
 }
 
+// TODO: make dynamic list in future from wallet options getSupportedCoins
 export const getActiveAccounts = compose(
   accounts =>
     accounts.getOrElse({
-      BTC: [],
       BCH: [],
+      BTC: [],
       BSV: [],
       ETH: [],
+      PAX: [],
       XLM: []
     }),
   getActiveAccountsR
@@ -278,8 +300,9 @@ const getInitialCoins = (
     requestedSourceCoin,
     requestedTargetCoin
   )
-  if (contains(requestedPair, availablePairs))
+  if (includes(requestedPair, availablePairs)) {
     return [requestedSourceCoin, requestedTargetCoin]
+  }
 
   const initialSourceCoin = defaultTo(
     requestedSourceCoin,
@@ -305,7 +328,6 @@ const getInitialAccounts = (
   if (!from || !to) return {}
 
   const availableSourceCoins = getAvailableSourceCoins(availablePairs)
-
   const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
     from,
     to,

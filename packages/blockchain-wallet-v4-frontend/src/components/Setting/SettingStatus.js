@@ -10,7 +10,7 @@ const SettingStatus = styled.div`
     props.active ? props.theme['success'] : props.theme['error']};
   color: ${props => props.theme['white']};
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: capitalize;
 `
 

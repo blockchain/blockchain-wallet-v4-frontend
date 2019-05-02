@@ -7,7 +7,8 @@ const Wrapper = styled.div`
   font-size: ${props => (props.large ? '20px' : '12px')};
   font-weight: ${props => (props.large ? '200' : '300')};
   padding-right: ${props => (props.large ? '15px' : '25px')};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   span {
     text-transform: capitalize;
     &:last-child {

@@ -55,7 +55,7 @@ const MobileNumberVerify = props => {
           />
         </ModalHeader>
         <ModalBody>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={500}>
             <FormattedMessage
               id='modals.mobilenumberverify.explain'
               defaultMessage='We have sent an SMS message with a verification code to {number}.'
@@ -71,12 +71,12 @@ const MobileNumberVerify = props => {
           <Code>
             <Field name='code' validate={[required]} component={TextBox} />
           </Code>
-          <OptionsText size='14px' weight={300}>
+          <OptionsText size='14px' weight={500}>
             <FormattedMessage
               id='modals.mobilenumberverify.getcode1'
               defaultMessage="Didn't get the code?"
             />
-            <Link size='14px' weight={300} onClick={handleResend}>
+            <Link size='14px' weight={500} onClick={handleResend}>
               <FormattedMessage
                 id='modals.mobilenumberverify.resend'
                 defaultMessage='Resend'
@@ -86,7 +86,7 @@ const MobileNumberVerify = props => {
               id='modals.mobilenumberverify.getcode2'
               defaultMessage='or'
             />
-            <Link size='14px' weight={300} capitalize onClick={handleChange}>
+            <Link size='14px' weight={500} capitalize onClick={handleChange}>
               <FormattedMessage
                 id='modals.mobilenumberverify.change'
                 defaultMessage=' change mobile number'
@@ -95,7 +95,7 @@ const MobileNumberVerify = props => {
           </OptionsText>
         </ModalBody>
         <ModalFooter align='spaced'>
-          <Link size='13px' weight={300} onClick={close}>
+          <Link size='13px' weight={500} onClick={close}>
             <FormattedMessage
               id='modals.mobilenumberverify.cancel'
               defaultMessage='Cancel'

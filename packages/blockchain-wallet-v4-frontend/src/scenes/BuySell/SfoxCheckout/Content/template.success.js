@@ -259,7 +259,7 @@ const Success = props => {
       return (
         <OrderHistoryWrapper>
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size='15px' weight={500}>
               <FormattedMessage
                 id='scenes.buysell.sfoxcheckout.trades.pending'
                 defaultMessage='Pending Orders'
@@ -276,7 +276,7 @@ const Success = props => {
             />
           </OrderHistoryContent>
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size='15px' weight={500}>
               <FormattedMessage
                 id='scenes.buysell.sfoxcheckout.trades.completed'
                 defaultMessage='Completed Orders'

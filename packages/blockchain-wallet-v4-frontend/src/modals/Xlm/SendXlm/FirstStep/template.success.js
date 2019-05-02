@@ -12,7 +12,6 @@ import {
   Banner,
   Button,
   Text,
-  Icon,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
@@ -36,16 +35,18 @@ import {
   validateMemo,
   validateMemoType
 } from './validation'
-import { Row, AddressButton } from 'components/Send'
+import { Row } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { NoAccountTemplate } from './NoAccountTemplate'
 import { ErrorBanner } from './ErrorBanner'
-import { XlmFiatConvertor } from './XlmFiatConvertor'
+import { XlmFiatConverter } from './XlmFiatConverter'
 import { InfoBanner } from './InfoBanner'
 import { SelectBoxMemo } from './SelectBoxMemo'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
@@ -78,15 +79,12 @@ const FirstStep = props => {
     invalid,
     submitting,
     fee,
-    destination,
-    toToggled,
-    enableToggle,
     noAccount,
     from,
     balanceStatus,
-    handleToToggle,
     error,
     handleSubmit,
+    isDestinationChecked,
     submit,
     excludeLockbox
   } = props
@@ -101,8 +99,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendxlm.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendxlm.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -115,8 +113,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendxlm.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendxlm.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -155,53 +153,27 @@ const FirstStep = props => {
             <FormItem>
               <FormLabel for='to'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.to'
-                  defaultMessage='To:'
+                  id='modals.sendxlm.firststep.sendto'
+                  defaultMessage='To'
                 />
               </FormLabel>
               <Row>
-                {toToggled && (
-                  <Field
-                    name='to'
-                    component={SelectBoxXlmAddresses}
-                    menuIsOpen={!destination}
-                    exclude={[from.label]}
-                    validate={[required]}
-                    includeAll={false}
-                    hideIndicator
-                    hideErrors
-                  />
-                )}
-                {!toToggled && (
-                  <Field
-                    name='to'
-                    placeholder='Paste or scan an address, or select a destination'
-                    component={TextBox}
-                    normalize={removeWhitespace}
-                    validate={[required, validXlmAddress]}
-                    autoFocus
-                    data-e2e='sendXlmToAddress'
-                  />
-                )}
+                <Field
+                  name='to'
+                  placeholder='Paste, scan, or select destination'
+                  component={SelectBoxXlmAddresses}
+                  validate={[required, validXlmAddress]}
+                  exclude={[from.label]}
+                  openMenuOnClick={false}
+                  includeAll={false}
+                  isCreatable
+                  noOptionsMessage={() => null}
+                  isValidNewOption={() => false}
+                />
                 <QRCodeCapture
                   scanType='xlmAddress'
-                  border={
-                    enableToggle
-                      ? ['top', 'bottom']
-                      : ['top', 'bottom', 'right']
-                  }
+                  border={['top', 'bottom', 'right']}
                 />
-                {enableToggle ? (
-                  !toToggled ? (
-                    <AddressButton onClick={() => handleToToggle()}>
-                      <Icon name='down-arrow' size='11px' cursor />
-                    </AddressButton>
-                  ) : (
-                    <AddressButton onClick={() => handleToToggle()}>
-                      <Icon name='pencil' size='13px' cursor />
-                    </AddressButton>
-                  )
-                ) : null}
               </Row>
             </FormItem>
           </FormGroup>
@@ -209,13 +181,13 @@ const FirstStep = props => {
             <FormItem>
               <FormLabel for='amount'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.amount'
-                  defaultMessage='Enter amount:'
+                  id='modals.sendxlm.firststep.sendamountto'
+                  defaultMessage='Amount'
                 />
               </FormLabel>
               <Field
                 name='amount'
-                component={XlmFiatConvertor}
+                component={XlmFiatConverter}
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
@@ -227,30 +199,10 @@ const FirstStep = props => {
           {error && <ErrorBanner error={error} />}
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='description'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.description'
-                  defaultMessage='Description: '
-                />
-                <TooltipHost id='sendxlm.firststep.sharetooltip'>
-                  <TooltipIcon name='question-in-circle' />
-                </TooltipHost>
-              </FormLabel>
-              <Field
-                name='description'
-                component={TextAreaDebounced}
-                placeholder="What's this transaction for? (optional)"
-                fullwidth
-                data-e2e='sendXlmDescription'
-              />
-            </FormItem>
-          </FormGroup>
-          <FormGroup margin={'15px'}>
-            <FormItem>
               <FormLabel for='memo'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.memo'
-                  defaultMessage='Memo: '
+                  id='modals.sendxlm.firststep.txmemo'
+                  defaultMessage='Memo'
                 />
                 <TooltipHost id='sendxlm.firststep.memotooltip'>
                   <TooltipIcon name='question-in-circle' />
@@ -275,6 +227,26 @@ const FirstStep = props => {
               </MemoField>
             </FormItem>
           </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='description'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.desc'
+                  defaultMessage='Description'
+                />
+                <TooltipHost id='sendxlm.firststep.sharetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </FormLabel>
+              <Field
+                name='description'
+                component={TextAreaDebounced}
+                placeholder="What's this transaction for? (optional)"
+                fullwidth
+                data-e2e='sendXlmDescription'
+              />
+            </FormItem>
+          </FormGroup>
           <FormGroup inline margin={'10px'}>
             <FormItem>
               <Text size='16px' weight={500}>
@@ -283,17 +255,21 @@ const FirstStep = props => {
                   defaultMessage='Transaction Fee:'
                 />
               </Text>
-              <Text size='16px' weight={300}>
-                <ComboDisplay coin='XLM'>{fee}</ComboDisplay>
+              <Text>
+                <ComboDisplay size='13px' coin='XLM'>
+                  {fee}
+                </ComboDisplay>
               </Text>
             </FormItem>
           </FormGroup>
-          <FormGroup>
+          <SubmitFormGroup>
             <Button
               /*
                * HACK: redux-form blurs on mousedown, and we change form
                * layout on blur preventing the onClick submit
                */
+              height='56px'
+              size='18px'
               onMouseDown={submit}
               nature='primary'
               disabled={
@@ -301,6 +277,7 @@ const FirstStep = props => {
                 submitting ||
                 invalid ||
                 disableLockboxSend ||
+                !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }
               data-e2e='xlmSendContinue'
@@ -310,7 +287,7 @@ const FirstStep = props => {
                 defaultMessage='Continue'
               />
             </Button>
-          </FormGroup>
+          </SubmitFormGroup>
         </React.Fragment>
       )}
     </Form>

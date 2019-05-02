@@ -10,6 +10,7 @@ import exchangeHistoryReducer from 'data/components/exchangeHistory/reducers'
 import { pollTimeout } from 'data/components/exchangeHistory/sagas'
 import { canUseExchange } from 'data/components/exchange/selectors'
 import exchangeHistorySagas from 'data/components/exchangeHistory/sagaRegister'
+import { getSupportedCoins } from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
 import { getTrades } from 'blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors'
 import settingsReducer from 'blockchain-wallet-v4/src/redux/settings/reducers'
 import {
@@ -31,11 +32,13 @@ jest.useFakeTimers()
 jest.mock('data/components/exchange/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/modules/profile/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors')
 isUserActive.mockReturnValue(Remote.of(true))
 isUserVerified.mockReturnValue(Remote.of(true))
 userFlowSupported.mockReturnValue(Remote.of(true))
 getTrades.mockReturnValue(Remote.of([]))
+getSupportedCoins.mockReturnValue(Remote.of({}))
 canUseExchange.mockReturnValue(true)
 
 const { RESULTS_MODAL } = model.components.exchangeHistory
