@@ -37,16 +37,14 @@ const DropdownList = styled.ul`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
-  #box-sizing: border-box;
+  box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
   width: inherit;
   line-height: 20px;
-  list-style-image: none;
-  list-style-position: outside;
-  list-style-type: none;
+  list-style: none outside none;
   margin: 2px 0px;
   max-height: 400px;
   min-width: 20px;
@@ -54,10 +52,9 @@ const DropdownList = styled.ul`
   padding: 5px 0px;
   position: absolute;
   right: 0;
+  z-index: 10;
   ${props =>
-    props.down
-      ? 'top: 25px; bottom: auto;'
-      : 'top: auto; bottom: 25px;'} z-index: 10;
+    props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;'}
 `
 
 const DropdownItem = styled.li`
