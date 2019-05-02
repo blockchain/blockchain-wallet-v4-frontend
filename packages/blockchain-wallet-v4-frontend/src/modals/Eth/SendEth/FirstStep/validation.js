@@ -39,7 +39,7 @@ export const maximumAmount = (value, allValues, props) => {
     ) ? (
       undefined
     ) : (
-      <MaximumAmountMessage coin={coin} />
+      <MaximumAmountMessage coin={props.coin} />
     )
   } catch (e) {}
 }

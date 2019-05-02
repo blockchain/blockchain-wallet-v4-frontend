@@ -181,6 +181,7 @@ const FirstStep = props => {
               name='to'
               placeholder='Paste, scan, or select destination'
               component={SelectBoxBtcAddresses}
+              dataE2e='sendBtcAddressInput'
               validate={[required, validBtcAddress]}
               exclude={[from.label]}
               openMenuOnClick={false}

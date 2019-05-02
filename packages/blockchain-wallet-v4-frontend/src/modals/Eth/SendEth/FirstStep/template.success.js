@@ -159,6 +159,7 @@ const FirstStep = props => {
               placeholder='Paste, scan, or select destination'
               validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
+              dataE2e='sendEthAddressInput'
               exclude={[from.label]}
               openMenuOnClick={false}
               includeAll={false}
