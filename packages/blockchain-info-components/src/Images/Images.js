@@ -42,7 +42,6 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
-import kycGetStarted from './img/kyc-get-started.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -64,6 +63,9 @@ import stellarPlanet2 from './img/stellar-planet@2x.png'
 import stellarPlanet3 from './img/stellar-planet@3x.png'
 import swapDashboardLeft from './img/swap-dashboard-left.png'
 import swapDashboardRight from './img/swap-dashboard-right.png'
+import swapIntro from './img/swap-intro.png'
+import swapIntro2 from './img/swap-intro@2x.png'
+import swapIntro3 from './img/swap-intro@3x.png'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -147,7 +149,6 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
-  'kyc-get-started': kycGetStarted,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,
@@ -198,6 +199,9 @@ export default {
   'stellar-planet3': stellarPlanet3,
   'swap-dashboard-left': swapDashboardLeft,
   'swap-dashboard-right': swapDashboardRight,
+  'swap-intro': swapIntro,
+  'swap-intro2': swapIntro2,
+  'swap-intro3': swapIntro3,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
   'wallet-v3-backup': walletV3Backup,

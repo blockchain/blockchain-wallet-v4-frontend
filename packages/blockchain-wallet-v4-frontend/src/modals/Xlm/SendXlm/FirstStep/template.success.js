@@ -206,7 +206,7 @@ const FirstStep = props => {
                   defaultMessage='Memo'
                 />
                 <TooltipHost id='sendxlm.firststep.memotooltip'>
-                  <TooltipIcon name='question-in-circle' />
+                  <TooltipIcon name='question-in-circle' size='12px' />
                 </TooltipHost>
               </FormLabel>
               <MemoField>
@@ -236,7 +236,7 @@ const FirstStep = props => {
                   defaultMessage='Description'
                 />
                 <TooltipHost id='sendxlm.firststep.sharetooltip'>
-                  <TooltipIcon name='question-in-circle' />
+                  <TooltipIcon name='question-in-circle' size='12px' />
                 </TooltipHost>
               </FormLabel>
               <Field
