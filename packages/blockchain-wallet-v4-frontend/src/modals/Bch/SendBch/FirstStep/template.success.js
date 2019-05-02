@@ -127,6 +127,7 @@ const FirstStep = props => {
               name='to'
               placeholder='Paste, scan, or select destination'
               component={SelectBoxBchAddresses}
+              dataE2e='sendBchAddressInput'
               validate={[required, validBchAddress]}
               exclude={[from.label]}
               openMenuOnClick={false}
