@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: #f0f2f7;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const LinkItem = styled(TabMenuItem)`
@@ -17,7 +17,7 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 36px;
+      top: 34px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
