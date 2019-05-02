@@ -14,7 +14,7 @@ export const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 5px;
+  padding: 8px 5px;
   margin-bottom: 8px;
   box-sizing: border-box;
   cursor: pointer;
