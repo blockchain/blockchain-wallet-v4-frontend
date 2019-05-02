@@ -829,6 +829,7 @@ export default ({ api, coreSagas, networks }) => {
             tradeData: formatExchangeTrade(trade)
           })
         )
+        yield put(actions.modules.profile.fetchUser())
       } else {
         yield put(
           actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
