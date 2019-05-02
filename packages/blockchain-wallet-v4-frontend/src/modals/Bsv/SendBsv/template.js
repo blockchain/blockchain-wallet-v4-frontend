@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendBsv = props => (
   <Modal size='large' position={props.position} total={props.total}>
-    <ModalHeader icon='paper-airplane-filled' onClose={props.closeAll}>
+    <ModalHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage
         id='modals.sendbsv.title'
         defaultMessage='Send Bitcoin SV'
