@@ -36,6 +36,17 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 
   .bc__placeholder {
     color: ${props => props.theme['gray-2']};
+    & + div {
+      width: 100%;
+      z-index: 1;
+    }
+  }
+
+  .bc__input {
+    width: 100%;
+    input {
+      width: 100% !important;
+    }
   }
 
   ${props =>

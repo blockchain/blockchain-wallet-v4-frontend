@@ -7,6 +7,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
+  z-index: ${props => props.zIndex || 'initial'};
   background-color: ${props => props.theme['white']};
 `
 const Error = styled.label`
@@ -48,13 +49,18 @@ class SelectBox extends React.PureComponent {
       hideErrors,
       errorBottom,
       className,
+      zIndex,
       ...rest
     } = this.props
     const { touched, invalid, error, pristine } = meta
     const errorState = touched && invalid ? 'invalid' : 'initial'
 
     return (
-      <Container className={className} data-e2e='dropdownSelect'>
+      <Container
+        className={className}
+        zIndex={zIndex}
+        data-e2e='dropdownSelect'
+      >
         <SelectInput
           {...input}
           {...meta}
