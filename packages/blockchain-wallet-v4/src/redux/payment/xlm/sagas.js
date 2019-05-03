@@ -235,7 +235,14 @@ export default ({ api }) => {
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
         account = yield call(getAccountAndSequenceNumber, account)
-        const txBuilder = new StellarSdk.TransactionBuilder(account, { fee })
+        const timeout = (yield select(
+          S.walletOptions.getXlmSendTimeOutSeconds
+        )).getOrElse(300)
+        const timebounds = yield call(api.getTimebounds, timeout)
+        const txBuilder = new StellarSdk.TransactionBuilder(account, {
+          fee,
+          timebounds
+        })
         const operation = yield call(
           createOperation,
           to,
@@ -243,10 +250,6 @@ export default ({ api }) => {
           destinationAccountExists
         )
         txBuilder.addOperation(operation)
-        const timeout = (yield select(
-          S.walletOptions.getXlmSendTimeOutSeconds
-        )).getOrElse(10)
-        txBuilder.setTimeout(timeout)
         if (memo && memoType) {
           txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
         }
