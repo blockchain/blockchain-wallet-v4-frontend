@@ -8,9 +8,12 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100% - 100px);
-  width: 100%;
+  height: calc(100% - 60px);
   overflow-y: auto;
+  width: 100%;
+  > div {
+    box-sizing: border-box;
+  }
 `
 
 class PageContainer extends React.Component {
