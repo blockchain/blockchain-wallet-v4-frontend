@@ -9,15 +9,15 @@
     "requireCleanWorkingDir": false,
     "requireUpstream": false,
     "_changelog": "changelog -t $(git describe --abbrev=0 --tags) -f -",
-    "commitMessage": "chore(Release): v{version}",
-    "tagName": "v{version}",
-    "tagAnnotation": "Release v{version}",
+    "commitMessage": "chore(Release): v${version}",
+    "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
     "pushArgs": "--no-verify"
   },
   "github": {
     "release": true,
     "preRelease": true,
-    "releaseName": "v{version}",
+    "releaseName": "v${version}",
     "tokenRef": "RELEASE_IT_TOKEN"
   }
 }
