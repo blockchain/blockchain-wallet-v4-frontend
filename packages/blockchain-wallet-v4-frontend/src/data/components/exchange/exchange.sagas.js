@@ -374,11 +374,9 @@ export default ({ api, coreSagas, networks }) => {
     const erc20List = (yield select(
       selectors.core.walletOptions.getErc20CoinList
     )).getOrFail()
-    const currentError = yield select(formErrorSelector)
     try {
       yield put(A.setTxError(null))
       if (coin !== 'ETH' && !includes(coin, erc20List)) return
-      yield put(actions.form.startAsyncValidation(EXCHANGE_FORM))
       const provisionalPayment = yield call(getProvisionalPayment, false)
       if (provisionalPayment.unconfirmedTx) throw LATEST_TX_ERROR
     } catch (e) {
@@ -388,9 +386,6 @@ export default ({ api, coreSagas, networks }) => {
           e === LATEST_TX_ERROR ? LATEST_TX_ERROR : LATEST_TX_FETCH_FAILED_ERROR
         )
       )
-    } finally {
-      const errors = currentError ? { _error: currentError } : undefined
-      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM, errors))
     }
   }
 
