@@ -140,7 +140,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   reduxForm({
     form: EXCHANGE_FORM,
-    destroyOnUnmount: false,
+    destroyOnUnmount: true,
     persistentSubmitErrors: true
   }),
   connect(
