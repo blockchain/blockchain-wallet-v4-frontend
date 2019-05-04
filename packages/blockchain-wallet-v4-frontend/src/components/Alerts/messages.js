@@ -40,7 +40,7 @@ export const getAlertContent = (message, data = undefined) => {
             <Icon size='24px' name='info' color='orange' />
           </IconColumn>
           <ContentColumn>
-            <Text size='14px' weight='400'>
+            <Text size='14px' weight='400' data-e2e='runningLowMessage'>
               <FormattedMessage
                 id='components.alerts.loweth.header'
                 defaultMessage='Running Low!'

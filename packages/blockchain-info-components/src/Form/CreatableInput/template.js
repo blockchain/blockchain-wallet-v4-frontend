@@ -38,7 +38,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     color: ${props => props.theme['gray-2']};
     & + div {
       width: 100%;
-      z-index: 1;
+      z-index: 2;
     }
   }
 
@@ -78,6 +78,9 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 
     .bc__value-container {
       cursor: text;
+      > div {
+        width: 100%;
+      }
     }
 
     .bc__clear-indicator {

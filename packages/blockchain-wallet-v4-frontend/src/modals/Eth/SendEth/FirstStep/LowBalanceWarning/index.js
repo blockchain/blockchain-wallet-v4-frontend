@@ -32,7 +32,12 @@ const LowBalanceWarning = props => {
     lt(totalEthValue - totalSendValue, 1) && (
       <WarningWrapper>
         <WarningLeftColumn>
-          <Text size='14px' weight={500} color='orange'>
+          <Text
+            size='14px'
+            weight={500}
+            color='orange'
+            data-e2e='runningLowMessage'
+          >
             <FormattedMessage
               id='modals.sendeth.lowbalancewarning.title'
               defaultMessage='Running low!'
