@@ -20,7 +20,9 @@
     "test": "cross-env ./../../node_modules/.bin/jest --silent",
     "test:build": "yarn compile",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -99,6 +101,8 @@
     "scryptsy": "2.0.0",
     "seedrandom": "2.4.3",
     "stellar-sdk": "0.15.0",
-    "unorm": "1.4.1"
-  }
+    "unorm": "1.4.1",
+    "snyk": "^1.161.1"
+  },
+  "snyk": true
 }
