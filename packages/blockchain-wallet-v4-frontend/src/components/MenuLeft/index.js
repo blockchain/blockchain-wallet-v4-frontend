@@ -22,14 +22,14 @@ export const MenuItem = styled.li`
   font-size: 14px;
   width: 100%;
   &:hover {
-    color: #0c6cf2;
+    color: ${props => props.theme['blue']};
   }
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: #677185;
+    color: ${props => props.theme['gray-7']};
     &:hover {
-      color: #0c6cf2;
+      color: ${props => props.theme['blue']};
     }
   }
   & > span:first-child {
@@ -39,7 +39,7 @@ export const MenuItem = styled.li`
   &.active {
     font-weight: 500;
     & > *:not(div) {
-      color: #0c6cf2;
+      color: ${props => props.theme['blue']};
     }
   }
 `
