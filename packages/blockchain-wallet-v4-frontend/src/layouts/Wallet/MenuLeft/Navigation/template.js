@@ -22,6 +22,9 @@ import {
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
+  > div span {
+    color: ${props => props.theme['gray-7']};
+  }
 `
 const NewCartridge = styled(Cartridge)`
   color: #f28b24 !important;
@@ -89,7 +92,7 @@ const Navigation = props => {
                   colorCode={coin.colorCode}
                 >
                   <Icon name={coin.icons.circleFilled} size='20px' />
-                  {coin.displayName}
+                  <span>{coin.displayName}</span>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
                       <Text color='#F28B24' size='12' weight={500} uppercase>

@@ -14,7 +14,7 @@ const SendHeader = styled(ModalHeader)`
 
 const SendBch = props => (
   <Modal size='medium' position={props.position} total={props.total}>
-    <SendHeader icon='paper-airplane-filled' onClose={props.closeAll}>
+    <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage
         id='modals.sendbch.title'
         defaultMessage='Send Bitcoin Cash'

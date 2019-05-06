@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['white-2']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const Container = styled.div`

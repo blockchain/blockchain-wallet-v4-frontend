@@ -97,7 +97,7 @@ class RequestEthContainer extends React.PureComponent {
 
     return (
       <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='download2' onClose={closeAll}>
+        <ModalHeader icon='request' onClose={closeAll}>
           <FormattedHTMLMessage
             id='modals.requesteth.title'
             defaultMessage='Request {displayName}'

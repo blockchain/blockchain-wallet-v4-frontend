@@ -10,7 +10,7 @@ import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 12px 25px;
+  padding: 12px 25px 12px 24px;
   align-items: center;
   justify-content: space-between;
   background: ${props => props.theme['marketing-primary']};
