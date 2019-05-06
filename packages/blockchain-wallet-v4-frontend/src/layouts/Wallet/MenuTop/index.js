@@ -38,7 +38,9 @@ const LeftContainer = styled(Container)`
 `
 const RightContainer = styled(Container)`
   order: 1;
+  margin-bottom: 8px;
   @media (min-width: 850px) {
+    margin-bottom: 0px;
     order: 2;
   }
 `

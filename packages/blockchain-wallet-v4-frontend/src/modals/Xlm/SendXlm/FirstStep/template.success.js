@@ -162,6 +162,7 @@ const FirstStep = props => {
                   name='to'
                   placeholder='Paste, scan, or select destination'
                   component={SelectBoxXlmAddresses}
+                  dataE2e='sendXlmAddressInput'
                   validate={[required, validXlmAddress]}
                   exclude={[from.label]}
                   openMenuOnClick={false}
@@ -205,7 +206,7 @@ const FirstStep = props => {
                   defaultMessage='Memo'
                 />
                 <TooltipHost id='sendxlm.firststep.memotooltip'>
-                  <TooltipIcon name='question-in-circle' />
+                  <TooltipIcon name='question-in-circle' size='12px' />
                 </TooltipHost>
               </FormLabel>
               <MemoField>
@@ -235,7 +236,7 @@ const FirstStep = props => {
                   defaultMessage='Description'
                 />
                 <TooltipHost id='sendxlm.firststep.sharetooltip'>
-                  <TooltipIcon name='question-in-circle' />
+                  <TooltipIcon name='question-in-circle' size='12px' />
                 </TooltipHost>
               </FormLabel>
               <Field

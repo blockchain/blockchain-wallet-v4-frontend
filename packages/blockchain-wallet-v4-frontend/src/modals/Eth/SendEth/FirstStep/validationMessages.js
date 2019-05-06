@@ -24,13 +24,13 @@ export const InvalidAmountMessage = () => (
   />
 )
 
-export const MaximumAmountMessage = coin => (
+export const MaximumAmountMessage = props => (
   <Wrapper>
     <FormattedMessage
       id='modals.sendeth.maximumamountmessage'
       defaultMessage='Not enough funds. Use'
     />
-    <MaximumAmountLink coin={coin} />
+    <MaximumAmountLink coin={props.coin} />
   </Wrapper>
 )
 
@@ -41,22 +41,22 @@ export const InsufficientFundsMessage = () => (
   />
 )
 
-export const MaximumFeeMessage = coin => (
+export const MaximumFeeMessage = props => (
   <Wrapper>
     <FormattedMessage
       id='modals.sendeth.maximumfeemessage'
       defaultMessage='Unnecessarily high fee.'
     />
     <span>&nbsp;</span>
-    <MaximumFeeLink coin={coin} />
+    <MaximumFeeLink coin={props.coin} />
   </Wrapper>
 )
-export const MinimumFeeMessage = coin => (
+export const MinimumFeeMessage = props => (
   <Wrapper>
     <FormattedMessage
       id='modals.sendeth.minimumfeemessage'
       defaultMessage='Low fee not recommended. Use'
     />
-    <MinimumFeeLink coin={coin} />
+    <MinimumFeeLink coin={props.coin} />
   </Wrapper>
 )
