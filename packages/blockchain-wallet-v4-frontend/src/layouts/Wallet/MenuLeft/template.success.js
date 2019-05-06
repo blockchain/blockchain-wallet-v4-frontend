@@ -16,7 +16,7 @@ export const Container = styled.div`
   padding: 15px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme['white-2']};
+  background: ${props => props.theme['white-blue']};
   border-right: 1px solid ${props => props.theme['gray-1']};
   transition: left 0.3s ease-in-out;
   z-index: 11;

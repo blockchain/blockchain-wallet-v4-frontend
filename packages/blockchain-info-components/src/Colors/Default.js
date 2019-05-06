@@ -27,8 +27,7 @@ export default {
   'gray-7': '#677185',
   // Whites
   white: '#FFFFFF',
-  'white-2': '#f0f2f7',
-  'white-blue': '#F5F7F9',
+  'white-blue': '#f0f2f7',
   silver: '#CECECE',
   porcelain: '#F4F6F7',
   // Blacks
