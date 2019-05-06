@@ -138,7 +138,7 @@
     "redux-form": "7.4.2",
     "redux-logger": "3.0.6",
     "redux-persist": "5.7.0",
-    "redux-saga": "0.16.0",
+    "redux-saga": "1.0.0",
     "reselect": "4.0.0",
     "rxjs": "6.3.3",
     "sanitize-html": "1.19.2",

@@ -1,6 +1,5 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { equals, includes, path, pathOr, prop, head } from 'ramda'
-import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'

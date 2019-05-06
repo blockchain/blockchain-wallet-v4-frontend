@@ -13,8 +13,7 @@ import {
   values,
   whereEq
 } from 'ramda'
-import { put, all, call, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { all, call, put, delay, select } from 'redux-saga/effects'
 import moment from 'moment'
 
 import { selectors, model, actions } from 'data'

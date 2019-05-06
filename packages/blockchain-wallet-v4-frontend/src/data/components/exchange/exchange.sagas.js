@@ -1,5 +1,6 @@
 import {
   call,
+  delay,
   cancel,
   fork,
   put,
@@ -8,7 +9,6 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import {
   compose,
   includes,

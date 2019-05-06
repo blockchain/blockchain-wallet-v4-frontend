@@ -1,5 +1,4 @@
-import { all, call, fork, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { all, call, delay, fork, put } from 'redux-saga/effects'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
@@ -40,7 +39,7 @@ const welcomeSaga = function * () {
 
 const languageInitSaga = function * () {
   try {
-    yield call(delay, 250)
+    yield delay(250)
     const lang = tryParseLanguageFromUrl()
     if (lang.language) {
       yield put(actions.preferences.setLanguage(lang.language, false))
