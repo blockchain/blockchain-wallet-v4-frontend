@@ -1,5 +1,4 @@
-import { put, take } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { put, delay, take } from 'redux-saga/effects'
 import { actions, actionTypes } from 'data'
 
 export const logLocation = 'components/onboarding/sagas'

@@ -1,5 +1,12 @@
-import { delay } from 'redux-saga'
-import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
+import {
+  cancel,
+  call,
+  delay,
+  fork,
+  put,
+  select,
+  spawn
+} from 'redux-saga/effects'
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 

@@ -94,7 +94,7 @@
     "read-blob": "1.1.0",
     "redux": "4.0.1",
     "redux-immutable": "4.0.0",
-    "redux-saga": "0.16.2",
+    "redux-saga": "1.0.0",
     "reselect": "4.0.0",
     "scryptsy": "2.0.0",
     "seedrandom": "2.4.3",

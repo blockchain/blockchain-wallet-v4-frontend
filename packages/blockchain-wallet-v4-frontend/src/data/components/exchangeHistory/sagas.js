@@ -1,5 +1,13 @@
-import { cancel, call, fork, put, all, select, spawn } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import {
+  cancel,
+  call,
+  delay,
+  fork,
+  put,
+  all,
+  select,
+  spawn
+} from 'redux-saga/effects'
 import {
   any,
   concat,
@@ -213,7 +221,7 @@ export default ({ api, coreSagas }) => {
     try {
       while (true) {
         yield call(updateTrade, depositAddress)
-        yield call(delay, pollTimeout)
+        yield delay(pollTimeout)
       }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
