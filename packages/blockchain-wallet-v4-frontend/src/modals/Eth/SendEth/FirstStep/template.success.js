@@ -159,6 +159,7 @@ const FirstStep = props => {
               placeholder='Paste, scan, or select destination'
               validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
+              dataE2e='sendEthAddressInput'
               exclude={[from.label]}
               openMenuOnClick={false}
               includeAll={false}
@@ -225,8 +226,8 @@ const FirstStep = props => {
               id='modals.sendeth.firststep.desc'
               defaultMessage='Description'
             />
-            <TooltipHost id='sendeth.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' />
+            <TooltipHost id='sendeth.firststep.description'>
+              <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field

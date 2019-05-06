@@ -5,14 +5,18 @@ import { actions, selectors } from 'data'
 export default () => {
   const refreshClicked = function * () {
     try {
+      // Data (balance)
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.btc.fetchData())
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
+      yield put(actions.core.data.eth.fetchErc20Data('pax'))
+      // Rates
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.btc.fetchRates())
       yield put(actions.core.data.eth.fetchRates())
       yield put(actions.core.data.xlm.fetchRates())
+      yield put(actions.core.data.eth.fetchErc20Rates('pax'))
       const pathname = yield select(selectors.router.getPathname)
       switch (true) {
         case contains('/bch/transactions', pathname):
@@ -26,6 +30,9 @@ export default () => {
           break
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
+          break
+        case contains('/pax/transactions', pathname):
+          yield call(refreshErc20Transactions, 'pax')
           break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
@@ -64,6 +71,10 @@ export default () => {
 
   const refreshEthTransactions = function * () {
     yield put(actions.core.data.eth.fetchTransactions(null, true))
+  }
+
+  const refreshErc20Transactions = function * (coin) {
+    yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
   }
 
   const refreshXlmTransactions = function * () {
