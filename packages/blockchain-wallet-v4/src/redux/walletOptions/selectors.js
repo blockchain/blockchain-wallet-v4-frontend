@@ -53,6 +53,8 @@ export const getEthTxFuse = state =>
   getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
 export const getXlmSendTimeOutSeconds = state =>
   getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
+export const getXlmExchangeAddresses = state =>
+  getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )

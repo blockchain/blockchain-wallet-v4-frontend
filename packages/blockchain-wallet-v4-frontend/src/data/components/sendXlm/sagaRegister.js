@@ -25,6 +25,10 @@ export default ({ api, coreSagas }) => {
       AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS,
       sendXlmSagas.checkDestinationAccountExists
     )
+    yield takeLatest(
+      AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE,
+      sendXlmSagas.checkIfDestinationIsExchange
+    )
     yield takeLatest(actionTypes.CHANGE, sendXlmSagas.formChanged)
   }
 }
