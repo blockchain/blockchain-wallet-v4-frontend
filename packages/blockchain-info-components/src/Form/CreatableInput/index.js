@@ -1,5 +1,5 @@
 import React from 'react'
-import { difference, equals, head, pathOr, isEmpty } from 'ramda'
+import { difference, equals, head, pathOr, isNil } from 'ramda'
 import CreatableInput from './template'
 
 const components = {
@@ -18,9 +18,13 @@ class CreatableInputContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    if (!isEmpty(this.props.defaultValue)) {
+    if (!isNil(this.props.defaultValue)) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ value: this.props.defaultValue })
+    } else if (this.props.value) {
+      const newValue = pathOr([], ['value', 'value'], this.props)
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ value: newValue })
     }
   }
 

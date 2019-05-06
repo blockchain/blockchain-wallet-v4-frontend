@@ -37,11 +37,22 @@ let blackListedActivityTypes = [
   actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS,
   actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE,
   // RATES
+  actionTypes.middleware.webSocket.rates.ADVICE_UNSUBSCRIBE_SUCCESS,
+  actionTypes.middleware.webSocket.rates.ADVICE_SUBSCRIBE_SUCCESS,
+  actionTypes.middleware.webSocket.rates.ADVICE_SUBSCRIBE_ERROR,
   actionTypes.middleware.webSocket.rates.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.rates.START_SOCKET,
+  actionTypes.middleware.webSocket.rates.STOP_SOCKET,
+  actionTypes.middleware.webSocket.rates.OPEN_SOCKET,
   actionTypes.components.exchange.FETCH_LIMITS_SUCCESS,
   actionTypes.components.exchange.SET_MIN_MAX,
+  actionTypes.components.exchange.SET_SOURCE_FEE,
   actionTypes.modules.rates.UPDATE_BEST_RATES,
-  // TODO: consider if we really need this
+  // USER
+  actionTypes.modules.profile.SET_API_TOKEN_SUCCESS,
+  actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+  actionTypes.modules.profile.FETCH_TIERS_SUCCESS,
+  // FORMS
   '@@redux-form/CLEAR_SUBMIT_ERRORS',
   '@@redux-form/STOP_ASYNC_VALIDATION',
   '@@redux-form/START_ASYNC_VALIDATION'
@@ -54,6 +65,8 @@ const AutoDisconnectionMiddleware = () => store => next => action => {
   }
   // We reset the timer if the action is not in the blacklist
   if (!contains(action.type, blackListedActivityTypes)) {
+    // 👋 Uncomment the next line to debug autoDisconnection!!
+    // console.log(action.type)
     resetTimer()
   }
 
