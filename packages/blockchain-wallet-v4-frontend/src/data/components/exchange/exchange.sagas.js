@@ -352,7 +352,7 @@ export default ({ api, coreSagas, networks }) => {
       // ensure for sufficient eth balance for erc20 swap
       if (isSourceErc20) {
         const ethBalanceInWei = (yield select(
-          selectors.core.data.eth.getBalance
+          selectors.core.data.eth.getDefaultAddressBalance
         )).getOrElse(0)
         let ethBalance = Exchange.convertEtherToEther({
           value: ethBalanceInWei,

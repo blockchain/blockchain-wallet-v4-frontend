@@ -83,12 +83,12 @@ const FirstStep = props => {
     balanceStatus,
     excludeLockbox,
     hasErc20Balance,
-    isFeeSufficientForTx
+    isSufficientEthForErc20
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
     isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
-  const isFeeSufficientForErc20Tx = coin === 'ETH' || isFeeSufficientForTx
+  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -315,7 +315,7 @@ const FirstStep = props => {
           </Text>
         </CustomFeeAlertBanner>
       ) : null}
-      {!isFeeSufficientForErc20Tx && <LowEthWarningForErc20 />}
+      {disableDueToLowEth && <LowEthWarningForErc20 />}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -328,7 +328,7 @@ const FirstStep = props => {
             invalid ||
             isContract ||
             !isContractChecked ||
-            !isFeeSufficientForErc20Tx ||
+            disableDueToLowEth ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}
