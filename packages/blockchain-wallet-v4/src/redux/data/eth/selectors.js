@@ -26,6 +26,12 @@ export const getDefaultAddress = state =>
   getAddresses(state).map(addr => head(keys(addr)))
 export const getAddress = (state, address) =>
   getAddresses(state).map(prop(address))
+export const getDefaultAddressBalance = state => {
+  const defaultAddr = getDefaultAddress(state)
+    .map(x => x)
+    .getOrElse('')
+  return getAddress(state, defaultAddr).map(prop('balance'))
+}
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
 export const getRates = path([dataPath, 'eth', 'rates', 'eth'])
 export const getHeight = state => getLatestBlock(state).map(path(['number']))
