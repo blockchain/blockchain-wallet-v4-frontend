@@ -134,10 +134,7 @@ module.exports = {
           },
           mangle: {
             keep_fnames: true
-          },
-          nameCache: null,
-          toplevel: false,
-          ie8: false
+          }
         },
         parallel: true,
         cache: true
