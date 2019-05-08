@@ -104,7 +104,7 @@ export const validEthAddress = ({ value: dropdownValue }) => {
 export const validXlmAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue
-  return utils.xlm.isValidAddress(value) ? (
+  return utils.xlm.isValidAddress(propOr(value, ['address'], value)) ? (
     undefined
   ) : (
     <M.InvalidXlmAddressMessage />
