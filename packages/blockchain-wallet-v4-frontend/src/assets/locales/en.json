@@ -140,7 +140,6 @@
   "components.alerts.btc_address_incorrect": "Invalid Bitcoin Address.",
   "components.alerts.captcha_code_incorrect": "The captcha you provided was incorrect, please try again",
   "components.alerts.coinify_signup_error": "Failed to create Coinify account.",
-  "components.alerts.create_wallet_info": "Creating wallet...",
   "components.alerts.currency_update_error": "Failed to update currency",
   "components.alerts.currency_update_success": "Currency has been successfully updated",
   "components.alerts.deauthorize_browser_error": "Failed to deauthorize this browser.",
