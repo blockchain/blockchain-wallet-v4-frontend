@@ -7,7 +7,6 @@ import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   width: 100%;
-  min-height: 65px;
   background-color: ${props => props.theme['white']};
   @media (min-width: 768px) {
     width: 515px;
@@ -21,7 +20,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
+  min-height: 65px;
   padding: 15px 10px;
   box-sizing: border-box;
   background: ${props => props.theme['white']};

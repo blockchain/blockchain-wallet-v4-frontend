@@ -542,10 +542,6 @@ describe('authSagas', () => {
       saga.next().put(actions.auth.registerLoading())
     })
 
-    it('should display restore wallet information alert', () => {
-      saga.next().put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
-    })
-
     it('should pass payload to restoreWallet core saga', () => {
       saga.next().call(coreSagas.wallet.createWalletSaga, payload)
     })

@@ -149,13 +149,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to create Coinify account.'
         />
       )
-    case C.CREATE_WALLET_INFO:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.create_wallet_info'
-          defaultMessage='Creating wallet...'
-        />
-      )
     case C.CURRENCY_UPDATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
