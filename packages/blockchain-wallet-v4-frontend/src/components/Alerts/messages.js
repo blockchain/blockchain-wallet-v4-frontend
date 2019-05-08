@@ -149,13 +149,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to create Coinify account.'
         />
       )
-    case C.CREATE_WALLET_INFO:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.create_wallet_info'
-          defaultMessage='Creating wallet...'
-        />
-      )
     case C.CURRENCY_UPDATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -260,6 +253,38 @@ export const getAlertContent = (message, data = undefined) => {
           id='components.alerts.fetch_used_addresses_error'
           defaultMessage='Failed to retrieve used addresses.'
         />
+      )
+    case C.FIRST_PAX_TRADE_INFO:
+      return buildMessageTemplate(
+        <React.Fragment>
+          <Text>
+            <FormattedMessage
+              id='components.alerts.first_pax_trade_info_dyk'
+              defaultMessage='Did you know?'
+            />
+          </Text>
+          <TextGroup inline>
+            <Text size='12px' weight={400}>
+              <FormattedMessage
+                id='components.alerts.first_pax_trade_info'
+                defaultMessage='Now that you own USD Pax, you need to own ETH to Send or Swap.'
+              />
+            </Text>
+            <Link
+              href={
+                'https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
+              }
+              target='_blank'
+              weight={500}
+              size='12px'
+            >
+              <FormattedMessage
+                id='components.alerts.first_pax_trade_info_learn_more'
+                defaultMessage='Learn More'
+              />
+            </Link>
+          </TextGroup>
+        </React.Fragment>
       )
     case C.FETCH_UNUSED_ADDRESSES_ERROR:
       return buildMessageTemplate(

@@ -58,10 +58,6 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
-        "defaultMessage": "Creating wallet...",
-        "id": "components.alerts.create_wallet_info"
-      },
-      {
         "defaultMessage": "Failed to update currency",
         "id": "components.alerts.currency_update_error"
       },

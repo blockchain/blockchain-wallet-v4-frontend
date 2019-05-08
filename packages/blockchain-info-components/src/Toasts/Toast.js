@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { propOr } from 'ramda'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
-  height: 65px;
   width: 100%;
   background-color: ${props => props.theme['white']};
   @media (min-width: 768px) {
@@ -20,8 +20,8 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
-  padding: 15px 10px 15px 25px;
+  min-height: 65px;
+  padding: 15px 10px;
   box-sizing: border-box;
   background: ${props => props.theme['white']};
   border-left: 6px solid ${props => props.theme[props.color]};
@@ -30,12 +30,16 @@ const Container = styled.div`
 `
 const Content = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   flex: 100%;
   margin-right: 10px;
   box-sizing: border-box;
+`
+const CustomIcon = styled(Icon)`
+  font-size: 24px;
+  margin-right: 10px;
 `
 const CloseIcon = styled(Icon)`
   margin-right: 8px;
@@ -44,7 +48,7 @@ const CloseIcon = styled(Icon)`
   }
 `
 
-const selectColor = type => {
+const selectColor = (type, coin) => {
   switch (type) {
     case 'success':
       return 'success'
@@ -53,18 +57,23 @@ const selectColor = type => {
     case 'warn':
       return 'orange'
     default:
-      return 'brand-secondary'
+      return propOr('brand-secondary', 'colorCode', coin)
   }
 }
 
 const Toast = props => {
-  const { children, nature, onClose } = props
-  const color = selectColor(nature)
+  const { children, nature, coin, onClose } = props
+  const color = selectColor(nature, coin)
 
   return (
     <Wrapper>
       <Container color={color} data-e2e='toastMessage'>
-        <Content>{children}</Content>
+        <Content>
+          {coin && (
+            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
+          )}
+          {children}
+        </Content>
         <CloseIcon
           data-e2e='toastMessageClose'
           name='close'
