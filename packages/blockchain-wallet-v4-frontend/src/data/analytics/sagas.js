@@ -1,14 +1,26 @@
-import { put, select, call } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { actions, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
+  const waitForUserId = function * () {
+    const userId = yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )
+    if (Remote.Success.is(userId)) return
+    yield take(
+      actionTypes.core.kvStore.userCredentials
+        .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+    )
+  }
+
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
@@ -32,6 +44,11 @@ export default ({ api }) => {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
+    yield call(waitForUserId)
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse(null)
+    if (userId) return crypto.sha256(userId).toString('hex')
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
     const masterhex = BIP39.mnemonicToSeed(mnemonic)
