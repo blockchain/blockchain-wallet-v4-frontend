@@ -1,4 +1,6 @@
 import { equals, lift, toLower } from 'ramda'
+import BigNumber from 'bignumber.js'
+
 import { selectors, model } from 'data'
 import { ethFromLabel, erc20FromLabel } from 'services/PaymentHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -58,6 +60,7 @@ export const getData = (state, coin) => {
       toAddress: payment.to.label || payment.to.address,
       amount: payment.amount,
       fee: payment.fee,
+      totalCrypto: new BigNumber.sum(payment.amount, payment.fee).toString(),
       totalFiat
     }
   }

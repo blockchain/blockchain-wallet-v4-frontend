@@ -1,5 +1,6 @@
 import {
   call,
+  delay,
   cancel,
   fork,
   put,
@@ -8,7 +9,6 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import {
   compose,
   includes,
@@ -44,6 +44,7 @@ import {
 import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -352,7 +353,7 @@ export default ({ api, coreSagas, networks }) => {
       // ensure for sufficient eth balance for erc20 swap
       if (isSourceErc20) {
         const ethBalanceInWei = (yield select(
-          selectors.core.data.eth.getBalance
+          selectors.core.data.eth.getDefaultAddressBalance
         )).getOrElse(0)
         let ethBalance = Exchange.convertEtherToEther({
           value: ethBalanceInWei,
@@ -374,11 +375,9 @@ export default ({ api, coreSagas, networks }) => {
     const erc20List = (yield select(
       selectors.core.walletOptions.getErc20CoinList
     )).getOrFail()
-    const currentError = yield select(formErrorSelector)
     try {
       yield put(A.setTxError(null))
       if (coin !== 'ETH' && !includes(coin, erc20List)) return
-      yield put(actions.form.startAsyncValidation(EXCHANGE_FORM))
       const provisionalPayment = yield call(getProvisionalPayment, false)
       if (provisionalPayment.unconfirmedTx) throw LATEST_TX_ERROR
     } catch (e) {
@@ -388,9 +387,6 @@ export default ({ api, coreSagas, networks }) => {
           e === LATEST_TX_ERROR ? LATEST_TX_ERROR : LATEST_TX_FETCH_FAILED_ERROR
         )
       )
-    } finally {
-      const errors = currentError ? { _error: currentError } : undefined
-      yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM, errors))
     }
   }
 
@@ -805,8 +801,8 @@ export default ({ api, coreSagas, networks }) => {
     const target = prop('target', form)
     const pair = getCurrentPair(form)
     const fees = yield select(S.getMempoolFees)
-    const hasReceivedEthAirdrop = (yield select(
-      selectors.modules.profile.hasReceivedEthAirdrop
+    const isPowerPaxTagged = (yield select(
+      selectors.modules.profile.getPowerPaxTag
     )).getOrElse(true)
     const userTier = (yield select(
       selectors.modules.profile.getUserTiers
@@ -818,17 +814,26 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
-      // check for eth airdrop eligibility
-      if (
-        !hasReceivedEthAirdrop &&
-        equals('PAX', target.coin) &&
-        equals(2, userTier.current)
-      ) {
-        yield put(
-          actions.modals.showModal(ETH_AIRDROP_MODAL, {
-            tradeData: formatExchangeTrade(trade)
-          })
-        )
+      // Check for eth airdrop eligibility
+      if (!isPowerPaxTagged && equals('PAX', target.coin)) {
+        if (equals(2, userTier.current)) {
+          yield put(
+            actions.modals.showModal(ETH_AIRDROP_MODAL, {
+              tradeData: formatExchangeTrade(trade)
+            })
+          )
+        } else {
+          const supportedCoins = (yield select(
+            selectors.core.walletOptions.getSupportedCoins
+          )).getOrElse({})
+          const coin = supportedCoins['ETH']
+          yield put(
+            actions.alerts.displayCoin(C.FIRST_PAX_TRADE_INFO, coin, true)
+          )
+          yield put(
+            actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
+          )
+        }
       } else {
         yield put(
           actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
@@ -836,6 +841,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.modules.profile.fetchUser())
     } catch (err) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM_ERROR))
       return yield call(showConfirmationError, err)

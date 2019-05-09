@@ -27,7 +27,7 @@ const CreatableInputField = props => {
   const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
-    <Container maxWidth={props.maxWidth}>
+    <Container maxWidth={props.maxWidth} data-e2e={props.dataE2e}>
       <CreatableInput {...input} {...meta} {...rest} errorState={errorState} />
       {(touched || !pristine) && error && !hideErrors && (
         <Error errorBottom={errorBottom}>{error}</Error>

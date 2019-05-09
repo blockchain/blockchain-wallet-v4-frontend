@@ -14,6 +14,16 @@ exports[`ListItemContainer renders correctly 1`] = `
   }
 >
   <ListItemContainer
+    analyticsActions={
+      Object {
+        "initUserSession": [Function],
+        "logEvent": [Function],
+        "logGoal": [Function],
+        "logPageView": [Function],
+        "startSession": [Function],
+        "stopSession": [Function],
+      }
+    }
     bchActions={
       Object {
         "createMetadataBch": [Function],
@@ -147,6 +157,7 @@ exports[`ListItemContainer renders correctly 1`] = `
       handleEditDescription={[Function]}
       handleToggle={[Function]}
       isToggled={false}
+      onViewTxDetails={[Function]}
     >
       <div />
     </Component>

@@ -33,9 +33,14 @@ const Alerts = props => {
   return (
     <Wrapper>
       {alerts.map((alert, index) => {
-        const { id, nature, message, data } = alert
+        const { id, nature, message, data, coin } = alert
         return (
-          <Toast key={index} nature={nature} onClose={() => handleClose(id)}>
+          <Toast
+            key={index}
+            nature={nature}
+            coin={coin}
+            onClose={() => handleClose(id)}
+          >
             {getAlertContent(message, data)}
           </Toast>
         )

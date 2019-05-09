@@ -1,4 +1,4 @@
-import { call, select, put, take } from 'redux-saga/effects'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   equals,
   identity,
@@ -10,7 +10,6 @@ import {
   head,
   toLower
 } from 'ramda'
-import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'

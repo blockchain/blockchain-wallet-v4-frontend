@@ -37,7 +37,7 @@ const ButtonText = styled(Text)`
 const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
   <Wrapper>
     <ActionButton
-      name='paper-airplane-filled'
+      name='send'
       disabled={!sendAvailable}
       onClick={() => showModal('SEND')}
       min='100px'
@@ -54,7 +54,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
     <ActionButton
       style={spacing('ml-15')}
       disabled={!requestAvailable}
-      name='download2'
+      name='request'
       onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'

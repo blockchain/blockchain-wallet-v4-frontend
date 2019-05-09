@@ -1,5 +1,4 @@
-import { apply, put, call, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { apply, call, delay, put, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -113,7 +112,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (result.status === 'active') {
         yield put(A.sfoxSuccess())
-        yield call(delay, 1500)
+        yield delay(1500)
         yield put(modalActions.closeAllModals())
       } else {
         yield put(A.sfoxNotAsked())

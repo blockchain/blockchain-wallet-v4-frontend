@@ -24,7 +24,7 @@ const NotificationBadge = styled.div`
   background-color: ${props => props.theme['white']};
   position: absolute;
   bottom: 15px;
-  left: 10px;
+  left: 14px;
   font-size: 12px;
 `
 
@@ -40,7 +40,7 @@ const WhatsNewIcon = props => {
         {numOfNewAnnouncements > 0 ? (
           <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
         ) : null}
-        <Icon id='whatsnew-icon' name='bell' color='white' size='18px' cursor />
+        <Icon id='whatsnew-icon' name='bell' color='white' size='22px' cursor />
       </WhatsNewLink>
     </TooltipHost>
   )

@@ -38,13 +38,15 @@ const LeftContainer = styled(Container)`
 `
 const RightContainer = styled(Container)`
   order: 1;
+  margin-bottom: 8px;
   @media (min-width: 850px) {
+    margin-bottom: 0px;
     order: 2;
   }
 `
 const TextContainer = styled.div`
   display: none;
-  margin-left: 20px;
+  margin-left: 32px;
   @media (min-width: 850px) {
     display: flex;
   }

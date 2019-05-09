@@ -1,6 +1,5 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { equals, includes, path, pathOr, prop, head } from 'ramda'
-import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
@@ -91,8 +90,10 @@ export default ({ api, coreSagas }) => {
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ destinationAccount check
           yield put(A.paymentUpdatedSuccess(payment.value()))
-          // After updating payment success check if destinationAccount exists
+          // check if destination exists
           yield put(A.sendXlmCheckDestinationAccountExists(value))
+          // check if destination is an exchange
+          yield put(A.sendXlmCheckIfDestinationIsExchange(value))
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)
@@ -120,7 +121,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkAccountExistance = function * (id) {
+  const checkAccountExistence = function * (id) {
     try {
       yield call(api.getXlmAccount, id)
       return true
@@ -129,11 +130,24 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const checkIfDestinationIsExchange = function * ({ payload }) {
+    try {
+      yield put(A.sendXlmCheckIfDestinationIsExchangeLoading())
+      const exchangeAddresses = (yield select(
+        selectors.core.walletOptions.getXlmExchangeAddresses
+      )).getOrElse([])
+      const isExchange = includes(payload, exchangeAddresses)
+      yield put(A.sendXlmCheckIfDestinationIsExchangeSuccess(isExchange))
+    } catch (e) {
+      yield put(A.sendXlmCheckIfDestinationIsExchangeFailure(e))
+    }
+  }
+
   const checkDestinationAccountExists = function * ({ payload }) {
     try {
       yield put(A.sendXlmCheckDestinationAccountExistsLoading())
       const destinationAccountExists = yield call(
-        checkAccountExistance,
+        checkAccountExistence,
         payload
       )
 
@@ -310,6 +324,7 @@ export default ({ api, coreSagas }) => {
   return {
     initialized,
     checkDestinationAccountExists,
+    checkIfDestinationIsExchange,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
