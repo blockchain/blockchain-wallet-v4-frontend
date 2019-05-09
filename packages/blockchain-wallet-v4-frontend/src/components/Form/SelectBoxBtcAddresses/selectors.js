@@ -1,12 +1,21 @@
 import {
   concat,
   curry,
+  descend,
   filter,
   has,
   map,
   sequence,
+  sort,
   reduce,
-  prepend
+  prepend,
+  prop,
+  head,
+  path,
+  set,
+  lensProp,
+  compose,
+  lensIndex
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -75,7 +84,15 @@ export const getData = (state, ownProps) => {
             .map(toDropdown)
             .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3]) => {
-      const data = reduce(concat, [], [b1, b2, b3])
+      const importedAddressesSorted = set(
+        compose(
+          lensIndex(0),
+          lensProp('options')
+        ),
+        sort(descend(path(['value', 'balance'])), prop('options', head(b2))),
+        b2
+      )
+      const data = reduce(concat, [], [b1, importedAddressesSorted, b3])
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {
