@@ -6,15 +6,6 @@ import * as selectors from '../../selectors'
 export const logLocation = 'components/settings/sagas'
 
 export default ({ coreSagas }) => {
-  const initializeBsv = function * () {
-    try {
-      yield call(coreSagas.data.bsv.fetchData)
-      yield call(coreSagas.data.bsv.fetchRates)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', e))
-    }
-  }
-
   const notificationsInitialized = function * () {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
@@ -53,7 +44,6 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    initializeBsv,
     notificationsInitialized,
     notificationsFormChanged
   }

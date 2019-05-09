@@ -395,10 +395,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
-    it('should fetch bsv metadata', () => {
-      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
-    })
-
     it('should fetch lockbox metadata', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })

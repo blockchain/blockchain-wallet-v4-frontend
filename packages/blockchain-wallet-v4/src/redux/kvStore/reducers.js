@@ -7,7 +7,6 @@ import contacts from './contacts/reducers'
 import root from './root/reducers'
 import bch from './bch/reducers'
 import btc from './btc/reducers'
-import bsv from './bsv/reducers'
 import lockbox from './lockbox/reducers'
 import userCredentials from './userCredentials/reducers'
 import xlm from './xlm/reducers'
@@ -22,7 +21,6 @@ const kvStoreReducer = combineReducers({
   [C.CONTACTS]: contacts,
   [C.BCH]: bch,
   [C.BTC]: btc,
-  [C.BSV]: bsv,
   [C.LOCKBOX]: lockbox,
   [C.USER_CREDENTIALS]: userCredentials,
   [C.XLM]: xlm

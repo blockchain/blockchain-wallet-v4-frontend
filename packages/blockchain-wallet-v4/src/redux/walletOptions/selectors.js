@@ -47,8 +47,6 @@ export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
   getSupportedCoins(state).map(path(['BCH', 'config', 'fees']))
-export const getBsvFees = state =>
-  getSupportedCoins(state).map(path(['BSV', 'config', 'fees']))
 export const getEthTxFuse = state =>
   getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
 export const getXlmSendTimeOutSeconds = state =>

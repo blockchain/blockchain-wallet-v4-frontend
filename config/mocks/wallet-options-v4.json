@@ -65,31 +65,6 @@
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
         },
-        "BSV": {
-          "availability": {
-            "send": true,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": true
-          },
-          "coinCode": "BSV",
-          "coinTicker": "BSV",
-          "colorCode": "bsv",
-          "displayName": "Bitcoin SV",
-          "config": {
-            "fees": {
-              "regular": 4,
-              "priority": 4
-            }
-          },
-          "hasLockboxSupport": false,
-          "icons": {
-            "default": "bsv"
-          },
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
-        },
         "ETH": {
           "availability": {
             "send": true,

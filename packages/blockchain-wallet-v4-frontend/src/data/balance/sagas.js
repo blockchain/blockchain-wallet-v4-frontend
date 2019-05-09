@@ -81,22 +81,6 @@ export const getBchBalance = function * () {
   }
 }
 
-export const getBsvBalance = function * () {
-  try {
-    const bsvBalanceR = yield select(selectors.core.data.bsv.getBalance)
-    if (!Remote.Success.is(bsvBalanceR)) {
-      const bsvData = yield take([
-        actionTypes.core.data.bch.FETCH_BSV_DATA_SUCCESS,
-        actionTypes.core.data.bch.FETCH_BSV_DATA_FAILURE
-      ])
-      return pathOr(0, balancePath, bsvData)
-    }
-    return bsvBalanceR.getOrElse(0)
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'getBsvBalance', e))
-  }
-}
-
 export const getXlmBalance = function * () {
   try {
     const xlmBalanceR = yield select(selectors.core.data.xlm.getTotalBalance)

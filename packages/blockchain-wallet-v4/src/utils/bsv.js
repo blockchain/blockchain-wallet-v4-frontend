@@ -2,7 +2,6 @@ import Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
 
 export const TX_PER_PAGE = 5
-export const BSV_FORK_TIME = 1542300000
 
 const formatAddr = (address, displayOnly) => {
   return displayOnly ? address.split('bitcoincash:')[1] : address

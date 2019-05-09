@@ -68,32 +68,6 @@ export default {
           txExplorerBaseUrl: 'https://blockchain.com/bch/tx',
           txListAppRoute: '/bch/transactions'
         },
-        BSV: {
-          availability: {
-            send: true,
-            request: false,
-            lockbox: false,
-            exchangeTo: false,
-            exchangeFrom: true
-          },
-          coinCode: 'BSV',
-          coinTicker: 'BSV',
-          colorCode: 'bsv',
-          config: {
-            fees: {
-              regular: 4,
-              priority: 4
-            }
-          },
-          displayName: 'Bitcoin SV',
-          hasLockboxSupport: false,
-          icons: {
-            default: 'bsv'
-          },
-          minConfirmations: 3,
-          name: 'Bitcoin SV',
-          txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction'
-        },
         ETH: {
           availability: {
             send: true,
