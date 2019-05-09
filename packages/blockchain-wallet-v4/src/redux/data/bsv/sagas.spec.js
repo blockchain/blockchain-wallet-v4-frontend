@@ -1,6 +1,5 @@
-/* eslint-disable */
 import { select } from 'redux-saga/effects'
-import { indexBy, path, prop, append } from 'ramda'
+import { indexBy, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -13,21 +12,10 @@ import reducers from '../reducers'
 
 const CASH_ADDR_ADDRESS = 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
 const bsvFetchData = {
-  addresses: [
-    {
-      address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
-    }
-  ],
+  addresses: [{ address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs' }],
   wallet: {},
-  info: {
-    latest_block: {}
-  },
-  txs: [
-    {
-      id: 1,
-      time: 1552300000
-    }
-  ]
+  info: { latest_block: {} },
+  txs: [{ id: 1, time: 1552300000 }]
 }
 const transactionHistory = {
   address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs',
@@ -241,7 +229,6 @@ describe('bsv data sagas', () => {
 
     it('should handle errors', () => {
       const error = { message: 'failed to fetch txs' }
-
       saga
         .restart()
         .next()
@@ -250,55 +237,5 @@ describe('bsv data sagas', () => {
         .next()
         .isDone()
     })
-
-    // describe('state change', () => {
-    //   it('should add transaction data to the state', () => {
-    //     return expectSaga(dataBsvSagas.fetchTransactions, {
-    //       payload: {
-    //         address: CASH_ADDR_ADDRESS,
-    //         reset: true
-    //       }
-    //     })
-    //       .withReducer(reducers)
-    //       .provide([
-    //         [select(S.getContext), mockContext],
-    //         [select(S.getTransactions), pages]
-    //       ])
-    //       .run()
-    //       .then(result => {
-    //         expect(result.storeState.bsv).toMatchObject({
-    //           transactions: [Remote.Success(bsvFetchData.txs)]
-    //         })
-    //       })
-    //   })
-
-    //   it('should append transaction data to the state if reset is false', () => {
-    //     const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
-    //     return expectSaga(dataBsvSagas.fetchTransactions, {
-    //       payload: {
-    //         address: CASH_ADDR_ADDRESS,
-    //         reset: false
-    //       }
-    //     })
-    //       .withReducer(reducers)
-    //       .withState({
-    //         bsv: {
-    //           transactions: [Remote.Success(initTx)]
-    //         }
-    //       })
-    //       .provide([
-    //         [select(S.getContext), mockContext],
-    //         [select(S.getTransactions), pages]
-    //       ])
-    //       .run()
-    //       .then(result => {
-    //         expect(result.storeState.bsv).toMatchObject({
-    //           transactions: append(Remote.Success(bsvFetchData.txs), [
-    //             Remote.Success(initTx)
-    //           ])
-    //         })
-    //       })
-    //   })
-    // })
   })
 })

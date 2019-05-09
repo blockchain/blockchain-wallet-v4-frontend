@@ -25,11 +25,6 @@ export const getNewDeviceType = path([
   'newDeviceSetup',
   'deviceType'
 ])
-export const getDeviceAuthenticity = path([
-  'components',
-  'lockbox',
-  'isAuthentic'
-])
 export const getNewDeviceInfo = path([
   'components',
   'lockbox',

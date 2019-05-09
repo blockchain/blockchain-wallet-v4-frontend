@@ -1,5 +1,4 @@
-import { call, put, select, take, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { assoc, path, prop, is } from 'ramda'
 
 import * as C from 'services/AlertService'
@@ -87,6 +86,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
+    yield put(actions.goals.saveGoal('pax'))
     yield put(actions.goals.saveGoal('bsv'))
   }
 
@@ -154,9 +154,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
-      if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e)
@@ -202,7 +199,7 @@ export default ({ api, coreSagas }) => {
       return false
     }
     try {
-      yield call(delay, 2000)
+      yield delay(2000)
       const response = yield call(api.pollForSessionGUID, session)
       if (prop('guid', response)) {
         return true
@@ -335,7 +332,6 @@ export default ({ api, coreSagas }) => {
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
-      yield put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)

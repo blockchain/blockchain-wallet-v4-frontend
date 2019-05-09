@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ActivityLogging from './ActivityLogging'
 import APIAccess from './APIAccess'
 import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
@@ -23,7 +22,6 @@ export default class AdvancedSecurity extends React.PureComponent {
         <WalletPassword />
         <SecondPasswordWallet />
         <TwoStepVerificationRemember />
-        <ActivityLogging />
         <IPWhitelist />
         <LoginIpRestriction />
         <WalletAccessTor />

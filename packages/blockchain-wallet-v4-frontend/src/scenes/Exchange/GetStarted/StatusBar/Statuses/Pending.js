@@ -26,13 +26,13 @@ const Wrapper = styled.div`
 
 export const Pending = () => (
   <Wrapper>
-    <Text color='white' size='14px' weight={400}>
+    <Text color='white' size='14px' weight={500}>
       <FormattedMessage
         id='scenes.exchange.getstarted.status.pending.title'
         defaultMessage='Account verification in progress'
       />
     </Text>
-    <Text size='14px' weight={300}>
+    <Text size='14px' weight={400}>
       <FormattedMessage
         id='scenes.exchange.getstarted.status.pending.description'
         defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency. You should receive an update within 5 minutes.'

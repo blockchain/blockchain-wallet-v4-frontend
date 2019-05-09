@@ -33,13 +33,13 @@ const Welcome = props => {
       <Image name='v4-welcome' width='100%' />
       <ModalBody>
         <Container>
-          <Text size='26px' weight={300}>
+          <Text size='26px' weight={400}>
             <FormattedMessage
               id='modals.welcome.welcome'
               defaultMessage='Welcome to Blockchain!'
             />
           </Text>
-          <Text size='16px' weight={300}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
               id='modals.welcome.thanks'
               defaultMessage='Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.'

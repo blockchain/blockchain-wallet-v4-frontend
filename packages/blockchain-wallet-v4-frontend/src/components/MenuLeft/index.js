@@ -5,45 +5,40 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   justify-content: space-around;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
-  font-size: 13px;
-  text-transform: ;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme['gray-4']};
 `
 export const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 5px;
+  padding: 8px 5px;
   margin-bottom: 8px;
   box-sizing: border-box;
   cursor: pointer;
-  font-weight: 300;
-  font-size: 15px;
+  font-weight: 500;
+  font-size: 14px;
   width: 100%;
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-7']};
+  }
+  &:hover {
+    & > *:not(div) {
+      color: ${props => props.theme['blue']};
+    }
   }
   & > span:first-child {
     width: 30px;
-    font-size: 28px;
     margin-right: 10px;
   }
-
   &.active {
-    font-weight: 400;
-
+    font-weight: 500;
     & > *:not(div) {
-      color: ${props => props.theme['marketing-primary']};
-    }
-  }
-
-  &:hover {
-    & > *:not(div) {
-      color: ${props => props.theme['textBlack']};
+      color: ${props => props.theme['blue']};
     }
   }
 `
@@ -64,17 +59,26 @@ export const SubMenuItem = styled.li`
   padding: 4px 0;
   box-sizing: border-box;
   text-transform: none;
-  font-weight: 300;
-  font-size: 15px;
+  font-weight: 400;
+  font-size: 14px;
   cursor: pointer;
 
   &.active {
     & > * {
-      font-weight: 400;
-      color: ${props => props.theme['marketing-primary']};
+      font-weight: 500;
+      color: ${props => props.theme['blue']};
+    }
+  }
+
+  &:hover {
+    & > * {
+      color: ${props => props.theme['blue']};
     }
   }
 `
 export const Separator = styled.div`
-  margin-top: 30px;
+  margin: 8px 0 14px 6px;
+  width: 20px;
+  height: 1px;
+  background-color: #ccd2de;
 `

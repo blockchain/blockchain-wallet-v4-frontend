@@ -76,7 +76,7 @@ const CameraLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 300;
+  font-weight: 400;
   margin-top: 15px;
 `
 const UploadRow = styled(Row)`
@@ -119,7 +119,7 @@ const Upload = props => {
                 style={{ border: 'none', height: 'initial' }}
                 onDrop={onDrop}
               >
-                <Text color='gray-3' size='14px' weight={300}>
+                <Text color='gray-3' size='14px' weight={400}>
                   <FormattedMessage
                     id='sfoxexchangedata.upload.dragorbrowse'
                     defaultMessage='Drag a document here or browse for a document to upload.'

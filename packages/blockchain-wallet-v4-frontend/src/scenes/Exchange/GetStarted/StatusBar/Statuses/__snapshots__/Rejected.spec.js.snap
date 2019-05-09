@@ -5,7 +5,7 @@ exports[`Rejected renders correctly 1`] = `
   <Component
     color="white"
     size="14px"
-    weight={400}
+    weight={500}
   >
     <FormattedMessage
       defaultMessage="Account verification failed"
@@ -15,7 +15,7 @@ exports[`Rejected renders correctly 1`] = `
   </Component>
   <Component
     size="14px"
-    weight={300}
+    weight={400}
   >
     <FormattedMessage
       defaultMessage="Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. "

@@ -9,7 +9,7 @@ const CheckConfirmationLink = props => (
   <React.Fragment>
     <Link
       size='12px'
-      weight={300}
+      weight={400}
       onClick={props.actions.recheckLatestTx}
       data-e2e='retryLink'
     >

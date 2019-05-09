@@ -169,7 +169,7 @@ const Success = props => {
                 >
                   {isArchived ? (
                     <ClickableText
-                      weight={400}
+                      weight={500}
                       size='13px'
                       onClick={() => onUnarchiveWallet(i)}
                       data-e2e='bsvUnarchiveWalletLink'
@@ -182,7 +182,7 @@ const Success = props => {
                   ) : (
                     <React.Fragment>
                       <ClickableText
-                        weight={400}
+                        weight={500}
                         size='13px'
                         onClick={() => onSendBsv(i)}
                         style={{ marginRight: '8px' }}
@@ -195,13 +195,13 @@ const Success = props => {
                       </ClickableText>
                       <Pipeline />
                       <ClickableText
-                        weight={400}
+                        weight={500}
                         size='13px'
                         onClick={onSwapBsv}
                         style={{ marginRight: '8px' }}
                         data-e2e='bsvSwapLink'
                       >
-                        <Link weight={400} size='13px'>
+                        <Link weight={500} size='13px'>
                           <FormattedMessage
                             id='scenes.settings.addresses.bsv.wallets.swap'
                             defaultMessage='Swap'

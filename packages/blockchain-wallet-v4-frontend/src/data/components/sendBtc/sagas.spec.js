@@ -356,10 +356,14 @@ describe('sendBtc sagas', () => {
       saga.next().put(actions.router.push('/btc/transactions'))
     })
 
-    it('should display succcess message', () => {
+    it('should display success message', () => {
       saga
         .next()
-        .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+        .put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin'
+          })
+        )
         .save(beforeError)
     })
 
@@ -418,7 +422,11 @@ describe('sendBtc sagas', () => {
       })
 
       it('should display error message', () => {
-        saga.next().put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+        saga.next().put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Bitcoin'
+          })
+        )
       })
     })
 

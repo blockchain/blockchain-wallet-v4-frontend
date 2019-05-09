@@ -10,7 +10,7 @@ const TextField = styled.input`
   border-radius: 16px;
   color: ${props => props.theme['white']};
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   height: 32px;
   line-height: 14px;
   padding: 0 10px 2px 32px;
@@ -32,7 +32,7 @@ const TextField = styled.input`
     /* Chrome 57, Firefox 51, Opera 44, Safari 10.1 */
     color: ${props => props.theme['white']};
     font-size: 11px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 30px;
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
@@ -54,7 +54,7 @@ const TextField = styled.input`
     /* IE 10, 11 */
     color: ${props => props.theme['white']};
     font-size: 11px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
   }
@@ -63,7 +63,7 @@ const TextField = styled.input`
     /* MS EDGE */
     color: ${props => props.theme['white']};
     font-size: 11px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
   }

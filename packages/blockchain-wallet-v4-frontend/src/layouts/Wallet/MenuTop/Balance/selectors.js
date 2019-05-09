@@ -1,11 +1,13 @@
-import { prop } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
-  [selectors.router.getPathname, selectors.core.settings.getInvitations],
-  (path, invitationsR) => ({
+  [
+    selectors.router.getPathname,
+    selectors.core.walletOptions.getSupportedCoins
+  ],
+  (path, supportedCoinsR) => ({
     path,
-    lockboxEnabled: prop('lockbox', invitationsR.getOrElse({}))
+    supportedCoins: supportedCoinsR.getOrElse({})
   })
 )

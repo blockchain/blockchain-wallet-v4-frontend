@@ -12,7 +12,7 @@ exports[`WhatsNewIcon renders correctly 1`] = `
       cursor={true}
       id="whatsnew-icon"
       name="bell"
-      size="18px"
+      size="22px"
     />
   </template__WhatsNewLink>
 </tooltiphost>

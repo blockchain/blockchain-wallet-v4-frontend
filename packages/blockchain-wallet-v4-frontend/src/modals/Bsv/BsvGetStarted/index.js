@@ -38,7 +38,7 @@ class BsvGetStarted extends React.PureComponent {
                 id='modals.bsvgetstarted.now_supporting_sv'
               />
             </Text>
-            <Copy color='gray-5' size='14px' weight={300}>
+            <Copy color='gray-5' size='14px' weight={400}>
               <FormattedMessage
                 defaultMessage='Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.'
                 id='modals.bsvgetstarted.visitsettings'

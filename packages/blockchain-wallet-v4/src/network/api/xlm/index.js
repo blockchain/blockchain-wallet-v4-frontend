@@ -23,6 +23,8 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
 
   const getXlmAccount = publicKey => server.loadAccount(publicKey)
 
+  const getTimebounds = waitTime => server.fetchTimebounds(waitTime)
+
   const getXlmFees = () =>
     get({
       url: apiUrl,
@@ -76,6 +78,7 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
     getXlmFees,
     getXlmTransactions,
     getXlmTicker,
+    getTimebounds,
     pushXlmTx
   }
 }

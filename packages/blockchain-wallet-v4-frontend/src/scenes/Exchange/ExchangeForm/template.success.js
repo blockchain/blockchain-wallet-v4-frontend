@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
-import { contains, head, last } from 'ramda'
+import { includes, head, last } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -17,7 +17,7 @@ import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import Error from './Error'
 import LimitInfo from './LimitInfo'
-import VerificationInfo from './VerificationInfo'
+import Notifications from './Notifications'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -63,14 +63,14 @@ const ColumnRight = styled.div`
   }
 `
 const SwapReceiveRow = styled(Row)`
-  padding-bottom: 0;
+  padding: 22px 32px 0 32px;
 `
 const SwapReceiveGap = styled(Cell)`
   min-width: 50px;
 `
 const AmountRow = styled(Row)`
   position: relative;
-  padding: 16px 32px 0 32px;
+  padding: 4px 32px 0 32px;
   justify-content: center;
   border: 4px solid transparent;
 `
@@ -92,7 +92,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   input {
     outline: 0;
     position: relative;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 72px;
     line-height: 88px;
     height: 88px;
@@ -102,7 +102,8 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     max-width: 100%;
     border: none;
     text-align: center;
-    font-family: Montserrat;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
   }
@@ -139,7 +140,7 @@ const CurrencyBox = styled(Text)`
   align-items: center;
   height: 88px;
   font-size: 72px;
-  font-weight: 300;
+  font-weight: 400;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
@@ -184,7 +185,7 @@ const Success = ({
   swapCoinAndFiat,
   swapFix
 }) => {
-  const swapDisabled = !contains(
+  const swapDisabled = !includes(
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
@@ -209,7 +210,7 @@ const Success = ({
                     if (!sourceActive) swapFix()
                   }}
                   size='14px'
-                  weight={400}
+                  weight={500}
                 >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.swap'
@@ -235,7 +236,7 @@ const Success = ({
                     if (!targetActive) swapFix()
                   }}
                   size='14px'
-                  weight={400}
+                  weight={500}
                 >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.to'
@@ -318,7 +319,7 @@ const Success = ({
             <LimitInfo />
           </Form>
         </FormWrapper>
-        <VerificationInfo />
+        <Notifications sourceCoin={sourceCoin} targetCoin={targetCoin} />
       </ColumnLeft>
       <ColumnRight>
         <Summary

@@ -1,8 +1,7 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root
-    /home/circleci
+  workspace_root: &workspace_root /home/circleci
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -13,8 +12,7 @@ references:
     docker:
       - image: circleci/node:10.12.0-jessie-browsers
 
-  npm_cache_key: &npm_cache_key
-      v7-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v8-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
@@ -25,9 +23,9 @@ references:
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v7-repo-{{ .Branch }}-{{ .Revision }}
-        - v7-repo-{{ .Branch }}
-        - v7-repo
+        - v8-repo-{{ .Branch }}-{{ .Revision }}
+        - v8-repo-{{ .Branch }}
+        - v8-repo
 
 jobs:
   pull_code:
@@ -36,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v7-repo-{{ .Branch }}-{{ .Revision }}
+          key: v8-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:

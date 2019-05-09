@@ -1,45 +1,63 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { prop, propOr, path, isEmpty } from 'ramda'
+import { head, gt, prop, propOr, path, includes, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import BigNumber from 'bignumber.js'
+
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
-    selectors.components.sendEth.getToToggled,
+    selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
-    selectors.core.data.eth.getCurrentBalance,
+    (state, coin) => {
+      const erc20List = selectors.core.walletOptions
+        .getErc20CoinList(state)
+        .getOrFail()
+      return includes(coin, erc20List)
+        ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
+        : selectors.core.data.eth.getCurrentBalance(state)
+    },
+    state => selectors.core.data.eth.getDefaultAddressBalance(state),
+    state =>
+      selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM),
-    selectors.core.walletOptions.getCoinAvailability
+    (state, coin) =>
+      selectors.core.walletOptions.getCoinAvailability(state, coin)
   ],
   (
     paymentR,
-    toToggled,
+    isContractR,
     feeToggled,
     balanceR,
+    ethBalanceR,
+    paxBalanceR,
     lockboxDevicesR,
     formValues,
-    coinAvailabilityR
+    coinAvailability
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
-    const excludeLockbox = !prop(
-      'lockbox',
-      coinAvailabilityR('ETH').getOrElse({})
-    )
+    const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
+    // TODO: include any/all ERC20 balances in future
+    const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
-      const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
-      const destination = prop('to', formValues)
       const from = prop('from', formValues)
       const regularFee = path(['fees', 'regular'], payment)
       const priorityFee = path(['fees', 'priority'], payment)
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
+      const isSufficientEthForErc20 = new BigNumber(
+        ethBalanceR.getOrElse(0)
+      ).isGreaterThan(new BigNumber(fee))
+      const isContract = isContractR.getOrElse(false)
+      const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
           group: '',
@@ -70,11 +88,11 @@ export const getData = createDeepEqualSelector(
         effectiveBalance,
         unconfirmedTx,
         isContract,
+        isContractChecked,
+        isSufficientEthForErc20,
         fee,
-        toToggled,
         feeToggled,
         enableToggle,
-        destination,
         from,
         regularFee,
         priorityFee,
@@ -82,6 +100,7 @@ export const getData = createDeepEqualSelector(
         maxFee,
         feeElements,
         balanceStatus: balanceR,
+        hasErc20Balance,
         excludeLockbox
       }
     }

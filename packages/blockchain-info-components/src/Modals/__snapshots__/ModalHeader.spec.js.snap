@@ -11,7 +11,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       color="gray-5"
       name="x"
       size="28px"
-      weight={300}
+      weight={400}
     />
     <Text
       altFont={false}
@@ -24,7 +24,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       opacity={1}
       size="20px"
       uppercase={false}
-      weight={300}
+      weight={400}
     />
   </ModalHeader__Header>
   <Icon
@@ -34,7 +34,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
     name="close-bold"
     onClick={[Function]}
     size="16px"
-    weight={300}
+    weight={400}
   />
 </ModalHeader__Wrapper>
 `;

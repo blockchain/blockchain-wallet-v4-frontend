@@ -2,7 +2,6 @@
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
@@ -71,7 +70,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin([PATHS.ciBuild], { allowExternal: true }),
-    new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
@@ -89,18 +87,14 @@ module.exports = {
         uglifyOptions: {
           warnings: false,
           compress: {
-            warnings: false,
             keep_fnames: true
           },
           mangle: {
             keep_fnames: true
-          },
-          nameCache: null,
-          toplevel: false,
-          ie8: false
+          }
         },
         parallel: true,
-        cache: true
+        cache: false
       })
     ],
     concatenateModules: true,

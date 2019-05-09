@@ -29,7 +29,7 @@ const FinishSetupStep = props => {
         name='lockbox-onboard-complete'
         width='100%'
       />
-      <IntroText size='12px' weight={300}>
+      <IntroText size='12px' weight={400}>
         <FormattedHTMLMessage
           id='modals.lockboxsetup.finishstep.intro'
           defaultMessage="Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds."
@@ -37,7 +37,7 @@ const FinishSetupStep = props => {
       </IntroText>
       <SkipTourText
         size='11px'
-        weight={300}
+        weight={400}
         onClick={() => onFinishSetup(false)}
       >
         <FormattedHTMLMessage

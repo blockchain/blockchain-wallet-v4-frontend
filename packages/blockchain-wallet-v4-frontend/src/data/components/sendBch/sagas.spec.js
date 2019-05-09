@@ -351,7 +351,11 @@ describe('sendBch sagas', () => {
     it('should display success message', () => {
       saga
         .next()
-        .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
+        .put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin Cash'
+          })
+        )
         .save(beforeError)
     })
 
@@ -412,7 +416,11 @@ describe('sendBch sagas', () => {
       it('should display error message', () => {
         saga
           .next()
-          .put(actions.alerts.displayError(C.SEND_BCH_ERROR))
+          .put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Bitcoin Cash'
+            })
+          )
           .next()
           .isDone()
       })

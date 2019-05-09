@@ -1,7 +1,6 @@
 import { call, select } from 'redux-saga/effects'
-import { contains, flip, isNil, merge, prop, path, values } from 'ramda'
+import { contains, flip, merge, prop, path, values } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
-import BigNumber from 'bignumber.js'
 
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
@@ -120,15 +119,6 @@ export default ({ api }) => {
     })
   }
 
-  const checkAccountExistance = function * (id) {
-    try {
-      yield call(api.getXlmAccount, id)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
-
   const getReserve = function * (accountId) {
     const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
       new Error(NO_LEDGER_ERROR)
@@ -148,14 +138,15 @@ export default ({ api }) => {
   }
 
   // Required when *build is called more than once on a payment
-  const decrementSequenceNumber = (p, account) => {
-    const sourceAccountSequence = prop('sequence', account)
-    if (!prop('transaction', p) || isNil(sourceAccountSequence)) return account
-
-    account._baseAccount.sequence = new BigNumber(sourceAccountSequence).minus(
-      1
-    )
-    return account
+  const getAccountAndSequenceNumber = function * (account) {
+    try {
+      const { id } = account
+      const data = yield call(api.getXlmAccount, id)
+      const { sequence } = data
+      return new StellarSdk.Account(id, sequence)
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -203,7 +194,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance, reserve }))
       },
 
-      * to (destination) {
+      to (destination) {
         if (!destination) throw new Error(NO_DESTINATION_ERROR)
 
         const to = calculateTo(destination)
@@ -212,12 +203,7 @@ export default ({ api }) => {
           throw new Error(INVALID_ADDRESS_TYPE_ERROR)
         if (!isValidAddress(to.address)) throw new Error(INVALID_ADDRESS_ERROR)
 
-        const destinationAccountExists = yield call(
-          checkAccountExistance,
-          to.address
-        )
-
-        return makePayment(merge(p, { to, destinationAccountExists }))
+        return makePayment(merge(p, { to }))
       },
 
       amount (amount) {
@@ -248,8 +234,15 @@ export default ({ api }) => {
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
-        account = decrementSequenceNumber(p, account)
-        const txBuilder = new StellarSdk.TransactionBuilder(account, { fee })
+        account = yield call(getAccountAndSequenceNumber, account)
+        const timeout = (yield select(
+          S.walletOptions.getXlmSendTimeOutSeconds
+        )).getOrElse(300)
+        const timebounds = yield call(api.getTimebounds, timeout)
+        const txBuilder = new StellarSdk.TransactionBuilder(account, {
+          fee,
+          timebounds
+        })
         const operation = yield call(
           createOperation,
           to,
@@ -307,6 +300,10 @@ export default ({ api }) => {
         return makePayment(merge(p, { memoType }))
       },
 
+      setDestinationAccountExists (destinationAccountExists) {
+        return makePayment(merge(p, { destinationAccountExists }))
+      },
+
       chain () {
         const chain = (gen, f) =>
           makeChain(function * () {
@@ -328,6 +325,8 @@ export default ({ api }) => {
           memo: memo => chain(gen, payment => payment.memo(memo)),
           memoType: memoType =>
             chain(gen, payment => payment.memoType(memoType)),
+          setDestinationAccountExists: value =>
+            chain(gen, payment => payment.setDestinationAccountExists(value)),
           * done () {
             return yield gen()
           }

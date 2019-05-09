@@ -41,10 +41,10 @@ const Footer = styled.div`
 const Help = props => {
   return (
     <Wrapper>
-      <Text size='24px' weight={300}>
+      <Text size='24px' weight={400}>
         <FormattedMessage id='scenes.help.login' defaultMessage='Login Help' />
       </Text>
-      <Text size='14px' weight={300}>
+      <Text size='14px' weight={400}>
         <FormattedMessage
           id='scenes.help.wallet'
           defaultMessage='Need help accessing your wallet?'
@@ -59,7 +59,7 @@ const Help = props => {
               defaultMessage="I've Lost My Wallet ID"
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='scenes.help.guid_explain'
               defaultMessage='Email me a reminder of my wallet ID'
@@ -86,7 +86,7 @@ const Help = props => {
               defaultMessage="I've Lost My Wallet Password"
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='scenes.help.passwor.explain'
               defaultMessage='Recover your wallet with your 12 word backup phrase'
@@ -113,7 +113,7 @@ const Help = props => {
               defaultMessage="I've Lost My 2FA Device"
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
               id='scenes.help.2fa.explain'
               defaultMessage='Regain access to your wallet by resetting 2FA, IP restrictions, or verified email'
@@ -134,7 +134,7 @@ const Help = props => {
       <Separator />
       <Footer>
         <LinkContainer to='/login'>
-          <Link size='13px' weight={300}>
+          <Link size='13px' weight={400}>
             <FormattedMessage id='scenes.help.back' defaultMessage='Go Back' />
           </Link>
         </LinkContainer>
@@ -142,7 +142,7 @@ const Help = props => {
           href='https://support.blockchain.com/'
           target='_blank'
           size='13px'
-          weight={300}
+          weight={400}
         >
           <FormattedMessage
             id='scenes.help.contact'

@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { path } from 'ramda'
+import { path, toLower } from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { getData } from './selectors'
+
 import { actions } from 'data'
+import { getData } from './selectors'
 import Content from './template'
 
 const Wrapper = styled.div`
@@ -15,10 +15,9 @@ const Wrapper = styled.div`
 const ContentWrapper = styled.div`
   height: 100%;
 `
-
 class ContentContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.txActions.initialized()
+    this.props.initTxs()
   }
 
   componentDidUpdate (prevProps) {
@@ -26,22 +25,20 @@ class ContentContainer extends React.PureComponent {
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
     ) {
-      this.props.txActions.initialized()
+      this.props.initTxs()
     }
   }
 
   handleLoadMore = () => {
-    this.props.txActions.loadMore()
+    this.props.loadMoreTxs()
   }
 
   handleRefresh = () => {
-    this.props.dataActions.fetchData()
-    this.props.txActions.initialized()
+    this.props.fetchData()
+    this.props.initTxs()
   }
 
-  handleArchive = address =>
-    this.props.coreWalletActions &&
-    this.props.coreWalletActions.setAddressArchived(address, true)
+  handleArchive = address => this.props.setAddressArchived(address)
 
   render () {
     const { empty, pages, coin, currency, search, buySellPartner } = this.props
@@ -69,55 +66,36 @@ class ContentContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  switch (ownProps.coin) {
-    case 'BTC':
-      return {
-        dataActions: bindActionCreators(actions.core.data.btc, dispatch),
-        txActions: bindActionCreators(
-          actions.components.btcTransactions,
-          dispatch
+  const { coin } = ownProps
+  const coinLower = toLower(coin)
+  // TODO: better ERC20 support
+  if (coin === 'PAX') {
+    return {
+      fetchData: () =>
+        dispatch(actions.core.data.eth.fetchErc20Data(ownProps.coin)),
+      initTxs: () =>
+        dispatch(
+          actions.components.ethTransactions.initializedErc20(ownProps.coin)
         ),
-        coreWalletActions: bindActionCreators(actions.core.wallet, dispatch)
-      }
-    case 'BCH':
-      return {
-        dataActions: bindActionCreators(actions.core.data.bch, dispatch),
-        txActions: bindActionCreators(
-          actions.components.bchTransactions,
-          dispatch
+      loadMoreTxs: () =>
+        dispatch(
+          actions.components.ethTransactions.loadMoreErc20(ownProps.coin)
         )
-      }
-    case 'BSV':
-      return {
-        dataActions: bindActionCreators(actions.core.data.bsv, dispatch),
-        txActions: bindActionCreators(
-          actions.components.bsvTransactions,
-          dispatch
-        )
-      }
-    case 'ETH':
-      return {
-        dataActions: bindActionCreators(actions.core.data.eth, dispatch),
-        txActions: bindActionCreators(
-          actions.components.ethTransactions,
-          dispatch
-        )
-      }
-    case 'XLM':
-      return {
-        dataActions: bindActionCreators(actions.core.data.xlm, dispatch),
-        txActions: bindActionCreators(
-          actions.components.xlmTransactions,
-          dispatch
-        )
-      }
-    default:
-      return {}
+    }
+  }
+  return {
+    fetchData: () => dispatch(actions.core.data[coinLower].fetchData()),
+    initTxs: () =>
+      dispatch(actions.components[`${coinLower}Transactions`].initialized()),
+    loadMoreTxs: () =>
+      dispatch(actions.components[[`${coinLower}Transactions`]].loadMore()),
+    setAddressArchived: address =>
+      dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }
 
 ContentContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'BSV', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default connect(

@@ -37,7 +37,7 @@ const UnusedAddressesTemplate = ({
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
             size='small'
-            weight={300}
+            weight={400}
             target='_blank'
             data-e2e='btcUnusedAddressLink'
           >
@@ -73,7 +73,7 @@ const UnusedAddressesTemplate = ({
 
   return unusedAddresses.length === 0 ? (
     <Text
-      weight={300}
+      weight={400}
       style={{ marginTop: 20, textAlign: 'center' }}
       data-e2e='btcWalletNoUnusedAddresses'
     >

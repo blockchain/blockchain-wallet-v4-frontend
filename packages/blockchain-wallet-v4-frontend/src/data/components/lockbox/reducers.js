@@ -54,18 +54,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_NEW_DEVICE_SHOW_BTC_WARNING: {
       return assocPath(['newDeviceSetup', 'showBtcWarning'], payload, state)
     }
-    case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
-      return assoc('isAuthentic', Remote.Loading, state)
-    }
-    case AT.CHECK_DEVICE_AUTHENTICITY_FAILURE: {
-      return assoc('isAuthentic', Remote.Failure(payload), state)
-    }
-    case AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS: {
-      return assoc('isAuthentic', Remote.Success(payload), state)
-    }
-    case AT.RESET_DEVICE_AUTHENTICITY: {
-      return assoc('isAuthentic', Remote.NotAsked, state)
-    }
     case AT.SET_FIRMWARE_UPDATE_STEP: {
       return assoc('firmware', payload.step, state)
     }

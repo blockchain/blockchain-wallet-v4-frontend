@@ -7,6 +7,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
+  z-index: ${props => props.zIndex || 'initial'};
   background-color: ${props => props.theme['white']};
 `
 const Error = styled.label`
@@ -16,8 +17,9 @@ const Error = styled.label`
   display: block;
   height: 15px;
   font-size: 12px;
-  font-weight: 300;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-weight: 400;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: ${props => props.theme['error']};
 `
 
@@ -47,13 +49,18 @@ class SelectBox extends React.PureComponent {
       hideErrors,
       errorBottom,
       className,
+      zIndex,
       ...rest
     } = this.props
     const { touched, invalid, error, pristine } = meta
     const errorState = touched && invalid ? 'invalid' : 'initial'
 
     return (
-      <Container className={className} data-e2e='dropdownSelect'>
+      <Container
+        className={className}
+        zIndex={zIndex}
+        data-e2e='dropdownSelect'
+      >
         <SelectInput
           {...input}
           {...meta}

@@ -607,7 +607,7 @@ export const kycNotificationBodyHelper = status => {
               learnMore: (
                 <Link
                   size='13px'
-                  weight={300}
+                  weight={400}
                   href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-'
                   target='_blank'
                   rel='noopener noreferrer'

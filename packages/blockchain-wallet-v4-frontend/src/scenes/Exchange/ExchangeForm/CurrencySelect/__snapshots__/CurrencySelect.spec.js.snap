@@ -2,7 +2,7 @@
 
 exports[`Exchange CurrencySelct should render correctly 1`] = `
 <CurrencySelect__CurrencyRow
-  height="50px"
+  height="32px"
   spaced={true}
 >
   <Layout__Cell

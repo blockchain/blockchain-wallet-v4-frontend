@@ -43,7 +43,7 @@ const YubikeyInput = styled.input`
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.42;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
@@ -65,13 +65,13 @@ const Yubikey = props => {
       <AuthenticatorSummary success={uiState.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
-            <Text size='14px' weight={200}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.security.twostepverification.yubi.step1'
                 defaultMessage="1. Insert the Yubikey into your computer's USB port."
               />
             </Text>
-            <Text size='14px' weight={200} style={spacing('mt-5')}>
+            <Text size='14px' weight={400} style={spacing('mt-5')}>
               <FormattedMessage
                 id='scenes.security.twostepverification.yubi.step2'
                 defaultMessage='2. Pair your Yubikey.'

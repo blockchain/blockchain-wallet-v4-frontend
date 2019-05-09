@@ -1,18 +1,20 @@
+import EthAirdrop from './EthAirdrop'
 import ExchangeConfirm from './ExchangeConfirm'
-import ExchangeDetails from './ExchangeDetails'
 import ExchangeResults from './ExchangeResults'
-import IdentityVerification from './IdentityVerification'
 import KycDocResubmit from './KycDocResubmit'
+import IdentityVerification from './IdentityVerification'
+import ShapeshiftTradeDetails from './ShapeshiftTradeDetails'
 import SunRiverLinkError from './SunRiverLinkError'
 import SwapUpgrade from './SwapUpgrade'
 import UserExists from './UserExists'
 
 export {
+  EthAirdrop,
   ExchangeConfirm,
-  ExchangeDetails,
   ExchangeResults,
-  IdentityVerification,
   KycDocResubmit,
+  IdentityVerification,
+  ShapeshiftTradeDetails,
   SunRiverLinkError,
   SwapUpgrade,
   UserExists

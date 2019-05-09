@@ -72,10 +72,16 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
           />
         </Tooltip>
-        <Tooltip id='reqEthShare'>
+        <Tooltip id='requesteth.shareaddress'>
           <FormattedMessage
-            id='modals.requestether.sharetooltip'
+            id='modals.requesteth.shareaddress'
             defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
+          />
+        </Tooltip>
+        <Tooltip id='requestpax.shareaddress'>
+          <FormattedMessage
+            id='modals.requesteth.erc20.shareaddress'
+            defaultMessage='Share this address with others, and they can send you PAX directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
         <Tooltip id='reqXlmShare'>
@@ -84,10 +90,16 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
-        <Tooltip id='reqEthScan'>
+        <Tooltip id='requesteth.qrcode'>
           <FormattedMessage
-            id='modals.requestether.scan_tooltip'
-            defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+            id='modals.requesteth.qrcode'
+            defaultMessage='Ask the sender to scan this QR code with their ETH wallet'
+          />
+        </Tooltip>
+        <Tooltip id='requestpax.qrcode'>
+          <FormattedMessage
+            id='modals.requesteth.erc20.qrcode'
+            defaultMessage='Ask the sender to scan this QR code with their PAX wallet'
           />
         </Tooltip>
         <Tooltip id='reqXlmScan'>
@@ -102,9 +114,9 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
-        <Tooltip id='sendether.firststep.sharetooltip'>
+        <Tooltip id='sendeth.firststep.description'>
           <FormattedMessage
-            id='modals.sendether.firststep.sharetooltip'
+            id='modals.sendeth.firststep.description'
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
@@ -146,7 +158,7 @@ class Tooltips extends React.PureComponent {
             />
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://info.shapeshift.io/about'
               target='_blank'
             >
@@ -232,7 +244,7 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='swaplimit.airdrops.tooltip'>
           <TextGroup size='12px' inline>
-            <Text color='white' weight={300} size='12px'>
+            <Text color='white' weight={400} size='12px'>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible'
                 defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
@@ -240,7 +252,7 @@ class Tooltips extends React.PureComponent {
             </Text>
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program'
               target='_blank'
             >
@@ -295,7 +307,7 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='identityverification.headerhelper'>
           <TextGroup inline>
-            <Text color='white' weight={300} size='12px'>
+            <Text color='white' weight={400} size='12px'>
               <FormattedMessage
                 id='identityverification.tooltip.headerhelper'
                 defaultMessage='Need help verifying your identity?'
@@ -303,7 +315,7 @@ class Tooltips extends React.PureComponent {
             </Text>
             <Link
               size='12px'
-              weight={300}
+              weight={500}
               href='https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000186571'
               target='_blank'
             >

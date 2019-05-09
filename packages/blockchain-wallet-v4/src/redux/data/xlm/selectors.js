@@ -47,7 +47,7 @@ export const getBaseFee = compose(
 )
 
 export const getHeight = compose(
-  prop('sequence'),
+  lift(prop('sequence')),
   getLedgerDetails
 )
 

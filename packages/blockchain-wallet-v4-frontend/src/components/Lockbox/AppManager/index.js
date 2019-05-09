@@ -151,14 +151,14 @@ class LockboxAppManagerContainer extends React.PureComponent {
         return (
           <React.Fragment>
             {appList}
-            <AllowManagerText size='11px' weight={300}>
+            <AllowManagerText size='11px' weight={400}>
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.prompt'
                 defaultMessage='If prompted, be sure to allow the "Device Manager" onto the device during app updates.'
               />
             </AllowManagerText>
             {this.props.newDevice && (
-              <BtcRequiredText size='10px' weight={300}>
+              <BtcRequiredText size='10px' weight={400}>
                 <FormattedHTMLMessage
                   id='components.lockbox.appmanager.btcrequired'
                   defaultMessage='The Bitcoin app is needed to connect your Lockbox to your wallet.'
@@ -177,7 +177,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
         )
       },
       Failure: () => (
-        <Text size='16px' weight={300}>
+        <Text size='16px' weight={400}>
           <FormattedHTMLMessage
             id='components.lockbox.appmanager.appfailure'
             defaultMessage='Failed to load application list. Please try again later.'
@@ -201,7 +201,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
         {connection.app !== 'DASHBOARD' ? (
           <ConnectStep>
             <Image width='100%' name='lockbox-onboard-connect' />
-            <ConnectInstructions size='14px' weight={300}>
+            <ConnectInstructions size='14px' weight={400}>
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.connectdevice'
                 defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'

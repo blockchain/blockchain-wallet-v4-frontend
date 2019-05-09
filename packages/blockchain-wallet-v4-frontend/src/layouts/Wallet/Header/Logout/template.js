@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link } from 'blockchain-info-components'
+import { Icon, Link, Text } from 'blockchain-info-components'
 
 const LogoutLink = styled(Link)`
   > span:first-child {
@@ -25,17 +25,13 @@ const Logout = props => {
   const { handleLogout } = props
 
   return (
-    <LogoutLink
-      size='14px'
-      weight={300}
-      color='white'
-      onClick={handleLogout}
-      data-e2e='logoutLink'
-    >
-      <FormattedMessage
-        id='layouts.wallet.header.signout'
-        defaultMessage='Sign Out'
-      />
+    <LogoutLink onClick={handleLogout} data-e2e='logoutLink'>
+      <Text size='13px' weight={700} color='white' uppercase>
+        <FormattedMessage
+          id='layouts.wallet.header.signout'
+          defaultMessage='Sign Out'
+        />
+      </Text>
       <Icon name='switch' size='18px' color='white' />
     </LogoutLink>
   )

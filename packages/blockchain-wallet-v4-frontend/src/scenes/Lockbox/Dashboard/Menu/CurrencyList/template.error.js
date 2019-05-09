@@ -30,7 +30,7 @@ const Error = props => {
   return (
     <Wrapper>
       <Refresh onClick={() => props.handleRefresh()}>
-        <Text weight={300} size='14px'>
+        <Text weight={400} size='14px'>
           <FormattedHTMLMessage
             id='scenes.lockbox.menu.currencylist.error'
             defaultMessage='Oops. Something went wrong. Click <span class="link">here</span> to refresh.'

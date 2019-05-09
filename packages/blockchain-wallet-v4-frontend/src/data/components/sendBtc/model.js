@@ -1,2 +1,2 @@
 export const FORM = '@SEND.BTC.FORM'
-export const MODAL = '@SEND.BTC.MODAL'
+export const MODAL = '@MODAL.SEND.BTC'

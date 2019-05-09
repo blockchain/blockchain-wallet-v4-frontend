@@ -99,7 +99,7 @@ const SecurityCenter = props => {
     <Wrapper>
       <StatusWrapper>
         <IntroText>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             {overallProgress < 3 ? (
               <FormattedMessage
                 id='scenes.securitycenter.introtextnone'
@@ -134,7 +134,7 @@ const SecurityCenter = props => {
                 <StepText
                   success={emailComplete}
                   size={mobile ? '12px' : '14px'}
-                  weight={300}
+                  weight={400}
                 >
                   {mobile ? (
                     <FormattedMessage
@@ -172,7 +172,7 @@ const SecurityCenter = props => {
                 <StepText
                   success={twoFactorComplete}
                   size={mobile ? '12px' : '14px'}
-                  weight={300}
+                  weight={400}
                 >
                   {mobile ? (
                     <FormattedMessage
@@ -205,7 +205,7 @@ const SecurityCenter = props => {
                 <StepText
                   success={mnemonicComplete}
                   size={mobile ? '12px' : '14px'}
-                  weight={300}
+                  weight={400}
                 >
                   <FormattedMessage
                     id='scenes.securitycenter.steps.step3.save'

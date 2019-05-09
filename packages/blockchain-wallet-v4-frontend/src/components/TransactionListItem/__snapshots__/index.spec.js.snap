@@ -14,6 +14,16 @@ exports[`ListItemContainer renders correctly 1`] = `
   }
 >
   <ListItemContainer
+    analyticsActions={
+      Object {
+        "initUserSession": [Function],
+        "logEvent": [Function],
+        "logGoal": [Function],
+        "logPageView": [Function],
+        "startSession": [Function],
+        "stopSession": [Function],
+      }
+    }
     bchActions={
       Object {
         "createMetadataBch": [Function],
@@ -39,6 +49,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBsv": [Function],
       }
     }
+    erc20List={Object {}}
     ethActions={
       Object {
         "createMetadataEth": [Function],
@@ -46,10 +57,19 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataEthFailure": [Function],
         "fetchMetadataEthLoading": [Function],
         "fetchMetadataEthSuccess": [Function],
+        "setErc20HasSeen": [Function],
         "setLatestTxEth": [Function],
         "setLatestTxTimestampEth": [Function],
+        "setTxNotesErc20": [Function],
         "setTxNotesEth": [Function],
         "updateMetadataEth": [Function],
+      }
+    }
+    logActions={
+      Object {
+        "logErrorMessage": [Function],
+        "logInfoMessage": [Function],
+        "setLogLevel": [Function],
       }
     }
     preferencesActions={
@@ -76,6 +96,27 @@ exports[`ListItemContainer renders correctly 1`] = `
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
+      }
+    }
+    storeSubscription={
+      Subscription {
+        "listeners": Object {
+          "clear": [Function],
+          "get": [Function],
+          "notify": [Function],
+          "subscribe": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": [Function],
       }
     }
     walletActions={
@@ -116,6 +157,7 @@ exports[`ListItemContainer renders correctly 1`] = `
       handleEditDescription={[Function]}
       handleToggle={[Function]}
       isToggled={false}
+      onViewTxDetails={[Function]}
     >
       <div />
     </Component>

@@ -12,12 +12,15 @@ class PagesContainer extends React.PureComponent {
   showDetails = () => {
     const { modalActions, deposit, isShapeShiftTrade } = this.props
     isShapeShiftTrade
-      ? modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
+      ? modalActions.showModal('ShapeshiftTradeDetails', {
+          depositAddress: deposit
+        })
       : modalActions.showModal(RESULTS_MODAL, this.props)
   }
 
   render () {
     const {
+      coinModels,
       status,
       date,
       sourceCoin,
@@ -29,6 +32,7 @@ class PagesContainer extends React.PureComponent {
 
     return (
       <TradeItem
+        coinModels={coinModels}
         status={status}
         date={date}
         sourceCoin={sourceCoin}

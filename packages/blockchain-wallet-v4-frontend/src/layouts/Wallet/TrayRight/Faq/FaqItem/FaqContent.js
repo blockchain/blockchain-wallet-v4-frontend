@@ -5,7 +5,8 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   display: ${props => (props.toggled ? 'flex' : 'none')};
   width: 100%;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 350;
   font-size: 14px;
   padding: 5px 0;

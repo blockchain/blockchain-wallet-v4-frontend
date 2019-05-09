@@ -1,2 +1,2 @@
 export { IconGlobalStyles } from './Icomoon'
-export { FontGlobalStyles } from './Montserrat'
+export { FontGlobalStyles } from './Inter'

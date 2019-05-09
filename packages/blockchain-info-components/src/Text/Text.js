@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Palette } from '../Colors'
-import { keysIn } from 'ramda'
 
 const BaseText = styled.div`
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   text-transform: ${props =>
@@ -32,7 +31,6 @@ Text.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   italic: PropTypes.bool,
-  color: PropTypes.oneOf(keysIn(Palette())),
   altFont: PropTypes.bool,
   cursor: PropTypes.string,
   opacity: PropTypes.number

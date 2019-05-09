@@ -12,12 +12,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   ${media.mobile`
     height: 100px;
   `};
 `
-const FiatConvertorInput = styled.div`
+const FiatConverterInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,13 +42,13 @@ const Container = styled.div`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   position: absolute;
   color: ${props => props.theme['gray-2']};
   padding-right: 42px;
 `
 
-const FiatConvertor = props => {
+const FiatConverter = props => {
   const {
     val,
     disabled,
@@ -73,7 +74,7 @@ const FiatConvertor = props => {
 
   return (
     <Wrapper>
-      <FiatConvertorInput>
+      <FiatConverterInput>
         <Container>
           <Field
             name='leftVal'
@@ -109,12 +110,12 @@ const FiatConvertor = props => {
           />
           <Unit>{currency}</Unit>
         </Container>
-      </FiatConvertorInput>
+      </FiatConverterInput>
     </Wrapper>
   )
 }
 
-FiatConvertor.propTypes = {
+FiatConverter.propTypes = {
   defaultCurrency: PropTypes.string.isRequired,
   checkoutError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   symbol: PropTypes.string.isRequired,
@@ -126,8 +127,8 @@ FiatConvertor.propTypes = {
 export const QuoteInputTemplateBuy = reduxForm({
   form: 'coinifyCheckoutBuy',
   destroyOnUnmount: false
-})(FiatConvertor)
+})(FiatConverter)
 export const QuoteInputTemplateSell = reduxForm({
   form: 'coinifyCheckoutSell',
   destroyOnUnmount: false
-})(FiatConvertor)
+})(FiatConverter)

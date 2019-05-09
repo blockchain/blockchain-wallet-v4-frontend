@@ -29,7 +29,7 @@ const DeleteAdresssLabel = props => {
       <ModalHeader onClose={close}>
         <TitleGroup inline>
           <Icon name='alert-filled' size='32px' color='brand-yellow' />
-          <Text weight={300} size={'22px'} style={{ paddingLeft: '8px' }}>
+          <Text weight={400} size={'22px'} style={{ paddingLeft: '8px' }}>
             <FormattedMessage
               id='modal.deleteaddresslabel.title'
               defaultMessage='Remove Label?'
@@ -39,7 +39,7 @@ const DeleteAdresssLabel = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={300} size={'14px'} color='gray-5'>
+          <Text weight={400} size={'14px'} color='gray-5'>
             <FormattedMessage
               id='modal.deleteaddresslabel.message'
               defaultMessage='Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone.'
@@ -50,7 +50,7 @@ const DeleteAdresssLabel = props => {
       <ModalFooter align='right'>
         <Link
           size='13px'
-          weight={300}
+          weight={400}
           onClick={close}
           data-e2e='cancelAddressDeleteLink'
         >

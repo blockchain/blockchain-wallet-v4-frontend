@@ -75,7 +75,7 @@ const Settings = props => {
         )}
         {updateToggled && (
           <SettingForm onSubmit={handleSubmit}>
-            <Text size='14px' weight={300}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.securitysettings.advanced.secondpasswordwallet.settings.label'
                 defaultMessage='Second Password'
@@ -134,19 +134,19 @@ const Settings = props => {
         {updateToggled && (
           <SettingForm onSubmit={handleSubmit}>
             <TextGroup inline style={{ 'margin-bottom': '10px' }}>
-              <Text size='14px' weight={300} color='error'>
+              <Text size='14px' weight={400} color='error'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.warning'
                   defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password."
                 />
               </Text>
-              <Text size='14px' weight={300} color='error'>
+              <Text size='14px' weight={400} color='error'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.warning2'
                   defaultMessage='Backing up your wallet will ensure your funds are safe in case you lose your password.'
                 />
               </Text>
-              <Text size='14px' weight={300} color='error'>
+              <Text size='14px' weight={400} color='error'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.secondpasswordwallet.settings.warning3'
                   defaultMessage='For your security, we do not keep any passwords on file.'

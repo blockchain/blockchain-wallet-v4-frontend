@@ -10,12 +10,13 @@ import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
   render () {
-    const { data, actions } = this.props
+    const { coin, coinDisplayName, data, actions } = this.props
     return data.cata({
       Success: value => (
         <Success
-          coin='ETH'
           {...value}
+          coin={coin}
+          coinDisplayName={coinDisplayName}
           handleBack={actions.sendEthSecondStepCancelClicked}
           handleSubmit={actions.sendEthSecondStepSubmitClicked}
         />
@@ -27,8 +28,8 @@ class SecondStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = dispatch => ({

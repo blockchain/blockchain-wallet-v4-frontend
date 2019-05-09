@@ -7,24 +7,21 @@ import styled from 'styled-components'
 
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 import {
   Banner,
   Button,
-  Icon,
   Text,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
   FormLabel,
   SelectBoxBchAddresses,
   SelectBoxCoin,
-  TextBox,
   TextAreaDebounced
 } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -34,22 +31,23 @@ import {
   maximumAmount,
   invalidAmount
 } from './validation'
-import { Row, AddressButton } from 'components/Send'
+import { Row } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
 `
+
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
+
 const FirstStep = props => {
   const {
     from,
-    enableToggle,
-    destination,
     invalid,
     submitting,
-    toToggled,
-    handleToToggle,
     handleSubmit,
     totalFee,
     pristine,
@@ -66,8 +64,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendBch.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendBch.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -80,8 +78,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendBch.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendBch.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -120,50 +118,28 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendBch.firststep.to'
-              defaultMessage='To:'
+              id='modals.sendBch.firststep.towallet'
+              defaultMessage='To'
             />
           </FormLabel>
           <Row>
-            {toToggled && (
-              <Field
-                name='to'
-                coin='BCH'
-                component={SelectBoxBchAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
-              />
-            )}
-            {!toToggled && (
-              <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                normalize={removeWhitespace}
-                validate={[required, validBchAddress]}
-              />
-            )}
+            <Field
+              name='to'
+              placeholder='Paste, scan, or select destination'
+              component={SelectBoxBchAddresses}
+              dataE2e='sendBchAddressInput'
+              validate={[required, validBchAddress]}
+              exclude={[from.label]}
+              openMenuOnClick={false}
+              includeAll={false}
+              isCreatable
+              noOptionsMessage={() => null}
+              isValidNewOption={() => false}
+            />
             <QRCodeCapture
               scanType='bchAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-              }
+              border={['top', 'bottom', 'right']}
             />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
@@ -171,13 +147,13 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendbch.firststep.amount'
-              defaultMessage='Enter Amount:'
+              id='modals.sendbch.firststep.sendamount'
+              defaultMessage='Amount'
             />
           </FormLabel>
           <Field
             name='amount'
-            component={FiatConvertor}
+            component={FiatConverter}
             validate={[
               required,
               invalidAmount,
@@ -193,11 +169,11 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendBch.firststep.description'
-              defaultMessage='Description: '
+              id='modals.sendBch.firststep.desc'
+              defaultMessage='Description'
             />
             <TooltipHost id='sendBch.firststep.share_tooltip'>
-              <TooltipIcon name='question-in-circle' />
+              <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field
@@ -213,17 +189,21 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendBch.firststep.txfee'
-              defaultMessage='Transaction Fee:'
+              id='modals.sendBch.firststep.networkfee'
+              defaultMessage='Network Fee'
             />
           </FormLabel>
-          <ComboDisplay coin='BCH'>{totalFee}</ComboDisplay>
+          <ComboDisplay size='13px' coin='BCH'>
+            {totalFee}
+          </ComboDisplay>
         </FormItem>
       </FormGroup>
-      <FormGroup>
+      <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
+          height='56px'
+          size='18px'
           disabled={submitting || invalid || pristine || disableLockboxSend}
           data-e2e='bchSendContinue'
         >
@@ -232,7 +212,7 @@ const FirstStep = props => {
             defaultMessage='Continue'
           />
         </Button>
-      </FormGroup>
+      </SubmitFormGroup>
     </Form>
   )
 }
@@ -240,8 +220,6 @@ const FirstStep = props => {
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  toToggled: PropTypes.bool.isRequired,
-  handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string.isRequired
 }

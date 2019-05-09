@@ -6,7 +6,7 @@ import { isNil } from 'ramda'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Menu from './template.js'
+import Menu from './template'
 
 class MenuContainer extends React.PureComponent {
   onShowPrivateKey = () => {
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 MenuContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.string.isRequired
 }
 
 export default connect(

@@ -9,7 +9,7 @@ import DateBoxDebounced from './DateBoxDebounced'
 import DateInputBox from './DateInputBox'
 import EmailVerification from './EmailVerification'
 import FaqMessage from './FaqMessage'
-import FiatConvertor from './FiatConvertor'
+import FiatConverter from './FiatConverter'
 import FooterShadowWrapper from './FooterShadowWrapper'
 import Form from './Form'
 import FormError from './FormError'
@@ -56,7 +56,7 @@ export {
   DateInputBox,
   EmailVerification,
   FaqMessage,
-  FiatConvertor,
+  FiatConverter,
   FooterShadowWrapper,
   Form,
   FormError,

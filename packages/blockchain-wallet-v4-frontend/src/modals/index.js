@@ -16,13 +16,20 @@ import {
 } from './Btc'
 import { BsvGetStarted, SendBsv } from './Bsv'
 import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
-import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
+  PaxWelcome,
+  RequestEth,
+  SendEth,
+  ShowEthPrivateKey,
+  TransferEth
+} from './Eth'
+import {
+  EthAirdrop,
   ExchangeConfirm,
-  ExchangeDetails,
   ExchangeResults,
-  IdentityVerification,
   KycDocResubmit,
+  IdentityVerification,
+  ShapeshiftTradeDetails,
   SunRiverLinkError,
   SwapUpgrade,
   UserExists
@@ -30,7 +37,6 @@ import {
 import { Confirm, PromptInput, Support } from './Generic'
 import {
   LockboxAppManager,
-  LockboxAuthenticityCheck,
   LockboxFirmware,
   LockboxSetup,
   LockboxConnectionPrompt,
@@ -88,13 +94,12 @@ const Modals = () => (
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
+    <EthAirdrop />
     <ExchangeConfirm />
-    <ExchangeDetails />
     <ExchangeResults />
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAuthenticityCheck disableOutsideClose />
     <LockboxAppManager disableOutsideClose />
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
@@ -104,6 +109,7 @@ const Modals = () => (
     <MobileNumberVerify />
     <Onfido />
     <PairingCode />
+    <PaxWelcome />
     <PromptInput />
     <QRCode />
     <RequestBch />
@@ -116,6 +122,7 @@ const Modals = () => (
     <SendBsv />
     <SendEth />
     <SendXlm />
+    <ShapeshiftTradeDetails />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
     <ShowXlmPrivateKey />

@@ -3,7 +3,6 @@ import { prop, path } from 'ramda'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
-import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
 
@@ -70,8 +69,9 @@ export const calculateFee = (gasPrice, gasLimit) => {
   }).value
 }
 
-export const calculateEffectiveBalance = (balance, fee) => {
+export const calculateEffectiveBalance = (balance, fee, isErc20) => {
   const balanceB = new BigNumber(balance)
+  if (isErc20) return balanceB.toString()
   const feeB = new BigNumber(fee)
   const effectiveBalanceB = balanceB.minus(feeB)
   const zeroB = new BigNumber('0')
@@ -97,5 +97,3 @@ export const convertFeeToWei = fees => ({
     max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
-
-export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')

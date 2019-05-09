@@ -10,7 +10,7 @@ exports[`FormItem renders correctly 1`] = `
 >
   <text
     size="14px"
-    weight={400}
+    weight={500}
   />
 </label>
 `;

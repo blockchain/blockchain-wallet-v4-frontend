@@ -58,7 +58,7 @@ const Header = props => {
             <NavbarNavItem>
               <FaqIcon />
             </NavbarNavItem>
-            <NavbarNavItem>
+            <NavbarNavItem style={{ margin: '0 6px 0 36px' }}>
               <Logout />
             </NavbarNavItem>
           </NavbarNav>

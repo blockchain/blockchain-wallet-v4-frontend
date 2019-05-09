@@ -27,13 +27,13 @@ class EmptyTxContainer extends React.PureComponent {
           />
         </Header>
         <TextGroup inline>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='components.emptytx.body'
               defaultMessage='Please try filtering by a different criteria or'
             />
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <Link
               size='12px'
               href='https://support.blockchain.com/'
@@ -46,7 +46,7 @@ class EmptyTxContainer extends React.PureComponent {
               />
             </Link>
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
               id='components.emptytx.body3'
               defaultMessage='if you need help.'

@@ -35,7 +35,6 @@ export const LOCKBOX_EVENTS = {
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
   SETTINGS: {
     ADD_DEVICE: ['lockbox', 'settings', 'add_device'],
-    AUTHENTICATE_DEVICE: ['lockbox', 'settings', 'check_authenticity'],
     FIRMWARE_UPDATE: ['lockbox', 'settings', 'firmware_update'],
     RENAME_DEVICE: ['lockbox', 'settings', 'rename_device'],
     REMOVE_DEVICE: ['lockbox', 'settings', 'remove_device'],
@@ -105,7 +104,8 @@ export const TRANSACTION_EVENTS = {
   REQUEST: ['transactions', 'request'],
   EDIT_DESCRIPTION: ['transactions', 'edit_description'],
   PAYMENT_REQUEST: ['transactions', 'payment_request'],
-  SEND_FAILURE: ['send_failure']
+  SEND_FAILURE: ['send_failure'],
+  VIEW_TX_ON_EXPLORER: ['transactions', 'view_tx_explorer']
 }
 export const WALLET_EVENTS = {
   ADD_NEW: ['wallets', 'add_new'],
@@ -118,4 +118,9 @@ export const WALLET_EVENTS = {
 
 export const MIN_MAX_AB = {
   name: 'MinMaxExchange'
+}
+
+export const GENERAL_EVENTS = {
+  VIEW_WHATS_NEW: ['general', 'view_whats_new'],
+  VIEW_FAQ: ['general', 'view_faq']
 }

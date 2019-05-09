@@ -15,6 +15,14 @@ export default () => {
       AT.ETH_TRANSACTIONS_LOAD_MORE,
       ethTransactionsSagas.loadMore
     )
+    yield takeEvery(
+      AT.ERC20_TRANSACTIONS_INITIALIZED,
+      ethTransactionsSagas.initializedErc20
+    )
+    yield takeLatest(
+      AT.ERC20_TRANSACTIONS_LOAD_MORE,
+      ethTransactionsSagas.loadMoreErc20
+    )
     yield takeEvery(actionTypes.form.CHANGE, ethTransactionsSagas.formChanged)
   }
 }

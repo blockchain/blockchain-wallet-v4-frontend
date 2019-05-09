@@ -55,11 +55,13 @@ const BannerContainer = styled.div`
 
 const RequestEth = props => {
   const {
+    address,
+    coin,
+    excludeLockbox,
     handleSubmit,
     handleOpenLockbox,
-    address,
-    type,
-    excludeLockbox
+    isErc20,
+    type
   } = props
   const isLockboxAcct = type === 'LOCKBOX'
   const warnLockboxReceive = !(
@@ -72,7 +74,7 @@ const RequestEth = props => {
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.requestether.coin'
+              id='modals.requesteth.coin'
               defaultMessage='Currency:'
             />
           </FormLabel>
@@ -96,6 +98,7 @@ const RequestEth = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            coin={coin}
           />
         </FormItem>
       </FormGroup>
@@ -103,12 +106,18 @@ const RequestEth = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requestether.share'
+              id='modals.requesteth.share'
               defaultMessage='Copy & Share Address:'
             />
-            <TooltipHost id='reqEthShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
+            {isErc20 ? (
+              <TooltipHost id='requestpax.shareaddress'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            ) : (
+              <TooltipHost id='requesteth.shareaddress'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            )}
           </FormLabel>
         </FormItem>
         <AddressContainer>
@@ -153,20 +162,26 @@ const RequestEth = props => {
         </BannerContainer>
       )}
       <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+        <Text size='14px' weight={400} uppercase>
+          <FormattedMessage id='modals.requesteth.or' defaultMessage='Or' />
         </Text>
       </Separator>
       <QRCodeContainer>
         <ScanMessage>
           <Text size='14px'>
             <FormattedMessage
-              id='modals.requestether.scan'
+              id='modals.requesteth.scan'
               defaultMessage='Scan QR Code:'
             />
-            <TooltipHost id='reqEthScan'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
+            {isErc20 ? (
+              <TooltipHost id='requestpax.qrcode'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            ) : (
+              <TooltipHost id='requesteth.qrcode'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            )}
           </Text>
         </ScanMessage>
         <QRCodeWrapper
@@ -181,7 +196,7 @@ const RequestEth = props => {
         data-e2e='requestEthDoneButton'
         fullwidth
       >
-        <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+        <FormattedMessage id='modals.requesteth.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

@@ -21,6 +21,9 @@ const getTradesWithStatus = curry((statuses, states, trades) =>
 const { exchangeHistory, exchange } = selectors.components
 
 export const getData = state => {
+  const coinModels = selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrFail()
   const canUseExchange = exchange.canUseExchange(state)
   const tradesR = canUseExchange
     ? exchangeHistory.getTrades(state)
@@ -42,6 +45,7 @@ export const getData = state => {
     const showIncomplete = !isEmpty(incomplete)
 
     return {
+      coinModels,
       complete,
       showComplete,
       incomplete,

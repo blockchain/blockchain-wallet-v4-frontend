@@ -34,13 +34,13 @@ const BottomImage = styled(Image)`
 const FooterLink = styled(Link)`
   height: auto;
   width: 100%;
+  margin-bottom: 32px;
 `
 const FooterButton = styled(Button)`
   height: 100%;
-  font-size: 17px;
-  font-weight: 400;
-  padding: 15px 0;
-  margin-bottom: 32px;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 16px 0;
 `
 
 export const Support = ({ position, total }) => (

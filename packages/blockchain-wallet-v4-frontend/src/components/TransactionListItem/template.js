@@ -117,7 +117,8 @@ const TransactionListItem = ({
   transaction,
   buySellPartner,
   handleToggle,
-  handleEditDescription
+  handleEditDescription,
+  onViewTxDetails
 }) => (
   <TransactionRowContainer
     className={isToggled ? 'active' : ''}
@@ -128,7 +129,7 @@ const TransactionListItem = ({
         <Status type={transaction.type} coin={coin} />
         <MediaContextConsumer>
           {({ mobile }) => (
-            <Text size='14px' weight={300} data-e2e='transactionDate'>
+            <Text size='14px' weight={400} data-e2e='transactionDate'>
               {dateHelper(prop('time', transaction) * 1000, mobile)}
             </Text>
           )}
@@ -149,6 +150,16 @@ const TransactionListItem = ({
               <FormattedMessage
                 id='components.txlistitem.rbf'
                 defaultMessage='Replace-By-Fee'
+              />
+            </Banner>
+          </BannerWrapper>
+        )}
+        {transaction.erc20 && (
+          <BannerWrapper>
+            <Banner label='true' type='informational'>
+              <FormattedMessage
+                id='components.txlistitem.feepax'
+                defaultMessage='PAX Fee'
               />
             </Banner>
           </BannerWrapper>
@@ -174,12 +185,12 @@ const TransactionListItem = ({
         <FiatDisplay
           coin={coin}
           size='14px'
-          weight={400}
+          weight={500}
           style={{ marginBottom: '5px' }}
         >
           {transaction.amount}
         </FiatDisplay>
-        <CoinDisplay coin={coin} size='14px' weight={300}>
+        <CoinDisplay coin={coin} size='14px' weight={400}>
           {transaction.amount}
         </CoinDisplay>
       </AmountColumn>
@@ -187,16 +198,14 @@ const TransactionListItem = ({
     {isToggled && (
       <DetailsRow data-e2e='expandedTransactionRow'>
         <DetailsColumn data-e2e='descriptionTransactionColumn'>
-          <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.description'
               defaultMessage='Description'
             />
           </Text>
           <Description
-            coin={coin}
-            hash={transaction.hash}
-            toAddress={transaction.toAddress}
+            description={transaction.description}
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (
@@ -204,7 +213,7 @@ const TransactionListItem = ({
               <Text
                 size='14px'
                 capitalize
-                weight={400}
+                weight={500}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
@@ -227,7 +236,7 @@ const TransactionListItem = ({
               <Text
                 size='14px'
                 capitalize
-                weight={400}
+                weight={500}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
@@ -240,7 +249,7 @@ const TransactionListItem = ({
               <Text
                 size='14px'
                 capitalize
-                weight={300}
+                weight={400}
                 data-e2e='xlmTransactionMemo'
               >
                 {transaction.memo}
@@ -250,20 +259,20 @@ const TransactionListItem = ({
         </DetailsColumn>
         {prop('inputs', transaction) && prop('outputs', transaction) && (
           <DetailsColumn data-e2e='sentFromTransactionColumn'>
-            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+            <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
               <FormattedMessage
                 id='components.txlistitem.sentfrom'
                 defaultMessage='Sent From'
               />
             </Text>
             {prop('inputs', transaction).map(input => (
-              <Text size='14px' weight={300}>
+              <Text size='14px' weight={400}>
                 {input.address}
               </Text>
             ))}
             <Text
               size='14px'
-              weight={400}
+              weight={500}
               style={{ marginBottom: '5px', marginTop: '15px' }}
             >
               <FormattedMessage
@@ -272,7 +281,7 @@ const TransactionListItem = ({
               />
             </Text>
             {prop('outputs', transaction).map(output => (
-              <IOAddressText size='14px' weight={300}>
+              <IOAddressText size='14px' weight={400}>
                 {output.address}
                 {output.change && (
                   <React.Fragment>
@@ -291,7 +300,7 @@ const TransactionListItem = ({
           </DetailsColumn>
         )}
         <DetailsColumn data-e2e='statusTransactionColumn'>
-          <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
             <FormattedMessage
               id='components.txlistitem.status'
               defaultMessage='Status'
@@ -301,12 +310,13 @@ const TransactionListItem = ({
             coin={coin}
             hash={transaction.hash}
             txBlockHeight={transaction.blockHeight}
+            onViewTxDetails={onViewTxDetails}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>
               <Text
                 size='14px'
-                weight={400}
+                weight={500}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
@@ -314,7 +324,7 @@ const TransactionListItem = ({
                   defaultMessage='Transaction Fee'
                 />
               </Text>
-              <ComboDisplay coin={coin} size='14px' weight={300}>
+              <ComboDisplay coin={coin} size='14px' weight={400}>
                 {transaction.fee}
               </ComboDisplay>
             </React.Fragment>

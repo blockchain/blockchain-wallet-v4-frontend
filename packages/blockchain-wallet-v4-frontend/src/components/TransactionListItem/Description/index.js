@@ -5,45 +5,44 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import EditDescription from './template'
-import { getDescription } from './selectors'
 
 class EditDescriptionContainer extends React.PureComponent {
-  state = { value: this.props.value }
+  state = { newDescription: this.props.description }
 
   handleConfirm = desc => {
     const { handleEditDescription } = this.props
-    this.setState({ value: desc })
+    this.setState({ newDescription: desc })
     handleEditDescription(desc)
   }
 
   handleChange = () => {
-    const { value } = this.props
     this.props.modalActions.showModal('EditTxDescription', {
       handleConfirm: this.handleConfirm,
-      value
+      value: this.state.newDescription
     })
   }
 
   render () {
-    const { value } = this.props
+    const { newDescription } = this.state
 
-    return <EditDescription value={value} handleChange={this.handleChange} />
+    return (
+      <EditDescription
+        value={newDescription}
+        handleChange={this.handleChange}
+      />
+    )
   }
 }
 
 EditDescriptionContainer.propTypes = {
-  value: PropTypes.string
+  description: PropTypes.string,
+  handleEditDescription: PropTypes.func.isRequired
 }
-
-const mapStateToProps = (state, ownProps) => ({
-  value: getDescription(state, ownProps)
-})
-
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EditDescriptionContainer)

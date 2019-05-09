@@ -6,7 +6,6 @@ import eth from './sagas'
 import { walletV3 } from '../../../../data'
 import { derivationMap, ETH } from '../config'
 import { set } from 'ramda-lens'
-import { getMetadataXpriv } from '../root/selectors'
 
 const api = {
   fetchKVStore: () => {}
@@ -16,8 +15,7 @@ const ethKvStoreSagas = eth({ api, networks })
 const typeId = derivationMap[ETH]
 const { accounts } = walletV3.hd_wallets[0]
 const { xpriv } = accounts[0]
-const askSecondPasswordEnhancer = () => () => 'pasSWord'
-const { createEth, deriveAccount, fetchMetadataEth } = ethKvStoreSagas
+const { createEth, createNewErc20Entry, deriveAccount } = ethKvStoreSagas
 
 const mockKvStoreEntry = KVStoreEntry.fromMetadataXpriv(
   xpriv,
@@ -39,7 +37,13 @@ const mockNewEthEntry = {
   tx_notes: {},
   last_tx: null,
   legacy_account: null,
-  last_tx_timestamp: null
+  last_tx_timestamp: null,
+  erc20: {
+    label: 'My USD Pax Wallet',
+    contract: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
+    has_seen: false,
+    tx_notes: {}
+  }
 }
 
 const newkv = set(
@@ -59,26 +63,16 @@ describe('kvStore eth sagas', () => {
           defaultIndex: 0,
           addr: '0xc8bECCD34B3bd13bE21941f7598843931F4E45Ab'
         })
+        .call(createNewErc20Entry)
+        .next({
+          label: 'My USD Pax Wallet',
+          contract: '0x8e870d67f660d95d5be530380d0ec0bd388289e1',
+          has_seen: false,
+          tx_notes: {}
+        })
         .put(A.createMetadataEth(newkv))
         .next()
         .isDone()
-    })
-  })
-  describe('fetchMetadataEth', () => {
-    const saga = testSaga(fetchMetadataEth, askSecondPasswordEnhancer)
-    it('fetches users metadata', () => {
-      saga
-        .next()
-        .select(getMetadataXpriv)
-        .next(xpriv)
-        .put(A.fetchMetadataEthLoading())
-        // callTask is undefined
-        // .next()
-        // .call(api.fetchKVStore(mockKvStoreEntry))
-        .next()
-        .save('before fetch')
-        .next(newkv)
-        .put(A.fetchMetadataEthSuccess(newkv))
     })
   })
 })

@@ -3,19 +3,34 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
-import { transparentize } from 'polished'
 
 const StyledSelect = styled(Select)`
-  font-weight: 300;
-  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
   .bc__menu {
     background-color: ${props => props.theme['white']};
   }
 
+  .bc__menu-list {
+    padding: 0;
+  }
+
+  .bc__group {
+    padding-bottom: 0;
+    > div:nth-child(2) {
+      .bc__option {
+        padding-top: 6px;
+      }
+    }
+  }
+
   .bc__group-heading {
-    color: ${props => props.theme['gray-3']};
+    font-weight: 500;
+    margin-bottom: 0px;
+    color: ${props => props.theme['gray-5']};
   }
 
   .bc__placeholder {
@@ -28,7 +43,7 @@ const StyledSelect = styled(Select)`
     background-color: ${props => props.theme['white']};
     cursor: pointer;
     min-height: 40px;
-    border-radius: 0;
+    border-radius: 4px;
     border: 1px solid ${props => props.theme[props.borderColor]};
     &:hover {
       border: 1px solid ${props => props.theme[props.borderColor]};
@@ -50,30 +65,38 @@ const StyledSelect = styled(Select)`
     }
   }
 
+  .bc__indicator-separator {
+    display: none;
+  }
+
   .bc__option {
     cursor: pointer;
     color: ${props => props.theme['gray-5']};
     background-color: ${props => props.theme['white']};
     &.bc__option--is-focused {
-      background-color: ${props =>
-        transparentize(0.9, props.theme['brand-secondary'])};
+      background-color: ${props => props.theme['white']};
+      color: ${props => props.theme['brand-primary']};
     }
     &.bc__option--is-selected {
-      color: ${props => props.theme['white']};
-      background-color: ${props => props.theme['brand-secondary']};
+      color: ${props => props.theme['brand-primary']};
+      background-color: ${props => props.theme['white']};
       &:hover {
-        background-color: ${props => props.theme['brand-secondary']};
+        color: ${props => props.theme['brand-primary']};
       }
       * {
-        color: ${props => props.theme['white']};
+        color: ${props => props.theme['brand-primary']};
       }
     }
-    :hover: {
-      background-color: ${props =>
-        transparentize(0.9, props.theme['brand-secondary'])};
+    &:hover {
+      background-color: ${props => props.theme['white']};
+      * {
+        color: ${props => props.theme['brand-primary']};
+      }
     }
     * {
+      font-weight: 500;
       color: ${props => props.theme['gray-5']};
+      transition: color 0.3s;
     }
   }
 

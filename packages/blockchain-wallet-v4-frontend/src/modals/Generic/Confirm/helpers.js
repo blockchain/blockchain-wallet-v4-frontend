@@ -59,7 +59,7 @@ export const selectMessage = (message, values) => {
               defaultMessage='Would you like to speed up the process?'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <br />
             <FormattedMessage
               id='modals.confirm.message.phone_call_1'
@@ -92,7 +92,7 @@ export const selectMessage = (message, values) => {
             support: (
               <Link
                 size='16px'
-                weight={300}
+                weight={500}
                 target='_blank'
                 href='https://support.blockchain.com'
               >

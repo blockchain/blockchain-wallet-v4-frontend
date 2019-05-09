@@ -1,2 +1,2 @@
 export const FORM = '@SEND.ETH.FORM'
-export const MODAL = '@SEND.ETH.MODAL'
+export const MODAL = '@MODAL.SEND.ETH'

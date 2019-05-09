@@ -92,7 +92,7 @@ const Address = props => {
           <FormContainer>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.firstname'
                     defaultMessage='First Name'
@@ -105,7 +105,7 @@ const Address = props => {
                 />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.lastname'
                     defaultMessage='Last Name'
@@ -122,7 +122,7 @@ const Address = props => {
               <FormItem>
                 <AddressLabel
                   size='14px'
-                  weight={400}
+                  weight={500}
                   style={{ marginBottom: '5px' }}
                 >
                   <FormattedMessage
@@ -151,7 +151,7 @@ const Address = props => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.address2'
                     defaultMessage='Address Line 2'
@@ -166,7 +166,7 @@ const Address = props => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.city'
                     defaultMessage='City'
@@ -177,7 +177,7 @@ const Address = props => {
             </FormGroup>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.state'
                     defaultMessage='State'
@@ -190,7 +190,7 @@ const Address = props => {
                 />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.verify.zip'
                     defaultMessage='Zipcode'

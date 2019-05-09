@@ -5,7 +5,8 @@ import styled from 'styled-components'
 const BaseTabMenuItem = styled.span`
   position: relative;
   padding: 6px 8px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   font-size: 14px;
   text-align: center;

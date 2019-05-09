@@ -1,11 +1,13 @@
-import { prop, propOr, lift, isEmpty } from 'ramda'
+import { prop, propOr, lift } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendXlm.getPayment,
-    selectors.components.sendXlm.getToToggled,
+    selectors.components.sendXlm.getCheckDestination,
+    selectors.components.sendXlm.getIsDestinationExchange,
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
@@ -17,7 +19,8 @@ export const getData = createDeepEqualSelector(
   ],
   (
     paymentR,
-    toToggled,
+    checkDestinationR,
+    isDestinationExchangeR,
     balanceR,
     lockboxXlmAccountsR,
     currencyR,
@@ -27,11 +30,11 @@ export const getData = createDeepEqualSelector(
     noAccount,
     coinAvailabilityR
   ) => {
-    const enableToggle = !isEmpty(lockboxXlmAccountsR.getOrElse([]))
     const excludeLockbox = !prop(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
     )
+    const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
@@ -43,22 +46,23 @@ export const getData = createDeepEqualSelector(
       const fee = propOr('0', 'fee', payment)
       const destination = prop('to', formValues)
       const from = prop('from', formValues)
+      const isDestinationChecked = Remote.Success.is(checkDestinationR)
 
       return {
         activeField,
-        effectiveBalance,
-        fee,
-        toToggled,
-        enableToggle,
-        destination,
-        from,
-        reserve,
-        currency,
-        rates,
-        destinationAccountExists,
         balanceStatus: balanceR,
+        currency,
+        destination,
+        destinationAccountExists,
+        effectiveBalance,
+        excludeLockbox,
+        fee,
+        from,
+        isDestinationChecked,
+        isDestinationExchange,
         noAccount,
-        excludeLockbox
+        rates,
+        reserve
       }
     }
     return lift(transform)(paymentR, currencyR, ratesR)

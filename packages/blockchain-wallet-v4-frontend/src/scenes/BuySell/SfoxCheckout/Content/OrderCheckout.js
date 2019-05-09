@@ -77,7 +77,7 @@ const OrderCheckout = ({
   const submitButtonHelper = () =>
     reason.includes('has_remaining') ? null : (
       <div style={{ ...flex('col'), ...spacing('mt-15') }}>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={400}>
           You need to finish setting up your account before you can buy and
           sell.
         </Text>
@@ -99,10 +99,10 @@ const OrderCheckout = ({
       <MethodContainer>
         <Icon name='btc-circle' color='btc' size='30px' />
         <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-          <Text size='14px' weight={300} uppercase>
+          <Text size='14px' weight={400} uppercase>
             Bitcoin
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size='12px' weight={400}>
             {'@ '}
             {Remote.Loading.is(quoteR) ? (
               <Fragment>

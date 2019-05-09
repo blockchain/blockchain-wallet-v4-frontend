@@ -7,18 +7,17 @@ import styled from 'styled-components'
 
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEtherAddress } from 'services/FormHelper'
+import { required, validEthAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Text,
-  Icon,
   TooltipHost,
   TooltipIcon,
   Link
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
+  FiatConverter,
   Form,
   FormGroup,
   FormItem,
@@ -27,7 +26,6 @@ import {
   SelectBox,
   SelectBoxCoin,
   SelectBoxEthAddresses,
-  TextBox,
   TextAreaDebounced
 } from 'components/Form'
 import {
@@ -39,6 +37,8 @@ import {
   minimumFee,
   maximumFee
 } from './validation'
+import LowBalanceWarning from './LowBalanceWarning'
+import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import {
   Row,
   ColLeft,
@@ -47,7 +47,6 @@ import {
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
-  AddressButton,
   FeeOptionsContainer,
   FeePerByteContainer
 } from 'components/Send'
@@ -55,37 +54,41 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
-import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
   padding: 8px;
 `
+const SubmitFormGroup = styled(FormGroup)`
+  margin-top: 16px;
+`
+
 const FirstStep = props => {
   const {
+    coin,
     pristine,
     invalid,
     submitting,
     fee,
     handleSubmit,
     unconfirmedTx,
-    destination,
     isContract,
-    toToggled,
+    isContractChecked,
     feeToggled,
-    enableToggle,
-    handleToToggle,
     from,
     feeElements,
     regularFee,
     priorityFee,
     handleFeeToggle,
     balanceStatus,
-    excludeLockbox
+    excludeLockbox,
+    hasErc20Balance,
+    isSufficientEthForErc20
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const disableLockboxSend =
     isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -93,8 +96,8 @@ const FirstStep = props => {
         <FormItem width={'40%'}>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendether.firststep.coin'
-              defaultMessage='Currency:'
+              id='modals.sendether.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
@@ -107,8 +110,8 @@ const FirstStep = props => {
         <FormItem width={'60%'}>
           <FormLabel for='from'>
             <FormattedMessage
-              id='modals.sendEther.firststep.from'
-              defaultMessage='From:'
+              id='modals.sendEther.firststep.fromwallet'
+              defaultMessage='From'
             />
           </FormLabel>
           <Field
@@ -117,6 +120,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            coin={coin}
           />
         </FormItem>
       </FormGroup>
@@ -144,52 +148,32 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.sendeth.firststep.to'
-              defaultMessage='To:'
+              id='modals.sendeth.firststep.tocoin'
+              defaultMessage='To'
             />
           </FormLabel>
           <Row>
-            {toToggled && (
-              <Field
-                name='to'
-                component={SelectBoxEthAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
-              />
-            )}
-            {!toToggled && (
-              <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                normalize={removeWhitespace}
-                validate={[required, validEtherAddress]}
-              />
-            )}
+            <Field
+              name='to'
+              coin={coin}
+              placeholder='Paste, scan, or select destination'
+              validate={[required, validEthAddress]}
+              component={SelectBoxEthAddresses}
+              dataE2e='sendEthAddressInput'
+              exclude={[from.label]}
+              openMenuOnClick={false}
+              includeAll={false}
+              isCreatable
+              noOptionsMessage={() => null}
+              isValidNewOption={() => false}
+            />
             <QRCodeCapture
               scanType='ethAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-              }
+              border={['top', 'bottom', 'right']}
             />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton onClick={() => handleToToggle()}>
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
           </Row>
           {unconfirmedTx && (
-            <Text color='error' size='12px' weight={300}>
+            <Text color='error' size='12px' weight={400}>
               <FormattedMessage
                 id='modals.sendeth.unconfirmedtransactionmessage'
                 defaultMessage='Please wait until your previous transaction confirms.'
@@ -197,7 +181,7 @@ const FirstStep = props => {
             </Text>
           )}
           {isContract && (
-            <Text color='error' size='12px' weight={300}>
+            <Text color='error' size='12px' weight={400}>
               <FormattedMessage
                 id='modals.sendeth.contractaddr'
                 defaultMessage='Sending to contract addresses is disabled.'
@@ -210,41 +194,47 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.sendeth.firststep.amount'
-              defaultMessage='Enter amount:'
+              id='modals.sendeth.firststep.sendamount'
+              defaultMessage='Amount'
             />
           </FormLabel>
           <Field
             name='amount'
             disabled={unconfirmedTx}
-            component={FiatConvertor}
-            coin='ETH'
+            component={FiatConverter}
+            coin={coin}
             validate={[
               required,
               invalidAmount,
               insufficientFunds,
               maximumAmount
             ]}
-            data-e2e='sendEth'
+            data-e2e={`${coin}Send`}
           />
         </FormItem>
       </FormGroup>
+      {hasErc20Balance && coin === 'ETH' && (
+        <LowBalanceWarning
+          effectiveBalance={props.effectiveBalance}
+          totalBalance={props.from.balance}
+        />
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='description'>
             <FormattedMessage
-              id='modals.sendeth.firststep.description'
-              defaultMessage='Description: '
+              id='modals.sendeth.firststep.desc'
+              defaultMessage='Description'
             />
-            <TooltipHost id='sendeth.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' />
+            <TooltipHost id='sendeth.firststep.description'>
+              <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field
             name='description'
             component={TextAreaDebounced}
-            placeholder="What's this transaction for? (optional)?"
-            data-e2e='sendEthDescription'
+            placeholder="What's this transaction for? (optional)"
+            data-e2e={`${coin}SendDescription`}
             fullwidth
           />
         </FormItem>
@@ -254,8 +244,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendeth.firststep.fee'
-                defaultMessage='Transaction Fee:'
+                id='modals.sendeth.firststep.networkfee'
+                defaultMessage='Network Fee'
               />
               <span>&nbsp;</span>
               {!feeToggled && (
@@ -267,16 +257,17 @@ const FirstStep = props => {
               )}
               {feeToggled && (
                 <FeeOptionsContainer>
-                  <RegularFeeLink fee={regularFee} />
+                  <RegularFeeLink fee={regularFee} coin={coin} />
                   <span>&nbsp;</span>
-                  <PriorityFeeLink fee={priorityFee} />
+                  <PriorityFeeLink fee={priorityFee} coin={coin} />
                 </FeeOptionsContainer>
               )}
             </FeeFormLabel>
             {feeToggled && (
               <FeePerByteContainer>
                 <Field
-                  data-e2e='ethCustomFeeInput'
+                  data-e2e={`${coin}CustomFeeInput`}
+                  coin={coin}
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required, minimumFee]}
@@ -290,15 +281,15 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='14px' coin='ETH'>
+          <ComboDisplay size='13px' coin='ETH'>
             {fee}
           </ComboDisplay>
           <Link
-            size='13px'
-            weight={300}
+            size='12px'
+            weight={400}
             capitalize
             onClick={handleFeeToggle}
-            data-e2e='ethCustomizeFeeLink'
+            data-e2e={`${coin}CustomizeFeeLink`}
           >
             {feeToggled ? (
               <FormattedMessage
@@ -307,8 +298,8 @@ const FirstStep = props => {
               />
             ) : (
               <FormattedMessage
-                id='modals.sendeth.firststep.edit'
-                defaultMessage='Customize fee'
+                id='modals.sendeth.firststep.customizefee'
+                defaultMessage='Customize Fee'
               />
             )}
           </Link>
@@ -324,38 +315,44 @@ const FirstStep = props => {
           </Text>
         </CustomFeeAlertBanner>
       ) : null}
-      <FormGroup>
+      {disableDueToLowEth && <LowEthWarningForErc20 />}
+      <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
+          height='56px'
+          size='18px'
           disabled={
             pristine ||
             submitting ||
             invalid ||
             isContract ||
+            !isContractChecked ||
+            disableDueToLowEth ||
             Remote.Loading.is(balanceStatus)
           }
-          data-e2e='ethSendContinue'
+          data-e2e={`${coin}SendContinue`}
         >
           <FormattedMessage
             id='modals.sendeth.firststep.continue'
             defaultMessage='Continue'
           />
         </Button>
-      </FormGroup>
+      </SubmitFormGroup>
     </Form>
   )
 }
 
 FirstStep.propTypes = {
+  coin: PropTypes.string.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  toToggled: PropTypes.bool.isRequired,
   handleToToggle: PropTypes.func.isRequired,
-  unconfirmedTx: PropTypes.bool
+  unconfirmedTx: PropTypes.bool,
+  hasErc20Balance: PropTypes.bool.isRequired
 }
 
 export default reduxForm({

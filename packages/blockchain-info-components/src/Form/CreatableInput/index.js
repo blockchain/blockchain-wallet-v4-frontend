@@ -1,5 +1,5 @@
 import React from 'react'
-import { difference, head, pathOr, isEmpty } from 'ramda'
+import { difference, equals, head, pathOr, isNil } from 'ramda'
 import CreatableInput from './template'
 
 const components = {
@@ -18,9 +18,13 @@ class CreatableInputContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    if (!isEmpty(this.props.defaultValue)) {
+    if (!isNil(this.props.defaultValue)) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ value: this.props.defaultValue })
+    } else if (this.props.value) {
+      const newValue = pathOr([], ['value', 'value'], this.props)
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ value: newValue })
     }
   }
 
@@ -32,12 +36,16 @@ class CreatableInputContainer extends React.PureComponent {
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ value: [...prevValue, diff] })
     }
+    if (!this.props.isMulti && !equals(newValue, prevValue)) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ value: newValue })
+    }
   }
 
   handleChange = value => {
     this.setState({ value })
     if (this.props.onChange) {
-      this.props.onChange({ value })
+      !value ? this.props.onChange(value) : this.props.onChange({ value })
     }
   }
 
@@ -45,34 +53,39 @@ class CreatableInputContainer extends React.PureComponent {
     this.setState({ inputValue })
   }
 
+  handleMultiChange = (inputValue, value) => {
+    this.setState({
+      inputValue: '',
+      value: [...value, createOption(inputValue)]
+    })
+    if (this.props.onChange) {
+      this.props.onChange({ value: [...value, createOption(inputValue)] })
+    }
+  }
+
   handleKeyDown = event => {
     const { inputValue, value } = this.state
-    if (!inputValue) return
+    if (!inputValue || !this.props.isMulti) return
     switch (event.key) {
       case 'Enter':
       case 'Tab':
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)]
-        })
-        if (this.props.onChange) {
-          this.props.onChange({ value: [...value, createOption(inputValue)] })
-        }
+        this.handleMultiChange(inputValue, value)
         event.preventDefault()
     }
   }
 
   handleBlur = event => {
+    this.props.onBlur()
     const { inputValue, value } = this.state
     if (!inputValue) return
     switch (event.type) {
       case 'blur':
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)]
-        })
         if (this.props.onChange) {
-          this.props.onChange({ value: [...value, createOption(inputValue)] })
+          if (this.props.isMulti) {
+            this.handleMultiChange(inputValue, value)
+          } else {
+            this.handleChange(createOption(inputValue))
+          }
         }
     }
   }
@@ -81,19 +94,24 @@ class CreatableInputContainer extends React.PureComponent {
     const { inputValue, value } = this.state
     return (
       <CreatableInput
-        isClearable
-        isMulti
-        menuIsOpen={false}
+        autoFocus={this.props.autoFocus}
+        components={components}
+        errorState={this.props.errorState}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleKeyDown={this.handleKeyDown}
         handleInputChange={this.handleInputChange}
-        placeholder={this.props.placeholder || ''}
-        autoFocus={this.props.autoFocus}
         inputValue={inputValue}
-        components={components}
+        isClearable
+        isMulti={this.props.isMulti}
+        menuIsOpen={this.props.menuIsOpen}
+        openMenuOnClick={this.props.openMenuOnClick}
+        options={this.props.options}
+        placeholder={this.props.placeholder || ''}
         value={value}
         // Components
+        noOptionsMessage={this.props.noOptionsMessage}
+        isValidNewOption={this.props.isValidNewOption}
         multiValueContainer={this.props.multiValueContainer}
       />
     )

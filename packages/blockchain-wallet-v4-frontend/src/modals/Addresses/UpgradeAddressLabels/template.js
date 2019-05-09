@@ -13,7 +13,7 @@ const UpgradeAddressLabels = props => {
     <Modal size='large' position={position} total={total}>
       <Form>
         <ModalBody>
-          <Text size='14px' weight={300}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='modals.upgradeaddresslabels.explain'
               defaultMessage='Upgrading your wallet. This should take around {duration} seconds.'
