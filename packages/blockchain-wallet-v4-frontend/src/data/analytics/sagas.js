@@ -48,7 +48,7 @@ export default ({ api }) => {
     const userId = (yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )).getOrElse(null)
-    if (userId) return crypto.sha256(userId).toString('hex')
+    if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
     const masterhex = BIP39.mnemonicToSeed(mnemonic)
