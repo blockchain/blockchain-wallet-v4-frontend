@@ -10,7 +10,6 @@ import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import sendBch from './sendBch/reducers'
 import sendBtc from './sendBtc/reducers'
-import sendBsv from './sendBsv/reducers'
 import sendEth from './sendEth/reducers'
 import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
@@ -29,7 +28,6 @@ export default combineReducers({
   priceChart,
   sendBch,
   sendBtc,
-  sendBsv,
   sendEth,
   sendXlm,
   signMessage,

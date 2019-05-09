@@ -41,14 +41,6 @@ export const selectReceiveAddress = function * (source, networks) {
     }
     return utils.bch.toCashAddr(bchReceiveAddress.getOrElse(''))
   }
-  if (equals('BSV', coin)) {
-    const selector = selectors.core.common.bsv.getNextAvailableReceiveAddress
-    const bsvReceiveAddress = selector(networks.bsv, address, appState)
-    if (isEmpty(bsvReceiveAddress.getOrElse(''))) {
-      throw new Error('Could not generate bitcoin sv receive address')
-    }
-    return utils.bch.toCashAddr(bsvReceiveAddress.getOrElse(''))
-  }
   if (equals('BTC', coin)) {
     const selector =
       type !== ADDRESS_TYPES.LOCKBOX

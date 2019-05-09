@@ -46,7 +46,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
-  bsvActions: bindActionCreators(actions.core.data.bsv, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
   xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
