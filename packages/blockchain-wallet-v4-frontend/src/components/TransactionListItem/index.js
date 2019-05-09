@@ -11,7 +11,12 @@ class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
   handleToggle = () => {
+    const { coin, ethTxActions, erc20List, transaction } = this.props
+
     this.setState({ isToggled: !this.state.isToggled })
+    if (this.state.isToggled && includes(coin, erc20List)) {
+      ethTxActions.fetchTransaction(transaction.hash)
+    }
   }
 
   handleEditDescription = value => {
@@ -61,6 +66,7 @@ class ListItemContainer extends React.PureComponent {
 
   render () {
     const { coin, currency, transaction, buySellPartner } = this.props
+    // if (transaction.type !== 'received') console.info(transaction)
     return (
       <TransactionListItem
         buySellPartner={buySellPartner}
@@ -85,6 +91,7 @@ const mapDispatchToProps = dispatch => ({
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
+  ethTxActions: bindActionCreators(actions.core.data.eth, dispatch),
   logActions: bindActionCreators(actions.logs, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),

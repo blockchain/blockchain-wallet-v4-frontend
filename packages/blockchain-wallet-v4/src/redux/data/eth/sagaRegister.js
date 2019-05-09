@@ -21,5 +21,6 @@ export default ({ api }) => {
       AT.CHECK_LOW_ETH_BALANCE,
       dataEthSagas.checkForLowEthBalance
     )
+    yield takeLatest(AT.FETCH_ETH_TRANSACTION, dataEthSagas.fetchTransaction)
   }
 }

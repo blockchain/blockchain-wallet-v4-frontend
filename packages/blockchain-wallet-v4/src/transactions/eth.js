@@ -1,11 +1,10 @@
 import {
   any,
-  contains,
   curry,
-  includes,
   equals,
-  head,
   filter,
+  head,
+  includes,
   lift,
   map,
   path,
@@ -98,7 +97,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     time: tx.timeStamp,
     timeFormatted: getTime(tx.timeStamp),
     to: getLabel(tx.to, state, ''),
-    erc20: contains(tx.to, erc20Contracts),
+    erc20: includes(tx.to, erc20Contracts),
     type
   }
 })
