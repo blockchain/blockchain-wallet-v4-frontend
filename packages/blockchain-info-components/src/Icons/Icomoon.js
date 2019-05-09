@@ -7,7 +7,6 @@ export default {
   'bch-circle-filled': '\\e905',
   bell: '\\e90c',
   'birthday-cake-light': '\\e986',
-  bsv: '\\e914',
   btc: '\\e97c',
   'btc-circle': '\\e98a',
   'btc-circle-filled': '\\e906',
