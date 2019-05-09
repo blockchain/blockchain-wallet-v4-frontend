@@ -1,21 +1,21 @@
 import {
   concat,
+  compose,
   curry,
   descend,
   filter,
   has,
+  head,
+  lensIndex,
+  lensProp,
   map,
-  sequence,
-  sort,
-  reduce,
+  path,
   prepend,
   prop,
-  head,
-  path,
+  reduce,
   set,
-  lensProp,
-  compose,
-  lensIndex
+  sequence,
+  sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
