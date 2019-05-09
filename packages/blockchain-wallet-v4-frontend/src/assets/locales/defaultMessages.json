@@ -118,6 +118,18 @@
         "id": "components.alerts.fetch_used_addresses_error"
       },
       {
+        "defaultMessage": "Did you know?",
+        "id": "components.alerts.first_pax_trade_info_dyk"
+      },
+      {
+        "defaultMessage": "Now that you own USD Pax, you need to own ETH to Send or Swap.",
+        "id": "components.alerts.first_pax_trade_info"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "components.alerts.first_pax_trade_info_learn_more"
+      },
+      {
         "defaultMessage": "Failed to retrieve unused addresses.",
         "id": "components.alerts.fetch_unused_addresses_error"
       },
@@ -1651,15 +1663,23 @@
       },
       {
         "defaultMessage": "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
-        "id": "modals.requestether.sharetooltip"
+        "id": "modals.requesteth.shareaddress"
+      },
+      {
+        "defaultMessage": "Share this address with others, and they can send you PAX directly to your wallet. Your request address will not change.",
+        "id": "modals.requesteth.erc20.shareaddress"
       },
       {
         "defaultMessage": "Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.",
         "id": "modals.requestxlm.sharetooltip"
       },
       {
-        "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
-        "id": "modals.requestether.scan_tooltip"
+        "defaultMessage": "Ask the sender to scan this QR code with their ETH wallet",
+        "id": "modals.requesteth.qrcode"
+      },
+      {
+        "defaultMessage": "Ask the sender to scan this QR code with their PAX wallet",
+        "id": "modals.requesteth.erc20.qrcode"
       },
       {
         "defaultMessage": "Ask the sender to scan this QR code with their stellar wallet",
@@ -1671,7 +1691,7 @@
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendether.firststep.sharetooltip"
+        "id": "modals.sendeth.firststep.description"
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
@@ -1736,10 +1756,6 @@
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
         "id": "modals.sendbtc.firststep.sharetooltip"
-      },
-      {
-        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendBsv.firststep.share_tooltip"
       },
       {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
@@ -1938,15 +1954,6 @@
       }
     ],
     "path": "src/layouts/Public/Footer/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Help?",
-        "id": "faq.help"
-      }
-    ],
-    "path": "src/layouts/Wallet/Header/FaqIcon/template.json"
   },
   {
     "descriptors": [
@@ -2286,8 +2293,8 @@
         "id": "scenes.faq.group.coinify.question8"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD Pax. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.coinify.answer8.one.new1"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.coinify.answer8.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2378,7 +2385,7 @@
         "id": "scenes.faq.group.sfox.question6"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
         "id": "scenes.faq.group.sfox.answer6.one.new"
       },
       {
@@ -2402,8 +2409,8 @@
         "id": "scenes.faq.group.noexchange.question2"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.noexchange.question6.one.new"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.noexchange.question6.one.new1"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2418,8 +2425,8 @@
         "id": "scenes.faq.group.walletfunctionality.question1"
       },
       {
-        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD Pax transactions, your address will remain the same.",
-        "id": "scenes.faq.group.walletfunctionality.answer1.one.updated"
+        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD PAX transactions, your address will remain the same.",
+        "id": "scenes.faq.group.walletfunctionality.answer1.one.updated1"
       },
       {
         "defaultMessage": "Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, enter the recipient’s address in the ‘To’ field and enter how much you would like to send.",
@@ -2590,36 +2597,36 @@
         "id": "scenes.faq.group.walletfunctionality.answer12.two"
       },
       {
-        "defaultMessage": "What is USD Pax and how does it differ from the other cryptocurrencies in my wallet?",
-        "id": "scenes.faq.group.walletfunctionality.question13"
+        "defaultMessage": "What is USD PAX and how does it differ from the other cryptocurrencies in my wallet?",
+        "id": "scenes.faq.group.walletfunctionality.question13.updated"
       },
       {
-        "defaultMessage": "USD Pax is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD Pax functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.",
-        "id": "scenes.faq.group.walletfunctionality.answer13"
+        "defaultMessage": "USD PAX is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD PAX functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.",
+        "id": "scenes.faq.group.walletfunctionality.answer13.updated1"
       },
       {
         "defaultMessage": "Why do I need a small amount of ETH to send or exchange PAX?",
         "id": "scenes.faq.group.walletfunctionality.question14"
       },
       {
-        "defaultMessage": "USD Pax is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.",
-        "id": "scenes.faq.group.walletfunctionality.answer14"
+        "defaultMessage": "USD PAX is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.",
+        "id": "scenes.faq.group.walletfunctionality.answer14.updated"
       },
       {
-        "defaultMessage": "How does USD Pax remain stable?",
-        "id": "scenes.faq.group.walletfunctionality.question15"
+        "defaultMessage": "How does USD PAX remain stable?",
+        "id": "scenes.faq.group.walletfunctionality.question15.updated"
       },
       {
-        "defaultMessage": "USD Pax is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.",
-        "id": "scenes.faq.group.walletfunctionality.answer15"
+        "defaultMessage": "USD PAX is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.",
+        "id": "scenes.faq.group.walletfunctionality.answer15.updated"
       },
       {
-        "defaultMessage": "How do I get USD Pax into my bank account?",
-        "id": "scenes.faq.group.walletfunctionality.question16"
+        "defaultMessage": "How do I get USD PAX into my bank account?",
+        "id": "scenes.faq.group.walletfunctionality.question16.updated"
       },
       {
-        "defaultMessage": "Although the price of USD Pax is pegged to USD, USD Pax remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).",
-        "id": "scenes.faq.group.walletfunctionality.answer16"
+        "defaultMessage": "Although the price of USD PAX is pegged to USD, USD PAX remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).",
+        "id": "scenes.faq.group.walletfunctionality.answer16.updated"
       },
       {
         "defaultMessage": "Wallet Security",
@@ -3151,128 +3158,6 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
-        "id": "modals.bsvgetstarted.now_supporting_sv"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "modals.bsvgetstarted.visitsettings"
-      },
-      {
-        "defaultMessage": "Check It Out!",
-        "id": "modals.bsvGetStarted.continue"
-      }
-    ],
-    "path": "src/modals/Bsv/BsvGetStarted/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "maximum",
-        "id": "modals.sendbsv.maximumamountlink.maximum"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/MaximumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendBsv.firststep.from"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendBsv.firststep.to"
-      },
-      {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.sendbsv.firststep.amount"
-      },
-      {
-        "defaultMessage": "Description:",
-        "id": "modals.sendBsv.firststep.description"
-      },
-      {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendBsv.firststep.fee"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.sendBsv.firststep.continue"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.sendbsv.amountnotzeromessage"
-      },
-      {
-        "defaultMessage": "Not enough funds. Use",
-        "id": "modals.sendbsv.maximumamountmessage"
-      },
-      {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.sendbsv.insufficientfundsmessage"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendbsv.secondstep.from"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendbsv.secondstep.to"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.sendbsv.secondstep.note"
-      },
-      {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendbsv.secondstep.payment"
-      },
-      {
-        "defaultMessage": "Fee:",
-        "id": "modals.sendbsv.secondstep.fee"
-      },
-      {
-        "defaultMessage": "Total",
-        "id": "modals.sendbsv.secondstep.total"
-      },
-      {
-        "defaultMessage": "Are you sure this is a bitcoin sv address? Sending funds to a bitcoin address by accident will result in loss of funds.",
-        "id": "modals.sendbsv.secondstep.legacy_addr_warning"
-      },
-      {
-        "defaultMessage": "Send Bitcoin SV",
-        "id": "modals.sendbsv.secondstep.send"
-      },
-      {
-        "defaultMessage": "Go Back",
-        "id": "modals.sendbsv.secondstep.back"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Send Bitcoin SV",
-        "id": "modals.sendbsv.title"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/template.json"
   },
   {
     "descriptors": [
@@ -5731,8 +5616,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $50 of free Stellar (XLM).",
-        "id": "modals.coinifyupgrade.completeprofilenowforfree"
+        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get up to $50 of free Stellar (XLM).",
+        "id": "modals.coinifyupgrade.coinifyupgradeairdrop"
       },
       {
         "defaultMessage": "Complete My Profile Now",
@@ -6926,6 +6811,14 @@
       {
         "defaultMessage": "Memo",
         "id": "modals.sendxlm.firststep.txmemo"
+      },
+      {
+        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.",
+        "id": "modals.sendxlm.firststep.sendtoexchange"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "modals.sendxlm.firststep.sendtoexchangelearn"
       },
       {
         "defaultMessage": "Description",
@@ -9295,35 +9188,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Activity Logging",
-        "id": "scenes.securitycenter.advanced.activitylogging.title"
-      },
-      {
-        "defaultMessage": "Enabled",
-        "id": "scenes.securitycenter.advanced.activitylogging.enabled"
-      },
-      {
-        "defaultMessage": "Disabled",
-        "id": "scenes.securitycenter.advanced.activitylogging.disabled"
-      },
-      {
-        "defaultMessage": "Enable for all your wallet activity to be displayed in your dashboard's activity feed.",
-        "id": "scenes.securitycenter.advanced.activitylogging.description"
-      },
-      {
-        "defaultMessage": "Disable",
-        "id": "scenes.securitycenter.advanced.activitylogging.disable"
-      },
-      {
-        "defaultMessage": "Enable",
-        "id": "scenes.securitycenter.advanced.activitylogging.enable"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/AdvancedSecurity/ActivityLogging/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "API Access",
         "id": "scenes.securitycenter.advanced.apiaccess.title"
       },
@@ -10193,101 +10057,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Imported Bitcoin SV Addresses",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
-      },
-      {
-        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.description"
-      },
-      {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.address"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Bitcoin SV Transactions",
-        "id": "scenes.settings.addresses.bsv.tx.title"
-      },
-      {
-        "defaultMessage": "Type",
-        "id": "scenes.settings.addresses.bsv.tx.type"
-      },
-      {
-        "defaultMessage": "Addresses",
-        "id": "scenes.settings.addresses.bsv.tx.addresses"
-      },
-      {
-        "defaultMessage": "Amount",
-        "id": "scenes.settings.addresses.bsv.wallets.amount"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/Transactions/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Bitcoin SV Wallets",
-        "id": "scenes.settings.addresses.bsv.wallets.title"
-      },
-      {
-        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.",
-        "id": "scenes.settings.addresses.bsv.wallets.desc2"
-      },
-      {
-        "defaultMessage": "Wallet Name",
-        "id": "scenes.settings.addresses.bsv.wallets.name"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bsv.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.bsv.wallets.actions"
-      },
-      {
-        "defaultMessage": "No wallets matched your search",
-        "id": "scenes.settings.addresses.bsv.wallets.nomatch"
-      },
-      {
-        "defaultMessage": "Default",
-        "id": "scenes.settings.addresses.bsv.wallets.defaultlabel"
-      },
-      {
-        "defaultMessage": "Archived",
-        "id": "scenes.settings.addresses.bsv.wallets.archivedlabel"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bsv.wallets.unarchive"
-      },
-      {
-        "defaultMessage": "Send",
-        "id": "scenes.settings.addresses.bsv.wallets.send"
-      },
-      {
-        "defaultMessage": "Swap",
-        "id": "scenes.settings.addresses.bsv.wallets.swap"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/Wallets/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "More Options",
         "id": "scenes.settings.addresses.btc.addressrow.moreoptions"
       },
@@ -10550,10 +10319,6 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "scenes.settings.addresses.menutop.bch"
-      },
-      {
-        "defaultMessage": "Bitcoin SV",
-        "id": "scenes.settings.addresses.menutop.bsv"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Menu/index.json"
@@ -11614,27 +11379,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
-      },
-      {
-        "defaultMessage": "January 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
-      },
-      {
-        "defaultMessage": "Check it Out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
-      }
-    ],
-    "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -11693,5 +11437,26 @@
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/ExchangeByBlockchain.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "A Digital US Dollar in Your Wallet",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one"
+      },
+      {
+        "defaultMessage": "April 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019"
+      },
+      {
+        "defaultMessage": "USD PAX, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable"
+      },
+      {
+        "defaultMessage": "Check it Out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/USDPax.json"
   }
 ]
