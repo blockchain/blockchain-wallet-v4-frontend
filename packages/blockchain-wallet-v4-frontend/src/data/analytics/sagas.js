@@ -78,7 +78,7 @@ export default ({ api }) => {
       const { test } = action.payload
       yield call(postMessage, {
         method: 'AbTesting::create',
-        messageData: test
+        messageData: { name: test }
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logABTest', e))

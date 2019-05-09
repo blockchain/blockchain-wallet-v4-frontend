@@ -8,6 +8,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -152,6 +153,7 @@ class App extends React.PureComponent {
                     )}
                   </Switch>
                 </ConnectedRouter>
+                <AnalyticsTracker />
                 <FontGlobalStyles />
                 <IconGlobalStyles />
                 <GlobalStyle />

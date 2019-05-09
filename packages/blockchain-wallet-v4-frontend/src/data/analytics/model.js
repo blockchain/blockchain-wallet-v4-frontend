@@ -116,8 +116,9 @@ export const WALLET_EVENTS = {
   UNARCHIVE: ['wallets', 'unarchive']
 }
 
-export const MIN_MAX_AB = {
-  name: 'MinMaxExchange'
+export const AB_TESTS = {
+  MIN_MAX_EXCHANGE: 'MinMaxExchange',
+  SWAP_OR_TRADE_TEST: 'SwapOrTradeTest'
 }
 
 export const GENERAL_EVENTS = {

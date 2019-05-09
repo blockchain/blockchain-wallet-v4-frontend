@@ -3,23 +3,10 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import ExchangeForm from '../ExchangeForm'
 
-const { MIN_MAX_AB } = model.analytics
-
 export class ExchangeContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.profileActions.fetchUser()
-    this.props.analyticsActions.createABTest(MIN_MAX_AB)
-
-    let receiveMessage = e => {
-      if (e.data.from === 'matomo') {
-      }
-    }
-    window.addEventListener('message', receiveMessage, false)
-  }
-
   componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }

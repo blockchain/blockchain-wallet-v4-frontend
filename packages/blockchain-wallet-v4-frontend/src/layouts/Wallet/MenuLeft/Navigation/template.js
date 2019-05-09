@@ -46,6 +46,8 @@ const Navigation = props => {
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
+  // SwapOrTradeTest
+  const { swapOrTrade } = rest
 
   return (
     <Wrapper {...rest}>
@@ -70,10 +72,18 @@ const Navigation = props => {
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <Icon name='thick-arrow-switch' size='20px' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.swap'
-            defaultMessage='Swap'
-          />
+          {/* SwapOrTradeTest */}
+          {swapOrTrade === 'original' ? (
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.swap'
+              defaultMessage='Swap'
+            />
+          ) : (
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.trade'
+              defaultMessage='Trade'
+            />
+          )}
         </MenuItem>
       </LinkContainer>
       <Separator />
