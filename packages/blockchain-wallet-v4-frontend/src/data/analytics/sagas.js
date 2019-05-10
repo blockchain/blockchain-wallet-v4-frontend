@@ -14,11 +14,14 @@ export default ({ api }) => {
     const userId = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
-    if (Remote.Success.is(userId)) return
+    if (Remote.Success.is(userId)) return userId.getOrElse(null)
     yield take(
       actionTypes.core.kvStore.userCredentials
         .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
     )
+    return (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse(null)
   }
 
   const postMessage = function * (message) {
@@ -44,10 +47,7 @@ export default ({ api }) => {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
-    yield call(waitForUserId)
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse(null)
+    const userId = yield call(waitForUserId)
     if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
