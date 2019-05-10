@@ -147,6 +147,7 @@ export default ({ api, coreSagas }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
+      yield put(actions.analytics.initUserSession())
       yield fork(transferEthSaga)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
