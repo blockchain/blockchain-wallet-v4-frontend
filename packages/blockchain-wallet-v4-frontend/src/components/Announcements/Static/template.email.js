@@ -15,7 +15,7 @@ const revealFrames = keyframes`
   100% { top: -30px; }
 `
 const revealAnimation = css`
-  ${revealFrames} 3s 1;
+  ${revealFrames}: 3s 1;
 `
 const ItemWrapper = styled.div`
   display: flex;

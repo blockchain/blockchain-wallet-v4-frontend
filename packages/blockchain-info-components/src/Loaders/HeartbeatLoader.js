@@ -10,7 +10,7 @@ const bounceFrames = keyframes`
   50% { transform: scale(1.0); }
 `
 const bounceAnimation = css`
-  ${bounceFrames} 2s infinite ease-in-out;
+  ${bounceFrames}: 2s infinite ease-in-out;
 `
 const Container = styled.div`
   position: relative;

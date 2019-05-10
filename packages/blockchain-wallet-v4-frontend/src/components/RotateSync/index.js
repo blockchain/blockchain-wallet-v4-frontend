@@ -11,7 +11,7 @@ const rotateFrames = keyframes`
   }
 `
 const rotateAnimation = css`
-  ${rotateFrames} 2.5s linear infinite;
+  ${rotateFrames}: 2.5s linear infinite;
 `
 
 export const RotateSync = props => {

@@ -13,8 +13,12 @@ const Wrapper = styled.div`
   width: 30%;
   background-color: ${props => props.theme['white']};
 
-  & > :first-child { margin-bottom 20px; }
-  & > :last-child { height: 40px; }
+  & > :first-child {
+    margin-bottom: 20px;
+  }
+  & > :last-child {
+    height: 40px;
+  }
 `
 const Circle = styled.div`
   display: flex;
