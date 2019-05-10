@@ -2008,6 +2008,10 @@
         "id": "layouts.wallet.menuleft.navigation.swap"
       },
       {
+        "defaultMessage": "Trade",
+        "id": "layouts.wallet.menuleft.navigation.trade"
+      },
+      {
         "defaultMessage": "New",
         "id": "layouts.wallet.menuleft.navigation.transactions.new"
       },
