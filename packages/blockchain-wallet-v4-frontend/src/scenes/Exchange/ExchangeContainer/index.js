@@ -7,6 +7,10 @@ import { actions } from 'data'
 import ExchangeForm from '../ExchangeForm'
 
 export class ExchangeContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.profileActions.fetchUser()
+  }
+
   componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }
@@ -22,7 +26,6 @@ ExchangeContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   actions: bindActionCreators(actions.components.exchange, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
