@@ -30,10 +30,6 @@ class ListItemContainer extends React.PureComponent {
         this.props.bchActions.setTxNotesBch(transaction.hash, value)
         break
       }
-      case coin === 'BSV': {
-        this.props.bsvActions.setTxNotesBsv(transaction.hash, value)
-        break
-      }
       case coin === 'XLM': {
         this.props.xlmActions.setTxNotesXlm(transaction.hash, value)
         break
@@ -83,7 +79,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
-  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
   logActions: bindActionCreators(actions.logs, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),

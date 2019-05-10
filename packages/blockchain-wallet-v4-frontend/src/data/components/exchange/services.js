@@ -64,8 +64,6 @@ export const selectFee = (coin, payment, isSourceErc20) => {
   switch (coin) {
     case 'BCH':
       return path(['selection', 'fee'], payment)
-    case 'BSV':
-      return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
     case 'XLM':

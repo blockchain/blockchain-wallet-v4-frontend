@@ -6,6 +6,7 @@ export default ({ api }) => {
   const analyticsSagas = sagas({ api })
 
   return function * analyticsSaga () {
+    yield takeLatest(AT.CREATE_AB_TEST, analyticsSagas.createABTest)
     yield takeLatest(AT.LOG_EVENT, analyticsSagas.logEvent)
     yield takeLatest(AT.LOG_PAGE_VIEW, analyticsSagas.logPageView)
     yield takeLatest(AT.LOG_GOAL, analyticsSagas.logGoal)

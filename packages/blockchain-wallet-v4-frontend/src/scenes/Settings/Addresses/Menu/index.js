@@ -72,14 +72,6 @@ const MenuTop = () => (
             />
           </LinkItem>
         </LinkContainer>
-        <LinkContainer to='/settings/addresses/bsv' activeClassName='active'>
-          <LinkItem data-e2e='bsvWalletSettingsLink'>
-            <FormattedMessage
-              id='scenes.settings.addresses.menutop.bsv'
-              defaultMessage='Bitcoin SV'
-            />
-          </LinkItem>
-        </LinkContainer>
       </TabMenu>
       <Search data-e2e='walletSettingsSearch'>
         <Field name='search' component={TextBox} />

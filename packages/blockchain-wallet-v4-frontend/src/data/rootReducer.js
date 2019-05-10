@@ -1,8 +1,9 @@
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import alertsReducer from './alerts/reducers'
+import analyticsReducer from './analytics/reducers'
+import authReducer from './auth/reducers'
 import componentsReducer from './components/reducers'
 import formReducer from './form/reducers'
-import alertsReducer from './alerts/reducers'
-import authReducer from './auth/reducers'
 import cacheReducer from './cache/reducers'
 import goalsReducer from './goals/reducers'
 import logsReducer from './logs/reducers'
@@ -18,6 +19,7 @@ import qaReducer from './modules/qa/reducers'
 
 const rootReducer = {
   alerts: alertsReducer,
+  analytics: analyticsReducer,
   auth: authReducer,
   components: componentsReducer,
   form: formReducer,

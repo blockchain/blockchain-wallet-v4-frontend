@@ -88,8 +88,6 @@ const configureStore = () => {
         btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
         bch:
           BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
-        bsv:
-          BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
         eth: options.platforms.web.coins.ETH.config.network,
         xlm: options.platforms.web.coins.XLM.config.network
       }

@@ -1,27 +1,18 @@
 import { call, select, put } from 'redux-saga/effects'
-import { contains, equals, path, prop } from 'ramda'
+import { equals, includes, path, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
 export const logLocation = 'components/settings/sagas'
 
 export default ({ coreSagas }) => {
-  const initializeBsv = function * () {
-    try {
-      yield call(coreSagas.data.bsv.fetchData)
-      yield call(coreSagas.data.bsv.fetchRates)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', e))
-    }
-  }
-
   const notificationsInitialized = function * () {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
       const initialValues = {
-        emailEnabled: contains(1, types),
-        mobileEnabled: contains(32, types)
+        emailEnabled: includes(1, types),
+        mobileEnabled: includes(32, types)
       }
       yield put(actions.form.initialize('settingsNotifications', initialValues))
     } catch (e) {
@@ -53,7 +44,6 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    initializeBsv,
     notificationsInitialized,
     notificationsFormChanged
   }
