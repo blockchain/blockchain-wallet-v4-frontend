@@ -14,8 +14,7 @@ class MenuLeftContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      offsetTop: 0,
-      swapOrTrade: null
+      offsetTop: 0
     }
   }
 
@@ -25,6 +24,12 @@ class MenuLeftContainer extends React.PureComponent {
     // SwapOrTradeTest
     this.props.analyticsActions.createABTest(AB_TESTS.SWAP_OR_TRADE_TEST)
     window.addEventListener('message', this.receiveMatomoMessage, false)
+    // SwapOrTradeTest local testing without wallet-helper
+    if (window.location.hostname === 'localhost')
+      this.props.analyticsActions.createABTestSuccess(
+        AB_TESTS.SWAP_OR_TRADE_TEST,
+        'original'
+      )
   }
 
   componentDidUpdate () {
@@ -44,9 +49,11 @@ class MenuLeftContainer extends React.PureComponent {
   // SwapOrTradeTest
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      this.setState({
-        swapOrTrade: pathOr('original', ['data', 'command'], res)
-      })
+      const result = pathOr('original', ['data', 'command'], res)
+      this.props.analyticsActions.createABTestSuccess(
+        AB_TESTS.SWAP_OR_TRADE_TEST,
+        result
+      )
     }
   }
 
@@ -54,14 +61,8 @@ class MenuLeftContainer extends React.PureComponent {
     const { data } = this.props
     const { offsetTop } = this.state
 
-    // SwapOrTradeTest
-    const { swapOrTrade } = this.state
-    if (!this.state.swapOrTrade) return <Loading />
-
     return data.cata({
-      Success: val => (
-        <MenuLeft {...val} offsetTop={offsetTop} swapOrTrade={swapOrTrade} />
-      ),
+      Success: val => <MenuLeft {...val} offsetTop={offsetTop} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Failure: msg => <Failure msg={msg} />

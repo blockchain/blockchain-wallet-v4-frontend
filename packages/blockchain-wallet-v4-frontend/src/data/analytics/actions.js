@@ -5,6 +5,11 @@ export const createABTest = test => ({
   payload: { test }
 })
 
+export const createABTestSuccess = (test, result) => ({
+  type: AT.CREATE_AB_TEST_SUCCESS,
+  payload: { test, result }
+})
+
 export const logEvent = event => ({
   type: AT.LOG_EVENT,
   payload: { event }
