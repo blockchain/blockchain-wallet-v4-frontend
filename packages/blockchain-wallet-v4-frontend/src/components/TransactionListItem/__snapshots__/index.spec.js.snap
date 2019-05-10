@@ -16,6 +16,8 @@ exports[`ListItemContainer renders correctly 1`] = `
   <ListItemContainer
     analyticsActions={
       Object {
+        "createABTest": [Function],
+        "createABTestSuccess": [Function],
         "initUserSession": [Function],
         "logEvent": [Function],
         "logGoal": [Function],
