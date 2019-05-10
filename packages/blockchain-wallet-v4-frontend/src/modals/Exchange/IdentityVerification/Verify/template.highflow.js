@@ -21,7 +21,6 @@ const ColumnSubHeader = styled(IdentityVerificationSubHeader)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  ustify-content: flex-start;
 `
 const CenterWrapper = styled.div`
   align-self: center;

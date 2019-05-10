@@ -26,14 +26,12 @@ const BaseNumberInput = styled.input.attrs({
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-top: ${props => (props.borderTopNone ? 'none' : '')};
   cursor: ${props => props.disabled && 'not-allowed'};
-  -moz-appearance: textfield;
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
     margin: 0;
   }
 `
