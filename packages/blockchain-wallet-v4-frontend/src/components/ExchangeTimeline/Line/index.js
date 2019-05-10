@@ -5,7 +5,7 @@ import styled, { css, keyframes } from 'styled-components'
 const animationFrames = keyframes`
   0% { width: 100%; }
   25% { width: 25%; }
-  50% { width: 50% }
+  50% { width: 50%; }
   75% { width: 75%; }
   100% { width: 100%; }
 `

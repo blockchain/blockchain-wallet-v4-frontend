@@ -43,7 +43,7 @@
       "*.js": [
         "prettier --write",
         "eslint --fix",
-        "lint:css",
+        "stylelint",
         "git add"
       ],
       "*.json": [
