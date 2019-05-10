@@ -461,6 +461,10 @@ describe('authSagas', () => {
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
 
+    it('should init analytics user session', () => {
+      saga.next().put(actions.analytics.initUserSession())
+    })
+
     it('should launch transferEth saga', () => {
       saga.next().fork(transferEthSaga)
     })
