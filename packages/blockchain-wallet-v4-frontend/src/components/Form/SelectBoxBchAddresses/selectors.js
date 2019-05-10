@@ -1,20 +1,26 @@
 import {
   assoc,
-  curry,
   assocPath,
-  compose,
   concat,
+  compose,
+  curry,
+  descend,
   filter,
   has,
+  head,
   isNil,
+  lensIndex,
+  lensProp,
   lift,
-  map,
   not,
+  map,
   path,
-  prop,
   prepend,
+  prop,
+  reduce,
+  set,
   sequence,
-  reduce
+  sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -106,9 +112,21 @@ export const getData = (state, ownProps) => {
         .map(toGroup('Wallet')),
       excludeImported
         ? Remote.of([])
-        : lift(formatImportedAddressesData)(relevantAddresses).map(
-            toGroup('Imported Addresses')
-          ),
+        : lift(formatImportedAddressesData)(relevantAddresses)
+            .map(toGroup('Imported Addresses'))
+            .map(x =>
+              set(
+                compose(
+                  lensIndex(0),
+                  lensProp('options')
+                ),
+                sort(
+                  descend(path(['value', 'balance'])),
+                  prop('options', head(x))
+                ),
+                x
+              )
+            ),
       excludeLockbox
         ? Remote.of([])
         : selectors.core.common.bch

@@ -73,7 +73,7 @@ const Navigation = props => {
         <MenuItem data-e2e='exchangeLink'>
           <Icon name='thick-arrow-switch' size='20px' />
           {/* SwapOrTradeTest */}
-          {swapOrTrade === 'original' ? (
+          {swapOrTrade !== 'trade' ? (
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.swap'
               defaultMessage='Swap'
