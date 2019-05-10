@@ -75,7 +75,20 @@ export const getData = (state, ownProps) => {
         : selectors.core.common.btc
             .getAddressesBalances(state)
             .map(toDropdown)
-            .map(toGroup('Imported Addresses')),
+            .map(toGroup('Imported Addresses'))
+            .map(x =>
+              set(
+                compose(
+                  lensIndex(0),
+                  lensProp('options')
+                ),
+                sort(
+                  descend(path(['value', 'balance'])),
+                  prop('options', head(x))
+                ),
+                x
+              )
+            ),
       excludeLockbox
         ? Remote.of([])
         : selectors.core.common.btc
@@ -84,15 +97,7 @@ export const getData = (state, ownProps) => {
             .map(toDropdown)
             .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3]) => {
-      const importedAddressesSorted = set(
-        compose(
-          lensIndex(0),
-          lensProp('options')
-        ),
-        sort(descend(path(['value', 'balance'])), prop('options', head(b2))),
-        b2
-      )
-      const data = reduce(concat, [], [b1, importedAddressesSorted, b3])
+      const data = reduce(concat, [], [b1, b2, b3])
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {
