@@ -2,7 +2,7 @@ import { toCashAddr } from './bch'
 import { isValidBtcAddress } from './btc'
 import { map, length, take } from 'ramda'
 
-// Adding account names for btc forks (bch, bsv)
+// Adding account names for btc forks
 // Wallet, kvStore Account List, txs -> txList
 export const addFromToAccountNames = (wallet, accountList, txList) => {
   const hdWallets = wallet.hd_wallets

@@ -25,9 +25,6 @@ export default () => {
         case contains('/btc/transactions', pathname):
           yield call(refreshBtcTransactions)
           break
-        case contains('/settings/addresses/bsv', pathname):
-          yield call(refreshBsvTransactions)
-          break
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
@@ -63,10 +60,6 @@ export default () => {
 
   const refreshBtcTransactions = function * () {
     yield put(actions.core.data.btc.fetchTransactions('', true))
-  }
-
-  const refreshBsvTransactions = function * () {
-    yield put(actions.core.data.bsv.fetchTransactions('', true))
   }
 
   const refreshEthTransactions = function * () {

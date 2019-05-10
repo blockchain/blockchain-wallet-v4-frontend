@@ -2,19 +2,12 @@ import React from 'react'
 import { prop, contains } from 'ramda'
 import moment from 'moment'
 import USDPax from './USDPax'
-import BSVSupport from './BSVSupport'
 import ExchangeByBlockchain from './ExchangeByBlockchain'
 
 const Announcements = [
   {
     content: <USDPax />,
     date: new Date('April 30 2019'),
-    restrictByCountry: [],
-    restrictByUserKyc: []
-  },
-  {
-    content: <BSVSupport />,
-    date: new Date('Jan 10 2019'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
