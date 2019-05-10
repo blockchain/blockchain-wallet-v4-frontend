@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { contains, equals, path, prop } from 'ramda'
+import { equals, includes, path, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
@@ -11,8 +11,8 @@ export default ({ coreSagas }) => {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
       const initialValues = {
-        emailEnabled: contains(1, types),
-        mobileEnabled: contains(32, types)
+        emailEnabled: includes(1, types),
+        mobileEnabled: includes(32, types)
       }
       yield put(actions.form.initialize('settingsNotifications', initialValues))
     } catch (e) {
