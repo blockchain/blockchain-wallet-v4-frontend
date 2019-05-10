@@ -85,18 +85,18 @@ export const SUNRIVER_AIRDROP_EVENTS = {
   SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
 }
 export const SWAP_EVENTS = {
-  ORDER_CONFIRM: ['swap', 'order_confirm'],
-  ORDER_CONFIRM_ERROR: ['swap', 'order_confirm_error'],
-  ORDER_PREVIEW: ['swap', 'order_preview'],
-  ORDER_PREVIEW_ERROR: ['swap', 'order_preview_error'],
-  REVERSE_PAIR: ['swap', 'reverse_pair'],
-  SUBMIT_SWAP: ['swap', 'submit_swap'],
-  FIAT_TO_CRYPTO_CHANGE: ['swap', 'fiat_to_crypto_change'],
-  CRYPTO_TO_FIAT_CHANGE: ['swap', 'crypto_to_fiat_change'],
-  EXCHANGE_RECEIVE_CHANGE: ['swap', 'exchange_receive_change'],
-  VALUE_INPUT: ['swap', 'value_input'],
-  USE_MIN: ['swap', 'use_min'],
-  USE_MAX: ['swap', 'use_max'],
+  ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
+  ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
+  ORDER_PREVIEW: ['swap', 'order_form', 'order_preview'],
+  ORDER_PREVIEW_ERROR: ['swap', 'order_form', 'order_preview_error'],
+  REVERSE_PAIR: ['swap', 'order_form', 'reverse_pair'],
+  SUBMIT_SWAP: ['swap', 'order_form', 'submit_swap'],
+  FIAT_TO_CRYPTO_CHANGE: ['swap', 'order_form', 'fiat_to_crypto_change'],
+  CRYPTO_TO_FIAT_CHANGE: ['swap', 'order_form', 'crypto_to_fiat_change'],
+  EXCHANGE_RECEIVE_CHANGE: ['swap', 'order_form', 'exchange_receive_change'],
+  VALUE_INPUT: ['swap', 'order_form', 'value_input'],
+  USE_MIN: ['swap', 'order_form', 'use_min'],
+  USE_MAX: ['swap', 'order_form', 'use_max'],
   VIEW_ORDER_DETAILS: ['swap', 'order_history', 'view_details']
 }
 export const TRANSACTION_EVENTS = {
