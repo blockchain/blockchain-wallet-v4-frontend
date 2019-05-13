@@ -164,7 +164,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const maximumAmountClicked = function * (action) {
     try {
-      const coinCode = prop('coin', action.payload)
+      const coinCode = action.payload
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
