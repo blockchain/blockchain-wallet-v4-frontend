@@ -18,7 +18,7 @@ export default {
     PAX: {
       rate: '1000000000000000000',
       symbol: 'PAX',
-      decimal_digits: 8,
+      decimal_digits: 2,
       currency: 'PAX'
     }
   }
