@@ -42,6 +42,9 @@ const StepHeader = styled(ModalHeader)`
     margin-right: 42px;
   }
 `
+const ErrorHeader = styled(ModalHeader)`
+  border-bottom: 0px;
+`
 const IdentityVerificationTray = styled(Tray)`
   margin-top: 0;
   border-radius: 0;
@@ -225,7 +228,15 @@ class IdentityVerification extends React.PureComponent {
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
-          Failure: () => <DataError onClick={this.initializeVerification} />
+          Failure: error => (
+            <React.Fragment>
+              <ErrorHeader onClose={this.handleClose} />
+              <DataError
+                onClick={this.initializeVerification}
+                message={error}
+              />
+            </React.Fragment>
+          )
         })}
       </IdentityVerificationTray>
     )
