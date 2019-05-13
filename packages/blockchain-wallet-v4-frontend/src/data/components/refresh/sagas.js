@@ -5,6 +5,8 @@ import { actions, selectors } from 'data'
 export default () => {
   const refreshClicked = function * () {
     try {
+      // User
+      yield put(actions.modules.profile.fetchUser())
       // Data (balance)
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.btc.fetchData())
