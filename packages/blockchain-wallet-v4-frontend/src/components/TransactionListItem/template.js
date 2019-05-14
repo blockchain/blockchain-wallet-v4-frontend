@@ -69,7 +69,7 @@ const StatusColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 33.333%;
+  width: 30%;
   ${media.mobile`
     width: 50%;
   `};
@@ -83,8 +83,7 @@ const AddressesColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   white-space: nowrap;
-  width: 33.333%;
-
+  width: 50%;
   @media (min-width: 992px) {
     display: flex;
   }
@@ -93,8 +92,7 @@ const AmountColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 33.333%;
-  min-width: 200px;
+  width: 20%;
   align-items: flex-end;
   ${media.mobile`
     min-width: 50%;
