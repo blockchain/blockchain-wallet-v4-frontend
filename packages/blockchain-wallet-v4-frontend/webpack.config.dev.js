@@ -115,7 +115,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.appBuild], { allowExternal: true }),
+    new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
