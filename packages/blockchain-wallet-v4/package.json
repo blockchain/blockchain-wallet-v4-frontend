@@ -45,6 +45,10 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
     ],
+    "setupFiles": [
+      "<rootDir>/../../config/jest/jest.shim.js",
+      "<rootDir>/../../config/jest/jest.config.js"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/lib"
     ],
