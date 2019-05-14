@@ -861,7 +861,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
-      yield cancel(renewLimitsTask)
+      if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'clearSubscriptions', e)

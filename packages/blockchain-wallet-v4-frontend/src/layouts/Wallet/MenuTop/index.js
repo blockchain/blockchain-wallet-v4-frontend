@@ -46,7 +46,7 @@ const RightContainer = styled(Container)`
 `
 const TextContainer = styled.div`
   display: none;
-  margin-left: 32px;
+  margin-left: 24px;
   @media (min-width: 850px) {
     display: flex;
   }
