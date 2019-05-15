@@ -12,17 +12,43 @@ references:
     docker:
       - image: circleci/node:10.12.0-jessie-browsers
 
+  npm_cache_key: &npm_cache_key v10-dependency-npm-{{ checksum "yarn.lock" }}
+
+  restore_node_modules: &restore_node_modules
+    restore_cache:
+      keys:
+        - *npm_cache_key
+        - v10-dependency-npm
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - v10-repo-{{ .Branch }}-{{ .Revision }}
+        - v10-repo-{{ .Branch }}
+        - v10-repo
+
 jobs:
   pull_code:
     <<: *container_config
     steps:
+      - *restore_repo
       - checkout
+      - save_cache:
+          key: v10-repo-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
   npm_install:
     <<: *container_config
     steps:
+      - *restore_repo
+      - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo npm install -g yarn@1.12.1 && yarn
+          command: sudo npm install -g yarn@1.12.1 && yarn --frozen-lockfile
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - ./node_modules
       - persist_to_workspace:
           root: /home/circleci
           paths:
