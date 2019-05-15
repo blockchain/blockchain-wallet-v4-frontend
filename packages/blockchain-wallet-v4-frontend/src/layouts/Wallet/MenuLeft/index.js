@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { head, prop, pathOr } from 'ramda'
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import MenuLeft from './template.success'
 import Loading from './template.loading'
 import Failure from './template.failure'
@@ -22,6 +23,7 @@ class MenuLeftContainer extends React.PureComponent {
     this.setActiveNodeOffsetTop()
 
     // SwapOrTradeTest
+    if (Remote.Success.is(this.props.abTest)) return
     this.props.analyticsActions.createABTest(AB_TESTS.SWAP_OR_TRADE_TEST)
     window.addEventListener('message', this.receiveMatomoMessage, false)
     // SwapOrTradeTest local testing without wallet-helper
@@ -70,7 +72,10 @@ class MenuLeftContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ data: getData(state) })
+const mapStateToProps = state => ({
+  data: getData(state),
+  abTest: selectors.analytics.selectAbTest(AB_TESTS.SWAP_OR_TRADE_TEST)(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

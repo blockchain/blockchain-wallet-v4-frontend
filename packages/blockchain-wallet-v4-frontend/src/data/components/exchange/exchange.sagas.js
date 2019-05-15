@@ -768,7 +768,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
-        yield spawn(updateLatestEthTrade, txId)
+        yield spawn(updateLatestEthTrade, txId, source.type)
       }
     } catch (err) {
       if (sourceCoin === 'XLM') {
