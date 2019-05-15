@@ -14,24 +14,10 @@ references:
 
   npm_cache_key: &npm_cache_key v9-dependency-npm-{{ checksum "yarn.lock" }}
 
-  restore_node_modules: &restore_node_modules
-    restore_cache:
-      keys:
-        - *npm_cache_key
-        - v9-dependency-npm
-
-  restore_repo: &restore_repo
-    restore_cache:
-      keys:
-        - v9-repo-{{ .Branch }}-{{ .Revision }}
-        - v9-repo-{{ .Branch }}
-        - v9-repo
-
 jobs:
   pull_code:
     <<: *container_config
     steps:
-      - *restore_repo
       - checkout
       - save_cache:
           key: v9-repo-{{ .Branch }}-{{ .Revision }}
@@ -40,8 +26,6 @@ jobs:
   npm_install:
     <<: *container_config
     steps:
-      - *restore_repo
-      - *restore_node_modules
       - run:
           name: Install App Dependencies
           command: sudo npm install -g yarn@1.12.1 && yarn --frozen-lockfile
