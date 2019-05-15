@@ -22,7 +22,7 @@ jobs:
     steps:
       - run:
           name: Install App Dependencies
-          command: sudo npm install -g yarn@1.12.1 && yarn --frozen-lockfile
+          command: sudo npm install -g yarn@1.12.1 && yarn
       - persist_to_workspace:
           root: /home/circleci
           paths:
