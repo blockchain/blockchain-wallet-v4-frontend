@@ -102,6 +102,6 @@
     "scryptsy": "2.0.0",
     "seedrandom": "2.4.3",
     "stellar-sdk": "0.15.0",
-    "unorm": "1.4.1"
+    "unorm": "1.5.0"
   }
 }
