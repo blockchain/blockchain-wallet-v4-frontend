@@ -76,7 +76,7 @@ export default (state = INITIAL_STATE, action) => {
       let addCoin = assocPath([coin], account)
       return over(valueLens, addCoin, state)
     }
-    case AT.SET_LATEST_TX_ETH: {
+    case AT.SET_LATEST_TX_ETH_LOCKBOX: {
       const { deviceIndex, txHash } = payload
       let valueLens = compose(
         mapped,
@@ -87,7 +87,7 @@ export default (state = INITIAL_STATE, action) => {
       let setTx = assocPath(['eth', 'last_tx'], txHash)
       return over(valueLens, setTx, state)
     }
-    case AT.SET_LATEST_TX_TIMESTAMP_ETH: {
+    case AT.SET_LATEST_TX_TIMESTAMP_ETH_LOCKBOX: {
       const { deviceIndex, timestamp } = payload
       let valueLens = compose(
         mapped,

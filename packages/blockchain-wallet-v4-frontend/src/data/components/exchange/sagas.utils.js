@@ -224,11 +224,19 @@ export default ({ coreSagas, networks }) => {
       throw CREATE_ACCOUNT_ERROR
   }
 
-  const updateLatestEthTrade = function * (txId) {
+  const updateLatestEthTrade = function * (txId, sourceType) {
     // Update metadata
-    yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
-    yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
-    yield put(actions.core.kvStore.eth.setLatestTxEth(txId))
+    if (ADDRESS_TYPES.LOCKBOX === sourceType) {
+      yield put(
+        actions.core.kvStore.lockbox.setLatestTxTimestampEthLockbox(Date.now())
+      )
+      yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_LOCKBOX_SUCCESS)
+      yield put(actions.core.kvStore.lockbox.setLatestTxEthLockbox(txId))
+    } else {
+      yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
+      yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
+      yield put(actions.core.kvStore.eth.setLatestTxEth(txId))
+    }
   }
 
   return {
