@@ -80,23 +80,23 @@ describe('btc data sagas', () => {
         .isDone()
     })
 
-    // describe('state change', () => {
-    //   it('should add btc data to the state', () => {
-    //     return expectSaga(dataBtcSagas.fetchData)
-    //       .withReducer(reducers)
-    //       .provide([[select(S.getContext), mockContext]])
-    //       .run()
-    //       .then(result => {
-    //         expect(result.storeState.btc).toMatchObject({
-    //           addresses: Remote.Success(
-    //             indexBy(prop('address'), prop('addresses', btcFetchData))
-    //           ),
-    //           info: Remote.Success(btcFetchData.wallet),
-    //           latest_block: Remote.Success(btcFetchData.info.latest_block)
-    //         })
-    //       })
-    //   })
-    // })
+    describe('state change', () => {
+      it('should add btc data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchData)
+          .withReducer(reducers)
+          .provide([[select(S.getContext), mockContext]])
+          .run()
+          .then(result => {
+            expect(result.storeState.btc).toMatchObject({
+              addresses: Remote.Success(
+                indexBy(prop('address'), prop('addresses', btcFetchData))
+              ),
+              info: Remote.Success(btcFetchData.wallet),
+              latest_block: Remote.Success(btcFetchData.info.latest_block)
+            })
+          })
+      })
+    })
   })
 
   describe('fetchRates', () => {
