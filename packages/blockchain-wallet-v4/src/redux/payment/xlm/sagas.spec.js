@@ -116,7 +116,7 @@ jest
 
 const { create } = createPaymentFactory({ api })
 
-describe('payment', () => {
+describe.skip('payment', () => {
   let payment = create()
 
   beforeEach(() => {
@@ -134,340 +134,340 @@ describe('payment', () => {
     })
   })
 
-  // describe('from', () => {
-  //   it('should set default "from" data and effective balance', async () => {
-  //     payment = await expectSaga(payment.from)
-  //       .run()
-  //       .then(prop('returnValue'))
-  //     expect(payment.value().from).toEqual({
-  //       type: ADDRESS_TYPES.ACCOUNT,
-  //       address: DEFAULT_ACCOUNT_ID,
-  //       account: STUB_DEFAULT_ACCOUNT
-  //     })
-  //     expect(payment.value().effectiveBalance).toEqual(
-  //       String(STUB_EFFECTIVE_BALANCE)
-  //     )
-  //   })
+  describe('from', () => {
+    it('should set default "from" data and effective balance', async () => {
+      payment = await expectSaga(payment.from)
+        .run()
+        .then(prop('returnValue'))
+      expect(payment.value().from).toEqual({
+        type: ADDRESS_TYPES.ACCOUNT,
+        address: DEFAULT_ACCOUNT_ID,
+        account: STUB_DEFAULT_ACCOUNT
+      })
+      expect(payment.value().effectiveBalance).toEqual(
+        String(STUB_EFFECTIVE_BALANCE)
+      )
+    })
 
-  //   it('should set "from" data and effectiveBalance from specific account', async () => {
-  //     const otherPayment = await expectSaga(payment.from, OTHER_ACCOUNT_ID)
-  //       .run()
-  //       .then(prop('returnValue'))
-  //     expect(otherPayment.value().from).toEqual({
-  //       type: ADDRESS_TYPES.ACCOUNT,
-  //       address: OTHER_ACCOUNT_ID,
-  //       account: STUB_OTHER_ACCOUNT
-  //     })
-  //     expect(otherPayment.value().effectiveBalance).toEqual(
-  //       String(STUB_OTHER_EFFECTIVE_BALANCE)
-  //     )
-  //   })
+    it('should set "from" data and effectiveBalance from specific account', async () => {
+      const otherPayment = await expectSaga(payment.from, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
+      expect(otherPayment.value().from).toEqual({
+        type: ADDRESS_TYPES.ACCOUNT,
+        address: OTHER_ACCOUNT_ID,
+        account: STUB_OTHER_ACCOUNT
+      })
+      expect(otherPayment.value().effectiveBalance).toEqual(
+        String(STUB_OTHER_EFFECTIVE_BALANCE)
+      )
+    })
 
-  //   it('should set non-default type', async () => {
-  //     const otherPayment = await expectSaga(
-  //       payment.from,
-  //       undefined,
-  //       ADDRESS_TYPES.LOCKBOX
-  //     )
-  //       .run()
-  //       .then(prop('returnValue'))
+    it('should set non-default type', async () => {
+      const otherPayment = await expectSaga(
+        payment.from,
+        undefined,
+        ADDRESS_TYPES.LOCKBOX
+      )
+        .run()
+        .then(prop('returnValue'))
 
-  //     expect(otherPayment.value().from.type).toBe(ADDRESS_TYPES.LOCKBOX)
-  //   })
+      expect(otherPayment.value().from.type).toBe(ADDRESS_TYPES.LOCKBOX)
+    })
 
-  //   it('should throw if no account id is available', () => {
-  //     S.kvStore.xlm.getDefaultAccountId.mockReturnValueOnce(Remote.NotAsked)
-  //     return expect(expectSaga(payment.from).run()).rejects.toThrowError(
-  //       new Error(NO_DEFAULT_ACCOUNT_ERROR)
-  //     )
-  //   })
+    it('should throw if no account id is available', () => {
+      S.kvStore.xlm.getDefaultAccountId.mockReturnValueOnce(Remote.NotAsked)
+      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+        new Error(NO_DEFAULT_ACCOUNT_ERROR)
+      )
+    })
 
-  //   it('should throw if no account is available', () => {
-  //     S.data.xlm.getAccount.mockReturnValueOnce(() => Remote.NotAsked)
-  //     return expect(expectSaga(payment.from).run()).rejects.toThrowError(
-  //       new Error(NO_ACCOUNT_ERROR)
-  //     )
-  //   })
+    it('should throw if no account is available', () => {
+      S.data.xlm.getAccount.mockReturnValueOnce(() => Remote.NotAsked)
+      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+        new Error(NO_ACCOUNT_ERROR)
+      )
+    })
 
-  //   it('should throw if address type is invalid', () => {
-  //     return expect(
-  //       expectSaga(payment.from, undefined, ADDRESS_TYPES.LOCKBOX + '1').run()
-  //     ).rejects.toThrowError(new Error(INVALID_ADDRESS_TYPE_ERROR))
-  //   })
+    it('should throw if address type is invalid', () => {
+      return expect(
+        expectSaga(payment.from, undefined, ADDRESS_TYPES.LOCKBOX + '1').run()
+      ).rejects.toThrowError(new Error(INVALID_ADDRESS_TYPE_ERROR))
+    })
 
-  //   it('should throw if no account balance is available', () => {
-  //     S.data.xlm.getBalance.mockReturnValueOnce(() => Remote.NotAsked)
-  //     return expect(expectSaga(payment.from).run()).rejects.toThrowError(
-  //       new Error(NO_ACCOUNT_ERROR)
-  //     )
-  //   })
-  // })
+    it('should throw if no account balance is available', () => {
+      S.data.xlm.getBalance.mockReturnValueOnce(() => Remote.NotAsked)
+      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+        new Error(NO_ACCOUNT_ERROR)
+      )
+    })
+  })
 
-  // describe('to', () => {
-  //   it('should set destination', () => {
-  //     payment = payment.to(OTHER_ACCOUNT_ID)
-  //     expect(payment.value().to).toEqual({
-  //       address: OTHER_ACCOUNT_ID,
-  //       type: ADDRESS_TYPES.ADDRESS
-  //     })
-  //   })
+  describe('to', () => {
+    it('should set destination', () => {
+      payment = payment.to(OTHER_ACCOUNT_ID)
+      expect(payment.value().to).toEqual({
+        address: OTHER_ACCOUNT_ID,
+        type: ADDRESS_TYPES.ADDRESS
+      })
+    })
 
-  //   it('should set custom address type', () => {
-  //     const otherPayment = payment.to({
-  //       address: OTHER_ACCOUNT_ID,
-  //       type: ADDRESS_TYPES.LOCKBOX
-  //     })
-  //     expect(otherPayment.value().to).toEqual({
-  //       address: OTHER_ACCOUNT_ID,
-  //       type: ADDRESS_TYPES.LOCKBOX
-  //     })
-  //   })
+    it('should set custom address type', () => {
+      const otherPayment = payment.to({
+        address: OTHER_ACCOUNT_ID,
+        type: ADDRESS_TYPES.LOCKBOX
+      })
+      expect(otherPayment.value().to).toEqual({
+        address: OTHER_ACCOUNT_ID,
+        type: ADDRESS_TYPES.LOCKBOX
+      })
+    })
 
-  //   it('should throw if address type is invalid', () => {
-  //     try {
-  //       expectSaga(payment.to, {
-  //         address: OTHER_ACCOUNT_ID,
-  //         type: ADDRESS_TYPES.LOCKBOX + '1'
-  //       }).run()
-  //     } catch (e) {
-  //       expect(e).toEqual(new Error(INVALID_ADDRESS_TYPE_ERROR))
-  //     }
-  //   })
+    it('should throw if address type is invalid', () => {
+      try {
+        expectSaga(payment.to, {
+          address: OTHER_ACCOUNT_ID,
+          type: ADDRESS_TYPES.LOCKBOX + '1'
+        }).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(INVALID_ADDRESS_TYPE_ERROR))
+      }
+    })
 
-  //   it('should throw if address is invalid', () => {
-  //     try {
-  //       expectSaga(payment.to, {
-  //         address: OTHER_ACCOUNT_ID + '1',
-  //         type: ADDRESS_TYPES.LOCKBOX
-  //       }).run()
-  //     } catch (e) {
-  //       expect(e).toEqual(new Error(INVALID_ADDRESS_ERROR))
-  //     }
-  //   })
-  // })
+    it('should throw if address is invalid', () => {
+      try {
+        expectSaga(payment.to, {
+          address: OTHER_ACCOUNT_ID + '1',
+          type: ADDRESS_TYPES.LOCKBOX
+        }).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(INVALID_ADDRESS_ERROR))
+      }
+    })
+  })
 
-  // describe('amount', () => {
-  //   it('should set amount', () => {
-  //     payment = payment.amount(STUB_AMOUNT)
-  //     expect(payment.value().amount).toBe(STUB_AMOUNT)
-  //   })
+  describe('amount', () => {
+    it('should set amount', () => {
+      payment = payment.amount(STUB_AMOUNT)
+      expect(payment.value().amount).toBe(STUB_AMOUNT)
+    })
 
-  //   it('should throw if amount is negative', () => {
-  //     expect(payment.amount.bind(null, -1)).toThrowError(
-  //       new Error(INVALID_AMOUNT_ERROR)
-  //     )
-  //   })
+    it('should throw if amount is negative', () => {
+      expect(payment.amount.bind(null, -1)).toThrowError(
+        new Error(INVALID_AMOUNT_ERROR)
+      )
+    })
 
-  //   it('should throw if amount is bigger than effective balance', () => {
-  //     expect(
-  //       payment.amount.bind(
-  //         null,
-  //         Number(payment.value().effectiveBalance) +
-  //           Number(payment.value().reserve) +
-  //           1
-  //       )
-  //     ).toThrowError(new Error(INSUFFICIENT_FUNDS_ERROR))
-  //   })
+    it('should throw if amount is bigger than effective balance', () => {
+      expect(
+        payment.amount.bind(
+          null,
+          Number(payment.value().effectiveBalance) +
+            Number(payment.value().reserve) +
+            1
+        )
+      ).toThrowError(new Error(INSUFFICIENT_FUNDS_ERROR))
+    })
 
-  //   it('should throw if amount leaves less balance than reserve', () => {
-  //     expect(
-  //       payment.amount.bind(null, Number(payment.value().effectiveBalance) + 1)
-  //     ).toThrowError(new Error(RESERVE_ERROR))
-  //   })
-  // })
+    it('should throw if amount leaves less balance than reserve', () => {
+      expect(
+        payment.amount.bind(null, Number(payment.value().effectiveBalance) + 1)
+      ).toThrowError(new Error(RESERVE_ERROR))
+    })
+  })
 
-  // describe('description', () => {
-  //   it('should add a description', () => {
-  //     payment = payment.description(STUB_DESCRIPTION)
-  //     expect(payment.value().description).toBe(STUB_DESCRIPTION)
-  //   })
-  // })
+  describe('description', () => {
+    it('should add a description', () => {
+      payment = payment.description(STUB_DESCRIPTION)
+      expect(payment.value().description).toBe(STUB_DESCRIPTION)
+    })
+  })
 
-  // describe('memo', () => {
-  //   it('should add memo', () => {
-  //     payment = payment.memo(STUB_TEXT_MEMO)
-  //     expect(payment.value().memo).toBe(STUB_TEXT_MEMO)
-  //   })
+  describe('memo', () => {
+    it('should add memo', () => {
+      payment = payment.memo(STUB_TEXT_MEMO)
+      expect(payment.value().memo).toBe(STUB_TEXT_MEMO)
+    })
 
-  //   it('should throw if memo is not text', () => {
-  //     expect(payment.memo.bind(null, 123)).toThrowError(
-  //       new Error(WRONG_MEMO_FORMAT)
-  //     )
-  //     expect(payment.memo.bind(null, {})).toThrowError(
-  //       new Error(WRONG_MEMO_FORMAT)
-  //     )
-  //   })
-  // })
+    it('should throw if memo is not text', () => {
+      expect(payment.memo.bind(null, 123)).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+      expect(payment.memo.bind(null, {})).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+    })
+  })
 
-  // describe('memoType', () => {
-  //   it('should add memo type', () => {
-  //     payment = payment.memoType(MEMO_TEXT)
-  //     expect(payment.value().memoType).toBe(MEMO_TEXT)
-  //   })
+  describe('memoType', () => {
+    it('should add memo type', () => {
+      payment = payment.memoType(MEMO_TEXT)
+      expect(payment.value().memoType).toBe(MEMO_TEXT)
+    })
 
-  //   it('should throw if memo type is wrong', () => {
-  //     expect(payment.memoType.bind(null, MEMO_TEXT + 1)).toThrowError(
-  //       new Error(WRONG_MEMO_FORMAT)
-  //     )
-  //   })
-  // })
+    it('should throw if memo type is wrong', () => {
+      expect(payment.memoType.bind(null, MEMO_TEXT + 1)).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+    })
+  })
 
-  // describe('build', () => {
-  //   it('should build transaction', async () => {
-  //     payment = await expectSaga(payment.build)
-  //       .run()
-  //       .then(prop('returnValue'))
-  //     expect(StellarSdk.Operation.payment).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
-  //       destination: OTHER_ACCOUNT_ID,
-  //       asset: StellarSdk.Asset.native(),
-  //       amount: convertXlmToXlm({
-  //         value: STUB_AMOUNT,
-  //         fromUnit: 'STROOP',
-  //         toUnit: 'XLM'
-  //       }).value
-  //     })
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.addOperation
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.build
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.addMemo
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(payment.value().transaction).toBe(STUB_TX)
-  //   })
-  //   it('should build transaction with createAccount operation if destination account does not exist', async () => {
-  //     api.getXlmAccount.mockRejectedValueOnce('')
-  //     let otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
-  //       .run()
-  //       .then(prop('returnValue'))
-  //     otherPayment = await expectSaga(otherPayment.build)
-  //       .run()
-  //       .then(prop('returnValue'))
-  //     expect(StellarSdk.Operation.createAccount).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Operation.createAccount).toHaveBeenCalledWith({
-  //       destination: OTHER_ACCOUNT_ID,
-  //       startingBalance: convertXlmToXlm({
-  //         value: STUB_AMOUNT,
-  //         fromUnit: 'STROOP',
-  //         toUnit: 'XLM'
-  //       }).value
-  //     })
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.addOperation
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.build
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
-  //     expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
-  //     expect(
-  //       StellarSdk.TransactionBuilder.prototype.addMemo
-  //     ).toHaveBeenCalledTimes(1)
-  //     expect(otherPayment.value().transaction).toBe(STUB_TX)
-  //   })
-  // it('should call memo id if it was set as memo type', async () => {
-  //   let otherPayment = payment.memoType(MEMO_ID)
-  //   otherPayment = otherPayment.memo(STUB_ID_MEMO)
-  //   StellarSdk.Memo.id.mockClear()
-  //   await expectSaga(otherPayment.build)
-  //     .run()
-  //     .then(prop('returnValue'))
-  //   expect(StellarSdk.Memo.id).toHaveBeenCalledTimes(1)
-  //   expect(StellarSdk.Memo.id).toHaveBeenCalledWith(STUB_ID_MEMO)
-  // })
-  // it('should not call memo if it was not set', async () => {
-  //   let otherPayment = payment.memo('')
-  //   StellarSdk.Memo.text.mockClear()
-  //   await expectSaga(otherPayment.build)
-  //     .run()
-  //     .then(prop('returnValue'))
-  //   expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(0)
-  // })
-  // it('should throw if source account is not set', () => {
-  //   try {
-  //     const otherPayment = create({
-  //       payment: dissocPath(['from', 'account'], payment.value())
-  //     })
-  //     expectSaga(otherPayment.build).run()
-  //   } catch (e) {
-  //     expect(e).toEqual(new Error(NO_SOURCE_ERROR))
-  //   }
-  // })
-  // it('should throw if destination address is not set', () => {
-  //   try {
-  //     const otherPayment = create({
-  //       payment: dissocPath(['to', 'address'], payment.value())
-  //     })
-  //     expectSaga(otherPayment.build).run()
-  //   } catch (e) {
-  //     expect(e).toEqual(new Error(NO_DESTINATION_ERROR))
-  //   }
-  // })
-  // it('should throw if amount is not set', () => {
-  //   try {
-  //     const otherPayment = create({
-  //       payment: dissoc('amount', payment.value())
-  //     })
-  //     expectSaga(otherPayment.build).run()
-  //   } catch (e) {
-  //     expect(e).toEqual(new Error(NO_AMOUNT_ERROR))
-  //   }
-  // })
-  // })
+  describe('build', () => {
+    it('should build transaction', async () => {
+      payment = await expectSaga(payment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Operation.payment).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
+        destination: OTHER_ACCOUNT_ID,
+        asset: StellarSdk.Asset.native(),
+        amount: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
+      })
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addOperation
+      ).toHaveBeenCalledTimes(1)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
+      ).toHaveBeenCalledTimes(1)
+      expect(payment.value().transaction).toBe(STUB_TX)
+    })
+    it('should build transaction with createAccount operation if destination account does not exist', async () => {
+      api.getXlmAccount.mockRejectedValueOnce('')
+      let otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
+      otherPayment = await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledWith({
+        destination: OTHER_ACCOUNT_ID,
+        startingBalance: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
+      })
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addOperation
+      ).toHaveBeenCalledTimes(1)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
+      ).toHaveBeenCalledTimes(1)
+      expect(otherPayment.value().transaction).toBe(STUB_TX)
+    })
+    it('should call memo id if it was set as memo type', async () => {
+      let otherPayment = payment.memoType(MEMO_ID)
+      otherPayment = otherPayment.memo(STUB_ID_MEMO)
+      StellarSdk.Memo.id.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.id).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.id).toHaveBeenCalledWith(STUB_ID_MEMO)
+    })
+    it('should not call memo if it was not set', async () => {
+      let otherPayment = payment.memo('')
+      StellarSdk.Memo.text.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(0)
+    })
+    it('should throw if source account is not set', () => {
+      try {
+        const otherPayment = create({
+          payment: dissocPath(['from', 'account'], payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_SOURCE_ERROR))
+      }
+    })
+    it('should throw if destination address is not set', () => {
+      try {
+        const otherPayment = create({
+          payment: dissocPath(['to', 'address'], payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_DESTINATION_ERROR))
+      }
+    })
+    it('should throw if amount is not set', () => {
+      try {
+        const otherPayment = create({
+          payment: dissoc('amount', payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_AMOUNT_ERROR))
+      }
+    })
+  })
 
-  // describe('sign', () => {
-  // it('should set signed tx', async () => {
-  //   payment = await expectSaga(payment.sign, STUB_PASSWORD)
-  //     .run()
-  //     .then(prop('returnValue'))
-  //   expect(S.wallet.getMnemonic).toHaveBeenCalledTimes(1)
-  //   expect(S.wallet.getMnemonic.mock.calls[0][1]).toBe(STUB_PASSWORD)
-  //   expect(xlmSigner.sign).toHaveBeenCalledTimes(1)
-  //   expect(xlmSigner.sign).toHaveBeenCalledWith(
-  //     { transaction: STUB_TX },
-  //     STUB_MNEMONIC
-  //   )
-  //   expect(payment.value().signed).toBe(STUB_SIGNED_TX)
-  // })
-  // it('should throw if payment has no transaction', () => {
-  //   const otherPayment = create({
-  //     payment: dissoc('transaction', payment.value())
-  //   })
-  //   try {
-  //     expectSaga(otherPayment.sign, STUB_PASSWORD).run()
-  //   } catch (e) {
-  //     expect(e).toEqual(new Error(NO_TX_ERROR))
-  //   }
-  // })
-  // })
+  describe('sign', () => {
+    it('should set signed tx', async () => {
+      payment = await expectSaga(payment.sign, STUB_PASSWORD)
+        .run()
+        .then(prop('returnValue'))
+      expect(S.wallet.getMnemonic).toHaveBeenCalledTimes(1)
+      expect(S.wallet.getMnemonic.mock.calls[0][1]).toBe(STUB_PASSWORD)
+      expect(xlmSigner.sign).toHaveBeenCalledTimes(1)
+      expect(xlmSigner.sign).toHaveBeenCalledWith(
+        { transaction: STUB_TX },
+        STUB_MNEMONIC
+      )
+      expect(payment.value().signed).toBe(STUB_SIGNED_TX)
+    })
+    it('should throw if payment has no transaction', () => {
+      const otherPayment = create({
+        payment: dissoc('transaction', payment.value())
+      })
+      try {
+        expectSaga(otherPayment.sign, STUB_PASSWORD).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_TX_ERROR))
+      }
+    })
+  })
 
-  // describe('publish', () => {
-  //   it('should set signed tx', async () => {
-  //     try {
-  //       payment = await expectSaga(payment.publish)
-  //         .run()
-  //         .then(prop('returnValue'))
-  //       expect(api.pushXlmTx).toHaveBeenCalledTimes(1)
-  //       expect(api.pushXlmTx).toHaveBeenCalledWith(STUB_SIGNED_TX)
-  //       expect(settingsSagas.setLastTxTime).toHaveBeenCalledTimes(1)
-  //       expect(payment.value().txId).toBe(STUB_TX_RESULT.hash)
-  //     } catch (e) {}
-  //   })
+  describe('publish', () => {
+    it('should set signed tx', async () => {
+      try {
+        payment = await expectSaga(payment.publish)
+          .run()
+          .then(prop('returnValue'))
+        expect(api.pushXlmTx).toHaveBeenCalledTimes(1)
+        expect(api.pushXlmTx).toHaveBeenCalledWith(STUB_SIGNED_TX)
+        expect(settingsSagas.setLastTxTime).toHaveBeenCalledTimes(1)
+        expect(payment.value().txId).toBe(STUB_TX_RESULT.hash)
+      } catch (e) {}
+    })
 
-  //   it('should throw if payment has no signed transaction', () => {
-  //     const otherPayment = create({
-  //       payment: dissoc('signed', payment.value())
-  //     })
-  //     try {
-  //       expectSaga(otherPayment.sign, STUB_PASSWORD).run()
-  //     } catch (e) {
-  //       expect(e).toEqual(new Error(NO_SIGNED_ERROR))
-  //     }
-  //   })
-  // })
+    it('should throw if payment has no signed transaction', () => {
+      const otherPayment = create({
+        payment: dissoc('signed', payment.value())
+      })
+      try {
+        expectSaga(otherPayment.sign, STUB_PASSWORD).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_SIGNED_ERROR))
+      }
+    })
+  })
 })
