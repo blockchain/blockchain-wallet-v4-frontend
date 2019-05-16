@@ -233,11 +233,7 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
     </ExchangeByBlockchain__DarkText>
   </WhatsNew__Row>
   <WhatsNew__Row>
-    <LinkContainer
-      activeClassName="active"
-      exact={false}
-      replace={false}
-      strict={false}
+    <withRouter(LinkContainer)
       to="/swap"
     >
       <ExchangeByBlockchain__GetStartedButton>
@@ -247,7 +243,7 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
           values={Object {}}
         />
       </ExchangeByBlockchain__GetStartedButton>
-    </LinkContainer>
+    </withRouter(LinkContainer)>
   </WhatsNew__Row>
 </WhatsNew__Container>
 `;

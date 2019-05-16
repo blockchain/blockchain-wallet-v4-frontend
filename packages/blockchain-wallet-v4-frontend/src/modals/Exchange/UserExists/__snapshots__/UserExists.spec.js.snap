@@ -50,11 +50,7 @@ exports[`User Exists modal Renders correctly 1`] = `
     </UserExists__Row>
   </ModalBody>
   <UserExists__Footer>
-    <LinkContainer
-      activeClassName="active"
-      exact={false}
-      replace={false}
-      strict={false}
+    <withRouter(LinkContainer)
       to="/security-center"
     >
       <Button
@@ -75,7 +71,7 @@ exports[`User Exists modal Renders correctly 1`] = `
           values={Object {}}
         />
       </Button>
-    </LinkContainer>
+    </withRouter(LinkContainer)>
   </UserExists__Footer>
 </Modal>
 `;

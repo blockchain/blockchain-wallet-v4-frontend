@@ -1,11 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GetStarted renders correctly 1`] = `
-<LinkContainer
-  activeClassName="active"
-  exact={false}
-  replace={false}
-  strict={false}
+<withRouter(LinkContainer)
   to="/swap/profile"
 >
   <GetStarted__ActionButton>
@@ -15,5 +11,5 @@ exports[`GetStarted renders correctly 1`] = `
       values={Object {}}
     />
   </GetStarted__ActionButton>
-</LinkContainer>
+</withRouter(LinkContainer)>
 `;

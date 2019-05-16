@@ -34,11 +34,7 @@ exports[`EmailRequired component renders correctly 1`] = `
         values={Object {}}
       />
     </Text>
-    <LinkContainer
-      activeClassName="active"
-      exact={false}
-      replace={false}
-      strict={false}
+    <withRouter(LinkContainer)
       to={
         Object {
           "pathname": "/security-center",
@@ -62,7 +58,7 @@ exports[`EmailRequired component renders correctly 1`] = `
           values={Object {}}
         />
       </Link>
-    </LinkContainer>
+    </withRouter(LinkContainer)>
   </TextGroup>
 </EmailRequired__Wrapper>
 `;

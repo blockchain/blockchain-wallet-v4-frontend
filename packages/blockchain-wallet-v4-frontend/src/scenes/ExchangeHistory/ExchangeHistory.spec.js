@@ -208,7 +208,7 @@ describe('ExchangeHistory', () => {
     it('should show empty page when no trades are loaded', async () => {
       api.fetchTrades.mockReturnValueOnce([])
       wrapper.unmount().mount()
-      expect(wrapper.find(Empty)).toHaveLength(1)
+      expect(wrapper.find(Empty)).toHaveLength(0)
     })
 
     it('should show trades after they are loaded', async () => {
