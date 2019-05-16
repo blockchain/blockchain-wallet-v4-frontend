@@ -26,12 +26,15 @@ class MenuLeftContainer extends React.PureComponent {
     if (Remote.Success.is(this.props.abTest)) return
     this.props.analyticsActions.createABTest(AB_TESTS.SWAP_OR_TRADE_TEST)
     window.addEventListener('message', this.receiveMatomoMessage, false)
-    // SwapOrTradeTest local testing without wallet-helper
-    if (window.location.hostname === 'localhost')
-      this.props.analyticsActions.createABTestSuccess(
-        AB_TESTS.SWAP_OR_TRADE_TEST,
-        'original'
-      )
+    // Fallback if a/b test can not be created
+    setTimeout(() => {
+      if (!Remote.Success.is(this.props.abTest)) {
+        this.props.analyticsActions.createABTestSuccess(
+          AB_TESTS.SWAP_OR_TRADE_TEST,
+          'original'
+        )
+      }
+    }, 1000)
   }
 
   componentDidUpdate () {
