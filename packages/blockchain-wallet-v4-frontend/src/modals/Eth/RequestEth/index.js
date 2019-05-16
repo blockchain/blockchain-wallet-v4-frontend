@@ -41,12 +41,13 @@ class RequestEthContainer extends React.PureComponent {
     } else if (coin === 'PAX' && prevProps.coin !== coin) {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
-        coin,
+        coin: 'PAX',
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'ETH' && prevProps.coin !== coin) {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin: 'ETH',
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (this.props.initialValues.coin !== prevProps.initialValues.coin) {
@@ -76,29 +77,17 @@ class RequestEthContainer extends React.PureComponent {
   }
 
   render () {
-    const {
-      coin,
-      coins,
-      closeAll,
-      data,
-      position,
-      total,
-      selection,
-      supportedCoins
-    } = this.props
+    const { coin, closeAll, data, position, total, supportedCoins } = this.props
     const content = data.cata({
       Success: val => (
         <Success
-          {...this.props}
-          type={val.type}
-          coin={coin}
-          coins={coins}
-          closeAll={closeAll}
-          selection={selection}
           address={val.address}
-          onSubmit={this.onSubmit}
-          handleOpenLockbox={this.handleOpenLockbox}
+          coin={coin}
           excludeLockbox={val.excludeLockbox}
+          handleOpenLockbox={this.handleOpenLockbox}
+          isErc20={supportedCoins[coin].contractAddress}
+          onSubmit={this.onSubmit}
+          type={val.type}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -108,7 +97,7 @@ class RequestEthContainer extends React.PureComponent {
 
     return (
       <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='download2' onClose={closeAll}>
+        <ModalHeader icon='request' onClose={closeAll}>
           <FormattedHTMLMessage
             id='modals.requesteth.title'
             defaultMessage='Request {displayName}'

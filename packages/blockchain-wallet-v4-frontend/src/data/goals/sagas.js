@@ -322,29 +322,6 @@ export default ({ api }) => {
     }
   }
 
-  const runBsvGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
-    const hasSeen = hasSeenR.getOrElse(false)
-    if (hasSeen) return
-
-    yield put(actions.core.data.bsv.fetchData())
-    yield take([
-      actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS,
-      actionTypes.core.data.bsv.FETCH_BSV_DATA_FAILURE
-    ])
-
-    const balanceR = yield select(selectors.core.data.bsv.getBalance)
-    const balance = balanceR.getOrElse(0)
-
-    yield put(actions.core.data.bsv.resetData())
-    if (balance > 0) {
-      yield put(actions.core.kvStore.bsv.setHasSeen())
-      yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
-    }
-  }
-
   const runPaxGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -400,7 +377,6 @@ export default ({ api }) => {
       swapUpgrade,
       airdropClaim,
       pax,
-      bsv,
       welcome
     } = initialModals
     if (kycDocResubmit) {
@@ -443,9 +419,6 @@ export default ({ api }) => {
     if (pax) {
       return yield put(actions.modals.showModal(pax.name))
     }
-    if (bsv) {
-      return yield put(actions.modals.showModal(bsv.name))
-    }
     if (welcome) {
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
     }
@@ -487,9 +460,6 @@ export default ({ api }) => {
         case 'pax':
           yield call(runPaxGoal, goal)
           break
-        case 'bsv':
-          yield call(runBsvGoal, goal)
-          break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
           break
@@ -518,7 +488,6 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runBsvGoal,
     runPaxGoal,
     runWelcomeGoal,
     runReferralGoal,

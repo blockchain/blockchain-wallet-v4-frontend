@@ -12,7 +12,7 @@ const Success = props => {
     <Wrapper>
       <Text
         size='36px'
-        weight={500}
+        weight={400}
         color='brand-primary'
         data-e2e={props['data-e2e']}
       >

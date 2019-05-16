@@ -11,12 +11,10 @@ import { Exchange } from 'blockchain-wallet-v4'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
-const PROVISIONAL_BSV_SCRIPT = '0000000000000000000000000'
 export default ({ coreSagas, networks }) => {
   const logLocation = 'components/exchange/sagas.utils'
   const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
   const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
-  const bsvOptions = [networks.bsv, PROVISIONAL_BSV_SCRIPT]
   const ethOptions = [networks.eth, null]
   const xlmOptions = [null, null]
   let prevPaymentSource
@@ -55,7 +53,6 @@ export default ({ coreSagas, networks }) => {
         : prop(coin, {
             BTC: btcOptions,
             BCH: bchOptions,
-            BSV: bsvOptions,
             ETH: ethOptions,
             XLM: xlmOptions
           })
@@ -96,12 +93,6 @@ export default ({ coreSagas, networks }) => {
       case 'BCH':
         payment = coreSagas.payment.bch
           .create({ network: networks.bch })
-          .chain()
-          .amount(parseInt(amount))
-        break
-      case 'BSV':
-        payment = coreSagas.payment.bsv
-          .create({ network: networks.bsv })
           .chain()
           .amount(parseInt(amount))
         break
@@ -157,11 +148,6 @@ export default ({ coreSagas, networks }) => {
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
-  const getDefaultBsvAccountValue = function * () {
-    const bsvAccounts = yield select(S.bsvGetActiveAccounts)
-    return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
-  }
-
   const getDefaultBtcAccountValue = function * () {
     const btcAccounts = yield select(S.btcGetActiveAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
@@ -187,8 +173,6 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
-      case 'BSV':
-        return yield call(getDefaultBsvAccountValue)
       case 'BTC':
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':
@@ -240,11 +224,19 @@ export default ({ coreSagas, networks }) => {
       throw CREATE_ACCOUNT_ERROR
   }
 
-  const updateLatestEthTrade = function * (txId) {
+  const updateLatestEthTrade = function * (txId, sourceType) {
     // Update metadata
-    yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
-    yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
-    yield put(actions.core.kvStore.eth.setLatestTxEth(txId))
+    if (ADDRESS_TYPES.LOCKBOX === sourceType) {
+      yield put(
+        actions.core.kvStore.lockbox.setLatestTxTimestampEthLockbox(Date.now())
+      )
+      yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_LOCKBOX_SUCCESS)
+      yield put(actions.core.kvStore.lockbox.setLatestTxEthLockbox(txId))
+    } else {
+      yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
+      yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
+      yield put(actions.core.kvStore.eth.setLatestTxEth(txId))
+    }
   }
 
   return {

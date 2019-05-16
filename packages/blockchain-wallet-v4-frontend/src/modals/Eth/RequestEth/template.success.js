@@ -55,12 +55,13 @@ const BannerContainer = styled.div`
 
 const RequestEth = props => {
   const {
+    address,
     coin,
+    excludeLockbox,
     handleSubmit,
     handleOpenLockbox,
-    address,
-    type,
-    excludeLockbox
+    isErc20,
+    type
   } = props
   const isLockboxAcct = type === 'LOCKBOX'
   const warnLockboxReceive = !(
@@ -108,9 +109,15 @@ const RequestEth = props => {
               id='modals.requesteth.share'
               defaultMessage='Copy & Share Address:'
             />
-            <TooltipHost id='reqEthShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
+            {isErc20 ? (
+              <TooltipHost id='requestpax.shareaddress'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            ) : (
+              <TooltipHost id='requesteth.shareaddress'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            )}
           </FormLabel>
         </FormItem>
         <AddressContainer>
@@ -166,9 +173,15 @@ const RequestEth = props => {
               id='modals.requesteth.scan'
               defaultMessage='Scan QR Code:'
             />
-            <TooltipHost id='reqEthScan'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
+            {isErc20 ? (
+              <TooltipHost id='requestpax.qrcode'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            ) : (
+              <TooltipHost id='requesteth.qrcode'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            )}
           </Text>
         </ScanMessage>
         <QRCodeWrapper

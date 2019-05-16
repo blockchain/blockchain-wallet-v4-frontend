@@ -117,7 +117,8 @@ const TransactionListItem = ({
   transaction,
   buySellPartner,
   handleToggle,
-  handleEditDescription
+  handleEditDescription,
+  onViewTxDetails
 }) => (
   <TransactionRowContainer
     className={isToggled ? 'active' : ''}
@@ -309,6 +310,7 @@ const TransactionListItem = ({
             coin={coin}
             hash={transaction.hash}
             txBlockHeight={transaction.blockHeight}
+            onViewTxDetails={onViewTxDetails}
           />
           {transaction.type !== 'received' && (
             <React.Fragment>

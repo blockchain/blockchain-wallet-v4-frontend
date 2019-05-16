@@ -1,4 +1,4 @@
-import { call, select, put, take } from 'redux-saga/effects'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   equals,
   identity,
@@ -10,7 +10,6 @@ import {
   head,
   toLower
 } from 'ramda'
-import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
@@ -165,7 +164,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const maximumAmountClicked = function * (action) {
     try {
-      const coinCode = prop('coin', action.payload)
+      const coinCode = action.payload
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
@@ -248,7 +247,7 @@ export default ({ api, coreSagas, networks }) => {
         )).getOrFail('missing_device')
         const deviceIndex = prop('device_index', device)
         yield put(
-          actions.core.kvStore.lockbox.setLatestTxTimestampEth(
+          actions.core.kvStore.lockbox.setLatestTxTimestampEthLockbox(
             deviceIndex,
             Date.now()
           )
@@ -257,7 +256,7 @@ export default ({ api, coreSagas, networks }) => {
           actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
         )
         yield put(
-          actions.core.kvStore.lockbox.setLatestTxEth(
+          actions.core.kvStore.lockbox.setLatestTxEthLockbox(
             deviceIndex,
             payment.value().txId
           )

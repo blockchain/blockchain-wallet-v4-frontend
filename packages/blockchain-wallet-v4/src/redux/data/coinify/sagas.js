@@ -1,6 +1,5 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { delay } from 'redux-saga'
-import { apply, call, put, select } from 'redux-saga/effects'
+import { apply, call, delay, put, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as S from './selectors'
 import * as walletActions from '../../wallet/actions'
@@ -351,7 +350,7 @@ export default ({ api, options }) => {
       const kyc = yield select(S.getKyc)
       let status = kyc.map(prop('state')).getOrElse(undefined)
       while (equals(status, 'pending')) {
-        yield call(delay, 1000)
+        yield delay(1000)
         const kycR = yield select(S.getKyc)
         const kyc = kycR.getOrElse(undefined)
         if (!kyc) {

@@ -6,7 +6,7 @@ import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const RequestBtc = props => (
   <Modal size='large' position={props.position} total={props.total}>
-    <ModalHeader icon='download2' onClose={props.closeAll}>
+    <ModalHeader icon='request' onClose={props.closeAll}>
       <FormattedMessage
         id='modals.requestbitcoin.title'
         defaultMessage='Request Bitcoin'

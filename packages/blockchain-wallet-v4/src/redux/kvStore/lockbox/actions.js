@@ -35,12 +35,12 @@ export const addCoinEntry = (deviceIndex, coin, account) => ({
   type: AT.ADD_COIN_ENTRY,
   payload: { deviceIndex, coin, account }
 })
-export const setLatestTxEth = (deviceIndex, txHash) => ({
-  type: AT.SET_LATEST_TX_ETH,
+export const setLatestTxEthLockbox = (deviceIndex, txHash) => ({
+  type: AT.SET_LATEST_TX_ETH_LOCKBOX,
   payload: { deviceIndex, txHash }
 })
-export const setLatestTxTimestampEth = (deviceIndex, timestamp) => ({
-  type: AT.SET_LATEST_TX_TIMESTAMP_ETH,
+export const setLatestTxTimestampEthLockbox = (deviceIndex, timestamp) => ({
+  type: AT.SET_LATEST_TX_TIMESTAMP_ETH_LOCKBOX,
   payload: { deviceIndex, timestamp }
 })
 

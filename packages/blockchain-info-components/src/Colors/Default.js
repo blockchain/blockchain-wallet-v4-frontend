@@ -24,10 +24,11 @@ export default {
   'gray-4': '#757679',
   'gray-5': '#5F5F5F',
   'gray-6': '#383838',
+  'gray-7': '#677185',
   // Whites
   white: '#FFFFFF',
-  'white-blue': '#F5F7F9',
-  silver: '#cecece',
+  'white-blue': '#f0f2f7',
+  silver: '#CECECE',
   porcelain: '#F4F6F7',
   // Blacks
   black: '#000000',
@@ -38,6 +39,7 @@ export default {
   'navy-blue': '#27324B',
   'darkblue-gray': '#222D38',
   'lightblue-gray': '#B1B8C7',
+  blue: '#0c6cf2',
   // Alphas
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
   whiteAlpha75: 'rgba(255,255,255,0.75)',
@@ -52,7 +54,6 @@ export default {
   // Coins
   btc: '#FF9B22',
   bch: '#3EDC89',
-  bsv: '#EAB300',
   eth: '#473BCB',
   pax: '#0C6CF2',
   xlm: '#121D33'

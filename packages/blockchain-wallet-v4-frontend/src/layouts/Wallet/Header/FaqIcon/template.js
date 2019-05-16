@@ -1,7 +1,7 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
 import media from 'services/ResponsiveService'
 import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
@@ -15,10 +15,6 @@ const FaqLink = styled(Link)`
     0,
     ${props => (props.highlighted ? '0.2' : '0')}
   );
-
-  > span:last-child {
-    display: none;
-  }
 
   ${media.mobile`
     background-color: transparent;
@@ -47,11 +43,10 @@ const FaqIcon = props => {
         highlighted={highlighted}
         data-e2e='faqLink'
       >
-        <FormattedMessage id='faq.help' defaultMessage='Help?' />
         <Icon
           id='faq-icon'
-          name='question-in-circle'
-          size='18px'
+          name='question-in-circle-filled'
+          size='22px'
           color='white'
           cursor
         />

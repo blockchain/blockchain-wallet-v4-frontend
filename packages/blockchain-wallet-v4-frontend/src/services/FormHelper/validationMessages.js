@@ -8,16 +8,20 @@ export const AgeOverEighteenMessage = () => (
   />
 )
 export const InvalidBtcAddressMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidbtcaddress'
-    defaultMessage='Invalid Bitcoin address'
-  />
+  <div data-e2e='invalidBtcAddress'>
+    <FormattedMessage
+      id='formhelper.invalidbtcaddress'
+      defaultMessage='Invalid Bitcoin address'
+    />
+  </div>
 )
 export const InvalidBchAddressMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidbchaddress'
-    defaultMessage='Invalid Bitcoin Cash address'
-  />
+  <div data-e2e='invalidBchAddress'>
+    <FormattedMessage
+      id='formhelper.invalidbchaddress'
+      defaultMessage='Invalid Bitcoin Cash address'
+    />
+  </div>
 )
 export const InvalidBtcPrivateKeyMessage = () => (
   <FormattedMessage
@@ -45,16 +49,20 @@ export const InvalidEmailMessage = () => (
 )
 export const ValidEmailNotAllowed = () => 'valid_email_not_allowed'
 export const InvalidEthAddressMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalid_ethereum_address'
-    defaultMessage='Invalid Ethereum address'
-  />
+  <div data-e2e='invalidEthAddress'>
+    <FormattedMessage
+      id='formhelper.invalid_ethereum_address'
+      defaultMessage='Invalid Ethereum address'
+    />
+  </div>
 )
 export const InvalidXlmAddressMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidxlmaddress'
-    defaultMessage='Invalid Stellar address'
-  />
+  <div data-e2e='invalidXlmAddress'>
+    <FormattedMessage
+      id='formhelper.invalidxlmaddress'
+      defaultMessage='Invalid Stellar address'
+    />
+  </div>
 )
 export const InvalidIpListMessage = () => (
   <FormattedMessage
@@ -135,7 +143,9 @@ export const RequiredDOBMessage = () => (
   />
 )
 export const RequiredMessage = () => (
-  <FormattedMessage id='formhelper.required' defaultMessage='Required' />
+  <div data-e2e='requiredMessage'>
+    <FormattedMessage id='formhelper.required' defaultMessage='Required' />
+  </div>
 )
 export const RequiredNumberMessage = () => (
   <FormattedMessage

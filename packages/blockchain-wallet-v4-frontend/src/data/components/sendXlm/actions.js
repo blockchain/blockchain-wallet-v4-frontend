@@ -43,6 +43,21 @@ export const sendXlmCheckDestinationAccountExistsFailure = e => ({
   type: AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_FAILURE,
   payload: e
 })
+export const sendXlmCheckIfDestinationIsExchange = address => ({
+  type: AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE,
+  payload: address
+})
+export const sendXlmCheckIfDestinationIsExchangeLoading = () => ({
+  type: AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_LOADING
+})
+export const sendXlmCheckIfDestinationIsExchangeSuccess = isExchange => ({
+  type: AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_SUCCESS,
+  payload: isExchange
+})
+export const sendXlmCheckIfDestinationIsExchangeFailure = e => ({
+  type: AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_FAILURE,
+  payload: e
+})
 export const firstStepFeeToggled = () => ({
   type: AT.FIRST_STEP_FEE_TOGGLED
 })

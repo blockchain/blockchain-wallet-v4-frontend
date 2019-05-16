@@ -14,22 +14,21 @@ export const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 5px;
+  padding: 8px 5px;
   margin-bottom: 8px;
   box-sizing: border-box;
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
   width: 100%;
-  &:hover {
-    color: ${props => props.theme['marketing-primary']};
-  }
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['gray-4']};
-    &:hover {
-      color: ${props => props.theme['marketing-primary']};
+    color: ${props => props.theme['gray-7']};
+  }
+  &:hover {
+    & > *:not(div) {
+      color: ${props => props.theme['blue']};
     }
   }
   & > span:first-child {
@@ -39,7 +38,7 @@ export const MenuItem = styled.li`
   &.active {
     font-weight: 500;
     & > *:not(div) {
-      color: ${props => props.theme['marketing-primary']};
+      color: ${props => props.theme['blue']};
     }
   }
 `
@@ -67,7 +66,13 @@ export const SubMenuItem = styled.li`
   &.active {
     & > * {
       font-weight: 500;
-      color: ${props => props.theme['marketing-primary']};
+      color: ${props => props.theme['blue']};
+    }
+  }
+
+  &:hover {
+    & > * {
+      color: ${props => props.theme['blue']};
     }
   }
 `

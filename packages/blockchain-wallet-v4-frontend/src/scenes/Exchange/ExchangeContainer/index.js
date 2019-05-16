@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
-
 import ExchangeForm from '../ExchangeForm'
 
 export class ExchangeContainer extends React.PureComponent {

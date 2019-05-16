@@ -38,7 +38,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     color: ${props => props.theme['gray-2']};
     & + div {
       width: 100%;
-      z-index: 2;
+      z-index: 1;
     }
   }
 

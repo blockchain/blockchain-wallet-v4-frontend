@@ -1,14 +1,29 @@
-import { put, select, call } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { actions, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
+  const waitForUserId = function * () {
+    const userId = yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )
+    if (Remote.Success.is(userId)) return userId.getOrElse(null)
+    yield take(
+      actionTypes.core.kvStore.userCredentials
+        .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
+    )
+    return (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse(null)
+  }
+
   const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
@@ -32,6 +47,8 @@ export default ({ api }) => {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
+    const userId = yield call(waitForUserId)
+    if (userId) return userId
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
     const masterhex = BIP39.mnemonicToSeed(mnemonic)
@@ -70,6 +87,18 @@ export default ({ api }) => {
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))
+    }
+  }
+
+  const createABTest = function * (action) {
+    try {
+      const { test } = action.payload
+      yield call(postMessage, {
+        method: 'AbTesting::create',
+        messageData: { name: test }
+      })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logABTest', e))
     }
   }
 
@@ -124,6 +153,7 @@ export default ({ api }) => {
   }
 
   return {
+    createABTest,
     logEvent,
     logPageView,
     logGoal,

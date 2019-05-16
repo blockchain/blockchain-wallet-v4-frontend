@@ -26,37 +26,37 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-export const BSVSupport = () => (
+export const USDPax = () => (
   <Container>
     <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage='Now Supporting Bitcoin SV (BSV)'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv'
+          defaultMessage='A Digital US Dollar in Your Wallet'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one'
         />
       </Text>
     </Row>
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='January 2019'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019'
+          defaultMessage='April 2019'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019'
         />
       </DarkText>
     </Row>
     <Row marginBottom='24px'>
       <DarkText>
         <FormattedMessage
-          defaultMessage='Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings'
+          defaultMessage='USD PAX, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable'
         />
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/settings/addresses/bsv'>
+      <LinkContainer to='/pax/transactions'>
         <GetStartedButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit'
             defaultMessage='Check it Out!'
           />
         </GetStartedButton>
@@ -65,4 +65,4 @@ export const BSVSupport = () => (
   </Container>
 )
 
-export default BSVSupport
+export default USDPax

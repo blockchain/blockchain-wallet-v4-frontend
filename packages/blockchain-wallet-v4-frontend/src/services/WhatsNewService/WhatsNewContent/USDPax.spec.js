@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import BSVSupport from './BSVSupport'
+import USDPax from './USDPax'
 
 jest.mock('blockchain-info-components', () => ({
   Text: 'text',
@@ -10,7 +10,7 @@ jest.mock('blockchain-info-components', () => ({
 
 describe('EmptyContent', () => {
   it('renders correctly', () => {
-    const component = shallow(<BSVSupport />)
+    const component = shallow(<USDPax />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

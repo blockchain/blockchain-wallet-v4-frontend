@@ -127,6 +127,7 @@ const FirstStep = props => {
               name='to'
               placeholder='Paste, scan, or select destination'
               component={SelectBoxBchAddresses}
+              dataE2e='sendBchAddressInput'
               validate={[required, validBchAddress]}
               exclude={[from.label]}
               openMenuOnClick={false}
@@ -172,7 +173,7 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendBch.firststep.share_tooltip'>
-              <TooltipIcon name='question-in-circle' />
+              <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field

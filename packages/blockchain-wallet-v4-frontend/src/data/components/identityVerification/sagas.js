@@ -1,5 +1,4 @@
-import { delay } from 'redux-saga'
-import { call, put, select, take } from 'redux-saga/effects'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, actionTypes, selectors, model } from 'data'

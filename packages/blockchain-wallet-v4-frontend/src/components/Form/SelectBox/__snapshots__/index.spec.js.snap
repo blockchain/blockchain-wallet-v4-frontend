@@ -5,6 +5,7 @@ exports[`SelectBox renders correctly 1`] = `
   position: relative;
   width: 100%;
   height: auto;
+  z-index: initial;
 }
 
 <div

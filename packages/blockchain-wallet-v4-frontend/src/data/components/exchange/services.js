@@ -57,18 +57,17 @@ export const minimum = (val1, val2) => {
   return new BigNumber(val1).isLessThan(val2) ? val1 : val2
 }
 
-export const selectFee = (coin, payment, isSourceErc20) => {
-  if (isSourceErc20 || coin === 'ETH') {
-    return prop('fee', payment)
-  }
+export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':
-      return path(['selection', 'fee'], payment)
-    case 'BSV':
       return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
     case 'XLM':
+      return prop('fee', payment)
+    case 'ETH':
+      return prop('fee', payment)
+    default:
       return prop('fee', payment)
   }
 }

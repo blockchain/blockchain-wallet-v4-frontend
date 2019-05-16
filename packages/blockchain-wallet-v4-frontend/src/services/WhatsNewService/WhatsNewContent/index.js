@@ -1,13 +1,13 @@
 import React from 'react'
 import { prop, contains } from 'ramda'
 import moment from 'moment'
-import BSVSupport from './BSVSupport'
+import USDPax from './USDPax'
 import ExchangeByBlockchain from './ExchangeByBlockchain'
 
 const Announcements = [
   {
-    content: <BSVSupport />,
-    date: new Date('Jan 10 2019'),
+    content: <USDPax />,
+    date: new Date('April 30 2019'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
@@ -36,7 +36,7 @@ export const filterAnnouncements = (lastViewed, userCountry, userKycState) => {
   return Announcements.map(announcement => ({
     content: prop('content', announcement),
     restricted: isRestricted(announcement),
-    display: isAvailableToView(lastViewed, 3),
+    display: isAvailableToView(announcement.date, 30),
     alert: isAvailableToView(announcement.date, 0)
   }))
 }

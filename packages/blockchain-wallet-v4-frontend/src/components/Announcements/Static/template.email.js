@@ -20,6 +20,7 @@ const revealAnimation = css`
 const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 2px;
 `
 const Action = styled(Text)`
   cursor: pointer;
@@ -45,7 +46,11 @@ const EmailReminder = props => {
     <React.Fragment>
       <ItemWrapper>
         <Icon name='email' color='white' weight={600} />
-        <Text style={{ marginLeft: '12px' }} color='white' size='14px'>
+        <Text
+          style={{ marginLeft: '12px', marginBottom: '1px' }}
+          color='white'
+          size='14px'
+        >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder'
             defaultMessage='Confirm your email address to properly secure your account'

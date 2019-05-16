@@ -181,6 +181,7 @@ const FirstStep = props => {
               name='to'
               placeholder='Paste, scan, or select destination'
               component={SelectBoxBtcAddresses}
+              dataE2e='sendBtcAddressInput'
               validate={[required, validBtcAddress]}
               exclude={[from.label]}
               openMenuOnClick={false}
@@ -227,7 +228,7 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendbtc.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' />
+              <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field

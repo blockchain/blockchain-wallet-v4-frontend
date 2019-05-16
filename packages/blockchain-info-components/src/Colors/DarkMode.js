@@ -24,6 +24,7 @@ export default {
   'gray-4': '#444444',
   'gray-5': '#eeeeee',
   'gray-6': '#797979',
+  'gray-7': '#677185',
   // Whites
   white: '#1c1c1c',
   'white-blue': '#0c0c0c',
@@ -38,6 +39,7 @@ export default {
   'navy-blue': '#1F283C',
   'darkblue-gray': '#2C343C',
   'lightblue-gray': '#B1B8C7',
+  blue: '#0c6cf2',
   // Alphas
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
   whiteAlpha75: 'rgba(0,0,0,0.75)',

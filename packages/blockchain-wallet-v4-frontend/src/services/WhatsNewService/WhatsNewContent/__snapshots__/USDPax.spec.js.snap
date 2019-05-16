@@ -11,8 +11,8 @@ exports[`EmptyContent renders correctly 1`] = `
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="Now Supporting Bitcoin SV (BSV)"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
+        defaultMessage="A Digital US Dollar in Your Wallet"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one"
         values={Object {}}
       />
     </text>
@@ -20,26 +20,26 @@ exports[`EmptyContent renders correctly 1`] = `
   <WhatsNew__Row
     marginBottom="24px"
   >
-    <BSVSupport__DarkText
+    <USDPax__DarkText
       size="14px"
     >
       <FormattedMessage
-        defaultMessage="January 2019"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
+        defaultMessage="April 2019"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019"
         values={Object {}}
       />
-    </BSVSupport__DarkText>
+    </USDPax__DarkText>
   </WhatsNew__Row>
   <WhatsNew__Row
     marginBottom="24px"
   >
-    <BSVSupport__DarkText>
+    <USDPax__DarkText>
       <FormattedMessage
-        defaultMessage="Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address."
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
+        defaultMessage="USD PAX, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always."
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable"
         values={Object {}}
       />
-    </BSVSupport__DarkText>
+    </USDPax__DarkText>
   </WhatsNew__Row>
   <WhatsNew__Row>
     <LinkContainer
@@ -47,15 +47,15 @@ exports[`EmptyContent renders correctly 1`] = `
       exact={false}
       replace={false}
       strict={false}
-      to="/settings/addresses/bsv"
+      to="/pax/transactions"
     >
-      <BSVSupport__GetStartedButton>
+      <USDPax__GetStartedButton>
         <FormattedMessage
           defaultMessage="Check it Out!"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit"
           values={Object {}}
         />
-      </BSVSupport__GetStartedButton>
+      </USDPax__GetStartedButton>
     </LinkContainer>
   </WhatsNew__Row>
 </WhatsNew__Container>
