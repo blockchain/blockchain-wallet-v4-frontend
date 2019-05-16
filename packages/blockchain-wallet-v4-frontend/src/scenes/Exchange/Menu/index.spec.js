@@ -11,13 +11,6 @@ jest.mock('blockchain-info-components', () => ({
 }))
 
 describe('Menu Component', () => {
-  it('should render with correct links and without error', () => {
-    const component = shallow(<Menu />)
-    const LinkContainer = component.find('LinkContainer')
-    expect(LinkContainer.at(0).prop('to')).toBe('/swap')
-    expect(LinkContainer.at(1).prop('to')).toBe('/swap/history')
-  })
-
   it('matches snapshot', () => {
     const component = shallow(<Menu />)
     const tree = toJson(component)

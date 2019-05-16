@@ -3,11 +3,8 @@
 exports[`Menu Component matches snapshot 1`] = `
 <Menu__Wrapper>
   <Component>
-    <LinkContainer
-      activeClassName="active"
+    <withRouter(LinkContainer)
       exact={true}
-      replace={false}
-      strict={false}
       to="/swap"
     >
       <Menu__LinkItem
@@ -20,12 +17,8 @@ exports[`Menu Component matches snapshot 1`] = `
           values={Object {}}
         />
       </Menu__LinkItem>
-    </LinkContainer>
-    <LinkContainer
-      activeClassName="active"
-      exact={false}
-      replace={false}
-      strict={false}
+    </withRouter(LinkContainer)>
+    <withRouter(LinkContainer)
       to="/swap/history"
     >
       <Menu__LinkItem
@@ -38,7 +31,7 @@ exports[`Menu Component matches snapshot 1`] = `
           values={Object {}}
         />
       </Menu__LinkItem>
-    </LinkContainer>
+    </withRouter(LinkContainer)>
     <Menu__SupportButton
       nature="primary"
     >

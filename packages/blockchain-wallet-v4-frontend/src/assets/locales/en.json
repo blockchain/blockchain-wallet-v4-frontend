@@ -598,7 +598,7 @@
   "modals.coinifytradedetails.banktransfer.close": "Close",
   "modals.coinifytradedetails.banktransfer.header": "Buy Trade Awaiting Funds",
   "modals.coinifytradedetails.trade.close": "Close",
-  "modals.coinifyupgrade.coinifyupgradeairdrop": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get up to $50 of free Stellar (XLM).",
+  "modals.coinifyupgrade.coinifyupgradeairdrop2": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get at least $25 of free Stellar (XLM).",
   "modals.coinifyupgrade.completeprofile": "Complete My Profile Now",
   "modals.coinifyupgrade.later": "Remind Me Later",
   "modals.confirm.button": "OK",

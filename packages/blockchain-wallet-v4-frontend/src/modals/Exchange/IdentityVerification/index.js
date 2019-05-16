@@ -153,10 +153,7 @@ class IdentityVerification extends React.PureComponent {
   initializeVerification = () => {
     const { tier, isCoinify, needMoreInfo } = this.props
     this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
-    this.props.analyticsActions.logEvent([
-      ...KYC_EVENTS.ONBOARDING_START,
-      'tier ' + tier
-    ])
+    this.props.analyticsActions.logEvent([...KYC_EVENTS.ONBOARDING_START, tier])
   }
 
   getStepComponent = step => {
