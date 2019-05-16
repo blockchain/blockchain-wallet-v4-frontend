@@ -23,13 +23,19 @@
         {
           "label": "My Bitcoin Wallet",
           "archived": false,
-          "xpriv": "xprv9ymnii74qXShFUk1bhXCWaKhGDqrWVmBg2xAvpT2eopuSjkDk79jNu3TGkg6hTQ7P6vby8f5WxGUnR4Nkqwcz1jt68B8TiJc5UkQ9MbwW3s",
-          "xpub": "xpub6Cm98DdxftzzTxpUhj4CsiGRpFgLuxV33FsmjCreD9MtKY5NHeTyvhMw82aANb5GWaBGvGcey7skgcY9ZHk42KhyBXr23yYP5QYcAJzVz7D",
-          "address_labels": [],
-          "cache": {
-            "receiveAccount": "xpub6EF6JBiHWFT7Vf4vgnHbUV3Vbc8daYYQ9zKCJ65hePNX44nMtbJeJgbdPyC4jag6yzqcNhiNX3GFN337fF7NcEBQh4MzU4WSgV7hzbuYLK2",
-            "changeAccount": "xpub6EF6JBiHWFT7YjnWwdaXQs2gyrrHLrTR8QqGYp7ykcvELkwuiwriWXquG9LqTevaoFbavcwyEXKGTe56H2aQ1j1a9aEiNWboAPJHg29cE3P"
-          }
+          "derivations": [
+            {
+              "type": "legacy",
+              "purpose": "44",
+              "xpriv": "xprv9ymnii74qXShFUk1bhXCWaKhGDqrWVmBg2xAvpT2eopuSjkDk79jNu3TGkg6hTQ7P6vby8f5WxGUnR4Nkqwcz1jt68B8TiJc5UkQ9MbwW3s",
+              "xpub": "xpub6Cm98DdxftzzTxpUhj4CsiGRpFgLuxV33FsmjCreD9MtKY5NHeTyvhMw82aANb5GWaBGvGcey7skgcY9ZHk42KhyBXr23yYP5QYcAJzVz7D",
+              "address_labels": [],
+              "cache": {
+                "receiveAccount": "xpub6EF6JBiHWFT7Vf4vgnHbUV3Vbc8daYYQ9zKCJ65hePNX44nMtbJeJgbdPyC4jag6yzqcNhiNX3GFN337fF7NcEBQh4MzU4WSgV7hzbuYLK2",
+                "changeAccount": "xpub6EF6JBiHWFT7YjnWwdaXQs2gyrrHLrTR8QqGYp7ykcvELkwuiwriWXquG9LqTevaoFbavcwyEXKGTe56H2aQ1j1a9aEiNWboAPJHg29cE3P"
+              }
+            }
+          ]
         },
         {
           "label": "Test",

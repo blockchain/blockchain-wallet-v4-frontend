@@ -70,3 +70,7 @@ export const setAuthType = authType => ({
 })
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
+export const upgradeWalletV4 = () => ({
+  type: AT.UPGRADE_WALLET_V4,
+  payload: {}
+})

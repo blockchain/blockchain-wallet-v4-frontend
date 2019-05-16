@@ -10,7 +10,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -40,8 +40,23 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
+  const upgradeWalletV4 = function * () {
+    try {
+      let password = yield call(promptForSecondPassword)
+      yield coreSagas.wallet.upgradeToV4({ password })
+      yield call(forceSyncWallet)
+      yield put(actions.modals.closeModal())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWalletV4', e))
+      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+    }
+  }
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
+    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+  }
+  const upgradeWalletSagaV4 = function * () {
+    yield put(actions.modals.showModal('UpgradeWalletV4'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
   const upgradeAddressLabelsSaga = function * () {
@@ -116,6 +131,12 @@ export default ({ api, coreSagas }) => {
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
+      const state = yield select()
+      const currentVersion = Types.Wrapper.selectVersion(state.walletPath)
+      if (currentVersion !== 4) {
+        yield call(upgradeWalletSagaV4)
+      }
+      // Finish upgrades
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
@@ -511,6 +532,7 @@ export default ({ api, coreSagas }) => {
     startSockets,
     transferEthSaga,
     upgradeWallet,
+    upgradeWalletV4,
     upgradeWalletSaga,
     upgradeAddressLabelsSaga
   }

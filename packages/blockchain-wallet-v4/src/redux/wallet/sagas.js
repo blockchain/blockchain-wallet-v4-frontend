@@ -24,7 +24,7 @@ import * as A from '../actions'
 import * as S from './selectors'
 import { fetchData } from '../data/btc/actions'
 
-import { Wrapper, Wallet, HDAccount } from '../../types'
+import { Wrapper, Wallet, HDAccount, HDWallet, HDWalletList } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t =>
@@ -142,6 +142,32 @@ export default ({ api, networks }) => {
       yield call(runTask, nextWrapper, A.wallet.setWrapper)
     } else {
       throw new Error('Already an HD wallet')
+    }
+  }
+
+  const upgradeToV4 = function * ({ password }) {
+    try {
+      let wrapper = yield select(S.getWrapper)
+      let hdAccounts = compose(
+        HDWallet.selectAccounts,
+        HDWalletList.selectHDWallet,
+        Wallet.selectHdWallets,
+        Wrapper.selectWallet
+      )(wrapper)
+      const upgradedAccounts = hdAccounts.map(Wallet.upgradeToV4)
+
+      const lens = compose(
+        Wrapper.wallet,
+        Wallet.hdWallets,
+        HDWalletList.hdwallet,
+        HDWallet.accounts
+      )
+
+      const nextWrapper = set(lens, upgradedAccounts, wrapper)
+
+      yield call(runTask, Task.of(nextWrapper), A.wallet.setWrapper)
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -273,6 +299,7 @@ export default ({ api, networks }) => {
     remindWalletGuidSaga,
     fetchWalletSaga,
     upgradeToHd,
+    upgradeToV4,
     resetWallet2fa,
     refetchContextData,
     resendSmsLoginCode,

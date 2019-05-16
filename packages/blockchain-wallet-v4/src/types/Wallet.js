@@ -282,6 +282,9 @@ export const upgradeToHd = curry(
   }
 )
 
+export const upgradeToV4 = account => {
+  return HDAccount.generateDerivationList(account)
+}
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   let hdWallet = HDWallet.createNew(mnemonic)

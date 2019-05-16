@@ -19,6 +19,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.REMIND_GUID, authSagas.remindGuid)
     yield takeLatest(AT.RESET_2FA, authSagas.reset2fa)
     yield takeLatest(AT.UPGRADE_WALLET, authSagas.upgradeWallet)
+    yield takeLatest(AT.UPGRADE_WALLET_V4, authSagas.upgradeWalletV4)
     yield takeLatest(AT.RESEND_SMS_CODE, authSagas.resendSmsLoginCode)
   }
 }

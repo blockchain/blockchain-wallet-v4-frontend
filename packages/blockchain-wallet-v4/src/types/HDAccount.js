@@ -9,6 +9,7 @@ import {
   assoc,
   dissoc,
   isNil,
+  set,
   split,
   isEmpty,
   values
@@ -18,6 +19,8 @@ import * as crypto from '../walletCrypto'
 import Task from 'data.task'
 import Type from './Type'
 import * as AddressLabelMap from './AddressLabelMap'
+import * as DerivationList from './DerivationList'
+import * as Derivation from './Derivation'
 import * as Cache from './Cache'
 /* eslint-disable */
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
@@ -37,6 +40,7 @@ export const xpub = HDAccount.define('xpub')
 export const addressLabels = HDAccount.define('address_labels')
 export const cache = HDAccount.define('cache')
 export const index = HDAccount.define('index')
+export const derivations = HDAccount.define('derivations')
 export const selectLabel = view(label)
 export const selectCache = view(cache)
 export const selectArchived = view(archived)
@@ -44,6 +48,8 @@ export const selectXpriv = view(xpriv)
 export const selectXpub = view(xpub)
 export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
+export const selectDerivations = view(derivations)
+
 export const isArchived = compose(
   Boolean,
   view(archived)
@@ -63,15 +69,25 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-export const getAddress = (account, path, network) => {
+export const getAddress = (account, path, network, type = 'legacy') => {
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
-  const derive = acc => Cache.getAddress(selectCache(acc), c, i, network)
-  return pipe(
-    HDAccount.guard,
-    derive
-  )(account)
+  const derivations = selectDerivations(account)
+  const cache = DerivationList.getCacheFromType(derivations, type)
+  return Cache.getAddress(cache, c, i, network)
+}
+
+export const generateDerivationList = account => {
+  HDAccount.guard(account)
+  const derivation = Derivation.createNew({
+    xpriv: selectXpriv(account),
+    xpub: selectXpub(account),
+    addressLabels: selectAddressLabels(account),
+    cache: selectCache(account)
+  })
+  const derivationList = DerivationList.createNew([derivation])
+  return set(derivations, derivationList, account)
 }
 
 export const getReceiveAddress = (account, receiveIndex, network) => {
@@ -127,10 +143,14 @@ export const reviver = jsObject => {
 export const js = (label, node, xpub) => ({
   label: label,
   archived: false,
-  xpriv: node ? node.toBase58() : '',
-  xpub: node ? node.neutered().toBase58() : xpub,
-  address_labels: [],
-  cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
+  derivations: DerivationList.createNew([
+    Derivation.createNew({
+      xpriv: node ? node.toBase58() : '',
+      xpub: node ? node.neutered().toBase58() : xpub,
+      address_labels: [],
+      cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
+    })
+  ])
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account
