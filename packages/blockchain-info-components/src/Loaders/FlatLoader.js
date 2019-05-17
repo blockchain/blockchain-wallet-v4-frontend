@@ -10,7 +10,7 @@ const stretchFrames = keyframes`
   20% { opacity: 0; }
 `
 const stretchAnimation = css`
-  ${stretchFrames} 1.2s infinite ease-in-out;
+  ${stretchFrames}: 1.2s infinite ease-in-out;
 `
 const Container = styled.div`
   display: flex;

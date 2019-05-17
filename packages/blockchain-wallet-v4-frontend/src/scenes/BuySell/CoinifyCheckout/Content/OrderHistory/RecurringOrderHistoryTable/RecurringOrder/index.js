@@ -19,9 +19,8 @@ import {
 
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
-  transform: rotate(-90deg);
   transition: transform 0.3s;
-  transform: ${props => props.toggled && 'rotate(0deg)'};
+  transform: ${props => props.toggled && 'rotate(-90deg)'};
   ${media.mobile`
     display: none;
   `};

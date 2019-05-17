@@ -14,8 +14,8 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-  background-color: #0d0d42;
   background: #0d0d42 url(/img/swap-dashboard-right.png);
+  background-color: #0d0d42;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;

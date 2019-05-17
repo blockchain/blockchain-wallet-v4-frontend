@@ -114,7 +114,7 @@ const NavInner = styled.div`
   }
 
   &:first-child {
-    //Align logo to mobile menu
+    /* align logo to mobile menu */
     margin-top: 4px;
   }
 

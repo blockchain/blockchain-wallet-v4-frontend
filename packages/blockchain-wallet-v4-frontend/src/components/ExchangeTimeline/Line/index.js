@@ -10,7 +10,7 @@ const animationFrames = keyframes`
   100% { width: 100%; }
 `
 const animation = css`
-  ${animationFrames} 2s infinite linear;
+  ${animationFrames}: 2s infinite linear;
 `
 
 const Wrapper = styled.div`

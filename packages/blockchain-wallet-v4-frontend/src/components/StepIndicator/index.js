@@ -8,7 +8,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
   justify-content: ${props => (props.flexEnd ? 'flex-end' : '')};
 `
 
