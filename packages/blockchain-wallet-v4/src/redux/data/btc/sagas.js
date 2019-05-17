@@ -71,6 +71,7 @@ export default ({ api }) => {
       const page = yield call(__processTxs, data.txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
+      console.log(e)
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }

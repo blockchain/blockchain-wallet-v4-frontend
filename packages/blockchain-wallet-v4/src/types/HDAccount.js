@@ -31,20 +31,20 @@ export class HDAccount extends Type {}
 export const isHDAccount = is(HDAccount)
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
-export const xpriv = HDAccount.define('xpriv')
-export const xpub = HDAccount.define('xpub')
-export const addressLabels = HDAccount.define('address_labels')
-export const cache = HDAccount.define('cache')
 export const index = HDAccount.define('index')
 export const derivations = HDAccount.define('derivations')
+export const xpriv = HDAccount.define('xpriv')
+export const addressLabels = HDAccount.define('address_labels')
+export const cache = HDAccount.define('cache')
+// export const xpub = HDAccount.define('xpub')
 export const selectLabel = view(label)
-export const selectCache = view(cache)
 export const selectArchived = view(archived)
+export const selectIndex = view(index)
+export const selectDerivations = view(derivations)
+export const selectCache = view(cache)
 // export const selectXpriv = view(xpriv)
 // export const selectXpub = view(xpub)
 // export const selectAddressLabels = view(addressLabels)
-export const selectIndex = view(index)
-export const selectDerivations = view(derivations)
 
 export const isArchived = compose(
   Boolean,
@@ -54,14 +54,16 @@ export const isActive = compose(
   not,
   isArchived
 )
-export const isWatchOnly = compose(
-  isNil,
-  view(xpriv)
-)
+export const isWatchOnly = account =>
+  compose(
+    isNil,
+    selectXpriv
+  )(account)
+
 export const isXpub = curry((myxpub, account) =>
   compose(
     equals(myxpub),
-    view(xpub)
+    selectXpub
   )(account)
 )
 // TODO: SEGWIT (get all xpubs)
@@ -105,9 +107,17 @@ export const generateDerivationList = account => {
   return set(derivations, derivationList, account)
 }
 
-export const getReceiveAddress = (account, receiveIndex, network) => {
+export const getReceiveAddress = (
+  account,
+  receiveIndex,
+  network,
+  type = 'legacy'
+) => {
   HDAccount.guard(account)
-  return Cache.getAddress(selectCache(account), 0, receiveIndex, network)
+  const derivations = selectDerivations(account)
+  const cache = DerivationList.getCacheFromType(derivations, type)
+
+  return Cache.getAddress(cache, 0, receiveIndex, network)
 }
 
 export const getChangeAddress = (
