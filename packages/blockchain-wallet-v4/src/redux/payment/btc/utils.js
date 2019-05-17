@@ -75,20 +75,21 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 
 // fromAccount :: Network -> ReduxState -> Object
 
-export const fromAccount = (network, state, index, coin) => {
+export const fromAccount = (network, state, index, coin, type = 'legacy') => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
+  let xpub = HDAccount.selectXpub(account)
 
   let changeIndex = equals(coin, 'BTC')
-    ? S.data.btc.getChangeIndex(account.xpub, state)
-    : S.data.bch.getChangeIndex(account.xpub, state)
+    ? S.data.btc.getChangeIndex(xpub, state)
+    : S.data.bch.getChangeIndex(xpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(account, index, network))
     .getOrFail('missing_change_address')
 
   return {
     fromType: ADDRESS_TYPES.ACCOUNT,
-    from: [account.xpub],
+    from: [xpub],
     change: changeAddress,
     fromAccountIdx: index
   }

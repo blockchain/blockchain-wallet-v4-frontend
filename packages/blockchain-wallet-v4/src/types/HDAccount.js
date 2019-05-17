@@ -40,7 +40,7 @@ export const derivations = HDAccount.define('derivations')
 export const selectLabel = view(label)
 export const selectCache = view(cache)
 export const selectArchived = view(archived)
-export const selectXpriv = view(xpriv)
+// export const selectXpriv = view(xpriv)
 // export const selectXpub = view(xpub)
 // export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
@@ -65,10 +65,17 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 // TODO: SEGWIT (get all xpubs)
+// TODO: SEGWIT (get xpub for derivation)
 export const selectXpub = account => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpub(derivation)
+}
+// TODO: SEGWIT (get xpriv for derivation)
+export const selectXpriv = account => {
+  const derivations = selectDerivations(account)
+  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  return Derivation.selectXpriv(derivation)
 }
 // TODO: SEGWIT (get address labels for derivation)
 export const selectAddressLabels = account => {
@@ -103,9 +110,17 @@ export const getReceiveAddress = (account, receiveIndex, network) => {
   return Cache.getAddress(selectCache(account), 0, receiveIndex, network)
 }
 
-export const getChangeAddress = (account, changeIndex, network) => {
+export const getChangeAddress = (
+  account,
+  changeIndex,
+  network,
+  type = 'legacy'
+) => {
   HDAccount.guard(account)
-  return Cache.getAddress(selectCache(account), 1, changeIndex, network)
+  const derivations = selectDerivations(account)
+  const cache = DerivationList.getCacheFromType(derivations, type)
+
+  return Cache.getAddress(cache, 1, changeIndex, network)
 }
 
 export const fromJS = (x, i) => {
