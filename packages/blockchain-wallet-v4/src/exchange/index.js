@@ -397,7 +397,7 @@ const displayEtherToEther = ({ value, fromUnit, toUnit }) => {
 
 const displayPaxToPax = ({ value, fromUnit, toUnit }) => {
   return transformPaxToPax({ value, fromUnit, toUnit })
-    .map(Currency.coinToString)
+    .map(x => Currency.coinToString({ ...x, minDigits: 2, maxDigits: 2 }))
     .getOrElse(DefaultDisplay)
 }
 

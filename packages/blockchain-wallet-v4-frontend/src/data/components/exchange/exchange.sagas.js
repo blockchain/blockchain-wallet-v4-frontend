@@ -324,12 +324,13 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
+      const feeSource = isSourceErc20 ? 'ETH' : sourceCoin
       const provisionalPayment = yield payment ||
         call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
-        sourceCoin,
-        selectFee(sourceCoin, provisionalPayment, isSourceErc20)
+        feeSource,
+        selectFee(sourceCoin, provisionalPayment)
       )
       const rates = yield call(getBestRates)
       // For ERC20, fallback to eth ticker
@@ -768,7 +769,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
-        yield spawn(updateLatestEthTrade, txId)
+        yield spawn(updateLatestEthTrade, txId, source.type)
       }
     } catch (err) {
       if (sourceCoin === 'XLM') {
@@ -861,7 +862,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
-      yield cancel(renewLimitsTask)
+      if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'clearSubscriptions', e)

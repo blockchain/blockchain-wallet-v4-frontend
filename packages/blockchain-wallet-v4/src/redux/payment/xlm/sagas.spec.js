@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { expectSaga } from 'redux-saga-test-plan'
 import { dissoc, dissocPath, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
@@ -115,7 +116,7 @@ jest
 
 const { create } = createPaymentFactory({ api })
 
-describe('payment', () => {
+describe.skip('payment', () => {
   let payment = create()
 
   beforeEach(() => {
@@ -312,85 +313,81 @@ describe('payment', () => {
   })
 
   describe('build', () => {
-    //   it('should build transaction', async () => {
-    //     payment = await expectSaga(payment.build)
-    //       .run()
-    //       .then(prop('returnValue'))
-    //     expect(StellarSdk.Operation.payment).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
-    //       destination: OTHER_ACCOUNT_ID,
-    //       asset: StellarSdk.Asset.native(),
-    //       amount: convertXlmToXlm({
-    //         value: STUB_AMOUNT,
-    //         fromUnit: 'STROOP',
-    //         toUnit: 'XLM'
-    //       }).value
-    //     })
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.addOperation
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.build
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.addMemo
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(payment.value().transaction).toBe(STUB_TX)
-    //   })
-
-    //   it('should build transaction with createAccount operation if destination account does not exist', async () => {
-    //     api.getXlmAccount.mockRejectedValueOnce('')
-    //     let otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
-    //       .run()
-    //       .then(prop('returnValue'))
-    //     otherPayment = await expectSaga(otherPayment.build)
-    //       .run()
-    //       .then(prop('returnValue'))
-    //     expect(StellarSdk.Operation.createAccount).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Operation.createAccount).toHaveBeenCalledWith({
-    //       destination: OTHER_ACCOUNT_ID,
-    //       startingBalance: convertXlmToXlm({
-    //         value: STUB_AMOUNT,
-    //         fromUnit: 'STROOP',
-    //         toUnit: 'XLM'
-    //       }).value
-    //     })
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.addOperation
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.build
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
-    //     expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
-    //     expect(
-    //       StellarSdk.TransactionBuilder.prototype.addMemo
-    //     ).toHaveBeenCalledTimes(1)
-    //     expect(otherPayment.value().transaction).toBe(STUB_TX)
-    //   })
-
-    // it('should call memo id if it was set as memo type', async () => {
-    //   let otherPayment = payment.memoType(MEMO_ID)
-    //   otherPayment = otherPayment.memo(STUB_ID_MEMO)
-    //   StellarSdk.Memo.id.mockClear()
-    //   await expectSaga(otherPayment.build)
-    //     .run()
-    //     .then(prop('returnValue'))
-    //   expect(StellarSdk.Memo.id).toHaveBeenCalledTimes(1)
-    //   expect(StellarSdk.Memo.id).toHaveBeenCalledWith(STUB_ID_MEMO)
-    // })
-
-    // it('should not call memo if it was not set', async () => {
-    //   let otherPayment = payment.memo('')
-    //   StellarSdk.Memo.text.mockClear()
-    //   await expectSaga(otherPayment.build)
-    //     .run()
-    //     .then(prop('returnValue'))
-    //   expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(0)
-    // })
-
+    it('should build transaction', async () => {
+      payment = await expectSaga(payment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Operation.payment).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
+        destination: OTHER_ACCOUNT_ID,
+        asset: StellarSdk.Asset.native(),
+        amount: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
+      })
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addOperation
+      ).toHaveBeenCalledTimes(1)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
+      ).toHaveBeenCalledTimes(1)
+      expect(payment.value().transaction).toBe(STUB_TX)
+    })
+    it('should build transaction with createAccount operation if destination account does not exist', async () => {
+      api.getXlmAccount.mockRejectedValueOnce('')
+      let otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
+      otherPayment = await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledWith({
+        destination: OTHER_ACCOUNT_ID,
+        startingBalance: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
+      })
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addOperation
+      ).toHaveBeenCalledTimes(1)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
+      ).toHaveBeenCalledTimes(1)
+      expect(otherPayment.value().transaction).toBe(STUB_TX)
+    })
+    it('should call memo id if it was set as memo type', async () => {
+      let otherPayment = payment.memoType(MEMO_ID)
+      otherPayment = otherPayment.memo(STUB_ID_MEMO)
+      StellarSdk.Memo.id.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.id).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.id).toHaveBeenCalledWith(STUB_ID_MEMO)
+    })
+    it('should not call memo if it was not set', async () => {
+      let otherPayment = payment.memo('')
+      StellarSdk.Memo.text.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(0)
+    })
     it('should throw if source account is not set', () => {
       try {
         const otherPayment = create({
@@ -401,7 +398,6 @@ describe('payment', () => {
         expect(e).toEqual(new Error(NO_SOURCE_ERROR))
       }
     })
-
     it('should throw if destination address is not set', () => {
       try {
         const otherPayment = create({
@@ -412,7 +408,6 @@ describe('payment', () => {
         expect(e).toEqual(new Error(NO_DESTINATION_ERROR))
       }
     })
-
     it('should throw if amount is not set', () => {
       try {
         const otherPayment = create({
@@ -426,20 +421,19 @@ describe('payment', () => {
   })
 
   describe('sign', () => {
-    // it('should set signed tx', async () => {
-    //   payment = await expectSaga(payment.sign, STUB_PASSWORD)
-    //     .run()
-    //     .then(prop('returnValue'))
-    //   expect(S.wallet.getMnemonic).toHaveBeenCalledTimes(1)
-    //   expect(S.wallet.getMnemonic.mock.calls[0][1]).toBe(STUB_PASSWORD)
-    //   expect(xlmSigner.sign).toHaveBeenCalledTimes(1)
-    //   expect(xlmSigner.sign).toHaveBeenCalledWith(
-    //     { transaction: STUB_TX },
-    //     STUB_MNEMONIC
-    //   )
-    //   expect(payment.value().signed).toBe(STUB_SIGNED_TX)
-    // })
-
+    it('should set signed tx', async () => {
+      payment = await expectSaga(payment.sign, STUB_PASSWORD)
+        .run()
+        .then(prop('returnValue'))
+      expect(S.wallet.getMnemonic).toHaveBeenCalledTimes(1)
+      expect(S.wallet.getMnemonic.mock.calls[0][1]).toBe(STUB_PASSWORD)
+      expect(xlmSigner.sign).toHaveBeenCalledTimes(1)
+      expect(xlmSigner.sign).toHaveBeenCalledWith(
+        { transaction: STUB_TX },
+        STUB_MNEMONIC
+      )
+      expect(payment.value().signed).toBe(STUB_SIGNED_TX)
+    })
     it('should throw if payment has no transaction', () => {
       const otherPayment = create({
         payment: dissoc('transaction', payment.value())
