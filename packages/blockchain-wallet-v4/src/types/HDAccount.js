@@ -42,7 +42,7 @@ export const selectCache = view(cache)
 export const selectArchived = view(archived)
 export const selectXpriv = view(xpriv)
 // export const selectXpub = view(xpub)
-export const selectAddressLabels = view(addressLabels)
+// export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
 
@@ -64,10 +64,17 @@ export const isXpub = curry((myxpub, account) =>
     view(xpub)
   )(account)
 )
+// TODO: SEGWIT (get all xpubs)
 export const selectXpub = account => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpub(derivation)
+}
+// TODO: SEGWIT (get address labels for derivation)
+export const selectAddressLabels = account => {
+  const derivations = selectDerivations(account)
+  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  return Derivation.selectAddressLabels(derivation)
 }
 
 export const getAddress = (account, path, network, type = 'legacy') => {

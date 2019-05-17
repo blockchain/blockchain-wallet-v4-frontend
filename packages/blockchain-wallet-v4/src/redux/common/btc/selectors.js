@@ -82,12 +82,11 @@ export const getArchivedAddresses = state => {
 }
 
 const flattenAccount = acc => {
-  console.log(acc)
   return {
     coin: 'BTC',
     label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
     balance: path(['info', 'final_balance'], acc),
-    xpub: prop('xpub', acc.derivations.find(d => console.log(d))),
+    xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
     index: prop('index', acc),
     type: ADDRESS_TYPES.ACCOUNT,
     network: prop('network', acc)

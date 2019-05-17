@@ -1,6 +1,7 @@
 import Type from './Type'
 import * as Cache from './Cache'
-import { is } from 'ramda'
+import * as AddressLabelMap from './AddressLabelMap'
+import { assoc, compose, over, is } from 'ramda'
 import { view } from 'ramda-lens'
 export class Derivation extends Type {}
 
@@ -27,4 +28,16 @@ export const createNew = ({ xpriv, xpub, address_labels, cache }) =>
     cache: Cache.fromJS(cache)
   })
 
-export const fromJS = x => (is(Derivation, x) ? x : new Derivation(x))
+export const fromJS = (derivation, i) => {
+  if (is(Derivation, derivation)) {
+    return derivation
+  } else {
+    const derivationCons = derivation => {
+      return compose(
+        over(addressLabels, AddressLabelMap.fromJS),
+        over(cache, Cache.fromJS)
+      )(derivation)
+    }
+    return derivationCons(new Derivation(assoc('index', i, derivation)))
+  }
+}

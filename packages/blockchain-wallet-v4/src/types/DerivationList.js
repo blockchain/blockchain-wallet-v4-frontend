@@ -18,7 +18,7 @@ export const getDerivationFromType = (derivations, type) => {
 
 export const getCacheFromType = (derivations, type) => {
   DerivationList.guard(derivations)
-  const derivation = getDerivationFromType(type)
+  const derivation = getDerivationFromType(derivations, type)
   return Derivation.selectCache(derivation)
 }
 
