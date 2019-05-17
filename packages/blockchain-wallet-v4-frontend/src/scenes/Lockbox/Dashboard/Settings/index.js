@@ -15,7 +15,6 @@ import UpdateDevice from './UpdateDevice'
 const SettingsContainer = styled.div`
   padding: 0 30px;
 `
-
 const BrowserWarning = styled(Banner)`
   margin-top: 18px;
 `

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
@@ -78,9 +78,12 @@ const RequestBch = props => {
   } = props
 
   const isLockboxAcct = type === 'LOCKBOX'
-  const warnLockboxReceive = !(
-    bowser.name === 'Chrome' || bowser.name === 'Chromium'
-  )
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const warnLockboxReceive = !browser.satisfies({
+    chrome: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
 
   return (
     <Form onSubmit={handleSubmit}>

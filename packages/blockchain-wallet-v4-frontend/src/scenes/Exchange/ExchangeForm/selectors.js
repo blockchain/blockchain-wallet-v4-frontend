@@ -1,4 +1,4 @@
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import { selectors, model } from 'data'
 import { equals, lift, path, prop } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -32,9 +32,15 @@ const getFormValues = state => {
 
 const getBlockLockbox = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const isBrowserSupported = !browser.satisfies({
+    chrome: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
   return (
     equals(path(['source', 'type'], formValues), ADDRESS_TYPES.LOCKBOX) &&
-    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+    isBrowserSupported
   )
 }
 
