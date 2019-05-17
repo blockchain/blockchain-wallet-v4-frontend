@@ -59,7 +59,7 @@ jobs:
       - *attach_workspace
       - run:
           name: Lint Code
-          command: yarn lint
+          command: yarn ci:lint
   test:
     <<: *container_config
     steps:

@@ -24,7 +24,7 @@ import media from 'services/ResponsiveService'
 
 const pulseFrames = keyframes`${pulse}`
 const pulseAnimation = css`
-  ${pulseFrames} 0.5s;
+  ${pulseFrames}: 0.5s;
 `
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;

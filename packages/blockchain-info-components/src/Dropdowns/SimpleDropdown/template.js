@@ -37,7 +37,6 @@ const DropdownList = styled.ul`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
-  #box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;

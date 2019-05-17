@@ -10,7 +10,7 @@ const rotation = keyframes`
 `
 
 const animationRule = css`
-  ${rotation} ${props => props.animateTime}s linear;
+  ${/* sc-property */ rotation}: ${props => props.animateTime}s linear;
 `
 
 export const SpinningIcon = styled(Icon)`

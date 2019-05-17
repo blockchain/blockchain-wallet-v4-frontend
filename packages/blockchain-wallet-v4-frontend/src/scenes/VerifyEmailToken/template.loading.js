@@ -15,7 +15,7 @@ const rotateFrames = keyframes`
   to { transform: rotate(360deg); }
 `
 const rotateAnimation = css`
-  ${rotateFrames} 1s infinite linear;
+  ${rotateFrames}: 1s infinite linear;
 `
 const LoadingWrapper = styled.div`
   position: relative;

@@ -223,11 +223,8 @@ const BaseDateInput = styled(ReactDatetime)`
   }
 
   .rdtCounter {
-    height: 100px;
-  }
-
-  .rdtCounter {
     width: 40px;
+    height: 100px;
   }
 
   .rdtCounterSeparator {

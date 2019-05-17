@@ -7,7 +7,7 @@ const scaleFrames = keyframes`
   25% { transform: scale3D(0, 0, 1); }
 `
 const scaleAnimation = css`
-  ${scaleFrames} 3s infinite ease-in-out;
+  ${scaleFrames}: 3s infinite ease-in-out;
 `
 const Wrapper = styled.div`
   position: relative;
