@@ -67,6 +67,7 @@ const RequestEth = props => {
   const browser = Bowser.getParser(window.navigator.userAgent)
   const warnLockboxReceive = !browser.satisfies({
     chrome: '>45',
+    chromium: '>45',
     firefox: '>45',
     opera: '>20'
   })
