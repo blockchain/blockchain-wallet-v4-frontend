@@ -81,6 +81,7 @@ export const getArchivedAddresses = state => {
   return Remote.of(archivedAddresses)
 }
 
+// TODO: SEGWIT (get xpub from preferred derivation type)
 const flattenAccount = acc => {
   return {
     coin: 'BTC',

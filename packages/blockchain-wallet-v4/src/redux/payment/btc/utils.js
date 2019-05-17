@@ -74,8 +74,7 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-
-export const fromAccount = (network, state, index, coin, type = 'legacy') => {
+export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
   let xpub = HDAccount.selectXpub(account)
