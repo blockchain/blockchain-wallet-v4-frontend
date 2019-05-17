@@ -226,8 +226,8 @@ const Onboard = props => {
             <BrowserWarning type='warning'>
               <Text color='warning' size='12px'>
                 <FormattedMessage
-                  id='scenes.lockbox.welcome.browserblock'
-                  defaultMessage='New device setup can only be done while using the Chrome browser'
+                  id='scenes.lockbox.welcome.blockbrowser'
+                  defaultMessage='Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera.'
                 />
               </Text>
             </BrowserWarning>

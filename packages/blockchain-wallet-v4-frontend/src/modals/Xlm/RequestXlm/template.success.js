@@ -125,8 +125,8 @@ const RequestXlm = ({
             {warnLockboxReceive ? (
               <Text color='warning' size='12px'>
                 <FormattedHTMLMessage
-                  id='modals.requestxlm.lockbox.confirm.warn'
-                  defaultMessage='You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.'
+                  id='modals.requestxlm.lockbox.confirm.warnbrowser'
+                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                 />
               </Text>
             ) : (

@@ -168,8 +168,8 @@ const FirstStep = props => {
         <WarningBanners type='warning'>
           <Text color='warning' size='13px'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.warnbrowser'
-              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser!'
+              id='modals.sendbtc.firststep.browserwarn'
+              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
             />
           </Text>
         </WarningBanners>

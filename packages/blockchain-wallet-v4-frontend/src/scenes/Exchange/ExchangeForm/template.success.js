@@ -255,8 +255,8 @@ const Success = ({
                 <Banner type='warning'>
                   <Text color='warning' size='12px'>
                     <FormattedMessage
-                      id='scenes.exchange.exchangeform.blocklockbox'
-                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                      id='scenes.exchange.exchangeform.blockbrowser'
+                      defaultMessage='Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
                     />
                   </Text>
                 </Banner>

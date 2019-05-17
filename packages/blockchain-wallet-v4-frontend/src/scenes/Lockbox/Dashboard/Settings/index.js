@@ -35,8 +35,8 @@ export default class LockboxSettings extends React.PureComponent {
           <BrowserWarning type='warning'>
             <Text color='warning' size='14px'>
               <FormattedMessage
-                id='scenes.lockbox.settings.browserwarn'
-                defaultMessage='Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.'
+                id='scenes.lockbox.settings.blockbrowser'
+                defaultMessage='Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
               />
             </Text>
           </BrowserWarning>

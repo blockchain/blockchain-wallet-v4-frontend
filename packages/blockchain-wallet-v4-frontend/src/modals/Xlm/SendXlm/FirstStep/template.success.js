@@ -151,8 +151,8 @@ const FirstStep = props => {
             <WarningBanners type='warning'>
               <Text color='warning' size='12px'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.warnbrowswer'
-                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser!'
+                  id='modals.sendxlm.firststep.blockbrowser'
+                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
                 />
               </Text>
             </WarningBanners>

@@ -81,8 +81,8 @@ export const CurrencyItem = props => {
       ) : (
         <Text size='12px' weight={400}>
           <FormattedMessage
-            id='components.balances.savecointolockboxbrowser'
-            defaultMessage='Use the Chrome browser to add {coin} to your Lockbox'
+            id='components.balances.browserblock'
+            defaultMessage='Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox'
             values={{ coin: props.coin.toUpperCase() }}
           />
         </Text>

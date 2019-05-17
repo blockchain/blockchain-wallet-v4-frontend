@@ -144,8 +144,8 @@ const FirstStep = props => {
         <WarningBanners type='warning'>
           <Text color='warning' size='12px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.warnbrowswer'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser!'
+              id='modals.sendeth.firststep.browserwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
             />
           </Text>
         </WarningBanners>
