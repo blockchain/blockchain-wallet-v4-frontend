@@ -5005,10 +5005,10 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bowser@1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.3.tgz#6643ae4d783f31683f6d23156976b74183862162"
-  integrity sha512-/gp96UlcFw5DbV2KQPCqTqi0Mb9gZRyDAHiDsGEH+4B/KOQjeoE5lM1PxlVX8DQDvfEfitmC1rW2Oy8fk/XBDg==
+bowser@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.4.0.tgz#fcfbca3d7659ba88afabbb8a45b33d2e4876a90c"
+  integrity sha512-DA9Opnb8S8TBLPPszrHDtCCATbAMkrxF+AxPs/d95r99frBioGpNwL1cbG3AHeV3FnoZW655vEvEryBHFeGrMg==
 
 bowser@^1.7.3:
   version "1.9.4"
