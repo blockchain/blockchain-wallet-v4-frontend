@@ -18,7 +18,7 @@ class AddDeviceContainer extends React.PureComponent {
     return (
       <AddDevice
         onClick={this.onClick}
-        isBrowserChrome={this.props.isBrowserChrome}
+        isBrowserSupported={this.props.isBrowserSupported}
       />
     )
   }
@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 AddDeviceContainer.propTypes = {
-  isBrowserChrome: PropTypes.bool.isRequired
+  isBrowserSupported: PropTypes.bool.isRequired
 }
 
 export default connect(

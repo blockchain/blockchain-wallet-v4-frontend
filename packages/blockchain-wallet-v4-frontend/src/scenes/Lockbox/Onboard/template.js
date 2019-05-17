@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import {
   Banner,
   Button,
@@ -115,7 +115,12 @@ const SetupGuideText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
 `
 const BrowserWarning = styled(Banner)``
-const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+const browser = Bowser.getParser(window.navigator.userAgent)
+const disableSetup = !browser.satisfies({
+  chrome: '>45',
+  firefox: '>45',
+  opera: '>20'
+})
 
 const Onboard = props => {
   const { launchLockboxSetup } = props

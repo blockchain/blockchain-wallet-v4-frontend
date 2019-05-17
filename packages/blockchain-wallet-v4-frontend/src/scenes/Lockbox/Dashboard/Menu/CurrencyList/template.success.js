@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import { any, equals, toLower, prop, isEmpty } from 'ramda'
 
 import { CurrencyItem } from 'components/Balances'
@@ -26,7 +26,12 @@ const Coin = styled(CurrencyItem)`
     margin-right: 4px;
   }
 `
-const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isBrowserSupported = browser.satisfies({
+  chrome: '>45',
+  firefox: '>45',
+  opera: '>20'
+})
 const Success = props => {
   const { data, formValues, ...rest } = props
   const { coinContexts, handleCoinSelection, handleSaveCoinMD } = rest
@@ -70,12 +75,12 @@ const Success = props => {
           balance={data.xlmBalance}
           isActive={isActive('xlm')}
           isSaved={prop('xlm', coinContexts) > 0}
-          disableClick={!(prop('xlm', coinContexts) > 0) && !isBrowserChrome}
+          disableClick={!(prop('xlm', coinContexts) > 0) && !isBrowserSupported}
           isInactive={!isEmpty(formValues) && !isActive('xlm')}
           onClick={() =>
             prop('xlm', coinContexts) > 0
               ? handleCoinSelection('XLM')
-              : isBrowserChrome && handleSaveCoinMD('xlm')
+              : isBrowserSupported && handleSaveCoinMD('xlm')
           }
           style={{ marginRight: '0' }}
         />

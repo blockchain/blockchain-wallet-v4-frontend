@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -42,7 +42,12 @@ const Balance = styled.div`
     margin-bottom: 3px;
   }
 `
-const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isBrowserSupported = browser.satisfies({
+  chrome: '>45',
+  firefox: '>45',
+  opera: '>20'
+})
 
 export const CurrencyItem = props => {
   return (
@@ -64,7 +69,7 @@ export const CurrencyItem = props => {
             {props.balance}
           </CoinDisplay>
         </Balance>
-      ) : isBrowserChrome ? (
+      ) : isBrowserSupported ? (
         <Link size='11px' weight={500}>
           <FormattedMessage
             id='components.balances.savecointolockbox'
