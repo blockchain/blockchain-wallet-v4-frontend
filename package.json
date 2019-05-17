@@ -65,7 +65,7 @@
     "ci:coverage:core": "yarn workspace blockchain-wallet-v4 ci:coverage:core",
     "ci:coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:coverage:frontend",
     "ci:coverage:report": "istanbul report --root ./coverage --dir ./coverage/ lcov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "ci:prettier": "prettier './packages/*/src/**/*.js' --list-different",
+    "ci:lint": "prettier './packages/*/src/**/*.js' --list-different && eslint './packages/*/src/**/*.js' && stylelint './packages/*/src/**/*.js'",
     "ci:test:build": "yarn wsrun test:build --serial",
     "ci:test:core:components": "yarn wsrun ci:test --serial --exclude-missing",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
