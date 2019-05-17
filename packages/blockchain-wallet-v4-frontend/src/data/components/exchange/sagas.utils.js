@@ -158,8 +158,8 @@ export default ({ coreSagas, networks }) => {
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
   }
 
-  const getDefaultErc20AccountValue = function * () {
-    const erc20Accounts = yield select(S.erc20GetActiveAccounts)
+  const getDefaultErc20AccountValue = function * (token) {
+    const erc20Accounts = yield select(S.erc20GetActiveAccounts, token)
     return head(erc20Accounts.getOrFail('Could not get ERC20 accounts.'))
   }
 
@@ -178,7 +178,7 @@ export default ({ coreSagas, networks }) => {
       case 'ETH':
         return yield call(getDefaultEthAccountValue)
       case 'PAX':
-        return yield call(getDefaultErc20AccountValue)
+        return yield call(getDefaultErc20AccountValue, 'pax')
       case 'XLM':
         return yield call(getDefaultXlmAccountValue)
       default:
