@@ -49,7 +49,7 @@ const Container = styled.div`
 const Header = styled(Text)`
   display: flex;
   text-align: center;
-  align-items: center
+  align-items: center;
   width: 50%;
   font-weight: 500;
   font-size: 14px;

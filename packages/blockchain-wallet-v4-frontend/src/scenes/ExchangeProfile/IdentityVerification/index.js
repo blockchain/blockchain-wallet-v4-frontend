@@ -94,9 +94,9 @@ const TierWrapper = styled.div`
   }
 `
 const SecurityColumn = styled(Column)`
-  margin-top: 20px;
   max-width: 440px;
   margin: 0 auto;
+  margin-top: 20px;
   text-align: center;
 `
 const GoBackLink = styled.div`

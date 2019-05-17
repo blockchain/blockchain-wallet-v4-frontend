@@ -17,7 +17,7 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px !important;
-  // Caret icon rotation
+  /* caret icon rotation */
   > span:last-child {
     transition: transform 0.3s;
     &.active {

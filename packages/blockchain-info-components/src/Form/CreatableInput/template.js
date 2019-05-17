@@ -19,6 +19,14 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     padding: 0;
   }
 
+  .bc__placeholder {
+    color: ${props => props.theme['gray-2']};
+    & + div {
+      width: 100%;
+      z-index: 2;
+    }
+  }
+
   .bc__group {
     padding-bottom: 0;
     > div:nth-child(2) {
@@ -32,14 +40,6 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     font-weight: 500;
     margin-bottom: 0px;
     color: ${props => props.theme['gray-5']};
-  }
-
-  .bc__placeholder {
-    color: ${props => props.theme['gray-2']};
-    & + div {
-      width: 100%;
-      z-index: 1;
-    }
   }
 
   .bc__input {

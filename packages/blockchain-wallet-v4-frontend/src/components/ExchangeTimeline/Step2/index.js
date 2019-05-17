@@ -11,7 +11,7 @@ const rotateFrames = keyframes`
   100% { transform: rotate(-360deg); }
 `
 const rotateAnimation = css`
-  ${rotateFrames} 1.5s infinite linear;
+  ${rotateFrames}: 1.5s infinite linear;
 `
 const Wrapper = styled.div`
   display: flex;

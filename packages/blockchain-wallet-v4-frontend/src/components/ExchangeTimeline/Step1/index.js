@@ -10,7 +10,7 @@ const translateFrames = keyframes`
   to { transform: translate(100%, -200%); }
 `
 const translateAnimation = css`
-  ${translateFrames} 2s infinite ease-in;
+  ${translateFrames}: 2s infinite ease-in;
 `
 const Wrapper = styled.div`
   display: flex;
