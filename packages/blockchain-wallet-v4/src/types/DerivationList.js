@@ -1,11 +1,13 @@
 import { addIndex, map, pipe, is } from 'ramda'
 import List from './List'
+import { iLensProp } from './util'
 import * as Derivation from './Derivation'
-import { iToJS } from './util'
 
 export class DerivationList extends List {}
 
 const mapIndexed = addIndex(map)
+
+export const derivation = iLensProp
 
 export const createNew = derivations => {
   return new DerivationList(derivations)
@@ -30,9 +32,11 @@ export const fromJS = derivations => {
   }
 }
 
-export const toJS = pipe(
+export const toJSwithIndex = pipe(
   DerivationList.guard,
-  iToJS
+  derivations => {
+    return map(Derivation.toJSwithIndex, derivations).toArray()
+  }
 )
 
 export const reviver = jsObject => {

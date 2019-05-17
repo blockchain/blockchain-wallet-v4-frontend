@@ -1,7 +1,7 @@
 import Type from './Type'
 import * as Cache from './Cache'
 import * as AddressLabelMap from './AddressLabelMap'
-import { assoc, compose, over, is } from 'ramda'
+import { assoc, compose, over, pipe, is } from 'ramda'
 import { view } from 'ramda-lens'
 export class Derivation extends Type {}
 
@@ -24,7 +24,7 @@ export const createNew = ({ xpriv, xpub, address_labels, cache }) =>
     purpose: 44,
     xpriv,
     xpub,
-    address_labels,
+    address_labels: AddressLabelMap.fromJS(address_labels),
     cache: Cache.fromJS(cache)
   })
 
@@ -40,4 +40,17 @@ export const fromJS = (derivation, i) => {
     }
     return derivationCons(new Derivation(assoc('index', i, derivation)))
   }
+}
+
+export const toJSwithIndex = derivation => {
+  return pipe(
+    Derivation.guard,
+    derivation => {
+      const derivationDecons = compose(
+        over(addressLabels, AddressLabelMap.toJS),
+        over(cache, Cache.toJS)
+      )
+      return derivationDecons(derivation).toJS()
+    }
+  )(derivation)
 }

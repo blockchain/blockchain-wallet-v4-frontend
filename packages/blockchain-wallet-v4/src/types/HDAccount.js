@@ -147,7 +147,9 @@ export const fromJS = (x, i) => {
 export const toJSwithIndex = pipe(
   HDAccount.guard,
   acc => {
-    const accountDecons = compose(over(derivations, DerivationList.toJS))
+    const accountDecons = compose(
+      over(derivations, DerivationList.toJSwithIndex)
+    )
     return accountDecons(acc).toJS()
   }
 )

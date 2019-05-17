@@ -33,20 +33,16 @@ export default ({ api, networks }) => {
       yield put(A.generateNextReceiveAddressLoading(walletIndex))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
-      const labels = Types.HDAccount.selectAddressLabels(account)
-        .reverse()
-        .toArray()
-      const receiveIndex = yield select(
-        selectors.core.data.btc.getReceiveIndex(account.xpub)
-      )
-      const lastLabeledIndex = labels.reduce(
-        (acc, l) => Math.max(acc, l.index),
-        0
+      const nextReceiveIndex = yield select(
+        selectors.core.common.btc.getNextAvailableReceiveIndex(
+          networks.btc,
+          account.index
+        )
       )
       yield put(
         actions.core.wallet.setHdAddressLabel(
           account.index,
-          Math.max(receiveIndex.getOrElse(0), lastLabeledIndex + 1),
+          nextReceiveIndex.getOrElse(0),
           'New Address'
         )
       )

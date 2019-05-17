@@ -27,6 +27,8 @@ import * as HDAccount from './HDAccount'
 import * as Address from './Address'
 import * as AddressMap from './AddressMap'
 import * as AddressLabelMap from './AddressLabelMap'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import * as HDWalletList from './HDWalletList'
 import * as HDAccountList from './HDAccountList'
 import * as AddressBook from './AddressBook'
@@ -368,6 +370,7 @@ export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
 })
 
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
+// TODO: SEGWIT (DerivationList.derivation(0)) should not be hardcoded
 export const setHdAddressLabel = curry(
   (accountIdx, addressIdx, label, wallet) => {
     const lens = compose(
@@ -375,7 +378,9 @@ export const setHdAddressLabel = curry(
       HDWalletList.hdwallet,
       HDWallet.accounts,
       HDAccountList.account(accountIdx),
-      HDAccount.addressLabels
+      HDAccount.derivations,
+      DerivationList.derivation(0),
+      Derivation.addressLabels
     )
     const eitherW = Either.try(
       over(lens, AddressLabelMap.setLabel(addressIdx, label))
