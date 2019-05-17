@@ -10,7 +10,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Remote, Types } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -55,10 +55,10 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
-  const upgradeWalletSagaV4 = function * () {
-    yield put(actions.modals.showModal('UpgradeWalletV4'))
-    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-  }
+  // const upgradeWalletSagaV4 = function * () {
+  //   yield put(actions.modals.showModal('UpgradeWalletV4'))
+  //   yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+  // }
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -131,11 +131,11 @@ export default ({ api, coreSagas }) => {
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
-      const state = yield select()
-      const currentVersion = Types.Wrapper.selectVersion(state.walletPath)
-      if (currentVersion !== 4) {
-        yield call(upgradeWalletSagaV4)
-      }
+      // const state = yield select()
+      // const currentVersion = Types.Wrapper.selectVersion(state.walletPath)
+      // if (currentVersion !== 4) {
+      //   yield call(upgradeWalletSagaV4)
+      // }
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)

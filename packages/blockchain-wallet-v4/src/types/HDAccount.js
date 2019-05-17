@@ -1,4 +1,3 @@
-import Bitcoin from 'bitcoinjs-lib'
 import {
   pipe,
   curry,
@@ -10,15 +9,12 @@ import {
   dissoc,
   isNil,
   set,
-  split,
-  isEmpty,
-  values
+  split
 } from 'ramda'
 import { view, over, traverseOf } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import Task from 'data.task'
 import Type from './Type'
-import * as AddressLabelMap from './AddressLabelMap'
 import * as DerivationList from './DerivationList'
 import * as Derivation from './Derivation'
 import * as Cache from './Cache'
@@ -45,7 +41,7 @@ export const selectLabel = view(label)
 export const selectCache = view(cache)
 export const selectArchived = view(archived)
 export const selectXpriv = view(xpriv)
-export const selectXpub = view(xpub)
+// export const selectXpub = view(xpub)
 export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
@@ -68,6 +64,11 @@ export const isXpub = curry((myxpub, account) =>
     view(xpub)
   )(account)
 )
+export const selectXpub = account => {
+  const derivations = selectDerivations(account)
+  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  return Derivation.selectXpub(derivation)
+}
 
 export const getAddress = (account, path, network, type = 'legacy') => {
   const [, chain, index] = split('/', path)
@@ -105,17 +106,8 @@ export const fromJS = (x, i) => {
     return x
   }
   const accountCons = a => {
-    const xpub = selectXpub(a)
-    const node =
-      isEmpty(xpub) || isNil(xpub)
-        ? null
-        : Bitcoin.HDNode.fromBase58(xpub, values(Bitcoin.networks))
-    const cacheCons = c =>
-      c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
-    return compose(
-      over(addressLabels, AddressLabelMap.fromJS),
-      over(cache, cacheCons)
-    )(a)
+    const derivationsCons = derivations => DerivationList.fromJS(derivations)
+    return compose(over(derivations, derivationsCons))(a)
   }
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
@@ -123,10 +115,7 @@ export const fromJS = (x, i) => {
 export const toJSwithIndex = pipe(
   HDAccount.guard,
   acc => {
-    const accountDecons = compose(
-      over(addressLabels, AddressLabelMap.toJS),
-      over(cache, Cache.toJS)
-    )
+    const accountDecons = compose(over(derivations, DerivationList.toJS))
     return accountDecons(acc).toJS()
   }
 )

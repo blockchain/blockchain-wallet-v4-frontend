@@ -81,15 +81,18 @@ export const getArchivedAddresses = state => {
   return Remote.of(archivedAddresses)
 }
 
-const flattenAccount = acc => ({
-  coin: 'BTC',
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  balance: path(['info', 'final_balance'], acc),
-  xpub: prop('xpub', acc),
-  index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT,
-  network: prop('network', acc)
-})
+const flattenAccount = acc => {
+  console.log(acc)
+  return {
+    coin: 'BTC',
+    label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+    balance: path(['info', 'final_balance'], acc),
+    xpub: prop('xpub', acc.derivations.find(d => console.log(d))),
+    index: prop('index', acc),
+    type: ADDRESS_TYPES.ACCOUNT,
+    network: prop('network', acc)
+  }
+}
 
 // getAccountsBalances :: state => Remote([])
 export const getAccountsBalances = state =>

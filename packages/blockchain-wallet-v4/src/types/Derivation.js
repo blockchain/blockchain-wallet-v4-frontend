@@ -1,5 +1,6 @@
 import Type from './Type'
 import * as Cache from './Cache'
+import { is } from 'ramda'
 import { view } from 'ramda-lens'
 export class Derivation extends Type {}
 
@@ -25,3 +26,5 @@ export const createNew = ({ xpriv, xpub, address_labels, cache }) =>
     address_labels,
     cache: Cache.fromJS(cache)
   })
+
+export const fromJS = x => (is(Derivation, x) ? x : new Derivation(x))
