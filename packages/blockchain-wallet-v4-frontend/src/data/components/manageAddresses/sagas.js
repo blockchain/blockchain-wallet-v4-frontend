@@ -128,9 +128,10 @@ export default ({ api, networks }) => {
       yield put(A.fetchUsedAddressesLoading(walletIndex))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      let xpub = Types.HDAccount.selectXpub(account)
       // get current receive index of wallet
       const receiveIndex = yield select(
-        selectors.core.data.btc.getReceiveIndex(account.xpub)
+        selectors.core.data.btc.getReceiveIndex(xpub)
       )
       // derive previous addresses
       const derivedAddrs = yield call(
