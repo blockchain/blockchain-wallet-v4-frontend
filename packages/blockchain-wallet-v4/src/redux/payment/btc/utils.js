@@ -142,10 +142,11 @@ export const fromPrivateKey = (network, wallet, key) => {
 export const toOutputAccount = (coin, network, state, accountIndex) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
+  let xpub = HDAccount.selectXpub(account)
   const receiveIndexR =
     coin === 'BTC'
-      ? S.data.btc.getReceiveIndex(account.xpub, state)
-      : S.data.bch.getReceiveIndex(account.xpub, state)
+      ? S.data.btc.getReceiveIndex(xpub, state)
+      : S.data.bch.getReceiveIndex(xpub, state)
   const receiveIndex = receiveIndexR.getOrFail(
     new Error('missing_receive_address')
   )
