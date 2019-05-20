@@ -1,4 +1,14 @@
-import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
+import {
+  concat,
+  curry,
+  flatten,
+  filter,
+  keysIn,
+  map,
+  not,
+  path,
+  prop
+} from 'ramda'
 
 import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
@@ -19,7 +29,12 @@ export const getWalletContext = createDeepEqualSelector(
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
-      return map(prop('xpub'), activeAccounts)
+      // TODO: SEGWIT (cleaner way to do this?)
+      const xpubs = map(
+        map(prop('xpub')),
+        map(prop('derivations'), activeAccounts)
+      )
+      return flatten(xpubs)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     const addresses = keysIn(activeAddresses)
