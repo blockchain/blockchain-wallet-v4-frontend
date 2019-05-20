@@ -74,7 +74,7 @@ const RequestEth = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'20px'}>
+      <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
@@ -89,11 +89,13 @@ const RequestEth = props => {
             validate={[required]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requesteth.firststep.to'
-              defaultMessage='Receive to:'
+              id='modals.requesteth.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
@@ -110,12 +112,12 @@ const RequestEth = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requesteth.share'
-              defaultMessage='Copy & Share Address:'
+              id='modals.requesteth.address'
+              defaultMessage='Address:'
             />
             {isErc20 ? (
               <TooltipHost id='requestpax.shareaddress'>
-                <TooltipIcon name='question-in-circle' />
+                <TooltipIcon name='question-in-circle' size='12px' />
               </TooltipHost>
             ) : (
               <TooltipHost id='requesteth.shareaddress'>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { propOr } from 'ramda'
 import { FormattedHTMLMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
+import styled from 'styled-components'
 
 import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -12,6 +13,14 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+
+const RequestHeader = styled(ModalHeader)`
+  border-bottom: 0px;
+  padding-bottom: 8px;
+  > div:first-child * {
+    color: ${props => props.theme['brand-primary']};
+  }
+`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestEthContainer extends React.PureComponent {
@@ -96,8 +105,8 @@ class RequestEthContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='request' onClose={closeAll}>
+      <Modal size='medium' position={position} total={total}>
+        <RequestHeader icon='request' onClose={closeAll}>
           <FormattedHTMLMessage
             id='modals.requesteth.title'
             defaultMessage='Request {displayName}'
@@ -105,7 +114,7 @@ class RequestEthContainer extends React.PureComponent {
               displayName: supportedCoins[coin].displayName
             }}
           />
-        </ModalHeader>
+        </RequestHeader>
         <ModalBody>{content}</ModalBody>
       </Modal>
     )
