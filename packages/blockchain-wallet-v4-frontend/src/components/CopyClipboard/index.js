@@ -26,9 +26,11 @@ class CopyClipboardContainer extends React.PureComponent {
       this.setState({ active: false })
     }, 2000)
     if (coin) {
-      alertActions.displaySuccess(C.COPY_CLIPBOARD_SUCCESS, {
+      alertActions.displaySuccess(C.COPY_ADDRESS_CLIPBOARD_SUCCESS, {
         coinName: supportedCoins[coin].displayName
       })
+    } else {
+      alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
     }
   }
 

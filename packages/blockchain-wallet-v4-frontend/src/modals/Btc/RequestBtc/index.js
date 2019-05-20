@@ -4,11 +4,13 @@ import { equals, prop } from 'ramda'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
 import { actions, model } from 'data'
 import { getData, getInitialValues, getImportedAddresses } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
+import ShareLink from './template.shareLink'
 import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -98,7 +100,8 @@ class RequestBtcContainer extends React.PureComponent {
       message
     })
     this.setState({
-      receiveAddress
+      receiveAddress,
+      requestBuilt: true
     })
     this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.REQUEST, 'BTC'])
   }
@@ -111,7 +114,7 @@ class RequestBtcContainer extends React.PureComponent {
   }
 
   setReceiveAddress = addr => {
-    this.setState({ receiveAddress: addr })
+    this.setState({ receiveAddress: addr, requestBuilt: false })
   }
 
   render () {
@@ -148,7 +151,13 @@ class RequestBtcContainer extends React.PureComponent {
             defaultMessage='Request Bitcoin'
           />
         </RequestHeader>
-        <ModalBody>{content}</ModalBody>
+        <ModalBody>
+          {this.state.requestBuilt ? (
+            <ShareLink {...this.props} {...this.state} />
+          ) : (
+            content
+          )}
+        </ModalBody>
       </Modal>
     )
   }
@@ -156,7 +165,10 @@ class RequestBtcContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   initialValues: getInitialValues(state, ownProps),
   data: getData(state),
-  importedAddresses: getImportedAddresses(state)
+  importedAddresses: getImportedAddresses(state),
+  requestAmount: formValueSelector('requestBtc')(state, 'amount'),
+  requestMessage: formValueSelector('requestBtc')(state, 'message'),
+  requestTo: formValueSelector('requestBtc')(state, 'to')
 })
 
 const mapDispatchToProps = dispatch => ({

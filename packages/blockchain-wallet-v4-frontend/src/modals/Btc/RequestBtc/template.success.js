@@ -37,7 +37,7 @@ const BannerContainer = styled.div`
   }
 `
 const ContinueButton = styled(Button)`
-  margin-top: 28px;
+  margin-top: 16px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
