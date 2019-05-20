@@ -15,8 +15,8 @@ import DataError from 'components/DataError'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const RequestHeader = styled(ModalHeader)`
-  border-bottom: 0px;
-  padding-bottom: 8px;
+  border-bottom: 0;
+  padding-bottom: 0;
   > div:first-child * {
     color: ${props => props.theme['brand-primary']};
   }
@@ -105,7 +105,7 @@ class RequestEthContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='medium' position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <RequestHeader icon='request' onClose={closeAll}>
           <FormattedHTMLMessage
             id='modals.requesteth.title'

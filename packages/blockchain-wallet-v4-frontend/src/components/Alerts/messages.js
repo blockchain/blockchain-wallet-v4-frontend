@@ -149,6 +149,14 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to create Coinify account.'
         />
       )
+    case C.COPY_CLIPBOARD_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.copy_clipboard_success'
+          defaultMessage='{coinName} address successfully copied to clipboard!'
+          values={data}
+        />
+      )
     case C.CURRENCY_UPDATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

@@ -17,7 +17,7 @@ const AddressBox = styled.span`
   width: 100%;
   height: 36px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 36px;
   padding-left: 10px;
   align-items: center;
@@ -30,7 +30,6 @@ const AddressBox = styled.span`
   border-radius: 4px 0 0 4px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: ${props => props.theme['gray-1']};
 `
 const CopyButton = styled(IconButton)`
   width: 50px;
@@ -38,9 +37,9 @@ const CopyButton = styled(IconButton)`
   height: 38px;
   border-radius: 0 4px 4px 0;
   > span {
-    margin-top: ${props => (props.active ? '-2px' : '-4px;')};
+    margin-top: ${props => (props.active ? '-2px' : '-5px;')};
     margin-right: 0 !important;
-    font-size: ${props => (props.active ? '18px' : '22px')};
+    font-size: ${props => (props.active ? '18px' : '20px')};
     color: ${props =>
       props.active ? props.theme['success'] : props.theme['gray-5']};
   }
