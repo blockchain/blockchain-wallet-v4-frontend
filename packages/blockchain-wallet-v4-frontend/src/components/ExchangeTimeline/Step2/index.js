@@ -11,7 +11,7 @@ const rotateFrames = keyframes`
   100% { transform: rotate(-360deg); }
 `
 const rotateAnimation = css`
-  ${rotateFrames}: 1.5s infinite linear;
+  animation: ${rotateFrames} 1.5s infinite linear;
 `
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const Circle = styled.div`
   overflow: hidden;
 `
 const AnimatedIcon = styled(Icon)`
-  animation: ${rotateAnimation};
+  ${rotateAnimation};
   animation-play-state: ${props =>
     props.status === 'active' ? 'running' : 'paused'};
 `
