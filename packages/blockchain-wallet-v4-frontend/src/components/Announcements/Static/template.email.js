@@ -15,7 +15,7 @@ const revealFrames = keyframes`
   100% { top: -30px; }
 `
 const revealAnimation = css`
-  ${revealFrames}: 3s 1;
+  animation: ${revealFrames} 3s 1;
 `
 const ItemWrapper = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Action = styled(Text)`
 `
 const EmailSentNotification = styled(Text)`
   &.active {
-    animation: ${revealAnimation};
+    ${revealAnimation};
   }
   position: relative;
   top: -30px;

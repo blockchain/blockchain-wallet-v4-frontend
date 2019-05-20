@@ -10,12 +10,12 @@ const rotation = keyframes`
 `
 
 const animationRule = css`
-  ${/* sc-property */ rotation}: ${props => props.animateTime}s linear;
+  animation: ${/* sc-property */ rotation} ${props => props.animateTime}s linear;
 `
 
 export const SpinningIcon = styled(Icon)`
   margin-top: 2px;
-  animation: ${({ rotating }) => rotating && animationRule};
+  ${({ rotating }) => rotating && animationRule};
 `
 
 const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (

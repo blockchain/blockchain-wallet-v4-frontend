@@ -11,12 +11,12 @@ const rotateFrames = keyframes`
   }
 `
 const rotateAnimation = css`
-  ${rotateFrames}: 2.5s linear infinite;
+  animation: ${rotateFrames} 2.5s linear infinite;
 `
 
 export const RotateSync = props => {
   const RotateIcon = styled(Icon)`
-    animation: ${rotateAnimation};
+    ${rotateAnimation};
   `
 
   return <RotateIcon name='sync-regular' {...props} />
