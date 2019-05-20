@@ -5,11 +5,10 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { path } from 'ramda'
-import { check, msie } from 'bowser'
+import Bowser from 'bowser'
+
 import Modals from 'modals'
-
 import { required, validWalletId } from 'services/FormHelper'
-
 import {
   Banner,
   Button,
@@ -31,8 +30,15 @@ import {
 import { Wrapper } from 'components/Public'
 import MobileLogin from 'modals/Mobile/MobileLogin'
 
-const isSupportedBrowser =
-  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSupportedBrowser = browser.satisfies({
+  chrome: '>45',
+  chromium: '>45',
+  edge: '>40',
+  firefox: '>45',
+  opera: '>20',
+  safari: '>8'
+})
 
 export const removeWhitespace = string => string.replace(/\s/g, ``)
 

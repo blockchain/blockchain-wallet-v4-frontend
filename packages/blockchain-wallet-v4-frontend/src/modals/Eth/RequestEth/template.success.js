@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
@@ -64,9 +64,13 @@ const RequestEth = props => {
     type
   } = props
   const isLockboxAcct = type === 'LOCKBOX'
-  const warnLockboxReceive = !(
-    bowser.name === 'Chrome' || bowser.name === 'Chromium'
-  )
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const warnLockboxReceive = !browser.satisfies({
+    chrome: '>45',
+    chromium: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -130,8 +134,8 @@ const RequestEth = props => {
             {warnLockboxReceive ? (
               <Text color='warning' size='12px'>
                 <FormattedHTMLMessage
-                  id='modals.requesteth.firststep.lockbox.confirm.warn'
-                  defaultMessage='You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.'
+                  id='modals.requesteth.firststep.lockbox.confirm.warnbrowser'
+                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                 />
               </Text>
             ) : (

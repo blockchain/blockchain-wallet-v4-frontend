@@ -97,7 +97,7 @@
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.32",
     "blockchain-wallet-v4": "1.0.1",
-    "bowser": "1.9.3",
+    "bowser": "2.4.0",
     "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
     "country-region-data": "1.4.5",
