@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { equals, prop } from 'ramda'
+import styled from 'styled-components'
 
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -12,6 +13,14 @@ import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+
+const RequestHeader = styled(ModalHeader)`
+  border-bottom: 0;
+  padding-bottom: 0;
+  > div:first-child * {
+    color: ${props => props.theme['brand-primary']};
+  }
+`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestBchContainer extends React.PureComponent {
@@ -77,7 +86,7 @@ class RequestBchContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, closeAll } = this.props
+    const { closeAll, data, position, total } = this.props
 
     const content = data.cata({
       Success: value => (
@@ -97,17 +106,13 @@ class RequestBchContainer extends React.PureComponent {
     })
 
     return (
-      <Modal
-        size='large'
-        position={this.props.position}
-        total={this.props.total}
-      >
-        <ModalHeader icon='request' onClose={this.props.closeAll}>
+      <Modal size='small' position={position} total={total}>
+        <RequestHeader icon='request' onClose={closeAll}>
           <FormattedMessage
             id='modals.requestbch.title'
             defaultMessage='Request Bitcoin Cash'
           />
-        </ModalHeader>
+        </RequestHeader>
         <ModalBody>{content}</ModalBody>
       </Modal>
     )
