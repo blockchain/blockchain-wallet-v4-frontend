@@ -12,11 +12,11 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
 `
-const AddressBox = styled.span`
+const DataFieldBox = styled.span`
   display: block;
   width: 100%;
   height: 36px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   padding-left: 10px;
@@ -50,7 +50,7 @@ const CopyClipboard = props => {
 
   return (
     <Wrapper>
-      <AddressBox data-e2e='copyClipboardAddress'>{address}</AddressBox>
+      <DataFieldBox data-e2e='copyClipboardData'>{address}</DataFieldBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton
           active={active}
