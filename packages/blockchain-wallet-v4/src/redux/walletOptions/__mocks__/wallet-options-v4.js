@@ -6,7 +6,9 @@ export default {
         enableDomainMigrationRedirects: true,
         environment: 'dev',
         announcements: {
+          lockbox: {},
           public: {},
+          swap: {},
           wallet: {}
         }
       },
