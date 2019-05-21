@@ -7,15 +7,7 @@ import Bowser from 'bowser'
 
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
-import {
-  Banner,
-  Button,
-  Separator,
-  Text,
-  TextGroup,
-  TooltipIcon,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -31,18 +23,16 @@ const AddressContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 16px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
-  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-top: 25px;
   width: 100%;
-`
-const ScanMessage = styled.div`
-  padding-bottom: 20px;
 `
 const BannerContainer = styled.div`
   margin-top: 8px;
@@ -60,7 +50,6 @@ const RequestEth = props => {
     excludeLockbox,
     handleSubmit,
     handleOpenLockbox,
-    isErc20,
     type
   } = props
   const isLockboxAcct = type === 'LOCKBOX'
@@ -74,7 +63,7 @@ const RequestEth = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'20px'}>
+      <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
@@ -89,11 +78,13 @@ const RequestEth = props => {
             validate={[required]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requesteth.firststep.to'
-              defaultMessage='Receive to:'
+              id='modals.requesteth.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
@@ -105,28 +96,6 @@ const RequestEth = props => {
             coin={coin}
           />
         </FormItem>
-      </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.requesteth.share'
-              defaultMessage='Copy & Share Address:'
-            />
-            {isErc20 ? (
-              <TooltipHost id='requestpax.shareaddress'>
-                <TooltipIcon name='question-in-circle' />
-              </TooltipHost>
-            ) : (
-              <TooltipHost id='requesteth.shareaddress'>
-                <TooltipIcon name='question-in-circle' />
-              </TooltipHost>
-            )}
-          </FormLabel>
-        </FormItem>
-        <AddressContainer>
-          <CopyClipboard address={address} data-e2e='requestEth' />
-        </AddressContainer>
       </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
@@ -165,35 +134,26 @@ const RequestEth = props => {
           </Banner>
         </BannerContainer>
       )}
-      <Separator margin={'20px 0'}>
-        <Text size='14px' weight={400} uppercase>
-          <FormattedMessage id='modals.requesteth.or' defaultMessage='Or' />
-        </Text>
-      </Separator>
       <QRCodeContainer>
-        <ScanMessage>
-          <Text size='14px'>
-            <FormattedMessage
-              id='modals.requesteth.scan'
-              defaultMessage='Scan QR Code:'
-            />
-            {isErc20 ? (
-              <TooltipHost id='requestpax.qrcode'>
-                <TooltipIcon name='question-in-circle' />
-              </TooltipHost>
-            ) : (
-              <TooltipHost id='requesteth.qrcode'>
-                <TooltipIcon name='question-in-circle' />
-              </TooltipHost>
-            )}
-          </Text>
-        </ScanMessage>
         <QRCodeWrapper
           value={address}
-          size={150}
+          size={125}
           data-e2e='requestEthAddressQrCode'
         />
       </QRCodeContainer>
+      <FormGroup>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.requesteth.address'
+              defaultMessage='Address:'
+            />
+          </FormLabel>
+        </FormItem>
+        <AddressContainer>
+          <CopyClipboard address={address} data-e2e='requestEth' coin={coin} />
+        </AddressContainer>
+      </FormGroup>
       <Button
         type='submit'
         nature='primary'
