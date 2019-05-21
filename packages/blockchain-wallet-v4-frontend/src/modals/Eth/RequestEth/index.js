@@ -105,7 +105,7 @@ class RequestEthContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal size='medium' position={position} total={total}>
         <RequestHeader icon='request' onClose={closeAll}>
           <FormattedHTMLMessage
             id='modals.requesteth.title'

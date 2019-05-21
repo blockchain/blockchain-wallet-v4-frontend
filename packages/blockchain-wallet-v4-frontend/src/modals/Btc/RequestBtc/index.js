@@ -144,7 +144,7 @@ class RequestBtcContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal size='medium' position={position} total={total}>
         <RequestHeader icon='request' onClose={closeAll}>
           <FormattedMessage
             id='modals.requestbtc.title'
