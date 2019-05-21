@@ -86,7 +86,6 @@ export default ({ api, coreSagas }) => {
     try {
       yield delay(renewIn)
       yield call(setSession, userId, lifetimeToken, email, guid)
-      yield call(api.linkAccount, '8c581f6a-0893-49af-8fc3-5213afe5be4a')
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
       yield spawn(
@@ -293,22 +292,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const linkAccount = function * ({ payload }) {
+    try {
+      const { linkId } = payload
+      yield put(A.linkAccountLoading())
+      const data = yield call(api.linkAccount, linkId)
+      yield put(A.linkAccountSuccess(data))
+    } catch (e) {
+      yield put(A.linkAccountFailure(e))
+    }
+  }
+
   return {
-    getCampaignData,
-    signIn,
     clearSession,
-    setSession,
-    renewSession,
-    generateRetailToken,
-    generateAuthCredentials,
     createUser,
-    updateUser,
-    updateUserAddress,
-    fetchUser,
     fetchTiers,
+    fetchUser,
+    generateAuthCredentials,
+    generateRetailToken,
+    getCampaignData,
+    linkAccount,
+    recoverUser,
     renewApiSockets,
+    renewSession,
     renewUser,
+    setSession,
+    signIn,
     syncUserWithWallet,
-    recoverUser
+    updateUser,
+    updateUserAddress
   }
 }
