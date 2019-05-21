@@ -7,15 +7,7 @@ import Bowser from 'bowser'
 
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
-import {
-  Banner,
-  Button,
-  Separator,
-  Text,
-  TextGroup,
-  TooltipIcon,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -31,18 +23,16 @@ const AddressContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 16px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
-  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-top: 25px;
   width: 100%;
-`
-const ScanMessage = styled.div`
-  padding-bottom: 20px;
 `
 const BannerContainer = styled.div`
   margin-top: 8px;
@@ -72,7 +62,7 @@ const RequestXlm = ({
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'20px'}>
+      <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
@@ -87,11 +77,13 @@ const RequestXlm = ({
             validate={[required]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestxlm.firststep.to'
-              defaultMessage='Receive to:'
+              id='modals.requestxlm.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
@@ -102,22 +94,6 @@ const RequestXlm = ({
             excludeLockbox={excludeLockbox}
           />
         </FormItem>
-      </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.requestxlm.share'
-              defaultMessage='Copy & Share Address:'
-            />
-            <TooltipHost id='reqXlmShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </FormLabel>
-        </FormItem>
-        <AddressContainer>
-          <CopyClipboard address={address} data-e2e='requestXlm' />
-        </AddressContainer>
       </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
@@ -156,29 +132,26 @@ const RequestXlm = ({
           </Banner>
         </BannerContainer>
       )}
-      <Separator margin={'20px 0'}>
-        <Text size='14px' weight={400} uppercase>
-          <FormattedMessage id='modals.requestxlm.or' defaultMessage='Or' />
-        </Text>
-      </Separator>
       <QRCodeContainer>
-        <ScanMessage>
-          <Text size='14px'>
-            <FormattedMessage
-              id='modals.requestxlm.scan'
-              defaultMessage='Scan QR Code:'
-            />
-            <TooltipHost id='reqXlmScan'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </Text>
-        </ScanMessage>
         <QRCodeWrapper
           value={xlmURI}
-          size={150}
+          size={125}
           data-e2e='requestXlmAddressQrCode'
         />
       </QRCodeContainer>
+      <FormGroup>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.requestxlm.address'
+              defaultMessage='Address:'
+            />
+          </FormLabel>
+        </FormItem>
+        <AddressContainer>
+          <CopyClipboard address={address} data-e2e='requestXlm' coin='XLM' />
+        </AddressContainer>
+      </FormGroup>
       <Button
         type='submit'
         nature='primary'
