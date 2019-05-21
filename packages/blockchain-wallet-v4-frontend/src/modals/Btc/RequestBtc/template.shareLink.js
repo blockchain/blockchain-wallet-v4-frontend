@@ -20,7 +20,7 @@ const QrCodeColumn = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-content: center;
   align-items: center;
 `
@@ -28,8 +28,6 @@ const SummaryColumn = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-content: flex-start;
 `
 const SummaryGroup = styled(TextGroup)`
   margin-bottom: 8px;
@@ -69,41 +67,41 @@ const ShareRequestLink = props => {
         <QrCodeColumn>
           <QRCodeWrapper
             value={receiveAddress}
-            size={125}
+            size={150}
             data-e2e='requestBtcAddressQrCode'
           />
         </QrCodeColumn>
         <SummaryColumn>
           <SummaryGroup>
-            <Text size='13px' weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
                 id='modals.requestbtc.share.destination'
                 defaultMessage='Destination'
               />
             </Text>
-            <Text size='12px' weight={400}>
+            <Text size='13px' weight={400}>
               {requestTo.label}
             </Text>
           </SummaryGroup>
           <SummaryGroup>
-            <Text size='13px' weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
                 id='modals.requestbtc.share.amount'
                 defaultMessage='Amount'
               />
             </Text>
-            <CoinDisplay size='12px' weight={400} coin='BTC'>
+            <CoinDisplay size='13px' weight={400} coin='BTC'>
               {requestAmountSats}
             </CoinDisplay>
           </SummaryGroup>
           <SummaryGroup>
-            <Text size='13px' weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
                 id='modals.requestbtc.share.description'
                 defaultMessage='Description'
               />
             </Text>
-            <Text size='12px' weight={400}>
+            <Text size='13px' weight={400}>
               {requestMessage}
             </Text>
           </SummaryGroup>
