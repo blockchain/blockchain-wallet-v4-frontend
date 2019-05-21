@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['public', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['lockbox', 'public', 'swap', 'wallet']).isRequired
 }
 
 export default connect(
