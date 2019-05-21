@@ -23,8 +23,7 @@ export const getData = createDeepEqualSelector(
         language: language,
         showAnnounce: !(cachedState && cachedState.dismissed)
       }
-    } else {
-      return { announcements: {} }
     }
+    return { announcements: {} }
   }
 )
