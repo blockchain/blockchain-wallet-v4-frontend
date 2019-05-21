@@ -53,7 +53,9 @@ const ShareRequestLink = props => {
     fromUnit: 'BTC',
     toUnit: 'SAT'
   }).value
-  const link = `https://blockchain.com/btc/payment_request?address=${receiveAddress}&amount=${requestAmount}&message=${requestMessage}`
+  const link = `https://blockchain.com/btc/payment_request?address=${receiveAddress}&amount=${
+    requestAmount.coin
+  }&message=${requestMessage}`
 
   return (
     <React.Fragment>
