@@ -18,7 +18,7 @@ import {
   find,
   isEmpty
 } from 'ramda'
-import { set, over } from 'ramda-lens'
+import { set } from 'ramda-lens'
 import Task from 'data.task'
 import * as A from '../actions'
 import * as S from './selectors'
@@ -148,8 +148,7 @@ export default ({ api, networks }) => {
   const upgradeToV4 = function * ({ password }) {
     const wrapper = yield select(S.getWrapper)
     if (Wrapper.isV4(wrapper)) {
-      const nextWrapper = over(Wrapper.wallet, Wallet.upgradeToV4, wrapper)
-      yield put(A.wallet.setWrapper(nextWrapper))
+      // TODO: SEGWIT add new segwit derivation
     } else {
       throw new Error('Already a v4 wallet')
     }

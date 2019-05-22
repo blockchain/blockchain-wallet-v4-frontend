@@ -8,7 +8,6 @@ import {
   assoc,
   dissoc,
   isNil,
-  set,
   split
 } from 'ramda'
 import { view, over, traverseOf } from 'ramda-lens'
@@ -95,32 +94,6 @@ export const getAddress = (account, path, network, type = 'legacy') => {
   return Cache.getAddress(cache, c, i, network)
 }
 
-export const upgradeToV4 = pipe(
-  HDAccount.guard,
-  account => {
-    const derivation = Derivation.createNew({
-      type: 'legacy',
-      purpose: 44,
-      xpriv: selectXpriv(account),
-      xpub: selectXpub(account),
-      addressLabels: selectAddressLabels(account),
-      cache: selectCache(account)
-    })
-
-    const upgrade = compose(
-      set(derivations, DerivationList.createNew([derivation])),
-      HDAccount.fromJS,
-      dissoc('xpriv'),
-      dissoc('xpub'),
-      dissoc('address_labels'),
-      dissoc('cache'),
-      HDAccount.toJS
-    )
-
-    return upgrade(account)
-  }
-)
-
 export const getReceiveAddress = (
   account,
   receiveIndex,
@@ -147,14 +120,45 @@ export const getChangeAddress = (
   return Cache.getAddress(cache, 1, changeIndex, network)
 }
 
-export const fromJS = (x, i) => {
-  if (is(HDAccount, x)) {
-    return x
+// migrateFromV3 :: Object -> Object
+const migrateFromV3 = account => {
+  if (account.derivations != null) {
+    return account
   }
-  const accountCons = a => {
-    return over(derivations, DerivationList.fromJS, a)
+
+  const derivation = {
+    type: 'legacy',
+    purpose: 44,
+    xpriv: account.xpriv,
+    xpub: account.xpub,
+    address_labels: account.address_labels,
+    cache: account.cache
   }
-  return accountCons(new HDAccount(assoc('index', i, x)))
+
+  const migrate = compose(
+    assoc('derivations', [derivation]),
+    dissoc('xpriv'),
+    dissoc('xpub'),
+    dissoc('address_labels'),
+    dissoc('cache')
+  )
+
+  return migrate(account)
+}
+
+export const fromJS = (account, index) => {
+  if (is(HDAccount, account)) {
+    return account
+  }
+
+  const constructAccount = compose(
+    over(derivations, DerivationList.fromJS),
+    a => new HDAccount(a),
+    assoc('index', index),
+    migrateFromV3
+  )
+
+  return constructAccount(account)
 }
 
 export const toJSwithIndex = pipe(

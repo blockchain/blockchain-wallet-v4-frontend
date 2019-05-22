@@ -18,7 +18,7 @@ import {
   isNil,
   flip
 } from 'ramda'
-import { mapped, traversed, traverseOf, over, view, set } from 'ramda-lens'
+import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
@@ -283,17 +283,6 @@ export const upgradeToHd = curry(
     )
   }
 )
-
-// upgradeToV4 :: Wallet -> Wallet
-export const upgradeToV4 = wallet => {
-  const allAccountsLens = compose(
-    Wallet.hdWallets,
-    HDWalletList.hdwallet,
-    HDWallet.accounts,
-    mapped
-  )
-  return over(allAccountsLens, HDAccount.generateDerivationList, wallet)
-}
 
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
