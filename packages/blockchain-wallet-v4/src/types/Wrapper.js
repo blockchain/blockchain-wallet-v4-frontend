@@ -75,6 +75,9 @@ export const reviver = jsObject => {
   return new Wrapper(jsObject)
 }
 
+// isV4 :: Wrapper -> Boolean
+export const isV4 = wrapper => selectVersion(wrapper) === 4
+
 // computeChecksum :: encJSON -> String
 export const computeChecksum = compose(
   payload => crypto.sha256(payload).toString('hex'),

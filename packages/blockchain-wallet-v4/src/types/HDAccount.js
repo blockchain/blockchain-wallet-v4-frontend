@@ -95,17 +95,31 @@ export const getAddress = (account, path, network, type = 'legacy') => {
   return Cache.getAddress(cache, c, i, network)
 }
 
-export const generateDerivationList = account => {
-  HDAccount.guard(account)
-  const derivation = Derivation.createNew({
-    xpriv: selectXpriv(account),
-    xpub: selectXpub(account),
-    addressLabels: selectAddressLabels(account),
-    cache: selectCache(account)
-  })
-  const derivationList = DerivationList.createNew([derivation])
-  return set(derivations, derivationList, account)
-}
+export const upgradeToV4 = pipe(
+  HDAccount.guard,
+  account => {
+    const derivation = Derivation.createNew({
+      type: 'legacy',
+      purpose: 44,
+      xpriv: selectXpriv(account),
+      xpub: selectXpub(account),
+      addressLabels: selectAddressLabels(account),
+      cache: selectCache(account)
+    })
+
+    const upgrade = compose(
+      set(derivations, DerivationList.createNew([derivation])),
+      HDAccount.fromJS,
+      dissoc('xpriv'),
+      dissoc('xpub'),
+      dissoc('address_labels'),
+      dissoc('cache'),
+      HDAccount.toJS
+    )
+
+    return upgrade(account)
+  }
+)
 
 export const getReceiveAddress = (
   account,

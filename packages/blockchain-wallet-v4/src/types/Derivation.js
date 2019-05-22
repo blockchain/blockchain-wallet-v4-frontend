@@ -18,15 +18,23 @@ export const selectAddressLabels = view(addressLabels)
 export const selectType = view(type)
 export const selectPurpose = view(purpose)
 
-export const createNew = ({ xpriv, xpub, address_labels, cache }) =>
-  new Derivation({
-    type: 'legacy',
-    purpose: 44,
+export const createNew = ({
+  type,
+  purpose,
+  xpriv,
+  xpub,
+  addressLabels,
+  cache
+}) => {
+  return new Derivation({
+    type,
+    purpose,
     xpriv,
     xpub,
-    address_labels: AddressLabelMap.fromJS(address_labels),
+    address_labels: AddressLabelMap.fromJS(addressLabels),
     cache: Cache.fromJS(cache)
   })
+}
 
 export const fromJS = (derivation, i) => {
   if (is(Derivation, derivation)) {
