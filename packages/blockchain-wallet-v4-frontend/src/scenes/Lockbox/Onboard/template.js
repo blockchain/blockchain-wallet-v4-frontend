@@ -93,7 +93,7 @@ const LearnMoreContainer = styled.div`
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   ${media.mobile`
     width: 100%;
     flex-direction: column;

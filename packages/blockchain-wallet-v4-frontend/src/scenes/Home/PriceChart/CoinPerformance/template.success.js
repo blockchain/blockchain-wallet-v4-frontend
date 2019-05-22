@@ -38,7 +38,7 @@ const Success = ({
       <Text size='12px' color={priceChange >= 0 ? 'success' : 'sent'}>
         {buildPriceDisplay(currency, priceChange, pricePercentageChange)}
       </Text>
-      <Text size='12px' color='lightblue-gray'>
+      <Text size='12px' color='gray-3'>
         {getPriceChartTime(priceChartTime)}
       </Text>
     </Wrapper>
