@@ -123,7 +123,7 @@ export default {
   black: '#000000',
   textBlack: '#121D33',
   // Blues
-  purple: '#121D33',
+  purple: '#4C18BA',
   'deep-blue': '#144699',
   blue: '#0C6CF2',
   // Alphas
