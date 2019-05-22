@@ -8,6 +8,8 @@ import Type from './Type'
 import * as Wallet from './Wallet'
 import * as Options from './Options'
 
+export const PAYLOAD_VERSION = 4
+
 /* Wrapper :: {
   wallet             :: Wallet
   war_checksum       :: String
@@ -48,18 +50,18 @@ export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
 export const selectSyncPubKeys = view(syncPubKeys)
 
-// traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
+// traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper -> m Wrapper
 export const traverseWallet = curry((of, f, wrapper) =>
   of(wrapper).chain(traverseOf(wallet, of, f))
 )
 
-// fromJS :: JSON -> wrapper
-export const fromJS = x => {
-  if (isWrapper(x)) {
-    return x
+// fromJS :: JSON -> Wrapper
+export const fromJS = wrapper => {
+  if (isWrapper(wrapper)) {
+    return wrapper
   }
-  const wrapperCons = compose(over(wallet, Wallet.fromJS))
-  return wrapperCons(new Wrapper(x))
+  const wrapperCons = over(wallet, Wallet.fromJS)
+  return wrapperCons(new Wrapper(wrapper))
 }
 
 // toJS :: wrapper -> JSON
@@ -75,8 +77,22 @@ export const reviver = jsObject => {
   return new Wrapper(jsObject)
 }
 
-// isV4 :: Wrapper -> Boolean
-export const isV4 = wrapper => selectVersion(wrapper) === 4
+// isLatestVersion :: Wrapper -> Boolean
+export const isLatestVersion = wrapper => {
+  return selectVersion(wrapper) === PAYLOAD_VERSION
+}
+
+// upgradeToV4 :: String -> Network -> Wrapper -> Task Error Wrapper
+export const upgradeToV4 = curry((password, network, wrapper) => {
+  const upgradeWallet = Wallet.upgradeToV4(password, network)
+
+  const upgradeWrapper = compose(
+    traverseWallet(Task.of, upgradeWallet),
+    set(version, PAYLOAD_VERSION)
+  )
+
+  return upgradeWrapper(wrapper)
+})
 
 // computeChecksum :: encJSON -> String
 export const computeChecksum = compose(

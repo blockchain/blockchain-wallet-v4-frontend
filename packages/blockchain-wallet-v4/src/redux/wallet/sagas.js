@@ -147,8 +147,9 @@ export default ({ api, networks }) => {
 
   const upgradeToV4 = function * ({ password }) {
     const wrapper = yield select(S.getWrapper)
-    if (Wrapper.isV4(wrapper)) {
-      // TODO: SEGWIT add new segwit derivation
+    if (!Wrapper.isLatestVersion(wrapper)) {
+      let upgradeTask = Wrapper.upgradeToV4(password, networks.btc, wrapper)
+      yield call(runTask, upgradeTask, A.wallet.setWrapper)
     } else {
       throw new Error('Already a v4 wallet')
     }

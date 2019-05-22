@@ -10,7 +10,7 @@ import {
   isNil,
   split
 } from 'ramda'
-import { view, over, traverseOf } from 'ramda-lens'
+import { view, over, traversed, traverseOf } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import Task from 'data.task'
 import Type from './Type'
@@ -27,32 +27,36 @@ import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, w
 } */
 
 export class HDAccount extends Type {}
+
 export const isHDAccount = is(HDAccount)
+
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
 export const index = HDAccount.define('index')
 export const derivations = HDAccount.define('derivations')
-export const xpriv = HDAccount.define('xpriv')
-export const addressLabels = HDAccount.define('address_labels')
-export const cache = HDAccount.define('cache')
-// export const xpub = HDAccount.define('xpub')
+
+// Lens used to traverse all secrets for double encryption
+export const secretsLens = compose(
+  derivations,
+  traversed,
+  Derivation.secretsLens
+)
+
 export const selectLabel = view(label)
 export const selectArchived = view(archived)
 export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
-export const selectCache = view(cache)
-// export const selectXpriv = view(xpriv)
-// export const selectXpub = view(xpub)
-// export const selectAddressLabels = view(addressLabels)
 
 export const isArchived = compose(
   Boolean,
   view(archived)
 )
+
 export const isActive = compose(
   not,
   isArchived
 )
+
 export const isWatchOnly = account =>
   compose(
     isNil,
@@ -65,6 +69,7 @@ export const isXpub = curry((myxpub, account) =>
     selectXpub
   )(account)
 )
+
 // TODO: SEGWIT (get all xpubs)
 // TODO: SEGWIT (get xpub for derivation)
 export const selectXpub = account => {
@@ -72,12 +77,14 @@ export const selectXpub = account => {
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpub(derivation)
 }
+
 // TODO: SEGWIT (get xpriv for derivation)
 export const selectXpriv = account => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpriv(derivation)
 }
+
 // TODO: SEGWIT (get address labels for derivation)
 export const selectAddressLabels = account => {
   const derivations = selectDerivations(account)
@@ -151,14 +158,14 @@ export const fromJS = (account, index) => {
     return account
   }
 
-  const constructAccount = compose(
+  const accountCons = compose(
     over(derivations, DerivationList.fromJS),
     a => new HDAccount(a),
     assoc('index', index),
     migrateFromV3
   )
 
-  return constructAccount(account)
+  return accountCons(account)
 }
 
 export const toJSwithIndex = pipe(
@@ -181,24 +188,17 @@ export const reviver = jsObject => {
 export const js = (label, node, xpub) => ({
   label: label,
   archived: false,
-  derivations: DerivationList.createNew([
-    Derivation.createNew({
-      xpriv: node ? node.toBase58() : '',
-      xpub: node ? node.neutered().toBase58() : xpub,
-      address_labels: [],
-      cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
-    })
-  ])
+  derivations: [Derivation.js('legacy', 44, node, xpub)]
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account
 export const encrypt = curry((iterations, sharedKey, password, account) => {
   const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
-  return traverseOf(xpriv, Task.of, cipher, account)
+  return traverseOf(secretsLens, Task.of, cipher, account)
 })
 
 // decrypt :: Number -> String -> String -> Account -> Task Error Account
 export const decrypt = curry((iterations, sharedKey, password, account) => {
   const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
-  return traverseOf(xpriv, Task.of, cipher, account)
+  return traverseOf(secretsLens, Task.of, cipher, account)
 })

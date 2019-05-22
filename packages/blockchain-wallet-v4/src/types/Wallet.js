@@ -36,6 +36,8 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Options from './Options'
 
+const DEFAULT_DERIVATION = { type: 'segwit', purpose: 49 }
+
 /* Wallet :: {
   guid :: String
   sharedKey :: String
@@ -284,6 +286,51 @@ export const upgradeToHd = curry(
   }
 )
 
+// upgradeToV4 :: String -> Network -> Wallet -> Task Error Wallet
+export const upgradeToV4 = curry((password, network, wallet) => {
+  const { type, purpose } = DEFAULT_DERIVATION
+
+  const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
+
+  const upgradeAccount = curry((seedHex, account) => {
+    const addDerivationToAccount = derivation =>
+      over(
+        HDAccount.derivations,
+        derivations => derivations.push(derivation),
+        account
+      )
+
+    const derivation = HDWallet.generateDerivation(
+      type,
+      purpose,
+      account.index,
+      network,
+      seedHex
+    )
+
+    return encryptDerivation(derivation).map(addDerivationToAccount)
+  })
+
+  const selectSeedHex = compose(
+    HDWallet.selectSeedHex,
+    HDWalletList.selectHDWallet,
+    selectHdWallets
+  )
+
+  const traverseAllAccounts = compose(
+    hdwallet,
+    HDWallet.accounts,
+    traversed
+  )
+
+  return traverseOf(
+    traverseAllAccounts,
+    Task.of,
+    upgradeAccount(selectSeedHex(wallet)),
+    wallet
+  )
+})
+
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   let hdWallet = HDWallet.createNew(mnemonic)
@@ -457,11 +504,7 @@ export const traverseKeyValues = curry((of, f, wallet) => {
     compose(
       hdWallets,
       traversed,
-      HDWallet.accounts,
-      traversed,
-      HDAccount.derivations,
-      traversed,
-      Derivation.xpriv
+      HDWallet.secretsLens
     ),
     of,
     f

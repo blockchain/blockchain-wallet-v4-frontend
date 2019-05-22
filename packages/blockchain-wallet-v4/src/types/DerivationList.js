@@ -15,10 +15,6 @@ export const derivationOfType = type =>
     (val, x) => x.map(d => (Derivation.selectType(d) === type ? val : d))
   )
 
-export const createNew = derivations => {
-  return new DerivationList(derivations)
-}
-
 export const getDerivationFromType = (derivations, type) => {
   DerivationList.guard(derivations)
   return derivations.find(d => Derivation.selectType(d) === type)
