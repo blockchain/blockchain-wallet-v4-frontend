@@ -7,7 +7,7 @@ const scaleFrames = keyframes`
   25% { transform: scale3D(0, 0, 1); }
 `
 const scaleAnimation = css`
-  ${scaleFrames} 3s infinite ease-in-out;
+  animation: ${scaleFrames} 3s infinite ease-in-out;
 `
 const Wrapper = styled.div`
   position: relative;
@@ -27,7 +27,7 @@ const Square = styled.div`
   height: 20%;
   float: left;
   border: 0;
-  animation: ${scaleAnimation};
+  ${scaleAnimation};
 `
 const SquareMarketingSecondary = styled(Square)`
   background-color: ${props => props.theme['marketing-secondary']};

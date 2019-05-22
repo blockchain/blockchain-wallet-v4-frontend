@@ -5,7 +5,7 @@ const flightFrames = keyframes`
   100% { left: calc(0% - 230px); }
 `
 export const flight = css`
-  ${flightFrames} 10s infinite linear;
+  animation: ${flightFrames} 10s infinite linear;
 `
 
 const flightDelay1Frames = keyframes`
@@ -13,7 +13,7 @@ const flightDelay1Frames = keyframes`
   100% { left: calc(-100% - 230px); }
 `
 export const flightDelay1 = css`
-  ${flightDelay1Frames} 20s infinite linear;
+  animation: ${flightDelay1Frames} 20s infinite linear;
 `
 
 const flightDelay2Frames = keyframes`
@@ -21,7 +21,7 @@ const flightDelay2Frames = keyframes`
   100% { left: calc(0% - 230px); }
 `
 export const flightDelay2 = css`
-  ${flightDelay2Frames} 20s infinite linear;
+  animation: ${flightDelay2Frames} 20s infinite linear;
 `
 
 const balloonFrames = keyframes`
@@ -29,7 +29,7 @@ const balloonFrames = keyframes`
   100% { bottom: calc(100%); }
 `
 export const balloon = css`
-  ${balloonFrames} 10s infinite linear;
+  animation: ${balloonFrames} 10s infinite linear;
 `
 
 const balloonDelay1Frames = keyframes`
@@ -37,7 +37,7 @@ const balloonDelay1Frames = keyframes`
   100% { bottom: calc(200%); }
 `
 export const balloonDelay1 = css`
-  ${balloonDelay1Frames} 20s infinite linear;
+  animation: ${balloonDelay1Frames} 20s infinite linear;
 `
 
 const balloonDelay2Frames = keyframes`
@@ -45,7 +45,7 @@ const balloonDelay2Frames = keyframes`
   100% { bottom: calc(100%); }
 `
 export const balloonDelay2 = css`
-  ${balloonDelay2Frames} 20s infinite linear;
+  animation: ${balloonDelay2Frames} 20s infinite linear;
 `
 
 const droneFrames = keyframes`
@@ -54,7 +54,7 @@ const droneFrames = keyframes`
   100% { bottom: calc(-100%); }
 `
 export const drone = css`
-  ${droneFrames} 3s infinite linear;
+  animation: ${droneFrames} 3s infinite linear;
 `
 
 const droneDelay1Frames = keyframes`
@@ -65,7 +65,7 @@ const droneDelay1Frames = keyframes`
   100% { bottom: calc(-200%); }
 `
 export const droneDelay1 = css`
-  ${droneDelay1Frames} 6s infinite linear;
+  animation: ${droneDelay1Frames} 6s infinite linear;
 `
 
 const droneDelay2Frames = keyframes`
@@ -78,5 +78,5 @@ const droneDelay2Frames = keyframes`
   100% { bottom: -100px; }
 `
 export const droneDelay2 = css`
-  ${droneDelay2Frames} 6s infinite linear;
+  animation: ${droneDelay2Frames} 6s infinite linear;
 `

@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button } from 'blockchain-info-components'
+import { IconButton } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -13,28 +12,37 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
 `
-const AddressBox = styled.span`
+const DataFieldBox = styled.span`
   display: block;
   width: 100%;
   height: 36px;
   font-size: 14px;
-  font-weight: 400;
-  overflow: hidden;
+  font-weight: 500;
   line-height: 36px;
   padding-left: 10px;
   align-items: center;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow: scroll;
+  padding-right: 10px;
   color: ${props => props.theme['gray-5']};
+  border: 1px solid ${props => props.theme['gray-2']};
+  border-right: none;
+  border-radius: 4px 0 0 4px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: ${props => props.theme['gray-1']};
 `
-const CopyButton = styled(Button)`
-  width: 160px;
+const CopyButton = styled(IconButton)`
+  width: 50px;
   min-width: 0;
-  height: 100%;
-  border-radius: 0;
+  height: 38px;
+  border-radius: 0 4px 4px 0;
+  > span {
+    margin-top: ${props => (props.active ? '-2px' : '-5px;')};
+    margin-right: 0 !important;
+    font-size: ${props => (props.active ? '18px' : '20px')};
+    color: ${props =>
+      props.active ? props.theme['success'] : props.theme['gray-5']};
+  }
 `
 
 const CopyClipboard = props => {
@@ -42,24 +50,14 @@ const CopyClipboard = props => {
 
   return (
     <Wrapper>
-      <AddressBox data-e2e='copyClipboardAddress'>{address}</AddressBox>
+      <DataFieldBox data-e2e='copyClipboardData'>{address}</DataFieldBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton
-          nature={active ? 'success' : 'secondary'}
+          active={active}
+          name={active ? 'check' : 'copy-clipboard'}
+          color='gray-1'
           data-e2e='copyClipboardCopyButton'
-        >
-          {active ? (
-            <FormattedMessage
-              id='components.copyclipboard.copied'
-              defaultMessage='Copied!'
-            />
-          ) : (
-            <FormattedMessage
-              id='components.copyclipboard.copy'
-              defaultMessage='Copy'
-            />
-          )}
-        </CopyButton>
+        />
       </CopyToClipBoard>
     </Wrapper>
   )

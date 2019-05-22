@@ -15,8 +15,8 @@ exports[`Lockbox Balances Component should prompt user to use Chrome if coin is 
     weight={400}
   >
     <FormattedMessage
-      defaultMessage="Use the Chrome browser to add {coin} to your Lockbox"
-      id="components.balances.savecointolockboxbrowser"
+      defaultMessage="Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox"
+      id="components.balances.browserblock"
       values={
         Object {
           "coin": "BTC",

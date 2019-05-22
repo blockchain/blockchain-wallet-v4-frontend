@@ -11,7 +11,7 @@ import {
 import { Button } from 'blockchain-info-components'
 
 const UpdateDevice = props => {
-  const { onCheckForUpdates, isBrowserChrome } = props
+  const { onCheckForUpdates, isBrowserSupported } = props
 
   return (
     <SettingContainer>
@@ -33,7 +33,7 @@ const UpdateDevice = props => {
         <Button
           nature='empty'
           onClick={onCheckForUpdates}
-          disabled={!isBrowserChrome}
+          disabled={!isBrowserSupported}
         >
           <FormattedMessage
             id='scenes.lockbox.settings.updatedevice.checkforupdate'

@@ -10,7 +10,7 @@ const stretchFrames = keyframes`
   20% { transform: scaleY(1.0); }
 `
 const stretchAnimation = css`
-  ${stretchFrames} 1.2s infinite ease-in-out;
+  animation: ${stretchFrames} 1.2s infinite ease-in-out;
 `
 const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const Rectangle = styled.div`
   width: 15%;
   height: 100%;
   background-color: ${props => props.theme[props.color]};
-  animation: ${stretchAnimation};
+  ${stretchAnimation};
 `
 const Rectangle1 = styled(Rectangle)`
   animation-delay: -1.1s;
