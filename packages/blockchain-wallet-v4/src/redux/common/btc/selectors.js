@@ -27,6 +27,8 @@ import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
+// TODO: SEGWIT
+// accounts are not being populated with info because 'account' no longer has 'xpub' prop
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
   const addInfo = account =>

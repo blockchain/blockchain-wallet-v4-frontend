@@ -1,4 +1,4 @@
-import { addIndex, map, pipe, is } from 'ramda'
+import { addIndex, map, pipe, is, lens } from 'ramda'
 import List from './List'
 import { iLensProp } from './util'
 import * as Derivation from './Derivation'
@@ -8,6 +8,12 @@ export class DerivationList extends List {}
 const mapIndexed = addIndex(map)
 
 export const derivation = iLensProp
+
+export const derivationOfType = type =>
+  lens(
+    x => x.find(d => Derivation.selectType(d) === type),
+    (val, x) => x.map(d => (Derivation.selectType(d) === type ? val : d))
+  )
 
 export const createNew = derivations => {
   return new DerivationList(derivations)

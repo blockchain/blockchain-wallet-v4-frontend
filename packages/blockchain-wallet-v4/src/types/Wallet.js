@@ -370,16 +370,17 @@ export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
 })
 
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
-// TODO: SEGWIT (DerivationList.derivation(0)) should not be hardcoded
 export const setHdAddressLabel = curry(
   (accountIdx, addressIdx, label, wallet) => {
+    // TODO: SEGWIT do not hardcode type
+    const type = 'legacy'
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,
       HDWallet.accounts,
       HDAccountList.account(accountIdx),
       HDAccount.derivations,
-      DerivationList.derivation(0),
+      DerivationList.derivationOfType(type),
       Derivation.addressLabels
     )
     const eitherW = Either.try(
