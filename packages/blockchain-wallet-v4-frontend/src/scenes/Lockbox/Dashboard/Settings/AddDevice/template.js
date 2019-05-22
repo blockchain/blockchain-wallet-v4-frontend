@@ -11,7 +11,7 @@ import {
 import { Button } from 'blockchain-info-components'
 
 const AddDevice = props => {
-  const { onClick, isBrowserChrome } = props
+  const { onClick, isBrowserSupported } = props
 
   return (
     <SettingContainer>
@@ -30,7 +30,7 @@ const AddDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onClick} disabled={!isBrowserChrome}>
+        <Button nature='empty' onClick={onClick} disabled={!isBrowserSupported}>
           <FormattedMessage
             id='scenes.lockbox.settings.adddevice.add'
             defaultMessage='Add Device'

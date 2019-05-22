@@ -46,7 +46,7 @@ const Container = styled.div.attrs({
   color: ${Color('textBlack')};
 
   a {
-    transition: color .5s, opacity: .5s;
+    transition: color 0.5s, opacity 0.5s;
     font-weight: 500;
   }
 

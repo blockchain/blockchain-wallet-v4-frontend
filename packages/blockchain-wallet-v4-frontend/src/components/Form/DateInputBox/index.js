@@ -32,7 +32,6 @@ const RowWrapper = styled.div`
 const LabelWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-itmes: flex-start;
   justify-content: flex-start;
 `
 const MonthWrapper = styled(LabelWrapper)`

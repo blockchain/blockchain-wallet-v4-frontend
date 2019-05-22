@@ -19,14 +19,14 @@ class UpdateDeviceContainer extends React.PureComponent {
     return (
       <UpdateDevice
         onCheckForUpdates={this.onCheckForUpdates}
-        isBrowserChrome={this.props.isBrowserChrome}
+        isBrowserSupported={this.props.isBrowserSupported}
       />
     )
   }
 }
 
 UpdateDeviceContainer.propTypes = {
-  isBrowserChrome: PropTypes.bool.isRequired
+  isBrowserSupported: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

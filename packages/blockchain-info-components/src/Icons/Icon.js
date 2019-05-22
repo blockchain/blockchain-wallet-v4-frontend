@@ -12,7 +12,7 @@ const BaseIcon = styled.span`
   display: flex;
 
   &:before {
-    font-family: 'icomoon';
+    font-family: 'icomoon', sans-serif;
     content: '${props => props.code}';
   }
 `

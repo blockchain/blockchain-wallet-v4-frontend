@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 
 import { actions } from 'data'
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -36,7 +36,14 @@ const RightCol = styled.div`
     margin-right: 16px;
   }
 `
-const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isBrowserSupported = browser.satisfies({
+  chrome: '>45',
+  chromium: '>45',
+  firefox: '>45',
+  opera: '>20'
+})
+
 class DeviceTitle extends React.PureComponent {
   onOpenAppManager = () => {
     this.props.modalActions.showModal('LockboxAppManager', {
@@ -62,7 +69,7 @@ class DeviceTitle extends React.PureComponent {
             nature='primary'
             rounded
             onClick={this.onOpenAppManager}
-            disabled={!isBrowserChrome}
+            disabled={!isBrowserSupported}
             className='tour-step4'
           >
             <FormattedMessage

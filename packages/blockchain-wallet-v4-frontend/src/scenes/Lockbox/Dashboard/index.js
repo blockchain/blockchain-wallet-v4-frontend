@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { equals } from 'ramda'
 import { withRouter } from 'react-router-dom'
+
+import Announcements from 'components/Announcements'
 import Transactions from './Transactions'
 import Settings from './Settings'
 import { actions } from 'data'
@@ -48,6 +50,7 @@ class LockboxDashboardContainer extends React.PureComponent {
 
     return (
       <Wrapper>
+        <Announcements type='service' alertArea='lockbox' />
         <Header />
         {onDashboard ? (
           <TransactionsWrapper>

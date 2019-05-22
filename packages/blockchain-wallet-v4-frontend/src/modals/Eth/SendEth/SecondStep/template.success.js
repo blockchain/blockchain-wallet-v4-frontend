@@ -97,8 +97,8 @@ const Success = props => {
         <LargeTableRow>
           <Text size='16px' weight={500}>
             <FormattedMessage
-              id='modals.sendeth.secondstep.payment'
-              defaultMessage='Payment:'
+              id='modals.sendeth.secondstep.amount'
+              defaultMessage='Amount:'
             />
           </Text>
           <ExchangeAmounts>

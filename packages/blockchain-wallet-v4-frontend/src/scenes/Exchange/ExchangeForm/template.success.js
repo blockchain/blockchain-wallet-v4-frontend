@@ -7,11 +7,11 @@ import { includes, head, last } from 'ramda'
 import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { formatTextAmount } from 'services/ValidationHelper'
-
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { Wrapper as BorderWrapper, Note } from 'components/Exchange'
+
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
@@ -255,8 +255,8 @@ const Success = ({
                 <Banner type='warning'>
                   <Text color='warning' size='12px'>
                     <FormattedMessage
-                      id='scenes.exchange.exchangeform.blocklockbox'
-                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                      id='scenes.exchange.exchangeform.blockbrowser'
+                      defaultMessage='Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
                     />
                   </Text>
                 </Banner>

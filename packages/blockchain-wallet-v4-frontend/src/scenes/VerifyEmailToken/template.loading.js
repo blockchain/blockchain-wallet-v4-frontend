@@ -15,7 +15,7 @@ const rotateFrames = keyframes`
   to { transform: rotate(360deg); }
 `
 const rotateAnimation = css`
-  ${rotateFrames} 1s infinite linear;
+  animation: ${rotateFrames} 1s infinite linear;
 `
 const LoadingWrapper = styled.div`
   position: relative;
@@ -28,7 +28,7 @@ const LoadingIcon = styled.div`
   border-top: 3px solid rgba(0, 0, 0, 0.5);
   border-right: 3px solid transparent;
   border-radius: 50%;
-  animation: ${rotateAnimation};
+  ${rotateAnimation};
 `
 
 const Loading = () => {

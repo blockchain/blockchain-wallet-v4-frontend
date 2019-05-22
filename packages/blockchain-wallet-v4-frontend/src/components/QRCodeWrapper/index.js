@@ -5,7 +5,9 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   canvas {
-    border: 1px solid white;
+    padding: 12px;
+    border: 1px solid ${props => props.theme['gray-2']};
+    border-radius: 6px;
   }
 `
 

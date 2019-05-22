@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check, msie } from 'bowser'
+import Bowser from 'bowser'
 
 import {
   validPasswordConfirmation,
@@ -32,8 +32,15 @@ import {
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 
-const isSupportedBrowser =
-  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSupportedBrowser = browser.satisfies({
+  chrome: '>45',
+  chromium: '>45',
+  edge: '>40',
+  firefox: '>45',
+  opera: '>20',
+  safari: '>8'
+})
 
 const Header = styled.div`
   display: flex;
