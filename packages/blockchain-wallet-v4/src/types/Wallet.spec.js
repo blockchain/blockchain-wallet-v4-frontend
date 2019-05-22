@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import { Address, Wallet, AddressMap, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
 
-const walletFixture = require('./__mocks__/wallet.v3')
-const walletFixtureSecpass = require('./__mocks__/wallet.v3-secpass')
+const walletFixture = require('./__mocks__/wallet.v4')
+const walletFixtureSecpass = require('./__mocks__/wallet.v4-secpass')
 const secpass = 'secret'
 
 describe('Wallet', () => {

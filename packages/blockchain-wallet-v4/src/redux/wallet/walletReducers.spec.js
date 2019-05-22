@@ -2,23 +2,11 @@ import { compose } from 'ramda'
 import { Wrapper, Wallet, AddressMap } from '../../types'
 import walletReducer from './reducers.js'
 import * as Actions from './actions.js'
-const walletFixture = require('../../types/__mocks__/wallet.v3')
-
-const wrap = wallet => ({
-  sync_pubkeys: false,
-  payload_checksum: 'payload_checksum',
-  storage_token: 'storage_token',
-  version: 3,
-  language: 'en',
-  wallet: wallet,
-  war_checksum: 'war_checksum',
-  password: 'password',
-  pbkdf2_iterations: 5000
-})
+const wrapperFixture = require('../../types/__mocks__/wrapper.v4')
 
 describe('reducers', () => {
   describe('wallet', () => {
-    const wrapped = Wrapper.fromJS(wrap(walletFixture))
+    const wrapped = Wrapper.fromJS(wrapperFixture)
 
     it('should handle SET_WRAPPER', () => {
       let action = Actions.setWrapper(wrapped)
@@ -62,7 +50,8 @@ describe('reducers', () => {
         Wrapper.selectWallet
       )
       expect(
-        select(next).hd_wallets[0].accounts[0].address_labels[0].label
+        select(next).hd_wallets[0].accounts[0].derivations[0].address_labels[0]
+          .label
       ).toEqual(label)
     })
 
@@ -74,7 +63,8 @@ describe('reducers', () => {
         Wrapper.selectWallet
       )
       expect(
-        select(next).hd_wallets[0].accounts[0].address_labels.length
+        select(next).hd_wallets[0].accounts[0].derivations[0].address_labels
+          .length
       ).toEqual(0)
     })
 

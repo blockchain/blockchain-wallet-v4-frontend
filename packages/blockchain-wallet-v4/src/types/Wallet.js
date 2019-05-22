@@ -364,12 +364,16 @@ export const deleteLegacyAddress = curry((address, wallet) => {
 
 // deleteHdAddressLabel :: Number -> Number -> Wallet -> Wallet
 export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
+  // TODO: SEGWIT Do not hardcode derivation type
+  const type = 'legacy'
   const lens = compose(
     hdWallets,
     HDWalletList.hdwallet,
     HDWallet.accounts,
     HDAccountList.account(accountIdx),
-    HDAccount.addressLabels
+    HDAccount.derivations,
+    DerivationList.derivationOfType(type),
+    Derivation.addressLabels
   )
   const eitherW = Either.try(
     over(lens, AddressLabelMap.deleteLabel(addressIdx))
@@ -466,7 +470,9 @@ export const traverseKeyValues = curry((of, f, wallet) => {
       traversed,
       HDWallet.accounts,
       traversed,
-      HDAccount.xpriv
+      HDAccount.derivations,
+      traversed,
+      Derivation.xpriv
     ),
     of,
     f

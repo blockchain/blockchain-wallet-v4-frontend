@@ -152,8 +152,7 @@ export const fromJS = (x, i) => {
     return x
   }
   const accountCons = a => {
-    const derivationsCons = derivations => DerivationList.fromJS(derivations)
-    return compose(over(derivations, derivationsCons))(a)
+    return over(derivations, DerivationList.fromJS, a)
   }
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
@@ -161,9 +160,7 @@ export const fromJS = (x, i) => {
 export const toJSwithIndex = pipe(
   HDAccount.guard,
   acc => {
-    const accountDecons = compose(
-      over(derivations, DerivationList.toJSwithIndex)
-    )
+    const accountDecons = compose(over(derivations, DerivationList.toJS))
     return accountDecons(acc).toJS()
   }
 )

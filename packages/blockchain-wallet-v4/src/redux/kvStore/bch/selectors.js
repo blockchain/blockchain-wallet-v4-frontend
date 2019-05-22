@@ -5,6 +5,8 @@ import {
   not,
   lift,
   map,
+  flatten,
+  compose,
   path,
   prop,
   values
@@ -39,7 +41,15 @@ export const getSpendableContext = createDeepEqualSelector(
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
-      return map(prop('xpub'), activeAccounts)
+
+      // TODO: SEGWIT should this flatten all derivation xpubs like this?
+      const getDerivationXpubs = compose(
+        map(prop('xpub')),
+        flatten,
+        map(prop('derivations'))
+      )
+
+      return getDerivationXpubs(activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     return concat(activeAccounts, spendableAddresses)

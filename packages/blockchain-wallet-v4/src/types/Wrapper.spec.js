@@ -1,6 +1,6 @@
 import { Wrapper, serializer } from './index'
 
-const wrapperFixture = require('./__mocks__/wrapper.v3')
+const wrapperFixture = require('./__mocks__/wrapper.v4')
 
 describe('Wrapper', () => {
   const myWrapper = Wrapper.fromJS(wrapperFixture)

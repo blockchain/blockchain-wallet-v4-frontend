@@ -1,7 +1,7 @@
 import Type from './Type'
 import * as Cache from './Cache'
 import * as AddressLabelMap from './AddressLabelMap'
-import { assoc, compose, over, pipe, is } from 'ramda'
+import { assoc, compose, over, pipe, is, dissoc } from 'ramda'
 import { view } from 'ramda-lens'
 export class Derivation extends Type {}
 
@@ -50,15 +50,17 @@ export const fromJS = (derivation, i) => {
   }
 }
 
-export const toJSwithIndex = derivation => {
-  return pipe(
-    Derivation.guard,
-    derivation => {
-      const derivationDecons = compose(
-        over(addressLabels, AddressLabelMap.toJS),
-        over(cache, Cache.toJS)
-      )
-      return derivationDecons(derivation).toJS()
-    }
-  )(derivation)
+export const toJS = pipe(
+  Derivation.guard,
+  derivation => {
+    const derivationDecons = compose(
+      over(addressLabels, AddressLabelMap.toJS),
+      over(cache, Cache.toJS)
+    )
+    return dissoc('index', derivationDecons(derivation).toJS())
+  }
+)
+
+export const reviver = jsObject => {
+  return new Derivation(jsObject)
 }

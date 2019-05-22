@@ -38,10 +38,10 @@ export const fromJS = derivations => {
   }
 }
 
-export const toJSwithIndex = pipe(
+export const toJS = pipe(
   DerivationList.guard,
   derivations => {
-    return map(Derivation.toJSwithIndex, derivations).toArray()
+    return map(Derivation.toJS, derivations).toArray()
   }
 )
 
