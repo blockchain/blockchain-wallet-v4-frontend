@@ -12,7 +12,16 @@ import {
   split,
   values,
   sequence,
-  lift
+  lift,
+  lensProp,
+  propEq,
+  findIndex,
+  lensIndex,
+  over,
+  head,
+  pluck,
+  pipe,
+  sum
 } from 'ramda'
 import {
   getAddresses,
@@ -27,21 +36,32 @@ import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-// TODO: SEGWIT
-// accounts are not being populated with info because 'account' no longer has 'xpub' prop
+// TODO: SEGWIT line 42 will return incorrect data, if multiple xpubs are used!
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
   const addInfo = account =>
-    balancesR
-      .map(prop(prop('xpub', account)))
-      .map(x => assoc('info', x, account))
+    balancesR.map(b => {
+      const balanceInfo = head(values(b))
+      console.info(b)
+      const lens = compose(
+        lensProp('derivations'),
+        lensIndex(
+          findIndex(propEq('xpub', prop('address', balanceInfo)))(
+            account.derivations
+          )
+        )
+      )
+      return over(lens, assoc('info', balanceInfo), account)
+    })
+
   const accountsR = map(addInfo, selector(state))
+  console.info(accountsR)
   return sequence(Remote.of, accountsR)
 }
 
 // getHDAccounts :: state -> Remote ([hdAccountsWithInfo])
 export const getHDAccounts = state => {
-  let selector = compose(
+  const selector = compose(
     HDAccountList.toJSwithIndex,
     HDWallet.selectAccounts,
     walletSelectors.getDefaultHDWallet
@@ -51,7 +71,7 @@ export const getHDAccounts = state => {
 
 // getActiveHDAccounts :: state -> Remote ([hdAccountsWithInfo])
 export const getActiveHDAccounts = state => {
-  let selector = compose(
+  const selector = compose(
     HDAccountList.toJSwithIndex,
     HDAccountList.selectActive,
     HDWallet.selectAccounts,
@@ -60,7 +80,7 @@ export const getActiveHDAccounts = state => {
   return _getAccounts(selector)(state)
 }
 
-// getActiveAddresses :: state -> Remote ([AddresseswithInfo])
+// getActiveAddresses :: state -> Remote ([AddressesWithInfo])
 export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
   const addInfo = address =>
@@ -88,7 +108,12 @@ const flattenAccount = acc => {
   return {
     coin: 'BTC',
     label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-    balance: path(['info', 'final_balance'], acc),
+    balance: pipe(
+      prop('derivations'),
+      pluck('info'),
+      pluck('final_balance'),
+      sum
+    )(acc),
     xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
     index: prop('index', acc),
     type: ADDRESS_TYPES.ACCOUNT,
