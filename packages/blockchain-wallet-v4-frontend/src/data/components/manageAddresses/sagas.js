@@ -218,7 +218,8 @@ export default ({ api, networks }) => {
             actions.core.wallet.deleteHdAddressLabel(
               accountIdx,
               addressIdx,
-              walletIdx
+              // TODO: SEGWIT use selected derivation type
+              'legacy'
             )
           )
         },

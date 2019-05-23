@@ -56,7 +56,7 @@ describe('reducers', () => {
     })
 
     it('should handle DELETE_HD_ADDRESS_LABEL', () => {
-      let action = Actions.deleteHdAddressLabel(0, 0)
+      let action = Actions.deleteHdAddressLabel(0, 0, 'legacy')
       let next = walletReducer(wrapped, action)
       let select = compose(
         Wallet.toJS,

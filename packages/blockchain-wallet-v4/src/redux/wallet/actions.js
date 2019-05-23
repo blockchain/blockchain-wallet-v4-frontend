@@ -61,9 +61,13 @@ export const deleteLegacyAddress = address => ({
   type: T.DELETE_LEGACY_ADDRESS,
   payload: address
 })
-export const deleteHdAddressLabel = (accountIdx, addressIdx) => ({
+export const deleteHdAddressLabel = (
+  accountIdx,
+  addressIdx,
+  derivationType
+) => ({
   type: T.DELETE_HD_ADDRESS_LABEL,
-  payload: { accountIdx, addressIdx }
+  payload: { accountIdx, addressIdx, derivationType }
 })
 
 // autologout time
