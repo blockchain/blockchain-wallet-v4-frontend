@@ -24,7 +24,7 @@ import * as A from '../actions'
 import * as S from './selectors'
 import { fetchData } from '../data/btc/actions'
 
-import { Wrapper, Wallet, HDAccount, HDWallet, HDWalletList } from '../../types'
+import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t =>
@@ -146,28 +146,12 @@ export default ({ api, networks }) => {
   }
 
   const upgradeToV4 = function * ({ password }) {
-    try {
-      let wrapper = yield select(S.getWrapper)
-      let hdAccounts = compose(
-        HDWallet.selectAccounts,
-        HDWalletList.selectHDWallet,
-        Wallet.selectHdWallets,
-        Wrapper.selectWallet
-      )(wrapper)
-      const upgradedAccounts = hdAccounts.map(Wallet.upgradeToV4)
-
-      const lens = compose(
-        Wrapper.wallet,
-        Wallet.hdWallets,
-        HDWalletList.hdwallet,
-        HDWallet.accounts
-      )
-
-      const nextWrapper = set(lens, upgradedAccounts, wrapper)
-
-      yield call(runTask, Task.of(nextWrapper), A.wallet.setWrapper)
-    } catch (e) {
-      console.log(e)
+    const wrapper = yield select(S.getWrapper)
+    if (!Wrapper.isLatestVersion(wrapper)) {
+      let upgradeTask = Wrapper.upgradeToV4(password, networks.btc, wrapper)
+      yield call(runTask, upgradeTask, A.wallet.setWrapper)
+    } else {
+      throw new Error('Already a v4 wallet')
     }
   }
 
@@ -206,6 +190,7 @@ export default ({ api, networks }) => {
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
+    // TODO: SEGWIT find used segwit accounts too
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,

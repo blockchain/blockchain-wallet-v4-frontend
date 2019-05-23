@@ -8,7 +8,7 @@ import Either from 'data.either'
 import createRng from './rng'
 import { curry, compose, is, isNil, sequence, has, propSatisfies } from 'ramda'
 
-const SUPPORTED_ENCRYPTION_VERSION = 3
+export const SUPPORTED_ENCRYPTION_VERSION = 4
 
 // eitherToTask :: Either a b -> Task a b
 const eitherToTask = e => e.fold(Task.rejected, Task.of)

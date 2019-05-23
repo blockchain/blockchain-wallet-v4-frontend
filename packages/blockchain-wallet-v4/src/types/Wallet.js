@@ -184,10 +184,10 @@ export const fromEncryptedPayload = curry((password, payload) => {
 
 // toEncryptedPayload :: String -> Wallet -> Task Error String
 export const toEncryptedPayload = curry(
-  (password, pbkdf2Iterations, wallet) => {
+  (password, pbkdf2Iterations, version, wallet) => {
     Wallet.guard(wallet)
     return compose(
-      crypto.encryptWallet(__, password, pbkdf2Iterations, 3.0),
+      crypto.encryptWallet(__, password, pbkdf2Iterations, version),
       JSON.stringify,
       toJS
     )(wallet)
@@ -284,9 +284,51 @@ export const upgradeToHd = curry(
   }
 )
 
-export const upgradeToV4 = account => {
-  return HDAccount.generateDerivationList(account)
-}
+// upgradeToV4 :: String -> Network -> Wallet -> Task Error Wallet
+export const upgradeToV4 = curry((password, network, wallet) => {
+  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
+
+  const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
+
+  const upgradeAccount = curry((seedHex, account) => {
+    const addDerivationToAccount = derivation =>
+      over(
+        HDAccount.derivations,
+        derivations => derivations.push(derivation),
+        account
+      )
+
+    const derivation = HDWallet.generateDerivation(
+      type,
+      purpose,
+      account.index,
+      network,
+      seedHex
+    )
+
+    return encryptDerivation(derivation).map(addDerivationToAccount)
+  })
+
+  const selectSeedHex = compose(
+    HDWallet.selectSeedHex,
+    HDWalletList.selectHDWallet,
+    selectHdWallets
+  )
+
+  const traverseAllAccounts = compose(
+    hdwallet,
+    HDWallet.accounts,
+    traversed
+  )
+
+  return traverseOf(
+    traverseAllAccounts,
+    Task.of,
+    upgradeAccount(selectSeedHex(wallet)),
+    wallet
+  )
+})
+
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   let hdWallet = HDWallet.createNew(mnemonic)
@@ -300,6 +342,8 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDAccount = curry((label, password, network, wallet) => {
+  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
+
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
   let appendAccount = curry((w, account) => {
@@ -317,7 +361,7 @@ export const newHDAccount = curry((label, password, network, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(HDWallet.generateAccount(index, label, network))
+    .map(HDWallet.generateAccount(type, purpose, index, label, network))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })
@@ -356,12 +400,16 @@ export const deleteLegacyAddress = curry((address, wallet) => {
 
 // deleteHdAddressLabel :: Number -> Number -> Wallet -> Wallet
 export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
+  // TODO: SEGWIT Do not hardcode derivation type
+  const type = 'legacy'
   const lens = compose(
     hdWallets,
     HDWalletList.hdwallet,
     HDWallet.accounts,
     HDAccountList.account(accountIdx),
-    HDAccount.addressLabels
+    HDAccount.derivations,
+    DerivationList.derivationOfType(type),
+    Derivation.addressLabels
   )
   const eitherW = Either.try(
     over(lens, AddressLabelMap.deleteLabel(addressIdx))
@@ -456,9 +504,7 @@ export const traverseKeyValues = curry((of, f, wallet) => {
     compose(
       hdWallets,
       traversed,
-      HDWallet.accounts,
-      traversed,
-      HDAccount.xpriv
+      HDWallet.secretsLens
     ),
     of,
     f

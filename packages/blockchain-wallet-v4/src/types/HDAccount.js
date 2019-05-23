@@ -8,10 +8,9 @@ import {
   assoc,
   dissoc,
   isNil,
-  set,
   split
 } from 'ramda'
-import { view, over, traverseOf } from 'ramda-lens'
+import { view, over, traversed, traverseOf } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import Task from 'data.task'
 import Type from './Type'
@@ -28,32 +27,36 @@ import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, w
 } */
 
 export class HDAccount extends Type {}
+
 export const isHDAccount = is(HDAccount)
+
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
 export const index = HDAccount.define('index')
 export const derivations = HDAccount.define('derivations')
-export const xpriv = HDAccount.define('xpriv')
-export const addressLabels = HDAccount.define('address_labels')
-export const cache = HDAccount.define('cache')
-// export const xpub = HDAccount.define('xpub')
+
+// Lens used to traverse all secrets for double encryption
+export const secretsLens = compose(
+  derivations,
+  traversed,
+  Derivation.secretsLens
+)
+
 export const selectLabel = view(label)
 export const selectArchived = view(archived)
 export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
-export const selectCache = view(cache)
-// export const selectXpriv = view(xpriv)
-// export const selectXpub = view(xpub)
-// export const selectAddressLabels = view(addressLabels)
 
 export const isArchived = compose(
   Boolean,
   view(archived)
 )
+
 export const isActive = compose(
   not,
   isArchived
 )
+
 export const isWatchOnly = account =>
   compose(
     isNil,
@@ -66,6 +69,7 @@ export const isXpub = curry((myxpub, account) =>
     selectXpub
   )(account)
 )
+
 // TODO: SEGWIT (get all xpubs)
 // TODO: SEGWIT (get xpub for derivation)
 export const selectXpub = account => {
@@ -73,12 +77,14 @@ export const selectXpub = account => {
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpub(derivation)
 }
+
 // TODO: SEGWIT (get xpriv for derivation)
 export const selectXpriv = account => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
   return Derivation.selectXpriv(derivation)
 }
+
 // TODO: SEGWIT (get address labels for derivation)
 export const selectAddressLabels = account => {
   const derivations = selectDerivations(account)
@@ -93,18 +99,6 @@ export const getAddress = (account, path, network, type = 'legacy') => {
   const derivations = selectDerivations(account)
   const cache = DerivationList.getCacheFromType(derivations, type)
   return Cache.getAddress(cache, c, i, network)
-}
-
-export const generateDerivationList = account => {
-  HDAccount.guard(account)
-  const derivation = Derivation.createNew({
-    xpriv: selectXpriv(account),
-    xpub: selectXpub(account),
-    addressLabels: selectAddressLabels(account),
-    cache: selectCache(account)
-  })
-  const derivationList = DerivationList.createNew([derivation])
-  return set(derivations, derivationList, account)
 }
 
 export const getReceiveAddress = (
@@ -133,23 +127,51 @@ export const getChangeAddress = (
   return Cache.getAddress(cache, 1, changeIndex, network)
 }
 
-export const fromJS = (x, i) => {
-  if (is(HDAccount, x)) {
-    return x
+// migrateFromV3 :: Object -> Object
+const migrateFromV3 = account => {
+  if (account.derivations != null) {
+    return account
   }
-  const accountCons = a => {
-    const derivationsCons = derivations => DerivationList.fromJS(derivations)
-    return compose(over(derivations, derivationsCons))(a)
+
+  const derivation = {
+    type: 'legacy',
+    purpose: 44,
+    xpriv: account.xpriv,
+    xpub: account.xpub,
+    address_labels: account.address_labels,
+    cache: account.cache
   }
-  return accountCons(new HDAccount(assoc('index', i, x)))
+
+  const migrate = compose(
+    assoc('derivations', [derivation]),
+    dissoc('xpriv'),
+    dissoc('xpub'),
+    dissoc('address_labels'),
+    dissoc('cache')
+  )
+
+  return migrate(account)
+}
+
+export const fromJS = (account, index) => {
+  if (is(HDAccount, account)) {
+    return account
+  }
+
+  const accountCons = compose(
+    over(derivations, DerivationList.fromJS),
+    a => new HDAccount(a),
+    assoc('index', index),
+    migrateFromV3
+  )
+
+  return accountCons(account)
 }
 
 export const toJSwithIndex = pipe(
   HDAccount.guard,
   acc => {
-    const accountDecons = compose(
-      over(derivations, DerivationList.toJSwithIndex)
-    )
+    const accountDecons = compose(over(derivations, DerivationList.toJS))
     return accountDecons(acc).toJS()
   }
 )
@@ -163,27 +185,20 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, node, xpub) => ({
+export const js = (label, derivation) => ({
   label: label,
   archived: false,
-  derivations: DerivationList.createNew([
-    Derivation.createNew({
-      xpriv: node ? node.toBase58() : '',
-      xpub: node ? node.neutered().toBase58() : xpub,
-      address_labels: [],
-      cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
-    })
-  ])
+  derivations: [derivation]
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account
 export const encrypt = curry((iterations, sharedKey, password, account) => {
   const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
-  return traverseOf(xpriv, Task.of, cipher, account)
+  return traverseOf(secretsLens, Task.of, cipher, account)
 })
 
 // decrypt :: Number -> String -> String -> Account -> Task Error Account
 export const decrypt = curry((iterations, sharedKey, password, account) => {
   const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
-  return traverseOf(xpriv, Task.of, cipher, account)
+  return traverseOf(secretsLens, Task.of, cipher, account)
 })

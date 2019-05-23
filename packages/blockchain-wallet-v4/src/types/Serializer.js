@@ -9,6 +9,8 @@ import * as Cache from './Cache'
 import * as AddressMap from './AddressMap'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import * as HDAccountList from './HDAccountList'
 import * as HDWalletList from './HDWalletList'
 import * as TXNotes from './TXNotes'
@@ -63,6 +65,10 @@ const serializer = {
           return AddressBookEntry.reviver(data)
         case 'AddressBook':
           return AddressBook.reviver(data)
+        case 'Derivation':
+          return Derivation.reviver(data)
+        case 'DerivationList':
+          return DerivationList.reviver(data)
         case 'HDAccountList':
           return HDAccountList.reviver(data)
         case 'HDWalletList':

@@ -15,10 +15,6 @@ export const derivationOfType = type =>
     (val, x) => x.map(d => (Derivation.selectType(d) === type ? val : d))
   )
 
-export const createNew = derivations => {
-  return new DerivationList(derivations)
-}
-
 export const getDerivationFromType = (derivations, type) => {
   DerivationList.guard(derivations)
   return derivations.find(d => Derivation.selectType(d) === type)
@@ -38,10 +34,10 @@ export const fromJS = derivations => {
   }
 }
 
-export const toJSwithIndex = pipe(
+export const toJS = pipe(
   DerivationList.guard,
   derivations => {
-    return map(Derivation.toJSwithIndex, derivations).toArray()
+    return map(Derivation.toJS, derivations).toArray()
   }
 )
 

@@ -9,6 +9,9 @@ import Task from 'data.task'
 import Type from './Type'
 import * as HDAccountList from './HDAccountList'
 import * as HDAccount from './HDAccount'
+import * as Derivation from './Derivation'
+
+export const DEFAULT_DERIVATION = { type: 'segwit', purpose: 49 }
 
 /* HDWallet :: {
   seed_hex :: String
@@ -23,6 +26,13 @@ export const seedHex = HDWallet.define('seedHex')
 export const accounts = HDWallet.define('accounts')
 export const defaultAccountIdx = HDWallet.define('default_account_idx')
 export const mnemonicVerified = HDWallet.define('mnemonic_verified')
+
+// Lens used to traverse all secrets for double encryption
+export const secretsLens = compose(
+  accounts,
+  traversed,
+  HDAccount.secretsLens
+)
 
 export const selectSeedHex = view(seedHex)
 export const selectAccounts = view(accounts)
@@ -75,33 +85,35 @@ export const reviver = jsObject => {
   return new HDWallet(jsObject)
 }
 
-export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
+const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
   let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
   let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
   return masterNode
-    .deriveHardened(44)
+    .deriveHardened(purpose)
     .deriveHardened(0)
     .deriveHardened(index)
 }
 
-export const generateAccount = curry((index, label, network, seedHex) => {
-  let node = deriveAccountNodeAtIndex(seedHex, index, network)
-  return HDAccount.fromJS(HDAccount.js(label, node, null))
-})
+export const generateAccount = curry(
+  (type, purpose, index, label, network, seedHex) => {
+    let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
+    let derivation = Derivation.js(type, purpose, node, null)
+    return HDAccount.fromJS(HDAccount.js(label, derivation))
+  }
+)
+
+export const generateDerivation = curry(
+  (type, purpose, index, network, seedHex) => {
+    let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
+    return Derivation.fromJS(Derivation.js(type, purpose, node, null))
+  }
+)
 
 // encrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
 export const encrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
-  const traverseAccounts = traverseOf(
-    compose(
-      accounts,
-      traversed,
-      HDAccount.xpriv
-    ),
-    Task.of,
-    cipher
-  )
+  const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
   return Task.of(hdWallet)
     .chain(traverseSeed)
     .chain(traverseAccounts)
@@ -111,15 +123,7 @@ export const encrypt = curry((iterations, sharedKey, password, hdWallet) => {
 export const decrypt = curry((iterations, sharedKey, password, hdWallet) => {
   const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
   const traverseSeed = traverseOf(seedHex, Task.of, cipher)
-  const traverseAccounts = traverseOf(
-    compose(
-      accounts,
-      traversed,
-      HDAccount.xpriv
-    ),
-    Task.of,
-    cipher
-  )
+  const traverseAccounts = traverseOf(secretsLens, Task.of, cipher)
   return Task.of(hdWallet)
     .chain(traverseSeed)
     .chain(traverseAccounts)
@@ -135,23 +139,30 @@ export const createNew = mnemonic =>
   })
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
+  const { type, purpose } = DEFAULT_DERIVATION
+
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
+
   const masterNode = mnemonic
     ? Bitcoin.HDNode.fromSeedBuffer(seed, network)
     : undefined
+
   const parentNode = mnemonic
-    ? masterNode.deriveHardened(44).deriveHardened(0)
+    ? masterNode.deriveHardened(purpose).deriveHardened(0)
     : undefined
-  const node = i => (mnemonic ? parentNode.deriveHardened(i) : undefined)
-  const account = i =>
-    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, node(i), xpub)
+
+  const createAccountAtIndex = i => {
+    const node = mnemonic ? parentNode.deriveHardened(i) : undefined
+    const derivation = Derivation.js(type, purpose, node, xpub)
+    return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivation)
+  }
+
   return {
     seed_hex: seedHex,
     passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
-    // accounts: [HDAccount.js(label, node, xpub)]
-    accounts: map(account, range(0, nAccounts))
+    accounts: map(createAccountAtIndex, range(0, nAccounts))
   }
 }

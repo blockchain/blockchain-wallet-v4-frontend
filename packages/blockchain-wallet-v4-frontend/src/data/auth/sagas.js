@@ -1,6 +1,6 @@
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { assoc, path, prop, is } from 'ramda'
-
+import { Types } from 'blockchain-wallet-v4'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { actions, actionTypes, model, selectors } from 'data'
@@ -33,6 +33,7 @@ export default ({ api, coreSagas }) => {
     try {
       let password = yield call(promptForSecondPassword)
       yield coreSagas.wallet.upgradeToHd({ password })
+      yield coreSagas.wallet.upgradeToV4({ password })
       yield call(forceSyncWallet)
       yield put(actions.modals.closeModal())
     } catch (e) {
@@ -55,10 +56,10 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
-  // const upgradeWalletSagaV4 = function * () {
-  //   yield put(actions.modals.showModal('UpgradeWalletV4'))
-  //   yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-  // }
+  const upgradeWalletSagaV4 = function * () {
+    yield put(actions.modals.showModal('UpgradeWalletV4'))
+    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+  }
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -131,11 +132,13 @@ export default ({ api, coreSagas }) => {
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
-      // const state = yield select()
-      // const currentVersion = Types.Wrapper.selectVersion(state.walletPath)
-      // if (currentVersion !== 4) {
-      //   yield call(upgradeWalletSagaV4)
-      // }
+
+      const state = yield select()
+      const isLatestVersion = Types.Wrapper.isLatestVersion(state.walletPath)
+      if (!isLatestVersion) {
+        yield call(upgradeWalletSagaV4)
+      }
+
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
