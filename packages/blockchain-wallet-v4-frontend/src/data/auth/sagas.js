@@ -33,6 +33,7 @@ export default ({ api, coreSagas }) => {
     try {
       let password = yield call(promptForSecondPassword)
       yield coreSagas.wallet.upgradeToHd({ password })
+      yield coreSagas.wallet.upgradeToV4({ password })
       yield call(forceSyncWallet)
       yield put(actions.modals.closeModal())
     } catch (e) {

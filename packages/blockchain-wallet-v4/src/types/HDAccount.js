@@ -185,10 +185,10 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, node, xpub) => ({
+export const js = (label, derivation) => ({
   label: label,
   archived: false,
-  derivations: [Derivation.js('legacy', 44, node, xpub)]
+  derivations: [derivation]
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account

@@ -36,8 +36,6 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Options from './Options'
 
-const DEFAULT_DERIVATION = { type: 'segwit', purpose: 49 }
-
 /* Wallet :: {
   guid :: String
   sharedKey :: String
@@ -288,7 +286,7 @@ export const upgradeToHd = curry(
 
 // upgradeToV4 :: String -> Network -> Wallet -> Task Error Wallet
 export const upgradeToV4 = curry((password, network, wallet) => {
-  const { type, purpose } = DEFAULT_DERIVATION
+  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
 
   const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
 
@@ -344,6 +342,8 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDAccount = curry((label, password, network, wallet) => {
+  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
+
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
   let appendAccount = curry((w, account) => {
@@ -361,7 +361,7 @@ export const newHDAccount = curry((label, password, network, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(HDWallet.generateAccount(index, label, network))
+    .map(HDWallet.generateAccount(type, purpose, index, label, network))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })

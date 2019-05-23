@@ -11,6 +11,8 @@ import * as HDAccountList from './HDAccountList'
 import * as HDAccount from './HDAccount'
 import * as Derivation from './Derivation'
 
+export const DEFAULT_DERIVATION = { type: 'segwit', purpose: 49 }
+
 /* HDWallet :: {
   seed_hex :: String
   accounts :: [Account]
@@ -92,10 +94,13 @@ const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
     .deriveHardened(index)
 }
 
-export const generateAccount = curry((index, label, network, seedHex) => {
-  let node = deriveAccountNodeAtIndex(seedHex, 44, index, network)
-  return HDAccount.fromJS(HDAccount.js(label, node, null))
-})
+export const generateAccount = curry(
+  (type, purpose, index, label, network, seedHex) => {
+    let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
+    let derivation = Derivation.js(type, purpose, node, null)
+    return HDAccount.fromJS(HDAccount.js(label, derivation))
+  }
+)
 
 export const generateDerivation = curry(
   (type, purpose, index, network, seedHex) => {
@@ -134,23 +139,30 @@ export const createNew = mnemonic =>
   })
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
+  const { type, purpose } = DEFAULT_DERIVATION
+
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
+
   const masterNode = mnemonic
     ? Bitcoin.HDNode.fromSeedBuffer(seed, network)
     : undefined
+
   const parentNode = mnemonic
-    ? masterNode.deriveHardened(44).deriveHardened(0)
+    ? masterNode.deriveHardened(purpose).deriveHardened(0)
     : undefined
-  const node = i => (mnemonic ? parentNode.deriveHardened(i) : undefined)
-  const account = i =>
-    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, node(i), xpub)
+
+  const createAccountAtIndex = i => {
+    const node = mnemonic ? parentNode.deriveHardened(i) : undefined
+    const derivation = Derivation.js(type, purpose, node, xpub)
+    return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivation)
+  }
+
   return {
     seed_hex: seedHex,
     passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
-    // accounts: [HDAccount.js(label, node, xpub)]
-    accounts: map(account, range(0, nAccounts))
+    accounts: map(createAccountAtIndex, range(0, nAccounts))
   }
 }
