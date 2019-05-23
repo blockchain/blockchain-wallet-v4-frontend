@@ -23,7 +23,7 @@ import {
 const HelperTipContainer = styled.div`
   margin-left: auto;
   > div span {
-    color: ${props => props.theme['gray-7']};
+    color: ${props => props.theme['gray-4']};
   }
 `
 const NewCartridge = styled(Cartridge)`

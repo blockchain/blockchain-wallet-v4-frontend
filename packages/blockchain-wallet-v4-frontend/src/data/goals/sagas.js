@@ -46,6 +46,15 @@ export default ({ api }) => {
       .getOrElse(false)
   }
 
+  const defineLinkAccountGoal = function * (search) {
+    const params = new URLSearchParams(search)
+    yield put(
+      actions.goals.saveGoal('linkAccount', {
+        linkId: params.get('link_id')
+      })
+    )
+  }
+
   const defineReferralGoal = function * (search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -104,6 +113,8 @@ export default ({ api }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
+    if (startsWith('link-account', pathname))
+      return yield call(defineLinkAccountGoal, search)
     if (startsWith('referral', pathname))
       return yield call(defineReferralGoal, search)
     if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
@@ -145,6 +156,13 @@ export default ({ api }) => {
         amount: { coin: amount, fiat }
       })
     )
+  }
+
+  const runLinkAccountGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.goals.addInitialModal('linkAccount', 'LinkAccount', data))
   }
 
   const runReferralGoal = function * (goal) {
@@ -367,6 +385,7 @@ export default ({ api }) => {
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
+      linkAccount,
       kycDocResubmit,
       sunriver,
       payment,
@@ -379,6 +398,11 @@ export default ({ api }) => {
       pax,
       welcome
     } = initialModals
+    if (linkAccount) {
+      return yield put(
+        actions.modals.showModal(linkAccount.name, linkAccount.data)
+      )
+    }
     if (kycDocResubmit) {
       return yield put(actions.modals.showModal(kycDocResubmit.name))
     }
@@ -427,6 +451,9 @@ export default ({ api }) => {
   const runGoal = function * (goal) {
     try {
       switch (goal.name) {
+        case 'linkAccount':
+          yield call(runLinkAccountGoal, goal)
+          break
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
           break

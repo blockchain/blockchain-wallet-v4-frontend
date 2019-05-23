@@ -24,7 +24,7 @@ export const MenuItem = styled.li`
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['gray-7']};
+    color: ${props => props.theme['gray-4']};
   }
   &:hover {
     & > *:not(div) {

@@ -46,7 +46,7 @@ const Header = styled.div`
   height: 40px;
   padding: 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
 `
 const Content = styled.div`
   width: 100%;
