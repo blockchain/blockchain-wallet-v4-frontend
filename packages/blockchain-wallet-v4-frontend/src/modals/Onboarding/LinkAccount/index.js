@@ -12,13 +12,7 @@ class LinkAccountContainer extends React.PureComponent {
   }
 
   render () {
-    const status = this.props.linkAccountStatus.cata({
-      Success: msg => msg,
-      Failure: e => e.description,
-      Loading: () => 'Loading',
-      NotAsked: () => 'Not Asked'
-    })
-    return <LinkAccount {...this.props} status={status} />
+    return <LinkAccount {...this.props} status={this.props.linkAccountStatus} />
   }
 }
 
