@@ -8,7 +8,7 @@ import Type from './Type'
 import * as Wallet from './Wallet'
 import * as Options from './Options'
 
-export const PAYLOAD_VERSION = 4
+const PAYLOAD_VERSION = crypto.SUPPORTED_ENCRYPTION_VERSION
 
 /* Wrapper :: {
   wallet             :: Wallet
@@ -178,7 +178,8 @@ export const toEncJSON = wrapper => {
   }
   const encrypt = Wallet.toEncryptedPayload(
     selectPassword(wrapper),
-    selectPbkdf2Iterations(wrapper) || 5000
+    selectPbkdf2Iterations(wrapper) || 5000,
+    selectVersion(wrapper)
   )
   const hash = x => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
@@ -200,7 +201,7 @@ export const js = (
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
-  version: 3,
+  version: PAYLOAD_VERSION,
   language: language,
   wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
   war_checksum: '',

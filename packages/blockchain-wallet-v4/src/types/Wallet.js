@@ -184,10 +184,10 @@ export const fromEncryptedPayload = curry((password, payload) => {
 
 // toEncryptedPayload :: String -> Wallet -> Task Error String
 export const toEncryptedPayload = curry(
-  (password, pbkdf2Iterations, wallet) => {
+  (password, pbkdf2Iterations, version, wallet) => {
     Wallet.guard(wallet)
     return compose(
-      crypto.encryptWallet(__, password, pbkdf2Iterations, 3.0),
+      crypto.encryptWallet(__, password, pbkdf2Iterations, version),
       JSON.stringify,
       toJS
     )(wallet)

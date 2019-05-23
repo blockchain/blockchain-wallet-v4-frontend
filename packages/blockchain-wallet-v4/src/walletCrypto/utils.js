@@ -1,7 +1,6 @@
 import * as crypto from 'crypto'
 import assert from 'assert'
 
-export const SUPPORTED_ENCRYPTION_VERSION = 3
 export const SALT_BYTES = 16
 export const KEY_BIT_LEN = 256
 export const BLOCK_BIT_LEN = 128
