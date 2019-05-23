@@ -105,7 +105,7 @@ const Navigation = props => {
                   <span>{coin.displayName}</span>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='#F28B24' size='12' weight={500} uppercase>
+                      <Text color='orange' size='12' weight={500} uppercase>
                         <FormattedMessage
                           id='layouts.wallet.menuleft.navigation.transactions.new'
                           defaultMessage='New'

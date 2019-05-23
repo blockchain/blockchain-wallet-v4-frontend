@@ -116,6 +116,7 @@ export default {
   'gray-4': '#757679',
   'gray-5': '#50596B',
   'gray-6': '#353F52',
+  grey600: '#677185',
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
@@ -140,6 +141,6 @@ export default {
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
-  pax: '#0C6CF2',
+  pax: '#00522C',
   xlm: '#121D33'
 }

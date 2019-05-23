@@ -24,7 +24,7 @@ export const MenuItem = styled.li`
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['gray-4']};
+    color: ${props => props.theme['grey600']};
   }
   &:hover {
     & > *:not(div) {
@@ -80,5 +80,5 @@ export const Separator = styled.div`
   margin: 8px 0 14px 6px;
   width: 20px;
   height: 1px;
-  background-color: #ccd2de;
+  background-color: ${props => props.theme['gray-2']};
 `

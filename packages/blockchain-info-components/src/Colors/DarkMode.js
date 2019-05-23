@@ -48,6 +48,6 @@ export default {
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
-  pax: '#0C6CF2',
+  pax: '#00522C',
   xlm: '#F0F2F7'
 }
