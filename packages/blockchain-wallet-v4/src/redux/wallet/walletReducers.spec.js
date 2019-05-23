@@ -43,7 +43,7 @@ describe('reducers', () => {
 
     it('should handle SET_HD_ADDRESS_LABEL', () => {
       let label = 'changed_label'
-      let action = Actions.setHdAddressLabel(0, 0, label)
+      let action = Actions.setHdAddressLabel(0, 0, 'legacy', label)
       let next = walletReducer(wrapped, action)
       let select = compose(
         Wallet.toJS,

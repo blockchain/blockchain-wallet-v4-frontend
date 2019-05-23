@@ -113,6 +113,7 @@ export default ({ api, coreSagas, networks }) => {
       return {
         address: receiveR.getOrElse(),
         index: receiveIdxR.getOrElse(),
+        derivationType: yield select(selectors.selectDefaultDerivationType),
         accountIndex: defaultIdx
       }
     } catch (e) {

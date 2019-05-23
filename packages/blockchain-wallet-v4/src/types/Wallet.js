@@ -419,16 +419,14 @@ export const deleteHdAddressLabel = curry(
 
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const setHdAddressLabel = curry(
-  (accountIdx, addressIdx, label, wallet) => {
-    // TODO: SEGWIT do not hardcode type
-    const type = 'legacy'
+  (accountIdx, addressIdx, derivationType, label, wallet) => {
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,
       HDWallet.accounts,
       HDAccountList.account(accountIdx),
       HDAccount.derivations,
-      DerivationList.derivationOfType(type),
+      DerivationList.derivationOfType(derivationType),
       Derivation.addressLabels
     )
     const eitherW = Either.try(

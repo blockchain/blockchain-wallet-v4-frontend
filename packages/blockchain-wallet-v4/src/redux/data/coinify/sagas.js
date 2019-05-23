@@ -283,6 +283,7 @@ export default ({ api, options }) => {
         walletActions.setHdAddressLabel(
           addressData.accountIndex,
           addressData.index,
+          addressData.derivationType,
           `Coinify order #${id}`
         )
       )
