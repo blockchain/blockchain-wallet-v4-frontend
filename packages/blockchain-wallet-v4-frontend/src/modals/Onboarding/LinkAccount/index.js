@@ -12,11 +12,12 @@ class LinkAccountContainer extends React.PureComponent {
   }
 
   render () {
-    return <LinkAccount {...this.props} status={this.props.linkAccountStatus} />
+    return <LinkAccount {...this.props} />
   }
 }
 
 const mapStateToProps = state => ({
+  userTiers: selectors.modules.profile.getUserTiers(state),
   linkAccountStatus: selectors.modules.profile.getLinkAccountStatus(state)
 })
 

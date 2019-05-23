@@ -43,18 +43,36 @@ const Status = styled.div`
   }
 `
 
+const getIcon = tier => {
+  switch (tier) {
+    case 1:
+      return 'silver-approved'
+    case 2:
+      return 'gold-approved'
+    default:
+      return 'checkmark-green'
+  }
+}
+
 const LinkAccount = props => {
-  const { status, close } = props
+  const { linkAccountStatus, userTiers, close } = props
+  const { current } = userTiers.getOrElse({})
   return (
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
-        {status.cata({
-          Success: msg => (
+        {linkAccountStatus.cata({
+          Success: () => (
             <Content>
-              <Image name='checkmark-green' size='50px' />
+              <Image name={getIcon(current)} size='50px' />
               <Status>
-                <Text color='white'>
+                <Text color='white' size='24px' weight={600}>
+                  <FormattedMessage
+                    id='modals.onboarding.linkaccount.successheader'
+                    defaultMessage='Success!'
+                  />
+                </Text>
+                <Text color='white' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linkaccount.success'
                     defaultMessage='You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!'
