@@ -1,27 +1,28 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import {
-  keys,
-  compose,
   assoc,
-  isNil,
-  map,
-  max,
-  path,
-  prop,
+  compose,
   curry,
-  split,
-  values,
-  sequence,
-  lift,
-  lensProp,
-  propEq,
   findIndex,
-  lensIndex,
-  over,
   head,
+  isNil,
+  keys,
+  lensIndex,
+  lensProp,
+  lift,
+  over,
+  path,
   pluck,
   pipe,
-  sum
+  prop,
+  propEq,
+  map,
+  max,
+  reject,
+  sequence,
+  split,
+  sum,
+  values
 } from 'ramda'
 import {
   getAddresses,
@@ -41,6 +42,7 @@ const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
   const addInfo = account =>
     balancesR.map(b => {
+      console.info('B', b)
       const balanceInfo = head(values(b))
       console.info(b)
       const lens = compose(
@@ -104,22 +106,21 @@ export const getArchivedAddresses = state => {
 }
 
 // TODO: SEGWIT (get xpub from preferred derivation type)
-const flattenAccount = acc => {
-  return {
-    coin: 'BTC',
-    label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-    balance: pipe(
-      prop('derivations'),
-      pluck('info'),
-      pluck('final_balance'),
-      sum
-    )(acc),
-    xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
-    index: prop('index', acc),
-    type: ADDRESS_TYPES.ACCOUNT,
-    network: prop('network', acc)
-  }
-}
+const flattenAccount = acc => ({
+  coin: 'BTC',
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  balance: pipe(
+    prop('derivations'),
+    pluck('info'),
+    reject(isNil),
+    pluck('final_balance'),
+    sum
+  )(acc),
+  xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
+  index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT,
+  network: prop('network', acc)
+})
 
 // getAccountsBalances :: state => Remote([])
 export const getAccountsBalances = state =>
