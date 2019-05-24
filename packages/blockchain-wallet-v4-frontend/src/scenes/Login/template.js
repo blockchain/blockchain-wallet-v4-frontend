@@ -13,7 +13,6 @@ import {
   Banner,
   Button,
   Link,
-  Separator,
   Text,
   TextGroup,
   HeartbeatLoader
@@ -120,33 +119,13 @@ const Login = props => {
       <MobileLogin />
       <Modals />
       <Header>
-        <Text size='24px' weight={400} capitalize>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
           <FormattedMessage
             id='scenes.login.welcome'
             defaultMessage='Welcome back!'
           />
         </Text>
-        <TextGroup inline>
-          <Text size='13px' weight={400}>
-            <FormattedMessage id='scenes.login.or' defaultMessage='or' />
-          </Text>
-          <LinkContainer to='/signup'>
-            <Link size='13px' weight={500} data-e2e='signupLink'>
-              <FormattedMessage
-                id='scenes.login.register'
-                defaultMessage='Sign Up'
-              />
-            </Link>
-          </LinkContainer>
-        </TextGroup>
       </Header>
-      <Text size='14px' weight={400}>
-        <FormattedMessage
-          id='scenes.login.explain'
-          defaultMessage='Sign in to your wallet below'
-        />
-      </Text>
-      <Separator />
       <LoginForm onSubmit={handleSubmit}>
         {!isSupportedBrowser && (
           <BrowserWarning>

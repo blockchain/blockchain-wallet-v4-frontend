@@ -55,7 +55,7 @@ class SelectBoxCoin extends React.PureComponent {
           color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
           size='20px'
         />
-        <Text size='14px' cursor='pointer' data-e2e={e2eTag} weight={500}>
+        <Text size='16px' cursor='pointer' data-e2e={e2eTag} weight={500}>
           {children}
         </Text>
       </HeaderWrapper>

@@ -14,9 +14,9 @@ const BaseTextInput = styled.input.attrs({
   min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
   padding: 6px 12px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme['gray-6']};
   background-color: ${props => props.theme['white']};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -40,13 +40,13 @@ const BaseTextInput = styled.input.attrs({
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 
@@ -59,8 +59,8 @@ class TextInput extends React.Component {
 
   static defaultProps = {
     disabled: false,
-    height: '40px',
-    minHeight: '40px'
+    height: '48px',
+    minHeight: '48px'
   }
 
   componentDidUpdate (prevProps) {

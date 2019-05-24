@@ -38,11 +38,11 @@ const YubikeyInputWrapper = styled.div`
 const YubikeyInput = styled.input`
   display: block;
   width: 100%;
-  height: 40px;
-  min-height: 40px;
+  height: 48px;
+  min-height: 48px;
   padding: 6px 12px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.42;
   color: ${props => props.theme['gray-5']};

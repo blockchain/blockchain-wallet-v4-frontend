@@ -19,9 +19,9 @@ const Container = styled.div`
   }
   input {
     width: 100%;
-    height: 40px;
-    font-size: 14px;
-    color: ${props => props.theme['gray-5']};
+    height: 48px;
+    font-size: 16px;
+    color: ${props => props.theme['gray-6']};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }

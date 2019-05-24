@@ -10,6 +10,9 @@ const BaseIcon = styled.span`
   -webkit-font-smoothing: antialiased;
   cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
   display: flex;
+  * {
+    color: red !important;
+  }
 
   &:before {
     font-family: 'icomoon', sans-serif;
