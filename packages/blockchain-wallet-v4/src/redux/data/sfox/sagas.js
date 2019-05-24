@@ -298,6 +298,7 @@ export default ({ api, options }) => {
         walletActions.setHdAddressLabel(
           addressData.accountIndex,
           addressData.index,
+          addressData.derivationType,
           `SFOX order #${id}`
         )
       )

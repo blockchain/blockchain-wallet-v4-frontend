@@ -26,9 +26,14 @@ export const setAddressArchived = (address, archived) => ({
   type: T.SET_ADDRESS_ARCHIVED,
   payload: { address, archived }
 })
-export const setHdAddressLabel = (accountIdx, addressIdx, label) => ({
+export const setHdAddressLabel = (
+  accountIdx,
+  addressIdx,
+  derivationType,
+  label
+) => ({
   type: T.SET_HD_ADDRESS_LABEL,
-  payload: { accountIdx, addressIdx, label }
+  payload: { accountIdx, addressIdx, derivationType, label }
 })
 export const createLegacyAddress = address => ({
   type: T.CREATE_LEGACY_ADDRESS,
@@ -61,9 +66,13 @@ export const deleteLegacyAddress = address => ({
   type: T.DELETE_LEGACY_ADDRESS,
   payload: address
 })
-export const deleteHdAddressLabel = (accountIdx, addressIdx) => ({
+export const deleteHdAddressLabel = (
+  accountIdx,
+  addressIdx,
+  derivationType
+) => ({
   type: T.DELETE_HD_ADDRESS_LABEL,
-  payload: { accountIdx, addressIdx }
+  payload: { accountIdx, addressIdx, derivationType }
 })
 
 // autologout time

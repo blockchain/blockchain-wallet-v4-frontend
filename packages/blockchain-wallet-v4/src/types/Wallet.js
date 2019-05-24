@@ -398,37 +398,35 @@ export const deleteLegacyAddress = curry((address, wallet) => {
   return over(addresses, AddressMap.deleteAddress(address), wallet)
 })
 
-// deleteHdAddressLabel :: Number -> Number -> Wallet -> Wallet
-export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
-  // TODO: SEGWIT Do not hardcode derivation type
-  const type = 'legacy'
-  const lens = compose(
-    hdWallets,
-    HDWalletList.hdwallet,
-    HDWallet.accounts,
-    HDAccountList.account(accountIdx),
-    HDAccount.derivations,
-    DerivationList.derivationOfType(type),
-    Derivation.addressLabels
-  )
-  const eitherW = Either.try(
-    over(lens, AddressLabelMap.deleteLabel(addressIdx))
-  )(wallet)
-  return eitherW.getOrElse(wallet)
-})
-
-// setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
-export const setHdAddressLabel = curry(
-  (accountIdx, addressIdx, label, wallet) => {
-    // TODO: SEGWIT do not hardcode type
-    const type = 'legacy'
+// deleteHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
+export const deleteHdAddressLabel = curry(
+  (accountIdx, addressIdx, derivationType, wallet) => {
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,
       HDWallet.accounts,
       HDAccountList.account(accountIdx),
       HDAccount.derivations,
-      DerivationList.derivationOfType(type),
+      DerivationList.derivationOfType(derivationType),
+      Derivation.addressLabels
+    )
+    const eitherW = Either.try(
+      over(lens, AddressLabelMap.deleteLabel(addressIdx))
+    )(wallet)
+    return eitherW.getOrElse(wallet)
+  }
+)
+
+// setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
+export const setHdAddressLabel = curry(
+  (accountIdx, addressIdx, derivationType, label, wallet) => {
+    const lens = compose(
+      hdWallets,
+      HDWalletList.hdwallet,
+      HDWallet.accounts,
+      HDAccountList.account(accountIdx),
+      HDAccount.derivations,
+      DerivationList.derivationOfType(derivationType),
       Derivation.addressLabels
     )
     const eitherW = Either.try(
