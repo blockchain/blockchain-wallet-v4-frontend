@@ -81,6 +81,9 @@ const selectItemIconColor = props => props.theme[props.coin]
 const ItemIcon = styled(Icon)`
   font-size: 20px;
   color: ${selectItemIconColor} !important;
+  span {
+    color: ${selectItemIconColor} !important;
+  }
 `
 
 const renderDisplay = (props, children) => {
