@@ -23,6 +23,9 @@ const HeaderWrapper = styled.div`
 `
 const ItemIcon = styled(Icon)`
   color: ${props => props.theme[props.color]} !important;
+  * {
+    color: ${props => props.theme[props.color]} !important;
+  }
 `
 
 class SelectBoxCoin extends React.PureComponent {
