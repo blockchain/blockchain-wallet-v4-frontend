@@ -30,7 +30,7 @@ const BaseModal = styled.div`
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme['white']};
   box-shadow: none;
-  border-radius: 4px;
+  border-radius: 8px;
 
   @media (min-width: 768px) {
     width: ${props => props.width};

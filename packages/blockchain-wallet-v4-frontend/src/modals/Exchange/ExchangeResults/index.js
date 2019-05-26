@@ -50,7 +50,7 @@ const CoinIconTitle = styled(Title)`
   align-items: center;
   justify-content: center;
   line-height: initial;
-  span:nth-child(2) {
+  > span:nth-child(2) {
     width: 30px;
     height: 30px;
     border-radius: 15px;

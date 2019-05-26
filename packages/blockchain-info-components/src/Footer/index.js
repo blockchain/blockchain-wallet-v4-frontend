@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
 
 const GlobalFooter = styled.div`
   ${Normalize8}
-  background: ${Color('porcelain')};
+  background: ${Color('gray-1')};
   position: relative;
   padding-top: 4rem;
   padding-bottom: 4rem;

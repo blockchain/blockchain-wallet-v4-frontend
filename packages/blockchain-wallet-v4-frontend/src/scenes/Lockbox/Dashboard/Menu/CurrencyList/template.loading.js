@@ -15,10 +15,10 @@ const Wrapper = styled.div`
 const Loading = () => {
   return (
     <Wrapper>
-      <SkeletonRectangle height='65px' width='165px' bgColor='white-blue' />
-      <SkeletonRectangle height='65px' width='165px' bgColor='white-blue' />
-      <SkeletonRectangle height='65px' width='165px' bgColor='white-blue' />
-      <SkeletonRectangle height='65px' width='165px' bgColor='white-blue' />
+      <SkeletonRectangle height='65px' width='165px' bgColor='gray-1' />
+      <SkeletonRectangle height='65px' width='165px' bgColor='gray-1' />
+      <SkeletonRectangle height='65px' width='165px' bgColor='gray-1' />
+      <SkeletonRectangle height='65px' width='165px' bgColor='gray-1' />
     </Wrapper>
   )
 }

@@ -20,11 +20,11 @@ const FilterContainer = styled(Text).attrs({
   weight: 300
 })`
   color: ${props =>
-    props.selected ? props.theme['white'] : props.theme['lightblue-gray']};
+    props.selected ? props.theme['white'] : props.theme['gray-3']};
   border: ${props =>
     props.selected
       ? `1px solid ${props.theme['brand-secondary']}`
-      : `1px solid ${props.theme['lightblue-gray']}`};
+      : `1px solid ${props.theme['gray-3']}`};
   background: ${props =>
     props.selected ? props.theme['brand-secondary'] : props.theme['white']};
   letter-spacing: 1px;

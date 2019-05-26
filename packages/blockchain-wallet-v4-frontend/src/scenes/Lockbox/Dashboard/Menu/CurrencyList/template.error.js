@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 `
 
 const Refresh = styled.div`
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   border-radius: 3px;
   margin-right: 25px;
   max-height: 72px;

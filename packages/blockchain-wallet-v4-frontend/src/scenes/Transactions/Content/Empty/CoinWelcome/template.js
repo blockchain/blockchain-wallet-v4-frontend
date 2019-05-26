@@ -64,7 +64,7 @@ const LearnMoreContainer = styled(Link)`
   padding: 25px;
   border-radius: 3px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
 `
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
