@@ -62,6 +62,8 @@ export const getKycDocResubmissionStatus = compose(
   getUserData
 )
 
+export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
+
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))

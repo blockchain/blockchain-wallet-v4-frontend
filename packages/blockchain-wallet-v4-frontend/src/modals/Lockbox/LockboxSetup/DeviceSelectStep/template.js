@@ -48,7 +48,7 @@ const RestoreDeviceWrapper = styled.div`
   padding: 20px 18px;
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   &:hover {
     cursor: pointer;
     border-color: ${props => props.theme['brand-tertiary']};

@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   border-radius: 4px;
   overflow: hidden;
   padding: 20px;

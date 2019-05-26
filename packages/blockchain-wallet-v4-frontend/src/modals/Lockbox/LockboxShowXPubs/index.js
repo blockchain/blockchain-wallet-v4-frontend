@@ -31,7 +31,7 @@ const WarningBanner = styled(Banner)`
   margin-bottom: 20px;
 `
 const XPubText = styled(Text)`
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   padding: 25px;
   margin-bottom: 20px;
   word-break: break-all;

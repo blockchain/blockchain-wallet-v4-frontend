@@ -192,11 +192,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
+  modalEnhancer('AirdropSuccess'),
   connect(
     null,
     mapDispatchToProps
-  ),
-  modalEnhancer('AirdropSuccess')
+  )
 )
 
 export default enhance(AirdropSuccess)

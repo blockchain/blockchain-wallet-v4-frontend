@@ -20,7 +20,7 @@ const SelectElement = styled.select`
   cursor: pointer;
   outline: none;
   background-color: ${props =>
-    props.transparent ? 'transparent' : 'var(--porcelain)'};
+    props.transparent ? 'transparent' : 'var(--gray-1)'};
   padding: ${props => (props.transparent ? '0' : '0 1rem')};
   @media only screen and (max-width: 48rem) {
     width: ${props => (props.transparent ? 'auto' : '100%')};
