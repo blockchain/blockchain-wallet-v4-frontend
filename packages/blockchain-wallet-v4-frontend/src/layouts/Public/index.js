@@ -44,10 +44,15 @@ const HeaderContainer = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   overflow-y: auto;
   margin: 0 25px;
+
+  > div,
+  > footer {
+    height: 100%;
+  }
 
   @media (min-width: 768px) {
     height: 100%;
@@ -63,17 +68,6 @@ const ContentContainer = styled.div`
     height: 100%;
     margin-top: 500px;
     justify-content: flex-start;
-  }
-`
-const FooterContainer = styled.div`
-  position: relative;
-  width: 100%;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
   }
 `
 
@@ -106,11 +100,11 @@ class PublicLayoutContainer extends React.PureComponent {
                   <Header />
                 </HeaderContainer>
                 <ContentContainer>
+                  {/* Empty div for space-between */}
+                  <div />
                   <Component {...matchProps} />
-                </ContentContainer>
-                <FooterContainer>
                   <Footer />
-                </FooterContainer>
+                </ContentContainer>
               </ErrorBoundary>
             </Wrapper>
           )}
