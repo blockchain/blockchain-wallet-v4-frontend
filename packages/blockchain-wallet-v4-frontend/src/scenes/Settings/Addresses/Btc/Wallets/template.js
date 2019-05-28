@@ -115,14 +115,37 @@ const Success = ({
               />
             </Link>
           ) : (
-            <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-              <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.wallets.manage'
-                  defaultMessage='Manage'
-                />
-              </Link>
-            </LinkContainer>
+            <React.Fragment>
+              <LinkContainer
+                to={`/settings/addresses/btc/${wallet.index}/legacy`}
+              >
+                <Link
+                  weight={500}
+                  size='13px'
+                  data-e2e='btcManageLegacyWalletLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.btc.wallets.managelegacy'
+                    defaultMessage='Legacy'
+                  />
+                </Link>
+              </LinkContainer>
+              <span>&nbsp;&nbsp;</span>
+              <LinkContainer
+                to={`/settings/addresses/btc/${wallet.index}/segwit`}
+              >
+                <Link
+                  weight={500}
+                  size='13px'
+                  data-e2e='btcManageSegwitWalletLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.btc.wallets.managesegwit'
+                    defaultMessage='Segwit'
+                  />
+                </Link>
+              </LinkContainer>
+            </React.Fragment>
           )}
         </TableCell>
       </TableRow>
@@ -200,8 +223,8 @@ const Success = ({
           >
             <Text size='13px' weight={500}>
               <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.actions'
-                defaultMessage='Actions'
+                id='scenes.settings.addresses.btc.wallets.manage'
+                defaultMessage='Manage'
               />
             </Text>
           </TableCell>

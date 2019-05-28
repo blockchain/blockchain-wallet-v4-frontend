@@ -23,7 +23,7 @@ class AddressesContainer extends React.PureComponent {
         <ContentWrapper>
           <Switch>
             <Route
-              path='/settings/addresses/btc/:index'
+              path='/settings/addresses/btc/:walletIndex/:derivation'
               component={BtcManage}
             />
             <Route path='/settings/addresses/btc' component={Btc} exact />

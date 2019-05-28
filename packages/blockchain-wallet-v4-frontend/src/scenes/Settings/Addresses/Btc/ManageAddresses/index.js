@@ -12,11 +12,17 @@ const Wrapper = styled.section`
 `
 class ManageAddressesContainer extends React.PureComponent {
   render () {
-    const walletIndex = this.props.match.params.index
+    const routeParams = this.props.match.params
     return (
       <Wrapper>
-        <UnusedAddresses walletIndex={walletIndex} />
-        <UsedAddresses walletIndex={walletIndex} />
+        <UnusedAddresses
+          derivation={routeParams.derivation}
+          walletIndex={routeParams.walletIndex}
+        />
+        <UsedAddresses
+          derivation={routeParams.derivation}
+          walletIndex={routeParams.walletIndex}
+        />
       </Wrapper>
     )
   }

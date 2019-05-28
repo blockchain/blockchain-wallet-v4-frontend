@@ -13,18 +13,10 @@ import {
 } from 'blockchain-info-components'
 
 const UnusedAddressesTemplate = ({
-  account,
-  currentReceiveIndex,
-  unusedAddresses,
-  isDefault,
-  onGenerateNextAddress,
   onEditLabel,
   onDeleteLabel,
-  onEditBtcAccountLabel,
-  onShowXPub,
-  onMakeDefault,
-  onSetArchived,
-  search
+  search,
+  unusedAddresses
 }) => {
   const isMatch = addr =>
     !search ||
