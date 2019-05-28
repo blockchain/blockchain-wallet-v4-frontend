@@ -3,22 +3,19 @@ import {
   assoc,
   compose,
   curry,
-  findIndex,
-  head,
   isNil,
   keys,
-  lensIndex,
   lensProp,
   lift,
-  over,
   path,
   pluck,
   pipe,
   prop,
-  propEq,
+  propOr,
   map,
   max,
   reject,
+  set,
   sequence,
   split,
   sum,
@@ -28,7 +25,7 @@ import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex
-} from '../../data/btc/selectors.js'
+} from '../../data/btc/selectors'
 import {
   getLockboxBtcAccounts,
   getLockboxBtcAccount
@@ -37,27 +34,17 @@ import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-// TODO: SEGWIT line 42 will return incorrect data, if multiple xpubs are used!
 const _getAccounts = selector => state => {
-  const balancesR = getAddresses(state)
-  const addInfo = account =>
-    balancesR.map(b => {
-      console.info('B', b)
-      const balanceInfo = head(values(b))
-      console.info(b)
-      const lens = compose(
-        lensProp('derivations'),
-        lensIndex(
-          findIndex(propEq('xpub', prop('address', balanceInfo)))(
-            account.derivations
-          )
-        )
-      )
-      return over(lens, assoc('info', balanceInfo), account)
-    })
-
+  const balances = Remote.of(getAddresses(state).getOrElse({}))
+  const addInfo = account => {
+    const derivationsInfo = map(
+      d => assoc('info', propOr({}, d.xpub, balances), d),
+      prop('derivations', account)
+    )
+    return set(lensProp('derivations'), derivationsInfo, account)
+  }
   const accountsR = map(addInfo, selector(state))
-  console.info(accountsR)
+  console.info('4', accountsR)
   return sequence(Remote.of, accountsR)
 }
 
