@@ -21,10 +21,10 @@ const SkeletonTable = styled.div`
 export default () => (
   <BalanceSkeleton>
     <SkeletonTable>
-      <SkeletonRectangle width='40%' height='70px' bgColor='white-blue' />
-      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
-      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
-      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
+      <SkeletonRectangle width='40%' height='70px' bgColor='gray-1' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='gray-1' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='gray-1' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='gray-1' />
     </SkeletonTable>
   </BalanceSkeleton>
 )

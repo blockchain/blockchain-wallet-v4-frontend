@@ -13,7 +13,7 @@ const Circle = styled.div`
   border: 2px solid ${props => props.theme['gray-2']};
   border-radius: 74px;
   &.active {
-    background: ${props => props.theme['white-blue']};
+    background: ${props => props.theme['gray-1']};
   }
   @media (min-width: 480px) {
     display: flex;

@@ -154,10 +154,7 @@ class RecurringOrder extends React.Component {
         </MediaContextConsumer>
         {this.state.toggled ? (
           <RecurringTableWrapper>
-            <RecurringTableHeader
-              padding='8px 5px'
-              backgroundColor='white-blue'
-            >
+            <RecurringTableHeader padding='8px 5px' backgroundColor='gray-1'>
               <TableCell width='15%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage
