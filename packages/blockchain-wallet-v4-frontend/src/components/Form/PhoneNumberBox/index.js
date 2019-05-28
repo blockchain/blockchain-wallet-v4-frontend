@@ -21,6 +21,8 @@ const Container = styled.div`
     width: 100%;
     height: 48px;
     font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid ${props => props.theme['grey100']};
     color: ${props => props.theme['gray-6']};
     ::-webkit-input-placeholder {
       opacity: 0.35;
@@ -41,7 +43,7 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${props => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
 `
 

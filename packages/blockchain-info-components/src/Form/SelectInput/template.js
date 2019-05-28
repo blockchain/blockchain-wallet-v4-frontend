@@ -42,7 +42,7 @@ const StyledSelect = styled(Select)`
     color: ${props => props.theme['gray-6']};
     background-color: ${props => props.theme['white']};
     cursor: pointer;
-    min-height: 48px;
+    min-height: ${props => props.height};
     border-radius: 4px;
     border: 1px solid ${props => props.theme[props.borderColor]};
     &:hover {
@@ -169,27 +169,28 @@ const selectBorderColor = state => {
 
 const SelectInput = props => {
   const {
-    items,
     className,
-    disabled,
-    defaultItem,
     defaultDisplay,
-    searchEnabled,
-    templateItem,
-    templateDisplay,
+    defaultItem,
+    disabled,
+    errorState,
+    filterOption,
+    getRef,
+    grouped,
+    handleChange,
+    height,
     hideFocusedControl,
     hideIndicator,
-    handleChange,
-    errorState,
+    items,
     menuIsOpen,
     menuPlacement,
-    openMenuOnFocus,
-    onFocus,
-    grouped,
     onBlur,
+    onFocus,
     onKeyDown,
-    getRef,
-    filterOption
+    openMenuOnFocus,
+    searchEnabled,
+    templateDisplay,
+    templateItem
   } = props
   const options = grouped
     ? items
@@ -202,12 +203,9 @@ const SelectInput = props => {
 
   return (
     <StyledSelect
+      borderColor={borderColor}
       className={className}
       classNamePrefix='bc'
-      options={options}
-      borderColor={borderColor}
-      templateItem={templateItem}
-      templateDisplay={templateDisplay}
       components={{
         Option,
         ValueContainer,
@@ -215,21 +213,25 @@ const SelectInput = props => {
         DropdownIndicator,
         IndicatorSeparator
       }}
+      height={height}
+      filterOption={filterOption}
       hideFocusedControl={hideFocusedControl}
       hideIndicator={hideIndicator}
-      placeholder={defaultDisplay}
+      isDisabled={disabled}
       isSearchable={searchEnabled}
+      menuIsOpen={menuIsOpen}
+      menuPlacement={menuPlacement}
+      onBlur={onBlur}
       onChange={handleChange}
       onFocus={onFocus}
-      onBlur={onBlur}
       onKeyDown={onKeyDown}
-      menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
+      options={options}
+      placeholder={defaultDisplay}
       ref={getRef}
-      menuPlacement={menuPlacement}
-      isDisabled={disabled}
+      templateDisplay={templateDisplay}
+      templateItem={templateItem}
       value={defaultValue}
-      filterOption={filterOption}
     />
   )
 }

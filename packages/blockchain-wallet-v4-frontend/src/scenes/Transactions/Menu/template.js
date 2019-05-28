@@ -127,6 +127,7 @@ const Menu = props => {
                   coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBchAddresses
                 }
                 excludeLockbox
+                height='40px'
               />
             </Addresses>
           )}
@@ -195,6 +196,7 @@ const Menu = props => {
             )}
             <Field
               name='search'
+              height='40px'
               component={TextBox}
               data-e2e='transactionsMenuSearchBox'
             />

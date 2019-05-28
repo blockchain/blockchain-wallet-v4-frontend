@@ -11,7 +11,7 @@ const BaseTextInput = styled.input.attrs({
   display: block;
   width: 100%;
   height: ${props => props.height};
-  min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
+  min-height: ${props => props.height};
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 16px;
