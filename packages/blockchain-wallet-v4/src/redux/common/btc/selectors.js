@@ -38,14 +38,12 @@ const _getAccounts = selector => state => {
   const balances = Remote.of(getAddresses(state).getOrElse({}))
   const addInfo = account => {
     const derivationsInfo = map(
-      d => assoc('info', propOr({}, d.xpub, balances), d),
+      d => assoc('info', propOr({}, d.xpub, balances.getOrElse({})), d),
       prop('derivations', account)
     )
     return set(lensProp('derivations'), derivationsInfo, account)
   }
-  const accountsR = map(addInfo, selector(state))
-  console.info('4', accountsR)
-  return sequence(Remote.of, accountsR)
+  return Remote.of(map(addInfo, selector(state)))
 }
 
 // getHDAccounts :: state -> Remote ([hdAccountsWithInfo])
@@ -99,8 +97,8 @@ const flattenAccount = acc => ({
   balance: pipe(
     prop('derivations'),
     pluck('info'),
-    reject(isNil),
     pluck('final_balance'),
+    reject(isNil),
     sum
   )(acc),
   xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
@@ -141,7 +139,7 @@ const flattenAddress = addr => ({
   type: ADDRESS_TYPES.LEGACY
 })
 
-// TODO :: (rename that shit) getAddressesBalances :: state => Remote([])
+// getAddressesBalances :: state => Remote([])
 export const getAddressesBalances = state => {
   return map(map(flattenAddress), getActiveAddresses(state))
 }
