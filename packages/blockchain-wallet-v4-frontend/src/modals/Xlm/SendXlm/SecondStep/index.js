@@ -10,8 +10,6 @@ import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
   onGoBack = () => {
-    // TODO: this clears the previous form, find different way
-    this.props.actions.initialized()
     this.props.actions.secondStepCancelClicked()
   }
 

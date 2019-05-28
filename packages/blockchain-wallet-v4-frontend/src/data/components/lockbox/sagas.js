@@ -1,6 +1,7 @@
 import {
   call,
   cancelled,
+  delay,
   put,
   take,
   select,
@@ -16,7 +17,7 @@ import {
   propEq,
   values
 } from 'ramda'
-import { delay, eventChannel, END } from 'redux-saga'
+import { eventChannel, END } from 'redux-saga'
 import { actionTypes, actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'

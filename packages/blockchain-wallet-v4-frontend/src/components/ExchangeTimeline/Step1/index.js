@@ -10,7 +10,7 @@ const translateFrames = keyframes`
   to { transform: translate(100%, -200%); }
 `
 const translateAnimation = css`
-  ${translateFrames} 2s infinite ease-in;
+  animation: ${translateFrames} 2s infinite ease-in;
 `
 const Wrapper = styled.div`
   display: flex;
@@ -44,21 +44,17 @@ const AnimatedIcon = styled(Icon)`
   position: absolute;
   top: 50%;
   left: 50%;
-  animation: ${translateAnimation};
   animation-play-state: running;
+  ${translateAnimation};
 `
 
 const Step1 = props => (
   <Wrapper>
     <Circle>
       {props.status === 'active' ? (
-        <AnimatedIcon
-          name='paper-airplane-filled'
-          size='40px'
-          color='brand-primary'
-        />
+        <AnimatedIcon name='send' size='40px' color='brand-primary' />
       ) : (
-        <Icon name='paper-airplane-filled' size='40px' color='brand-primary' />
+        <Icon name='send' size='40px' color='brand-primary' />
       )}
     </Circle>
     <Text size='13px' weight={500} capitalize>

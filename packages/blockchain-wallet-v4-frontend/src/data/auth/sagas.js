@@ -1,5 +1,4 @@
-import { call, put, select, take, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { assoc, path, prop, is } from 'ramda'
 
 import * as C from 'services/AlertService'
@@ -88,7 +87,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
     yield put(actions.goals.saveGoal('pax'))
-    yield put(actions.goals.saveGoal('bsv'))
   }
 
   const startSockets = function * () {
@@ -130,7 +128,6 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
-      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
@@ -150,6 +147,7 @@ export default ({ api, coreSagas }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
+      yield put(actions.analytics.initUserSession())
       yield fork(transferEthSaga)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
@@ -200,7 +198,7 @@ export default ({ api, coreSagas }) => {
       return false
     }
     try {
-      yield call(delay, 2000)
+      yield delay(2000)
       const response = yield call(api.pollForSessionGUID, session)
       if (prop('guid', response)) {
         return true
@@ -333,7 +331,6 @@ export default ({ api, coreSagas }) => {
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
-      yield put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)

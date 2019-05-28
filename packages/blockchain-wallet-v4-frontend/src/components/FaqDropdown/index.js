@@ -23,9 +23,8 @@ const Answer = styled.div`
 `
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
-  transform: rotate(0deg);
-  transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(180deg)'};
+  transition: transform 0.3s;
   color: ${props =>
     props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
   max-height: min-content;

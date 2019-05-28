@@ -58,8 +58,8 @@ class CoinifyUpgrade extends React.PureComponent {
         <Body>
           <Copy weight={400}>
             <FormattedMessage
-              id='modals.coinifyupgrade.coinifyupgradeairdrop'
-              defaultMessage='Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get up to $50 of free Stellar (XLM).'
+              id='modals.coinifyupgrade.coinifyupgradeairdrop2'
+              defaultMessage='Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get at least $25 of free Stellar (XLM).'
             />
           </Copy>
         </Body>
@@ -99,11 +99,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
+  modalEnhancer('CoinifyUpgrade'),
   connect(
     undefined,
     mapDispatchToProps
-  ),
-  modalEnhancer('CoinifyUpgrade')
+  )
 )
 
 export default enhance(CoinifyUpgrade)

@@ -29,7 +29,7 @@ export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
-export const hasReceivedEthAirdrop = compose(
+export const getPowerPaxTag = compose(
   lift(hasPath(['tags', 'POWER_PAX'])),
   getUserData
 )
@@ -61,6 +61,8 @@ export const getKycDocResubmissionStatus = compose(
   lift(path(['resubmission', 'reason'])),
   getUserData
 )
+
+export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>

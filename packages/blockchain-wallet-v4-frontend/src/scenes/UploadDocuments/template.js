@@ -84,7 +84,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
 
   @media (max-width: 760px) {
     flex-direction: column;

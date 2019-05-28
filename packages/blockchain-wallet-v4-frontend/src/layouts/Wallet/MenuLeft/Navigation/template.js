@@ -22,6 +22,9 @@ import {
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
+  > div span {
+    color: ${props => props.theme['gray-4']};
+  }
 `
 const NewCartridge = styled(Cartridge)`
   color: #f28b24 !important;
@@ -43,6 +46,8 @@ const Navigation = props => {
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
+  // SwapOrTradeTest
+  const { swapOrTrade } = rest
 
   return (
     <Wrapper {...rest}>
@@ -67,10 +72,18 @@ const Navigation = props => {
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <Icon name='thick-arrow-switch' size='20px' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.swap'
-            defaultMessage='Swap'
-          />
+          {/* SwapOrTradeTest */}
+          {swapOrTrade !== 'trade' ? (
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.swap'
+              defaultMessage='Swap'
+            />
+          ) : (
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.trade'
+              defaultMessage='Trade'
+            />
+          )}
         </MenuItem>
       </LinkContainer>
       <Separator />
@@ -89,10 +102,10 @@ const Navigation = props => {
                   colorCode={coin.colorCode}
                 >
                   <Icon name={coin.icons.circleFilled} size='20px' />
-                  {coin.displayName}
+                  <span>{coin.displayName}</span>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='#F28B24' size='12' weight={500} uppercase>
+                      <Text color='orange' size='12' weight={500} uppercase>
                         <FormattedMessage
                           id='layouts.wallet.menuleft.navigation.transactions.new'
                           defaultMessage='New'

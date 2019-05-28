@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 2px;
 `
 const Action = styled(Text)`
   cursor: pointer;
@@ -21,8 +22,12 @@ const SunRiverKycReminder = props => {
   return (
     <React.Fragment>
       <ItemWrapper>
-        <Icon name='xlm' color='white' weight={600} size='20px' />
-        <Text style={{ marginLeft: '15px' }} color='white' size='14px'>
+        <Icon name='xlm-circle-filled' color='white' size='20px' />
+        <Text
+          style={{ marginLeft: '15px', marginBottom: '1px' }}
+          color='white'
+          size='14px'
+        >
           <FormattedMessage
             id='layouts.wallet.header.announcements.sunriverkycremdinder.title'
             defaultMessage='Complete your identity verification to claim your XLM.'

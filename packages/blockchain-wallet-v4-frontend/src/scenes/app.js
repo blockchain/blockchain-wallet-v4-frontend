@@ -8,6 +8,7 @@ import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -41,7 +42,7 @@ import Transactions from './Transactions'
 const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
   html, body {overflow: hidden;}
-  // hide scrollbars
+  /* hide scrollbars */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -152,6 +153,7 @@ class App extends React.PureComponent {
                     )}
                   </Switch>
                 </ConnectedRouter>
+                <AnalyticsTracker />
                 <FontGlobalStyles />
                 <IconGlobalStyles />
                 <GlobalStyle />

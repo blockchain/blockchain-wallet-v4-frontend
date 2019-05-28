@@ -14,7 +14,6 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
-import { BsvGetStarted, SendBsv } from './Bsv'
 import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
 import {
   PaxWelcome,
@@ -48,6 +47,7 @@ import {
   AirdropReminder,
   AirdropSuccess,
   CoinifyUpgrade,
+  LinkAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   Welcome
@@ -86,7 +86,6 @@ const Modals = () => (
     <AirdropReminder />
     <AirdropSuccess />
     <AutoDisconnection />
-    <BsvGetStarted />
     <CoinifyDeleteBank />
     <CoinifyTradeDetails />
     <CoinifyUpgrade />
@@ -105,6 +104,7 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
+    <LinkAccount />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
@@ -119,7 +119,6 @@ const Modals = () => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
-    <SendBsv />
     <SendEth />
     <SendXlm />
     <ShapeshiftTradeDetails />

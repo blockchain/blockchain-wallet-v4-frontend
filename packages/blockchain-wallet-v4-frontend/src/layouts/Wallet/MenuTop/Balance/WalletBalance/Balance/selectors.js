@@ -7,8 +7,6 @@ export const getData = (state, ownProps) => {
       return balanceSelectors.getBtcBalance(state)
     case 'BCH':
       return balanceSelectors.getBchBalance(state)
-    case 'BSV':
-      return balanceSelectors.getBsvBalance(state)
     case 'ETH':
       return balanceSelectors.getEthBalance(state)
     case 'XLM':

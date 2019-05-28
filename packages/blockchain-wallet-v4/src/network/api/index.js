@@ -1,7 +1,6 @@
 import analytics from './analytics'
 import bch from './bch'
 import btc from './btc'
-import bsv from './bsv'
 import delegate from './delegate'
 import eth from './eth'
 import kvStore from './kvStore'
@@ -39,7 +38,6 @@ export default ({
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
     ...btc({ rootUrl, apiUrl, ...http }),
-    ...bsv({ rootUrl, apiUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
     ...eth({ rootUrl, apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),

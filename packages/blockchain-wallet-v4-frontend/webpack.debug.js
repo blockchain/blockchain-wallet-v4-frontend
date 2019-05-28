@@ -111,7 +111,7 @@ module.exports = {
     hints: false
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.ciBuild], { allowExternal: true }),
+    new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
@@ -134,10 +134,7 @@ module.exports = {
           },
           mangle: {
             keep_fnames: true
-          },
-          nameCache: null,
-          toplevel: false,
-          ie8: false
+          }
         },
         parallel: true,
         cache: true

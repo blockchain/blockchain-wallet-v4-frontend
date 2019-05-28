@@ -2,11 +2,13 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 1,
+        "analyticsSiteId": 2,
         "enableDomainMigrationRedirects": true,
         "environment": "dev",
         "announcements": {
+          "lockbox": {},
           "public": {},
+          "swap": {},
           "wallet": {}
         }
       },
@@ -64,31 +66,6 @@
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
-        },
-        "BSV": {
-          "availability": {
-            "send": true,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": true
-          },
-          "coinCode": "BSV",
-          "coinTicker": "BSV",
-          "colorCode": "bsv",
-          "displayName": "Bitcoin SV",
-          "config": {
-            "fees": {
-              "regular": 4,
-              "priority": 4
-            }
-          },
-          "hasLockboxSupport": false,
-          "icons": {
-            "default": "bsv"
-          },
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
         "ETH": {
           "availability": {
@@ -156,11 +133,48 @@
           "coinCode": "XLM",
           "coinTicker": "XLM",
           "colorCode": "xlm",
-          "displayName": "Stellar",
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 10
           },
+          "displayName": "Stellar",
+          "exchangeAddresses": [
+            "GA4BYMUO5D7OLGVJWZ2D5FCWU7SB63FNZ4QUU574SMNA6ELK5TZD3SO3",
+            "GA5XIGA5C7QTPTWXQHY6MCJRMTRZDOSHR6EFIBNDQTCQHG262N4GGKTM",
+            "GABSZVZBYEO5F4V5LZKV7GR4SAJ5IKJGGOF43BIN42FNDUG7QPH6IMRQ",
+            "GAHK7EEG2WWHVKDNT4CEQFZGKF2LGDSW2IVM4S5DP42RBW3K6BTODB4A",
+            "GAW4E6NGM4NPNX2LO2BKDPCCTUX3FJLKWHPU4VQPGBIBQGD6JTVF5C7C",
+            "GAWPTHY6233GRWZZ7JXDMVXDUDCVQVVQ2SXCSTG3R3CNP5LQPDAHNBKL",
+            "GB3RMPTL47E4ULVANHBNCXSXM2ZA5JFY5ISDRERPCXNJUDEO73QFZUNK",
+            "GB6YPGW5JFMMP2QB2USQ33EUWTXVL4ZT5ITUNCY3YKVWOJPP57CANOF3",
+            "GB7GRJ5DTE3AA2TCVHQS2LAD3D7NFG7YLTOEWEBVRNUUI2Q3TJ5UQIFM",
+            "GBKTJSNUSR6OCXA5WDWGT33MNSCNQHOBQUBYC7TVS7BOXDKWFNHI4QNH",
+            "GBOEEVARKVASOQSSXCAHNTGJTVALJE2QM3AQQ2K3VXACQ6JJREQRJZKB",
+            "GBSTRH4QOTWNSVA6E4HFERETX4ZLSR3CIUBLK7AXYII277PFJC4BBYOG",
+            "GBSTRUSD7IRX73RQZBL3RQUH6KS3O4NYFY3QCALDLZD77XMZOPWAVTUK",
+            "GBTBVILDGCOIK26EPEHYCMKM7J5MTQ4FD5DO37GVTTBP45TVGRAROQHP",
+            "GBUQWP3BOUZX34TOND2QV7QQ7K7VJTG6VSE7WMLBTMDJLLAW7YKGU6EP",
+            "GBV4ZDEPNQ2FKSPKGJP2YKDAIZWQ2XKRQD4V4ACH3TCTFY6KPY3OAVS7",
+            "GBVOL67TMUQBGL4TZYNMY3ZQ5WGQYFPFD5VJRWXR72VA33VFNL225PL5",
+            "GBWZHAVWY23QKKDJW7TXLSIHY5EX4NIB37O4NMRKN2SKNWOSE5TEPCY3",
+            "GC4KAS6W2YCGJGLP633A6F6AKTCV4WSLMTMIQRSEQE5QRRVKSX7THV6S",
+            "GCGNWKCJ3KHRLPM3TM6N7D3W5YKDJFL6A2YCXFXNMRTZ4Q66MEMZ6FI2",
+            "GCLDH6L6FBLTD3H3B23D6TIFVVTFBLZMNBC3ZOI6FGI5GPQROL4FOXIN",
+            "GCNSGHUCG5VMGLT5RIYYZSO7VQULQKAJ62QA33DBC5PPBSO57LFWVV6P",
+            "GCO2IP3MJNUOKS4PUDI4C7LGGMQDJGXG3COYX3WSB4HHNAHKYV5YL3VC",
+            "GCVBUIXKKLH2DYHZRSLZUIZSVJUL74RTW6FVCCEYB2OE3RH7RVDBPCFG",
+            "GCXDR4QZ4OTVX6433DPTXELCSEWQ4E5BIPVRRJMUR6M3NT4JCVIDALZO",
+            "GDBCHKTHJUKDGSIQSTBUXFWVP3QVART5LED6KRZQ5X4Z5WLT4BGYXWCI",
+            "GDMXNQBJMS3FYI4PFSYCCB4XODQMNMTKPQ5HIKOUWBOWJ2P3CF6WASBE",
+            "GDRSWSKJCIB6Z65UA7W5RG62A7M5K3A5IHMED6DYHLPLWLVQCOOGDQ7S",
+            "GDU2FEL6THGGOFDHHP4I5FHNWY4S2SXYUBCEDB5ZREMD6UFRT4SYWSW2",
+            "GDZCEWJ5TVXUTFH6V5CVDQDE43KRXYUFRHKI7X64EWMVOVYYZJFWIFQ2",
+            "GDP34WXZRCSHVUDQLGKJKOBMS5LOQPHCIADZU5POEF3IICZ7XNQJ65Y6",
+            "GARAR5QR7WRL24MQMSO4INWV7C5SE4EE2YVXTLD6ORONYFHSUAGZYSLN",
+            "GCWYV4ZICBNDYJ3HE7GHPF3MJPIH63QNCWYPFTC5BQOIODUEI7HJBJVS",
+            "GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37",
+            "GBQ6RTEHEHXFPKSWCIM4KSVQXBANLFMVV6FJIZDLTF3ZOGFHTBDZUYDD"
+          ],
           "hasLockboxSupport": true,
           "icons": {
             "default": "xlm-circle-filled",
@@ -230,33 +244,37 @@
       "sfox": {
         "countries": ["US"],
         "states": [
-          "AR",
+          "AK",
           "AZ",
           "CA",
           "CO",
+          "DE",
           "ID",
           "IL",
           "IN",
-          "KS",
           "KY",
           "LA",
           "MA",
           "MD",
+          "ME",
           "MI",
-          "MN",
           "MO",
           "MT",
           "NE",
+          "NH",
+          "NJ",
           "NV",
           "OK",
+          "OH",
           "PA",
-          "SC",
-          "SD",
+          "RI",
           "TN",
           "TX",
+          "UT",
           "VA",
           "WI",
-          "WV"
+          "WV",
+          "WY"
         ],
         "config": {
           "production": false,

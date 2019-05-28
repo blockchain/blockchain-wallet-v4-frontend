@@ -395,10 +395,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
-    it('should fetch bsv metadata', () => {
-      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
-    })
-
     it('should fetch lockbox metadata', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })
@@ -463,6 +459,10 @@ describe('authSagas', () => {
     it('should trigger update language action with selected language', () => {
       const language = 'en'
       saga.next(language).put(actions.modules.settings.updateLanguage(language))
+    })
+
+    it('should init analytics user session', () => {
+      saga.next().put(actions.analytics.initUserSession())
     })
 
     it('should launch transferEth saga', () => {
@@ -540,10 +540,6 @@ describe('authSagas', () => {
 
     it('should set state to restore loading', () => {
       saga.next().put(actions.auth.registerLoading())
-    })
-
-    it('should display restore wallet information alert', () => {
-      saga.next().put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
     })
 
     it('should pass payload to restoreWallet core saga', () => {

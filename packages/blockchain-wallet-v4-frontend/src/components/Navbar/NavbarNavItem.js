@@ -4,7 +4,7 @@ import media from 'services/ResponsiveService'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
-  margin-right: 28px;
+  margin-right: 8px;
   cursor: pointer;
   &:last-child {
     margin-right: 0px;

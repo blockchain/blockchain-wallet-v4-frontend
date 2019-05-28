@@ -1,5 +1,6 @@
 import {
   call,
+  delay,
   cancel,
   fork,
   put,
@@ -8,7 +9,6 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import {
   compose,
   includes,
@@ -44,6 +44,7 @@ import {
 import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -323,12 +324,13 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
+      const feeSource = isSourceErc20 ? 'ETH' : sourceCoin
       const provisionalPayment = yield payment ||
         call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
-        sourceCoin,
-        selectFee(sourceCoin, provisionalPayment, isSourceErc20)
+        feeSource,
+        selectFee(sourceCoin, provisionalPayment)
       )
       const rates = yield call(getBestRates)
       // For ERC20, fallback to eth ticker
@@ -352,7 +354,7 @@ export default ({ api, coreSagas, networks }) => {
       // ensure for sufficient eth balance for erc20 swap
       if (isSourceErc20) {
         const ethBalanceInWei = (yield select(
-          selectors.core.data.eth.getBalance
+          selectors.core.data.eth.getDefaultAddressBalance
         )).getOrElse(0)
         let ethBalance = Exchange.convertEtherToEther({
           value: ethBalanceInWei,
@@ -767,7 +769,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
-        yield spawn(updateLatestEthTrade, txId)
+        yield spawn(updateLatestEthTrade, txId, source.type)
       }
     } catch (err) {
       if (sourceCoin === 'XLM') {
@@ -800,8 +802,8 @@ export default ({ api, coreSagas, networks }) => {
     const target = prop('target', form)
     const pair = getCurrentPair(form)
     const fees = yield select(S.getMempoolFees)
-    const hasReceivedEthAirdrop = (yield select(
-      selectors.modules.profile.hasReceivedEthAirdrop
+    const isPowerPaxTagged = (yield select(
+      selectors.modules.profile.getPowerPaxTag
     )).getOrElse(true)
     const userTier = (yield select(
       selectors.modules.profile.getUserTiers
@@ -813,18 +815,26 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/swap/history'))
       yield take(actionTypes.modals.CLOSE_ALL_MODALS)
-      // check for eth airdrop eligibility
-      if (
-        !hasReceivedEthAirdrop &&
-        equals('PAX', target.coin) &&
-        equals(2, userTier.current)
-      ) {
-        yield put(
-          actions.modals.showModal(ETH_AIRDROP_MODAL, {
-            tradeData: formatExchangeTrade(trade)
-          })
-        )
-        yield put(actions.modules.profile.fetchUser())
+      // Check for eth airdrop eligibility
+      if (!isPowerPaxTagged && equals('PAX', target.coin)) {
+        if (equals(2, userTier.current)) {
+          yield put(
+            actions.modals.showModal(ETH_AIRDROP_MODAL, {
+              tradeData: formatExchangeTrade(trade)
+            })
+          )
+        } else {
+          const supportedCoins = (yield select(
+            selectors.core.walletOptions.getSupportedCoins
+          )).getOrElse({})
+          const coin = supportedCoins['ETH']
+          yield put(
+            actions.alerts.displayCoin(C.FIRST_PAX_TRADE_INFO, coin, true)
+          )
+          yield put(
+            actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
+          )
+        }
       } else {
         yield put(
           actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
@@ -832,6 +842,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.modules.profile.fetchUser())
     } catch (err) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM_ERROR))
       return yield call(showConfirmationError, err)
@@ -851,7 +862,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
-      yield cancel(renewLimitsTask)
+      if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'clearSubscriptions', e)

@@ -1,5 +1,12 @@
-import { delay } from 'redux-saga'
-import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
+import {
+  cancel,
+  call,
+  delay,
+  fork,
+  put,
+  select,
+  spawn
+} from 'redux-saga/effects'
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 
@@ -285,22 +292,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const linkAccount = function * ({ payload }) {
+    try {
+      const { linkId } = payload
+      yield put(A.linkAccountLoading())
+      const data = yield call(api.linkAccount, linkId)
+      yield put(A.linkAccountSuccess(data))
+    } catch (e) {
+      yield put(A.linkAccountFailure(e))
+    }
+  }
+
   return {
-    getCampaignData,
-    signIn,
     clearSession,
-    setSession,
-    renewSession,
-    generateRetailToken,
-    generateAuthCredentials,
     createUser,
-    updateUser,
-    updateUserAddress,
-    fetchUser,
     fetchTiers,
+    fetchUser,
+    generateAuthCredentials,
+    generateRetailToken,
+    getCampaignData,
+    linkAccount,
+    recoverUser,
     renewApiSockets,
+    renewSession,
     renewUser,
+    setSession,
+    signIn,
     syncUserWithWallet,
-    recoverUser
+    updateUser,
+    updateUserAddress
   }
 }

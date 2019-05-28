@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import styled from 'styled-components'
 
 import { model } from 'data'
@@ -11,6 +11,7 @@ import { required, validXlmAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
+  Link,
   Text,
   TooltipHost,
   TooltipIcon
@@ -75,23 +76,30 @@ const MemoField = styled.div`
 const FirstStep = props => {
   const {
     activeField,
-    pristine,
-    invalid,
-    submitting,
-    fee,
-    noAccount,
-    from,
     balanceStatus,
     error,
+    excludeLockbox,
+    fee,
+    from,
     handleSubmit,
+    invalid,
     isDestinationChecked,
+    isDestinationExchange,
+    noAccount,
+    pristine,
     submit,
-    excludeLockbox
+    submitting
   } = props
   const amountActive = activeField === 'amount'
   const isFromLockbox = from && from.type === 'LOCKBOX'
-  const disableLockboxSend =
-    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const isBrowserSupported = browser.satisfies({
+    chrome: '>45',
+    chromium: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
+  const disableLockboxSend = isFromLockbox && !isBrowserSupported
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -143,8 +151,8 @@ const FirstStep = props => {
             <WarningBanners type='warning'>
               <Text color='warning' size='12px'>
                 <FormattedMessage
-                  id='modals.sendxlm.firststep.warnbrowswer'
-                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser!'
+                  id='modals.sendxlm.firststep.blockbrowser'
+                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
                 />
               </Text>
             </WarningBanners>
@@ -227,7 +235,30 @@ const FirstStep = props => {
                 />
               </MemoField>
             </FormItem>
+            {isDestinationExchange && (
+              <WarningBanners type='info' data-e2e='sendXlmToExchangeAddress'>
+                <Text color='warning' size='12px'>
+                  <FormattedMessage
+                    id='modals.sendxlm.firststep.sendtoexchange'
+                    defaultMessage='Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.'
+                  />
+                  <Link
+                    href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
+                    target='_blank'
+                    size='11px'
+                    weight={700}
+                    altFont
+                  >
+                    <FormattedMessage
+                      id='modals.sendxlm.firststep.sendtoexchangelearn'
+                      defaultMessage='Learn More'
+                    />
+                  </Link>
+                </Text>
+              </WarningBanners>
+            )}
           </FormGroup>
+
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel for='description'>

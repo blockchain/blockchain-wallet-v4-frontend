@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const Container = styled.div`
@@ -69,14 +69,6 @@ const MenuTop = () => (
             <FormattedMessage
               id='scenes.settings.addresses.menutop.bch'
               defaultMessage='Bitcoin Cash'
-            />
-          </LinkItem>
-        </LinkContainer>
-        <LinkContainer to='/settings/addresses/bsv' activeClassName='active'>
-          <LinkItem data-e2e='bsvWalletSettingsLink'>
-            <FormattedMessage
-              id='scenes.settings.addresses.menutop.bsv'
-              defaultMessage='Bitcoin SV'
             />
           </LinkItem>
         </LinkContainer>

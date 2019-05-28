@@ -23,6 +23,9 @@ const HeaderWrapper = styled.div`
 `
 const ItemIcon = styled(Icon)`
   color: ${props => props.theme[props.color]} !important;
+  * {
+    color: ${props => props.theme[props.color]} !important;
+  }
 `
 
 class SelectBoxCoin extends React.PureComponent {
@@ -55,7 +58,7 @@ class SelectBoxCoin extends React.PureComponent {
           color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
           size='20px'
         />
-        <Text size='14px' cursor='pointer' data-e2e={e2eTag}>
+        <Text size='14px' cursor='pointer' data-e2e={e2eTag} weight={500}>
           {children}
         </Text>
       </HeaderWrapper>

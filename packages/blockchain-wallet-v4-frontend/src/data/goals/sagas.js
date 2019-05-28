@@ -46,6 +46,15 @@ export default ({ api }) => {
       .getOrElse(false)
   }
 
+  const defineLinkAccountGoal = function * (search) {
+    const params = new URLSearchParams(search)
+    yield put(
+      actions.goals.saveGoal('linkAccount', {
+        linkId: params.get('link_id')
+      })
+    )
+  }
+
   const defineReferralGoal = function * (search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -104,6 +113,8 @@ export default ({ api }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
+    if (startsWith('link-account', pathname))
+      return yield call(defineLinkAccountGoal, search)
     if (startsWith('referral', pathname))
       return yield call(defineReferralGoal, search)
     if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
@@ -145,6 +156,13 @@ export default ({ api }) => {
         amount: { coin: amount, fiat }
       })
     )
+  }
+
+  const runLinkAccountGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(actions.goals.addInitialModal('linkAccount', 'LinkAccount', data))
   }
 
   const runReferralGoal = function * (goal) {
@@ -322,29 +340,6 @@ export default ({ api }) => {
     }
   }
 
-  const runBsvGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    const hasSeenR = yield select(selectors.core.kvStore.bsv.getHasSeen)
-    const hasSeen = hasSeenR.getOrElse(false)
-    if (hasSeen) return
-
-    yield put(actions.core.data.bsv.fetchData())
-    yield take([
-      actionTypes.core.data.bsv.FETCH_BSV_DATA_SUCCESS,
-      actionTypes.core.data.bsv.FETCH_BSV_DATA_FAILURE
-    ])
-
-    const balanceR = yield select(selectors.core.data.bsv.getBalance)
-    const balance = balanceR.getOrElse(0)
-
-    yield put(actions.core.data.bsv.resetData())
-    if (balance > 0) {
-      yield put(actions.core.kvStore.bsv.setHasSeen())
-      yield put(actions.goals.addInitialModal('bsv', 'BsvGetStarted'))
-    }
-  }
-
   const runPaxGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -390,6 +385,7 @@ export default ({ api }) => {
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
+      linkAccount,
       kycDocResubmit,
       sunriver,
       payment,
@@ -400,9 +396,13 @@ export default ({ api }) => {
       swapUpgrade,
       airdropClaim,
       pax,
-      bsv,
       welcome
     } = initialModals
+    if (linkAccount) {
+      return yield put(
+        actions.modals.showModal(linkAccount.name, linkAccount.data)
+      )
+    }
     if (kycDocResubmit) {
       return yield put(actions.modals.showModal(kycDocResubmit.name))
     }
@@ -443,9 +443,6 @@ export default ({ api }) => {
     if (pax) {
       return yield put(actions.modals.showModal(pax.name))
     }
-    if (bsv) {
-      return yield put(actions.modals.showModal(bsv.name))
-    }
     if (welcome) {
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
     }
@@ -454,6 +451,9 @@ export default ({ api }) => {
   const runGoal = function * (goal) {
     try {
       switch (goal.name) {
+        case 'linkAccount':
+          yield call(runLinkAccountGoal, goal)
+          break
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
           break
@@ -487,9 +487,6 @@ export default ({ api }) => {
         case 'pax':
           yield call(runPaxGoal, goal)
           break
-        case 'bsv':
-          yield call(runBsvGoal, goal)
-          break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
           break
@@ -518,7 +515,6 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runBsvGoal,
     runPaxGoal,
     runWelcomeGoal,
     runReferralGoal,

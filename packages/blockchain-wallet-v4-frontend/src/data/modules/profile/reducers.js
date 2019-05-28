@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   userTiers: Remote.of(INITIAL_TIERS),
   userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
-  campaign: {}
+  campaign: {},
+  linkAccountStatus: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -40,6 +41,12 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('apiToken', Remote.Loading, state)
     case AT.SET_API_TOKEN_FAILURE:
       return assoc('apiToken', Remote.Failure(payload.e), state)
+    case AT.LINK_ACCOUNT_SUCCESS:
+      return assoc('linkAccountStatus', Remote.Success(payload.data), state)
+    case AT.LINK_ACCOUNT_LOADING:
+      return assoc('linkAccountStatus', Remote.Loading, state)
+    case AT.LINK_ACCOUNT_FAILURE:
+      return assoc('linkAccountStatus', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:

@@ -23,8 +23,8 @@ const Wrapper = styled.div`
   margin-top: 15px;
   box-sizing: border-box;
   overflow: hidden;
-  background-size: cover;
   background: url(/img/airdrop-sunriver-dashboard.png);
+  background-size: cover;
 
   @media (min-width: 1200px) {
     display: flex;
@@ -68,7 +68,6 @@ const LargeText = styled(Text).attrs({
 })`
   @media (max-width: 1199px) {
     font-size: 14px;
-    weight: 400;
   }
 `
 const GetStartedButton = styled(Button).attrs({

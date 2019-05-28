@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import styled from 'styled-components'
 
 import { model } from 'data'
@@ -83,12 +83,18 @@ const FirstStep = props => {
     balanceStatus,
     excludeLockbox,
     hasErc20Balance,
-    isFeeSufficientForTx
+    isSufficientEthForErc20
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
-  const disableLockboxSend =
-    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
-  const isFeeSufficientForErc20Tx = coin === 'ETH' || isFeeSufficientForTx
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const isBrowserSupported = browser.satisfies({
+    chrome: '>45',
+    chromium: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
+  const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -138,8 +144,8 @@ const FirstStep = props => {
         <WarningBanners type='warning'>
           <Text color='warning' size='12px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.warnbrowswer'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser!'
+              id='modals.sendeth.firststep.browserwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
             />
           </Text>
         </WarningBanners>
@@ -315,7 +321,7 @@ const FirstStep = props => {
           </Text>
         </CustomFeeAlertBanner>
       ) : null}
-      {!isFeeSufficientForErc20Tx && <LowEthWarningForErc20 />}
+      {disableDueToLowEth && <LowEthWarningForErc20 />}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -328,7 +334,7 @@ const FirstStep = props => {
             invalid ||
             isContract ||
             !isContractChecked ||
-            !isFeeSufficientForErc20Tx ||
+            disableDueToLowEth ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}

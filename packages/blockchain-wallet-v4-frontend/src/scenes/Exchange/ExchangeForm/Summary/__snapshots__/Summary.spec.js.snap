@@ -44,7 +44,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -185,7 +185,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -326,7 +326,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -467,7 +467,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -608,7 +608,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -749,7 +749,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -890,7 +890,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1031,7 +1031,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1172,7 +1172,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1313,7 +1313,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1454,7 +1454,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1595,7 +1595,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1736,7 +1736,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -1877,7 +1877,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2018,7 +2018,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2159,7 +2159,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2300,7 +2300,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2441,7 +2441,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2582,7 +2582,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2723,7 +2723,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -2864,7 +2864,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3005,7 +3005,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3146,7 +3146,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3287,7 +3287,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3428,7 +3428,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3569,7 +3569,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3710,7 +3710,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3851,7 +3851,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -3992,7 +3992,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4133,7 +4133,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4274,7 +4274,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4415,7 +4415,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4556,7 +4556,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4697,7 +4697,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4838,7 +4838,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -4979,7 +4979,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5120,7 +5120,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5261,7 +5261,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5402,7 +5402,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5543,7 +5543,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5684,7 +5684,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5825,7 +5825,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -5966,7 +5966,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6107,7 +6107,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6248,7 +6248,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6389,7 +6389,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6530,7 +6530,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6671,7 +6671,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6812,7 +6812,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -6953,7 +6953,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7094,7 +7094,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7235,7 +7235,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7376,7 +7376,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7517,7 +7517,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7658,7 +7658,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7799,7 +7799,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -7940,7 +7940,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8081,7 +8081,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8222,7 +8222,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8363,7 +8363,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8504,7 +8504,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8645,7 +8645,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8786,7 +8786,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -8927,7 +8927,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate fai
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9068,7 +9068,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9209,7 +9209,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9350,7 +9350,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9491,7 +9491,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9632,7 +9632,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9773,7 +9773,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -9914,7 +9914,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10055,7 +10055,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10196,7 +10196,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10337,7 +10337,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10478,7 +10478,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10619,7 +10619,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10760,7 +10760,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -10901,7 +10901,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11042,7 +11042,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11183,7 +11183,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11324,7 +11324,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11465,7 +11465,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11606,7 +11606,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11747,7 +11747,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -11888,7 +11888,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12029,7 +12029,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12170,7 +12170,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12311,7 +12311,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12452,7 +12452,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12593,7 +12593,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12734,7 +12734,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -12875,7 +12875,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13016,7 +13016,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13157,7 +13157,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13298,7 +13298,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13439,7 +13439,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13580,7 +13580,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13721,7 +13721,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -13862,7 +13862,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14003,7 +14003,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14144,7 +14144,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14285,7 +14285,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14426,7 +14426,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14567,7 +14567,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14708,7 +14708,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14849,7 +14849,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -14990,7 +14990,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15131,7 +15131,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15272,7 +15272,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15413,7 +15413,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15554,7 +15554,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15695,7 +15695,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15836,7 +15836,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -15977,7 +15977,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16118,7 +16118,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16259,7 +16259,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16400,7 +16400,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16541,7 +16541,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16682,7 +16682,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16823,7 +16823,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -16964,7 +16964,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17105,7 +17105,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17246,7 +17246,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17387,7 +17387,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17528,7 +17528,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17669,7 +17669,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17810,7 +17810,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -17951,7 +17951,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate loa
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18092,7 +18092,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18233,7 +18233,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18374,7 +18374,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18515,7 +18515,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18656,7 +18656,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18797,7 +18797,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -18938,7 +18938,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19079,7 +19079,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19220,7 +19220,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19361,7 +19361,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19502,7 +19502,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19643,7 +19643,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19784,7 +19784,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -19925,7 +19925,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20066,7 +20066,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20207,7 +20207,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20348,7 +20348,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20489,7 +20489,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20630,7 +20630,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20771,7 +20771,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -20912,7 +20912,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21053,7 +21053,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21194,7 +21194,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21335,7 +21335,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21476,7 +21476,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21617,7 +21617,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21758,7 +21758,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -21899,7 +21899,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22040,7 +22040,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22181,7 +22181,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22322,7 +22322,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22463,7 +22463,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22604,7 +22604,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22745,7 +22745,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -22886,7 +22886,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23027,7 +23027,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23168,7 +23168,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23309,7 +23309,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23450,7 +23450,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23591,7 +23591,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23732,7 +23732,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -23873,7 +23873,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24014,7 +24014,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24155,7 +24155,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24296,7 +24296,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24437,7 +24437,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24578,7 +24578,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24719,7 +24719,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -24860,7 +24860,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25001,7 +25001,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25142,7 +25142,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25283,7 +25283,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25424,7 +25424,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25565,7 +25565,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25706,7 +25706,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25847,7 +25847,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -25988,7 +25988,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26129,7 +26129,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26270,7 +26270,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26411,7 +26411,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26552,7 +26552,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26693,7 +26693,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26834,7 +26834,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -26975,7 +26975,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate not
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27116,7 +27116,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27257,7 +27257,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27398,7 +27398,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27539,7 +27539,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27680,7 +27680,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27821,7 +27821,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -27962,7 +27962,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28103,7 +28103,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28244,7 +28244,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28385,7 +28385,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28526,7 +28526,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28667,7 +28667,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28808,7 +28808,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -28949,7 +28949,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29090,7 +29090,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29231,7 +29231,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29372,7 +29372,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29513,7 +29513,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29654,7 +29654,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29795,7 +29795,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -29936,7 +29936,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30077,7 +30077,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30218,7 +30218,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30359,7 +30359,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30500,7 +30500,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30641,7 +30641,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30782,7 +30782,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -30923,7 +30923,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31064,7 +31064,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31205,7 +31205,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31346,7 +31346,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31487,7 +31487,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31628,7 +31628,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31769,7 +31769,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -31910,7 +31910,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32051,7 +32051,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32192,7 +32192,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32333,7 +32333,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32474,7 +32474,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32615,7 +32615,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32756,7 +32756,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -32897,7 +32897,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33038,7 +33038,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33179,7 +33179,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33320,7 +33320,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33461,7 +33461,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33602,7 +33602,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33743,7 +33743,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -33884,7 +33884,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34025,7 +34025,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34166,7 +34166,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34307,7 +34307,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34448,7 +34448,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34589,7 +34589,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34730,7 +34730,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -34871,7 +34871,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35012,7 +35012,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35153,7 +35153,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35294,7 +35294,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35435,7 +35435,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35576,7 +35576,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35717,7 +35717,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35858,7 +35858,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />
@@ -35999,7 +35999,7 @@ exports[`Exchange Summary should render correct rates for sourceToTargetRate suc
         id="exchange.networkfees"
       >
         <TooltipIcon
-          color="lightblue-gray"
+          color="gray-3"
           name="question-in-circle-filled"
           size="18px"
         />

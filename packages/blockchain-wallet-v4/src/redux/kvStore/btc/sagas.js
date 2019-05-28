@@ -1,6 +1,5 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { isNil, isEmpty } from 'ramda'
-import { delay } from 'redux-saga'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry, HDAccount, Wallet } from '../../../types'
@@ -11,7 +10,7 @@ import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
   const createMetadataBtc = function * () {
-    yield call(delay, 1000)
+    yield delay(1000)
     const addressLabels = {}
 
     const wallet = yield select(getWallet)

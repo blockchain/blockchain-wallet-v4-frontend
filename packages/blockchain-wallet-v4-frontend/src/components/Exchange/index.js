@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   padding: 32px;
   max-width: 440px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-1']}};
+  border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,6 @@ export const Note = styled(Text)`
 export const ExchangeButton = styled(Button)`
   width: 100%;
   height: 56px;
-  weight: 400;
   font-size: 18px;
 `
 export const ExchangeAmounts = styled.div``

@@ -33,7 +33,6 @@ const kvStoreMiddleware = ({
         T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
         T.bch.FETCH_METADATA_BCH_SUCCESS,
         T.btc.FETCH_METADATA_BTC_SUCCESS,
-        T.bsv.FETCH_METADATA_BSV_SUCCESS,
         T.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS,
         T.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS,
         T.xlm.FETCH_METADATA_XLM_SUCCESS
@@ -48,7 +47,6 @@ const kvStoreMiddleware = ({
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
         [C.BCH]: A.bch.fetchMetadataBchSuccess,
         [C.BTC]: A.btc.fetchMetadataBtcSuccess,
-        [C.BSV]: A.bsv.fetchMetadataBsvSuccess,
         [C.LOCKBOX]: A.lockbox.fetchMetadataLockboxSuccess,
         [C.USER_CREDENTIALS]:
           A.userCredentials.fetchMetadataUserCredentialsSuccess,

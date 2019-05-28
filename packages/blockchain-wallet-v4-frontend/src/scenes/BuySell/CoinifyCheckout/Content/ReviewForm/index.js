@@ -13,8 +13,8 @@ import media from 'services/ResponsiveService'
 
 const OrderSubmitForm = styled.form`
   width: 450px;
-  margin-bottom: 30px;
   margin: 0 auto;
+  margin-bottom: 30px;
   ${media.mobile`
     width: 90%;
   `}
