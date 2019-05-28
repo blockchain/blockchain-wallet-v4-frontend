@@ -27,7 +27,6 @@ import {
   TextBox
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import MobileLogin from 'modals/Mobile/MobileLogin'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -45,7 +44,6 @@ const LoginWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
 `
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -72,7 +70,8 @@ const LoginButton = styled(Button)`
 `
 const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
-  margin-top: 3px;
+  margin: 12px 0;
+  text-align: center;
 `
 const GuidError = styled(TextGroup)`
   display: inline;
@@ -98,7 +97,7 @@ const Login = props => {
     isGuidEmailAddress,
     ...rest
   } = props
-  const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
+  const { handleSubmit, handleSmsResend, authType } = rest
 
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
@@ -116,7 +115,6 @@ const Login = props => {
 
   return (
     <LoginWrapper>
-      <MobileLogin />
       <Modals />
       <Header>
         <Text size='20px' color='brand-primary' weight={600} capitalize>
@@ -179,47 +177,45 @@ const Login = props => {
             </GuidError>
           )}
           {showGuidInvalidError ? (
-            <Text size='14px' weight={400}>
-              {isGuidEmailAddress ? (
-                <FormattedMessage
-                  id='scenes.login.isguidemailerror'
-                  defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
-                />
-              ) : (
-                <FormattedMessage
-                  id='scenes.login.isguidinvalid'
-                  defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
-                />
-              )}{' '}
+            <LoginTextGroup inline>
+              <Text size='12px' color='gray-6' weight={500}>
+                {isGuidEmailAddress ? (
+                  <FormattedMessage
+                    id='scenes.login.isguidemailerror'
+                    defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='scenes.login.isguidinvalid'
+                    defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
+                  />
+                )}
+              </Text>
               <LinkContainer to='/reminder'>
-                <Link size='14px' weight={500}>
+                <Link size='12px' weight={600}>
                   <FormattedMessage
                     id='scenes.login.clickhere'
                     defaultMessage='click here.'
                   />
                 </Link>
               </LinkContainer>
-            </Text>
+            </LoginTextGroup>
           ) : (
             <LoginTextGroup inline>
-              <Text size='12px' color='gray-3' weight={400}>
+              <Text size='12px' color='gray-6' weight={500}>
                 <FormattedMessage
-                  id='scenes.login.info'
-                  defaultMessage='Find the login link in your email,'
+                  id='scenes.login.findyourguid'
+                  defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
                 />
               </Text>
-              <Text size='12px' color='gray-3' weight={400}>
-                <FormattedMessage
-                  id='scenes.login.info2'
-                  defaultMessage='e.g. blockchain.info/wallet/1111-222-333...'
-                />
-              </Text>
-              <Text size='12px' color='gray-3' weight={400}>
-                <FormattedMessage
-                  id='scenes.login.info3'
-                  defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.'
-                />
-              </Text>
+              <LinkContainer to='/reminder'>
+                <Link size='12px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.sendguid'
+                    defaultMessage='Send my Wallet ID'
+                  />
+                </Link>
+              </LinkContainer>
             </LoginTextGroup>
           )}
         </FormGroup>
@@ -336,17 +332,14 @@ const Login = props => {
       </LoginForm>
       {isSupportedBrowser && (
         <Footer>
-          <Link
-            size='13px'
-            weight={500}
-            onClick={handleMobile}
-            data-e2e='loginViaMobileLink'
-          >
-            <FormattedMessage
-              id='scenes.login.loginmobile'
-              defaultMessage='Login via Mobile'
-            />
-          </Link>
+          <LinkContainer to='/mobile-login'>
+            <Link size='13px' weight={500} data-e2e='loginViaMobileLink'>
+              <FormattedMessage
+                id='scenes.login.loginmobile'
+                defaultMessage='Login via Mobile'
+              />
+            </Link>
+          </LinkContainer>
           <TextGroup inline>
             <Text size='13px' weight={400}>
               <FormattedMessage
@@ -370,7 +363,6 @@ const Login = props => {
 }
 
 Login.propTypes = {
-  handleMobile: PropTypes.func.isRequired,
   handleSmsResend: PropTypes.func.isRequired
 }
 

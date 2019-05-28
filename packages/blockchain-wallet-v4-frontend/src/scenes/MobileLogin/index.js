@@ -5,7 +5,6 @@ import { isNil, isEmpty } from 'ramda'
 
 import * as C from 'services/AlertService'
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import MobileLogin from './template'
 
 class MobileLoginContainer extends React.PureComponent {
@@ -39,7 +38,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('MobileLogin'),
   connect(
     undefined,
     mapDispatchToProps
