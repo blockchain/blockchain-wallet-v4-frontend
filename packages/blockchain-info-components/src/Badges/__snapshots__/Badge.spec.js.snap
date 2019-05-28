@@ -8,9 +8,9 @@ exports[`Badge component applestore renders correctly 1`] = `
   target="_blank"
 >
   <img
-    class="Image__BaseImage-sc-1lfdauq-0 cpEzaa"
+    class="Image__BaseImage-sc-1lfdauq-0 eoTkmY"
     color="auto"
-    height="40px"
+    height="48px"
     src="[object Object]"
     srcset=""
     width="auto"
@@ -26,9 +26,9 @@ exports[`Badge component googleplay renders correctly 1`] = `
   target="_blank"
 >
   <img
-    class="Image__BaseImage-sc-1lfdauq-0 cpEzaa"
+    class="Image__BaseImage-sc-1lfdauq-0 eoTkmY"
     color="auto"
-    height="40px"
+    height="48px"
     src="[object Object]"
     srcset=""
     width="auto"

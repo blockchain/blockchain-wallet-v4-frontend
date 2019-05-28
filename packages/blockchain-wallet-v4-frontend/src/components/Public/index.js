@@ -9,6 +9,6 @@ export const Wrapper = styled.div`
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
 
   @media (min-width: 768px) {
-    width: 550px;
+    width: 480px;
   }
 `

@@ -2,7 +2,7 @@
 
 exports[`SelectInput component default renders correctly 1`] = `
 <template__StyledSelect
-  borderColor="gray-2"
+  borderColor="grey100"
   classNamePrefix="bc"
   components={
     Object {
