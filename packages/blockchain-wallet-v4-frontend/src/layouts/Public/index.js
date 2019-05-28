@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
+import ExternalLinks from './ExternalLinks'
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
@@ -34,13 +35,8 @@ const Wrapper = styled.div`
 const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
 `
+const Spacer = styled.div``
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,11 +44,7 @@ const ContentContainer = styled.div`
   align-items: center;
   overflow-y: auto;
   margin: 0 25px;
-
-  > div,
-  > footer {
-    height: 100%;
-  }
+  z-index: 1;
 
   @media (min-width: 768px) {
     height: 100%;
@@ -70,6 +62,7 @@ const ContentContainer = styled.div`
     justify-content: flex-start;
   }
 `
+const ComponentContainer = styled.div``
 
 class PublicLayoutContainer extends React.PureComponent {
   componentDidMount () {
@@ -100,9 +93,11 @@ class PublicLayoutContainer extends React.PureComponent {
                   <Header />
                 </HeaderContainer>
                 <ContentContainer>
-                  {/* Empty div for space-between */}
-                  <div />
-                  <Component {...matchProps} />
+                  <Spacer />
+                  <ComponentContainer>
+                    <Component {...matchProps} />
+                    <ExternalLinks />
+                  </ComponentContainer>
                   <Footer />
                 </ContentContainer>
               </ErrorBoundary>

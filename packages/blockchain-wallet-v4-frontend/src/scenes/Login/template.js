@@ -317,16 +317,19 @@ const Login = props => {
             type='submit'
             nature='primary'
             fullwidth
+            height='56px'
             disabled={submitting || invalid || busy || !password}
             data-e2e='loginButton'
           >
             {busy && !loginError ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
-              <FormattedMessage
-                id='scenes.login.login'
-                defaultMessage='Log In'
-              />
+              <Text color='white' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.login.login'
+                  defaultMessage='Log In'
+                />
+              </Text>
             )}
           </LoginButton>
         </FormGroup>

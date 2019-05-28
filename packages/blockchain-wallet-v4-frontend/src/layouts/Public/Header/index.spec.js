@@ -9,6 +9,7 @@ jest.mock('components/Announcements', () => ({
 jest.mock('blockchain-info-components', () => ({ Image: '', Link: '' }))
 
 describe('Public Header Component', () => {
+  window.APP_VERSION = 'v4.2.0'
   it('should match snapshot', () => {
     const component = shallow(<Header />)
     const tree = toJson(component)
