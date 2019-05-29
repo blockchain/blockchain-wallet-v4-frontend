@@ -65,8 +65,8 @@ NumberInput.propTypes = {
 
 NumberInput.defaultProps = {
   disabled: false,
-  height: '40px',
-  minHeight: '40px',
+  height: '48px',
+  minHeight: '48px',
   step: '0.01'
 }
 

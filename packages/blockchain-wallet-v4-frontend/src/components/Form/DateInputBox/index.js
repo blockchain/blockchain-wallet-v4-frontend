@@ -57,7 +57,7 @@ const InputWrapper = styled(LabelWrapper)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? 40 : -20)}px;
+  top: ${props => (props.errorBottom ? 48 : -20)}px;
   right: 0;
   height: 15px;
 `

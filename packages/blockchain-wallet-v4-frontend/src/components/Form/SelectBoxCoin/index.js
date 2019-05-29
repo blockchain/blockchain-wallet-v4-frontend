@@ -73,7 +73,7 @@ class SelectBoxCoin extends React.PureComponent {
         elements={elements}
         templateDisplay={this.renderDisplay}
         templateItem={this.renderItem}
-        zIndex={2}
+        zIndex={3}
         {...rest}
       />
     )
