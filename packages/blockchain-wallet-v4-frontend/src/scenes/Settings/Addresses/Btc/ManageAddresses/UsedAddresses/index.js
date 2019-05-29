@@ -8,27 +8,31 @@ import UsedAddressesShowTemplate from './template'
 const { HIDE_USED_ADDRS, SHOW_USED_ADDRS } = model.analytics.ADDRESS_EVENTS
 class UsedAddressesContainer extends React.PureComponent {
   onShowUsedAddresses = () => {
-    if (this.props.usedAddressesVisible) {
-      this.props.componentActions.toggleUsedAddresses(
-        this.props.walletIndex,
-        false
-      )
-      this.props.analyticsActions.logEvent(HIDE_USED_ADDRS)
+    const {
+      analyticsActions,
+      componentActions,
+      derivation,
+      modalsActions,
+      usedAddressesVisible,
+      walletIndex
+    } = this.props
+    if (usedAddressesVisible) {
+      componentActions.toggleUsedAddresses(walletIndex, derivation, false)
+      analyticsActions.logEvent(HIDE_USED_ADDRS)
     } else {
-      this.props.modalsActions.showModal('ShowUsedAddresses', {
-        walletIndex: this.props.walletIndex
-      })
-      this.props.analyticsActions.logEvent(SHOW_USED_ADDRS)
+      modalsActions.showModal('ShowUsedAddresses', { walletIndex, derivation })
+      analyticsActions.logEvent(SHOW_USED_ADDRS)
     }
   }
 
   render () {
-    const { usedAddressesVisible, walletIndex } = this.props
+    const { derivation, usedAddressesVisible, walletIndex } = this.props
 
     return (
       <UsedAddressesShowTemplate
-        usedAddressesVisible={usedAddressesVisible}
+        derivation={derivation}
         onShowUsedAddresses={this.onShowUsedAddresses}
+        usedAddressesVisible={usedAddressesVisible}
         walletIndex={walletIndex}
       />
     )
@@ -38,7 +42,8 @@ class UsedAddressesContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   usedAddressesVisible: selectors.components.manageAddresses.getWalletUsedAddressVisibility(
     state,
-    ownProps.walletIndex
+    ownProps.walletIndex,
+    ownProps.derivation
   )
 })
 

@@ -42,9 +42,10 @@ class UnusedAddressesContainer extends React.PureComponent {
       accountIndex,
       analyticsActions,
       componentActions,
+      derivation,
       walletIndex
     } = this.props
-    componentActions.editAddressLabel(accountIndex, walletIndex, i)
+    componentActions.editAddressLabel(accountIndex, walletIndex, derivation, i)
     analyticsActions.logEvent(EDIT_LABEL)
   }
 
@@ -53,18 +54,19 @@ class UnusedAddressesContainer extends React.PureComponent {
     const {
       accountIndex,
       analyticsActions,
+      derivation,
       modalsActions,
       walletIndex
     } = this.props
     modalsActions.showModal('DeleteAddressLabel', {
       accountIdx: accountIndex,
       walletIdx: walletIndex,
+      derivation,
       addressIdx: i
     })
     analyticsActions.logEvent(DELETE_LABEL)
   }
 
-  // TODO: SEGWIT
   onEditBtcAccountLabel = () => {
     const {
       accountIndex,
@@ -83,7 +85,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     analyticsActions.logEvent(SHOW_XPUB)
   }
 
-  // TODO: SEGWIT
   onMakeDefault = () => {
     const { accountIndex, analyticsActions, coreActions } = this.props
     coreActions.setDefaultAccountIdx(accountIndex)
@@ -96,18 +97,18 @@ class UnusedAddressesContainer extends React.PureComponent {
       alertActions,
       analyticsActions,
       componentActions,
+      derivation,
       unusedAddresses,
       walletIndex
     } = this.props
     if (length(unusedAddresses.getOrElse([])) >= 15) {
       alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
     } else {
-      componentActions.generateNextReceiveAddress(walletIndex)
+      componentActions.generateNextReceiveAddress(walletIndex, derivation)
     }
     analyticsActions.logEvent(ADD_NEXT_ADDR)
   }
 
-  // TODO: SEGWIT
   onSetArchived = () => {
     const {
       accountIndex,

@@ -15,6 +15,7 @@ export default ({ api, networks }) => {
     yield put(actions.modals.closeAllModals())
   }
 
+  // TODO: SEGWIT
   const deriveAddresses = function (account, receiveIndex) {
     let i = 0
     let addrs = []
@@ -28,11 +29,12 @@ export default ({ api, networks }) => {
   }
 
   const generateNextReceiveAddress = function * (action) {
-    const { walletIndex } = action.payload
+    const { derivation, walletIndex } = action.payload
     try {
-      yield put(A.generateNextReceiveAddressLoading(walletIndex))
+      yield put(A.generateNextReceiveAddressLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      // TODO: SEGWIT
       const nextReceiveIndex = yield select(
         selectors.core.common.btc.getNextAvailableReceiveIndex(
           networks.btc,
@@ -42,14 +44,15 @@ export default ({ api, networks }) => {
       yield put(
         actions.core.wallet.setHdAddressLabel(
           account.index,
+          derivation,
           nextReceiveIndex.getOrElse(0),
           'New Address'
         )
       )
-      yield put(A.fetchUnusedAddresses(walletIndex))
-      yield put(A.generateNextReceiveAddressSuccess(walletIndex))
+      yield put(A.fetchUnusedAddresses(walletIndex, derivation))
+      yield put(A.generateNextReceiveAddressSuccess(walletIndex, derivation))
     } catch (e) {
-      yield put(A.generateNextReceiveAddressError(walletIndex, e))
+      yield put(A.generateNextReceiveAddressError(walletIndex, derivation, e))
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
@@ -62,12 +65,13 @@ export default ({ api, networks }) => {
   }
 
   const fetchUnusedAddresses = function * (action) {
-    const { walletIndex } = action.payload
+    const { derivation, walletIndex } = action.payload
 
     try {
-      yield put(A.fetchUnusedAddressesLoading(walletIndex))
+      yield put(A.fetchUnusedAddressesLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      // TODO: SEGWIT
       // get all indexes for labeled addresses
       const labels = Types.HDAccount.selectAddressLabels(account)
         .reverse()
@@ -107,13 +111,14 @@ export default ({ api, networks }) => {
       yield put(
         A.fetchUnusedAddressesSuccess(
           walletIndex,
+          derivation,
           sort((a, b) => {
             return b.derivationIndex - a.derivationIndex
           }, unusedAddresses)
         )
       )
     } catch (e) {
-      yield put(A.fetchUnusedAddressesError(walletIndex, e))
+      yield put(A.fetchUnusedAddressesError(walletIndex, derivation, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'fetchUnusedAddresses', e)
       )
@@ -122,12 +127,13 @@ export default ({ api, networks }) => {
   }
 
   const fetchUsedAddresses = function * (action) {
-    const { walletIndex } = action.payload
+    const { derivation, walletIndex } = action.payload
 
     try {
-      yield put(A.fetchUsedAddressesLoading(walletIndex))
+      yield put(A.fetchUsedAddressesLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      // TODO: SEGWIT
       let xpub = Types.HDAccount.selectXpub(account)
       // get current receive index of wallet
       const receiveIndex = yield select(
@@ -168,9 +174,11 @@ export default ({ api, networks }) => {
         }
       }, labeledAddrs)
 
-      yield put(A.fetchUsedAddressesSuccess(walletIndex, usedAddresses))
+      yield put(
+        A.fetchUsedAddressesSuccess(walletIndex, derivation, usedAddresses)
+      )
     } catch (e) {
-      yield put(A.fetchUsedAddressesError(walletIndex, e))
+      yield put(A.fetchUsedAddressesError(walletIndex, derivation, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'fetchUsedAddresses', e)
       )
@@ -179,13 +187,19 @@ export default ({ api, networks }) => {
   }
 
   const editAddressLabel = function * (action) {
-    const { accountIndex, walletIndex, addressIndex } = action.payload
+    const {
+      accountIndex,
+      derivation,
+      walletIndex,
+      addressIndex
+    } = action.payload
     try {
-      yield put(A.editAddressLabelLoading(accountIndex))
+      yield put(A.editAddressLabelLoading(accountIndex, derivation))
       let newLabel = yield call(promptForInput, {
         title: 'Rename Address Label',
         maxLength: 50
       })
+      // TODO: SEGWIT
       yield put(
         actions.core.wallet.setHdAddressLabel(
           accountIndex,
@@ -193,12 +207,12 @@ export default ({ api, networks }) => {
           newLabel
         )
       )
-      yield put(A.fetchUnusedAddresses(walletIndex))
-      yield put(A.editAddressLabelSuccess(walletIndex))
+      yield put(A.fetchUnusedAddresses(walletIndex, derivation))
+      yield put(A.editAddressLabelSuccess(walletIndex, derivation))
       yield put(actions.alerts.displaySuccess(C.UPDATE_ADDRESS_LABEL_SUCCESS))
     } catch (e) {
       if (e.message !== 'PROMPT_INPUT_CANCEL') {
-        yield put(A.editAddressLabelError(walletIndex, e))
+        yield put(A.editAddressLabelError(walletIndex, derivation, e))
         yield put(
           actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e)
         )
@@ -208,29 +222,28 @@ export default ({ api, networks }) => {
   }
 
   const deleteAddressLabel = function * (action) {
-    const { accountIdx, walletIdx, addressIdx } = action.payload
+    const { accountIdx, addressIdx, derivation, walletIdx } = action.payload
 
     try {
-      yield put(A.deleteAddressLabelLoading(accountIdx))
+      yield put(A.deleteAddressLabelLoading(accountIdx, derivation))
       yield call(
         function * () {
           yield put(
             actions.core.wallet.deleteHdAddressLabel(
               accountIdx,
               addressIdx,
-              // TODO: SEGWIT use selected derivation type
-              'legacy'
+              derivation
             )
           )
         },
         accountIdx,
         addressIdx
       )
-      yield put(A.deleteAddressLabelSuccess(walletIdx))
-      yield put(A.fetchUnusedAddresses(walletIdx))
+      yield put(A.deleteAddressLabelSuccess(walletIdx, derivation))
+      yield put(A.fetchUnusedAddresses(walletIdx, derivation))
       yield put(actions.alerts.displaySuccess(C.ADDRESS_DELETE_SUCCESS))
     } catch (e) {
-      yield put(A.deleteAddressLabelError(walletIdx, e))
+      yield put(A.deleteAddressLabelError(walletIdx, derivation, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'deleteAddressLabel', e)
       )
