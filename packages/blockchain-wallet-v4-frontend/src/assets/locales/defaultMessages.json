@@ -9019,10 +9019,6 @@
         "id": "scenes.reset2fa.firststep.reset"
       },
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.reset2fa.firststep.step1"
-      },
-      {
         "defaultMessage": "Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.",
         "id": "scenes.reset2fa.firststep.explain"
       },
@@ -9031,8 +9027,8 @@
         "id": "scenes.reset2fa.firststep.explain2"
       },
       {
-        "defaultMessage": "Wallet Identifier",
-        "id": "scenes.reset2fa.firststep.firststepform.guid"
+        "defaultMessage": "Wallet ID",
+        "id": "scenes.reset2fa.firststep.firststepform.walletid"
       },
       {
         "defaultMessage": "If you forgot your wallet identifier, please",
@@ -9074,10 +9070,6 @@
       {
         "defaultMessage": "Reset 2FA",
         "id": "scenes.reset2fa.secondstep.reset2fa"
-      },
-      {
-        "defaultMessage": "Step 2 of 2",
-        "id": "scenes.reset2fa.secondstep.step3"
       },
       {
         "defaultMessage": "Captcha",
