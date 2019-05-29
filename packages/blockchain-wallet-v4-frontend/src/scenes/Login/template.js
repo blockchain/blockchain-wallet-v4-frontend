@@ -333,29 +333,21 @@ const Login = props => {
       {isSupportedBrowser && (
         <Footer>
           <LinkContainer to='/mobile-login'>
-            <Link size='13px' weight={500} data-e2e='loginViaMobileLink'>
+            <Link size='13px' weight={600} data-e2e='loginViaMobileLink'>
               <FormattedMessage
                 id='scenes.login.loginmobile'
                 defaultMessage='Login via Mobile'
               />
             </Link>
           </LinkContainer>
-          <TextGroup inline>
-            <Text size='13px' weight={400}>
+          <LinkContainer to='/help'>
+            <Link size='13px' weight={600} data-e2e='loginGetHelp'>
               <FormattedMessage
-                id='scenes.login.troubles'
-                defaultMessage='Having some trouble?'
+                id='scenes.login.needhelp'
+                defaultMessage='Need some help?'
               />
-            </Text>
-            <LinkContainer to='/help'>
-              <Link size='13px' weight={500} data-e2e='loginGetHelp'>
-                <FormattedMessage
-                  id='scenes.login.options'
-                  defaultMessage='Get help logging in'
-                />
-              </Link>
-            </LinkContainer>
-          </TextGroup>
+            </Link>
+          </LinkContainer>
         </Footer>
       )}
     </LoginWrapper>
