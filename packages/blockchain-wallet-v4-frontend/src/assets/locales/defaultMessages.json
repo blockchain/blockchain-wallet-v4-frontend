@@ -58,6 +58,14 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "{coinName} address successfully copied to clipboard!",
+        "id": "components.alerts.copy_address_clipboard_success"
+      },
+      {
+        "defaultMessage": "Link successfully copied to clipboard!",
+        "id": "components.alerts.copy_link_clipboard_success"
+      },
+      {
         "defaultMessage": "Failed to update currency",
         "id": "components.alerts.currency_update_error"
       },
@@ -605,8 +613,8 @@
         "id": "components.balances.savecointolockbox"
       },
       {
-        "defaultMessage": "Use the Chrome browser to add {coin} to your Lockbox",
-        "id": "components.balances.savecointolockboxbrowser"
+        "defaultMessage": "Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox",
+        "id": "components.balances.browserblock"
       }
     ],
     "path": "src/components/Balances/Lockbox.json"
@@ -987,19 +995,6 @@
       }
     ],
     "path": "src/components/BuySell/OrderHistoryTable/TradeItem/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Copied!",
-        "id": "components.copyclipboard.copied"
-      },
-      {
-        "defaultMessage": "Copy",
-        "id": "components.copyclipboard.copy"
-      }
-    ],
-    "path": "src/components/CopyClipboard/template.json"
   },
   {
     "descriptors": [
@@ -1953,7 +1948,28 @@
         "id": "layouts.public.footer.support"
       }
     ],
-    "path": "src/layouts/Public/Footer/index.json"
+    "path": "src/layouts/Public/ExternalLinks/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Already have a wallet?",
+        "id": "layouts.public.alreadyhave"
+      },
+      {
+        "defaultMessage": "Don't have a wallet?",
+        "id": "layouts.public.donthave"
+      },
+      {
+        "defaultMessage": "Log In",
+        "id": "layouts.public.login"
+      },
+      {
+        "defaultMessage": "Create One Now",
+        "id": "layouts.public.register"
+      }
+    ],
+    "path": "src/layouts/Public/Header/LoginOrCreate/index.json"
   },
   {
     "descriptors": [
@@ -3008,16 +3024,12 @@
         "id": "modals.sendbch.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestbch.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestbch.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestbch.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestbch.firststep.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestbch.firststep.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.",
@@ -3032,12 +3044,8 @@
         "id": "modals.requestbch.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requestbch.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestbch.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requestbch.address"
       },
       {
         "defaultMessage": "Done",
@@ -3070,8 +3078,8 @@
         "id": "modals.sendbch.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendbch.firststep.warnbrowswer"
+        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendbch.firststep.blockbrowser"
       },
       {
         "defaultMessage": "To",
@@ -3234,59 +3242,101 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Request Bitcoin",
+        "id": "modals.requestbtc.title"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Copy & share the link below with your friends or contacts and they will be able to send Bitcoin directly to your wallet.",
+        "id": "modals.requestbtc.share.title"
+      },
+      {
+        "defaultMessage": "Destination",
+        "id": "modals.requestbtc.share.destination"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "modals.requestbtc.share.amount"
+      },
+      {
+        "defaultMessage": "Description",
+        "id": "modals.requestbtc.share.description"
+      },
+      {
+        "defaultMessage": "Shareable Link",
+        "id": "modals.requestbtc.share.copylink"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestbtc.share.done"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/template.shareLink.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Currency:",
         "id": "modals.sendbitcoin.firststep.coin"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestbitcoin.firststep.share"
-      },
-      {
-        "defaultMessage": "QR Code",
-        "id": "modals.requestbitcoin.firststep.qrcode"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm.warn"
-      },
-      {
-        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin app now.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm1"
-      },
-      {
-        "defaultMessage": "Click here",
-        "id": "modals.requestbitcoin.firststep.lockbox.clickhere"
-      },
-      {
-        "defaultMessage": "once the app has been opened.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm2"
-      },
-      {
-        "defaultMessage": "Or",
-        "id": "modals.requestbitcoin.firststep.or"
-      },
-      {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.requestbitcoin.firststep.amount"
-      },
-      {
         "defaultMessage": "Receive To:",
-        "id": "modals.requestbitcoin.firststep.to"
+        "id": "modals.requestbtc.to"
       },
       {
         "defaultMessage": "You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.",
-        "id": "modals.requestbitcoin.firststep.importedwarning"
+        "id": "modals.requestbtc.importedwarning"
+      },
+      {
+        "defaultMessage": "Amount:",
+        "id": "modals.requestbtc.requestlink.amount"
       },
       {
         "defaultMessage": "Description:",
-        "id": "modals.requestbitcoin.firststep.description"
+        "id": "modals.requestbtc.requestlink.description"
       },
       {
         "defaultMessage": "Next",
-        "id": "modals.requestbitcoin.firststep.next"
+        "id": "modals.requestbtc.requestlink.next"
+      },
+      {
+        "defaultMessage": "Show BTC Address",
+        "id": "modals.requestbtc.requestlink.showaddress"
+      },
+      {
+        "defaultMessage": "Address:",
+        "id": "modals.requestbtc.address"
+      },
+      {
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestbtc.lockbox.confirm.warnbrowser"
+      },
+      {
+        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin app now.",
+        "id": "modals.requestbtc.lockbox.confirm1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requestbtc.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requestbtc.lockbox.confirm2"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestbtc.dont"
+      },
+      {
+        "defaultMessage": "Create Shareable Request Link",
+        "id": "modals.requestbtc.makerequestlink"
       }
     ],
-    "path": "src/modals/Btc/RequestBtc/FirstStep/template.success.json"
+    "path": "src/modals/Btc/RequestBtc/template.success.json"
   },
   {
     "descriptors": [
@@ -3299,45 +3349,7 @@
         "id": "modals.requestbtc.amountnotmaxmessage"
       }
     ],
-    "path": "src/modals/Btc/RequestBtc/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
-        "id": "modals.requestbitcoin.secondstep.explain"
-      },
-      {
-        "defaultMessage": "Payment Request:",
-        "id": "modals.requestbitcoin.secondstep.payment"
-      },
-      {
-        "defaultMessage": "For \"{message}\"",
-        "id": "modals.requestbitcoin.secondstep.message"
-      },
-      {
-        "defaultMessage": "Copied!",
-        "id": "modals.requestbitcoin.secondstep.copied"
-      },
-      {
-        "defaultMessage": "Copy Link",
-        "id": "modals.requestbitcoin.secondstep.copy"
-      },
-      {
-        "defaultMessage": "Go Back",
-        "id": "scenes.requestbitcoin.secondstep.back"
-      }
-    ],
-    "path": "src/modals/Btc/RequestBtc/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Request Bitcoin",
-        "id": "modals.requestbitcoin.title"
-      }
-    ],
-    "path": "src/modals/Btc/RequestBtc/template.json"
+    "path": "src/modals/Btc/RequestBtc/validationMessages.json"
   },
   {
     "descriptors": [
@@ -3421,8 +3433,8 @@
         "id": "modals.sendbtc.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendbtc.firststep.warnbrowser"
+        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendbtc.firststep.browserwarn"
       },
       {
         "defaultMessage": "To",
@@ -3769,16 +3781,12 @@
         "id": "modals.requesteth.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requesteth.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requesteth.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requesteth.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requesteth.firststep.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requesteth.firststep.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the address above on your Lockbox by opening your Ethereum app now.",
@@ -3793,12 +3801,8 @@
         "id": "modals.requesteth.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requesteth.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requesteth.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requesteth.address"
       },
       {
         "defaultMessage": "Done",
@@ -3914,8 +3918,8 @@
         "id": "modals.sendeth.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendeth.firststep.warnbrowswer"
+        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendeth.firststep.browserwarn"
       },
       {
         "defaultMessage": "To",
@@ -4000,8 +4004,8 @@
         "id": "modals.sendeth.secondstep.note"
       },
       {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendeth.secondstep.payment"
+        "defaultMessage": "Amount:",
+        "id": "modals.sendeth.secondstep.amount"
       },
       {
         "defaultMessage": "Fee:",
@@ -5446,43 +5450,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Mobile login",
-        "id": "modals.mobilelogin.title"
-      },
-      {
-        "defaultMessage": "Follow these steps to log into your web wallet using your mobile device",
-        "id": "modals.mobilelogin.explain"
-      },
-      {
-        "defaultMessage": "Logging in with Mobile",
-        "id": "modals.mobilelogin.login"
-      },
-      {
-        "defaultMessage": "Open the Blockchain app on your mobile device",
-        "id": "modals.mobilelogin.openapp"
-      },
-      {
-        "defaultMessage": "Select 'Log in to Web Wallet' from your wallet's side menu",
-        "id": "modals.mobilelogin.tapweb"
-      },
-      {
-        "defaultMessage": "Select 'Show QR Code'",
-        "id": "modals.mobilelogin.showqr"
-      },
-      {
-        "defaultMessage": "Using your computer's camera, scan the QR code that appears",
-        "id": "modals.mobilelogin.scan"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "modals.mobilelogin.cancel"
-      }
-    ],
-    "path": "src/modals/Mobile/MobileLogin/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Change Mobile Number",
         "id": "modals.mobilenumberchange.changenumbertitle"
       },
@@ -5633,6 +5600,35 @@
       }
     ],
     "path": "src/modals/Onboarding/CoinifyUpgrade/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success!",
+        "id": "modals.onboarding.linkaccount.successheader"
+      },
+      {
+        "defaultMessage": "You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!",
+        "id": "modals.onboarding.linkaccount.success"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linkaccount.successdone"
+      },
+      {
+        "defaultMessage": "Connection Error",
+        "id": "modals.onboarding.linkaccount.failureheader"
+      },
+      {
+        "defaultMessage": "We could not connect your Wallet to The Pit. Please go back to The Pit and try again.",
+        "id": "modals.onboarding.linkaccount.failure"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linkaccount.failuredone"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkAccount/template.json"
   },
   {
     "descriptors": [
@@ -6726,16 +6722,12 @@
         "id": "modals.requestxlm.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestxlm.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestxlm.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestxlm.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestxlm.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestxlm.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the address above on your Lockbox by opening your Stellar app now.",
@@ -6750,12 +6742,8 @@
         "id": "modals.requestxlm.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requestxlm.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestxlm.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requestxlm.address"
       },
       {
         "defaultMessage": "Done",
@@ -6801,8 +6789,8 @@
         "id": "modals.sendxlm.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendxlm.firststep.warnbrowswer"
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendxlm.firststep.blockbrowser"
       },
       {
         "defaultMessage": "To",
@@ -8076,8 +8064,8 @@
         "id": "scenes.exchange.exchangeform.to"
       },
       {
-        "defaultMessage": "Sending from Lockbox can only be done while using the Chrome browser",
-        "id": "scenes.exchange.exchangeform.blocklockbox"
+        "defaultMessage": "Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "scenes.exchange.exchangeform.blockbrowser"
       },
       {
         "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
@@ -8284,44 +8272,40 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Login Help",
-        "id": "scenes.help.login"
+        "defaultMessage": "Need some help?",
+        "id": "scenes.help.needsomehelp"
       },
       {
-        "defaultMessage": "Need help accessing your wallet?",
-        "id": "scenes.help.wallet"
+        "defaultMessage": "Don't know your Wallet ID?",
+        "id": "scenes.help.lostguid"
       },
       {
-        "defaultMessage": "I've Lost My Wallet ID",
-        "id": "scenes.help.guid"
-      },
-      {
-        "defaultMessage": "Email me a reminder of my wallet ID",
-        "id": "scenes.help.guid_explain"
+        "defaultMessage": "We can send you a reminder email right now.",
+        "id": "scenes.help.lostguidrecover"
       },
       {
         "defaultMessage": "Remind Me",
         "id": "scenes.help.remind"
       },
       {
-        "defaultMessage": "I've Lost My Wallet Password",
-        "id": "scenes.help.password"
+        "defaultMessage": "Forgot your password?",
+        "id": "scenes.help.forgotpassword"
       },
       {
-        "defaultMessage": "Recover your wallet with your 12 word backup phrase",
-        "id": "scenes.help.passwor.explain"
+        "defaultMessage": "Use your 12 word recovery phrase to access your Wallet.",
+        "id": "scenes.help.password.explain"
       },
       {
         "defaultMessage": "Recover Funds",
         "id": "scenes.help.recover"
       },
       {
-        "defaultMessage": "I've Lost My 2FA Device",
-        "id": "scenes.help.2fa"
+        "defaultMessage": "Lost your 2FA device?",
+        "id": "scenes.help.2falost"
       },
       {
-        "defaultMessage": "Regain access to your wallet by resetting 2FA, IP restrictions, or verified email",
-        "id": "scenes.help.2fa.explain"
+        "defaultMessage": "Reset your 2FA right now to gain access to your Wallet.",
+        "id": "scenes.help.2fa.lostexplain"
       },
       {
         "defaultMessage": "Reset 2FA",
@@ -8330,6 +8314,10 @@
       {
         "defaultMessage": "Go Back",
         "id": "scenes.help.back"
+      },
+      {
+        "defaultMessage": "Still need help?",
+        "id": "scenes.help.contact.stillneedhelp"
       },
       {
         "defaultMessage": "Contact Support",
@@ -8542,8 +8530,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
-        "id": "scenes.lockbox.settings.browserwarn"
+        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "scenes.lockbox.settings.blockbrowser"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/index.json"
@@ -8759,8 +8747,8 @@
         "id": "scenes.lockbox.welcome.learnmore"
       },
       {
-        "defaultMessage": "New device setup can only be done while using the Chrome browser",
-        "id": "scenes.lockbox.welcome.browserblock"
+        "defaultMessage": "Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera.",
+        "id": "scenes.lockbox.welcome.blockbrowser"
       }
     ],
     "path": "src/scenes/Lockbox/Onboard/template.json"
@@ -8770,18 +8758,6 @@
       {
         "defaultMessage": "Welcome back!",
         "id": "scenes.login.welcome"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "scenes.login.or"
-      },
-      {
-        "defaultMessage": "Sign Up",
-        "id": "scenes.login.register"
-      },
-      {
-        "defaultMessage": "Sign in to your wallet below",
-        "id": "scenes.login.explain"
       },
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
@@ -8808,16 +8784,12 @@
         "id": "scenes.login.isguidinvalid"
       },
       {
-        "defaultMessage": "Find the login link in your email,",
-        "id": "scenes.login.info"
+        "defaultMessage": "Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?",
+        "id": "scenes.login.findyourguid"
       },
       {
-        "defaultMessage": "e.g. blockchain.info/wallet/1111-222-333...",
-        "id": "scenes.login.info2"
-      },
-      {
-        "defaultMessage": "The series of numbers and dashes at the end of the link is your Wallet ID.",
-        "id": "scenes.login.info3"
+        "defaultMessage": "Send my Wallet ID",
+        "id": "scenes.login.sendguid"
       },
       {
         "defaultMessage": "Password",
@@ -8852,12 +8824,8 @@
         "id": "scenes.login.loginmobile"
       },
       {
-        "defaultMessage": "Having some trouble?",
-        "id": "scenes.login.troubles"
-      },
-      {
-        "defaultMessage": "Get help logging in",
-        "id": "scenes.login.options"
+        "defaultMessage": "Need some help?",
+        "id": "scenes.login.needhelp"
       }
     ],
     "path": "src/scenes/Login/template.json"
@@ -8886,16 +8854,37 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Login with Your Mobile App",
+        "id": "scenes.mobilelogin.title"
+      },
+      {
+        "defaultMessage": "1. Open your Mobile App and Log In",
+        "id": "scenes.mobilelogin.openappstep1"
+      },
+      {
+        "defaultMessage": "2. Tap \"Pair Web Wallet\" from the side navigiation.",
+        "id": "scenes.mobilelogin.tapwebstep2"
+      },
+      {
+        "defaultMessage": "3. Tap \"Show QR Code\"",
+        "id": "scenes.mobilelogin.showqrstep3"
+      },
+      {
+        "defaultMessage": "4. Scan your QR code here",
+        "id": "scenes.mobilelogin.scanstep4"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "scenes.mobilelogin.back"
+      }
+    ],
+    "path": "src/scenes/MobileLogin/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Recover Funds",
         "id": "scenes.recover.firststep.funds"
-      },
-      {
-        "defaultMessage": "Step 1 of 2: Enter 12 word passphrase",
-        "id": "scenes.recover.firststep.step1"
-      },
-      {
-        "defaultMessage": "Recover funds from your lost wallet",
-        "id": "scenes.recover.firststep.explain"
       },
       {
         "defaultMessage": "You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.",
@@ -8927,14 +8916,6 @@
         "id": "scenes.recover.secondstep.funds"
       },
       {
-        "defaultMessage": "Step 2 of 2: Create a new wallet",
-        "id": "scenes.recover.secondstep.step2"
-      },
-      {
-        "defaultMessage": "Recover funds from your lost wallet",
-        "id": "scenes.recover.secondstep.explain"
-      },
-      {
         "defaultMessage": "New Email",
         "id": "scenes.recover.secondstep.email"
       },
@@ -8960,20 +8941,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Create your Wallet",
-        "id": "scenes.register.create"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "scenes.register.or"
-      },
-      {
-        "defaultMessage": "Login",
-        "id": "scenes.register.login"
-      },
-      {
-        "defaultMessage": "Sign up for a free wallet below",
-        "id": "scenes.register.explain"
+        "defaultMessage": "Create a Wallet",
+        "id": "scenes.register.createawallet"
       },
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
@@ -9004,8 +8973,8 @@
         "id": "scenes.register.confirmpassword"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "scenes.register.submit"
+        "defaultMessage": "Create My Wallet",
+        "id": "scenes.register.createmywallet"
       }
     ],
     "path": "src/scenes/Register/template.json"
@@ -9037,12 +9006,8 @@
         "id": "scenes.reminder.login"
       },
       {
-        "defaultMessage": "Remind Me",
-        "id": "scenes.reminder.remind"
-      },
-      {
-        "defaultMessage": "Lost your wallet ID? We'll send it to you via your email.",
-        "id": "scenes.reminder.explain"
+        "defaultMessage": "Wallet ID Reminder",
+        "id": "scenes.reminder.reminder"
       }
     ],
     "path": "src/scenes/Reminder/template.json"
@@ -10840,12 +10805,12 @@
         "id": "scenes.transaction.content.empty.pax.fact3.2"
       },
       {
-        "defaultMessage": "Swap for PAX Now",
-        "id": "scenes.transaction.content.empty.pax.swappax"
+        "defaultMessage": "Swap for USD PAX Now",
+        "id": "scenes.transaction.content.empty.pax.swapcta"
       },
       {
-        "defaultMessage": "Unlock Your PAX Wallet",
-        "id": "scenes.transaction.content.empty.pax.unlockpax"
+        "defaultMessage": "Swap for USD PAX Now",
+        "id": "scenes.transaction.content.empty.pax.signupcta"
       },
       {
         "defaultMessage": "Learn More",
