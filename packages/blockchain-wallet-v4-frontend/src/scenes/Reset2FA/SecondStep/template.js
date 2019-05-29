@@ -4,13 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Separator,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, FormGroup } from 'components/Form'
 import { Wrapper } from 'components/Public'
 
@@ -18,6 +12,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `
 const SecondStepForm = styled(Form)`
   margin-top: 10px;
@@ -45,20 +40,13 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={400}>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
           <FormattedMessage
             id='scenes.reset2fa.secondstep.reset2fa'
             defaultMessage='Reset 2FA'
           />
         </Text>
-        <Text size='10px'>
-          <FormattedMessage
-            id='scenes.reset2fa.secondstep.step3'
-            defaultMessage='Step 2 of 2'
-          />
-        </Text>
       </Header>
-      <Separator />
       <SecondStepForm onSubmit={handleSubmit}>
         <CaptchaText size='14px' weight={500}>
           <FormattedMessage

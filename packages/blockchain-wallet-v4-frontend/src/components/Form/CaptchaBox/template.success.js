@@ -28,7 +28,7 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -10px;
+  top: -18px;
   right: 0;
   height: 15px;
 `
