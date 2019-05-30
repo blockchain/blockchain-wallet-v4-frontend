@@ -9,22 +9,22 @@ const LoginOrCreate = props => {
   const { pathname } = props.location
   const isSignup = contains('/signup', pathname)
   return (
-    <TextGroup inline>
-      <Text size='14px' color='white' weight={500}>
+    <LinkContainer to={isSignup ? '/login' : '/signup'}>
+      <TextGroup inline>
+        <Text size='14px' color='white' weight={500}>
+          {isSignup ? (
+            <FormattedMessage
+              id='layouts.public.alreadyhave'
+              defaultMessage='Already have a wallet?'
+            />
+          ) : (
+            <FormattedMessage
+              id='layouts.public.donthave'
+              defaultMessage="Don't have a wallet?"
+            />
+          )}
+        </Text>
         {isSignup ? (
-          <FormattedMessage
-            id='layouts.public.alreadyhave'
-            defaultMessage='Already have a wallet?'
-          />
-        ) : (
-          <FormattedMessage
-            id='layouts.public.donthave'
-            defaultMessage="Don't have a wallet?"
-          />
-        )}
-      </Text>
-      {isSignup ? (
-        <LinkContainer to='/login'>
           <Link
             size='14px'
             color='white'
@@ -36,18 +36,16 @@ const LoginOrCreate = props => {
               defaultMessage='Log In'
             />
           </Link>
-        </LinkContainer>
-      ) : (
-        <LinkContainer to='/signup'>
+        ) : (
           <Link size='14px' color='white' weight={600} data-e2e='signupLink'>
             <FormattedMessage
               id='layouts.public.register'
               defaultMessage='Create One Now'
             />
           </Link>
-        </LinkContainer>
-      )}
-    </TextGroup>
+        )}
+      </TextGroup>
+    </LinkContainer>
   )
 }
 

@@ -37,7 +37,7 @@ const NumberBox = field => {
       {field.meta.touched && field.meta.error && (
         <Error
           size='12px'
-          weight={400}
+          weight={500}
           color='error'
           errorBottom={field.errorBottom}
           data-e2e='numberBoxError'

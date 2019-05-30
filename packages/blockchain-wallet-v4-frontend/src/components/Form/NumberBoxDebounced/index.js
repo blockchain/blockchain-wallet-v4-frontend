@@ -120,7 +120,7 @@ class NumberBoxDebounced extends React.Component {
         {meta.touched && meta.error && (
           <Error
             size='12px'
-            weight={400}
+            weight={500}
             color='error'
             errorBottom={errorBottom}
             errorLeft={errorLeft}
@@ -131,8 +131,8 @@ class NumberBoxDebounced extends React.Component {
         {meta.touched && !meta.error && meta.warning && (
           <Error
             size='12px'
-            weight={400}
-            color='sent'
+            weight={500}
+            color='error'
             errorBottom={errorBottom}
             errorLeft={errorLeft}
           >

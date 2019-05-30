@@ -35,7 +35,7 @@ const Header = () => {
                 href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
                 target='_blank'
                 size='14px'
-                weight={600}
+                weight={500}
                 color='white'
               >
                 Version {APP_VERSION}

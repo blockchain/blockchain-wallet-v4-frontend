@@ -103,7 +103,7 @@ export default {
   received: '#00BABC',
   transferred: '#828B9E',
   // State
-  error: '#99180F',
+  error: '#D93B30',
   warn: '#F28979',
   success: '#00875A',
   // Marketing

@@ -49,18 +49,6 @@ const ContentContainer = styled.div`
   @media (min-width: 768px) {
     height: 100%;
   }
-
-  @media (min-height: 1000px) {
-    height: 100%;
-    margin-top: 200px;
-    justify-content: flex-start;
-  }
-
-  @media (min-height: 1400px) {
-    height: 100%;
-    margin-top: 500px;
-    justify-content: flex-start;
-  }
 `
 const ComponentContainer = styled.div``
 

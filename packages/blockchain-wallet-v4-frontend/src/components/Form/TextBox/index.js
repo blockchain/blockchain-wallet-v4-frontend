@@ -63,7 +63,7 @@ const TextBox = field => {
       {touched && error && (
         <Error
           size='12px'
-          weight={400}
+          weight={500}
           color='error'
           height={height}
           errorBottom={errorBottom}
