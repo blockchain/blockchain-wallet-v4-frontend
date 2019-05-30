@@ -85,7 +85,7 @@ const MobileLogin = props => {
       </Container>
       <LinkContainer to='/login'>
         <Button type='submit' nature='primary' fullwidth height='56px'>
-          <Text color='white' size='16px' weight={500} onClick={close}>
+          <Text color='white' size='16px' weight={600} onClick={close}>
             <FormattedMessage
               id='scenes.mobilelogin.back'
               defaultMessage='Back'

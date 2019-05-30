@@ -22,7 +22,7 @@ exports[`Public Header Component should match snapshot 1`] = `
             href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
             size="14px"
             target="_blank"
-            weight={600}
+            weight={500}
           >
             Version 
             v4.2.0

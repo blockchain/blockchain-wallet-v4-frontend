@@ -38,7 +38,7 @@ const TooltipBox = styled.div`
   display: block;
   background-color: ${props => props.theme['gray-1']};
   border: 1px solid ${props => props.theme['gray-2']};
-  border-radius: 5px;
+  border-radius: 0px;
   padding: 5px;
   box-sizing: border-box;
 
@@ -82,7 +82,7 @@ const QRCodeCapture = props => {
         <HeartbeatLoader
           width='24px'
           height='24px'
-          color='red'
+          color='success'
           onClick={handleToggle}
         />
       )}
