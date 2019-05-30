@@ -65,6 +65,7 @@ const TextBox = field => {
           size='12px'
           weight={400}
           color='error'
+          height={height}
           errorBottom={errorBottom}
           data-e2e='textBoxError'
         >
