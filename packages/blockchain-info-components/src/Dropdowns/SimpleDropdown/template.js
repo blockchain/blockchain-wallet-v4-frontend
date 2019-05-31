@@ -18,6 +18,8 @@ const ButtonContainer = styled.div`
   align-items: center;
   cursor: pointer;
   width: inherit;
+  font-size: 14px;
+  font-weight: 600;
 
   & > * {
     color: ${props => props.theme[props.color]}!important;
@@ -29,7 +31,8 @@ const Button = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const DropdownIcon = styled(Icon)`
-  padding-left: 2px;
+  margin-left: 4px;
+  font-weight: 600;
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
@@ -47,12 +50,12 @@ const DropdownList = styled.ul`
   list-style-position: outside;
   list-style-type: none;
   margin: 2px 0px;
-  max-height: 400px;
+  max-height: 230px;
   min-width: 20px;
   overflow: auto;
   padding: 5px 0px;
   position: absolute;
-  right: 0;
+  left: 0;
   ${props =>
     props.down
       ? 'top: 25px; bottom: auto;'
@@ -60,7 +63,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme['gray-6']};
   cursor: pointer;
   padding: 3px 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -97,7 +100,7 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
-        <DropdownIcon name='down-arrow' size='8px' />
+        <DropdownIcon name='down-arrow-filled' size='8px' />
       </ButtonContainer>
     </Wrapper>
   )

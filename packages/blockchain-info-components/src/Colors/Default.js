@@ -103,7 +103,7 @@ export default {
   received: '#00BABC',
   transferred: '#828B9E',
   // State
-  error: '#99180F',
+  error: '#D93B30',
   warn: '#F28979',
   success: '#00875A',
   // Marketing
@@ -116,7 +116,6 @@ export default {
   'gray-4': '#757679',
   'gray-5': '#50596B',
   'gray-6': '#353F52',
-  grey600: '#677185',
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
@@ -127,17 +126,18 @@ export default {
   purple: '#4C18BA',
   'deep-blue': '#144699',
   blue: '#0C6CF2',
-  // Alphas
-  whiteFade800: 'rgba(255, 255, 255, 0.8)',
-  whiteFade100: 'rgba(255,255,255,0.1)',
-  greyFade800: 'rgba(18, 29, 51, 0.8)',
-  greyFade200: 'rgba(5, 24, 61, 0.2)',
   // Colors
   red: '#D93B30',
   orange: '#F28B24',
   // Service Announcements
   info: '#4A90E2',
-  // Coins
+  // New In Use
+  whiteFade800: 'rgba(255, 255, 255, 0.8)',
+  whiteFade100: 'rgba(255,255,255,0.1)',
+  greyFade800: 'rgba(18, 29, 51, 0.8)',
+  greyFade200: 'rgba(5, 24, 61, 0.2)',
+  grey100: '#DFE3EB',
+  grey600: '#677185',
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',

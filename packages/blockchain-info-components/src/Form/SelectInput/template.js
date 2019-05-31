@@ -8,7 +8,7 @@ const StyledSelect = styled(Select)`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
+  font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
     background-color: ${props => props.theme['white']};
@@ -30,19 +30,19 @@ const StyledSelect = styled(Select)`
   .bc__group-heading {
     font-weight: 500;
     margin-bottom: 0px;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-6']};
   }
 
   .bc__placeholder {
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['grey100']};
   }
 
   .bc__control {
     box-shadow: none;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-6']};
     background-color: ${props => props.theme['white']};
     cursor: pointer;
-    min-height: 40px;
+    min-height: ${props => props.height};
     border-radius: 4px;
     border: 1px solid ${props => props.theme[props.borderColor]};
     &:hover {
@@ -71,7 +71,8 @@ const StyledSelect = styled(Select)`
 
   .bc__option {
     cursor: pointer;
-    color: ${props => props.theme['gray-5']};
+    font-size: 14px;
+    color: ${props => props.theme['gray-6']};
     background-color: ${props => props.theme['white']};
     &.bc__option--is-focused {
       background-color: ${props => props.theme['white']};
@@ -95,13 +96,16 @@ const StyledSelect = styled(Select)`
     }
     * {
       font-weight: 500;
-      color: ${props => props.theme['gray-5']};
+      color: ${props => props.theme['gray-6']};
       transition: color 0.3s;
+    }
+    > div {
+      font-size: 14px;
     }
   }
 
   .bc__single-value {
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-6']};
   }
 `
 
@@ -153,39 +157,40 @@ const IndicatorSeparator = props => {
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 
 const SelectInput = props => {
   const {
-    items,
     className,
-    disabled,
-    defaultItem,
     defaultDisplay,
-    searchEnabled,
-    templateItem,
-    templateDisplay,
+    defaultItem,
+    disabled,
+    errorState,
+    filterOption,
+    getRef,
+    grouped,
+    handleChange,
+    height,
     hideFocusedControl,
     hideIndicator,
-    handleChange,
-    errorState,
+    items,
     menuIsOpen,
     menuPlacement,
-    openMenuOnFocus,
-    onFocus,
-    grouped,
     onBlur,
+    onFocus,
     onKeyDown,
-    getRef,
-    filterOption
+    openMenuOnFocus,
+    searchEnabled,
+    templateDisplay,
+    templateItem
   } = props
   const options = grouped
     ? items
@@ -198,12 +203,9 @@ const SelectInput = props => {
 
   return (
     <StyledSelect
+      borderColor={borderColor}
       className={className}
       classNamePrefix='bc'
-      options={options}
-      borderColor={borderColor}
-      templateItem={templateItem}
-      templateDisplay={templateDisplay}
       components={{
         Option,
         ValueContainer,
@@ -211,21 +213,25 @@ const SelectInput = props => {
         DropdownIndicator,
         IndicatorSeparator
       }}
+      height={height}
+      filterOption={filterOption}
       hideFocusedControl={hideFocusedControl}
       hideIndicator={hideIndicator}
-      placeholder={defaultDisplay}
+      isDisabled={disabled}
       isSearchable={searchEnabled}
+      menuIsOpen={menuIsOpen}
+      menuPlacement={menuPlacement}
+      onBlur={onBlur}
       onChange={handleChange}
       onFocus={onFocus}
-      onBlur={onBlur}
       onKeyDown={onKeyDown}
-      menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
+      options={options}
+      placeholder={defaultDisplay}
       ref={getRef}
-      menuPlacement={menuPlacement}
-      isDisabled={disabled}
+      templateDisplay={templateDisplay}
+      templateItem={templateItem}
       value={defaultValue}
-      filterOption={filterOption}
     />
   )
 }

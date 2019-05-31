@@ -48,7 +48,7 @@ const selectWidth = size => {
     case 'small':
       return '400px'
     case 'medium':
-      return '500px'
+      return '480px'
     case 'large':
       return '600px'
     case 'xlarge':

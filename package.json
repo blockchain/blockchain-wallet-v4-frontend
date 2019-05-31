@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.13.8",
+  "version": "4.14.4",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -80,7 +80,7 @@
     "lint": "eslint --cache './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
-    "lint:css":"stylelint './packages/*/src/**/*.js'",
+    "lint:css": "stylelint './packages/*/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
