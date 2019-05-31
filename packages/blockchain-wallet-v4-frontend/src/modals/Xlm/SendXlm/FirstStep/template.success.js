@@ -49,7 +49,7 @@ const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
 const WarningBanners = styled(Banner)`
-  margin: -6px 0 12px;
+  margin: 8px 0;
   padding: 8px;
 `
 const MemoField = styled.div`

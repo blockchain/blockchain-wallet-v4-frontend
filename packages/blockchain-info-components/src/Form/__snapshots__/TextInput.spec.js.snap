@@ -4,8 +4,8 @@ exports[`TextInput component default renders correctly 1`] = `
 <TextInput__BaseTextInput
   borderColor="red"
   disabled={false}
-  height="40px"
-  minHeight="40px"
+  height="48px"
+  minHeight="48px"
   onKeyDown={[Function]}
 />
 `;

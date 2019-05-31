@@ -34,20 +34,21 @@ export default {
   purple: '#0D3578',
   'deep-blue': '#101C35',
   blue: '#0c6cf2',
-  // Alphas
-  whiteFade800: 'rgba(0,0,0,0.8)',
-  whiteFade100: 'rgba(0,0,0,0.1)',
-  greyFade800: 'rgba(28,28,28,28.8)',
-  greyFade200: 'rgba(28,28,28,28.1)',
   // Colors
   red: '#651D1E',
   orange: '#F28B24',
   // Service Announcements
   info: '#2C5687',
-  // Coins
+  // New In Use
+  whiteFade800: 'rgba(0,0,0,0.8)',
+  whiteFade100: 'rgba(0,0,0,0.1)',
+  greyFade800: 'rgba(28,28,28,28.8)',
+  greyFade200: 'rgba(28,28,28,28.1)',
+  grey100: '#333333',
+  grey600: '#797979',
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
   pax: '#00522C',
-  xlm: '#F0F2F7'
+  xlm: '#121D33'
 }

@@ -45,7 +45,7 @@ const PasswordBox = field => {
       {touched && error && (
         <Error
           size='12px'
-          weight={400}
+          weight={500}
           color='error'
           data-e2e='passwordsNotMatchError'
         >

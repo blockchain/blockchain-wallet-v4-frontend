@@ -5,13 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
-import {
-  Button,
-  Link,
-  Separator,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 
@@ -19,6 +13,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `
 const FirstStepForm = styled(Form)`
   margin-top: 15px;
@@ -46,20 +41,13 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={400}>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
           <FormattedMessage
             id='scenes.reset2fa.firststep.reset'
             defaultMessage='Reset 2FA'
           />
         </Text>
-        <Text size='10px'>
-          <FormattedMessage
-            id='scenes.reset2fa.firststep.step1'
-            defaultMessage='Step 1 of 2'
-          />
-        </Text>
       </Header>
-      <Separator />
       <TextGroup>
         <Text size='13px' weight={400}>
           <FormattedMessage
@@ -79,8 +67,8 @@ const FirstStep = props => {
           <FormItem>
             <FormLabel for='guid'>
               <FormattedMessage
-                id='scenes.reset2fa.firststep.firststepform.guid'
-                defaultMessage='Wallet Identifier'
+                id='scenes.reset2fa.firststep.firststepform.walletid'
+                defaultMessage='Wallet ID'
               />
             </FormLabel>
             <Field
@@ -88,7 +76,6 @@ const FirstStep = props => {
               autoFocus
               validate={[required, validWalletId]}
               component={TextBox}
-              placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX'
             />
             <TextGroup inline>
               <Text size='12px' weight={400}>
@@ -139,7 +126,6 @@ const FirstStep = props => {
             </FormLabel>
             <Field
               name='newEmail'
-              autoFocus
               validate={[validNullableEmail]}
               component={TextBox}
             />

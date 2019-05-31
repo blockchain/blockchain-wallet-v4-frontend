@@ -27,7 +27,7 @@ const TitleBarWrapper = styled.div`
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
-  min-height: 40px;
+  min-height: 48px;
   padding: 10px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};

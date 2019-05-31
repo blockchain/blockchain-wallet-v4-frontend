@@ -9,13 +9,7 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/FormHelper'
-import {
-  Button,
-  Link,
-  HeartbeatLoader,
-  Separator,
-  Text
-} from 'blockchain-info-components'
+import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -31,6 +25,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `
 const Footer = styled(FormGroup)`
   display: flex;
@@ -53,26 +48,13 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={400}>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
           <FormattedMessage
             id='scenes.recover.secondstep.funds'
             defaultMessage='Recover Funds'
           />
         </Text>
-        <Text size='10px'>
-          <FormattedMessage
-            id='scenes.recover.secondstep.step2'
-            defaultMessage='Step 2 of 2: Create a new wallet'
-          />
-        </Text>
       </Header>
-      <Text size='13px' weight={400}>
-        <FormattedMessage
-          id='scenes.recover.secondstep.explain'
-          defaultMessage='Recover funds from your lost wallet'
-        />
-      </Text>
-      <Separator />
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel for='email'>

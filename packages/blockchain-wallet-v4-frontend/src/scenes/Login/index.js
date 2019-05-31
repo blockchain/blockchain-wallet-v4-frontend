@@ -28,10 +28,6 @@ class LoginContainer extends React.PureComponent {
     this.props.authActions.login(guid, password, auth)
   }
 
-  handleMobile = () => {
-    this.props.modalActions.showModal('MobileLogin')
-  }
-
   handleSmsResend = () => {
     this.props.authActions.resendSmsCode(this.props.guid)
   }
@@ -51,7 +47,6 @@ class LoginContainer extends React.PureComponent {
       authType,
       loginError: error,
       onSubmit: this.onSubmit,
-      handleMobile: this.handleMobile,
       handleSmsResend: this.handleSmsResend
     }
 

@@ -8,36 +8,38 @@ import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
-import ThemeProvider from 'providers/ThemeProvider'
 import PublicLayout from 'layouts/Public'
+import ThemeProvider from 'providers/ThemeProvider'
 import WalletLayout from 'layouts/Wallet'
+
+import Addresses from './Settings/Addresses'
 import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
 import ExchangeProfile from './ExchangeProfile'
+import General from './Settings/General'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
 import Login from './Login'
 import Logout from './Logout'
+import MobileLogin from './MobileLogin'
+import Preferences from './Settings/Preferences'
+import Profile from './Settings/Profile'
 import Recover from './Recover'
+import Register from './Register'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
+import SecurityCenter from './SecurityCenter'
+import Transactions from './Transactions'
 import UploadDocuments from './UploadDocuments'
 import UploadDocumentsSuccess from './UploadDocuments/Success'
 import VerifyEmailToken from './VerifyEmailToken'
-import Register from './Register'
-import SecurityCenter from './SecurityCenter'
-import Addresses from './Settings/Addresses'
-import General from './Settings/General'
-import Profile from './Settings/Profile'
-import Preferences from './Settings/Preferences'
-import Transactions from './Transactions'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
@@ -77,6 +79,10 @@ class App extends React.PureComponent {
                     <PublicLayout path='/recover' component={Recover} />
                     <PublicLayout path='/reminder' component={Reminder} />
                     <PublicLayout path='/reset-2fa' component={Reset2FA} />
+                    <PublicLayout
+                      path='/mobile-login'
+                      component={MobileLogin}
+                    />
                     <PublicLayout
                       path='/reset-two-factor'
                       component={Reset2FAToken}

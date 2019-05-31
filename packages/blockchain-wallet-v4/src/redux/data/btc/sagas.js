@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, map, path, prop } from 'ramda'
+import { indexBy, length, map, path, prop, replace } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -142,7 +142,13 @@ export default ({ api }) => {
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))
       const data = yield call(api.getBtcFiatAtTime, amount, currency, time)
-      yield put(A.fetchFiatAtTimeSuccess(hash, currency, data))
+      let parsedData
+      try {
+        parsedData = parseFloat(replace(/,/g, '', data))
+      } catch (e) {
+        parsedData = data
+      }
+      yield put(A.fetchFiatAtTimeSuccess(hash, currency, parsedData))
     } catch (e) {
       yield put(A.fetchFiatAtTimeFailure(hash, currency, e.message))
     }
