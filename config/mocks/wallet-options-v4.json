@@ -235,8 +235,8 @@
           "CH"
         ],
         "config": {
-          "partnerId": 19,
-          "production": true,
+          "partnerId": 24,
+          "production": false,
           "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
           "coinifyPaymentDomain": "https://pay.coinify.com"
         }
