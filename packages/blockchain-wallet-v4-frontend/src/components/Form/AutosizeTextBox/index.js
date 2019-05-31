@@ -61,7 +61,7 @@ class AutosizeTextBox extends React.Component {
         {touched && error && (
           <Error
             size='12px'
-            weight={400}
+            weight={500}
             color='error'
             errorBottom={errorBottom}
           >
@@ -71,8 +71,8 @@ class AutosizeTextBox extends React.Component {
         {touched && !error && warning && (
           <Error
             size='12px'
-            weight={400}
-            color='sent'
+            weight={500}
+            color='error'
             errorBottom={errorBottom}
           >
             {warning}

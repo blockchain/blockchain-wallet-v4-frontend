@@ -57,7 +57,7 @@ const InputWrapper = styled(LabelWrapper)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? 40 : -20)}px;
+  top: ${props => (props.errorBottom ? 48 : -20)}px;
   right: 0;
   height: 15px;
 `
@@ -222,7 +222,7 @@ class DateInputBox extends React.PureComponent {
         {meta.touched && error && (
           <Error
             size='12px'
-            weight={400}
+            weight={500}
             color='error'
             errorBottom={errorBottom}
           >
@@ -232,8 +232,8 @@ class DateInputBox extends React.PureComponent {
         {meta.touched && !error && meta.warning && (
           <Error
             size='12px'
-            weight={400}
-            color='sent'
+            weight={500}
+            color='error'
             errorBottom={errorBottom}
           >
             {meta.warning}

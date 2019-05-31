@@ -1,110 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Image, Link } from 'blockchain-info-components'
-import DropdownLanguage from 'components/DropdownLanguage'
+import { Badge } from 'blockchain-info-components'
 
 const Wrapper = styled.footer`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 60px;
 `
-const LinkContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  > img {
-    margin-right: 20px;
-  }
-
-  & > a {
-    padding: 10px;
-  }
-`
-
-const RightContainer = styled.div`
-  margin: 20px 50px 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  & > :last-child {
-    padding: 5px;
+const Bottom = styled.div`
+  margin: 16px 0;
+  > a {
+    margin: 0 8px;
   }
 `
 
 const Footer = () => {
   return (
     <Wrapper>
-      <LinkContainer>
-        <Image name='blue-logo' height='40px' width='40px' />
-        <Link
-          href='https://blockchain.com/explorer'
-          size='12px'
-          weight={500}
-          color='white'
-          uppercase
-        >
-          <FormattedMessage
-            id='layouts.public.footer.explorer'
-            defaultMessage='Data'
-          />
-        </Link>
-        <Link
-          href='https://blockchain.com/about'
-          size='12px'
-          weight={500}
-          color='white'
-          uppercase
-        >
-          <FormattedMessage
-            id='layouts.public.footer.about'
-            defaultMessage='About'
-          />
-        </Link>
-        <Link
-          href='https://blog.blockchain.com'
-          size='12px'
-          weight={500}
-          color='white'
-          uppercase
-        >
-          <FormattedMessage
-            id='layouts.public.footer.blog'
-            defaultMessage='Blog'
-          />
-        </Link>
-        <Link
-          href='https://support.blockchain.com'
-          size='12px'
-          weight={500}
-          color='white'
-          uppercase
-        >
-          <FormattedMessage
-            id='layouts.public.footer.support'
-            defaultMessage='Support'
-          />
-        </Link>
-      </LinkContainer>
-      <RightContainer>
-        <DropdownLanguage color='white' />
-        <Link
-          href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
-          target='_blank'
-          size='12px'
-          weight={500}
-          color='white'
-        >
-          Version {APP_VERSION}
-        </Link>
-      </RightContainer>
+      <Bottom>
+        <Badge type='applestore' />
+        <Badge type='googleplay' />
+      </Bottom>
     </Wrapper>
   )
 }

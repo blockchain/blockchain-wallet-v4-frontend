@@ -5,13 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validMnemonic } from 'services/FormHelper'
-import {
-  Button,
-  Link,
-  Separator,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
@@ -19,6 +13,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `
 const MnemonicLabel = styled(FormLabel)`
   > div {
@@ -44,26 +39,13 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={400}>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
           <FormattedMessage
             id='scenes.recover.firststep.funds'
             defaultMessage='Recover Funds'
           />
         </Text>
-        <Text size='10px'>
-          <FormattedMessage
-            id='scenes.recover.firststep.step1'
-            defaultMessage='Step 1 of 2: Enter 12 word passphrase'
-          />
-        </Text>
       </Header>
-      <Text size='14px' weight={400}>
-        <FormattedMessage
-          id='scenes.recover.firststep.explain'
-          defaultMessage='Recover funds from your lost wallet'
-        />
-      </Text>
-      <Separator />
       <Form onSubmit={handleSubmit}>
         <TextGroup>
           <Text size='13px' weight={400} color='error'>

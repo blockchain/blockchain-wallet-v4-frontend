@@ -9,7 +9,6 @@ import {
   Button,
   HeartbeatLoader,
   Link,
-  Separator,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -23,6 +22,12 @@ import {
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -134,19 +139,14 @@ const Reminder = props => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={400}>
-        <FormattedMessage
-          id='scenes.reminder.remind'
-          defaultMessage='Remind Me'
-        />
-      </Text>
-      <Text size='14px' weight={400}>
-        <FormattedMessage
-          id='scenes.reminder.explain'
-          defaultMessage="Lost your wallet ID? We'll send it to you via your email."
-        />
-      </Text>
-      <Separator />
+      <Header>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
+          <FormattedMessage
+            id='scenes.reminder.reminder'
+            defaultMessage='Wallet ID Reminder'
+          />
+        </Text>
+      </Header>
       {success ? renderReminder() : renderForm()}
     </Wrapper>
   )

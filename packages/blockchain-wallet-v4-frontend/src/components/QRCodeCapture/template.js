@@ -11,8 +11,8 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   box-sizing: border-box;
   border-radius: 4px;
@@ -38,7 +38,7 @@ const TooltipBox = styled.div`
   display: block;
   background-color: ${props => props.theme['gray-1']};
   border: 1px solid ${props => props.theme['gray-2']};
-  border-radius: 5px;
+  border-radius: 0px;
   padding: 5px;
   box-sizing: border-box;
 
@@ -80,9 +80,9 @@ const QRCodeCapture = props => {
       {!toggled && <Image name='qr-code' width='20px' height='20px' />}
       {toggled && (
         <HeartbeatLoader
-          width='20px'
-          height='20px'
-          color='red'
+          width='24px'
+          height='24px'
+          color='success'
           onClick={handleToggle}
         />
       )}

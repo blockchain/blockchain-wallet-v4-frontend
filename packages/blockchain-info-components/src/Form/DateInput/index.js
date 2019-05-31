@@ -10,15 +10,15 @@ const BaseDateInput = styled(ReactDatetime)`
   .form-control {
     display: block;
     width: ${props => (props.fullwidth ? '100%' : '150px')};
-    height: 40px;
-    min-height: 40px;
+    height: 48px;
+    min-height: 48px;
     padding: 6px 12px;
     box-sizing: border-box;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-6']};
     background-color: ${props => props.theme['white']};
     background-image: none;
     outline-width: 0;
@@ -35,7 +35,7 @@ const BaseDateInput = styled(ReactDatetime)`
     z-index: 99999 !important;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid ${props => props.theme['gray-2']};
+    border: 1px solid ${props => props.theme['grey100']};
     border-radius: 4px;
   }
 
@@ -135,7 +135,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme['gray-6']};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;
@@ -233,7 +233,7 @@ const BaseDateInput = styled(ReactDatetime)`
 
   .rdtCounter .rdtBtn {
     height: 40%;
-    line-height: 40px;
+    line-height: 48px;
     cursor: pointer;
     display: block;
     user-select: none;
@@ -266,13 +266,13 @@ const BaseDateInput = styled(ReactDatetime)`
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 

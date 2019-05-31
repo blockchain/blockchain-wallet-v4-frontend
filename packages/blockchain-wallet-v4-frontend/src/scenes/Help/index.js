@@ -3,13 +3,20 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
+`
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 `
 const Left = styled.div`
   flex: 2;
@@ -19,7 +26,7 @@ const Left = styled.div`
   align-items: flex-start;
 
   &:first-child {
-    margin: 10px 0px;
+    margin: 10px 16px 10px 0px;
   }
   > div:first-child {
     margin-bottom: 5px;
@@ -33,42 +40,43 @@ const Right = styled.div`
 `
 const Footer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  text-align: center;
   margin-top: 20px;
+  > div:last-child {
+    margin-top: 18px;
+  }
 `
 
 const Help = props => {
   return (
     <Wrapper>
-      <Text size='24px' weight={400}>
-        <FormattedMessage id='scenes.help.login' defaultMessage='Login Help' />
-      </Text>
-      <Text size='14px' weight={400}>
-        <FormattedMessage
-          id='scenes.help.wallet'
-          defaultMessage='Need help accessing your wallet?'
-        />
-      </Text>
-      <Separator />
+      <Header>
+        <Text size='20px' color='brand-primary' weight={600} capitalize>
+          <FormattedMessage
+            id='scenes.help.needsomehelp'
+            defaultMessage='Need some help?'
+          />
+        </Text>
+      </Header>
       <Row>
         <Left>
-          <Text size='14px' weight={500}>
+          <Text size='14px' color='gray-6' weight={600}>
             <FormattedMessage
-              id='scenes.help.guid'
-              defaultMessage="I've Lost My Wallet ID"
+              id='scenes.help.lostguid'
+              defaultMessage="Don't know your Wallet ID?"
             />
           </Text>
-          <Text size='13px' weight={400}>
+          <Text size='12px' color='gray-6' weight={400}>
             <FormattedMessage
-              id='scenes.help.guid_explain'
-              defaultMessage='Email me a reminder of my wallet ID'
+              id='scenes.help.lostguidrecover'
+              defaultMessage='We can send you a reminder email right now.'
             />
           </Text>
         </Left>
         <Right>
           <LinkContainer to='/reminder'>
-            <Button>
+            <Button nature='light'>
               <FormattedMessage
                 id='scenes.help.remind'
                 defaultMessage='Remind Me'
@@ -77,25 +85,24 @@ const Help = props => {
           </LinkContainer>
         </Right>
       </Row>
-      <Separator />
       <Row>
         <Left>
-          <Text size='14px' weight={500}>
+          <Text size='14px' color='gray-6' weight={600}>
             <FormattedMessage
-              id='scenes.help.password'
-              defaultMessage="I've Lost My Wallet Password"
+              id='scenes.help.forgotpassword'
+              defaultMessage='Forgot your password?'
             />
           </Text>
-          <Text size='13px' weight={400}>
+          <Text size='12px' color='gray-6' weight={400}>
             <FormattedMessage
-              id='scenes.help.passwor.explain'
-              defaultMessage='Recover your wallet with your 12 word backup phrase'
+              id='scenes.help.password.explain'
+              defaultMessage='Use your 12 word recovery phrase to access your Wallet.'
             />
           </Text>
         </Left>
         <Right>
           <LinkContainer to='/recover'>
-            <Button>
+            <Button nature='light'>
               <FormattedMessage
                 id='scenes.help.recover'
                 defaultMessage='Recover Funds'
@@ -104,25 +111,24 @@ const Help = props => {
           </LinkContainer>
         </Right>
       </Row>
-      <Separator />
       <Row>
         <Left>
-          <Text size='14px' weight={500}>
+          <Text size='14px' color='gray-6' weight={600}>
             <FormattedMessage
-              id='scenes.help.2fa'
-              defaultMessage="I've Lost My 2FA Device"
+              id='scenes.help.2falost'
+              defaultMessage='Lost your 2FA device?'
             />
           </Text>
-          <Text size='13px' weight={400}>
+          <Text size='12px' color='gray-6' weight={400}>
             <FormattedMessage
-              id='scenes.help.2fa.explain'
-              defaultMessage='Regain access to your wallet by resetting 2FA, IP restrictions, or verified email'
+              id='scenes.help.2fa.lostexplain'
+              defaultMessage='Reset your 2FA right now to gain access to your Wallet.'
             />
           </Text>
         </Left>
         <Right>
           <LinkContainer to='/reset-2fa'>
-            <Button>
+            <Button nature='light'>
               <FormattedMessage
                 id='scenes.help.reset'
                 defaultMessage='Reset 2FA'
@@ -131,24 +137,36 @@ const Help = props => {
           </LinkContainer>
         </Right>
       </Row>
-      <Separator />
       <Footer>
         <LinkContainer to='/login'>
-          <Link size='13px' weight={400}>
-            <FormattedMessage id='scenes.help.back' defaultMessage='Go Back' />
-          </Link>
+          <Button nature='primary' height='56px' fullWidth>
+            <Text size='16px' color='white' weight={500}>
+              <FormattedMessage
+                id='scenes.help.back'
+                defaultMessage='Go Back'
+              />
+            </Text>
+          </Button>
         </LinkContainer>
-        <Link
-          href='https://support.blockchain.com/'
-          target='_blank'
-          size='13px'
-          weight={400}
-        >
-          <FormattedMessage
-            id='scenes.help.contact'
-            defaultMessage='Contact Support'
-          />
-        </Link>
+        <TextGroup inline>
+          <Text size='13px' color='gray-6' weight={500}>
+            <FormattedMessage
+              id='scenes.help.contact.stillneedhelp'
+              defaultMessage='Still need help?'
+            />
+          </Text>
+          <Link
+            href='https://support.blockchain.com/'
+            target='_blank'
+            size='13px'
+            weight={500}
+          >
+            <FormattedMessage
+              id='scenes.help.contact'
+              defaultMessage='Contact Support'
+            />
+          </Link>
+        </TextGroup>
       </Footer>
     </Wrapper>
   )
