@@ -235,10 +235,10 @@
           "CH"
         ],
         "config": {
-          "partnerId": 24,
-          "production": false,
+          "partnerId": 19,
+          "production": true,
           "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
-          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com"
+          "coinifyPaymentDomain": "https://pay.coinify.com"
         }
       },
       "sfox": {
