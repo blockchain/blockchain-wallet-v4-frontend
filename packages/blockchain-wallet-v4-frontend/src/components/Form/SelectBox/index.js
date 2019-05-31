@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 const Error = styled.label`
   position: absolute;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${props => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
   display: block;
   height: 15px;

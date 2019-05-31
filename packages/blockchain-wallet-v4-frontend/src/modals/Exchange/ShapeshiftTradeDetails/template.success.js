@@ -24,7 +24,7 @@ const Table = styled.div`
   padding: 0 10px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   & > :last-child {
     border-bottom: none;
   }

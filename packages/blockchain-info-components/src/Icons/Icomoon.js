@@ -21,6 +21,7 @@ export default {
   'checkmark-in-circle-filled': '\\e90b',
   'cog-filled': '\\e994',
   copy: '\\e91a',
+  'copy-clipboard': '\\e913',
   close: '\\e93f',
   'close-bold': '\\e90f',
   'close-filled': '\\e90d',

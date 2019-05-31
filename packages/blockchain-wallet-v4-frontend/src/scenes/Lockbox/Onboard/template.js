@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import {
   Banner,
   Button,
@@ -93,7 +93,7 @@ const LearnMoreContainer = styled.div`
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   ${media.mobile`
     width: 100%;
     flex-direction: column;
@@ -115,7 +115,13 @@ const SetupGuideText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
 `
 const BrowserWarning = styled(Banner)``
-const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+const browser = Bowser.getParser(window.navigator.userAgent)
+const disableSetup = !browser.satisfies({
+  chrome: '>45',
+  chromium: '>45',
+  firefox: '>45',
+  opera: '>20'
+})
 
 const Onboard = props => {
   const { launchLockboxSetup } = props
@@ -220,8 +226,8 @@ const Onboard = props => {
             <BrowserWarning type='warning'>
               <Text color='warning' size='12px'>
                 <FormattedMessage
-                  id='scenes.lockbox.welcome.browserblock'
-                  defaultMessage='New device setup can only be done while using the Chrome browser'
+                  id='scenes.lockbox.welcome.blockbrowser'
+                  defaultMessage='Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera.'
                 />
               </Text>
             </BrowserWarning>

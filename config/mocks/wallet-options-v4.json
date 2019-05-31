@@ -6,7 +6,9 @@
         "enableDomainMigrationRedirects": true,
         "environment": "dev",
         "announcements": {
+          "lockbox": {},
           "public": {},
+          "swap": {},
           "wallet": {}
         }
       },
@@ -336,7 +338,7 @@
     "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.blockchain.info",
+    "horizon": "https://horizon.stellar.org",
     "veriff": "https://magic.veriff.me"
   }
 }

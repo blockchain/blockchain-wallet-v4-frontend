@@ -32,8 +32,6 @@ const BankLabel = styled.label`
     border-radius: 8px;
     background-color: white;
     border: 1px solid #004a7c;
-    -webkit-transition: background-color 0.2s;
-    -o-transition: background-color 0.2s;
     transition: background-color 0.2s;
   }
 `

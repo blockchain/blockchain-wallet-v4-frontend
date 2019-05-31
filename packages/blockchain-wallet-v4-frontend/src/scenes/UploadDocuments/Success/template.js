@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
   max-width: 720px;
   & > * {
     padding-bottom: 10px;

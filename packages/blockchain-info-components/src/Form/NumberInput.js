@@ -26,14 +26,12 @@ const BaseNumberInput = styled.input.attrs({
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-top: ${props => (props.borderTopNone ? 'none' : '')};
   cursor: ${props => props.disabled && 'not-allowed'};
-  -moz-appearance: textfield;
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
     margin: 0;
   }
 `
@@ -41,13 +39,13 @@ const BaseNumberInput = styled.input.attrs({
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 
@@ -67,8 +65,8 @@ NumberInput.propTypes = {
 
 NumberInput.defaultProps = {
   disabled: false,
-  height: '40px',
-  minHeight: '40px',
+  height: '48px',
+  minHeight: '48px',
   step: '0.01'
 }
 

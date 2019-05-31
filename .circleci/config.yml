@@ -12,20 +12,20 @@ references:
     docker:
       - image: circleci/node:10.12.0-jessie-browsers
 
-  npm_cache_key: &npm_cache_key v8-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v10-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v4-dependency-npm
+        - v10-dependency-npm
 
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v8-repo-{{ .Branch }}-{{ .Revision }}
-        - v8-repo-{{ .Branch }}
-        - v8-repo
+        - v10-repo-{{ .Branch }}-{{ .Revision }}
+        - v10-repo-{{ .Branch }}
+        - v10-repo
 
 jobs:
   pull_code:
@@ -34,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v8-repo-{{ .Branch }}-{{ .Revision }}
+          key: v10-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -59,7 +59,7 @@ jobs:
       - *attach_workspace
       - run:
           name: Lint Code
-          command: yarn lint
+          command: yarn ci:lint
   test:
     <<: *container_config
     steps:

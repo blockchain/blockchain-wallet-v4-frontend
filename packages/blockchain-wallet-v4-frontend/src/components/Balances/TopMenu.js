@@ -88,14 +88,14 @@ const CoinSkeletonWrapper = styled.div`
 export const LoadingBalance = props => {
   return props.large ? (
     <BalanceSkeleton>
-      <SkeletonRectangle width='170px' height='24px' bgColor='white-blue' />
+      <SkeletonRectangle width='170px' height='24px' bgColor='gray-1' />
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={400}>
         {props.coinTicker}
       </Text>
-      <SkeletonRectangle width='40px' height='14px' bgColor='white-blue' />
+      <SkeletonRectangle width='40px' height='14px' bgColor='gray-1' />
     </CoinSkeletonWrapper>
   )
 }

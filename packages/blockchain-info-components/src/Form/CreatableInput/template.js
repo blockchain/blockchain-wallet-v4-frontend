@@ -9,7 +9,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
+  font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
     background-color: ${props => props.theme['white']};
@@ -17,6 +17,14 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 
   .bc__menu-list {
     padding: 0;
+  }
+
+  .bc__placeholder {
+    color: ${props => props.theme['grey100']};
+    & + div {
+      width: 100%;
+      z-index: 2;
+    }
   }
 
   .bc__group {
@@ -31,15 +39,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   .bc__group-heading {
     font-weight: 500;
     margin-bottom: 0px;
-    color: ${props => props.theme['gray-5']};
-  }
-
-  .bc__placeholder {
-    color: ${props => props.theme['gray-2']};
-    & + div {
-      width: 100%;
-      z-index: 1;
-    }
+    color: ${props => props.theme['gray-6']};
   }
 
   .bc__input {
@@ -57,7 +57,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       color: ${props.theme['gray-5']};
       background-color: ${props.theme['white']};
       cursor: pointer;
-      min-height: 40px;
+      min-height: 48px;
       border-radius: 4px;
       border: 1px solid ${props.theme[props.borderColor]};
       &:hover {
@@ -97,6 +97,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 
     .bc__option {
       cursor: pointer;
+      font-size: 14px;
       color: ${props.theme['gray-5']};
       background-color: ${props.theme['white']};
       &.bc__option--is-focused {
@@ -124,6 +125,9 @@ const StyledCreatableSelect = styled(CreatableSelect)`
         color: ${props.theme['gray-5']};
         transition: color 0.3s;
       }
+      > div {
+        font-size: 14px;
+      }
     }
 
     .bc__single-value {
@@ -143,13 +147,13 @@ const StyledCreatableSelect = styled(CreatableSelect)`
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 

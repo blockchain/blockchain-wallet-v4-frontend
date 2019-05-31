@@ -7,15 +7,38 @@ exports[`Public Header Component should match snapshot 1`] = `
     height="90px"
   >
     <NavbarBrand>
-      <Component
-        href="https://www.blockchain.com"
-      >
+      <Header__PublicNavbarBrand>
         <Component
-          height="20px"
-          name="blockchain-vector"
-        />
-      </Component>
+          href="https://www.blockchain.com"
+        >
+          <Component
+            height="20px"
+            name="blockchain-vector"
+          />
+        </Component>
+        <Header__VersionWrapper>
+          <Component
+            color="white"
+            href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
+            size="14px"
+            target="_blank"
+            weight={500}
+          >
+            Version 
+            v4.2.0
+          </Component>
+        </Header__VersionWrapper>
+      </Header__PublicNavbarBrand>
     </NavbarBrand>
+    <NavbarMenu
+      toggled={false}
+    >
+      <NavbarNav>
+        <NavbarNavItem>
+          <withRouter(LoginOrCreate) />
+        </NavbarNavItem>
+      </NavbarNav>
+    </NavbarMenu>
   </Navbar>
   <[object Object]
     alertArea="public"

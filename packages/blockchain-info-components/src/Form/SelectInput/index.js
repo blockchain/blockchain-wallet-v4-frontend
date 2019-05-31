@@ -92,6 +92,7 @@ SelectInputContainer.propTypes = {
 
 SelectInputContainer.defaultProps = {
   label: 'Select a value',
+  height: '48px',
   searchEnabled: true,
   opened: false,
   grouped: false,

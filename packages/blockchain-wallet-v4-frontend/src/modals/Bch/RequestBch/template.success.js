@@ -3,19 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
-import {
-  Banner,
-  Button,
-  Separator,
-  Text,
-  TextGroup,
-  TooltipIcon,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -31,18 +23,16 @@ const AddressContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 16px;
 `
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
-  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-top: 25px;
   width: 100%;
-`
-const ScanMessage = styled.div`
-  padding-bottom: 20px;
 `
 const BannerContainer = styled.div`
   margin-top: 8px;
@@ -78,13 +68,17 @@ const RequestBch = props => {
   } = props
 
   const isLockboxAcct = type === 'LOCKBOX'
-  const warnLockboxReceive = !(
-    bowser.name === 'Chrome' || bowser.name === 'Chromium'
-  )
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const warnLockboxReceive = !browser.satisfies({
+    chrome: '>45',
+    chromium: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'20px'}>
+      <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
           <FormLabel for='coin'>
             <FormattedMessage
@@ -99,11 +93,13 @@ const RequestBch = props => {
             validate={[required]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbch.firststep.to'
-              defaultMessage='Receive to:'
+              id='modals.requestbch.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
@@ -116,30 +112,14 @@ const RequestBch = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.requestbch.share'
-              defaultMessage='Copy & Share Address: '
-            />
-            <TooltipHost id='reqBchShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </FormLabel>
-          <AddressContainer>
-            <CopyClipboard address={receiveAddress} data-e2e='requestBch' />
-          </AddressContainer>
-        </FormItem>
-      </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
           <Banner type='info'>
             {warnLockboxReceive ? (
               <Text color='warning' size='12px'>
                 <FormattedHTMLMessage
-                  id='modals.requestbch.firststep.lockbox.confirm.warn'
-                  defaultMessage='You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.'
+                  id='modals.requestbch.firststep.lockbox.confirm.warnbrowser'
+                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                 />
               </Text>
             ) : (
@@ -172,29 +152,30 @@ const RequestBch = props => {
           </Banner>
         </BannerContainer>
       )}
-      <Separator margin={'20px 0'}>
-        <Text size='14px' weight={400} uppercase>
-          <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />
-        </Text>
-      </Separator>
       <QRCodeContainer>
-        <ScanMessage>
-          <Text size='14px'>
-            <FormattedMessage
-              id='modals.requestbch.scan'
-              defaultMessage='Scan QR Code:'
-            />
-            <TooltipHost id='reqBchQR'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </Text>
-        </ScanMessage>
         <QRCodeWrapper
           value={receiveAddress}
-          size={150}
+          size={125}
           data-e2e='requestBchAddressQrCode'
         />
       </QRCodeContainer>
+      <FormGroup>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.requestbch.address'
+              defaultMessage='Address:'
+            />
+          </FormLabel>
+          <AddressContainer>
+            <CopyClipboard
+              address={receiveAddress}
+              data-e2e='requestBch'
+              coin='BCH'
+            />
+          </AddressContainer>
+        </FormItem>
+      </FormGroup>
       <Button
         type='submit'
         nature='primary'

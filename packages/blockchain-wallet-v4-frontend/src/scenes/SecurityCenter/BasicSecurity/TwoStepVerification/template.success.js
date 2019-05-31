@@ -24,7 +24,7 @@ import media from 'services/ResponsiveService'
 
 const pulseFrames = keyframes`${pulse}`
 const pulseAnimation = css`
-  ${pulseFrames} 0.5s;
+  animation: ${pulseFrames} 0.5s;
 `
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;
@@ -77,7 +77,7 @@ const DisableLinkText = styled(Text)`
     cursor: pointer;
     padding-left: 3px;
   }
-  animation: ${props => (props.pulse ? pulseAnimation : null)};
+  ${props => (props.pulse ? pulseAnimation : null)};
 `
 const TwoStepButton = styled(Button)`
   width: 100px;

@@ -7,7 +7,7 @@ const scaleFrames = keyframes`
   25% { transform: scale3D(0, 0, 1); }
 `
 const scaleAnimation = css`
-  ${scaleFrames} 3s infinite ease-in-out;
+  animation: ${scaleFrames} 3s infinite ease-in-out;
 `
 const Wrapper = styled.div`
   position: relative;
@@ -27,101 +27,101 @@ const Square = styled.div`
   height: 20%;
   float: left;
   border: 0;
-  animation: ${scaleAnimation};
+  ${scaleAnimation};
 `
-const SquareMarketingSecondary = styled(Square)`
-  background-color: ${props => props.theme['marketing-secondary']};
+const SquareLogoPrimary = styled(Square)`
+  background-color: ${props => props.theme['logo-primary']};
 `
-const SquareTransferred = styled(Square)`
-  background-color: ${props => props.theme['transferred']};
+const SquareLogoSecondary = styled(Square)`
+  background-color: ${props => props.theme['logo-secondary']};
 `
-const SquareMarketingPrimary = styled(Square)`
-  background-color: ${props => props.theme['marketing-primary']};
+const SquareLogoTertiary = styled(Square)`
+  background-color: ${props => props.theme['logo-tertiary']};
 `
-const SquareBrandTertiary = styled(Square)`
-  background-color: ${props => props.theme['brand-tertiary']};
+const SquareLogoQuaternary = styled(Square)`
+  background-color: ${props => props.theme['logo-quaternary']};
 `
-const SquareBrandSecondary = styled(Square)`
-  background-color: ${props => props.theme['brand-secondary']};
+const SquareLogoQuinary = styled(Square)`
+  background-color: ${props => props.theme['logo-quinary']};
 `
 
-const Square1 = styled(SquareMarketingSecondary)`
+const Square1 = styled(SquareLogoPrimary)`
   animation-delay: 0s;
 `
-const Square2 = styled(SquareMarketingSecondary)`
+const Square2 = styled(SquareLogoPrimary)`
   animation-delay: 0.05s;
 `
-const Square3 = styled(SquareMarketingSecondary)`
+const Square3 = styled(SquareLogoPrimary)`
   animation-delay: 0.2s;
 `
-const Square4 = styled(SquareTransferred)`
+const Square4 = styled(SquareLogoSecondary)`
   animation-delay: 0.3s;
 `
-const Square5 = styled(SquareTransferred)`
+const Square5 = styled(SquareLogoSecondary)`
   animation-delay: 0.4s;
 `
 
-const Square6 = styled(SquareMarketingSecondary)`
+const Square6 = styled(SquareLogoPrimary)`
   animation-delay: 0.05s;
 `
-const Square7 = styled(SquareMarketingSecondary)`
+const Square7 = styled(SquareLogoPrimary)`
   animation-delay: 0.2s;
 `
-const Square8 = styled(SquareMarketingSecondary)`
+const Square8 = styled(SquareLogoPrimary)`
   animation-delay: 0.3s;
 `
-const Square9 = styled(SquareTransferred)`
+const Square9 = styled(SquareLogoSecondary)`
   animation-delay: 0.4s;
 `
-const Square10 = styled(SquareTransferred)`
+const Square10 = styled(SquareLogoSecondary)`
   animation-delay: 0.5s;
 `
 
-const Square11 = styled(SquareBrandSecondary)`
+const Square11 = styled(SquareLogoQuinary)`
   animation-delay: 0.2s;
 `
-const Square12 = styled(SquareBrandSecondary)`
+const Square12 = styled(SquareLogoQuinary)`
   animation-delay: 0.3s;
 `
-const Square13 = styled(SquareBrandSecondary)`
+const Square13 = styled(SquareLogoQuinary)`
   animation-delay: 0.4s;
 `
-const Square14 = styled(SquareMarketingPrimary)`
+const Square14 = styled(SquareLogoTertiary)`
   animation-delay: 0.5s;
 `
-const Square15 = styled(SquareMarketingPrimary)`
+const Square15 = styled(SquareLogoTertiary)`
   animation-delay: 0.6s;
 `
 
-const Square16 = styled(SquareBrandSecondary)`
+const Square16 = styled(SquareLogoQuinary)`
   animation-delay: 0.3s;
 `
-const Square17 = styled(SquareBrandSecondary)`
+const Square17 = styled(SquareLogoQuinary)`
   animation-delay: 0.4s;
 `
-const Square18 = styled(SquareBrandSecondary)`
+const Square18 = styled(SquareLogoQuinary)`
   animation-delay: 0.5s;
 `
-const Square19 = styled(SquareMarketingPrimary)`
+const Square19 = styled(SquareLogoTertiary)`
   animation-delay: 0.6s;
 `
-const Square20 = styled(SquareMarketingPrimary)`
+const Square20 = styled(SquareLogoTertiary)`
   animation-delay: 0.7s;
 `
 
-const Square21 = styled(SquareBrandSecondary)`
+const Square21 = styled(SquareLogoQuinary)`
   animation-delay: 0.4s;
 `
-const Square22 = styled(SquareBrandSecondary)`
+const Square22 = styled(SquareLogoQuinary)`
   animation-delay: 0.5s;
 `
-const Square23 = styled(SquareBrandSecondary)`
+const Square23 = styled(SquareLogoQuinary)`
   animation-delay: 0.6s;
 `
-const Square24 = styled(SquareBrandTertiary)`
+const Square24 = styled(SquareLogoQuaternary)`
   animation-delay: 0.7s;
 `
-const Square25 = styled(SquareBrandTertiary)`
+const Square25 = styled(SquareLogoQuaternary)`
   animation-delay: 0.8s;
 `
 

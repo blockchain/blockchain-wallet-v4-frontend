@@ -752,8 +752,8 @@ export default ({ api, coreSagas, networks }) => {
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
         const { password } = depositCredentials
         payment = yield payment.sign(password)
-        txId = payment.value().txId
         payment = yield payment.publish()
+        txId = payment.value().txId
       } else {
         const { connection, scrambleKey } = depositCredentials
         payment = yield payment.sign(
@@ -761,15 +761,15 @@ export default ({ api, coreSagas, networks }) => {
           prop('transport', connection),
           scrambleKey
         )
-        txId = payment.value().txId
         payment = yield payment.publish()
+        txId = payment.value().txId
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(4000)
         yield put(actions.modals.closeAllModals())
       }
 
       if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
-        yield spawn(updateLatestEthTrade, txId, source.type)
+        yield call(updateLatestEthTrade, txId, source.type)
       }
     } catch (err) {
       if (sourceCoin === 'XLM') {

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import * as bowser from 'bowser'
+import Bowser from 'bowser'
 import styled from 'styled-components'
 
 import { model } from 'data'
@@ -86,8 +86,14 @@ const FirstStep = props => {
     isSufficientEthForErc20
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
-  const disableLockboxSend =
-    isFromLockbox && !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  const isBrowserSupported = browser.satisfies({
+    chrome: '>45',
+    chromium: '>45',
+    firefox: '>45',
+    opera: '>20'
+  })
+  const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
 
   return (
@@ -138,8 +144,8 @@ const FirstStep = props => {
         <WarningBanners type='warning'>
           <Text color='warning' size='12px'>
             <FormattedMessage
-              id='modals.sendeth.firststep.warnbrowswer'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser!'
+              id='modals.sendeth.firststep.browserwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
             />
           </Text>
         </WarningBanners>
