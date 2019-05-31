@@ -129,7 +129,6 @@ module.exports = {
         uglifyOptions: {
           warnings: false,
           compress: {
-            warnings: false,
             keep_fnames: true
           },
           mangle: {
