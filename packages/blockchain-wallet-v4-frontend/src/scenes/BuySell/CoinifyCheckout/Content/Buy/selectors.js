@@ -36,6 +36,7 @@ export const getData = state => {
     subscriptions: getSubscriptions(state),
     trade: getTrade(state),
     canTrade: selectors.core.data.coinify.canTrade(state),
+    rateQuoteR: selectors.core.data.coinify.getRateQuote(state),
     cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
     canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
     currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),

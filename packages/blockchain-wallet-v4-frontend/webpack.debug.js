@@ -129,7 +129,6 @@ module.exports = {
         uglifyOptions: {
           warnings: false,
           compress: {
-            warnings: false,
             keep_fnames: true
           },
           mangle: {
@@ -137,10 +136,10 @@ module.exports = {
           }
         },
         parallel: true,
-        cache: true
+        cache: false
       })
     ],
-    concatenateModules: false,
+    concatenateModules: true,
     runtimeChunk: {
       name: `manifest.${manifestCacheBust}`
     },
