@@ -50,6 +50,7 @@ const OrderCheckout = ({
   limits,
   onOrderCheckoutSubmit,
   quoteR,
+  rateQuoteR,
   reason,
   setMax,
   setMin,
@@ -69,7 +70,7 @@ const OrderCheckout = ({
           <Text>
             <FormattedMessage id='bitcoin' defaultMessage='Bitcoin' />
           </Text>
-          <Text size='14px'>1 BTC = {rateHelper(quoteR)}</Text>
+          <Text size='14px'>1 BTC = {rateHelper(rateQuoteR)}</Text>
         </RateContainer>
       </TopContainer>
       {reason.indexOf('has_remaining') > -1 ? (
