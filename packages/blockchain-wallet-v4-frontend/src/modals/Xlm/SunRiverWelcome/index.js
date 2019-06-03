@@ -20,18 +20,47 @@ import {
 
 const { TIERS } = model.profile
 
-const WelcomeModalHeader = styled(ModalHeader)`
+const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
-  border: 0;
+  border: none;
   > span {
-    color: ${props => props.theme['gray-1']};
+    &:hover {
+      cursor: pointer;
+    }
   }
+  z-index: 99;
+`
+const Body = styled(ModalBody)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 24px;
+`
+const Header = styled(Text)`
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 18px;
+  color: ${props => props.theme['gray-6']};
 `
 const Container = styled.div`
   text-align: center;
   > div:nth-child(2) {
     margin: 10px 0 20px 0;
   }
+`
+const Copy = styled(Text)`
+  margin-top: 16px;
+  font-weight: 500;
+  max-width: 300px;
+  color: ${props => props.theme['gray-6']};
+`
+const FooterButton = styled(Button)`
+  height: 56px;
+  font-weight: 500;
+  margin-top: 24px;
+  font-size: 16px;
 `
 
 class SunRiverWelcomeContainer extends React.PureComponent {
@@ -62,24 +91,24 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     if (kycState === KYC_STATES.VERIFIED) {
       return (
         <Container>
-          <Text size='26px' weight={400}>
+          <Header>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.title'
               defaultMessage='Thank you for already verifying your identity'
             />
-          </Text>
-          <Text size='16px' weight={400}>
+          </Header>
+          <Copy>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.subtitle'
               defaultMessage='Hang tight, your XLM is on its way.'
             />
-          </Text>
-          <Button nature='primary' fullwidth onClick={this.viewStellarWallet}>
+          </Copy>
+          <FooterButton>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.seewallet'
               defaultMessage='View Stellar Wallet'
             />
-          </Button>
+          </FooterButton>
         </Container>
       )
     } else if (
@@ -88,24 +117,24 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     ) {
       return (
         <Container>
-          <Text size='26px' weight={400}>
+          <Header>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.title'
               defaultMessage='Thank you for completing your Identity Verification'
             />
-          </Text>
-          <Text size='16px' weight={400}>
+          </Header>
+          <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.subtitle'
-              defaultMessage='Your application is still under review. Once verified, you will receive your XLM.'
+              id='modals.xlmairdropwelcome.underreview.subtitle2'
+              defaultMessage='Your application is still under review. Once verified, you will be eligible to receive your XLM.'
             />
-          </Text>
-          <Button nature='primary' fullwidth onClick={this.viewStellarWallet}>
+          </Copy>
+          <FooterButton>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.seewallet'
               defaultMessage='View Stellar Wallet'
             />
-          </Button>
+          </FooterButton>
         </Container>
       )
     } else if (
@@ -114,19 +143,19 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     ) {
       return (
         <Container>
-          <Text size='26px' weight={400}>
+          <Header>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.title'
               defaultMessage='Finish Identity Verification'
             />
-          </Text>
-          <Text size='16px' weight={400}>
+          </Header>
+          <Copy>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.subtitle'
               defaultMessage="Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap."
             />
-          </Text>
-          <Button
+          </Copy>
+          <FooterButton
             nature='primary'
             fullwidth
             onClick={this.continueVerification}
@@ -135,25 +164,25 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               id='modals.xlmairdropwelcome.inprogress.completenow'
               defaultMessage='Complete Now'
             />
-          </Button>
+          </FooterButton>
         </Container>
       )
     } else {
       return (
         <Container>
-          <Text size='26px' weight={400}>
+          <Header>
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.title'
               defaultMessage='Start Identity Verification'
             />
-          </Text>
-          <Text size='16px' weight={400}>
+          </Header>
+          <Copy>
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.subtitle'
               defaultMessage="Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap."
             />
-          </Text>
-          <Button
+          </Copy>
+          <FooterButton
             nature='primary'
             fullwidth
             onClick={this.goToIdentityVerification}
@@ -162,7 +191,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               id='modals.xlmairdropwelcome.newuser.beginenow'
               defaultMessage='Begin Now'
             />
-          </Button>
+          </FooterButton>
         </Container>
       )
     }
@@ -172,12 +201,12 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     const { data, position, total, close } = this.props
     return data.cata({
       Success: value => (
-        <Modal size='medium' position={position} total={total}>
-          <WelcomeModalHeader onClose={close} />
-          <Image name='airdrop-welcome' width='100%' />
-          <ModalBody>
+        <Modal size='small' position={position} total={total}>
+          <AbsoluteModalHeader onClose={close} />
+          <Body>
+            <Image name='gold-verified' width='52px' />
             {this.determineKycState(value.userState, value.kycState)}
-          </ModalBody>
+          </Body>
         </Modal>
       ),
       Failure: () => null,
