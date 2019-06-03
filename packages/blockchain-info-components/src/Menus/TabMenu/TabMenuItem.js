@@ -27,7 +27,7 @@ const BaseTabMenuItem = styled.span`
     & :after {
       position: absolute;
       content: '';
-      top: 40px;
+      top: 39px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
