@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
-import AirdropClaim from './AirdropClaim'
 import KycResubmit from './KycResubmit'
 import Swap from './Swap'
 
@@ -21,12 +20,6 @@ class Banners extends React.PureComponent {
         return (
           <BannerWrapper>
             <KycResubmit />
-          </BannerWrapper>
-        )
-      case 'airdropClaim':
-        return (
-          <BannerWrapper>
-            <AirdropClaim campaign='sunriver' />
           </BannerWrapper>
         )
       case 'swap':
