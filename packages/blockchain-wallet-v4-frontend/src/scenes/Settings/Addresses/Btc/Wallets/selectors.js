@@ -1,4 +1,4 @@
-import { isNil, map, pipe, prop, pluck, reject, sum } from 'ramda'
+import { any, isNil, map, pipe, prop, propEq, pluck, reject, sum } from 'ramda'
 
 import { selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
@@ -8,10 +8,7 @@ const getDefaultIdx = state =>
     Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
   )
 const prepareWallet = (wallet, idx) => ({
-  label: wallet.label,
-  index: wallet.index,
   archived: wallet.archived,
-  default: idx === wallet.index,
   balance: pipe(
     prop('derivations'),
     pluck('info'),
@@ -19,6 +16,13 @@ const prepareWallet = (wallet, idx) => ({
     reject(isNil),
     sum
   )(wallet),
+  default: idx === wallet.index,
+  hasLegacyDerivation: any(
+    propEq('type', 'legacy'),
+    prop('derivations', wallet)
+  ),
+  label: wallet.label,
+  index: wallet.index,
   xpub: wallet.xpub
 })
 

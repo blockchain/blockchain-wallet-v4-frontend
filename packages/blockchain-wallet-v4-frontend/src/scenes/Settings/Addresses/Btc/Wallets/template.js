@@ -57,7 +57,8 @@ const Success = ({
   onUnarchive,
   search,
   failure,
-  message
+  message,
+  hasLegacyDerivation
 }) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
@@ -116,21 +117,25 @@ const Success = ({
             </Link>
           ) : (
             <React.Fragment>
-              <LinkContainer
-                to={`/settings/addresses/btc/${wallet.index}/legacy`}
-              >
-                <Link
-                  weight={500}
-                  size='13px'
-                  data-e2e='btcManageLegacyWalletLink'
-                >
-                  <FormattedMessage
-                    id='scenes.settings.addresses.btc.wallets.managelegacy'
-                    defaultMessage='Legacy'
-                  />
-                </Link>
-              </LinkContainer>
-              <span>&nbsp;&nbsp;</span>
+              {hasLegacyDerivation && (
+                <React.Fragment>
+                  <LinkContainer
+                    to={`/settings/addresses/btc/${wallet.index}/legacy`}
+                  >
+                    <Link
+                      weight={500}
+                      size='13px'
+                      data-e2e='btcManageLegacyWalletLink'
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.btc.wallets.managelegacy'
+                        defaultMessage='Legacy'
+                      />
+                    </Link>
+                  </LinkContainer>
+                  <span>&nbsp;&nbsp;</span>
+                </React.Fragment>
+              )}
               <LinkContainer
                 to={`/settings/addresses/btc/${wallet.index}/segwit`}
               >
