@@ -32,8 +32,6 @@ export const getData = state => {
     bannerToShow = 'resubmit'
   } else if (showAirdropClaimBanner) {
     bannerToShow = 'airdropClaim'
-  } else if (kycNotFinished) {
-    bannerToShow = 'airdropReminder'
   } else if (showSwapBanner) {
     bannerToShow = 'swap'
   } else {
@@ -42,7 +40,6 @@ export const getData = state => {
 
   return {
     bannerToShow,
-    kycNotFinished,
-    isSunRiverTagged
+    kycNotFinished
   }
 }

@@ -83,7 +83,7 @@ const GetStartedButton = styled(Button).attrs({
     margin-top: 10px;
   }
 `
-export const AirdropReminderBanner = ({ actions, campaign, submitting }) => (
+export const AirdropClaimBanner = ({ actions, campaign, submitting }) => (
   <Wrapper>
     <Column>
       <LargeText>
@@ -131,4 +131,4 @@ const enhance = compose(
   reduxForm({ form: 'airdropClaim' })
 )
 
-export default enhance(AirdropReminderBanner)
+export default enhance(AirdropClaimBanner)
