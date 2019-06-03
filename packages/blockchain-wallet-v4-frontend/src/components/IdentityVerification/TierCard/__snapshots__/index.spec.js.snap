@@ -39,7 +39,7 @@ exports[`TierCard renders correctly with column view 1`] = `
             opacity={1}
             size="32px"
             uppercase={false}
-            weight={400}
+            weight={600}
           >
             $25,000
           </Text>
@@ -57,7 +57,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               }
             }
             uppercase={false}
-            weight={400}
+            weight={500}
           >
             <Text
               altFont={false}
@@ -91,7 +91,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               }
             }
             uppercase={false}
-            weight={400}
+            weight={500}
           >
             <FormattedMessage
               defaultMessage="Takes {time} min"
@@ -264,7 +264,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
             opacity={1}
             size="32px"
             uppercase={false}
-            weight={400}
+            weight={600}
           >
             $1,000
           </Text>
@@ -282,7 +282,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               }
             }
             uppercase={false}
-            weight={400}
+            weight={500}
           >
             <Text
               altFont={false}
@@ -316,7 +316,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               }
             }
             uppercase={false}
-            weight={400}
+            weight={500}
           >
             <FormattedMessage
               defaultMessage="Takes {time} min"
