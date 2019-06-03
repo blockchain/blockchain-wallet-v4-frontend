@@ -47,6 +47,8 @@ const Header = styled(Text)`
 const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
+  line-height: 1.6;
+  max-width: 300px;
   color: ${props => props.theme['gray-6']};
 `
 const FooterButton = styled(Button)`
@@ -74,7 +76,7 @@ class AirdropClaim extends React.PureComponent {
       <Modal size='small' position={position} total={total}>
         <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Image width='52px%' name='gold-verified' />
+          <Image width='52px' name='gold-verified' />
           <Header>
             <FormattedMessage
               id='modals.airdropclaim.claimairdrop'
@@ -82,7 +84,7 @@ class AirdropClaim extends React.PureComponent {
             />
           </Header>
           {isCampaignTagged ? (
-            <Copy weight={400}>
+            <Copy>
               <FormattedMessage
                 id='modals.airdropclaim.thanksforparticipating'
                 defaultMessage='Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!'

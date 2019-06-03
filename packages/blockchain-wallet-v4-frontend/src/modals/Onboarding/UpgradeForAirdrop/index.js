@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { prop } from 'ramda'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
@@ -15,8 +14,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-
-const { CAMPAIGNS } = model.components.identityVerification
 
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -44,30 +41,15 @@ const Header = styled(Text)`
 `
 const Copy = styled(Text)`
   margin-top: 16px;
-`
-const Footer = styled.div`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  padding: 0 24px 32px 24px;
-  box-sizing: border-box;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 300px;
+  color: ${props => props.theme['gray-6']};
 `
 const FooterButton = styled(Button)`
-  height: auto;
-  font-weight: 400;
-  padding: 15px 0;
-`
-const LaterButton = styled(FooterButton)`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  top: calc(100% + 9px);
-  width: calc(100% - 48px);
-  &:hover {
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-  }
+  height: 56px;
+  font-weight: 500;
+  margin-top: 24px;
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
@@ -81,25 +63,19 @@ class UpgradeForAirdrop extends React.PureComponent {
       <Modal size='small' position={position} total={total}>
         <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Image name='gold-verified' />
+          <Image width='52px' name='gold-verified' />
           <Header>
             <FormattedMessage
               id='modals.upgradeforairdrop.goforgold'
               defaultMessage='Go for Gold'
             />
           </Header>
-          <Copy weight={400}>
+          <Copy>
             <FormattedMessage
-              id='modals.upgradeforairdrop.completeprofileforairdropfree'
-              defaultMessage='Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).'
-              values={{
-                coinName: prop('coinName', CAMPAIGNS[campaign]),
-                coinCode: prop('coinCode', CAMPAIGNS[campaign])
-              }}
+              id='modals.upgradeforairdrop.completeprofileforairdropprogram'
+              defaultMessage='Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
             />
           </Copy>
-        </Body>
-        <Footer>
           <FooterButton
             nature='primary'
             size='18px'
@@ -107,23 +83,11 @@ class UpgradeForAirdrop extends React.PureComponent {
             onClick={() => actions.upgradeForAirdropSubmitClicked(campaign)}
           >
             <FormattedMessage
-              defaultMessage='Upgrade Now'
-              id='modals.upgradeforairdrop.upgradenow'
+              defaultMessage='Complete Profile'
+              id='modals.upgradeforairdrop.completeprofile'
             />
           </FooterButton>
-          <LaterButton
-            nature='primary'
-            size='18px'
-            fullwidth
-            onClick={close}
-            data-e2e='remindMeLaterButton'
-          >
-            <FormattedMessage
-              defaultMessage='Remind Me Later'
-              id='modals.upgradeforairdrop.later'
-            />
-          </LaterButton>
-        </Footer>
+        </Body>
       </Modal>
     )
   }

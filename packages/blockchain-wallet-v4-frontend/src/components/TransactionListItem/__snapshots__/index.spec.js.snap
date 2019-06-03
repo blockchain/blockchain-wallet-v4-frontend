@@ -65,7 +65,6 @@ exports[`ListItemContainer renders correctly 1`] = `
     preferencesActions={
       Object {
         "hideAirdropClaimModal": [Function],
-        "hideAirdropReminderModal": [Function],
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
         "hideSwapBanner": [Function],

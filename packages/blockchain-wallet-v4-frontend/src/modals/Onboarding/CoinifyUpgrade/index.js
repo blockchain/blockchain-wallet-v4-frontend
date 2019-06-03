@@ -42,6 +42,7 @@ const Header = styled(Text)`
 const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
+  line-height: 1.6;
   color: ${props => props.theme['gray-6']};
 `
 const FooterButton = styled(Button)`
