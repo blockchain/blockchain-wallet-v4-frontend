@@ -11,27 +11,36 @@ import {
   Button,
   Image,
   Modal,
+  ModalBody,
   ModalHeader,
   Text
 } from 'blockchain-info-components'
 
 const { CAMPAIGNS } = model.components.identityVerification
 
-const UpgradeForAirdropModalHeader = styled(ModalHeader)`
+const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
-  border: 0;
+  border: none;
   > span {
-    color: ${props => props.theme['gray-1']};
+    &:hover {
+      cursor: pointer;
+    }
   }
+  z-index: 99;
 `
-const Body = styled.div`
+const Body = styled(ModalBody)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
+  margin-top: 24px;
+`
+const Header = styled(Text)`
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 12px;
+  color: ${props => props.theme['gray-6']};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
@@ -70,22 +79,15 @@ class UpgradeForAirdrop extends React.PureComponent {
     const { campaign, position, total, close, actions } = this.props
     return (
       <Modal size='small' position={position} total={total}>
-        <UpgradeForAirdropModalHeader onClose={close} />
-        <Image
-          width='100%'
-          name='get-free-crypto'
-          srcset={{
-            'get-free-crypto2': '2x',
-            'get-free-crypto3': '3x'
-          }}
-        />
+        <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Text size='24px' weight={400}>
+          <Image name='gold-verified' />
+          <Header>
             <FormattedMessage
-              id='modals.upgradeforairdrop.getfreecrypto'
-              defaultMessage='Get Free Crypto'
+              id='modals.upgradeforairdrop.goforgold'
+              defaultMessage='Go for Gold'
             />
-          </Text>
+          </Header>
           <Copy weight={400}>
             <FormattedMessage
               id='modals.upgradeforairdrop.completeprofileforairdropfree'

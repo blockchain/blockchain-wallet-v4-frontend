@@ -6,64 +6,70 @@ import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Text
+} from 'blockchain-info-components'
 
-const Body = styled.div`
+const AbsoluteModalHeader = styled(ModalHeader)`
+  position: absolute;
+  border: none;
+  > span {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  z-index: 99;
+`
+const Body = styled(ModalBody)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
+  margin-top: 24px;
+`
+const Header = styled(Text)`
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 12px;
+  color: ${props => props.theme['gray-6']};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
-`
-const UpgradeImage = styled(Image)`
-  display: block;
-  width: 100%;
-  margin-top: 24px;
-`
-const Footer = styled.div`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  padding: 0 24px;
-  box-sizing: border-box;
+  font-weight: 500;
+  color: ${props => props.theme['gray-6']};
 `
 const FooterButton = styled(Button)`
-  height: auto;
-  font-weight: 400;
-  padding: 15px 0;
-`
-const LaterButton = styled(FooterButton)`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  top: calc(100% + 9px);
-  width: calc(100% - 48px);
-  &:hover {
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-  }
+  height: 56px;
+  font-weight: 500;
+  margin-top: 24px;
 `
 
 class CoinifyUpgrade extends React.PureComponent {
   render () {
     const { position, total, close, actions } = this.props
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal size='xsmall' position={position} total={total}>
+        <AbsoluteModalHeader onClick={close} />
         <Body>
-          <Copy weight={400}>
+          <Icon name='cart-filled' color='brand-secondary' size='72px' />
+          <Header>
             <FormattedMessage
-              id='modals.coinifyupgrade.coinifyupgradeairdrop2'
-              defaultMessage='Please take a few minutes to complete your profile to continue accessing Buy/Sell, and get at least $25 of free Stellar (XLM).'
+              id='modals.coinifyupgrade.header'
+              defaultMessage='Unlock Buy / Sell'
+            />
+          </Header>
+          <Copy>
+            <FormattedMessage
+              id='modals.coinifyupgrade.coinifyupgradeairdropprogram'
+              defaultMessage='Complete your profile to access Buy / Sell, and be eligible for our Airdrop Program.'
             />
           </Copy>
-        </Body>
-        <Footer>
           <FooterButton
             nature='primary'
             size='18px'
@@ -71,24 +77,11 @@ class CoinifyUpgrade extends React.PureComponent {
             onClick={() => actions.coinifyUpgradeSubmitClicked('sunriver')}
           >
             <FormattedMessage
-              defaultMessage='Complete My Profile Now'
-              id='modals.coinifyupgrade.completeprofile'
+              defaultMessage='Get Started'
+              id='modals.coinifyupgrade.getstarted'
             />
           </FooterButton>
-          <UpgradeImage name='identity-verification' />
-          <LaterButton
-            nature='primary'
-            size='18px'
-            fullwidth
-            onClick={close}
-            data-e2e='remindMeLaterButton'
-          >
-            <FormattedMessage
-              defaultMessage='Remind Me Later'
-              id='modals.coinifyupgrade.later'
-            />
-          </LaterButton>
-        </Footer>
+        </Body>
       </Modal>
     )
   }

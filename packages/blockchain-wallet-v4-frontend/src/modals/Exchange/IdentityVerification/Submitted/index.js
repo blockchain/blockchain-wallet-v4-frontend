@@ -234,15 +234,15 @@ class Submitted extends React.PureComponent {
                     <HeartbeatLoader height='20px' width='20px' color='white' />
                   ) : (
                     <FormattedMessage
-                      id='modals.exchange.identityverification.submitted.claim'
-                      defaultMessage='Claim Free XLM'
+                      id='modals.exchange.identityverification.submitted.enterairdrop'
+                      defaultMessage='Enter Airdrop Program'
                     />
                   )}
                 </ClaimButton>
                 <NextStepsSubHeader>
                   <FormattedMessage
                     id='modals.exchange.identityverification.submitted.makesuretoclick2'
-                    defaultMessage='Make sure you click the button to become eligible to claim your free XLM.'
+                    defaultMessage='By entering the airdrop program you’ll become eligible to receive future airdrops.'
                   />
                 </NextStepsSubHeader>
               </React.Fragment>

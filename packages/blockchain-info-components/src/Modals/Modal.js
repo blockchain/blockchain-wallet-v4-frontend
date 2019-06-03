@@ -45,6 +45,8 @@ const selectWidth = size => {
   switch (size) {
     case 'auto':
       return 'auto'
+    case 'xsmall':
+      return '320px'
     case 'small':
       return '400px'
     case 'medium':
