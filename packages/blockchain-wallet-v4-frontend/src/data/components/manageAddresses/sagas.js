@@ -15,13 +15,14 @@ export default ({ api, networks }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  // TODO: SEGWIT
-  const deriveAddresses = function (account, receiveIndex) {
+  const deriveAddresses = function (account, receiveIndex, derivation) {
     let i = 0
     let addrs = []
 
     while (i <= receiveIndex) {
-      addrs.push(Types.HDAccount.getReceiveAddress(account, i, networks.btc))
+      addrs.push(
+        Types.HDAccount.getReceiveAddress(account, i, networks.btc, derivation)
+      )
       i++
     }
 
@@ -34,18 +35,18 @@ export default ({ api, networks }) => {
       yield put(A.generateNextReceiveAddressLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
-      // TODO: SEGWIT
       const nextReceiveIndex = yield select(
         selectors.core.common.btc.getNextAvailableReceiveIndex(
           networks.btc,
-          account.index
+          account.index,
+          derivation
         )
       )
       yield put(
         actions.core.wallet.setHdAddressLabel(
           account.index,
-          derivation,
           nextReceiveIndex.getOrElse(0),
+          derivation,
           'New Address'
         )
       )
@@ -71,9 +72,8 @@ export default ({ api, networks }) => {
       yield put(A.fetchUnusedAddressesLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
-      // TODO: SEGWIT
       // get all indexes for labeled addresses
-      const labels = Types.HDAccount.selectAddressLabels(account)
+      const labels = Types.HDAccount.selectAddressLabels(account, derivation)
         .reverse()
         .toArray()
       // derive addresses from label indexes
@@ -133,8 +133,7 @@ export default ({ api, networks }) => {
       yield put(A.fetchUsedAddressesLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
-      // TODO: SEGWIT
-      let xpub = Types.HDAccount.selectXpub(account)
+      let xpub = Types.HDAccount.selectXpub(account, derivation)
       // get current receive index of wallet
       const receiveIndex = yield select(
         selectors.core.data.btc.getReceiveIndex(xpub)
@@ -143,12 +142,13 @@ export default ({ api, networks }) => {
       const derivedAddrs = yield call(
         deriveAddresses,
         account,
-        receiveIndex.getOrElse(0)
+        receiveIndex.getOrElse(0),
+        derivation
       )
       // fetch blockchain data for each address
       const derivedAddrsFull = yield call(api.fetchBlockchainData, derivedAddrs)
       // fetch label indexes and derive those addresses
-      const labels = Types.HDAccount.selectAddressLabels(account)
+      const labels = Types.HDAccount.selectAddressLabels(account, derivation)
         .reverse()
         .toArray()
       const labeledAddrs = labels.map(la => ({
@@ -199,11 +199,11 @@ export default ({ api, networks }) => {
         title: 'Rename Address Label',
         maxLength: 50
       })
-      // TODO: SEGWIT
       yield put(
         actions.core.wallet.setHdAddressLabel(
           accountIndex,
           addressIndex,
+          derivation,
           newLabel
         )
       )

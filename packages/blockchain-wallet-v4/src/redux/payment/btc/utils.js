@@ -74,6 +74,7 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
+// TODO: SEGWIT ?
 export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()

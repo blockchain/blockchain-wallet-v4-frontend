@@ -49,6 +49,7 @@ export const getData = state => {
       index,
       state
     )
+  // TODO: SEGWIT pass in derivation type?
   const getReceiveIdxWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       Bitcoin.networks[network],

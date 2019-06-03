@@ -36,7 +36,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     componentActions.fetchUnusedAddresses(walletIndex, derivation)
   }
 
-  // TODO: SEGWIT
   onEditLabel = i => {
     const {
       accountIndex,
@@ -49,7 +48,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     analyticsActions.logEvent(EDIT_LABEL)
   }
 
-  // TODO: SEGWIT
   onDeleteLabel = i => {
     const {
       accountIndex,
@@ -60,9 +58,9 @@ class UnusedAddressesContainer extends React.PureComponent {
     } = this.props
     modalsActions.showModal('DeleteAddressLabel', {
       accountIdx: accountIndex,
-      walletIdx: walletIndex,
+      addressIdx: i,
       derivation,
-      addressIdx: i
+      walletIdx: walletIndex
     })
     analyticsActions.logEvent(DELETE_LABEL)
   }
@@ -78,10 +76,9 @@ class UnusedAddressesContainer extends React.PureComponent {
     analyticsActions.logEvent(EDIT_NAME)
   }
 
-  // TODO: SEGWIT
   onShowXPub = () => {
-    const { account, analyticsActions, modalsActions } = this.props
-    modalsActions.showModal('ShowXPub', { xpub: account.xpub })
+    const { analyticsActions, modalsActions, xpub } = this.props
+    modalsActions.showModal('ShowXPub', { xpub: xpub })
     analyticsActions.logEvent(SHOW_XPUB)
   }
 
@@ -91,7 +88,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     analyticsActions.logEvent(CHANGE_DEFAULT)
   }
 
-  // TODO: SEGWIT
   onGenerateNextAddress = () => {
     const {
       alertActions,
@@ -282,7 +278,7 @@ UnusedAddressesContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { walletIndex } = ownProps
+  const { derivation, walletIndex } = ownProps
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(
     walletIndex
   )
@@ -293,7 +289,8 @@ const mapStateToProps = (state, ownProps) => {
     )
   const unusedAddresses = selectors.components.manageAddresses.getWalletUnusedAddresses(
     state,
-    walletIndex
+    walletIndex,
+    derivation
   )
 
   return {
@@ -301,7 +298,8 @@ const mapStateToProps = (state, ownProps) => {
     accountLabel: prop('label', account),
     isDefault,
     unusedAddresses,
-    search: formValueSelector('manageAddresses')(state, 'search')
+    search: formValueSelector('manageAddresses')(state, 'search'),
+    xpub: Types.HDAccount.selectXpub(account, derivation)
   }
 }
 

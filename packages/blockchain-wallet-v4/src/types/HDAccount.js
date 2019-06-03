@@ -70,25 +70,25 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-// TODO: SEGWIT (get all xpubs)
-// TODO: SEGWIT (get xpub for derivation)
-export const selectXpub = account => {
+// TODO: SEGWIT 0 for type is being passed in at times. figure that out
+export const selectXpub = (account, type = 'legacy') => {
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  const derivation = DerivationList.getDerivationFromType(
+    derivations,
+    type || 'legacy'
+  )
   return Derivation.selectXpub(derivation)
 }
 
-// TODO: SEGWIT (get xpriv for derivation)
-export const selectXpriv = account => {
+export const selectXpriv = (account, type = 'legacy') => {
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectXpriv(derivation)
 }
 
-// TODO: SEGWIT (get address labels for derivation)
-export const selectAddressLabels = account => {
+export const selectAddressLabels = (account, type = 'legacy') => {
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, 'legacy')
+  const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectAddressLabels(derivation)
 }
 
@@ -128,6 +128,8 @@ export const getChangeAddress = (
 }
 
 // migrateFromV3 :: Object -> Object
+// TODO: SEGWIT i think we should still derive legacy account even though it probably will never be used
+// TODO: SEGWIT if we dont, we need to add checks to various code paths to avoid errors. TBD
 const migrateFromV3 = account => {
   if (account.derivations != null) {
     return account

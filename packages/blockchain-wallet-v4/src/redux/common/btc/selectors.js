@@ -192,12 +192,12 @@ const getAddress = curry((network, path, state) => {
 })
 
 export const getNextAvailableChangeAddress = curry(
-  (network, accountIndex, state) => {
+  (network, accountIndex, derivation, state) => {
     const account = compose(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, derivation)
     const index = getChangeIndex(xpub)(state)
     return index.map(x =>
       getAddress(network, `${accountIndex}/${1}/${x}`, state)
@@ -206,14 +206,14 @@ export const getNextAvailableChangeAddress = curry(
 )
 
 export const getNextAvailableReceiveIndex = curry(
-  (network, accountIndex, state) => {
+  (network, accountIndex, derivation, state) => {
     const account = compose(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, derivation)
     const index = getReceiveIndex(xpub)(state)
-    const labels = HDAccount.selectAddressLabels(account)
+    const labels = HDAccount.selectAddressLabels(account, derivation)
     const maxLabel = labels.maxBy(label => label.index)
     const maxLabelIndex = maxLabel ? maxLabel.index : -1
     return index.map(x => max(x - 1, maxLabelIndex) + 1)
@@ -221,10 +221,11 @@ export const getNextAvailableReceiveIndex = curry(
 )
 
 export const getNextAvailableReceiveAddress = curry(
-  (network, accountIndex, state) => {
+  (network, accountIndex, derivation, state) => {
     const receiveIndex = getNextAvailableReceiveIndex(
       network,
       accountIndex,
+      derivation,
       state
     )
     return receiveIndex.map(x =>

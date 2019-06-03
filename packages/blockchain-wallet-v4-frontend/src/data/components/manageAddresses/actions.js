@@ -4,8 +4,8 @@ import * as AT from './actionTypes'
 export const deleteAddressLabel = (
   accountIdx,
   walletIdx,
-  derivation,
-  addressIdx
+  addressIdx,
+  derivation
 ) => ({
   type: AT.DELETE_ADDRESS_LABEL,
   payload: { accountIdx, addressIdx, derivation, walletIdx }

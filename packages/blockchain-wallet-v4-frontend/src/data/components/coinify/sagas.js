@@ -96,6 +96,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  // TODO: SEGWIT
   const prepareAddress = function * () {
     try {
       const state = yield select()

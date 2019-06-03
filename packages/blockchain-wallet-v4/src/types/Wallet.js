@@ -580,6 +580,7 @@ const _derivePrivateKey = (network, xpriv, chain, index) =>
 
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
+// TODO: SEGWIT pass in derivation
 export const getHDPrivateKeyWIF = curry(
   (keypath, secondPassword, network, wallet) => {
     let [accId, chain, index] = map(parseInt, split('/', keypath))
