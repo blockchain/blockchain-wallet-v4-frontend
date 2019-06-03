@@ -11,7 +11,6 @@ import {
 } from './selectors'
 import Welcome from './template'
 import WelcomePax from './template.pax'
-import WelcomeXlm from './template.xlm'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
@@ -35,11 +34,6 @@ class CoinWelcomeContainer extends React.PureComponent {
             currentCoin={currentCoin}
             currentUserTier={currentUserTier}
           />
-        )
-      }
-      case 'XLM': {
-        return (
-          <WelcomeXlm availability={availability} currentCoin={currentCoin} />
         )
       }
       default: {

@@ -150,6 +150,8 @@ export default {
             circle: 'xlm-circle-filled',
             circleFilled: 'xlm-circle-filled'
           },
+          learnMoreLink:
+            'https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-',
           minConfirmations: 1,
           name: 'Stellar',
           txExplorerBaseUrl: 'https://stellarchain.io/tx',

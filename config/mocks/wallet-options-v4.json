@@ -181,6 +181,7 @@
             "circle": "xlm-circle-filled",
             "circleFilled": "xlm-circle-filled"
           },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
           "txListAppRoute": "/xlm/transactions"
