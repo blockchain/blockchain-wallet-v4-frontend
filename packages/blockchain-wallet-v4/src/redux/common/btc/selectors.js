@@ -101,7 +101,7 @@ const flattenAccount = acc => ({
     reject(isNil),
     sum
   )(acc),
-  xpub: prop('xpub', acc.derivations.find(d => d.type === 'legacy')),
+  xpub: prop('xpub', acc.derivations.find(d => d.type === 'segwit')),
   index: prop('index', acc),
   type: ADDRESS_TYPES.ACCOUNT,
   network: prop('network', acc)

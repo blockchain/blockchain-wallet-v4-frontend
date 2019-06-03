@@ -71,28 +71,28 @@ export const isXpub = curry((myxpub, account) =>
 )
 
 // TODO: SEGWIT 0 for type is being passed in at times. figure that out
-export const selectXpub = (account, type = 'legacy') => {
+export const selectXpub = (account, type = 'segwit') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
     derivations,
-    type || 'legacy'
+    type || 'segwit'
   )
   return Derivation.selectXpub(derivation)
 }
 
-export const selectXpriv = (account, type = 'legacy') => {
+export const selectXpriv = (account, type = 'segwit') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectXpriv(derivation)
 }
 
-export const selectAddressLabels = (account, type = 'legacy') => {
+export const selectAddressLabels = (account, type = 'segwit') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectAddressLabels(derivation)
 }
 
-export const getAddress = (account, path, network, type = 'legacy') => {
+export const getAddress = (account, path, network, type = 'segwit') => {
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
@@ -105,7 +105,7 @@ export const getReceiveAddress = (
   account,
   receiveIndex,
   network,
-  type = 'legacy'
+  type = 'segwit'
 ) => {
   HDAccount.guard(account)
   const derivations = selectDerivations(account)
@@ -118,7 +118,7 @@ export const getChangeAddress = (
   account,
   changeIndex,
   network,
-  type = 'legacy'
+  type = 'segwit'
 ) => {
   HDAccount.guard(account)
   const derivations = selectDerivations(account)
@@ -136,7 +136,7 @@ const migrateFromV3 = account => {
   }
 
   const derivation = {
-    type: 'legacy',
+    type: 'segwit',
     purpose: 44,
     xpriv: account.xpriv,
     xpub: account.xpub,
