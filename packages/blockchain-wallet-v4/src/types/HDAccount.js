@@ -70,7 +70,6 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-// TODO: SEGWIT 0 for type is being passed in at times. figure that out
 export const selectXpub = (account, type = 'segwit') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(

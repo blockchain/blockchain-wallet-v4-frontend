@@ -42,21 +42,18 @@ export const getData = state => {
   const excludeLockbox = !availability
     .map(propOr(true, 'lockbox'))
     .getOrElse(true)
-
-  // TODO: SEGWIT dont hardcode derivation type
   const getReceiveAddressWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveAddress(
       Bitcoin.networks[network],
       index,
-      'segwit',
+      selectors.selectDefaultDerivationType,
       state
     )
-  // TODO: SEGWIT dont hardcode derivation type
   const getReceiveIdxWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       Bitcoin.networks[network],
       index,
-      'segwit',
+      selectors.selectDefaultDerivationType,
       state
     )
   const getReceiveAddressLockbox = xpub =>
