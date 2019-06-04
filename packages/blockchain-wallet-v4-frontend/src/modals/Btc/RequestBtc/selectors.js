@@ -46,14 +46,14 @@ export const getData = state => {
     selectors.core.common.btc.getNextAvailableReceiveAddress(
       Bitcoin.networks[network],
       index,
-      selectors.selectDefaultDerivationType,
+      selectors.selectDefaultDerivationType(state),
       state
     )
   const getReceiveIdxWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       Bitcoin.networks[network],
       index,
-      selectors.selectDefaultDerivationType,
+      selectors.selectDefaultDerivationType(state),
       state
     )
   const getReceiveAddressLockbox = xpub =>
