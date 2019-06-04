@@ -1,4 +1,4 @@
-import { any, isNil, map, pipe, prop, propEq, pluck, reject, sum } from 'ramda'
+import { isNil, map, pipe, prop, pluck, reject, sum } from 'ramda'
 
 import { selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
@@ -17,10 +17,6 @@ const prepareWallet = (wallet, idx) => ({
     sum
   )(wallet),
   default: idx === wallet.index,
-  hasLegacyDerivation: any(
-    propEq('type', 'legacy'),
-    prop('derivations', wallet)
-  ),
   label: wallet.label,
   index: wallet.index,
   xpub: wallet.xpub

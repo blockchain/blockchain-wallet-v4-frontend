@@ -23,7 +23,6 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 `
-
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -74,7 +73,7 @@ const MenuTop = () => (
         </LinkContainer>
       </TabMenu>
       <Search data-e2e='walletSettingsSearch'>
-        <Field name='search' component={TextBox} />
+        <Field name='search' component={TextBox} height='40px' />
         <SearchIcon name='search' size='20px' />
       </Search>
     </Container>

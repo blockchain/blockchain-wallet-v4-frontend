@@ -1,11 +1,13 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { length, prop } from 'ramda'
+import { any, equals, length, prop, propEq } from 'ramda'
 import PropTypes from 'prop-types'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Toggler, TogglerItem } from '@blockchain-com/components'
 
 import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
@@ -29,6 +31,9 @@ const WalletLabelCell = styled.div`
 `
 const ClickableText = styled(Text)`
   cursor: pointer;
+`
+const DerivationSwitchContainer = styled.div`
+  margin-left: 12px;
 `
 class UnusedAddressesContainer extends React.PureComponent {
   componentDidMount () {
@@ -121,8 +126,10 @@ class UnusedAddressesContainer extends React.PureComponent {
     const {
       accountLabel,
       derivation,
+      hasLegacyDerivation,
       isDefault,
       search,
+      walletIndex,
       unusedAddresses
     } = this.props
 
@@ -143,9 +150,6 @@ class UnusedAddressesContainer extends React.PureComponent {
             >
               {accountLabel}
             </Text>
-            <Banner label data-e2e='btcWalletDerivation' type='informational'>
-              {derivation.charAt(0).toUpperCase() + derivation.slice(1)}
-            </Banner>
             {isDefault && (
               <Banner label data-e2e='btcDefaultWallet'>
                 <FormattedMessage
@@ -153,6 +157,44 @@ class UnusedAddressesContainer extends React.PureComponent {
                   defaultMessage='Default'
                 />
               </Banner>
+            )}
+            {hasLegacyDerivation && (
+              <DerivationSwitchContainer>
+                <Toggler>
+                  <TogglerItem selected={equals('legacy', derivation)}>
+                    <LinkContainer
+                      to={`/settings/addresses/btc/${walletIndex}/legacy`}
+                    >
+                      <Link
+                        weight={500}
+                        size='13px'
+                        data-e2e='btcManageLegacyWalletLink'
+                      >
+                        <FormattedMessage
+                          id='scenes.settings.addresses.btc.wallets.managelegacy'
+                          defaultMessage='Legacy'
+                        />
+                      </Link>
+                    </LinkContainer>
+                  </TogglerItem>
+                  <TogglerItem selected={equals('segwit', derivation)}>
+                    <LinkContainer
+                      to={`/settings/addresses/btc/${walletIndex}/segwit`}
+                    >
+                      <Link
+                        weight={500}
+                        size='13px'
+                        data-e2e='btcManageSegwitWalletLink'
+                      >
+                        <FormattedMessage
+                          id='scenes.settings.addresses.btc.wallets.managesegwit'
+                          defaultMessage='Segwit'
+                        />
+                      </Link>
+                    </LinkContainer>
+                  </TogglerItem>
+                </Toggler>
+              </DerivationSwitchContainer>
             )}
           </WalletLabelCell>
           <ComponentDropdown
@@ -296,6 +338,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     accountIndex: prop('index', account),
     accountLabel: prop('label', account),
+    hasLegacyDerivation: any(
+      propEq('type', 'legacy'),
+      prop('derivations', account)
+    ),
     isDefault,
     unusedAddresses,
     search: formValueSelector('manageAddresses')(state, 'search'),
