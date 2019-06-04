@@ -45,7 +45,7 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 40px;
+      top: 39px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
@@ -74,7 +74,7 @@ const MenuTop = () => (
         </LinkContainer>
       </TabMenu>
       <Search data-e2e='walletSettingsSearch'>
-        <Field name='search' component={TextBox} />
+        <Field name='search' height='40px' component={TextBox} />
         <SearchIcon name='search' size='20px' />
       </Search>
     </Container>
