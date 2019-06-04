@@ -79,15 +79,15 @@ class AirdropClaim extends React.PureComponent {
           <Image width='52px' name='gold-verified' />
           <Header>
             <FormattedMessage
-              id='modals.airdropclaim.claimairdrop'
-              defaultMessage='Claim Your Airdrop'
+              id='modals.airdropclaim.airdropprogram'
+              defaultMessage='Airdrop Program'
             />
           </Header>
           {isCampaignTagged ? (
             <Copy>
               <FormattedMessage
-                id='modals.airdropclaim.thanksforparticipating'
-                defaultMessage='Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!'
+                id='modals.airdropclaim.thanksforparticipatingairdropprogram'
+                defaultMessage='Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!'
                 values={{
                   coinName: prop('coinName', CAMPAIGNS[campaign]),
                   coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -97,7 +97,7 @@ class AirdropClaim extends React.PureComponent {
           ) : (
             <Copy weight={400}>
               <FormattedMessage
-                id='modals.airdropclaim.completeprofilefree'
+                id='modals.airdropclaim.clicktojoinairdropprogram'
                 defaultMessage='You’re eligible for our airdrop program. Click the button to join our Airdrop Program.'
               />
             </Copy>
@@ -115,8 +115,8 @@ class AirdropClaim extends React.PureComponent {
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
                 <FormattedMessage
-                  defaultMessage='Claim My Free Airdrop'
-                  id='modals.airdropclaim.claimairdropnow'
+                  defaultMessage='Join Airdrop Program'
+                  id='modals.airdropclaim.joinairdropnow'
                 />
               )}
             </FooterButton>

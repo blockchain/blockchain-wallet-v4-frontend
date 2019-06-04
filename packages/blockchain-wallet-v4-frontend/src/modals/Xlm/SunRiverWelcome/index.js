@@ -99,8 +99,8 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.verified.subtitle'
-              defaultMessage='Hang tight, your XLM is on its way.'
+              id='modals.xlmairdropwelcome.verified.subtitle2'
+              defaultMessage='If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience'
             />
           </Copy>
           <FooterButton>
@@ -119,14 +119,14 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.title'
-              defaultMessage='Thank you for completing your Identity Verification'
+              id='modals.xlmairdropwelcome.underreview.title2'
+              defaultMessage='Thanks for Verifying'
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.subtitle2'
-              defaultMessage='Your application is still under review. Once verified, you will be eligible to receive your XLM.'
+              id='modals.xlmairdropwelcome.underreview.subtitle3'
+              defaultMessage='Your application is still under review. Once verified we’ll notify you if you are eligible for the Airdrop.'
             />
           </Copy>
           <FooterButton>
@@ -145,14 +145,14 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.inprogress.title'
-              defaultMessage='Finish Identity Verification'
+              id='modals.xlmairdropwelcome.inprogress.title2'
+              defaultMessage='Go for Gold'
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.inprogress.subtitle'
-              defaultMessage="Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap."
+              id='modals.xlmairdropwelcome.inprogress.subtitle2'
+              defaultMessage='Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
             />
           </Copy>
           <FooterButton
@@ -178,8 +178,8 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.newuser.subtitle'
-              defaultMessage="Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap."
+              id='modals.xlmairdropwelcome.newuser.subtitle2'
+              defaultMessage='Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
             />
           </Copy>
           <FooterButton
