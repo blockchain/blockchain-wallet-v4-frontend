@@ -77,7 +77,7 @@ describe('sendBtc sagas', () => {
   })
 
   describe('btc send form initialize', () => {
-    const to = 'btcaddress'
+    const to = { value: { value: 'btcaddress', label: 'btcaddress' } }
     const description = 'message'
     const amount = {
       coin: 1,
