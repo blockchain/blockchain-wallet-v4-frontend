@@ -16,6 +16,7 @@ export default ({ api, networks }) => {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
+    // TODO: SEGWIT
     accounts.map(account => {
       const hd = accounts.get(account.index)
       account.address_labels.map(label => {
@@ -40,6 +41,7 @@ export default ({ api, networks }) => {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
+    // TODO: SEGWIT
     let labelSize = 0
     accounts
       .map(account => account.address_labels)
