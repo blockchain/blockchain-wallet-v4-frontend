@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -103,12 +104,14 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               defaultMessage='If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience'
             />
           </Copy>
-          <FooterButton>
-            <FormattedMessage
-              id='modals.xlmairdropwelcome.verified.seewallet'
-              defaultMessage='View Stellar Wallet'
-            />
-          </FooterButton>
+          <LinkContainer to='/xlm/transactions'>
+            <FooterButton nature='primary' fullwidth>
+              <FormattedMessage
+                id='modals.xlmairdropwelcome.verified.seewallet'
+                defaultMessage='View Stellar Wallet'
+              />
+            </FooterButton>
+          </LinkContainer>
         </Container>
       )
     } else if (
@@ -129,12 +132,14 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               defaultMessage='Your application is still under review. Once verified we’ll notify you if you are eligible for the Airdrop.'
             />
           </Copy>
-          <FooterButton>
-            <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.seewallet'
-              defaultMessage='View Stellar Wallet'
-            />
-          </FooterButton>
+          <LinkContainer to='/xlm/transactions'>
+            <FooterButton nature='primary' fullwidth>
+              <FormattedMessage
+                id='modals.xlmairdropwelcome.underreview.seewallet'
+                defaultMessage='View Stellar Wallet'
+              />
+            </FooterButton>
+          </LinkContainer>
         </Container>
       )
     } else if (
