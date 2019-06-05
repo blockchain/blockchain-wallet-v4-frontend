@@ -134,7 +134,7 @@ const migrateFromV3 = account => {
   }
 
   const derivation = {
-    type: 'segwitP2SH',
+    type: 'legacy',
     purpose: 44,
     xpriv: account.xpriv,
     xpub: account.xpub,
