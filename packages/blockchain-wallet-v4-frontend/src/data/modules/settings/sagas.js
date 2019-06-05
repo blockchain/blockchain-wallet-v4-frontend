@@ -292,6 +292,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
+  // TODO: SEWGIT unable to add new wallets, need to fix kvstore
   const newHDAccount = function * (action) {
     try {
       yield call(
