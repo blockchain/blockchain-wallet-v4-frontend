@@ -43,7 +43,7 @@ describe('reducers', () => {
 
     it('should handle SET_HD_ADDRESS_LABEL', () => {
       let label = 'changed_label'
-      let action = Actions.setHdAddressLabel(0, 0, 'segwit', label)
+      let action = Actions.setHdAddressLabel(0, 0, 'segwitP2SH', label)
       let next = walletReducer(wrapped, action)
       let select = compose(
         Wallet.toJS,
@@ -56,7 +56,7 @@ describe('reducers', () => {
     })
 
     it('should handle DELETE_HD_ADDRESS_LABEL', () => {
-      let action = Actions.deleteHdAddressLabel(0, 0, 'segwit')
+      let action = Actions.deleteHdAddressLabel(0, 0, 'segwitP2SH')
       let next = walletReducer(wrapped, action)
       let select = compose(
         Wallet.toJS,

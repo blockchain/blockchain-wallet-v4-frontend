@@ -70,28 +70,28 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-export const selectXpub = (account, type = 'segwit') => {
+export const selectXpub = (account, type = 'segwitP2SH') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
     derivations,
-    type || 'segwit'
+    type || 'segwitP2SH'
   )
   return Derivation.selectXpub(derivation)
 }
 
-export const selectXpriv = (account, type = 'segwit') => {
+export const selectXpriv = (account, type = 'segwitP2SH') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectXpriv(derivation)
 }
 
-export const selectAddressLabels = (account, type = 'segwit') => {
+export const selectAddressLabels = (account, type = 'segwitP2SH') => {
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(derivations, type)
   return Derivation.selectAddressLabels(derivation)
 }
 
-export const getAddress = (account, path, network, type = 'segwit') => {
+export const getAddress = (account, path, network, type = 'segwitP2SH') => {
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
@@ -104,7 +104,7 @@ export const getReceiveAddress = (
   account,
   receiveIndex,
   network,
-  type = 'segwit'
+  type = 'segwitP2SH'
 ) => {
   HDAccount.guard(account)
   const derivations = selectDerivations(account)
@@ -116,7 +116,7 @@ export const getChangeAddress = (
   account,
   changeIndex,
   network,
-  type = 'segwit'
+  type = 'segwitP2SH'
 ) => {
   HDAccount.guard(account)
   const derivations = selectDerivations(account)
@@ -134,7 +134,7 @@ const migrateFromV3 = account => {
   }
 
   const derivation = {
-    type: 'segwit',
+    type: 'segwitP2SH',
     purpose: 44,
     xpriv: account.xpriv,
     xpub: account.xpub,

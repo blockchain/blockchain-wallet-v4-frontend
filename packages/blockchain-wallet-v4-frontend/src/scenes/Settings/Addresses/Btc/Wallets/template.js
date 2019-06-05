@@ -57,8 +57,7 @@ const Success = ({
   onUnarchive,
   search,
   failure,
-  message,
-  hasLegacyDerivation
+  message
 }) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
@@ -117,7 +116,7 @@ const Success = ({
             </Link>
           ) : (
             <LinkContainer
-              to={`/settings/addresses/btc/${wallet.index}/segwit`}
+              to={`/settings/addresses/btc/${wallet.index}/segwitP2SH`}
             >
               <Link weight={500} size='13px' data-e2e='btcManageWalletLink'>
                 <FormattedMessage

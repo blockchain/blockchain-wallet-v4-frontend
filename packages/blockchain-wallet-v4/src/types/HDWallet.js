@@ -11,7 +11,7 @@ import * as HDAccountList from './HDAccountList'
 import * as HDAccount from './HDAccount'
 import * as Derivation from './Derivation'
 
-export const DEFAULT_DERIVATION = { type: 'segwit', purpose: 49 }
+export const DEFAULT_DERIVATION = { type: 'segwitP2SH', purpose: 49 }
 
 /* HDWallet :: {
   seed_hex :: String

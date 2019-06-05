@@ -177,9 +177,9 @@ class UnusedAddressesContainer extends React.PureComponent {
                       </Link>
                     </LinkContainer>
                   </TogglerItem>
-                  <TogglerItem selected={equals('segwit', derivation)}>
+                  <TogglerItem selected={equals('segwitP2SH', derivation)}>
                     <LinkContainer
-                      to={`/settings/addresses/btc/${walletIndex}/segwit`}
+                      to={`/settings/addresses/btc/${walletIndex}/segwitP2SH`}
                     >
                       <Link
                         weight={500}
@@ -188,7 +188,7 @@ class UnusedAddressesContainer extends React.PureComponent {
                       >
                         <FormattedMessage
                           id='scenes.settings.addresses.btc.wallets.managesegwit'
-                          defaultMessage='Segwit'
+                          defaultMessage='Segwit P2SH'
                         />
                       </Link>
                     </LinkContainer>

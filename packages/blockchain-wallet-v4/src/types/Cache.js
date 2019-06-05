@@ -23,7 +23,7 @@ export const selectChangeAccount = view(changeAccount)
 export const receiveChain = 0
 export const changeChain = 1
 
-const _getAddress = (cache, chain, index, network, type = 'segwit') => {
+const _getAddress = (cache, chain, index, network, type = 'segwitP2SH') => {
   const derive = c => {
     const node = getNode(c, chain, network)
     if (equals('legacy', type)) {
