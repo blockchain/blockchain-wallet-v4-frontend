@@ -97,7 +97,7 @@ export const getAddress = (account, path, network, type = 'segwit') => {
   const c = parseInt(chain)
   const derivations = selectDerivations(account)
   const cache = DerivationList.getCacheFromType(derivations, type)
-  return Cache.getAddress(cache, c, i, network)
+  return Cache.getAddress(cache, c, i, network, type)
 }
 
 export const getReceiveAddress = (
@@ -109,8 +109,7 @@ export const getReceiveAddress = (
   HDAccount.guard(account)
   const derivations = selectDerivations(account)
   const cache = DerivationList.getCacheFromType(derivations, type)
-
-  return Cache.getAddress(cache, 0, receiveIndex, network)
+  return Cache.getAddress(cache, 0, receiveIndex, network, type)
 }
 
 export const getChangeAddress = (
@@ -123,7 +122,7 @@ export const getChangeAddress = (
   const derivations = selectDerivations(account)
   const cache = DerivationList.getCacheFromType(derivations, type)
 
-  return Cache.getAddress(cache, 1, changeIndex, network)
+  return Cache.getAddress(cache, 1, changeIndex, network, type)
 }
 
 // migrateFromV3 :: Object -> Object
