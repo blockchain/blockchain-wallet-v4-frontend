@@ -85,7 +85,7 @@ export default {
   'up-arrow': '\\e953',
   'up-arrow-in-circle': '\\e952',
   'usb-icon': '\\e95a',
-  pax: '\\e91d',
+  pax: '\\e914',
   user: '\\e955',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',

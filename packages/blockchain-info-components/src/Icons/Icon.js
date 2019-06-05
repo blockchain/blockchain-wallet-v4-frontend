@@ -25,7 +25,6 @@ const BaseIconPax = styled.span`
   display: flex;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
-  color: ${props => props.theme[props.color]};
   &:before {
     content: '';
   }
@@ -33,29 +32,34 @@ const BaseIconPax = styled.span`
     font-family: 'icomoon', sans-serif;
     font-weight: inherit;
     font-size: inherit;
-    color: inherit;
   }
   .path1:before {
     content: '\\e914';
-    opacity: 0.4;
+    color: #a2d900;
   }
   .path2:before {
     content: '\\e91d';
+    color: #3d9ccc;
     margin-left: -1em;
-    opacity: 0.6;
   }
   .path3:before {
     content: '\\e921';
+    color: #ffd919;
     margin-left: -1em;
-    opacity: 0.4;
   }
   .path4:before {
     content: '\\e927';
+    color: #62b247;
     margin-left: -1em;
-    opacity: 0.8;
   }
   .path5:before {
     content: '\\e928';
+    color: #009367;
+    margin-left: -1em;
+  }
+  .path6:before {
+    content: '\\e929';
+    color: #00522c;
     margin-left: -1em;
   }
 `
@@ -73,6 +77,7 @@ const Icon = props => {
         <span className='path path3' />
         <span className='path path4' />
         <span className='path path5' />
+        <span className='path path6' />
       </BaseIconPax>
     )
   }
