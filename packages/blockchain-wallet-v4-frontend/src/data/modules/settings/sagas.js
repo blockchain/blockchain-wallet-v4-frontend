@@ -9,7 +9,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
-import { contains, toLower, prop, propEq, head } from 'ramda'
+import { includes, toLower, prop, propEq, head } from 'ramda'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -120,7 +120,7 @@ export default ({ api, coreSagas }) => {
       const modals = yield select(selectors.modals.getModals)
 
       if (
-        contains('successfully', toLower(response)) &&
+        includes('successfully', toLower(response)) &&
         prop('type', head(modals)) !== 'SfoxExchangeData'
       )
         yield put(actions.modals.closeAllModals())
@@ -292,7 +292,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  // TODO: SEWGIT unable to add new wallets, need to fix kvstore
   const newHDAccount = function * (action) {
     try {
       yield call(

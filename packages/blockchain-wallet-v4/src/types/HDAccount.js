@@ -72,9 +72,10 @@ export const isXpub = curry((myxpub, account) =>
 
 export const selectXpub = (account, type = 'segwitP2SH') => {
   const derivations = selectDerivations(account)
+  // TODO: SEGWIT FIX ME type is being passed as a number from balance selectors (something todo with spendable context)
   const derivation = DerivationList.getDerivationFromType(
     derivations,
-    type || 'segwitP2SH'
+    typeof type === 'string' ? type : 'segwitP2SH'
   )
   return Derivation.selectXpub(derivation)
 }
