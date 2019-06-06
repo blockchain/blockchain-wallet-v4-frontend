@@ -41,6 +41,15 @@ class UnusedAddressesContainer extends React.PureComponent {
     componentActions.fetchUnusedAddresses(walletIndex, derivation)
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.derivation !== prevProps.derivation) {
+      this.props.componentActions.fetchUnusedAddresses(
+        this.props.walletIndex,
+        this.props.derivation
+      )
+    }
+  }
+
   onEditLabel = i => {
     const {
       accountIndex,
@@ -340,7 +349,7 @@ const mapStateToProps = (state, ownProps) => {
     accountLabel: prop('label', account),
     hasLegacyDerivation: any(
       propEq('type', 'legacy'),
-      prop('derivations', account)
+      prop('derivations', account.toJS())
     ),
     isDefault,
     unusedAddresses,
