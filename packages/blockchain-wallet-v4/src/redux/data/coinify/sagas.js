@@ -238,6 +238,7 @@ export default ({ api, options }) => {
 
     if (countryCode === 'DK') fiatCurrency = 'DKK'
     else if (countryCode === 'GB') fiatCurrency = 'GBP'
+    else if (countryCode === 'US') fiatCurrency = 'USD'
     else fiatCurrency = 'EUR'
 
     try {

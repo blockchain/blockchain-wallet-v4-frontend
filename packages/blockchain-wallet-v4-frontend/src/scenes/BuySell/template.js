@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { equals, prop } from 'ramda'
+import { equals } from 'ramda'
 import BuySellAnimation from './BuySellAnimation'
 import { Text, Button, Image } from 'blockchain-info-components'
 import {
@@ -55,28 +55,28 @@ const SelectPartner = props => {
     invalid,
     pristine,
     fields,
-    sfoxStates,
+    // sfoxStates,
     handleSubmit,
     options,
     showRejectedNotification
   } = props
-  const { country, stateSelection } = fields
+  const { country } = fields
 
-  const onSfoxWhitelist = usState =>
-    country === 'US' &&
-    prop('code', usState) &&
-    sfoxStates.includes(usState.code)
+  // const onSfoxWhitelist = usState =>
+  //   country === 'US' &&
+  //   prop('code', usState) &&
+  //   sfoxStates.includes(usState.code)
   const isCoinifyCountry = country => props.coinifyCountries.includes(country)
   const getPartner = () => {
-    if (onSfoxWhitelist(stateSelection)) {
-      return {
-        name: 'SFOX',
-        url: 'url(/img/sfox-landing.png)',
-        logo: 'powered-by-sfox',
-        backgroundSize: 'auto 80%',
-        backgroundPosition: 'right 70px bottom 0%'
-      }
-    }
+    // if (onSfoxWhitelist(stateSelection)) {
+    //   return {
+    //     name: 'SFOX',
+    //     url: 'url(/img/sfox-landing.png)',
+    //     logo: 'powered-by-sfox',
+    //     backgroundSize: 'auto 80%',
+    //     backgroundPosition: 'right 70px bottom 0%'
+    //   }
+    // }
     if (isCoinifyCountry(country)) {
       return {
         name: 'COINIFY',
