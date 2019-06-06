@@ -56,7 +56,7 @@ const getIcon = tier => {
 
 const LinkAccount = props => {
   const { linkAccountStatus, userTiers, close } = props
-  const { current } = userTiers.getOrElse({})
+  const { current } = userTiers.getOrElse({}) || {}
   return (
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />
