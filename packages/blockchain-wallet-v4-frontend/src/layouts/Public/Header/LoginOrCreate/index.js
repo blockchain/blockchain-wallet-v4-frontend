@@ -3,7 +3,7 @@ import { contains } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const LoginOrCreate = props => {
   const { pathname } = props.location
@@ -24,26 +24,31 @@ const LoginOrCreate = props => {
             />
           )}
         </Text>
-        {isSignup ? (
-          <Link
-            size='14px'
-            color='white'
-            weight={600}
-            data-e2e='signupLinkToLogin'
-          >
-            <FormattedMessage
-              id='layouts.public.login'
-              defaultMessage='Log In'
-            />
-          </Link>
-        ) : (
-          <Link size='14px' color='white' weight={600} data-e2e='signupLink'>
-            <FormattedMessage
-              id='layouts.public.register'
-              defaultMessage='Create One Now'
-            />
-          </Link>
-        )}
+        <Button
+          nature='white-transparent'
+          style={{ minWidth: '42px', marginLeft: '8px', borderWidth: '2px' }}
+        >
+          {isSignup ? (
+            <Link
+              size='14px'
+              color='white'
+              weight={600}
+              data-e2e='signupLinkToLogin'
+            >
+              <FormattedMessage
+                id='layouts.public.login'
+                defaultMessage='Log In'
+              />
+            </Link>
+          ) : (
+            <Link size='14px' color='white' weight={600} data-e2e='signupLink'>
+              <FormattedMessage
+                id='layouts.public.register'
+                defaultMessage='Create One Now'
+              />
+            </Link>
+          )}
+        </Button>
       </TextGroup>
     </LinkContainer>
   )
