@@ -1,8 +1,8 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty, pluck, prop, reject } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
-import { KVStoreEntry, HDAccount, Wallet } from '../../../types'
+import { KVStoreEntry, Wallet } from '../../../types'
 import { derivationMap, BTC } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getWallet } from '../../wallet/selectors'
@@ -13,17 +13,16 @@ export default ({ api, networks }) => {
     yield delay(1000)
     const addressLabels = {}
 
-    const wallet = yield select(getWallet)
-    const accounts = Wallet.selectHDAccounts(wallet)
-
-    // TODO: SEGWIT
-    accounts.map(account => {
-      const hd = accounts.get(account.index)
-      account.address_labels.map(label => {
-        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] =
-          label.label
-      })
-    })
+    // TODO: SEGWIT derive correct addresses!
+    // const wallet = yield select(getWallet)
+    // const accounts = Wallet.selectHDAccounts(wallet)
+    // accounts.map(account => {
+    //   const hd = accounts.get(account.index)
+    //   account.address_labels.map(label => {
+    //     addressLabels[HDAccount.getReceiveAddress(hd, label.index)] =
+    //       label.label
+    //   })
+    // })
 
     const newBtcEntry = {
       address_labels: addressLabels
@@ -40,14 +39,23 @@ export default ({ api, networks }) => {
   const getAddressLabelSize = function * () {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
-
-    // TODO: SEGWIT
     let labelSize = 0
-    accounts
-      .map(account => account.address_labels)
-      .map(l => {
-        labelSize += l.size
-      })
+
+    accounts.map(account => {
+      if (prop('address_labels', account)) {
+        // v2 => v3 payload
+        account.address_labels.map(l => {
+          labelSize += l.size
+        })
+      } else {
+        // v3 => v4 payload
+        const addressLabels = reject(
+          isEmpty,
+          pluck('address_labels', account.derivations.toJS())
+        )
+        labelSize += addressLabels.length
+      }
+    })
 
     return labelSize
   }
