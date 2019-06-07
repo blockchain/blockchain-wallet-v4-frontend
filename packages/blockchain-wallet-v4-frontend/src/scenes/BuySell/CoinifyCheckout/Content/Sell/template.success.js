@@ -52,7 +52,7 @@ const Sell = props => {
     _limits: service.mockedLimits,
     _level: { currency: 'EUR' }
   }
-  const sellCurrencies = ['EUR', 'DKK', 'GBP']
+  const sellCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const levelName = prop('name', level.getOrElse())
