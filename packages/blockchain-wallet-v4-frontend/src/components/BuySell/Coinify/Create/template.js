@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import AcceptTerms from './AcceptTerms'
@@ -6,7 +6,8 @@ import VerifyEmail from './VerifyEmail'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import {
-  PartnerHeader,
+  InputWrapper,
+  IdentityVerificationHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
@@ -36,13 +37,13 @@ const Create = props => {
     <Container>
       <MediaContextConsumer>
         {({ mobile }) => (
-          <Fragment>
-            <PartnerHeader>
+          <InputWrapper>
+            <IdentityVerificationHeader>
               <FormattedMessage
                 id='coinifyexchangedata.create.header.createaccount'
                 defaultMessage='Create Account'
               />
-            </PartnerHeader>
+            </IdentityVerificationHeader>
             <SubHeader>
               <FormattedMessage
                 id='coinifyexchangedata.create.subheader.getstartedverify'
@@ -55,7 +56,7 @@ const Create = props => {
             {determineStep === TERMS && (
               <AcceptTerms create={create} {...props} />
             )}
-          </Fragment>
+          </InputWrapper>
         )}
       </MediaContextConsumer>
     </Container>

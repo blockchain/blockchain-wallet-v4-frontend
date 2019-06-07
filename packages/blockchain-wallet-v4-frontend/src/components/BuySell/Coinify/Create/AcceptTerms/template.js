@@ -107,7 +107,7 @@ const AcceptTerms = props => {
               )}
             </VerifiedText>
             <VerifiedContainer>
-              <FieldMimic width='100%'>
+              <FieldMimic width='100%' onClick={props.editEmail}>
                 <Text size='14px' weight={400}>
                   {email}
                 </Text>
