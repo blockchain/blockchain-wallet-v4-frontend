@@ -101,7 +101,11 @@ const Navigation = props => {
                   data-e2e={`${toLower(coin.coinCode)}Link`}
                   colorCode={coin.colorCode}
                 >
-                  <Icon name={coin.icons.circleFilled} size='20px' />
+                  <Icon
+                    color={coin.colorCode}
+                    name={coin.icons.circleFilled}
+                    size='20px'
+                  />
                   <span>{coin.displayName}</span>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>

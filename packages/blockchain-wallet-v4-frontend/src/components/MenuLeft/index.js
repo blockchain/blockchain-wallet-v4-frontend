@@ -24,10 +24,9 @@ export const MenuItem = styled.li`
   & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
-    color: ${props => props.theme['grey600']};
   }
   &:hover {
-    & > *:not(div) {
+    & > span:nth-child(2) {
       color: ${props => props.theme['blue']};
     }
   }
@@ -37,7 +36,7 @@ export const MenuItem = styled.li`
   }
   &.active {
     font-weight: 500;
-    & > *:not(div) {
+    & > span:nth-child(2) {
       color: ${props => props.theme['blue']};
     }
   }

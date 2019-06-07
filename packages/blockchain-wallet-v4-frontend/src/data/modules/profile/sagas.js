@@ -296,6 +296,8 @@ export default ({ api, coreSagas }) => {
     try {
       const { linkId } = payload
       yield put(A.linkAccountLoading())
+      const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
+      if (isUserStateNone) yield call(createUser)
       const data = yield call(api.linkAccount, linkId)
       yield put(A.linkAccountSuccess(data))
     } catch (e) {

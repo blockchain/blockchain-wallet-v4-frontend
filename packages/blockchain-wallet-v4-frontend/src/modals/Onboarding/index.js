@@ -1,5 +1,4 @@
 import AirdropClaim from './AirdropClaim'
-import AirdropReminder from './AirdropReminder'
 import AirdropSuccess from './AirdropSuccess'
 import CoinifyUpgrade from './CoinifyUpgrade'
 import LinkAccount from './LinkAccount'
@@ -9,7 +8,6 @@ import Welcome from './Welcome'
 
 export {
   AirdropClaim,
-  AirdropReminder,
   AirdropSuccess,
   CoinifyUpgrade,
   LinkAccount,

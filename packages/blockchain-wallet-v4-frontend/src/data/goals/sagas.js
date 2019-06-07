@@ -197,25 +197,6 @@ export default ({ api }) => {
     }
   }
 
-  const runAirdropReminderGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    const showAirdropReminderModal = yield select(
-      selectors.preferences.getShowAirdropReminderModal
-    )
-    if (!showAirdropReminderModal) return
-    yield call(waitForUserData)
-    const kycNotFinished = yield call(isKycNotFinished)
-    if (kycNotFinished) {
-      return yield put(
-        actions.goals.addInitialModal('airdropReminder', 'AirdropReminder', {
-          campaign: 'sunriver'
-        })
-      )
-    }
-  }
-
   const runUpgradeForAirdropGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -391,7 +372,6 @@ export default ({ api }) => {
       payment,
       coinifyUpgrade,
       upgradeForAirdrop,
-      airdropReminder,
       swapGetStarted,
       swapUpgrade,
       airdropClaim,
@@ -420,11 +400,6 @@ export default ({ api }) => {
     if (upgradeForAirdrop) {
       return yield put(
         actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
-      )
-    }
-    if (airdropReminder) {
-      return yield put(
-        actions.modals.showModal(airdropReminder.name, airdropReminder.data)
       )
     }
     if (swapGetStarted) {
@@ -468,9 +443,6 @@ export default ({ api }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
-          break
-        case 'airdropReminder':
-          yield call(runAirdropReminderGoal, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)
