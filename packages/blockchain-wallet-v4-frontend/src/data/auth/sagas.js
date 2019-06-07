@@ -1,6 +1,6 @@
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { assoc, path, prop, is } from 'ramda'
-import { Types } from 'blockchain-wallet-v4'
+
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { actions, actionTypes, model, selectors } from 'data'
@@ -14,7 +14,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
-
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
@@ -41,6 +40,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
+
   const upgradeWalletV4 = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -52,14 +52,17 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
+
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
+
   const upgradeWalletSagaV4 = function * () {
     yield put(actions.modals.showModal('UpgradeWalletV4'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
+
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -76,6 +79,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     }
   }
+
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(
       selectors.core.kvStore.eth.getLegacyAccount
@@ -125,6 +129,7 @@ export default ({ api, coreSagas }) => {
     )).getOrElse(false)
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
+
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -132,9 +137,9 @@ export default ({ api, coreSagas }) => {
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
-
-      const state = yield select()
-      const isLatestVersion = Types.Wrapper.isLatestVersion(state.walletPath)
+      const isLatestVersion = yield select(
+        selectors.core.wallet.isWrapperLatestVersion
+      )
       if (!isLatestVersion) {
         yield call(upgradeWalletSagaV4)
       }
@@ -185,6 +190,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
+
   const checkAndHandleVulnerableAddress = function * (data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
@@ -203,6 +209,7 @@ export default ({ api, coreSagas }) => {
         )
     }
   }
+
   const checkDataErrors = function * () {
     const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
@@ -217,6 +224,7 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
+
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {
       return false
@@ -232,6 +240,7 @@ export default ({ api, coreSagas }) => {
     }
     return yield call(pollingSession, session, n - 1)
   }
+
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     let session = yield select(selectors.session.getSession, guid)
@@ -327,6 +336,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const mobileLogin = function * (action) {
     try {
       const { guid, sharedKey, password } = yield call(
@@ -352,6 +362,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
@@ -365,6 +376,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
+
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
@@ -379,6 +391,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
+
   const remindGuid = function * (action) {
     try {
       yield put(actions.auth.remindGuidLoading())
@@ -396,6 +409,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const reset2fa = function * (action) {
     try {
       yield put(actions.auth.reset2faLoading())
@@ -440,11 +454,13 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const setLogoutEventListener = function () {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
+
   const resendSmsLoginCode = function * (action) {
     try {
       const { guid } = action.payload
@@ -468,9 +484,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
+
   const logout = function * () {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
@@ -492,6 +510,7 @@ export default ({ api, coreSagas }) => {
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())
   }
+
   const deauthorizeBrowser = function * () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -507,6 +526,7 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
+
   const logoutClearReduxStore = function * () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
@@ -537,6 +557,7 @@ export default ({ api, coreSagas }) => {
     upgradeWallet,
     upgradeWalletV4,
     upgradeWalletSaga,
+    upgradeWalletSagaV4,
     upgradeAddressLabelsSaga
   }
 }

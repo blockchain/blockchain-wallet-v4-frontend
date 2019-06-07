@@ -186,3 +186,7 @@ export const shouldSyncPubKeys = compose(
   Wrapper.selectSyncPubKeys,
   getWrapper
 )
+export const isWrapperLatestVersion = compose(
+  Wrapper.isLatestVersion,
+  getWrapper
+)

@@ -75,7 +75,7 @@
                 }
               },
               {
-                "type": "segwit",
+                "type": "segwitP2SH",
                 "purpose": 49,
                 "xpriv": "xprv9yNkZMLRzB3dt36BcHrrdThCCHmecLhxZfaog9J2dGKT9GUHEAjhrgcTSWGnDSjq8a4woGfqfABCNuEpiW5FosvcfMRxxW7f4FtXnJBB76w",
                 "xpub": "xpub6CN6xrsKpYbw6XAeiKPrzbdvkKc91oRovtWQUXheBbrS24oRmi3xQUvwHoihwJW4apQJHvRKie1rReFMvBejkTEnD7be8pzjeTAS2WuSyXv",

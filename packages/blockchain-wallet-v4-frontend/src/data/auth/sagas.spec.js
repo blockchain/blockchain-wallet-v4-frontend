@@ -19,13 +19,13 @@ import authSagas, {
 import * as C from 'services/AlertService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+
 const coreSagas = coreSagasFactory({ api: {} })
+const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
 }
-
-const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 
 describe('authSagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -345,6 +345,7 @@ describe('authSagas', () => {
       startSockets,
       transferEthSaga,
       upgradeWalletSaga,
+      upgradeWalletSagaV4,
       upgradeAddressLabelsSaga
     } = authSagas({
       api,
@@ -369,8 +370,16 @@ describe('authSagas', () => {
         .restore(beforeHdCheck)
     })
 
+    it('should call upgradeWalletSagaV4 if wallet is not hd', () => {
+      saga
+        .next(true)
+        .select(selectors.core.wallet.isWrapperLatestVersion)
+        .next(false)
+        .call(upgradeWalletSagaV4)
+    })
+
     it('should put authenticate action', () => {
-      saga.next(true).put(actions.auth.authenticate())
+      saga.next().put(actions.auth.authenticate())
     })
 
     it('should fetch root', () => {
