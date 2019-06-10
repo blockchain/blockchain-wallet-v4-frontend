@@ -34,6 +34,14 @@ const isCompleted = t =>
     'expired'
   ]) && !prop('tradeSubscriptionId', t)
 const isPartOfSubscription = t => prop('tradeSubscriptionId', t)
+const getModal = ({ partner }) => {
+  switch (partner) {
+    case 'sfox':
+      return 'SfoxTradeDetails'
+    default:
+      return 'CoinifyTradeDetails'
+  }
+}
 
 const OrderHistory = props => {
   const {
@@ -77,7 +85,7 @@ const OrderHistory = props => {
               pending
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
-                showModal('CoinifyTradeDetails', { trade })
+                showModal(getModal(trade), { trade })
               }
               handleTradeCancel={cancelTrade}
               status={status}
