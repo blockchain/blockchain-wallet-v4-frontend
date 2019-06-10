@@ -11,17 +11,13 @@ import * as HDAccountList from './HDAccountList'
 import * as HDAccount from './HDAccount'
 import * as Derivation from './Derivation'
 
-export const DEFAULT_DERIVATION = { type: 'segwitP2SH', purpose: 49 }
-
 /* HDWallet :: {
   seed_hex :: String
   accounts :: [Account]
 } */
 
 export class HDWallet extends Type {}
-
 export const isHDWallet = is(HDWallet)
-
 export const seedHex = HDWallet.define('seedHex')
 export const accounts = HDWallet.define('accounts')
 export const defaultAccountIdx = HDWallet.define('default_account_idx')
@@ -139,8 +135,6 @@ export const createNew = mnemonic =>
   })
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
-  const { type, purpose } = DEFAULT_DERIVATION
-
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
 
@@ -149,12 +143,12 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
     : undefined
 
   const parentNode = mnemonic
-    ? masterNode.deriveHardened(purpose).deriveHardened(0)
+    ? masterNode.deriveHardened(HDAccount.DEFAULT_DERIVATION_PURPOSE).deriveHardened(0)
     : undefined
 
   const createAccountAtIndex = i => {
     const node = mnemonic ? parentNode.deriveHardened(i) : undefined
-    const derivation = Derivation.js(type, purpose, node, xpub)
+    const derivation = Derivation.js(HDAccount.DEFAULT_DERIVATION_TYPE, HDAccount.DEFAULT_DERIVATION_PURPOSE, node, xpub)
     return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivation)
   }
 

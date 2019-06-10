@@ -21,19 +21,21 @@ import * as Cache from './Cache'
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
 /* eslint-enable */
 
+export const DEFAULT_DERIVATION_TYPE = 'segwitP2SH'
+export const DEFAULT_DERIVATION_PURPOSE = 49
+
 /* HDAccount :: {
   label :: String
   ...
 } */
 
 export class HDAccount extends Type {}
-
 export const isHDAccount = is(HDAccount)
-
 export const label = HDAccount.define('label')
 export const archived = HDAccount.define('archived')
 export const index = HDAccount.define('index')
 export const derivations = HDAccount.define('derivations')
+export const defaultDerivation = HDAccount.define('default_derivation')
 
 // Lens used to traverse all secrets for double encryption
 export const secretsLens = compose(
@@ -46,6 +48,7 @@ export const selectLabel = view(label)
 export const selectArchived = view(archived)
 export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
+export const selectDefaultDerivation = view(defaultDerivation)
 
 export const isArchived = compose(
   Boolean,
@@ -70,60 +73,52 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-export const selectXpub = (account, type = 'segwitP2SH') => {
-  const derivations = selectDerivations(account)
+export const selectXpub = (account, type) => {
   // TODO: SEGWIT FIX ME type is being passed as a number from balance selectors (something todo with spendable context)
-  const derivation = DerivationList.getDerivationFromType(
-    derivations,
-    typeof type === 'string' ? type : 'segwitP2SH'
-  )
+  const derivationType = typeof type === 'string' ? type : selectDefaultDerivation(account)
+  const derivations = selectDerivations(account)
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectXpub(derivation)
 }
 
-export const selectXpriv = (account, type = 'segwitP2SH') => {
+export const selectXpriv = (account, type) => {
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, type)
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectXpriv(derivation)
 }
 
-export const selectAddressLabels = (account, type = 'segwitP2SH') => {
+export const selectAddressLabels = (account, type) => {
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, type)
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectAddressLabels(derivation)
 }
 
-export const getAddress = (account, path, network, type = 'segwitP2SH') => {
+export const getAddress = (account, path, network, type) => {
   const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, type)
-  return Cache.getAddress(cache, c, i, network, type)
+  const cache = DerivationList.getCacheFromType(derivations, derivationType)
+  return Cache.getAddress(cache, c, i, network, derivationType)
 }
 
-export const getReceiveAddress = (
-  account,
-  receiveIndex,
-  network,
-  type = 'segwitP2SH'
-) => {
+export const getReceiveAddress = (account, receiveIndex, network, type) => {
   HDAccount.guard(account)
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, type)
-  return Cache.getAddress(cache, 0, receiveIndex, network, type)
+  const cache = DerivationList.getCacheFromType(derivations, derivationType)
+  return Cache.getAddress(cache, 0, receiveIndex, network, derivationType)
 }
 
-export const getChangeAddress = (
-  account,
-  changeIndex,
-  network,
-  type = 'segwitP2SH'
-) => {
+export const getChangeAddress = (account, changeIndex, network, type) => {
   HDAccount.guard(account)
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, type)
-
-  return Cache.getAddress(cache, 1, changeIndex, network, type)
+  const cache = DerivationList.getCacheFromType(derivations, derivationType)
+  return Cache.getAddress(cache, 1, changeIndex, network, derivationType)
 }
 
 // migrateFromV3 :: Object -> Object
@@ -145,6 +140,7 @@ const migrateFromV3 = account => {
 
   const migrate = compose(
     assoc('derivations', [derivation]),
+    assoc('default_derivation', DEFAULT_DERIVATION_TYPE),
     dissoc('xpriv'),
     dissoc('xpub'),
     dissoc('address_labels'),
@@ -189,6 +185,7 @@ export const reviver = jsObject => {
 export const js = (label, derivation) => ({
   label: label,
   archived: false,
+  default_derivation: DEFAULT_DERIVATION_TYPE,
   derivations: [derivation]
 })
 

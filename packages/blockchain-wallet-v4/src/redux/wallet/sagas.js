@@ -264,6 +264,7 @@ export default ({ api, networks }) => {
   }
 
   const setHDAddressLabel = function * ({ payload }) {
+    debugger
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const receiveAddress = HDAccount.getReceiveAddress(

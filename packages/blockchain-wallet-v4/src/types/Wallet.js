@@ -286,10 +286,7 @@ export const upgradeToHd = curry(
 
 // upgradeToV4 :: String -> Network -> Wallet -> Task Error Wallet
 export const upgradeToV4 = curry((password, network, wallet) => {
-  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
-
   const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
-
   const upgradeAccount = curry((seedHex, account) => {
     const addDerivationToAccount = derivation =>
       over(
@@ -297,10 +294,9 @@ export const upgradeToV4 = curry((password, network, wallet) => {
         derivations => derivations.push(derivation),
         account
       )
-
     const derivation = HDWallet.generateDerivation(
-      type,
-      purpose,
+      HDAccount.DEFAULT_DERIVATION_TYPE,
+      HDAccount.DEFAULT_DERIVATION_PURPOSE,
       account.index,
       network,
       seedHex
@@ -342,8 +338,6 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDAccount = curry((label, password, network, wallet) => {
-  const { type, purpose } = HDWallet.DEFAULT_DERIVATION
-
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
   let appendAccount = curry((w, account) => {
@@ -361,7 +355,13 @@ export const newHDAccount = curry((label, password, network, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(HDWallet.generateAccount(type, purpose, index, label, network))
+    .map(HDWallet.generateAccount(
+      HDAccount.DEFAULT_DERIVATION_TYPE,
+      HDAccount.DEFAULT_DERIVATION_PURPOSE,
+      index,
+      label,
+      network
+    ))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })
@@ -420,6 +420,7 @@ export const deleteHdAddressLabel = curry(
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const setHdAddressLabel = curry(
   (accountIdx, addressIdx, derivationType, label, wallet) => {
+    debugger
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,

@@ -11,19 +11,15 @@ import { iToJS } from './util'
 } */
 
 export class Cache extends Type {}
-
 export const isCache = is(Cache)
-
 export const receiveAccount = Cache.define('receiveAccount')
 export const changeAccount = Cache.define('changeAccount')
-
 export const selectReceiveAccount = view(receiveAccount)
 export const selectChangeAccount = view(changeAccount)
-
 export const receiveChain = 0
 export const changeChain = 1
 
-const _getAddress = (cache, chain, index, network, type = 'segwitP2SH') => {
+const _getAddress = (cache, chain, index, network, type) => {
   const derive = c => {
     const node = getNode(c, chain, network)
     if (equals('legacy', type)) {

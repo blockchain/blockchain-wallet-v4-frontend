@@ -90,7 +90,6 @@ export const getArchivedAddresses = state => {
   return Remote.of(archivedAddresses)
 }
 
-// TODO: SEGWIT (get xpub from preferred derivation type)
 const flattenAccount = acc => ({
   coin: 'BTC',
   label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
@@ -101,7 +100,7 @@ const flattenAccount = acc => ({
     reject(isNil),
     sum
   )(acc),
-  xpub: prop('xpub', acc.derivations.find(d => d.type === 'segwitP2SH')),
+  xpub: prop('xpub', acc.derivations.find(d => d.type === HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc)))),
   index: prop('index', acc),
   type: ADDRESS_TYPES.ACCOUNT,
   network: prop('network', acc)
@@ -211,6 +210,7 @@ export const getNextAvailableReceiveIndex = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
+    debugger
     const xpub = HDAccount.selectXpub(account, derivation)
     const index = getReceiveIndex(xpub)(state)
     const labels = HDAccount.selectAddressLabels(account, derivation)

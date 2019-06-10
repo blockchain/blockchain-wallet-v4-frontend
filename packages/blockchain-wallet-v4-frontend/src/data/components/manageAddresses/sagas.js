@@ -32,6 +32,7 @@ export default ({ api, networks }) => {
   const generateNextReceiveAddress = function * (action) {
     const { derivation, walletIndex } = action.payload
     try {
+      debugger
       yield put(A.generateNextReceiveAddressLoading(walletIndex, derivation))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
@@ -194,6 +195,7 @@ export default ({ api, networks }) => {
       addressIndex
     } = action.payload
     try {
+      debugger
       yield put(A.editAddressLabelLoading(accountIndex, derivation))
       let newLabel = yield call(promptForInput, {
         title: 'Rename Address Label',
