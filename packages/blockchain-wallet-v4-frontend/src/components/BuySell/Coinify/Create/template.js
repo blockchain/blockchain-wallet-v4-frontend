@@ -46,8 +46,8 @@ const Create = props => {
             </IdentityVerificationHeader>
             <SubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.create.subheader.getstartedverify'
-                defaultMessage="To get started, create and verify your account in a matter of minutes. We'll need your email, personal info and ID"
+                id='coinifyexchangedata.create.subheader.getstartedverifyemail'
+                defaultMessage="To get started, create and verify your account in a matter of minutes. We'll need a verified email to start with."
               />
             </SubHeader>
             {determineStep === EMAIL && (

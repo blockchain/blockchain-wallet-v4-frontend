@@ -14,7 +14,7 @@ class VerifyEmailContainer extends PureComponent {
   componentDidMount () {
     this.props.formActions.change(
       'coinifyVerifyEmail',
-      'emailAddress',
+      'email',
       this.props.email
     )
   }
@@ -70,7 +70,7 @@ VerifyEmailContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { ...actions.components.identityVerification, ...actions.modules.profile },
+    actions.components.identityVerification,
     dispatch
   ),
   formActions: bindActionCreators(actions.form, dispatch),

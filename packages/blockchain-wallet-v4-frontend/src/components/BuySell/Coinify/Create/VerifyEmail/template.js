@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -9,6 +9,10 @@ import { FaqFormGroup, Form } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const { EMAIL_STEPS } = model.components.identityVerification
+
+const Wrapper = styled.div`
+  margin-top: 16px;
+`
 
 const KycEmailVerification = styled(EmailVerification)`
   label {
@@ -35,7 +39,7 @@ const VerifyEmail = props => {
   } = props
 
   return (
-    <Fragment>
+    <Wrapper>
       <CreateForm onSubmit={handleSubmit}>
         <FaqFormGroup>
           <FormItem>
@@ -44,9 +48,8 @@ const VerifyEmail = props => {
               component={KycEmailVerification}
               validate={[required, validEmail]}
               verificationSent={emailStep === EMAIL_STEPS.verify}
-              verified={emailVerified}
+              verified={emailStep !== EMAIL_STEPS.edit && emailVerified}
               onVerificationSend={sendEmailVerification}
-              // onBlur={() => onFieldBlur('email')}
               onUpdate={updateEmail}
               onEdit={editEmail}
               errorBottom
@@ -54,7 +57,7 @@ const VerifyEmail = props => {
           </FormItem>
         </FaqFormGroup>
       </CreateForm>
-    </Fragment>
+    </Wrapper>
   )
 }
 
