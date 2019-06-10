@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { path, prop } from 'ramda'
+import { length, path, prop } from 'ramda'
 
 import { actions, model } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
@@ -99,7 +99,10 @@ class BuySellContainer extends React.PureComponent {
     //     partner: 'sfox'
     //   }
     // }
-    if (path(['coinify', 'offline_token'], buySell)) {
+    const showSFOXTrades =
+      type === 'order_history' && length(path(['sfox', 'trades'], buySell))
+
+    if (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />

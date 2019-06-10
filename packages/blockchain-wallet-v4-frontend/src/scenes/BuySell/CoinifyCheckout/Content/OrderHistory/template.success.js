@@ -62,10 +62,6 @@ const OrderHistory = props => {
     if (!trades.length) {
       return <EmptyOrderHistoryContainer changeTab={changeTab} />
     }
-    const conversion = {
-      buy: 100,
-      sell: 1e8
-    }
     return (
       <OrderHistoryWrapper>
         {pendingTrades.length > 0 && (
@@ -79,7 +75,6 @@ const OrderHistory = props => {
             <OrderHistoryTable
               trades={pendingTrades}
               pending
-              conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
                 showModal('CoinifyTradeDetails', { trade })
@@ -102,7 +97,6 @@ const OrderHistory = props => {
             <RecurringOrderHistoryTable
               subscriptions={subscriptions}
               trades={filter(isPartOfSubscription, trades)}
-              conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
                 showModal('CoinifyTradeDetails', { trade })
@@ -124,7 +118,6 @@ const OrderHistory = props => {
           </Text>
           <OrderHistoryTable
             trades={filter(isCompleted, trades)}
-            conversion={conversion}
             handleDetailsClick={trade =>
               showModal('CoinifyTradeDetails', { trade })
             }
