@@ -13,11 +13,10 @@ export const Container = styled.div`
   left: ${props => (props.toggled ? '0' : '-250px')};
   width: 250px;
   height: 100%;
-  padding: 15px;
+  padding: 8px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme['gray-1']};
-  border-right: 1px solid ${props => props.theme['gray-1']};
+  background: ${props => props.theme['white']};
   transition: left 0.3s ease-in-out;
   z-index: 11;
   ::-webkit-scrollbar {
@@ -33,16 +32,6 @@ export const Container = styled.div`
   }
 `
 
-const ActiveIndicator = styled.div`
-  top: ${props => props.offsetTop}px;
-  transition: top 0.5s;
-  position: absolute;
-  height: 38px;
-  width: 3px;
-  left: 0;
-  background: ${props => props.theme['marketing-primary']};
-`
-
 const Overflow = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,7 +43,6 @@ const Overflow = styled.div`
 const MenuLeft = props => (
   <Container toggled={props.menuOpened}>
     <Overflow>
-      <ActiveIndicator offsetTop={props.offsetTop} />
       <Navigation {...props} />
       <Footer />
     </Overflow>

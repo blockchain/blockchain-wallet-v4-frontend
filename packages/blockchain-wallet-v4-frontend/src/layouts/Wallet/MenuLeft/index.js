@@ -1,8 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { head, prop, pathOr } from 'ramda'
+import { pathOr } from 'ramda'
 import { actions, model, selectors } from 'data'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -12,16 +11,7 @@ import Failure from './template.failure'
 
 const { AB_TESTS } = model.analytics
 class MenuLeftContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      offsetTop: 0
-    }
-  }
-
   componentDidMount () {
-    this.setActiveNodeOffsetTop()
-
     // SwapOrTradeTest
     if (Remote.Success.is(this.props.abTest)) return
     this.props.analyticsActions.createABTest(AB_TESTS.SWAP_OR_TRADE_TEST)
@@ -37,20 +27,6 @@ class MenuLeftContainer extends React.PureComponent {
     }, 1000)
   }
 
-  componentDidUpdate () {
-    window.requestAnimationFrame(() => this.setActiveNodeOffsetTop())
-  }
-
-  setActiveNodeOffsetTop () {
-    try {
-      const node = ReactDOM.findDOMNode(this)
-      const activeNode = head(node.getElementsByClassName('active'))
-      this.setState({ offsetTop: prop('offsetTop', activeNode) })
-    } catch (e) {
-      throw new Error(e)
-    }
-  }
-
   // SwapOrTradeTest
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
@@ -64,10 +40,9 @@ class MenuLeftContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    const { offsetTop } = this.state
 
     return data.cata({
-      Success: val => <MenuLeft {...val} offsetTop={offsetTop} />,
+      Success: val => <MenuLeft {...val} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Failure: msg => <Failure msg={msg} />
