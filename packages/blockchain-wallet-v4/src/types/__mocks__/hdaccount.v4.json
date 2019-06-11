@@ -1,6 +1,7 @@
 {
   "label": "My Bitcoin Wallet",
   "archived": false,
+  "default_derivation": "segwitP2SH",
   "derivations": [
     {
       "type": "legacy",
