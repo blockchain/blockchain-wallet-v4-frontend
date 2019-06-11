@@ -3,16 +3,17 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { equals, prop } from 'ramda'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import DataError from 'components/DataError'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Announcements from 'components/Announcements'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 import { getData, getInitialValues } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
-import DataError from 'components/DataError'
-import { FormattedMessage } from 'react-intl'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const RequestHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -113,6 +114,7 @@ class RequestBchContainer extends React.PureComponent {
             defaultMessage='Request Bitcoin Cash'
           />
         </RequestHeader>
+        <Announcements type='service' alertArea='request' currentCoin='BCH' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

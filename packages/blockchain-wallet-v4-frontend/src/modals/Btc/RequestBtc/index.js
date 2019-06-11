@@ -6,15 +6,16 @@ import { FormattedMessage } from 'react-intl'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
+import Announcements from 'components/Announcements'
 import { actions, model } from 'data'
-import { getData, getInitialValues, getImportedAddresses } from './selectors'
-import Loading from './template.loading'
-import Success from './template.success'
-import ShareLink from './template.shareLink'
 import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { getData, getInitialValues, getImportedAddresses } from './selectors'
+import Loading from './template.loading'
+import Success from './template.success'
+import ShareLink from './template.shareLink'
 
 const RequestHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -151,6 +152,7 @@ class RequestBtcContainer extends React.PureComponent {
             defaultMessage='Request Bitcoin'
           />
         </RequestHeader>
+        <Announcements type='service' alertArea='request' currentCoin='BTC' />
         <ModalBody>
           {this.state.requestBuilt ? (
             <ShareLink {...this.props} {...this.state} />
