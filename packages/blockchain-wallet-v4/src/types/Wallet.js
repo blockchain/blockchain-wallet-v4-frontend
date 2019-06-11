@@ -355,13 +355,15 @@ export const newHDAccount = curry((label, password, network, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(HDWallet.generateAccount(
-      HDAccount.DEFAULT_DERIVATION_TYPE,
-      HDAccount.DEFAULT_DERIVATION_PURPOSE,
-      index,
-      label,
-      network
-    ))
+    .map(
+      HDWallet.generateAccount(
+        HDAccount.DEFAULT_DERIVATION_TYPE,
+        HDAccount.DEFAULT_DERIVATION_PURPOSE,
+        index,
+        label,
+        network
+      )
+    )
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })
@@ -420,7 +422,6 @@ export const deleteHdAddressLabel = curry(
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
 export const setHdAddressLabel = curry(
   (accountIdx, addressIdx, derivationType, label, wallet) => {
-    debugger
     const lens = compose(
       hdWallets,
       HDWalletList.hdwallet,

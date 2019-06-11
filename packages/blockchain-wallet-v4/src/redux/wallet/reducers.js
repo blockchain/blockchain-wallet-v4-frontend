@@ -59,7 +59,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     }
     case T.SET_HD_ADDRESS_LABEL: {
       let { accountIdx, addressIdx, derivationType, label } = action.payload
-      debugger
       return over(
         Wrapper.wallet,
         Wallet.setHdAddressLabel(accountIdx, addressIdx, derivationType, label),

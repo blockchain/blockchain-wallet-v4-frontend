@@ -100,7 +100,12 @@ const flattenAccount = acc => ({
     reject(isNil),
     sum
   )(acc),
-  xpub: prop('xpub', acc.derivations.find(d => d.type === HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc)))),
+  xpub: prop(
+    'xpub',
+    acc.derivations.find(
+      d => d.type === HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc))
+    )
+  ),
   index: prop('index', acc),
   type: ADDRESS_TYPES.ACCOUNT,
   network: prop('network', acc)
@@ -210,13 +215,16 @@ export const getNextAvailableReceiveIndex = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    debugger
     const xpub = HDAccount.selectXpub(account, derivation)
     const index = getReceiveIndex(xpub)(state)
     const labels = HDAccount.selectAddressLabels(account, derivation)
     const maxLabel = labels.maxBy(label => label.index)
     const maxLabelIndex = maxLabel ? maxLabel.index : -1
-    return index.map(x => max(x - 1, maxLabelIndex) + 1)
+    // TODO: SEGWIT fix nextReceiveIndex for legacy as its undefined since datapath is missing the legacy xpub
+    return index.map(x => {
+      let i = max(x - 1, maxLabelIndex) + 1
+      return i || 0
+    })
   }
 )
 
