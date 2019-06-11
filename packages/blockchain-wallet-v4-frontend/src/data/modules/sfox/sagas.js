@@ -162,26 +162,29 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  // TODO: SEGWIT
   const prepareAddress = function * () {
     try {
       const state = yield select()
-      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
+      const accountIndex = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
         networks.btc,
-        defaultIdx,
+        accountIndex,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
         networks.btc,
-        defaultIdx,
+        accountIndex,
+        state
+      )
+      const derivationType = selectors.core.common.btc.getAccountDefaultDerivation(
+        accountIndex,
         state
       )
       return {
         address: receiveR.getOrElse(),
         index: receiveIdxR.getOrElse(),
-        derivationType: yield select(selectors.selectDefaultDerivationType),
-        accountIndex: defaultIdx
+        derivationType,
+        accountIndex
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))

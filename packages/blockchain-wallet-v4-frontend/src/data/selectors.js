@@ -15,11 +15,6 @@ import * as router from './router/selectors'
 import * as session from './session/selectors'
 import * as wizard from './wizard/selectors'
 
-// TODO: SEGWIT where do we want to get this information from?
-// TODO: SEGWIT this selector should for sure be somewhere else
-// TODO: SEGWIT if we keep this, it should be moved to core, so both core and frontend can use
-export const selectDefaultDerivationType = state => 'segwitP2SH'
-
 export {
   alerts,
   analytics,

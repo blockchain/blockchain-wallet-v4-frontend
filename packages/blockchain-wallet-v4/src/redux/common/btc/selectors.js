@@ -270,3 +270,12 @@ export const getAddressLockbox = curry((network, xpub, index, state) => {
   const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
   return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
 })
+
+export const getAccountDefaultDerivation = curry((accountIndex, state) => {
+  const account = compose(
+    HDWallet.selectAccount(accountIndex),
+    walletSelectors.getDefaultHDWallet
+  )(state)
+  let t = HDAccount.selectDefaultDerivation(account)
+  return t
+})
