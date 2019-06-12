@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
-import { Link, Icon, TooltipHost } from 'blockchain-info-components'
+import { NavbarIcon } from 'components/Navbar'
+import { Link, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
@@ -43,7 +44,7 @@ const FaqIcon = props => {
         highlighted={highlighted}
         data-e2e='faqLink'
       >
-        <Icon
+        <NavbarIcon
           id='faq-icon'
           name='question-in-circle-filled'
           size='22px'

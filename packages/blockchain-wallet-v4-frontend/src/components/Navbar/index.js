@@ -3,6 +3,7 @@ import NavbarBrand from './NavbarBrand'
 import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
 import NavbarNav from './NavbarNav'
+import NavbarIcon from './NavbarIcon'
 import NavbarNavItem from './NavbarNavItem'
 
 export {
@@ -11,5 +12,6 @@ export {
   NavbarHeader,
   NavbarMenu,
   NavbarNav,
+  NavbarIcon,
   NavbarNavItem
 }
