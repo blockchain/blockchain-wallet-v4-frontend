@@ -13,12 +13,12 @@ import {
 
 import LoginOrCreate from './LoginOrCreate'
 
-const PublicNavbarBrand = styled.div`
-  display: flex;
-  flex-direction: column;
-`
 const VersionWrapper = styled.div`
   margin-top: 4px;
+`
+const PublicBrand = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const Header = () => {
@@ -26,7 +26,7 @@ const Header = () => {
     <React.Fragment>
       <Navbar height='90px'>
         <NavbarBrand>
-          <PublicNavbarBrand>
+          <PublicBrand>
             <Link href='https://www.blockchain.com'>
               <Image name='blockchain-vector' height='20px' />
             </Link>
@@ -41,7 +41,7 @@ const Header = () => {
                 Version {APP_VERSION}
               </Link>
             </VersionWrapper>
-          </PublicNavbarBrand>
+          </PublicBrand>
         </NavbarBrand>
         <NavbarMenu>
           <NavbarNav>
