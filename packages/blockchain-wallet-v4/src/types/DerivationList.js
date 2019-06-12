@@ -14,7 +14,13 @@ export const derivationOfType = type =>
     x => x.find(d => Derivation.selectType(d) === type),
     (val, x) => x.map(d => (Derivation.selectType(d) === type ? val : d))
   )
-
+export const getXpubsAndTypesFromDerivations = derivations => {
+  DerivationList.guard(derivations)
+  return derivations.map(d => ({
+    type: Derivation.selectType(d),
+    xpub: Derivation.selectXpub(d)
+  }))
+}
 export const getDerivationFromType = (derivations, type) => {
   DerivationList.guard(derivations)
   return derivations.find(d => Derivation.selectType(d) === type)

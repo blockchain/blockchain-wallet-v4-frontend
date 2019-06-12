@@ -85,7 +85,6 @@ export const selectIterations = compose(
   Options.selectPbkdf2Iterations,
   selectOptions
 )
-
 export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
 export const isDoubleEncrypted = compose(
@@ -103,6 +102,11 @@ export const selectArchivedContext = compose(
   AddressMap.selectActive,
   selectAddresses
 )
+export const selectXpubsContextGrouped = compose(
+  HDWallet.selectContextGrouped,
+  HDWalletList.selectHDWallet,
+  selectHdWallets
+)
 export const selectXpubsContext = compose(
   HDWallet.selectContext,
   HDWalletList.selectHDWallet,
@@ -119,6 +123,10 @@ export const selectUnspendableAddrContext = compose(
   AddressMap.selectActive,
   selectAddresses
 )
+export const selectContextGrouped = w => ({
+  addresses: selectAddrContext(w).toJS(),
+  ...selectXpubsContextGrouped(w)
+})
 export const selectContext = w =>
   selectAddrContext(w).concat(selectXpubsContext(w))
 export const selectHDAccounts = w =>

@@ -168,11 +168,16 @@ export default ({ api, networks }) => {
           .toBase58()
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
-      const result = yield call(api.fetchBlockchainData, xpubs, {
-        n: 1,
-        offset: 0,
-        onlyShow: ''
-      })
+      // TODO: SEGWIT split xpubs based on derivation type for api call?
+      const result = yield call(
+        api.fetchBlockchainData,
+        { legacy: xpubs },
+        {
+          n: 1,
+          offset: 0,
+          onlyShow: ''
+        }
+      )
       const search = xpub => find(propEq('address', xpub))
       const accounts = map(
         xpub => search(xpub)(prop('addresses', result)),

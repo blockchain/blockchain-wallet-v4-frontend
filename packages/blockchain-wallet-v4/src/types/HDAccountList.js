@@ -1,4 +1,14 @@
-import { filter, map, addIndex, is, pipe, curry } from 'ramda'
+import {
+  addIndex,
+  curry,
+  filter,
+  flatten,
+  groupBy,
+  is,
+  map,
+  pipe,
+  pluck
+} from 'ramda'
 import { view } from 'ramda-lens'
 import List from './List'
 import * as HDAccount from './HDAccount'
@@ -26,10 +36,24 @@ export const selectByXpub = curry((xpub, as) =>
   )(as)
 )
 
+export const selectContextGrouped = pipe(
+  HDAccountList.guard,
+  accList => {
+    let activeAccounts = map(
+      HDAccount.selectAllXpubs,
+      filter(HDAccount.isActive, accList)
+    )
+    return map(
+      pluck('xpub'),
+      groupBy(c => c.type, flatten(activeAccounts.toJS()))
+    )
+  }
+)
+
 export const selectContext = pipe(
   HDAccountList.guard,
   accList => {
-    return map(HDAccount.selectXpub, filter(HDAccount.isActive, accList))
+    return map(HDAccount.selectAllXpubs, filter(HDAccount.isActive, accList))
   }
 )
 

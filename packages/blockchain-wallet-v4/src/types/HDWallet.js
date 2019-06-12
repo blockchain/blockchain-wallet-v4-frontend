@@ -45,6 +45,11 @@ export const selectAccount = curry((index, hdwallet) =>
 export const selectDefaultAccount = hdwallet =>
   selectAccount(selectDefaultAccountIdx(hdwallet), hdwallet)
 
+export const selectContextGrouped = compose(
+  HDAccountList.selectContextGrouped,
+  selectAccounts
+)
+
 export const selectContext = compose(
   HDAccountList.selectContext,
   selectAccounts
@@ -143,12 +148,19 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
     : undefined
 
   const parentNode = mnemonic
-    ? masterNode.deriveHardened(HDAccount.DEFAULT_DERIVATION_PURPOSE).deriveHardened(0)
+    ? masterNode
+        .deriveHardened(HDAccount.DEFAULT_DERIVATION_PURPOSE)
+        .deriveHardened(0)
     : undefined
 
   const createAccountAtIndex = i => {
     const node = mnemonic ? parentNode.deriveHardened(i) : undefined
-    const derivation = Derivation.js(HDAccount.DEFAULT_DERIVATION_TYPE, HDAccount.DEFAULT_DERIVATION_PURPOSE, node, xpub)
+    const derivation = Derivation.js(
+      HDAccount.DEFAULT_DERIVATION_TYPE,
+      HDAccount.DEFAULT_DERIVATION_PURPOSE,
+      node,
+      xpub
+    )
     return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivation)
   }
 

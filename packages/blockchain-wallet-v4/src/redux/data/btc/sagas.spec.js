@@ -37,7 +37,9 @@ describe('btc data sagas', () => {
   const dataBtcSagas = sagas({ api })
 
   describe('fetchData', () => {
-    const mockContext = '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH'
+    const mockContext = {
+      addresses: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH'
+    }
     const btcData = {
       addresses: indexBy(prop('address'), prop('addresses', btcFetchData)),
       info: path(['wallet'], btcFetchData),

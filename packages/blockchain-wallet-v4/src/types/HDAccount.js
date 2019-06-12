@@ -73,25 +73,40 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
+export const selectAllXpubs = account => {
+  const derivations = selectDerivations(account)
+  return DerivationList.getXpubsAndTypesFromDerivations(derivations)
+}
+
 export const selectXpub = (account, type) => {
   // TODO: SEGWIT FIX ME type is being passed as a number from balance selectors (something todo with spendable context)
-  const derivationType = typeof type === 'string' ? type : selectDefaultDerivation(account)
+  const derivationType =
+    typeof type === 'string' ? type : selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
+  const derivation = DerivationList.getDerivationFromType(
+    derivations,
+    derivationType
+  )
   return Derivation.selectXpub(derivation)
 }
 
 export const selectXpriv = (account, type) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
+  const derivation = DerivationList.getDerivationFromType(
+    derivations,
+    derivationType
+  )
   return Derivation.selectXpriv(derivation)
 }
 
 export const selectAddressLabels = (account, type) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
+  const derivation = DerivationList.getDerivationFromType(
+    derivations,
+    derivationType
+  )
   return Derivation.selectAddressLabels(derivation)
 }
 
@@ -122,8 +137,7 @@ export const getChangeAddress = (account, changeIndex, network, type) => {
 }
 
 // migrateFromV3 :: Object -> Object
-// TODO: SEGWIT i think we should still derive legacy account even though it probably will never be used
-// TODO: SEGWIT if we dont, we need to add checks to various code paths to avoid errors. TBD
+// TODO: SEGWIT migrate Lockbox KvStore entries
 const migrateFromV3 = account => {
   if (account.derivations != null) {
     return account
