@@ -38,13 +38,14 @@ const DropdownMenu = styled.div`
   right: 0;
   z-index: 3;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: ${props => props.theme['white']};
   box-shadow: 0px 0px 16px rgba(18, 29, 51, 0.25);
 `
 const DropdownMenuItem = styled(MenuItem)`
   white-space: nowrap;
   padding: 8px 16px;
+  margin-bottom: 0;
 `
 const DropdownMenuArrow = styled.div`
   position: absolute;

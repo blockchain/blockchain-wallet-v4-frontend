@@ -14,8 +14,15 @@ const Wrapper = styled.div`
 `
 const AdsButton = styled(Button)`
   margin: 8px auto 0px auto;
-  span > span {
+  transition: background 0.3s;
+  line-height: normal;
+  span > span:not(:first-child) {
     color: ${props => props.theme['blue']};
+  }
+  &:hover {
+    span:first-child {
+      color: ${props => props.theme['grey800']};
+    }
   }
 `
 const ButtonText = styled(Text)`
@@ -25,6 +32,7 @@ const ButtonText = styled(Text)`
 `
 const ArrowIcon = styled(Icon)`
   margin-left: 4px;
+  font-size: 16px;
 `
 
 const Footer = ({ actions, countryCode, adsBlacklist }) => {
@@ -48,8 +56,8 @@ const Footer = ({ actions, countryCode, adsBlacklist }) => {
         >
           <ButtonText color='gray-4' size='14px' weight={500}>
             <FormattedHTMLMessage
-              id='layouts.wallet.menuleft.footer.bitcoingames'
-              defaultMessage='Bitcoin Games. <span>Play Now</span>'
+              id='layouts.wallet.menuleft.footer.bitcoingames2'
+              defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
             />
             <ArrowIcon name='short-right-arrow' color='blue' />
           </ButtonText>

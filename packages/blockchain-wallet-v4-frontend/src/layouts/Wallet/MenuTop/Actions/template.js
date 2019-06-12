@@ -42,9 +42,9 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       onClick={() => showModal('SEND')}
       min='100px'
       data-e2e='sendButton'
-      height='40px'
+      height='48px'
     >
-      <ButtonText size='13px' weight={600} color='brand-primary'>
+      <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
@@ -58,9 +58,9 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       onClick={() => showModal('REQUEST')}
       min='100px'
       data-e2e='requestButton'
-      height='40px'
+      height='48px'
     >
-      <ButtonText size='13px' weight={600} color='brand-primary'>
+      <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'

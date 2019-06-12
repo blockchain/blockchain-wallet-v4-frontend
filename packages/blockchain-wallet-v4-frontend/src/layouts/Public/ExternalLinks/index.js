@@ -21,6 +21,7 @@ const RightContainer = styled.div`
   align-items: flex-end;
 `
 const Wrapper = styled.div`
+  margin-top: 16px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
