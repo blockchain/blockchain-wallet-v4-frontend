@@ -25,6 +25,7 @@ export const MenuItem = styled.button`
   font-weight: 500;
   width: 100%;
   transition: background 0.3s;
+  background: ${props => props.theme['white']};
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: 0;

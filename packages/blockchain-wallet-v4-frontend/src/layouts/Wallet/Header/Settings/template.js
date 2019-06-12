@@ -35,7 +35,7 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: 40px;
   right: 0;
-  z-index: 1;
+  z-index: 3;
   padding: 8px;
   border-radius: 8px;
   background: ${props => props.theme['white']};

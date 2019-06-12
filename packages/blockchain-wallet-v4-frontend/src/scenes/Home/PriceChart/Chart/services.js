@@ -5,7 +5,7 @@ import { head, last, map, sort } from 'ramda'
 
 export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   chart: {
-    height: 320,
+    height: 295,
     type: 'area',
     spacing: [25, 0, 0, 0],
     data: {
