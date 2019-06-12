@@ -1998,8 +1998,8 @@
         "id": "layouts.wallet.menuleft.footer.ad"
       },
       {
-        "defaultMessage": "Bitcoin Games. <span>Play Now</span>",
-        "id": "layouts.wallet.menuleft.footer.bitcoingames"
+        "defaultMessage": "<span>Bitcoin Games.</span> <span>Play Now</span>",
+        "id": "layouts.wallet.menuleft.footer.bitcoingames2"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Footer/index.json"
@@ -2025,10 +2025,6 @@
       {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
-      },
-      {
-        "defaultMessage": "{deviceName}",
-        "id": "layouts.wallet.menuleft.navigation.lockbox.device"
       },
       {
         "defaultMessage": "New",
