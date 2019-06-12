@@ -10,6 +10,7 @@ exports[`Button component default renders correctly 1`] = `
   disabled={false}
   fullwidth={false}
   height="40px"
+  hoverBorderColor="white"
   rounded={false}
   size="14px"
   uppercase={false}
