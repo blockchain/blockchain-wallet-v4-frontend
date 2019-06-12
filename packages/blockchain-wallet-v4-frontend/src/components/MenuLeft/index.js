@@ -16,7 +16,7 @@ export const MenuItem = styled.button`
   justify-content: flex-start;
   align-items: center;
   height: 48px;
-  padding: 12px 16px;
+  padding: 0px 16px;
   margin-bottom: 8px;
   box-sizing: border-box;
   border-width: 0px;
