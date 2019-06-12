@@ -10,6 +10,7 @@ import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Settings from './Settings'
 import Announcements from 'components/Announcements'
+import media from 'services/ResponsiveService'
 import {
   Navbar,
   NavbarBrand,
@@ -34,6 +35,10 @@ const NavbarNavItemSpacer = styled(NavbarNavItem)`
 const NavbarNavItemLast = styled(NavbarNavItem)`
   padding-left: 32px;
   border-left: 1px solid ${props => transparentize(0.9, props.theme['white'])};
+  ${media.tablet`
+    border-left: 0px;
+    padding-left: 0px;
+  `}
 `
 
 const Header = props => {

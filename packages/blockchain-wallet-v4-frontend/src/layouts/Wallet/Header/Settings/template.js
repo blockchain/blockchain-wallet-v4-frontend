@@ -6,9 +6,10 @@ import onClickOutside from 'react-onclickoutside'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { triangle, transparentize } from 'polished'
+import { Icon, Link, Text } from 'blockchain-info-components'
 
 import { Destination, MenuItem } from 'components/MenuLeft'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const SettingsDropdown = styled(Link)`
   display: flex;
@@ -57,8 +58,16 @@ const DropdownMenuArrow = styled.div`
       foregroundColor: props.theme['white']
     })
   }}
+  ${media.tablet`
+    right: 8px;
+  `}
 `
-const Separator = styled.div`
+const SettingsText = styled(Text)`
+  ${media.tablet`
+    display: none;
+  `}
+`
+const DropdownSeparator = styled.div`
   height: 1px;
   width: 24px;
   margin-left: 16px;
@@ -83,12 +92,12 @@ const Settings = props => {
         size='18px'
         color='white'
       />
-      <Text size='14px' weight={600} color='white' className='settings'>
+      <SettingsText size='14px' weight={600} color='white' className='settings'>
         <FormattedMessage
           id='layouts.wallet.header.settings'
           defaultMessage='Settings'
         />
-      </Text>
+      </SettingsText>
       {isMenuOpen && (
         <DropdownMenu>
           <DropdownMenuArrow />
@@ -142,7 +151,7 @@ const Settings = props => {
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
-          <Separator />
+          <DropdownSeparator />
           <DropdownMenuItem onClick={handleLogout}>
             <Destination>
               <FormattedMessage
