@@ -44,7 +44,7 @@ const MenuLeft = props => (
   <Container toggled={props.menuOpened}>
     <Overflow>
       <Navigation {...props} />
-      <Footer />
+      <Footer {...props} />
     </Overflow>
   </Container>
 )
