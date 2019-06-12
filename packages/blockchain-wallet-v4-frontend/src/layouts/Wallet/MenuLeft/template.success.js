@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Navigation from './Navigation'
+import Footer from './Footer'
 
 export const Container = styled.div`
   display: flex;
@@ -43,6 +44,7 @@ const MenuLeft = props => (
   <Container toggled={props.menuOpened}>
     <Overflow>
       <Navigation {...props} />
+      <Footer />
     </Overflow>
   </Container>
 )
