@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const LoginOrCreate = props => {
   const { pathname } = props.location
@@ -11,7 +12,7 @@ const LoginOrCreate = props => {
   return (
     <LinkContainer to={isSignup ? '/login' : '/signup'}>
       <TextGroup inline>
-        <Text size='14px' color='white' weight={500}>
+        <Text size={media.mobile ? '12px' : '14px'} color='white' weight={500}>
           {isSignup ? (
             <FormattedMessage
               id='layouts.public.alreadyhave'
@@ -30,7 +31,7 @@ const LoginOrCreate = props => {
         >
           {isSignup ? (
             <Link
-              size='14px'
+              size={media.mobile ? '12px' : '14px'}
               color='white'
               weight={600}
               data-e2e='signupLinkToLogin'
@@ -41,7 +42,12 @@ const LoginOrCreate = props => {
               />
             </Link>
           ) : (
-            <Link size='14px' color='white' weight={600} data-e2e='signupLink'>
+            <Link
+              size={media.mobile ? '12px' : '14px'}
+              color='white'
+              weight={600}
+              data-e2e='signupLink'
+            >
               <FormattedMessage
                 id='layouts.public.register'
                 defaultMessage='Create One Now'

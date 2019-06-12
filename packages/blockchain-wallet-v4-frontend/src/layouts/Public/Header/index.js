@@ -10,7 +10,7 @@ import {
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
-
+import media from 'services/ResponsiveService'
 import LoginOrCreate from './LoginOrCreate'
 
 const VersionWrapper = styled.div`
@@ -19,6 +19,11 @@ const VersionWrapper = styled.div`
 const PublicBrand = styled.div`
   display: flex;
   flex-direction: column;
+`
+const PublicNavbarNavItem = styled(NavbarNavItem)`
+  ${media.mobile`
+    text-align: right;
+  `}
 `
 
 const Header = () => {
@@ -45,9 +50,9 @@ const Header = () => {
         </NavbarBrand>
         <NavbarMenu>
           <NavbarNav>
-            <NavbarNavItem>
+            <PublicNavbarNavItem>
               <LoginOrCreate />
-            </NavbarNavItem>
+            </PublicNavbarNavItem>
           </NavbarNav>
         </NavbarMenu>
       </Navbar>

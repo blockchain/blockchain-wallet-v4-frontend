@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 import DropdownLanguage from 'components/DropdownLanguage'
+import media from 'services/ResponsiveService'
 
 const LinkContainer = styled.div`
   display: flex;
@@ -25,6 +26,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  ${media.mobile`
+    flex-direction: column;
+    margin-top: 8px;
+  `}
 `
 const ExternalLinks = () => {
   return (
