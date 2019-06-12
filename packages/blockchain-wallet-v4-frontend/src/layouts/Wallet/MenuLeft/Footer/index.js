@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { contains } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions, model } from 'data'
@@ -20,13 +21,15 @@ const AdsButton = styled(Button)`
 const ButtonText = styled(Text)`
   display: flex;
   white-space: nowrap;
+  align-items: center;
 `
 const ArrowIcon = styled(Icon)`
   margin-left: 4px;
 `
 
-const Footer = ({ actions }) => {
-  return (
+const Footer = ({ actions, countryCode, adsBlacklist }) => {
+  const isBlacklisted = contains(countryCode, adsBlacklist)
+  return isBlacklisted ? null : (
     <Wrapper>
       <Text color='gray-3' size='12px' weight={500}>
         <FormattedMessage
