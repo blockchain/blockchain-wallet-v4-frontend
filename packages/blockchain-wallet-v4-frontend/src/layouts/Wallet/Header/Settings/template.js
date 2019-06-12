@@ -38,7 +38,7 @@ const DropdownMenu = styled.div`
   right: 0;
   z-index: 3;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: ${props => props.theme['white']};
   box-shadow: 0px 0px 16px rgba(18, 29, 51, 0.25);
 `
