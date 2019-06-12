@@ -45,6 +45,7 @@ const DropdownMenu = styled.div`
 const DropdownMenuItem = styled(MenuItem)`
   white-space: nowrap;
   padding: 8px 16px;
+  margin-bottom: 0;
 `
 const DropdownMenuArrow = styled.div`
   position: absolute;

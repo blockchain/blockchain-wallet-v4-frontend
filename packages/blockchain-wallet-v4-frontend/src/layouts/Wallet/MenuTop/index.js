@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 10px 30px;
+  padding: 8px 30px;
   box-sizing: border-box;
   z-index: 10;
 

@@ -13,16 +13,27 @@ const Wrapper = styled.div`
 `
 const AdsButton = styled(Button)`
   margin: 8px auto 0px auto;
+  transition: background 0.3s;
+  line-height: normal;
   span > span {
     color: ${props => props.theme['blue']};
+  }
+
+  &:hover {
+    background: ${props => props.theme['grey000']};
+    border: none;
   }
 `
 const ButtonText = styled(Text)`
   display: flex;
   white-space: nowrap;
+  &:hover {
+    color: ${props => props.theme['grey800']};
+  }
 `
 const ArrowIcon = styled(Icon)`
   margin-left: 4px;
+  font-size: 16px;
 `
 
 const Footer = ({ actions }) => {
