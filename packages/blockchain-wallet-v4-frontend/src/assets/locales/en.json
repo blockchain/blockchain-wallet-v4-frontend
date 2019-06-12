@@ -511,6 +511,8 @@
   "layouts.wallet.header.whatsnew.whatsnew.empty": "🎉 You're all caught up!",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
   "layouts.wallet.menuleft.failure": "Something went wrong. Please refresh",
+  "layouts.wallet.menuleft.footer.ad": "Ad by bitcoin.com",
+  "layouts.wallet.menuleft.footer.bitcoingames": "Bitcoin Games. <span>Play Now</span>",
   "layouts.wallet.menuleft.navigation.buysell": "Buy & Sell",
   "layouts.wallet.menuleft.navigation.dashboard": "Dashboard",
   "layouts.wallet.menuleft.navigation.hardware": "Hardware",

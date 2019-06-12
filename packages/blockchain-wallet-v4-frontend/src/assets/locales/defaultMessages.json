@@ -1994,6 +1994,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Ad by bitcoin.com",
+        "id": "layouts.wallet.menuleft.footer.ad"
+      },
+      {
+        "defaultMessage": "Bitcoin Games. <span>Play Now</span>",
+        "id": "layouts.wallet.menuleft.footer.bitcoingames"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Footer/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Dashboard",
         "id": "layouts.wallet.menuleft.navigation.dashboard"
       },
