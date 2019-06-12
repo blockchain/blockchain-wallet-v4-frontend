@@ -181,9 +181,10 @@ const Menu = props => {
             )}
             {includes(coin, TX_EXPORT_COINS) && (
               <ReportingIcon
-                name='up-arrow-in-circle'
-                size='28px'
+                name='request'
+                size='24px'
                 cursor
+                color='gray-2'
                 onClick={handleClickReporting}
                 data-e2e='generateTxReport'
               />

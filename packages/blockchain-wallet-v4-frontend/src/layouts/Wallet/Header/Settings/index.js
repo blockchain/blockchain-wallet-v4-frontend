@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import Logout from './template.js'
+import Settings from './template'
 
-const LogoutContainer = ({ authActions }) => (
-  <Logout handleLogout={authActions.logout} />
+const SettingsContainer = ({ authActions, ...rest }) => (
+  <Settings handleLogout={authActions.logout} {...rest} />
 )
 
 const mapDispatchToProps = dispatch => ({
@@ -16,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(LogoutContainer)
+)(SettingsContainer)
