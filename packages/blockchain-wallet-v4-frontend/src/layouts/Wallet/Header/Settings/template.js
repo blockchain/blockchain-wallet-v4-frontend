@@ -5,7 +5,7 @@ import onClickOutside from 'react-onclickoutside'
 
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { transparentize } from 'polished'
+import { triangle, transparentize } from 'polished'
 
 import { Destination, MenuItem } from 'components/MenuLeft'
 import { Icon, Link, Text } from 'blockchain-info-components'
@@ -45,6 +45,26 @@ const DropdownMenuItem = styled(MenuItem)`
   white-space: nowrap;
   padding: 8px 16px;
 `
+const DropdownMenuArrow = styled.div`
+  position: absolute;
+  top: -8px;
+  right: 64px;
+  ${props => {
+    return triangle({
+      pointingDirection: 'top',
+      width: '16px',
+      height: '8px',
+      foregroundColor: props.theme['white']
+    })
+  }}
+`
+const Separator = styled.div`
+  height: 1px;
+  width: 24px;
+  margin-left: 16px;
+  margin-bottom: 8px;
+  background: ${props => props.theme['gray-1']};
+`
 
 const Settings = props => {
   const { handleLogout } = props
@@ -71,6 +91,7 @@ const Settings = props => {
       </Text>
       {isMenuOpen && (
         <DropdownMenu>
+          <DropdownMenuArrow />
           <LinkContainer to='/settings/general' activeClassName='active'>
             <DropdownMenuItem>
               <Destination>
@@ -121,6 +142,7 @@ const Settings = props => {
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
+          <Separator />
           <DropdownMenuItem onClick={handleLogout}>
             <Destination>
               <FormattedMessage
