@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
 import { all, propEq } from 'ramda'
 import { connect } from 'react-redux'
@@ -7,27 +6,12 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 
 import { Image, TabMenu, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: 12px 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-  a {
-    color: ${props => props.theme['brand-secondary']};
-    text-decoration: none;
-  }
-`
+import HorizontalMenu from 'components/HorizontalMenu'
 
 export const Menu = ({ userTiers }) => {
   const isRejected = all(propEq('state', 'rejected'), userTiers)
   return !isRejected ? null : (
-    <Wrapper>
+    <HorizontalMenu>
       <TabMenu>
         <Image
           style={{ marginRight: '10px' }}
@@ -44,7 +28,7 @@ export const Menu = ({ userTiers }) => {
           />
         </Text>
       </TabMenu>
-    </Wrapper>
+    </HorizontalMenu>
   )
 }
 

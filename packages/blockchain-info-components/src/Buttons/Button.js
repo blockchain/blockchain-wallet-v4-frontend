@@ -34,7 +34,8 @@ const BaseButton = styled.button.attrs({
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
   color: ${props => props.theme[props.color]};
-  background-color: ${props => props.theme[props.backgroundColor]};
+  background-color: ${props =>
+    props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
   border-radius: ${props => (props.rounded ? '20px' : '4px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
@@ -42,11 +43,17 @@ const BaseButton = styled.button.attrs({
 
   &:hover {
     border-color: ${props =>
-      props.disabled ? 'none' : darken(0.1, props.theme[props.borderColor])};
+      props.disabled
+        ? 'none'
+        : props.hoverBorderColor
+        ? props.theme[props.hoverBorderColor]
+        : darken(0.1, props.theme[props.borderColor])};
     background-color: ${props =>
       props.disabled
         ? 'none'
-        : darken(0.1, props.theme[props.backgroundColor])};
+        : props.backgroundColor
+        ? darken(0.1, props.theme[props.backgroundColor])
+        : 'transparent'};
   }
 
   &:focus {
@@ -60,7 +67,8 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: small ? 'brand-secondary' : 'gray-6',
         backgroundColor: 'white',
-        borderColor: 'gray-2'
+        borderColor: 'gray-2',
+        hoverBorderColor: 'white'
       }
     case 'light':
       return {
@@ -127,18 +135,27 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'purple',
         borderColor: 'purple'
       }
+    case 'white-transparent':
+      return {
+        color: 'white',
+        borderColor: 'white'
+      }
     default:
       return {
         color: 'gray-6',
-        backgroundColor: 'white',
-        borderColor: 'gray-2'
+        backgroundColor: 'grey000',
+        borderColor: 'gray-2',
+        hoverBorderColor: 'white'
       }
   }
 }
 
 const Button = props => {
   const { children, nature, disabled, small, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(nature, small)
+  const { color, backgroundColor, borderColor, hoverBorderColor } = selectColor(
+    nature,
+    small
+  )
 
   return (
     <BaseButton
@@ -147,6 +164,7 @@ const Button = props => {
       color={color}
       backgroundColor={backgroundColor}
       borderColor={borderColor}
+      hoverBorderColor={hoverBorderColor}
     >
       {children}
     </BaseButton>
@@ -155,19 +173,20 @@ const Button = props => {
 
 Button.propTypes = {
   nature: PropTypes.oneOf([
+    'copy',
+    'dark',
+    'empty-secondary',
     'empty',
+    'gray-3',
     'light',
     'primary',
-    'secondary',
-    'copy',
     'received',
+    'secondary',
     'sent',
+    'success',
     'transferred',
     'warning',
-    'dark',
-    'success',
-    'empty-secondary',
-    'gray-3'
+    'white-transparent'
   ]),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,

@@ -9,6 +9,7 @@ import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
+import media from 'services/ResponsiveService'
 import { isOnDotInfo } from 'services/MigrationService'
 
 const defaultDomains = {
@@ -49,6 +50,9 @@ const ContentContainer = styled.div`
   @media (min-width: 768px) {
     height: 100%;
   }
+  ${media.mobile`
+    margin: 0 10px;
+  `}
 `
 const ComponentContainer = styled.div``
 

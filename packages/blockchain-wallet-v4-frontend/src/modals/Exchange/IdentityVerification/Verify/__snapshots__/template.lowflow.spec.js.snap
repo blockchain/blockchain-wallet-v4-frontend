@@ -61,7 +61,43 @@ exports[`HighFlow should render correctly 1`] = `
               opacity={1}
               size="18px"
               uppercase={false}
+              weight={500}
+            >
+              <FormattedMessage
+                defaultMessage="Is my country supported?"
+                id="identityverification.verify.supportedcountries"
+                values={Object {}}
+              />
+            </Text>
+            <Text
+              altFont={false}
+              capitalize={false}
+              color="gray-5"
+              cursor="inherit"
+              italic={false}
+              opacity={1}
+              size="16px"
+              uppercase={false}
               weight={400}
+            >
+              <FormattedHTMLMessage
+                defaultMessage="Not all countries are supported at this time. Check our up to date <a href=\\"https://support.blockchain.com/hc/en-us/articles/360018751932\\" target=\\"_blank\\" rel=\\"noopener noreferrrer\\">list of countries</a> before proceeding."
+                id="identityverification.verify.supportecountrieslist"
+                values={Object {}}
+              />
+            </Text>
+          </ForwardRef>
+          <ForwardRef>
+            <Text
+              altFont={false}
+              capitalize={false}
+              color="gray-5"
+              cursor="inherit"
+              italic={false}
+              opacity={1}
+              size="18px"
+              uppercase={false}
+              weight={500}
             >
               <FormattedMessage
                 defaultMessage="How do I enable my camera and microphone?"

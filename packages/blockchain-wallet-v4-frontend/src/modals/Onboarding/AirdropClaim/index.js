@@ -13,54 +13,48 @@ import {
   HeartbeatLoader,
   Image,
   Modal,
+  ModalBody,
   ModalHeader,
   Text
 } from 'blockchain-info-components'
 
 const { CAMPAIGNS } = model.components.identityVerification
 
-const AirdropClaimModalHeader = styled(ModalHeader)`
+const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
-  border: 0;
+  border: none;
   > span {
-    color: ${props => props.theme['gray-1']};
+    &:hover {
+      cursor: pointer;
+    }
   }
+  z-index: 99;
 `
-const Body = styled.div`
+const Body = styled(ModalBody)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
+  margin-top: 24px;
+`
+const Header = styled(Text)`
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 18px;
+  color: ${props => props.theme['gray-6']};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
-`
-const Footer = styled.div`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  padding: 0 24px 32px 24px;
-  box-sizing: border-box;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 300px;
+  color: ${props => props.theme['gray-6']};
 `
 const FooterButton = styled(Button)`
-  height: auto;
-  font-weight: 400;
-  padding: 15px 0;
-`
-const LaterButton = styled(FooterButton)`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  top: calc(100% + 9px);
-  width: calc(100% - 48px);
-  &:hover {
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-  }
+  height: 56px;
+  font-weight: 500;
+  margin-top: 24px;
 `
 
 class AirdropClaim extends React.PureComponent {
@@ -80,27 +74,20 @@ class AirdropClaim extends React.PureComponent {
     } = this.props
     return (
       <Modal size='small' position={position} total={total}>
-        <AirdropClaimModalHeader onClose={close} />
-        <Image
-          width='100%'
-          name='get-free-crypto'
-          srcset={{
-            'get-free-crypto2': '2x',
-            'get-free-crypto3': '3x'
-          }}
-        />
+        <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Text size='24px' weight={400}>
+          <Image width='52px' name='gold-verified' />
+          <Header>
             <FormattedMessage
-              id='modals.airdropclaim.getfreecrypto'
-              defaultMessage='Get Free Crypto'
+              id='modals.airdropclaim.airdropprogram'
+              defaultMessage='Airdrop Program'
             />
-          </Text>
+          </Header>
           {isCampaignTagged ? (
-            <Copy weight={400}>
+            <Copy>
               <FormattedMessage
-                id='modals.airdropclaim.thanksforparticipating'
-                defaultMessage='Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!'
+                id='modals.airdropclaim.thanksforparticipatingairdropprogram'
+                defaultMessage='Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!'
                 values={{
                   coinName: prop('coinName', CAMPAIGNS[campaign]),
                   coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -110,18 +97,12 @@ class AirdropClaim extends React.PureComponent {
           ) : (
             <Copy weight={400}>
               <FormattedMessage
-                id='modals.airdropclaim.completeprofilefree'
-                defaultMessage='Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.'
-                values={{
-                  coinName: prop('coinName', CAMPAIGNS[campaign]),
-                  coinCode: prop('coinCode', CAMPAIGNS[campaign])
-                }}
+                id='modals.airdropclaim.clicktojoinairdropprogram'
+                defaultMessage='You’re eligible for our airdrop program. Click the button to join our Airdrop Program.'
               />
             </Copy>
           )}
-        </Body>
-        {!isCampaignTagged && (
-          <Footer>
+          {!isCampaignTagged && (
             <FooterButton
               nature='primary'
               size='18px'
@@ -134,22 +115,13 @@ class AirdropClaim extends React.PureComponent {
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
                 <FormattedMessage
-                  defaultMessage='Claim My Free {coinCode} Now'
-                  id='modals.airdropclaim.claimnow'
-                  values={{
-                    coinCode: prop('coinCode', CAMPAIGNS[campaign])
-                  }}
+                  defaultMessage='Join Airdrop Program'
+                  id='modals.airdropclaim.joinairdropnow'
                 />
               )}
             </FooterButton>
-            <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
-              <FormattedMessage
-                defaultMessage='Remind Me Later'
-                id='modals.airdropclaim.later'
-              />
-            </LaterButton>
-          </Footer>
-        )}
+          )}
+        </Body>
       </Modal>
     )
   }

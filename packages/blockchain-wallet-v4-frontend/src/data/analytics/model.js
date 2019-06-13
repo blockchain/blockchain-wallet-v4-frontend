@@ -125,3 +125,7 @@ export const GENERAL_EVENTS = {
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
   VIEW_FAQ: ['general', 'view_faq']
 }
+
+export const ADS_EVENTS = {
+  CLICK_AD: ['navigation', 'click_ad']
+}
