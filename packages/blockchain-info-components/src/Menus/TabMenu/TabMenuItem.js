@@ -11,7 +11,7 @@ const BaseTabMenuItem = styled.span`
   font-size: 14px;
   text-align: center;
   color: ${props =>
-    props.selected ? props.theme['gray-5'] : props.theme['gray-3']};
+    props.selected ? props.theme['brand-secondary'] : props.theme['gray-3']};
   cursor: pointer;
 
   &:not(:last-child) {

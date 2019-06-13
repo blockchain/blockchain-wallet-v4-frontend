@@ -34,16 +34,16 @@ const BaseIconPax = styled.span`
     font-size: inherit;
   }
   .path1:before {
-    content: '\\e914';
+    content: '\\e919';
     color: #a2d900;
   }
   .path2:before {
-    content: '\\e91d';
+    content: '\\e921';
     color: #3d9ccc;
     margin-left: -1em;
   }
   .path3:before {
-    content: '\\e921';
+    content: '\\e924';
     color: #ffd919;
     margin-left: -1em;
   }
