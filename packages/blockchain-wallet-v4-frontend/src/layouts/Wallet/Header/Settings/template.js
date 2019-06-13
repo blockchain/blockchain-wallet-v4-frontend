@@ -83,10 +83,7 @@ const Settings = props => {
   Settings.handleClickOutside = () => toggleIsMenuOpen(false)
 
   return (
-    <SettingsDropdown
-      onClick={() => toggleIsMenuOpen(!isMenuOpen)}
-      data-e2e='logoutLink'
-    >
+    <SettingsDropdown onClick={() => toggleIsMenuOpen(!isMenuOpen)}>
       <SettingsIcon
         className='icon'
         name='cog-filled'
@@ -103,7 +100,7 @@ const Settings = props => {
         <DropdownMenu>
           <DropdownMenuArrow />
           <LinkContainer to='/settings/general' activeClassName='active'>
-            <DropdownMenuItem>
+            <DropdownMenuItem data-e2e='settings_generalLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.header.general'
@@ -113,7 +110,7 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <LinkContainer to='/settings/profile' activeClassName='active'>
-            <DropdownMenuItem>
+            <DropdownMenuItem data-e2e='settings_profileLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.header.profile'
@@ -123,7 +120,7 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <LinkContainer to='/settings/preferences' activeClassName='active'>
-            <DropdownMenuItem>
+            <DropdownMenuItem data-e2e='settings_preferencesLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.header.preferences'
@@ -133,7 +130,7 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <LinkContainer to='/settings/addresses' activeClassName='active'>
-            <DropdownMenuItem>
+            <DropdownMenuItem data-e2e='settings_walletsLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.header.walletsaddresses'
@@ -143,7 +140,7 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <LinkContainer to='/security-center' activeClassName='active'>
-            <DropdownMenuItem>
+            <DropdownMenuItem data-e2e='securityCenterLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.header.seccenter'
@@ -153,7 +150,7 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <DropdownSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem onClick={handleLogout} data-e2e='logoutLink'>
             <Destination>
               <FormattedMessage
                 id='layouts.wallet.header.Sign Out'
