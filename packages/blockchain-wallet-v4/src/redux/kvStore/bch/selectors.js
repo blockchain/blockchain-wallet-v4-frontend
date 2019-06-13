@@ -1,18 +1,18 @@
 import {
   concat,
   curry,
+  flatten,
   filter,
-  not,
   lift,
   map,
-  flatten,
-  compose,
+  not,
   path,
   prop,
   values
 } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
+import * as Types from '../../../types'
 import * as walletSelectors from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 
@@ -42,14 +42,12 @@ export const getSpendableContext = createDeepEqualSelector(
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
 
-      // TODO: SEGWIT should this flatten all derivation xpubs like this?
-      const getDerivationXpubs = compose(
-        map(prop('xpub')),
-        flatten,
-        map(prop('derivations'))
+      return flatten(
+        map(
+          a => Types.HDAccount.selectAllXpubs(Types.HDAccount.fromJS(a)).toJS(),
+          activeAccounts
+        )
       )
-
-      return getDerivationXpubs(activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     return concat(activeAccounts, spendableAddresses)

@@ -84,9 +84,7 @@ export const selectAllXpubs = account => {
 }
 
 export const selectXpub = (account, type) => {
-  // TODO: SEGWIT FIX ME type is being passed as a number from balance selectors (something todo with spendable context)
-  const derivationType =
-    typeof type === 'string' ? type : selectDefaultDerivation(account)
+  const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
     derivations,
@@ -142,7 +140,6 @@ export const getChangeAddress = (account, changeIndex, network, type) => {
 }
 
 // migrateFromV3 :: Object -> Object
-// TODO: SEGWIT migrate Lockbox KvStore entries
 const migrateFromV3 = account => {
   if (account.derivations != null) {
     return account

@@ -590,7 +590,7 @@ const _derivePrivateKey = (network, xpriv, chain, index) =>
 
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
-// TODO: SEGWIT pass in derivation
+// TODO: SEGWIT does this method need to care about derivation type?
 export const getHDPrivateKeyWIF = curry(
   (keypath, secondPassword, network, wallet) => {
     let [accId, chain, index] = map(parseInt, split('/', keypath))

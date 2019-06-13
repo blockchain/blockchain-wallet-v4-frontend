@@ -168,10 +168,11 @@ export default ({ api, networks }) => {
           .toBase58()
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
-      // TODO: SEGWIT split xpubs based on derivation type for api call?
       const result = yield call(
         api.fetchBlockchainData,
-        { legacy: xpubs },
+        {
+          legacy: xpubs
+        },
         {
           n: 1,
           offset: 0,
@@ -195,7 +196,7 @@ export default ({ api, networks }) => {
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
-    // TODO: SEGWIT find used segwit accounts too
+    // TODO: SEGWIT find used segwit accounts too & update fetchBlockchainData call in findUsedAccounts saga
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,
