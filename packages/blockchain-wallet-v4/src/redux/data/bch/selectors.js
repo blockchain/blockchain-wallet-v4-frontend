@@ -14,6 +14,7 @@ import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 import * as walletSelectors from '../../wallet/selectors'
+import * as Types from '../../../types'
 import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
 
 export const getWalletContext = createDeepEqualSelector(
@@ -29,12 +30,12 @@ export const getWalletContext = createDeepEqualSelector(
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
-      // TODO: SEGWIT (cleaner way to do this?)
-      const xpubs = map(
-        map(prop('xpub')),
-        map(prop('derivations'), activeAccounts)
+      return flatten(
+        map(
+          a => Types.HDAccount.selectAllXpubs(Types.HDAccount.fromJS(a)).toJS(),
+          activeAccounts
+        )
       )
-      return flatten(xpubs)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     const addresses = keysIn(activeAddresses)
