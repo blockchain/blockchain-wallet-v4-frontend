@@ -245,10 +245,7 @@ const Success = props => {
           </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? (
-          <SiftScience
-            siftScienceKey={rest.siftScienceKey}
-            userId={rest.userId}
-          />
+          <SiftScience siftKey={rest.siftKey} userId={rest.userId} />
         ) : null}
       </Stepper>
     )

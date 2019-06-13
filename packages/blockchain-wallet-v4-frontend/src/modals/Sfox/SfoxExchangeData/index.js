@@ -97,7 +97,7 @@ class SfoxExchangeData extends React.PureComponent {
         <ModalBody>
           {this.getStepComponent(step)['component']}
           <SiftScience
-            siftScienceKey={this.props.siftScienceKey}
+            siftKey={this.props.siftKey}
             userId={this.props.userId}
           />
         </ModalBody>
@@ -115,9 +115,7 @@ const mapStateToProps = state => ({
   data: getData(state),
   signupStep: path(['sfoxSignup', 'signupStep'], state),
   siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
-  siftScienceKey: selectors.core.walletOptions
-    .getSfoxSiftKey(state)
-    .getOrElse(''),
+  siftKey: selectors.core.walletOptions.getSfoxSiftKey(state).getOrElse(''),
   userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse('')
 })
 

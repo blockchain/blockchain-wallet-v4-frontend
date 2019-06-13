@@ -13,20 +13,16 @@ const SiftScienceIframe = styled.iframe`
 `
 
 class SiftScience extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { enabled: false }
-  }
   componentDidMount () {
     let receiveMessage = e => {
-      const helperDomain = path(
-        ['domains', 'walletHelper'],
-        this.props.walletOptions
-      )
+      // const helperDomain = path(
+      //   ['domains', 'walletHelper'],
+      //   this.props.walletOptions
+      // )
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return
       if (e.data.to !== 'exchange') return
-      if (e.origin !== helperDomain) return
+      // if (e.origin !== helperDomain) return
       switch (e.data.command) {
         case 'done':
           this.props.onDone && this.props.onDone()
@@ -39,7 +35,7 @@ class SiftScience extends Component {
   }
 
   render () {
-    const { options, userId, siftScienceKey } = this.props
+    const { options, userId, sessionId = '', siftKey } = this.props
 
     if (!userId) {
       return null
@@ -48,8 +44,7 @@ class SiftScience extends Component {
     const walletOptions = options || prop('data', this.props.walletOptions)
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
 
-    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${siftScienceKey}/user/${userId}`
-
+    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
     return (
       <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />
     )

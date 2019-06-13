@@ -17,7 +17,7 @@ export const getData = state => {
     defaultIndex,
     state
   )
-  const siftScienceKey = selectors.core.walletOptions
+  const siftKey = selectors.core.walletOptions
     .getSfoxSiftKey(state)
     .getOrElse('')
 
@@ -27,7 +27,7 @@ export const getData = state => {
     verificationStatus,
     nextAddress,
     userId,
-    siftScienceKey
+    siftKey
   }))(profile, accounts, nextAddress, userId)
 }
 
