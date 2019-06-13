@@ -220,11 +220,7 @@ export const getNextAvailableReceiveIndex = curry(
     const labels = HDAccount.selectAddressLabels(account, derivation)
     const maxLabel = labels.maxBy(label => label.index)
     const maxLabelIndex = maxLabel ? maxLabel.index : -1
-    // TODO: SEGWIT fix nextReceiveIndex for legacy as its undefined since datapath is missing the legacy xpub
-    return index.map(x => {
-      let i = max(x - 1, maxLabelIndex) + 1
-      return i || 0
-    })
+    return index.map(x => max(x - 1, maxLabelIndex) + 1)
   }
 )
 

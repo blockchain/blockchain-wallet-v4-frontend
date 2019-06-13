@@ -269,14 +269,16 @@ export default ({ api, networks }) => {
   }
 
   const setHDAddressLabel = function * ({ payload }) {
+    const { accountIdx, addressIdx, derivationType, label } = payload
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const receiveAddress = HDAccount.getReceiveAddress(
-      accounts.get(payload.accountIdx),
-      payload.addressIdx,
-      networks.btc
+      accounts.get(accountIdx),
+      addressIdx,
+      networks.btc,
+      derivationType
     )
-    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, payload.label))
+    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, label))
   }
 
   return {
