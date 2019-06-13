@@ -131,8 +131,8 @@ class Submitted extends React.PureComponent {
           </Header>
           <SubHeader>
             <FormattedMessage
-              id='modals.exchange.identityverification.submitted.subheader'
-              defaultMessage="You've successfully submitted your application. A Blockchain Support Member is now reviewing your information."
+              id='modals.exchange.identityverification.submitted.subheader2'
+              defaultMessage="You've successfully submitted your application. A Blockchain Support Member will review your information."
             />
           </SubHeader>
           <NextSteps>
@@ -144,8 +144,8 @@ class Submitted extends React.PureComponent {
             </NextStepsHeader>
             <NextStepsSubHeader>
               <FormattedHTMLMessage
-                id='modals.exchange.identityverification.submitted.mayaskforid'
-                defaultMessage="You'll hear back from us in the next <b>5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID."
+                id='modals.exchange.identityverification.submitted.mayaskforid2'
+                defaultMessage="You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID."
               />
             </NextStepsSubHeader>
             <NextStepsSubHeader>
@@ -165,8 +165,8 @@ class Submitted extends React.PureComponent {
               <React.Fragment>
                 <Text color='black' size='20px'>
                   <FormattedMessage
-                    id='modals.exchange.identityverification.submitted.freecrypto'
-                    defaultMessage="Once your profile is successfully verified, we'll send you your free crypto. Don't forget to share the wealth with friends and family!"
+                    id='modals.exchange.identityverification.submitted.freecrypto2'
+                    defaultMessage="Don't forget to share this opportunity with friends and family!"
                   />
                 </Text>
                 <Footer>
@@ -234,15 +234,15 @@ class Submitted extends React.PureComponent {
                     <HeartbeatLoader height='20px' width='20px' color='white' />
                   ) : (
                     <FormattedMessage
-                      id='modals.exchange.identityverification.submitted.claim'
-                      defaultMessage='Claim Free XLM'
+                      id='modals.exchange.identityverification.submitted.enterairdrop'
+                      defaultMessage='Enter Airdrop Program'
                     />
                   )}
                 </ClaimButton>
                 <NextStepsSubHeader>
                   <FormattedMessage
-                    id='modals.exchange.identityverification.submitted.makesuretoclick'
-                    defaultMessage='Once your verification is successfully completed, we’ll send you free crypto. Make sure you click the button to claim your free XLM.'
+                    id='modals.exchange.identityverification.submitted.makesuretoclick2'
+                    defaultMessage='By entering the airdrop program you’ll become eligible to receive future airdrops.'
                   />
                 </NextStepsSubHeader>
               </React.Fragment>

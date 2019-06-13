@@ -15,6 +15,7 @@ const ComplementaryAmountContainer = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   justify-self: center;
   margin-top: 10px;
+  color: ${props => props.theme['textBlack']};
 `
 
 export class ComplementaryAmount extends React.PureComponent {

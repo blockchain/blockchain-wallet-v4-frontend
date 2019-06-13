@@ -7,7 +7,6 @@ const INITIAL_STATE = {
   culture: 'en-GB',
   theme: 'default',
   coinDisplayed: true,
-  showAirdropReminderModal: true,
   showKycCompleted: true,
   showBackupReminder: true,
   showKycGetStarted: true,
@@ -58,9 +57,6 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_AIRDROP_CLAIM_MODAL: {
       return assoc('showAirdropClaimModal', false, state)
-    }
-    case AT.HIDE_AIRDROP_REMINDER_MODAL: {
-      return assoc('showAirdropReminderModal', false, state)
     }
     case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
       return assoc('showUpgradeForAirdropModal', false, state)

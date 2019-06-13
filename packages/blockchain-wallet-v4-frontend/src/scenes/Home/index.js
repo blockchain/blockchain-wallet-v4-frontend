@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 25px;
   @media (min-width: 992px) {
-    padding: 25px 30px 30px;
+    padding: 15px 30px;
   }
 `
 const ColumnWrapper = styled.section`

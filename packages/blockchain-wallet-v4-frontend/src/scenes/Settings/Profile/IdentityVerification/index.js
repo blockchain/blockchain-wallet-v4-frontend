@@ -1,10 +1,20 @@
 import React from 'react'
+import { pathOr, propEq } from 'ramda'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  Icon,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import TierCard from 'components/IdentityVerification/TierCard'
 import media from 'services/ResponsiveService'
+
+import { KYC_STATES } from 'data/modules/profile/model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,7 +102,15 @@ const LearnMoreContainer = styled.div`
   `};
 `
 
-const IdentityVerification = () => {
+const IdentityVerification = ({ userData, userTiers }) => {
+  const tier2LimitAmount = pathOr('25000', [1, 'limits', 'daily'], userTiers)
+  const tier2LimitCurrency = pathOr('USD', [1, 'limits', 'currency'], userTiers)
+  const isUnderReview = propEq('kycState', KYC_STATES.UNDER_REVIEW, userData)
+
+  const formattedTier2Limit =
+    Exchange.getSymbol(tier2LimitCurrency) +
+    Currency.formatFiat(tier2LimitAmount, 0)
+
   return (
     <Wrapper>
       <Container>
@@ -111,16 +129,36 @@ const IdentityVerification = () => {
               />
             </SwapText>
             <LearnMoreContainer>
-              <SwapText size='12px' color='textBlack'>
+              <SwapText size='13px' color='textBlack'>
                 <FormattedMessage
                   id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='12px' weight={400}>
+              <SwapText size='13px' weight={400}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learn_more_limits'
                   defaultMessage="We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                />
+              </SwapText>
+            </LearnMoreContainer>
+            <LearnMoreContainer>
+              <SwapText>
+                <Icon size='24px' name='alert-filled' color='orange' />
+              </SwapText>
+              {isUnderReview && (
+                <SwapText size='14px'>
+                  <FormattedMessage
+                    id='scenes.profile.idv.swaplimit.airdropdisclaimer'
+                    defaultMessage="Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}."
+                    values={{ tier2Limit: formattedTier2Limit }}
+                  />
+                </SwapText>
+              )}
+              <SwapText size='14px'>
+                <FormattedMessage
+                  id='scenes.profile.idv.swaplimit.airdropdisclaimer2'
+                  defaultMessage='Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.'
                 />
               </SwapText>
             </LearnMoreContainer>

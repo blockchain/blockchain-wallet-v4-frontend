@@ -7,7 +7,7 @@ exports[`WhatsNewIcon renders correctly 1`] = `
   <template__WhatsNewLink
     data-e2e="notificationsLink"
   >
-    <icon
+    <NavbarIcon
       color="white"
       cursor={true}
       id="whatsnew-icon"

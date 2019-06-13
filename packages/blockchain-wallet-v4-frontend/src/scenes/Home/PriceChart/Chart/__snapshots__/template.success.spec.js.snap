@@ -12,7 +12,7 @@ exports[`PriceChart template Success renders correctly 1`] = `
           "data": Object {
             "dateFormat": "YYYY/mm/dd",
           },
-          "height": 320,
+          "height": 295,
           "spacing": Array [
             25,
             0,

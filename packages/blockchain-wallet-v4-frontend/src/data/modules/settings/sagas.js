@@ -309,9 +309,9 @@ export default ({ api, coreSagas }) => {
 
   const showBtcPrivateKey = function * (action) {
     const { addr } = action.payload
-    const password = yield call(promptForSecondPassword)
-    const wallet = yield select(selectors.core.wallet.getWallet)
     try {
+      const password = yield call(promptForSecondPassword)
+      const wallet = yield select(selectors.core.wallet.getWallet)
       const privT = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr)
       const priv = yield call(() => taskToPromise(privT))
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
