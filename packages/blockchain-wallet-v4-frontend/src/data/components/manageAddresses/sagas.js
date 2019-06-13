@@ -157,7 +157,8 @@ export default ({ api, networks }) => {
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
-          networks.btc
+          networks.btc,
+          derivation
         ),
         index: la.index,
         label: la.label

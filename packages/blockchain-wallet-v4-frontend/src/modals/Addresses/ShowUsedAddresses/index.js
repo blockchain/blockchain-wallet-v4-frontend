@@ -7,17 +7,14 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import ShowUsedAddresses from './template'
 
 class ShowUsedAddressesContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { busy: false }
-    this.handleContinue = this.handleContinue.bind(this)
-  }
+  state = { busy: false }
 
-  handleContinue () {
+  handleContinue = () => {
+    const { derivation, walletIndex } = this.props
     this.setState({ busy: true })
     // ensure busy is set before address derivation begins
     setTimeout(() => {
-      this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
+      this.props.actions.toggleUsedAddresses(walletIndex, derivation, true)
     }, 0)
   }
 
@@ -44,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('ShowUsedAddresses'),
   connect(
-    undefined,
+    null,
     mapDispatchToProps
   )
 )
