@@ -3,14 +3,15 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  trade: Remote.NotAsked,
-  quote: Remote.NotAsked,
-  trades: Remote.NotAsked,
-  profile: Remote.NotAsked,
-  mediums: Remote.NotAsked,
   kyc: Remote.NotAsked,
+  mediums: Remote.NotAsked,
+  nextAddress: null,
+  profile: Remote.NotAsked,
+  quote: Remote.NotAsked,
+  rateQuote: Remote.NotAsked,
   subscriptions: Remote.NotAsked,
-  nextAddress: null
+  trade: Remote.NotAsked,
+  trades: Remote.NotAsked
 }
 
 const coinifyReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,15 @@ const coinifyReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_FETCH_RATE_QUOTE_LOADING: {
+      return assoc('rateQuote', Remote.Loading, state)
+    }
+    case AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS: {
+      return assoc('rateQuote', Remote.Success(payload), state)
+    }
+    case AT.COINIFY_FETCH_RATE_QUOTE_FAILURE: {
+      return assoc('rateQuote', Remote.Failure(payload), state)
     }
     case AT.COINIFY_FETCH_TRADES_LOADING: {
       return assoc('trades', Remote.Loading, state)

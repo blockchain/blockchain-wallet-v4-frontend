@@ -50,6 +50,7 @@ const CoinifyBuy = props => {
     fetchBuyQuote,
     refreshQuote,
     buyQuoteR,
+    rateQuoteR,
     cannotTradeReason,
     canTradeAfter,
     clearTradeError,
@@ -99,6 +100,7 @@ const CoinifyBuy = props => {
               limits={limits.buy}
               onFetchQuote={fetchBuyQuote}
               quoteR={buyQuoteR}
+              rateQuoteR={rateQuoteR}
               reason={'has_remaining'} // placeholder for now - coinify does not require a reason
               symbol={symbol}
               setMax={setMax}

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const BaseNav = styled.ul`
   display: flex;
@@ -10,6 +11,9 @@ const BaseNav = styled.ul`
   padding: 0 20px;
   box-sizing: border-box;
   list-style-type: none;
+  ${media.tablet`
+    padding: 0 10px;
+  `};
 `
 
 const NavbarNav = props => {

@@ -8,18 +8,8 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
+import HorizontalMenu from 'components/HorizontalMenu'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  padding: 6px 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const LinkItem = styled(TabMenuItem)`
   &.active {
     & :after {
@@ -42,7 +32,7 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
   !showGetStarted ? (
     <React.Fragment>
       <Announcements type='service' alertArea='swap' />
-      <Wrapper>
+      <HorizontalMenu>
         <TabMenu>
           <LinkContainer to='/swap' exact>
             <LinkItem
@@ -73,7 +63,7 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
             />
           </SupportButton>
         </TabMenu>
-      </Wrapper>
+      </HorizontalMenu>
     </React.Fragment>
   ) : (
     <div />

@@ -69,11 +69,14 @@ export default ({ coreSagas, networks }) => {
         payment.value()
       )
       payment = yield payment.fee(defaultFeePerByte)
+      const prepareTo = to => {
+        return to ? { value: { value: to, label: to } } : null
+      }
       const initialValues = {
-        to,
         coin: 'BTC',
         amount,
         description,
+        to: prepareTo(to),
         from: from || defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }

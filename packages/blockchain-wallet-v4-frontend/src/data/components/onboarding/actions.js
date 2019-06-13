@@ -5,11 +5,6 @@ export const airdropClaimSubmitClicked = campaign => ({
   payload: { campaign }
 })
 
-export const airdropReminderSubmitClicked = campaign => ({
-  type: AT.AIRDROP_REMINDER_SUBMIT_CLICKED,
-  payload: { campaign }
-})
-
 export const swapGetStartedSubmitClicked = () => ({
   type: AT.SWAP_GET_STARTED_SUBMIT_CLICKED
 })

@@ -1,7 +1,7 @@
 export default {
   // Brand
-  'brand-primary': '#134364',
-  'brand-secondary': '#10ADE4',
+  'brand-primary': '#0D3578',
+  'brand-secondary': '#0C6CF2',
   'brand-tertiary': '#537787',
   'brand-quaternary': '#4f5254',
   'brand-yellow': '#665227',
@@ -21,8 +21,8 @@ export default {
   'gray-1': '#333333',
   'gray-2': '#ababab',
   'gray-3': '#747474',
-  'gray-4': '#444444',
-  'gray-5': '#eeeeee',
+  'gray-4': '#ababab',
+  'gray-5': '#ababab',
   'gray-6': '#797979',
   // Whites
   white: '#1c1c1c',
@@ -32,7 +32,7 @@ export default {
   textBlack: '#9c9c9c',
   // Blues
   purple: '#0D3578',
-  'deep-blue': '#101C35',
+  'deep-blue': '#0D3578',
   blue: '#0c6cf2',
   // Colors
   red: '#651D1E',
@@ -46,9 +46,12 @@ export default {
   greyFade200: 'rgba(28,28,28,28.1)',
   grey100: '#333333',
   grey600: '#797979',
+  blue000: '#ECF5FE',
+  blue100: '#D8EBFD',
+  blue200: '#BBDBFC',
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
   pax: '#00522C',
-  xlm: '#121D33'
+  xlm: '#797979'
 }

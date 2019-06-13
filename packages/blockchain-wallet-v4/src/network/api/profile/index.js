@@ -84,7 +84,7 @@ export default ({
       contentType: 'application/json',
       headers: {
         'X-DEVICE-ID': 'deviceId',
-        'x-client-type': 'WEB',
+        'X-CLIENT-TYPE': 'WEB',
         'x-app-version': '6.11.1',
         'X-WALLET-GUID': walletGuid,
         'X-WALLET-EMAIL': email,

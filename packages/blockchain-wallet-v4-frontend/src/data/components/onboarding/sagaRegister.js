@@ -15,10 +15,6 @@ export default () => {
       onboardingSagas.airdropClaimSubmitClicked
     )
     yield takeLatest(
-      AT.AIRDROP_REMINDER_SUBMIT_CLICKED,
-      onboardingSagas.airdropReminderSubmitClicked
-    )
-    yield takeLatest(
       AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
       onboardingSagas.upgradeForAirdropSubmitClicked
     )

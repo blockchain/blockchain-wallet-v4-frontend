@@ -11,7 +11,9 @@ export const getData = createDeepEqualSelector(
     selectors.components.layoutWallet.getLockboxOpened,
     selectors.exchange.getCanTrade,
     selectors.router.getPathname,
-    selectors.core.kvStore.lockbox.getDevices
+    selectors.core.kvStore.lockbox.getDevices,
+    selectors.core.settings.getCountryCode,
+    selectors.core.walletOptions.getAdsBlacklist
   ],
   (
     swapOrTradeTestR,
@@ -19,19 +21,28 @@ export const getData = createDeepEqualSelector(
     lockboxOpened,
     canTradeR,
     pathname,
-    lockboxDevicesR
+    lockboxDevicesR,
+    countryCodeR,
+    adsBlacklistR
   ) => {
-    const transform = (swapOrTrade, canTrade, lockboxDevices) => {
+    const transform = (swapOrTrade, canTrade, lockboxDevices, countryCode) => {
       return {
         swapOrTrade,
         canTrade,
         pathname,
         menuOpened,
         lockboxOpened,
-        lockboxDevices
+        lockboxDevices,
+        countryCode,
+        adsBlacklist: adsBlacklistR.getOrElse([])
       }
     }
 
-    return lift(transform)(swapOrTradeTestR, canTradeR, lockboxDevicesR)
+    return lift(transform)(
+      swapOrTradeTestR,
+      canTradeR,
+      lockboxDevicesR,
+      countryCodeR
+    )
   }
 )

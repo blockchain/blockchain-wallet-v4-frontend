@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
-import { Link, Icon, TooltipHost } from 'blockchain-info-components'
+import { Link, TooltipHost } from 'blockchain-info-components'
+import { NavbarIcon } from 'components/Navbar'
 
 const rotation = keyframes`
   from { transform: rotate(0deg); }
@@ -13,7 +14,7 @@ const animationRule = css`
   animation: ${/* sc-property */ rotation} ${props => props.animateTime}s linear;
 `
 
-export const SpinningIcon = styled(Icon)`
+export const SpinningIcon = styled(NavbarIcon)`
   margin-top: 2px;
   ${({ rotating }) => rotating && animationRule};
 `

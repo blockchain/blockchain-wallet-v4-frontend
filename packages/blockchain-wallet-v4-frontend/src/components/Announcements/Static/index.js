@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import EmailReminder from './template.email'
-import SunRiverKycReminder from './template.sunriver'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -48,12 +47,6 @@ class StaticAnnouncementsContainer extends React.PureComponent {
                   email={val.email}
                   emailReminded={this.state.emailReminded}
                 />
-              </Wrapper>
-            )
-          case 'sunRiverKyc':
-            return (
-              <Wrapper>
-                <SunRiverKycReminder goToKyc={this.props.verifyIdentity} />
               </Wrapper>
             )
           default:

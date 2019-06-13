@@ -21,27 +21,7 @@ export default () => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          'airdropReminderSubmitClicked',
-          e
-        )
-      )
-    }
-  }
-
-  const airdropReminderSubmitClicked = function * ({ payload }) {
-    const { campaign } = payload
-    try {
-      yield put(actions.preferences.hideAirdropReminderModal())
-      yield put(actions.modals.closeModal())
-      yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(
-        actions.components.identityVerification.createRegisterUserCampaign()
-      )
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'airdropReminderSubmitClicked',
+          'airdropClaimSubmitClicked',
           e
         )
       )
@@ -105,7 +85,6 @@ export default () => {
 
   return {
     airdropClaimSubmitClicked,
-    airdropReminderSubmitClicked,
     coinifyUpgradeSubmitClicked,
     swapGetStartedSubmitClicked,
     upgradeForAirdropSubmitClicked
