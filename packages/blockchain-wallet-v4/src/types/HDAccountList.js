@@ -40,7 +40,7 @@ export const selectContextGrouped = pipe(
   HDAccountList.guard,
   accList => {
     let activeAccounts = map(
-      HDAccount.selectAllXpubs,
+      HDAccount.selectAllXpubsGrouped,
       filter(HDAccount.isActive, accList)
     )
     return map(

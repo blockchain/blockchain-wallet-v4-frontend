@@ -73,9 +73,14 @@ export const isXpub = curry((myxpub, account) =>
   )(account)
 )
 
-export const selectAllXpubs = account => {
+export const selectAllXpubsGrouped = account => {
   const derivations = selectDerivations(account)
   return DerivationList.getXpubsAndTypesFromDerivations(derivations)
+}
+
+export const selectAllXpubs = account => {
+  const derivations = selectDerivations(account)
+  return DerivationList.getXpubsFromDerivations(derivations)
 }
 
 export const selectXpub = (account, type) => {
