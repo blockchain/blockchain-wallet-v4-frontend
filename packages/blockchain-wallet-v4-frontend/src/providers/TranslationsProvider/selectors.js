@@ -2,8 +2,7 @@ import { find, propEq } from 'ramda'
 
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { languages } from 'services/LanguageService'
-import configureLocales from 'services/LocalesService'
+import { configureLocales, languages } from 'services/LocalesService'
 
 export const getData = createDeepEqualSelector(
   [selectors.preferences.getLanguage],
