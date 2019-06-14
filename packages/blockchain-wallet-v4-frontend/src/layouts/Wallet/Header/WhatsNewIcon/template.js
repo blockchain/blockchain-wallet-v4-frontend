@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Link, Icon, TooltipHost } from 'blockchain-info-components'
+import { Link, TooltipHost } from 'blockchain-info-components'
+import { NavbarIcon } from 'components/Navbar'
 
 const WhatsNewLink = styled(Link)`
   position: relative;
@@ -40,7 +41,13 @@ const WhatsNewIcon = props => {
         {numOfNewAnnouncements > 0 ? (
           <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
         ) : null}
-        <Icon id='whatsnew-icon' name='bell' color='white' size='22px' cursor />
+        <NavbarIcon
+          id='whatsnew-icon'
+          name='bell'
+          color='white'
+          size='22px'
+          cursor
+        />
       </WhatsNewLink>
     </TooltipHost>
   )

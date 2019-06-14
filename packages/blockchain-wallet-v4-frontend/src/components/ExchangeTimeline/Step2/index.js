@@ -1,18 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { css, keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-const rotateFrames = keyframes`
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(-180deg); }
-  100% { transform: rotate(-360deg); }
-`
-const rotateAnimation = css`
-  animation: ${rotateFrames} 1.5s infinite linear;
-`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,11 +37,6 @@ const Circle = styled.div`
   box-sizing: border-box;
   overflow: hidden;
 `
-const AnimatedIcon = styled(Icon)`
-  ${rotateAnimation};
-  animation-play-state: ${props =>
-    props.status === 'active' ? 'running' : 'paused'};
-`
 const SmallCircle = styled(Circle)`
   position: absolute;
   top: 50%;
@@ -65,8 +52,8 @@ const SmallCircle = styled(Circle)`
 const Step2 = props => (
   <Wrapper>
     <Circle status={props.status}>
-      <AnimatedIcon
-        name='exchange'
+      <Icon
+        name='thick-arrow-switch'
         size='50px'
         color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         status={props.status}

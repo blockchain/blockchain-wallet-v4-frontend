@@ -12,6 +12,9 @@ export default {
           wallet: {}
         }
       },
+      ads: {
+        blacklist: ['LT', 'LU', 'UK', 'US']
+      },
       coins: {
         BTC: {
           availability: {

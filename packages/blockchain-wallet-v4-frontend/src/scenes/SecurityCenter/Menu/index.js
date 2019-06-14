@@ -2,16 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
+import HorizontalMenu from 'components/HorizontalMenu'
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 8px 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const LinkItem = styled(TabMenuItem)`
   &.active {
     & :after {
@@ -28,7 +21,7 @@ const LinkItem = styled(TabMenuItem)`
 class MenuContainer extends React.PureComponent {
   render () {
     return (
-      <Wrapper>
+      <HorizontalMenu>
         <TabMenu>
           <LinkContainer
             to='/security-center/basic'
@@ -55,7 +48,7 @@ class MenuContainer extends React.PureComponent {
             </LinkItem>
           </LinkContainer>
         </TabMenu>
-      </Wrapper>
+      </HorizontalMenu>
     )
   }
 }

@@ -12,9 +12,8 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 10px 30px;
+  padding: 8px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
   z-index: 10;
 
   @media (min-width: 850px) {

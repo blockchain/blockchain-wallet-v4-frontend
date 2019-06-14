@@ -16,8 +16,7 @@
     "pushArgs": "--no-verify"
   },
   "github": {
-    "release": true,
-    "draft": true,
+    "preRelease": true,
     "releaseName": "v${version}",
     "tokenRef": "RELEASE_IT_TOKEN"
   },
