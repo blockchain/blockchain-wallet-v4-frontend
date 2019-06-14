@@ -78,6 +78,7 @@ module.exports = {
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
+    new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {

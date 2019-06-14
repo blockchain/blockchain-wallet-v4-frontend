@@ -120,7 +120,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
-    })
+    }),
+    new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ],
   optimization: {
     namedModules: true,
