@@ -1,14 +1,40 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { connect } from 'react-redux'
+import { any, propOr } from 'ramda'
 
-import { getData } from './selectors'
+import { languages, loadLocaleData } from 'services/LocalesService'
+import { selectors } from 'data'
 
 class TranslationsProvider extends React.Component {
+  state = {
+    locale: '',
+    messages: {}
+  }
+
+  componentDidMount () {
+    this.initLocale()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.locale !== prevProps.locale) {
+      this.initLocale()
+    }
+  }
+
+  initLocale = () => {
+    const locale = any(propOr('en', this.props.locale), languages)
+      ? this.props.locale
+      : 'en'
+    loadLocaleData(locale, messages => {
+      this.setState({ messages, locale })
+    })
+  }
+
   render () {
-    const { locale, key, messages } = this.props.data
+    const { locale, messages } = this.state
     return (
-      <IntlProvider locale={locale} key={key} messages={messages}>
+      <IntlProvider locale={locale} key={locale} messages={messages}>
         {this.props.children}
       </IntlProvider>
     )
@@ -16,7 +42,7 @@ class TranslationsProvider extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  locale: selectors.preferences.getLanguage(state)
 })
 
 export default connect(mapStateToProps)(TranslationsProvider)

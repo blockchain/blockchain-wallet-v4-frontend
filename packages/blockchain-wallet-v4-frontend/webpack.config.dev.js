@@ -125,7 +125,10 @@ module.exports = {
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
-    new Webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
     new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {

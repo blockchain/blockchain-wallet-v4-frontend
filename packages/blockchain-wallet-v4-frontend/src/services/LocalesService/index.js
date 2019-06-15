@@ -63,11 +63,11 @@ export function tryParseLanguageFromUrl () {
   }
 }
 
-export const loadLocaleData = locale => {
+export const loadLocaleData = (locale, callback) => {
   const setLocaleData = (localeData, messages) => {
     addLocaleData(localeData)
     moment.locale(locale)
-    window.i18nMessages = messages
+    callback(messages)
   }
 
   switch (locale) {
