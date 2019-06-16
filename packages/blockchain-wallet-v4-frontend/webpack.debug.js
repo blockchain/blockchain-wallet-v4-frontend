@@ -204,7 +204,7 @@ module.exports = {
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
+          mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'
