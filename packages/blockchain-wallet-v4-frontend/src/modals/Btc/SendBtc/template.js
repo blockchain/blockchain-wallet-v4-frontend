@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
+import Announcements from 'components/Announcements'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendHeader = styled(ModalHeader)`
-  border-bottom: 0px;
+  border-bottom: 0;
   padding-bottom: 8px;
   > div:first-child * {
     color: ${props => props.theme['brand-primary']};
@@ -21,6 +22,7 @@ const SendBtc = props => (
         defaultMessage='Send Bitcoin'
       />
     </SendHeader>
+    <Announcements type='service' alertArea='send' currentCoin='BTC' />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )
