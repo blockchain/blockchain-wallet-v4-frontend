@@ -1,8 +1,10 @@
+// load zxcvbn dependency async and set on window
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+import { propOr } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import {
@@ -15,11 +17,27 @@ import {
 import { SettingWrapper } from 'components/Setting'
 import {
   required,
-  validStrongPassword,
   validPasswordConfirmation,
   validCurrentPassword,
   isNotCurrentPassword
 } from 'services/FormHelper'
+
+require.ensure(
+  ['zxcvbn'],
+  require => (window.zxcvbn = require('zxcvbn')),
+  'vendor-zxcvbn'
+)
+
+const validStrongPassword = password => {
+  return password !== undefined && window.zxcvbn(password).score > 1
+    ? undefined
+    : () => (
+        <FormattedMessage
+          id='scenes.securitysettings.advanced.walletpassword.invalidstrongpassword'
+          defaultMessage='Your password is not strong enough'
+        />
+      )
+}
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -44,7 +62,8 @@ const Settings = props => {
     handleSubmit,
     submitting,
     invalid,
-    handleCancel
+    handleCancel,
+    newWalletPasswordValue
   } = props
 
   return (
@@ -91,7 +110,12 @@ const Settings = props => {
                 name='newPassword'
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
-                score
+                showPasswordScore
+                passwordScore={propOr(
+                  0,
+                  'score',
+                  window.zxcvbn(newWalletPasswordValue)
+                )}
                 data-e2e='newPasswordInput'
               />
             </FormItemSpaced>
