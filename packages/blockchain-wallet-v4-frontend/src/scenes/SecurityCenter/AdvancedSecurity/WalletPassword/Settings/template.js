@@ -25,7 +25,7 @@ import {
 require.ensure(
   ['zxcvbn'],
   require => (window.zxcvbn = require('zxcvbn')),
-  'vendor-zxcvbn'
+  'zxcvbn'
 )
 
 const validStrongPassword = password => {

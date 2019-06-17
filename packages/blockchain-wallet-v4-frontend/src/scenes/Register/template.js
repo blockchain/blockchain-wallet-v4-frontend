@@ -32,7 +32,7 @@ import Terms from 'components/Terms'
 require.ensure(
   ['zxcvbn'],
   require => (window.zxcvbn = require('zxcvbn')),
-  'vendor-zxcvbn'
+  'zxcvbn'
 )
 
 const browser = Bowser.getParser(window.navigator.userAgent)
