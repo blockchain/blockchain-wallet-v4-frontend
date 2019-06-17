@@ -64,6 +64,7 @@ const Settings = props => {
 
   return (
     <NavbarNavItemTextLink
+      data-e2e='settingsLink'
       className={isMenuOpen && 'active'}
       onClick={() => toggleIsMenuOpen(!isMenuOpen)}
     >
