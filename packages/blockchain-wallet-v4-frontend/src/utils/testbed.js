@@ -6,9 +6,9 @@ import createSagaMiddleware from 'redux-saga'
 import { all, fork } from 'redux-saga/effects'
 import { MemoryRouter } from 'react-router'
 import { map } from 'ramda'
+import { IntlProvider } from 'react-intl'
 
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
-import TranslationsProvider from 'providers/TranslationsProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import preferencesReducer from 'data/preferences/reducers'
 import formReducer from 'data/form/reducers'
@@ -37,7 +37,7 @@ export const createTestStore = (
 
 export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
   <Provider store={store}>
-    <TranslationsProvider>
+    <IntlProvider locale='en' messages={{}}>
       <ThemeProvider>
         <MediaContextProvider>
           {withRouter ? (
@@ -49,7 +49,7 @@ export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
           )}
         </MediaContextProvider>
       </ThemeProvider>
-    </TranslationsProvider>
+    </IntlProvider>
   </Provider>
 )
 

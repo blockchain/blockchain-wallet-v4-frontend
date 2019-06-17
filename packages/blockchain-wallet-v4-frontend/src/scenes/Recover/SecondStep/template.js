@@ -1,4 +1,3 @@
-// load zxcvbn dependency async and set on window
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -22,6 +21,7 @@ import {
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 
+// load zxcvbn dependency async and set on window
 require.ensure(
   ['zxcvbn'],
   require => (window.zxcvbn = require('zxcvbn')),

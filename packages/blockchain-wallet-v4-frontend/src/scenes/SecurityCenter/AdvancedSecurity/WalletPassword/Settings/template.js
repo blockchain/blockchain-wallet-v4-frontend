@@ -1,4 +1,3 @@
-// load zxcvbn dependency async and set on window
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
@@ -22,12 +21,12 @@ import {
   isNotCurrentPassword
 } from 'services/FormHelper'
 
+// load zxcvbn dependency async and set on window
 require.ensure(
   ['zxcvbn'],
   require => (window.zxcvbn = require('zxcvbn')),
   'zxcvbn'
 )
-
 const validStrongPassword = password => {
   return password !== undefined && window.zxcvbn(password).score > 1
     ? undefined
