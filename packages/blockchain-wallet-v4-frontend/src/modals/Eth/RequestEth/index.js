@@ -6,13 +6,14 @@ import { FormattedHTMLMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
-import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, selectors, model } from 'data'
-import Loading from './template.loading'
-import Success from './template.success'
+import Announcements from 'components/Announcements'
 import DataError from 'components/DataError'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { getData, getInitialValues } from './selectors'
+import Loading from './template.loading'
+import Success from './template.success'
 
 const RequestHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -115,6 +116,7 @@ class RequestEthContainer extends React.PureComponent {
             }}
           />
         </RequestHeader>
+        <Announcements type='service' alertArea='request' currentCoin={coin} />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

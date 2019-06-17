@@ -5,31 +5,16 @@ import onClickOutside from 'react-onclickoutside'
 
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { triangle, transparentize } from 'polished'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { triangle } from 'polished'
 
+import {
+  NavbarNavItemTextLink,
+  NavbarNavItemTextHeader,
+  NavbarNavItemTextIcon
+} from 'components/Navbar'
 import { Destination, MenuItem } from 'components/MenuLeft'
 import media from 'services/ResponsiveService'
 
-const SettingsDropdown = styled(Link)`
-  display: flex;
-  align-items: center;
-  position: relative;
-  .icon,
-  .settings {
-    transition: color 0.3s;
-    color: ${props => transparentize(0.3, props.theme['white'])};
-  }
-  &:hover {
-    .icon,
-    .settings {
-      color: ${props => props.theme['white']};
-    }
-  }
-`
-const SettingsIcon = styled(Icon)`
-  margin-right: 8px;
-`
 const DropdownMenu = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,11 +48,6 @@ const DropdownMenuArrow = styled.div`
     right: 8px;
   `}
 `
-const SettingsText = styled(Text)`
-  ${media.tablet`
-    display: none;
-  `}
-`
 const DropdownSeparator = styled.div`
   height: 1px;
   width: 24px;
@@ -83,19 +63,28 @@ const Settings = props => {
   Settings.handleClickOutside = () => toggleIsMenuOpen(false)
 
   return (
-    <SettingsDropdown onClick={() => toggleIsMenuOpen(!isMenuOpen)}>
-      <SettingsIcon
+    <NavbarNavItemTextLink
+      data-e2e='settingsLink'
+      className={isMenuOpen && 'active'}
+      onClick={() => toggleIsMenuOpen(!isMenuOpen)}
+    >
+      <NavbarNavItemTextIcon
         className='icon'
         name='cog-filled'
         size='18px'
         color='white'
       />
-      <SettingsText size='14px' weight={600} color='white' className='settings'>
+      <NavbarNavItemTextHeader
+        size='14px'
+        weight={600}
+        color='white'
+        className='settings'
+      >
         <FormattedMessage
           id='layouts.wallet.header.settings'
           defaultMessage='Settings'
         />
-      </SettingsText>
+      </NavbarNavItemTextHeader>
       {isMenuOpen && (
         <DropdownMenu>
           <DropdownMenuArrow />
@@ -139,16 +128,6 @@ const Settings = props => {
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
-          <LinkContainer to='/security-center' activeClassName='active'>
-            <DropdownMenuItem data-e2e='securityCenterLink'>
-              <Destination>
-                <FormattedMessage
-                  id='layouts.wallet.header.seccenter'
-                  defaultMessage='Security Center'
-                />
-              </Destination>
-            </DropdownMenuItem>
-          </LinkContainer>
           <DropdownSeparator />
           <DropdownMenuItem onClick={handleLogout} data-e2e='logoutLink'>
             <Destination>
@@ -160,7 +139,7 @@ const Settings = props => {
           </DropdownMenuItem>
         </DropdownMenu>
       )}
-    </SettingsDropdown>
+    </NavbarNavItemTextLink>
   )
 }
 

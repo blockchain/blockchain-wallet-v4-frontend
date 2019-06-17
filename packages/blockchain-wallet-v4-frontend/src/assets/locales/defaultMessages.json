@@ -1961,6 +1961,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Security Center",
+        "id": "layouts.wallet.header.seccenter"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/SecurityCenter/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Settings",
         "id": "layouts.wallet.header.settings"
       },
@@ -1979,10 +1988,6 @@
       {
         "defaultMessage": "Wallets & Addresses",
         "id": "layouts.wallet.header.walletsaddresses"
-      },
-      {
-        "defaultMessage": "Security Center",
-        "id": "layouts.wallet.header.seccenter"
       },
       {
         "defaultMessage": "Sign Out",

@@ -3,16 +3,17 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
-
-import { getData, getInitialValues } from './selectors'
-import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, model } from 'data'
-import Loading from './template.loading'
-import Success from './template.success'
-import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
+
+import { actions, model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Announcements from 'components/Announcements'
+import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { getData, getInitialValues } from './selectors'
+import Loading from './template.loading'
+import Success from './template.success'
 
 const RequestHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -107,6 +108,7 @@ class RequestXlmContainer extends React.PureComponent {
             defaultMessage='Request Stellar'
           />
         </RequestHeader>
+        <Announcements type='service' alertArea='request' currentCoin='XLM' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

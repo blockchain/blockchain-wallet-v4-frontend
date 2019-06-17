@@ -21,7 +21,7 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {
-        return val.showAnnounce ? (
+        return val.showAnnouncement ? (
           <Announcement
             announcement={val.announcements[alertArea]}
             lang={val.language}
@@ -47,7 +47,14 @@ const mapDispatchToProps = dispatch => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['lockbox', 'public', 'swap', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf([
+    'lockbox',
+    'public',
+    'request',
+    'send',
+    'swap',
+    'wallet'
+  ]).isRequired
 }
 
 export default connect(

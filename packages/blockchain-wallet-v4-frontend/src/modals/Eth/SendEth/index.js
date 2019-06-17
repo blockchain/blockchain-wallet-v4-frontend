@@ -34,6 +34,7 @@ class SendEthContainer extends React.PureComponent {
         total={total}
         closeAll={closeAll}
         coinDisplayName={coin.displayName}
+        coin={coin.coinCode}
       >
         {step === 1 && <FirstStep coin={coin.coinCode} />}
         {step === 2 && (

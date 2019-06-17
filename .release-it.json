@@ -1,6 +1,6 @@
 {
-  "scripts": {
-    "beforeStart": [
+  "hooks": {
+    "before:init": [
       "rm -rf packages/blockchain-wallet-v4-frontend/build",
       "yarn manage:translations",
       "npx audit-ci --critical"
@@ -16,6 +16,7 @@
     "pushArgs": "--no-verify"
   },
   "github": {
+    "release": true,
     "preRelease": true,
     "releaseName": "v${version}",
     "tokenRef": "RELEASE_IT_TOKEN"
