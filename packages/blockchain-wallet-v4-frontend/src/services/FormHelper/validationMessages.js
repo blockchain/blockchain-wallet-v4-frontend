@@ -94,12 +94,6 @@ export const InvalidPasswordStretchingNumberMessage = () => (
     defaultMessage='PBKDF2 must be between 1 and 20000'
   />
 )
-export const InvalidStrongPasswordMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidstrongpassword'
-    defaultMessage='Your password is not strong enough'
-  />
-)
 export const InvalidWalletIdMessage = () => (
   <FormattedMessage
     id='formhelper.invalidwalletid'

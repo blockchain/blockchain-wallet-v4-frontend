@@ -18,7 +18,7 @@ class RecoverContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, previousStep } = this.props
+    const { data, password, previousStep } = this.props
     const busy = data.cata({
       Success: () => false,
       Failure: () => false,
@@ -31,6 +31,7 @@ class RecoverContainer extends React.PureComponent {
         previousStep={previousStep}
         onSubmit={this.onSubmit}
         busy={busy}
+        password={password}
       />
     )
   }
@@ -40,7 +41,7 @@ const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
   email: formValueSelector('recover')(state, 'email'),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  password: formValueSelector('recover')(state, 'password'),
+  password: formValueSelector('recover')(state, 'password') || '',
   language: selectors.preferences.getLanguage(state)
 })
 
