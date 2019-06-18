@@ -144,13 +144,14 @@ const Login = props => {
               />
             </FormLabel>
             <Field
+              borderColor={guidError ? 'invalid' : undefined}
+              component={TextBox}
+              data-e2e='loginGuid'
+              disabled={!isSupportedBrowser}
+              disableSpellcheck
               name='guid'
               normalize={removeWhitespace}
               validate={[required, validWalletId]}
-              component={TextBox}
-              borderColor={guidError ? 'invalid' : undefined}
-              disabled={!isSupportedBrowser}
-              data-e2e='loginGuid'
             />
           </FormItem>
           {guidError && (
