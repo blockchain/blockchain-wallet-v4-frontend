@@ -12,8 +12,8 @@ import {
   MenuIcon,
   MenuItem,
   Separator,
-  SubMenu,
-  SubMenuItem,
+  // SubMenu,
+  // SubMenuItem,
   Wrapper
 } from 'components/MenuLeft'
 import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
@@ -36,7 +36,11 @@ const NewCartridge = styled(Cartridge)`
 `
 const Navigation = props => {
   const { ...rest } = props
-  const { lockboxOpened, lockboxDevices, supportedCoins } = rest
+  const {
+    // lockboxOpened,
+    // lockboxDevices,
+    supportedCoins
+  } = rest
   const coinOrder = [
     supportedCoins.PAX,
     supportedCoins.BTC,
@@ -111,7 +115,7 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {lockboxOpened && (
+      {/* lockboxOpened && (
         <SubMenu>
           {lockboxDevices.map((device, index) => {
             const deviceName = device.device_name
@@ -133,7 +137,7 @@ const Navigation = props => {
             )
           })}
         </SubMenu>
-      )}
+      ) */}
       <Separator />
       {values(
         mapObjIndexed(

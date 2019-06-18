@@ -10,9 +10,10 @@ const BaseNavItem = styled.li`
     margin-right: 0px;
   }
 
-  ${media.mobile`
-    margin-right: 2px;
-    a span {
+  ${media.tablet`
+    margin-right: 2px !important;
+    min-width: 24px;
+    > div > a  > span {
       font-size: 18px;
     }
   `};

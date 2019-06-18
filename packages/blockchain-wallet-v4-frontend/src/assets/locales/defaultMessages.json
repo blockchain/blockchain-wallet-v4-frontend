@@ -1940,40 +1940,53 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Sign Out",
-        "id": "layouts.wallet.header.signout"
+        "defaultMessage": "Security Center",
+        "id": "layouts.wallet.header.seccenter"
       }
     ],
-    "path": "src/layouts/Wallet/Header/Logout/template.json"
+    "path": "src/layouts/Wallet/Header/SecurityCenter/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Security Center",
-        "id": "layouts.wallet.menuleft.footer.securitycenter"
-      },
-      {
         "defaultMessage": "Settings",
-        "id": "layouts.wallet.menuleft.footer.settings"
+        "id": "layouts.wallet.header.settings"
       },
       {
         "defaultMessage": "General",
-        "id": "layouts.wallet.menuleft.footer.general"
+        "id": "layouts.wallet.header.general"
       },
       {
         "defaultMessage": "Profile",
-        "id": "layouts.wallet.menuleft.footer.profile"
+        "id": "layouts.wallet.header.profile"
       },
       {
         "defaultMessage": "Preferences",
-        "id": "layouts.wallet.menuleft.footer.preferences"
+        "id": "layouts.wallet.header.preferences"
       },
       {
         "defaultMessage": "Wallets & Addresses",
-        "id": "layouts.wallet.menuleft.footer.addresses"
+        "id": "layouts.wallet.header.walletsaddresses"
+      },
+      {
+        "defaultMessage": "Sign Out",
+        "id": "layouts.wallet.header.Sign Out"
       }
     ],
-    "path": "src/layouts/Wallet/MenuLeft/Footer/template.json"
+    "path": "src/layouts/Wallet/Header/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Ad by bitcoin.com",
+        "id": "layouts.wallet.menuleft.footer.ad"
+      },
+      {
+        "defaultMessage": "<span>Bitcoin Games.</span> <span>Play Now</span>",
+        "id": "layouts.wallet.menuleft.footer.bitcoingames2"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Footer/index.json"
   },
   {
     "descriptors": [
@@ -1994,16 +2007,12 @@
         "id": "layouts.wallet.menuleft.navigation.trade"
       },
       {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
-      },
-      {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
       },
       {
-        "defaultMessage": "{deviceName}",
-        "id": "layouts.wallet.menuleft.navigation.lockbox.device"
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"

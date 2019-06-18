@@ -15,7 +15,8 @@ export const MenuItem = styled.button`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 14px 16px;
+  height: 48px;
+  padding: 0px 16px;
   margin-bottom: 8px;
   box-sizing: border-box;
   border-width: 0px;
@@ -76,7 +77,7 @@ export const MenuItem = styled.button`
       background: ${props =>
         props.colorCode && transparentize(0.75, props.theme[props.colorCode])};
       .destination {
-        color: ${props => props.theme['grey600']};
+        color: ${props => props.theme['grey800']};
       }
     }
   }
