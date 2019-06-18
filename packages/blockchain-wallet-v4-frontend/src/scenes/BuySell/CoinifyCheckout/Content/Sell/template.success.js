@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop } from 'ramda'
+import { includes, path, prop, propEq } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -11,6 +11,7 @@ import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
+import SellUnavailable from './SellUnavailable'
 import { CheckoutWrapper } from '../Buy/template.success'
 
 const OrderSubmitWrapper = styled.div`
@@ -45,15 +46,15 @@ const Sell = props => {
     handleKycAction,
     kycState,
     kycVerified,
-    level
+    level,
+    country
   } = props
-
   const profile = value.profile || {
     _limits: service.mockedLimits,
     _level: { currency: 'EUR' }
   }
   const sellCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
-  const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
+  const defaultCurrency = includes(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const levelName = prop('name', level.getOrElse())
   const limits = service.getLimits(
@@ -88,7 +89,7 @@ const Sell = props => {
               cannotTradeReason={cannotTradeReason}
               canTradeAfter={canTradeAfter}
             />
-            {!kycVerified && levelName < 2 ? (
+            {!kycVerified && levelName < 2 && (
               <KYCNotification
                 limits={limits.sell}
                 symbol={symbol}
@@ -97,7 +98,8 @@ const Sell = props => {
                 canTrade={canTrade}
                 kycState={kycState}
               />
-            ) : null}
+            )}
+            {propEq('US', country) && <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
