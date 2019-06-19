@@ -3614,6 +3614,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Buy Bitcoin with cards",
+        "id": "modals.coinifybuyviacard.title"
+      },
+      {
+        "defaultMessage": "You can now purchase Bitcoin with your credit cards from within your wallet! No longer are you able to buy or sell with banks.",
+        "id": "modals.coinifybuyviacard.intro"
+      },
+      {
+        "defaultMessage": "Buy Now",
+        "id": "modals.coinifybuyviacard.buynow"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyBuyViaCard/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Delete bank Account?",
         "id": "modals.coinifydeletebank.title"
       },
@@ -6759,8 +6776,8 @@
         "id": "modals.sendxlm.firststep.txmemo"
       },
       {
-        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.",
-        "id": "modals.sendxlm.firststep.sendtoexchange"
+        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!",
+        "id": "modals.sendxlm.firststep.sendtoexchange2"
       },
       {
         "defaultMessage": "Learn More",
@@ -7521,6 +7538,23 @@
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/Sell/SelectAccounts/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Sell Unavailable",
+        "id": "scenes.buysell.coinify.sellunavailable.header"
+      },
+      {
+        "defaultMessage": "Unfortunately Sell is not currently available in your state. We're working hard to bring it back as soon as possible.",
+        "id": "scenes.buysell.coinify.sellunavailable.reason"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.buysell.coinify.sellunavailable.learnmore"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Sell/SellUnavailable/index.json"
   },
   {
     "descriptors": [
@@ -8622,6 +8656,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
+      },
+      {
         "defaultMessage": "Recover Funds",
         "id": "scenes.recover.secondstep.funds"
       },
@@ -8650,6 +8688,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
+      },
       {
         "defaultMessage": "Create a Wallet",
         "id": "scenes.register.createawallet"
@@ -9119,6 +9161,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.securitysettings.advanced.walletpassword.invalidstrongpassword"
+      },
       {
         "defaultMessage": "Change",
         "id": "scenes.securitysettings.advanced.walletpassword.settings.change"
@@ -10868,10 +10914,6 @@
       {
         "defaultMessage": "PBKDF2 must be between 1 and 20000",
         "id": "formhelper.invalidpasswordstretchingnumber"
-      },
-      {
-        "defaultMessage": "Your password is not strong enough",
-        "id": "formhelper.invalidstrongpassword"
       },
       {
         "defaultMessage": "Invalid Wallet ID",
