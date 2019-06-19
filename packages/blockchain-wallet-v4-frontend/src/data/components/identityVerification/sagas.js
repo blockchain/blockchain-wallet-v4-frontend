@@ -1,5 +1,5 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import { head, isEmpty, prop, toUpper } from 'ramda'
+import { head, isEmpty, mapObjIndexed, prop, toUpper, sort } from 'ramda'
 
 import { actions, actionTypes, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
@@ -23,14 +23,9 @@ import {
 import { computeSteps } from './services'
 
 export const logLocation = 'components/identityVerification/sagas'
-
-export const failedToFetchAddressesError = 'Invalid zipcode'
-export const noCountryCodeError = 'Country code is not provided'
-export const noPostCodeError = 'Post code is not provided'
 export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
-export const userExistsError = 'User already exists'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
@@ -368,12 +363,26 @@ export default ({ api, coreSagas }) => {
   const fetchStates = function * ({ payload }) {
     const { isCoinify } = payload
     try {
+      let stateList = []
       yield put(A.setStatesLoading())
-      const fetchStateEndpoint = isCoinify
-        ? api.getCoinifyStates
-        : api.getStates
-      const states = yield call(fetchStateEndpoint)
-      yield put(A.setStatesSuccess(states))
+      if (isCoinify) {
+        const coinifySupportList = yield call(api.getCoinifyStates)
+        // hack to create similar state list model as Nabu
+        mapObjIndexed((s, key) => {
+          stateList.push({
+            name: key,
+            scopes: s.supported ? ['KYC'] : []
+          })
+        }, coinifySupportList.US.states)
+        yield put(
+          A.setStatesSuccess(
+            sort((a, b) => a.name.localeCompare(b.name), stateList)
+          )
+        )
+      } else {
+        stateList = yield call(api.getStates)
+        yield put(A.setStatesSuccess(stateList))
+      }
     } catch (e) {
       yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(

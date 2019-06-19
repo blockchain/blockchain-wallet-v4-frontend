@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { compose, lift, prop, test, contains, keys, path } from 'ramda'
+import { compose, lift, prop, test, includes, keys, path } from 'ramda'
 
 import { selectors, model } from 'data'
 
@@ -94,7 +94,7 @@ export const getData = state => {
     activeField,
     activeFieldError:
       path([activeField, 'touched'], formMetaSelector(state)) &&
-      contains(activeField, keys(formErrorSelector(state))),
+      includes(activeField, keys(formErrorSelector(state))),
     userData: compose(
       lift(formatUserData),
       getUserData

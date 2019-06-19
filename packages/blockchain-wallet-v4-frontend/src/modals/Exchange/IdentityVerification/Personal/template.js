@@ -49,6 +49,7 @@ import {
   Footer
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
+const { isStateSupported } = model.components.identityVerification
 
 const FormContainer = styled.div`
   margin-top: 24px;
@@ -145,6 +146,14 @@ const DOBToObject = value => {
     month,
     year
   }
+}
+const isSelectedStateSupported = value => {
+  return isStateSupported(value) ? null : (
+    <FormattedMessage
+      id='identityverification.personal.statenotsupported'
+      defaultMessage='This state is not currently supported.'
+    />
+  )
 }
 
 const Personal = ({
@@ -271,7 +280,7 @@ const Personal = ({
                           </Label>
                           <Field
                             name='state'
-                            validate={required}
+                            validate={[required, isSelectedStateSupported]}
                             elements={states}
                             component={SelectBox}
                             menuPlacement='auto'
