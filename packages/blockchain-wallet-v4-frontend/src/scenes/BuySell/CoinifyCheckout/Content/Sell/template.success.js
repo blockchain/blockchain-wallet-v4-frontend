@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { includes, path, prop, propEq } from 'ramda'
+import { includes, path, prop } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -30,6 +30,7 @@ const Sell = props => {
     refreshQuote,
     sellQuoteR,
     rateQuoteR,
+    canSell,
     clearTradeError,
     currency,
     checkoutBusy,
@@ -46,8 +47,7 @@ const Sell = props => {
     handleKycAction,
     kycState,
     kycVerified,
-    level,
-    country
+    level
   } = props
   const profile = value.profile || {
     _limits: service.mockedLimits,
@@ -99,7 +99,7 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-            {propEq('US', country) && <SellUnavailable />}
+            {!canSell && <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
