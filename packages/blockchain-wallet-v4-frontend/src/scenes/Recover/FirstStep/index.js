@@ -70,11 +70,12 @@ const FirstStep = props => {
               />
             </Text>
             <Field
-              name='mnemonic'
-              autoFocus
-              validate={[required, validMnemonic]}
-              component={TextBox}
               autoComplete='off'
+              autoFocus
+              component={TextBox}
+              disableSpellcheck
+              name='mnemonic'
+              validate={[required, validMnemonic]}
             />
           </FormItem>
         </FormGroup>

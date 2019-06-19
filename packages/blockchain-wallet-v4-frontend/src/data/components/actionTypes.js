@@ -10,7 +10,6 @@ import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as layoutWallet from './layoutWallet/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
-import * as login from './login/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
 import * as onfido from './onfido/actionTypes'
@@ -44,7 +43,6 @@ export {
   importBtcAddress,
   layoutWallet,
   lockbox,
-  login,
   manageAddresses,
   onboarding,
   onfido,

@@ -105,18 +105,6 @@ describe('FormHelper', () => {
     })
   })
 
-  describe('validStrongPassword()', () => {
-    it('returns correct string if invalid password passed', () => {
-      expect(FormHelper.validStrongPassword('password')).toEqual(
-        <M.InvalidStrongPasswordMessage />
-      )
-    })
-
-    it('returns undefined if valid password is given', () => {
-      expect(FormHelper.validStrongPassword('sk8_d13_H3lp_Me')).toBeUndefined()
-    })
-  })
-
   describe('validIpList()', () => {
     it('returns correct string if invalid IP passed', () => {
       expect(FormHelper.validIpList('10.208.124')).toEqual(

@@ -72,10 +72,11 @@ const FirstStep = props => {
               />
             </FormLabel>
             <Field
-              name='guid'
               autoFocus
-              validate={[required, validWalletId]}
               component={TextBox}
+              disableSpellcheck
+              name='guid'
+              validate={[required, validWalletId]}
             />
             <TextGroup inline>
               <Text size='12px' weight={400}>

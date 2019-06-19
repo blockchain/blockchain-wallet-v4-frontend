@@ -3,19 +3,12 @@ import ReactDOM from 'react-dom'
 
 import './favicons'
 import configureStore from 'store'
-import configureLocales from 'services/LocalesService'
 import App from 'scenes/app.js'
 import Error from './index.error'
 
 const renderApp = (Component, store, history, persistor) => {
-  const { messages } = configureLocales(store)
   ReactDOM.render(
-    <Component
-      store={store}
-      history={history}
-      messages={messages}
-      persistor={persistor}
-    />,
+    <Component store={store} history={history} persistor={persistor} />,
     document.getElementById('app')
   )
 }
