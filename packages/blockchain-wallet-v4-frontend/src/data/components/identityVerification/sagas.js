@@ -169,13 +169,17 @@ export default ({ api, coreSagas }) => {
       selectors.core.settings.getSmsVerified
     )).getOrElse(0)
     const currentStep = yield select(S.getVerificationStep)
+    const coinifyUser = (yield select(
+      selectors.core.kvStore.buySell.getCoinifyUser
+    )).getOrElse(false)
     const steps = computeSteps({
-      tiers,
-      mobileVerified,
-      smsVerified,
+      coinifyUser,
       currentStep,
       isCoinify,
-      needMoreInfo
+      mobileVerified,
+      needMoreInfo,
+      smsVerified,
+      tiers
     })
 
     yield put(A.setStepsSuccess(steps))
@@ -361,17 +365,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchStates = function * () {
+  const fetchStates = function * ({ payload }) {
+    const { isCoinify } = payload
     try {
       yield put(A.setStatesLoading())
-      const states = yield call(api.getStates)
+      const fetchStateEndpoint = isCoinify
+        ? api.getCoinifyStates
+        : api.getStates
+      const states = yield call(fetchStateEndpoint)
       yield put(A.setStatesSuccess(states))
     } catch (e) {
       yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
-        'fetchSupportedCountries',
-        `Error fetching supported countries: ${e}`
+        'fetchSupportedStates',
+        `Error fetching supported states: ${e}`
       )
     }
   }

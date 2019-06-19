@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { path, prop } from 'ramda'
+import { length, path, prop } from 'ramda'
 
 import { actions, model } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import Loading from 'components/BuySell/Loading'
 import { hasAccount } from 'services/ExchangeService'
-import SfoxCheckout from './SfoxCheckout'
+// import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template'
@@ -70,13 +70,11 @@ class BuySellContainer extends React.PureComponent {
     const { setVerificationStep } = identityActions
     const { setCountry } = coinifyActions
     const { country } = fields
-    const { sfoxCountries, coinifyCountries } = data.getOrFail(
-      'Missing partner countries.'
-    )
+    const { coinifyCountries } = data.getOrFail('Missing partner countries.')
 
-    if (sfoxCountries.indexOf(country) >= 0) {
-      showModal('SfoxExchangeData', { step: 'account' })
-    }
+    // if (sfoxCountries.indexOf(country) >= 0) {
+    //   showModal('SfoxExchangeData', { step: 'account' })
+    // }
     if (coinifyCountries.includes(country)) {
       // set country in redux so we can skip KYC country selection
       setCountry(country)
@@ -93,16 +91,18 @@ class BuySellContainer extends React.PureComponent {
    */
 
   selectPartner = (buySell, options, type, value) => {
-    if (path(['sfox', 'account_token'], buySell)) {
-      return {
-        component: (
-          <SfoxCheckout type={type} options={options} value={buySell} />
-        ),
-        partner: 'sfox'
-      }
-    }
-    if (path(['coinify', 'offline_token'], buySell)) {
-      // if a coinify account already exists
+    // if (path(['sfox', 'account_token'], buySell)) {
+    //   return {
+    //     component: (
+    //       <SfoxCheckout type={type} options={options} value={buySell} />
+    //     ),
+    //     partner: 'sfox'
+    //   }
+    // }
+    const showSFOXTrades =
+      type === 'order_history' && length(path(['sfox', 'trades'], buySell))
+
+    if (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />

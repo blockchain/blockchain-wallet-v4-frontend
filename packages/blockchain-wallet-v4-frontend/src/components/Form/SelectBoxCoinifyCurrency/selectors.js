@@ -1,16 +1,12 @@
-import { concat } from 'ramda'
-
-export const getData = (state, ownProps) => {
+export const getData = () => {
   const buySellCurrencies = [
     { text: 'EUR', value: 'EUR' },
     { text: 'DKK', value: 'DKK' },
-    { text: 'GBP', value: 'GBP' }
+    { text: 'GBP', value: 'GBP' },
+    { text: 'USD', value: 'USD' }
   ]
-  const buyCurrencies = [{ text: 'USD', value: 'USD' }]
 
   return {
-    currencies: ownProps.isSell
-      ? buySellCurrencies
-      : concat(buySellCurrencies, buyCurrencies)
+    currencies: buySellCurrencies
   }
 }
