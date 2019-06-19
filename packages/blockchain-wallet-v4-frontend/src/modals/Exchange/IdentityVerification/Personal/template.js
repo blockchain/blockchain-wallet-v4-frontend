@@ -49,7 +49,6 @@ import {
   Footer
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
-const { isStateSupported } = model.components.identityVerification
 
 const FormContainer = styled.div`
   margin-top: 24px;
@@ -146,14 +145,6 @@ const DOBToObject = value => {
     month,
     year
   }
-}
-const isSelectedStateSupported = value => {
-  return isStateSupported(value) ? null : (
-    <FormattedMessage
-      id='identityverification.personal.statenotsupported'
-      defaultMessage='This state is not currently supported.'
-    />
-  )
 }
 
 const Personal = ({
@@ -280,7 +271,7 @@ const Personal = ({
                           </Label>
                           <Field
                             name='state'
-                            validate={[required, isSelectedStateSupported]}
+                            validate={[required]}
                             elements={states}
                             component={SelectBox}
                             menuPlacement='auto'
@@ -299,8 +290,8 @@ const Personal = ({
                     {showStateError && (
                       <ErrorBanner type='warning'>
                         <FormattedMessage
-                          id='identityverification.personal.unavailable_swap'
-                          defaultMessage='Unfortunately Swap is not available in your state at this time.'
+                          id='identityverification.personal.unavailable'
+                          defaultMessage='Unfortunately this feature is not available in your state at this time.'
                         />
                         <FormattedMessage
                           id='identityverification.personal.unavailablenotify'

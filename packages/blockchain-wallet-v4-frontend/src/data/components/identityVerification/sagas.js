@@ -21,6 +21,7 @@ import {
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
 import { computeSteps } from './services'
+import { getStateNameFromAbbreviation } from 'services/LocalesService'
 
 export const logLocation = 'components/identityVerification/sagas'
 export const invalidNumberError = 'Failed to update mobile number'
@@ -370,7 +371,7 @@ export default ({ api, coreSagas }) => {
         // hack to create similar state list model as Nabu
         mapObjIndexed((s, key) => {
           stateList.push({
-            name: key,
+            name: getStateNameFromAbbreviation(key),
             scopes: s.supported ? ['KYC'] : []
           })
         }, coinifySupportList.US.states)
