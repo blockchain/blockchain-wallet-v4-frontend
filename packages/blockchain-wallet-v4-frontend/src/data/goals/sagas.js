@@ -363,19 +363,29 @@ export default ({ api }) => {
     }
   }
 
+  const runCoinifyBuyViaCard = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    // TODO
+    yield put(
+      actions.goals.addInitialModal('coinifyBuyViaCard', 'CoinifyBuyViaCard')
+    )
+  }
+
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
-      linkAccount,
-      kycDocResubmit,
-      sunriver,
-      payment,
+      airdropClaim,
+      coinifyBuyViaCard,
       coinifyUpgrade,
-      upgradeForAirdrop,
+      kycDocResubmit,
+      linkAccount,
+      pax,
+      payment,
+      sunriver,
       swapGetStarted,
       swapUpgrade,
-      airdropClaim,
-      pax,
+      upgradeForAirdrop,
       welcome
     } = initialModals
     if (linkAccount) {
@@ -395,6 +405,11 @@ export default ({ api }) => {
     if (coinifyUpgrade) {
       return yield put(
         actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
+      )
+    }
+    if (coinifyBuyViaCard) {
+      return yield put(
+        actions.modals.showModal(coinifyBuyViaCard.name, coinifyBuyViaCard.data)
       )
     }
     if (upgradeForAirdrop) {
@@ -441,6 +456,9 @@ export default ({ api }) => {
         case 'coinifyUpgrade':
           yield call(runCoinifyUpgradeGoal, goal)
           break
+        case 'coinifyBuyViaCard':
+          yield call(runCoinifyBuyViaCard, goal)
+          break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
           break
@@ -484,6 +502,7 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
+    runCoinifyBuyViaCard,
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
