@@ -366,10 +366,19 @@ export default ({ api }) => {
   const runCoinifyBuyViaCard = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-    // TODO
-    yield put(
-      actions.goals.addInitialModal('coinifyBuyViaCard', 'CoinifyBuyViaCard')
-    )
+    const isSfoxUser = (yield select(
+      selectors.core.kvStore.buySell.getSfoxUser
+    )).getOrElse(false)
+    const hasSeen = (yield select(
+      selectors.core.kvStore.buySell.getSfoxHasSeenShutdown
+    )).getOrElse(false)
+
+    if (isSfoxUser && !hasSeen) {
+      yield put(actions.core.kvStore.buySell.setSfoxShutdownHasSeen())
+      yield put(
+        actions.goals.addInitialModal('coinifyBuyViaCard', 'CoinifyBuyViaCard')
+      )
+    }
   }
 
   const showInitialModal = function * () {
