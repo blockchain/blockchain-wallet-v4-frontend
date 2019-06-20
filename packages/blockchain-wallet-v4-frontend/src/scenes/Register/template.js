@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import Bowser from 'bowser'
-import { propOr } from 'ramda'
+import { has } from 'ramda'
 
 import {
   validPasswordConfirmation,
@@ -74,7 +74,7 @@ const validStrongPassword = value =>
 
 const Register = props => {
   const { handleSubmit, busy, invalid, password, passwordLength } = props
-  let passwordScore = propOr(0, 'score', window.zxcvbn(password))
+  let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
 
   return (
     <Wrapper>
