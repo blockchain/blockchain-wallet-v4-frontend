@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text, PasswordInput } from 'blockchain-info-components'
-import PasswordScore from './PasswordScore'
+import { PasswordGauge, PasswordInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -49,7 +48,7 @@ const PasswordBox = field => {
         data-e2e={field['data-e2e']}
         noLastPass={noLastPass}
       />
-      {scoreVisible && <PasswordScore passwordScore={passwordScore} />}
+      {scoreVisible && <PasswordGauge score={passwordScore + 1} />}
       {touched && error && (
         <Error
           size='12px'
