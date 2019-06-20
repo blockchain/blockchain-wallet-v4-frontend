@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { propOr } from 'ramda'
+import { has } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import {
@@ -110,11 +110,11 @@ const Settings = props => {
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 showPasswordScore
-                passwordScore={propOr(
-                  0,
-                  'score',
-                  window.zxcvbn(newWalletPasswordValue)
-                )}
+                passwordScore={
+                  has('zxcvbn', window)
+                    ? window.zxcvbn(newWalletPasswordValue).score
+                    : 0
+                }
                 data-e2e='newPasswordInput'
               />
             </FormItemSpaced>
