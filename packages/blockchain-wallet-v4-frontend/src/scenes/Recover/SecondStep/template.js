@@ -7,7 +7,7 @@ import {
   validEmail,
   validPasswordConfirmation
 } from 'services/FormHelper'
-import { propOr } from 'ramda'
+import { has } from 'ramda'
 
 import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import {
@@ -98,7 +98,9 @@ const SecondStep = props => {
             validate={[required, validStrongPassword]}
             component={PasswordBox}
             showPasswordScore
-            passwordScore={propOr(0, 'score', window.zxcvbn(password))}
+            passwordScore={
+              has('zxcvbn', window) ? window.zxcvbn(password).score : 0
+            }
           />
         </FormGroup>
         <FormGroup>
