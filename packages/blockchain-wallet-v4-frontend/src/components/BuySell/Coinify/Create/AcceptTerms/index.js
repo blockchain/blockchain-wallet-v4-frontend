@@ -6,17 +6,10 @@ import { actions, model } from 'data'
 import AcceptTerms from './template'
 
 const { CHANGE } = model.components.coinify.REGISTER_STATES
-const { EMAIL_STEPS } = model.components.identityVerification
 
 class AcceptTermsContainer extends PureComponent {
   handleResend = () =>
     this.props.securityCenterActions.updateEmail(this.props.email)
-
-  handleEditEmail = () => {
-    this.props.updateCreate(CHANGE)
-    this.props.idvActions.setEmailStep(EMAIL_STEPS.edit)
-    this.props.coinifyActions.coinifyNotAsked()
-  }
 
   onSubmit = () => this.props.coinifyActions.coinifySignup(this.props.country)
 
@@ -46,7 +39,10 @@ class AcceptTermsContainer extends PureComponent {
         invalid={invalid}
         onSubmit={this.onSubmit}
         signupError={error}
-        editEmail={this.handleEditEmail}
+        editEmail={() => {
+          this.props.updateCreate(CHANGE)
+          coinifyNotAsked()
+        }}
         clearError={coinifyNotAsked}
         create={create}
         handleResend={this.handleResend}
@@ -62,10 +58,6 @@ AcceptTermsContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  idvActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,

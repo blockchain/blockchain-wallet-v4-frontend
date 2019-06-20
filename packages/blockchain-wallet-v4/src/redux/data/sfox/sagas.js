@@ -110,12 +110,12 @@ export default ({ api, options }) => {
   const fetchSfoxAccounts = function * () {
     try {
       yield call(refreshSFOX)
-      yield put(A.fetchSfoxAccountsLoading())
+      yield put(A.sfoxFetchAccountsLoading())
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
-      yield put(A.fetchSfoxAccountsSuccess(accounts))
+      yield put(A.sfoxFetchAccountsSuccess(accounts))
     } catch (e) {
-      yield put(A.fetchSfoxAccountsFailure(e))
+      yield put(A.sfoxFetchAccountsFailure(e))
     }
   }
 
@@ -239,10 +239,10 @@ export default ({ api, options }) => {
 
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
-      yield put(A.fetchSfoxAccountsSuccess(accounts))
+      yield put(A.sfoxFetchAccountsSuccess(accounts))
       return accounts
     } catch (e) {
-      yield put(A.fetchSfoxAccountsFailure(e))
+      yield put(A.sfoxFetchAccountsFailure(e))
     }
   }
 

@@ -33,6 +33,7 @@ const tradeDateHelper = (trade, isMobile) =>
 
 const RecurringTradeItem = props => {
   const {
+    conversion,
     handleClick,
     handleFinish,
     handleTradeCancel,
@@ -43,10 +44,6 @@ const RecurringTradeItem = props => {
     border,
     padding
   } = props
-  const conversion = {
-    buy: 100,
-    sell: 1e8
-  }
   const receiveAmount = trade.isBuy
     ? trade.receiveAmount
     : Exchange.displayFiatToFiat({ value: trade.receiveAmount })

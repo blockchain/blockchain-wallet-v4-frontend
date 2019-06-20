@@ -65,7 +65,7 @@ class PersonalContainer extends React.PureComponent {
 
   fetchData = () => {
     this.props.actions.fetchSupportedCountries()
-    this.props.actions.fetchStates(this.props.isCoinify)
+    this.props.actions.fetchStates()
   }
 
   logEvent = val => {

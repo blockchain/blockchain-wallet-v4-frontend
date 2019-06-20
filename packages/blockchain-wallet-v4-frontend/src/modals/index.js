@@ -14,11 +14,7 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
-import {
-  CoinifyBuyViaCard,
-  CoinifyDeleteBank,
-  CoinifyTradeDetails
-} from './Coinify'
+import { CoinifyDeleteBank, CoinifyTradeDetails } from './Coinify'
 import {
   PaxWelcome,
   RequestEth,
@@ -88,7 +84,6 @@ const Modals = () => (
     <AirdropClaim />
     <AirdropSuccess />
     <AutoDisconnection />
-    <CoinifyBuyViaCard />
     <CoinifyDeleteBank />
     <CoinifyTradeDetails />
     <CoinifyUpgrade />

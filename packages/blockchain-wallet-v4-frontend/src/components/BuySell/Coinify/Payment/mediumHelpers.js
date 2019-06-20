@@ -133,6 +133,11 @@ export function CardOption ({ handlePaymentClick, disabled }) {
               id='coinifyexchangedata.payment.mediumhelpers.card.detail2'
               defaultMessage='3% convenience fee'
             />
+            <br />
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.card.detail3'
+              defaultMessage='Visa or Mastercard'
+            />
           </Text>
         )}
       </Text>
