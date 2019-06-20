@@ -92,6 +92,7 @@ const FiatConverter = props => {
             name='currency'
             component={SelectBoxCoinifyCurrency}
             defaultDisplay={defaultCurrency}
+            isSell={isSell}
             borderColor={BORDER_COLOR}
             disabled={inputsDisabled}
           />

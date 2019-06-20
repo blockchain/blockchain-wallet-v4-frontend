@@ -45,6 +45,8 @@ const OrderCheckout = ({
   checkoutBusy,
   checkoutError,
   defaultCurrency,
+  onFetchQuote,
+  increaseLimit,
   limits,
   onOrderCheckoutSubmit,
   quoteR,
@@ -52,6 +54,7 @@ const OrderCheckout = ({
   reason,
   setMax,
   setMin,
+  symbol,
   type,
   verified
 }) => {

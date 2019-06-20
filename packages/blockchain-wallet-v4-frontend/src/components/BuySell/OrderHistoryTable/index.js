@@ -12,6 +12,7 @@ class OrderHistoryTable extends React.PureComponent {
 
   render () {
     const {
+      conversion,
       trades,
       handleTradeCancel,
       handleFinishTrade,
@@ -76,6 +77,7 @@ class OrderHistoryTable extends React.PureComponent {
           <TradeItem
             key={index}
             trade={trade}
+            conversion={conversion}
             handleFinish={handleFinishTrade}
             handleClick={handleDetailsClick}
             handleTradeCancel={handleTradeCancel}

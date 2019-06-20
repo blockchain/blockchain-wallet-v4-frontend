@@ -58,7 +58,7 @@ class CoinifyBuyContainer extends React.PureComponent {
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
-          handleKycAction={() => showModal(KYC_MODAL, { isCoinify: true })}
+          handleKycAction={() => showModal(KYC_MODAL)}
           initiateBuy={this.startBuy}
           refreshQuote={refreshBuyQuote}
           setMax={amt =>

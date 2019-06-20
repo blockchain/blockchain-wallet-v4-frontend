@@ -136,15 +136,14 @@ export const BorderBox = styled.div`
  * Not a real input, just for value display
  */
 export const FieldMimic = styled.div`
-  height: 48px;
-  border: 1px solid ${props => props.theme['gray-1']};
-  padding: 0 15px;
+  height: 28px;
+  border: 1px solid #cccccc;
+  padding: 5px 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
   width: ${props => props.width || '85%'};
   justify-content: space-between;
-  border-radius: 4px;
   ${media.mobile`
     border: none;
     width: 100%;
