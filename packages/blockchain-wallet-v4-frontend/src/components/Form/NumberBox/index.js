@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: 40px;
+  height: 48px;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -37,7 +37,7 @@ const NumberBox = field => {
       {field.meta.touched && field.meta.error && (
         <Error
           size='12px'
-          weight={400}
+          weight={500}
           color='error'
           errorBottom={field.errorBottom}
           data-e2e='numberBoxError'

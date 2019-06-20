@@ -52,3 +52,19 @@ export const setCampaign = campaign => ({
   type: AT.SET_CAMPAIGN,
   payload: { campaign }
 })
+
+export const linkAccount = linkId => ({
+  type: AT.LINK_ACCOUNT,
+  payload: { linkId }
+})
+export const linkAccountLoading = () => ({
+  type: AT.LINK_ACCOUNT_LOADING
+})
+export const linkAccountSuccess = data => ({
+  type: AT.LINK_ACCOUNT_SUCCESS,
+  payload: { data }
+})
+export const linkAccountFailure = e => ({
+  type: AT.LINK_ACCOUNT_FAILURE,
+  payload: { e }
+})

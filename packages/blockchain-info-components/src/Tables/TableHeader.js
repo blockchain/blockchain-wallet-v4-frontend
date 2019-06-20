@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 8px 15px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['brand-quaternary']};
+  background-color: ${props => props.theme['gray-1']};
   border-left: 1px solid ${props => props.theme['gray-2']};
   border-top: 1px solid ${props => props.theme['gray-2']};
   border-right: 1px solid ${props => props.theme['gray-2']};

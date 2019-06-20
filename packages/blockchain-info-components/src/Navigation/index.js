@@ -28,8 +28,8 @@ const HIDE_HEADER_MIN_SCROLL = 100
 
 const lightTheme = {
   main: 'white',
-  secondary: `${Color('whiteAlpha10')}`,
-  placeholder: `${Color('whiteAlpha75')}`,
+  secondary: `${Color('whiteFade100')}`,
+  placeholder: `${Color('whiteFade800')}`,
   headerScroll: `${Color('bigStone')}`
 }
 const COOKIES = new Cookies()
@@ -37,8 +37,8 @@ const LOCALE = COOKIES.get('clang') || 'en'
 
 const darkTheme = {
   main: `${Color('marketing-secondary')}`,
-  secondary: `${Color('blackAlpha05')}`,
-  placeholder: `${Color('blackAlpha75')}`,
+  secondary: `${Color('greyFade200')}`,
+  placeholder: `${Color('greyFade800')}`,
   headerScroll: 'white'
 }
 
@@ -114,7 +114,7 @@ const NavInner = styled.div`
   }
 
   &:first-child {
-    //Align logo to mobile menu
+    /* align logo to mobile menu */
     margin-top: 4px;
   }
 

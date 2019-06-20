@@ -10,7 +10,7 @@ const bounceFrames = keyframes`
   50% { transform: scale(1.0); }
 `
 const bounceAnimation = css`
-  ${bounceFrames} 2s infinite ease-in-out;
+  animation: ${bounceFrames} 2s infinite ease-in-out;
 `
 const Container = styled.div`
   position: relative;
@@ -26,7 +26,7 @@ const Circle1 = styled.div`
   border-radius: 50%;
   opacity: 0.7;
   background-color: ${props => props.theme[props.color]};
-  animation: ${bounceAnimation};
+  ${bounceAnimation};
 `
 const Circle2 = styled(Circle1)`
   animation-delay: -1s;

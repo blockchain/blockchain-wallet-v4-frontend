@@ -14,7 +14,7 @@ export const MethodContainer = styled.div`
     ${props =>
       props.borderDark ? props.theme['gray-2'] : props.theme['gray-1']};
   border-radius: 3px;
-  background-color: ${props => props.theme['white-blue']};
+  background-color: ${props => props.theme['gray-1']};
 `
 export const SubmitButton = styled(Button)`
   border-radius: 6px;

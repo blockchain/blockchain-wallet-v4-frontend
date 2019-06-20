@@ -53,7 +53,7 @@ export const SWAP_ERROR_CODES = {
   47: ANNUAL_LIMIT_EXCEEDED
 }
 
-const currenciesOrder = ['BTC', 'PAX', 'ETH', 'BCH', 'XLM', 'BSV']
+const currenciesOrder = ['BTC', 'PAX', 'ETH', 'BCH', 'XLM']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
 
 const getPairedCoins = curry(

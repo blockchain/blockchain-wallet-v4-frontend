@@ -10,10 +10,6 @@ import { isGuid, isEmail } from '../../services/ValidationHelper'
 class LoginContainer extends React.PureComponent {
   state = { useCode: true }
 
-  componentDidMount () {
-    this.props.loginActions.initialized()
-  }
-
   componentWillUnmount () {
     this.props.formActions.reset('login')
   }
@@ -26,10 +22,6 @@ class LoginContainer extends React.PureComponent {
       auth = auth.toUpperCase()
     }
     this.props.authActions.login(guid, password, auth)
-  }
-
-  handleMobile = () => {
-    this.props.modalActions.showModal('MobileLogin')
   }
 
   handleSmsResend = () => {
@@ -51,7 +43,6 @@ class LoginContainer extends React.PureComponent {
       authType,
       loginError: error,
       onSubmit: this.onSubmit,
-      handleMobile: this.handleMobile,
       handleSmsResend: this.handleSmsResend
     }
 
@@ -83,7 +74,6 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

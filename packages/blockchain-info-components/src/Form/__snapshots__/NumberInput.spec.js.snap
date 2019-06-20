@@ -4,8 +4,8 @@ exports[`NumberInput component default renders correctly 1`] = `
 <NumberInput__BaseNumberInput
   borderColor="red"
   disabled={false}
-  height="40px"
-  minHeight="40px"
+  height="48px"
+  minHeight="48px"
   step="0.01"
 />
 `;

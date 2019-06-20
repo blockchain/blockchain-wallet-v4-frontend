@@ -33,7 +33,7 @@ export const getData = createDeepEqualSelector(
         REACHED_ANNUAL_ERROR
       ]) ||
       (equals(prop('symbol', min), prop('symbol', max)) &&
-        gte(prop('amount', min), prop('amount', max))) ||
+        gte(Number(prop('amount', min)), Number(prop('amount', max)))) ||
       isNil(min) ||
       isNil(max)
   })

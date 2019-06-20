@@ -10,38 +10,8 @@ jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory({ api: {} })
 
 describe('settings sagas', () => {
-  const {
-    initializeBsv,
-    notificationsInitialized,
-    notificationsFormChanged
-  } = settingsSagas({ coreSagas })
-
-  describe('initializeBsv', () => {
-    const saga = testSaga(initializeBsv)
-
-    it('should call to fetch bsv data', () => {
-      saga.next().call(coreSagas.data.bsv.fetchData)
-    })
-
-    it('should call to fetch bsv rates', () => {
-      saga.next().call(coreSagas.data.bsv.fetchRates)
-    })
-
-    it('should end', () => {
-      saga.next().isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'failed to fetch data' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', error))
-        .next()
-        .isDone()
-    })
+  const { notificationsInitialized, notificationsFormChanged } = settingsSagas({
+    coreSagas
   })
 
   describe('notificationsInitialized', () => {

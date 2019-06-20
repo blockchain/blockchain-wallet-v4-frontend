@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
@@ -76,6 +76,7 @@ const DocumentListWrapper = styled.div`
 `
 const SubInstructions = styled.div`
   margin-top: 44px;
+  max-width: 500px;
   > div {
     margin-bottom: 12px;
   }
@@ -255,7 +256,21 @@ const Verify = ({
                 {map(flip(prop)(supportedDocList), supportedDocuments)}
               </DocumentListWrapper>
               <SubInstructions>
-                <Text size='18px'>
+                <Text size='18px' weight={500}>
+                  <FormattedMessage
+                    id='identityverification.verify.supportedcountries'
+                    defaultMessage='Is my country supported?'
+                  />
+                </Text>
+                <Text weight={400}>
+                  <FormattedHTMLMessage
+                    id='identityverification.verify.supportecountrieslist'
+                    defaultMessage='Not all countries are supported at this time. Check our up to date <a href="https://support.blockchain.com/hc/en-us/articles/360018751932" target="_blank" rel="noopener noreferrrer">list of countries</a> before proceeding.'
+                  />
+                </Text>
+              </SubInstructions>
+              <SubInstructions>
+                <Text size='18px' weight={500}>
                   <FormattedMessage
                     id='identityverification.verify.how_to_camera_mic'
                     defaultMessage='How do I enable my camera and microphone?'

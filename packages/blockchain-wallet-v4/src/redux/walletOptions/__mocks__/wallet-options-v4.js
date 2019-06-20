@@ -6,9 +6,14 @@ export default {
         enableDomainMigrationRedirects: true,
         environment: 'dev',
         announcements: {
+          lockbox: {},
           public: {},
+          swap: {},
           wallet: {}
         }
+      },
+      ads: {
+        blacklist: ['LT', 'LU', 'UK', 'US']
       },
       coins: {
         BTC: {
@@ -67,32 +72,6 @@ export default {
           name: 'Bitcoin Cash',
           txExplorerBaseUrl: 'https://blockchain.com/bch/tx',
           txListAppRoute: '/bch/transactions'
-        },
-        BSV: {
-          availability: {
-            send: true,
-            request: false,
-            lockbox: false,
-            exchangeTo: false,
-            exchangeFrom: true
-          },
-          coinCode: 'BSV',
-          coinTicker: 'BSV',
-          colorCode: 'bsv',
-          config: {
-            fees: {
-              regular: 4,
-              priority: 4
-            }
-          },
-          displayName: 'Bitcoin SV',
-          hasLockboxSupport: false,
-          icons: {
-            default: 'bsv'
-          },
-          minConfirmations: 3,
-          name: 'Bitcoin SV',
-          txExplorerBaseUrl: 'https://blockchair.com/bitcoin-sv/transaction'
         },
         ETH: {
           availability: {
@@ -174,6 +153,8 @@ export default {
             circle: 'xlm-circle-filled',
             circleFilled: 'xlm-circle-filled'
           },
+          learnMoreLink:
+            'https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-',
           minConfirmations: 1,
           name: 'Stellar',
           txExplorerBaseUrl: 'https://stellarchain.io/tx',

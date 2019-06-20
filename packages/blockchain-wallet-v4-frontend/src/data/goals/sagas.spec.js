@@ -25,7 +25,6 @@ describe('goals sagas', () => {
     defineSendBtcGoal,
     defineReferralGoal,
     runGoal,
-    runBsvGoal,
     runSwapGetStartedGoal,
     runKycDocResubmitGoal,
     runKycGoal,
@@ -288,15 +287,6 @@ describe('goals sagas', () => {
 
       it('should call runSwapGetStartedGoal saga and end', () => {
         saga.next().call(runSwapGetStartedGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run bsv goal', () => {
-      const mockGoal = { name: 'bsv', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runBsv saga and end', () => {
-        saga.next().call(runBsvGoal, mockGoal)
         saga.next().isDone()
       })
     })

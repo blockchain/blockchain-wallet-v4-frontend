@@ -5,14 +5,16 @@ import { assoc, compose, curry, path, pathOr, prop, map } from 'ramda'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
 import {
-  MINIMUM_NO_LINK_ERROR,
-  REACHED_DAILY_ERROR,
-  REACHED_ANNUAL_ERROR,
-  MINIMUM_ERROR,
+  ANNUAL_ERROR,
   BALANCE_ERROR,
   DAILY_ERROR,
-  ANNUAL_ERROR,
-  ORDER_ERROR
+  MINIMUM_ERROR,
+  MINIMUM_NO_LINK_ERROR,
+  ORDER_ERROR,
+  REACHED_ANNUAL_ERROR,
+  REACHED_DAILY_ERROR,
+  REACHED_WEEKLY_ERROR,
+  WEEKLY_ERROR
 } from './model'
 
 export const convertBaseToStandard = (coin, value) => {
@@ -57,18 +59,17 @@ export const minimum = (val1, val2) => {
   return new BigNumber(val1).isLessThan(val2) ? val1 : val2
 }
 
-export const selectFee = (coin, payment, isSourceErc20) => {
-  if (isSourceErc20 || coin === 'ETH') {
-    return prop('fee', payment)
-  }
+export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':
-      return path(['selection', 'fee'], payment)
-    case 'BSV':
       return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
     case 'XLM':
+      return prop('fee', payment)
+    case 'ETH':
+      return prop('fee', payment)
+    default:
       return prop('fee', payment)
   }
 }
@@ -79,10 +80,12 @@ export const validateMinMax = limits => {
   const minOrder = path(['minOrder', 'amount'], limits)
   const maxPossible = path(['maxPossibleOrder', 'amount'], limits)
   const dailyMax = path(['daily', 'amount', 'available'], limits)
+  const weeklyMax = path(['weekly', 'amount', 'available'], limits)
   const annualMax = path(['annual', 'amount', 'available'], limits)
 
   if (minSymbol === maxSymbol && isAmountAboveMaximum(minOrder, maxPossible)) {
     if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
+    if (isAmountAboveMaximum(minOrder, weeklyMax)) throw REACHED_WEEKLY_ERROR
     if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
     throw MINIMUM_NO_LINK_ERROR
   }
@@ -97,11 +100,13 @@ export const validateVolume = (
   const balanceMax = path(['balanceMax', 'amount'], limits)
   const maxOrder = path(['maxOrder', 'amount'], limits)
   const dailyMax = path(['daily', 'amount', 'available'], limits)
+  const weeklyMax = path(['weekly', 'amount', 'available'], limits)
   const annualMax = path(['annual', 'amount', 'available'], limits)
 
   if (isAmountBelowMinimum(sourceFiatVolume, minOrder)) throw MINIMUM_ERROR
   if (isAmountAboveMaximum(sourceCryptoVolume, balanceMax)) throw BALANCE_ERROR
   if (isAmountAboveMaximum(sourceFiatVolume, dailyMax)) throw DAILY_ERROR
+  if (isAmountAboveMaximum(sourceFiatVolume, weeklyMax)) throw WEEKLY_ERROR
   if (isAmountAboveMaximum(sourceFiatVolume, annualMax)) throw ANNUAL_ERROR
   if (isAmountAboveMaximum(sourceFiatVolume, maxOrder)) throw ORDER_ERROR
 }

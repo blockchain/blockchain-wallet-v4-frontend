@@ -5,17 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import HorizontalMenu from 'components/HorizontalMenu'
 import { TextBox } from 'components/Form'
 import { model } from 'data'
 const { WALLET_TX_SEARCH } = model.form
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 8px 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,7 +39,7 @@ const LinkItem = styled(TabMenuItem)`
     & :after {
       position: absolute;
       content: '';
-      top: 40px;
+      top: 39px;
       left: 0;
       width: 100%;
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
@@ -53,7 +47,7 @@ const LinkItem = styled(TabMenuItem)`
   }
 `
 const MenuTop = () => (
-  <Wrapper>
+  <HorizontalMenu>
     <Container>
       <TabMenu>
         <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
@@ -72,21 +66,13 @@ const MenuTop = () => (
             />
           </LinkItem>
         </LinkContainer>
-        <LinkContainer to='/settings/addresses/bsv' activeClassName='active'>
-          <LinkItem data-e2e='bsvWalletSettingsLink'>
-            <FormattedMessage
-              id='scenes.settings.addresses.menutop.bsv'
-              defaultMessage='Bitcoin SV'
-            />
-          </LinkItem>
-        </LinkContainer>
       </TabMenu>
       <Search data-e2e='walletSettingsSearch'>
-        <Field name='search' component={TextBox} />
+        <Field name='search' height='40px' component={TextBox} />
         <SearchIcon name='search' size='20px' />
       </Search>
     </Container>
-  </Wrapper>
+  </HorizontalMenu>
 )
 
 export default reduxForm({

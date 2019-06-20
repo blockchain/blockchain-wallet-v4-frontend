@@ -22,11 +22,11 @@ const ContentColumn = styled.div`
   }
 `
 const IconColumn = styled.div`
-  margin: 0 18px 0 -6px;
+  margin: 0 10px 0 0;
 `
 
 const buildMessageTemplate = messageText => (
-  <Text size='13px' weight={500}>
+  <Text size='14px' weight={600} style={{ marginLeft: '10px' }}>
     {messageText}
   </Text>
 )
@@ -40,14 +40,14 @@ export const getAlertContent = (message, data = undefined) => {
             <Icon size='24px' name='info' color='orange' />
           </IconColumn>
           <ContentColumn>
-            <Text size='14px' weight='400' data-e2e='runningLowMessage'>
+            <Text size='14px' weight='600' data-e2e='runningLowMessage'>
               <FormattedMessage
                 id='components.alerts.loweth.header'
                 defaultMessage='Running Low!'
               />
             </Text>
             <TextGroup inline>
-              <Text size='12px' weight='300'>
+              <Text size='12px' weight='500'>
                 <FormattedMessage
                   id='components.alerts.loweth.body'
                   defaultMessage='Sending USD Pax requires ETH. Your balance is low, Swap to get more ETH.'
@@ -147,6 +147,21 @@ export const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.coinify_signup_error'
           defaultMessage='Failed to create Coinify account.'
+        />
+      )
+    case C.COPY_ADDRESS_CLIPBOARD_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.copy_address_clipboard_success'
+          defaultMessage='{coinName} address successfully copied to clipboard!'
+          values={data}
+        />
+      )
+    case C.COPY_LINK_CLIPBOARD_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.copy_link_clipboard_success'
+          defaultMessage='Link successfully copied to clipboard!'
         />
       )
     case C.CURRENCY_UPDATE_ERROR:

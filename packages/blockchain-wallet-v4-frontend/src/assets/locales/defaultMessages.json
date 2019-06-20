@@ -58,6 +58,14 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "{coinName} address successfully copied to clipboard!",
+        "id": "components.alerts.copy_address_clipboard_success"
+      },
+      {
+        "defaultMessage": "Link successfully copied to clipboard!",
+        "id": "components.alerts.copy_link_clipboard_success"
+      },
+      {
         "defaultMessage": "Failed to update currency",
         "id": "components.alerts.currency_update_error"
       },
@@ -116,6 +124,18 @@
       {
         "defaultMessage": "Failed to retrieve used addresses.",
         "id": "components.alerts.fetch_used_addresses_error"
+      },
+      {
+        "defaultMessage": "Did you know?",
+        "id": "components.alerts.first_pax_trade_info_dyk"
+      },
+      {
+        "defaultMessage": "Now that you own USD Pax, you need to own ETH to Send or Swap.",
+        "id": "components.alerts.first_pax_trade_info"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "components.alerts.first_pax_trade_info_learn_more"
       },
       {
         "defaultMessage": "Failed to retrieve unused addresses.",
@@ -576,25 +596,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Complete your identity verification to claim your XLM.",
-        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.title"
-      },
-      {
-        "defaultMessage": "Complete Now",
-        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.completenow"
-      }
-    ],
-    "path": "src/components/Announcements/Static/template.sunriver.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Click here to add {coin} to your Lockbox",
         "id": "components.balances.savecointolockbox"
       },
       {
-        "defaultMessage": "Use the Chrome browser to add {coin} to your Lockbox",
-        "id": "components.balances.savecointolockboxbrowser"
+        "defaultMessage": "Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox",
+        "id": "components.balances.browserblock"
       }
     ],
     "path": "src/components/Balances/Lockbox.json"
@@ -975,19 +982,6 @@
       }
     ],
     "path": "src/components/BuySell/OrderHistoryTable/TradeItem/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Copied!",
-        "id": "components.copyclipboard.copied"
-      },
-      {
-        "defaultMessage": "Copy",
-        "id": "components.copyclipboard.copy"
-      }
-    ],
-    "path": "src/components/CopyClipboard/template.json"
   },
   {
     "descriptors": [
@@ -1651,15 +1645,23 @@
       },
       {
         "defaultMessage": "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
-        "id": "modals.requestether.sharetooltip"
+        "id": "modals.requesteth.shareaddress"
+      },
+      {
+        "defaultMessage": "Share this address with others, and they can send you PAX directly to your wallet. Your request address will not change.",
+        "id": "modals.requesteth.erc20.shareaddress"
       },
       {
         "defaultMessage": "Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.",
         "id": "modals.requestxlm.sharetooltip"
       },
       {
-        "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
-        "id": "modals.requestether.scan_tooltip"
+        "defaultMessage": "Ask the sender to scan this QR code with their ETH wallet",
+        "id": "modals.requesteth.qrcode"
+      },
+      {
+        "defaultMessage": "Ask the sender to scan this QR code with their PAX wallet",
+        "id": "modals.requesteth.erc20.qrcode"
       },
       {
         "defaultMessage": "Ask the sender to scan this QR code with their stellar wallet",
@@ -1671,7 +1673,7 @@
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendether.firststep.sharetooltip"
+        "id": "modals.sendeth.firststep.description"
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
@@ -1736,10 +1738,6 @@
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
         "id": "modals.sendbtc.firststep.sharetooltip"
-      },
-      {
-        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendBsv.firststep.share_tooltip"
       },
       {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
@@ -1937,54 +1935,79 @@
         "id": "layouts.public.footer.support"
       }
     ],
-    "path": "src/layouts/Public/Footer/index.json"
+    "path": "src/layouts/Public/ExternalLinks/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Help?",
-        "id": "faq.help"
-      }
-    ],
-    "path": "src/layouts/Wallet/Header/FaqIcon/template.json"
-  },
-  {
-    "descriptors": [
+        "defaultMessage": "Already have a wallet?",
+        "id": "layouts.public.alreadyhave"
+      },
       {
-        "defaultMessage": "Sign Out",
-        "id": "layouts.wallet.header.signout"
+        "defaultMessage": "Don't have a wallet?",
+        "id": "layouts.public.donthave"
+      },
+      {
+        "defaultMessage": "Log In",
+        "id": "layouts.public.login"
+      },
+      {
+        "defaultMessage": "Create One Now",
+        "id": "layouts.public.register"
       }
     ],
-    "path": "src/layouts/Wallet/Header/Logout/template.json"
+    "path": "src/layouts/Public/Header/LoginOrCreate/index.json"
   },
   {
     "descriptors": [
       {
         "defaultMessage": "Security Center",
-        "id": "layouts.wallet.menuleft.footer.securitycenter"
-      },
+        "id": "layouts.wallet.header.seccenter"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/SecurityCenter/index.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "Settings",
-        "id": "layouts.wallet.menuleft.footer.settings"
+        "id": "layouts.wallet.header.settings"
       },
       {
         "defaultMessage": "General",
-        "id": "layouts.wallet.menuleft.footer.general"
+        "id": "layouts.wallet.header.general"
       },
       {
         "defaultMessage": "Profile",
-        "id": "layouts.wallet.menuleft.footer.profile"
+        "id": "layouts.wallet.header.profile"
       },
       {
         "defaultMessage": "Preferences",
-        "id": "layouts.wallet.menuleft.footer.preferences"
+        "id": "layouts.wallet.header.preferences"
       },
       {
         "defaultMessage": "Wallets & Addresses",
-        "id": "layouts.wallet.menuleft.footer.addresses"
+        "id": "layouts.wallet.header.walletsaddresses"
+      },
+      {
+        "defaultMessage": "Sign Out",
+        "id": "layouts.wallet.header.Sign Out"
       }
     ],
-    "path": "src/layouts/Wallet/MenuLeft/Footer/template.json"
+    "path": "src/layouts/Wallet/Header/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Ad by bitcoin.com",
+        "id": "layouts.wallet.menuleft.footer.ad"
+      },
+      {
+        "defaultMessage": "<span>Bitcoin Games.</span> <span>Play Now</span>",
+        "id": "layouts.wallet.menuleft.footer.bitcoingames2"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Footer/index.json"
   },
   {
     "descriptors": [
@@ -2001,16 +2024,16 @@
         "id": "layouts.wallet.menuleft.navigation.swap"
       },
       {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
+        "defaultMessage": "Trade",
+        "id": "layouts.wallet.menuleft.navigation.trade"
       },
       {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
       },
       {
-        "defaultMessage": "{deviceName}",
-        "id": "layouts.wallet.menuleft.navigation.lockbox.device"
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
@@ -2286,8 +2309,8 @@
         "id": "scenes.faq.group.coinify.question8"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD Pax. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.coinify.answer8.one.new1"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.coinify.answer8.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2378,7 +2401,7 @@
         "id": "scenes.faq.group.sfox.question6"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
         "id": "scenes.faq.group.sfox.answer6.one.new"
       },
       {
@@ -2402,8 +2425,8 @@
         "id": "scenes.faq.group.noexchange.question2"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.noexchange.question6.one.new"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.noexchange.question6.one.new1"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2418,8 +2441,8 @@
         "id": "scenes.faq.group.walletfunctionality.question1"
       },
       {
-        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD Pax transactions, your address will remain the same.",
-        "id": "scenes.faq.group.walletfunctionality.answer1.one.updated"
+        "defaultMessage": "To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD PAX transactions, your address will remain the same.",
+        "id": "scenes.faq.group.walletfunctionality.answer1.one.updated1"
       },
       {
         "defaultMessage": "Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, enter the recipient’s address in the ‘To’ field and enter how much you would like to send.",
@@ -2590,36 +2613,36 @@
         "id": "scenes.faq.group.walletfunctionality.answer12.two"
       },
       {
-        "defaultMessage": "What is USD Pax and how does it differ from the other cryptocurrencies in my wallet?",
-        "id": "scenes.faq.group.walletfunctionality.question13"
+        "defaultMessage": "What is USD PAX and how does it differ from the other cryptocurrencies in my wallet?",
+        "id": "scenes.faq.group.walletfunctionality.question13.updated"
       },
       {
-        "defaultMessage": "USD Pax is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD Pax functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.",
-        "id": "scenes.faq.group.walletfunctionality.answer13"
+        "defaultMessage": "USD PAX is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD PAX functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.",
+        "id": "scenes.faq.group.walletfunctionality.answer13.updated1"
       },
       {
         "defaultMessage": "Why do I need a small amount of ETH to send or exchange PAX?",
         "id": "scenes.faq.group.walletfunctionality.question14"
       },
       {
-        "defaultMessage": "USD Pax is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.",
-        "id": "scenes.faq.group.walletfunctionality.answer14"
+        "defaultMessage": "USD PAX is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.",
+        "id": "scenes.faq.group.walletfunctionality.answer14.updated"
       },
       {
-        "defaultMessage": "How does USD Pax remain stable?",
-        "id": "scenes.faq.group.walletfunctionality.question15"
+        "defaultMessage": "How does USD PAX remain stable?",
+        "id": "scenes.faq.group.walletfunctionality.question15.updated"
       },
       {
-        "defaultMessage": "USD Pax is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.",
-        "id": "scenes.faq.group.walletfunctionality.answer15"
+        "defaultMessage": "USD PAX is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.",
+        "id": "scenes.faq.group.walletfunctionality.answer15.updated"
       },
       {
-        "defaultMessage": "How do I get USD Pax into my bank account?",
-        "id": "scenes.faq.group.walletfunctionality.question16"
+        "defaultMessage": "How do I get USD PAX into my bank account?",
+        "id": "scenes.faq.group.walletfunctionality.question16.updated"
       },
       {
-        "defaultMessage": "Although the price of USD Pax is pegged to USD, USD Pax remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).",
-        "id": "scenes.faq.group.walletfunctionality.answer16"
+        "defaultMessage": "Although the price of USD PAX is pegged to USD, USD PAX remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).",
+        "id": "scenes.faq.group.walletfunctionality.answer16.updated"
       },
       {
         "defaultMessage": "Wallet Security",
@@ -2997,16 +3020,12 @@
         "id": "modals.sendbch.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestbch.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestbch.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestbch.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestbch.firststep.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestbch.firststep.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.",
@@ -3021,12 +3040,8 @@
         "id": "modals.requestbch.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requestbch.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestbch.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requestbch.address"
       },
       {
         "defaultMessage": "Done",
@@ -3059,8 +3074,8 @@
         "id": "modals.sendbch.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendbch.firststep.warnbrowswer"
+        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendbch.firststep.blockbrowser"
       },
       {
         "defaultMessage": "To",
@@ -3155,128 +3170,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
-        "id": "modals.bsvgetstarted.now_supporting_sv"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "modals.bsvgetstarted.visitsettings"
-      },
-      {
-        "defaultMessage": "Check It Out!",
-        "id": "modals.bsvGetStarted.continue"
-      }
-    ],
-    "path": "src/modals/Bsv/BsvGetStarted/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "maximum",
-        "id": "modals.sendbsv.maximumamountlink.maximum"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/MaximumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendBsv.firststep.from"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendBsv.firststep.to"
-      },
-      {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.sendbsv.firststep.amount"
-      },
-      {
-        "defaultMessage": "Description:",
-        "id": "modals.sendBsv.firststep.description"
-      },
-      {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendBsv.firststep.fee"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.sendBsv.firststep.continue"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.sendbsv.amountnotzeromessage"
-      },
-      {
-        "defaultMessage": "Not enough funds. Use",
-        "id": "modals.sendbsv.maximumamountmessage"
-      },
-      {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.sendbsv.insufficientfundsmessage"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendbsv.secondstep.from"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendbsv.secondstep.to"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.sendbsv.secondstep.note"
-      },
-      {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendbsv.secondstep.payment"
-      },
-      {
-        "defaultMessage": "Fee:",
-        "id": "modals.sendbsv.secondstep.fee"
-      },
-      {
-        "defaultMessage": "Total",
-        "id": "modals.sendbsv.secondstep.total"
-      },
-      {
-        "defaultMessage": "Are you sure this is a bitcoin sv address? Sending funds to a bitcoin address by accident will result in loss of funds.",
-        "id": "modals.sendbsv.secondstep.legacy_addr_warning"
-      },
-      {
-        "defaultMessage": "Send Bitcoin SV",
-        "id": "modals.sendbsv.secondstep.send"
-      },
-      {
-        "defaultMessage": "Go Back",
-        "id": "modals.sendbsv.secondstep.back"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Send Bitcoin SV",
-        "id": "modals.sendbsv.title"
-      }
-    ],
-    "path": "src/modals/Bsv/SendBsv/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Add New Bitcoin Wallet",
         "id": "modals.addbitcoinwallet.title"
       },
@@ -3345,59 +3238,101 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Request Bitcoin",
+        "id": "modals.requestbtc.title"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Copy & share the link below with your friends or contacts and they will be able to send Bitcoin directly to your wallet.",
+        "id": "modals.requestbtc.share.title"
+      },
+      {
+        "defaultMessage": "Destination",
+        "id": "modals.requestbtc.share.destination"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "modals.requestbtc.share.amount"
+      },
+      {
+        "defaultMessage": "Description",
+        "id": "modals.requestbtc.share.description"
+      },
+      {
+        "defaultMessage": "Shareable Link",
+        "id": "modals.requestbtc.share.copylink"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestbtc.share.done"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/template.shareLink.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Currency:",
         "id": "modals.sendbitcoin.firststep.coin"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestbitcoin.firststep.share"
-      },
-      {
-        "defaultMessage": "QR Code",
-        "id": "modals.requestbitcoin.firststep.qrcode"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm.warn"
-      },
-      {
-        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin app now.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm1"
-      },
-      {
-        "defaultMessage": "Click here",
-        "id": "modals.requestbitcoin.firststep.lockbox.clickhere"
-      },
-      {
-        "defaultMessage": "once the app has been opened.",
-        "id": "modals.requestbitcoin.firststep.lockbox.confirm2"
-      },
-      {
-        "defaultMessage": "Or",
-        "id": "modals.requestbitcoin.firststep.or"
-      },
-      {
-        "defaultMessage": "Enter Amount:",
-        "id": "modals.requestbitcoin.firststep.amount"
-      },
-      {
         "defaultMessage": "Receive To:",
-        "id": "modals.requestbitcoin.firststep.to"
+        "id": "modals.requestbtc.to"
       },
       {
         "defaultMessage": "You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.",
-        "id": "modals.requestbitcoin.firststep.importedwarning"
+        "id": "modals.requestbtc.importedwarning"
+      },
+      {
+        "defaultMessage": "Amount:",
+        "id": "modals.requestbtc.requestlink.amount"
       },
       {
         "defaultMessage": "Description:",
-        "id": "modals.requestbitcoin.firststep.description"
+        "id": "modals.requestbtc.requestlink.description"
       },
       {
         "defaultMessage": "Next",
-        "id": "modals.requestbitcoin.firststep.next"
+        "id": "modals.requestbtc.requestlink.next"
+      },
+      {
+        "defaultMessage": "Show BTC Address",
+        "id": "modals.requestbtc.requestlink.showaddress"
+      },
+      {
+        "defaultMessage": "Address:",
+        "id": "modals.requestbtc.address"
+      },
+      {
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestbtc.lockbox.confirm.warnbrowser"
+      },
+      {
+        "defaultMessage": "Please confirm the address above on your Lockbox by opening your Bitcoin app now.",
+        "id": "modals.requestbtc.lockbox.confirm1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "modals.requestbtc.lockbox.clickhere"
+      },
+      {
+        "defaultMessage": "once the app has been opened.",
+        "id": "modals.requestbtc.lockbox.confirm2"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestbtc.dont"
+      },
+      {
+        "defaultMessage": "Create Shareable Request Link",
+        "id": "modals.requestbtc.makerequestlink"
       }
     ],
-    "path": "src/modals/Btc/RequestBtc/FirstStep/template.success.json"
+    "path": "src/modals/Btc/RequestBtc/template.success.json"
   },
   {
     "descriptors": [
@@ -3410,45 +3345,7 @@
         "id": "modals.requestbtc.amountnotmaxmessage"
       }
     ],
-    "path": "src/modals/Btc/RequestBtc/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
-        "id": "modals.requestbitcoin.secondstep.explain"
-      },
-      {
-        "defaultMessage": "Payment Request:",
-        "id": "modals.requestbitcoin.secondstep.payment"
-      },
-      {
-        "defaultMessage": "For \"{message}\"",
-        "id": "modals.requestbitcoin.secondstep.message"
-      },
-      {
-        "defaultMessage": "Copied!",
-        "id": "modals.requestbitcoin.secondstep.copied"
-      },
-      {
-        "defaultMessage": "Copy Link",
-        "id": "modals.requestbitcoin.secondstep.copy"
-      },
-      {
-        "defaultMessage": "Go Back",
-        "id": "scenes.requestbitcoin.secondstep.back"
-      }
-    ],
-    "path": "src/modals/Btc/RequestBtc/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Request Bitcoin",
-        "id": "modals.requestbitcoin.title"
-      }
-    ],
-    "path": "src/modals/Btc/RequestBtc/template.json"
+    "path": "src/modals/Btc/RequestBtc/validationMessages.json"
   },
   {
     "descriptors": [
@@ -3532,8 +3429,8 @@
         "id": "modals.sendbtc.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendbtc.firststep.warnbrowser"
+        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendbtc.firststep.browserwarn"
       },
       {
         "defaultMessage": "To",
@@ -3880,16 +3777,12 @@
         "id": "modals.requesteth.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requesteth.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requesteth.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requesteth.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requesteth.firststep.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requesteth.firststep.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the address above on your Lockbox by opening your Ethereum app now.",
@@ -3904,12 +3797,8 @@
         "id": "modals.requesteth.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requesteth.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requesteth.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requesteth.address"
       },
       {
         "defaultMessage": "Done",
@@ -4025,8 +3914,8 @@
         "id": "modals.sendeth.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendeth.firststep.warnbrowswer"
+        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendeth.firststep.browserwarn"
       },
       {
         "defaultMessage": "To",
@@ -4111,8 +4000,8 @@
         "id": "modals.sendeth.secondstep.note"
       },
       {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendeth.secondstep.payment"
+        "defaultMessage": "Amount:",
+        "id": "modals.sendeth.secondstep.amount"
       },
       {
         "defaultMessage": "Fee:",
@@ -4546,24 +4435,24 @@
         "id": "modals.exchange.identityverification.submitted.appcomplete"
       },
       {
-        "defaultMessage": "You've successfully submitted your application. A Blockchain Support Member is now reviewing your information.",
-        "id": "modals.exchange.identityverification.submitted.subheader"
+        "defaultMessage": "You've successfully submitted your application. A Blockchain Support Member will review your information.",
+        "id": "modals.exchange.identityverification.submitted.subheader2"
       },
       {
         "defaultMessage": "What happens next?",
         "id": "modals.exchange.identityverification.submitted.nextstepsheader"
       },
       {
-        "defaultMessage": "You'll hear back from us in the next <b>5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
-        "id": "modals.exchange.identityverification.submitted.mayaskforid"
+        "defaultMessage": "You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
+        "id": "modals.exchange.identityverification.submitted.mayaskforid2"
       },
       {
         "defaultMessage": "While you wait, you can still trade and move currency up to your current limit.",
         "id": "modals.exchange.identityverification.submitted.whileyouwait"
       },
       {
-        "defaultMessage": "Once your profile is successfully verified, we'll send you your free crypto. Don't forget to share the wealth with friends and family!",
-        "id": "modals.exchange.identityverification.submitted.freecrypto"
+        "defaultMessage": "Don't forget to share this opportunity with friends and family!",
+        "id": "modals.exchange.identityverification.submitted.freecrypto2"
       },
       {
         "defaultMessage": "Tweet",
@@ -4578,12 +4467,12 @@
         "id": "modals.airdropsuccess.copy"
       },
       {
-        "defaultMessage": "Claim Free XLM",
-        "id": "modals.exchange.identityverification.submitted.claim"
+        "defaultMessage": "Enter Airdrop Program",
+        "id": "modals.exchange.identityverification.submitted.enterairdrop"
       },
       {
-        "defaultMessage": "Once your verification is successfully completed, we’ll send you free crypto. Make sure you click the button to claim your free XLM.",
-        "id": "modals.exchange.identityverification.submitted.makesuretoclick"
+        "defaultMessage": "By entering the airdrop program you’ll become eligible to receive future airdrops.",
+        "id": "modals.exchange.identityverification.submitted.makesuretoclick2"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
@@ -4686,6 +4575,14 @@
       {
         "defaultMessage": "We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled.",
         "id": "identityverification.verify.messagewithcamera"
+      },
+      {
+        "defaultMessage": "Is my country supported?",
+        "id": "identityverification.verify.supportedcountries"
+      },
+      {
+        "defaultMessage": "Not all countries are supported at this time. Check our up to date <a href=\"https://support.blockchain.com/hc/en-us/articles/360018751932\" target=\"_blank\" rel=\"noopener noreferrrer\">list of countries</a> before proceeding.",
+        "id": "identityverification.verify.supportecountrieslist"
       },
       {
         "defaultMessage": "How do I enable my camera and microphone?",
@@ -5557,43 +5454,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Mobile login",
-        "id": "modals.mobilelogin.title"
-      },
-      {
-        "defaultMessage": "Follow these steps to log into your web wallet using your mobile device",
-        "id": "modals.mobilelogin.explain"
-      },
-      {
-        "defaultMessage": "Logging in with Mobile",
-        "id": "modals.mobilelogin.login"
-      },
-      {
-        "defaultMessage": "Open the Blockchain app on your mobile device",
-        "id": "modals.mobilelogin.openapp"
-      },
-      {
-        "defaultMessage": "Select 'Log in to Web Wallet' from your wallet's side menu",
-        "id": "modals.mobilelogin.tapweb"
-      },
-      {
-        "defaultMessage": "Select 'Show QR Code'",
-        "id": "modals.mobilelogin.showqr"
-      },
-      {
-        "defaultMessage": "Using your computer's camera, scan the QR code that appears",
-        "id": "modals.mobilelogin.scan"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "modals.mobilelogin.cancel"
-      }
-    ],
-    "path": "src/modals/Mobile/MobileLogin/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Change Mobile Number",
         "id": "modals.mobilenumberchange.changenumbertitle"
       },
@@ -5660,24 +5520,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get Free Crypto",
-        "id": "modals.airdropclaim.getfreecrypto"
+        "defaultMessage": "Airdrop Program",
+        "id": "modals.airdropclaim.airdropprogram"
       },
       {
-        "defaultMessage": "Thanks for claiming your airdrop. You should be receiving your {coinName} ({coinCode}) soon!",
-        "id": "modals.airdropclaim.thanksforparticipating"
+        "defaultMessage": "Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!",
+        "id": "modals.airdropclaim.thanksforparticipatingairdropprogram"
       },
       {
-        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
-        "id": "modals.airdropclaim.completeprofilefree"
+        "defaultMessage": "You’re eligible for our airdrop program. Click the button to join our Airdrop Program.",
+        "id": "modals.airdropclaim.clicktojoinairdropprogram"
       },
       {
-        "defaultMessage": "Claim My Free {coinCode} Now",
-        "id": "modals.airdropclaim.claimnow"
-      },
-      {
-        "defaultMessage": "Remind Me Later",
-        "id": "modals.airdropclaim.later"
+        "defaultMessage": "Join Airdrop Program",
+        "id": "modals.airdropclaim.joinairdropnow"
       }
     ],
     "path": "src/modals/Onboarding/AirdropClaim/index.json"
@@ -5685,29 +5541,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get Free Crypto",
-        "id": "modals.airdropreminder.getfreecrypto"
-      },
-      {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
-        "id": "modals.airdropreminder.completeprofiletodayfree"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "modals.airdropreminder.getstarted"
-      },
-      {
-        "defaultMessage": "Remind Me Later",
-        "id": "modals.airdropreminder.later"
-      }
-    ],
-    "path": "src/modals/Onboarding/AirdropReminder/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your {coinCode} is on its way!",
-        "id": "modals.airdropsuccess.airdroponitsway"
+        "defaultMessage": "Enrolled in Airdrop Program!",
+        "id": "modals.airdropsuccess.airdropprogram"
       },
       {
         "defaultMessage": "Share the wealth with friends and family. Literally.",
@@ -5731,19 +5566,48 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Please take a few minutes to complete your profile to continue accessing Buy/Sell, AND get $50 of free Stellar (XLM).",
-        "id": "modals.coinifyupgrade.completeprofilenowforfree"
+        "defaultMessage": "Unlock Buy / Sell",
+        "id": "modals.coinifyupgrade.header"
       },
       {
-        "defaultMessage": "Complete My Profile Now",
-        "id": "modals.coinifyupgrade.completeprofile"
+        "defaultMessage": "Complete your profile to access Buy / Sell, and be eligible for our Airdrop Program.",
+        "id": "modals.coinifyupgrade.coinifyupgradeairdropprogram"
       },
       {
-        "defaultMessage": "Remind Me Later",
-        "id": "modals.coinifyupgrade.later"
+        "defaultMessage": "Get Started",
+        "id": "modals.coinifyupgrade.getstarted"
       }
     ],
     "path": "src/modals/Onboarding/CoinifyUpgrade/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success!",
+        "id": "modals.onboarding.linkaccount.successheader"
+      },
+      {
+        "defaultMessage": "You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!",
+        "id": "modals.onboarding.linkaccount.success"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linkaccount.successdone"
+      },
+      {
+        "defaultMessage": "Connection Error",
+        "id": "modals.onboarding.linkaccount.failureheader"
+      },
+      {
+        "defaultMessage": "We could not connect your Wallet to The Pit. Please go back to The Pit and try again.",
+        "id": "modals.onboarding.linkaccount.failure"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linkaccount.failuredone"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkAccount/template.json"
   },
   {
     "descriptors": [
@@ -5769,20 +5633,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get Free Crypto",
-        "id": "modals.upgradeforairdrop.getfreecrypto"
+        "defaultMessage": "Go for Gold",
+        "id": "modals.upgradeforairdrop.goforgold"
       },
       {
-        "defaultMessage": "Upgrade your profile from Silver to Gold, raise your trading limits and get free {coinName} ({coinCode}).",
-        "id": "modals.upgradeforairdrop.completeprofileforairdropfree"
+        "defaultMessage": "Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.",
+        "id": "modals.upgradeforairdrop.completeprofileforairdropprogram"
       },
       {
-        "defaultMessage": "Upgrade Now",
-        "id": "modals.upgradeforairdrop.upgradenow"
-      },
-      {
-        "defaultMessage": "Remind Me Later",
-        "id": "modals.upgradeforairdrop.later"
+        "defaultMessage": "Complete Profile",
+        "id": "modals.upgradeforairdrop.completeprofile"
       }
     ],
     "path": "src/modals/Onboarding/UpgradeForAirdrop/index.json"
@@ -6837,16 +6697,12 @@
         "id": "modals.requestxlm.coin"
       },
       {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestxlm.firststep.to"
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestxlm.firststep.receive"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestxlm.share"
-      },
-      {
-        "defaultMessage": "You are not be able to confirm the receive address on your Lockbox without using the Chrome browser.  You may still continue without confirming the address if you so choose.",
-        "id": "modals.requestxlm.lockbox.confirm.warn"
+        "defaultMessage": "Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.",
+        "id": "modals.requestxlm.lockbox.confirm.warnbrowser"
       },
       {
         "defaultMessage": "Please confirm the address above on your Lockbox by opening your Stellar app now.",
@@ -6861,12 +6717,8 @@
         "id": "modals.requestxlm.firststep.lockbox.confirm2"
       },
       {
-        "defaultMessage": "Or",
-        "id": "modals.requestxlm.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestxlm.scan"
+        "defaultMessage": "Address:",
+        "id": "modals.requestxlm.address"
       },
       {
         "defaultMessage": "Done",
@@ -6912,8 +6764,8 @@
         "id": "modals.sendxlm.firststep.lockboxwarn"
       },
       {
-        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser!",
-        "id": "modals.sendxlm.firststep.warnbrowswer"
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "modals.sendxlm.firststep.blockbrowser"
       },
       {
         "defaultMessage": "To",
@@ -6926,6 +6778,14 @@
       {
         "defaultMessage": "Memo",
         "id": "modals.sendxlm.firststep.txmemo"
+      },
+      {
+        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!",
+        "id": "modals.sendxlm.firststep.sendtoexchange2"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "modals.sendxlm.firststep.sendtoexchangelearn"
       },
       {
         "defaultMessage": "Description",
@@ -7073,32 +6933,32 @@
         "id": "modals.xlmairdropwelcome.verified.title"
       },
       {
-        "defaultMessage": "Hang tight, your XLM is on its way.",
-        "id": "modals.xlmairdropwelcome.verified.subtitle"
+        "defaultMessage": "If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience",
+        "id": "modals.xlmairdropwelcome.verified.subtitle2"
       },
       {
         "defaultMessage": "View Stellar Wallet",
         "id": "modals.xlmairdropwelcome.verified.seewallet"
       },
       {
-        "defaultMessage": "Thank you for completing your Identity Verification",
-        "id": "modals.xlmairdropwelcome.underreview.title"
+        "defaultMessage": "Thanks for Verifying",
+        "id": "modals.xlmairdropwelcome.underreview.title2"
       },
       {
-        "defaultMessage": "Your application is still under review. Once verified, you will receive your XLM.",
-        "id": "modals.xlmairdropwelcome.underreview.subtitle"
+        "defaultMessage": "Your application is still under review. Once verified we’ll notify you if you are eligible for the Airdrop.",
+        "id": "modals.xlmairdropwelcome.underreview.subtitle3"
       },
       {
         "defaultMessage": "View Stellar Wallet",
         "id": "modals.xlmairdropwelcome.underreview.seewallet"
       },
       {
-        "defaultMessage": "Finish Identity Verification",
-        "id": "modals.xlmairdropwelcome.inprogress.title"
+        "defaultMessage": "Go for Gold",
+        "id": "modals.xlmairdropwelcome.inprogress.title2"
       },
       {
-        "defaultMessage": "Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap.",
-        "id": "modals.xlmairdropwelcome.inprogress.subtitle"
+        "defaultMessage": "Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.",
+        "id": "modals.xlmairdropwelcome.inprogress.subtitle2"
       },
       {
         "defaultMessage": "Complete Now",
@@ -7109,8 +6969,8 @@
         "id": "modals.xlmairdropwelcome.newuser.title"
       },
       {
-        "defaultMessage": "Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap.",
-        "id": "modals.xlmairdropwelcome.newuser.subtitle"
+        "defaultMessage": "Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.",
+        "id": "modals.xlmairdropwelcome.newuser.subtitle2"
       },
       {
         "defaultMessage": "Begin Now",
@@ -8179,8 +8039,8 @@
         "id": "scenes.exchange.exchangeform.to"
       },
       {
-        "defaultMessage": "Sending from Lockbox can only be done while using the Chrome browser",
-        "id": "scenes.exchange.exchangeform.blocklockbox"
+        "defaultMessage": "Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "scenes.exchange.exchangeform.blockbrowser"
       },
       {
         "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
@@ -8387,44 +8247,40 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Login Help",
-        "id": "scenes.help.login"
+        "defaultMessage": "Need some help?",
+        "id": "scenes.help.needsomehelp"
       },
       {
-        "defaultMessage": "Need help accessing your wallet?",
-        "id": "scenes.help.wallet"
+        "defaultMessage": "Don't know your Wallet ID?",
+        "id": "scenes.help.lostguid"
       },
       {
-        "defaultMessage": "I've Lost My Wallet ID",
-        "id": "scenes.help.guid"
-      },
-      {
-        "defaultMessage": "Email me a reminder of my wallet ID",
-        "id": "scenes.help.guid_explain"
+        "defaultMessage": "We can send you a reminder email right now.",
+        "id": "scenes.help.lostguidrecover"
       },
       {
         "defaultMessage": "Remind Me",
         "id": "scenes.help.remind"
       },
       {
-        "defaultMessage": "I've Lost My Wallet Password",
-        "id": "scenes.help.password"
+        "defaultMessage": "Forgot your password?",
+        "id": "scenes.help.forgotpassword"
       },
       {
-        "defaultMessage": "Recover your wallet with your 12 word backup phrase",
-        "id": "scenes.help.passwor.explain"
+        "defaultMessage": "Use your 12 word recovery phrase to access your Wallet.",
+        "id": "scenes.help.password.explain"
       },
       {
         "defaultMessage": "Recover Funds",
         "id": "scenes.help.recover"
       },
       {
-        "defaultMessage": "I've Lost My 2FA Device",
-        "id": "scenes.help.2fa"
+        "defaultMessage": "Lost your 2FA device?",
+        "id": "scenes.help.2falost"
       },
       {
-        "defaultMessage": "Regain access to your wallet by resetting 2FA, IP restrictions, or verified email",
-        "id": "scenes.help.2fa.explain"
+        "defaultMessage": "Reset your 2FA right now to gain access to your Wallet.",
+        "id": "scenes.help.2fa.lostexplain"
       },
       {
         "defaultMessage": "Reset 2FA",
@@ -8433,6 +8289,10 @@
       {
         "defaultMessage": "Go Back",
         "id": "scenes.help.back"
+      },
+      {
+        "defaultMessage": "Still need help?",
+        "id": "scenes.help.contact.stillneedhelp"
       },
       {
         "defaultMessage": "Contact Support",
@@ -8466,32 +8326,6 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Congrats! You are eligible for our airdrop program. We are giving away {coinName} ({coinCode}) for free. Click the button and we will send it your way.",
-        "id": "scenes.home.banners.airdropclaim.titlefreecoin"
-      },
-      {
-        "defaultMessage": "Get Free Crypto",
-        "id": "scenes.home.banners.airdrop.getfreecrypto"
-      }
-    ],
-    "path": "src/scenes/Home/Banners/AirdropClaim/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coinCode}) in your Wallet.",
-        "id": "scenes.home.banners.airdrop.completeprofilefreecoin"
-      },
-      {
-        "defaultMessage": "Get Free Crypto",
-        "id": "scenes.home.banners.airdrop.started"
-      }
-    ],
-    "path": "src/scenes/Home/Banners/AirdropReminder/index.json"
   },
   {
     "descriptors": [
@@ -8645,8 +8479,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
-        "id": "scenes.lockbox.settings.browserwarn"
+        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
+        "id": "scenes.lockbox.settings.blockbrowser"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/index.json"
@@ -8862,8 +8696,8 @@
         "id": "scenes.lockbox.welcome.learnmore"
       },
       {
-        "defaultMessage": "New device setup can only be done while using the Chrome browser",
-        "id": "scenes.lockbox.welcome.browserblock"
+        "defaultMessage": "Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera.",
+        "id": "scenes.lockbox.welcome.blockbrowser"
       }
     ],
     "path": "src/scenes/Lockbox/Onboard/template.json"
@@ -8873,18 +8707,6 @@
       {
         "defaultMessage": "Welcome back!",
         "id": "scenes.login.welcome"
-      },
-      {
-        "defaultMessage": "or",
-        "id": "scenes.login.or"
-      },
-      {
-        "defaultMessage": "Sign Up",
-        "id": "scenes.login.register"
-      },
-      {
-        "defaultMessage": "Sign in to your wallet below",
-        "id": "scenes.login.explain"
       },
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
@@ -8911,16 +8733,12 @@
         "id": "scenes.login.isguidinvalid"
       },
       {
-        "defaultMessage": "Find the login link in your email,",
-        "id": "scenes.login.info"
+        "defaultMessage": "Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?",
+        "id": "scenes.login.findyourguid"
       },
       {
-        "defaultMessage": "e.g. blockchain.info/wallet/1111-222-333...",
-        "id": "scenes.login.info2"
-      },
-      {
-        "defaultMessage": "The series of numbers and dashes at the end of the link is your Wallet ID.",
-        "id": "scenes.login.info3"
+        "defaultMessage": "Send my Wallet ID",
+        "id": "scenes.login.sendguid"
       },
       {
         "defaultMessage": "Password",
@@ -8955,12 +8773,8 @@
         "id": "scenes.login.loginmobile"
       },
       {
-        "defaultMessage": "Having some trouble?",
-        "id": "scenes.login.troubles"
-      },
-      {
-        "defaultMessage": "Get help logging in",
-        "id": "scenes.login.options"
+        "defaultMessage": "Need some help?",
+        "id": "scenes.login.needhelp"
       }
     ],
     "path": "src/scenes/Login/template.json"
@@ -8989,16 +8803,37 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Login with Your Mobile App",
+        "id": "scenes.mobilelogin.title"
+      },
+      {
+        "defaultMessage": "1. Open your Mobile App and Log In",
+        "id": "scenes.mobilelogin.openappstep1"
+      },
+      {
+        "defaultMessage": "2. Tap \"Pair Web Wallet\" from the side navigiation.",
+        "id": "scenes.mobilelogin.tapwebstep2"
+      },
+      {
+        "defaultMessage": "3. Tap \"Show QR Code\"",
+        "id": "scenes.mobilelogin.showqrstep3"
+      },
+      {
+        "defaultMessage": "4. Scan your QR code here",
+        "id": "scenes.mobilelogin.scanstep4"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "scenes.mobilelogin.back"
+      }
+    ],
+    "path": "src/scenes/MobileLogin/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Recover Funds",
         "id": "scenes.recover.firststep.funds"
-      },
-      {
-        "defaultMessage": "Step 1 of 2: Enter 12 word passphrase",
-        "id": "scenes.recover.firststep.step1"
-      },
-      {
-        "defaultMessage": "Recover funds from your lost wallet",
-        "id": "scenes.recover.firststep.explain"
       },
       {
         "defaultMessage": "You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.",
@@ -9026,16 +8861,12 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
+      },
+      {
         "defaultMessage": "Recover Funds",
         "id": "scenes.recover.secondstep.funds"
-      },
-      {
-        "defaultMessage": "Step 2 of 2: Create a new wallet",
-        "id": "scenes.recover.secondstep.step2"
-      },
-      {
-        "defaultMessage": "Recover funds from your lost wallet",
-        "id": "scenes.recover.secondstep.explain"
       },
       {
         "defaultMessage": "New Email",
@@ -9063,20 +8894,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Create your Wallet",
-        "id": "scenes.register.create"
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
       },
       {
-        "defaultMessage": "or",
-        "id": "scenes.register.or"
-      },
-      {
-        "defaultMessage": "Login",
-        "id": "scenes.register.login"
-      },
-      {
-        "defaultMessage": "Sign up for a free wallet below",
-        "id": "scenes.register.explain"
+        "defaultMessage": "Create a Wallet",
+        "id": "scenes.register.createawallet"
       },
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
@@ -9107,8 +8930,8 @@
         "id": "scenes.register.confirmpassword"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "scenes.register.submit"
+        "defaultMessage": "Create My Wallet",
+        "id": "scenes.register.createmywallet"
       }
     ],
     "path": "src/scenes/Register/template.json"
@@ -9140,12 +8963,8 @@
         "id": "scenes.reminder.login"
       },
       {
-        "defaultMessage": "Remind Me",
-        "id": "scenes.reminder.remind"
-      },
-      {
-        "defaultMessage": "Lost your wallet ID? We'll send it to you via your email.",
-        "id": "scenes.reminder.explain"
+        "defaultMessage": "Wallet ID Reminder",
+        "id": "scenes.reminder.reminder"
       }
     ],
     "path": "src/scenes/Reminder/template.json"
@@ -9157,10 +8976,6 @@
         "id": "scenes.reset2fa.firststep.reset"
       },
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.reset2fa.firststep.step1"
-      },
-      {
         "defaultMessage": "Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.",
         "id": "scenes.reset2fa.firststep.explain"
       },
@@ -9169,8 +8984,8 @@
         "id": "scenes.reset2fa.firststep.explain2"
       },
       {
-        "defaultMessage": "Wallet Identifier",
-        "id": "scenes.reset2fa.firststep.firststepform.guid"
+        "defaultMessage": "Wallet ID",
+        "id": "scenes.reset2fa.firststep.firststepform.walletid"
       },
       {
         "defaultMessage": "If you forgot your wallet identifier, please",
@@ -9212,10 +9027,6 @@
       {
         "defaultMessage": "Reset 2FA",
         "id": "scenes.reset2fa.secondstep.reset2fa"
-      },
-      {
-        "defaultMessage": "Step 2 of 2",
-        "id": "scenes.reset2fa.secondstep.step3"
       },
       {
         "defaultMessage": "Captcha",
@@ -9291,35 +9102,6 @@
       }
     ],
     "path": "src/scenes/Reset2FAToken/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Activity Logging",
-        "id": "scenes.securitycenter.advanced.activitylogging.title"
-      },
-      {
-        "defaultMessage": "Enabled",
-        "id": "scenes.securitycenter.advanced.activitylogging.enabled"
-      },
-      {
-        "defaultMessage": "Disabled",
-        "id": "scenes.securitycenter.advanced.activitylogging.disabled"
-      },
-      {
-        "defaultMessage": "Enable for all your wallet activity to be displayed in your dashboard's activity feed.",
-        "id": "scenes.securitycenter.advanced.activitylogging.description"
-      },
-      {
-        "defaultMessage": "Disable",
-        "id": "scenes.securitycenter.advanced.activitylogging.disable"
-      },
-      {
-        "defaultMessage": "Enable",
-        "id": "scenes.securitycenter.advanced.activitylogging.enable"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/AdvancedSecurity/ActivityLogging/template.json"
   },
   {
     "descriptors": [
@@ -9584,6 +9366,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.securitysettings.advanced.walletpassword.invalidstrongpassword"
+      },
       {
         "defaultMessage": "Change",
         "id": "scenes.securitysettings.advanced.walletpassword.settings.change"
@@ -10193,101 +9979,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Imported Bitcoin SV Addresses",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
-      },
-      {
-        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.description"
-      },
-      {
-        "defaultMessage": "Transfer All",
-        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.address"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Bitcoin SV Transactions",
-        "id": "scenes.settings.addresses.bsv.tx.title"
-      },
-      {
-        "defaultMessage": "Type",
-        "id": "scenes.settings.addresses.bsv.tx.type"
-      },
-      {
-        "defaultMessage": "Addresses",
-        "id": "scenes.settings.addresses.bsv.tx.addresses"
-      },
-      {
-        "defaultMessage": "Amount",
-        "id": "scenes.settings.addresses.bsv.wallets.amount"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/Transactions/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Bitcoin SV Wallets",
-        "id": "scenes.settings.addresses.bsv.wallets.title"
-      },
-      {
-        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. You can now send your BSV or Swap for other cryptocurrencies.",
-        "id": "scenes.settings.addresses.bsv.wallets.desc2"
-      },
-      {
-        "defaultMessage": "Wallet Name",
-        "id": "scenes.settings.addresses.bsv.wallets.name"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bsv.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.bsv.wallets.actions"
-      },
-      {
-        "defaultMessage": "No wallets matched your search",
-        "id": "scenes.settings.addresses.bsv.wallets.nomatch"
-      },
-      {
-        "defaultMessage": "Default",
-        "id": "scenes.settings.addresses.bsv.wallets.defaultlabel"
-      },
-      {
-        "defaultMessage": "Archived",
-        "id": "scenes.settings.addresses.bsv.wallets.archivedlabel"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bsv.wallets.unarchive"
-      },
-      {
-        "defaultMessage": "Send",
-        "id": "scenes.settings.addresses.bsv.wallets.send"
-      },
-      {
-        "defaultMessage": "Swap",
-        "id": "scenes.settings.addresses.bsv.wallets.swap"
-      }
-    ],
-    "path": "src/scenes/Settings/Addresses/Bsv/Wallets/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "More Options",
         "id": "scenes.settings.addresses.btc.addressrow.moreoptions"
       },
@@ -10550,10 +10241,6 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "scenes.settings.addresses.menutop.bch"
-      },
-      {
-        "defaultMessage": "Bitcoin SV",
-        "id": "scenes.settings.addresses.menutop.bsv"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Menu/index.json"
@@ -10957,6 +10644,14 @@
       {
         "defaultMessage": "We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>",
         "id": "scenes.profile.identityverification.swaplimit.learn_more_limits"
+      },
+      {
+        "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
+        "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
+      },
+      {
+        "defaultMessage": "Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
+        "id": "scenes.profile.idv.swaplimit.airdropdisclaimer2"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
@@ -10973,41 +10668,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We Now Offer {coinName} ({coinCode})",
-        "id": "scenes.transaction.content.empty.airdrop.wallet"
-      },
-      {
-        "defaultMessage": "{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.",
-        "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
-      },
-      {
-        "defaultMessage": "Complete your profile today and we will airdrop free {coinName} ({coin}) in your Wallet.",
-        "id": "scenes.transaction.content.empty.airdrop.completeprofileforairdropfree"
-      },
-      {
-        "defaultMessage": "Claim Your Free {coin} Now",
-        "id": "scenes.transaction.content.empty.airdrop.claim"
-      },
-      {
-        "defaultMessage": "We've put together a page explaining all of this.",
-        "id": "scenes.transactions.content.empty.explanation"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transactions.content.empty.learnmore"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.airdrop.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your {coin} Wallet",
-        "id": "scenes.transaction.content.empty.newcoinwallet"
+        "defaultMessage": "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM from your Wallet today.",
+        "id": "scenes.transaction.content.empty.xlm.subtitle2"
       },
       {
         "defaultMessage": "Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.",
         "id": "scenes.transaction.content.empty.newcoinswap"
+      },
+      {
+        "defaultMessage": "Your {coin} Wallet",
+        "id": "scenes.transaction.content.empty.newcoinwallet"
       },
       {
         "defaultMessage": "Buy {coin}",
@@ -11071,12 +10741,12 @@
         "id": "scenes.transaction.content.empty.pax.fact3.2"
       },
       {
-        "defaultMessage": "Swap for PAX Now",
-        "id": "scenes.transaction.content.empty.pax.swappax"
+        "defaultMessage": "Swap for USD PAX Now",
+        "id": "scenes.transaction.content.empty.pax.swapcta"
       },
       {
-        "defaultMessage": "Unlock Your PAX Wallet",
-        "id": "scenes.transaction.content.empty.pax.unlockpax"
+        "defaultMessage": "Swap for USD PAX Now",
+        "id": "scenes.transaction.content.empty.pax.signupcta"
       },
       {
         "defaultMessage": "Learn More",
@@ -11451,10 +11121,6 @@
         "id": "formhelper.invalidpasswordstretchingnumber"
       },
       {
-        "defaultMessage": "Your password is not strong enough",
-        "id": "formhelper.invalidstrongpassword"
-      },
-      {
         "defaultMessage": "Invalid Wallet ID",
         "id": "formhelper.invalidwalletid"
       },
@@ -11614,27 +11280,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Now Supporting Bitcoin SV (BSV)",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.nowsupportingsv"
-      },
-      {
-        "defaultMessage": "January 2019",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
-      },
-      {
-        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
-      },
-      {
-        "defaultMessage": "Check it Out!",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkit"
-      }
-    ],
-    "path": "src/services/WhatsNewService/WhatsNewContent/BSVSupport.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -11693,5 +11338,26 @@
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/ExchangeByBlockchain.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "A Digital US Dollar in Your Wallet",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one"
+      },
+      {
+        "defaultMessage": "April 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019"
+      },
+      {
+        "defaultMessage": "USD PAX, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable"
+      },
+      {
+        "defaultMessage": "Check it Out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/USDPax.json"
   }
 ]

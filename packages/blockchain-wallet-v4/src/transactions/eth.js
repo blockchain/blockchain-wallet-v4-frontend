@@ -87,6 +87,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+
   return {
     amount,
     blockHeight: tx.blockNumber,
@@ -97,7 +98,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     time: tx.timeStamp,
     timeFormatted: getTime(tx.timeStamp),
     to: getLabel(tx.to, state, ''),
-    erc20: includes(tx.to, erc20Contracts),
+    erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type
   }
 })

@@ -28,6 +28,7 @@ const Sell = props => {
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
+    rateQuoteR,
     clearTradeError,
     currency,
     checkoutBusy,
@@ -70,6 +71,7 @@ const Sell = props => {
               canTrade={canTrade}
               changeTab={changeTab}
               quoteR={sellQuoteR}
+              rateQuoteR={rateQuoteR}
               onFetchQuote={fetchSellQuote}
               limits={limits.sell}
               type={'sell'}

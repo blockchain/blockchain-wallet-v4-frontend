@@ -28,7 +28,7 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -10px;
+  top: -18px;
   right: 0;
   height: 15px;
 `
@@ -72,7 +72,7 @@ const CaptchaBox = field => {
       <Container>
         <TextInput {...field.input} errorState={errorState} />
         {field.meta.touched && field.meta.error && (
-          <Error size='12px' weight={400} color='error'>
+          <Error size='12px' weight={500} color='error'>
             {field.meta.error}
           </Error>
         )}

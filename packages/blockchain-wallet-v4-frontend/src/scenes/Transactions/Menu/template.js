@@ -11,16 +11,10 @@ import {
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
 
 const { WALLET_TX_SEARCH } = model.form
 
-const Wrapper = styled.div`
-  width: 100%;
-  padding: 8px 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -116,7 +110,7 @@ const Menu = props => {
       : []
 
   return (
-    <Wrapper>
+    <HorizontalMenu>
       <Container>
         <Controls>
           {options.length > 1 && (
@@ -127,6 +121,7 @@ const Menu = props => {
                   coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBchAddresses
                 }
                 excludeLockbox
+                height='40px'
               />
             </Addresses>
           )}
@@ -186,15 +181,17 @@ const Menu = props => {
             )}
             {includes(coin, TX_EXPORT_COINS) && (
               <ReportingIcon
-                name='up-arrow-in-circle'
-                size='28px'
+                name='request'
+                size='24px'
                 cursor
+                color='gray-2'
                 onClick={handleClickReporting}
                 data-e2e='generateTxReport'
               />
             )}
             <Field
               name='search'
+              height='40px'
               component={TextBox}
               data-e2e='transactionsMenuSearchBox'
             />
@@ -202,7 +199,7 @@ const Menu = props => {
           </Search>
         </Controls>
       </Container>
-    </Wrapper>
+    </HorizontalMenu>
   )
 }
 

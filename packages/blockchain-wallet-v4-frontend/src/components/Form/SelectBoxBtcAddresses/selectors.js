@@ -1,12 +1,21 @@
 import {
   concat,
+  compose,
   curry,
+  descend,
   filter,
   has,
+  head,
+  lensIndex,
+  lensProp,
   map,
-  sequence,
+  path,
+  prepend,
+  prop,
   reduce,
-  prepend
+  set,
+  sequence,
+  sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -66,7 +75,20 @@ export const getData = (state, ownProps) => {
         : selectors.core.common.btc
             .getAddressesBalances(state)
             .map(toDropdown)
-            .map(toGroup('Imported Addresses')),
+            .map(toGroup('Imported Addresses'))
+            .map(x =>
+              set(
+                compose(
+                  lensIndex(0),
+                  lensProp('options')
+                ),
+                sort(
+                  descend(path(['value', 'balance'])),
+                  prop('options', head(x))
+                ),
+                x
+              )
+            ),
       excludeLockbox
         ? Remote.of([])
         : selectors.core.common.btc

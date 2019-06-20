@@ -2,13 +2,19 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 1,
+        "analyticsSiteId": 2,
         "enableDomainMigrationRedirects": true,
         "environment": "dev",
         "announcements": {
+          "lockbox": {},
           "public": {},
+          "swap": {},
           "wallet": {}
         }
+      },
+      "ads": {
+        "blacklist": ["LT", "LU", "UK", "US"],
+        "url": "https://games.bitcoin.com/slots?cma=20190619_blockchainwalletS&utm_source=blockchainwallet_S&utm_medium=banner&utm_campaign=20190619_blockchainwalletS"
       },
       "coins": {
         "BTC": {
@@ -64,31 +70,6 @@
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
-        },
-        "BSV": {
-          "availability": {
-            "send": true,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": true
-          },
-          "coinCode": "BSV",
-          "coinTicker": "BSV",
-          "colorCode": "bsv",
-          "displayName": "Bitcoin SV",
-          "config": {
-            "fees": {
-              "regular": 4,
-              "priority": 4
-            }
-          },
-          "hasLockboxSupport": false,
-          "icons": {
-            "default": "bsv"
-          },
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
         },
         "ETH": {
           "availability": {
@@ -204,6 +185,7 @@
             "circle": "xlm-circle-filled",
             "circleFilled": "xlm-circle-filled"
           },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
           "txListAppRoute": "/xlm/transactions"
@@ -261,39 +243,43 @@
           "partnerId": 24,
           "production": false,
           "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
-          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com"
+          "coinifyPaymentDomain": "https://pay.coinify.com"
         }
       },
       "sfox": {
         "countries": ["US"],
         "states": [
-          "AR",
+          "AK",
           "AZ",
           "CA",
           "CO",
+          "DE",
           "ID",
           "IL",
           "IN",
-          "KS",
           "KY",
           "LA",
           "MA",
           "MD",
+          "ME",
           "MI",
-          "MN",
           "MO",
           "MT",
           "NE",
+          "NH",
+          "NJ",
           "NV",
           "OK",
+          "OH",
           "PA",
-          "SC",
-          "SD",
+          "RI",
           "TN",
           "TX",
+          "UT",
           "VA",
           "WI",
-          "WV"
+          "WV",
+          "WY"
         ],
         "config": {
           "production": false,
@@ -357,7 +343,7 @@
     "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.blockchain.info",
+    "horizon": "https://horizon.stellar.org",
     "veriff": "https://magic.veriff.me"
   }
 }

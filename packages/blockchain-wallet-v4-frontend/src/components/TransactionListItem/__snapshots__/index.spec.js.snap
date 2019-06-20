@@ -16,6 +16,8 @@ exports[`ListItemContainer renders correctly 1`] = `
   <ListItemContainer
     analyticsActions={
       Object {
+        "createABTest": [Function],
+        "createABTestSuccess": [Function],
         "initUserSession": [Function],
         "logEvent": [Function],
         "logGoal": [Function],
@@ -35,18 +37,6 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setAccountLabel": [Function],
         "setDefaultAccountIdx": [Function],
         "setTxNotesBch": [Function],
-      }
-    }
-    bsvActions={
-      Object {
-        "createMetadataBsv": [Function],
-        "fetchMetadataBsv": [Function],
-        "fetchMetadataBsvFailure": [Function],
-        "fetchMetadataBsvLoading": [Function],
-        "fetchMetadataBsvSuccess": [Function],
-        "setAccountArchived": [Function],
-        "setHasSeen": [Function],
-        "setTxNotesBsv": [Function],
       }
     }
     erc20List={Object {}}
@@ -75,7 +65,6 @@ exports[`ListItemContainer renders correctly 1`] = `
     preferencesActions={
       Object {
         "hideAirdropClaimModal": [Function],
-        "hideAirdropReminderModal": [Function],
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
         "hideSwapBanner": [Function],

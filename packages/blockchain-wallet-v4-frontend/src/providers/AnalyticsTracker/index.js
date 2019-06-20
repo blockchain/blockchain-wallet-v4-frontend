@@ -15,10 +15,6 @@ const Iframe = styled.iframe`
 `
 
 class AnalyticsTracker extends React.PureComponent {
-  componentDidMount () {
-    this.props.analyticsActions.initUserSession()
-  }
-
   render () {
     const { domains, siteId } = this.props
     return (

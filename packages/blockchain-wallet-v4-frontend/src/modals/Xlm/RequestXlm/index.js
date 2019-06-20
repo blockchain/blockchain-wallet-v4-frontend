@@ -2,16 +2,26 @@ import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-
-import { getData, getInitialValues } from './selectors'
-import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, model } from 'data'
-import Loading from './template.loading'
-import Success from './template.success'
-import DataError from 'components/DataError'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+
+import { actions, model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Announcements from 'components/Announcements'
+import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { getData, getInitialValues } from './selectors'
+import Loading from './template.loading'
+import Success from './template.success'
+
+const RequestHeader = styled(ModalHeader)`
+  border-bottom: 0;
+  padding-bottom: 0;
+  > div:first-child * {
+    color: ${props => props.theme['brand-primary']};
+  }
+`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestXlmContainer extends React.PureComponent {
@@ -71,7 +81,7 @@ class RequestXlmContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, closeAll, selection, coins } = this.props
+    const { closeAll, coins, data, position, selection, total } = this.props
 
     const content = data.cata({
       Success: val => (
@@ -91,17 +101,14 @@ class RequestXlmContainer extends React.PureComponent {
     })
 
     return (
-      <Modal
-        size='large'
-        position={this.props.position}
-        total={this.props.total}
-      >
-        <ModalHeader icon='request' onClose={this.props.closeAll}>
+      <Modal size='medium' position={position} total={total}>
+        <RequestHeader icon='request' onClose={closeAll}>
           <FormattedMessage
             id='modals.requestxlm.title'
             defaultMessage='Request Stellar'
           />
-        </ModalHeader>
+        </RequestHeader>
+        <Announcements type='service' alertArea='request' currentCoin='XLM' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

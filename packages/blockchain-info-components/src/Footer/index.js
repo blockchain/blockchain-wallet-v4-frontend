@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
 
 const GlobalFooter = styled.div`
   ${Normalize8}
-  background: ${Color('porcelain')};
+  background: ${Color('gray-1')};
   position: relative;
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -46,7 +46,7 @@ const Container = styled.div.attrs({
   color: ${Color('textBlack')};
 
   a {
-    transition: color .5s, opacity: .5s;
+    transition: color 0.5s, opacity 0.5s;
     font-weight: 500;
   }
 

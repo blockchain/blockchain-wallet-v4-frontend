@@ -14,7 +14,7 @@ const MessageText = styled(Text)`
 const ErrorHandler = props => {
   const { message, onClick } = props
   const e2e = props['data-e2e']
-  const errorMessage = prop('message', message)
+  const errorMessage = prop('message', message) || prop('description', message)
   const vulnerableAddress = checkForVulnerableAddressError(message)
 
   if (vulnerableAddress) {
@@ -40,6 +40,12 @@ const ErrorHandler = props => {
           id='components.dataerror.feesfetchfailure'
           defaultMessage='There was a problem fetching fees. Please try again later.'
         />
+      </Text>
+    )
+  } else if (typeof errorMessage === 'string') {
+    return (
+      <Text size='16px' color='error' weight={500}>
+        {errorMessage}
       </Text>
     )
   } else {

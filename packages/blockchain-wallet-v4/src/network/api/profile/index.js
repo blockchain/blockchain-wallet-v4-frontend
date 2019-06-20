@@ -39,6 +39,17 @@ export default ({
     })
   }
 
+  const linkAccount = linkId => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/link-account/existing',
+      contentType: 'application/json',
+      data: {
+        linkId
+      }
+    })
+  }
+
   const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
     authorizedPut({
       url: nabuUrl,
@@ -73,7 +84,7 @@ export default ({
       contentType: 'application/json',
       headers: {
         'X-DEVICE-ID': 'deviceId',
-        'x-client-type': 'WEB',
+        'X-CLIENT-TYPE': 'WEB',
         'x-app-version': '6.11.1',
         'X-WALLET-GUID': walletGuid,
         'X-WALLET-EMAIL': email,
@@ -118,6 +129,7 @@ export default ({
     generateRetailToken,
     generateSession,
     getUser,
+    linkAccount,
     recoverUser,
     registerUserCampaign,
     syncUserWithWallet,

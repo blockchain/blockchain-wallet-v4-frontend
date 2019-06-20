@@ -14,8 +14,9 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-  background-color: #0d0d42;
-  background: #0d0d42 url(/img/swap-dashboard-right.png);
+  background: ${props => props.theme['deep-blue']}
+    url(/img/swap-dashboard-right.png);
+  background-color: ${props => props.theme['deep-blue']};
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -57,7 +58,7 @@ const LaterButton = styled(FooterButton)`
 const CenteredText = styled(Text)`
   padding: 0 36px;
   text-align: center;
-  text-shadow: 0px 0px 1px #0d0d42;
+  text-shadow: 0px 0px 1px ${props => props.theme['deep-blue']};
 `
 
 class SwapGetStarted extends React.PureComponent {

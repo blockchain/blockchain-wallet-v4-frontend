@@ -33,6 +33,7 @@ const mapStateToProps = () => ({
     { text: 'California', value: { name: 'California', code: 'CA' } },
     { text: 'Colorado', value: { name: 'Colorado', code: 'CO' } },
     { text: 'Connecticut', value: { name: 'Connecticut', code: 'CT' } },
+    { text: 'Delaware', value: { name: 'Delaware', code: 'DE' } },
     {
       text: 'District Of Columbia',
       value: { name: 'District Of Columbia', code: 'DC' }

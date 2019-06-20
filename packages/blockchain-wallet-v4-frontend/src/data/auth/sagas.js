@@ -79,7 +79,6 @@ export default ({ api, coreSagas }) => {
 
   const saveGoals = function * (firstLogin) {
     yield put(actions.goals.saveGoal('welcome', { firstLogin }))
-    yield put(actions.goals.saveGoal('airdropReminder'))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
@@ -87,7 +86,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
     yield put(actions.goals.saveGoal('pax'))
-    yield put(actions.goals.saveGoal('bsv'))
   }
 
   const startSockets = function * () {
@@ -129,7 +127,6 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
-      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
@@ -149,6 +146,7 @@ export default ({ api, coreSagas }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
+      yield put(actions.analytics.initUserSession())
       yield fork(transferEthSaga)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())

@@ -2,23 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
-import { check, msie } from 'bowser'
+import Bowser from 'bowser'
+import { has } from 'ramda'
 
 import {
   validPasswordConfirmation,
-  validStrongPassword,
   required,
   validEmail
 } from 'services/FormHelper'
 import {
   Banner,
   Button,
-  Link,
   HeartbeatLoader,
-  Separator,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import {
   CheckBox,
@@ -32,8 +28,22 @@ import {
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
 
-const isSupportedBrowser =
-  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
+// load zxcvbn dependency async and set on window
+require.ensure(
+  ['zxcvbn'],
+  require => (window.zxcvbn = require('zxcvbn')),
+  'zxcvbn'
+)
+
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSupportedBrowser = browser.satisfies({
+  chrome: '>45',
+  chromium: '>45',
+  edge: '>40',
+  firefox: '>45',
+  opera: '>20',
+  safari: '>8'
+})
 
 const Header = styled.div`
   display: flex;
@@ -41,7 +51,7 @@ const Header = styled.div`
   align-items: center;
 `
 const RegisterForm = styled(Form)`
-  margin: 20px 0;
+  margin-top: 20px;
 `
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
@@ -52,46 +62,36 @@ const PasswordTip = styled(Text)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
+const validStrongPassword = value =>
+  value !== undefined && window.zxcvbn(value).score > 1
+    ? undefined
+    : () => (
+        <FormattedMessage
+          id='scenes.register.invalidstrongpassword'
+          defaultMessage='Your password is not strong enough'
+        />
+      )
 
 const Register = props => {
-  const {
-    handleSubmit,
-    busy,
-    invalid,
-    passwordStrength,
-    passwordLength
-  } = props
+  const { handleSubmit, busy, invalid, password, passwordLength } = props
+  let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
 
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={400} capitalize data-e2e='signupHeader'>
+        <Text
+          size='20px'
+          color='brand-primary'
+          weight={600}
+          capitalize
+          data-e2e='signupHeader'
+        >
           <FormattedMessage
-            id='scenes.register.create'
-            defaultMessage='Create your Wallet'
+            id='scenes.register.createawallet'
+            defaultMessage='Create a Wallet'
           />
         </Text>
-        <TextGroup inline>
-          <Text size='13px' weight={400}>
-            <FormattedMessage id='scenes.register.or' defaultMessage='or' />
-          </Text>
-          <LinkContainer to='/login'>
-            <Link size='13px' weight={500} data-e2e='signupLinkToLogin'>
-              <FormattedMessage
-                id='scenes.register.login'
-                defaultMessage='Login'
-              />
-            </Link>
-          </LinkContainer>
-        </TextGroup>
       </Header>
-      <Text size='14px' weight={400} altFont>
-        <FormattedMessage
-          id='scenes.register.explain'
-          defaultMessage='Sign up for a free wallet below'
-        />
-      </Text>
-      <Separator />
       <RegisterForm override onSubmit={handleSubmit}>
         {!isSupportedBrowser && (
           <BrowserWarning>
@@ -133,7 +133,8 @@ const Register = props => {
               name='password'
               validate={[required, validStrongPassword]}
               component={PasswordBox}
-              score
+              showPasswordScore
+              passwordScore={passwordScore}
               disabled={!isSupportedBrowser}
               data-e2e='signupPassword'
             />
@@ -141,19 +142,19 @@ const Register = props => {
           {passwordLength > 0 && (
             <div>
               <PasswordTip size='12px' weight={400}>
-                {passwordStrength <= 1 && (
+                {passwordScore <= 1 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.weak'
                     defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
                 )}
-                {passwordStrength >= 2 && passwordStrength < 4 && (
+                {passwordScore >= 2 && passwordScore < 4 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.medium'
                     defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
                 )}
-                {passwordStrength === 4 && (
+                {passwordScore === 4 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.great'
                     defaultMessage='Great password.'
@@ -199,15 +200,18 @@ const Register = props => {
             nature='primary'
             fullwidth
             disabled={busy || invalid}
+            height='56px'
             data-e2e='signupButton'
           >
             {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
-              <FormattedMessage
-                id='scenes.register.submit'
-                defaultMessage='Continue'
-              />
+              <Text color='white' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.createmywallet'
+                  defaultMessage='Create My Wallet'
+                />
+              </Text>
             )}
           </Button>
         </FormGroup>

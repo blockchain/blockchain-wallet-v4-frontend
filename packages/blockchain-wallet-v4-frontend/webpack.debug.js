@@ -111,7 +111,7 @@ module.exports = {
     hints: false
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.ciBuild], { allowExternal: true }),
+    new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
@@ -120,6 +120,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
     })
   ],
   optimization: {
@@ -129,7 +133,6 @@ module.exports = {
         uglifyOptions: {
           warnings: false,
           compress: {
-            warnings: false,
             keep_fnames: true
           },
           mangle: {
@@ -137,10 +140,10 @@ module.exports = {
           }
         },
         parallel: true,
-        cache: true
+        cache: false
       })
     ],
-    concatenateModules: false,
+    concatenateModules: true,
     runtimeChunk: {
       name: `manifest.${manifestCacheBust}`
     },
@@ -205,7 +208,7 @@ module.exports = {
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
+          mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'

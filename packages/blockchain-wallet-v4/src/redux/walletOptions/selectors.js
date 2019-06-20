@@ -30,6 +30,9 @@ export const getMigrationRedirects = state =>
   getWebOptions(state).map(
     path(['application', 'enableDomainMigrationRedirects'])
   )
+export const getAdsBlacklist = state =>
+  getWebOptions(state).map(path(['ads', 'blacklist']))
+export const getAdsUrl = state => getWebOptions(state).map(path(['ads', 'url']))
 
 // coins
 export const getSupportedCoins = createDeepEqualSelector(
@@ -47,8 +50,6 @@ export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
   getSupportedCoins(state).map(path(['BCH', 'config', 'fees']))
-export const getBsvFees = state =>
-  getSupportedCoins(state).map(path(['BSV', 'config', 'fees']))
 export const getEthTxFuse = state =>
   getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
 export const getXlmSendTimeOutSeconds = state =>

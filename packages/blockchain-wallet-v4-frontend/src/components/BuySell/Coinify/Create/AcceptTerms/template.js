@@ -207,7 +207,7 @@ const AcceptTerms = props => {
               {prop('error', signupError) === EMAIL_IN_USE_ERROR &&
               create !== VERIFY ? (
                 <TextGroup inline>
-                  <Text size='12px' color='error' weight={400}>
+                  <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error1'
                       defaultMessage='Unfortunately this email is being used for another account. '
@@ -225,7 +225,7 @@ const AcceptTerms = props => {
                       defaultMessage='Click here '
                     />
                   </Text>
-                  <Text size='12px' color='error' weight={400}>
+                  <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.error3'
                       defaultMessage='to change it.'
@@ -234,7 +234,7 @@ const AcceptTerms = props => {
                 </TextGroup>
               ) : signupError && create !== VERIFY ? (
                 <TextGroup inline>
-                  <Text size='12px' color='error' weight={400}>
+                  <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.unknownError'
                       defaultMessage="We're sorry, but something unexpected went wrong. Please "
@@ -262,7 +262,7 @@ const AcceptTerms = props => {
                     />
                   </Link>
                   <br />
-                  <Text size='12px' color='error' weight={400}>
+                  <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.support_error_description'
                       defaultMessage='Error Description: {errorDescription}'

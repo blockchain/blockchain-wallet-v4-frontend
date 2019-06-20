@@ -7,27 +7,25 @@ import { mapObjIndexed, toLower, values } from 'ramda'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
-  Wrapper,
+  CoinIcon,
+  Destination,
+  MenuIcon,
   MenuItem,
   Separator,
-  SubMenu,
-  SubMenuItem
+  // SubMenu,
+  // SubMenuItem,
+  Wrapper
 } from 'components/MenuLeft'
-import {
-  Icon,
-  Text,
-  TooltipIcon,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
   > div span {
-    color: ${props => props.theme['gray-7']};
+    color: ${props => props.theme['gray-3']};
   }
 `
 const NewCartridge = styled(Cartridge)`
-  color: #f28b24 !important;
+  color: ${props => props.theme['orange']} !important;
   background-color: ${props => props.theme['white']};
   letter-spacing: 1px;
   margin-left: auto;
@@ -38,7 +36,11 @@ const NewCartridge = styled(Cartridge)`
 `
 const Navigation = props => {
   const { ...rest } = props
-  const { lockboxOpened, lockboxDevices, supportedCoins } = rest
+  const {
+    // lockboxOpened,
+    // lockboxDevices,
+    supportedCoins
+  } = rest
   const coinOrder = [
     supportedCoins.PAX,
     supportedCoins.BTC,
@@ -46,86 +48,74 @@ const Navigation = props => {
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
+  // SwapOrTradeTest
+  const { swapOrTrade } = rest
 
   return (
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
-          <Icon name='home-filled' size='19px' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.dashboard'
-            defaultMessage='Dashboard'
-          />
+          <MenuIcon name='home' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.dashboard'
+              defaultMessage='Dashboard'
+            />
+          </Destination>
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
         <MenuItem data-e2e='buyAndSellLink'>
-          <Icon name='cart-filled' size='20px' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.buysell'
-            defaultMessage='Buy & Sell'
-          />
+          <MenuIcon name='cart-filled' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.buysell'
+              defaultMessage='Buy & Sell'
+              className='destination'
+            />
+          </Destination>
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
-          <Icon name='thick-arrow-switch' size='20px' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.swap'
-            defaultMessage='Swap'
-          />
+          <MenuIcon name='thick-arrow-switch' size='24px' />
+          {/* SwapOrTradeTest */}
+          <Destination>
+            {swapOrTrade !== 'trade' ? (
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.swap'
+                defaultMessage='Swap'
+              />
+            ) : (
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.trade'
+                defaultMessage='Trade'
+              />
+            )}
+          </Destination>
         </MenuItem>
       </LinkContainer>
-      <Separator />
-      {values(
-        mapObjIndexed(
-          (coin, i) =>
-            coin.txListAppRoute &&
-            coin.invited && (
-              <LinkContainer
-                key={i}
-                to={coin.txListAppRoute}
-                activeClassName='active'
-              >
-                <MenuItem
-                  data-e2e={`${toLower(coin.coinCode)}Link`}
-                  colorCode={coin.colorCode}
-                >
-                  <Icon name={coin.icons.circleFilled} size='20px' />
-                  <span>{coin.displayName}</span>
-                  {coin.showNewTagSidenav && (
-                    <NewCartridge>
-                      <Text color='#F28B24' size='12' weight={500} uppercase>
-                        <FormattedMessage
-                          id='layouts.wallet.menuleft.navigation.transactions.new'
-                          defaultMessage='New'
-                        />
-                      </Text>
-                    </NewCartridge>
-                  )}
-                </MenuItem>
-              </LinkContainer>
-            ),
-          coinOrder
-        )
-      )}
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
-          <Icon name='hardware' style={{ paddingLeft: '2px' }} size='20px' />
-          <span style={{ marginLeft: '-2px' }}>
+          <MenuIcon
+            name='hardware'
+            style={{ paddingLeft: '2px' }}
+            size='24px'
+          />
+          <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'
             />
-          </span>
+          </Destination>
           <HelperTipContainer>
             <TooltipHost id='lockboxRequired'>
-              <TooltipIcon name='info' />
+              <TooltipIcon color='blue' name='info' />
             </TooltipHost>
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {lockboxOpened && (
+      {/* lockboxOpened && (
         <SubMenu>
           {lockboxDevices.map((device, index) => {
             const deviceName = device.device_name
@@ -147,6 +137,44 @@ const Navigation = props => {
             )
           })}
         </SubMenu>
+      ) */}
+      <Separator />
+      {values(
+        mapObjIndexed(
+          (coin, i) =>
+            coin.txListAppRoute &&
+            coin.invited && (
+              <LinkContainer
+                key={i}
+                to={coin.txListAppRoute}
+                activeClassName='active'
+              >
+                <MenuItem
+                  data-e2e={`${toLower(coin.coinCode)}Link`}
+                  colorCode={coin.colorCode}
+                  className='coin'
+                >
+                  <CoinIcon
+                    color={coin.colorCode}
+                    name={coin.icons.circleFilled}
+                    size='24px'
+                  />
+                  <Destination>{coin.displayName}</Destination>
+                  {coin.showNewTagSidenav && (
+                    <NewCartridge>
+                      <Text color='orange' size='12' weight={500} uppercase>
+                        <FormattedMessage
+                          id='layouts.wallet.menuleft.navigation.transactions.new'
+                          defaultMessage='New'
+                        />
+                      </Text>
+                    </NewCartridge>
+                  )}
+                </MenuItem>
+              </LinkContainer>
+            ),
+          coinOrder
+        )
       )}
     </Wrapper>
   )

@@ -324,12 +324,13 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
+      const feeSource = isSourceErc20 ? 'ETH' : sourceCoin
       const provisionalPayment = yield payment ||
         call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
       const fee = convertBaseToStandard(
-        sourceCoin,
-        selectFee(sourceCoin, provisionalPayment, isSourceErc20)
+        feeSource,
+        selectFee(sourceCoin, provisionalPayment)
       )
       const rates = yield call(getBestRates)
       // For ERC20, fallback to eth ticker
@@ -751,8 +752,8 @@ export default ({ api, coreSagas, networks }) => {
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
         const { password } = depositCredentials
         payment = yield payment.sign(password)
-        txId = payment.value().txId
         payment = yield payment.publish()
+        txId = payment.value().txId
       } else {
         const { connection, scrambleKey } = depositCredentials
         payment = yield payment.sign(
@@ -760,15 +761,15 @@ export default ({ api, coreSagas, networks }) => {
           prop('transport', connection),
           scrambleKey
         )
-        txId = payment.value().txId
         payment = yield payment.publish()
+        txId = payment.value().txId
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(4000)
         yield put(actions.modals.closeAllModals())
       }
 
       if (sourceCoin === 'ETH' || includes(sourceCoin, erc20List)) {
-        yield spawn(updateLatestEthTrade, txId)
+        yield call(updateLatestEthTrade, txId, source.type)
       }
     } catch (err) {
       if (sourceCoin === 'XLM') {
@@ -861,7 +862,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
-      yield cancel(renewLimitsTask)
+      if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'clearSubscriptions', e)

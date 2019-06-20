@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: #0d0d42;
+  background-color: ${props => props.theme['deep-blue']};
   border-radius: 4px;
   box-sizing: border-box;
   overflow: hidden;
@@ -26,7 +26,8 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     height: 88px;
-    background: #0d0d42 url(/img/swap-dashboard-left.png);
+    background: ${props => props.theme['deep-blue']}
+      url(/img/swap-dashboard-left.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -10px 0px;

@@ -292,22 +292,36 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const linkAccount = function * ({ payload }) {
+    try {
+      const { linkId } = payload
+      yield put(A.linkAccountLoading())
+      const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
+      if (isUserStateNone) yield call(createUser)
+      const data = yield call(api.linkAccount, linkId)
+      yield put(A.linkAccountSuccess(data))
+    } catch (e) {
+      yield put(A.linkAccountFailure(e))
+    }
+  }
+
   return {
-    getCampaignData,
-    signIn,
     clearSession,
-    setSession,
-    renewSession,
-    generateRetailToken,
-    generateAuthCredentials,
     createUser,
-    updateUser,
-    updateUserAddress,
-    fetchUser,
     fetchTiers,
+    fetchUser,
+    generateAuthCredentials,
+    generateRetailToken,
+    getCampaignData,
+    linkAccount,
+    recoverUser,
     renewApiSockets,
+    renewSession,
     renewUser,
+    setSession,
+    signIn,
     syncUserWithWallet,
-    recoverUser
+    updateUser,
+    updateUserAddress
   }
 }

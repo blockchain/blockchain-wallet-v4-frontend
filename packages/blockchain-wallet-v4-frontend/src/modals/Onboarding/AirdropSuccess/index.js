@@ -110,8 +110,8 @@ class AirdropSuccess extends React.PureComponent {
         <Body>
           <Text size='24px' weight={400}>
             <FormattedMessage
-              id='modals.airdropsuccess.airdroponitsway'
-              defaultMessage='Your {coinCode} is on its way!'
+              id='modals.airdropsuccess.airdropprogram'
+              defaultMessage='Enrolled in Airdrop Program!'
               values={{ coinCode: prop('coinCode', CAMPAIGNS[campaign]) }}
             />
           </Text>
@@ -192,11 +192,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
+  modalEnhancer('AirdropSuccess'),
   connect(
     null,
     mapDispatchToProps
-  ),
-  modalEnhancer('AirdropSuccess')
+  )
 )
 
 export default enhance(AirdropSuccess)

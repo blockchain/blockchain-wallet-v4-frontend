@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import { transparentize } from 'polished'
 
 import { Icon, Image } from 'blockchain-info-components'
 import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
-import Logout from './Logout'
+import SecurityCenter from './SecurityCenter'
+import Settings from './Settings'
 import Announcements from 'components/Announcements'
+import media from 'services/ResponsiveService'
 import {
   Navbar,
   NavbarBrand,
@@ -27,9 +30,24 @@ const BlockchainLogoImage = styled(Image)`
     margin-left: 0;
   }
 `
+const NavbarNavItemSpacer = styled(NavbarNavItem)`
+  margin-right: 12px;
+`
+const NavbarNavItemWithText = styled(NavbarNavItem)`
+  padding: 0 24px;
+  margin: 0px;
+  border-left: 1px solid ${props => transparentize(0.9, props.theme['white'])};
+  &:last-child {
+    padding-right: 0px;
+  }
+  ${media.tablet`
+    padding: 0px;
+    border-left: 0px;
+  `}
+`
 
 const Header = props => {
-  const { handleToggle } = props
+  const { handleToggle, ...rest } = props
   return (
     <React.Fragment>
       <Navbar height='60px'>
@@ -47,7 +65,6 @@ const Header = props => {
           </NavbarBrand>
         </NavbarHeader>
         <NavbarMenu>
-          <div />
           <NavbarNav>
             <NavbarNavItem>
               <WhatsNewIcon />
@@ -55,12 +72,15 @@ const Header = props => {
             <NavbarNavItem>
               <RefreshIcon />
             </NavbarNavItem>
-            <NavbarNavItem>
+            <NavbarNavItemSpacer>
               <FaqIcon />
-            </NavbarNavItem>
-            <NavbarNavItem style={{ margin: '0 6px 0 36px' }}>
-              <Logout />
-            </NavbarNavItem>
+            </NavbarNavItemSpacer>
+            <NavbarNavItemWithText>
+              <SecurityCenter {...rest} />
+            </NavbarNavItemWithText>
+            <NavbarNavItemWithText>
+              <Settings {...rest} />
+            </NavbarNavItemWithText>
           </NavbarNav>
         </NavbarMenu>
       </Navbar>

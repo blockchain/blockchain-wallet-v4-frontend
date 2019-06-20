@@ -10,7 +10,7 @@ const animationFrames = keyframes`
   100% { width: 100%; }
 `
 const animation = css`
-  ${animationFrames} 2s infinite linear;
+  animation: ${animationFrames} 2s infinite linear;
 `
 
 const Wrapper = styled.div`
@@ -25,9 +25,9 @@ const Rectangle = styled.div`
     props.status === 'disabled'
       ? props.theme['gray-2']
       : props.theme['brand-primary']};
-  animation: ${animation};
   animation-play-state: ${props =>
     props.status === 'active' ? 'running' : 'paused'};
+  ${animation};
 `
 
 const Line = props => (

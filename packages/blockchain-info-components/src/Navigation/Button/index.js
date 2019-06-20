@@ -6,48 +6,35 @@ import Link from '../Link'
 
 const DefaultButton = styled('button', 'input[type=submit]')`
   display: inline-block;
-  font-size: 1rem;
   font-weight: 500;
-  padding: 0 1rem;
-  border-radius: var(--smBorderRadius);
   text-align: center;
   cursor: pointer;
   outline: none;
   transition: all 0.3s ease;
   flex: 0 0 auto;
-
   border-radius: ${props =>
     props.big ? 'var(--lgBorderRadius)' : 'var(--smBorderRadius)'};
-
   height: ${props => (props.big ? '3.5rem' : '2.5rem')};
-
   font-size: ${props => (props.big ? '1.25rem' : '1rem')};
-
   padding: ${props => (props.big ? '0 2rem' : '0 1rem')};
-
   color: ${props => (props.textColor ? props.textColor : 'white')};
-
   border: ${props =>
     props.outline
       ? props.bgColor
         ? '2px solid ' + props.bgColor
         : `2px solid ${Color('brand-secondary')}`
       : 'transparent'};
-
   background-color: ${props =>
     props.outline
       ? 'transparent'
       : props.bgColor
       ? props.bgColor
       : Color('brand-secondary')};
-
   line-height: ${props => (props.outline ? '2rem' : '2.5rem')};
-
   &:hover {
     transform: scale(0.95);
     transition: all 0.3s ease;
   }
-
   a {
     color: inherit;
   }

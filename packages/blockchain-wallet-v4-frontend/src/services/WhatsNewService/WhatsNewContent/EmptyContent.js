@@ -4,7 +4,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  >div: first-child {
+  > div:first-child {
     margin-bottom: 10px;
   }
   a {

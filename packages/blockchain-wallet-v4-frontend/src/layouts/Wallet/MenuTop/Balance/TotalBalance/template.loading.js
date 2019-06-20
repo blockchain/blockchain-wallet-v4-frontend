@@ -12,7 +12,7 @@ const BalanceSkeleton = styled.div`
 export default props => {
   return (
     <BalanceSkeleton>
-      <SkeletonRectangle width='170px' height='30px' bgColor='white-blue' />
+      <SkeletonRectangle width='170px' height='30px' bgColor='gray-1' />
     </BalanceSkeleton>
   )
 }

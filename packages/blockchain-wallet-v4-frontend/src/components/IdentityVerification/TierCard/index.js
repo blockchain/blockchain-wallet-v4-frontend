@@ -49,7 +49,7 @@ const Container = styled.div`
 const Header = styled(Text)`
   display: flex;
   text-align: center;
-  align-items: center
+  align-items: center;
   width: 50%;
   font-weight: 500;
   font-size: 14px;
@@ -113,7 +113,7 @@ export const TierCard = ({
   goToSwap
 }) => {
   const tierData = head(userTiers.filter(propEq('index', tier)))
-  const symbol =
+  const tierFiatLimit =
     Exchange.getSymbol(tierData.limits.currency) +
     Currency.formatFiat(
       tierData.limits[toLower(path([tier, 'limit'], TIERS))],
@@ -146,13 +146,23 @@ export const TierCard = ({
         <Content>
           <Row>
             <Column>
-              <Text size='32px' color='marketing-secondary'>
-                {symbol}
+              <Text size='32px' weight={600} color='marketing-secondary'>
+                {tierFiatLimit}
               </Text>
-              <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>
+              <Text
+                size='14px'
+                weight={500}
+                color='textBlack'
+                style={{ marginTop: '8px' }}
+              >
                 {tierLimit}
               </Text>
-              <Text size='14px' color='gray-3' style={{ marginTop: '7px' }}>
+              <Text
+                size='14px'
+                weight={500}
+                color='gray-3'
+                style={{ marginTop: '7px' }}
+              >
                 {tierStatus}
               </Text>
             </Column>

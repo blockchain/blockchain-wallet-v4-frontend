@@ -41,6 +41,10 @@ export const isUserActive = compose(
   lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
   getUserActivationState
 )
+export const isUserStateNone = compose(
+  lift(equals(USER_ACTIVATION_STATES.NONE)),
+  getUserActivationState
+)
 export const isUserVerified = compose(
   lift(equals(KYC_STATES.VERIFIED)),
   getUserKYCState
@@ -61,6 +65,8 @@ export const getKycDocResubmissionStatus = compose(
   lift(path(['resubmission', 'reason'])),
   getUserData
 )
+
+export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>

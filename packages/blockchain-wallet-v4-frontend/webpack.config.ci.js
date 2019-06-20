@@ -69,7 +69,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.ciBuild], { allowExternal: true }),
+    new CleanWebpackPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
@@ -77,6 +77,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
     }),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
