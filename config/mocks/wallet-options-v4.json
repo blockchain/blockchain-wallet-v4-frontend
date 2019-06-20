@@ -13,7 +13,8 @@
         }
       },
       "ads": {
-        "blacklist": ["LT", "LU", "UK", "US"]
+        "blacklist": ["LT", "LU", "UK", "US"],
+        "url": "https://games.bitcoin.com/slots?cma=20190619_blockchainwalletS&utm_source=blockchainwallet_S&utm_medium=banner&utm_campaign=20190619_blockchainwalletS"
       },
       "coins": {
         "BTC": {

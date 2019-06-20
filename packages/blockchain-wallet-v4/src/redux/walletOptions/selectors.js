@@ -32,6 +32,7 @@ export const getMigrationRedirects = state =>
   )
 export const getAdsBlacklist = state =>
   getWebOptions(state).map(path(['ads', 'blacklist']))
+export const getAdsUrl = state => getWebOptions(state).map(path(['ads', 'url']))
 
 // coins
 export const getSupportedCoins = createDeepEqualSelector(
