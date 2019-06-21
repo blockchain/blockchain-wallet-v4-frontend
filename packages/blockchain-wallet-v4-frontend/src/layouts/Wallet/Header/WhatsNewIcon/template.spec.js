@@ -6,6 +6,7 @@ import WhatsNewIcon from './template'
 jest.mock('blockchain-info-components', () => ({
   Link: 'link',
   Icon: 'icon',
+  Text: 'text',
   TooltipHost: 'tooltiphost'
 }))
 

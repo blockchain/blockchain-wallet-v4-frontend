@@ -12,28 +12,29 @@ const toHex = value => {
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }
 
-// TODO: ERC20 send contract address to method, figure out fees
-export const signErc20 = curry((network = 1, mnemonic, data) => {
-  const { index, to, amount, nonce, gasPrice, gasLimit } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
-  const transferMethodHex = '0xa9059cbb'
-  const txParams = {
-    to: '0x8e870d67f660d95d5be530380d0ec0bd388289e1', // contract address
-    nonce: toHex(nonce),
-    gasPrice: toHex(gasPrice),
-    gasLimit: toHex(gasLimit),
-    value: toHex(0),
-    chainId: network,
-    data:
-      transferMethodHex +
-      EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
-      EthereumAbi.rawEncode(['uint256'], [amount]).toString('hex')
+export const signErc20 = curry(
+  (network = 1, mnemonic, data, contractAddress) => {
+    const { index, to, amount, nonce, gasPrice, gasLimit } = data
+    const privateKey = eth.getPrivateKey(mnemonic, index)
+    const transferMethodHex = '0xa9059cbb'
+    const txParams = {
+      to: contractAddress,
+      nonce: toHex(nonce),
+      gasPrice: toHex(gasPrice),
+      gasLimit: toHex(gasLimit),
+      value: toHex(0),
+      chainId: network,
+      data:
+        transferMethodHex +
+        EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
+        EthereumAbi.rawEncode(['uint256'], [amount]).toString('hex')
+    }
+    const tx = new EthereumTx(txParams)
+    tx.sign(privateKey)
+    const rawTx = '0x' + tx.serialize().toString('hex')
+    return Task.of(rawTx)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = '0x' + tx.serialize().toString('hex')
-  return Task.of(rawTx)
-})
+)
 
 export const sign = curry((network = 1, mnemonic, data) => {
   const { index, to, amount, nonce, gasPrice, gasLimit } = data

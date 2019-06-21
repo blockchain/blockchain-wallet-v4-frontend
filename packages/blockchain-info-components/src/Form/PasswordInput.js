@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
+  spellCheck: 'false',
   disabled: props => props.disabled,
   'data-lpignore': props => props.noLastPass
 })`

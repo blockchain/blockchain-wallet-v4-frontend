@@ -1,9 +1,9 @@
 import { put, call, select } from 'redux-saga/effects'
 import profileSagas from 'data/modules/profile/sagas'
-import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
-import { addLanguageToUrl } from 'services/LanguageService'
+import { addLanguageToUrl } from 'services/LocalesService'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
