@@ -13,6 +13,8 @@ import {
 } from 'ramda'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
+
+import Remote from '../remote'
 import {
   getDefaultAddress,
   getDefaultLabel,
@@ -92,7 +94,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     amount,
     blockHeight: tx.blockNumber,
     description: getEthTxNote(state, tx.hash).getOrElse(''),
-    fee,
+    fee: Remote.Success(fee),
     from: getLabel(tx.from, state, ''),
     hash: tx.hash,
     time: tx.timeStamp,
@@ -125,7 +127,7 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     amount: parseInt(tx.value),
     blockHeight: tx.blockNumber,
     description: getErc20TxNote(state, token, tx.transactionHash).getOrElse(''),
-    fee: 0,
+    fee: Remote.NotAsked,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
     timeFormatted: getTime(tx.timestamp),
@@ -134,6 +136,8 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     type
   }
 })
+
+export const getErc20TxFee = txHash => {}
 
 export const transformTx = _transformTx
 export const transformErc20Tx = _transformErc20Tx

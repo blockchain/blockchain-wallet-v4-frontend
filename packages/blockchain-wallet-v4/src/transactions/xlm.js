@@ -15,6 +15,8 @@ import {
 } from 'ramda'
 import BigNumber from 'bignumber.js'
 
+import Remote from '../remote'
+
 const getType = (tx, addresses) => {
   if (includes(tx.from, addresses) && includes(tx.to, addresses))
     return 'transferred'
@@ -67,7 +69,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
     blockHeight: -1,
     description: pathOr('', [hash], txNotes),
     amount,
-    fee,
+    fee: Remote.Success(fee),
     from: getLabel(accounts, from),
     hash,
     memo,
