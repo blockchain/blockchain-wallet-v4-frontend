@@ -53,8 +53,9 @@ export default ({
     ...profile({
       rootUrl,
       nabuUrl,
-      authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       ...http
     }),
     ...sfox(),

@@ -3,7 +3,7 @@ export default ({
   nabuUrl,
   get,
   post,
-  put,
+  authorizedPost,
   authorizedPut,
   authorizedGet
 }) => {
@@ -51,7 +51,7 @@ export default ({
   }
 
   const shareDepositAddresses = addresses => {
-    return authorizedPut({
+    return authorizedPost({
       url: nabuUrl,
       endPoint: '/users/deposit/addresses',
       contentType: 'application/json',
