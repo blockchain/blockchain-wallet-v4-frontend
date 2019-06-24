@@ -10,9 +10,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 class TransactionFee extends React.PureComponent {
   componentDidMount () {
-    const { coin, feeR, supportedCoins } = this.props
+    const { coin, feeR, hash, supportedCoins } = this.props
     if (Remote.NotAsked.is(feeR) && supportedCoins[coin].contractAddress) {
-      // return this.props.ethActions.fetchErc20TxFee(hash)
+      this.props.ethActions.fetchErc20TxFee(coin, hash)
     }
   }
 
@@ -60,7 +60,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.data.eth, dispatch)
+  ethActions: bindActionCreators(actions.core.data.eth, dispatch)
 })
 
 export default connect(

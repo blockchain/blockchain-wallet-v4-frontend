@@ -22,5 +22,9 @@ export default ({ api }) => {
       dataEthSagas.checkForLowEthBalance
     )
     yield takeLatest(AT.FETCH_ETH_TRANSACTION, dataEthSagas.fetchTransaction)
+    yield takeLatest(
+      AT.FETCH_ERC20_TX_FEE,
+      dataEthSagas.fetchErc20TransactionFee
+    )
   }
 }

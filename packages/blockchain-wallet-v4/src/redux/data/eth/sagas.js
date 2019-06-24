@@ -242,6 +242,15 @@ export default ({ api }) => {
     }
   }
 
+  const fetchErc20TransactionFee = function * (action) {
+    const { hash, token } = action.payload
+    try {
+      yield put(A.fetchErc20TxFeeLoading(hash, token))
+    } catch (e) {
+      yield put(A.fetchErc20TxFeeFailure(hash, token, e.message))
+    }
+  }
+
   const __processErc20Txs = function * (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -263,6 +272,7 @@ export default ({ api }) => {
     fetchTransaction,
     fetchTransactions,
     fetchErc20Transactions,
+    fetchErc20TransactionFee,
     watchTransactions,
     watchErc20Transactions,
     __processTxs,
