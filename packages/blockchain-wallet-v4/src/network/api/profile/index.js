@@ -50,6 +50,17 @@ export default ({
     })
   }
 
+  const shareDepositAddresses = addresses => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/deposit/addresses',
+      contentType: 'application/json',
+      data: {
+        addresses
+      }
+    })
+  }
+
   const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
     authorizedPut({
       url: nabuUrl,
@@ -134,6 +145,7 @@ export default ({
     registerUserCampaign,
     syncUserWithWallet,
     updateUser,
+    shareDepositAddresses,
     updateUserAddress
   }
 }

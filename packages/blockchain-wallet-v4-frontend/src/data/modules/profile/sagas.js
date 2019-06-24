@@ -292,6 +292,17 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const shareAddresses = function * () {
+    try {
+      yield put(A.shareAddressesLoading())
+      const addresses = { BTC: '16pTqy21CEFSvJGJF7CvFUFmgPeXVRDCAk' }
+      const data = yield call(api.shareDepositAddresses, addresses)
+      yield put(A.shareAddressesSuccess(data))
+    } catch (e) {
+      yield put(A.shareAddressesFailure(e))
+    }
+  }
+
   const linkAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
@@ -299,6 +310,7 @@ export default ({ api, coreSagas }) => {
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
       if (isUserStateNone) yield call(createUser)
       const data = yield call(api.linkAccount, linkId)
+      yield put(A.shareAddresses())
       yield put(A.linkAccountSuccess(data))
     } catch (e) {
       yield put(A.linkAccountFailure(e))
@@ -319,6 +331,7 @@ export default ({ api, coreSagas }) => {
     renewSession,
     renewUser,
     setSession,
+    shareAddresses,
     signIn,
     syncUserWithWallet,
     updateUser,

@@ -3,7 +3,13 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
-  const { signIn, clearSession, fetchUser, linkAccount } = sagas({
+  const {
+    clearSession,
+    fetchUser,
+    linkAccount,
+    shareAddresses,
+    signIn
+  } = sagas({
     api,
     coreSagas
   })
@@ -13,5 +19,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.LINK_ACCOUNT, linkAccount)
+    yield takeLatest(AT.SHARE_ADDRESSES, shareAddresses)
   }
 }

@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
   campaign: {},
-  linkAccountStatus: Remote.NotAsked
+  linkAccountStatus: Remote.NotAsked,
+  shareAddresses: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -47,6 +48,12 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('linkAccountStatus', Remote.Loading, state)
     case AT.LINK_ACCOUNT_FAILURE:
       return assoc('linkAccountStatus', Remote.Failure(payload.e), state)
+    case AT.SHARE_ADDRESSES_SUCCESS:
+      return assoc('shareAddresses', Remote.Success(payload.data), state)
+    case AT.SHARE_ADDRESSES_LOADING:
+      return assoc('shareAddresses', Remote.Loading, state)
+    case AT.SHARE_ADDRESSES_FAILURE:
+      return assoc('shareAddresses', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:
