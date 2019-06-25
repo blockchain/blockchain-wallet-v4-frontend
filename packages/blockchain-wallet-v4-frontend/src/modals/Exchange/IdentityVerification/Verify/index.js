@@ -10,6 +10,7 @@ import SiftScience from 'components/SiftScience'
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
+import DataError from 'components/DataError'
 import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
@@ -83,7 +84,7 @@ class VerifyContainer extends React.PureComponent {
       },
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Failure: () => null
+      Failure: message => <DataError message={message} />
     })
 
     const PreIdvCheck = preIdvData.cata({
