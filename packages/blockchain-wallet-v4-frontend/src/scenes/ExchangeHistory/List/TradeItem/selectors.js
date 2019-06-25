@@ -1,11 +1,9 @@
-import moment from 'moment'
 import { ifElse } from 'ramda'
 
 import { getCoinFromPair } from 'services/ShapeshiftService'
 import { model } from 'data'
 
 const {
-  DATE_FORMAT,
   formatExchangeTrade,
   isShapeShiftTrade
 } = model.components.exchangeHistory
@@ -17,7 +15,7 @@ const formatShapeshiftTrade = trade => {
 
   return {
     status,
-    date: moment(timestamp).format(DATE_FORMAT),
+    date: timestamp,
     sourceCoin,
     targetCoin,
     deposit,

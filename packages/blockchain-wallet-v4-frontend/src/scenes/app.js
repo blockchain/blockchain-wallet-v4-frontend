@@ -10,7 +10,7 @@ import { selectors } from 'data'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
-import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
+import TranslationsProvider from 'providers/TranslationsProvider'
 import PublicLayout from 'layouts/Public'
 import ThemeProvider from 'providers/ThemeProvider'
 import WalletLayout from 'layouts/Wallet'
@@ -60,14 +60,13 @@ class App extends React.PureComponent {
     const {
       store,
       history,
-      messages,
       persistor,
       isAuthenticated,
       supportedCoins
     } = this.props
     return (
       <Provider store={store}>
-        <ConnectedIntlProvider messages={messages}>
+        <TranslationsProvider>
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider>
               <MediaContextProvider>
@@ -166,7 +165,7 @@ class App extends React.PureComponent {
               </MediaContextProvider>
             </ThemeProvider>
           </PersistGate>
-        </ConnectedIntlProvider>
+        </TranslationsProvider>
       </Provider>
     )
   }

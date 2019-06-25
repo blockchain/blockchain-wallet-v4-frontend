@@ -53,7 +53,7 @@ const PasswordGauge = props => {
 }
 
 PasswordGauge.propTypes = {
-  score: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired
+  score: PropTypes.oneOf([0, 1, 2, 3, 4, 5]).isRequired
 }
 
 PasswordGauge.defaultProps = {

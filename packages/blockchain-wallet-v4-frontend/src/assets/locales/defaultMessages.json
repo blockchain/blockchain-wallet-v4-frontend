@@ -1961,6 +1961,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Security Center",
+        "id": "layouts.wallet.header.seccenter"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/SecurityCenter/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Settings",
         "id": "layouts.wallet.header.settings"
       },
@@ -1979,10 +1988,6 @@
       {
         "defaultMessage": "Wallets & Addresses",
         "id": "layouts.wallet.header.walletsaddresses"
-      },
-      {
-        "defaultMessage": "Security Center",
-        "id": "layouts.wallet.header.seccenter"
       },
       {
         "defaultMessage": "Sign Out",
@@ -6775,8 +6780,8 @@
         "id": "modals.sendxlm.firststep.txmemo"
       },
       {
-        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.",
-        "id": "modals.sendxlm.firststep.sendtoexchange"
+        "defaultMessage": "Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!",
+        "id": "modals.sendxlm.firststep.sendtoexchange2"
       },
       {
         "defaultMessage": "Learn More",
@@ -8856,6 +8861,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
+      },
+      {
         "defaultMessage": "Recover Funds",
         "id": "scenes.recover.secondstep.funds"
       },
@@ -8884,6 +8893,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.register.invalidstrongpassword"
+      },
       {
         "defaultMessage": "Create a Wallet",
         "id": "scenes.register.createawallet"
@@ -9353,6 +9366,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Your password is not strong enough",
+        "id": "scenes.securitysettings.advanced.walletpassword.invalidstrongpassword"
+      },
       {
         "defaultMessage": "Change",
         "id": "scenes.securitysettings.advanced.walletpassword.settings.change"
@@ -11102,10 +11119,6 @@
       {
         "defaultMessage": "PBKDF2 must be between 1 and 20000",
         "id": "formhelper.invalidpasswordstretchingnumber"
-      },
-      {
-        "defaultMessage": "Your password is not strong enough",
-        "id": "formhelper.invalidstrongpassword"
       },
       {
         "defaultMessage": "Invalid Wallet ID",

@@ -8,7 +8,6 @@ import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
-import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import onfido from './onfido/sagas'
@@ -40,7 +39,6 @@ export default ({ api, coreSagas, networks }) => ({
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
-  login: login(),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
   onfido: onfido({ api }),

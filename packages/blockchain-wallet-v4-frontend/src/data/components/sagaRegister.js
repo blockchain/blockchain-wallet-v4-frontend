@@ -10,7 +10,6 @@ import exchangeHistory from './exchangeHistory/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
-import login from './login/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import onfido from './onfido/sagaRegister'
@@ -44,7 +43,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
-    yield fork(login())
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
     yield fork(onfido({ api, coreSagas }))

@@ -11,7 +11,7 @@ import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
-import { tryParseLanguageFromUrl } from 'services/LanguageService'
+import { tryParseLanguageFromUrl } from 'services/LocalesService'
 
 const logLocation = 'data/rootSaga'
 

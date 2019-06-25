@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import Bowser from 'bowser'
+import { has } from 'ramda'
 
 import {
   validPasswordConfirmation,
-  validStrongPassword,
   required,
   validEmail
 } from 'services/FormHelper'
@@ -27,6 +27,13 @@ import {
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
+
+// load zxcvbn dependency async and set on window
+require.ensure(
+  ['zxcvbn'],
+  require => (window.zxcvbn = require('zxcvbn')),
+  'zxcvbn'
+)
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -55,15 +62,19 @@ const PasswordTip = styled(Text)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
+const validStrongPassword = value =>
+  value !== undefined && window.zxcvbn(value).score > 1
+    ? undefined
+    : () => (
+        <FormattedMessage
+          id='scenes.register.invalidstrongpassword'
+          defaultMessage='Your password is not strong enough'
+        />
+      )
 
 const Register = props => {
-  const {
-    handleSubmit,
-    busy,
-    invalid,
-    passwordStrength,
-    passwordLength
-  } = props
+  const { handleSubmit, busy, invalid, password, passwordLength } = props
+  let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
 
   return (
     <Wrapper>
@@ -122,7 +133,8 @@ const Register = props => {
               name='password'
               validate={[required, validStrongPassword]}
               component={PasswordBox}
-              score
+              showPasswordScore
+              passwordScore={passwordScore}
               disabled={!isSupportedBrowser}
               data-e2e='signupPassword'
             />
@@ -130,19 +142,19 @@ const Register = props => {
           {passwordLength > 0 && (
             <div>
               <PasswordTip size='12px' weight={400}>
-                {passwordStrength <= 1 && (
+                {passwordScore <= 1 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.weak'
                     defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
                 )}
-                {passwordStrength >= 2 && passwordStrength < 4 && (
+                {passwordScore >= 2 && passwordScore < 4 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.medium'
                     defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
                   />
                 )}
-                {passwordStrength === 4 && (
+                {passwordScore === 4 && (
                   <FormattedMessage
                     id='formhelper.passwordsuggest.great'
                     defaultMessage='Great password.'

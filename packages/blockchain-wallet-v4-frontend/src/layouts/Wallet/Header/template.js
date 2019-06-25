@@ -8,6 +8,7 @@ import { Icon, Image } from 'blockchain-info-components'
 import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
+import SecurityCenter from './SecurityCenter'
 import Settings from './Settings'
 import Announcements from 'components/Announcements'
 import media from 'services/ResponsiveService'
@@ -30,14 +31,18 @@ const BlockchainLogoImage = styled(Image)`
   }
 `
 const NavbarNavItemSpacer = styled(NavbarNavItem)`
-  margin-right: 20px;
+  margin-right: 12px;
 `
-const NavbarNavItemLast = styled(NavbarNavItem)`
-  padding-left: 32px;
+const NavbarNavItemWithText = styled(NavbarNavItem)`
+  padding: 0 24px;
+  margin: 0px;
   border-left: 1px solid ${props => transparentize(0.9, props.theme['white'])};
+  &:last-child {
+    padding-right: 0px;
+  }
   ${media.tablet`
+    padding: 0px;
     border-left: 0px;
-    padding-left: 0px;
   `}
 `
 
@@ -70,9 +75,12 @@ const Header = props => {
             <NavbarNavItemSpacer>
               <FaqIcon />
             </NavbarNavItemSpacer>
-            <NavbarNavItemLast>
+            <NavbarNavItemWithText>
+              <SecurityCenter {...rest} />
+            </NavbarNavItemWithText>
+            <NavbarNavItemWithText>
               <Settings {...rest} />
-            </NavbarNavItemLast>
+            </NavbarNavItemWithText>
           </NavbarNav>
         </NavbarMenu>
       </Navbar>
