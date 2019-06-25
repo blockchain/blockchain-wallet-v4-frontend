@@ -93,9 +93,10 @@ export default ({
     })
 
   const fetchPreIdvData = () =>
-    Promise.resolve({
-      sessionId: '123',
-      userId: 'phil'
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/sift/session'
     })
 
   const fetchTiers = () =>
