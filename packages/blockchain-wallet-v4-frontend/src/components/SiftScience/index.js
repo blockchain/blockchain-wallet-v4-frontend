@@ -43,7 +43,6 @@ class SiftScience extends Component {
 
     const walletOptions = options || prop('data', this.props.walletOptions)
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
-
     let url = `${helperDomain}/wallet-helper/sift-science/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
     return (
       <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />

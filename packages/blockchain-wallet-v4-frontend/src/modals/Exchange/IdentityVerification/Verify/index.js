@@ -2,8 +2,8 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions, model, selectors } from 'data'
-import { getData } from './selectors'
+import { actions, model } from 'data'
+import { getData, getPreIdvData } from './selectors'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import SiftScience from 'components/SiftScience'
 
@@ -11,8 +11,6 @@ import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
 import { hasWebcam } from 'utils/helpers'
-
-const { getPreIdvData } = selectors.components.identityVerification
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 
@@ -90,11 +88,7 @@ class VerifyContainer extends React.PureComponent {
 
     const PreIdvCheck = preIdvData.cata({
       Success: val => (
-        <SiftScience
-          {...val}
-          siftKey='0ecd212038'
-          onDone={actions.preIdvCheckFinished}
-        />
+        <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
       ),
       Loading: () => null,
       NotAsked: () => null,
