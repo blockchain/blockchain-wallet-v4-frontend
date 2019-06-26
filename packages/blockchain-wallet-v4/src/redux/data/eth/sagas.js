@@ -112,16 +112,6 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransaction = function * (action) {
-    try {
-      const { txHash } = action.payload
-      const tx = yield call(api.getEthTransaction, txHash)
-      const t = yield call(__processTxs, [tx])
-      console.info(t)
-      return t
-    } catch (e) {}
-  }
-
   const __processTxs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
@@ -270,7 +260,6 @@ export default ({ api }) => {
     fetchRates,
     fetchErc20Rates,
     fetchLatestBlock,
-    fetchTransaction,
     fetchTransactions,
     fetchErc20Transactions,
     fetchErc20TransactionFee,

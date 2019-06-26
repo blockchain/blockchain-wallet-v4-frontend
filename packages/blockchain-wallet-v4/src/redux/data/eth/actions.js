@@ -103,23 +103,6 @@ export const fetchTransactionsFailure = error => ({
   payload: error
 })
 
-export const fetchTransaction = txHash => ({
-  type: AT.FETCH_ETH_TRANSACTION,
-  payload: { txHash }
-})
-export const fetchTransactionLoading = txHash => ({
-  type: AT.FETCH_ETH_TRANSACTION_LOADING,
-  payload: { txHash }
-})
-export const fetchTransactionSuccess = txHash => ({
-  type: AT.FETCH_ETH_TRANSACTION_SUCCESS,
-  payload: { txHash }
-})
-export const fetchTransactionFailure = error => ({
-  type: AT.FETCH_ETH_TRANSACTION_FAILURE,
-  payload: error
-})
-
 export const transactionsAtBound = payload => ({
   type: AT.ETH_TRANSACTIONS_AT_BOUND,
   payload

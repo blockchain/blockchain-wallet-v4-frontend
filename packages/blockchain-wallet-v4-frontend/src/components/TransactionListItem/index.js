@@ -62,7 +62,6 @@ class ListItemContainer extends React.PureComponent {
 
   render () {
     const { coin, currency, transaction, buySellPartner } = this.props
-    // if (transaction.type !== 'received') console.info(transaction)
     return (
       <TransactionListItem
         buySellPartner={buySellPartner}
