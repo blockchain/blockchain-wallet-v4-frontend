@@ -22,32 +22,31 @@ const OrderSubmitWrapper = styled.div`
 
 const Sell = props => {
   const {
+    busy,
     canTrade,
-    cannotTradeReason,
     canTradeAfter,
+    cannotTradeReason,
     changeTab,
-    fetchSellQuote,
-    refreshQuote,
-    sellQuoteR,
-    rateQuoteR,
-    canSell,
+    checkoutBusy,
+    checkoutError,
     clearTradeError,
     currency,
-    checkoutBusy,
-    setMax,
-    setMin,
-    paymentMedium,
-    initiateSell,
-    step,
-    busy,
-    trade,
-    value,
-    onOrderCheckoutSubmit,
-    checkoutError,
+    fetchSellQuote,
     handleKycAction,
+    initiateSell,
     kycState,
     kycVerified,
-    level
+    level,
+    onOrderCheckoutSubmit,
+    paymentMedium,
+    rateQuoteR,
+    refreshQuote,
+    sellQuoteR,
+    setMax,
+    setMin,
+    step,
+    trade,
+    value
   } = props
   const profile = value.profile || {
     _limits: service.mockedLimits,
@@ -99,7 +98,7 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-            {!canSell && <SellUnavailable />}
+            {!canTrade && <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
