@@ -39,8 +39,9 @@ import getFreeCrypto from './img/get-free-crypto.png'
 import getFreeCrypto2 from './img/get-free-crypto@2x.png'
 import getFreeCrypto3 from './img/get-free-crypto@3x.png'
 import goldApproved from './img/gold-approved.svg'
+import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
-import googlePlayBadge from './img/google-play-badge.png'
+import googlePlayBadge from './img/google-play-badge.svg'
 import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
@@ -153,6 +154,7 @@ export default {
   'get-free-crypto2': getFreeCrypto2,
   'get-free-crypto3': getFreeCrypto3,
   'gold-approved': goldApproved,
+  'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'half-bitcoin': halfBitcoin,

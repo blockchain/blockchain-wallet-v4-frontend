@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
+import ExternalLinks from './ExternalLinks'
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
+import media from 'services/ResponsiveService'
 import { isOnDotInfo } from 'services/MigrationService'
 
 const defaultDomains = {
@@ -34,48 +36,25 @@ const Wrapper = styled.div`
 const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
 `
+const Spacer = styled.div``
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   overflow-y: auto;
   margin: 0 25px;
+  z-index: 1;
 
   @media (min-width: 768px) {
     height: 100%;
   }
-
-  @media (min-height: 1000px) {
-    height: 100%;
-    margin-top: 200px;
-    justify-content: flex-start;
-  }
-
-  @media (min-height: 1400px) {
-    height: 100%;
-    margin-top: 500px;
-    justify-content: flex-start;
-  }
+  ${media.mobile`
+    margin: 0 10px;
+  `}
 `
-const FooterContainer = styled.div`
-  position: relative;
-  width: 100%;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
-`
+const ComponentContainer = styled.div``
 
 class PublicLayoutContainer extends React.PureComponent {
   componentDidMount () {
@@ -106,11 +85,13 @@ class PublicLayoutContainer extends React.PureComponent {
                   <Header />
                 </HeaderContainer>
                 <ContentContainer>
-                  <Component {...matchProps} />
-                </ContentContainer>
-                <FooterContainer>
+                  <Spacer />
+                  <ComponentContainer>
+                    <Component {...matchProps} />
+                    <ExternalLinks />
+                  </ComponentContainer>
                   <Footer />
-                </FooterContainer>
+                </ContentContainer>
               </ErrorBoundary>
             </Wrapper>
           )}

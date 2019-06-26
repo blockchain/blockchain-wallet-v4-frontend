@@ -13,7 +13,7 @@ const Badge = ({ ...props }) => {
           href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'
           target='_blank'
         >
-          <Image name='app-store-badge' height='40px' />
+          <Image name='app-store-badge' height='48px' />
         </Link>
       )
     case 'googleplay':
@@ -22,7 +22,7 @@ const Badge = ({ ...props }) => {
           href='https://play.google.com/store/apps/details?id=piuk.blockchain.android'
           target='_blank'
         >
-          <Image name='google-play-badge' height='40px' />
+          <Image name='google-play-badge' height='48px' />
         </Link>
       )
     default:

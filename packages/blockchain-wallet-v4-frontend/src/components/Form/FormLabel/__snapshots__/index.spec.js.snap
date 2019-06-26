@@ -9,8 +9,9 @@ exports[`FormItem renders correctly 1`] = `
   className="c0"
 >
   <text
+    color="gray-6"
     size="14px"
-    weight={500}
+    weight={600}
   />
 </label>
 `;

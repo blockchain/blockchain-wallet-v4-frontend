@@ -10,13 +10,13 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: 40px;
+  height: ${props => props.height};
 `
 const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${props => (props.errorBottom ? props.height : '-20px')};
   right: 0;
 `
 const getErrorState = ({ touched, invalid }) => {
@@ -26,43 +26,48 @@ const getErrorState = ({ touched, invalid }) => {
 const TextBox = field => {
   const {
     autoComplete,
-    className,
-    meta,
-    input,
-    disabled,
-    placeholder,
-    center,
-    errorBottom,
-    noLastPass,
-    maxLength,
     autoFocus,
-    borderRightNone
+    borderRightNone,
+    center,
+    className,
+    disabled,
+    disableSpellcheck,
+    errorBottom,
+    height,
+    input,
+    maxLength,
+    meta,
+    noLastPass,
+    placeholder
   } = field
   const { initial, active, touched, error, warning } = meta
   const errorState = getErrorState(meta)
 
   return (
-    <Container className={className}>
+    <Container className={className} height={height}>
       <TextInput
         {...input}
-        autoFocus={autoFocus}
-        autoComplete={autoComplete}
-        borderRightNone={borderRightNone}
         active={active}
-        disabled={disabled}
-        errorState={errorState}
-        initial={initial}
-        placeholder={placeholder}
+        autoComplete={autoComplete}
+        autoFocus={autoFocus}
+        borderRightNone={borderRightNone}
         center={center}
-        noLastPass={noLastPass}
-        maxLength={maxLength}
         data-e2e={field['data-e2e']}
+        disabled={disabled}
+        disableSpellcheck={disableSpellcheck}
+        errorState={errorState}
+        height={height}
+        initial={initial}
+        maxLength={maxLength}
+        noLastPass={noLastPass}
+        placeholder={placeholder}
       />
       {touched && error && (
         <Error
           size='12px'
-          weight={400}
+          weight={500}
           color='error'
+          height={height}
           errorBottom={errorBottom}
           data-e2e='textBoxError'
         >
@@ -76,6 +81,10 @@ const TextBox = field => {
       )}
     </Container>
   )
+}
+
+TextBox.defaultProps = {
+  height: '48px'
 }
 
 export default TextBox

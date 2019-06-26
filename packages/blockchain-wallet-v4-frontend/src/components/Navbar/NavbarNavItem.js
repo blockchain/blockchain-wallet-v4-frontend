@@ -10,20 +10,12 @@ const BaseNavItem = styled.li`
     margin-right: 0px;
   }
 
-  & > a {
-    font-size: 14px;
-    font-weight: 500;
-    color: ${props => props.theme['white']};
-    text-decoration: none;
-    cursor: pointer;
-
-    &:hover {
-      color: ${props => props.theme['white']};
+  ${media.tablet`
+    margin-right: 2px !important;
+    min-width: 24px;
+    > div > a  > span {
+      font-size: 18px;
     }
-  }
-
-  ${media.mobile`
-    margin-right: 20px;
   `};
 `
 

@@ -6,6 +6,7 @@ exports[`EmailVerification component rendering should render edit loading state 
 >
   <EmailVerification__InputRow>
     <TextBox
+      height="48px"
       input={
         Object {
           "value": "f@ke.mail",
@@ -49,6 +50,7 @@ exports[`EmailVerification component rendering should render edit loading with l
   </label>
   <EmailVerification__InputRow>
     <TextBox
+      height="48px"
       input={
         Object {
           "value": "f@ke.mail",
@@ -83,6 +85,7 @@ exports[`EmailVerification component rendering should render edit state correctl
 >
   <EmailVerification__InputRow>
     <TextBox
+      height="48px"
       input={
         Object {
           "value": "f@ke.mail",
@@ -125,6 +128,7 @@ exports[`EmailVerification component rendering should render edit with label cor
   </label>
   <EmailVerification__InputRow>
     <TextBox
+      height="48px"
       input={
         Object {
           "value": "f@ke.mail",

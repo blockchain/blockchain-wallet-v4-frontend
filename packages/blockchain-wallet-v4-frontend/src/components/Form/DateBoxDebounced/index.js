@@ -83,12 +83,12 @@ class DateBoxDebounced extends React.Component {
           {...rest}
         />
         {meta.dirty && meta.error && (
-          <Error size='12px' weight={400} color='error'>
+          <Error size='12px' weight={500} color='error'>
             {meta.error}
           </Error>
         )}
         {meta.dirty && !meta.error && meta.warning && (
-          <Error size='12px' weight={400} color='sent'>
+          <Error size='12px' weight={500} color='error'>
             {meta.warning}
           </Error>
         )}

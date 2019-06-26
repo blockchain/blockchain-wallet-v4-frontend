@@ -28,7 +28,7 @@ const InputRow = styled(Row)`
 `
 
 export const LoadingButton = ({ loading, children, ...rest }) => (
-  <Button disabled={loading} {...rest}>
+  <Button height='48px' disabled={loading} {...rest}>
     {loading ? (
       <HeartbeatLoader height='20px' width='20px' color='white' />
     ) : (

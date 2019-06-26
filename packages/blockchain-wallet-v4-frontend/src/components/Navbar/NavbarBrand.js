@@ -1,17 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const BaseBrand = styled.div`
   display: flex;
   padding-left: 25px;
+  align-items: center;
   > span {
     cursor: pointer;
-  }
-  @media (min-width: 768px) {
-    > span:first-child {
+    &:first-child {
       display: none;
     }
   }
+  ${media.tablet`
+    padding-left: 15px;
+    img {
+      height: 14px;
+    }
+    > span:first-child {
+      display: block;
+    }
+  `}
 `
 
 const NavbarBrand = props => {

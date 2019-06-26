@@ -49,7 +49,7 @@ const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
 const WarningBanners = styled(Banner)`
-  margin: -6px 0 12px;
+  margin: 8px 0;
   padding: 8px;
 `
 const MemoField = styled.div`
@@ -236,11 +236,14 @@ const FirstStep = props => {
               </MemoField>
             </FormItem>
             {isDestinationExchange && (
-              <WarningBanners type='info' data-e2e='sendXlmToExchangeAddress'>
+              <WarningBanners
+                type='warning'
+                data-e2e='sendXlmToExchangeAddress'
+              >
                 <Text color='warning' size='12px'>
                   <FormattedMessage
-                    id='modals.sendxlm.firststep.sendtoexchange'
-                    defaultMessage='Sending XLM to an exchange often requires adding a memo. Be sure to add a memo if required.'
+                    id='modals.sendxlm.firststep.sendtoexchange2'
+                    defaultMessage='Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!'
                   />
                   <Link
                     href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
@@ -248,6 +251,7 @@ const FirstStep = props => {
                     size='11px'
                     weight={700}
                     altFont
+                    color='red'
                   >
                     <FormattedMessage
                       id='modals.sendxlm.firststep.sendtoexchangelearn'

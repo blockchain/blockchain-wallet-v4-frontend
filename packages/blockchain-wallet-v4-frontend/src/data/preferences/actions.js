@@ -22,9 +22,6 @@ export const hideSwapUpgradeModal = () => ({ type: AT.HIDE_SWAP_UPGRADE_MODAL })
 export const hideAirdropClaimModal = () => ({
   type: AT.HIDE_AIRDROP_CLAIM_MODAL
 })
-export const hideAirdropReminderModal = () => ({
-  type: AT.HIDE_AIRDROP_REMINDER_MODAL
-})
 export const hideUpgradeForAirdropModal = () => ({
   type: AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL
 })

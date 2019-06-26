@@ -39,13 +39,13 @@ const BaseNumberInput = styled.input.attrs({
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 
@@ -65,8 +65,8 @@ NumberInput.propTypes = {
 
 NumberInput.defaultProps = {
   disabled: false,
-  height: '40px',
-  minHeight: '40px',
+  height: '48px',
+  minHeight: '48px',
   step: '0.01'
 }
 

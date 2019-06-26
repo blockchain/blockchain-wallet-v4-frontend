@@ -3,18 +3,20 @@ import styled from 'styled-components'
 
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
+  spellCheck: 'false',
   disabled: props => props.disabled,
   'data-lpignore': props => props.noLastPass
 })`
   display: block;
   width: 100%;
-  height: 40px;
-  min-height: 40px;
+  height: 48px;
+  min-height: 48px;
   padding: 6px 12px;
   box-sizing: border-box;
-  font-size: 14px;
+  letter-spacing: 4px;
+  font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme['gray-6']};
   background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
@@ -24,7 +26,7 @@ const BasePasswordInput = styled.input.attrs({
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-radius: 4px;
   &::-webkit-input-placeholder {
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['grey100']};
   }
   &:disabled {
     cursor: not-allowed;
@@ -35,13 +37,13 @@ const BasePasswordInput = styled.input.attrs({
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey100'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey100'
   }
 }
 

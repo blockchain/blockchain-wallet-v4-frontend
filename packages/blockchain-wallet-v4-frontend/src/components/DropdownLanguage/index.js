@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import * as languageService from 'services/LanguageService'
+import { languagesSortedByName } from 'services/LocalesService'
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
@@ -25,6 +25,7 @@ class DropdownLanguageContainer extends React.PureComponent {
     return (
       <SimpleDropdown
         color='white'
+        uppercase={false}
         items={languageList}
         selectedValue={currentLanguage}
         callback={selectedLanguage => this.handleClick(selectedLanguage)}
@@ -35,7 +36,7 @@ class DropdownLanguageContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currentLanguage: selectors.preferences.getLanguage(state),
-  languages: languageService.languagesSortedByName
+  languages: languagesSortedByName
 })
 
 const mapDispatchToProps = dispatch => ({

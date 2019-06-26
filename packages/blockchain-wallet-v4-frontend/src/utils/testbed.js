@@ -6,10 +6,10 @@ import createSagaMiddleware from 'redux-saga'
 import { all, fork } from 'redux-saga/effects'
 import { MemoryRouter } from 'react-router'
 import { map } from 'ramda'
+import { IntlProvider } from 'react-intl'
+
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
-import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
-import configureLocales from 'services/LocalesService'
 import preferencesReducer from 'data/preferences/reducers'
 import formReducer from 'data/form/reducers'
 
@@ -21,7 +21,7 @@ export const createTestStore = (
   const sagaMiddleware = createSagaMiddleware()
   const combinedReducers = combineReducers({
     form: formReducer,
-    prferences: preferencesReducer,
+    preferences: preferencesReducer,
     ...reducers
   })
   const createTestStore = applyMiddleware(sagaMiddleware, ...middlewares)(
@@ -35,11 +35,9 @@ export const createTestStore = (
   return testStore
 }
 
-const messages = configureLocales()
-
 export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
   <Provider store={store}>
-    <ConnectedIntlProvider messages={messages}>
+    <IntlProvider locale='en' messages={{}}>
       <ThemeProvider>
         <MediaContextProvider>
           {withRouter ? (
@@ -51,7 +49,7 @@ export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
           )}
         </MediaContextProvider>
       </ThemeProvider>
-    </ConnectedIntlProvider>
+    </IntlProvider>
   </Provider>
 )
 
