@@ -153,6 +153,7 @@ export default ({ api, options }) => {
       const getQuote =
         type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
       const quote = yield apply(coinify.data, getQuote, [-1e8, 'BTC', currency])
+      yield call(getPaymentMediums, { payload: quote })
       yield put(A.fetchRateQuoteSuccess(quote))
     } catch (e) {
       console.log(e)
@@ -182,6 +183,7 @@ export default ({ api, options }) => {
       yield put(A.getPaymentMediumsLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       yield put(A.getPaymentMediumsSuccess(mediums))
+      console.log(mediums)
       return mediums
     } catch (e) {
       yield put(A.getPaymentMediumsFailure(e))
@@ -238,7 +240,6 @@ export default ({ api, options }) => {
 
     if (countryCode === 'DK') fiatCurrency = 'DKK'
     else if (countryCode === 'GB') fiatCurrency = 'GBP'
-    else if (countryCode === 'US') fiatCurrency = 'USD'
     else fiatCurrency = 'EUR'
 
     try {
