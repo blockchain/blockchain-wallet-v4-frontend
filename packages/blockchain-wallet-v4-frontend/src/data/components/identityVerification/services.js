@@ -4,12 +4,13 @@ import { model } from 'data'
 import { STEPS, STEP_TIERS } from './model'
 
 export const computeSteps = ({
-  tiers,
-  mobileVerified,
-  smsVerified,
+  coinifyUser,
   currentStep,
   isCoinify,
-  needMoreInfo
+  mobileVerified,
+  needMoreInfo,
+  smsVerified,
+  tiers
 }) => {
   const { TIERS } = model.profile
   const { next, selected } = tiers
@@ -18,7 +19,7 @@ export const computeSteps = ({
     currentStep !== STEPS.mobile && (smsVerified || mobileVerified)
 
   const isStepRequired = step => {
-    if (step === STEPS.coinify) return isCoinify
+    if (!coinifyUser && step === STEPS.coinify) return isCoinify
     if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo)
       return false
     if (skipMobile && step === STEPS.mobile) return false
