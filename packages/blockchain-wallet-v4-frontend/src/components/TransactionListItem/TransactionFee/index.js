@@ -17,7 +17,7 @@ class TransactionFee extends React.PureComponent {
   }
 
   render () {
-    const { coin, feeR } = this.props
+    const { coin, feeR, supportedCoins } = this.props
 
     return (
       <React.Fragment>
@@ -33,7 +33,11 @@ class TransactionFee extends React.PureComponent {
         </Text>
         {feeR.cata({
           Success: value => (
-            <ComboDisplay coin={coin} size='14px' weight={400}>
+            <ComboDisplay
+              coin={supportedCoins[coin].contractAddress ? 'ETH' : coin}
+              size='14px'
+              weight={400}
+            >
               {value}
             </ComboDisplay>
           ),

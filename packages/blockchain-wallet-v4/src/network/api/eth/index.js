@@ -1,5 +1,14 @@
 export default ({ apiUrl, get, post }) => {
   //
+  // V2
+  //
+  const getEthTransactionV2 = hash =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/transaction/${hash}`
+    })
+
+  //
   // ETH
   //
   const checkContract = address =>
@@ -80,7 +89,6 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl,
       endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`
     })
-
   const getErc20Transactions = (ethAddr, tokenAddr, page = 0) =>
     get({
       url: apiUrl,
@@ -98,6 +106,7 @@ export default ({ apiUrl, get, post }) => {
     getEthTicker,
     getEthTransaction,
     getEthTransactions,
+    getEthTransactionV2,
     getErc20Ticker,
     getErc20Transactions,
     pushEthTx

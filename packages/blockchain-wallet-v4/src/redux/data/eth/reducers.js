@@ -249,9 +249,38 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
+      const { fee, hash, token } = payload
+      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const setData = target => tx =>
+        tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
-    // case AT.FETCH_ERC20_TX_FEE_SUCCESS:
-    // case AT.FETCH_ERC20_TX_FEE_FAILURE:
+      return over(
+        compose(
+          txListLens,
+          mapped,
+          mapped
+        ),
+        setData(hash),
+        state
+      )
+    }
+    case AT.FETCH_ERC20_TX_FEE_FAILURE: {
+      const { hash, token, error } = payload
+      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const setData = target => tx =>
+        tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
+
+      return over(
+        compose(
+          txListLens,
+          mapped,
+          mapped
+        ),
+        setData(hash),
+        state
+      )
+    }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
       const { token, isAtBound } = payload
       return assocPath(['transactions_at_bound', token], isAtBound, state)

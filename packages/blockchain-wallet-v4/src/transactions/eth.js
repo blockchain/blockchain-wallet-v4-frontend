@@ -52,7 +52,7 @@ const getType = (tx, addresses) => {
 //
 // ETH
 //
-export const getFee = tx =>
+export const calculateEthTxFee = tx =>
   new BigNumber(tx.gasPrice || 0).multipliedBy(tx.gasUsed || tx.gas).toString()
 
 export const getLabel = (address, state) => {
@@ -85,7 +85,7 @@ export const getLabel = (address, state) => {
 }
 
 export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
-  const fee = getFee(tx)
+  const fee = calculateEthTxFee(tx)
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
@@ -136,8 +136,6 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     type
   }
 })
-
-export const getErc20TxFee = txHash => {}
 
 export const transformTx = _transformTx
 export const transformErc20Tx = _transformErc20Tx
