@@ -11,7 +11,6 @@ import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
-import SellUnavailable from './SellUnavailable'
 import { CheckoutWrapper } from '../Buy/template.success'
 
 const OrderSubmitWrapper = styled.div`
@@ -49,11 +48,12 @@ const Sell = props => {
     kycVerified,
     level
   } = props
+
   const profile = value.profile || {
     _limits: service.mockedLimits,
     _level: { currency: 'EUR' }
   }
-  const sellCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
+  const sellCurrencies = ['EUR', 'DKK', 'GBP']
   const defaultCurrency = includes(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const levelName = prop('name', level.getOrElse())
@@ -99,7 +99,7 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-            {!canSell && <SellUnavailable />}
+            {/* {!canSell && <SellUnavailable />} */}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>

@@ -683,15 +683,15 @@
       },
       {
         "defaultMessage": "Unfortunately this email is being used for another account.",
-        "id": "coinifyexchangedata.create.accept.err1"
+        "id": "coinifyexchangedata.create.accept.error1"
       },
       {
         "defaultMessage": "Click here",
-        "id": "coinifyexchangedata.create.accept.err2"
+        "id": "coinifyexchangedata.create.accept.error2"
       },
       {
         "defaultMessage": "to change it.",
-        "id": "coinifyexchangedata.create.accept.err3"
+        "id": "coinifyexchangedata.create.accept.error3"
       },
       {
         "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
@@ -723,11 +723,28 @@
         "id": "coinifyexchangedata.create.header.createaccount"
       },
       {
-        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need a verified email to start with.",
-        "id": "coinifyexchangedata.create.subheader.getstartedverifyemail"
+        "defaultMessage": "To get started, create and verify your account in a matter of minutes. We'll need your email, personal info and ID",
+        "id": "coinifyexchangedata.create.subheader.getstartedverify"
       }
     ],
     "path": "src/components/BuySell/Coinify/Create/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter the email address you'd like to verify:",
+        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
+      },
+      {
+        "defaultMessage": "Send Verification Email",
+        "id": "coinifyexchangedata.create.verifyemail.sendverifyemail"
+      },
+      {
+        "defaultMessage": "Another verification email has been sent! Don't see it? {resend}",
+        "id": "coinifyexchangedata.create.verifyemail.helper.sentverificationemail"
+      }
+    ],
+    "path": "src/components/BuySell/Coinify/Create/VerifyEmail/template.json"
   },
   {
     "descriptors": [
@@ -779,6 +796,10 @@
       {
         "defaultMessage": "3% convenience fee",
         "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
+      },
+      {
+        "defaultMessage": "Visa or Mastercard",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
       },
       {
         "defaultMessage": "Bank Transfer",
@@ -3610,23 +3631,6 @@
       }
     ],
     "path": "src/modals/Btc/VerifyMessage/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Buy Bitcoin with cards",
-        "id": "modals.coinifybuyviacard.title"
-      },
-      {
-        "defaultMessage": "You can now purchase Bitcoin with your credit cards from within your wallet! No longer are you able to buy or sell with banks.",
-        "id": "modals.coinifybuyviacard.intro"
-      },
-      {
-        "defaultMessage": "Buy Now",
-        "id": "modals.coinifybuyviacard.buynow"
-      }
-    ],
-    "path": "src/modals/Coinify/CoinifyBuyViaCard/index.json"
   },
   {
     "descriptors": [
@@ -7542,19 +7546,216 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Sell Unavailable",
-        "id": "scenes.buysell.coinify.sellunavailable.header"
+        "defaultMessage": "Buy Limit: {buyLimit}",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.buylimit"
       },
       {
-        "defaultMessage": "Unfortunately Sell is not currently available in your state. We're working hard to bring it back as soon as possible.",
-        "id": "scenes.buysell.coinify.sellunavailable.reason"
+        "defaultMessage": "Sell Limit: {sellLimit}",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.selllimit"
       },
       {
-        "defaultMessage": "Learn More",
-        "id": "scenes.buysell.coinify.sellunavailable.learnmore"
+        "defaultMessage": "Success! Identity Verification Complete",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.title.completed"
+      },
+      {
+        "defaultMessage": "Identity Verification Pending",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.title.pending"
+      },
+      {
+        "defaultMessage": "Identity Verification Failed",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.title.failed"
+      },
+      {
+        "defaultMessage": "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio"
+      },
+      {
+        "defaultMessage": "Your identity verification is incomplete. Please continue to follow the steps to complete the process.",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.body.pending"
+      },
+      {
+        "defaultMessage": "The system has failed to verify your identity. Contact support@sfox.com for more information.",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.body.failed"
+      },
+      {
+        "defaultMessage": "Refresh Status",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.button.refresh"
+      },
+      {
+        "defaultMessage": "Complete Verification",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification"
+      },
+      {
+        "defaultMessage": "Try Again",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain"
       }
     ],
-    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Sell/SellUnavailable/index.json"
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/JumioStatus/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "I want to buy",
+        "id": "buy.sfoxcheckout.outputmethod.title.buy"
+      },
+      {
+        "defaultMessage": "I want to sell",
+        "id": "buy.sfoxcheckout.title.sell"
+      },
+      {
+        "defaultMessage": "I will pay with",
+        "id": "buy.sfoxcheckout.inputmethod.title.buywith"
+      },
+      {
+        "defaultMessage": "I will receive funds into",
+        "id": "buy.sfoxcheckout.outputmethod.title.sellwith"
+      },
+      {
+        "defaultMessage": "Loading",
+        "id": "buy.sfoxcheckout.loading"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "buy.sfoxcheckout.amount"
+      }
+    ],
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/OrderCheckout.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "What are the fees?",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper1.question"
+      },
+      {
+        "defaultMessage": "There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper1.answer"
+      },
+      {
+        "defaultMessage": "How long will it take to get my funds?",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper2.question"
+      },
+      {
+        "defaultMessage": "On average, it will take about a week for you to receive your funds from either a buy or sell trade.",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper2.answer"
+      },
+      {
+        "defaultMessage": "Can I cancel my trade?",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper3.question"
+      },
+      {
+        "defaultMessage": "Once you submit your trade here, it will move into a pending state. With that said, please be sure to verify the information here carefully before submitting. Once pending, your trade cannot be reversed, cancelled or changed.",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper3.answer1"
+      },
+      {
+        "defaultMessage": "You're almost there",
+        "id": "buy.sfoxcheckout.almostthere"
+      },
+      {
+        "defaultMessage": "Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.",
+        "id": "buy.sfoxcheckout.revieworder.subtext"
+      },
+      {
+        "defaultMessage": "Your Connected Account",
+        "id": "buy.sfoxcheckout.connectedaccount"
+      },
+      {
+        "defaultMessage": "Exchange Rate",
+        "id": "buy.sfoxcheckout.exchangerate"
+      },
+      {
+        "defaultMessage": "BTC Amount to Purchase",
+        "id": "buy.sfoxcheckout.orderdetails.amounttopurchase"
+      },
+      {
+        "defaultMessage": "BTC Amount to Sell",
+        "id": "buy.sfoxcheckout.orderdetails.amounttosell"
+      },
+      {
+        "defaultMessage": "Trading Fee",
+        "id": "buy.sfoxcheckout.orderdetails.tradingfee"
+      },
+      {
+        "defaultMessage": "Total Cost",
+        "id": "buy.sfoxcheckout.orderdetails.totalcost"
+      },
+      {
+        "defaultMessage": "Total to be Received",
+        "id": "buy.sfoxcheckout.orderdetails.totaltobereceived"
+      },
+      {
+        "defaultMessage": "Estimated Delivery of Funds",
+        "id": "buy.sfoxcheckout.orderdetails.fundsdelivery"
+      },
+      {
+        "defaultMessage": "Try again",
+        "id": "buy.sfoxcheckout.orderdetails.try_again"
+      }
+    ],
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/OrderReview.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.",
+        "id": "scenes.buysell.sfox.orderreview.checkboxtext"
+      },
+      {
+        "defaultMessage": "Submit",
+        "id": "buysell.sfoxcheckout.orderreview.submit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "buysell.sfoxcheckout.orderreview.cancel"
+      }
+    ],
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/orderReviewForm.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Review Order",
+        "id": "buy.sfoxcheckout.revieworder"
+      }
+    ],
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/QuoteInputTemplate.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "What are the fees?",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper1.question"
+      },
+      {
+        "defaultMessage": "There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper1.answer"
+      },
+      {
+        "defaultMessage": "What is the exchange rate?",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper2.question"
+      },
+      {
+        "defaultMessage": "These rates are determined by the market, the broader ecosystem of other buyers and sellers. We fetch the most recent exchange rate and guarantee it for 30 seconds. The quote will automatically refresh every 30 seconds until you select ‘Submit’.",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper2.answer"
+      },
+      {
+        "defaultMessage": "How do I raise my limits?",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper3.question"
+      },
+      {
+        "defaultMessage": "Daily limits are determined by how much information has been submitted to, and verified by, SFOX— the highest daily limit being $10,000. Keep in mind: your daily buy and sell limits directly impact each other (for example, If your limit is $10,000 and you decide to sell $6,000, you will have a limit to buy $4,000).",
+        "id": "scenes.buysell.sfoxcheckout.cyo.helper3.answer"
+      },
+      {
+        "defaultMessage": "Pending Orders",
+        "id": "scenes.buysell.sfoxcheckout.trades.pending"
+      },
+      {
+        "defaultMessage": "Completed Orders",
+        "id": "scenes.buysell.sfoxcheckout.trades.completed"
+      }
+    ],
+    "path": "src/scenes/BuySell/SfoxCheckout/Content/template.success.json"
   },
   {
     "descriptors": [
@@ -7565,6 +7766,10 @@
       {
         "defaultMessage": "You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.",
         "id": "scenes.buysell.selectpartner.subheader_coinify"
+      },
+      {
+        "defaultMessage": "You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.",
+        "id": "scenes.buysell.selectpartner.subheader_sfox"
       },
       {
         "defaultMessage": "You can buy & sell Bitcoin (BTC) from your Wallet.",

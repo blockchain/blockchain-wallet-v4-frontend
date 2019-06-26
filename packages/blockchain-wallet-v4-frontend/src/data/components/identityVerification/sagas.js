@@ -6,6 +6,7 @@ import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import {
   EMAIL_STEPS,
@@ -165,17 +166,13 @@ export default ({ api, coreSagas }) => {
       selectors.core.settings.getSmsVerified
     )).getOrElse(0)
     const currentStep = yield select(S.getVerificationStep)
-    const coinifyUser = (yield select(
-      selectors.core.kvStore.buySell.getCoinifyUser
-    )).getOrElse(false)
     const steps = computeSteps({
-      coinifyUser,
+      tiers,
+      mobileVerified,
+      smsVerified,
       currentStep,
       isCoinify,
-      mobileVerified,
-      needMoreInfo,
-      smsVerified,
-      tiers
+      needMoreInfo
     })
 
     yield put(A.setStepsSuccess(steps))
@@ -388,8 +385,8 @@ export default ({ api, coreSagas }) => {
       yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
-        'fetchSupportedStates',
-        `Error fetching supported states: ${e}`
+        'fetchStates',
+        `Error fetching supported ${isCoinify ? 'states' : 'countries'}:  ${e}`
       )
     }
   }
@@ -397,6 +394,10 @@ export default ({ api, coreSagas }) => {
   const checkKycFlow = function * () {
     try {
       yield put(A.setKycFlowLoading())
+      const preIdvData = yield call(api.fetchPreIdvData)
+      yield put(A.setPreIdvDataSuccess(preIdvData))
+      yield take(AT.PRE_IDV_CHECK_FINISHED)
+      yield delay(1000)
       const { flowType } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError

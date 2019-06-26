@@ -19,8 +19,7 @@ const CustomSelectBox = styled(SelectBox)`
     border-left: none;
     min-height: 72px;
     > .bc__value-container {
-      > .bc__single-value,
-      > .bc__placeholder {
+      > .bc__single-value {
         right: 0px;
         font-size: 18px;
         font-weight: 400;

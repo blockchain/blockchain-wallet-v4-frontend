@@ -196,7 +196,7 @@ class AcceptTerms extends Component {
                 </Text>
                 <VerifiedContainer>
                   <FieldMimic>
-                    <Text size='16px' color='gray-6' weight={500}>
+                    <Text size='14px' weight={400}>
                       {email}
                     </Text>
                     <EditLink onClick={editEmail} size='14px' weight={400}>

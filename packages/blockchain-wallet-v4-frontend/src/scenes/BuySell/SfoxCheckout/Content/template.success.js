@@ -14,7 +14,7 @@ import JumioStatus from './JumioStatus'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import renderFaq from 'components/FaqDropdown'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
-import SiftScience from 'modals/Sfox/SfoxExchangeData/sift-science.js'
+import SiftScience from 'components/SiftScience'
 import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
@@ -244,7 +244,9 @@ const Success = props => {
             </OrderSubmitWrapper>
           </SfoxBuySellContainer>
         </StepView>
-        {siftScienceEnabled ? <SiftScience /> : null}
+        {siftScienceEnabled ? (
+          <SiftScience siftKey={rest.siftKey} userId={rest.userId} />
+        ) : null}
       </Stepper>
     )
   } else if (trades) {

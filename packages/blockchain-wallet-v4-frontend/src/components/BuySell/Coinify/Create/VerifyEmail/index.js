@@ -3,18 +3,15 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import { model, actions } from 'data'
-
+import { actions } from 'data'
 import { getData } from './selectors'
 import VerifyEmail from './template'
-
-const { EMAIL_STEPS } = model.components.identityVerification
 
 class VerifyEmailContainer extends PureComponent {
   componentDidMount () {
     this.props.formActions.change(
       'coinifyVerifyEmail',
-      'email',
+      'emailAddress',
       this.props.email
     )
   }
@@ -28,32 +25,17 @@ class VerifyEmailContainer extends PureComponent {
     this.props.updateCodeSent(true)
   }
 
-  editEmail = () => {
-    this.props.actions.setEmailStep(EMAIL_STEPS.edit)
-  }
-
   render () {
-    const {
-      actions,
-      emailStep,
-      emailVerified,
-      emailVerifiedError,
-      invalid
-    } = this.props
+    const { emailVerifiedError, invalid } = this.props
 
     return (
       <VerifyEmail
-        editEmail={this.editEmail}
-        email={this.props.oldEmail}
-        emailStep={emailStep}
-        emailVerified={emailVerified}
         emailVerifiedError={emailVerifiedError}
         invalid={invalid}
-        newEmail={this.props.emailAddress}
         onSubmit={this.onSubmit}
         resend={this.resend}
-        sendEmailVerification={actions.sendEmailVerification}
-        updateEmail={actions.updateEmail}
+        email={this.props.oldEmail}
+        newEmail={this.props.emailAddress}
         {...this.props}
       />
     )
@@ -69,10 +51,6 @@ VerifyEmailContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   securityCenterActions: bindActionCreators(

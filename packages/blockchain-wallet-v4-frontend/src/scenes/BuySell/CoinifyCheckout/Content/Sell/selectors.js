@@ -28,6 +28,7 @@ export const getData = state => {
   const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
   const country = selectors.core.data.coinify.getCountry(state)
   return {
+    canSell: !propEq('US', country),
     canTrade: selectors.core.data.coinify.canTrade(state),
     canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
     cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
@@ -44,7 +45,6 @@ export const getData = state => {
     paymentMedium: selectors.components.coinify.getCoinifyMedium(state),
     rateQuoteR: selectors.core.data.coinify.getRateQuote(state),
     sellQuoteR: getQuote(state),
-    canSell: !propEq('US', country),
     step: selectors.components.coinify.getCoinifyCheckoutStep(state),
     trade: getTrade(state)
   }
