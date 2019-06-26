@@ -348,6 +348,7 @@
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "horizon": "https://horizon.stellar.org",
-    "veriff": "https://magic.veriff.me"
+    "veriff": "https://magic.veriff.me",
+    "coinify": "https://app-api.coinify.com"
   }
 }

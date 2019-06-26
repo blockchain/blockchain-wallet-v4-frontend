@@ -271,7 +271,7 @@ const Personal = ({
                           </Label>
                           <Field
                             name='state'
-                            validate={required}
+                            validate={[required]}
                             elements={states}
                             component={SelectBox}
                             menuPlacement='auto'
@@ -290,8 +290,8 @@ const Personal = ({
                     {showStateError && (
                       <ErrorBanner type='warning'>
                         <FormattedMessage
-                          id='identityverification.personal.unavailable_swap'
-                          defaultMessage='Unfortunately Swap is not available in your state at this time.'
+                          id='identityverification.personal.unavailable'
+                          defaultMessage='Unfortunately this feature is not available in your state at this time.'
                         />
                         <FormattedMessage
                           id='identityverification.personal.unavailablenotify'
