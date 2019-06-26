@@ -61,14 +61,14 @@ class CoinifyBuyViaCard extends React.PureComponent {
             </IconContainer>
             <Text size='22px' weight={600}>
               <FormattedMessage
-                id='modals.coinifybuyviacard.title'
-                defaultMessage='Buy Bitcoin with cards'
+                id='modals.coinifybuyviacard.title2'
+                defaultMessage='Buy with Cards'
               />
             </Text>
             <Text size='14px' weight={400}>
               <FormattedMessage
-                id='modals.coinifybuyviacard.intro'
-                defaultMessage='You can now purchase Bitcoin with your credit cards from within your wallet! No longer are you able to buy or sell with banks.'
+                id='modals.coinifybuyviacard.intro2'
+                defaultMessage='Introducing buy Bitcoin with cards within your Wallet. Buying & selling with bank is temporarily unavailable.'
               />
             </Text>
             <BuyNowButton nature='primary' fullwidth onClick={this.onBuyNow}>

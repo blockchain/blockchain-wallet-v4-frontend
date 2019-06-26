@@ -42,9 +42,8 @@ export default () => (
           defaultMessage="Unfortunately Sell is not currently available in your state. We're working hard to bring it back as soon as possible."
         />
       </Text>
-      {/* TODO: update learn more link */}
       <Link
-        href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+        href='https://support.blockchain.com/hc/en-us/articles/360000062126-How-do-I-create-a-sell-trade-'
         target='_blank'
       >
         <Text size='13px' weight={500} color='brand-secondary'>

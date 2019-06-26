@@ -100,8 +100,8 @@ const SelectPartner = props => {
           <GetStartedText size='17px' weight={400}>
             {getPartner().name === 'COINIFY' ? (
               <FormattedMessage
-                id='scenes.buysell.selectpartner.subheader_coinify'
-                defaultMessage='You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.'
+                id='scenes.buysell.selectpartner.subheader_coinify2'
+                defaultMessage='You can buy & sell Bitcoin (BTC) from your Wallet through our partner Coinify.'
               />
             ) : (
               <FormattedMessage
