@@ -10,8 +10,10 @@ import {
   dropLast,
   path,
   prop,
-  prepend
+  prepend,
+  toLower
 } from 'ramda'
+import { mapped } from 'ramda-lens'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -231,6 +233,25 @@ export default (state = INITIAL_STATE, action) => {
       const { token, error } = payload
       return assocPath(['transactions', token], [Remote.Failure(error)], state)
     }
+    case AT.FETCH_ERC20_TX_FEE_LOADING: {
+      const { hash, token } = payload
+      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const setData = target => tx =>
+        tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
+
+      return over(
+        compose(
+          txListLens,
+          mapped,
+          mapped
+        ),
+        setData(hash),
+        state
+      )
+    }
+
+    // case AT.FETCH_ERC20_TX_FEE_SUCCESS:
+    // case AT.FETCH_ERC20_TX_FEE_FAILURE:
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
       const { token, isAtBound } = payload
       return assocPath(['transactions_at_bound', token], isAtBound, state)

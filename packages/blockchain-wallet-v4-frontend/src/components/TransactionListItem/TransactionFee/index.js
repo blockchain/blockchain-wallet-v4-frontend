@@ -12,7 +12,7 @@ class TransactionFee extends React.PureComponent {
   componentDidMount () {
     const { coin, feeR, hash, supportedCoins } = this.props
     if (Remote.NotAsked.is(feeR) && supportedCoins[coin].contractAddress) {
-      this.props.ethActions.fetchErc20TxFee(coin, hash)
+      this.props.ethActions.fetchErc20TxFee(hash, coin)
     }
   }
 

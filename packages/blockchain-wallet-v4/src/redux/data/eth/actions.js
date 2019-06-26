@@ -171,7 +171,7 @@ export const fetchErc20RatesFailure = (token, error) => ({
 
 export const fetchErc20TxFee = (hash, token) => ({
   type: AT.FETCH_ERC20_TX_FEE,
-  payload: { token, hash }
+  payload: { hash, token }
 })
 export const fetchErc20TxFeeLoading = (hash, token) => ({
   type: AT.FETCH_ERC20_TX_FEE_LOADING,
