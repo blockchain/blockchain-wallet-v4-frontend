@@ -210,7 +210,10 @@ export default ({ api }) => {
     const userTiers = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({})
-    if (kycNotFinished && propEq('current', 1, userTiers)) {
+    const userCanUpgrade =
+      kycNotFinished && userTiers && propEq('current', 1, userTiers)
+
+    if (userCanUpgrade) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',

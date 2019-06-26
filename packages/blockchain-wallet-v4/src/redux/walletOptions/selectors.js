@@ -6,6 +6,7 @@ import {
   mapObjIndexed,
   path,
   prop,
+  propOr,
   toUpper,
   set
 } from 'ramda'
@@ -39,7 +40,7 @@ export const getSupportedCoins = createDeepEqualSelector(
   [getInvitations, getWebOptions],
   (invitationsR, webOptionsR) => {
     const addInvited = (obj, coin) => {
-      const invited = invitationsR.map(prop(coin)).getOrElse(false)
+      const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
       return set(lensProp('invited'), invited, obj)
     }
 
@@ -82,3 +83,7 @@ export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaidEnv']))
+export const getSfoxSiftKey = state =>
+  getWebOptions(state).map(path(['sfox', 'config', 'siftScience']))
+export const getSiftKey = state =>
+  getWebOptions(state).map(path(['sift', 'apiKey']))

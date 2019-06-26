@@ -92,6 +92,13 @@ export default ({
       headers: { 'x-client-type': 'WEB' }
     })
 
+  const fetchPreIdvData = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/sift/session'
+    })
+
   const fetchTiers = () =>
     authorizedGet({
       url: nabuUrl,
@@ -124,17 +131,18 @@ export default ({
     })
 
   return {
-    getSupportedCountries,
-    getSupportedDocuments,
-    getStates,
     fetchKycAddresses,
     fetchKycConfig,
     fetchOnfidoSDKKey,
-    fetchUploadData,
-    sendCoinifyKyc,
+    fetchPreIdvData,
     fetchTiers,
+    fetchUploadData,
     fetchVeriffUrl,
+    getStates,
+    getSupportedCountries,
+    getSupportedDocuments,
     selectTier,
+    sendCoinifyKyc,
     sendDeeplink,
     syncOnfido,
     syncVeriff,

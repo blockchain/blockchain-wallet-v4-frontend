@@ -94,7 +94,7 @@ export default ({
       endPoint: `/auth?userId=${userId}`,
       contentType: 'application/json',
       headers: {
-        'X-DEVICE-ID': 'deviceId',
+        'X-DEVICE-ID': null,
         'X-CLIENT-TYPE': 'WEB',
         'x-app-version': '6.11.1',
         'X-WALLET-GUID': walletGuid,
