@@ -3,12 +3,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions, model } from 'data'
-import { getData } from './selectors'
+import { getData, getPreIdvData } from './selectors'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import SiftScience from 'components/SiftScience'
 
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
+import DataError from 'components/DataError'
 import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
@@ -45,9 +47,9 @@ class VerifyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, actions, modalActions, ...rest } = this.props
+    const { data, preIdvData, actions, modalActions, ...rest } = this.props
 
-    return data.cata({
+    const VerificationFlow = data.cata({
       Success: ({
         deeplink,
         docTypes,
@@ -82,13 +84,30 @@ class VerifyContainer extends React.PureComponent {
       },
       Loading: () => <Loading />,
       NotAsked: () => null,
+      Failure: message => <DataError message={message} />
+    })
+
+    const PreIdvCheck = preIdvData.cata({
+      Success: val => (
+        <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
+      ),
+      Loading: () => null,
+      NotAsked: () => null,
       Failure: () => null
     })
+
+    return (
+      <React.Fragment>
+        {VerificationFlow}
+        {PreIdvCheck}
+      </React.Fragment>
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  preIdvData: getPreIdvData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

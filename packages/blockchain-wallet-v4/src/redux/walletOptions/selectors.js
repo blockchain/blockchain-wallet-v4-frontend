@@ -82,3 +82,7 @@ export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaidEnv']))
+export const getSfoxSiftKey = state =>
+  getWebOptions(state).map(path(['sfox', 'config', 'siftScience']))
+export const getSiftKey = state =>
+  getWebOptions(state).map(path(['sift', 'apiKey']))
