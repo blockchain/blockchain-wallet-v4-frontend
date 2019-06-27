@@ -117,7 +117,7 @@ export const setPreIdvDataSuccess = preIdvData => ({
   payload: { preIdvData }
 })
 export const setPreIdvDataFailure = e => ({
-  type: AT.SET_PRE_IDV_DATA_SUCCESS,
+  type: AT.SET_PRE_IDV_DATA_FAILURE,
   payload: { e }
 })
 export const preIdvCheckFinished = () => ({
