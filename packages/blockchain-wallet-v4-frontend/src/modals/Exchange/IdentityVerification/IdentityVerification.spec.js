@@ -29,7 +29,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last, values, pickAll, compose, head, find, pathEq, path } from 'ramda'
+import { last, values, pickAll, compose, head, find, pathEq } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -405,8 +405,6 @@ describe('IdentityVerification Modal', () => {
         expect(head(pickIndex([calls.length - 3], calls)[0]).type).toEqual(
           actionTypes.components.identityVerification.SET_SMS_STEP
         )
-
-        // expect(last(calls)[0].type).toEqual(actionTypes.form.STOP_SUBMIT)
       })
 
       it('should show the code field', async () => {
@@ -488,34 +486,6 @@ describe('IdentityVerification Modal', () => {
       expect(head(findSetVerificationStepAction(calls)).payload).toEqual({
         step: STEPS.personal
       })
-    })
-  })
-
-  describe('coinify signup step - unverified email', () => {
-    beforeEach(() => {
-      getVerificationStep.mockImplementation(() => STEPS.coinify)
-      store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
-      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
-      getEmailVerified.mockImplementation(() => Remote.of(0))
-      wrapper.update()
-    })
-
-    it('should render the Send Again button and also send a verification email', async () => {
-      wrapper.unmount().mount()
-      expect(
-        wrapper
-          .find('button')
-          .first()
-          .props().children.props.defaultMessage
-      ).toEqual('Send Again')
-      let calls = dispatchSpy.mock.calls
-      let findUpdateEmailAction = find(
-        pathEq([0, 'type'], actionTypes.modules.securityCenter.UPDATE_EMAIL)
-      )
-      let updateEmailAction = findUpdateEmailAction(calls)
-      expect(path(['payload', 'email'], head(updateEmailAction))).toEqual(
-        stubMail
-      )
     })
   })
 })

@@ -56,7 +56,12 @@ export const setSupportedDocumentsFailure = e => ({
   payload: { e }
 })
 
-export const fetchStates = () => ({ type: AT.FETCH_STATES })
+export const fetchStates = isCoinify => ({
+  type: AT.FETCH_STATES,
+  payload: {
+    isCoinify
+  }
+})
 export const setStatesLoading = () => ({ type: AT.SET_STATES_LOADING })
 export const setStatesSuccess = states => ({
   type: AT.SET_STATES_SUCCESS,

@@ -1,6 +1,7 @@
 import analytics from './analytics'
 import bch from './bch'
 import btc from './btc'
+import coinify from './coinify'
 import delegate from './delegate'
 import eth from './eth'
 import kvStore from './kvStore'
@@ -28,6 +29,7 @@ export default ({
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
+  const coinifyUrl = options.domains.coinify
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -38,6 +40,7 @@ export default ({
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
     ...btc({ rootUrl, apiUrl, ...http }),
+    ...coinify({ coinifyUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
     ...eth({ rootUrl, apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),

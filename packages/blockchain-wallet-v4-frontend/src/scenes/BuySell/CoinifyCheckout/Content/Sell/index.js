@@ -65,7 +65,7 @@ class SellContainer extends React.Component {
           initiateSell={this.startSell}
           clearTradeError={() => coinifyNotAsked()}
           onOrderCheckoutSubmit={this.submitQuote}
-          handleKycAction={() => showModal(KYC_MODAL)}
+          handleKycAction={() => showModal(KYC_MODAL, { isCoinify: true })}
           refreshQuote={refreshSellQuote}
           {...rest}
         />

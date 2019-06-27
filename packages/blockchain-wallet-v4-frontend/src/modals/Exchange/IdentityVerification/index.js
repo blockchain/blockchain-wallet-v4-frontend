@@ -157,7 +157,7 @@ class IdentityVerification extends React.PureComponent {
   }
 
   getStepComponent = step => {
-    const { actions } = this.props
+    const { actions, isCoinify } = this.props
 
     if (step) {
       const kycEvents = clone(KYC_EVENTS.STEP_CHANGE)
@@ -170,6 +170,7 @@ class IdentityVerification extends React.PureComponent {
         <Personal
           handleSubmit={actions.savePersonalData}
           onBack={actions.goToPrevStep}
+          isCoinify={isCoinify}
         />
       )
 
