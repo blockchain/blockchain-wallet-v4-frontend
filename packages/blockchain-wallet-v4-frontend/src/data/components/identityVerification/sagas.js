@@ -380,10 +380,13 @@ export default ({ api, coreSagas }) => {
   const checkKycFlow = function * () {
     try {
       yield put(A.setKycFlowLoading())
-      const preIdvData = yield call(api.fetchPreIdvData)
-      yield put(A.setPreIdvDataSuccess(preIdvData))
-      yield take(AT.PRE_IDV_CHECK_FINISHED)
-      yield delay(1000)
+      try {
+        const preIdvData = yield call(api.fetchPreIdvData)
+        yield put(A.setPreIdvDataSuccess(preIdvData))
+        yield take(AT.PRE_IDV_CHECK_FINISHED)
+      } catch (e) {
+        yield put(A.setPreIdvDataFailure(e))
+      }
       const { flowType } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
