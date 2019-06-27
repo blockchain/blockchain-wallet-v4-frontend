@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, equals, prop } from 'ramda'
+import { lift, equals, path, prop } from 'ramda'
 import { selectors, model } from 'data'
 
 const { TIERS_STATES } = model.profile
@@ -24,11 +24,14 @@ export const getData = state => {
   const tier2Data = selectors.modules.profile.getTier(state, 2).getOrElse(null)
   const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
   const country = selectors.core.data.coinify.getCountry(state)
+  const mediums = selectors.core.data.coinify.getMediums(state).getOrElse({})
+  const canTrade = path(['bank', 'canTrade'], mediums)
+  const cannotTradeReason = path(['bank', 'cannotTradeReason'], mediums)
 
   return {
-    canTrade: selectors.core.data.coinify.canTrade(state),
+    canTrade,
     canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
-    cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
+    cannotTradeReason,
     checkoutBusy: selectors.components.coinify.getCoinifyCheckoutBusy(state),
     checkoutError: selectors.components.coinify.getCoinifyCheckoutError(state),
     coinifyBusy: selectors.components.coinify.getCoinifyBusy(state),
