@@ -27,10 +27,6 @@ export const getAnalyticsSiteId = state =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = state =>
   getWebOptions(state).map(path(['application', 'announcements']))
-export const getMigrationRedirects = state =>
-  getWebOptions(state).map(
-    path(['application', 'enableDomainMigrationRedirects'])
-  )
 export const getAdsBlacklist = state =>
   getWebOptions(state).map(path(['ads', 'blacklist']))
 export const getAdsUrl = state => getWebOptions(state).map(path(['ads', 'url']))

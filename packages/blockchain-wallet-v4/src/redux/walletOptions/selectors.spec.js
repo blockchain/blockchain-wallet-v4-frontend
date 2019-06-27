@@ -31,12 +31,6 @@ describe('walletOptions selectors', () => {
     )
   })
 
-  it('getMigrationRedirects should return correct redirects', () => {
-    expect(selectors.getMigrationRedirects(successState)).toEqual(
-      Remote.of(true)
-    )
-  })
-
   it('getCoinAvailability should return correct btc availability', () => {
     const expected = {
       send: true,
