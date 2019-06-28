@@ -1,12 +1,8 @@
-import moment from 'moment'
 import { difference, has, propOr, values } from 'ramda'
 
 import { splitPair } from 'data/modules/rates/model'
 
 export const PER_PAGE = 20
-
-export const DATE_FORMAT = 'DD MMMM YYYY, HH:mm'
-
 export const ETH_AIRDROP_MODAL = '@EXCHANGE.ETH_AIRDROP_MODAL'
 export const RESULTS_MODAL = '@EXCHANGE.RESULTS_MODAL'
 
@@ -50,7 +46,7 @@ export const formatExchangeTrade = ({
   return {
     id,
     status: state,
-    date: moment(createdAt).format(DATE_FORMAT),
+    date: createdAt,
     sourceCoin,
     targetCoin,
     depositAmount: propOr('', 'value', deposit),

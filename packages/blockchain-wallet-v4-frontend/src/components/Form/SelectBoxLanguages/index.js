@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { map } from 'ramda'
+import { assoc, curry, keys, map, reduce } from 'ramda'
 
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
-import { renameKeys } from 'services/RamdaCookingBook'
-import * as languageService from 'services/LanguageService'
+import { languagesSortedByName } from 'services/LocalesService'
+
+const renameKeys = curry((keysMap, obj) =>
+  reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj))
+)
 
 class SelectBoxLanguages extends React.PureComponent {
   render () {
@@ -20,9 +23,9 @@ class SelectBoxLanguages extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   language: selectors.preferences.getLanguage(state),
-  languages: languageService.languagesSortedByName
+  languages: languagesSortedByName
 })
 
 export default connect(mapStateToProps)(SelectBoxLanguages)

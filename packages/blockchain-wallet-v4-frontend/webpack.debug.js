@@ -120,6 +120,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
     })
   ],
   optimization: {
@@ -200,11 +204,12 @@ module.exports = {
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          horizon: envConfig.HORIZON_URL
+          horizon: envConfig.HORIZON_URL,
+          coinify: envConfig.COINIFY_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
+          mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'

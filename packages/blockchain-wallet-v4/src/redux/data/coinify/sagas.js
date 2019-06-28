@@ -1,5 +1,6 @@
-import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, delay, put, select } from 'redux-saga/effects'
+
+import ExchangeDelegate from '../../../exchange/delegate'
 import * as A from './actions'
 import * as S from './selectors'
 import * as walletActions from '../../wallet/actions'
@@ -7,9 +8,9 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { equals, head, prop, sort, path } from 'ramda'
-import settingsSagaFactory from '../../settings/sagas.js'
+import settingsSagaFactory from '../../settings/sagas'
 
-export default ({ api, options }) => {
+export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
   const getCoinify = function * () {
     const state = yield select()
@@ -135,10 +136,9 @@ export default ({ api, options }) => {
         baseCurrency,
         quoteCurrency
       ])
+      yield put(A.fetchQuoteSuccess(quote))
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const account = yield apply(mediums[medium], mediums[medium].getAccounts)
-      yield put(A.fetchQuoteSuccess(quote))
-      yield put(A.getPaymentMediumsSuccess(mediums))
       yield put(A.getMediumAccountsSuccess(account))
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -153,6 +153,7 @@ export default ({ api, options }) => {
       const getQuote =
         type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
       const quote = yield apply(coinify.data, getQuote, [-1e8, 'BTC', currency])
+      yield call(getPaymentMediums, { payload: quote })
       yield put(A.fetchRateQuoteSuccess(quote))
     } catch (e) {
       console.log(e)
@@ -164,7 +165,6 @@ export default ({ api, options }) => {
     try {
       const payload = prop('payload', coinifyObj)
       const coinify = !payload ? yield call(getCoinify) : payload
-
       const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {

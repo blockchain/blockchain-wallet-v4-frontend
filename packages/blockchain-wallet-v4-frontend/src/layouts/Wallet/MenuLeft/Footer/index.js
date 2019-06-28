@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains } from 'ramda'
+import { includes } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions, model } from 'data'
@@ -35,8 +35,8 @@ const ArrowIcon = styled(Icon)`
   font-size: 16px;
 `
 
-const Footer = ({ actions, countryCode, adsBlacklist }) => {
-  const isBlacklisted = contains(countryCode, adsBlacklist)
+const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
+  const isBlacklisted = includes(countryCode, adsBlacklist)
   return isBlacklisted ? null : (
     <Wrapper>
       <Text color='gray-3' size='12px' weight={500}>
@@ -49,11 +49,7 @@ const Footer = ({ actions, countryCode, adsBlacklist }) => {
         height='48px'
         onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD)}
       >
-        <Link
-          href='https://games.bitcoin.com/videopoker?cma=201906_blockchainwallet&utm_campaign=201906_blockchainwallet&utm_source=blockchainwallet&utm_medium=banner'
-          rel='noopener noreferrer'
-          target='_blank'
-        >
+        <Link href={adsUrl} rel='noopener noreferrer' target='_blank'>
           <ButtonText color='gray-4' size='14px' weight={500}>
             <FormattedHTMLMessage
               id='layouts.wallet.menuleft.footer.bitcoingames2'

@@ -68,15 +68,19 @@ const renderTotal = trade => {
 }
 
 class SfoxTradeDetails extends React.PureComponent {
+  componentDidMount () {
+    this.props.sfoxActions.fetchSfoxAccounts()
+  }
+
   render () {
-    const { account, trade } = this.props
+    const { accountsR, trade } = this.props
     const { expectedDelivery, feeAmount, id, isBuy, state } = trade
     const headerStatus = statusHelper(state)
     const bodyStatus = bodyStatusHelper(state, isBuy, expectedDelivery)
 
     return (
       <Modal
-        size='large'
+        size='medium'
         position={this.props.position}
         total={this.props.total}
       >
@@ -111,7 +115,20 @@ class SfoxTradeDetails extends React.PureComponent {
           </Text>
           <MethodContainer borderDark style={spacing('mt-5')}>
             <Icon name='bank-filled' size='30px' />
-            <FundingSource account={account[0]} />
+            {accountsR.cata({
+              Success: as => <FundingSource account={as[0]} />,
+              Failure: err => err,
+              Loading: () => (
+                <Text size='13px' style={{ marginLeft: '4px' }}>
+                  Loading Accounts...
+                </Text>
+              ),
+              NotAsked: () => (
+                <Text size='13px' style={{ marginLeft: '4px' }}>
+                  Error fetching accounts
+                </Text>
+              )
+            })}
           </MethodContainer>
           <OrderDetailsTable style={spacing('mt-10')}>
             <OrderDetailsRow>
@@ -197,12 +214,11 @@ class SfoxTradeDetails extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  account: selectors.core.data.sfox
-    .getAccounts(state)
-    .getOrFail('No sfox accounts found')
+  accountsR: selectors.core.data.sfox.getAccounts(state)
 })
 
 const mapDispatchToProps = dispatch => ({
+  sfoxActions: bindActionCreators(actions.core.data.sfox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
