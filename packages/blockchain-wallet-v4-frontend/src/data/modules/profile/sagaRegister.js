@@ -2,7 +2,7 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const {
     clearSession,
     fetchUser,
@@ -11,7 +11,8 @@ export default ({ api, coreSagas }) => {
     signIn
   } = sagas({
     api,
-    coreSagas
+    coreSagas,
+    networks
   })
 
   return function * profileSaga () {

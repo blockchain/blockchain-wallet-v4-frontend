@@ -1,14 +1,14 @@
 import {
   curry,
-  keys,
   filter,
+  keys,
   lensProp,
   mapObjIndexed,
   path,
   prop,
   propOr,
-  toUpper,
-  set
+  set,
+  toUpper
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
 import { walletOptionsPath } from '../paths'
@@ -47,6 +47,7 @@ export const getSupportedCoins = createDeepEqualSelector(
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
 )
+export const getSupportedCoinsList = state => getSupportedCoins(state).map(keys)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
