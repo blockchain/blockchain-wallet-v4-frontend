@@ -56,7 +56,12 @@ export const setSupportedDocumentsFailure = e => ({
   payload: { e }
 })
 
-export const fetchStates = () => ({ type: AT.FETCH_STATES })
+export const fetchStates = isCoinify => ({
+  type: AT.FETCH_STATES,
+  payload: {
+    isCoinify
+  }
+})
 export const setStatesLoading = () => ({ type: AT.SET_STATES_LOADING })
 export const setStatesSuccess = states => ({
   type: AT.SET_STATES_SUCCESS,
@@ -104,6 +109,24 @@ export const setKycFlowFailure = e => ({
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK
+})
+
+export const getPreIdvData = () => ({
+  type: AT.GET_PRE_IDV_DATA
+})
+export const setPreIdvDataLoading = () => ({
+  type: AT.SET_PRE_IDV_DATA_LOADING
+})
+export const setPreIdvDataSuccess = preIdvData => ({
+  type: AT.SET_PRE_IDV_DATA_SUCCESS,
+  payload: { preIdvData }
+})
+export const setPreIdvDataFailure = e => ({
+  type: AT.SET_PRE_IDV_DATA_FAILURE,
+  payload: { e }
+})
+export const preIdvCheckFinished = () => ({
+  type: AT.PRE_IDV_CHECK_FINISHED
 })
 
 export const setStepsLoading = () => ({

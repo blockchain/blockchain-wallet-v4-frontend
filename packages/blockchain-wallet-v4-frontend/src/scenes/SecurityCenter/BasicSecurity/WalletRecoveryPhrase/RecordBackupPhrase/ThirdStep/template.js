@@ -83,12 +83,13 @@ const ThirdStep = props => {
                 {`${languageHelper(index)} word`}
               </Text>
               <Field
-                name={`w${index}`}
                 component={TextBox}
-                validate={[required]}
-                errorBottom
-                noLastPass
                 data-e2e='wordInput'
+                disableSpellcheck
+                errorBottom
+                name={`w${index}`}
+                noLastPass
+                validate={[required]}
               />
             </WordContainer>
           ))}

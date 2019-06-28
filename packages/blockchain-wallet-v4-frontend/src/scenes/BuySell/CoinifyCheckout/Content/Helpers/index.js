@@ -16,7 +16,6 @@ import media from 'services/ResponsiveService'
 const Error = styled(Text)`
   display: block;
   font-size: 13px;
-  height: 15px;
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;

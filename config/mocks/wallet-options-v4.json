@@ -13,7 +13,8 @@
         }
       },
       "ads": {
-        "blacklist": ["LT", "LU", "UK", "US"]
+        "blacklist": ["LT", "LU", "UK", "US"],
+        "url": "https://games.bitcoin.com/slots?cma=20190619_blockchainwalletS&utm_source=blockchainwallet_S&utm_medium=banner&utm_campaign=20190619_blockchainwalletS"
       },
       "coins": {
         "BTC": {
@@ -236,7 +237,8 @@
           "SI",
           "ES",
           "SE",
-          "CH"
+          "CH",
+          "US"
         ],
         "config": {
           "partnerId": 24,
@@ -328,6 +330,9 @@
           "apiKey": "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
           "upperLimit": 750
         }
+      },
+      "sift": {
+        "apiKey": "0ecd212038"
       }
     },
     "ios": {},
@@ -343,6 +348,7 @@
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "horizon": "https://horizon.stellar.org",
-    "veriff": "https://magic.veriff.me"
+    "veriff": "https://magic.veriff.me",
+    "coinify": "https://app-api.coinify.com"
   }
 }
