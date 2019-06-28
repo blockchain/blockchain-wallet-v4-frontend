@@ -12,10 +12,6 @@ class TranslationsProvider extends React.Component {
     messages: {}
   }
 
-  componentDidMount () {
-    this.initLocale()
-  }
-
   componentDidUpdate (prevProps) {
     if (this.props.locale !== prevProps.locale) {
       this.initLocale()
