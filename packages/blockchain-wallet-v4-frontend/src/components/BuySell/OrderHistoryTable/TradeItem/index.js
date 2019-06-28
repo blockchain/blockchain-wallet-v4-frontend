@@ -36,17 +36,34 @@ const tradeDateHelper = (trade, isMobile) =>
     .local()
     .format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
+const conversionHelper = partner => {
+  switch (partner) {
+    case 'sfox': {
+      return {
+        buy: 1e8,
+        sell: 1e8
+      }
+    }
+    default: {
+      return {
+        buy: 100,
+        sell: 1e8
+      }
+    }
+  }
+}
+
 const TradeItem = props => {
   const {
-    conversion,
     handleClick,
     handleFinish,
     handleTradeCancel,
     trade,
     status,
-    cancelTradeId,
-    partner
+    cancelTradeId
   } = props
+  const { partner } = trade
+  const conversion = conversionHelper(partner)
   const tradeReceiveAmount =
     partner === 'sfox'
       ? prop('receiveAmount', trade) - prop('feeAmount', trade)

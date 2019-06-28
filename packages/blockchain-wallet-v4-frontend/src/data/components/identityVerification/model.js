@@ -1,4 +1,4 @@
-import { contains, compose, propOr } from 'ramda'
+import { includes, compose, propOr } from 'ramda'
 
 import { TIERS } from '../../modules/profile/model'
 
@@ -52,7 +52,7 @@ export const SUPPORTED_DOCUMENTS = {
 }
 
 export const isStateSupported = compose(
-  contains('KYC'),
+  includes('KYC'),
   propOr([], 'scopes')
 )
 
