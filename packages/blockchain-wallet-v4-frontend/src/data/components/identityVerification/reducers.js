@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   flowConfig: Remote.NotAsked,
+  preIdvData: Remote.NotAsked,
   states: Remote.NotAsked,
   steps: Remote.NotAsked
 }
@@ -72,6 +73,12 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_KYC_FLOW_FAILURE: {
       return assoc('flowConfig', Remote.Failure(payload.e), state)
+    }
+    case AT.SET_PRE_IDV_DATA_SUCCESS: {
+      return assoc('preIdvData', Remote.Success(payload.preIdvData), state)
+    }
+    case AT.SET_PRE_IDV_DATA_FAILURE: {
+      return assoc('preIdvData', Remote.Failure(payload.e), state)
     }
     case AT.SET_STEPS_LOADING: {
       return assoc('steps', Remote.Loading, state)

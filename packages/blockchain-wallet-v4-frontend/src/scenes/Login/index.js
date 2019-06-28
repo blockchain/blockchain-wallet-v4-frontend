@@ -10,10 +10,6 @@ import { isGuid, isEmail } from '../../services/ValidationHelper'
 class LoginContainer extends React.PureComponent {
   state = { useCode: true }
 
-  componentDidMount () {
-    this.props.loginActions.initialized()
-  }
-
   componentWillUnmount () {
     this.props.formActions.reset('login')
   }
@@ -78,7 +74,6 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

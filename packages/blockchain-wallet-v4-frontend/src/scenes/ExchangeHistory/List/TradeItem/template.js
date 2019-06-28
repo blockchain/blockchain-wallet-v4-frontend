@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { pathOr } from 'ramda'
+
 import { model } from 'data'
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
@@ -20,13 +21,10 @@ const StatusContainer = styled(TableCell)`
 
 const { FINISHED } = model.components.exchangeHistory.STATES
 
-const tradeDateHelper = (date, isMobile = false) => {
-  let timeFormat = 'MMMM D YYYY @ h:mm A'
-  if (isMobile) timeFormat = 'DD MMM'
-  return moment(date)
+const tradeDateHelper = (date, isMobile = false) =>
+  moment(date)
     .local()
-    .format(timeFormat)
-}
+    .format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
   const {

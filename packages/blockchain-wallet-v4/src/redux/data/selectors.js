@@ -4,7 +4,6 @@ import * as coinify from './coinify/selectors'
 import * as eth from './eth/selectors'
 import * as misc from './misc/selectors'
 import * as sfox from './sfox/selectors'
-import * as shapeShift from './shapeShift/selectors'
 import * as xlm from './xlm/selectors'
 
-export { bch, btc, coinify, eth, xlm, misc, sfox, shapeShift }
+export { bch, btc, coinify, eth, xlm, misc, sfox }

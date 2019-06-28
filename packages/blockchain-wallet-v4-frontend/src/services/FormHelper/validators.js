@@ -17,7 +17,6 @@ import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
 import { validate } from 'postal-codes-js'
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
-import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
 import { all, any, concat, equals, path, takeWhile, prop, propOr } from 'ramda'
@@ -50,13 +49,6 @@ export const validWalletId = value =>
 
 export const validMobileNumber = value =>
   isValidNumber(value) ? undefined : <M.InvalidMobileNumberMessage />
-
-export const validStrongPassword = value =>
-  value !== undefined && zxcvbn(value).score > 1 ? (
-    undefined
-  ) : (
-    <M.InvalidStrongPasswordMessage />
-  )
 
 export const validIpList = ipList => {
   return !ipList || all(isIpValid)(ipList.split(',')) ? (

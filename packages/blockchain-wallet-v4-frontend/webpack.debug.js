@@ -120,6 +120,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
     })
   ],
   optimization: {
@@ -200,7 +204,8 @@ module.exports = {
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          horizon: envConfig.HORIZON_URL
+          horizon: envConfig.HORIZON_URL,
+          coinify: envConfig.COINIFY_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {

@@ -31,6 +31,7 @@ const TextBox = field => {
     center,
     className,
     disabled,
+    disableSpellcheck,
     errorBottom,
     height,
     input,
@@ -53,6 +54,7 @@ const TextBox = field => {
         center={center}
         data-e2e={field['data-e2e']}
         disabled={disabled}
+        disableSpellcheck={disableSpellcheck}
         errorState={errorState}
         height={height}
         initial={initial}

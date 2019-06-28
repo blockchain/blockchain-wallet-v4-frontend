@@ -7,7 +7,7 @@ import { actions, model } from 'data'
 import { getData } from './selectors'
 import Create from './template'
 
-const { CREATE, VERIFY } = model.components.coinify.REGISTER_STATES
+const { CHANGE, CREATE, VERIFY } = model.components.coinify.REGISTER_STATES
 
 class CreateContainer extends PureComponent {
   state = {
@@ -16,8 +16,7 @@ class CreateContainer extends PureComponent {
     codeSent: false
   }
   componentDidMount () {
-    if (!this.props.emailVerified)
-      this.props.securityCenterActions.updateEmail(this.props.email)
+    if (!this.props.emailVerified) this.updateCreate(CHANGE)
   }
 
   componentDidUpdate (prevProps) {

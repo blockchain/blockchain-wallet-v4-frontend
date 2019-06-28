@@ -210,7 +210,10 @@ export default ({ api }) => {
     const userTiers = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({})
-    if (kycNotFinished && propEq('current', 1, userTiers)) {
+    const userCanUpgrade =
+      kycNotFinished && userTiers && propEq('current', 1, userTiers)
+
+    if (userCanUpgrade) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',
@@ -363,19 +366,38 @@ export default ({ api }) => {
     }
   }
 
+  const runCoinifyBuyViaCard = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    const isSfoxUser = (yield select(
+      selectors.core.kvStore.buySell.getSfoxUser
+    )).getOrElse(false)
+    const hasSeen = (yield select(
+      selectors.core.kvStore.buySell.getSfoxHasSeenShutdown
+    )).getOrElse(false)
+
+    if (isSfoxUser && !hasSeen) {
+      yield put(actions.core.kvStore.buySell.setSfoxShutdownHasSeen())
+      yield put(
+        actions.goals.addInitialModal('coinifyBuyViaCard', 'CoinifyBuyViaCard')
+      )
+    }
+  }
+
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
-      linkAccount,
-      kycDocResubmit,
-      sunriver,
-      payment,
+      airdropClaim,
+      coinifyBuyViaCard,
       coinifyUpgrade,
-      upgradeForAirdrop,
+      kycDocResubmit,
+      linkAccount,
+      pax,
+      payment,
+      sunriver,
       swapGetStarted,
       swapUpgrade,
-      airdropClaim,
-      pax,
+      upgradeForAirdrop,
       welcome
     } = initialModals
     if (linkAccount) {
@@ -395,6 +417,11 @@ export default ({ api }) => {
     if (coinifyUpgrade) {
       return yield put(
         actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
+      )
+    }
+    if (coinifyBuyViaCard) {
+      return yield put(
+        actions.modals.showModal(coinifyBuyViaCard.name, coinifyBuyViaCard.data)
       )
     }
     if (upgradeForAirdrop) {
@@ -441,6 +468,9 @@ export default ({ api }) => {
         case 'coinifyUpgrade':
           yield call(runCoinifyUpgradeGoal, goal)
           break
+        case 'coinifyBuyViaCard':
+          yield call(runCoinifyBuyViaCard, goal)
+          break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
           break
@@ -484,6 +514,7 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
+    runCoinifyBuyViaCard,
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,

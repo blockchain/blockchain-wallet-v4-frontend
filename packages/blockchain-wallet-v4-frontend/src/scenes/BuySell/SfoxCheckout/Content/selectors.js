@@ -4,6 +4,7 @@ import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
   const profile = selectors.core.data.sfox.getProfile(state)
+  const userId = selectors.core.kvStore.buySell.getSfoxUser(state)
   const accounts = selectors.core.data.sfox.getAccounts(state)
   const networkR = selectors.core.walletOptions.getBtcNetwork(state)
   const network = networkR.getOrElse('bitcoin')
@@ -16,12 +17,18 @@ export const getData = state => {
     defaultIndex,
     state
   )
-  return lift((profile, accounts, nextAddress) => ({
+  const siftKey = selectors.core.walletOptions
+    .getSfoxSiftKey(state)
+    .getOrElse('')
+
+  return lift((profile, accounts, nextAddress, userId) => ({
     profile,
     accounts,
     verificationStatus,
-    nextAddress
-  }))(profile, accounts, nextAddress)
+    nextAddress,
+    userId,
+    siftKey
+  }))(profile, accounts, nextAddress, userId)
 }
 
 export const getQuote = state => selectors.core.data.sfox.getQuote(state)

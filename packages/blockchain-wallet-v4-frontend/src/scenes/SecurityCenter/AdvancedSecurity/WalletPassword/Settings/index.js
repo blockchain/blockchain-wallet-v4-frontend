@@ -48,10 +48,8 @@ const mapStateToProps = state => ({
     state,
     'currentPassword'
   ),
-  newWalletPasswordValue: formValueSelector('settingWalletPassword')(
-    state,
-    'newPassword'
-  )
+  newWalletPasswordValue:
+    formValueSelector('settingWalletPassword')(state, 'newPassword') || ''
 })
 
 const mapDispatchToProps = dispatch => ({

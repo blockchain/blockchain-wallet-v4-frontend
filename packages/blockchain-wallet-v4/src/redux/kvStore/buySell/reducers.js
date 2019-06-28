@@ -29,6 +29,17 @@ export default (state = INITIAL_STATE, action) => {
       const setTrades = assocPath(['sfox', 'trades'], payload)
       return over(valueLens, setTrades, state)
     }
+    case AT.SET_SFOX_HAS_SEEN_SHUTDOWN: {
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      return over(
+        valueLens,
+        assocPath(['sfox', 'has_seen_shutdown'], true),
+        state
+      )
+    }
     case AT.SET_COINIFY_TRADES_BUYSELL: {
       const valueLens = compose(
         mapped,
