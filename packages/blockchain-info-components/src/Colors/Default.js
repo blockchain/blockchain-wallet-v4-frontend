@@ -143,6 +143,8 @@ export default {
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
+  green400: '#59CD93',
+  red500: '#EA5B50',
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',

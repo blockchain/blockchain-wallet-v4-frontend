@@ -28,6 +28,7 @@ class RegisterContainer extends React.PureComponent {
         busy={busy}
         password={password}
         passwordLength={passwordLength}
+        {...this.props}
       />
     )
   }
@@ -37,6 +38,7 @@ const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
   language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
+  goals: selectors.goals.getGoals(state),
   password: formValueSelector('register')(state, 'password') || ''
 })
 

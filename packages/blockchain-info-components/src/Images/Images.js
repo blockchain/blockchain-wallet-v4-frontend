@@ -71,6 +71,9 @@ import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
+import thePit from './img/the-pit.png'
+import thePit2 from './img/the-pit@2x.png'
+import thePit3 from './img/the-pit@3x.png'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -206,6 +209,9 @@ export default {
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
+  'the-pit': thePit,
+  'the-pit2': thePit2,
+  'the-pit3': thePit3,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
   'wallet-v3-backup': walletV3Backup,
