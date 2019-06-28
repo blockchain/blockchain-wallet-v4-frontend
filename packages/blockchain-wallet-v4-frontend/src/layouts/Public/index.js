@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -8,7 +7,6 @@ import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import { selectors } from 'data'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -80,8 +78,4 @@ class PublicLayoutContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  pathname: selectors.router.getPathname(state)
-})
-
-export default connect(mapStateToProps)(PublicLayoutContainer)
+export default PublicLayoutContainer
