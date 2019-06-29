@@ -17,12 +17,19 @@ class LinkAccountContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  userTiers: selectors.modules.profile.getUserTiers(state),
-  linkAccountStatus: selectors.modules.profile.getLinkAccountStatus(state)
+  email: selectors.core.settings.getEmail(state).getOrElse(false),
+  emailVerified: selectors.core.settings
+    .getEmailVerified(state)
+    .getOrElse(true),
+  linkAccountStatus: selectors.modules.profile.getLinkAccountStatus(state),
+  userTiers: selectors.modules.profile.getUserTiers(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.modules.profile, dispatch)
+  actions: bindActionCreators(
+    { ...actions.components.identityVerification, ...actions.modules.profile },
+    dispatch
+  )
 })
 
 const enhance = compose(

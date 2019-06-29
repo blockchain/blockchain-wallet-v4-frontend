@@ -38,6 +38,8 @@ const Content = styled.div`
   padding: 40px 20px 20px 20px;
 `
 const Status = styled.div`
+  width: 100%;
+  word-break: break-word;
   > div:not(:first-child) {
     margin-top: 8px;
   }
@@ -54,8 +56,14 @@ const getIcon = tier => {
   }
 }
 
-const LinkAccount = props => {
-  const { linkAccountStatus, userTiers, close } = props
+const LinkAccount = ({
+  actions,
+  close,
+  email,
+  emailVerified,
+  linkAccountStatus,
+  userTiers
+}) => {
   const { current } = userTiers.getOrElse({}) || {}
   return (
     <ModalStyled size='small'>
@@ -127,6 +135,53 @@ const LinkAccount = props => {
           Loading: () => (
             <Content>
               <BlockchainLoader height='50px' width='50px' />
+              {!emailVerified && (
+                <React.Fragment>
+                  <Status>
+                    <Text color='white' size='24px' weight={600}>
+                      <FormattedMessage
+                        id='modals.onboarding.linkaccount.unverified_email'
+                        defaultMessage='Please Verify Email'
+                      />
+                    </Text>
+                    {email ? (
+                      <TextGroup inline>
+                        <Text color='white' weight={500}>
+                          <FormattedMessage
+                            id='modals.onboarding.linkaccount.check_inbox'
+                            defaultMessage='Check your inbox. We sent an email to:'
+                          />
+                        </Text>
+                        <Text color='white' weight={500}>
+                          {email}
+                        </Text>
+                      </TextGroup>
+                    ) : (
+                      <Text color='white' weight={500}>
+                        <FormattedMessage
+                          id='modals.onboarding.linkaccount.no_email'
+                          defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
+                        />
+                      </Text>
+                    )}
+                  </Status>
+                  {email && (
+                    <Button
+                      nature='purple'
+                      height='56px'
+                      fullwidth
+                      onClick={actions.sendEmailVerification}
+                    >
+                      <Text color='white' size='16px' weight={500}>
+                        <FormattedMessage
+                          id='modals.onboarding.linkaccount.send_email'
+                          defaultMessage='Resend Email'
+                        />
+                      </Text>
+                    </Button>
+                  )}
+                </React.Fragment>
+              )}
             </Content>
           ),
           NotAsked: () => (

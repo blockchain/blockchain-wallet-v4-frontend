@@ -5,13 +5,14 @@ import {
   fork,
   put,
   select,
-  spawn
+  spawn,
+  take
 } from 'redux-saga/effects'
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
-import { selectors, actions } from 'data'
+import { selectors, actions, actionTypes } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
@@ -296,8 +297,18 @@ export default ({ api, coreSagas }) => {
     try {
       const { linkId } = payload
       yield put(A.linkAccountLoading())
+      // Check if email is verified
+      const isEmailVerified = (yield select(
+        selectors.core.settings.getEmailVerified
+      )).getOrElse(true)
+      // If email is not verified wait
+      if (!isEmailVerified)
+        yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
+      // Check if user is created
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
+      // If user is not created, create
       if (isUserStateNone) yield call(createUser)
+      // Link Account
       const data = yield call(api.linkAccount, linkId)
       yield put(A.linkAccountSuccess(data))
     } catch (e) {
