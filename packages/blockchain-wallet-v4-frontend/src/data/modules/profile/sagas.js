@@ -316,9 +316,20 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const createLinkAccountId = function * () {
+    try {
+      yield put(A.createLinkAccountIdLoading())
+      const data = yield call(api.createLinkAccountId)
+      yield put(A.createLinkAccountIdSuccess(data))
+    } catch (e) {
+      yield put(A.createLinkAccountIdFailure(e))
+    }
+  }
+
   return {
     clearSession,
     createUser,
+    createLinkAccountId,
     fetchTiers,
     fetchUser,
     generateAuthCredentials,

@@ -50,6 +50,14 @@ export default ({
     })
   }
 
+  const createLinkAccountId = () => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/link-account/create/start',
+      contentType: 'application/json'
+    })
+  }
+
   const registerUserCampaign = (campaignName, campaignData, newUser = false) =>
     authorizedPut({
       url: nabuUrl,
@@ -126,6 +134,7 @@ export default ({
   return {
     checkUserExistence,
     createUser,
+    createLinkAccountId,
     generateRetailToken,
     generateSession,
     getUser,

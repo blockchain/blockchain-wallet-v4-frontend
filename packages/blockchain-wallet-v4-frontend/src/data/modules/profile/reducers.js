@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
   campaign: {},
-  linkAccountStatus: Remote.NotAsked
+  linkAccountStatus: Remote.NotAsked,
+  createLinkAccountId: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -47,6 +48,12 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('linkAccountStatus', Remote.Loading, state)
     case AT.LINK_ACCOUNT_FAILURE:
       return assoc('linkAccountStatus', Remote.Failure(payload.e), state)
+    case AT.CREATE_LINK_ACCOUNT_ID_SUCCESS:
+      return assoc('createLinkAccountId', Remote.Success(payload.data), state)
+    case AT.CREATE_LINK_ACCOUNT_ID_LOADING:
+      return assoc('createLinkAccountId', Remote.Loading, state)
+    case AT.CREATE_LINK_ACCOUNT_ID_FAILURE:
+      return assoc('createLinkAccountId', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:

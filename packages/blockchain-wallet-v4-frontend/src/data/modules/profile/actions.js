@@ -68,3 +68,18 @@ export const linkAccountFailure = e => ({
   type: AT.LINK_ACCOUNT_FAILURE,
   payload: { e }
 })
+
+export const createLinkAccountId = () => ({
+  type: AT.CREATE_LINK_ACCOUNT_ID
+})
+export const createLinkAccountIdLoading = () => ({
+  type: AT.CREATE_LINK_ACCOUNT_ID_LOADING
+})
+export const createLinkAccountIdSuccess = data => ({
+  type: AT.CREATE_LINK_ACCOUNT_ID_SUCCESS,
+  payload: { data }
+})
+export const createLinkAccountIdFailure = e => ({
+  type: AT.CREATE_LINK_ACCOUNT_ID_FAILURE,
+  payload: { e }
+})
