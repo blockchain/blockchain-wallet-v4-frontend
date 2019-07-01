@@ -75,7 +75,7 @@ export default ({ api, coreSagas, networks }) => {
       selectors.modules.profile.getUserCountryCode
     )).getOrFail('no country code')
     const availableCountryStates = yield call(api.getCoinifyStates)
-    if (nabuStateCode) {
+    if (nabuStateCode && nabuCountryCode === 'US') {
       const supportedState = path(
         ['US', 'states', nabuStateCode, 'supported'],
         availableCountryStates
