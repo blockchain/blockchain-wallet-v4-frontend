@@ -28,7 +28,6 @@ const PartnerWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  margin-top: 4px;
   @media (max-width: 992px) {
     display: none;
   }

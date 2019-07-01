@@ -53,6 +53,10 @@ export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
 )
+export const getUserStateCode = compose(
+  lift(path(['address', 'state'])),
+  getUserData
+)
 export const getUserTiers = compose(
   lift(prop('tiers')),
   getUserData

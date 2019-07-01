@@ -61,7 +61,10 @@ const TermsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 50px;
+  margin-top: 36px;
+`
+const ErrorTextGroup = styled(TextGroup)`
+  line-height: 14px;
 `
 export const TermsText = styled(Text)`
   width: 50%;
@@ -108,7 +111,7 @@ const AcceptTerms = props => {
             </VerifiedText>
             <VerifiedContainer>
               <FieldMimic width='100%'>
-                <Text size='14px' weight={400}>
+                <Text size='16px' color='gray-6' weight={500}>
                   {email}
                 </Text>
               </FieldMimic>
@@ -186,7 +189,7 @@ const AcceptTerms = props => {
                     disabled={invalid || busy || signupError}
                   >
                     {!busy ? (
-                      <Text color='white'>
+                      <Text color='white' size='14px' weight={600}>
                         <FormattedMessage
                           id='continue'
                           defaultMessage='Continue'
@@ -206,34 +209,34 @@ const AcceptTerms = props => {
             <ErrorWrapper>
               {prop('error', signupError) === EMAIL_IN_USE_ERROR &&
               create !== VERIFY ? (
-                <TextGroup inline>
+                <ErrorTextGroup inline>
                   <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
-                      id='coinifyexchangedata.create.accept.error1'
-                      defaultMessage='Unfortunately this email is being used for another account. '
+                      id='coinifyexchangedata.create.accept.err1'
+                      defaultMessage='Unfortunately this email is being used for another account.'
                     />
                   </Text>
                   <Text
                     size='12px'
                     color='brand-secondary'
                     cursor='pointer'
-                    weight={400}
+                    weight={600}
                     onClick={props.editEmail}
                   >
                     <FormattedMessage
-                      id='coinifyexchangedata.create.accept.error2'
-                      defaultMessage='Click here '
+                      id='coinifyexchangedata.create.accept.err2'
+                      defaultMessage='Click here'
                     />
                   </Text>
                   <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
-                      id='coinifyexchangedata.create.accept.error3'
+                      id='coinifyexchangedata.create.accept.err3'
                       defaultMessage='to change it.'
                     />
                   </Text>
-                </TextGroup>
+                </ErrorTextGroup>
               ) : signupError && create !== VERIFY ? (
-                <TextGroup inline>
+                <ErrorTextGroup inline>
                   <Text size='12px' color='error' weight={500}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.accept.unknownError'
@@ -271,7 +274,7 @@ const AcceptTerms = props => {
                       }}
                     />
                   </Text>
-                </TextGroup>
+                </ErrorTextGroup>
               ) : null}
             </ErrorWrapper>
           </FieldContainer>

@@ -55,19 +55,19 @@ export const fetchProfileFailure = error => ({
 })
 export const refetchProfile = () => ({ type: AT.REFETCH_PROFILE })
 
-export const sfoxFetchAccounts = () => ({
-  type: AT.SFOX_FETCH_ACCOUNTS,
+export const fetchSfoxAccounts = () => ({
+  type: AT.FETCH_SFOX_ACCOUNTS,
   payload: {}
 })
-export const sfoxFetchAccountsLoading = () => ({
-  type: AT.SFOX_FETCH_ACCOUNTS_LOADING
+export const fetchSfoxAccountsLoading = () => ({
+  type: AT.FETCH_SFOX_ACCOUNTS_LOADING
 })
-export const sfoxFetchAccountsSuccess = data => ({
-  type: AT.SFOX_FETCH_ACCOUNTS_SUCCESS,
+export const fetchSfoxAccountsSuccess = data => ({
+  type: AT.FETCH_SFOX_ACCOUNTS_SUCCESS,
   payload: data
 })
-export const sfoxFetchAccountsFailure = error => ({
-  type: AT.SFOX_FETCH_ACCOUNTS_FAILURE,
+export const fetchSfoxAccountsFailure = error => ({
+  type: AT.FETCH_SFOX_ACCOUNTS_FAILURE,
   payload: error
 })
 

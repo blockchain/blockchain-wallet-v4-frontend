@@ -20,8 +20,6 @@ export const getTrade = state =>
 
 export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 
-export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
-
 export const getData = state => {
   const kycState = selectors.modules.profile
     .getUserKYCState(state)
@@ -40,7 +38,6 @@ export const getData = state => {
     cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
     canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
     currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
-    defaultCurrency: getCurrency(state),
     checkoutBusy: selectors.components.coinify.getCoinifyCheckoutBusy(state),
     checkoutError: selectors.components.coinify.getCoinifyCheckoutError(state),
     paymentMedium: selectors.components.coinify.getCoinifyMedium(state),

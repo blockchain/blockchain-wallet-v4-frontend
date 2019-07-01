@@ -36,4 +36,10 @@ export const getKycFlowConfig = path([
   'flowConfig'
 ])
 
+export const getPreIdvData = path([
+  'components',
+  'identityVerification',
+  'preIdvData'
+])
+
 export const getSteps = path(['components', 'identityVerification', 'steps'])

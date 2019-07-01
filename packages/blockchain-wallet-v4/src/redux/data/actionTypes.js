@@ -4,7 +4,6 @@ import * as coinify from './coinify/actionTypes'
 import * as eth from './eth/actionTypes'
 import * as misc from './misc/actionTypes'
 import * as sfox from './sfox/actionTypes'
-import * as shapeShift from './shapeShift/actionTypes'
 import * as xlm from './xlm/actionTypes'
 
-export { bch, btc, coinify, eth, misc, sfox, shapeShift, xlm }
+export { bch, btc, coinify, eth, misc, sfox, xlm }
