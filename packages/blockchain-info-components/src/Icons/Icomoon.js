@@ -72,6 +72,7 @@ export default {
   'stack-of-coins': '\\e972',
   switch: '\\e9b6',
   'sync-regular': '\\e93d',
+  'the-pit': '\\e92a',
   'thick-arrow-right': '\\e91c',
   'thick-arrow-switch': '\\e922',
   transactions: '\\e976',
