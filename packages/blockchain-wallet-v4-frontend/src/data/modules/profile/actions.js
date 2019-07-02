@@ -83,3 +83,18 @@ export const createLinkAccountIdFailure = e => ({
   type: AT.CREATE_LINK_ACCOUNT_ID_FAILURE,
   payload: { e }
 })
+
+export const shareAddresses = () => ({
+  type: AT.SHARE_ADDRESSES
+})
+export const shareAddressesLoading = () => ({
+  type: AT.SHARE_ADDRESSES_LOADING
+})
+export const shareAddressesSuccess = data => ({
+  type: AT.SHARE_ADDRESSES_SUCCESS,
+  payload: { data }
+})
+export const shareAddressesFailure = e => ({
+  type: AT.SHARE_ADDRESSES_FAILURE,
+  payload: { e }
+})

@@ -2,16 +2,18 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const {
-    createLinkAccountId,
     clearSession,
+    createLinkAccountId,
     fetchUser,
     linkAccount,
+    shareAddresses,
     signIn
   } = sagas({
     api,
-    coreSagas
+    coreSagas,
+    networks
   })
 
   return function * profileSaga () {
@@ -20,5 +22,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.LINK_ACCOUNT, linkAccount)
     yield takeLatest(AT.CREATE_LINK_ACCOUNT_ID, createLinkAccountId)
+    yield takeLatest(AT.SHARE_ADDRESSES, shareAddresses)
   }
 }

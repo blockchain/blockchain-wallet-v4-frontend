@@ -9,7 +9,16 @@ import {
   take
 } from 'redux-saga/effects'
 import moment from 'moment'
-import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import {
+  compose,
+  difference,
+  equals,
+  keys,
+  lift,
+  prop,
+  sortBy,
+  tail
+} from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions, actionTypes } from 'data'
@@ -24,7 +33,7 @@ export const renewUserDelay = 30000
 
 let renewSessionTask = null
 let renewUserTask = null
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
@@ -293,6 +302,55 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const shareAddresses = function * () {
+    try {
+      yield put(A.shareAddressesLoading())
+      // TODO: move to goal and pass remaining coins to saga
+      // Only run saga if remainingCoins is !empty
+      const supportedCoinsList = (yield select(
+        selectors.core.walletOptions.getSupportedCoinsList
+      )).getOrFail('no_supported_coins')
+      const depositAddresses = (yield select(S.getDepositAddresses)).getOrFail(
+        'no_deposit_addresses'
+      )
+      const depositAddressesList = keys(depositAddresses)
+      const remainingCoins = difference(
+        supportedCoinsList,
+        depositAddressesList
+      )
+
+      // BTC
+      const defaultIdx = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      const BTC = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        defaultIdx
+      )
+      // BCH
+      const BCH = selectors.core.common.bch.getNextAvailableReceiveAddress(
+        networks.btc,
+        defaultIdx
+      )
+      // ETH
+      const ETH = selectors.core.kvStore.eth.getContext
+      // XLM
+      const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
+
+      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
+
+      const state = yield select()
+      const remainingAddresses = remainingCoins.reduce((res, coin) => {
+        res[coin] = addressSelectors[coin](state).getOrElse(null)
+        return res
+      }, depositAddresses)
+      const data = yield call(api.shareDepositAddresses, remainingAddresses)
+      yield put(A.shareAddressesSuccess(data))
+    } catch (e) {
+      yield put(A.shareAddressesFailure(e))
+    }
+  }
+
   const linkAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
@@ -310,6 +368,7 @@ export default ({ api, coreSagas }) => {
       if (isUserStateNone) yield call(createUser)
       // Link Account
       const data = yield call(api.linkAccount, linkId)
+      yield put(A.shareAddresses())
       yield put(A.linkAccountSuccess(data))
     } catch (e) {
       yield put(A.linkAccountFailure(e))
@@ -341,6 +400,7 @@ export default ({ api, coreSagas }) => {
     renewSession,
     renewUser,
     setSession,
+    shareAddresses,
     signIn,
     syncUserWithWallet,
     updateUser,

@@ -3,7 +3,7 @@ export default ({
   nabuUrl,
   get,
   post,
-  put,
+  authorizedPost,
   authorizedPut,
   authorizedGet
 }) => {
@@ -55,6 +55,17 @@ export default ({
       url: nabuUrl,
       endPoint: '/users/link-account/create/start',
       contentType: 'application/json'
+    })
+  }
+
+  const shareDepositAddresses = addresses => {
+    return authorizedPost({
+      url: nabuUrl,
+      endPoint: '/users/deposit/addresses',
+      contentType: 'application/json',
+      data: {
+        addresses
+      }
     })
   }
 
@@ -143,6 +154,7 @@ export default ({
     registerUserCampaign,
     syncUserWithWallet,
     updateUser,
+    shareDepositAddresses,
     updateUserAddress
   }
 }

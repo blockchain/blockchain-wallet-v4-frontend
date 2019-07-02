@@ -10,7 +10,7 @@ import sfox from './sfox/sagaRegister'
 export default ({ api, coreSagas, networks }) =>
   function * modulesSaga () {
     yield fork(addressesBch({ coreSagas, networks }))
-    yield fork(profile({ api, coreSagas }))
+    yield fork(profile({ api, coreSagas, networks }))
     yield fork(rates({ api }))
     yield fork(settings({ api, coreSagas }))
     yield fork(securityCenter({ coreSagas }))

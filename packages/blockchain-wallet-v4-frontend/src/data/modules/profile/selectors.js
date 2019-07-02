@@ -17,6 +17,10 @@ import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
+export const getDepositAddresses = compose(
+  lift(prop('depositAddresses')),
+  getUserData
+)
 export const getUserActivationState = compose(
   lift(prop('state')),
   getUserData

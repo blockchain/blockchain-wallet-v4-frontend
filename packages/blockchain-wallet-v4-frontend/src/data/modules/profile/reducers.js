@@ -5,12 +5,13 @@ import { Remote } from 'blockchain-wallet-v4'
 import { INITIAL_TIERS } from './model'
 
 const INITIAL_STATE = {
-  userTiers: Remote.of(INITIAL_TIERS),
-  userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
   campaign: {},
+  createLinkAccountId: Remote.NotAsked,
   linkAccountStatus: Remote.NotAsked,
-  createLinkAccountId: Remote.NotAsked
+  shareAddresses: Remote.NotAsked,
+  userData: Remote.NotAsked,
+  userTiers: Remote.of(INITIAL_TIERS)
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -54,6 +55,12 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('createLinkAccountId', Remote.Loading, state)
     case AT.CREATE_LINK_ACCOUNT_ID_FAILURE:
       return assoc('createLinkAccountId', Remote.Failure(payload.e), state)
+    case AT.SHARE_ADDRESSES_SUCCESS:
+      return assoc('shareAddresses', Remote.Success(payload.data), state)
+    case AT.SHARE_ADDRESSES_LOADING:
+      return assoc('shareAddresses', Remote.Loading, state)
+    case AT.SHARE_ADDRESSES_FAILURE:
+      return assoc('shareAddresses', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:
