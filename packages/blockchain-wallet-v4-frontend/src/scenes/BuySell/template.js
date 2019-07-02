@@ -2,22 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { equals, prop } from 'ramda'
 import BuySellAnimation from './BuySellAnimation'
 import { Text, Button, Image } from 'blockchain-info-components'
-import {
-  Form,
-  FormGroup,
-  FormItem,
-  SelectBoxUSState,
-  SelectBoxCountry
-} from 'components/Form'
+import { Form, FormGroup, FormItem, SelectBoxCountry } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import {
-  required,
-  onPartnerCountryWhitelist,
-  onPartnerStateWhitelist
-} from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
 import media from 'services/ResponsiveService'
 import {
   Wrapper,
@@ -55,28 +44,28 @@ const SelectPartner = props => {
     invalid,
     pristine,
     fields,
-    sfoxStates,
+    // sfoxStates,
     handleSubmit,
     options,
     showRejectedNotification
   } = props
-  const { country, stateSelection } = fields
+  const { country } = fields
 
-  const onSfoxWhitelist = usState =>
-    country === 'US' &&
-    prop('code', usState) &&
-    sfoxStates.includes(usState.code)
+  // const onSfoxWhitelist = usState =>
+  //   country === 'US' &&
+  //   prop('code', usState) &&
+  //   sfoxStates.includes(usState.code)
   const isCoinifyCountry = country => props.coinifyCountries.includes(country)
   const getPartner = () => {
-    if (onSfoxWhitelist(stateSelection)) {
-      return {
-        name: 'SFOX',
-        url: 'url(/img/sfox-landing.png)',
-        logo: 'powered-by-sfox',
-        backgroundSize: 'auto 80%',
-        backgroundPosition: 'right 70px bottom 0%'
-      }
-    }
+    // if (onSfoxWhitelist(stateSelection)) {
+    //   return {
+    //     name: 'SFOX',
+    //     url: 'url(/img/sfox-landing.png)',
+    //     logo: 'powered-by-sfox',
+    //     backgroundSize: 'auto 80%',
+    //     backgroundPosition: 'right 70px bottom 0%'
+    //   }
+    // }
     if (isCoinifyCountry(country)) {
       return {
         name: 'COINIFY',
@@ -111,13 +100,8 @@ const SelectPartner = props => {
           <GetStartedText size='17px' weight={400}>
             {getPartner().name === 'COINIFY' ? (
               <FormattedMessage
-                id='scenes.buysell.selectpartner.subheader_coinify'
-                defaultMessage='You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.'
-              />
-            ) : getPartner().name === 'SFOX' ? (
-              <FormattedMessage
-                id='scenes.buysell.selectpartner.subheader_sfox'
-                defaultMessage='You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.'
+                id='scenes.buysell.selectpartner.subheader_coinify2'
+                defaultMessage='You can buy & sell Bitcoin (BTC) from your Wallet through our partner Coinify.'
               />
             ) : (
               <FormattedMessage
@@ -138,18 +122,6 @@ const SelectPartner = props => {
                   />
                 </FormItem>
               </FormGroup>
-              {equals(country, 'US') ? (
-                <FormGroup style={spacing('mt-5')}>
-                  <FormItem>
-                    <Field
-                      name='state'
-                      validate={[required, onPartnerStateWhitelist]}
-                      component={SelectBoxUSState}
-                      errorBottom
-                    />
-                  </FormItem>
-                </FormGroup>
-              ) : null}
               {
                 <Button
                   nature={showRejectedNotification ? 'warning' : 'primary'}

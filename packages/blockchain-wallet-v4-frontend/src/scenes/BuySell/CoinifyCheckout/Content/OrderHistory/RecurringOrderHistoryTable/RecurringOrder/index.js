@@ -75,7 +75,6 @@ class RecurringOrder extends React.Component {
       subscription,
       handleCancelSubscription,
       matchedTrades,
-      conversion,
       handleFinishTrade,
       handleDetailsClick,
       handleTradeCancel,
@@ -193,7 +192,6 @@ class RecurringOrder extends React.Component {
               <RecurringTradeItem
                 key={index}
                 trade={trade}
-                conversion={conversion}
                 handleFinish={handleFinishTrade}
                 handleClick={handleDetailsClick}
                 handleTradeCancel={handleTradeCancel}

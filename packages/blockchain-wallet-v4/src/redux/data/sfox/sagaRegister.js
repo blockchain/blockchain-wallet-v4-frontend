@@ -11,7 +11,7 @@ export default ({ api, options }) => {
       actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
       dataSfoxSagas.init
     )
-    yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, dataSfoxSagas.fetchSfoxAccounts)
+    yield takeLatest(AT.FETCH_SFOX_ACCOUNTS, dataSfoxSagas.fetchSfoxAccounts)
     yield takeLatest(AT.FETCH_PROFILE, dataSfoxSagas.fetchProfile)
     yield takeLatest(AT.FETCH_TRADES, dataSfoxSagas.fetchTrades)
     yield takeLatest(AT.SFOX_FETCH_QUOTE, dataSfoxSagas.fetchQuote)

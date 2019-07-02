@@ -3,7 +3,6 @@ export default {
     web: {
       application: {
         analyticsSiteId: 1,
-        enableDomainMigrationRedirects: true,
         environment: 'dev',
         announcements: {
           lockbox: {},
