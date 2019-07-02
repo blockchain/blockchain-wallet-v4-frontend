@@ -201,17 +201,18 @@ module.exports = {
       app.get('/Resources/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
-          root: envConfig.ROOT_URL,
           api: envConfig.API_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          veriff: envConfig.VERIFF_URL,
-          comWalletApp: envConfig.COM_WALLET_APP,
+          coinify: envConfig.COINIFY_URL,
           comRoot: envConfig.COM_ROOT,
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          comWalletApp: envConfig.COM_WALLET_APP,
           horizon: envConfig.HORIZON_URL,
-          coinify: envConfig.COINIFY_URL
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          root: envConfig.ROOT_URL,
+          thePit: envConfig.THE_PIT_URL,
+          veriff: envConfig.VERIFF_URL,
+          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          webSocket: envConfig.WEB_SOCKET_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
