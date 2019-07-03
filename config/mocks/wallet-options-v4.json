@@ -242,8 +242,7 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
-          "coinifyPaymentDomain": "https://pay.coinify.com"
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com"
         }
       },
       "sfox": {
@@ -338,16 +337,17 @@
     "android": {}
   },
   "domains": {
-    "root": "https://blockchain.info",
     "api": "https://api.blockchain.info",
-    "webSocket": "wss://ws.blockchain.info",
-    "walletHelper": "https://wallet-helper.blockchain.com",
-    "comWalletApp": "https://login.blockchain.com",
+    "coinify": "https://app-api.coinify.com",
+    "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
+    "comWalletApp": "https://login.blockchain.com",
+    "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.stellar.org",
+    "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
-    "coinify": "https://app-api.coinify.com"
+    "walletHelper": "https://wallet-helper.blockchain.com",
+    "webSocket": "wss://ws.blockchain.info"
   }
 }

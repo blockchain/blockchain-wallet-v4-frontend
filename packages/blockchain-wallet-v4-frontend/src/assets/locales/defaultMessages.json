@@ -1857,8 +1857,8 @@
         "id": "components.txlistitem.rbf"
       },
       {
-        "defaultMessage": "PAX Fee",
-        "id": "components.txlistitem.feepax"
+        "defaultMessage": "USD Pax Fee",
+        "id": "components.txlistitem.paxfee"
       },
       {
         "defaultMessage": "Description",
@@ -1887,13 +1887,22 @@
       {
         "defaultMessage": "Status",
         "id": "components.txlistitem.status"
-      },
-      {
-        "defaultMessage": "Transaction Fee",
-        "id": "scenes.transactions.bitcoin.content.pages.listitem.fee.label"
       }
     ],
     "path": "src/components/TransactionListItem/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Transaction Fee",
+        "id": "scenes.transactions.bitcoin.content.pages.listitem.fee.label"
+      },
+      {
+        "defaultMessage": "Failed to retrieve fee!",
+        "id": "scenes.transactions.bitcoin.content.pages.listitem.fee.error"
+      }
+    ],
+    "path": "src/components/TransactionListItem/TransactionFee/index.json"
   },
   {
     "descriptors": [

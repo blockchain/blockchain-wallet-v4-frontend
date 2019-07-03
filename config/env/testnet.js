@@ -1,6 +1,7 @@
 module.exports = {
   API_DOMAIN: 'https://api-testnet.blockchain.info',
   COINIFY_URL: 'https://app-api.coinify.com',
+  COINIFY_PAYMENT_DOMAIN: 'https://pay.sandbox.coinify.com',
   HORIZON_URL: 'https://horizon-testnet.stellar.org',
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
