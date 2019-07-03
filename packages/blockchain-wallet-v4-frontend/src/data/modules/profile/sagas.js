@@ -378,10 +378,24 @@ export default ({ api, coreSagas, networks }) => {
   const createLinkAccountId = function * () {
     try {
       yield put(A.createLinkAccountIdLoading())
+      const thePitBaseUrl = (yield select(
+        selectors.core.walletOptions.getThePitDomain
+      )).getOrFail('no_pit_url')
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
+        'no_email'
+      )
       const data = yield call(api.createLinkAccountId)
+      const emailEncoded = encodeURIComponent(email)
+      window.open(
+        `${thePitBaseUrl}/trade/link/${data.linkId}?email=${emailEncoded}`,
+        '_blank',
+        'noreferrer'
+      )
       yield put(A.createLinkAccountIdSuccess(data))
     } catch (e) {
+      const error = typeof e === 'string' ? e : e.message
       yield put(A.createLinkAccountIdFailure(e))
+      yield put(actions.alerts.displayError(error))
     }
   }
 

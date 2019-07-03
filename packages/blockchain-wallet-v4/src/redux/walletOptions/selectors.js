@@ -64,6 +64,10 @@ export const getCoinModel = (state, coin) =>
 export const getCoinIcons = (state, coin) =>
   getCoinModel(state, coin).map(path(['icons']))
 
+// domains
+export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
+export const getThePitDomain = state => getDomains(state).map(prop('thePit'))
+
 // partners
 export const getSFOXCountries = state =>
   getWebOptions(state).map(path(['sfox', 'countries']))
@@ -75,7 +79,6 @@ export const getISignThisDomain = state =>
   getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
 export const getCoinifyPaymentDomain = state =>
   getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
-export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>
