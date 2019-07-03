@@ -9,10 +9,6 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-const iSignThisDomain =
-  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-const coinifyPaymentDomain =
-  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
@@ -201,17 +197,18 @@ module.exports = {
       app.get('/Resources/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
-          root: envConfig.ROOT_URL,
           api: envConfig.API_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          veriff: envConfig.VERIFF_URL,
-          comWalletApp: envConfig.COM_WALLET_APP,
+          coinify: envConfig.COINIFY_URL,
+          coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          comWalletApp: envConfig.COM_WALLET_APP,
           horizon: envConfig.HORIZON_URL,
-          coinify: envConfig.COINIFY_URL
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          root: envConfig.ROOT_URL,
+          veriff: envConfig.VERIFF_URL,
+          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          webSocket: envConfig.WEB_SOCKET_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -258,10 +255,10 @@ module.exports = {
         "img-src 'self' data: blob:",
         "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+        `frame-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${
           envConfig.WALLET_HELPER_DOMAIN
         } ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain}  ${
+        `child-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${
           envConfig.WALLET_HELPER_DOMAIN
         } blob:`,
         [

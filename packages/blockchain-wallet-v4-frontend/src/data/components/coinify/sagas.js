@@ -429,6 +429,27 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fromISX = function * (action) {
+    const status = action.payload
+    try {
+      const tradeR = yield select(selectors.core.data.coinify.getTrade)
+      const trade = tradeR.getOrElse({})
+
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+      yield put(
+        actions.modals.showModal('CoinifyTradeDetails', {
+          trade: trade,
+          status: status
+        })
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
+    }
+  }
+
   const deleteBankAccount = function * (payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
@@ -580,6 +601,7 @@ export default ({ api, coreSagas, networks }) => {
     deleteBankAccount,
     fetchCoinifyData,
     finishTrade,
+    fromISX,
     handleChange,
     initialized,
     initializePayment,
