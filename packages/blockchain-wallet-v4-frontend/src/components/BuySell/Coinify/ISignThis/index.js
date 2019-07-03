@@ -87,6 +87,8 @@ class ISignThisContainer extends PureComponent {
     window.addEventListener('message', function (e) {})
 
     const onComplete = e => {
+      // eslint-disable-next-line
+      console.log(e)
       this.props.coinifyActions.fromISX(e)
     }
 
@@ -156,6 +158,8 @@ class ISignThisContainer extends PureComponent {
         function (e) {
           // Check for the domain who sent the messageEvent
           let origin = e.origin || e.originalEvent.origin
+          // eslint-disable-next-line
+          console.log(e)
           if (![iSignThisDomain, coinifyPaymentDomain].includes(origin)) {
             // Event not generated from ISX or coinifyPaymentDomain, simply return
             return
@@ -169,6 +173,8 @@ class ISignThisContainer extends PureComponent {
 
           try {
             let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
+            // eslint-disable-next-line
+            console.log(d)
 
             if (d.event.toLowerCase() === 'complete') {
               if (self.completeListener) {
