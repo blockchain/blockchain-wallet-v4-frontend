@@ -434,6 +434,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const tradeR = yield select(selectors.core.data.coinify.getTrade)
       const trade = tradeR.getOrElse({})
+      // eslint-disable-next-line
+      console.log('fromISX', trade)
 
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
