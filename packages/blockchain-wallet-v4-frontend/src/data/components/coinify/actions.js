@@ -36,6 +36,8 @@ export const clearCoinifyCheckoutError = () => ({
   type: AT.COINIFY_CLEAR_CHECKOUT_ERROR
 })
 
+export const fromISX = state => ({ type: AT.COINIFY_FROM_ISX, payload: state })
+
 export const coinifyNotAsked = () => ({ type: AT.COINIFY_NOT_ASKED })
 export const coinifyLoading = () => ({ type: AT.COINIFY_LOADING })
 export const coinifySuccess = () => ({ type: AT.COINIFY_SUCCESS })

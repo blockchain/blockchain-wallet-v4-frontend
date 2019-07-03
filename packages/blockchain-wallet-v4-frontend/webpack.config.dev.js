@@ -9,10 +9,6 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-const iSignThisDomain =
-  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-const coinifyPaymentDomain =
-  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
@@ -203,6 +199,7 @@ module.exports = {
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
           coinify: envConfig.COINIFY_URL,
+          coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
           horizon: envConfig.HORIZON_URL,
@@ -259,10 +256,10 @@ module.exports = {
         "img-src 'self' data: blob:",
         "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+        `frame-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${
           envConfig.WALLET_HELPER_DOMAIN
         } ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain}  ${
+        `child-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${
           envConfig.WALLET_HELPER_DOMAIN
         } blob:`,
         [

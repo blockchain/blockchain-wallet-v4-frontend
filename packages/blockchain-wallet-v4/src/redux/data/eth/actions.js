@@ -102,6 +102,7 @@ export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_ETH_TRANSACTIONS_FAILURE,
   payload: error
 })
+
 export const transactionsAtBound = payload => ({
   type: AT.ETH_TRANSACTIONS_AT_BOUND,
   payload
@@ -149,6 +150,23 @@ export const fetchErc20RatesSuccess = (token, data) => ({
 export const fetchErc20RatesFailure = (token, error) => ({
   type: AT.FETCH_ERC20_RATES_FAILURE,
   payload: { token, error }
+})
+
+export const fetchErc20TxFee = (hash, token) => ({
+  type: AT.FETCH_ERC20_TX_FEE,
+  payload: { hash, token }
+})
+export const fetchErc20TxFeeLoading = (hash, token) => ({
+  type: AT.FETCH_ERC20_TX_FEE_LOADING,
+  payload: { hash, token }
+})
+export const fetchErc20TxFeeSuccess = (fee, hash, token) => ({
+  type: AT.FETCH_ERC20_TX_FEE_SUCCESS,
+  payload: { hash, fee, token }
+})
+export const fetchErc20TxFeeFailure = (hash, token, error) => ({
+  type: AT.FETCH_ERC20_TX_FEE_FAILURE,
+  payload: { hash, token, error }
 })
 
 export const fetchErc20Balance = token => ({

@@ -75,10 +75,6 @@ export const getSFOXStates = state =>
   getWebOptions(state).map(path(['sfox', 'states']))
 export const getCoinifyCountries = state =>
   getWebOptions(state).map(path(['coinify', 'countries']))
-export const getISignThisDomain = state =>
-  getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
-export const getCoinifyPaymentDomain = state =>
-  getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>

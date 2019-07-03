@@ -242,8 +242,7 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
-          "coinifyPaymentDomain": "https://pay.coinify.com"
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com"
         }
       },
       "sfox": {
@@ -340,6 +339,7 @@
   "domains": {
     "api": "https://api.blockchain.info",
     "coinify": "https://app-api.coinify.com",
+    "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
     "horizon": "https://horizon.stellar.org",

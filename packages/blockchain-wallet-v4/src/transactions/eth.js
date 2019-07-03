@@ -1,11 +1,10 @@
 import {
   any,
-  contains,
   curry,
-  includes,
   equals,
-  head,
   filter,
+  head,
+  includes,
   lift,
   map,
   path,
@@ -14,6 +13,8 @@ import {
 } from 'ramda'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
+
+import Remote from '../remote'
 import {
   getDefaultAddress,
   getDefaultLabel,
@@ -51,7 +52,7 @@ const getType = (tx, addresses) => {
 //
 // ETH
 //
-export const getFee = tx =>
+export const calculateEthTxFee = tx =>
   new BigNumber(tx.gasPrice || 0).multipliedBy(tx.gasUsed || tx.gas).toString()
 
 export const getLabel = (address, state) => {
@@ -84,7 +85,7 @@ export const getLabel = (address, state) => {
 }
 
 export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
-  const fee = getFee(tx)
+  const fee = calculateEthTxFee(tx)
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
@@ -93,13 +94,13 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     amount,
     blockHeight: tx.blockNumber,
     description: getEthTxNote(state, tx.hash).getOrElse(''),
-    fee,
+    fee: Remote.Success(fee),
     from: getLabel(tx.from, state, ''),
     hash: tx.hash,
     time: tx.timeStamp,
     timeFormatted: getTime(tx.timeStamp),
     to: getLabel(tx.to, state, ''),
-    erc20: contains(tx.to, erc20Contracts.map(toLower)),
+    erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type
   }
 })
@@ -126,7 +127,7 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     amount: parseInt(tx.value),
     blockHeight: tx.blockNumber,
     description: getErc20TxNote(state, token, tx.transactionHash).getOrElse(''),
-    fee: 0,
+    fee: Remote.NotAsked,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
     timeFormatted: getTime(tx.timestamp),
