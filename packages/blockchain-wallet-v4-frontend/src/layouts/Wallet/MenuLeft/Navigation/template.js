@@ -178,26 +178,25 @@ const Navigation = props => {
         )
       )}
       <Separator />
-      <MenuItem
-        data-e2e='thePitLink'
-        onClick={props.profileActions.createLinkAccountId}
-      >
-        <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
-        <Destination>
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.thepit'
-            defaultMessage='The PIT'
-          />
-        </Destination>
-        <NewCartridge>
-          <Text color='orange' size='12' weight={500} uppercase>
+      <LinkContainer to='/thepit' activeClassName='active'>
+        <MenuItem data-e2e='thePitLink'>
+          <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+          <Destination>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions.new'
-              defaultMessage='New'
+              id='layouts.wallet.menuleft.navigation.thepit'
+              defaultMessage='The PIT'
             />
-          </Text>
-        </NewCartridge>
-      </MenuItem>
+          </Destination>
+          <NewCartridge>
+            <Text color='orange' size='12' weight={500} uppercase>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.transactions.new'
+                defaultMessage='New'
+              />
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </LinkContainer>
     </Wrapper>
   )
 }

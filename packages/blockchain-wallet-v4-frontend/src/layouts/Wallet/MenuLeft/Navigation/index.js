@@ -25,8 +25,7 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
 const enhance = compose(
