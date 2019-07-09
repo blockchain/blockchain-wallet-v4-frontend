@@ -63,6 +63,7 @@ export default ({ coreSagas, networks }) => {
         )
         defaultAccountR = accountsR.map(nth(defaultIndex))
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+        if (to) payment = yield payment.to(to)
       }
       const defaultFeePerByte = path(
         ['fees', feeType || 'regular'],

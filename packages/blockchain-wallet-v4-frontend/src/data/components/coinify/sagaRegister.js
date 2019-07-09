@@ -16,6 +16,7 @@ export default ({ api, coreSagas, networks }) => {
       AT.COINIFY_DELETE_BANK_ACCOUNT,
       coinifySagas.deleteBankAccount
     )
+    yield takeLatest(AT.COINIFY_FROM_ISX, coinifySagas.fromISX)
     yield takeLatest(AT.FINISH_TRADE, coinifySagas.finishTrade)
     yield takeLatest(AT.CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.CANCEL_SUBSCRIPTION, coinifySagas.cancelSubscription)
