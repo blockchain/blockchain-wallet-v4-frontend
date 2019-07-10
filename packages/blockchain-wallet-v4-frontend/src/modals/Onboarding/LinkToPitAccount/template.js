@@ -2,196 +2,189 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import {
-  BlockchainLoader,
   Button,
-  Image,
+  Icon,
   Modal,
   ModalBody,
   ModalHeader,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 
-const ModalStyled = styled(Modal)`
-  background: ${props =>
-    `linear-gradient(321.54deg, ${props.theme.purple} -15.42%, ${
-      props.theme.black
-    } 54.12%)`};
-`
 const ModalHeaderStyled = styled(ModalHeader)`
+  background: white;
+  border-radius: 8px 8px 0 0;
   position: absolute;
   border: none;
+  z-index: 99;
   > span {
     &:hover {
       cursor: pointer;
     }
   }
-  z-index: 99;
 `
-const Content = styled.div`
+const ModalBodyStyled = styled(ModalBody)`
+  padding: 0;
+  background: white;
+  border-radius: 8px;
+`
+const ContentWrapper = styled.div`
   display: flex;
-  min-height: 300px;
-  align-items: center;
+  flex-direction: row;
+  min-height: 350px;
+  width: 100%;
+  border-radius: 8px;
+`
+const LeftColumn = styled.div`
+  background: ${props =>
+    `linear-gradient(312.54deg, ${props.theme.purple} -25.42%, ${
+      props.theme.black
+    } 70.12%)`};
+  border-radius: 8px 10px 10px 8px;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  text-align: center;
-  padding: 40px 20px 20px 20px;
-`
-const Status = styled.div`
+  padding: 25px 15px 25px 25px;
   width: 100%;
-  word-break: break-word;
-  > div:not(:first-child) {
-    margin-top: 8px;
+  z-index: 999;
+`
+const LeftColumnPoints = styled.div`
+  margin-top: 20px;
+`
+const RightColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding: 25px;
+  width: 100%;
+  background: white;
+  border-radius: 0 8px 8px 0;
+  z-index: 999;
+`
+const PointRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  padding: 6px 10px;
+
+  & > :first-child {
+    margin-right: 15px;
   }
 `
+const ConnectNowButton = styled(Button)`
+  height: 56px;
+  width: 170px;
+  max-width: 170px;
+`
 
-const getIcon = tier => {
-  switch (tier) {
-    case 1:
-      return 'silver-approved'
-    case 2:
-      return 'gold-approved'
-    default:
-      return 'checkmark-green'
-  }
-}
-
-const LinkToPitAccount = ({
-  actions,
-  close,
-  email,
-  emailVerified,
-  linkAccountStatus,
-  userTiers
-}) => {
-  const { current } = userTiers.getOrElse({}) || {}
+const LinkToPitAccount = ({ close }) => {
   return (
-    <ModalStyled size='small'>
+    <Modal size='large'>
       <ModalHeaderStyled onClose={close} />
-      <ModalBody>
-        {linkAccountStatus.cata({
-          Success: () => (
-            <Content>
-              <Image name={getIcon(current)} size='50px' />
-              <Status>
-                <Text color='white' size='24px' weight={600}>
+      <ModalBodyStyled>
+        <ContentWrapper>
+          <LeftColumn>
+            <PointRow>
+              <Icon name='the-pit' color='white' size='32px' />
+              <Text color='white' size='36px' weight={800}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.title'
+                  defaultMessage='The Pit'
+                />
+              </Text>
+            </PointRow>
+            <Text color='white' size='18px' weight={400}>
+              <FormattedMessage
+                id='modals.onboarding.linktopitaccount.subtitle'
+                defaultMessage='The only Exchange that connects to your Wallet.'
+              />
+            </Text>
+            <LeftColumnPoints>
+              <PointRow>
+                <Icon name='alert-filled' color='white' size='32px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.successheader'
-                    defaultMessage='Success!'
+                    id='modals.onboarding.linktopitaccount.left.point1'
+                    defaultMessage='Lightning Fast Trades'
                   />
                 </Text>
-                <Text color='white' weight={500}>
+              </PointRow>
+              <PointRow>
+                <Icon name='alert-filled' color='white' size='32px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.success'
-                    defaultMessage='You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!'
+                    id='modals.onboarding.linktopitaccount.left.point2'
+                    defaultMessage='Liquid & Reliable'
                   />
                 </Text>
-              </Status>
-              <Button nature='purple' height='56px' fullwidth onClick={close}>
-                <Text color='white' size='16px' weight={500}>
+              </PointRow>
+              <PointRow>
+                <Icon name='alert-filled' color='white' size='32px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.successdone'
-                    defaultMessage='Done'
+                    id='modals.onboarding.linktopitaccount.left.point3'
+                    defaultMessage='Built by Blockchain.com'
                   />
                 </Text>
-              </Button>
-            </Content>
-          ),
-          Failure: e => (
-            <Content>
-              <Image name='close-error' size='50px' />
-              <Status>
-                <Text color='white' size='24px' weight={600}>
+              </PointRow>
+              <PointRow>
+                <Icon name='alert-filled' color='white' size='32px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.failureheader'
-                    defaultMessage='Connection Error'
+                    id='modals.onboarding.linktopitaccount.left.point4'
+                    defaultMessage='Low Fees'
                   />
                 </Text>
-                <Text color='white' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.linkaccount.failure'
-                    defaultMessage='We could not connect your Wallet to The Pit. Please go back to The Pit and try again.'
-                  />
-                </Text>
-                <TextGroup inline>
-                  <Text size='13px' color='white'>
-                    Err:{' '}
-                  </Text>
-                  <Text size='13px' color='white'>
-                    {e.description}
-                  </Text>
-                </TextGroup>
-              </Status>
-              <Button nature='purple' height='56px' fullwidth onClick={close}>
-                <Text color='white' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.linkaccount.failuredone'
-                    defaultMessage='Done'
-                  />
-                </Text>
-              </Button>
-            </Content>
-          ),
-          Loading: () => (
-            <Content>
-              <BlockchainLoader height='50px' width='50px' />
-              {!emailVerified && (
-                <React.Fragment>
-                  <Status>
-                    <Text color='white' size='24px' weight={600}>
-                      <FormattedMessage
-                        id='modals.onboarding.linkaccount.unverified_email'
-                        defaultMessage='Please Verify Email'
-                      />
-                    </Text>
-                    {email ? (
-                      <TextGroup inline>
-                        <Text color='white' weight={500}>
-                          <FormattedMessage
-                            id='modals.onboarding.linkaccount.check_inbox'
-                            defaultMessage='Check your inbox. We sent an email to:'
-                          />
-                        </Text>
-                        <Text color='white' weight={500}>
-                          {email}
-                        </Text>
-                      </TextGroup>
-                    ) : (
-                      <Text color='white' weight={500}>
-                        <FormattedMessage
-                          id='modals.onboarding.linkaccount.no_email'
-                          defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
-                        />
-                      </Text>
-                    )}
-                  </Status>
-                  {email && (
-                    <Button
-                      nature='purple'
-                      height='56px'
-                      fullwidth
-                      onClick={actions.sendEmailVerification}
-                    >
-                      <Text color='white' size='16px' weight={500}>
-                        <FormattedMessage
-                          id='modals.onboarding.linkaccount.send_email'
-                          defaultMessage='Resend Email'
-                        />
-                      </Text>
-                    </Button>
-                  )}
-                </React.Fragment>
-              )}
-            </Content>
-          ),
-          NotAsked: () => (
-            <Content>
-              <BlockchainLoader height='50px' width='50px' />
-            </Content>
-          )
-        })}
-      </ModalBody>
-    </ModalStyled>
+              </PointRow>
+            </LeftColumnPoints>
+          </LeftColumn>
+          <RightColumn>
+            <div>
+              <Text size='16px' weight={300}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.right.totitle'
+                  defaultMessage='The Pit will be able to:'
+                />
+              </Text>
+              <Text size='16px' weight={300}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.right.topoint1'
+                  defaultMessage='Share your Gold & Silver Level status'
+                />
+              </Text>
+              <Text size='16px' weight={300}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.right.topoint2'
+                  defaultMessage="Exchange crypto addresses so you don't have to copy and paste"
+                />
+              </Text>
+              <Text size='16px' weight={300}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.right.nottitle'
+                  defaultMessage='The Pit will not be able to:'
+                />
+              </Text>
+              <Text size='16px' weight={300}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.right.notpoint1'
+                  defaultMessage='View you wallet password'
+                />
+              </Text>
+            </div>
+            <ConnectNowButton nature='purple' onClick={close}>
+              <Text color='white' size='16px' weight={500}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.connectnow'
+                  defaultMessage='Connect Now'
+                />
+              </Text>
+            </ConnectNowButton>
+          </RightColumn>
+        </ContentWrapper>
+      </ModalBodyStyled>
+    </Modal>
   )
 }
 
