@@ -22,9 +22,7 @@ import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as transactions from '../../../transactions'
 
-const transformTx = transactions.eth.transformTx
-const transformErc20Tx = transactions.eth.transformErc20Tx
-
+const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 40
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
@@ -232,6 +230,18 @@ export default ({ api }) => {
     }
   }
 
+  const fetchErc20TransactionFee = function * (action) {
+    const { hash, token } = action.payload
+    try {
+      yield put(A.fetchErc20TxFeeLoading(hash, token))
+      const txData = yield call(api.getEthTransactionV2, hash)
+      const fee = calculateEthTxFee(txData)
+      yield put(A.fetchErc20TxFeeSuccess(fee, hash, token))
+    } catch (e) {
+      yield put(A.fetchErc20TxFeeFailure(hash, token, e.message))
+    }
+  }
+
   const __processErc20Txs = function * (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -252,6 +262,7 @@ export default ({ api }) => {
     fetchLatestBlock,
     fetchTransactions,
     fetchErc20Transactions,
+    fetchErc20TransactionFee,
     watchTransactions,
     watchErc20Transactions,
     __processTxs,
