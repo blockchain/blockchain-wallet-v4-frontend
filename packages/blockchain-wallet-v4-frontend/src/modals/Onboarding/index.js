@@ -1,7 +1,8 @@
 import AirdropClaim from './AirdropClaim'
 import AirdropSuccess from './AirdropSuccess'
 import CoinifyUpgrade from './CoinifyUpgrade'
-import LinkAccount from './LinkAccount'
+import LinkFromPitAccount from './LinkFromPitAccount'
+import LinkToPitAccount from './LinkToPitAccount'
 import SwapGetStarted from './SwapGetStarted'
 import UpgradeForAirdrop from './UpgradeForAirdrop'
 import Welcome from './Welcome'
@@ -10,7 +11,8 @@ export {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkAccount,
+  LinkFromPitAccount,
+  LinkToPitAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   Welcome

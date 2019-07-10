@@ -2,17 +2,18 @@ import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
-import LinkAccount from './template.js'
+
+import LinkFromPitAccount from './template'
 import { actions, selectors } from 'data'
 
-class LinkAccountContainer extends React.PureComponent {
+class LinkFromPitAccountContainer extends React.PureComponent {
   componentDidMount () {
     const { linkId } = this.props
     this.props.actions.linkAccount(linkId)
   }
 
   render () {
-    return <LinkAccount {...this.props} />
+    return <LinkFromPitAccount {...this.props} />
   }
 }
 
@@ -33,11 +34,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LinkAccount'),
+  modalEnhancer('LinkFromPitAccount'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(LinkAccountContainer)
+export default enhance(LinkFromPitAccountContainer)

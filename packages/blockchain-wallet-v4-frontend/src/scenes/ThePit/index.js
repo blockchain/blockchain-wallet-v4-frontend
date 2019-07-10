@@ -7,6 +7,7 @@ import ThePit from './template'
 
 class ThePitContainer extends React.PureComponent {
   onSignup = () => {
+    this.props.modalActions.showModal('LinkToPitAccount')
     this.props.profileActions.createLinkAccountId()
   }
 

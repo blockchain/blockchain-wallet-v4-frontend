@@ -56,7 +56,7 @@ const getIcon = tier => {
   }
 }
 
-const LinkAccount = ({
+const LinkFromPitAccount = ({
   actions,
   close,
   email,
@@ -195,4 +195,4 @@ const LinkAccount = ({
   )
 }
 
-export default LinkAccount
+export default LinkFromPitAccount
