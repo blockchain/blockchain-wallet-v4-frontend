@@ -103,8 +103,18 @@ const LinkToPitAccount = ({ close }) => {
             </Text>
             <LeftColumnPoints>
               <PointRow>
-                <Icon name='alert-filled' color='white' size='32px' />
-                <Text color='white' size='15px' weight={400}>
+                <Icon
+                  name='lightning-bolt'
+                  color='white'
+                  size='26px'
+                  style={{ marginLeft: '7px' }}
+                />
+                <Text
+                  color='white'
+                  size='15px'
+                  weight={400}
+                  style={{ marginLeft: '3px' }}
+                >
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.left.point1'
                     defaultMessage='Lightning Fast Trades'
@@ -112,7 +122,7 @@ const LinkToPitAccount = ({ close }) => {
                 </Text>
               </PointRow>
               <PointRow>
-                <Icon name='alert-filled' color='white' size='32px' />
+                <Icon name='shield-half' color='white' size='27px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.left.point2'
@@ -121,7 +131,7 @@ const LinkToPitAccount = ({ close }) => {
                 </Text>
               </PointRow>
               <PointRow>
-                <Icon name='alert-filled' color='white' size='32px' />
+                <Icon name='users' color='white' size='23px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.left.point3'
@@ -130,7 +140,7 @@ const LinkToPitAccount = ({ close }) => {
                 </Text>
               </PointRow>
               <PointRow>
-                <Icon name='alert-filled' color='white' size='32px' />
+                <Icon name='usd-square' color='white' size='32px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.left.point4'
