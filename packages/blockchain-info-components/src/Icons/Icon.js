@@ -38,27 +38,27 @@ const BaseIconPax = styled.span`
     color: #a2d900;
   }
   .path2:before {
-    content: '\\e921';
+    content: '\\e929';
     color: #3d9ccc;
     margin-left: -1em;
   }
   .path3:before {
-    content: '\\e924';
+    content: '\\e92b';
     color: #ffd919;
     margin-left: -1em;
   }
   .path4:before {
-    content: '\\e927';
+    content: '\\e92c';
     color: #62b247;
     margin-left: -1em;
   }
   .path5:before {
-    content: '\\e928';
+    content: '\\e92d';
     color: #009367;
     margin-left: -1em;
   }
   .path6:before {
-    content: '\\e929';
+    content: '\\e92e';
     color: #00522c;
     margin-left: -1em;
   }
