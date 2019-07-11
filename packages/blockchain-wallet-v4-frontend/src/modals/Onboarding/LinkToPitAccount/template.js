@@ -30,7 +30,7 @@ const ModalBodyStyled = styled(ModalBody)`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  min-height: 350px;
+  min-height: 375px;
   width: 100%;
   border-radius: 8px;
 `
@@ -56,7 +56,7 @@ const RightColumn = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 40px;
-  padding: 25px;
+  padding: 10px 25px;
   width: 100%;
   background: white;
   border-radius: 0 8px 8px 0;
@@ -67,16 +67,34 @@ const PointRow = styled.div`
   flex-direction: row;
   width: 100%;
   align-items: center;
-  padding: 6px 10px;
+  padding: 12px 10px;
 
   & > :first-child {
     margin-right: 15px;
   }
 `
+const RightColumnGroup = styled.div`
+  margin-bottom: 20px;
+`
+const RightPointRow = styled(PointRow)`
+  align-items: flex-start;
+  padding: 6px 10px;
+`
+const Circle = styled.div`
+  height: 6px;
+  width: 6px;
+  min-width: 6px;
+  display: block;
+  background-color: ${props => props.theme['gray-6']};
+  border: 1px solid ${props => props.theme['gray-6']};
+  border-radius: 6px;
+  margin-top: 5px;
+`
 const ConnectNowButton = styled(Button)`
   height: 56px;
-  width: 170px;
-  max-width: 170px;
+  width: 210px;
+  max-width: 210px;
+  margin: 8px 0 12px 0;
 `
 
 const LinkToPitAccount = ({ close }) => {
@@ -86,21 +104,23 @@ const LinkToPitAccount = ({ close }) => {
       <ModalBodyStyled>
         <ContentWrapper>
           <LeftColumn>
-            <PointRow>
-              <Icon name='the-pit' color='white' size='32px' />
-              <Text color='white' size='36px' weight={800}>
+            <div>
+              <PointRow>
+                <Icon name='the-pit' color='white' size='32px' />
+                <Text color='white' size='36px' weight={800}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.title'
+                    defaultMessage='The Pit'
+                  />
+                </Text>
+              </PointRow>
+              <Text color='white' size='18px' weight={400}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.title'
-                  defaultMessage='The Pit'
+                  id='modals.onboarding.linktopitaccount.subtitle'
+                  defaultMessage='The only Exchange that connects to your Wallet.'
                 />
               </Text>
-            </PointRow>
-            <Text color='white' size='18px' weight={400}>
-              <FormattedMessage
-                id='modals.onboarding.linktopitaccount.subtitle'
-                defaultMessage='The only Exchange that connects to your Wallet.'
-              />
-            </Text>
+            </div>
             <LeftColumnPoints>
               <PointRow>
                 <Icon
@@ -152,36 +172,53 @@ const LinkToPitAccount = ({ close }) => {
           </LeftColumn>
           <RightColumn>
             <div>
-              <Text size='16px' weight={300}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.right.totitle'
-                  defaultMessage='The Pit will be able to:'
-                />
-              </Text>
-              <Text size='16px' weight={300}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.right.topoint1'
-                  defaultMessage='Share your Gold & Silver Level status'
-                />
-              </Text>
-              <Text size='16px' weight={300}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.right.topoint2'
-                  defaultMessage="Exchange crypto addresses so you don't have to copy and paste"
-                />
-              </Text>
-              <Text size='16px' weight={300}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.right.nottitle'
-                  defaultMessage='The Pit will not be able to:'
-                />
-              </Text>
-              <Text size='16px' weight={300}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.right.notpoint1'
-                  defaultMessage='View you wallet password'
-                />
-              </Text>
+              <RightColumnGroup>
+                <RightPointRow>
+                  <Text size='16px' weight={500} color='success'>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.right.totitle'
+                      defaultMessage='The Pit will be able to:'
+                    />
+                  </Text>
+                </RightPointRow>
+                <RightPointRow>
+                  <Circle />
+                  <Text size='14px' weight={500}>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.right.topoint1'
+                      defaultMessage='Share your Gold & Silver Level status'
+                    />
+                  </Text>
+                </RightPointRow>
+                <RightPointRow>
+                  <Circle />
+                  <Text size='14px' weight={500}>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.right.topoint2'
+                      defaultMessage='Exchange crypto addresses so you dont have to copy and paste'
+                    />
+                  </Text>
+                </RightPointRow>
+              </RightColumnGroup>
+              <RightColumnGroup>
+                <RightPointRow>
+                  <Text size='16px' weight={500} color='error'>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.right.nottitle'
+                      defaultMessage='The Pit will not be able to:'
+                    />
+                  </Text>
+                </RightPointRow>
+                <RightPointRow>
+                  <Circle />
+                  <Text size='14px' weight={500}>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.right.notpoint1'
+                      defaultMessage='View you wallet password'
+                    />
+                  </Text>
+                </RightPointRow>
+              </RightColumnGroup>
             </div>
             <ConnectNowButton nature='purple' onClick={close}>
               <Text color='white' size='16px' weight={500}>
