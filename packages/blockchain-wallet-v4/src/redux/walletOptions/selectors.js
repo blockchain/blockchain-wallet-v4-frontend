@@ -17,7 +17,6 @@ import { createDeepEqualSelector } from '../../utils'
 // general
 export const getOptions = path([walletOptionsPath])
 export const getDomains = state => getOptions(state).map(prop('domains'))
-export const getApiDomain = state => getDomains(state).map(prop('api'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
 export const getWalletHelperUrl = state =>

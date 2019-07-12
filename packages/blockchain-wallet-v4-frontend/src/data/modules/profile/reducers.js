@@ -54,10 +54,12 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('linkFromPitAccountStatus', Remote.Loading, state)
     case AT.LINK_FROM_PIT_ACCOUNT_FAILURE:
       return assoc('linkFromPitAccountStatus', Remote.Failure(payload.e), state)
-    case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
-      return assoc('linkToPitAccountStatus', Remote.Success(), state)
+    case AT.LINK_TO_PIT_ACCOUNT_RESET:
+      return assoc('linkToPitAccountStatus', Remote.NotAsked, state)
     case AT.LINK_TO_PIT_ACCOUNT_LOADING:
       return assoc('linkToPitAccountStatus', Remote.Loading, state)
+    case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
+      return assoc('linkToPitAccountStatus', Remote.Success(), state)
     case AT.LINK_TO_PIT_ACCOUNT_FAILURE:
       return assoc('linkToPitAccountStatus', Remote.Failure(payload.e), state)
     case AT.CREATE_LINK_ACCOUNT_ID_SUCCESS:

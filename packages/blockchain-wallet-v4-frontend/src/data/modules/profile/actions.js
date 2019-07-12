@@ -83,6 +83,9 @@ export const linkToPitAccountFailure = e => ({
   type: AT.LINK_TO_PIT_ACCOUNT_FAILURE,
   payload: { e }
 })
+export const linkToPitAccountReset = () => ({
+  type: AT.LINK_TO_PIT_ACCOUNT_RESET
+})
 
 export const createLinkAccountId = () => ({
   type: AT.CREATE_LINK_ACCOUNT_ID

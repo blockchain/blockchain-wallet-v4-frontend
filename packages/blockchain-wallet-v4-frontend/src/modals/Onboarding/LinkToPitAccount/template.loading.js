@@ -43,7 +43,7 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitLoading = () => {
+const LinkToPitLoading = ({ close }) => {
   return (
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />

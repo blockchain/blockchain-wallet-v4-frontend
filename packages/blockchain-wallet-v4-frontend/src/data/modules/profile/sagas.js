@@ -405,8 +405,11 @@ export default ({ api, coreSagas, networks }) => {
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
       if (isUserStateNone) yield call(createUser)
       // get pit linkId, pit domain and user email
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrFail()
+      const pitDomain = prop('thePit', domains)
       const pitLinkId = yield call(createLinkAccountId)
-      const pitDomain = 'https://pit.dev.blockchain.info' // TODO: get pit domain
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
       yield delay(1500)
       // open url for user

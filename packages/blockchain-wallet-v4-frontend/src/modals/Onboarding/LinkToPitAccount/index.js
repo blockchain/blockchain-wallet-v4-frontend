@@ -10,8 +10,7 @@ import { actions, selectors } from 'data'
 
 class LinkToPitAccountContainer extends React.PureComponent {
   componentWillUnmount () {
-    // TODO
-    // this.props.actions.destroyed()
+    this.props.actions.linkToPitAccountReset()
   }
 
   onConnectStart = () => {

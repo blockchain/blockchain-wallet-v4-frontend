@@ -337,7 +337,6 @@
     "android": {}
   },
   "domains": {
-    "root": "https://blockchain.info",
     "api": "https://api.blockchain.info",
     "coinify": "https://app-api.coinify.com",
     "coinifyPaymentDomain": "https://pay.coinify.com",
@@ -346,7 +345,6 @@
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "root": "https://blockchain.info",
     "thePit": "https://pit.blockchain.info",
-    "veriff": "https://magic.veriff.me",
-    "coinify": "https://app-api.coinify.com"
+    "veriff": "https://magic.veriff.me"
   }
 }
