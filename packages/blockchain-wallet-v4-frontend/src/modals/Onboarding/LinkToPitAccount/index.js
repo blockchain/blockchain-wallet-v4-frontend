@@ -3,7 +3,8 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import LinkToPitAccount from './template'
+import NotAskedTemplate from './template.notasked'
+import LoadingTemplate from './template.loading'
 import { actions, selectors } from 'data'
 
 class LinkToPitAccountContainer extends React.PureComponent {
@@ -17,13 +18,30 @@ class LinkToPitAccountContainer extends React.PureComponent {
   }
 
   render () {
-    return (
-      <LinkToPitAccount
-        {...this.props}
-        onConnectStart={this.onConnectStart}
-        onResendEmail={this.onResendEmail}
-      />
-    )
+    return this.props.linkToPitStatus.cata({
+      Success: value => (
+        <NotAskedTemplate
+          {...this.props}
+          onConnectStart={this.onConnectStart}
+          onResendEmail={this.onResendEmail}
+        />
+      ),
+      Failure: message => (
+        <NotAskedTemplate
+          {...this.props}
+          onConnectStart={this.onConnectStart}
+          onResendEmail={this.onResendEmail}
+        />
+      ),
+      Loading: () => <LoadingTemplate {...this.props} />,
+      NotAsked: () => (
+        <NotAskedTemplate
+          {...this.props}
+          onConnectStart={this.onConnectStart}
+          onResendEmail={this.onResendEmail}
+        />
+      )
+    })
   }
 }
 
@@ -31,7 +49,8 @@ const mapStateToProps = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(false),
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
-    .getOrElse(true)
+    .getOrElse(true),
+  linkToPitStatus: selectors.modules.profile.getLinkToPitAccountStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({

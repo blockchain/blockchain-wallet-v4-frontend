@@ -408,6 +408,7 @@ export default ({ api, coreSagas, networks }) => {
       const pitLinkId = yield call(createLinkAccountId)
       const pitDomain = 'https://pit.dev.blockchain.info' // TODO: get pit domain
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      yield delay(1500)
       // open url for user
       window.open(
         `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
