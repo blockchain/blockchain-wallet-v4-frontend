@@ -7,28 +7,40 @@ import LinkToPitAccount from './template'
 import { actions, selectors } from 'data'
 
 class LinkToPitAccountContainer extends React.PureComponent {
-  componentDidMount () {
-    const { linkId } = this.props
-    this.props.actions.linkAccount(linkId)
+  onConnectStart = () => {
+    this.props.actions.linkToPitAccount()
+  }
+
+  onResendEmail = () => {
+    const { actions, email } = this.props
+    actions.resendVerifyEmail(email)
   }
 
   render () {
-    return <LinkToPitAccount {...this.props} />
+    return (
+      <LinkToPitAccount
+        {...this.props}
+        onConnectStart={this.onConnectStart}
+        onResendEmail={this.onResendEmail}
+      />
+    )
   }
 }
 
 const mapStateToProps = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(false),
-  emailVerified: selectors.core.settings
+  isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
-    .getOrElse(true),
-  linkAccountStatus: selectors.modules.profile.getLinkAccountStatus(state),
-  userTiers: selectors.modules.profile.getUserTiers(state)
+    .getOrElse(true)
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { ...actions.components.identityVerification, ...actions.modules.profile },
+    {
+      ...actions.components.identityVerification,
+      ...actions.modules.profile,
+      ...actions.modules.securityCenter
+    },
     dispatch
   )
 })

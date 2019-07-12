@@ -96,8 +96,26 @@ const ConnectNowButton = styled(Button)`
   max-width: 210px;
   margin: 8px 0 12px 0;
 `
+const EmailRequiredContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 
-const LinkToPitAccount = ({ close }) => {
+  & > :first-child {
+    margin-bottom: 20px;
+  }
+  & > div {
+    margin-bottom: 12px;
+  }
+`
+
+const LinkToPitAccount = ({
+  close,
+  isEmailVerified,
+  onConnectStart,
+  onResendEmail
+}) => {
   return (
     <Modal size='large'>
       <ModalHeaderStyled onClose={close} />
@@ -170,65 +188,93 @@ const LinkToPitAccount = ({ close }) => {
               </PointRow>
             </LeftColumnPoints>
           </LeftColumn>
-          <RightColumn>
-            <div>
-              <RightColumnGroup>
-                <RightPointRow>
-                  <Text size='16px' weight={500} color='success'>
-                    <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.right.totitle'
-                      defaultMessage='The Pit will be able to:'
-                    />
-                  </Text>
-                </RightPointRow>
-                <RightPointRow>
-                  <Circle />
-                  <Text size='14px' weight={500}>
-                    <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.right.topoint1'
-                      defaultMessage='Share your Gold & Silver Level status'
-                    />
-                  </Text>
-                </RightPointRow>
-                <RightPointRow>
-                  <Circle />
-                  <Text size='14px' weight={500}>
-                    <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.right.topoint2'
-                      defaultMessage='Exchange crypto addresses so you dont have to copy and paste'
-                    />
-                  </Text>
-                </RightPointRow>
-              </RightColumnGroup>
-              <RightColumnGroup>
-                <RightPointRow>
-                  <Text size='16px' weight={500} color='error'>
-                    <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.right.nottitle'
-                      defaultMessage='The Pit will not be able to:'
-                    />
-                  </Text>
-                </RightPointRow>
-                <RightPointRow>
-                  <Circle />
-                  <Text size='14px' weight={500}>
-                    <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.right.notpoint1'
-                      defaultMessage='View you wallet password'
-                    />
-                  </Text>
-                </RightPointRow>
-              </RightColumnGroup>
-            </div>
-            <ConnectNowButton nature='purple' onClick={close}>
-              <Text color='white' size='16px' weight={500}>
-                <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.connectnow'
-                  defaultMessage='Connect Now'
-                />
-              </Text>
-            </ConnectNowButton>
-          </RightColumn>
+          {isEmailVerified ? (
+            <RightColumn>
+              <div>
+                <RightColumnGroup>
+                  <RightPointRow>
+                    <Text size='16px' weight={500} color='success'>
+                      <FormattedMessage
+                        id='modals.onboarding.linktopitaccount.right.totitle'
+                        defaultMessage='The Pit will be able to:'
+                      />
+                    </Text>
+                  </RightPointRow>
+                  <RightPointRow>
+                    <Circle />
+                    <Text size='14px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.linktopitaccount.right.topoint1'
+                        defaultMessage='Share your Gold & Silver Level status'
+                      />
+                    </Text>
+                  </RightPointRow>
+                  <RightPointRow>
+                    <Circle />
+                    <Text size='14px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.linktopitaccount.right.topoint2'
+                        defaultMessage='Exchange crypto addresses so you dont have to copy and paste'
+                      />
+                    </Text>
+                  </RightPointRow>
+                </RightColumnGroup>
+                <RightColumnGroup>
+                  <RightPointRow>
+                    <Text size='16px' weight={500} color='error'>
+                      <FormattedMessage
+                        id='modals.onboarding.linktopitaccount.right.nottitle'
+                        defaultMessage='The Pit will not be able to:'
+                      />
+                    </Text>
+                  </RightPointRow>
+                  <RightPointRow>
+                    <Circle />
+                    <Text size='14px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.linktopitaccount.right.notpoint1'
+                        defaultMessage='View you wallet password'
+                      />
+                    </Text>
+                  </RightPointRow>
+                </RightColumnGroup>
+              </div>
+              <ConnectNowButton nature='purple' onClick={onConnectStart}>
+                <Text color='white' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.connectnow'
+                    defaultMessage='Connect Now'
+                  />
+                </Text>
+              </ConnectNowButton>
+            </RightColumn>
+          ) : (
+            <RightColumn>
+              <EmailRequiredContent>
+                <Icon name='alert-filled' color='error' size='62px' />
+                <Text size='15px' weight={500}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.right.verifyemailrequired'
+                    defaultMessage='A verified email address is required to connect your wallet to The Pit.'
+                  />
+                </Text>
+                <Text size='15px' weight={500}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.right.checkemail'
+                    defaultMessage='Please verify your email address now or have it resent by clicking below.'
+                  />
+                </Text>
+              </EmailRequiredContent>
+              <ConnectNowButton nature='purple' onClick={onResendEmail}>
+                <Text color='white' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.resendemail'
+                    defaultMessage='Resend Email'
+                  />
+                </Text>
+              </ConnectNowButton>
+            </RightColumn>
+          )}
         </ContentWrapper>
       </ModalBodyStyled>
     </Modal>

@@ -385,6 +385,12 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const linkToPitAccount = function * () {
+    try {
+      // TODO
+    } catch (e) {}
+  }
+
   return {
     clearSession,
     createUser,
@@ -395,6 +401,7 @@ export default ({ api, coreSagas, networks }) => {
     generateRetailToken,
     getCampaignData,
     linkAccount,
+    linkToPitAccount,
     recoverUser,
     renewApiSockets,
     renewSession,
