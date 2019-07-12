@@ -7,8 +7,9 @@ import { INITIAL_TIERS } from './model'
 const INITIAL_STATE = {
   apiToken: Remote.NotAsked,
   campaign: {},
-  createLinkAccountId: Remote.NotAsked,
-  linkAccountStatus: Remote.NotAsked,
+  pitLinkId: Remote.NotAsked,
+  linkFromPitAccountStatus: Remote.NotAsked,
+  linkToPitAccountStatus: Remote.NotAsked,
   shareAddresses: Remote.NotAsked,
   userData: Remote.NotAsked,
   userTiers: Remote.of(INITIAL_TIERS)
@@ -43,18 +44,28 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('apiToken', Remote.Loading, state)
     case AT.SET_API_TOKEN_FAILURE:
       return assoc('apiToken', Remote.Failure(payload.e), state)
-    case AT.LINK_ACCOUNT_SUCCESS:
-      return assoc('linkAccountStatus', Remote.Success(payload.data), state)
-    case AT.LINK_ACCOUNT_LOADING:
-      return assoc('linkAccountStatus', Remote.Loading, state)
-    case AT.LINK_ACCOUNT_FAILURE:
-      return assoc('linkAccountStatus', Remote.Failure(payload.e), state)
+    case AT.LINK_FROM_PIT_ACCOUNT_SUCCESS:
+      return assoc(
+        'linkFromPitAccountStatus',
+        Remote.Success(payload.data),
+        state
+      )
+    case AT.LINK_FROM_PIT_ACCOUNT_LOADING:
+      return assoc('linkFromPitAccountStatus', Remote.Loading, state)
+    case AT.LINK_FROM_PIT_ACCOUNT_FAILURE:
+      return assoc('linkFromPitAccountStatus', Remote.Failure(payload.e), state)
+    case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
+      return assoc('linkToPitAccountStatus', Remote.Success(), state)
+    case AT.LINK_TO_PIT_ACCOUNT_LOADING:
+      return assoc('linkToPitAccountStatus', Remote.Loading, state)
+    case AT.LINK_TO_PIT_ACCOUNT_FAILURE:
+      return assoc('linkToPitAccountStatus', Remote.Failure(payload.e), state)
     case AT.CREATE_LINK_ACCOUNT_ID_SUCCESS:
-      return assoc('createLinkAccountId', Remote.Success(payload.data), state)
+      return assoc('pitLinkId', Remote.Success(payload.data), state)
     case AT.CREATE_LINK_ACCOUNT_ID_LOADING:
-      return assoc('createLinkAccountId', Remote.Loading, state)
+      return assoc('pitLinkId', Remote.Loading, state)
     case AT.CREATE_LINK_ACCOUNT_ID_FAILURE:
-      return assoc('createLinkAccountId', Remote.Failure(payload.e), state)
+      return assoc('pitLinkId', Remote.Failure(payload.e), state)
     case AT.SHARE_ADDRESSES_SUCCESS:
       return assoc('shareAddresses', Remote.Success(payload.data), state)
     case AT.SHARE_ADDRESSES_LOADING:

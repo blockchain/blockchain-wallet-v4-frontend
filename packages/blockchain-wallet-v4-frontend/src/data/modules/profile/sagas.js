@@ -351,10 +351,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkAccount = function * ({ payload }) {
+  const linkFromPitAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
-      yield put(A.linkAccountLoading())
+      yield put(A.linkFromPitAccountLoading())
       // Check if email is verified
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
@@ -369,9 +369,9 @@ export default ({ api, coreSagas, networks }) => {
       // Link Account
       const data = yield call(api.linkAccount, linkId)
       yield put(A.shareAddresses())
-      yield put(A.linkAccountSuccess(data))
+      yield put(A.linkFromPitAccountSuccess(data))
     } catch (e) {
-      yield put(A.linkAccountFailure(e))
+      yield put(A.linkFromPitAccountFailure(e))
     }
   }
 
@@ -380,6 +380,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.createLinkAccountIdLoading())
       const data = yield call(api.createLinkAccountId)
       yield put(A.createLinkAccountIdSuccess(data))
+      return prop('linkId', data)
     } catch (e) {
       yield put(A.createLinkAccountIdFailure(e))
     }
@@ -387,8 +388,37 @@ export default ({ api, coreSagas, networks }) => {
 
   const linkToPitAccount = function * () {
     try {
-      // TODO
-    } catch (e) {}
+      yield put(A.linkToPitAccountLoading())
+      // check if wallet is already linked
+      const isAlreadyLinked = yield select(S.getPitUsername)
+      if (isAlreadyLinked) {
+        throw new Error('Account already linked')
+      }
+      // ensure email address is verified
+      const isEmailVerified = (yield select(
+        selectors.core.settings.getEmailVerified
+      )).getOrFail()
+      if (!isEmailVerified) {
+        throw new Error('Email address not verified')
+      }
+      // get or create nabu user
+      const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
+      if (isUserStateNone) yield call(createUser)
+      // get pit linkId, pit domain and user email
+      const pitLinkId = yield call(createLinkAccountId)
+      const pitDomain = 'https://pit.dev.blockchain.info' // TODO: get pit domain
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      // open url for user
+      window.open(
+        `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
+          email
+        )}`,
+        '_blank'
+      )
+      // yield put(A.linkToPitAccountSuccess()) // TODO: poll for nabu username
+    } catch (e) {
+      yield put(A.linkToPitAccountFailure(e.message))
+    }
   }
 
   return {
@@ -400,7 +430,7 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
-    linkAccount,
+    linkFromPitAccount,
     linkToPitAccount,
     recoverUser,
     renewApiSockets,

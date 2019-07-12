@@ -7,7 +7,8 @@ export default ({ api, coreSagas, networks }) => {
     clearSession,
     createLinkAccountId,
     fetchUser,
-    linkAccount,
+    linkFromPitAccount,
+    linkToPitAccount,
     shareAddresses,
     signIn
   } = sagas({
@@ -20,7 +21,8 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SIGN_IN, signIn)
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.FETCH_USER, fetchUser)
-    yield takeLatest(AT.LINK_ACCOUNT, linkAccount)
+    yield takeLatest(AT.LINK_FROM_PIT_ACCOUNT, linkFromPitAccount)
+    yield takeLatest(AT.LINK_TO_PIT_ACCOUNT, linkToPitAccount)
     yield takeLatest(AT.CREATE_LINK_ACCOUNT_ID, createLinkAccountId)
     yield takeLatest(AT.SHARE_ADDRESSES, shareAddresses)
   }

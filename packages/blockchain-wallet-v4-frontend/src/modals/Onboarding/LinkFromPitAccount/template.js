@@ -61,7 +61,7 @@ const LinkFromPitAccount = ({
   close,
   email,
   emailVerified,
-  linkAccountStatus,
+  linkFromPitAccountStatus,
   userTiers
 }) => {
   const { current } = userTiers.getOrElse({}) || {}
@@ -69,20 +69,20 @@ const LinkFromPitAccount = ({
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
-        {linkAccountStatus.cata({
+        {linkFromPitAccountStatus.cata({
           Success: () => (
             <Content>
               <Image name={getIcon(current)} size='50px' />
               <Status>
                 <Text color='white' size='24px' weight={600}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.successheader'
+                    id='modals.onboarding.linkfrompitaccount.successheader'
                     defaultMessage='Success!'
                   />
                 </Text>
                 <Text color='white' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.success'
+                    id='modals.onboarding.linkfrompitaccount.success'
                     defaultMessage='You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!'
                   />
                 </Text>
@@ -90,7 +90,7 @@ const LinkFromPitAccount = ({
               <Button nature='purple' height='56px' fullwidth onClick={close}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.successdone'
+                    id='modals.onboarding.linkfrompitaccount.successdone'
                     defaultMessage='Done'
                   />
                 </Text>
@@ -103,13 +103,13 @@ const LinkFromPitAccount = ({
               <Status>
                 <Text color='white' size='24px' weight={600}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.failureheader'
+                    id='modals.onboarding.linkfrompitaccount.failureheader'
                     defaultMessage='Connection Error'
                   />
                 </Text>
                 <Text color='white' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.failure'
+                    id='modals.onboarding.linkfrompitaccount.failure'
                     defaultMessage='We could not connect your Wallet to The Pit. Please go back to The Pit and try again.'
                   />
                 </Text>
@@ -125,7 +125,7 @@ const LinkFromPitAccount = ({
               <Button nature='purple' height='56px' fullwidth onClick={close}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkaccount.failuredone'
+                    id='modals.onboarding.linkfrompitaccount.failuredone'
                     defaultMessage='Done'
                   />
                 </Text>
@@ -140,7 +140,7 @@ const LinkFromPitAccount = ({
                   <Status>
                     <Text color='white' size='24px' weight={600}>
                       <FormattedMessage
-                        id='modals.onboarding.linkaccount.unverified_email'
+                        id='modals.onboarding.linkfrompitaccount.unverified_email'
                         defaultMessage='Please Verify Email'
                       />
                     </Text>
@@ -148,7 +148,7 @@ const LinkFromPitAccount = ({
                       <TextGroup inline>
                         <Text color='white' weight={500}>
                           <FormattedMessage
-                            id='modals.onboarding.linkaccount.check_inbox'
+                            id='modals.onboarding.linkfrompitaccount.check_inbox'
                             defaultMessage='Check your inbox. We sent an email to:'
                           />
                         </Text>
@@ -159,7 +159,7 @@ const LinkFromPitAccount = ({
                     ) : (
                       <Text color='white' weight={500}>
                         <FormattedMessage
-                          id='modals.onboarding.linkaccount.no_email'
+                          id='modals.onboarding.linkfrompitaccount.no_email'
                           defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
                         />
                       </Text>
@@ -174,7 +174,7 @@ const LinkFromPitAccount = ({
                     >
                       <Text color='white' size='16px' weight={500}>
                         <FormattedMessage
-                          id='modals.onboarding.linkaccount.send_email'
+                          id='modals.onboarding.linkfrompitaccount.send_email'
                           defaultMessage='Resend Email'
                         />
                       </Text>

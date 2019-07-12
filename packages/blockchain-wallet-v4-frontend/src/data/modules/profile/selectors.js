@@ -17,6 +17,10 @@ import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
+export const getUserId = compose(
+  lift(prop('id')),
+  getUserData
+)
 export const getDepositAddresses = compose(
   lift(prop('depositAddresses')),
   getUserData
@@ -74,8 +78,6 @@ export const getKycDocResubmissionStatus = compose(
   getUserData
 )
 
-export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
-
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
@@ -113,3 +115,13 @@ export const closeToTier1Limit = state =>
         CLOSE_TO_AMOUNT <
         pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
+
+export const getLinkFromPitAccountStatus = path([
+  'profile',
+  'linkFromPitAccountStatus'
+])
+export const getLinkToPitAccountStatus = path([
+  'profile',
+  'linkToPitAccountStatus'
+])
+export const getPitUsername = path(['profile', 'userName'])

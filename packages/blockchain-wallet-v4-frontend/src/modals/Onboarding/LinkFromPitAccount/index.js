@@ -9,7 +9,7 @@ import { actions, selectors } from 'data'
 class LinkFromPitAccountContainer extends React.PureComponent {
   componentDidMount () {
     const { linkId } = this.props
-    this.props.actions.linkAccount(linkId)
+    this.props.actions.linkFromPitAccount(linkId)
   }
 
   render () {
@@ -22,13 +22,18 @@ const mapStateToProps = state => ({
   emailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(true),
-  linkAccountStatus: selectors.modules.profile.getLinkAccountStatus(state),
+  linkFromPitAccountStatus: selectors.modules.profile.getLinkFromPitAccountStatus(
+    state
+  ),
   userTiers: selectors.modules.profile.getUserTiers(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
-    { ...actions.components.identityVerification, ...actions.modules.profile },
+    {
+      ...actions.components.identityVerification,
+      ...actions.modules.profile
+    },
     dispatch
   )
 })
