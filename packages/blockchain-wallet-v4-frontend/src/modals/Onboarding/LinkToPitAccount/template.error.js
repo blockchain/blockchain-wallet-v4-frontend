@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import {
-  BlockchainLoader,
+  Button,
+  Icon,
   Modal,
   ModalBody,
   ModalHeader,
@@ -32,7 +33,7 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  padding: 50px 20px 20px 20px;
+  padding: 30px 20px 20px 20px;
 `
 const Status = styled.div`
   width: 100%;
@@ -43,31 +44,36 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitLoading = () => {
+const LinkToPitError = ({ close, error }) => {
   return (
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <BlockchainLoader height='115px' width='115px' />
+          <Icon name='alert-filled' color='red' size='92px' />
           <Status>
             <Text color='white' size='26px' weight={600}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.loading.title'
-                defaultMessage='Taking you to The Pit'
+                id='modals.onboarding.linktopitaccount.error.title'
+                defaultMessage='Linking Error'
               />
             </Text>
             <Text color='white' size='18px' weight={500}>
-              <FormattedMessage
-                id='modals.onboarding.linktopitaccount.loading.subtitle'
-                defaultMessage='A new browser tab will open shortly where you can complete accounting linking.'
-              />
+              {error}
             </Text>
           </Status>
+          <Button nature='purple' height='56px' fullwidth onClick={close}>
+            <Text color='white' size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.onboarding.linktopitaccount.error.done'
+                defaultMessage='Done'
+              />
+            </Text>
+          </Button>
         </Content>
       </ModalBody>
     </ModalStyled>
   )
 }
 
-export default LinkToPitLoading
+export default LinkToPitError

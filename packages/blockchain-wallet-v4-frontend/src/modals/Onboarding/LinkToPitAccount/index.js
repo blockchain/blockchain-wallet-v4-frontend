@@ -3,11 +3,17 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import NotAskedTemplate from './template.notasked'
-import LoadingTemplate from './template.loading'
+import LinkToPitNotAsked from './template.notasked'
+import LinkToPitLoading from './template.loading'
+import LinkToPitError from './template.error'
 import { actions, selectors } from 'data'
 
 class LinkToPitAccountContainer extends React.PureComponent {
+  componentWillUnmount () {
+    // TODO
+    // this.props.actions.destroyed()
+  }
+
   onConnectStart = () => {
     this.props.actions.linkToPitAccount()
   }
@@ -20,22 +26,16 @@ class LinkToPitAccountContainer extends React.PureComponent {
   render () {
     return this.props.linkToPitStatus.cata({
       Success: value => (
-        <NotAskedTemplate
+        <LinkToPitNotAsked
           {...this.props}
           onConnectStart={this.onConnectStart}
           onResendEmail={this.onResendEmail}
         />
       ),
-      Failure: message => (
-        <NotAskedTemplate
-          {...this.props}
-          onConnectStart={this.onConnectStart}
-          onResendEmail={this.onResendEmail}
-        />
-      ),
-      Loading: () => <LoadingTemplate {...this.props} />,
+      Failure: error => <LinkToPitError {...this.props} error={error} />,
+      Loading: () => <LinkToPitLoading {...this.props} />,
       NotAsked: () => (
-        <NotAskedTemplate
+        <LinkToPitNotAsked
           {...this.props}
           onConnectStart={this.onConnectStart}
           onResendEmail={this.onResendEmail}

@@ -392,14 +392,14 @@ export default ({ api, coreSagas, networks }) => {
       // check if wallet is already linked
       const isAlreadyLinked = yield select(S.getPitUsername)
       if (isAlreadyLinked) {
-        throw new Error('Account already linked')
+        throw new Error('Account has already been linked.')
       }
       // ensure email address is verified
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
       )).getOrFail()
       if (!isEmailVerified) {
-        throw new Error('Email address not verified')
+        throw new Error('Email address is not verified.')
       }
       // get or create nabu user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
