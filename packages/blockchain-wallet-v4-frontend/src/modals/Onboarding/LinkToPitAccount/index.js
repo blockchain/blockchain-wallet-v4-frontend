@@ -6,6 +6,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LinkToPitNotAsked from './template.notasked'
 import LinkToPitLoading from './template.loading'
 import LinkToPitError from './template.error'
+import LinkToPitSuccess from './template.success'
 import { actions, selectors } from 'data'
 
 class LinkToPitAccountContainer extends React.PureComponent {
@@ -24,13 +25,7 @@ class LinkToPitAccountContainer extends React.PureComponent {
 
   render () {
     return this.props.linkToPitStatus.cata({
-      Success: value => (
-        <LinkToPitNotAsked
-          {...this.props}
-          onConnectStart={this.onConnectStart}
-          onResendEmail={this.onResendEmail}
-        />
-      ),
+      Success: () => <LinkToPitSuccess {...this.props} />,
       Failure: error => <LinkToPitError {...this.props} error={error} />,
       Loading: () => <LinkToPitLoading {...this.props} />,
       NotAsked: () => (
