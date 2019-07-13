@@ -14,6 +14,11 @@ class LinkToPitAccountContainer extends React.PureComponent {
     this.props.actions.linkToPitAccountReset()
   }
 
+  onAccountLinkSuccess = () => {
+    this.props.actions.close()
+    this.props.push('/home')
+  }
+
   onConnectStart = () => {
     this.props.actions.linkToPitAccount()
   }
@@ -25,7 +30,12 @@ class LinkToPitAccountContainer extends React.PureComponent {
 
   render () {
     return this.props.linkToPitStatus.cata({
-      Success: () => <LinkToPitSuccess {...this.props} />,
+      Success: () => (
+        <LinkToPitSuccess
+          {...this.props}
+          onAccountLinkComplete={this.onAccountLinkSuccess}
+        />
+      ),
       Failure: error => <LinkToPitError {...this.props} error={error} />,
       Loading: () => <LinkToPitLoading {...this.props} />,
       NotAsked: () => (
@@ -52,6 +62,7 @@ const mapDispatchToProps = dispatch => ({
     {
       ...actions.components.identityVerification,
       ...actions.modules.profile,
+      ...actions.router,
       ...actions.modules.securityCenter
     },
     dispatch

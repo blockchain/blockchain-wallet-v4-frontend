@@ -411,14 +411,12 @@ export default ({ api, coreSagas, networks }) => {
       const pitDomain = prop('thePit', domains)
       const pitLinkId = yield call(createLinkAccountId)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      yield delay(1500)
+      const signupUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
+        email
+      )}`
+      yield delay(1250)
       // open url for user
-      window.open(
-        `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
-          email
-        )}`,
-        '_blank'
-      )
+      window.open(signupUrl, '_blank')
       // yield put(A.linkToPitAccountSuccess()) // TODO: poll for nabu username
     } catch (e) {
       yield put(A.linkToPitAccountFailure(e.message))

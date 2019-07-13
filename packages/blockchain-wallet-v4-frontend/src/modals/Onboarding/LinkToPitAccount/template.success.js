@@ -44,7 +44,7 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitSuccess = ({ close }) => {
+const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
   return (
     <ModalStyled size='xsmall'>
       <ModalHeaderStyled onClose={close} />
@@ -65,7 +65,12 @@ const LinkToPitSuccess = ({ close }) => {
               />
             </Text>
           </Status>
-          <Button nature='purple' height='56px' fullwidth onClick={close}>
+          <Button
+            nature='purple'
+            height='56px'
+            fullwidth
+            onClick={onAccountLinkComplete}
+          >
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
                 id='modals.onboarding.linktopitaccount.success.done'
