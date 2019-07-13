@@ -1,4 +1,4 @@
-import { merge, assoc } from 'ramda'
+import { assoc, compose, merge } from 'ramda'
 import * as AT from './actionTypes'
 
 import { Remote } from 'blockchain-wallet-v4'
@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   campaign: {},
   pitLinkId: Remote.NotAsked,
   linkFromPitAccountStatus: Remote.NotAsked,
+  linkToPitAccountDeeplink: null,
   linkToPitAccountStatus: Remote.NotAsked,
   shareAddresses: Remote.NotAsked,
   userData: Remote.NotAsked,
@@ -54,8 +55,13 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('linkFromPitAccountStatus', Remote.Loading, state)
     case AT.LINK_FROM_PIT_ACCOUNT_FAILURE:
       return assoc('linkFromPitAccountStatus', Remote.Failure(payload.e), state)
+    case AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK:
+      return assoc('linkToPitAccountDeeplink', payload.deeplink, state)
     case AT.LINK_TO_PIT_ACCOUNT_RESET:
-      return assoc('linkToPitAccountStatus', Remote.NotAsked, state)
+      return compose(
+        assoc('linkToPitAccountStatus', Remote.NotAsked),
+        assoc('linkToPitAccountDeeplink', null)
+      )(state)
     case AT.LINK_TO_PIT_ACCOUNT_LOADING:
       return assoc('linkToPitAccountStatus', Remote.Loading, state)
     case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:

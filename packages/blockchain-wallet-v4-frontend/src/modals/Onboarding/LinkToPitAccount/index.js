@@ -16,7 +16,7 @@ class LinkToPitAccountContainer extends React.PureComponent {
 
   onAccountLinkSuccess = () => {
     this.props.actions.close()
-    this.props.push('/home')
+    this.props.router.push('/home')
   }
 
   onConnectStart = () => {
@@ -50,6 +50,7 @@ class LinkToPitAccountContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  deeplinkToPit: selectors.modules.profile.getLinkToPitAccountDeeplink(state),
   email: selectors.core.settings.getEmail(state).getOrElse(false),
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
@@ -62,11 +63,11 @@ const mapDispatchToProps = dispatch => ({
     {
       ...actions.components.identityVerification,
       ...actions.modules.profile,
-      ...actions.router,
       ...actions.modules.securityCenter
     },
     dispatch
-  )
+  ),
+  router: bindActionCreators(actions.router, dispatch)
 })
 
 const enhance = compose(

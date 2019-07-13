@@ -125,6 +125,10 @@ export const getLinkToPitAccountStatus = path([
   'profile',
   'linkToPitAccountStatus'
 ])
+export const getLinkToPitAccountDeeplink = path([
+  'profile',
+  'linkToPitAccountDeeplink'
+])
 
 // TODO: this is a temporary way to detect if the user has pit account
 export const isPitAccountLinked = propIs(String, path(['profile', 'userName']))

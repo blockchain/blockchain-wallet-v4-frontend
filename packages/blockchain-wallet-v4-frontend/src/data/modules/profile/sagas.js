@@ -4,6 +4,7 @@ import {
   delay,
   fork,
   put,
+  race,
   select,
   spawn,
   take
@@ -23,6 +24,7 @@ import {
 import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions, actionTypes } from 'data'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
@@ -411,15 +413,53 @@ export default ({ api, coreSagas, networks }) => {
       const pitDomain = prop('thePit', domains)
       const pitLinkId = yield call(createLinkAccountId)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const signupUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
+      const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
       )}`
-      yield delay(1250)
-      // open url for user
-      window.open(signupUrl, '_blank')
-      // yield put(A.linkToPitAccountSuccess()) // TODO: poll for nabu username
+      // simulate wait while allowing user to read modal
+      yield delay(2000)
+      // attempt to open url for user
+      window.open(accountDeeplinkUrl, '_blank')
+      yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
+      // poll for account link
+      yield race({
+        task: call(pollForAccountLinkSuccess, 0),
+        cancel: take([
+          AT.LINK_TO_PIT_ACCOUNT_FAILURE,
+          AT.LINK_TO_PIT_ACCOUNT_SUCCESS,
+          actionTypes.modals.CLOSE_MODAL
+        ])
+      })
     } catch (e) {
       yield put(A.linkToPitAccountFailure(e.message))
+    }
+  }
+
+  const pollForAccountLinkSuccess = function * (attemptCount) {
+    try {
+      // check every 10 seconds
+      yield delay(10000)
+      attemptCount++
+      // if 5 minutes has passed, cancel poll and mark as timeout
+      if (equals(30, attemptCount)) {
+        yield put(
+          A.linkToPitAccountFailure(
+            'Timeout waiting for account connection status.'
+          )
+        )
+        return
+      }
+      yield call(fetchUser)
+      const isPitAccountLinked = yield select(S.isPitAccountLinked)
+      if (isPitAccountLinked) {
+        yield put(A.linkToPitAccountSuccess())
+      } else {
+        yield call(pollForAccountLinkSuccess, attemptCount)
+      }
+    } catch (e) {
+      yield put(
+        A.linkToPitAccountFailure('Unable to check current account status.')
+      )
     }
   }
 

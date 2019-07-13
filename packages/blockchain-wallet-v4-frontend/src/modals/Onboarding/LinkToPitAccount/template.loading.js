@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import {
   BlockchainLoader,
+  Button,
+  Link,
   Modal,
   ModalBody,
   ModalHeader,
@@ -37,33 +39,67 @@ const Content = styled.div`
 const Status = styled.div`
   width: 100%;
   word-break: break-word;
-  margin-top: 22px;
+  margin-top: 16px;
   & > :first-child {
     margin-bottom: 25px;
   }
 `
+const OpenNowButton = styled(Button)`
+  margin-top: 30px;
+`
 
-const LinkToPitLoading = ({ close }) => {
+const LinkToPitLoading = ({ close, deeplinkToPit }) => {
   return (
     <ModalStyled size='small'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <BlockchainLoader height='115px' width='115px' />
-          <Status>
-            <Text color='white' size='26px' weight={600}>
-              <FormattedMessage
-                id='modals.onboarding.linktopitaccount.loading.title'
-                defaultMessage='Taking you to The Pit'
-              />
-            </Text>
-            <Text color='white' size='18px' weight={500}>
-              <FormattedMessage
-                id='modals.onboarding.linktopitaccount.loading.subtitle'
-                defaultMessage='A new browser tab will open shortly where you can complete accounting linking.'
-              />
-            </Text>
-          </Status>
+          <BlockchainLoader height='100px' width='100px' />
+          {deeplinkToPit ? (
+            <Status style={{ marginTop: '40px ' }}>
+              <Text color='white' size='26px' weight={600}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.loading.waiting'
+                  defaultMessage='Waiting for account link'
+                />
+              </Text>
+              <Text color='white' size='18px' weight={500}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.loading.waitingbody'
+                  defaultMessage='If a new browser tab did not open, try clicking the button below.'
+                />
+              </Text>
+              <OpenNowButton nature='purple' height='56px' fullwidth>
+                <Link
+                  href={deeplinkToPit}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <Text color='white' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='modals.onboarding.linktopitaccount.loading.openhere'
+                      defaultMessage='Open The Pit'
+                    />
+                  </Text>
+                </Link>
+              </OpenNowButton>
+            </Status>
+          ) : (
+            <Status>
+              <Text color='white' size='26px' weight={600}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.loading.title'
+                  defaultMessage='Taking you to The Pit'
+                />
+              </Text>
+              <Text color='white' size='18px' weight={500}>
+                <FormattedMessage
+                  id='modals.onboarding.linktopitaccount.loading.subtitle'
+                  defaultMessage='A new browser tab will open shortly where you can complete accounting linking.'
+                />
+              </Text>
+            </Status>
+          )}
         </Content>
       </ModalBody>
     </ModalStyled>

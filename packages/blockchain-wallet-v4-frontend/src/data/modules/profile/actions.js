@@ -86,6 +86,10 @@ export const linkToPitAccountFailure = e => ({
 export const linkToPitAccountReset = () => ({
   type: AT.LINK_TO_PIT_ACCOUNT_RESET
 })
+export const setLinkToPitAccountDeepLink = deeplink => ({
+  type: AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK,
+  payload: { deeplink }
+})
 
 export const createLinkAccountId = () => ({
   type: AT.CREATE_LINK_ACCOUNT_ID
