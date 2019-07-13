@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import {
   Button,
   Icon,
+  Image,
   Modal,
   ModalBody,
   ModalHeader,
@@ -109,6 +110,9 @@ const EmailRequiredContent = styled.div`
     margin-bottom: 12px;
   }
 `
+const PitLogo = styled(Image)`
+  margin-bottom: 5px;
+`
 
 const LinkToPitNotAsked = ({
   close,
@@ -123,15 +127,7 @@ const LinkToPitNotAsked = ({
         <ContentWrapper>
           <LeftColumn>
             <div>
-              <PointRow>
-                <Icon name='the-pit' color='white' size='32px' />
-                <Text color='white' size='36px' weight={800}>
-                  <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.title'
-                    defaultMessage='The Pit'
-                  />
-                </Text>
-              </PointRow>
+              <PitLogo name='the-pit-word' height='50px' />
               <Text color='white' size='18px' weight={400}>
                 <FormattedMessage
                   id='modals.onboarding.linktopitaccount.na.subtitle'
