@@ -341,10 +341,14 @@
     "coinify": "https://app-api.coinify.com",
     "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
+    "comWalletApp": "https://login.blockchain.com",
+    "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "root": "https://blockchain.info",
     "thePit": "https://pit.blockchain.info",
-    "veriff": "https://magic.veriff.me"
+    "veriff": "https://magic.veriff.me",
+    "walletHelper": "https://wallet-helper.blockchain.com",
+    "webSocket": "wss://ws.blockchain.info"
   }
 }
