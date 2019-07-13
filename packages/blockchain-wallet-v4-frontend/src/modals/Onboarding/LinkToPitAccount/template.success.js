@@ -61,7 +61,7 @@ const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
             <Text color='white' size='18px' weight={500}>
               <FormattedMessage
                 id='modals.onboarding.linktopitaccount.success.subtitle'
-                defaultMessage='Your Blockchain Wallet is now connected to The Pit!'
+                defaultMessage='Your Blockchain Wallet is now connected to The PIT!'
               />
             </Text>
           </Status>

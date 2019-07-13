@@ -110,7 +110,7 @@ const ThePit = props => {
             <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.thepit.point2.subtitle'
-                defaultMessage='No instructional manual required!  The Pit is refreshingly simple, fun, and lightning fast.'
+                defaultMessage='No instructional manual required!  The PIT is refreshingly simple, fun, and lightning fast.'
               />
             </Text>
           </SubTextGroup>

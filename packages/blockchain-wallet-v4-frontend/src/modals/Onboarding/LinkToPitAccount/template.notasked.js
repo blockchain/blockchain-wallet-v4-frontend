@@ -192,7 +192,7 @@ const LinkToPitNotAsked = ({
                     <Text size='16px' weight={500} color='success'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.totitle'
-                        defaultMessage='The Pit will be able to:'
+                        defaultMessage='The PIT will be able to:'
                       />
                     </Text>
                   </RightPointRow>
@@ -220,7 +220,7 @@ const LinkToPitNotAsked = ({
                     <Text size='16px' weight={500} color='error'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.nottitle'
-                        defaultMessage='The Pit will not be able to:'
+                        defaultMessage='The PIT will not be able to:'
                       />
                     </Text>
                   </RightPointRow>
@@ -251,7 +251,7 @@ const LinkToPitNotAsked = ({
                 <Text size='15px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.na.right.verifyemailrequired'
-                    defaultMessage='A verified email address is required to connect your wallet to The Pit.'
+                    defaultMessage='A verified email address is required to connect your wallet to The PIT.'
                   />
                 </Text>
                 <Text size='15px' weight={500}>

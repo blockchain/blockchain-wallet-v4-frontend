@@ -5592,7 +5592,7 @@
         "id": "modals.onboarding.linkaccount.successheader"
       },
       {
-        "defaultMessage": "You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!",
+        "defaultMessage": "You have connected your Blockchain Wallet to The PIT. Go back and finish signing up!",
         "id": "modals.onboarding.linkaccount.success"
       },
       {

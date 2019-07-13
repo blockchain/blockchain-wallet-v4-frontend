@@ -83,7 +83,7 @@ const LinkFromPitAccount = ({
                 <Text color='white' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linkfrompitaccount.success'
-                    defaultMessage='You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!'
+                    defaultMessage='You have connected your Blockchain Wallet to The PIT. Go back and finish signing up!'
                   />
                 </Text>
               </Status>
@@ -110,7 +110,7 @@ const LinkFromPitAccount = ({
                 <Text color='white' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linkfrompitaccount.failure'
-                    defaultMessage='We could not connect your Wallet to The Pit. Please go back to The Pit and try again.'
+                    defaultMessage='We could not connect your Wallet to The PIT. Please go back to The PIT and try again.'
                   />
                 </Text>
                 <TextGroup inline>

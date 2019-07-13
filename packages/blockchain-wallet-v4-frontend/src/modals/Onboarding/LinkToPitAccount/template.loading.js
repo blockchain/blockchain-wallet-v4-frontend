@@ -78,7 +78,7 @@ const LinkToPitLoading = ({ close, deeplinkToPit }) => {
                   <Text color='white' size='16px' weight={500}>
                     <FormattedMessage
                       id='modals.onboarding.linktopitaccount.loading.openhere'
-                      defaultMessage='Open The Pit'
+                      defaultMessage='Open The PIT'
                     />
                   </Text>
                 </Link>
@@ -89,7 +89,7 @@ const LinkToPitLoading = ({ close, deeplinkToPit }) => {
               <Text color='white' size='26px' weight={600}>
                 <FormattedMessage
                   id='modals.onboarding.linktopitaccount.loading.title'
-                  defaultMessage='Taking you to The Pit'
+                  defaultMessage='Taking you to The PIT'
                 />
               </Text>
               <Text color='white' size='18px' weight={500}>
