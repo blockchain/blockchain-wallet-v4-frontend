@@ -12,7 +12,8 @@ class VerifyEmailToken extends React.PureComponent {
   state = {
     token: decodeURIComponent(
       this.props.location.pathname.split('/verify-email/')[1]
-    )
+    ),
+    context: new URLSearchParams(this.props.location.search).get('context')
   }
 
   componentDidMount () {
@@ -20,9 +21,14 @@ class VerifyEmailToken extends React.PureComponent {
   }
 
   getMobileLinkOut = () => {
-    return this.props.appEnv === 'prod'
+    const { context } = this.state
+    const isProdEnv = this.props.appEnv === 'prod'
+
+    const link = isProdEnv
       ? 'https://blockchain.page.link/email_verified'
       : 'https://blockchainwalletstaging.page.link/email_verified'
+
+    return context != null ? `${link}?context=${context}` : link
   }
 
   render () {
