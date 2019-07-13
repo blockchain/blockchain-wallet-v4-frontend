@@ -34,11 +34,11 @@ const BaseIconPax = styled.span`
     font-size: inherit;
   }
   .path1:before {
-    content: '\\e919';
+    content: '\\e929';
     color: #a2d900;
   }
   .path2:before {
-    content: '\\e929';
+    content: '\\e92a';
     color: #3d9ccc;
     margin-left: -1em;
   }

@@ -21,10 +21,10 @@ const Container = styled.div`
   flex-direction: column;
   position: relative;
   margin: 0 auto 25px;
-  width: 640px;
+  width: 630px;
   ${media.tablet`
     flex-direction: column;
-    width: 100%;
+    width: 90%;
   `};
 `
 const Row = styled.div`
@@ -62,6 +62,10 @@ const FooterButton = styled(Button)`
 const FooterLink = styled(Link)`
   width: 100%;
 `
+const PitLogo = styled(Image)`
+  margin-bottom: 5px;
+  filter: invert(0.78);
+`
 
 const ThePit = props => {
   const { onSignup } = props
@@ -70,28 +74,20 @@ const ThePit = props => {
       <Container>
         <Row>
           <Column>
-            <div>
-              <Text size='34px' weight={500} color='brand-primary'>
-                <FormattedMessage
-                  id='scenes.thepit.title'
-                  defaultMessage='The Pit'
-                />
-              </Text>
-              <Content weight={400}>
-                <FormattedMessage
-                  id='scenes.thepit.subtitle'
-                  defaultMessage='Level up to our new exchange for unlimited trading in the most desired crypto pairs.'
-                />
-              </Content>
-            </div>
+            <PitLogo name='the-pit-word' height='64px' />
           </Column>
           <Column>
-            <Image name='the-pit3' height='100px' />
+            <Content weight={400}>
+              <FormattedMessage
+                id='scenes.thepit.subtitle'
+                defaultMessage='Level up to our new exchange for unlimited trading in the most desired crypto pairs.'
+              />
+            </Content>
           </Column>
         </Row>
         <Row>
           <SubTextGroup>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='15px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point1.title'
                 defaultMessage='Fast and Liquid'
@@ -105,7 +101,7 @@ const ThePit = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='15px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point2.title'
                 defaultMessage='Easy to Use'
@@ -119,7 +115,7 @@ const ThePit = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='15px' weight={500} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point3.title'
                 defaultMessage='Blockchain Connect'
