@@ -261,7 +261,7 @@ const LinkToPitNotAsked = ({
                 <Text size='15px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.na.right.checkemail'
-                    defaultMessage='Please verify your email address now or have it resent by clicking below.'
+                    defaultMessage='Please verify your email address to continue with the signup process.'
                   />
                 </Text>
               </EmailRequiredContent>

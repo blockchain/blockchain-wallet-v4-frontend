@@ -390,8 +390,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(A.linkToPitAccountLoading())
       // check if wallet is already linked
-      const isAlreadyLinked = yield select(S.getPitUsername)
-      if (isAlreadyLinked) {
+      const isPitAccountLinked = yield select(S.isPitAccountLinked)
+      if (isPitAccountLinked) {
         throw new Error('Account has already been linked.')
       }
       // ensure email address is verified

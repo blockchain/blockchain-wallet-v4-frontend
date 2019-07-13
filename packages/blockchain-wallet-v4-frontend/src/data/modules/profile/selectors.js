@@ -11,7 +11,8 @@ import {
   path,
   pathOr,
   prop,
-  propEq
+  propEq,
+  propIs
 } from 'ramda'
 import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
@@ -124,4 +125,6 @@ export const getLinkToPitAccountStatus = path([
   'profile',
   'linkToPitAccountStatus'
 ])
-export const getPitUsername = path(['profile', 'userName'])
+
+// TODO: this is a temporary way to detect if the user has pit account
+export const isPitAccountLinked = propIs(String, path(['profile', 'userName']))
