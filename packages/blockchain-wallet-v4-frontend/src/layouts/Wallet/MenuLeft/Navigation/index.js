@@ -9,11 +9,18 @@ import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { actions, domains, supportedCoins, ...props } = this.props
+    const {
+      actions,
+      domains,
+      isPitAccountLinked,
+      supportedCoins,
+      ...props
+    } = this.props
     return (
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
+        isPitAccountLinked={isPitAccountLinked}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
       />
@@ -23,7 +30,9 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isPitAccountLinked: selectors.modules.profile.isPitAccountLinked(state),
+  isPitAccountLinked: selectors.modules.profile
+    .isPitAccountLinked(state)
+    .getOrElse(false),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

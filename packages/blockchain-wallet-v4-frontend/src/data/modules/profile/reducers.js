@@ -65,7 +65,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.LINK_TO_PIT_ACCOUNT_LOADING:
       return assoc('linkToPitAccountStatus', Remote.Loading, state)
     case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
-      return assoc('linkToPitAccountStatus', Remote.Success(), state)
+      return assoc('linkToPitAccountStatus', Remote.Success(payload), state)
     case AT.LINK_TO_PIT_ACCOUNT_FAILURE:
       return assoc('linkToPitAccountStatus', Remote.Failure(payload.e), state)
     case AT.CREATE_LINK_ACCOUNT_ID_SUCCESS:

@@ -75,9 +75,8 @@ export const linkToPitAccount = () => ({
 export const linkToPitAccountLoading = () => ({
   type: AT.LINK_TO_PIT_ACCOUNT_LOADING
 })
-export const linkToPitAccountSuccess = data => ({
-  type: AT.LINK_TO_PIT_ACCOUNT_SUCCESS,
-  payload: { data }
+export const linkToPitAccountSuccess = () => ({
+  type: AT.LINK_TO_PIT_ACCOUNT_SUCCESS
 })
 export const linkToPitAccountFailure = e => ({
   type: AT.LINK_TO_PIT_ACCOUNT_FAILURE,
@@ -89,21 +88,6 @@ export const linkToPitAccountReset = () => ({
 export const setLinkToPitAccountDeepLink = deeplink => ({
   type: AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK,
   payload: { deeplink }
-})
-
-export const createLinkAccountId = () => ({
-  type: AT.CREATE_LINK_ACCOUNT_ID
-})
-export const createLinkAccountIdLoading = () => ({
-  type: AT.CREATE_LINK_ACCOUNT_ID_LOADING
-})
-export const createLinkAccountIdSuccess = data => ({
-  type: AT.CREATE_LINK_ACCOUNT_ID_SUCCESS,
-  payload: { data }
-})
-export const createLinkAccountIdFailure = e => ({
-  type: AT.CREATE_LINK_ACCOUNT_ID_FAILURE,
-  payload: { e }
 })
 
 export const shareAddresses = () => ({

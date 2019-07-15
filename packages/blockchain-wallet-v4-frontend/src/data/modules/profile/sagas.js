@@ -377,36 +377,13 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const createLinkAccountId = function * () {
-    try {
-      yield put(A.createLinkAccountIdLoading())
-      const thePitBaseUrl = (yield select(
-        selectors.core.walletOptions.getThePitDomain
-      )).getOrFail('no_pit_url')
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
-        'no_email'
-      )
-      const data = yield call(api.createLinkAccountId)
-      const emailEncoded = encodeURIComponent(email)
-      window.open(
-        `${thePitBaseUrl}/trade/link/${data.linkId}?email=${emailEncoded}`,
-        '_blank',
-        'noreferrer'
-      )
-      yield put(A.createLinkAccountIdSuccess(data))
-      return prop('linkId', data)
-    } catch (e) {
-      const error = typeof e === 'string' ? e : e.message
-      yield put(A.createLinkAccountIdFailure(e))
-      yield put(actions.alerts.displayError(error))
-    }
-  }
-
   const linkToPitAccount = function * () {
     try {
       yield put(A.linkToPitAccountLoading())
       // check if wallet is already linked
-      const isPitAccountLinked = yield select(S.isPitAccountLinked)
+      const isPitAccountLinked = (yield select(
+        S.isPitAccountLinked
+      )).getOrFail()
       if (isPitAccountLinked) {
         throw new Error('Account has already been linked.')
       }
@@ -425,7 +402,8 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getDomains
       )).getOrFail()
       const pitDomain = prop('thePit', domains)
-      const pitLinkId = yield call(createLinkAccountId)
+      const data = yield call(api.createLinkAccountId)
+      const pitLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
@@ -433,7 +411,7 @@ export default ({ api, coreSagas, networks }) => {
       // simulate wait while allowing user to read modal
       yield delay(2000)
       // attempt to open url for user
-      window.open(accountDeeplinkUrl, '_blank')
+      window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
       yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
       // poll for account link
       yield race({
@@ -464,7 +442,9 @@ export default ({ api, coreSagas, networks }) => {
         return
       }
       yield call(fetchUser)
-      const isPitAccountLinked = yield select(S.isPitAccountLinked)
+      const isPitAccountLinked = (yield select(S.isPitAccountLinked)).getOrElse(
+        false
+      )
       if (isPitAccountLinked) {
         yield put(A.linkToPitAccountSuccess())
       } else {
@@ -480,7 +460,6 @@ export default ({ api, coreSagas, networks }) => {
   return {
     clearSession,
     createUser,
-    createLinkAccountId,
     fetchTiers,
     fetchUser,
     generateAuthCredentials,

@@ -8,11 +8,13 @@ import {
   findLast,
   hasPath,
   lift,
+  isNil,
+  not,
   path,
   pathOr,
   prop,
   propEq,
-  propIs
+  propOr
 } from 'ramda'
 import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
@@ -131,4 +133,5 @@ export const getLinkToPitAccountDeeplink = path([
 ])
 
 // TODO: this is a temporary way to detect if the user has pit account
-export const isPitAccountLinked = propIs(String, path(['profile', 'userName']))
+export const isPitAccountLinked = state =>
+  lift(user => not(isNil(propOr(null, 'userName', user))))(getUserData(state))
