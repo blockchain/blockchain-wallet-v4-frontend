@@ -2022,6 +2022,10 @@
       {
         "defaultMessage": "New",
         "id": "layouts.wallet.menuleft.navigation.transactions.new"
+      },
+      {
+        "defaultMessage": "The PIT",
+        "id": "layouts.wallet.menuleft.navigation.thepit"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
@@ -5592,7 +5596,7 @@
         "id": "modals.onboarding.linkaccount.successheader"
       },
       {
-        "defaultMessage": "You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!",
+        "defaultMessage": "You have connected your Blockchain Wallet to The PIT. Go back and finish signing up!",
         "id": "modals.onboarding.linkaccount.success"
       },
       {
@@ -5610,6 +5614,22 @@
       {
         "defaultMessage": "Done",
         "id": "modals.onboarding.linkaccount.failuredone"
+      },
+      {
+        "defaultMessage": "Please Verify Email",
+        "id": "modals.onboarding.linkaccount.unverified_email"
+      },
+      {
+        "defaultMessage": "Check your inbox. We sent an email to:",
+        "id": "modals.onboarding.linkaccount.check_inbox"
+      },
+      {
+        "defaultMessage": "You do not have an email associated with this wallet. Please to Security Center to set your email.",
+        "id": "modals.onboarding.linkaccount.no_email"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "modals.onboarding.linkaccount.send_email"
       }
     ],
     "path": "src/modals/Onboarding/LinkAccount/template.json"
@@ -8227,6 +8247,39 @@
       }
     ],
     "path": "src/scenes/Home/PriceChart/TimeFilters/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Authorize The PIT to connect to your Blockchain Wallet",
+        "id": "scenes.linkaccount.authorize"
+      },
+      {
+        "defaultMessage": "The PIT will be able to:",
+        "id": "scenes.linkaccount.pit_will_be_able_to"
+      },
+      {
+        "defaultMessage": "Share your Gold or Silver or Level status",
+        "id": "scenes.linkaccount.share_levels"
+      },
+      {
+        "defaultMessage": "Exchange crypto addresses so you don’t have to copy and paste",
+        "id": "scenes.linkaccount.share_addresses"
+      },
+      {
+        "defaultMessage": "The PIT will not be able to:",
+        "id": "scenes.linkaccount.pit_will_not_be_able_to"
+      },
+      {
+        "defaultMessage": "View your Wallet password, recovery phrase, or private keys",
+        "id": "scenes.linkaccount.view_pw"
+      },
+      {
+        "defaultMessage": "Brought to you by Blockchain",
+        "id": "scenes.linkaccount.by_blockchain"
+      }
+    ],
+    "path": "src/scenes/LinkAccount/index.json"
   },
   {
     "descriptors": [

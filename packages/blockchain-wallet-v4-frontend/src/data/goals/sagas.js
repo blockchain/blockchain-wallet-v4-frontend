@@ -162,7 +162,9 @@ export default ({ api }) => {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialModal('linkAccount', 'LinkAccount', data))
+    yield put(
+      actions.goals.addInitialModal('linkAccount', 'LinkFromPitAccount', data)
+    )
   }
 
   const runReferralGoal = function * (goal) {

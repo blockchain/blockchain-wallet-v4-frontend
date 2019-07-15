@@ -8,5 +8,6 @@ module.exports = {
   NETWORK_TYPE: 'testnet',
   WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info',
   WEB_SOCKET_URL: 'wss://ws.blockchain.info/testnet3',
-  ROOT_URL: 'https://testnet.blockchain.info'
+  ROOT_URL: 'https://testnet.blockchain.info',
+  THE_PIT_URL: 'https://dev.blockchain.info'
 }

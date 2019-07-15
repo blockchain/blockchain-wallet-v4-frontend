@@ -1,15 +1,19 @@
-import { merge, assoc } from 'ramda'
+import { assoc, compose, merge } from 'ramda'
 import * as AT from './actionTypes'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { INITIAL_TIERS } from './model'
 
 const INITIAL_STATE = {
-  userTiers: Remote.of(INITIAL_TIERS),
-  userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
   campaign: {},
-  linkAccountStatus: Remote.NotAsked
+  pitLinkId: Remote.NotAsked,
+  linkFromPitAccountStatus: Remote.NotAsked,
+  linkToPitAccountDeeplink: null,
+  linkToPitAccountStatus: Remote.NotAsked,
+  shareAddresses: Remote.NotAsked,
+  userData: Remote.NotAsked,
+  userTiers: Remote.of(INITIAL_TIERS)
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -41,12 +45,41 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('apiToken', Remote.Loading, state)
     case AT.SET_API_TOKEN_FAILURE:
       return assoc('apiToken', Remote.Failure(payload.e), state)
-    case AT.LINK_ACCOUNT_SUCCESS:
-      return assoc('linkAccountStatus', Remote.Success(payload.data), state)
-    case AT.LINK_ACCOUNT_LOADING:
-      return assoc('linkAccountStatus', Remote.Loading, state)
-    case AT.LINK_ACCOUNT_FAILURE:
-      return assoc('linkAccountStatus', Remote.Failure(payload.e), state)
+    case AT.LINK_FROM_PIT_ACCOUNT_SUCCESS:
+      return assoc(
+        'linkFromPitAccountStatus',
+        Remote.Success(payload.data),
+        state
+      )
+    case AT.LINK_FROM_PIT_ACCOUNT_LOADING:
+      return assoc('linkFromPitAccountStatus', Remote.Loading, state)
+    case AT.LINK_FROM_PIT_ACCOUNT_FAILURE:
+      return assoc('linkFromPitAccountStatus', Remote.Failure(payload.e), state)
+    case AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK:
+      return assoc('linkToPitAccountDeeplink', payload.deeplink, state)
+    case AT.LINK_TO_PIT_ACCOUNT_RESET:
+      return compose(
+        assoc('linkToPitAccountStatus', Remote.NotAsked),
+        assoc('linkToPitAccountDeeplink', null)
+      )(state)
+    case AT.LINK_TO_PIT_ACCOUNT_LOADING:
+      return assoc('linkToPitAccountStatus', Remote.Loading, state)
+    case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
+      return assoc('linkToPitAccountStatus', Remote.Success(payload), state)
+    case AT.LINK_TO_PIT_ACCOUNT_FAILURE:
+      return assoc('linkToPitAccountStatus', Remote.Failure(payload.e), state)
+    case AT.CREATE_LINK_ACCOUNT_ID_SUCCESS:
+      return assoc('pitLinkId', Remote.Success(payload.data), state)
+    case AT.CREATE_LINK_ACCOUNT_ID_LOADING:
+      return assoc('pitLinkId', Remote.Loading, state)
+    case AT.CREATE_LINK_ACCOUNT_ID_FAILURE:
+      return assoc('pitLinkId', Remote.Failure(payload.e), state)
+    case AT.SHARE_ADDRESSES_SUCCESS:
+      return assoc('shareAddresses', Remote.Success(payload.data), state)
+    case AT.SHARE_ADDRESSES_LOADING:
+      return assoc('shareAddresses', Remote.Loading, state)
+    case AT.SHARE_ADDRESSES_FAILURE:
+      return assoc('shareAddresses', Remote.Failure(payload.e), state)
     case AT.SET_CAMPAIGN:
       return assoc('campaign', payload.campaign, state)
     default:

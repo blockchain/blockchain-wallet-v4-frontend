@@ -206,6 +206,7 @@ module.exports = {
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           root: envConfig.ROOT_URL,
+          thePit: envConfig.THE_PIT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL
