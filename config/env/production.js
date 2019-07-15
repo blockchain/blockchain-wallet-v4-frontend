@@ -8,7 +8,7 @@ module.exports = {
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
   ROOT_URL: 'https://blockchain.info',
-  THE_PIT_URL: 'https://pit.blockchain.info',
+  THE_PIT_URL: 'https://pit.blockchain.com',
   WEB_SOCKET_URL: 'wss://ws.blockchain.info',
   WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info',
   VERIFF_URL: 'https://magic.veriff.me'

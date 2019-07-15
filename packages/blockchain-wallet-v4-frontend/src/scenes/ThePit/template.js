@@ -140,7 +140,7 @@ const ThePit = props => {
             </FooterButton>
           </Column>
           <Column style={{ paddingLeft: '25px' }}>
-            <FooterLink href='https://pit.blockchain.info/' target='_blank'>
+            <FooterLink href='https://pit.blockchain.com/' target='_blank'>
               <FooterButton nature='empty-secondary' fullwidth>
                 <FormattedMessage
                   id='scenes.thepit.learnmore'
