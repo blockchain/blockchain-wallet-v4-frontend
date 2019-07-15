@@ -5593,46 +5593,162 @@
     "descriptors": [
       {
         "defaultMessage": "Success!",
-        "id": "modals.onboarding.linkaccount.successheader"
+        "id": "modals.onboarding.linkfrompitaccount.successheader"
       },
       {
         "defaultMessage": "You have connected your Blockchain Wallet to The PIT. Go back and finish signing up!",
-        "id": "modals.onboarding.linkaccount.success"
+        "id": "modals.onboarding.linkfrompitaccount.success"
       },
       {
         "defaultMessage": "Done",
-        "id": "modals.onboarding.linkaccount.successdone"
+        "id": "modals.onboarding.linkfrompitaccount.successdone"
       },
       {
         "defaultMessage": "Connection Error",
-        "id": "modals.onboarding.linkaccount.failureheader"
+        "id": "modals.onboarding.linkfrompitaccount.failureheader"
       },
       {
-        "defaultMessage": "We could not connect your Wallet to The Pit. Please go back to The Pit and try again.",
-        "id": "modals.onboarding.linkaccount.failure"
+        "defaultMessage": "We could not connect your Wallet to The PIT. Please go back to The PIT and try again.",
+        "id": "modals.onboarding.linkfrompitaccount.failure"
       },
       {
         "defaultMessage": "Done",
-        "id": "modals.onboarding.linkaccount.failuredone"
+        "id": "modals.onboarding.linkfrompitaccount.failuredone"
       },
       {
         "defaultMessage": "Please Verify Email",
-        "id": "modals.onboarding.linkaccount.unverified_email"
+        "id": "modals.onboarding.linkfrompitaccount.unverified_email"
       },
       {
         "defaultMessage": "Check your inbox. We sent an email to:",
-        "id": "modals.onboarding.linkaccount.check_inbox"
+        "id": "modals.onboarding.linkfrompitaccount.check_inbox"
       },
       {
         "defaultMessage": "You do not have an email associated with this wallet. Please to Security Center to set your email.",
-        "id": "modals.onboarding.linkaccount.no_email"
+        "id": "modals.onboarding.linkfrompitaccount.no_email"
       },
       {
         "defaultMessage": "Resend Email",
-        "id": "modals.onboarding.linkaccount.send_email"
+        "id": "modals.onboarding.linkfrompitaccount.send_email"
       }
     ],
-    "path": "src/modals/Onboarding/LinkAccount/template.json"
+    "path": "src/modals/Onboarding/LinkFromPitAccount/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Linking Error",
+        "id": "modals.onboarding.linktopitaccount.error.title"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linktopitaccount.error.done"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Waiting for account link",
+        "id": "modals.onboarding.linktopitaccount.loading.waiting"
+      },
+      {
+        "defaultMessage": "If a new browser tab did not open, try clicking the button below.",
+        "id": "modals.onboarding.linktopitaccount.loading.waitingbody"
+      },
+      {
+        "defaultMessage": "Open The PIT",
+        "id": "modals.onboarding.linktopitaccount.loading.openhere"
+      },
+      {
+        "defaultMessage": "Taking you to The PIT",
+        "id": "modals.onboarding.linktopitaccount.loading.title"
+      },
+      {
+        "defaultMessage": "A new browser tab will open shortly where you can complete accounting linking.",
+        "id": "modals.onboarding.linktopitaccount.loading.subtitle"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "The only Exchange that connects to your Wallet.",
+        "id": "modals.onboarding.linktopitaccount.na.subtitle"
+      },
+      {
+        "defaultMessage": "Lightning Fast Trades",
+        "id": "modals.onboarding.linktopitaccount.na.left.point1"
+      },
+      {
+        "defaultMessage": "Liquid & Reliable",
+        "id": "modals.onboarding.linktopitaccount.na.left.point2"
+      },
+      {
+        "defaultMessage": "Built by Blockchain.com",
+        "id": "modals.onboarding.linktopitaccount.na.left.point3"
+      },
+      {
+        "defaultMessage": "Low Fees",
+        "id": "modals.onboarding.linktopitaccount.na.left.point4"
+      },
+      {
+        "defaultMessage": "The PIT will be able to:",
+        "id": "modals.onboarding.linktopitaccount.na.right.totitle"
+      },
+      {
+        "defaultMessage": "Share your Gold & Silver Level status",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint1"
+      },
+      {
+        "defaultMessage": "Exchange crypto addresses so you dont have to copy and paste",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint2"
+      },
+      {
+        "defaultMessage": "The PIT will not be able to:",
+        "id": "modals.onboarding.linktopitaccount.na.right.nottitle"
+      },
+      {
+        "defaultMessage": "View you wallet password",
+        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1"
+      },
+      {
+        "defaultMessage": "Connect Now",
+        "id": "modals.onboarding.linktopitaccount.na.connectnow"
+      },
+      {
+        "defaultMessage": "A verified email address is required to connect your wallet to The PIT.",
+        "id": "modals.onboarding.linktopitaccount.na.right.verifyemailrequired"
+      },
+      {
+        "defaultMessage": "Please verify your email address to continue with the signup process.",
+        "id": "modals.onboarding.linktopitaccount.na.right.checkemail"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "modals.onboarding.linktopitaccount.na.resendemail"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.notasked.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success!",
+        "id": "modals.onboarding.linktopitaccount.success.title"
+      },
+      {
+        "defaultMessage": "Your Blockchain Wallet is now connected to The PIT!",
+        "id": "modals.onboarding.linktopitaccount.success.subtitle"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linktopitaccount.success.done"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.success.json"
   },
   {
     "descriptors": [
@@ -10521,6 +10637,47 @@
       }
     ],
     "path": "src/scenes/Settings/Profile/Menu/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Level up to our new exchange for unlimited trading in the most desired crypto pairs.",
+        "id": "scenes.thepit.subtitle"
+      },
+      {
+        "defaultMessage": "Fast and Liquid",
+        "id": "scenes.thepit.point1.title"
+      },
+      {
+        "defaultMessage": "We combined an ultra fast matching engine with deep liquidity so you can react quickly and with precision.",
+        "id": "scenes.thepit.point1.subtitle"
+      },
+      {
+        "defaultMessage": "Easy to Use",
+        "id": "scenes.thepit.point2.title"
+      },
+      {
+        "defaultMessage": "No instructional manual required!  The PIT is refreshingly simple, fun, and lightning fast.",
+        "id": "scenes.thepit.point2.subtitle"
+      },
+      {
+        "defaultMessage": "Blockchain Connect",
+        "id": "scenes.thepit.point3.title"
+      },
+      {
+        "defaultMessage": "The only exchange seamlessly integrated with your secure digital wallet.",
+        "id": "scenes.thepit.point3.subtitle"
+      },
+      {
+        "defaultMessage": "Sign Up",
+        "id": "scenes.thepit.signup"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.thepit.learnmore"
+      }
+    ],
+    "path": "src/scenes/ThePit/template.json"
   },
   {
     "descriptors": [
