@@ -304,9 +304,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareAddresses = function * () {
+  const shareWalletAddressesWithPit = function * () {
     try {
-      yield put(A.shareAddressesLoading())
+      yield put(A.shareWalletAddressesWithPitLoading())
       // TODO: move to goal and pass remaining coins to saga
       // Only run saga if remainingCoins is !empty
       const supportedCoinsList = (yield select(
@@ -320,7 +320,6 @@ export default ({ api, coreSagas, networks }) => {
         supportedCoinsList,
         depositAddressesList
       )
-
       // BTC
       const defaultIdx = yield select(
         selectors.core.wallet.getDefaultAccountIndex
@@ -338,18 +337,16 @@ export default ({ api, coreSagas, networks }) => {
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
-
       const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
-
       const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
         return res
       }, depositAddresses)
       const data = yield call(api.shareDepositAddresses, remainingAddresses)
-      yield put(A.shareAddressesSuccess(data))
+      yield put(A.shareWalletAddressesWithPitSuccess(data))
     } catch (e) {
-      yield put(A.shareAddressesFailure(e))
+      yield put(A.shareWalletAddressesWithPitFailure(e))
     }
   }
 
@@ -357,21 +354,21 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { linkId } = payload
       yield put(A.linkFromPitAccountLoading())
-      // Check if email is verified
+      // ensure email is verified else wait
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
       )).getOrElse(true)
-      // If email is not verified wait
       if (!isEmailVerified)
         yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
-      // Check if user is created
+      // get or create user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
-      // If user is not created, create
       if (isUserStateNone) yield call(createUser)
-      // Link Account
+      // link Account
       const data = yield call(api.linkAccount, linkId)
-      yield put(A.shareAddresses())
+      yield put(A.shareWalletAddressesWithPit())
       yield put(A.linkFromPitAccountSuccess(data))
+      // update user
+      yield call(fetchUser)
     } catch (e) {
       yield put(A.linkFromPitAccountFailure(e))
     }
@@ -472,7 +469,7 @@ export default ({ api, coreSagas, networks }) => {
     renewSession,
     renewUser,
     setSession,
-    shareAddresses,
+    shareWalletAddressesWithPit,
     signIn,
     syncUserWithWallet,
     updateUser,

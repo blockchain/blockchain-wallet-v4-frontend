@@ -121,14 +121,17 @@ export const closeToTier1Limit = state =>
 
 export const getLinkFromPitAccountStatus = path([
   'profile',
+  'pitOnboarding',
   'linkFromPitAccountStatus'
 ])
 export const getLinkToPitAccountStatus = path([
   'profile',
+  'pitOnboarding',
   'linkToPitAccountStatus'
 ])
 export const getLinkToPitAccountDeeplink = path([
   'profile',
+  'pitOnboarding',
   'linkToPitAccountDeeplink'
 ])
 

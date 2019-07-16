@@ -31,8 +31,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
-      ...actions.components.identityVerification,
-      ...actions.modules.profile
+      ...actions.modules.profile,
+      ...actions.modules.securityCenter
     },
     dispatch
   )
