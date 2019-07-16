@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Link, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,14 +38,18 @@ export const ThePitBanner = () => (
         id='scenes.home.thepit.subtitle'
       />
     </Text>
-    <LinkContainer to='/thepit'>
-      <LearnMoreButton nature='purple' onClick={() => {}}>
+    <Link
+      href='https://pit.blockchain.com/'
+      target='_blank'
+      rel='noopener noreferrer'
+    >
+      <LearnMoreButton nature='purple'>
         <FormattedMessage
           id='scenes.home.thepit.learnmore'
           defaultMessage='Learn More'
         />
       </LearnMoreButton>
-    </LinkContainer>
+    </Link>
   </Wrapper>
 )
 
