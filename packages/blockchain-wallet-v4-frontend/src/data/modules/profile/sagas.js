@@ -320,7 +320,6 @@ export default ({ api, coreSagas, networks }) => {
         supportedCoinsList,
         depositAddressesList
       )
-
       // BTC
       const defaultIdx = yield select(
         selectors.core.wallet.getDefaultAccountIndex
@@ -338,9 +337,7 @@ export default ({ api, coreSagas, networks }) => {
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
-
       const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
-
       const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
@@ -357,21 +354,21 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { linkId } = payload
       yield put(A.linkFromPitAccountLoading())
-      // Check if email is verified
+      // ensure email is verified else wait
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
       )).getOrElse(true)
-      // If email is not verified wait
       if (!isEmailVerified)
         yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
-      // Check if user is created
+      // get or create user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
-      // If user is not created, create
       if (isUserStateNone) yield call(createUser)
-      // Link Account
+      // link Account
       const data = yield call(api.linkAccount, linkId)
       yield put(A.shareWalletAddressesWithPit())
       yield put(A.linkFromPitAccountSuccess(data))
+      // update user
+      yield call(fetchUser)
     } catch (e) {
       yield put(A.linkFromPitAccountFailure(e))
     }
