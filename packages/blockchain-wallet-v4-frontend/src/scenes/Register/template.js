@@ -43,7 +43,8 @@ const isSupportedBrowser = browser.satisfies({
   edge: '>40',
   firefox: '>45',
   opera: '>20',
-  safari: '>8'
+  safari: '>8',
+  vivaldi: '>2'
 })
 
 const SignupWrapper = styled.div`

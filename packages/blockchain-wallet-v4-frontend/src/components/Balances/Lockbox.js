@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 
+import { model } from 'data'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -43,12 +44,9 @@ const Balance = styled.div`
   }
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  firefox: '>45',
-  opera: '>20'
-})
+const isBrowserSupported = browser.satisfies(
+  model.components.lockbox.supportedBrowsers
+)
 
 export const CurrencyItem = props => {
   return (

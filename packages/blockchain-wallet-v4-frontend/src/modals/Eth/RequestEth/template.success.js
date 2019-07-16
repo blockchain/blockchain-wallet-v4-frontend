@@ -5,6 +5,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import Bowser from 'bowser'
 
+import { model } from 'data'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { required } from 'services/FormHelper'
 import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
@@ -54,12 +55,9 @@ const RequestEth = props => {
   } = props
   const isLockboxAcct = type === 'LOCKBOX'
   const browser = Bowser.getParser(window.navigator.userAgent)
-  const warnLockboxReceive = !browser.satisfies({
-    chrome: '>45',
-    chromium: '>45',
-    firefox: '>45',
-    opera: '>20'
-  })
+  const warnLockboxReceive = !browser.satisfies(
+    model.components.lockbox.supportedBrowsers
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
