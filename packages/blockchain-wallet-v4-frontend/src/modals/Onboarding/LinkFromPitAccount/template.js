@@ -170,7 +170,7 @@ const LinkFromPitAccount = ({
                       nature='purple'
                       height='56px'
                       fullwidth
-                      onClick={actions.sendEmailVerification}
+                      onClick={actions.resendVerifyEmail}
                     >
                       <Text color='white' size='16px' weight={500}>
                         <FormattedMessage
