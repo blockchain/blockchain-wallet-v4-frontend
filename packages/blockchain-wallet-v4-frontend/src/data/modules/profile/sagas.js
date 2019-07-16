@@ -304,9 +304,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareAddresses = function * () {
+  const shareWalletAddressesWithPit = function * () {
     try {
-      yield put(A.shareAddressesLoading())
+      yield put(A.shareWalletAddressesWithPitLoading())
       // TODO: move to goal and pass remaining coins to saga
       // Only run saga if remainingCoins is !empty
       const supportedCoinsList = (yield select(
@@ -347,9 +347,9 @@ export default ({ api, coreSagas, networks }) => {
         return res
       }, depositAddresses)
       const data = yield call(api.shareDepositAddresses, remainingAddresses)
-      yield put(A.shareAddressesSuccess(data))
+      yield put(A.shareWalletAddressesWithPitSuccess(data))
     } catch (e) {
-      yield put(A.shareAddressesFailure(e))
+      yield put(A.shareWalletAddressesWithPitFailure(e))
     }
   }
 
@@ -370,7 +370,7 @@ export default ({ api, coreSagas, networks }) => {
       if (isUserStateNone) yield call(createUser)
       // Link Account
       const data = yield call(api.linkAccount, linkId)
-      yield put(A.shareAddresses())
+      yield put(A.shareWalletAddressesWithPit())
       yield put(A.linkFromPitAccountSuccess(data))
     } catch (e) {
       yield put(A.linkFromPitAccountFailure(e))
@@ -472,7 +472,7 @@ export default ({ api, coreSagas, networks }) => {
     renewSession,
     renewUser,
     setSession,
-    shareAddresses,
+    shareWalletAddressesWithPit,
     signIn,
     syncUserWithWallet,
     updateUser,

@@ -11,7 +11,7 @@ const INITIAL_STATE = {
     linkFromPitAccountStatus: Remote.NotAsked,
     linkToPitAccountDeeplink: null,
     linkToPitAccountStatus: Remote.NotAsked,
-    shareAddresses: Remote.NotAsked
+    shareWalletAddressesWithPit: Remote.NotAsked
   },
   userData: Remote.NotAsked,
   userTiers: Remote.of(INITIAL_TIERS)
@@ -93,21 +93,21 @@ export default (state = INITIAL_STATE, action) => {
         Remote.Failure(payload.e),
         state
       )
-    case AT.SHARE_ADDRESSES_SUCCESS:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_SUCCESS:
       return assocPath(
-        ['pitOnboarding', 'shareAddresses'],
+        ['pitOnboarding', 'shareWalletAddressesWithPit'],
         Remote.Success(payload.data),
         state
       )
-    case AT.SHARE_ADDRESSES_LOADING:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_LOADING:
       return assocPath(
-        ['pitOnboarding', 'shareAddresses'],
+        ['pitOnboarding', 'shareWalletAddressesWithPit'],
         Remote.Loading,
         state
       )
-    case AT.SHARE_ADDRESSES_FAILURE:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_FAILURE:
       return assocPath(
-        ['pitOnboarding', 'shareAddresses'],
+        ['pitOnboarding', 'shareWalletAddressesWithPit'],
         Remote.Failure(payload.e),
         state
       )

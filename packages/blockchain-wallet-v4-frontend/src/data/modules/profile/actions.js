@@ -90,17 +90,17 @@ export const setLinkToPitAccountDeepLink = deeplink => ({
   payload: { deeplink }
 })
 
-export const shareAddresses = () => ({
-  type: AT.SHARE_ADDRESSES
+export const shareWalletAddressesWithPit = () => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT
 })
-export const shareAddressesLoading = () => ({
-  type: AT.SHARE_ADDRESSES_LOADING
+export const shareWalletAddressesWithPitLoading = () => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_LOADING
 })
-export const shareAddressesSuccess = data => ({
-  type: AT.SHARE_ADDRESSES_SUCCESS,
+export const shareWalletAddressesWithPitSuccess = data => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_SUCCESS,
   payload: { data }
 })
-export const shareAddressesFailure = e => ({
-  type: AT.SHARE_ADDRESSES_FAILURE,
+export const shareWalletAddressesWithPitFailure = e => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_FAILURE,
   payload: { e }
 })
