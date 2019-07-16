@@ -5,6 +5,7 @@ import ReactHighcharts from 'react-highcharts'
 import PriceChart from './PriceChart'
 import Balances from './Balances'
 import Banners from './Banners'
+import ThePit from './ThePit'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -34,19 +35,21 @@ const Column = styled.div`
   display: flex;
   max-width: 600px;
   box-sizing: border-box;
+  padding-bottom: 25px;
   @media (max-height: 800px), (max-width: 991px) {
     height: auto;
     display: block;
   }
 `
 const ColumnLeft = styled(Column)`
-  padding: 0 0 25px 0;
   @media (min-width: 992px) {
-    padding: 0px 30px 0 0;
+    padding-right: 30px;
   }
 `
 const ColumnRight = styled(Column)`
-  padding: 0px 0 0 0;
+  & > :not(:first-child) {
+    margin-top: 20px;
+  }
 `
 
 const Home = () => (
@@ -58,6 +61,7 @@ const Home = () => (
       </ColumnLeft>
       <ColumnRight>
         <PriceChart />
+        <ThePit />
       </ColumnRight>
     </ColumnWrapper>
   </Wrapper>
