@@ -8367,6 +8367,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "It's time to Level Up to a better crypto exchange.  The first 100,000 traders to sign up will trade free for 30 days.",
+        "id": "scenes.home.thepit.subtitle"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.home.thepit.learnmore"
+      }
+    ],
+    "path": "src/scenes/Home/ThePit/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Authorize The PIT to connect to your Blockchain Wallet",
         "id": "scenes.linkaccount.authorize"
       },
