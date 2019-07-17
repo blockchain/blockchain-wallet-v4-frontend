@@ -310,16 +310,13 @@ export default ({ api, coreSagas, networks }) => {
       // TODO: move to goal and pass remaining coins to saga
       // Only run saga if remainingCoins is !empty
       const supportedCoinsList = (yield select(
-        selectors.core.walletOptions.getSupportedCoinsList
+        selectors.core.walletOptions.getSyncToPitList
       )).getOrFail('no_supported_coins')
-      const depositAddresses = (yield select(S.getDepositAddresses)).getOrFail(
+      const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'
       )
-      const depositAddressesList = keys(depositAddresses)
-      const remainingCoins = difference(
-        supportedCoinsList,
-        depositAddressesList
-      )
+      const walletAddressesList = keys(walletAddresses)
+      const remainingCoins = difference(supportedCoinsList, walletAddressesList)
       // BTC
       const defaultIdx = yield select(
         selectors.core.wallet.getDefaultAccountIndex
@@ -342,8 +339,11 @@ export default ({ api, coreSagas, networks }) => {
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
         return res
-      }, depositAddresses)
-      const data = yield call(api.shareDepositAddresses, remainingAddresses)
+      }, walletAddresses)
+      const data = yield call(
+        api.shareWalletDepositAddresses,
+        remainingAddresses
+      )
       yield put(A.shareWalletAddressesWithPitSuccess(data))
     } catch (e) {
       yield put(A.shareWalletAddressesWithPitFailure(e))

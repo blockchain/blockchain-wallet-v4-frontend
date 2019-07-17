@@ -44,6 +44,10 @@ export const getSupportedCoins = createDeepEqualSelector(
   }
 )
 export const getSupportedCoinsList = state => getSupportedCoins(state).map(keys)
+export const getSyncToPitList = state =>
+  getSupportedCoins(state)
+    .map(filter(path(['availability', 'syncToPit'])))
+    .map(keys)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
