@@ -39,6 +39,9 @@ const Body = styled.div`
   box-sizing: border-box;
   text-align: center;
 `
+const AirdropImage = styled(Image)`
+  border-radius: 8px 8px 0 0;
+`
 const Copy = styled(Text)`
   margin-top: 16px;
 `
@@ -87,26 +90,15 @@ class AirdropSuccess extends React.PureComponent {
   render () {
     const { isLinkCopied } = this.state
     const { campaign, close, position, total } = this.props
-    const link = 'https://www.blockchain.com/getcrypto/claim'
+    const link = 'https://www.blockchain.com/getcrypto'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
-      `I just claimed free ${prop('coinName', CAMPAIGNS[campaign])} ${prop(
-        'coinCode',
-        CAMPAIGNS[campaign]
-      )} from @blockchain. Get Yours ${link}`
+      `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Learn more at ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
-
     return (
       <Modal size='small' position={position} total={total}>
         <AirdropSuccessModalHeader onClose={close} />
-        <Image
-          width='100%'
-          name='get-free-crypto'
-          srcset={{
-            'get-free-crypto2': '2x',
-            'get-free-crypto3': '3x'
-          }}
-        />
+        <AirdropImage width='100%' name='airdrop-enrolled' />
         <Body>
           <Text size='24px' weight={400}>
             <FormattedMessage
