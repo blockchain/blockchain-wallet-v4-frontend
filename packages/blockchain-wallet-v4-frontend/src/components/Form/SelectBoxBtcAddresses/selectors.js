@@ -65,6 +65,12 @@ export const getData = (state, ownProps) => {
   const toPit = x => [{ label: `BTC PIT Address (${x})`, value: x }]
   const toGroup = curry((label, options) => [{ label, options }])
 
+  const pitAddressSelector = selectors.components.send.getPaymentsAccountPit(
+    'BTC',
+    state
+  )
+  const hasPitAddress = !Remote.Failure.is(pitAddressSelector)
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       selectors.core.common.btc
@@ -98,11 +104,8 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox')),
-      includePitAddress
-        ? selectors.components.send
-            .getPaymentsAccountPit('BTC', state)
-            .map(toPit)
-            .map(toGroup('The PIT'))
+      includePitAddress && hasPitAddress
+        ? pitAddressSelector.map(toPit).map(toGroup('The PIT'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])
