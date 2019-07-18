@@ -26,7 +26,7 @@ export const getEthData = (state, ownProps) => {
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
-  const toPit = x => [{ label: `ETH PIT Address (${x})`, value: x }]
+  const toPit = x => [{ label: `My PIT ETH Address`, value: x }]
 
   const pitAddress = selectors.components.send.getPaymentsAccountPit(
     'ETH',
@@ -82,7 +82,7 @@ export const getErc20Data = (state, ownProps) => {
   }
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toPit = x => [{ label: `${coin} PIT Address (${x})`, value: x }]
+  const toPit = x => [{ label: `My PIT ${coin} Address`, value: x }]
 
   const pitAddress = selectors.components.send.getPaymentsAccountPit(
     coin,

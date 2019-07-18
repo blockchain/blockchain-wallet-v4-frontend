@@ -72,7 +72,7 @@ export const getData = (state, ownProps) => {
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toPit = x => [{ label: `BCH PIT Address (${x})`, value: x }]
+  const toPit = x => [{ label: `My PIT BCH Address`, value: x }]
 
   const pitAddress = selectors.components.send.getPaymentsAccountPit(
     'BCH',

@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
     const excluded = filter(x => !exclude.includes(x.label))
     const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
     const toGroup = curry((label, options) => [{ label, options }])
-    const toPit = x => [{ label: `XLM PIT Address (${x})`, value: x }]
+    const toPit = x => [{ label: `My PIT XLM Address`, value: x }]
 
     const hasPitAddress = Remote.Success.is(pitAddress)
 
