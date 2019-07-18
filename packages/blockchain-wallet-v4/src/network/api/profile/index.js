@@ -58,7 +58,7 @@ export default ({
     })
   }
 
-  const shareDepositAddresses = addresses => {
+  const shareWalletDepositAddresses = addresses => {
     return authorizedPost({
       url: nabuUrl,
       endPoint: '/users/deposit/addresses',
@@ -154,7 +154,7 @@ export default ({
     registerUserCampaign,
     syncUserWithWallet,
     updateUser,
-    shareDepositAddresses,
+    shareWalletDepositAddresses,
     updateUserAddress
   }
 }

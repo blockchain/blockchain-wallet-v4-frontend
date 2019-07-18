@@ -47,8 +47,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_API_TOKEN_FAILURE:
       return assoc('apiToken', Remote.Failure(payload.e), state)
     case AT.LINK_FROM_PIT_ACCOUNT_SUCCESS:
-      return assoc(
-        'linkFromPitAccountStatus',
+      return assocPath(
+        ['pitOnboarding', 'linkFromPitAccountStatus'],
         Remote.Success(payload.data),
         state
       )

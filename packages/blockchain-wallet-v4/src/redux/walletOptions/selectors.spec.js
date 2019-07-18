@@ -37,7 +37,8 @@ describe('walletOptions selectors', () => {
       request: true,
       lockbox: true,
       exchangeFrom: true,
-      exchangeTo: true
+      exchangeTo: true,
+      syncToPit: true
     }
     expect(selectors.getCoinAvailability(successState, 'BTC')).toEqual(
       Remote.of(expected)
@@ -50,7 +51,8 @@ describe('walletOptions selectors', () => {
       request: true,
       lockbox: true,
       exchangeFrom: true,
-      exchangeTo: true
+      exchangeTo: true,
+      syncToPit: true
     }
     expect(selectors.getCoinAvailability(successState, 'ETH')).toEqual(
       Remote.of(expected)

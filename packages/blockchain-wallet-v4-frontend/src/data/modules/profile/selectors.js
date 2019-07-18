@@ -24,8 +24,8 @@ export const getUserId = compose(
   lift(prop('id')),
   getUserData
 )
-export const getDepositAddresses = compose(
-  lift(prop('depositAddresses')),
+export const getWalletAddresses = compose(
+  lift(prop('walletAddresses')),
   getUserData
 )
 export const getUserActivationState = compose(
