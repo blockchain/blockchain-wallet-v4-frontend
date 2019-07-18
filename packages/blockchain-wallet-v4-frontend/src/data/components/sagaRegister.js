@@ -56,7 +56,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(requestXlm())
     yield fork(send({ api }))
     yield fork(sendBch({ coreSagas, networks }))
-    yield fork(sendBtc({ api, coreSagas, networks }))
+    yield fork(sendBtc({ coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))
     yield fork(sendXlm({ api, coreSagas }))
     yield fork(settings({ coreSagas }))
