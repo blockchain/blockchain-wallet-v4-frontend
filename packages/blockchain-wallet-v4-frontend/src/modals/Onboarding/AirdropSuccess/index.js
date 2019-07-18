@@ -93,7 +93,7 @@ class AirdropSuccess extends React.PureComponent {
     const link = 'https://www.blockchain.com/getcrypto'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
-      `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Learn more at ${link}`
+      `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
     return (
       <Modal size='small' position={position} total={total}>
