@@ -58,6 +58,40 @@ export default ({
     })
   }
 
+  const getPaymentsAccountPit = currency => {
+    // return authorizedPut({
+    //   url: nabuUrl,
+    //   endPoint: '/payments/account/pit',
+    //   contentType: 'application/json',
+    //   data: {
+    //     currency
+    //   }
+    // })
+    return Promise.resolve({
+      id: 'UUID',
+      // Destination address: crypto address or IBAN or reference
+      address: '1NQ936b13nZrbismtPgbZ99vTVFd7GGZHv',
+      agent: {
+        // Wire account
+        account: 'string',
+        // Bank street address for Wire
+        address: 'string',
+        // BIC
+        code: 'string',
+        // Bank country for Wire
+        country: 'string',
+        // Bank name
+        name: 'string',
+        // Recipient name for Wire
+        recipient: 'string',
+        // Routing number for Wire
+        routingNumber: 'string'
+      },
+      currency: 'string',
+      state: 'PENDING' | 'ACTIVE' | 'BLOCKED'
+    })
+  }
+
   const shareWalletDepositAddresses = addresses => {
     return authorizedPost({
       url: nabuUrl,
@@ -148,6 +182,7 @@ export default ({
     createLinkAccountId,
     generateRetailToken,
     generateSession,
+    getPaymentsAccountPit,
     getUser,
     linkAccount,
     recoverUser,
