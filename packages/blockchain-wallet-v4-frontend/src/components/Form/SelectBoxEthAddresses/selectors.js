@@ -32,7 +32,7 @@ export const getEthData = (state, ownProps) => {
     'ETH',
     state
   )
-  const hasPitAddress = !Remote.Failure.is(pitAddress)
+  const hasPitAddress = Remote.Success.is(pitAddress)
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
@@ -88,7 +88,7 @@ export const getErc20Data = (state, ownProps) => {
     coin,
     state
   )
-  const hasPitAddress = !Remote.Failure.is(pitAddress)
+  const hasPitAddress = Remote.Success.is(pitAddress)
 
   const getAddressesData = () => {
     return sequence(Remote.of, [

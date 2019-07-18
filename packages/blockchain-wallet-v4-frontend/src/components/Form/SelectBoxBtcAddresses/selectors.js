@@ -69,7 +69,7 @@ export const getData = (state, ownProps) => {
     'BTC',
     state
   )
-  const hasPitAddress = !Remote.Failure.is(pitAddress)
+  const hasPitAddress = Remote.Success.is(pitAddress)
 
   const getAddressesData = () => {
     return sequence(Remote.of, [

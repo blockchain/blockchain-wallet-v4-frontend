@@ -78,7 +78,7 @@ export const getData = (state, ownProps) => {
     'BCH',
     state
   )
-  const hasPitAddress = !Remote.Failure.is(pitAddress)
+  const hasPitAddress = Remote.Success.is(pitAddress)
 
   const formatAddress = addressData => {
     const formattedAddress = {}

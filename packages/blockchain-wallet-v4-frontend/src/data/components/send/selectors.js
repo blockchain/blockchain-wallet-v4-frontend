@@ -1,6 +1,7 @@
-import { path, prop } from 'ramda'
+import { curry, path, prop } from 'ramda'
 
-export const getPaymentsAccountPit = (currency, state) =>
+export const getPaymentsAccountPit = curry((currency, state) =>
   path(['components', 'send', 'pitPaymentsAccount', currency], state).map(
     prop('address')
   )
+)
