@@ -1,3 +1,4 @@
+import airdropEnrolled from './img/airdrop-enrolled.png'
 import airdropSunRiverDashboard from './img/airdrop-sunriver-dashboard.png'
 import airdropWelcome from './img/airdrop-welcome.png'
 import allowCamera from './img/allow-camera.png'
@@ -35,9 +36,6 @@ import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
-import getFreeCrypto from './img/get-free-crypto.png'
-import getFreeCrypto2 from './img/get-free-crypto@2x.png'
-import getFreeCrypto3 from './img/get-free-crypto@3x.png'
 import goldApproved from './img/gold-approved.svg'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
@@ -111,6 +109,7 @@ import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
+  'airdrop-enrolled': airdropEnrolled,
   'airdrop-sunriver-dashboard': airdropSunRiverDashboard,
   'airdrop-welcome': airdropWelcome,
   'allow-camera': allowCamera,
@@ -151,9 +150,6 @@ export default {
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
-  'get-free-crypto': getFreeCrypto,
-  'get-free-crypto2': getFreeCrypto2,
-  'get-free-crypto3': getFreeCrypto3,
   'gold-approved': goldApproved,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
