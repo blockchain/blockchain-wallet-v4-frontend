@@ -74,11 +74,11 @@ export const getData = (state, ownProps) => {
   const toGroup = curry((label, options) => [{ label, options }])
   const toPit = x => [{ label: `BCH PIT Address (${x})`, value: x }]
 
-  const pitAddressSelector = selectors.components.send.getPaymentsAccountPit(
+  const pitAddress = selectors.components.send.getPaymentsAccountPit(
     'BCH',
     state
   )
-  const hasPitAddress = !Remote.Failure.is(pitAddressSelector)
+  const hasPitAddress = !Remote.Failure.is(pitAddress)
 
   const formatAddress = addressData => {
     const formattedAddress = {}
@@ -143,7 +143,7 @@ export const getData = (state, ownProps) => {
             .map(toDropdown)
             .map(toGroup('Lockbox')),
       includePitAddress && hasPitAddress
-        ? pitAddressSelector.map(toPit).map(toGroup('The PIT'))
+        ? pitAddress.map(toPit).map(toGroup('The PIT'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])
