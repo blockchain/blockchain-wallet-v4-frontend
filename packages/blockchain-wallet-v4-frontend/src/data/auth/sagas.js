@@ -152,7 +152,6 @@ export default ({ api, coreSagas }) => {
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
-      yield put(actions.modals.showModal('AirdropSuccess'))
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(
