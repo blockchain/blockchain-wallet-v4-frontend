@@ -98,13 +98,7 @@ const LinkAccount = () => {
         </List>
       </InnerWrapper>
       <Footer>
-        <Image
-          name='the-pit'
-          srcset={{
-            'the-pit2': '2x',
-            'the-pit3': '3x'
-          }}
-        />
+        <Image name='the-pit-logo' height='42px' />
         <div>
           <Text size='20px' color='brand-primary' weight={600}>
             The PIT

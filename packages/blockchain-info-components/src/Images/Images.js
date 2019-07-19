@@ -69,6 +69,7 @@ import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
+import thePitLogo from './img/the-pit-logo.svg'
 import thePitWord from './img/the-pit-word.svg'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
@@ -203,6 +204,7 @@ export default {
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
+  'the-pit-logo': thePitLogo,
   'the-pit-word': thePitWord,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
