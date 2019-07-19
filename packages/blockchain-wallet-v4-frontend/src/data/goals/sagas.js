@@ -33,12 +33,6 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const waitForUserInvitations = function * () {
-    const invitations = yield select(selectors.core.settings.getInvitations)
-    if (Remote.Success.is(invitations)) return
-    yield take(actionTypes.core.settings.FETCH_SETTINGS_SUCCESS)
-  }
-
   const isKycNotFinished = function * () {
     yield call(waitForUserData)
     return (yield select(selectors.modules.profile.getUserKYCState))
@@ -326,24 +320,6 @@ export default ({ api }) => {
     }
   }
 
-  const runPaxGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    yield call(waitForUserInvitations)
-    const invitations = (yield select(
-      selectors.core.settings.getInvitations
-    )).getOrElse({ PAX: false })
-    const invited = prop('PAX', invitations)
-    const hasSeen = (yield select(
-      selectors.core.kvStore.eth.getErc20HasSeen,
-      'PAX'
-    )).getOrElse(false)
-    if (hasSeen || !invited) return
-
-    yield put(actions.core.kvStore.eth.setErc20HasSeen('PAX'))
-    yield put(actions.goals.addInitialModal('pax', 'PaxWelcome'))
-  }
-
   const runWelcomeGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -394,13 +370,11 @@ export default ({ api }) => {
       coinifyUpgrade,
       kycDocResubmit,
       linkAccount,
-      pax,
       payment,
       sunriver,
       swapGetStarted,
       swapUpgrade,
-      upgradeForAirdrop,
-      welcome
+      upgradeForAirdrop
     } = initialModals
     if (linkAccount) {
       return yield put(
@@ -444,12 +418,6 @@ export default ({ api }) => {
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
-    if (pax) {
-      return yield put(actions.modals.showModal(pax.name))
-    }
-    if (welcome) {
-      return yield put(actions.modals.showModal(welcome.name, welcome.data))
-    }
   }
 
   const runGoal = function * (goal) {
@@ -488,9 +456,6 @@ export default ({ api }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
-        case 'pax':
-          yield call(runPaxGoal, goal)
-          break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
           break
@@ -520,7 +485,6 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runPaxGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,

@@ -14,15 +14,15 @@ export const getData = state => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-  const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
-  const showSwapBannerPrefs = selectors.preferences.getShowSwapBanner(state)
-  const showSwapBanner = !showKycGetStarted && showSwapBannerPrefs
+  const isPitAccountLinked = selectors.modules.profile
+    .isPitAccountLinked(state)
+    .getOrElse(true)
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (showSwapBanner) {
-    bannerToShow = 'swap'
+  } else if (!isPitAccountLinked) {
+    bannerToShow = 'thepit'
   } else {
     bannerToShow = null
   }

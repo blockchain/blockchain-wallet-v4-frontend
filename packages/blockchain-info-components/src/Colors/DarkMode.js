@@ -6,6 +6,8 @@ export default {
   'brand-quaternary': '#4f5254',
   'brand-yellow': '#665227',
   'brand-yellow-lighter': '#7F735A',
+  // PIT
+  pitTurquoise: '#42F1B8',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
