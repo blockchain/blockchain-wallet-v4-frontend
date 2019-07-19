@@ -5,7 +5,6 @@ import ReactHighcharts from 'react-highcharts'
 import PriceChart from './PriceChart'
 import Balances from './Balances'
 import Banners from './Banners'
-import ThePit from './ThePit'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -61,7 +60,6 @@ const Home = () => (
       </ColumnLeft>
       <ColumnRight>
         <PriceChart />
-        <ThePit />
       </ColumnRight>
     </ColumnWrapper>
   </Wrapper>
