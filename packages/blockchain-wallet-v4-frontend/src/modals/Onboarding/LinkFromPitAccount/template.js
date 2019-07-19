@@ -148,12 +148,18 @@ const LinkFromPitAccount = ({
                       <TextGroup inline>
                         <Text color='white' weight={500}>
                           <FormattedMessage
-                            id='modals.onboarding.linkfrompitaccount.check_inbox'
-                            defaultMessage='Check your inbox. We sent an email to:'
+                            id='modals.onboarding.linkfrompitaccount.need_to_verify'
+                            defaultMessage="You'll need to verify"
                           />
                         </Text>
                         <Text color='white' weight={500}>
                           {email}
+                        </Text>
+                        <Text color='white' weight={500}>
+                          <FormattedMessage
+                            id='modals.onboarding.linkfrompitaccount.to_continue'
+                            defaultMessage="to continue. We'll be waiting right here in the meantime."
+                          />
                         </Text>
                       </TextGroup>
                     ) : (
