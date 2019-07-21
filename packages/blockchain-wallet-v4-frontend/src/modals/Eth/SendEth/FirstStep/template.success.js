@@ -87,12 +87,9 @@ const FirstStep = props => {
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies({
-    chrome: '>45',
-    chromium: '>45',
-    firefox: '>45',
-    opera: '>20'
-  })
+  const isBrowserSupported = browser.satisfies(
+    model.components.lockbox.supportedBrowsers
+  )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
 

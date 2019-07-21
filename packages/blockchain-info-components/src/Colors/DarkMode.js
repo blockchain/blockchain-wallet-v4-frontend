@@ -6,6 +6,8 @@ export default {
   'brand-quaternary': '#4f5254',
   'brand-yellow': '#665227',
   'brand-yellow-lighter': '#7F735A',
+  // PIT
+  pitTurquoise: '#42F1B8',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
@@ -49,6 +51,8 @@ export default {
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
+  green400: '#59CD93',
+  red500: '#EA5B50',
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',

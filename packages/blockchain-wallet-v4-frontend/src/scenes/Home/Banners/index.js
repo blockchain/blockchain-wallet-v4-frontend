@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { getData } from './selectors'
 import KycResubmit from './KycResubmit'
-import Swap from './Swap'
+import ThePitBanner from './ThePitBanner'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -13,7 +13,7 @@ const BannerWrapper = styled.div`
 
 class Banners extends React.PureComponent {
   render () {
-    const { bannerToShow, kycNotFinished } = this.props
+    const { bannerToShow } = this.props
 
     switch (bannerToShow) {
       case 'resubmit':
@@ -22,10 +22,10 @@ class Banners extends React.PureComponent {
             <KycResubmit />
           </BannerWrapper>
         )
-      case 'swap':
+      case 'thepit':
         return (
           <BannerWrapper>
-            <Swap kycNotFinished={kycNotFinished} />
+            <ThePitBanner />
           </BannerWrapper>
         )
       default:

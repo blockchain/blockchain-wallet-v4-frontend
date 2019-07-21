@@ -8,15 +8,26 @@ import {
   findLast,
   hasPath,
   lift,
+  isNil,
+  not,
   path,
   pathOr,
   prop,
-  propEq
+  propEq,
+  propOr
 } from 'ramda'
 import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
+export const getUserId = compose(
+  lift(prop('id')),
+  getUserData
+)
+export const getWalletAddresses = compose(
+  lift(prop('walletAddresses')),
+  getUserData
+)
 export const getUserActivationState = compose(
   lift(prop('state')),
   getUserData
@@ -70,8 +81,6 @@ export const getKycDocResubmissionStatus = compose(
   getUserData
 )
 
-export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
-
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
@@ -109,3 +118,23 @@ export const closeToTier1Limit = state =>
         CLOSE_TO_AMOUNT <
         pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
+
+export const getLinkFromPitAccountStatus = path([
+  'profile',
+  'pitOnboarding',
+  'linkFromPitAccountStatus'
+])
+export const getLinkToPitAccountStatus = path([
+  'profile',
+  'pitOnboarding',
+  'linkToPitAccountStatus'
+])
+export const getLinkToPitAccountDeeplink = path([
+  'profile',
+  'pitOnboarding',
+  'linkToPitAccountDeeplink'
+])
+
+// TODO: this is a temporary way to detect if the user has pit account
+export const isPitAccountLinked = state =>
+  lift(user => not(isNil(propOr(null, 'userName', user))))(getUserData(state))

@@ -59,7 +59,7 @@ render () {
 }
 ```
 
-in template.js, redux-form will convert `onSubmit` to `handleSubmit` so all you need to do is:
+in template.notasked.js, redux-form will convert `onSubmit` to `handleSubmit` so all you need to do is:
 ```
 const { handleSubmit } = this.props
 

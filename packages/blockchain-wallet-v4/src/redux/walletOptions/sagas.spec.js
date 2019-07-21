@@ -1,7 +1,7 @@
 import { testSaga } from 'redux-saga-test-plan'
 
 import * as A from './actions'
-import MockWalletOptions from './__mocks__/wallet-options-v4'
+import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import sagas from './sagas'
 
 const api = {
