@@ -33,6 +33,7 @@ export default ({ coreSagas, networks }) => {
         lockboxIndex
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
+      yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })

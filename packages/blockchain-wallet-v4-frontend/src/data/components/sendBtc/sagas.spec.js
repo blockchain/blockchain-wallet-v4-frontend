@@ -105,6 +105,10 @@ describe('sendBtc sagas', () => {
       saga.next().put(A.sendBtcPaymentUpdatedLoading())
     })
 
+    it('should fetch pit addresses', () => {
+      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+    })
+
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)

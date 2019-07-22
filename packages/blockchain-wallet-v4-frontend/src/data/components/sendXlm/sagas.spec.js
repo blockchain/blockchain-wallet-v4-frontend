@@ -99,6 +99,10 @@ describe('sendXlm sagas', () => {
       saga.next().put(A.paymentUpdatedLoading())
     })
 
+    it('should fetch pit addresses', () => {
+      saga.next().put(actions.components.send.fetchPaymentsAccountPit('XLM'))
+    })
+
     it('should create payment', () => {
       saga.next().call(paymentMock.init)
       expect(coreSagas.payment.xlm.create).toHaveBeenCalledTimes(1)

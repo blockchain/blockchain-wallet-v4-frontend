@@ -71,14 +71,12 @@ describe('sendEth sagas', () => {
   })
 
   describe('eth send form initialize', () => {
-    const from = 'fromethaddress'
-    const type = 'ACCOUNT'
-    const payload = { from, type }
+    const payload = 'ETH'
     const saga = testSaga(initialized, { payload })
     const mockAccount = Remote.of([{ addr: '0x123' }])
     const beforeEnd = 'beforeEnd'
     const initialValues = {
-      coin: { from: 'fromethaddress', type: 'ACCOUNT' },
+      coin: 'ETH',
       fee: 10,
       from: { addr: '0x123' }
     }
@@ -89,6 +87,10 @@ describe('sendEth sagas', () => {
 
     it('should trigger a loading action', () => {
       saga.next(Remote.of([])).put(A.sendEthPaymentUpdatedLoading())
+    })
+
+    it('should fetch pit addresses', () => {
+      saga.next().put(actions.components.send.fetchPaymentsAccountPit('ETH'))
     })
 
     it('should create payment', () => {
