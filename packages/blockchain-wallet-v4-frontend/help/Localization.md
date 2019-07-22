@@ -34,7 +34,11 @@ Two components can be used for translations:
     *  it is using internally React `setDangerousHtml` and we should not render any html with potential malicious injections
     *  if you need to style the translations you can use `<FormattedHTMLMessage>`
 
-### Examples
+## Changing Strings
+
+If you are changing the `defaultMessage` you will also need to change the `id` so that the package react-intl-translations-manager can correctly detect the change and update our locales files accordingly.
+
+## Examples
 
 *Example 1: short translation*
 ```
