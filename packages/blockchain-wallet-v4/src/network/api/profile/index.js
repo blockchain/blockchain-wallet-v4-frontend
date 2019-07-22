@@ -61,7 +61,7 @@ export default ({
   const getPaymentsAccountPit = currency => {
     return authorizedPut({
       url: nabuUrl,
-      endPoint: '/payments/account/pit',
+      endPoint: '/payments/accounts/linked',
       contentType: 'application/json',
       data: {
         currency
