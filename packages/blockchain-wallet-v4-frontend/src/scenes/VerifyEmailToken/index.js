@@ -8,6 +8,8 @@ import Success from './template.success'
 import Error from './template.error'
 import { Wrapper } from 'components/Public'
 
+const VALID_CONTEXTS = ['PIT_SIGNUP', 'KYC', 'SETTINGS']
+
 class VerifyEmailToken extends React.PureComponent {
   state = {
     token: decodeURIComponent(
@@ -28,7 +30,9 @@ class VerifyEmailToken extends React.PureComponent {
       ? 'https://blockchain.page.link/email_verified'
       : 'https://blockchainwalletstaging.page.link/email_verified'
 
-    return context != null ? `${link}?context=${context}` : link
+    const isValidContext = VALID_CONTEXTS.indexOf(context) > -1
+
+    return isValidContext ? `${link}?context=${context}` : link
   }
 
   render () {
