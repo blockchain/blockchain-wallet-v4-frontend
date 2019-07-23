@@ -40,6 +40,28 @@ const Content = styled(Text)`
   margin: 15px 0 20px 0;
   line-height: 1.4;
 `
+
+const TitleContent = styled(Text)`
+  padding-right: 40px;
+  margin-bottom: -8px;
+  ${media.tablet`
+    padding-right: 16px;
+  `};
+`
+
+const SubContent = styled(Text)`
+  margin: 8px 0 -1px 0;
+  line-height: 1.4;
+`
+
+const StarfieldText = styled(Text)`
+  margin: 0 35px;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  z-index: 1;
+`
+
 const Column = styled.div`
   display: flex;
   flex-direction: row;
@@ -48,23 +70,46 @@ const Column = styled.div`
   justify-content: center;
 `
 const SubTextGroup = styled(TextGroup)`
-  padding-right: 30px;
+  padding-right: 25px;
   ${media.tablet`
-    padding-right: 12px;
+    padding-right: 10px;
   `};
 `
+
+const ThirdSubTextGroup = styled(TextGroup)`
+  margin-right: 0px;
+`
+
+const TitleTextGroup = styled(TextGroup)`
+  padding-right: 10px;
+  ${media.tablet`
+    padding-right: 4px;
+  `};
+`
+
+const StarfieldTextGroup = styled(TextGroup)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
 const FooterButton = styled(Button)`
   height: 56px;
   width: 100%;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 700;
 `
 const FooterLink = styled(Link)`
   width: 100%;
 `
 const PitLogo = styled(Image)`
-  margin-bottom: 5px;
-  filter: invert(0.78);
+  margin-bottom: 10px;
+  filter: invert(0);
+`
+
+const Starfield = styled(Image)`
+  position: absolute;
 `
 
 const ThePit = props => {
@@ -74,68 +119,89 @@ const ThePit = props => {
       <Container>
         <Row>
           <Column>
-            <PitLogo name='the-pit-word' height='64px' />
+            <TitleTextGroup>
+              <TitleContent size='40px' weight={800} color='brand-primary'>
+                <FormattedMessage
+                  id='scenes.thepit.title'
+                  defaultMessage='Level Up Your Trading'
+                />
+              </TitleContent>
+              <Content weight={500} size='16px'>
+                <FormattedMessage
+                  id='scenes.thepit.subtitle1'
+                  defaultMessage='We built the fastest exchange in crypto to re-define the speed, reliability, and liquidity crypto investors should not only expect, but demand.'
+                />
+              </Content>
+            </TitleTextGroup>
           </Column>
           <Column>
-            <Content weight={400}>
-              <FormattedMessage
-                id='scenes.thepit.subtitle'
-                defaultMessage='Level up to our new exchange for unlimited trading in the most desired crypto pairs.'
-              />
-            </Content>
+            <Starfield
+              name='starfield'
+              srcset={{
+                starfield2: '2x'
+              }}
+            />
+            <StarfieldTextGroup>
+              <PitLogo name='the-pit-text' height='40px' />
+              <StarfieldText weight={600}>
+                <FormattedMessage
+                  id='scenes.thepit.image.subtitle'
+                  defaultMessage='The only Exchange that connects to your Wallet.'
+                />
+              </StarfieldText>
+            </StarfieldTextGroup>
           </Column>
         </Row>
         <Row>
           <SubTextGroup>
-            <Text size='15px' weight={500} color='brand-primary'>
+            <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point1.title'
                 defaultMessage='Fast and Liquid'
               />
-            </Text>
-            <Text size='14px' weight={400}>
+            </SubContent>
+            <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point1.subtitle'
-                defaultMessage='We combined an ultra fast matching engine with deep liquidity so you can react quickly and with precision.'
+                id='scenes.thepit.point1.subtitle1'
+                defaultMessage='Trade in microseconds with the fastest matching engine in crypto and deep pool of institutional liquidity.'
               />
-            </Text>
+            </SubContent>
           </SubTextGroup>
           <SubTextGroup>
-            <Text size='15px' weight={500} color='brand-primary'>
+            <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point2.title'
                 defaultMessage='Easy to Use'
               />
-            </Text>
-            <Text size='14px' weight={400}>
+            </SubContent>
+            <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point2.subtitle'
-                defaultMessage='No instructional manual required!  The PIT is refreshingly simple, fun, and lightning fast.'
+                id='scenes.thepit.point2.subtitle1'
+                defaultMessage='No instructional manual required! The PIT makes it refreshingly easy for you to use Wall Street quality tech.'
               />
-            </Text>
+            </SubContent>
           </SubTextGroup>
-          <SubTextGroup>
-            <Text size='15px' weight={500} color='brand-primary'>
+          <ThirdSubTextGroup>
+            <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
                 id='scenes.thepit.point3.title'
                 defaultMessage='Blockchain Connect'
               />
-            </Text>
-            <Text size='14px' weight={400}>
+            </SubContent>
+            <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point3.subtitle'
-                defaultMessage='The only exchange seamlessly integrated with your secure digital wallet.
-'
+                id='scenes.thepit.point3.subtitle1'
+                defaultMessage='The only exchange with a seamless, secure integration to your digital Blockchain Wallet.'
               />
-            </Text>
-          </SubTextGroup>
+            </SubContent>
+          </ThirdSubTextGroup>
         </Row>
         <Row>
           <Column style={{ paddingRight: '25px' }}>
             <FooterButton nature='primary' fullwidth onClick={onSignup}>
               <FormattedMessage
-                id='scenes.thepit.signup'
-                defaultMessage='Sign Up'
+                id='scenes.thepit.connectnow'
+                defaultMessage='Connect Now'
               />
             </FooterButton>
           </Column>
