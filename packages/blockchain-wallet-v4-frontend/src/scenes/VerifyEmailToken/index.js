@@ -9,6 +9,10 @@ import Error from './template.error'
 import { Wrapper } from 'components/Public'
 
 const VALID_CONTEXTS = ['PIT_SIGNUP', 'KYC', 'SETTINGS']
+const PARAM_DEEP_LINK_PATH = 'email_verified'
+const PARAM_ISI = '493253309'
+const PARAM_IBI = 'com.rainydayapps.Blockchain'
+const PARAM_APN = 'piuk.blockchain.android'
 
 class VerifyEmailToken extends React.PureComponent {
   state = {
@@ -27,12 +31,22 @@ class VerifyEmailToken extends React.PureComponent {
     const isProdEnv = this.props.appEnv === 'prod'
 
     const link = isProdEnv
-      ? 'https://blockchain.page.link/email_verified'
-      : 'https://blockchainwalletstaging.page.link/email_verified'
+      ? 'https://blockchain.page.link/'
+      : 'https://blockchainwalletstaging.page.link/'
 
-    const isValidContext = VALID_CONTEXTS.indexOf(context) > -1
+    const params = new URLSearchParams()
+    params.set('deep_link_path', PARAM_DEEP_LINK_PATH)
+    params.set('isi', PARAM_ISI)
+    params.set('ibi', PARAM_IBI)
+    params.set('apn', PARAM_APN)
 
-    return isValidContext ? `${link}?context=${context}` : link
+    if (VALID_CONTEXTS.indexOf(context) > -1) {
+      params.set('context', context)
+    }
+
+    const deepLinkComponent = `${window.location.origin}/login?${params}`
+
+    return link + '?link=' + encodeURIComponent(deepLinkComponent)
   }
 
   render () {
