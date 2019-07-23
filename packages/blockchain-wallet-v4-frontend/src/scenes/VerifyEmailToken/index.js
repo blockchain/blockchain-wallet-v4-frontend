@@ -12,6 +12,7 @@ const VALID_CONTEXTS = ['PIT_SIGNUP', 'KYC', 'SETTINGS']
 const PARAM_DEEP_LINK_PATH = 'email_verified'
 const PARAM_ISI = '493253309'
 const PARAM_IBI = 'com.rainydayapps.Blockchain'
+const PARAM_APN = 'piuk.blockchain.android'
 
 class VerifyEmailToken extends React.PureComponent {
   state = {
@@ -37,6 +38,7 @@ class VerifyEmailToken extends React.PureComponent {
     params.set('deep_link_path', PARAM_DEEP_LINK_PATH)
     params.set('isi', PARAM_ISI)
     params.set('ibi', PARAM_IBI)
+    params.set('apn', PARAM_APN)
 
     if (VALID_CONTEXTS.indexOf(context) > -1) {
       params.set('context', context)
