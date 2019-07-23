@@ -61,6 +61,7 @@ import shapeshiftLogo from './img/shapeshift-logo.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
+import starfieldBannerBg from './img/starfield-banner-bg.png'
 import starfield from './img/starfield.png'
 import starfield2 from './img/starfield2.png'
 import stellarPlanet from './img/stellar-planet.png'
@@ -199,6 +200,7 @@ export default {
   'sfox-landing': sfoxLanding,
   'sfox-logo': sfoxLogo,
   'silver-approved': silverApproved,
+  'starfield-banner-bg': starfieldBannerBg,
   starfield: starfield,
   starfield2: starfield2,
   'stellar-planet': stellarPlanet,
