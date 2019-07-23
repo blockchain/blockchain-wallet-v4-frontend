@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background-image: url('/img/starfield-banner-bg.png');
+  background-size: cover;
   border-radius: 8px;
   overflow: hidden;
   padding: 20px;
