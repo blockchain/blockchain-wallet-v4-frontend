@@ -11,12 +11,8 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
-  background: ${props =>
-    `linear-gradient(312.54deg, ${props.theme.purple} -25.42%, ${
-      props.theme.black
-    } 70.12%)`};
-  border-radius: 4px;
+  background-image: url('/img/starfield-banner-bg.png');
+  border-radius: 8px;
   overflow: hidden;
   padding: 20px;
 
@@ -34,6 +30,7 @@ const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['pitTurquoise']};
   margin-left: 0px;
   margin-right: 20px;
+  border-radius: 4px;
 `
 const Copy = styled(Text)`
   display: flex;
@@ -49,6 +46,7 @@ const BannerButton = styled(Button)`
     font-size: 14px;
     height: 48px;
     margin-top: 8px;
+    padding: 10px;
   `}
 `
 
