@@ -29,6 +29,7 @@ const HelperTipContainer = styled.div`
     color: ${props => props.theme['gray-3']};
   }
 `
+
 const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
   background-color: ${props => props.theme['white']};

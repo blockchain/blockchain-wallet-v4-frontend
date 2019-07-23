@@ -47,7 +47,7 @@ const Copy = styled(Text)`
 const BannerButton = styled(Button)`
   ${media.mobile`
     font-size: 14px;
-    height: 40px;
+    height: 48px;
     margin-top: 8px;
   `}
 `
