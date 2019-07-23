@@ -62,7 +62,6 @@ import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
-import starfieldBannerBg2 from './img/starfield-banner-bg2.png'
 import starfield from './img/starfield.png'
 import starfield2 from './img/starfield2.png'
 import stellarPlanet from './img/stellar-planet.png'
@@ -202,7 +201,6 @@ export default {
   'sfox-logo': sfoxLogo,
   'silver-approved': silverApproved,
   'starfield-banner-bg': starfieldBannerBg,
-  'starfield-banner-bg2.png': starfieldBannerBg2,
   starfield: starfield,
   starfield2: starfield2,
   'stellar-planet': stellarPlanet,
