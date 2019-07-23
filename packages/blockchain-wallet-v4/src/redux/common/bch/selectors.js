@@ -191,6 +191,14 @@ export const getNextAvailableReceiveAddress = curry(
   }
 )
 
+export const getNextAvailableReceiveAddressFormatted = curry(
+  (network, accountIndex, state) => {
+    return getNextAvailableReceiveAddress(network, accountIndex, state).map(x =>
+      toCashAddr(x)
+    )
+  }
+)
+
 export const getNextAvailableReceiveIndexLockbox = curry(
   (network, xpub, state) => {
     const index = getReceiveIndex(xpub)(state)

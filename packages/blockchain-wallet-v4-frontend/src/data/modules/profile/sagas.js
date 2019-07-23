@@ -326,7 +326,7 @@ export default ({ api, coreSagas, networks }) => {
         defaultIdx
       )
       // BCH
-      const BCH = selectors.core.common.bch.getNextAvailableReceiveAddress(
+      const BCH = selectors.core.common.bch.getNextAvailableReceiveAddressFormatted(
         networks.btc,
         defaultIdx
       )
@@ -365,6 +365,7 @@ export default ({ api, coreSagas, networks }) => {
       if (isUserStateNone) yield call(createUser)
       // link Account
       const data = yield call(api.linkAccount, linkId)
+      // share addresses
       yield put(A.shareWalletAddressesWithPit())
       yield put(A.linkFromPitAccountSuccess(data))
       // update user
@@ -405,6 +406,8 @@ export default ({ api, coreSagas, networks }) => {
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
       )}`
+      // share addresses
+      yield put(A.shareWalletAddressesWithPit())
       // simulate wait while allowing user to read modal
       yield delay(2000)
       // attempt to open url for user
