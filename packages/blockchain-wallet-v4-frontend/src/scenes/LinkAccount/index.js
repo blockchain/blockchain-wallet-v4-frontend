@@ -44,19 +44,23 @@ const ListItem = styled.li`
   margin-top: 8px;
 `
 
+const PitLogo = styled(Image)`
+  margin-left: 16px;
+`
+
 const LinkAccount = () => {
   return (
     <InfoWrapper>
       <InnerWrapper>
         <Header>
-          <Text size='20px' color='brand-primary' weight={600}>
+          <Text size='20px' color='brand-primary' weight={700}>
             <FormattedMessage
               id='scenes.linkaccount.authorize'
               defaultMessage='Authorize The PIT to connect to your Blockchain Wallet'
             />
           </Text>
         </Header>
-        <ListHeader color='green400'>
+        <ListHeader color='green500'>
           <FormattedMessage
             id='scenes.linkaccount.pit_will_be_able_to'
             defaultMessage='The PIT will be able to:'
@@ -66,8 +70,8 @@ const LinkAccount = () => {
           <ListItem>
             <Text weight={500} color='gray-6' size='14px'>
               <FormattedMessage
-                id='scenes.linkaccount.share_levels'
-                defaultMessage='Share your Gold or Silver or Level status'
+                id='scenes.linkaccount.share_levels1'
+                defaultMessage='Share your Gold or Silver'
               />
             </Text>
           </ListItem>
@@ -98,7 +102,7 @@ const LinkAccount = () => {
         </List>
       </InnerWrapper>
       <Footer>
-        <Image name='the-pit-logo' height='42px' />
+        <PitLogo name='the-pit-logo' height='42px' />
         <div>
           <Text size='20px' color='brand-primary' weight={600}>
             The PIT

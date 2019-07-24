@@ -146,6 +146,7 @@ export default {
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
   green400: '#59CD93',
+  green500: '#339F7B',
   green900: '#004025',
   red500: '#EA5B50',
   btc: '#FF9B22',
