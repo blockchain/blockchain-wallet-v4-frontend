@@ -34,19 +34,22 @@ class VerifyEmailToken extends React.PureComponent {
       ? 'https://blockchain.page.link/'
       : 'https://blockchainwalletstaging.page.link/'
 
+    const deepLinkParams = new URLSearchParams()
+    deepLinkParams.set('deep_link_path', PARAM_DEEP_LINK_PATH)
+
+    if (VALID_CONTEXTS.indexOf(context) > -1) {
+      deepLinkParams.set('context', context)
+    }
+
+    const deepLink = `${window.location.origin}/login?${deepLinkParams}`
+
     const params = new URLSearchParams()
-    params.set('deep_link_path', PARAM_DEEP_LINK_PATH)
+    params.set('link', encodeURIComponent(deepLink))
     params.set('isi', PARAM_ISI)
     params.set('ibi', PARAM_IBI)
     params.set('apn', PARAM_APN)
 
-    if (VALID_CONTEXTS.indexOf(context) > -1) {
-      params.set('context', context)
-    }
-
-    const deepLinkComponent = `${window.location.origin}/login?${params}`
-
-    return link + '?link=' + encodeURIComponent(deepLinkComponent)
+    return `${link}?${params}`
   }
 
   render () {
