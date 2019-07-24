@@ -72,6 +72,10 @@ export const getCoinIcons = (state, coin) =>
 export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 export const getThePitDomain = state => getDomains(state).map(prop('thePit'))
 
+// pit
+export const getPitCountryList = state =>
+  getWebOptions(state).map(path(['thePit', 'countries']))
+
 // partners
 export const getSFOXCountries = state =>
   getWebOptions(state).map(path(['sfox', 'countries']))

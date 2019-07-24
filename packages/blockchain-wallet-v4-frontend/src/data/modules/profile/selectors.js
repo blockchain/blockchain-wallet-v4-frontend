@@ -8,6 +8,7 @@ import {
   findLast,
   hasPath,
   lift,
+  includes,
   isNil,
   not,
   path,
@@ -92,9 +93,27 @@ export const getLastAttemptedTier = compose(
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
-export const invitedToKyc = state =>
+export const isInvitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const userFlowSupported = invitedToKyc
+export const userFlowSupported = isInvitedToKyc
+
+export const isInvitedToPit = state => {
+  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
+  const userCountry = selectors.core.settings.getCountryCode(state)
+  const isInvited = selectors.core.settings
+    .getInvitations(state)
+    .map(prop('pit'))
+
+  const transform = (pitCountries, userCountry, isInvited) => {
+    const isCountryWhitelisted =
+      pitCountries &&
+      (pitCountries === '*' || includes(userCountry, pitCountries))
+
+    return isCountryWhitelisted || isInvited
+  }
+
+  return lift(transform)(pitCountries, userCountry, isInvited)
+}
 
 export const getApiToken = path(['profile', 'apiToken'])
 
