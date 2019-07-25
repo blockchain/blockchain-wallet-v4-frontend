@@ -7,6 +7,7 @@ import media from 'services/ResponsiveService'
 
 const InfoWrapper = styled(Wrapper)`
   width: 360px;
+  height: 100%;
   margin-right: 16px;
   padding: 0px;
 `
@@ -45,7 +46,7 @@ const ListItem = styled.li`
 `
 
 const PitLogo = styled(Image)`
-  margin-left: 16px;
+  margin-right: 16px;
 `
 
 const LinkAccount = () => {
@@ -70,8 +71,8 @@ const LinkAccount = () => {
           <ListItem>
             <Text weight={500} color='gray-6' size='14px'>
               <FormattedMessage
-                id='scenes.linkaccount.share_levels1'
-                defaultMessage='Share your Gold or Silver'
+                id='scenes.linkaccount.share_levels2'
+                defaultMessage='Share your Gold or Silver status'
               />
             </Text>
           </ListItem>
