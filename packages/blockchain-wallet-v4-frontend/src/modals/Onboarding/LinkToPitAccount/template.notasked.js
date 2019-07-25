@@ -200,8 +200,8 @@ const LinkToPitNotAsked = ({
                     <Circle />
                     <Text size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.topoint1'
-                        defaultMessage='Share your Gold & Silver Level status'
+                        id='modals.onboarding.linktopitaccount.na.right.topoint'
+                        defaultMessage='Share your Gold or Silver Level status'
                       />
                     </Text>
                   </RightPointRow>
