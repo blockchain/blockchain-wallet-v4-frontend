@@ -35,6 +35,9 @@ const Row = styled.div`
   &:last-child {
     margin-top: 32px;
   }
+  ${media.tablet`
+    flex-direction: column;
+  `};
 `
 const Content = styled(Text)`
   margin: 15px 0 20px 0;
@@ -68,6 +71,23 @@ const Column = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
+`
+
+const FooterColumn = styled(Column)`
+  padding-left: 25px;
+  ${media.tablet`
+    padding-left: 0;
+  `}
+`
+
+const StarfieldColumn = styled(Column)`
+  background-image: url('/img/starfield2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 15px;
+  ${media.tablet`
+    padding: 20px 0;
+  `}
 `
 const SubTextGroup = styled(TextGroup)`
   padding-right: 25px;
@@ -106,10 +126,7 @@ const FooterLink = styled(Link)`
 const PitLogo = styled(Image)`
   margin-bottom: 10px;
   filter: invert(0);
-`
-
-const Starfield = styled(Image)`
-  position: absolute;
+  height: 40px;
 `
 
 const ThePit = props => {
@@ -134,15 +151,9 @@ const ThePit = props => {
               </Content>
             </TitleTextGroup>
           </Column>
-          <Column>
-            <Starfield
-              name='starfield'
-              srcset={{
-                starfield2: '2x'
-              }}
-            />
+          <StarfieldColumn>
             <StarfieldTextGroup>
-              <PitLogo name='the-pit-text' height='40px' />
+              <PitLogo name='the-pit-text' />
               <StarfieldText weight={600}>
                 <FormattedMessage
                   id='scenes.thepit.image.subtitle'
@@ -150,7 +161,7 @@ const ThePit = props => {
                 />
               </StarfieldText>
             </StarfieldTextGroup>
-          </Column>
+          </StarfieldColumn>
         </Row>
         <Row>
           <SubTextGroup>
@@ -205,7 +216,7 @@ const ThePit = props => {
               />
             </FooterButton>
           </Column>
-          <Column style={{ paddingLeft: '25px' }}>
+          <FooterColumn>
             <FooterLink
               href='https://pit.blockchain.com/'
               target='_blank'
@@ -218,7 +229,7 @@ const ThePit = props => {
                 />
               </FooterButton>
             </FooterLink>
-          </Column>
+          </FooterColumn>
         </Row>
       </Container>
     </Wrapper>
