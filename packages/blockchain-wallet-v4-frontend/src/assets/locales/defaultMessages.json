@@ -2000,6 +2000,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "The PIT",
+        "id": "layouts.wallet.menuleft.navigation.thepit"
+      },
+      {
         "defaultMessage": "Dashboard",
         "id": "layouts.wallet.menuleft.navigation.dashboard"
       },
@@ -2022,10 +2026,6 @@
       {
         "defaultMessage": "New",
         "id": "layouts.wallet.menuleft.navigation.transactions.new"
-      },
-      {
-        "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepit"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
@@ -8375,8 +8375,8 @@
         "id": "scenes.linkaccount.pit_will_be_able_to"
       },
       {
-        "defaultMessage": "Share your Gold or Silver or Level status",
-        "id": "scenes.linkaccount.share_levels"
+        "defaultMessage": "Share your Gold or Silver",
+        "id": "scenes.linkaccount.share_levels1"
       },
       {
         "defaultMessage": "Exchange crypto addresses so you don’t have to copy and paste",

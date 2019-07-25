@@ -1666,7 +1666,7 @@
   "scenes.linkaccount.pit_will_be_able_to": "The PIT will be able to:",
   "scenes.linkaccount.pit_will_not_be_able_to": "The PIT will not be able to:",
   "scenes.linkaccount.share_addresses": "Exchange crypto addresses so you don’t have to copy and paste",
-  "scenes.linkaccount.share_levels": "Share your Gold or Silver or Level status",
+  "scenes.linkaccount.share_levels1": "Share your Gold or Silver",
   "scenes.linkaccount.view_pw": "View your Wallet password, recovery phrase, or private keys",
   "scenes.lockbox.dashboard.transactions.thatsit": "That's it! No more transactions 📭",
   "scenes.lockbox.menu.currencylist.error": "Oops. Something went wrong. Click <span class=\"link\">here</span> to refresh.",
