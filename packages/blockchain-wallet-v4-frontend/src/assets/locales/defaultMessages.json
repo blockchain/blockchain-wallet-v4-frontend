@@ -5703,8 +5703,8 @@
         "id": "modals.onboarding.linktopitaccount.na.right.totitle"
       },
       {
-        "defaultMessage": "Share your Gold & Silver Level status",
-        "id": "modals.onboarding.linktopitaccount.na.right.topoint1"
+        "defaultMessage": "Share your Gold or Silver Level status",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint"
       },
       {
         "defaultMessage": "Exchange crypto addresses so you dont have to copy and paste",
@@ -8375,8 +8375,8 @@
         "id": "scenes.linkaccount.pit_will_be_able_to"
       },
       {
-        "defaultMessage": "Share your Gold or Silver",
-        "id": "scenes.linkaccount.share_levels1"
+        "defaultMessage": "Share your Gold or Silver status",
+        "id": "scenes.linkaccount.share_levels2"
       },
       {
         "defaultMessage": "Exchange crypto addresses so you don’t have to copy and paste",
