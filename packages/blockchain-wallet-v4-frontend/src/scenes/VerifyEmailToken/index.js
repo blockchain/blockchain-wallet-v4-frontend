@@ -44,7 +44,7 @@ class VerifyEmailToken extends React.PureComponent {
     const deepLink = `${window.location.origin}/login?${deepLinkParams}`
 
     const params = new URLSearchParams()
-    params.set('link', encodeURIComponent(deepLink))
+    params.set('link', deepLink)
     params.set('isi', PARAM_ISI)
     params.set('ibi', PARAM_IBI)
     params.set('apn', PARAM_APN)
