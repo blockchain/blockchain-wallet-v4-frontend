@@ -2193,7 +2193,7 @@
   "scenes.uploaddoc.browsecomputer": "Browse my computer",
   "scenes.uploaddoc.browsefiles": "Browse files",
   "scenes.uploaddoc.deletedoc": "Delete",
-  "scenes.uploaddoc.doc": "Please upload the following document:",
+  "scenes.uploaddoc.docs": "Please upload the following documents:",
   "scenes.uploaddoc.dragdrop": "Drag & Drop",
   "scenes.uploaddoc.drivinglicense": "Driving license",
   "scenes.uploaddoc.filesize": "Please upload a JPG, PNG or PDF up to 3MB in size.",

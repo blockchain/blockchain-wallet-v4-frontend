@@ -10826,8 +10826,8 @@
         "id": "scenes.uploaddoc.verify"
       },
       {
-        "defaultMessage": "Please upload the following document:",
-        "id": "scenes.uploaddoc.doc"
+        "defaultMessage": "Please upload the following documents:",
+        "id": "scenes.uploaddoc.docs"
       },
       {
         "defaultMessage": "Browse files",
