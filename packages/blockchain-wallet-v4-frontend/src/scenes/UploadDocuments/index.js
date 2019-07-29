@@ -11,7 +11,6 @@ class UploadDocumentsContainer extends Component {
   static propTypes = {
     data: PropTypes.object,
     displayError: PropTypes.func.isRequired,
-    pathname: PropTypes.string.isRequired,
     uploaded: PropTypes.object,
     uploadDocuments: PropTypes.func.isRequired
   }
@@ -19,20 +18,22 @@ class UploadDocumentsContainer extends Component {
   constructor (props) {
     super(props)
     this.dropzone = null
+    const search = new URLSearchParams(props.location.search)
 
     this.state = {
-      files: []
+      files: [],
+      token: props.match.params.token,
+      redirectUrl: search.get('redirect_url')
     }
   }
 
   componentDidMount () {
-    const token = this.props.pathname.split('/')[2]
-    this.props.fetchUploadData(token)
+    this.props.fetchUploadData(this.state.token)
   }
 
   onSubmit = () => {
     let filesLoaded = []
-    const token = this.props.pathname.split('/')[2]
+    const { token, redirectUrl } = this.state
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
@@ -43,7 +44,7 @@ class UploadDocumentsContainer extends Component {
         )
         filesLoaded.push(Base64.encode(fileArray))
         if (filesLoaded.length >= this.state.files.length) {
-          this.props.uploadDocuments(token, filesLoaded)
+          this.props.uploadDocuments(token, filesLoaded, redirectUrl)
         }
       }
       fileReader.readAsArrayBuffer(file)
@@ -108,7 +109,6 @@ class UploadDocumentsContainer extends Component {
 
 const mapStateToProps = state => ({
   data: selectors.components.uploadDocuments.getData(state),
-  pathname: selectors.router.getPathname(state),
   uploaded: selectors.components.uploadDocuments.getUploaded(state)
 })
 
