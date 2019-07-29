@@ -107,32 +107,32 @@ const UploadDocuments = ({
   <Wrapper>
     <TextContainer>
       <TextGroup inline>
-        <Text color='brand-primary' size='20px' weight={400}>
+        <Text color='brand-primary' size='16px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.hello'
             defaultMessage='Hello '
           />
         </Text>
-        <Text color='brand-primary' size='20px' weight={400}>
+        <Text color='brand-primary' size='16px' weight={400}>
           {prop('firstName', data)},
         </Text>
       </TextGroup>
-      <Text color='brand-primary' size='20px' weight={400}>
+      <Text color='brand-primary' size='16px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.verify'
           defaultMessage='We need to verify your identity in order to allow buys,
           sells or exchanges.'
         />
       </Text>
-      <Text color='brand-primary' size='20px' weight={400}>
+      <Text color='brand-primary' size='16px' weight={400}>
         <FormattedMessage
-          id='scenes.uploaddoc.doc'
-          defaultMessage='Please upload the following document: '
+          id='scenes.uploaddoc.docs'
+          defaultMessage='Please upload the following documents: '
         />
       </Text>
       {prop('documentsTypes', data) &&
         data.documentsTypes.map((type, index) => (
-          <Text color='brand-primary' key={index} size='20px' weight={400}>
+          <Text color='brand-primary' key={index} size='24px' weight={600}>
             {type}
           </Text>
         ))}
