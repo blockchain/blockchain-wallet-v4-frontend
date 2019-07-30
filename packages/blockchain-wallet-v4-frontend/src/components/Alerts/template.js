@@ -1,9 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { getAlertContent } from './messages'
 import { Toast } from 'blockchain-info-components'
+
+const fadeInOut = keyframes`
+  0%, 90% {
+    opacity: 0;
+    transform: translate(80px);
+  }
+  15%, 75%{
+    opacity: 1;
+    transform: translateX(0);
+  }
+`
 
 const Wrapper = styled.div`
   position: absolute;
@@ -14,6 +25,7 @@ const Wrapper = styled.div`
   z-index: 1050;
   & > * {
     margin-top: 5px;
+    animation: ${fadeInOut} 8s linear;
   }
   @media (max-width: 768px) {
     bottom: 10px;
