@@ -8,7 +8,16 @@ import {
   sum,
   values
 } from 'ramda'
-import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
+import {
+  all,
+  call,
+  delay,
+  join,
+  put,
+  select,
+  spawn,
+  take
+} from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
@@ -17,6 +26,8 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 import profileSagas from 'data/modules/profile/sagas'
+
+const { DEEPLINK_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -47,6 +58,8 @@ export default ({ api }) => {
         linkId: params.get('link_id')
       })
     )
+    yield delay(3000)
+    yield put(actions.analytics.logEvent(DEEPLINK_EVENTS.PIT))
   }
 
   const defineReferralGoal = function * (search) {
@@ -155,7 +168,6 @@ export default ({ api }) => {
   const runLinkAccountGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
-
     yield put(
       actions.goals.addInitialModal('linkAccount', 'LinkFromPitAccount', data)
     )
