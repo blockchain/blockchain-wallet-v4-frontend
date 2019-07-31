@@ -1,16 +1,4 @@
 import {
-  Wallet,
-  HDWallet,
-  HDWalletList,
-  HDAccountList,
-  AddressMap,
-  Address,
-  HDAccount,
-  AddressBook,
-  AddressBookEntry,
-  TXNotes
-} from '../types'
-import {
   prop,
   compose,
   curry,
@@ -33,6 +21,20 @@ import {
   toLower
 } from 'ramda'
 import moment from 'moment'
+
+import {
+  Wallet,
+  HDWallet,
+  HDWalletList,
+  HDAccountList,
+  AddressMap,
+  Address,
+  HDAccount,
+  AddressBook,
+  AddressBookEntry,
+  TXNotes
+} from '../types'
+import Remote from '../remote'
 
 const unpackInput = prop('prev_out')
 const isLegacy = (wallet, coin) =>
@@ -287,7 +289,7 @@ export const _transformTx = (
     type: toLower(type),
     time: tx.time,
     timeFormatted: getTime(tx),
-    fee: tx.fee,
+    fee: Remote.Success(tx.fee),
     inputs: inputs,
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,

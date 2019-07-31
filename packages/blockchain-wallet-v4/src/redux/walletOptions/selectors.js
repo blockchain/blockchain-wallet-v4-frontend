@@ -1,14 +1,14 @@
 import {
   curry,
-  keys,
   filter,
+  keys,
   lensProp,
   mapObjIndexed,
   path,
   prop,
   propOr,
-  toUpper,
-  set
+  set,
+  toUpper
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
 import { walletOptionsPath } from '../paths'
@@ -27,10 +27,6 @@ export const getAnalyticsSiteId = state =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = state =>
   getWebOptions(state).map(path(['application', 'announcements']))
-export const getMigrationRedirects = state =>
-  getWebOptions(state).map(
-    path(['application', 'enableDomainMigrationRedirects'])
-  )
 export const getAdsBlacklist = state =>
   getWebOptions(state).map(path(['ads', 'blacklist']))
 export const getAdsUrl = state => getWebOptions(state).map(path(['ads', 'url']))
@@ -47,6 +43,11 @@ export const getSupportedCoins = createDeepEqualSelector(
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
 )
+export const getSupportedCoinsList = state => getSupportedCoins(state).map(keys)
+export const getSyncToPitList = state =>
+  getSupportedCoins(state)
+    .map(filter(path(['availability', 'syncToPit'])))
+    .map(keys)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
 export const getBchFees = state =>
@@ -67,6 +68,14 @@ export const getCoinModel = (state, coin) =>
 export const getCoinIcons = (state, coin) =>
   getCoinModel(state, coin).map(path(['icons']))
 
+// domains
+export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
+export const getThePitDomain = state => getDomains(state).map(prop('thePit'))
+
+// pit
+export const getPitCountryList = state =>
+  getWebOptions(state).map(path(['thePit', 'countries']))
+
 // partners
 export const getSFOXCountries = state =>
   getWebOptions(state).map(path(['sfox', 'countries']))
@@ -74,11 +83,6 @@ export const getSFOXStates = state =>
   getWebOptions(state).map(path(['sfox', 'states']))
 export const getCoinifyCountries = state =>
   getWebOptions(state).map(path(['coinify', 'countries']))
-export const getISignThisDomain = state =>
-  getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
-export const getCoinifyPaymentDomain = state =>
-  getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
-export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>

@@ -8,6 +8,7 @@ import * as manageAddresses from './manageAddresses/selectors'
 import * as onfido from './onfido/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
+import * as send from './send/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
@@ -27,6 +28,7 @@ export {
   onfido,
   priceChart,
   priceTicker,
+  send,
   sendBch,
   sendBtc,
   sendEth,

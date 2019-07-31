@@ -4,15 +4,27 @@ import {
   delay,
   fork,
   put,
+  race,
   select,
-  spawn
+  spawn,
+  take
 } from 'redux-saga/effects'
 import moment from 'moment'
-import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import {
+  compose,
+  difference,
+  equals,
+  keys,
+  lift,
+  prop,
+  sortBy,
+  tail
+} from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
-import { selectors, actions } from 'data'
+import { selectors, actions, actionTypes } from 'data'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
@@ -23,7 +35,7 @@ export const renewUserDelay = 30000
 
 let renewSessionTask = null
 let renewUserTask = null
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
@@ -292,16 +304,156 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const linkAccount = function * ({ payload }) {
+  const shareWalletAddressesWithPit = function * () {
+    try {
+      yield put(A.shareWalletAddressesWithPitLoading())
+      // TODO: move to goal and pass remaining coins to saga
+      // Only run saga if remainingCoins is !empty
+      const supportedCoinsList = (yield select(
+        selectors.core.walletOptions.getSyncToPitList
+      )).getOrFail('no_supported_coins')
+      const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
+        'no_deposit_addresses'
+      )
+      const walletAddressesList = keys(walletAddresses)
+      const remainingCoins = difference(supportedCoinsList, walletAddressesList)
+      // BTC
+      const defaultIdx = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      const BTC = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        defaultIdx
+      )
+      // BCH
+      const BCH = selectors.core.common.bch.getNextAvailableReceiveAddressFormatted(
+        networks.btc,
+        defaultIdx
+      )
+      // ETH
+      const ETH = selectors.core.kvStore.eth.getContext
+      // XLM
+      const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
+      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
+      const state = yield select()
+      const remainingAddresses = remainingCoins.reduce((res, coin) => {
+        res[coin] = addressSelectors[coin](state).getOrElse(null)
+        return res
+      }, walletAddresses)
+      const data = yield call(
+        api.shareWalletDepositAddresses,
+        remainingAddresses
+      )
+      yield put(A.shareWalletAddressesWithPitSuccess(data))
+    } catch (e) {
+      yield put(A.shareWalletAddressesWithPitFailure(e))
+    }
+  }
+
+  const linkFromPitAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
-      yield put(A.linkAccountLoading())
+      yield put(A.linkFromPitAccountLoading())
+      // ensure email is verified else wait
+      const isEmailVerified = (yield select(
+        selectors.core.settings.getEmailVerified
+      )).getOrElse(true)
+      if (!isEmailVerified)
+        yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
+      // get or create user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
       if (isUserStateNone) yield call(createUser)
+      // link Account
       const data = yield call(api.linkAccount, linkId)
-      yield put(A.linkAccountSuccess(data))
+      // share addresses
+      yield put(A.shareWalletAddressesWithPit())
+      yield put(A.linkFromPitAccountSuccess(data))
+      // update user
+      yield call(fetchUser)
     } catch (e) {
-      yield put(A.linkAccountFailure(e))
+      yield put(A.linkFromPitAccountFailure(e))
+    }
+  }
+
+  const linkToPitAccount = function * () {
+    try {
+      yield put(A.linkToPitAccountLoading())
+      // check if wallet is already linked
+      const isPitAccountLinked = (yield select(
+        S.isPitAccountLinked
+      )).getOrFail()
+      if (isPitAccountLinked) {
+        throw new Error('Account has already been linked.')
+      }
+      // ensure email address is verified
+      const isEmailVerified = (yield select(
+        selectors.core.settings.getEmailVerified
+      )).getOrFail()
+      if (!isEmailVerified) {
+        throw new Error('Email address is not verified.')
+      }
+      // get or create nabu user
+      const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
+      if (isUserStateNone) yield call(createUser)
+      // get pit linkId, pit domain and user email
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrFail()
+      const pitDomain = prop('thePit', domains)
+      const data = yield call(api.createLinkAccountId)
+      const pitLinkId = prop('linkId', data)
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
+        email
+      )}`
+      // share addresses
+      yield put(A.shareWalletAddressesWithPit())
+      // simulate wait while allowing user to read modal
+      yield delay(2000)
+      // attempt to open url for user
+      window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
+      yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
+      // poll for account link
+      yield race({
+        task: call(pollForAccountLinkSuccess, 0),
+        cancel: take([
+          AT.LINK_TO_PIT_ACCOUNT_FAILURE,
+          AT.LINK_TO_PIT_ACCOUNT_SUCCESS,
+          actionTypes.modals.CLOSE_MODAL
+        ])
+      })
+    } catch (e) {
+      yield put(A.linkToPitAccountFailure(e.message))
+    }
+  }
+
+  const pollForAccountLinkSuccess = function * (attemptCount) {
+    try {
+      // check every 10 seconds
+      yield delay(10000)
+      attemptCount++
+      // if 5 minutes has passed, cancel poll and mark as timeout
+      if (equals(30, attemptCount)) {
+        yield put(
+          A.linkToPitAccountFailure(
+            'Timeout waiting for account connection status.'
+          )
+        )
+        return
+      }
+      yield call(fetchUser)
+      const isPitAccountLinked = (yield select(S.isPitAccountLinked)).getOrElse(
+        false
+      )
+      if (isPitAccountLinked) {
+        yield put(A.linkToPitAccountSuccess())
+      } else {
+        yield call(pollForAccountLinkSuccess, attemptCount)
+      }
+    } catch (e) {
+      yield put(
+        A.linkToPitAccountFailure('Unable to check current account status.')
+      )
     }
   }
 
@@ -313,12 +465,14 @@ export default ({ api, coreSagas }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
-    linkAccount,
+    linkFromPitAccount,
+    linkToPitAccount,
     recoverUser,
     renewApiSockets,
     renewSession,
     renewUser,
     setSession,
+    shareWalletAddressesWithPit,
     signIn,
     syncUserWithWallet,
     updateUser,

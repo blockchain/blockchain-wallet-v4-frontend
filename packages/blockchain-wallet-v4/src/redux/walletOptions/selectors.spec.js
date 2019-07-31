@@ -1,4 +1,4 @@
-import MockWalletOptions from './__mocks__/wallet-options-v4'
+import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import * as selectors from './selectors'
 import { getInvitations } from '../settings/selectors'
 import Remote from '../../remote'
@@ -16,7 +16,7 @@ describe('walletOptions selectors', () => {
   })
 
   it('getEthTxFuse should return correct lastTxFuse', () => {
-    expect(selectors.getEthTxFuse(successState)).toEqual(Remote.of(86400))
+    expect(selectors.getEthTxFuse(successState)).toEqual(Remote.of(600))
   })
 
   it('getAnnouncements should return correct announcements', () => {
@@ -31,19 +31,14 @@ describe('walletOptions selectors', () => {
     )
   })
 
-  it('getMigrationRedirects should return correct redirects', () => {
-    expect(selectors.getMigrationRedirects(successState)).toEqual(
-      Remote.of(true)
-    )
-  })
-
   it('getCoinAvailability should return correct btc availability', () => {
     const expected = {
       send: true,
       request: true,
       lockbox: true,
       exchangeFrom: true,
-      exchangeTo: true
+      exchangeTo: true,
+      syncToPit: true
     }
     expect(selectors.getCoinAvailability(successState, 'BTC')).toEqual(
       Remote.of(expected)
@@ -56,7 +51,8 @@ describe('walletOptions selectors', () => {
       request: true,
       lockbox: true,
       exchangeFrom: true,
-      exchangeTo: true
+      exchangeTo: true,
+      syncToPit: true
     }
     expect(selectors.getCoinAvailability(successState, 'ETH')).toEqual(
       Remote.of(expected)

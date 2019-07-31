@@ -67,9 +67,33 @@ export default ({ api, coreSagas, networks }) => {
     if (length(trades) === 0) yield call(sendCoinifyKYC)
   }
 
+  const checkCountryState = function * () {
+    const nabuStateCode = (yield select(
+      selectors.modules.profile.getUserStateCode
+    )).getOrFail('no state code')
+    const nabuCountryCode = (yield select(
+      selectors.modules.profile.getUserCountryCode
+    )).getOrFail('no country code')
+    const availableCountryStates = yield call(api.getCoinifyStates)
+    if (nabuStateCode && nabuCountryCode === 'US') {
+      const supportedState = path(
+        ['US', 'states', nabuStateCode, 'supported'],
+        availableCountryStates
+      )
+      if (!supportedState) throw new Error('State is not supported')
+    } else {
+      const supportedCountry = path(
+        [nabuCountryCode, 'supported'],
+        availableCountryStates
+      )
+      if (!supportedCountry) throw new Error('Country is not supported')
+    }
+  }
+
   const buy = function * (payload) {
     try {
       yield call(checkIfFirstTrade)
+      yield call(checkCountryState)
       const nextAddressData = yield call(prepareAddress)
       const buyTrade = yield call(
         coreSagas.data.coinify.buy,
@@ -92,7 +116,14 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(A.coinifyNotAsked())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
+      let error
+      try {
+        error = e.message
+      } catch (parseError) {
+        error = e
+      }
+      yield put(A.coinifyFailure({ error }))
+      yield put(actions.logs.logErrorMessage(logLocation, 'buy', error))
     }
   }
 
@@ -123,6 +154,7 @@ export default ({ api, coreSagas, networks }) => {
   const sell = function * () {
     try {
       yield call(checkIfFirstTrade)
+      yield call(checkCountryState)
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
@@ -397,6 +429,29 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fromISX = function * (action) {
+    const status = action.payload
+    try {
+      const tradeR = yield select(selectors.core.data.coinify.getTrade)
+      const trade = tradeR.getOrElse({})
+      // eslint-disable-next-line
+      console.log('fromISX', trade)
+
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+      yield put(
+        actions.modals.showModal('CoinifyTradeDetails', {
+          trade: trade,
+          status: status
+        })
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
+    }
+  }
+
   const deleteBankAccount = function * (payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
@@ -548,6 +603,7 @@ export default ({ api, coreSagas, networks }) => {
     deleteBankAccount,
     fetchCoinifyData,
     finishTrade,
+    fromISX,
     handleChange,
     initialized,
     initializePayment,

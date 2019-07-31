@@ -1,27 +1,27 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import { prop } from 'ramda'
 import moment from 'moment'
+
 import {
   Banner,
   Text,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import { FormattedMessage } from 'react-intl'
 import Addresses from './Addresses'
 import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 import PartnerLabel from './PartnerLabel'
-import media from 'services/ResponsiveService'
-import { prop } from 'ramda'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import TransactionFee from './TransactionFee'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -156,8 +156,8 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.feepax'
-                defaultMessage='PAX Fee'
+                id='components.txlistitem.paxfee'
+                defaultMessage='USD Pax Fee'
               />
             </Banner>
           </BannerWrapper>
@@ -311,21 +311,11 @@ const TransactionListItem = ({
             onViewTxDetails={onViewTxDetails}
           />
           {transaction.type !== 'received' && (
-            <React.Fragment>
-              <Text
-                size='14px'
-                weight={500}
-                style={{ marginBottom: '5px', marginTop: '15px' }}
-              >
-                <FormattedMessage
-                  id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
-                  defaultMessage='Transaction Fee'
-                />
-              </Text>
-              <ComboDisplay coin={coin} size='14px' weight={400}>
-                {transaction.fee}
-              </ComboDisplay>
-            </React.Fragment>
+            <TransactionFee
+              coin={coin}
+              feeR={transaction.fee}
+              hash={transaction.hash}
+            />
           )}
         </DetailsColumn>
       </DetailsRow>
@@ -345,7 +335,7 @@ TransactionListItem.propTypes = {
     description: PropTypes.string,
     status: PropTypes.string,
     initial_value: PropTypes.string,
-    fee: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    fee: PropTypes.object
   })
 }
 

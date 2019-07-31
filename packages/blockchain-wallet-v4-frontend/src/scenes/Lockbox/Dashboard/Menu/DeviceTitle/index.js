@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -37,12 +37,9 @@ const RightCol = styled.div`
   }
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  firefox: '>45',
-  opera: '>20'
-})
+const isBrowserSupported = browser.satisfies(
+  model.components.lockbox.supportedBrowsers
+)
 
 class DeviceTitle extends React.PureComponent {
   onOpenAppManager = () => {

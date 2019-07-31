@@ -346,29 +346,6 @@ describe('goals sagas', () => {
           .isDone()
       })
     })
-
-    describe('should show welcome modal on first login', () => {
-      const saga = testSaga(runWelcomeGoal, {
-        id: mockGoalId,
-        data: { firstLogin: true }
-      })
-
-      it('should delete goal and show welcome modal', () => {
-        saga
-          .next()
-          .put(actions.goals.deleteGoal(mockGoalId))
-          .next()
-          .call(api.getWalletNUsers)
-          .next({ values: [{ y: 26000000 }] })
-          .put(
-            actions.goals.addInitialModal('welcome', 'Welcome', {
-              walletMillions: 26
-            })
-          )
-          .next()
-          .isDone()
-      })
-    })
   })
 
   describe('runKycGoal saga', () => {
@@ -532,26 +509,6 @@ describe('goals sagas', () => {
           actions.modals.showModal(
             mockModals.swapGetStarted.name,
             mockModals.swapGetStarted.data
-          )
-        )
-        .next()
-        .isDone()
-    })
-
-    it('should show welcome modal', () => {
-      const mockModals = {
-        welcome: { name: 'welcome', data: {} }
-      }
-
-      saga
-        .restart()
-        .next()
-        .select(selectors.goals.getInitialModals)
-        .next(mockModals)
-        .put(
-          actions.modals.showModal(
-            mockModals.welcome.name,
-            mockModals.welcome.data
           )
         )
         .next()

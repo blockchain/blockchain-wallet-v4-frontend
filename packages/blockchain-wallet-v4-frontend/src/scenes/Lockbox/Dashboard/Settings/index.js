@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 
+import { model } from 'data'
 import { Banner, Text } from 'blockchain-info-components'
 import AddDevice from './AddDevice'
 import RenameDevice from './RenameDevice'
@@ -19,12 +20,9 @@ const BrowserWarning = styled(Banner)`
   margin-top: 18px;
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  firefox: '>45',
-  opera: '>20'
-})
+const isBrowserSupported = browser.satisfies(
+  model.components.lockbox.supportedBrowsers
+)
 
 export default class LockboxSettings extends React.PureComponent {
   render () {
