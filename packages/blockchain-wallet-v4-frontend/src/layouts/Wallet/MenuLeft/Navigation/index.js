@@ -2,17 +2,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
+import { concat, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import Navigation from './template'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { actions, supportedCoins, ...props } = this.props
+    const {
+      actions,
+      domains,
+      isPitAccountLinked,
+      isInvitedToPit,
+      supportedCoins,
+      ...props
+    } = this.props
     return (
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
+        isPitAccountLinked={isPitAccountLinked}
+        isInvitedToPit={isInvitedToPit}
+        pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
       />
     )
@@ -20,6 +31,13 @@ class NavigationContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
+  isInvitedToPit: selectors.modules.profile
+    .isInvitedToPit(state)
+    .getOrElse(false),
+  isPitAccountLinked: selectors.modules.profile
+    .isPitAccountLinked(state)
+    .getOrElse(false),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

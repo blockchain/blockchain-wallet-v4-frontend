@@ -31,7 +31,14 @@ export const getData = createDeepEqualSelector(
         }`
       })
 
+      const createGenericError = medium => ({
+        medium,
+        error: path([medium, 'cannotTradeReason'], mediums)
+      })
+
       const checkForLimitError = medium => {
+        if (!path([medium, 'canTrade'], mediums))
+          return createGenericError(medium)
         if (fiatAmount > getMax(medium))
           return createLimitError(medium, `over_${medium}`)
         if (fiatAmount < getMin(medium))

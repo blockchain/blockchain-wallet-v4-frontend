@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -8,15 +7,7 @@ import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import { selectors } from 'data'
 import media from 'services/ResponsiveService'
-import { isOnDotInfo } from 'services/MigrationService'
-
-const defaultDomains = {
-  root: 'https://blockchain.info',
-  comWalletApp: 'https://login.blockchain.com',
-  comRoot: 'https://blockchain.com'
-}
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -57,20 +48,6 @@ const ContentContainer = styled.div`
 const ComponentContainer = styled.div``
 
 class PublicLayoutContainer extends React.PureComponent {
-  componentDidMount () {
-    const { domainsR, migrationRedirectsR, pathname } = this.props
-    const domains = domainsR.getOrElse(defaultDomains)
-    const enableRedirects = migrationRedirectsR.getOrElse(false)
-
-    if (enableRedirects && isOnDotInfo(domains)) {
-      if (pathname === '/wallet') {
-        window.location = `${domains.comRoot}/wallet`
-      } else {
-        window.location = `${domains.comWalletApp}/${pathname}`
-      }
-    }
-  }
-
   render () {
     const { component: Component, ...rest } = this.props
     return (
@@ -101,10 +78,4 @@ class PublicLayoutContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  pathname: selectors.router.getPathname(state),
-  domainsR: selectors.core.walletOptions.getDomains(state),
-  migrationRedirectsR: selectors.core.walletOptions.getMigrationRedirects(state)
-})
-
-export default connect(mapStateToProps)(PublicLayoutContainer)
+export default PublicLayoutContainer

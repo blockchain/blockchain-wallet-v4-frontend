@@ -1,6 +1,7 @@
 import Bowser from 'bowser'
-import { selectors, model } from 'data'
 import { equals, lift, path, prop } from 'ramda'
+
+import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
@@ -33,12 +34,9 @@ const getFormValues = state => {
 const getBlockLockbox = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = !browser.satisfies({
-    chrome: '>45',
-    chromium: '>45',
-    firefox: '>45',
-    opera: '>20'
-  })
+  const isBrowserSupported = !browser.satisfies(
+    model.components.lockbox.supportedBrowsers
+  )
   return (
     equals(path(['source', 'type'], formValues), ADDRESS_TYPES.LOCKBOX) &&
     isBrowserSupported

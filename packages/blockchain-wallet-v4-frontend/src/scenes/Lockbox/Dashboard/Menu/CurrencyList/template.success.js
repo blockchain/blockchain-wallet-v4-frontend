@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Bowser from 'bowser'
 import { any, equals, toLower, prop, isEmpty } from 'ramda'
 
+import { model } from 'data'
 import { CurrencyItem } from 'components/Balances'
 
 const CurrencyList = styled.div`
@@ -27,12 +28,9 @@ const Coin = styled(CurrencyItem)`
   }
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  firefox: '>45',
-  opera: '>20'
-})
+const isBrowserSupported = browser.satisfies(
+  model.components.lockbox.supportedBrowsers
+)
 const Success = props => {
   const { data, formValues, ...rest } = props
   const { coinContexts, handleCoinSelection, handleSaveCoinMD } = rest

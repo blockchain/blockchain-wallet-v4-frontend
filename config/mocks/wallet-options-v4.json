@@ -3,7 +3,6 @@
     "web": {
       "application": {
         "analyticsSiteId": 2,
-        "enableDomainMigrationRedirects": true,
         "environment": "dev",
         "announcements": {
           "lockbox": {},
@@ -23,7 +22,8 @@
             "request": true,
             "lockbox": true,
             "exchangeTo": true,
-            "exchangeFrom": true
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "coinCode": "BTC",
           "coinTicker": "BTC",
@@ -49,7 +49,8 @@
             "request": true,
             "lockbox": true,
             "exchangeTo": true,
-            "exchangeFrom": true
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "coinCode": "BCH",
           "coinTicker": "BCH",
@@ -71,13 +72,40 @@
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
         },
+        "BSV": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": true,
+            "syncToPit": false
+          },
+          "coinCode": "BSV",
+          "coinTicker": "BSV",
+          "colorCode": "bsv",
+          "displayName": "Bitcoin SV",
+          "config": {
+            "fees": {
+              "regular": 4,
+              "priority": 4
+            }
+          },
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "bsv"
+          },
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
+        },
         "ETH": {
           "availability": {
             "send": true,
             "request": true,
             "lockbox": true,
             "exchangeTo": true,
-            "exchangeFrom": true
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "coinCode": "ETH",
           "coinTicker": "ETH",
@@ -103,7 +131,8 @@
             "request": true,
             "lockbox": false,
             "exchangeTo": true,
-            "exchangeFrom": true
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "coinCode": "PAX",
           "coinTicker": "PAX",
@@ -131,7 +160,8 @@
             "request": true,
             "lockbox": true,
             "exchangeTo": true,
-            "exchangeFrom": true
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "campaign": "sunriver",
           "coinCode": "XLM",
@@ -243,9 +273,11 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
-          "coinifyPaymentDomain": "https://pay.coinify.com"
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com"
         }
+      },
+      "thePit": {
+        "countries": ["UK"]
       },
       "sfox": {
         "countries": ["US"],
@@ -339,16 +371,18 @@
     "android": {}
   },
   "domains": {
-    "root": "https://blockchain.info",
     "api": "https://api.blockchain.info",
-    "webSocket": "wss://ws.blockchain.info",
-    "walletHelper": "https://wallet-helper.blockchain.com",
-    "comWalletApp": "https://login.blockchain.com",
+    "coinify": "https://app-api.coinify.com",
+    "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
+    "comWalletApp": "https://login.blockchain.com",
+    "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.stellar.org",
+    "root": "https://blockchain.info",
+    "thePit": "https://pit.blockchain.com",
     "veriff": "https://magic.veriff.me",
-    "coinify": "https://app-api.coinify.com"
+    "walletHelper": "https://wallet-helper.blockchain.com",
+    "webSocket": "wss://ws.blockchain.info"
   }
 }

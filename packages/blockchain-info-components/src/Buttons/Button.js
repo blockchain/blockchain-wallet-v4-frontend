@@ -180,6 +180,7 @@ Button.propTypes = {
     'gray-3',
     'light',
     'primary',
+    'purple',
     'received',
     'secondary',
     'sent',

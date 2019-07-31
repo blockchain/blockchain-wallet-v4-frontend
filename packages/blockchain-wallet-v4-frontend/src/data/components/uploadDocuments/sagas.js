@@ -17,11 +17,12 @@ export default ({ api }) => {
 
   const upload = function * ({ payload }) {
     try {
-      const { files, token } = payload
+      const { files, token, redirectUrl } = payload
       yield put(A.setUploadedLoading())
       const response = yield call(api.uploadDocuments, token, files)
       yield put(A.setUploadedSuccess(response))
       yield put(A.setReference(response))
+      if (redirectUrl) window.location = redirectUrl
       yield put(actions.router.push('/upload-document/success'))
     } catch (error) {
       yield put(A.setUploadedFailure(error.description))

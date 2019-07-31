@@ -4,7 +4,7 @@ import toJson from 'enzyme-to-json'
 import { testPropTypes } from 'utils/test.utils'
 import { TimeFiltersContainer } from './index'
 
-jest.mock('./template', () => 'template')
+jest.mock('./template', () => 'template.na.js')
 jest.mock('data', () => ({}))
 
 describe('TimeFilters container', () => {

@@ -8,6 +8,7 @@ import layoutWallet from './layoutWallet/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
+import send from './send/reducers'
 import sendBch from './sendBch/reducers'
 import sendBtc from './sendBtc/reducers'
 import sendEth from './sendEth/reducers'
@@ -26,6 +27,7 @@ export default combineReducers({
   manageAddresses,
   onfido,
   priceChart,
+  send,
   sendBch,
   sendBtc,
   sendEth,

@@ -27,6 +27,7 @@ export default ({ api, coreSagas }) => {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
       yield put(A.paymentUpdatedLoading())
+      yield put(actions.components.send.fetchPaymentsAccountPit('XLM'))
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)

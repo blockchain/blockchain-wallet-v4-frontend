@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -81,6 +81,162 @@ const getExpiredFiatValues = q =>
 class ISignThisContainer extends PureComponent {
   state = {
     quoteExpired: false
+  }
+
+  componentDidMount () {
+    window.addEventListener('message', function (e) {})
+
+    const onComplete = e => {
+      // eslint-disable-next-line
+      console.log(e)
+      this.props.coinifyActions.fromISX(e)
+    }
+
+    var e = document.getElementById('isx-iframe')
+    const iSignThisDomain = this.props.walletOptions
+      .map(path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain']))
+      .getOrElse(null)
+    const coinifyPaymentDomain = this.props.walletOptions
+      .map(path(['domains', 'coinifyPaymentDomain']))
+      .getOrElse(null)
+
+    var _isx = {
+      transactionId: '',
+      version: '1.0.0',
+      configOptions: null
+    }
+
+    _isx.applyContainerStyles = function (c) {
+      c.style['width'] = '100%'
+      if (this.configOptions.height) {
+        c.style['height'] = this.configOptions.height
+      } else {
+        c.style['height'] = '700px'
+      }
+      c.style['overflow'] = 'hidden'
+    }
+
+    _isx.setup = function (setup) {
+      this.transactionId = setup.transaction_id
+      this.configOptions = setup
+
+      return this
+    }
+
+    _isx.done = function (_completeListener) {
+      this.completeListener = _completeListener
+      return this
+    }
+
+    _isx.fail = function (_errorListener) {
+      this.errorListener = _errorListener
+      return this
+    }
+
+    _isx.route = function (_routeListener) {
+      this.routeListener = _routeListener
+      return this
+    }
+
+    _isx.resized = function (_resizeListener) {
+      this.resizeListener = _resizeListener
+      return this
+    }
+
+    _isx.publish = function () {
+      this.iframe = e
+      // Create IE + others compatible event handler
+      let eventMethod = window.addEventListener
+        ? 'addEventListener'
+        : 'attachEvent'
+      let eventer = window[eventMethod]
+      let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
+      let self = this
+      // Listen to message from child window
+      eventer(
+        messageEvent,
+        function (e) {
+          // Check for the domain who sent the messageEvent
+          let origin = e.origin || e.originalEvent.origin
+          // eslint-disable-next-line
+          console.log(e)
+          if (![iSignThisDomain, coinifyPaymentDomain].includes(origin)) {
+            // Event not generated from ISX or coinifyPaymentDomain, simply return
+            return
+          }
+
+          let frame = document.getElementById('isx-iframe')
+          if (e.source !== prop('contentWindow', frame)) {
+            // Source of message isn't from the iframe
+            return
+          }
+
+          try {
+            let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
+            // eslint-disable-next-line
+            console.log(d)
+
+            if (d.event.toLowerCase() === 'complete') {
+              if (self.completeListener) {
+                self.completeListener(d)
+              }
+            } else if (d.event.toLowerCase() === 'route') {
+              if (self.routeListener) {
+                self.routeListener(d)
+              }
+            } else if (d.event.toLowerCase() === 'error') {
+              if (self.errorListener) {
+                self.errorListener(d)
+              }
+            } else if (d.event.toLowerCase() === 'resized') {
+              if (self.resizeListener) {
+                self.resizeListener(d)
+              }
+            }
+          } catch (err) {}
+        },
+        false
+      )
+
+      return this
+    }
+    var widget = {
+      transaction_id: this.props.iSignThisId,
+      container_id: 'isx-iframe'
+    }
+
+    var setState = state => {
+      // console.log('V4 ISX_COMPONENT: setState', state)
+      switch (state) {
+        case 'SUCCESS':
+          onComplete('processing')
+          break
+        case 'CANCELLED':
+          onComplete('cancelled')
+          break
+        case 'EXPIRED':
+          onComplete('expired')
+          break
+        case 'DECLINED':
+        case 'FAILED':
+        case 'REJECTED':
+          onComplete('rejected')
+          break
+        case 'PENDING':
+          onComplete('reviewing')
+          break
+      }
+    }
+
+    _isx
+      .setup(widget)
+      .done(function (e) {
+        setState(e.state)
+      })
+      .fail(function (e) {})
+      .resized(function (e) {})
+      .route(function (e) {})
+      .publish()
   }
 
   onQuoteExpiration = () => {
