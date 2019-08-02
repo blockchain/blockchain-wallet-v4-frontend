@@ -34,7 +34,7 @@ class AlertsContainer extends React.PureComponent {
     this.props.alertActions.dismissAlert(id)
   }
 
-  render () {
+  render() {
     const { alerts } = this.props
     console.info('ALERTS', alerts)
     console.info('AA', this.props.alertActions)
@@ -58,7 +58,6 @@ class AlertsContainer extends React.PureComponent {
       </Wrapper>
     )
   }
-
 }
 
 const mapStateToProps = state => ({

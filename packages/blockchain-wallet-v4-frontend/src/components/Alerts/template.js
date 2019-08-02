@@ -71,7 +71,7 @@ const Toast = props => {
 
   return (
     <Wrapper>
-      <Container color={color} data-e2e='toastMessage'>
+      <Container color={color} data-e2e="toastMessage">
         <Content>
           {coin && (
             <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
@@ -79,11 +79,11 @@ const Toast = props => {
           {children}
         </Content>
         <CloseIcon
-          data-e2e='toastMessageClose'
-          name='close'
-          size='14px'
+          data-e2e="toastMessageClose"
+          name="close"
+          size="14px"
           weight={600}
-          color='gray-4'
+          color="gray-4"
           cursor
           onClick={() => onClose(id)}
         />

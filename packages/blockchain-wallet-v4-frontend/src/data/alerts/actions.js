@@ -8,7 +8,15 @@ const generateId = () =>
 
 const display = (nature, message, data, persist, coin, timeout) => ({
   type: ALERTS_SHOW,
-  payload: { id: generateId(), nature, message, data, persist, coin, timeout: timeout ? timeout : DEFAULT_TIMEOUT}
+  payload: {
+    id: generateId(),
+    nature,
+    message,
+    data,
+    persist,
+    coin,
+    timeout: timeout ? timeout : DEFAULT_TIMEOUT
+  }
 })
 // TODO JJ: new param for timeout else fallback to default
 export const displayWarning = (message, data, persist, timeout) =>
