@@ -1,6 +1,7 @@
 import { delay, put } from 'redux-saga/effects'
 import * as actions from './actions'
 
+// TODO JJ: delete all of this
 const DISMISS_AFTER = 7000
 
 export const handleTimer = function * (action) {

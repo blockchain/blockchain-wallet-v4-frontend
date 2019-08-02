@@ -15,8 +15,8 @@ export default (state = INITIAL_STATE, action) => {
       return filter(a => a.id !== id, state)
     }
     case ALERTS_SHOW: {
-      const { id, nature, message, data, coin } = action.payload
-      return prepend({ id, nature, message, data, coin }, state)
+      // const { id, nature, message, data, coin } = action.payload
+      return prepend({ ...action.payload }, state)
     }
     default: {
       return state
