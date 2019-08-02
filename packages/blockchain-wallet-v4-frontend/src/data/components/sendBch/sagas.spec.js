@@ -101,6 +101,10 @@ describe('sendBch sagas', () => {
       saga.next().put(A.sendBchPaymentUpdatedLoading())
     })
 
+    it('should fetch pit addresses', () => {
+      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BCH'))
+    })
+
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.bch.create).toHaveBeenCalledTimes(1)

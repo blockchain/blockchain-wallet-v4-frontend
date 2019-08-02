@@ -5,9 +5,9 @@ export const fetchData = token => ({
   payload: { token }
 })
 
-export const upload = (token, files) => ({
+export const upload = (token, files, redirectUrl) => ({
   type: AT.UPLOAD,
-  payload: { files, token }
+  payload: { files, token, redirectUrl }
 })
 
 export const setReference = reference => ({

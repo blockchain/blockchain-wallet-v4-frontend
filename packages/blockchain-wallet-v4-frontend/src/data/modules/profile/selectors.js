@@ -8,13 +8,13 @@ import {
   findLast,
   hasPath,
   lift,
+  includes,
   isNil,
   not,
   path,
   pathOr,
   prop,
-  propEq,
-  propOr
+  propEq
 } from 'ramda'
 import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
@@ -92,9 +92,27 @@ export const getLastAttemptedTier = compose(
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
-export const invitedToKyc = state =>
+export const isInvitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const userFlowSupported = invitedToKyc
+export const userFlowSupported = isInvitedToKyc
+
+export const isInvitedToPit = state => {
+  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
+  const userCountry = selectors.core.settings.getCountryCode(state)
+  const isInvited = selectors.core.settings
+    .getInvitations(state)
+    .map(prop('pit'))
+
+  const transform = (pitCountries, userCountry, isInvited) => {
+    const isCountryWhitelisted =
+      pitCountries &&
+      (pitCountries === '*' || includes(userCountry, pitCountries))
+
+    return isCountryWhitelisted || isInvited
+  }
+
+  return lift(transform)(pitCountries, userCountry, isInvited)
+}
 
 export const getApiToken = path(['profile', 'apiToken'])
 
@@ -135,6 +153,5 @@ export const getLinkToPitAccountDeeplink = path([
   'linkToPitAccountDeeplink'
 ])
 
-// TODO: this is a temporary way to detect if the user has pit account
 export const isPitAccountLinked = state =>
-  lift(user => not(isNil(propOr(null, 'userName', user))))(getUserData(state))
+  lift(user => not(isNil(prop('settings', user))))(getUserData(state))

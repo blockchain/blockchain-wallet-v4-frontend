@@ -61,6 +61,8 @@ import shapeshiftLogo from './img/shapeshift-logo.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
+import starfieldBannerBg from './img/starfield-banner-bg.png'
+import starfield2 from './img/starfield2.png'
 import stellarPlanet from './img/stellar-planet.png'
 import stellarPlanet2 from './img/stellar-planet@2x.png'
 import stellarPlanet3 from './img/stellar-planet@3x.png'
@@ -70,6 +72,7 @@ import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
 import thePitLogo from './img/the-pit-logo.svg'
+import thePitText from './img/the-pit-text.svg'
 import thePitWord from './img/the-pit-word.svg'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
@@ -196,6 +199,8 @@ export default {
   'sfox-landing': sfoxLanding,
   'sfox-logo': sfoxLogo,
   'silver-approved': silverApproved,
+  'starfield-banner-bg': starfieldBannerBg,
+  starfield2: starfield2,
   'stellar-planet': stellarPlanet,
   'stellar-planet2': stellarPlanet2,
   'stellar-planet3': stellarPlanet3,
@@ -205,6 +210,7 @@ export default {
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
   'the-pit-logo': thePitLogo,
+  'the-pit-text': thePitText,
   'the-pit-word': thePitWord,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,

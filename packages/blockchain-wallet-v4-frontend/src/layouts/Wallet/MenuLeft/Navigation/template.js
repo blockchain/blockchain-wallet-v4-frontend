@@ -29,6 +29,7 @@ const HelperTipContainer = styled.div`
     color: ${props => props.theme['gray-3']};
   }
 `
+
 const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
   background-color: ${props => props.theme['white']};
@@ -39,6 +40,21 @@ const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
+
+const renderPitLinkContent = () => {
+  return (
+    <React.Fragment>
+      <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+      <Destination>
+        <FormattedMessage
+          id='layouts.wallet.menuleft.navigation.thepit'
+          defaultMessage='The PIT'
+        />
+      </Destination>
+    </React.Fragment>
+  )
+}
+
 const Navigation = props => {
   const { ...rest } = props
   const {
@@ -182,53 +198,33 @@ const Navigation = props => {
           coinOrder
         )
       )}
-      <Separator />
-      {props.isPitAccountLinked ? (
-        <Link
-          href={props.pitUrl}
-          rel='noopener noreferrer'
-          target='_blank'
-          style={{ width: '100%' }}
-        >
-          <MenuItem data-e2e='thePitLink'>
-            <MenuIcon
-              name='the-pit'
-              style={{ paddingLeft: '2px' }}
-              size='24px'
-            />
-            <Destination>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.thepit'
-                defaultMessage='The PIT'
-              />
-            </Destination>
-          </MenuItem>
-        </Link>
-      ) : (
-        <LinkContainer to='/thepit' activeClassName='active'>
-          <MenuItem data-e2e='thePitLink'>
-            <MenuIcon
-              name='the-pit'
-              style={{ paddingLeft: '2px' }}
-              size='24px'
-            />
-            <Destination>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.thepit'
-                defaultMessage='The PIT'
-              />
-            </Destination>
-            <NewCartridge>
-              <Text color='orange' size='12' weight={500} uppercase>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.transactions.new'
-                  defaultMessage='New'
-                />
-              </Text>
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
+      {props.isInvitedToPit && <Separator />}
+      {props.isInvitedToPit ? (
+        props.isPitAccountLinked ? (
+          <Link
+            href={props.pitUrl}
+            rel='noopener noreferrer'
+            target='_blank'
+            style={{ width: '100%' }}
+          >
+            <MenuItem data-e2e='thePitLink'>{renderPitLinkContent()}</MenuItem>
+          </Link>
+        ) : (
+          <LinkContainer to='/thepit' activeClassName='active'>
+            <MenuItem data-e2e='thePitLink'>
+              {renderPitLinkContent()}
+              <NewCartridge>
+                <Text color='orange' size='12' weight={500} uppercase>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.transactions.new'
+                    defaultMessage='New'
+                  />
+                </Text>
+              </NewCartridge>
+            </MenuItem>
+          </LinkContainer>
+        )
+      ) : null}
     </Wrapper>
   )
 }

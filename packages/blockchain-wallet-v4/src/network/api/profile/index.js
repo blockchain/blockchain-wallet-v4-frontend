@@ -58,6 +58,17 @@ export default ({
     })
   }
 
+  const getPaymentsAccountPit = currency => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/payments/accounts/linked',
+      contentType: 'application/json',
+      data: {
+        currency
+      }
+    })
+  }
+
   const shareWalletDepositAddresses = addresses => {
     return authorizedPost({
       url: nabuUrl,
@@ -148,6 +159,7 @@ export default ({
     createLinkAccountId,
     generateRetailToken,
     generateSession,
+    getPaymentsAccountPit,
     getUser,
     linkAccount,
     recoverUser,

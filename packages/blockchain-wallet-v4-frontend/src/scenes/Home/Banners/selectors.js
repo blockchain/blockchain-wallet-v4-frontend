@@ -17,11 +17,14 @@ export const getData = state => {
   const isPitAccountLinked = selectors.modules.profile
     .isPitAccountLinked(state)
     .getOrElse(true)
+  const isInvitedToPit = selectors.modules.profile
+    .isInvitedToPit(state)
+    .getOrElse(false)
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (!isPitAccountLinked) {
+  } else if (isInvitedToPit && !isPitAccountLinked) {
     bannerToShow = 'thepit'
   } else {
     bannerToShow = null

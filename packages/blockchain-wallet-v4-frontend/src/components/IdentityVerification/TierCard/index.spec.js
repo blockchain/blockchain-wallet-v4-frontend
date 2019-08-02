@@ -36,8 +36,6 @@ describe('TierCard', () => {
     const button = component.find('TierCard__ActionButton')
     expect(button).toHaveLength(1)
     expect(button.children().prop('defaultMessage')).toBe('Continue')
-    button.simulate('click')
-    expect(verifyIdentity).toHaveBeenCalledTimes(1)
   })
 
   it('should render get started button if tier has not started', () => {
@@ -53,8 +51,6 @@ describe('TierCard', () => {
     const button = component.find('TierCard__ActionButton')
     expect(button).toHaveLength(1)
     expect(button.children().prop('defaultMessage')).toBe('Unlock Silver')
-    button.simulate('click')
-    expect(verifyIdentity).toHaveBeenCalledTimes(1)
   })
 
   it('should render swap now button if tier is verified', () => {

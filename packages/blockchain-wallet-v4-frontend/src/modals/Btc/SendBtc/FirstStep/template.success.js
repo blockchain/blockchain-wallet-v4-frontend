@@ -189,6 +189,7 @@ const FirstStep = props => {
               exclude={[from.label]}
               openMenuOnClick={false}
               includeAll={false}
+              includePitAddress
               isCreatable
               noOptionsMessage={() => null}
               isValidNewOption={() => false}

@@ -276,6 +276,9 @@
           "iSignThisDomain": "https://stage-coinify-verify.isignthis.com"
         }
       },
+      "thePit": {
+        "countries": ["UK"]
+      },
       "sfox": {
         "countries": ["US"],
         "states": [
