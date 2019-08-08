@@ -58,6 +58,10 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "BitPay invoice not found",
+        "id": "components.alerts.bitpay_not_found"
+      },
+      {
         "defaultMessage": "{coinName} address successfully copied to clipboard!",
         "id": "components.alerts.copy_address_clipboard_success"
       },
