@@ -1120,6 +1120,10 @@
         "id": "scenes.exchange.secondstep.expiry_text"
       },
       {
+        "defaultMessage": "Remaining time {timeLeft}",
+        "id": "modals.sendbtc.firststep.paypro_expiry_text"
+      },
+      {
         "defaultMessage": "This rate will expire after {time}.",
         "id": "scenes.exchange.secondstep.expiry.tooltip1"
       },
@@ -3162,6 +3166,23 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "BitPay Invoice Expired",
+        "id": "modals.bitpayexpired.invoice_expired"
+      },
+      {
+        "defaultMessage": "An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment.",
+        "id": "modals.bitpayexpired.expired_msg"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/BitPayExpired/template.json"
   },
   {
     "descriptors": [
