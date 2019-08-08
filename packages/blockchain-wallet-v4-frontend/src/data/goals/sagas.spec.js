@@ -30,6 +30,7 @@ describe('goals sagas', () => {
     runKycGoal,
     runReferralGoal,
     runSendBtcGoal,
+    runPaymentProtocolGoal,
     runSwapUpgradeGoal,
     runWelcomeGoal,
     showInitialModal,
@@ -184,6 +185,30 @@ describe('goals sagas', () => {
         .next()
         .isDone()
     })
+    it('should save payment protocol goal and route to /wallet', () => {
+      const mockPathnameEncoded =
+        'bitcoin%3A%3Fr%3Dhttps://bitpay.com/i/LKJLKJ3LKJ34HH'
+      const mockSearchEncoded = ''
+      const saga = testSaga(
+        defineSendBtcGoal,
+        mockPathnameEncoded,
+        mockSearchEncoded
+      )
+
+      saga
+        .next()
+        .put(
+          actions.goals.saveGoal('paymentProtocol', {
+            r: 'https://bitpay.com/i/LKJLKJ3LKJ34HH'
+          })
+        )
+        .next()
+        .put(actions.router.push('/wallet'))
+        .next()
+        .put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+        .next()
+        .isDone()
+    })
   })
   describe('defineReferralGoal saga', () => {
     const mockSearch =
@@ -251,6 +276,15 @@ describe('goals sagas', () => {
 
       it('should call runSendBtcGoal saga and end', () => {
         saga.next().call(runSendBtcGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run payment protocol goal', () => {
+      const mockGoal = { name: 'paymentProtocol', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runPaymentProtocolGoal saga and end', () => {
+        saga.next().call(runPaymentProtocolGoal, mockGoal)
         saga.next().isDone()
       })
     })

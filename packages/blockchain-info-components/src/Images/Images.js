@@ -6,6 +6,7 @@ import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
+import bitpayLogo from './img/bitpay-logo.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
 import blockchainVector from './img/blockchain-vector.svg'
 import blueLogo from './img/blue-logo.svg'
@@ -121,6 +122,7 @@ export default {
   'allow-camera3': allowCamera3,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
+  'bitpay-logo': bitpayLogo,
   'blockchain-blue': blockchainBlue,
   'blockchain-vector': blockchainVector,
   'blue-logo': blueLogo,

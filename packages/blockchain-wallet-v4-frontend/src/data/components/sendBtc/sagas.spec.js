@@ -137,6 +137,20 @@ describe('sendBtc sagas', () => {
       expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
+    it('should update payment amount from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(amount.coin * 100000000)
+    })
+
+    it('should update payment description from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith(description)
+    })
+
     it('should update payment fee from value', () => {
       saga.next(paymentMock)
 

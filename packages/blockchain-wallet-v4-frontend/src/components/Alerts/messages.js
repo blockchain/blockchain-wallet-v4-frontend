@@ -149,6 +149,13 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to create Coinify account.'
         />
       )
+    case C.BITPAY_INVOICE_NOT_FOUND_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.bitpay_not_found'
+          defaultMessage='BitPay invoice not found'
+        />
+      )
     case C.COPY_ADDRESS_CLIPBOARD_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
