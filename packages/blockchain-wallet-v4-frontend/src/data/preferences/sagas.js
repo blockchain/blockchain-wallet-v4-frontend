@@ -11,9 +11,7 @@ export default () => {
     try {
       addLanguageToUrl(language)
       if (showAlert) {
-        yield put(
-          actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS, null, true)
-        )
+        yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
