@@ -30,7 +30,8 @@ export default ({ coreSagas, networks }) => {
         amount,
         feeType,
         description,
-        lockboxIndex
+        lockboxIndex,
+        payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
@@ -65,11 +66,19 @@ export default ({ coreSagas, networks }) => {
         defaultAccountR = accountsR.map(nth(defaultIndex))
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
+        if (amount && amount.coin) {
+          const satAmount = Exchange.convertBtcToBtc({
+            value: amount.coin,
+            fromUnit: 'BTC',
+            toUnit: 'SAT'
+          }).value
+          payment = yield payment.amount(parseInt(satAmount))
+        }
+        if (description) payment = yield payment.description(description)
       }
-      const defaultFeePerByte = path(
-        ['fees', feeType || 'regular'],
-        payment.value()
-      )
+      const defaultFeePerByte = payPro
+        ? path(['fees', feeType || 'priority'], payment.value())
+        : path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.fee(defaultFeePerByte)
       const prepareTo = to => {
         return to ? { value: { value: to, label: to } } : null
@@ -94,6 +103,11 @@ export default ({ coreSagas, networks }) => {
 
   const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
+  }
+
+  const bitpayInvoiceExpired = function * () {
+    yield put(actions.modals.closeAllModals())
+    yield put(actions.modals.showModal('BitPayExpired'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -419,6 +433,7 @@ export default ({ coreSagas, networks }) => {
   }
 
   return {
+    bitpayInvoiceExpired,
     initialized,
     destroyed,
     minimumAmountClicked,

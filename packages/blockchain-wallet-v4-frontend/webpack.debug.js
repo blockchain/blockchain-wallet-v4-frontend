@@ -205,7 +205,8 @@ module.exports = {
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           horizon: envConfig.HORIZON_URL,
-          coinify: envConfig.COINIFY_URL
+          coinify: envConfig.COINIFY_URL,
+          bitpay: envConfig.BITPAY_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -283,7 +284,8 @@ module.exports = {
           'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'https://shapeshift.io'
+          'https://shapeshift.io',
+          'https://bitpay.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

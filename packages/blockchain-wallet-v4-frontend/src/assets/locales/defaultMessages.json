@@ -58,6 +58,10 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "BitPay invoice not found",
+        "id": "components.alerts.bitpay_not_found"
+      },
+      {
         "defaultMessage": "{coinName} address successfully copied to clipboard!",
         "id": "components.alerts.copy_address_clipboard_success"
       },
@@ -1114,6 +1118,10 @@
       {
         "defaultMessage": "This quote will refresh in: {timeLeft}",
         "id": "scenes.exchange.secondstep.expiry_text"
+      },
+      {
+        "defaultMessage": "Remaining time {timeLeft}",
+        "id": "modals.sendbtc.firststep.paypro_expiry_text"
       },
       {
         "defaultMessage": "This rate will expire after {time}.",
@@ -3158,6 +3166,23 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "BitPay Invoice Expired",
+        "id": "modals.bitpayexpired.invoice_expired"
+      },
+      {
+        "defaultMessage": "An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment.",
+        "id": "modals.bitpayexpired.expired_msg"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/BitPayExpired/template.json"
   },
   {
     "descriptors": [
