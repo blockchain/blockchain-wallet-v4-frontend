@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { propOr } from 'ramda'
 import styled from 'styled-components'
 
@@ -8,6 +7,23 @@ import { Icon } from 'blockchain-info-components'
 const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['white']};
+  opacity: ${props => {
+    if (!props.active) {
+      return 0
+    } else {
+      return 1
+    }
+  }};
+  transform: ${props => {
+    if (!props.active) {
+      return 'translateX(40px)'
+    } else {
+      return 'translateX(0)'
+    }
+  }};
+
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+
   @media (min-width: 768px) {
     width: 450px;
     border-radius: 8px;
@@ -44,7 +60,7 @@ const CustomIcon = styled(Icon)`
 const CloseIcon = styled(Icon)`
   margin-right: 8px;
   &:hover {
-    color: red; // TODO
+    color: red;
   }
 `
 
@@ -61,45 +77,62 @@ const selectColor = (type, coin) => {
   }
 }
 
-// TODO JJ:
-// - make into full component
-// - setup componentDidMount
-// - hook into ReactTransition stuff with new props (timeout, persist)
-const Toast = props => {
-  const { children, nature, id, coin, onClose } = props
-  const color = selectColor(nature, coin)
+class Toast extends React.PureComponent {
+  state = {
+    active: false
+  }
 
-  return (
-    <Wrapper>
-      <Container color={color} data-e2e="toastMessage">
-        <Content>
-          {coin && (
-            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
-          )}
-          {children}
-        </Content>
-        <CloseIcon
-          data-e2e="toastMessageClose"
-          name="close"
-          size="14px"
-          weight={600}
-          color="gray-4"
-          cursor
-          onClick={() => onClose(id)}
-        />
-      </Container>
-    </Wrapper>
-  )
-}
+  componentDidMount () {
+    const { persist, timeout } = this.props
+    // ease in here and check what are the props (persist, timeout)
+    setTimeout(() => {
+      this.setState({ active: true })
+    }, 10)
+    if (!persist) {
+      setTimeout(() => {
+        this.setState({ active: false })
+      }, timeout - 1000)
+    }
+  }
 
-Toast.propTypes = {
-  nature: PropTypes.oneOf(['success', 'error', 'info']),
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
-}
+  componentDidUpdate () {
+    const { id, onClose } = this.props
+    if (!this.state.active) {
+      setTimeout(() => {
+        onClose(id)
+      }, 1000)
+    }
+  }
 
-Toast.defaultProps = {
-  nature: 'info'
+  render () {
+    const { children, nature, id, coin, onClose } = this.props
+    const color = selectColor(nature, coin)
+
+    return (
+      <Wrapper active={this.state.active}>
+        <Container color={color} data-e2e='toastMessage'>
+          <Content>
+            {coin && (
+              <CustomIcon
+                name={coin.icons.circleFilled}
+                color={coin.colorCode}
+              />
+            )}
+            {children}
+          </Content>
+          <CloseIcon
+            data-e2e='toastMessageClose'
+            name='close'
+            size='14px'
+            weight={600}
+            color='gray-4'
+            cursor
+            onClick={() => onClose(id)}
+          />
+        </Container>
+      </Wrapper>
+    )
+  }
 }
 
 export default Toast

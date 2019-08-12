@@ -1,7 +1,6 @@
 import { all, call, delay, fork, put } from 'redux-saga/effects'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import * as actions from './actions'
-import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
@@ -65,7 +64,6 @@ export default function * rootSaga ({
 
   yield all([
     call(welcomeSaga),
-    fork(alerts),
     fork(analytics({ api })),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, networks, options })),

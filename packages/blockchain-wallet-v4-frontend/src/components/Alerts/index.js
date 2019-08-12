@@ -28,28 +28,27 @@ const Wrapper = styled.div`
     width: auto;
   }
 `
-// TODO JJ: delete Toast component from component library
+
 class AlertsContainer extends React.PureComponent {
   handleClose = id => {
     this.props.alertActions.dismissAlert(id)
   }
 
-  render() {
+  render () {
     const { alerts } = this.props
-    console.info('ALERTS', alerts)
-    console.info('AA', this.props.alertActions)
     return (
       <Wrapper>
-        {alerts.map((alert, index) => {
+        {alerts.map(alert => {
           const { id, nature, message, data, coin, timeout, persist } = alert
-          console.info('ALERT', alert)
           return (
             <AlertToast
               id={id}
-              key={index}
+              key={id}
               nature={nature}
               coin={coin}
               onClose={this.handleClose}
+              persist={persist}
+              timeout={timeout}
             >
               {getAlertContent(message, data)}
             </AlertToast>
