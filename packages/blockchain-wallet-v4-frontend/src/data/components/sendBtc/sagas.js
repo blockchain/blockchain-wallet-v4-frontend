@@ -91,6 +91,15 @@ export default ({ coreSagas, networks }) => {
         from: from || defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
+      if (payPro) {
+        try {
+          payment = yield payment.build()
+        } catch (e) {
+          yield put(
+            actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e)
+          )
+        }
+      }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
