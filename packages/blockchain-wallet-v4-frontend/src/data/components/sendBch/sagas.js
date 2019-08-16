@@ -19,7 +19,6 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBch/sagas'
-export const bchDefaultFee = 4
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
@@ -50,7 +49,7 @@ export default ({ coreSagas, networks }) => {
       } else {
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       }
-      payment = yield payment.fee(bchDefaultFee)
+      payment = yield payment.fee('regular')
       const initialValues = {
         coin: 'BCH',
         from: from || defaultAccountR.getOrElse()
