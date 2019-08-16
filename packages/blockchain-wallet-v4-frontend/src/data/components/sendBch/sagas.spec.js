@@ -12,7 +12,7 @@ import * as S from './selectors'
 import { FORM } from './model'
 import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
-import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
+import sendBchSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
@@ -133,7 +133,7 @@ describe('sendBch sagas', () => {
       saga.next(paymentMock)
 
       expect(paymentMock.fee).toHaveBeenCalledTimes(1)
-      expect(paymentMock.fee).toHaveBeenCalledWith(bchDefaultFee)
+      expect(paymentMock.fee).toHaveBeenCalledWith('regular')
     })
 
     it('should initialize sendBch form with correct values', () => {
