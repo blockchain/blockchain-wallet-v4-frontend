@@ -51,7 +51,7 @@ class LoginContainer extends React.PureComponent {
     const guid = (isGuid(path) && path) || lastGuid
 
     return guid ? (
-      <Login {...this.props} initialValues={{ guid }} {...loginProps} />
+      <Login {...this.props} {...loginProps} initialValues={{ guid }} />
     ) : (
       <Login {...this.props} {...loginProps} />
     )
@@ -65,6 +65,7 @@ const mapStateToProps = state => ({
   formMeta: getFormMeta('login')(state),
   authType: selectors.auth.getAuthType(state),
   lastGuid: selectors.cache.getLastGuid(state),
+  goals: selectors.goals.getGoals(state),
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))

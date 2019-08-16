@@ -30,6 +30,7 @@ describe('goals sagas', () => {
     runKycGoal,
     runReferralGoal,
     runSendBtcGoal,
+    runPaymentProtocolGoal,
     runSwapUpgradeGoal,
     runWelcomeGoal,
     showInitialModal,
@@ -184,6 +185,30 @@ describe('goals sagas', () => {
         .next()
         .isDone()
     })
+    it('should save payment protocol goal and route to /wallet', () => {
+      const mockPathnameEncoded =
+        'bitcoin%3A%3Fr%3Dhttps://bitpay.com/i/LKJLKJ3LKJ34HH'
+      const mockSearchEncoded = ''
+      const saga = testSaga(
+        defineSendBtcGoal,
+        mockPathnameEncoded,
+        mockSearchEncoded
+      )
+
+      saga
+        .next()
+        .put(
+          actions.goals.saveGoal('paymentProtocol', {
+            r: 'https://bitpay.com/i/LKJLKJ3LKJ34HH'
+          })
+        )
+        .next()
+        .put(actions.router.push('/wallet'))
+        .next()
+        .put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+        .next()
+        .isDone()
+    })
   })
   describe('defineReferralGoal saga', () => {
     const mockSearch =
@@ -251,6 +276,15 @@ describe('goals sagas', () => {
 
       it('should call runSendBtcGoal saga and end', () => {
         saga.next().call(runSendBtcGoal, mockGoal)
+        saga.next().isDone()
+      })
+    })
+    describe('should run payment protocol goal', () => {
+      const mockGoal = { name: 'paymentProtocol', data: {} }
+      const saga = testSaga(runGoal, mockGoal)
+
+      it('should call runPaymentProtocolGoal saga and end', () => {
+        saga.next().call(runPaymentProtocolGoal, mockGoal)
         saga.next().isDone()
       })
     })
@@ -341,29 +375,6 @@ describe('goals sagas', () => {
               'runWelcomeGoal',
               'login success'
             )
-          )
-          .next()
-          .isDone()
-      })
-    })
-
-    describe('should show welcome modal on first login', () => {
-      const saga = testSaga(runWelcomeGoal, {
-        id: mockGoalId,
-        data: { firstLogin: true }
-      })
-
-      it('should delete goal and show welcome modal', () => {
-        saga
-          .next()
-          .put(actions.goals.deleteGoal(mockGoalId))
-          .next()
-          .call(api.getWalletNUsers)
-          .next({ values: [{ y: 26000000 }] })
-          .put(
-            actions.goals.addInitialModal('welcome', 'Welcome', {
-              walletMillions: 26
-            })
           )
           .next()
           .isDone()
@@ -532,26 +543,6 @@ describe('goals sagas', () => {
           actions.modals.showModal(
             mockModals.swapGetStarted.name,
             mockModals.swapGetStarted.data
-          )
-        )
-        .next()
-        .isDone()
-    })
-
-    it('should show welcome modal', () => {
-      const mockModals = {
-        welcome: { name: 'welcome', data: {} }
-      }
-
-      saga
-        .restart()
-        .next()
-        .select(selectors.goals.getInitialModals)
-        .next(mockModals)
-        .put(
-          actions.modals.showModal(
-            mockModals.welcome.name,
-            mockModals.welcome.data
           )
         )
         .next()

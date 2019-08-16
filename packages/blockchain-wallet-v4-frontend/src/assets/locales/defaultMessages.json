@@ -58,6 +58,10 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "BitPay invoice not found",
+        "id": "components.alerts.bitpay_not_found"
+      },
+      {
         "defaultMessage": "{coinName} address successfully copied to clipboard!",
         "id": "components.alerts.copy_address_clipboard_success"
       },
@@ -1116,6 +1120,10 @@
         "id": "scenes.exchange.secondstep.expiry_text"
       },
       {
+        "defaultMessage": "Remaining time {timeLeft}",
+        "id": "modals.sendbtc.firststep.paypro_expiry_text"
+      },
+      {
         "defaultMessage": "This rate will expire after {time}.",
         "id": "scenes.exchange.secondstep.expiry.tooltip1"
       },
@@ -1999,6 +2007,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "The PIT",
+        "id": "layouts.wallet.menuleft.navigation.thepit"
+      },
       {
         "defaultMessage": "Dashboard",
         "id": "layouts.wallet.menuleft.navigation.dashboard"
@@ -3154,6 +3166,23 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "BitPay Invoice Expired",
+        "id": "modals.bitpayexpired.invoice_expired"
+      },
+      {
+        "defaultMessage": "An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment.",
+        "id": "modals.bitpayexpired.expired_msg"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/BitPayExpired/template.json"
   },
   {
     "descriptors": [
@@ -5589,30 +5618,166 @@
     "descriptors": [
       {
         "defaultMessage": "Success!",
-        "id": "modals.onboarding.linkaccount.successheader"
+        "id": "modals.onboarding.linkfrompitaccount.successheader"
       },
       {
-        "defaultMessage": "You have connected your Blockchain Wallet to The Pit. Go back and finish signing up!",
-        "id": "modals.onboarding.linkaccount.success"
+        "defaultMessage": "You have connected your Blockchain Wallet to The PIT. Go back and finish signing up!",
+        "id": "modals.onboarding.linkfrompitaccount.success"
       },
       {
         "defaultMessage": "Done",
-        "id": "modals.onboarding.linkaccount.successdone"
+        "id": "modals.onboarding.linkfrompitaccount.successdone"
       },
       {
         "defaultMessage": "Connection Error",
-        "id": "modals.onboarding.linkaccount.failureheader"
+        "id": "modals.onboarding.linkfrompitaccount.failureheader"
       },
       {
-        "defaultMessage": "We could not connect your Wallet to The Pit. Please go back to The Pit and try again.",
-        "id": "modals.onboarding.linkaccount.failure"
+        "defaultMessage": "We could not connect your Wallet to The PIT. Please go back to The PIT and try again.",
+        "id": "modals.onboarding.linkfrompitaccount.failure"
       },
       {
         "defaultMessage": "Done",
-        "id": "modals.onboarding.linkaccount.failuredone"
+        "id": "modals.onboarding.linkfrompitaccount.failuredone"
+      },
+      {
+        "defaultMessage": "Please Verify Email",
+        "id": "modals.onboarding.linkfrompitaccount.unverified_email"
+      },
+      {
+        "defaultMessage": "You'll need to verify",
+        "id": "modals.onboarding.linkfrompitaccount.need_to_verify"
+      },
+      {
+        "defaultMessage": "to continue. We'll be waiting right here in the meantime.",
+        "id": "modals.onboarding.linkfrompitaccount.to_continue"
+      },
+      {
+        "defaultMessage": "You do not have an email associated with this wallet. Please to Security Center to set your email.",
+        "id": "modals.onboarding.linkfrompitaccount.no_email"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "modals.onboarding.linkfrompitaccount.send_email"
       }
     ],
-    "path": "src/modals/Onboarding/LinkAccount/template.json"
+    "path": "src/modals/Onboarding/LinkFromPitAccount/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Linking Error",
+        "id": "modals.onboarding.linktopitaccount.error.title"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linktopitaccount.error.done"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Waiting for account link",
+        "id": "modals.onboarding.linktopitaccount.loading.waiting"
+      },
+      {
+        "defaultMessage": "If a new browser tab did not open, try clicking the button below.",
+        "id": "modals.onboarding.linktopitaccount.loading.waitingbody"
+      },
+      {
+        "defaultMessage": "Open The PIT",
+        "id": "modals.onboarding.linktopitaccount.loading.openhere"
+      },
+      {
+        "defaultMessage": "Taking you to The PIT",
+        "id": "modals.onboarding.linktopitaccount.loading.title"
+      },
+      {
+        "defaultMessage": "A new browser tab will open shortly where you can complete accounting linking.",
+        "id": "modals.onboarding.linktopitaccount.loading.subtitle"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "The only Exchange that connects to your Wallet.",
+        "id": "modals.onboarding.linktopitaccount.na.subtitle"
+      },
+      {
+        "defaultMessage": "Lightning Fast Trades",
+        "id": "modals.onboarding.linktopitaccount.na.left.point1"
+      },
+      {
+        "defaultMessage": "Liquid & Reliable",
+        "id": "modals.onboarding.linktopitaccount.na.left.point2"
+      },
+      {
+        "defaultMessage": "Built by Blockchain.com",
+        "id": "modals.onboarding.linktopitaccount.na.left.point3"
+      },
+      {
+        "defaultMessage": "Low Fees",
+        "id": "modals.onboarding.linktopitaccount.na.left.point4"
+      },
+      {
+        "defaultMessage": "The PIT will be able to:",
+        "id": "modals.onboarding.linktopitaccount.na.right.totitle"
+      },
+      {
+        "defaultMessage": "Share your Gold or Silver Level status",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint"
+      },
+      {
+        "defaultMessage": "Exchange crypto addresses so you dont have to copy and paste",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint2"
+      },
+      {
+        "defaultMessage": "The PIT will not be able to:",
+        "id": "modals.onboarding.linktopitaccount.na.right.nottitle"
+      },
+      {
+        "defaultMessage": "View you wallet password",
+        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1"
+      },
+      {
+        "defaultMessage": "Connect Now",
+        "id": "modals.onboarding.linktopitaccount.na.connectnow"
+      },
+      {
+        "defaultMessage": "A verified email address is required to connect your wallet to The PIT.",
+        "id": "modals.onboarding.linktopitaccount.na.right.verifyemailrequired"
+      },
+      {
+        "defaultMessage": "Please verify your email address to continue with the signup process.",
+        "id": "modals.onboarding.linktopitaccount.na.right.checkemail"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "modals.onboarding.linktopitaccount.na.resendemail"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.notasked.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success!",
+        "id": "modals.onboarding.linktopitaccount.success.title"
+      },
+      {
+        "defaultMessage": "Your Blockchain Wallet is now connected to The PIT!",
+        "id": "modals.onboarding.linktopitaccount.success.subtitle"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.onboarding.linktopitaccount.success.done"
+      }
+    ],
+    "path": "src/modals/Onboarding/LinkToPitAccount/template.success.json"
   },
   {
     "descriptors": [
@@ -8151,23 +8316,19 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Trading Your Crypto Doesn't Mean Trading Away Control.",
-        "id": "scenes.home.banners.swap.title_1"
+        "defaultMessage": "New",
+        "id": "scenes.home.banners.pitbanner.new"
       },
       {
-        "defaultMessage": "Trade crypto straight from your Wallet.",
-        "id": "scenes.home.banners.swap.subtitle_1"
+        "defaultMessage": "We built a brand new Crypto Exchange. Trade with The PIT.",
+        "id": "scenes.home.banners.pitbanner.trade"
       },
       {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.banners.swap.started"
-      },
-      {
-        "defaultMessage": "Swap Now",
-        "id": "scenes.home.banners.swap.swapnow"
+        "defaultMessage": "Check It Out",
+        "id": "scenes.home.banners.pitbanner.checkitout"
       }
     ],
-    "path": "src/scenes/Home/Banners/Swap/index.json"
+    "path": "src/scenes/Home/Banners/ThePitBanner/index.json"
   },
   {
     "descriptors": [
@@ -8227,6 +8388,39 @@
       }
     ],
     "path": "src/scenes/Home/PriceChart/TimeFilters/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Authorize The PIT to connect to your Blockchain Wallet",
+        "id": "scenes.linkaccount.authorize"
+      },
+      {
+        "defaultMessage": "The PIT will be able to:",
+        "id": "scenes.linkaccount.pit_will_be_able_to"
+      },
+      {
+        "defaultMessage": "Share your Gold or Silver status",
+        "id": "scenes.linkaccount.share_levels2"
+      },
+      {
+        "defaultMessage": "Exchange crypto addresses so you don’t have to copy and paste",
+        "id": "scenes.linkaccount.share_addresses"
+      },
+      {
+        "defaultMessage": "The PIT will not be able to:",
+        "id": "scenes.linkaccount.pit_will_not_be_able_to"
+      },
+      {
+        "defaultMessage": "View your Wallet password, recovery phrase, or private keys",
+        "id": "scenes.linkaccount.view_pw"
+      },
+      {
+        "defaultMessage": "Brought to you by Blockchain",
+        "id": "scenes.linkaccount.by_blockchain"
+      }
+    ],
+    "path": "src/scenes/LinkAccount/index.json"
   },
   {
     "descriptors": [
@@ -10472,6 +10666,55 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Level Up Your Trading",
+        "id": "scenes.thepit.title"
+      },
+      {
+        "defaultMessage": "We built the fastest exchange in crypto to re-define the speed, reliability, and liquidity crypto investors should not only expect, but demand.",
+        "id": "scenes.thepit.subtitle1"
+      },
+      {
+        "defaultMessage": "The only Exchange that connects to your Wallet.",
+        "id": "scenes.thepit.image.subtitle"
+      },
+      {
+        "defaultMessage": "Fast and Liquid",
+        "id": "scenes.thepit.point1.title"
+      },
+      {
+        "defaultMessage": "Trade in microseconds with the fastest matching engine in crypto and deep pool of institutional liquidity.",
+        "id": "scenes.thepit.point1.subtitle1"
+      },
+      {
+        "defaultMessage": "Easy to Use",
+        "id": "scenes.thepit.point2.title"
+      },
+      {
+        "defaultMessage": "No instructional manual required! The PIT makes it refreshingly easy for you to use Wall Street quality tech.",
+        "id": "scenes.thepit.point2.subtitle1"
+      },
+      {
+        "defaultMessage": "Blockchain Connect",
+        "id": "scenes.thepit.point3.title"
+      },
+      {
+        "defaultMessage": "The only exchange with a seamless, secure integration to your digital Blockchain Wallet.",
+        "id": "scenes.thepit.point3.subtitle1"
+      },
+      {
+        "defaultMessage": "Connect Now",
+        "id": "scenes.thepit.connectnow"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.thepit.learnmore"
+      }
+    ],
+    "path": "src/scenes/ThePit/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "XLM is a token that enables quick, low cost global transactions. Send, receive, and trade XLM from your Wallet today.",
         "id": "scenes.transaction.content.empty.xlm.subtitle2"
       },
@@ -10608,8 +10851,8 @@
         "id": "scenes.uploaddoc.verify"
       },
       {
-        "defaultMessage": "Please upload the following document:",
-        "id": "scenes.uploaddoc.doc"
+        "defaultMessage": "Please upload the following documents:",
+        "id": "scenes.uploaddoc.docs"
       },
       {
         "defaultMessage": "Browse files",

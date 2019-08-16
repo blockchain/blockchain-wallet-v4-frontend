@@ -2,13 +2,24 @@ import {
   anyPass,
   equals,
   map,
+  path,
+  pathOr,
   prop,
   propEq,
   startsWith,
   sum,
   values
 } from 'ramda'
-import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
+import {
+  all,
+  call,
+  delay,
+  join,
+  put,
+  select,
+  spawn,
+  take
+} from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
@@ -16,7 +27,10 @@ import { actions, actionTypes, model, selectors } from 'data'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
+import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
+
+const { DEEPLINK_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -33,12 +47,6 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const waitForUserInvitations = function * () {
-    const invitations = yield select(selectors.core.settings.getInvitations)
-    if (Remote.Success.is(invitations)) return
-    yield take(actionTypes.core.settings.FETCH_SETTINGS_SUCCESS)
-  }
-
   const isKycNotFinished = function * () {
     yield call(waitForUserData)
     return (yield select(selectors.modules.profile.getUserKYCState))
@@ -53,6 +61,8 @@ export default ({ api }) => {
         linkId: params.get('link_id')
       })
     )
+    yield delay(3000)
+    yield put(actions.analytics.logEvent(DEEPLINK_EVENTS.PIT))
   }
 
   const defineReferralGoal = function * (search) {
@@ -78,12 +88,21 @@ export default ({ api }) => {
     // Special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
     const bip21Payload = bip21.decode(decodedPayload)
-    const { address } = bip21Payload
-    const { amount, message } = bip21Payload.options || {}
-    const data = { address, amount, description: message }
-    yield put(actions.goals.saveGoal('payment', data))
-    yield put(actions.router.push('/wallet'))
-    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+    // check for BitPay payment protocol
+    if (path(['options', 'r'], bip21Payload)) {
+      const r = pathOr({}, ['options', 'r'], bip21Payload)
+      const data = { r }
+      yield put(actions.goals.saveGoal('paymentProtocol', data))
+      yield put(actions.router.push('/wallet'))
+      yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+    } else {
+      const { address } = bip21Payload
+      const { amount, message } = bip21Payload.options || {}
+      const data = { address, amount, description: message }
+      yield put(actions.goals.saveGoal('payment', data))
+      yield put(actions.router.push('/wallet'))
+      yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+    }
   }
 
   const defineLogLevel = function * (search) {
@@ -133,6 +152,64 @@ export default ({ api }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
+  const runPaymentProtocolGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(getBtcBalance)
+    const { r } = data
+    const invoiceId = r.split('/i/')[1]
+    const currency = yield select(selectors.core.settings.getCurrency)
+    const btcRates = yield select(selectors.core.data.btc.getRates)
+
+    try {
+      const rawPaymentRequest = yield call(api.getRawPaymentRequest, invoiceId)
+      const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
+
+      const tx = paymentRequest.outputs[0]
+      const satoshiAmount = tx.amount
+      const address = tx.address
+
+      const amount = Exchange.convertBtcToBtc({
+        value: satoshiAmount,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      }).value
+
+      const fiat = Exchange.convertBtcToFiat({
+        value: amount,
+        fromUnit: 'BTC',
+        toCurrency: currency.getOrElse(null),
+        rates: btcRates.getOrElse(null)
+      }).value
+
+      const merchant = paymentRequest.memo.split('for merchant ')[1]
+      const payPro = {
+        expiration: paymentRequest.expires,
+        paymentUrl: r,
+        merchant
+      }
+
+      yield put(
+        actions.goals.addInitialModal(
+          'payment',
+          model.components.sendBtc.MODAL,
+          {
+            to: address,
+            amount: { coin: amount, fiat },
+            description: merchant,
+            payPro
+          }
+        )
+      )
+    } catch (e) {
+      yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e)
+      )
+    }
+  }
+
   const runSendBtcGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -161,8 +238,9 @@ export default ({ api }) => {
   const runLinkAccountGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
-
-    yield put(actions.goals.addInitialModal('linkAccount', 'LinkAccount', data))
+    yield put(
+      actions.goals.addInitialModal('linkAccount', 'LinkFromPitAccount', data)
+    )
   }
 
   const runReferralGoal = function * (goal) {
@@ -324,24 +402,6 @@ export default ({ api }) => {
     }
   }
 
-  const runPaxGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    yield call(waitForUserInvitations)
-    const invitations = (yield select(
-      selectors.core.settings.getInvitations
-    )).getOrElse({ PAX: false })
-    const invited = prop('PAX', invitations)
-    const hasSeen = (yield select(
-      selectors.core.kvStore.eth.getErc20HasSeen,
-      'PAX'
-    )).getOrElse(false)
-    if (hasSeen || !invited) return
-
-    yield put(actions.core.kvStore.eth.setErc20HasSeen('PAX'))
-    yield put(actions.goals.addInitialModal('pax', 'PaxWelcome'))
-  }
-
   const runWelcomeGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -392,13 +452,11 @@ export default ({ api }) => {
       coinifyUpgrade,
       kycDocResubmit,
       linkAccount,
-      pax,
       payment,
       sunriver,
       swapGetStarted,
       swapUpgrade,
-      upgradeForAirdrop,
-      welcome
+      upgradeForAirdrop
     } = initialModals
     if (linkAccount) {
       return yield put(
@@ -442,12 +500,6 @@ export default ({ api }) => {
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
-    if (pax) {
-      return yield put(actions.modals.showModal(pax.name))
-    }
-    if (welcome) {
-      return yield put(actions.modals.showModal(welcome.name, welcome.data))
-    }
   }
 
   const runGoal = function * (goal) {
@@ -464,6 +516,9 @@ export default ({ api }) => {
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
+          break
+        case 'paymentProtocol':
+          yield call(runPaymentProtocolGoal, goal)
           break
         case 'coinifyUpgrade':
           yield call(runCoinifyUpgradeGoal, goal)
@@ -485,9 +540,6 @@ export default ({ api }) => {
           break
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
-          break
-        case 'pax':
-          yield call(runPaxGoal, goal)
           break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
@@ -514,11 +566,11 @@ export default ({ api }) => {
     runGoal,
     runGoals,
     runKycGoal,
+    runPaymentProtocolGoal,
     runCoinifyBuyViaCard,
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runPaxGoal,
     runWelcomeGoal,
     runReferralGoal,
     runSendBtcGoal,

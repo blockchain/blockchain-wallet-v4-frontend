@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import {
@@ -12,62 +13,66 @@ import {
   PasswordInput,
   Text
 } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 
 const SecondPassword = props => {
   const { position, total, close, ...rest } = props
-  const { handleClick, handleChange, value } = rest
+  const { handleSubmit, handleChange, value } = rest
 
   return (
     <Modal size='medium' position={position} total={total} closeButton={false}>
-      <ModalHeader icon='safe' onClose={close}>
-        <FormattedMessage
-          id='modals.secondpassword.title'
-          defaultMessage='Second password required'
-        />
-      </ModalHeader>
-      <ModalBody>
-        <Text size='14px' weight={500}>
+      <Form onSubmit={handleSubmit}>
+        <ModalHeader icon='safe' onClose={close}>
           <FormattedMessage
-            id='modals.secondpassword.explain'
-            defaultMessage='Please enter your second password'
+            id='modals.secondpassword.title'
+            defaultMessage='Second password required'
           />
-        </Text>
-        <PasswordInput
-          value={value}
-          onChange={handleChange}
-          data-e2e='secondPasswordModalInput'
-        />
-      </ModalBody>
-      <ModalFooter align='spaced'>
-        <Link
-          size='13px'
-          weight={400}
-          onClick={close}
-          data-e2e='secondPasswordModalCancelButton'
-        >
-          <FormattedMessage
-            id='modals.secondpassword.cancel'
-            defaultMessage='Cancel'
+        </ModalHeader>
+        <ModalBody>
+          <Text size='14px' weight={500}>
+            <FormattedMessage
+              id='modals.secondpassword.explain'
+              defaultMessage='Please enter your second password'
+            />
+          </Text>
+          <PasswordInput
+            value={value}
+            onChange={handleChange}
+            data-e2e='secondPasswordModalInput'
           />
-        </Link>
-        <Button
-          nature='primary'
-          onClick={handleClick}
-          data-e2e='secondPasswordModalConfirmButton'
-        >
-          <FormattedMessage
-            id='modals.secondpassword.confirm'
-            defaultMessage='Confirm'
-          />
-        </Button>
-      </ModalFooter>
+        </ModalBody>
+        <ModalFooter align='spaced'>
+          <Link
+            size='13px'
+            weight={400}
+            onClick={close}
+            data-e2e='secondPasswordModalCancelButton'
+          >
+            <FormattedMessage
+              id='modals.secondpassword.cancel'
+              defaultMessage='Cancel'
+            />
+          </Link>
+          <Button
+            type='submit'
+            nature='primary'
+            onClick={handleSubmit}
+            data-e2e='secondPasswordModalConfirmButton'
+          >
+            <FormattedMessage
+              id='modals.secondpassword.confirm'
+              defaultMessage='Confirm'
+            />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }
 
 SecondPassword.propTypes = {
   secondPassword: PropTypes.string,
-  handleClick: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
-export default SecondPassword
+export default reduxForm({ form: 'secondPassword' })(SecondPassword)

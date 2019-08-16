@@ -24,6 +24,7 @@ export default ({ coreSagas, networks }) => {
     try {
       const { from } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
+      yield put(actions.components.send.fetchPaymentsAccountPit('BCH'))
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
       })

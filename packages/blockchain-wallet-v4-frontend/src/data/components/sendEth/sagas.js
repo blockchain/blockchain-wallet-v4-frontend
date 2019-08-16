@@ -40,6 +40,7 @@ export default ({ api, coreSagas, networks }) => {
       const isErc20 = includes(coin, erc20List)
       let initialValues = {}
       yield put(A.sendEthPaymentUpdatedLoading())
+      yield put(actions.components.send.fetchPaymentsAccountPit(coin))
       let payment = coreSagas.payment.eth.create({
         network: networks.eth
       })

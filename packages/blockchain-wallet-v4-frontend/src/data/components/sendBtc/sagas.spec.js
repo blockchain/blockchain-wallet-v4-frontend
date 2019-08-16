@@ -105,6 +105,10 @@ describe('sendBtc sagas', () => {
       saga.next().put(A.sendBtcPaymentUpdatedLoading())
     })
 
+    it('should fetch pit addresses', () => {
+      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+    })
+
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
@@ -131,6 +135,20 @@ describe('sendBtc sagas', () => {
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
       expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
+    })
+
+    it('should update payment amount from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(amount.coin * 100000000)
+    })
+
+    it('should update payment description from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith(description)
     })
 
     it('should update payment fee from value', () => {

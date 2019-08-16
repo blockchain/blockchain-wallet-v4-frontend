@@ -198,6 +198,7 @@ module.exports = {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
+          bitpay: envConfig.BITPAY_URL,
           coinify: envConfig.COINIFY_URL,
           coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
@@ -206,6 +207,7 @@ module.exports = {
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           root: envConfig.ROOT_URL,
+          thePit: envConfig.THE_PIT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL
@@ -287,7 +289,8 @@ module.exports = {
           'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'https://shapeshift.io'
+          'https://shapeshift.io',
+          'https://bitpay.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

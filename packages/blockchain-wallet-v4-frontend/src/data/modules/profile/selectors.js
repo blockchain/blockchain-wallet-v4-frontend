@@ -8,6 +8,9 @@ import {
   findLast,
   hasPath,
   lift,
+  includes,
+  isNil,
+  not,
   path,
   pathOr,
   prop,
@@ -17,6 +20,14 @@ import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
+export const getUserId = compose(
+  lift(prop('id')),
+  getUserData
+)
+export const getWalletAddresses = compose(
+  lift(prop('walletAddresses')),
+  getUserData
+)
 export const getUserActivationState = compose(
   lift(prop('state')),
   getUserData
@@ -70,8 +81,6 @@ export const getKycDocResubmissionStatus = compose(
   getUserData
 )
 
-export const getLinkAccountStatus = path(['profile', 'linkAccountStatus'])
-
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
@@ -83,9 +92,27 @@ export const getLastAttemptedTier = compose(
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
-export const invitedToKyc = state =>
+export const isInvitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const userFlowSupported = invitedToKyc
+export const userFlowSupported = isInvitedToKyc
+
+export const isInvitedToPit = state => {
+  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
+  const userCountry = selectors.core.settings.getCountryCode(state)
+  const isInvited = selectors.core.settings
+    .getInvitations(state)
+    .map(prop('pit'))
+
+  const transform = (pitCountries, userCountry, isInvited) => {
+    const isCountryWhitelisted =
+      pitCountries &&
+      (pitCountries === '*' || includes(userCountry, pitCountries))
+
+    return isCountryWhitelisted || isInvited
+  }
+
+  return lift(transform)(pitCountries, userCountry, isInvited)
+}
 
 export const getApiToken = path(['profile', 'apiToken'])
 
@@ -109,3 +136,22 @@ export const closeToTier1Limit = state =>
         CLOSE_TO_AMOUNT <
         pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
+
+export const getLinkFromPitAccountStatus = path([
+  'profile',
+  'pitOnboarding',
+  'linkFromPitAccountStatus'
+])
+export const getLinkToPitAccountStatus = path([
+  'profile',
+  'pitOnboarding',
+  'linkToPitAccountStatus'
+])
+export const getLinkToPitAccountDeeplink = path([
+  'profile',
+  'pitOnboarding',
+  'linkToPitAccountDeeplink'
+])
+
+export const isPitAccountLinked = state =>
+  lift(user => not(isNil(prop('settings', user))))(getUserData(state))

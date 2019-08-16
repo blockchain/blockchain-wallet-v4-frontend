@@ -5,6 +5,7 @@ import {
   ShowUsedAddresses,
   UpgradeAddressLabels
 } from './Addresses'
+import BitPayExpired from './BitPayExpired'
 import { RequestBch, SendBch } from './Bch'
 import {
   AddBtcWallet,
@@ -50,7 +51,8 @@ import {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkAccount,
+  LinkFromPitAccount,
+  LinkToPitAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   Welcome
@@ -87,6 +89,7 @@ const Modals = () => (
     <AddBtcWallet />
     <AirdropClaim />
     <AirdropSuccess />
+    <BitPayExpired />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />
@@ -107,7 +110,8 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
-    <LinkAccount />
+    <LinkFromPitAccount disableOutsideClose />
+    <LinkToPitAccount disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />

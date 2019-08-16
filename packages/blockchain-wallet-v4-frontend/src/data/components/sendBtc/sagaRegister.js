@@ -41,6 +41,10 @@ export default ({ coreSagas, networks }) => {
       AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED,
       sendBtcSagas.secondStepSubmitClicked
     )
+    yield takeLatest(
+      AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED,
+      sendBtcSagas.bitpayInvoiceExpired
+    )
     yield takeEvery(actionTypes.CHANGE, sendBtcSagas.formChanged)
   }
 }

@@ -1,21 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+
 import { actions, selectors } from 'data'
+import { Types } from 'blockchain-wallet-v4'
+
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
-import { Types } from 'blockchain-wallet-v4'
 import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { secondPassword: '' }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
+  state = { secondPassword: '' }
 
-  handleClick () {
+  handleSubmit = e => {
+    e.preventDefault()
     if (
       Types.Wallet.isValidSecondPwd(
         this.state.secondPassword,
@@ -30,7 +28,7 @@ class SecondPasswordContainer extends React.PureComponent {
     }
   }
 
-  handleChange (event) {
+  handleChange = event => {
     this.setState({ secondPassword: event.target.value })
   }
 
@@ -38,7 +36,7 @@ class SecondPasswordContainer extends React.PureComponent {
     return (
       <SecondPassword
         {...this.props}
-        handleClick={this.handleClick}
+        handleSubmit={this.handleSubmit}
         handleChange={this.handleChange}
         value={this.state.secondPassword}
       />

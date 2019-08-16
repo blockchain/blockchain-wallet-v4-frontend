@@ -1,5 +1,6 @@
 import analytics from './analytics'
 import bch from './bch'
+import bitpay from './bitpay'
 import btc from './btc'
 import coinify from './coinify'
 import delegate from './delegate'
@@ -29,16 +30,17 @@ export default ({
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
+  const bitpayUrl = options.domains.bitpay
   const coinifyUrl = options.domains.coinify
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
-
   return {
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
+    ...bitpay({ bitpayUrl }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coinify({ coinifyUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
@@ -56,8 +58,9 @@ export default ({
     ...profile({
       rootUrl,
       nabuUrl,
-      authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       ...http
     }),
     ...sfox(),
