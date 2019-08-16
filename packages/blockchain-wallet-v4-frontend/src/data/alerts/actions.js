@@ -5,24 +5,24 @@ const generateId = () =>
     .toString(36)
     .substr(2, 10)
 
-const display = (nature, message, data, persist, coin) => ({
+const display = (nature, message, data, persist, coin, timeout) => ({
   type: ALERTS_SHOW,
-  payload: { id: generateId(), nature, message, data, persist, coin }
+  payload: { id: generateId(), nature, message, data, persist, coin, timeout }
 })
-export const displayWarning = (message, data, persist) =>
-  display('warn', message, data, persist)
+export const displayWarning = (message, data, persist, timeout) =>
+  display('warn', message, data, persist, timeout)
 
-export const displayInfo = (message, data, persist) =>
-  display('info', message, data, persist)
+export const displayInfo = (message, data, persist, timeout) =>
+  display('info', message, data, persist, timeout)
 
-export const displaySuccess = (message, data, persist) =>
-  display('success', message, data, persist)
+export const displaySuccess = (message, data, persist, timeout) =>
+  display('success', message, data, persist, timeout)
 
-export const displayError = (message, data, persist) =>
-  display('error', message, data, persist)
+export const displayError = (message, data, persist, timeout) =>
+  display('error', message, data, persist, timeout)
 
-export const displayCoin = (message, coin, persist) =>
-  display(null, message, null, persist, coin)
+export const displayCoin = (message, coin, persist, timeout) =>
+  display(null, message, null, persist, timeout, coin)
 
 export const clearAlerts = () => ({ type: ALERTS_CLEAR })
 
