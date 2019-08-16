@@ -37,7 +37,7 @@ class VerifyEmailToken extends React.PureComponent {
     const deepLinkParams = new URLSearchParams()
     deepLinkParams.set('deep_link_path', PARAM_DEEP_LINK_PATH)
 
-    if (VALID_CONTEXTS.indexOf(context) > -1) {
+    if (context != null && VALID_CONTEXTS.indexOf(context.toUpperCase()) > -1) {
       deepLinkParams.set('context', context)
     }
 
