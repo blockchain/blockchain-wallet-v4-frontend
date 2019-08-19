@@ -29,16 +29,18 @@ const Wrapper = styled.div`
 
 const Alerts = props => {
   const { alerts, handleClose } = props
-
   return (
     <Wrapper>
-      {alerts.map((alert, index) => {
-        const { id, nature, message, data, coin } = alert
+      {alerts.map(alert => {
+        const { id, nature, message, data, coin, persist, timeout } = alert
+        const dismissTimer = timeout || 7000
         return (
           <Toast
-            key={index}
+            key={id}
             nature={nature}
             coin={coin}
+            timeout={dismissTimer}
+            persist={persist}
             onClose={() => handleClose(id)}
           >
             {getAlertContent(message, data)}

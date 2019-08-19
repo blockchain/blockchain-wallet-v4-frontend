@@ -1689,10 +1689,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@blockchain-com/components@5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-5.1.1.tgz#11f3dd1fd4140f201621190662c0889c2b11cf32"
-  integrity sha512-s/5oPU+zqtQXMjQbNzPvmpLgrw0NQf1/hri+0wEJ0yOHOEilfeLU/+JkcMf5moPYz4wmr15YOYUoEsnCmMccCQ==
+"@blockchain-com/components@6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-6.1.1.tgz#9528c78e5c35ac8a1a97380f15fd55c754585e37"
+  integrity sha512-MPqQ8EJdoiScTfyz7rTayh9KQuj9xiVeVOPHYuXfKhyupXEwb4nTA6n6URaWH5cpucAEc5UI95r6KiZdMgCHjw==
   dependencies:
     "@babel/runtime" "7.2.0"
     react-popper "1.3.2"
