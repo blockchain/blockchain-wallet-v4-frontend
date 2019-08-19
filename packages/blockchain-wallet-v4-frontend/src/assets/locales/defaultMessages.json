@@ -4846,7 +4846,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "You've Entered a Bitpay URL",
+        "defaultMessage": "You've Entered a BitPay URL",
         "id": "modals.confirm.title/bitpay"
       },
       {
@@ -4870,7 +4870,7 @@
         "id": "modals.confirm.title"
       },
       {
-        "defaultMessage": "Click OK to autopopulate your Bitpay invoice payment information.",
+        "defaultMessage": "Click OK to autopopulate your BitPay invoice payment information.",
         "id": "modals.confirm.message.bitpay"
       },
       {

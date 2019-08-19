@@ -10,7 +10,7 @@ export const selectTitle = title => {
       return (
         <FormattedMessage
           id='modals.confirm.title/bitpay'
-          defaultMessage="You've Entered a Bitpay URL"
+          defaultMessage="You've Entered a BitPay URL"
         />
       )
     case C.VERIFY_IDENTITY_TITLE:
@@ -54,7 +54,7 @@ export const selectMessage = (message, values) => {
       return (
         <FormattedMessage
           id='modals.confirm.message.bitpay'
-          defaultMessage='Click OK to autopopulate your Bitpay invoice payment information.'
+          defaultMessage='Click OK to autopopulate your BitPay invoice payment information.'
         />
       )
     case C.VERIFY_IDENTITY_MSG:
