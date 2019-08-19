@@ -92,7 +92,8 @@ describe('sendBtc sagas', () => {
       to,
       description,
       from: defaultAccount,
-      feePerByte: feePerByte
+      feePerByte: feePerByte,
+      payPro: undefined
     }
 
     const beforeEnd = 'beforeEnd'
