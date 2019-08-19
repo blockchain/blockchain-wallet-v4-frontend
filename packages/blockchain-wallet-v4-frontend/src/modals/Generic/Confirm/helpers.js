@@ -6,6 +6,13 @@ import { prop } from 'ramda'
 
 export const selectTitle = title => {
   switch (title) {
+    case C.BITPAY_CONFIRM_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title/bitpay'
+          defaultMessage="You've Entered a Bitpay URL"
+        />
+      )
     case C.VERIFY_IDENTITY_TITLE:
       return (
         <FormattedMessage
@@ -43,6 +50,13 @@ export const selectTitle = title => {
 
 export const selectMessage = (message, values) => {
   switch (message) {
+    case C.BITPAY_CONFIRM_MSG:
+      return (
+        <FormattedMessage
+          id='modals.confirm.message.bitpay'
+          defaultMessage='Click OK to autopopulate your Bitpay invoice payment information.'
+        />
+      )
     case C.VERIFY_IDENTITY_MSG:
       return (
         <FormattedMessage
