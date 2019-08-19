@@ -78,6 +78,8 @@ const transitionStyles = {
 
 const Toast = props => {
   const [transitionIn, setTransitionIn] = useState(false)
+  const { children, nature, coin, onClose, persist, timeout } = props
+  const color = selectColor(nature, coin)
 
   useEffect(() => {
     setTransitionIn(true)
@@ -85,9 +87,6 @@ const Toast = props => {
       setTimeout(() => handleClose(), timeout - duration)
     }
   }, [])
-
-  const { children, nature, coin, onClose, persist, timeout } = props
-  const color = selectColor(nature, coin)
 
   const handleClose = () => {
     setTimeout(() => onClose(), duration)
