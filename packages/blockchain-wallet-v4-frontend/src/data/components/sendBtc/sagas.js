@@ -1,9 +1,10 @@
 import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import bip21 from 'bip21'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   initialize,
   change,
@@ -12,6 +13,7 @@ import {
   destroy
 } from 'redux-form'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import * as Lockbox from 'services/LockboxService'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -114,6 +116,25 @@ export default ({ coreSagas, networks }) => {
     yield put(actions.form.destroy(FORM))
   }
 
+  const bitPayInvoiceEntered = function * (bip21Payload) {
+    yield put(
+      actions.modals.showModal('Confirm', {
+        title: CC.BITPAY_CONFIRM_TITLE,
+        message: CC.BITPAY_CONFIRM_MSG
+      })
+    )
+    let { canceled } = yield race({
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
+      canceled: take(actionTypes.modals.CLOSE_MODAL)
+    })
+    if (canceled) return
+    yield put(actions.modals.closeAllModals())
+    const r = pathOr({}, ['options', 'r'], bip21Payload)
+    const data = { r }
+    yield put(actions.goals.saveGoal('paymentProtocol', data))
+    return yield put(actions.goals.runGoals())
+  }
+
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('BitPayExpired'))
@@ -196,7 +217,16 @@ export default ({ coreSagas, networks }) => {
               break
             default:
               const address = prop('address', value) || value
-              payment = yield payment.to(address, toType)
+              // Special case to handle bitcoin bip21
+              try {
+                const bip21Payload = bip21.decode(address)
+                if (path(['options', 'r'], bip21Payload)) {
+                  yield call(bitPayInvoiceEntered, bip21Payload)
+                }
+              } catch (e) {
+                // Default address entry
+                payment = yield payment.to(address, toType)
+              }
           }
           break
         case 'amount':

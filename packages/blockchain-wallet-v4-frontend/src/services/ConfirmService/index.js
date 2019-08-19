@@ -1,3 +1,5 @@
+export const BITPAY_CONFIRM_TITLE = 'bitpay_confirm_title'
+export const BITPAY_CONFIRM_MSG = 'bitpay_confirm_msg'
 export const VERIFY_IDENTITY_TITLE = 'verify_identity_title'
 export const VERIFY_IDENTITY_MSG = 'verify_identity_msg'
 export const CONFIRM_VERIFY_IDENTITY = 'confirm_verify_identity'

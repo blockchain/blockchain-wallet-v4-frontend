@@ -38,8 +38,6 @@ const ConfirmTemplate = ({
   position,
   total,
   close,
-  submitting,
-  invalid,
   confirm,
   cancel,
   title,
@@ -47,10 +45,9 @@ const ConfirmTemplate = ({
   nature,
   message,
   messageValues,
-  handleCancel,
   handleSubmit
 }) => (
-  <Modal size='large' position={position} total={total}>
+  <Modal size='medium' position={position} total={total}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
