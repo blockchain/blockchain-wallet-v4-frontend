@@ -91,7 +91,8 @@ export default ({ coreSagas, networks }) => {
         description,
         to: prepareTo(to),
         from: from || defaultAccountR.getOrElse(),
-        feePerByte: defaultFeePerByte
+        feePerByte: defaultFeePerByte,
+        payPro
       }
       if (payPro) {
         try {
@@ -371,6 +372,7 @@ export default ({ coreSagas, networks }) => {
       network: networks.btc
     })
     const fromType = path(['fromType'], payment.value())
+    const { payPro } = yield select(selectors.form.getFormValues(FORM))
     try {
       // Sign payment
       let password
@@ -440,6 +442,9 @@ export default ({ coreSagas, networks }) => {
           }).value
         ])
       )
+      if (payPro) {
+        yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_SENT))
+      }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
     } catch (e) {
