@@ -166,6 +166,7 @@ export default ({ api }) => {
     try {
       const rawPaymentRequest = yield call(api.getRawPaymentRequest, invoiceId)
       const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
+      const expired = new Date() > new Date(paymentRequest.expires)
 
       const tx = paymentRequest.outputs[0]
       const satoshiAmount = tx.amount
@@ -189,6 +190,10 @@ export default ({ api }) => {
         expiration: paymentRequest.expires,
         paymentUrl: r,
         merchant
+      }
+
+      if (expired) {
+        return yield put(actions.modals.showModal('BitPayExpired'))
       }
 
       yield put(
