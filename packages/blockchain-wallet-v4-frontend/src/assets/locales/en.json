@@ -1791,7 +1791,6 @@
   "scenes.profile.identityverification.swaplimit.sawp_limit": "Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.",
   "scenes.profile.identityverification.swaplimit.wanttolearnmore": "Want to learn more?",
   "scenes.profile.idv.swaplimit.airdropdisclaimer": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
-  "scenes.profile.idv.swaplimit.airdropdisclaimer2": "Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
   "scenes.recover.firststep.back": "Go Back",
   "scenes.recover.firststep.continue": "Continue",
   "scenes.recover.firststep.funds": "Recover Funds",

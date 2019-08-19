@@ -10654,10 +10654,6 @@
       {
         "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
         "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
-      },
-      {
-        "defaultMessage": "Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
-        "id": "scenes.profile.idv.swaplimit.airdropdisclaimer2"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
