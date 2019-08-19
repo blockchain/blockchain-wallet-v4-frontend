@@ -143,24 +143,20 @@ const IdentityVerification = ({ userData, userTiers }) => {
               </SwapText>
             </LearnMoreContainer>
             <LearnMoreContainer>
-              <SwapText>
-                <Icon size='24px' name='alert-filled' color='orange' />
-              </SwapText>
               {isUnderReview && (
-                <SwapText size='14px'>
-                  <FormattedMessage
-                    id='scenes.profile.idv.swaplimit.airdropdisclaimer'
-                    defaultMessage="Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}."
-                    values={{ tier2Limit: formattedTier2Limit }}
-                  />
-                </SwapText>
+                <>
+                  <SwapText>
+                    <Icon size='24px' name='alert-filled' color='orange' />
+                  </SwapText>
+                  <SwapText size='14px'>
+                    <FormattedMessage
+                      id='scenes.profile.idv.swaplimit.airdropdisclaimer'
+                      defaultMessage="Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}."
+                      values={{ tier2Limit: formattedTier2Limit }}
+                    />
+                  </SwapText>
+                </>
               )}
-              <SwapText size='14px'>
-                <FormattedMessage
-                  id='scenes.profile.idv.swaplimit.airdropdisclaimer2'
-                  defaultMessage='Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.'
-                />
-              </SwapText>
             </LearnMoreContainer>
           </Column>
         </Row>
