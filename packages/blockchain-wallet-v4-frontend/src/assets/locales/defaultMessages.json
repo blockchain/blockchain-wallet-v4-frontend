@@ -4846,6 +4846,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "You've Entered a Bitpay URL",
+        "id": "modals.confirm.title/bitpay"
+      },
+      {
         "defaultMessage": "Verify Your Identity",
         "id": "modals.confirm.title.verify_identity"
       },
@@ -4864,6 +4868,10 @@
       {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage": "Click OK to autopopulate your Bitpay invoice payment information.",
+        "id": "modals.confirm.message.bitpay"
       },
       {
         "defaultMessage": "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
