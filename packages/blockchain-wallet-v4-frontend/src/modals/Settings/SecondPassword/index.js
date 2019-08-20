@@ -1,16 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+
 import { actions, selectors } from 'data'
+import { Types } from 'blockchain-wallet-v4'
+
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
-import { Types } from 'blockchain-wallet-v4'
 import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
   state = { secondPassword: '' }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault()
     if (
       Types.Wallet.isValidSecondPwd(
         this.state.secondPassword,

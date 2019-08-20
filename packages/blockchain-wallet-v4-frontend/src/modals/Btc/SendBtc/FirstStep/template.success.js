@@ -346,7 +346,7 @@ const FirstStep = props => {
               </FeeFormContainer>
             </ColLeft>
             <ColRight>
-              <ComboDisplay size='13px' coin='BTC'>
+              <ComboDisplay size='13px' weight={600} coin='BTC'>
                 {totalFee}
               </ComboDisplay>
               <Link
@@ -389,14 +389,9 @@ const FirstStep = props => {
               defaultMessage='Network Fee'
             />
           </FormLabel>
-          <Row>
-            <Field
-              name='url'
-              component={TextBox}
-              input={{ value: '[as set up by BitPay]' }}
-              disabled={true}
-            />
-          </Row>
+          <ComboDisplay size='13px' weight={600} coin='BTC'>
+            {totalFee}
+          </ComboDisplay>
         </FeeFormGroup>
       )}
       <FormGroup margin={'15px'}>

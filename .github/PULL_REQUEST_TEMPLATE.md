@@ -1,6 +1,3 @@
-## Ticket Number
-WEB4-
-
 ## Description (optional)
 Add a concise explanation of the changes.
 
