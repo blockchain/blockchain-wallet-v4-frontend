@@ -1,5 +1,6 @@
 module.exports = {
   API_DOMAIN: 'https://api-testnet.blockchain.info',
+  BITPAY_URL: 'https://bitpay.com',
   COINIFY_URL: 'https://app-api.coinify.com',
   COINIFY_PAYMENT_DOMAIN: 'https://pay.sandbox.coinify.com',
   HORIZON_URL: 'https://horizon-testnet.stellar.org',

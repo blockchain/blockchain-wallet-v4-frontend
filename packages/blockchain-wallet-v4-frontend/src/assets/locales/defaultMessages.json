@@ -58,6 +58,10 @@
         "id": "components.alerts.coinify_signup_error"
       },
       {
+        "defaultMessage": "BitPay invoice not found",
+        "id": "components.alerts.bitpay_not_found"
+      },
+      {
         "defaultMessage": "{coinName} address successfully copied to clipboard!",
         "id": "components.alerts.copy_address_clipboard_success"
       },
@@ -1114,6 +1118,10 @@
       {
         "defaultMessage": "This quote will refresh in: {timeLeft}",
         "id": "scenes.exchange.secondstep.expiry_text"
+      },
+      {
+        "defaultMessage": "Remaining time {timeLeft}",
+        "id": "modals.sendbtc.firststep.paypro_expiry_text"
       },
       {
         "defaultMessage": "This rate will expire after {time}.",
@@ -3162,6 +3170,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "BitPay Invoice Expired",
+        "id": "modals.bitpayexpired.invoice_expired"
+      },
+      {
+        "defaultMessage": "An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment.",
+        "id": "modals.bitpayexpired.expired_msg"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.support.contact_support"
+      }
+    ],
+    "path": "src/modals/BitPayExpired/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Add New Bitcoin Wallet",
         "id": "modals.addbitcoinwallet.title"
       },
@@ -4821,6 +4846,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "You've Entered a BitPay URL",
+        "id": "modals.confirm.title/bitpay"
+      },
+      {
         "defaultMessage": "Verify Your Identity",
         "id": "modals.confirm.title.verify_identity"
       },
@@ -4839,6 +4868,10 @@
       {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage": "Click OK to autopopulate your BitPay invoice payment information.",
+        "id": "modals.confirm.message.bitpay"
       },
       {
         "defaultMessage": "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
@@ -10621,10 +10654,6 @@
       {
         "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
         "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
-      },
-      {
-        "defaultMessage": "Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
-        "id": "scenes.profile.idv.swaplimit.airdropdisclaimer2"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
