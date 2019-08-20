@@ -82,3 +82,6 @@ workflows:
       - test:
           requires:
             - npm_install
+      - coverage:
+          requires:
+            - test
