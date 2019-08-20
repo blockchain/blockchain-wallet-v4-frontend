@@ -9,6 +9,7 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
+import { CountdownTimer } from 'components/Form'
 import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -47,15 +48,24 @@ const Success = props => {
     description,
     fee,
     fromAddress,
+    handleBitPayInvoiceExpiration,
     handleSubmit,
     handleBack,
     submitting,
     toAddress,
-    total
+    total,
+    payPro
   } = props
-
   return (
     <React.Fragment>
+      {payPro && (
+        <CountdownTimer
+          expiryDate={payPro.expiration}
+          handleExpiry={handleBitPayInvoiceExpiration}
+          hideTooltip
+          payProInvoice
+        />
+      )}
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
@@ -75,9 +85,15 @@ const Success = props => {
               defaultMessage='To:'
             />
           </Text>
-          <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
-            {toAddress}
-          </TextTo>
+          {!payPro ? (
+            <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
+              {toAddress}
+            </TextTo>
+          ) : (
+            <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
+              {`BitPay[${payPro.merchant}]`}
+            </TextTo>
+          )}
         </LargeTableRow>
         {description && (
           <LargeTableRow>

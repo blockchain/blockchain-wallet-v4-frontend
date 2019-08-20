@@ -1,9 +1,10 @@
 import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import bip21 from 'bip21'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   initialize,
   change,
@@ -12,6 +13,7 @@ import {
   destroy
 } from 'redux-form'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import * as Lockbox from 'services/LockboxService'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -30,7 +32,8 @@ export default ({ coreSagas, networks }) => {
         amount,
         feeType,
         description,
-        lockboxIndex
+        lockboxIndex,
+        payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
@@ -65,11 +68,19 @@ export default ({ coreSagas, networks }) => {
         defaultAccountR = accountsR.map(nth(defaultIndex))
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
+        if (amount && amount.coin) {
+          const satAmount = Exchange.convertBtcToBtc({
+            value: amount.coin,
+            fromUnit: 'BTC',
+            toUnit: 'SAT'
+          }).value
+          payment = yield payment.amount(parseInt(satAmount))
+        }
+        if (description) payment = yield payment.description(description)
       }
-      const defaultFeePerByte = path(
-        ['fees', feeType || 'regular'],
-        payment.value()
-      )
+      const defaultFeePerByte = payPro
+        ? path(['fees', feeType || 'priority'], payment.value())
+        : path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.fee(defaultFeePerByte)
       const prepareTo = to => {
         return to ? { value: { value: to, label: to } } : null
@@ -80,7 +91,17 @@ export default ({ coreSagas, networks }) => {
         description,
         to: prepareTo(to),
         from: from || defaultAccountR.getOrElse(),
-        feePerByte: defaultFeePerByte
+        feePerByte: defaultFeePerByte,
+        payPro
+      }
+      if (payPro) {
+        try {
+          payment = yield payment.build()
+        } catch (e) {
+          yield put(
+            actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e)
+          )
+        }
       }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
@@ -94,6 +115,30 @@ export default ({ coreSagas, networks }) => {
 
   const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
+  }
+
+  const bitPayInvoiceEntered = function * (bip21Payload) {
+    yield put(
+      actions.modals.showModal('Confirm', {
+        title: CC.BITPAY_CONFIRM_TITLE,
+        message: CC.BITPAY_CONFIRM_MSG
+      })
+    )
+    let { canceled } = yield race({
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
+      canceled: take(actionTypes.modals.CLOSE_MODAL)
+    })
+    if (canceled) return
+    yield put(actions.modals.closeAllModals())
+    const r = pathOr({}, ['options', 'r'], bip21Payload)
+    const data = { r }
+    yield put(actions.goals.saveGoal('paymentProtocol', data))
+    return yield put(actions.goals.runGoals())
+  }
+
+  const bitpayInvoiceExpired = function * () {
+    yield put(actions.modals.closeAllModals())
+    yield put(actions.modals.showModal('BitPayExpired'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -173,7 +218,16 @@ export default ({ coreSagas, networks }) => {
               break
             default:
               const address = prop('address', value) || value
-              payment = yield payment.to(address, toType)
+              // Special case to handle bitcoin bip21
+              try {
+                const bip21Payload = bip21.decode(address)
+                if (path(['options', 'r'], bip21Payload)) {
+                  yield call(bitPayInvoiceEntered, bip21Payload)
+                }
+              } catch (e) {
+                // Default address entry
+                payment = yield payment.to(address, toType)
+              }
           }
           break
         case 'amount':
@@ -318,6 +372,7 @@ export default ({ coreSagas, networks }) => {
       network: networks.btc
     })
     const fromType = path(['fromType'], payment.value())
+    const { payPro } = yield select(selectors.form.getFormValues(FORM))
     try {
       // Sign payment
       let password
@@ -387,6 +442,9 @@ export default ({ coreSagas, networks }) => {
           }).value
         ])
       )
+      if (payPro) {
+        yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_SENT))
+      }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
     } catch (e) {
@@ -419,6 +477,7 @@ export default ({ coreSagas, networks }) => {
   }
 
   return {
+    bitpayInvoiceExpired,
     initialized,
     destroyed,
     minimumAmountClicked,

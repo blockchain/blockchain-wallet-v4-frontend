@@ -2,7 +2,6 @@ import React from 'react'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { compose, bindActionCreators } from 'redux'
-import { prop } from 'ramda'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import CopyToClipBoard from 'react-copy-to-clipboard'
@@ -19,10 +18,7 @@ import {
 import { Form } from 'components/Form'
 import { IdentityVerificationForm } from 'components/IdentityVerification'
 
-const {
-  CAMPAIGNS,
-  ID_VERIFICATION_SUBMITTED_FORM
-} = model.components.identityVerification
+const { ID_VERIFICATION_SUBMITTED_FORM } = model.components.identityVerification
 
 const SubmittedIdentityVerificationForm = styled(IdentityVerificationForm)`
   justify-content: center;
@@ -110,13 +106,10 @@ class Submitted extends React.PureComponent {
     const { campaign, identityVerificationActions, submitting } = this.props
     const { initialIsSunRiverTagged } = this.state
     const { isLinkCopied } = this.state
-    const link = 'https://www.blockchain.com/getcrypto/claim'
+    const link = 'https://www.blockchain.com/getcrypto'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
-      `I just claimed free ${prop('coinName', CAMPAIGNS[campaign])} ${prop(
-        'coinCode',
-        CAMPAIGNS[campaign]
-      )} from @blockchain. Get Yours ${link}`
+      `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
 
     return (

@@ -14,6 +14,9 @@ export const ADDRESS_EVENTS = {
   SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
   SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
 }
+export const DEEPLINK_EVENTS = {
+  PIT: ['deeplink', 'pit_deeplink']
+}
 export const LOGIN_EVENTS = {
   TRANSFER_ETH_LEGACY: ['login', 'transfer_eth_legacy']
 }
@@ -105,7 +108,9 @@ export const TRANSACTION_EVENTS = {
   EDIT_DESCRIPTION: ['transactions', 'edit_description'],
   PAYMENT_REQUEST: ['transactions', 'payment_request'],
   SEND_FAILURE: ['send_failure'],
-  VIEW_TX_ON_EXPLORER: ['transactions', 'view_tx_explorer']
+  VIEW_TX_ON_EXPLORER: ['transactions', 'view_tx_explorer'],
+  BITPAY_INITIALIZED: ['transactions', 'bitpay', 'initialized'],
+  BITPAY_SENT: ['transactions', 'bitpay', 'sent']
 }
 export const WALLET_EVENTS = {
   ADD_NEW: ['wallets', 'add_new'],
