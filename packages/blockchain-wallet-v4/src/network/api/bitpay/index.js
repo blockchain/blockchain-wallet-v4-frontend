@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default ({ bitpayUrl, get, post }) => {
+export default ({ bitpayUrl }) => {
   /**
    * Makes a request using the invoiceId and returns the raw JSON string retrieved as well as the headers
    * @param invoiceId {string} the bitpay invoiceId

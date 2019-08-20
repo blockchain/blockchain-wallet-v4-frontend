@@ -40,7 +40,7 @@ export default ({
   return {
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
-    ...bitpay({ bitpayUrl, ...http }),
+    ...bitpay({ bitpayUrl }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coinify({ coinifyUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
