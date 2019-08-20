@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
 import {
@@ -12,6 +13,7 @@ import {
   PasswordInput,
   Text
 } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 
 const SecondPassword = props => {
   const { position, total, close, ...rest } = props
@@ -19,7 +21,7 @@ const SecondPassword = props => {
 
   return (
     <Modal size='medium' position={position} total={total} closeButton={false}>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader icon='safe' onClose={close}>
           <FormattedMessage
             id='modals.secondpassword.title'
@@ -63,7 +65,7 @@ const SecondPassword = props => {
             />
           </Button>
         </ModalFooter>
-      </form>
+      </Form>
     </Modal>
   )
 }
@@ -73,4 +75,4 @@ SecondPassword.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default SecondPassword
+export default reduxForm({ form: 'secondPassword' })(SecondPassword)

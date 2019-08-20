@@ -66,12 +66,19 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       endPoint: '/bch/dust'
     })
 
+  const getBchFees = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/mempool/fees/bch'
+    })
+
   return {
     fetchBchData,
+    getBchDust,
+    getBchFees,
+    getBchRawTx,
     getBchTicker,
     getBchUnspents,
-    getBchRawTx,
-    getBchDust,
     pushBchTx
   }
 }

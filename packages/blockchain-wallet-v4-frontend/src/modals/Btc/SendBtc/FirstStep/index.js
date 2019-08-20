@@ -15,7 +15,6 @@ class FirstStep extends React.Component {
 
   render () {
     const { data, actions } = this.props
-
     return data.cata({
       Success: value => (
         <Success
@@ -37,6 +36,10 @@ class FirstStep extends React.Component {
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
           excludeLockbox={value.excludeLockbox}
           excludeHDWallets={this.props.excludeHDWallets}
+          payPro={this.props.payPro}
+          handleBitPayInvoiceExpiration={
+            actions.sendBtcFirstStepBitPayInvoiceExpired
+          }
         />
       ),
       Failure: message => (

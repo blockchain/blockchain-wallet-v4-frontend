@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Transition from 'react-transition-group/Transition'
 import PropTypes from 'prop-types'
 import { propOr } from 'ramda'
 import styled from 'styled-components'
@@ -61,30 +62,69 @@ const selectColor = (type, coin) => {
   }
 }
 
+const duration = 200
+
+const defaultStyle = {
+  transition: `all ${duration}ms ease-in-out`,
+  transform: 'translate(80px)',
+  opacity: 0
+}
+
+const transitionStyles = {
+  entered: { opacity: 1, transform: 'translate(0)' },
+  exiting: { transform: 'translate(80px)' },
+  exited: { opacity: 0, transform: 'translate(80px)' }
+}
+
 const Toast = props => {
-  const { children, nature, coin, onClose } = props
+  const [transitionIn, setTransitionIn] = useState(false)
+  const { children, nature, coin, onClose, persist, timeout } = props
   const color = selectColor(nature, coin)
 
+  useEffect(() => {
+    setTransitionIn(true)
+    if (!persist) {
+      setTimeout(() => handleClose(), timeout - duration)
+    }
+  }, [])
+
+  const handleClose = () => {
+    setTimeout(() => onClose(), duration)
+    setTransitionIn(false)
+  }
+
   return (
-    <Wrapper>
-      <Container color={color} data-e2e='toastMessage'>
-        <Content>
-          {coin && (
-            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
-          )}
-          {children}
-        </Content>
-        <CloseIcon
-          data-e2e='toastMessageClose'
-          name='close'
-          size='14px'
-          weight={600}
-          color='gray-4'
-          cursor
-          onClick={onClose}
-        />
-      </Container>
-    </Wrapper>
+    <Transition in={transitionIn} timeout={duration}>
+      {status => (
+        <Wrapper
+          style={{
+            ...defaultStyle,
+            ...transitionStyles[status]
+          }}
+        >
+          <Container color={color} data-e2e='toastMessage'>
+            <Content>
+              {coin && (
+                <CustomIcon
+                  name={coin.icons.circleFilled}
+                  color={coin.colorCode}
+                />
+              )}
+              {children}
+            </Content>
+            <CloseIcon
+              data-e2e='toastMessageClose'
+              name='close'
+              size='14px'
+              weight={600}
+              color='gray-4'
+              cursor
+              onClick={handleClose}
+            />
+          </Container>
+        </Wrapper>
+      )}
+    </Transition>
   )
 }
 

@@ -5,6 +5,7 @@ import {
   ShowUsedAddresses,
   UpgradeAddressLabels
 } from './Addresses'
+import BitPayExpired from './BitPayExpired'
 import { RequestBch, SendBch } from './Bch'
 import {
   AddBtcWallet,
@@ -88,6 +89,7 @@ const Modals = () => (
     <AddBtcWallet />
     <AirdropClaim />
     <AirdropSuccess />
+    <BitPayExpired />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />
