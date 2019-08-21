@@ -3,10 +3,9 @@ import { equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
+import { ADDR_SUB, BLOCK_SUB, XPUB_SUB } from '../model'
 import { WALLET_TX_SEARCH } from '../../../form/model'
 
-const BLOCK_SUB = 'block_sub'
-const XPUB_SUB = 'xpub_sub'
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
 
@@ -25,12 +24,12 @@ export default ({ api, bchSocket }) => {
         lockboxXPubs.getOrElse([])
       )
 
-      for (let i = 0; i < subscribeInfo.xpubs.length; i++) {
-        yield call(
-          send,
-          JSON.stringify({ op: XPUB_SUB, xpub: subscribeInfo.xpubs[i] })
-        )
-      }
+      subscribeInfo.xpubs.map(xpub =>
+        send(JSON.stringify({ op: XPUB_SUB, xpub }))
+      )
+      subscribeInfo.addresses.map(addr =>
+        send(JSON.stringify({ op: ADDR_SUB, addr }))
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
