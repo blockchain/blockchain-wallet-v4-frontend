@@ -44,8 +44,8 @@ export const UnderReview = () => (
       <Icon />
       <Text color='white' size='14px' weight={500}>
         <FormattedMessage
-          id='scenes.exchange.getstarted.status.underreview.title'
-          defaultMessage='Account verification under review'
+          id='scenes.exchange.getstarted.status.underreview.title1'
+          defaultMessage='Account Verification Under Review'
         />
       </Text>
     </Row>

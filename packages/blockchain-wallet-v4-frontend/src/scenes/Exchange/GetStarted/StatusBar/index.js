@@ -1,14 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import { getData } from './selectors'
 import GetStarted from './Statuses/GetStarted'
 import InProgress from './Statuses/InProgress'
 import Pending from './Statuses/Pending'
 import Rejected from './Statuses/Rejected'
 import UnderReview from './Statuses/UnderReview'
 
-export const Status = ({ step }) => (
+const Status = ({ step }) => (
   <React.Fragment>
     {step === 'getstarted' && <GetStarted />}
     {step === 'inprogress' && <InProgress />}
@@ -18,6 +16,4 @@ export const Status = ({ step }) => (
   </React.Fragment>
 )
 
-const mapStateToProps = state => getData(state)
-
-export default connect(mapStateToProps)(Status)
+export default Status

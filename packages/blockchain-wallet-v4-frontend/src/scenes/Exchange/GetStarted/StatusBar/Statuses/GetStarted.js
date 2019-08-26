@@ -6,10 +6,13 @@ import { FormattedMessage } from 'react-intl'
 import { Button } from 'blockchain-info-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
-  font-weight: 500;
+  font-weight: 600;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  height: fit-content;
 `
 
-export const GetStarted = () => (
+const GetStarted = () => (
   <LinkContainer to='/swap/profile'>
     <ActionButton>
       <FormattedMessage
