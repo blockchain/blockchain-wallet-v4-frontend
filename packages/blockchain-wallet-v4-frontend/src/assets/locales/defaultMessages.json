@@ -4846,6 +4846,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "You've Entered a BitPay URL",
+        "id": "modals.confirm.title/bitpay"
+      },
+      {
         "defaultMessage": "Verify Your Identity",
         "id": "modals.confirm.title.verify_identity"
       },
@@ -4864,6 +4868,10 @@
       {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage": "Click OK to autopopulate your BitPay invoice payment information.",
+        "id": "modals.confirm.message.bitpay"
       },
       {
         "defaultMessage": "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
@@ -10646,10 +10654,6 @@
       {
         "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
         "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
-      },
-      {
-        "defaultMessage": "Please be aware there is a large waiting list for Stellar airdrops and unfortunately not all applications for free XLM will be successful.",
-        "id": "scenes.profile.idv.swaplimit.airdropdisclaimer2"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"

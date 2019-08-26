@@ -14,7 +14,6 @@
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.dev.js --progress --colors",
-    "ci:coverage:frontend": "yarn coverage --runInBand",
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
@@ -83,7 +82,8 @@
     }
   },
   "dependencies": {
-    "@blockchain-com/components": "5.1.1",
+    "@blockchain-com/components": "6.1.1",
+    "@ledgerhq/hw-app-eth": "4.32.0",
     "@ledgerhq/hw-app-btc": "4.33.7",
     "@ledgerhq/hw-app-eth": "4.32.0",
     "@ledgerhq/hw-app-str": "4.32.0",

@@ -28,7 +28,11 @@ export const signSelection = curry((network, selection) => {
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
   const signedTx = tx.build()
-  return { txHex: signedTx.toHex(), txId: signedTx.getId() }
+  return {
+    txHex: signedTx.toHex(),
+    txId: signedTx.getId(),
+    weightedSize: signedTx.weight() / 4
+  }
 })
 
 export const sortSelection = selection => ({

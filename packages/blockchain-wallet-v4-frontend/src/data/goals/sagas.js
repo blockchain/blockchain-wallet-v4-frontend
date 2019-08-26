@@ -30,7 +30,7 @@ import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
-const { DEEPLINK_EVENTS } = model.analytics
+const { DEEPLINK_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -155,6 +155,7 @@ export default ({ api }) => {
   const runPaymentProtocolGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
+    yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_INITIALIZED))
 
     yield call(getBtcBalance)
     const { r } = data
@@ -163,10 +164,16 @@ export default ({ api }) => {
     const btcRates = yield select(selectors.core.data.btc.getRates)
 
     try {
-      const rawPaymentRequest = yield call(api.getRawPaymentRequest, invoiceId)
+      const rawPaymentRequest = yield call(
+        api.getRawPaymentRequest,
+        invoiceId,
+        'BTC'
+      )
       const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
+      const { instructions } = paymentRequest
+      const expired = new Date() > new Date(paymentRequest.expires)
 
-      const tx = paymentRequest.outputs[0]
+      const tx = path([0, 'outputs', 0], instructions)
       const satoshiAmount = tx.amount
       const address = tx.address
 
@@ -188,6 +195,10 @@ export default ({ api }) => {
         expiration: paymentRequest.expires,
         paymentUrl: r,
         merchant
+      }
+
+      if (expired) {
+        return yield put(actions.modals.showModal('BitPayExpired'))
       }
 
       yield put(
