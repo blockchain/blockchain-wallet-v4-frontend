@@ -34,6 +34,9 @@ const ArrowIcon = styled(Icon)`
   margin-left: 4px;
   font-size: 16px;
 `
+const SpadeIcon = styled(Icon)`
+  margin-right: 8px;
+`
 
 const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
   const isBlacklisted = includes(countryCode, adsBlacklist)
@@ -51,6 +54,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
       >
         <Link href={adsUrl} rel='noopener noreferrer' target='_blank'>
           <ButtonText color='gray-4' size='14px' weight={500}>
+            <SpadeIcon name='spade' color='gray4' />
             <FormattedHTMLMessage
               id='layouts.wallet.menuleft.footer.bitcoingames2'
               defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
