@@ -35,12 +35,16 @@ packages/blockchain-info-components/node_modules
 packages/blockchain-info-components/storybook-static
 packages/blockchain-wallet-v4/lib
 packages/blockchain-wallet-v4/node_modules
-packages/blockchain-wallet-v4-frontend/build
-packages/blockchain-wallet-v4-frontend/dist
-packages/blockchain-wallet-v4-frontend/node_modules
+packages/main-process/build
+packages/main-process/dist
+packages/main-process/node_modules
+packages/security-process/build
+packages/security-process/dist
+packages/security-process/node_modules
 packages/blockchain-info-components/package-lock.json
 packages/blockchain-wallet-v4/package-lock.json
-packages/blockchain-wallet-v4-frontend/package-lock.json
+packages/main-process/package-lock.json
+packages/security-process/package-lock.json
 
 # Config Files
 config/env/development.js

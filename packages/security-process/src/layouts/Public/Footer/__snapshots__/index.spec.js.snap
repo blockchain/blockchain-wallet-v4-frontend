@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Public Footer Component should match snapshot 1`] = `
+<Footer__Wrapper>
+  <Footer__Bottom>
+    <Component
+      type="applestore"
+    />
+    <Component
+      type="googleplay"
+    />
+  </Footer__Bottom>
+</Footer__Wrapper>
+`;

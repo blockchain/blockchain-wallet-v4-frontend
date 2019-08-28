@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FooterShadowWrapper renders correctly 1`] = `
+<FooterShadowWrapper__Container
+  className="cn"
+>
+  <FooterShadowWrapper__Fields>
+    <div />
+  </FooterShadowWrapper__Fields>
+  <FooterShadowWrapper__Footer>
+    <div />
+  </FooterShadowWrapper__Footer>
+</FooterShadowWrapper__Container>
+`;

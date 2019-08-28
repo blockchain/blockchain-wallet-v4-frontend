@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextArea renders correctly 1`] = `
+<TextArea__Container>
+  <text-area-input
+    errorState="initial"
+    rows={3}
+  />
+</TextArea__Container>
+`;

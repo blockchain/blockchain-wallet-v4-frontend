@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormError renders correctly 1`] = `
+.c0 {
+  position: relative;
+}
+
+<text
+  className="c0"
+  color="error"
+  size="12px"
+/>
+`;
