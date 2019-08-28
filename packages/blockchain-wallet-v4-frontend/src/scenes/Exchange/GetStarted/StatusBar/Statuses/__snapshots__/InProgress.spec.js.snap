@@ -2,10 +2,16 @@
 
 exports[`InProgress renders correctly 1`] = `
 <InProgress__ActionButton>
-  <FormattedMessage
-    defaultMessage="Continue Where You Left Off"
-    id="scenes.exchange.getstarted.status.inprogress.button1"
-    values={Object {}}
-  />
+  <Component
+    color="white"
+    size="16px"
+    weight={600}
+  >
+    <FormattedMessage
+      defaultMessage="Continue Where You Left Off"
+      id="scenes.exchange.getstarted.status.inprogress.button1"
+      values={Object {}}
+    />
+  </Component>
 </InProgress__ActionButton>
 `;
