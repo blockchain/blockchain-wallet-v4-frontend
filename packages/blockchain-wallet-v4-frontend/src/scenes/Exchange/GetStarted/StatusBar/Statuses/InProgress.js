@@ -8,19 +8,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
   font-weight: 600;
-  padding-top: 18px;
-  padding-bottom: 18px;
-  height: fit-content;
-  max-width: 327px;
-  width: 50%;
-
-  @media (max-width: 69.375rem) {
-    width: 45%;
-  }
-
-  @media (max-width: 61.25rem) {
-    width: 100%;
-  }
+  height: 56px;
 `
 
 export const InProgress = ({ verifyIdentity }) => (
