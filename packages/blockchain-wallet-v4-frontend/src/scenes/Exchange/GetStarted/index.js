@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 
+import media from 'services/ResponsiveService'
 import { getData } from './selectors'
 import { Image, Text } from 'blockchain-info-components'
 import StatusBar from './StatusBar'
@@ -22,9 +23,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   margin: 0 auto;
 
-  @media (max-width: 37.5rem) {
+  ${media.mobile`
     padding: 0;
-  }
+  `};
 `
 
 const Row = styled.div`
@@ -39,55 +40,55 @@ const Column = styled.div`
 const CarouselImgCss = css`
   position: absolute;
   right: 0;
-  top: 5rem;
-  width: 19rem;
+  top: 80px;
+  width: 304px;
   transition: opacity 0.4s ease-in-out;
   background: ${({ theme }) => theme['white']};
   z-index: 2;
 
-  @media (max-width: 61.25rem) {
+  ${media.laptop`
     top: 0;
     right: 0;
     left: 0;
     margin: 0 auto;
-  }
+  `}
 
-  @media (max-width: 25.625rem) {
-    width: 17rem;
-  }
+  ${media.mobile`
+    width: 272px;
+  `}
 `
 
 const NextButton = styled.div`
   &.slick-next {
-    height: 3rem;
-    width: 3rem;
+    height: 48px;
+    width: 48px;
     border-bottom: 2px solid ${props => props.theme['brand-secondary']};
     border-right: 2px solid ${props => props.theme['brand-secondary']};
     transform: rotate(-45deg);
-    right: -5rem;
-    border-bottom-right-radius: 0.5rem;
+    right: -80px;
+    border-bottom-right-radius: 8px;
     display: ${({ lastPage }) => (lastPage ? 'none' : 'block')};
 
-    @media (max-width: 37.5rem) {
+    ${media.mobile`
       display: none;
-    }
+    `};
   }
 `
 
 const PrevButton = styled.div`
   &.slick-prev {
-    height: 3rem;
-    width: 3rem;
+    height: 48px;
+    width: 48px;
     border-bottom: 2px solid ${props => props.theme['brand-secondary']};
     border-left: 2px solid ${props => props.theme['brand-secondary']};
     transform: rotate(45deg);
-    left: -5rem;
-    border-bottom-left-radius: 0.5rem;
+    left: -80px;
+    border-bottom-left-radius: 8px;
     display: ${({ firstPage }) => (firstPage ? 'none' : 'block')};
 
-    @media (max-width: 37.5rem) {
+    ${media.mobile`
       display: none;
-    }
+    `};
   }
 `
 
@@ -104,9 +105,9 @@ const CarouselWrapper = styled(Column)`
     bottom: 125px;
     width: fit-content;
 
-    @media (max-width: 61.25rem) {
+    ${media.laptop`
       width: 100%;
-    }
+    `}
   }
 
   .slick-slider > ul > li:first-child {
@@ -115,9 +116,9 @@ const CarouselWrapper = styled(Column)`
 
   .slick-slider > ul > li > a > div {
     background: ${({ theme }) => theme['gray-2']};
-    @media (max-width: 61.25rem) {
+    ${media.laptop`
       background: ${({ theme }) => theme['l']};
-    }
+    `}
   }
 
   .slick-slider > ul > li.slick-active > a > div {
@@ -125,40 +126,40 @@ const CarouselWrapper = styled(Column)`
   }
 
   .slick-dots li button:before {
-    width: 1.5rem;
-    height: 0.25rem;
+    width: 24px;
+    height: 4px;
   }
 `
 
 const CarouselPageWrapper = styled(Row)`
-  @media (max-width: 61.25rem) {
+  ${media.laptop`
     justify-content: center;
-  }
+  `}
 `
 
 const Container = styled(Column)`
   width: 50%;
-  height: 29.25rem;
+  height: 468px;
   justify-content: center;
 
-  @media (max-width: 69.375rem) {
-    width: 45%;
-  }
-
-  @media (max-width: 65.5rem) {
-    width: 40%;
-  }
-
-  @media (max-width: 61.25rem) {
+  ${media.laptop`
     width: 100%;
-    margin-top: 6rem;
+    margin-top: 96px;
     text-align: center;
-  }
+  `};
 `
 
 const Title = styled(Text)`
   margin-bottom: 10px;
   color: ${({ theme }) => theme['brand-primary']};
+`
+
+const BodyText = styled(Text)`
+  padding-right: 15px;
+
+  ${media.laptop`
+    padding-right: 0;
+  `}
 `
 
 const CarouselImage1 = styled(Image)`
@@ -187,15 +188,15 @@ const CarouselImage5 = styled(Image)`
 `
 
 const Dots = styled.div`
-  height: 0.25rem;
-  width: 1.5rem;
+  height: 4px;
+  width: 24px;
   border-radius: 14px;
 
-  @media (max-width: 61.25rem) {
-    width: 0.5rem;
-    height: 0.5rem;
+  ${media.laptop`
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-  }
+  `}
 `
 
 const PlacementDiv = styled.div`
@@ -207,27 +208,19 @@ const PlacementDiv = styled.div`
   background: ${({ theme }) => theme['white']};
   z-index: 1;
 
-  @media (max-width: 69.375rem) {
-    width: 55%;
-  }
-
-  @media (max-width: 65.5rem) {
-    width: 60%;
-  }
-
-  @media (max-width: 61.25rem) {
+  ${media.laptop`
     display: none;
-  }
+ `}
 `
 
 const ButtonContainer = styled(Row)`
   width: 100%;
-  margin-top: -4.5rem;
+  margin-top: -72px;
   z-index: 1;
-  margin-bottom: 4rem;
-  @media (max-width: 61.25rem) {
+  margin-bottom: 64px;
+  ${media.laptop`
     justify-content: center;
-  }
+  `}
 `
 
 function NextArrow (props) {
@@ -290,90 +283,90 @@ const GetStarted = ({ step }) => {
           <div>
             <CarouselPageWrapper>
               <Container>
-                <Title size='1.5rem' weight={600}>
+                <Title size='24px' weight={600}>
                   <FormattedMessage
                     defaultMessage='Welcome to Swap!'
                     id='swap.carousel.title.page1'
                   />
                 </Title>
-                <Text weight={500}>
+                <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='The easiest way to exchange one crypto for another without leaving your wallet.'
                     id='swap.carousel.desc.page1'
                   />
-                </Text>
+                </BodyText>
               </Container>
             </CarouselPageWrapper>
           </div>
           <div>
             <CarouselPageWrapper>
               <Container>
-                <Title size='1.5rem' weight={600}>
+                <Title size='24px' weight={600}>
                   <FormattedMessage
                     defaultMessage='Real-time Exchange Rates'
                     id='swap.carousel.title.page2'
                   />
                 </Title>
-                <Text weight={500}>
+                <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='Access competitive crypto prices right at your fingertips.'
                     id='swap.carousel.desc.page2'
                   />
-                </Text>
+                </BodyText>
               </Container>
             </CarouselPageWrapper>
           </div>
           <div>
             <CarouselPageWrapper>
               <Container>
-                <Title size='1.5rem' weight={600}>
+                <Title size='24px' weight={600}>
                   <FormattedMessage
                     defaultMessage='100% On-Chain'
                     id='swap.carousel.title.page3'
                   />
                 </Title>
-                <Text weight={500}>
+                <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='All Swap trades are confirmed and settled directly on-chain.'
                     id='swap.carousel.desc.page3'
                   />
-                </Text>
+                </BodyText>
               </Container>
             </CarouselPageWrapper>
           </div>
           <div>
             <CarouselPageWrapper>
               <Container>
-                <Title size='1.5rem' weight={600}>
+                <Title size='24px' weight={600}>
                   <FormattedMessage
                     defaultMessage='You Control Your Key'
                     id='swap.carousel.title.page4'
                   />
                 </Title>
-                <Text weight={500}>
+                <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='With Swap your crypto is safe, secure, and your keys are always intact.'
                     id='swap.carousel.desc.page4'
                   />
-                </Text>
+                </BodyText>
               </Container>
             </CarouselPageWrapper>
           </div>
           <div>
             <CarouselPageWrapper>
               <Container>
-                <Title size='1.5rem' weight={600}>
+                <Title size='24px' weight={600}>
                   <FormattedMessage
                     defaultMessage='Manage Risk Better'
                     id='swap.carousel.title.page5'
                   />
                 </Title>
-                <Text weight={500}>
+                <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='Introducing Digital Dollars (USDp) to de-risk your crypto investment or lock-in gains.'
                     id='swap.carousel.desc.page5'
                   />
-                </Text>
+                </BodyText>
               </Container>
             </CarouselPageWrapper>
           </div>
