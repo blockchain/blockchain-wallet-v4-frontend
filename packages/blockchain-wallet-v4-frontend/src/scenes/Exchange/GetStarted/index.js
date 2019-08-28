@@ -16,9 +16,11 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  max-width: 1000px;
   height: auto;
   padding: 50px;
   box-sizing: border-box;
+  margin: 0 auto;
 
   @media (max-width: 37.5rem) {
     padding: 0;

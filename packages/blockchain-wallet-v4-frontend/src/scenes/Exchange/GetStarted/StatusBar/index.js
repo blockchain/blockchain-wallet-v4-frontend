@@ -7,13 +7,13 @@ import Rejected from './Statuses/Rejected'
 import UnderReview from './Statuses/UnderReview'
 
 const Status = ({ step }) => (
-  <React.Fragment>
+  <>
     {step === 'getstarted' && <GetStarted />}
     {step === 'inprogress' && <InProgress />}
     {step === 'pending' && <Pending />}
     {step === 'underreview' && <UnderReview />}
     {step === 'rejected' && <Rejected />}
-  </React.Fragment>
+  </>
 )
 
 export default Status
