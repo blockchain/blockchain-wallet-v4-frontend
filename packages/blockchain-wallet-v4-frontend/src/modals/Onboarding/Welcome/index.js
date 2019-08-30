@@ -8,13 +8,18 @@ import { actions } from 'data'
 import Welcome from './template'
 
 class WelcomeContainer extends PureComponent {
-  takeTour = () => {
-    this.props.close()
-    this.props.onboardingActions.setWalletTourVisibility(true)
-  }
-
   render () {
-    return <Welcome takeTour={this.takeTour} {...this.props} />
+    const {
+      skipWalletTourClicked,
+      takeWalletTourClicked
+    } = this.props.onboardingActions
+    return (
+      <Welcome
+        onSkipTour={() => skipWalletTourClicked(takeWalletTourClicked)}
+        onTakeTour={() => takeWalletTourClicked()}
+        {...this.props}
+      />
+    )
   }
 }
 

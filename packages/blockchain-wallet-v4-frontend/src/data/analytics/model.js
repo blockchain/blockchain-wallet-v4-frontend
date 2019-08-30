@@ -127,6 +127,8 @@ export const AB_TESTS = {
 }
 
 export const GENERAL_EVENTS = {
+  SKIP_WALLET_TOUR: ['general', 'skip_wallet_tour'],
+  TAKE_WALLET_TOUR: ['general', 'take_wallet_tour'],
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
   VIEW_FAQ: ['general', 'view_faq']
 }

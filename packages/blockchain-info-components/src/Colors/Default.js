@@ -130,6 +130,7 @@ export default {
   blue: '#0C6CF2',
   // Colors
   red: '#D93B30',
+  orange000: '#FFF2E5',
   orange: '#F28B24',
   // Service Announcements
   info: '#4A90E2',

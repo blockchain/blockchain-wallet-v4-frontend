@@ -90,11 +90,11 @@ const Container = styled.div`
 `
 
 const Welcome = props => {
-  const { position, total, close, takeTour } = props
+  const { position, total, onSkipTour, onTakeTour } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
-      <WelcomeModalHeader onClose={close} />
+      <WelcomeModalHeader onClose={onSkipTour} />
       <WelcomeModalBody>
         <Container>
           <BodyHeader>
@@ -157,7 +157,7 @@ const Welcome = props => {
           <Button
             nature='primary'
             fullwidth
-            onClick={takeTour}
+            onClick={onTakeTour}
             data-e2e='takeTourButton'
             size='16px'
           >
@@ -168,7 +168,7 @@ const Welcome = props => {
           </Button>
           <Button
             fullwidth
-            onClick={close}
+            onClick={onSkipTour}
             data-e2e='maybeLaterButton'
             size='16px'
           >

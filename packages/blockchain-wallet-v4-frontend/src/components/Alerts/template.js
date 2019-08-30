@@ -43,7 +43,7 @@ const Alerts = props => {
             persist={persist}
             onClose={() => handleClose(id)}
           >
-            {getAlertContent(message, data)}
+            {getAlertContent(message, data, handleClose, id)}
           </Toast>
         )
       })}
