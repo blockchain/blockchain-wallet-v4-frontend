@@ -45,13 +45,11 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
-import introBank from './img/intro-bank.png'
 import introBankGif from './img/intro-bank.gif'
 import introCart from './img/intro-cart.png'
 import introCartGif from './img/intro-cart.gif'
 import introHand from './img/intro-hand.png'
 import introLock from './img/intro-lock.png'
-import introReceive from './img/intro-receive.png'
 import introReceiveGif from './img/intro-receive.gif'
 import introSend from './img/intro-send.png'
 import introSendGif from './img/intro-send.gif'
@@ -176,13 +174,11 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
-  'intro-bank': introBank,
   'intro-bank-gif': introBankGif,
   'intro-cart': introCart,
   'intro-cart-gif': introCartGif,
   'intro-hand': introHand,
   'intro-lock': introLock,
-  'intro-receive': introReceive,
   'intro-receive-gif': introReceiveGif,
   'intro-send': introSend,
   'intro-send-gif': introSendGif,

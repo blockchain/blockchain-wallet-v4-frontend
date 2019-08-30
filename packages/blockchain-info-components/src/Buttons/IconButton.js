@@ -46,12 +46,12 @@ const selectColor = (nature, disabled) => {
 }
 
 const IconButton = props => {
-  const { name, children, nature, customClass, ...rest } = props
+  const { name, children, nature, ...rest } = props
   const color = selectColor(nature)
 
   return (
     <BaseIconButton {...rest}>
-      <Icon name={name} color={color} className={customClass} />
+      <Icon name={name} color={color} />
       {children}
     </BaseIconButton>
   )
