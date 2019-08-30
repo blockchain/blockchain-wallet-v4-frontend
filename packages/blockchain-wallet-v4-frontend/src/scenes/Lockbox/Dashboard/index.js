@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { equals } from 'ramda'
 import { withRouter } from 'react-router-dom'
 
-import Announcements from 'components/Announcements'
+import UpdateRequiredNotice from './UpdateRequiredNotice'
 import Transactions from './Transactions'
 import Settings from './Settings'
 import { actions } from 'data'
@@ -50,7 +50,9 @@ class LockboxDashboardContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Announcements type='service' alertArea='lockbox' />
+        {/* TODO: re-enable once new firmware is released */}
+        {/* <Announcements type='service' alertArea='lockbox' /> */}
+        <UpdateRequiredNotice />
         <Header />
         {onDashboard ? (
           <TransactionsWrapper>
