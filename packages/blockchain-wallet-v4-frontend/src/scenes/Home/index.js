@@ -1,10 +1,16 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Joyride, { STATUS } from 'react-joyride/lib'
 import React from 'react'
-import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
+import styled from 'styled-components'
 
-import PriceChart from './PriceChart'
+import { actions, selectors } from 'data'
+
+import { TourTooltip, TOUR_STEPS } from './model'
 import Balances from './Balances'
 import Banners from './Banners'
+import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -51,18 +57,47 @@ const ColumnRight = styled(Column)`
   }
 `
 
-const Home = () => (
-  <Wrapper>
-    <Banners />
-    <ColumnWrapper>
-      <ColumnLeft>
-        <Balances />
-      </ColumnLeft>
-      <ColumnRight>
-        <PriceChart />
-      </ColumnRight>
-    </ColumnWrapper>
-  </Wrapper>
-)
+const Home = props => {
+  const { onboardingActions, showWalletTour } = props
 
-export default Home
+  const handleTourCallbacks = data => {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      onboardingActions.setWalletTourVisibility(false)
+    }
+  }
+  return (
+    <Wrapper>
+      <Joyride
+        run={showWalletTour}
+        steps={TOUR_STEPS}
+        disableScrollParentFix={true}
+        callback={handleTourCallbacks}
+        tooltipComponent={TourTooltip}
+        showSkipButton={true}
+        {...props.Joyride}
+      />
+      <Banners />
+      <ColumnWrapper>
+        <ColumnLeft>
+          <Balances />
+        </ColumnLeft>
+        <ColumnRight>
+          <PriceChart />
+        </ColumnRight>
+      </ColumnWrapper>
+    </Wrapper>
+  )
+}
+
+const mapStateToProps = state => ({
+  showWalletTour: selectors.components.onboarding.getWalletTourVisibility(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home)

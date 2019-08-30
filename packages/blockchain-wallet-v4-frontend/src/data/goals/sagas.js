@@ -467,7 +467,8 @@ export default ({ api }) => {
       sunriver,
       swapGetStarted,
       swapUpgrade,
-      upgradeForAirdrop
+      upgradeForAirdrop,
+      welcome
     } = initialModals
     if (linkAccount) {
       return yield put(
@@ -510,6 +511,9 @@ export default ({ api }) => {
     }
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
+    }
+    if (welcome) {
+      return yield put(actions.modals.showModal(welcome.name, welcome.data))
     }
   }
 

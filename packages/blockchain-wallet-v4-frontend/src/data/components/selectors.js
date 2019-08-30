@@ -1,10 +1,11 @@
 import * as coinify from './coinify/selectors'
-import * as identityVerification from './identityVerification/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
+import * as identityVerification from './identityVerification/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
+import * as onboarding from './onboarding/selectors'
 import * as onfido from './onfido/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
@@ -19,12 +20,13 @@ import * as veriff from './veriff/selectors'
 
 export {
   coinify,
-  identityVerification,
   exchange,
   exchangeHistory,
+  identityVerification,
   layoutWallet,
   lockbox,
   manageAddresses,
+  onboarding,
   onfido,
   priceChart,
   priceTicker,

@@ -56,7 +56,10 @@ const Success = props => {
           </Text>
         </HomeTitle>
         <div>
-          <HomeBalanceAmount data-e2e='homeBalanceAmt'>
+          <HomeBalanceAmount
+            data-e2e='homeBalanceAmt'
+            className='wallet-intro-tour-step-1'
+          >
             {balances.totalBalance.totalBalance}
           </HomeBalanceAmount>
         </div>

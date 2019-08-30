@@ -11,54 +11,174 @@ import {
   Text
 } from 'blockchain-info-components'
 
+const Row = styled.div`
+  display: flex;
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const WalletTools = styled(Column)`
+  padding: 32px 24px;
+  width: 50%;
+  align-items: center;
+  > img:first-child {
+    margin-bottom: 16px;
+  }
+`
+
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
+  padding-top: 28px;
+  z-index: 1;
   > span {
-    color: ${props => props.theme['gray-1']};
+    color: ${({ theme }) => theme['gray-6']};
+    width: 16px;
+    height: 16px;
   }
 `
+
+const WelcomeModalBody = styled(ModalBody)`
+  padding: 48px;
+
+  span {
+    line-height: 24px;
+  }
+`
+
+const BodyHeader = styled(Row)`
+  align-items: center;
+
+  span {
+    margin-left: 8px;
+  }
+`
+
+const WalletToolsContainer = styled(Column)`
+  margin-bottom: 16px;
+`
+
+const SecureStore = styled(WalletTools)`
+  border-right: 1px solid ${({ theme }) => theme['gray-1']};
+  border-bottom: 1px solid ${({ theme }) => theme['gray-1']};
+`
+
+const Transaction = styled(WalletTools)`
+  border-bottom: 1px solid ${({ theme }) => theme['gray-1']};
+`
+
+const BuySell = styled(WalletTools)`
+  border-right: 1px solid ${({ theme }) => theme['gray-1']};
+`
+
 const Container = styled.div`
   > div:nth-child(2) {
-    margin: 10px 0 20px 0;
+    margin: 16px 0 32px 0;
+  }
+
+  > button {
+    padding: 8px 16px;
+    height: 48px;
+
+    &:last-child {
+      margin-top: 16px;
+    }
   }
 `
 
 const Welcome = props => {
-  const { position, total, close, walletMillions } = props
+  const { position, total, close, takeTour } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
       <WelcomeModalHeader onClose={close} />
-      <Image name='v4-welcome' width='100%' />
-      <ModalBody>
+      <WelcomeModalBody>
         <Container>
-          <Text size='26px' weight={400}>
+          <BodyHeader>
+            <Image name='intro-hand' width='32px' height='32px' />
+            <Text color='gray-8' size='20px' weight={600}>
+              <FormattedMessage
+                id='modals.welcome.welcome'
+                defaultMessage='Welcome to Blockchain!'
+              />
+            </Text>
+          </BodyHeader>
+          <Text color='gray-8' size='16px' weight={400}>
             <FormattedMessage
-              id='modals.welcome.welcome'
-              defaultMessage='Welcome to Blockchain!'
+              id='modals.welcome.desc'
+              defaultMessage="Discover your Wallet's tools and features by taking a quick tour."
             />
           </Text>
-          <Text size='16px' weight={400}>
-            <FormattedMessage
-              id='modals.welcome.thanks'
-              defaultMessage='Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.'
-              values={{ walletMillions }}
-            />
-          </Text>
+          <WalletToolsContainer>
+            <Row>
+              <SecureStore>
+                <Image name='intro-lock' width='32px' height='32px' />
+                <Text weight={500}>
+                  <FormattedMessage
+                    id='modals.welcome.securely-store'
+                    defaultMessage='Securely Store'
+                  />
+                </Text>
+              </SecureStore>
+              <Transaction>
+                <Image name='intro-send' width='32px' height='32px' />
+                <Text weight={500}>
+                  <FormattedMessage
+                    id='modals.welcome.transaction'
+                    defaultMessage='Transact'
+                  />
+                </Text>
+              </Transaction>
+            </Row>
+            <Row>
+              <BuySell>
+                <Image name='intro-cart' width='32px' height='32px' />
+                <Text weight={500}>
+                  <FormattedMessage
+                    id='modals.welcome.buy-sell'
+                    defaultMessage='Buy & Sell'
+                  />
+                </Text>
+              </BuySell>
+              <WalletTools>
+                <Image name='intro-swap' width='32px' height='32px' />
+                <Text weight={500}>
+                  <FormattedMessage
+                    id='modals.welcome.trade'
+                    defaultMessage='Trade'
+                  />
+                </Text>
+              </WalletTools>
+            </Row>
+          </WalletToolsContainer>
           <Button
             nature='primary'
             fullwidth
-            onClick={close}
-            data-e2e='getStartedButton'
+            onClick={takeTour}
+            data-e2e='takeTourButton'
+            size='16px'
           >
             <FormattedMessage
-              id='modals.welcome.continue'
-              defaultMessage='Get Started'
+              id='modals.welcome.take-tour-button'
+              defaultMessage='Take The Tour'
+            />
+          </Button>
+          <Button
+            fullwidth
+            onClick={close}
+            data-e2e='maybeLaterButton'
+            size='16px'
+          >
+            <FormattedMessage
+              id='modals.welcome.later-button'
+              defaultMessage='Maybe Later'
             />
           </Button>
         </Container>
-      </ModalBody>
+      </WelcomeModalBody>
     </Modal>
   )
 }

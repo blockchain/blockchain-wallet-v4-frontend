@@ -149,7 +149,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
       yield fork(transferEthSaga)
-      yield call(saveGoals, firstLogin)
+      yield call(saveGoals, true) // Change this back to firstLogin after push
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))

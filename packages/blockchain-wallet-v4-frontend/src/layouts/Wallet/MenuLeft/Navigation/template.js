@@ -87,7 +87,11 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
         <MenuItem data-e2e='buyAndSellLink'>
-          <MenuIcon name='cart-filled' size='24px' />
+          <MenuIcon
+            className='wallet-intro-tour-step-5'
+            name='cart-filled'
+            size='24px'
+          />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.buysell'
@@ -99,7 +103,11 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
-          <MenuIcon name='thick-arrow-switch' size='24px' />
+          <MenuIcon
+            className='wallet-intro-tour-step-4'
+            name='thick-arrow-switch'
+            size='24px'
+          />
           {/* SwapOrTradeTest */}
           <Destination>
             {swapOrTrade !== 'trade' ? (

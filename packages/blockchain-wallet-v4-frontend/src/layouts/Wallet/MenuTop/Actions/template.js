@@ -43,6 +43,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       min='100px'
       data-e2e='sendButton'
       height='48px'
+      customClass='wallet-intro-tour-step-3'
     >
       <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
@@ -59,6 +60,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       min='100px'
       data-e2e='requestButton'
       height='48px'
+      customClass='wallet-intro-tour-step-2'
     >
       <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
