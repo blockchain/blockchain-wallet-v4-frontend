@@ -11,7 +11,6 @@ import RemoveDevice from './RemoveDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
 import TakeTour from './TakeTour'
-import UpdateDevice from './UpdateDevice'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;
@@ -40,10 +39,11 @@ export default class LockboxSettings extends React.PureComponent {
           </BrowserWarning>
         )}
         <RenameDevice deviceIndex={deviceIndex} />
-        <UpdateDevice
-          deviceIndex={deviceIndex}
-          isBrowserSupported={isBrowserSupported}
-        />
+        {/* TODO: re-enable once new firmware is released */}
+        {/* <UpdateDevice */}
+        {/*  deviceIndex={deviceIndex} */}
+        {/*  isBrowserSupported={isBrowserSupported} */}
+        {/* /> */}
         <AddDevice isBrowserSupported={isBrowserSupported} />
         <RestoreDevice />
         <ShowXPubs deviceIndex={deviceIndex} />
