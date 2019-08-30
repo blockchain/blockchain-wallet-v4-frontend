@@ -3,10 +3,16 @@ import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
 
+import media from 'services/ResponsiveService'
 import { actions } from 'data'
 import { Button, Link, Icon, Text, TextGroup } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+
+import linuxUpdater from './lockbox-updater-1.0.0.AppImage'
+import macUpdater from './lockbox-updater-1.0.0.dmg'
+import windowsUpdater from './lockbox-updater-1.0.0.exe'
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,10 +67,26 @@ const DownloadIcon = styled(Icon)`
   margin-top: 10px;
 `
 class UpdateRequiredNotice extends React.PureComponent {
-  launchLockboxSetup = () => {
-    this.props.modalActions.showModal('LockboxSetup')
+  getOsSpecificUpdater = () => {
+    const os = Bowser.getParser(window.navigator.userAgent).getOSName(true)
+    switch (os) {
+      case 'macos':
+        return {
+          extension: 'dmg',
+          updater: macUpdater
+        }
+      case 'linux':
+        return {
+          extension: 'AppImage',
+          updater: linuxUpdater
+        }
+      default:
+        return {
+          extension: 'exe',
+          updater: windowsUpdater
+        }
+    }
   }
-
   render () {
     return (
       <Wrapper>
@@ -102,12 +124,20 @@ class UpdateRequiredNotice extends React.PureComponent {
           </HeaderText>
         </LeftColumn>
         <RightColumn>
-          <Button nature='primary' onClick={() => {}}>
-            <FormattedMessage
-              id='scenes.lockbox.dashboard.updaterequirednotice.download'
-              defaultMessage='Download Software'
-            />
-          </Button>
+          <Link
+            href={prop('updater', this.getOsSpecificUpdater())}
+            download={`lockbox-updater-1.0.0.${prop(
+              'extension',
+              this.getOsSpecificUpdater()
+            )}`}
+          >
+            <Button nature='primary'>
+              <FormattedMessage
+                id='scenes.lockbox.dashboard.updaterequirednotice.download'
+                defaultMessage='Download Software'
+              />
+            </Button>
+          </Link>
         </RightColumn>
       </Wrapper>
     )
