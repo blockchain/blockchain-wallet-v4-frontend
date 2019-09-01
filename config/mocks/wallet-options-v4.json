@@ -137,7 +137,8 @@
           },
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/pax/transactions"
+          "txListAppRoute": "/pax/transactions",
+          "showNewTagSidenav": true
         },
         "XLM": {
           "airdrop": {
