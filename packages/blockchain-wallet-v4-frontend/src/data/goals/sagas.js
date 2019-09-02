@@ -164,11 +164,16 @@ export default ({ api }) => {
     const btcRates = yield select(selectors.core.data.btc.getRates)
 
     try {
-      const rawPaymentRequest = yield call(api.getRawPaymentRequest, invoiceId)
+      const rawPaymentRequest = yield call(
+        api.getRawPaymentRequest,
+        invoiceId,
+        'BTC'
+      )
       const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
+      const { instructions } = paymentRequest
       const expired = new Date() > new Date(paymentRequest.expires)
 
-      const tx = paymentRequest.outputs[0]
+      const tx = path([0, 'outputs', 0], instructions)
       const satoshiAmount = tx.amount
       const address = tx.address
 
