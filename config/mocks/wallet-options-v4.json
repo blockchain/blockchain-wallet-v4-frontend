@@ -56,12 +56,7 @@
           "coinTicker": "BCH",
           "colorCode": "bch",
           "displayName": "Bitcoin Cash",
-          "config": {
-            "fees": {
-              "regular": 4,
-              "priority": 4
-            }
-          },
+          "config": {},
           "hasLockboxSupport": true,
           "icons": {
             "default": "bch",
@@ -85,12 +80,7 @@
           "coinTicker": "BSV",
           "colorCode": "bsv",
           "displayName": "Bitcoin SV",
-          "config": {
-            "fees": {
-              "regular": 4,
-              "priority": 4
-            }
-          },
+          "config": {},
           "hasLockboxSupport": false,
           "icons": {
             "default": "bsv"
@@ -147,8 +137,7 @@
           },
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/pax/transactions",
-          "showNewTagSidenav": true
+          "txListAppRoute": "/pax/transactions"
         },
         "XLM": {
           "airdrop": {
