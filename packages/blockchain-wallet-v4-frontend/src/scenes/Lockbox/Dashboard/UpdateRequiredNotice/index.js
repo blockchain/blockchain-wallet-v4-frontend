@@ -10,9 +10,9 @@ import media from 'services/ResponsiveService'
 import { actions } from 'data'
 import { Button, Link, Icon, Text, TextGroup } from 'blockchain-info-components'
 
-import linuxUpdater from './lockbox-updater-1.0.0.AppImage'
-import macUpdater from './lockbox-updater-1.0.0.dmg'
-import windowsUpdater from './lockbox-updater-1.0.0.exe'
+import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
+import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
+import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
 
 const Wrapper = styled.div`
   display: flex;
