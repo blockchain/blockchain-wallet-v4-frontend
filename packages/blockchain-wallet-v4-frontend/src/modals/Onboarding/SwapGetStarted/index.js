@@ -13,10 +13,9 @@ const Header = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  background: ${props => props.theme['deep-blue']}
+  height: 204px;
+  background: ${props => props.theme['brand-primary']}
     url(/img/swap-dashboard-right.png);
-  background-color: ${props => props.theme['deep-blue']};
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -58,7 +57,7 @@ const LaterButton = styled(FooterButton)`
 const CenteredText = styled(Text)`
   padding: 0 36px;
   text-align: center;
-  text-shadow: 0px 0px 1px ${props => props.theme['deep-blue']};
+  text-shadow: 0px 0px 1px ${props => props.theme['brand-primary']};
 `
 
 class SwapGetStarted extends React.PureComponent {
