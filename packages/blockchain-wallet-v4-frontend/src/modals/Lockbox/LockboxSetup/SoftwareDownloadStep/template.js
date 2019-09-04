@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import { prop } from 'ramda'
 
@@ -83,9 +83,9 @@ const SoftwareDownloadStep = props => {
         />
       </Text>
       <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
-        <FormattedMessage
+        <FormattedHTMLMessage
           id='modals.lockboxsetup.softwaredownloadstep.downloaded.body2'
-          defaultMessage='Once you have updated your device and installed at least the Bitcoin app, press the continue button.'
+          defaultMessage='Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below.'
         />
       </Text>
       <DownloadButton nature='primary' fullwidth onClick={onStepChange}>

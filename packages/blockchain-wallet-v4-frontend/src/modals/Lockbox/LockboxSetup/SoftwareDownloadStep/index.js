@@ -13,14 +13,16 @@ class SoftwareDownloadContainer extends React.PureComponent {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')
     } else {
-      // this.props.lockboxActions.changeDeviceSetupStep('connect-device')
+      this.props.lockboxActions.changeDeviceSetupStep('pair-device')
+      this.props.lockboxActions.finalizeNewDeviceSetup()
     }
   }
   onSkipDownload = () => {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')
     } else {
-      // this.props.lockboxActions.changeDeviceSetupStep('connect-device')
+      this.props.lockboxActions.changeDeviceSetupStep('pair-device')
+      this.props.lockboxActions.finalizeNewDeviceSetup()
     }
   }
 
