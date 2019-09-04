@@ -28,8 +28,8 @@ export const Pending = () => (
   <Wrapper>
     <Text color='white' size='14px' weight={500}>
       <FormattedMessage
-        id='scenes.exchange.getstarted.status.pending.title'
-        defaultMessage='Account verification in progress'
+        id='scenes.exchange.getstarted.status.pending.title1'
+        defaultMessage='Account Verification In Progress'
       />
     </Text>
     <Text size='14px' weight={400}>
