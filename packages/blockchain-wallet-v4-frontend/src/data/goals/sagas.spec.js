@@ -32,7 +32,7 @@ describe('goals sagas', () => {
     runSendBtcGoal,
     runPaymentProtocolGoal,
     runSwapUpgradeGoal,
-    runWelcomeGoal,
+    runWalletTour,
     showInitialModal,
     isKycNotFinished,
     waitForUserData
@@ -324,12 +324,12 @@ describe('goals sagas', () => {
         saga.next().isDone()
       })
     })
-    describe('should run welcome goal', () => {
-      const mockGoal = { name: 'welcome', data: {} }
+    describe('should run walletTour goal', () => {
+      const mockGoal = { name: 'walletTour', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runWelcomeGoal saga and end', () => {
-        saga.next().call(runWelcomeGoal, mockGoal)
+      it('should call runWalletTour saga and end', () => {
+        saga.next().call(runWalletTour, mockGoal)
         saga.next().isDone()
       })
     })
@@ -357,9 +357,9 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runWelcomeGoal saga', () => {
-    describe('should not show welcome modal if not first login', () => {
-      const saga = testSaga(runWelcomeGoal, {
+  describe('runWalletTour saga', () => {
+    describe('should not show wallet tour modal if not first login', () => {
+      const saga = testSaga(runWalletTour, {
         id: mockGoalId,
         data: { firstLogin: false }
       })
@@ -372,7 +372,7 @@ describe('goals sagas', () => {
           .put(
             actions.logs.logInfoMessage(
               mockLogLocation,
-              'runWelcomeGoal',
+              'runWalletTour',
               'login success'
             )
           )

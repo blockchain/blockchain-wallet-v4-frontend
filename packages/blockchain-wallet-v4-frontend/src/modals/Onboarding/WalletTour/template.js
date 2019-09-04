@@ -29,7 +29,7 @@ const WalletTools = styled(Column)`
   }
 `
 
-const WelcomeModalHeader = styled(ModalHeader)`
+const WalletTourModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   padding-top: 28px;
@@ -41,7 +41,7 @@ const WelcomeModalHeader = styled(ModalHeader)`
   }
 `
 
-const WelcomeModalBody = styled(ModalBody)`
+const WalletTourModalBody = styled(ModalBody)`
   padding: 48px;
 
   span {
@@ -89,26 +89,26 @@ const Container = styled.div`
   }
 `
 
-const Welcome = props => {
+const WalletTour = props => {
   const { position, total, onSkipTour, onTakeTour } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
-      <WelcomeModalHeader onClose={onSkipTour} />
-      <WelcomeModalBody>
+      <WalletTourModalHeader onClose={onSkipTour} />
+      <WalletTourModalBody>
         <Container>
           <BodyHeader>
             <Image name='intro-hand' width='32px' height='32px' />
             <Text color='gray-8' size='20px' weight={600}>
               <FormattedMessage
-                id='modals.welcome.welcome'
+                id='modals.wallet.tour.wallet.tour'
                 defaultMessage='Welcome to Blockchain!'
               />
             </Text>
           </BodyHeader>
           <Text color='gray-8' size='16px' weight={400}>
             <FormattedMessage
-              id='modals.welcome.desc'
+              id='modals.wallet.tour.desc'
               defaultMessage="Discover your Wallet's tools and features by taking a quick tour."
             />
           </Text>
@@ -118,7 +118,7 @@ const Welcome = props => {
                 <Image name='intro-lock' width='32px' height='32px' />
                 <Text weight={500}>
                   <FormattedMessage
-                    id='modals.welcome.securely-store'
+                    id='modals.wallet.tour.securely-store'
                     defaultMessage='Securely Store'
                   />
                 </Text>
@@ -127,7 +127,7 @@ const Welcome = props => {
                 <Image name='intro-send' width='32px' height='32px' />
                 <Text weight={500}>
                   <FormattedMessage
-                    id='modals.welcome.transaction'
+                    id='modals.wallet.tour.transaction'
                     defaultMessage='Transact'
                   />
                 </Text>
@@ -138,7 +138,7 @@ const Welcome = props => {
                 <Image name='intro-cart' width='32px' height='32px' />
                 <Text weight={500}>
                   <FormattedMessage
-                    id='modals.welcome.buy-sell'
+                    id='modals.wallet.tour.buy-sell'
                     defaultMessage='Buy & Sell'
                   />
                 </Text>
@@ -147,7 +147,7 @@ const Welcome = props => {
                 <Image name='intro-swap' width='32px' height='32px' />
                 <Text weight={500}>
                   <FormattedMessage
-                    id='modals.welcome.trade'
+                    id='modals.wallet.tour.trade'
                     defaultMessage='Trade'
                   />
                 </Text>
@@ -162,7 +162,7 @@ const Welcome = props => {
             size='16px'
           >
             <FormattedMessage
-              id='modals.welcome.take-tour-button'
+              id='modals.wallet.tour.take-tour-button'
               defaultMessage='Take The Tour'
             />
           </Button>
@@ -173,14 +173,14 @@ const Welcome = props => {
             size='16px'
           >
             <FormattedMessage
-              id='modals.welcome.later-button'
+              id='modals.wallet.tour.later-button'
               defaultMessage='Maybe Later'
             />
           </Button>
         </Container>
-      </WelcomeModalBody>
+      </WalletTourModalBody>
     </Modal>
   )
 }
 
-export default Welcome
+export default WalletTour

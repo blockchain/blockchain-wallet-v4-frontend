@@ -413,24 +413,18 @@ export default ({ api }) => {
     }
   }
 
-  const runWelcomeGoal = function * (goal) {
+  const runWalletTour = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
     const { firstLogin } = data
     if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(
-        actions.goals.addInitialModal('welcome', 'Welcome', { walletMillions })
-      )
+      yield put(actions.goals.addInitialModal('walletTour', 'WalletTour'))
     } else {
       yield put(
         actions.logs.logInfoMessage(
           logLocation,
-          'runWelcomeGoal',
+          'runWalletTour',
           'login success'
         )
       )
@@ -468,7 +462,7 @@ export default ({ api }) => {
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
-      welcome
+      walletTour
     } = initialModals
     if (linkAccount) {
       return yield put(
@@ -512,8 +506,10 @@ export default ({ api }) => {
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
-    if (welcome) {
-      return yield put(actions.modals.showModal(welcome.name, welcome.data))
+    if (walletTour) {
+      return yield put(
+        actions.modals.showModal(walletTour.name, walletTour.data)
+      )
     }
   }
 
@@ -556,8 +552,8 @@ export default ({ api }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
-        case 'welcome':
-          yield call(runWelcomeGoal, goal)
+        case 'walletTour':
+          yield call(runWalletTour, goal)
           break
       }
     } catch (error) {
@@ -586,7 +582,7 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runWelcomeGoal,
+    runWalletTour,
     runReferralGoal,
     runSendBtcGoal,
     runUpgradeForAirdropGoal,

@@ -5,7 +5,7 @@ import LinkFromPitAccount from './LinkFromPitAccount'
 import LinkToPitAccount from './LinkToPitAccount'
 import SwapGetStarted from './SwapGetStarted'
 import UpgradeForAirdrop from './UpgradeForAirdrop'
-import Welcome from './Welcome'
+import WalletTour from './WalletTour'
 
 export {
   AirdropClaim,
@@ -15,5 +15,5 @@ export {
   LinkToPitAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
-  Welcome
+  WalletTour
 }

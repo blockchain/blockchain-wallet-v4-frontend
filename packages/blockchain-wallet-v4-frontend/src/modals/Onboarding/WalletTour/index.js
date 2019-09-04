@@ -5,16 +5,16 @@ import React, { PureComponent } from 'react'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 
-import Welcome from './template'
+import WalletTour from './template'
 
-class WelcomeContainer extends PureComponent {
+class WalletTourContainer extends PureComponent {
   render () {
     const {
       skipWalletTourClicked,
       takeWalletTourClicked
     } = this.props.onboardingActions
     return (
-      <Welcome
+      <WalletTour
         onSkipTour={() => skipWalletTourClicked(takeWalletTourClicked)}
         onTakeTour={() => takeWalletTourClicked()}
         {...this.props}
@@ -28,11 +28,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('Welcome'),
+  modalEnhancer('WalletTour'),
   connect(
     null,
     mapDispatchToProps
   )
 )
 
-export default enhance(WelcomeContainer)
+export default enhance(WalletTourContainer)
