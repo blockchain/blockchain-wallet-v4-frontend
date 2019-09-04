@@ -58,13 +58,13 @@ class DownloadUpdaterContainer extends React.PureComponent {
           <SettingHeader>
             <FormattedMessage
               id='scenes.lockbox.settings.downloadupdater.title'
-              defaultMessage='Download Software Update'
+              defaultMessage='Download Apps / Update Device'
             />
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
               id='scenes.lockbox.settings.downloadupdater.description'
-              defaultMessage='Download software to update your device and apps to work with modern browsers'
+              defaultMessage='Download software that allows for updating device and installing/removing apps on the device'
             />
           </SettingDescription>
         </SettingSummary>
