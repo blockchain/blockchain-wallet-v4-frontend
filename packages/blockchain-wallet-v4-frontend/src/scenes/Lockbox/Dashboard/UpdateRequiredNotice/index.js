@@ -7,7 +7,7 @@ import Bowser from 'bowser'
 import { prop } from 'ramda'
 
 import media from 'services/ResponsiveService'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { Button, Link, Icon, Text, TextGroup } from 'blockchain-info-components'
 
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
@@ -88,68 +88,85 @@ class UpdateRequiredNotice extends React.PureComponent {
     }
   }
   render () {
+    const { preferencesActions, showLockboxDownload } = this.props
+
     return (
-      <Wrapper>
-        <LeftColumn>
-          <IconContainer>
-            <DownloadIcon name='request' color='brand-secondary' size='30px' />
-          </IconContainer>
-          <HeaderText>
-            <Text size='18px' weight={700}>
-              <FormattedMessage
-                id='scenes.lockbox.dashboard.updaterequirednotice.title'
-                defaultMessage='Software Update Required'
+      showLockboxDownload && (
+        <Wrapper>
+          <LeftColumn>
+            <IconContainer>
+              <DownloadIcon
+                name='request'
+                color='brand-secondary'
+                size='30px'
               />
-            </Text>
-            <TextGroup inline>
-              <Text size='14px'>
+            </IconContainer>
+            <HeaderText>
+              <Text size='18px' weight={700}>
                 <FormattedMessage
-                  id='scenes.lockbox.dashboard.updaterequirednotice.subtitle'
-                  defaultMessage='In order to continue using your Lockbox, you must first update your device and reinstall the apps via the following updating software.'
+                  id='scenes.lockbox.dashboard.updaterequirednotice.title'
+                  defaultMessage='Software Update Required'
                 />
               </Text>
-              {/* TODO: update link */}
-              <Link
-                href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
-                size='14px'
-                rel='noopener noreferrer'
-                target='_blank'
+              <TextGroup inline>
+                <Text size='14px'>
+                  <FormattedMessage
+                    id='scenes.lockbox.dashboard.updaterequirednotice.subtitle'
+                    defaultMessage='In order to continue using your Lockbox, you must first update your device and reinstall the apps via the following updating software.'
+                  />
+                </Text>
+                {/* TODO: update link */}
+                <Link
+                  href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                  size='14px'
+                  rel='noopener noreferrer'
+                  target='_blank'
+                >
+                  <FormattedMessage
+                    id='scenes.lockbox.dashboard.updaterequirednotice.learn'
+                    defaultMessage='Learn more'
+                  />
+                </Link>
+              </TextGroup>
+            </HeaderText>
+          </LeftColumn>
+          <RightColumn>
+            <Link
+              href={prop('updater', this.getOsSpecificUpdater())}
+              download={`lockbox-updater-1.0.0.${prop(
+                'extension',
+                this.getOsSpecificUpdater()
+              )}`}
+            >
+              <Button
+                nature='primary'
+                onClick={preferencesActions.hideLockboxSoftwareDownload}
               >
                 <FormattedMessage
-                  id='scenes.lockbox.dashboard.updaterequirednotice.learn'
-                  defaultMessage='Learn more'
+                  id='scenes.lockbox.dashboard.updaterequirednotice.download'
+                  defaultMessage='Download Software'
                 />
-              </Link>
-            </TextGroup>
-          </HeaderText>
-        </LeftColumn>
-        <RightColumn>
-          <Link
-            href={prop('updater', this.getOsSpecificUpdater())}
-            download={`lockbox-updater-1.0.0.${prop(
-              'extension',
-              this.getOsSpecificUpdater()
-            )}`}
-          >
-            <Button nature='primary'>
-              <FormattedMessage
-                id='scenes.lockbox.dashboard.updaterequirednotice.download'
-                defaultMessage='Download Software'
-              />
-            </Button>
-          </Link>
-        </RightColumn>
-      </Wrapper>
+              </Button>
+            </Link>
+          </RightColumn>
+        </Wrapper>
+      )
     )
   }
 }
 
+const mapStateToProps = state => ({
+  showLockboxDownload: selectors.preferences.getShowLockboxSoftwareDownload(
+    state
+  )
+})
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(UpdateRequiredNotice)

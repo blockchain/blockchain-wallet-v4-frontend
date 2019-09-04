@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom'
 import UpdateRequiredNotice from './UpdateRequiredNotice'
 import Transactions from './Transactions'
 import Settings from './Settings'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import Menu from './Menu'
 
 const Wrapper = styled.div`
@@ -24,13 +24,17 @@ const Header = styled(Menu)`
   width: 100%;
 `
 const TransactionsWrapper = styled.div`
-  height: calc(100% - 435px);
+  height: calc(
+    100% - ${props => (props.showLockboxDownload ? '455px' : '350px')}
+  );
   position: relative;
   top: 218px;
   overflow: scroll;
 `
 const SettingsWrapper = styled.div`
-  height: calc(100% - 340px);
+  height: calc(
+    100% - ${props => (props.showLockboxDownload ? '340px' : '250px')}
+  );
   position: relative;
   top: 122px;
   overflow: scroll;
@@ -44,7 +48,7 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 
   render () {
-    const { location, match } = this.props
+    const { location, match, showLockboxDownload } = this.props
     const { deviceIndex } = match.params
     const onDashboard = location.pathname.includes('/lockbox/dashboard')
 
@@ -55,11 +59,11 @@ class LockboxDashboardContainer extends React.PureComponent {
         <UpdateRequiredNotice />
         <Header />
         {onDashboard ? (
-          <TransactionsWrapper>
+          <TransactionsWrapper showLockboxDownload={showLockboxDownload}>
             <Transactions deviceIndex={deviceIndex} />
           </TransactionsWrapper>
         ) : (
-          <SettingsWrapper>
+          <SettingsWrapper showLockboxDownload={showLockboxDownload}>
             <Settings deviceIndex={deviceIndex} />
           </SettingsWrapper>
         )}
@@ -68,6 +72,12 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  showLockboxDownload: selectors.preferences.getShowLockboxSoftwareDownload(
+    state
+  )
+})
+
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
@@ -75,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   withRouter,
   connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps
   )
 )
