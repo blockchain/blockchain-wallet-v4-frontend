@@ -9,6 +9,7 @@ import { prop } from 'ramda'
 import media from 'services/ResponsiveService'
 import { actions, selectors } from 'data'
 import { Button, Link, Icon, Text, TextGroup } from 'blockchain-info-components'
+import * as C from 'services/ConfirmService'
 
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
@@ -87,8 +88,18 @@ class UpdateRequiredNotice extends React.PureComponent {
         }
     }
   }
+
+  onSoftwareDownload = () => {
+    this.props.modalActions.showModal('Confirm', {
+      hideCancel: true,
+      title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE,
+      message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG
+    })
+    this.props.preferencesActions.hideLockboxSoftwareDownload()
+  }
+
   render () {
-    const { preferencesActions, showLockboxDownload } = this.props
+    const { showLockboxDownload } = this.props
 
     return (
       showLockboxDownload && (
@@ -138,10 +149,7 @@ class UpdateRequiredNotice extends React.PureComponent {
                 this.getOsSpecificUpdater()
               )}`}
             >
-              <Button
-                nature='primary'
-                onClick={preferencesActions.hideLockboxSoftwareDownload}
-              >
+              <Button nature='primary' onClick={this.onSoftwareDownload}>
                 <FormattedMessage
                   id='scenes.lockbox.dashboard.updaterequirednotice.download'
                   defaultMessage='Download Software'

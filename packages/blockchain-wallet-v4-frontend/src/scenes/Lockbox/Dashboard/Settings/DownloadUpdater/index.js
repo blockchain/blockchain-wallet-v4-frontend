@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { prop } from 'ramda'
 import Bowser from 'bowser'
 
@@ -11,6 +13,8 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { Button, Link } from 'blockchain-info-components'
+import * as C from 'services/ConfirmService'
+import { actions } from 'data'
 
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
@@ -37,6 +41,16 @@ class DownloadUpdaterContainer extends React.PureComponent {
         }
     }
   }
+
+  onSoftwareDownload = () => {
+    this.props.modalActions.showModal('Confirm', {
+      hideCancel: true,
+      title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE,
+      message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG
+    })
+    this.props.preferencesActions.hideLockboxSoftwareDownload()
+  }
+
   render () {
     return (
       <SettingContainer>
@@ -62,7 +76,7 @@ class DownloadUpdaterContainer extends React.PureComponent {
               this.getOsSpecificUpdater()
             )}`}
           >
-            <Button nature='empty'>
+            <Button nature='empty' onClick={this.onSoftwareDownload}>
               <FormattedMessage
                 id='scenes.lockbox.dashboard.updaterequirednotice.download'
                 defaultMessage='Download'
@@ -75,4 +89,11 @@ class DownloadUpdaterContainer extends React.PureComponent {
   }
 }
 
-export default DownloadUpdaterContainer
+const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(DownloadUpdaterContainer)

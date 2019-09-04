@@ -17,3 +17,5 @@ export const ARCHIVE_VULNERABLE_ADDRESS_CONFIRM =
   'archive_vulnerable_address_confirm'
 export const ARCHIVE_VULNERABLE_ADDRESS_CANCEL =
   'archive_vulnerable_address_cancel'
+export const LOCKBOX_SOFTWARE_DOWNLOAD_TITLE = 'lockbox_software_download_title'
+export const LOCKBOX_SOFTWARE_DOWNLOAD_MSG = 'lockbox_software_download_msg'
