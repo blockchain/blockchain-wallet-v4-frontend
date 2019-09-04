@@ -77,6 +77,7 @@ import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
+import swapModalCoins from './img/swap-modal-coins.png'
 import thePitLogo from './img/the-pit-logo.svg'
 import thePitText from './img/the-pit-text.svg'
 import thePitWord from './img/the-pit-word.svg'
@@ -221,6 +222,7 @@ export default {
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
+  'swap-modal-coins': swapModalCoins,
   'the-pit-logo': thePitLogo,
   'the-pit-text': thePitText,
   'the-pit-word': thePitWord,
