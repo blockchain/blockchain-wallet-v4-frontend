@@ -8,8 +8,8 @@ exports[`Pending renders correctly 1`] = `
     weight={500}
   >
     <FormattedMessage
-      defaultMessage="Account verification in progress"
-      id="scenes.exchange.getstarted.status.pending.title"
+      defaultMessage="Account Verification In Progress"
+      id="scenes.exchange.getstarted.status.pending.title1"
       values={Object {}}
     />
   </text>
