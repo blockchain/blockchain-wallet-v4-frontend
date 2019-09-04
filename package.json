@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.21.7",
+  "version": "4.22.0",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -146,7 +146,7 @@
     "css-loader": "2.1.1",
     "cz-conventional-changelog": "2.1.0",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.13.0",
+    "enzyme-adapter-react-16": "1.14.0",
     "enzyme-to-json": "3.3.5",
     "eslint": "5.16.0",
     "eslint-config-prettier": "4.2.0",

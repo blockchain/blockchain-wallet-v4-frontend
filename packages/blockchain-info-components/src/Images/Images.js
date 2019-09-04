@@ -77,6 +77,11 @@ import starfield2 from './img/starfield2.png'
 import stellarPlanet from './img/stellar-planet.png'
 import stellarPlanet2 from './img/stellar-planet@2x.png'
 import stellarPlanet3 from './img/stellar-planet@3x.png'
+import swapCarousel1 from './img/swap-carousel1.png'
+import swapCarousel2 from './img/swap-carousel2.png'
+import swapCarousel3 from './img/swap-carousel3.png'
+import swapCarousel4 from './img/swap-carousel4.png'
+import swapCarousel5 from './img/swap-carousel5.png'
 import swapDashboardLeft from './img/swap-dashboard-left.png'
 import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
@@ -226,6 +231,11 @@ export default {
   'stellar-planet': stellarPlanet,
   'stellar-planet2': stellarPlanet2,
   'stellar-planet3': stellarPlanet3,
+  'swap-carousel1': swapCarousel1,
+  'swap-carousel2': swapCarousel2,
+  'swap-carousel3': swapCarousel3,
+  'swap-carousel4': swapCarousel4,
+  'swap-carousel5': swapCarousel5,
   'swap-dashboard-left': swapDashboardLeft,
   'swap-dashboard-right': swapDashboardRight,
   'swap-intro': swapIntro,

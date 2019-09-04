@@ -25,7 +25,7 @@ exports[`ExchangeScene renders failure correctly 1`] = `
 
 exports[`ExchangeScene renders getstarted correctly 1`] = `
 <Exchange__Wrapper>
-  <GetStarted />
+  <Connect(GetStarted) />
 </Exchange__Wrapper>
 `;
 

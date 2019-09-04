@@ -10,8 +10,8 @@ exports[`UnderReview renders correctly 1`] = `
       weight={500}
     >
       <FormattedMessage
-        defaultMessage="Account verification under review"
-        id="scenes.exchange.getstarted.status.underreview.title"
+        defaultMessage="Account Verification Under Review"
+        id="scenes.exchange.getstarted.status.underreview.title1"
         values={Object {}}
       />
     </text>
