@@ -70,7 +70,7 @@ const Success = props => {
         />
         <Coin
           coin='xlm'
-          icon='xlm-circle-filled'
+          icon='xlm'
           balance={data.xlmBalance}
           isActive={isActive('xlm')}
           isSaved={prop('xlm', coinContexts) > 0}
