@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  background-color: #f26c57;
+  background-color: ${({ theme }) => theme['sent']};
   border-radius: 4px;
 
   & > :not(:first-child) {
@@ -28,8 +28,8 @@ export const Rejected = () => (
   <Wrapper>
     <Text color='white' size='14px' weight={500}>
       <FormattedMessage
-        id='scenes.exchange.getstarted.status.rejected.title'
-        defaultMessage='Account verification failed'
+        id='scenes.exchange.getstarted.status.rejected.title1'
+        defaultMessage='Account Verification Failed'
       />
     </Text>
     <Text size='14px' weight={400}>

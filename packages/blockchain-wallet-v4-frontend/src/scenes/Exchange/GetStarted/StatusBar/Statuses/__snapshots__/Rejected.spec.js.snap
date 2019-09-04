@@ -8,8 +8,8 @@ exports[`Rejected renders correctly 1`] = `
     weight={500}
   >
     <FormattedMessage
-      defaultMessage="Account verification failed"
-      id="scenes.exchange.getstarted.status.rejected.title"
+      defaultMessage="Account Verification Failed"
+      id="scenes.exchange.getstarted.status.rejected.title1"
       values={Object {}}
     />
   </Component>

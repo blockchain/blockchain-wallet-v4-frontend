@@ -5,11 +5,17 @@ exports[`GetStarted renders correctly 1`] = `
   to="/swap/profile"
 >
   <GetStarted__ActionButton>
-    <FormattedMessage
-      defaultMessage="Get Started"
-      id="scenes.exchange.getstarted.status.getstarted.button"
-      values={Object {}}
-    />
+    <Component
+      color="white"
+      size="16px"
+      weight={600}
+    >
+      <FormattedMessage
+        defaultMessage="Get Started"
+        id="scenes.exchange.getstarted.status.getstarted.button"
+        values={Object {}}
+      />
+    </Component>
   </GetStarted__ActionButton>
 </withRouter(LinkContainer)>
 `;
