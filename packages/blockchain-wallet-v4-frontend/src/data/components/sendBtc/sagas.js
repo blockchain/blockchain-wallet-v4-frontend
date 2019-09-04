@@ -139,6 +139,12 @@ export default ({ api, coreSagas, networks }) => {
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(
+      actions.analytics.logEvent([
+        ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+        'invoice expired'
+      ])
+    )
   }
 
   const firstStepSubmitClicked = function * () {
@@ -463,7 +469,17 @@ export default ({ api, coreSagas, networks }) => {
         ])
       )
       if (payPro) {
-        yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_SENT))
+        const coinAmount = Exchange.convertCoinToCoin({
+          value: payment.value().amount,
+          coin: 'BTC',
+          baseToStandard: true
+        }).value
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.BITPAY_SUCCESS,
+            `${coinAmount} BTC`
+          ])
+        )
       }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
@@ -492,6 +508,14 @@ export default ({ api, coreSagas, networks }) => {
             coinName: 'Bitcoin'
           })
         )
+        if (payPro) {
+          yield put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+              e
+            ])
+          )
+        }
       }
     }
   }
