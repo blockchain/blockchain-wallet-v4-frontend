@@ -5,13 +5,14 @@ import Bowser from 'bowser'
 
 import { model } from 'data'
 import { Banner, Text } from 'blockchain-info-components'
+
 import AddDevice from './AddDevice'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
 import TakeTour from './TakeTour'
-import UpdateDevice from './UpdateDevice'
+import DownloadUpdater from './DownloadUpdater'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;
@@ -40,10 +41,12 @@ export default class LockboxSettings extends React.PureComponent {
           </BrowserWarning>
         )}
         <RenameDevice deviceIndex={deviceIndex} />
-        <UpdateDevice
-          deviceIndex={deviceIndex}
-          isBrowserSupported={isBrowserSupported}
-        />
+        <DownloadUpdater />
+        {/* TODO: re-enable once new firmware is released */}
+        {/* <UpdateDevice */}
+        {/*  deviceIndex={deviceIndex} */}
+        {/*  isBrowserSupported={isBrowserSupported} */}
+        {/* /> */}
         <AddDevice isBrowserSupported={isBrowserSupported} />
         <RestoreDevice />
         <ShowXPubs deviceIndex={deviceIndex} />

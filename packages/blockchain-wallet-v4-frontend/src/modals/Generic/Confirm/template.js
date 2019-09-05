@@ -42,6 +42,7 @@ const ConfirmTemplate = ({
   cancel,
   title,
   image,
+  hideCancel,
   nature,
   message,
   messageValues,
@@ -58,9 +59,11 @@ const ConfirmTemplate = ({
           </Text>
         </ModalBody>
         <ModalFooter align='right'>
-          <Cancel data-e2e='cancelConfirmModalLink' onClick={close}>
-            {selectCancel(cancel)}
-          </Cancel>
+          {!hideCancel && (
+            <Cancel data-e2e='cancelConfirmModalLink' onClick={close}>
+              {selectCancel(cancel)}
+            </Cancel>
+          )}
           <Button
             type='submit'
             nature={nature || 'primary'}

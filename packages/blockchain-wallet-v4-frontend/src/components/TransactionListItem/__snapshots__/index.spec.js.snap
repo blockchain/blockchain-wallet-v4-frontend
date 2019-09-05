@@ -123,6 +123,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideAirdropClaimModal": [Function],
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
+        "hideLockboxSoftwareDownload": [Function],
         "hideSwapBanner": [Function],
         "hideSwapUpgradeModal": [Function],
         "hideUpgradeForAirdropModal": [Function],

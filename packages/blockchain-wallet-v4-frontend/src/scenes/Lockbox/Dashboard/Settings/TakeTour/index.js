@@ -35,8 +35,8 @@ class TakeTourContainer extends React.PureComponent {
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
-              id='scenes.lockbox.settings.taketour.description'
-              defaultMessage='Take a quick, interactive tour of the features of Lockbox.'
+              id='scenes.lockbox.settings.taketour.description1'
+              defaultMessage='Take a quick, interactive tour of the features of Lockbox'
             />
           </SettingDescription>
         </SettingSummary>
