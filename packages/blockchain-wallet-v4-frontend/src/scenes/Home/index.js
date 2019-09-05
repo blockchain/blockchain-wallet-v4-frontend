@@ -56,31 +56,33 @@ const ColumnRight = styled(Column)`
   }
 `
 
-export const Pulse = keyframes`
-  0% {
-    box-shadow: 0 0 0 0 #144699;
-    opacity: 1;
-  }
-  30%{
-    opacity: 0.7;
-  }
-  100% {
-    box-shadow: 0 0 0 32px #144699;
-    opacity: 0.25;
-  }
-`
+function Pulse ({ theme }) {
+  return keyframes`
+    0% {
+      box-shadow: 0 0 0 0 ${theme['deep-blue']};
+      opacity: 1;
+    }
+    30%{
+      opacity: 0.7;
+    }
+    100% {
+      box-shadow: 0 0 0 32px ${theme['deep-blue']};
+      opacity: 0.25;
+    }
+  `
+}
 
 const GlobalJoyrideStyles = createGlobalStyle`
   #react-joyride-portal {
     .react-joyride__overlay {
       .react-joyride__spotlight {
-        background-color: #144699 !important;
+        background-color: ${({ theme }) => theme['deep-blue']} !important;
         opacity: 0.25 !important;
         border-radius: 50% !important;
-        animation: ${Pulse} 1s infinite;
+        animation: ${props => Pulse(props)} 1s infinite;
         height: 16px !important;
         width: 16px !important;
-        margin: 16px 0 0 16px;
+        margin: 19px 0 0 19px;
       }
     }
   }
