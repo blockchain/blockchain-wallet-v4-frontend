@@ -41,6 +41,21 @@ const NewCartridge = styled(Cartridge)`
   border-radius: 4px;
 `
 
+const SpotlightLinkContainer = styled(LinkContainer)`
+  position: relative;
+`
+
+const JoyrideSpotlight = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto 12px;
+  width: 32px;
+  height: 32px;
+`
+
 const renderPitLinkContent = () => {
   return (
     <React.Fragment>
@@ -85,8 +100,9 @@ const Navigation = props => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/buy-sell' activeClassName='active'>
+      <SpotlightLinkContainer to='/buy-sell' activeClassName='active'>
         <MenuItem data-e2e='buyAndSellLink'>
+          <JoyrideSpotlight className='wallet-intro-tour-step-5' />
           <MenuIcon name='cart-filled' size='24px' />
           <Destination>
             <FormattedMessage
@@ -96,9 +112,10 @@ const Navigation = props => {
             />
           </Destination>
         </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/swap' activeClassName='active'>
+      </SpotlightLinkContainer>
+      <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
+          <JoyrideSpotlight className='wallet-intro-tour-step-4' />
           <MenuIcon name='thick-arrow-switch' size='24px' />
           {/* SwapOrTradeTest */}
           <Destination>
@@ -115,7 +132,7 @@ const Navigation = props => {
             )}
           </Destination>
         </MenuItem>
-      </LinkContainer>
+      </SpotlightLinkContainer>
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon

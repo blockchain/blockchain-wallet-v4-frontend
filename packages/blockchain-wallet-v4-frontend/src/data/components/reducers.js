@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
 import coinify from './coinify/reducers'
-import identityVerification from './identityVerification/reducers'
 import exchange from './exchange/reducers'
-import lockbox from './lockbox/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
+import identityVerification from './identityVerification/reducers'
 import layoutWallet from './layoutWallet/reducers'
+import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
+import onboarding from './onboarding/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import send from './send/reducers'
@@ -19,12 +20,13 @@ import veriff from './veriff/reducers'
 
 export default combineReducers({
   coinify,
-  identityVerification,
   exchange,
   exchangeHistory,
+  identityVerification,
   layoutWallet,
   lockbox,
   manageAddresses,
+  onboarding,
   onfido,
   priceChart,
   send,
