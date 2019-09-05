@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import Joyride, { STATUS } from 'react-joyride/lib'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
-import styled from 'styled-components'
-
+import styled, { createGlobalStyle, keyframes } from 'styled-components'
 import { actions, selectors } from 'data'
 
 import { TourTooltip, TOUR_STEPS } from './model'
@@ -57,6 +56,36 @@ const ColumnRight = styled(Column)`
   }
 `
 
+export const Pulse = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 #144699;
+    opacity: 1;
+  }
+  30%{
+    opacity: 0.7;
+  }
+  100% {
+    box-shadow: 0 0 0 32px #144699;
+    opacity: 0.25;
+  }
+`
+
+const GlobalJoyrideStyles = createGlobalStyle`
+  #react-joyride-portal {
+    .react-joyride__overlay {
+      .react-joyride__spotlight {
+        background-color: #144699 !important;
+        opacity: 0.25 !important;
+        border-radius: 50% !important;
+        animation: ${Pulse} 1s infinite;
+        height: 16px !important;
+        width: 16px !important;
+        margin: 16px 0 0 16px;
+      }
+    }
+  }
+`
+
 const Home = props => {
   const { onboardingActions, showWalletTour } = props
 
@@ -67,15 +96,6 @@ const Home = props => {
   }
   return (
     <Wrapper>
-      <Joyride
-        run={showWalletTour}
-        steps={TOUR_STEPS}
-        disableScrollParentFix={true}
-        callback={handleTourCallbacks}
-        tooltipComponent={TourTooltip}
-        showSkipButton={true}
-        {...props.Joyride}
-      />
       <Banners />
       <ColumnWrapper>
         <ColumnLeft>
@@ -85,6 +105,21 @@ const Home = props => {
           <PriceChart />
         </ColumnRight>
       </ColumnWrapper>
+      <Joyride
+        run={showWalletTour}
+        steps={TOUR_STEPS}
+        disableScrollParentFix={true}
+        callback={handleTourCallbacks}
+        tooltipComponent={TourTooltip}
+        showSkipButton={true}
+        styles={{
+          overlay: {
+            backgroundColor: 'none'
+          }
+        }}
+        {...props.Joyride}
+      />
+      <GlobalJoyrideStyles />
     </Wrapper>
   )
 }

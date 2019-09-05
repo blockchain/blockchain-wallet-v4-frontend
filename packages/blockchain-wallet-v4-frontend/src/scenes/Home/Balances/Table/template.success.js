@@ -45,8 +45,8 @@ const JoyrideSpotlight = styled.div`
   bottom: 0;
   left: 0;
   margin: auto auto;
-  width: 1px;
-  height: 1px;
+  width: 32px;
+  height: 32px;
 `
 
 const Success = props => {

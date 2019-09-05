@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   }
 `
 const ActionButton = styled(IconButton)`
+  position: relative;
   > span {
     color: ${props => props.theme['brand-primary']};
   }
@@ -28,6 +29,17 @@ const ActionButton = styled(IconButton)`
       font-size: 13px;
     }
   `};
+`
+
+const JoyrideSpotlight = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto 12px;
+  width: 32px;
+  height: 32px;
 `
 
 const ButtonText = styled(Text)`
@@ -43,8 +55,8 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       min='100px'
       data-e2e='sendButton'
       height='48px'
-      className='wallet-intro-tour-step-3'
     >
+      <JoyrideSpotlight className='wallet-intro-tour-step-3' />
       <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
@@ -60,8 +72,8 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       min='100px'
       data-e2e='requestButton'
       height='48px'
-      className='wallet-intro-tour-step-2'
     >
+      <JoyrideSpotlight className='wallet-intro-tour-step-2' />
       <ButtonText size='16px' weight={600} color='brand-primary'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
