@@ -51,7 +51,7 @@ const JoyrideSpotlight = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  margin: auto 12px;
+  margin: auto 11px;
   width: 32px;
   height: 32px;
 `
