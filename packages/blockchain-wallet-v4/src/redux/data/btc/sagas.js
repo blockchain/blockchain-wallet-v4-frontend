@@ -50,6 +50,7 @@ export default ({ api }) => {
     }
   }
 
+  // TODO: SEGWIT fix onlyShow and onlyShowP2SH
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action

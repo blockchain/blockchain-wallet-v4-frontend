@@ -1,4 +1,4 @@
-import { add, concat, lift, map, prop, reduce } from 'ramda'
+import { add, concat, flatten, lift, map, prop, reduce } from 'ramda'
 import { selectors } from 'data'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
@@ -17,12 +17,17 @@ export const getBtcBalance = createDeepEqualSelector(
         .getLockboxBtcContext(state)
         .map(
           map(address =>
-            selectors.core.data.btc.getFinalBalance(state, address).getOrElse(0)
+            selectors.core.data.btc
+              .getFinalBalanceLegacy(state, address)
+              .getOrElse(0)
           )
         )
   ],
-  (walletBalances, lockboxBalancesR) =>
-    lockboxBalancesR.map(concat(walletBalances)).map(reduce(add, 0))
+  (walletBalances, lockboxBalancesR) => {
+    return lockboxBalancesR
+      .map(concat(flatten(walletBalances)))
+      .map(reduce(add, 0))
+  }
 )
 
 export const getBchBalance = createDeepEqualSelector(

@@ -11,7 +11,9 @@ export const getBtcBalance = createDeepEqualSelector(
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) => {
-      return context.map(a => pathOr(0, [a, 'final_balance'], balances))
+      return context.flatMap(c =>
+        c.map(a => pathOr(0, [a, 'final_balance'], balances))
+      )
     }
     const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
     return balancesR.map(reduce(add, 0))
