@@ -411,6 +411,19 @@ const FirstStep = props => {
           </Text>
         )}
       </FormGroup>
+      {isPayPro && invalid && (
+        <Text
+          size='13px'
+          color='error'
+          weight={500}
+          style={{ textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='modals.sendbtc.firststep.bitpay.insufficientfunds'
+            defaultMessage='Insufficient funds to complete BitPay transaction'
+          />
+        </Text>
+      )}
       <SubmitFormGroup>
         <Button
           type='submit'

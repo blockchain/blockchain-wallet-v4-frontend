@@ -45,6 +45,16 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
+import introBankGif from './img/intro-bank.gif'
+import introCart from './img/intro-cart.png'
+import introCartGif from './img/intro-cart.gif'
+import introHand from './img/intro-hand.png'
+import introLock from './img/intro-lock.png'
+import introReceiveGif from './img/intro-receive.gif'
+import introSend from './img/intro-send.png'
+import introSendGif from './img/intro-send.gif'
+import introSwap from './img/intro-swap.png'
+import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -77,6 +87,7 @@ import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
+import swapModalCoins from './img/swap-modal-coins.png'
 import thePitLogo from './img/the-pit-logo.svg'
 import thePitText from './img/the-pit-text.svg'
 import thePitWord from './img/the-pit-word.svg'
@@ -169,6 +180,16 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'intro-bank-gif': introBankGif,
+  'intro-cart': introCart,
+  'intro-cart-gif': introCartGif,
+  'intro-hand': introHand,
+  'intro-lock': introLock,
+  'intro-receive-gif': introReceiveGif,
+  'intro-send': introSend,
+  'intro-send-gif': introSendGif,
+  'intro-swap': introSwap,
+  'intro-swap-gif': introSwapGif,
   'ledger-lockbox': ledgerLockbox,
   'ledger-lockbox2': ledgerLockbox2,
   'ledger-lockbox3': ledgerLockbox3,
@@ -221,6 +242,7 @@ export default {
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
+  'swap-modal-coins': swapModalCoins,
   'the-pit-logo': thePitLogo,
   'the-pit-text': thePitText,
   'the-pit-word': thePitWord,
