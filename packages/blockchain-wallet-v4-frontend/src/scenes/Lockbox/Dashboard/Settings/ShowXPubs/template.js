@@ -25,8 +25,8 @@ const ShowXPubs = props => {
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.showxpubs.desc'
-            defaultMessage='Display the Extended Public Keys (xPubs) of your device.'
+            id='scenes.lockbox.settings.showxpubs.description'
+            defaultMessage='Display the Extended Public Keys (xPubs) of your device'
           />
         </SettingDescription>
       </SettingSummary>

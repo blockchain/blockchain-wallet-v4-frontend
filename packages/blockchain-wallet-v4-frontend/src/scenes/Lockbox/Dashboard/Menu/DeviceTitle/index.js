@@ -3,11 +3,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
 
-import { actions, model } from 'data'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { actions } from 'data'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,17 +34,17 @@ const RightCol = styled.div`
     margin-right: 16px;
   }
 `
-const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies(
-  model.components.lockbox.supportedBrowsers
-)
+// const browser = Bowser.getParser(window.navigator.userAgent)
+// const isBrowserSupported = browser.satisfies(
+//   model.components.lockbox.supportedBrowsers
+// )
 
 class DeviceTitle extends React.PureComponent {
-  onOpenAppManager = () => {
-    this.props.modalActions.showModal('LockboxAppManager', {
-      deviceIndex: this.props.deviceIndex
-    })
-  }
+  // onOpenAppManager = () => {
+  //   this.props.modalActions.showModal('LockboxAppManager', {
+  //     deviceIndex: this.props.deviceIndex
+  //   })
+  // }
 
   render () {
     const { deviceInfo, deviceIndex, location } = this.props
@@ -62,18 +60,19 @@ class DeviceTitle extends React.PureComponent {
           {deviceInfo.device_name}
         </Text>
         <RightCol>
-          <Button
-            nature='primary'
-            rounded
-            onClick={this.onOpenAppManager}
-            disabled={!isBrowserSupported}
-            className='tour-step4'
-          >
-            <FormattedMessage
-              id='scenes.lockbox.menu.devicetitle.apps'
-              defaultMessage='Manage Apps'
-            />
-          </Button>
+          {/* TODO: re-enable once new firmware is released */}
+          {/* <Button */}
+          {/*  nature='primary' */}
+          {/*  rounded */}
+          {/*  onClick={this.onOpenAppManager} */}
+          {/*  disabled={!isBrowserSupported} */}
+          {/*  className='tour-step4' */}
+          {/* > */}
+          {/*  <FormattedMessage */}
+          {/*    id='scenes.lockbox.menu.devicetitle.apps' */}
+          {/*    defaultMessage='Manage Apps' */}
+          {/*  /> */}
+          {/* </Button> */}
           <LinkContainer to={linkTo} className='tour-step5'>
             <ToggleIcon name={icon} size={'24px'} />
           </LinkContainer>

@@ -63,6 +63,15 @@ module.exports = {
         }
       },
       {
+        test: /\.(AppImage|dmg|exe)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'resources/[name].[ext]'
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
       }
