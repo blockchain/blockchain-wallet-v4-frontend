@@ -97,6 +97,7 @@ import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
+import warningCircleFilled from './img/warning-circle-filled.png'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -252,6 +253,7 @@ export default {
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
+  'warning-circle-filled': warningCircleFilled,
   printer: printer,
   rocket: rocket,
   search: search,

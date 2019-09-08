@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import {
-  Icon,
+  Image,
   Text,
   TooltipHost,
   TooltipIcon
@@ -79,6 +79,11 @@ const SwapText = styled(Text)`
     text-decoration: none;
   }
 `
+
+const SwapTextAirdropContent = styled(SwapText)`
+  margin-top: 20px;
+`
+
 const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -146,7 +151,11 @@ const IdentityVerification = ({ userData, userTiers }) => {
               {isUnderReview && (
                 <>
                   <SwapText>
-                    <Icon size='24px' name='alert-filled' color='orange' />
+                    <Image
+                      name='warning-circle-filled'
+                      width='32px'
+                      height='32px'
+                    />
                   </SwapText>
                   <SwapText size='14px'>
                     <FormattedMessage
@@ -155,6 +164,12 @@ const IdentityVerification = ({ userData, userTiers }) => {
                       values={{ tier2Limit: formattedTier2Limit }}
                     />
                   </SwapText>
+                  <SwapTextAirdropContent size='14px'>
+                    <FormattedHTMLMessage
+                      id='scenes.profile.idv.swaplimit.future.airdrops'
+                      defaultMessage="Our <a href='https://blog.blockchain.com/2019/07/15/airdrops-adoption-whats-ahead/' target='_blank'>Stellar (XLM) airdrop</a> is currently winding down. Get gold verified to be eligible for future crypto airdrops!"
+                    />
+                  </SwapTextAirdropContent>
                 </>
               )}
             </LearnMoreContainer>
