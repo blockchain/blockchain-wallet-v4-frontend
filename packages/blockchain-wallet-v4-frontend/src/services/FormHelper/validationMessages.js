@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'blockchain-info-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 export const AgeOverEighteenMessage = () => (
   <FormattedMessage
@@ -121,7 +121,7 @@ export const PasswordsDoNotMatch = () => (
 )
 export const PitRequires2FAMessage = () => (
   <>
-    <FormattedHTMLMessage
+    <FormattedMessage
       id='formhelper.pitrequires2fa'
       defaultMessage='The PIT requires 2FA for deposits.'
     />
@@ -132,7 +132,7 @@ export const PitRequires2FAMessage = () => (
       size='12px'
     >
       {' '}
-      <FormattedHTMLMessage
+      <FormattedMessage
         id='formhelper.gotothepit'
         defaultMessage='Take me to The PIT.'
       />
