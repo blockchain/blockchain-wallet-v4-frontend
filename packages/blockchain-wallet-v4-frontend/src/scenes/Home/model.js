@@ -121,8 +121,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.steptwo.content'
-            defaultMessage="To receive crypto, all the recipient needs is your crypto's address. You can find these addresses here."
+            id='wallet.tour.steptwo.content-1'
+            defaultMessage="To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here."
           />
         </StepContent>
       </>
@@ -143,8 +143,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.stepthree.addfilters'
-            defaultMessage='Send crypto anywhere, anytime. All you need is the recipients crypto address.'
+            id='wallet.tour.stepthree.content-1'
+            defaultMessage="Send crypto anywhere, anytime. All you need is the recipient's crypto address."
           />
         </StepContent>
       </>
