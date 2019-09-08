@@ -113,6 +113,8 @@ export const validBtcAddress = (value, allValues, props) => {
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
 
+  // console.log(address)
+
   return utils.btc.isValidBtcAddress(address, props.network) ? (
     undefined
   ) : (
