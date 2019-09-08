@@ -21,6 +21,8 @@ import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
 import { all, any, concat, equals, path, takeWhile, prop, propOr } from 'ramda'
 
+const BAD_2FA = 'BAD_2FA'
+
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
 export const optional = validator => value =>
@@ -86,7 +88,11 @@ export const validPasswordStretchingNumber = value =>
 export const validEthAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue
-  return utils.eth.isValidAddress(propOr(value, ['address'], value)) ? (
+  const address = propOr(value, ['address'], value)
+  if (address === BAD_2FA) {
+    return <M.PitRequires2FAMessage />
+  }
+  return utils.eth.isValidAddress(address) ? (
     undefined
   ) : (
     <M.InvalidEthAddressMessage />
@@ -96,7 +102,11 @@ export const validEthAddress = ({ value: dropdownValue }) => {
 export const validXlmAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue
-  return utils.xlm.isValidAddress(propOr(value, ['address'], value)) ? (
+  const address = propOr(value, ['address'], value)
+  if (address === BAD_2FA) {
+    return <M.PitRequires2FAMessage />
+  }
+  return utils.xlm.isValidAddress(address) ? (
     undefined
   ) : (
     <M.InvalidXlmAddressMessage />
@@ -113,7 +123,9 @@ export const validBtcAddress = (value, allValues, props) => {
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
 
-  // console.log(address)
+  if (address === BAD_2FA) {
+    return <M.PitRequires2FAMessage />
+  }
 
   return utils.btc.isValidBtcAddress(address, props.network) ? (
     undefined
@@ -130,6 +142,9 @@ export const validBchAddress = (value, allValues, props) => {
     if (prop('xpub', option)) return
     if (prop('address', option)) return
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
+  }
+  if (address === BAD_2FA) {
+    return <M.PitRequires2FAMessage />
   }
   return utils.btc.isValidBtcAddress(address, props.network) ||
     utils.bch.isCashAddr(address) ? (
