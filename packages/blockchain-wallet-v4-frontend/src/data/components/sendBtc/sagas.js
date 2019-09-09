@@ -23,7 +23,7 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBtc/sagas'
-export default ({ coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
       const {
@@ -139,6 +139,12 @@ export default ({ coreSagas, networks }) => {
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
     yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(
+      actions.analytics.logEvent([
+        ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+        'invoice expired'
+      ])
+    )
   }
 
   const firstStepSubmitClicked = function * () {
@@ -400,7 +406,27 @@ export default ({ coreSagas, networks }) => {
         payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
-      payment = yield payment.publish()
+      if (payPro) {
+        const { txHex, weightedSize } = payment.value()
+        const invoiceId = payPro.paymentUrl.split('/i/')[1]
+        yield call(
+          api.verifyPaymentRequest,
+          invoiceId,
+          txHex,
+          weightedSize,
+          'BTC'
+        )
+        yield delay(3000)
+        yield call(
+          api.submitPaymentRequest,
+          invoiceId,
+          txHex,
+          weightedSize,
+          'BTC'
+        )
+      } else {
+        payment = yield payment.publish()
+      }
       yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
@@ -443,7 +469,17 @@ export default ({ coreSagas, networks }) => {
         ])
       )
       if (payPro) {
-        yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_SENT))
+        const coinAmount = Exchange.convertCoinToCoin({
+          value: payment.value().amount,
+          coin: 'BTC',
+          baseToStandard: true
+        }).value
+        yield put(
+          actions.analytics.logEvent([
+            ...TRANSACTION_EVENTS.BITPAY_SUCCESS,
+            `${coinAmount} BTC`
+          ])
+        )
       }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
@@ -472,6 +508,14 @@ export default ({ coreSagas, networks }) => {
             coinName: 'Bitcoin'
           })
         )
+        if (payPro) {
+          yield put(
+            actions.analytics.logEvent([
+              ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+              e
+            ])
+          )
+        }
       }
     }
   }

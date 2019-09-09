@@ -31,6 +31,10 @@ export const DOC_RESUBMISSION_REASONS = {
   EXPIRED: 1
 }
 
+export const ERROR_TYPES = {
+  BAD_2FA: 'BAD_2FA'
+}
+
 export const TIERS = {
   0: 0,
   1: 1,

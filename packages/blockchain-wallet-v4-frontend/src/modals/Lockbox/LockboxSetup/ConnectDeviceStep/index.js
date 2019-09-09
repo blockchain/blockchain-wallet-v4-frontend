@@ -13,15 +13,21 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   state = { connectTimeout: false }
 
   componentDidMount () {
-    this.props.lockboxActions.initializeNewDeviceSetup()
-    this.startConnectionTimeout()
-    this.props.analyticsActions.logEvent(CONNECT_DEVICE)
+    if (this.props.setupType === 'existing') {
+      this.props.lockboxActions.initializeNewDeviceSetup()
+      this.startConnectionTimeout()
+      this.props.analyticsActions.logEvent(CONNECT_DEVICE)
+    }
   }
 
   changeDeviceSetupStep = () => {
     this.props.setupType === 'new'
       ? this.props.lockboxActions.changeDeviceSetupStep('customize-device')
       : this.props.lockboxActions.changeDeviceSetupStep('pair-device')
+  }
+
+  onNewDeviceContinue = () => {
+    this.props.lockboxActions.changeDeviceSetupStep('software-download')
   }
 
   onTimeoutAccept = () => {
@@ -46,6 +52,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
         isConnected={connection.app}
         isNewSetup={setupType === 'new'}
         handleStepChange={this.changeDeviceSetupStep}
+        onNewDeviceContinue={this.onNewDeviceContinue}
         onTimeoutAccept={this.onTimeoutAccept}
         supportLink={supportLink}
       />

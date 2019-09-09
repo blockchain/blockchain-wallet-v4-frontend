@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
-import { GetStarted } from './GetStarted'
+import GetStarted from './GetStarted'
 
 jest.mock('blockchain-info-components', () => ({
   Button: 'button'

@@ -55,7 +55,7 @@ import {
   LinkToPitAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
-  Welcome
+  WalletTour
 } from './Onboarding'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
@@ -152,7 +152,7 @@ const Modals = () => (
     <UpgradeWallet />
     <UpgradeWalletV4 />
     <UserExists />
-    <Welcome />
+    <WalletTour />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />

@@ -88,13 +88,20 @@ export default ({ api, coreSagas }) => {
           break
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
-          payment = yield payment.to(value)
+          const splitValue = value.split(':')
+          const address = splitValue[0]
+          payment = yield payment.to(address)
           // Do not block payment update when to is changed w/ destinationAccount check
           yield put(A.paymentUpdatedSuccess(payment.value()))
           // check if destination exists
-          yield put(A.sendXlmCheckDestinationAccountExists(value))
+          yield put(A.sendXlmCheckDestinationAccountExists(address))
           // check if destination is an exchange
-          yield put(A.sendXlmCheckIfDestinationIsExchange(value))
+          yield put(A.sendXlmCheckIfDestinationIsExchange(address))
+          // PIT address split on : is [address, memo]
+          if (splitValue.length > 1) {
+            const memo = splitValue[1]
+            yield put(actions.form.change(FORM, 'memo', memo))
+          }
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)

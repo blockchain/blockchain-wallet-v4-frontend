@@ -16,6 +16,7 @@ import ErrorStep from './ErrorStep'
 import FinishSetupStep from './FinishSetupStep'
 import PairDeviceStep from './PairDeviceStep'
 import SetupTypeStep from './SetupTypeStep'
+import SoftwareDownloadStep from './SoftwareDownloadStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillMount () {
@@ -58,6 +59,15 @@ class LockboxSetupContainer extends React.PureComponent {
           />
         ),
         template: () => <SetupTypeStep />
+      },
+      'software-download': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.softwaredownload.title'
+            defaultMessage='Software Download'
+          />
+        ),
+        template: () => <SoftwareDownloadStep />
       },
       'connect-device': {
         title: () => (

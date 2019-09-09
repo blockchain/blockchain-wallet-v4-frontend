@@ -21,3 +21,7 @@ export const getShowUpgradeForAirdropModal = path([
   'preferences',
   'showUpgradeForAirdropModal'
 ])
+export const getShowLockboxSoftwareDownload = path([
+  'preferences',
+  'showLockboxSoftwareDownload'
+])

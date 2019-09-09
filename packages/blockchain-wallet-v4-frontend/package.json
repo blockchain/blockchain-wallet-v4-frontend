@@ -14,7 +14,6 @@
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.dev.js --progress --colors",
-    "ci:coverage:frontend": "yarn coverage --runInBand",
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
@@ -130,6 +129,7 @@
     "react-redux": "5.1.1",
     "react-router-bootstrap": "0.25.0",
     "react-router-dom": "4.3.1",
+    "react-slick": "0.25.2",
     "react-tooltip": "3.10.0",
     "react-transition-group": "2.5.3",
     "react-webcam": "1.1.1",
@@ -142,6 +142,7 @@
     "reselect": "4.0.0",
     "rxjs": "6.5.2",
     "sanitize-html": "1.20.1",
+    "slick-carousel": "1.8.1",
     "styled-components": "4.2.0",
     "zxcvbn": "4.4.2"
   }
