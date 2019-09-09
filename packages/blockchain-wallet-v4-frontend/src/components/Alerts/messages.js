@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -376,6 +376,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
         <FormattedMessage
           id='components.alerts.incorrect_bip38_password_error'
           defaultMessage='Incorrect BIP38 password.'
+        />
+      )
+    case C.IPRESTRICTION_LOGIN_ERROR:
+      return buildMessageTemplate(
+        <FormattedHTMLMessage
+          id='components.alerts.iprestriction_login_error'
+          defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under <a href="/help">Need Some Help?</a>.'
         />
       )
     case C.IPRESTRICTION_NO_WHITELIST_ERROR:

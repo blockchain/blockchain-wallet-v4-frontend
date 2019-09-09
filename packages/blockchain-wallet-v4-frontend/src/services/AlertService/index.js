@@ -41,6 +41,7 @@ export const HINT_UPDATE_ERROR = 'hint_update_error'
 export const HINT_UPDATE_SUCCESS = 'hint_update_success'
 export const IMPORT_LEGACY_SUCCESS = 'import_legacy_success'
 export const INCORRECT_BIP38_PASSWORD_ERROR = 'incorrect_bip38_password_error'
+export const IPRESTRICTION_LOGIN_ERROR = 'iprestriction_login_error'
 export const IPRESTRICTION_NO_WHITELIST_ERROR =
   'iprestriction_no_whitelist_error'
 export const IPRESTRICTION_UPDATE_ERROR = 'iprestriction_update_error'
