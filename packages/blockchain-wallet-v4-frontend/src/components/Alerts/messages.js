@@ -391,7 +391,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
             </Text>
             <Text>
               <LinkContainer to='/help'>
-                <Link size='12px' to='/help' weight={500}>
+                <Link size='12px' weight={500}>
                   <FormattedMessage
                     id='components.alerts.iprestriction_login_error-link'
                     defaultMessage='Need some help?'
