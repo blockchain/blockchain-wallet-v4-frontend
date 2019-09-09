@@ -26,7 +26,11 @@ export const overflowsFullBalance = (amount, effectiveBalance, reserve) =>
 export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
   new BigNumber(effectiveBalance).isLessThan(amount)
 
-export const isValidAddress = StellarSdk.StrKey.isValidEd25519PublicKey
+export const isValidAddress = value => {
+  // PIT address split on : is [address, memo]
+  const address = value.split(':')[0]
+  return StellarSdk.StrKey.isValidEd25519PublicKey(address)
+}
 
 export const calculateTransactionAmount = (amount, fee) =>
   new BigNumber.sum(amount, fee).toString()
