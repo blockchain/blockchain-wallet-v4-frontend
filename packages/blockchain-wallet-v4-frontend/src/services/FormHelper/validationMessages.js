@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 export const AgeOverEighteenMessage = () => (
@@ -117,6 +118,26 @@ export const PasswordsDoNotMatch = () => (
     id='formhelper.passwordsdonotmatch'
     defaultMessage='Passwords do not match'
   />
+)
+export const PitRequires2FAMessage = () => (
+  <>
+    <FormattedMessage
+      id='formhelper.pitrequires2fa'
+      defaultMessage='The PIT requires 2FA for deposits.'
+    />
+    <Link
+      href='https://pit.blockchain.com/trade/login'
+      target='_blank'
+      rel='noopener noreferrer'
+      size='12px'
+    >
+      {' '}
+      <FormattedMessage
+        id='formhelper.gotothepit'
+        defaultMessage='Take me to The PIT.'
+      />
+    </Link>
+  </>
 )
 export const IncorrectPassword = () => (
   <FormattedMessage

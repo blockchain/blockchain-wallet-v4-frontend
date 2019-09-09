@@ -3,19 +3,22 @@ import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
-  font-weight: 500;
+  font-weight: 600;
+  height: 56px;
 `
 
-export const GetStarted = () => (
+const GetStarted = () => (
   <LinkContainer to='/swap/profile'>
     <ActionButton>
-      <FormattedMessage
-        id='scenes.exchange.getstarted.status.getstarted.button'
-        defaultMessage='Get Started'
-      />
+      <Text color='white' size='16px' weight={600}>
+        <FormattedMessage
+          id='scenes.exchange.getstarted.status.getstarted.button'
+          defaultMessage='Get Started'
+        />
+      </Text>
     </ActionButton>
   </LinkContainer>
 )

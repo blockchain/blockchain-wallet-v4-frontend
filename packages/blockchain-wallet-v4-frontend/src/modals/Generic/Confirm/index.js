@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import ConfirmTemplate from './template.js'
+import ConfirmTemplate from './template'
 
 class ConfirmContainer extends React.PureComponent {
   constructor (props) {
@@ -13,6 +14,7 @@ class ConfirmContainer extends React.PureComponent {
 
   onSubmit () {
     this.props.actions.submitConfirmation(this.props.value)
+    this.props.close()
   }
 
   render () {

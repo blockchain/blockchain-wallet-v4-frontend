@@ -19,7 +19,13 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'fetchPaymentsAccountPit', e)
       )
-      yield put(A.fetchPaymentsAccountPitFailure(currency, e))
+      if (e.type === 'BAD_2FA') {
+        yield put(
+          A.fetchPaymentsAccountPitSuccess(currency, { address: e.type })
+        )
+      } else {
+        yield put(A.fetchPaymentsAccountPitFailure(currency, e))
+      }
     }
   }
 

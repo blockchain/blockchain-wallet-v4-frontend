@@ -39,6 +39,7 @@ export default {
   // Colors
   red: '#651D1E',
   orange: '#F28B24',
+  orange000: '#FFF2E5',
   // Service Announcements
   info: '#2C5687',
   // New In Use

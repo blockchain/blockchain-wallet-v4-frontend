@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   showKycCompleted: true,
   showBackupReminder: true,
   showKycGetStarted: true,
+  showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showAirdropClaimModal: true,
@@ -42,6 +43,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_KYC_COMPLETED: {
       return assoc('showKycCompleted', false, state)
+    }
+    case AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD: {
+      return assoc('showLockboxSoftwareDownload', false, state)
     }
     case AT.SET_TOTAL_BALANCES_DROPDOWN: {
       const { key, val } = payload
