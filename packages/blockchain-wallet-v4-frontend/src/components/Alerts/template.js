@@ -33,7 +33,7 @@ const Alerts = props => {
     <Wrapper>
       {alerts.map(alert => {
         const { id, nature, message, data, coin, persist, timeout } = alert
-        let dismissTimer = timeout || 7000
+        const dismissTimer = timeout || 7000
         return (
           <Toast
             key={id}
