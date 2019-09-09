@@ -21,9 +21,7 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
-import coinDollar from './img/coin-dollar.png'
-import coinDollar2 from './img/coin-dollar@2x.png'
-import coinDollar3 from './img/coin-dollar@3x.png'
+import coinPax from './img/coin-pax.svg'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import closeError from './img/close-error.svg'
@@ -154,9 +152,7 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'checkmark-green': checkmarkGreen,
-  'coin-dollar': coinDollar,
-  'coin-dollar2': coinDollar2,
-  'coin-dollar3': coinDollar3,
+  'coin-pax': coinPax,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
   'close-error': closeError,

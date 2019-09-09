@@ -54,13 +54,7 @@ class PaxWelcomeContainer extends React.PureComponent {
         <WelcomeModalHeader onClose={close} />
         <ModalBody>
           <Container>
-            <BannerImage
-              name='coin-dollar'
-              srcset={{
-                'coin-dollar2': '2x',
-                'coin-dollar3': '3x'
-              }}
-            />
+            <BannerImage name='coin-pax' />
             <Text size='20px' weight={400}>
               <FormattedMessage
                 id='modals.paxwelcome.intro'
