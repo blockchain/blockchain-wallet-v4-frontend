@@ -8166,8 +8166,8 @@
         "id": "swap.carousel.title.page5"
       },
       {
-        "defaultMessage": "Introducing Digital Dollars (USDp) to de-risk your crypto investment or lock-in gains.",
-        "id": "swap.carousel.desc.page5"
+        "defaultMessage": "Introducing Digital Dollars USD PAX to de-risk your crypto investment or lock-in gains.",
+        "id": "swap.carousel.desc.page5-1"
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/index.json"
@@ -8470,16 +8470,16 @@
         "id": "wallet.tour.steptwo.title"
       },
       {
-        "defaultMessage": "To receive crypto, all the recipient needs is your crypto's address. You can find these addresses here.",
-        "id": "wallet.tour.steptwo.content"
+        "defaultMessage": "To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here.",
+        "id": "wallet.tour.steptwo.content-1"
       },
       {
         "defaultMessage": "Send",
         "id": "wallet.tour.stepthree.title"
       },
       {
-        "defaultMessage": "Send crypto anywhere, anytime. All you need is the recipients crypto address.",
-        "id": "wallet.tour.stepthree.addfilters"
+        "defaultMessage": "Send crypto anywhere, anytime. All you need is the recipient's crypto address.",
+        "id": "wallet.tour.stepthree.content-1"
       },
       {
         "defaultMessage": "Swap",
@@ -10828,6 +10828,10 @@
       {
         "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
         "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
+      },
+      {
+        "defaultMessage": "Our <a href='https://blog.blockchain.com/2019/07/15/airdrops-adoption-whats-ahead/' target='_blank'>Stellar (XLM) airdrop</a> is currently winding down. Get gold verified to be eligible for future crypto airdrops!",
+        "id": "scenes.profile.idv.swaplimit.future.airdrops"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
@@ -11360,6 +11364,14 @@
       {
         "defaultMessage": "Passwords do not match",
         "id": "formhelper.passwordsdonotmatch"
+      },
+      {
+        "defaultMessage": "The PIT requires 2FA for deposits.",
+        "id": "formhelper.pitrequires2fa"
+      },
+      {
+        "defaultMessage": "Take me to The PIT.",
+        "id": "formhelper.gotothepit"
       },
       {
         "defaultMessage": "Incorrect password",
