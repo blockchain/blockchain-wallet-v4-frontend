@@ -288,7 +288,15 @@ export default ({ api, coreSagas }) => {
           'This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under Login Help.'
         // general error
         if (initialError === ipRestriction)
-          yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
+          yield put(
+            actions.alerts.displayError(
+              C.IPRESTRICTION_LOGIN_ERROR,
+              null,
+              null,
+              null,
+              9500
+            )
+          )
         yield put(actions.auth.loginFailure(initialError))
       } else if (
         // Wrong 2fa code error

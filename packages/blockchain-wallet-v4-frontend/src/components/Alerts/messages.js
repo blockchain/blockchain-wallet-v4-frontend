@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -379,11 +380,27 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
         />
       )
     case C.IPRESTRICTION_LOGIN_ERROR:
-      return buildMessageTemplate(
-        <FormattedHTMLMessage
-          id='components.alerts.iprestriction_login_error'
-          defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under <a href="/help">Need Some Help?</a>.'
-        />
+      return (
+        <ContentColumn>
+          <TextGroup inline>
+            <Text size='12px' weight='500'>
+              <FormattedMessage
+                id='components.alerts.iprestriction_login_error'
+                defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
+              />
+            </Text>
+            <Text>
+              <LinkContainer to='/help'>
+                <Link size='12px' to='/help' weight={500}>
+                  <FormattedMessage
+                    id='components.alerts.iprestriction_login_error-link'
+                    defaultMessage='Need some help?'
+                  />
+                </Link>
+              </LinkContainer>
+            </Text>
+          </TextGroup>
+        </ContentColumn>
       )
     case C.IPRESTRICTION_NO_WHITELIST_ERROR:
       return buildMessageTemplate(

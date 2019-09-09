@@ -18,11 +18,8 @@ export const displayInfo = (message, data, persist, timeout) =>
 export const displaySuccess = (message, data, persist, timeout) =>
   display('success', message, data, persist, timeout)
 
-export const displayError = (message, data, persist, coin, timeout) => {
-  let dismissTimer = timeout
-  if (message === 'iprestriction_login_error') dismissTimer = 9500
-  return display('error', message, data, persist, coin, dismissTimer)
-}
+export const displayError = (message, data, persist, coin, timeout) =>
+  display('error', message, data, persist, coin, timeout)
 
 export const displayCoin = (message, coin, persist, timeout) =>
   display(null, message, null, persist, timeout, coin)
