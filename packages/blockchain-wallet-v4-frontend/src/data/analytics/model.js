@@ -81,7 +81,22 @@ export const PREFERENCE_EVENTS = {
     IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'],
     TWO_FACTOR_ENABLED: ['preferences', 'security', '2fa_enabled'],
     TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
-    TOR_ACCESS: ['preferences', 'security', 'tor_access']
+    TOR_ACCESS: ['preferences', 'security', 'tor_access'],
+    VERIFY_DEVICE_ACCEPTED: [
+      'preferences',
+      'security',
+      'verify_device_accepted'
+    ],
+    VERIFY_DEVICE_EMAIL_SENT: [
+      'preferences',
+      'security',
+      'verify_device_email_sent'
+    ],
+    VERIFY_DEVICE_REJECTED: [
+      'preferences',
+      'security',
+      'verify_device_rejected'
+    ]
   }
 }
 export const SUNRIVER_AIRDROP_EVENTS = {
