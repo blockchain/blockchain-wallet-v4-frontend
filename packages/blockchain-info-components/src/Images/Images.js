@@ -36,6 +36,7 @@ import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
 import goldApproved from './img/gold-approved.svg'
+import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
@@ -170,6 +171,7 @@ export default {
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
   'gold-approved': goldApproved,
+  'gold-notice': goldNotice,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,

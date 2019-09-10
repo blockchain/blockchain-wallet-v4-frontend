@@ -9,8 +9,8 @@ import SiftScience from 'components/SiftScience'
 
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
+import FailureCheck from './template.failure'
 import Loading from './template.loading'
-import DataError from 'components/DataError'
 import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
@@ -47,7 +47,14 @@ class VerifyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, preIdvData, actions, modalActions, ...rest } = this.props
+    const {
+      actions,
+      data,
+      modalActions,
+      onClose,
+      preIdvData,
+      ...rest
+    } = this.props
 
     const VerificationFlow = data.cata({
       Success: ({
@@ -84,7 +91,7 @@ class VerifyContainer extends React.PureComponent {
       },
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Failure: message => <DataError message={message} />
+      Failure: () => <FailureCheck onClose={onClose} />
     })
 
     const PreIdvCheck = preIdvData.cata({
