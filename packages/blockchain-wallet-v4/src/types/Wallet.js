@@ -363,15 +363,7 @@ export const newHDAccount = curry((label, password, network, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(
-      HDWallet.generateAccount(
-        HDAccount.DEFAULT_DERIVATION_TYPE,
-        HDAccount.DEFAULT_DERIVATION_PURPOSE,
-        index,
-        label,
-        network
-      )
-    )
+    .map(HDWallet.generateAccount(index, label, network))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })
@@ -699,15 +691,7 @@ export const getMnemonic = curry((secondPassword, wallet) => {
   return seedHex.chain(entropyToMnemonic)
 })
 
-export const js = (
-  guid,
-  sharedKey,
-  label,
-  mnemonic,
-  xpub,
-  nAccounts,
-  network
-) => ({
+export const js = (guid, sharedKey, label, mnemonic, nAccounts, network) => ({
   guid: guid,
   sharedKey: sharedKey,
   tx_names: [],
@@ -715,6 +699,6 @@ export const js = (
   double_encryption: false,
   address_book: [],
   keys: [],
-  hd_wallets: [HDWallet.js(label, mnemonic, xpub, nAccounts, network)],
+  hd_wallets: [HDWallet.js(label, mnemonic, nAccounts, network)],
   options: Options.js()
 })

@@ -87,6 +87,7 @@ export const reviver = jsObject => {
 }
 
 const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
+  if (!seedHex) return
   let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
   let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
   return masterNode
@@ -95,13 +96,17 @@ const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
     .deriveHardened(index)
 }
 
-export const generateAccount = curry(
-  (type, purpose, index, label, network, seedHex) => {
-    let node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
-    let derivation = Derivation.js(type, purpose, node, null)
-    return HDAccount.fromJS(HDAccount.js(label, derivation))
-  }
-)
+export const generateDerivations = (seedHex, index, network) => {
+  return HDAccount.DERIVATION_LIST.map(({ type, purpose }) => {
+    const node = deriveAccountNodeAtIndex(seedHex, purpose, index, network)
+    return Derivation.js(type, purpose, node, null)
+  })
+}
+
+export const generateAccount = curry((index, label, network, seedHex) => {
+  const derivations = generateDerivations(seedHex, index, network)
+  return HDAccount.fromJS(HDAccount.js(label, derivations))
+})
 
 export const generateDerivation = curry(
   (type, purpose, index, network, seedHex) => {
@@ -139,29 +144,12 @@ export const createNew = mnemonic =>
     accounts: []
   })
 
-export const js = (label, mnemonic, xpub, nAccounts, network) => {
-  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
+export const js = (label, mnemonic, nAccounts, network) => {
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
 
-  const masterNode = mnemonic
-    ? Bitcoin.HDNode.fromSeedBuffer(seed, network)
-    : undefined
-
-  const parentNode = mnemonic
-    ? masterNode
-        .deriveHardened(HDAccount.DEFAULT_DERIVATION_PURPOSE)
-        .deriveHardened(0)
-    : undefined
-
   const createAccountAtIndex = i => {
-    const node = mnemonic ? parentNode.deriveHardened(i) : undefined
-    const derivation = Derivation.js(
-      HDAccount.DEFAULT_DERIVATION_TYPE,
-      HDAccount.DEFAULT_DERIVATION_PURPOSE,
-      node,
-      xpub
-    )
-    return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivation)
+    const derivations = generateDerivations(seedHex, i, network)
+    return HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, derivations)
   }
 
   return {

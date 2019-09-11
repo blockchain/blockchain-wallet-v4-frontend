@@ -193,7 +193,6 @@ export const js = (
   sharedKey,
   label,
   mnemonic,
-  xpub,
   language,
   nAccounts = 1,
   network
@@ -203,7 +202,7 @@ export const js = (
   storage_token: '',
   version: PAYLOAD_VERSION,
   language: language,
-  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
+  wallet: Wallet.js(guid, sharedKey, label, mnemonic, nAccounts, network),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
@@ -240,7 +239,6 @@ export const createNew = (
       sharedKey,
       firstAccountName,
       mnemonic,
-      undefined,
       language,
       nAccounts,
       network

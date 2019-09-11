@@ -23,6 +23,19 @@ import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, w
 
 export const DEFAULT_DERIVATION_TYPE = 'segwitP2SH'
 export const DEFAULT_DERIVATION_PURPOSE = 49
+export const LEGACY_DERIVATION_TYPE = 'legacy'
+export const LEGACY_DERIVATION_PURPOSE = 44
+
+export const DERIVATION_LIST = [
+  {
+    type: DEFAULT_DERIVATION_TYPE,
+    purpose: DEFAULT_DERIVATION_PURPOSE
+  },
+  {
+    type: LEGACY_DERIVATION_TYPE,
+    purpose: LEGACY_DERIVATION_PURPOSE
+  }
+]
 
 /* HDAccount :: {
   label :: String
@@ -146,8 +159,8 @@ const migrateFromV3 = account => {
   }
 
   const derivation = {
-    type: 'legacy',
-    purpose: 44,
+    type: LEGACY_DERIVATION_TYPE,
+    purpose: LEGACY_DERIVATION_PURPOSE,
     xpriv: account.xpriv,
     xpub: account.xpub,
     address_labels: account.address_labels,
@@ -198,11 +211,11 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, derivation) => ({
+export const js = (label, derivations) => ({
   label: label,
   archived: false,
   default_derivation: DEFAULT_DERIVATION_TYPE,
-  derivations: [derivation]
+  derivations: derivations
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account
