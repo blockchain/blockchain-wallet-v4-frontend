@@ -1,10 +1,18 @@
 import React from 'react'
 import { prop, contains } from 'ramda'
 import moment from 'moment'
-import USDPax from './USDPax'
+
 import ExchangeByBlockchain from './ExchangeByBlockchain'
+import USDPax from './USDPax'
+import WalletTour from './WalletTour'
 
 const Announcements = [
+  {
+    content: <WalletTour />,
+    date: new Date('September 9 2019'),
+    restrictByCountry: [],
+    restrictByUserKyc: []
+  },
   {
     content: <USDPax />,
     date: new Date('April 30 2019'),
@@ -33,10 +41,12 @@ export const filterAnnouncements = (lastViewed, userCountry, userKycState) => {
       moment()
     )
 
-  return Announcements.map(announcement => ({
-    content: prop('content', announcement),
-    restricted: isRestricted(announcement),
-    display: isAvailableToView(announcement.date, 30),
-    alert: isAvailableToView(announcement.date, 0)
-  }))
+  return Announcements.map(announcement => {
+    return {
+      content: prop('content', announcement),
+      restricted: isRestricted(announcement),
+      display: isAvailableToView(announcement.date, 30),
+      alert: isAvailableToView(announcement.date, 0)
+    }
+  })
 }
