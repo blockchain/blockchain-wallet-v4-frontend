@@ -160,7 +160,7 @@ export const getAddress = curry((network, path, state) => {
     HDWallet.selectAccount(accId),
     walletSelectors.getDefaultHDWallet
   )(state)
-  return HDAccount.getAddress(account, `M/${chain}/${index}`, network)
+  return HDAccount.getAddress(account, `M/${chain}/${index}`, network, 'legacy')
 })
 
 export const getNextAvailableChangeAddress = curry(
