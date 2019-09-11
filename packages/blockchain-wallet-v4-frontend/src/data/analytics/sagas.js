@@ -1,5 +1,5 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import { toLower, map, propOr } from 'ramda'
+import { add, equals, map, not, propOr, reduce, toLower } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
@@ -64,7 +64,7 @@ export default ({ api }) => {
       yield call(startSession, { payload: { guid } })
       yield call(logPageView, { payload: { route: '/home' } })
       // wait 10 seconds to ensure required user data is loaded
-      yield delay(10000)
+      yield delay(1000)
       // log current user kyc tier
       const currentUserTiers = (yield select(
         selectors.modules.profile.getUserTiers
@@ -75,6 +75,59 @@ export default ({ api }) => {
           variableId: CUSTOM_VARIABLES.KYC_TIER.ID,
           variableName: CUSTOM_VARIABLES.KYC_TIER.NAME,
           variableValue: propOr(0, 'current', currentUserTiers),
+          variableScope: 'visit'
+        }
+      })
+      // log current user balance flags
+      const state = yield select()
+      const ethBalance = (yield select(
+        selectors.core.data.eth.getBalance
+      )).getOrElse(0)
+      const paxBalance = (yield select(
+        selectors.core.data.eth.getErc20Balance,
+        'pax'
+      )).getOrElse(0)
+      const xlmBalance = (yield select(
+        selectors.core.data.xlm.getTotalBalance
+      )).getOrElse(0)
+      const btcContext = yield select(selectors.core.wallet.getSpendableContext)
+      const btcBalance = reduce(
+        add,
+        0,
+        map(
+          address =>
+            selectors.core.data.btc
+              .getFinalBalance(state, address)
+              .getOrElse(0),
+          btcContext
+        )
+      )
+      const bchContext = yield select(
+        selectors.core.kvStore.bch.getSpendableContext
+      )
+      const bchBalance = reduce(
+        add,
+        0,
+        map(
+          address =>
+            selectors.core.data.bch
+              .getFinalBalance(state, address)
+              .getOrElse(0),
+          bchContext
+        )
+      )
+      yield call(postMessage, {
+        method: 'setCustomVariable',
+        messageData: {
+          variableId: CUSTOM_VARIABLES.CRYPTO_BALANCES.ID,
+          variableName: CUSTOM_VARIABLES.CRYPTO_BALANCES.NAME,
+          variableValue: JSON.stringify({
+            BTC: not(equals(btcBalance, 0)),
+            BCH: not(equals(bchBalance, 0)),
+            ETH: not(equals(ethBalance, 0)),
+            PAX: not(equals(paxBalance, 0)),
+            XLM: not(equals(xlmBalance, 0))
+          }),
           variableScope: 'visit'
         }
       })

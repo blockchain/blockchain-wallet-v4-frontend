@@ -6,7 +6,7 @@ export const CUSTOM_VARIABLES = {
     ID: 1,
     NAME: 'kyc_tier'
   },
-  HAS_CRYPTO_BALANCES: {
+  CRYPTO_BALANCES: {
     ID: 2,
     NAME: 'crypto_balances'
   }
