@@ -64,7 +64,7 @@ export default ({ api }) => {
       yield call(startSession, { payload: { guid } })
       yield call(logPageView, { payload: { route: '/home' } })
       // wait 10 seconds to ensure required user data is loaded
-      yield delay(1000)
+      yield delay(10000)
       // log current user kyc tier
       const currentUserTiers = (yield select(
         selectors.modules.profile.getUserTiers
