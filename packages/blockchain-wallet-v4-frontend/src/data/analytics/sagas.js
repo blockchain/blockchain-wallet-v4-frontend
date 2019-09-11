@@ -1,12 +1,12 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import { toLower, map, prop } from 'ramda'
+import { toLower, map, propOr } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actionTypes, actions, selectors } from 'data'
-import { CUSTOM_DIMENSIONS } from './model'
+import { CUSTOM_VARIABLES } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
@@ -65,34 +65,19 @@ export default ({ api }) => {
       yield call(logPageView, { payload: { route: '/home' } })
       // wait 10 seconds to ensure required user data is loaded
       yield delay(10000)
-      // log currency display preference
-      const isCryptoDisplayed = yield select(
-        selectors.preferences.getCoinDisplayed
-      )
-      yield call(postMessage, {
-        method: 'setCustomDimension',
-        messageData: {
-          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_DISPLAY_PREFERENCE,
-          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
-        }
-      })
       // log current user kyc tier
       const currentUserTiers = (yield select(
         selectors.modules.profile.getUserTiers
       )).getOrElse({ current: 0 })
       yield call(postMessage, {
-        method: 'setCustomDimension',
+        method: 'setCustomVariable',
         messageData: {
-          dimensionId: CUSTOM_DIMENSIONS.KYC_TIER,
-          dimensionValue: prop('current', currentUserTiers)
+          variableId: CUSTOM_VARIABLES.KYC_TIER.ID,
+          variableName: CUSTOM_VARIABLES.KYC_TIER.NAME,
+          variableValue: propOr(0, 'current', currentUserTiers),
+          variableScope: 'visit'
         }
       })
-      // TODO: log has crypto flags
-      // ETH :: selectors.core.data.eth.getBalance
-      // PAX :: selectors.core.data.eth.getErc20Balance(state, 'pax')
-      // XLM :: selectors.core.data.xlm.getTotalBalance
-      // BTC ::
-      // BCH ::
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }

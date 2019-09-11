@@ -1,10 +1,15 @@
 //
-// CUSTOM DIMENSIONS : ID
+// CUSTOM VARIABLES
 //
-export const CUSTOM_DIMENSIONS = {
-  CURRENCY_DISPLAY_PREFERENCE: 1,
-  KYC_TIER: 2,
-  HAS_CRYPTO_BALANCES: 3
+export const CUSTOM_VARIABLES = {
+  KYC_TIER: {
+    ID: 1,
+    NAME: 'kyc_tier'
+  },
+  HAS_CRYPTO_BALANCES: {
+    ID: 2,
+    NAME: 'crypto_balances'
+  }
 }
 
 //
