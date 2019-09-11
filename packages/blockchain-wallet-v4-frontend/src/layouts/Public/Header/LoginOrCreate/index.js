@@ -9,12 +9,20 @@ import media from 'services/ResponsiveService'
 
 const ResponsiveText = styled(Text)`
   font-size: 14px;
+  opacity: 0.5;
+  :hover {
+    opacity: 1;
+  }
   ${media.mobile`
     font-size: 12px;
   `}
 `
 const ResponsiveLink = styled(Link)`
   font-size: 14px;
+  opacity: 0.5;
+  :hover {
+    opacity: 1;
+  }
   ${media.mobile`
     font-size: 12px;
   `}
