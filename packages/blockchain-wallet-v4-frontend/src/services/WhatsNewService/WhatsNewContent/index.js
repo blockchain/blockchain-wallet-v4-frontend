@@ -41,12 +41,10 @@ export const filterAnnouncements = (lastViewed, userCountry, userKycState) => {
       moment()
     )
 
-  return Announcements.map(announcement => {
-    return {
-      content: prop('content', announcement),
-      restricted: isRestricted(announcement),
-      display: isAvailableToView(announcement.date, 30),
-      alert: isAvailableToView(announcement.date, 0)
-    }
-  })
+  return Announcements.map(announcement => ({
+    content: prop('content', announcement),
+    restricted: isRestricted(announcement),
+    display: isAvailableToView(announcement.date, 30),
+    alert: isAvailableToView(announcement.date, 0)
+  }))
 }
