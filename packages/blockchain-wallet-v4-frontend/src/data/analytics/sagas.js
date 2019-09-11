@@ -1,5 +1,5 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { map, toLower } from 'ramda'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+import { toLower, map, prop } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
@@ -61,18 +61,38 @@ export default ({ api }) => {
   const initUserSession = function * () {
     try {
       const guid = yield call(generateUniqueUserID)
+      yield call(startSession, { payload: { guid } })
+      yield call(logPageView, { payload: { route: '/home' } })
+      // wait 10 seconds to ensure required user data is loaded
+      yield delay(10000)
+      // log currency display preference
       const isCryptoDisplayed = yield select(
         selectors.preferences.getCoinDisplayed
       )
-      yield call(startSession, { payload: { guid } })
       yield call(postMessage, {
         method: 'setCustomDimension',
         messageData: {
-          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
+          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_DISPLAY_PREFERENCE,
           dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
         }
       })
-      yield call(logPageView, { payload: { route: '/home' } })
+      // log current user kyc tier
+      const currentUserTiers = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 })
+      yield call(postMessage, {
+        method: 'setCustomDimension',
+        messageData: {
+          dimensionId: CUSTOM_DIMENSIONS.KYC_TIER,
+          dimensionValue: prop('current', currentUserTiers)
+        }
+      })
+      // TODO: log has crypto flags
+      // ETH :: selectors.core.data.eth.getBalance
+      // PAX :: selectors.core.data.eth.getErc20Balance(state, 'pax')
+      // XLM :: selectors.core.data.xlm.getTotalBalance
+      // BTC ::
+      // BCH ::
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }

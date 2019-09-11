@@ -1,6 +1,12 @@
+//
+// CUSTOM DIMENSIONS : ID
+//
 export const CUSTOM_DIMENSIONS = {
-  CURRENCY_PREFERENCE: 1
+  CURRENCY_DISPLAY_PREFERENCE: 1,
+  KYC_TIER: 2,
+  HAS_CRYPTO_BALANCES: 3
 }
+
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
