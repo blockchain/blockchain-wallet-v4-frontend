@@ -32,9 +32,12 @@ const NewCartridge = styled(Cartridge)`
   margin-left: 0px;
   margin-right: 20px;
   border-radius: 4px;
+  width: 46px;
+  height: 14px;
 `
 const Copy = styled(Text)`
   display: flex;
+  align-items: center;
   ${media.mobile`
     font-size: 12px;
   `}
@@ -43,9 +46,9 @@ const Copy = styled(Text)`
   `}
 `
 const BannerButton = styled(Button)`
+  height: 48px;
   ${media.mobile`
     font-size: 14px;
-    height: 48px;
     margin-top: 8px;
     padding: 10px;
   `}
