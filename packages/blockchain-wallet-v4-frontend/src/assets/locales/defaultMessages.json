@@ -182,6 +182,14 @@
         "id": "components.alerts.incorrect_bip38_password_error"
       },
       {
+        "defaultMessage": "This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under",
+        "id": "components.alerts.iprestriction_login_error"
+      },
+      {
+        "defaultMessage": "Need some help?",
+        "id": "components.alerts.iprestriction_login_error-link"
+      },
+      {
         "defaultMessage": "You must add at least one IP address to the whitelist to enable Login IP Restriction",
         "id": "components.alerts.iprestriction_no_whitelist_error"
       },
@@ -8776,6 +8784,10 @@
       {
         "defaultMessage": "Download Software",
         "id": "scenes.lockbox.dashboard.updaterequirednotice.download"
+      },
+      {
+        "defaultMessage": "I've already updated",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.dismiss"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/UpdateRequiredNotice/index.json"
@@ -11596,5 +11608,22 @@
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/USDPax.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet Tour",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour"
+      },
+      {
+        "defaultMessage": "Welcome to your Wallet.  Discover your Wallet's tools and features by taking a quick tour.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour.content"
+      },
+      {
+        "defaultMessage": "Take The Tour Now",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour.start"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/WalletTour.json"
   }
 ]
