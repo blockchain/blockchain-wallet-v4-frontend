@@ -307,6 +307,7 @@ export const upgradeToV4 = curry((password, network, wallet) => {
       HDAccount.DEFAULT_DERIVATION_PURPOSE,
       account.index,
       network,
+      // TODO: SEGWIT check double encrypted wallet
       seedHex
     )
 
