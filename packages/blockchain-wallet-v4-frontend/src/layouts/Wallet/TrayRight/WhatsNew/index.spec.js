@@ -2,14 +2,20 @@ import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import layoutWalletReducer from 'data/components/layoutWallet/reducers'
-import WhatsNew, { Wrapper } from './index'
-import { getLastViewed } from 'blockchain-wallet-v4/src/redux/kvStore/whatsNew/selectors'
+import {
+  getLastViewed,
+  getState
+} from 'blockchain-wallet-v4/src/redux/kvStore/whatsNew/selectors'
 import { getCountryCode } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getUserKYCState } from 'data/modules/profile/selectors'
 import { KYC_STATES } from 'data/modules/profile/model'
+
+import WhatsNew, { Wrapper } from './index'
+
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 jest.useFakeTimers()
@@ -45,8 +51,10 @@ describe('WhatsNew', () => {
 
   describe('WhatsNew empty state', () => {
     getLastViewed.mockImplementation(() => Remote.of(1600142400000))
+    getState.mockImplementation(() => Remote.of(false))
     beforeEach(() => {
       getLastViewed.mockImplementation(() => Remote.of(1600142400000))
+      getState.mockImplementation(() => Remote.of(false))
     })
     it('should render with the empty content template', () => {
       wrapper.unmount().mount()
@@ -58,8 +66,10 @@ describe('WhatsNew', () => {
 
   describe('WhatsNew non empty state', () => {
     getLastViewed.mockImplementation(() => Remote.of(1505448000000))
+    getState.mockImplementation(() => Remote.of(false))
     beforeEach(() => {
       getLastViewed.mockImplementation(() => Remote.of(1505448000000))
+      getState.mockImplementation(() => Remote.of(false))
     })
     it('should not render with the empty template', () => {
       wrapper.unmount().mount()
