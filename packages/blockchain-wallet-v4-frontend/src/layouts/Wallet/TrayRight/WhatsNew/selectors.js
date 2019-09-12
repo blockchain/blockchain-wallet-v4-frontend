@@ -4,6 +4,9 @@ import { selectors } from 'data'
 import moment from 'moment'
 
 export const getData = state => {
+  const whatsNewKvStore = selectors.core.kvStore.whatsNew
+    .getState(state)
+    .getOrElse({})
   const lastViewed = selectors.core.kvStore.whatsNew
     .getLastViewed(state)
     .getOrElse(
@@ -22,7 +25,8 @@ export const getData = state => {
     announcements: filterAnnouncements(
       lastViewed,
       userCountry,
-      userKycState
+      userKycState,
+      whatsNewKvStore
     ).filter(prop('display'))
   }
 }

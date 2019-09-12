@@ -5,6 +5,10 @@ export const updateMetadataWhatsNew = lastViewed => ({
   type: AT.UPDATE_METADATA_WHATSNEW,
   payload: { lastViewed }
 })
+export const setHasSkippedWalletTour = hasSkippedWalletTour => ({
+  type: AT.SET_HAS_SKIPPED_WALLET_TOUR,
+  payload: { hasSkippedWalletTour }
+})
 
 // fetch
 export const fetchMetadataWhatsnew = () => ({

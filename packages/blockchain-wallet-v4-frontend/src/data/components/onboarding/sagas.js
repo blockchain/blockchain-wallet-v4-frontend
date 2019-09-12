@@ -50,22 +50,6 @@ export default () => {
     }
   }
 
-  const skipWalletTourClicked = function * (action) {
-    try {
-      yield put(
-        actions.alerts.displayInfo(C.SKIP_WALLET_TOUR_SUCCESS, {
-          startTour: action.payload.startTourCallback
-        })
-      )
-      yield put(actions.analytics.logEvent(GENERAL_EVENTS.SKIP_WALLET_TOUR))
-      yield put(actions.modals.closeModal())
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'skipWalletTourClicked', e)
-      )
-    }
-  }
-
   const swapGetStartedSubmitClicked = function * () {
     try {
       yield put(actions.preferences.hideKycGetStarted())
@@ -82,10 +66,28 @@ export default () => {
     }
   }
 
+  const skipWalletTourClicked = function * (action) {
+    try {
+      yield put(
+        actions.alerts.displayInfo(C.SKIP_WALLET_TOUR_SUCCESS, {
+          startTour: action.payload.startTourCallback
+        })
+      )
+      yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(true))
+      yield put(actions.analytics.logEvent(GENERAL_EVENTS.SKIP_WALLET_TOUR))
+      yield put(actions.modals.closeModal())
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'skipWalletTourClicked', e)
+      )
+    }
+  }
+
   const takeWalletTourClicked = function * () {
     try {
       yield put(actions.modals.closeModal())
       yield put(actions.components.onboarding.setWalletTourVisibility(true))
+      yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(false))
       yield put(actions.analytics.logEvent(GENERAL_EVENTS.TAKE_WALLET_TOUR))
     } catch (e) {
       yield put(

@@ -1,5 +1,6 @@
 import { set, mapped } from 'ramda-lens'
-import { compose } from 'ramda'
+import { compose, lensProp } from 'ramda'
+
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -26,9 +27,22 @@ export default (state = INITIAL_STATE, action) => {
       return set(
         compose(
           mapped,
-          KVStoreEntry.value
+          KVStoreEntry.value,
+          lensProp('lastViewed')
         ),
-        { lastViewed },
+        lastViewed,
+        state
+      )
+    }
+    case AT.SET_HAS_SKIPPED_WALLET_TOUR: {
+      const { hasSkippedWalletTour } = payload
+      return set(
+        compose(
+          mapped,
+          KVStoreEntry.value,
+          lensProp('hasSkippedWalletTour')
+        ),
+        hasSkippedWalletTour,
         state
       )
     }
