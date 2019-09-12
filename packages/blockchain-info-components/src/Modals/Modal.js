@@ -72,7 +72,13 @@ const Modal = props => {
 
   if (type === 'tray') {
     return (
-      <BaseModal isLast={true} position={position} width={width} {...rest}>
+      <BaseModal
+        data-e2e='infoModal'
+        isLast={true}
+        position={position}
+        width={width}
+        {...rest}
+      >
         {children}
       </BaseModal>
     )
@@ -83,7 +89,13 @@ const Modal = props => {
         position={position}
         className={rest.class}
       >
-        <BaseModal isLast={isLast} position={position} width={width} {...rest}>
+        <BaseModal
+          data-e2e='infoModal'
+          isLast={isLast}
+          position={position}
+          width={width}
+          {...rest}
+        >
           {children}
         </BaseModal>
       </ModalBackground>

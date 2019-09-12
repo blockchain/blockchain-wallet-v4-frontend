@@ -97,7 +97,13 @@ class SwapGetStarted extends React.PureComponent {
               id='modals.swapgetstarted.getstarted'
             />
           </FooterButton>
-          <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
+          <LaterButton
+            data-e2e='modalCloseButton'
+            nature='primary'
+            size='18px'
+            fullwidth
+            onClick={close}
+          >
             <FormattedMessage
               defaultMessage="I'll do this later"
               id='modals.swapgetstarted.later'
