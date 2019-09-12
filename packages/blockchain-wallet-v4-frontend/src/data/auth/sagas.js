@@ -93,7 +93,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.startSocket())
     yield put(actions.middleware.webSocket.btc.startSocket())
     yield put(actions.middleware.webSocket.eth.startSocket())
-    yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
   const authNabu = function * () {
@@ -123,6 +122,7 @@ export default ({ api, coreSagas }) => {
         coreSagas.kvStore.eth.fetchMetadataEth,
         askSecondPasswordEnhancer
       )
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(
         coreSagas.kvStore.xlm.fetchMetadataXlm,
         askSecondPasswordEnhancer
