@@ -73,18 +73,17 @@ function Pulse ({ theme }) {
 }
 
 const GlobalJoyrideStyles = createGlobalStyle`
-  #react-joyride-portal {
-    .react-joyride__overlay {
-      .react-joyride__spotlight {
-        background-color: ${({ theme }) => theme['deep-blue']} !important;
-        opacity: 0.25 !important;
-        border-radius: 50% !important;
-        animation: ${props => Pulse(props)} 1s infinite;
-        height: 16px !important;
-        width: 16px !important;
-        margin: 19px 0 0 19px;
-      }
-    }
+  .react-joyride__spotlight {
+    background-color: ${({ theme }) => theme['deep-blue']} !important;
+    opacity: 0.25 !important;
+    border-radius: 50% !important;
+    animation: ${props => Pulse(props)} 1s infinite;
+    height: 16px !important;
+    width: 16px !important;
+    margin: 19px 0 0 19px;
+  }
+  .__floater__open {
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out !important
   }
 `
 
