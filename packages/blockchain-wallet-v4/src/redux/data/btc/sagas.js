@@ -50,21 +50,19 @@ export default ({ api }) => {
     }
   }
 
-  // TODO: SEGWIT fix onlyShow and onlyShowP2SH
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action
-      const { address, reset } = payload
+      const { onlyShow, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
-        onlyShow: address || walletContext,
+        onlyShow: onlyShow || context.legacy.concat(context.segwitP2SH),
         offset
       })
       const atBounds = length(data.txs) < TX_PER_PAGE

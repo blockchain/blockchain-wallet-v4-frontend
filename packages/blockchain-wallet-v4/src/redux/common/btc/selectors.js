@@ -92,7 +92,6 @@ export const getArchivedAddresses = state => {
 
 const flattenAccount = acc => ({
   coin: 'BTC',
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
   balance: pipe(
     prop('derivations'),
     pluck('info'),
@@ -100,15 +99,17 @@ const flattenAccount = acc => ({
     reject(isNil),
     sum
   )(acc),
+  derivations: prop('derivations', acc),
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  index: prop('index', acc),
+  network: prop('network', acc),
+  type: ADDRESS_TYPES.ACCOUNT,
   xpub: prop(
     'xpub',
     acc.derivations.find(
       d => d.type === HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc))
     )
-  ),
-  index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT,
-  network: prop('network', acc)
+  )
 })
 
 // getAccountsBalances :: state => Remote([])

@@ -61,7 +61,8 @@ export default () => {
   }
 
   const refreshBtcTransactions = function * () {
-    yield put(actions.core.data.btc.fetchTransactions('', true))
+    const onlyShow = yield select(selectors.components.selectOnlyShow)
+    yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
   }
 
   const refreshEthTransactions = function * () {

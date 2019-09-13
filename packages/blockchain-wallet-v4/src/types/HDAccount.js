@@ -1,10 +1,10 @@
 import {
   pipe,
+  contains,
   curry,
   compose,
   not,
   is,
-  equals,
   assoc,
   dissoc,
   isNil,
@@ -81,8 +81,8 @@ export const isWatchOnly = account =>
 
 export const isXpub = curry((myxpub, account) =>
   compose(
-    equals(myxpub),
-    selectXpub
+    contains(myxpub),
+    selectAllXpubs
   )(account)
 )
 

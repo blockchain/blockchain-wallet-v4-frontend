@@ -192,10 +192,6 @@ describe('btc data sagas', () => {
       saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
     })
 
-    it('should select wallet context', () => {
-      saga.next().select(selectors.wallet.getWalletContext)
-    })
-
     it('should select full context', () => {
       saga.next(mockContext).select(S.getContext)
     })

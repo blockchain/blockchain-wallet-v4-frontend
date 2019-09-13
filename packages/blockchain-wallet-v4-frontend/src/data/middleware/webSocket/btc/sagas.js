@@ -1,11 +1,10 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, prop, concat } from 'ramda'
+import { equals, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { ADDR_SUB, BLOCK_SUB, WALLET_SUB, XPUB_SUB } from '../model'
-import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
@@ -85,13 +84,7 @@ export default ({ api, btcSocket }) => {
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
-            const formValues = yield select(
-              selectors.form.getFormValues(WALLET_TX_SEARCH)
-            )
-            const source = prop('source', formValues)
-            const onlyShow = equals(source, 'all')
-              ? ''
-              : prop('xpub', source) || prop('address', source)
+            const onlyShow = yield select(selectors.components.selectOnlyShow)
             yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
           }
           break

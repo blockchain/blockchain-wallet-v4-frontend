@@ -1,3 +1,4 @@
+import * as btcTransactions from './btcTransactions/selectors'
 import * as coinify from './coinify/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
@@ -19,6 +20,7 @@ import * as uploadDocuments from './uploadDocuments/selectors'
 import * as veriff from './veriff/selectors'
 
 export {
+  btcTransactions,
   coinify,
   exchange,
   exchangeHistory,

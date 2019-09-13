@@ -53,7 +53,7 @@ export default ({ rootUrl, get, post }) => {
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
-    { n = 50, offset = 0, onlyShow, onlyShowP2SH } = {}
+    { n = 50, offset = 0, onlyShow } = {}
   ) => {
     const addresses = prop('addresses', context)
     const addressArray = Array.isArray(addresses) ? addresses : [addresses]
@@ -79,11 +79,7 @@ export default ({ rootUrl, get, post }) => {
         ? mergeRight(data, {
             onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
               '|'
-            ),
-            onlyShowP2SH: (Array.isArray(onlyShowP2SH)
-              ? onlyShowP2SH
-              : [onlyShowP2SH]
-            ).join('|')
+            )
           })
         : data
     })
