@@ -154,10 +154,16 @@ export const AB_TESTS = {
 }
 
 export const GENERAL_EVENTS = {
-  SKIP_WALLET_TOUR: ['general', 'skip_wallet_tour'],
-  TAKE_WALLET_TOUR: ['general', 'take_wallet_tour'],
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  VIEW_FAQ: ['general', 'view_faq']
+  VIEW_FAQ: ['general', 'view_faq'],
+  WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_dismissed'],
+  WALLET_INTRO_OFFERED: ['general', 'wallet_intro_offered'],
+  WALLET_INTRO_STARTED: ['general', 'wallet_intro_started'],
+  WALLET_INTRO_PORTFOLIO_VIEWED: ['general', 'wallet_intro_portfolio_viewed'],
+  WALLET_INTRO_REQUEST_VIEWED: ['general', 'wallet_intro_request_viewed'],
+  WALLET_INTRO_SEND_VIEWED: ['general', 'wallet_intro_send_viewed'],
+  WALLET_INTRO_SWAP_VIEWED: ['general', 'wallet_intro_swap_viewed'],
+  WALLET_INTRO_BUYSELL_VIEWED: ['general', 'wallet_intro_buysell_viewed']
 }
 
 export const ADS_EVENTS = {

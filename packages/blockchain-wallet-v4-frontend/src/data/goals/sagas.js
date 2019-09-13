@@ -30,7 +30,7 @@ import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
-const { DEEPLINK_EVENTS, TRANSACTION_EVENTS } = model.analytics
+const { DEEPLINK_EVENTS, GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -519,8 +519,9 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
     if (walletTour) {
+      yield put(actions.modals.showModal(walletTour.name, walletTour.data))
       return yield put(
-        actions.modals.showModal(walletTour.name, walletTour.data)
+        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_OFFERED)
       )
     }
   }
