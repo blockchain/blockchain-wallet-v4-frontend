@@ -7,7 +7,7 @@ exports[`Modal component default renders correctly 1`] = `
 >
   <Modal__BaseModal
     closeButton={true}
-    data-e2e="infoModal"
+    data-e2e="modal"
     isLast={true}
     position={1}
     size="large"
