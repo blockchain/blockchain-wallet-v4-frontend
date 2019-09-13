@@ -58,37 +58,24 @@ export const TourTooltip = props => {
 
   switch (props.index) {
     case 0:
+      footerButtonDataE2e = 'showWalletTourRequest'
       tourTooltipDataE2e = 'walletTourPortfolio'
       break
     case 1:
+      footerButtonDataE2e = 'showWalletTourSend'
       tourTooltipDataE2e = 'walletTourRequest'
       break
     case 2:
+      footerButtonDataE2e = 'showWalletTourSwap'
       tourTooltipDataE2e = 'walletTourSend'
       break
     case 3:
+      footerButtonDataE2e = 'showWalletTourBuySell'
       tourTooltipDataE2e = 'walletTourSwap'
       break
     case 4:
-      tourTooltipDataE2e = 'walletTourBuySell'
-      break
-  }
-
-  switch (props.index) {
-    case 0:
-      footerButtonDataE2e = 'showWalletTourRequest'
-      break
-    case 1:
-      footerButtonDataE2e = 'showWalletTourSend'
-      break
-    case 2:
-      footerButtonDataE2e = 'showWalletTourSwap'
-      break
-    case 3:
-      footerButtonDataE2e = 'showWalletTourBuySell'
-      break
-    case 4:
       footerButtonDataE2e = 'closeWalletTour'
+      tourTooltipDataE2e = 'walletTourBuySell'
       break
   }
 
