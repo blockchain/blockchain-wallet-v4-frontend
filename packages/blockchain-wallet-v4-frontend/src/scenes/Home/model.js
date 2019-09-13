@@ -54,10 +54,49 @@ const StepContent = styled(Text)`
 `
 
 export const TourTooltip = props => {
+  let footerButtonDataE2e, tourTooltipDataE2e
+
+  switch (props.index) {
+    case 0:
+      tourTooltipDataE2e = 'walletTourPortfolio'
+      break
+    case 1:
+      tourTooltipDataE2e = 'walletTourRequest'
+      break
+    case 2:
+      tourTooltipDataE2e = 'walletTourSend'
+      break
+    case 3:
+      tourTooltipDataE2e = 'walletTourSwap'
+      break
+    case 4:
+      tourTooltipDataE2e = 'walletTourBuySell'
+      break
+  }
+
+  switch (props.index) {
+    case 0:
+      footerButtonDataE2e = 'showWalletTourRequest'
+      break
+    case 1:
+      footerButtonDataE2e = 'showWalletTourSend'
+      break
+    case 2:
+      footerButtonDataE2e = 'showWalletTourSwap'
+      break
+    case 3:
+      footerButtonDataE2e = 'showWalletTourBuySell'
+      break
+    case 4:
+      footerButtonDataE2e = 'closeWalletTour'
+      break
+  }
+
   return (
-    <TooltipBody {...props.tooltipProps}>
+    <TooltipBody {...props.tooltipProps} data-e2e={tourTooltipDataE2e}>
       <Icon
         color='grey-600'
+        data-e2e='modalCloseButton'
         name='close'
         size='16px'
         weight={600}
@@ -66,7 +105,10 @@ export const TourTooltip = props => {
       {props.step.content && (
         <TooltipContent>{props.step.content}</TooltipContent>
       )}
-      <TooltipFooter isLastStep={props.isLastStep}>
+      <TooltipFooter
+        data-e2e={footerButtonDataE2e}
+        isLastStep={props.isLastStep}
+      >
         <Button
           width='110px'
           height='48px'

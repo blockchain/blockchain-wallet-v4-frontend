@@ -55,7 +55,12 @@ class CoinifyUpgrade extends React.PureComponent {
   render () {
     const { position, total, close, actions } = this.props
     return (
-      <Modal size='xsmall' position={position} total={total}>
+      <Modal
+        size='xsmall'
+        position={position}
+        total={total}
+        dataE2e='infoModalCoinifyUpgrade'
+      >
         <AbsoluteModalHeader onClick={close} />
         <Body>
           <Icon name='cart-filled' color='brand-secondary' size='72px' />

@@ -46,7 +46,7 @@ const Status = styled.div`
 
 const LinkToPitError = ({ close, error }) => {
   return (
-    <ModalStyled size='xsmall'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountError'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>

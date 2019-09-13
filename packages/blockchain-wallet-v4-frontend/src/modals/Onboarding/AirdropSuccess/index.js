@@ -96,7 +96,12 @@ class AirdropSuccess extends React.PureComponent {
       `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal
+        size='small'
+        position={position}
+        total={total}
+        dataE2e='infoModalAirdropSuccess'
+      >
         <AirdropSuccessModalHeader onClose={close} />
         <AirdropImage width='100%' name='airdrop-enrolled' />
         <Body>

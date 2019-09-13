@@ -68,7 +68,12 @@ class SwapGetStarted extends React.PureComponent {
   render () {
     const { position, total, close, actions } = this.props
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal
+        size='small'
+        position={position}
+        total={total}
+        dataE2e='infoModalSwapGetStarted'
+      >
         <Header>
           <CenteredText color='white' size='20px' weight={500}>
             <FormattedMessage
