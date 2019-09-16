@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   text-align: center;
   padding: 0 20px;
   margin-top: 70px;
+  width: 100%;
   ${media.mobile`
     margin-top: 35px;
   `}
@@ -54,7 +55,11 @@ const FooterContent = styled(TextGroup)`
   line-height: 24px;
 `
 
-const Verify = ({ onClose }) => {
+const ServerErrorText = styled(Text)`
+  margin-top: 42px;
+`
+
+const Verify = ({ message, onClose }) => {
   return (
     <Wrapper>
       <Image name='gold-notice' width='70' height='66' />
@@ -68,15 +73,22 @@ const Verify = ({ onClose }) => {
         <Text>
           <FormattedMessage
             id='identityverification.failure.content-1'
-            defaultMessage='We’re sorry we can’t verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now.'
+            defaultMessage="We're sorry we can't verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now."
           />
         </Text>
         <Text>
           <FormattedMessage
             id='identityverification.failure.content-2'
-            defaultMessage='If you’re Silver verified you can trade your crypto in Swap'
+            defaultMessage="If you're Silver verified you can trade your crypto in Swap"
           />
         </Text>
+        <ServerErrorText weight={500}>
+          <FormattedMessage
+            id='identityverification.failure.server.error'
+            defaultMessage='Server Error: {description}'
+            values={message}
+          />
+        </ServerErrorText>
       </Content>
       <StartTrading nature='primary' onClick={onClose}>
         <FormattedMessage

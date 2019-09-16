@@ -6,10 +6,10 @@ import { actions, model } from 'data'
 import { getData, getPreIdvData } from './selectors'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import SiftScience from 'components/SiftScience'
+import DataError from 'components/DataError'
 
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
-import FailureCheck from './template.failure'
 import Loading from './template.loading'
 import { hasWebcam } from 'utils/helpers'
 
@@ -82,6 +82,7 @@ class VerifyContainer extends React.PureComponent {
                   showVeriff={this.state.showVeriff}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
                   needsDocResubmit={needsDocResubmit}
+                  onClose={onClose}
                   {...rest}
                 />
               )
@@ -91,7 +92,7 @@ class VerifyContainer extends React.PureComponent {
       },
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Failure: () => <FailureCheck onClose={onClose} />
+      Failure: message => <DataError message={message} />
     })
 
     const PreIdvCheck = preIdvData.cata({
