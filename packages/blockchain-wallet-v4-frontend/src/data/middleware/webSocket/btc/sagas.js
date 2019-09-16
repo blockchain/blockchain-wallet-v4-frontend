@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, concat } from 'ramda'
+import { equals } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
@@ -12,25 +12,27 @@ export default ({ api, btcSocket }) => {
   const onOpen = function * () {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
-      let subscribeInfo = yield select(
+      const subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
       const lockboxXPubs = yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
-      )
-      subscribeInfo.xpubs = concat(
-        subscribeInfo.xpubs,
-        lockboxXPubs.getOrElse([])
       )
 
       yield call(
         send,
         JSON.stringify({ op: WALLET_SUB, guid: subscribeInfo.guid })
       )
-      subscribeInfo.xpubs.map(xpub =>
-        send(JSON.stringify({ op: XPUB_SUB, xpub }))
+      subscribeInfo.context.legacy.map(xpub =>
+        send(JSON.stringify({ op: XPUB_SUB, type: 'legacy', xpub }))
       )
-      subscribeInfo.addresses.map(addr =>
+      subscribeInfo.context.segwitP2SH.map(xpub =>
+        send(JSON.stringify({ op: XPUB_SUB, type: 'segwitP2SH', xpub }))
+      )
+      lockboxXPubs
+        .getOrElse([])
+        .map(xpub => send(JSON.stringify({ op: XPUB_SUB, xpub })))
+      subscribeInfo.context.addresses.map(addr =>
         send(JSON.stringify({ op: ADDR_SUB, addr }))
       )
     } catch (e) {
@@ -84,7 +86,9 @@ export default ({ api, btcSocket }) => {
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
-            const onlyShow = yield select(selectors.components.selectOnlyShow)
+            const onlyShow = yield select(
+              selectors.components.btcTransactions.selectOnlyShow
+            )
             yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
           }
           break

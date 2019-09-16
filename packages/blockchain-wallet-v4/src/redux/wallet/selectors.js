@@ -157,8 +157,7 @@ export const getDefaultAccountXpub = state =>
   getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({
   guid: getGuid(state),
-  addresses: getAddressContext(state),
-  xpubs: getWalletContext(state)
+  context: getContextGrouped(state)
 })
 export const getLogoutTime = compose(
   Options.selectLogoutTime,
