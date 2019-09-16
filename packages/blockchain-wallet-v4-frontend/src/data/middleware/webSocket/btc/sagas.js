@@ -1,10 +1,11 @@
 import { call, put, select } from 'redux-saga/effects'
 import { equals } from 'ramda'
-import * as actions from '../../../actions'
-import * as selectors from '../../../selectors'
+import { actions, model, selectors } from 'data'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { ADDR_SUB, BLOCK_SUB, WALLET_SUB, XPUB_SUB } from '../model'
+
+const { EMAIL_VERIFIED } = model.analytics.PREFERENCE_EVENTS.SECURITY
 
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
@@ -108,6 +109,7 @@ export default ({ api, btcSocket }) => {
         case 'email_verified':
           yield put(actions.core.settings.setEmailVerified())
           yield put(actions.alerts.displaySuccess(T.EMAIL_VERIFY_SUCCESS))
+          yield put(actions.analytics.logEvent(EMAIL_VERIFIED))
           break
         case 'wallet_logout':
           yield call(dispatchLogoutEvent)
