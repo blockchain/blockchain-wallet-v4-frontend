@@ -121,7 +121,7 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.steptwo.content-1'
+            id='wallet.tour.steptwo.content-2'
             defaultMessage="To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
           />
         </StepContent>

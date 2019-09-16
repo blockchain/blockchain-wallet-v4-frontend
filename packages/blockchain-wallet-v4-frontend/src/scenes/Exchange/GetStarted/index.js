@@ -364,7 +364,7 @@ const GetStarted = ({ step }) => {
                 <BodyText weight={500}>
                   <FormattedMessage
                     defaultMessage='Introducing Digital Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.'
-                    id='swap.carousel.desc.page5-1'
+                    id='swap.carousel.desc.page5-2'
                   />
                 </BodyText>
               </Container>
