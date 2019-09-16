@@ -56,7 +56,7 @@ const ColumnRight = styled(Column)`
   }
 `
 
-function Pulse ({ theme }) {
+const Pulse = ({ theme }) => {
   return keyframes`
     0% {
       box-shadow: 0 0 0 0 ${theme['deep-blue']};
@@ -82,8 +82,10 @@ const GlobalJoyrideStyles = createGlobalStyle`
     width: 16px !important;
     margin: 19px 0 0 19px;
   }
+
   .__floater__open {
-    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out !important
+    transition: none !important;
+    filter: none !important;
   }
 `
 
