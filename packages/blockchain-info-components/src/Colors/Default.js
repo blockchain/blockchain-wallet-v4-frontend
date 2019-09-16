@@ -100,6 +100,7 @@ export default {
   'logo-quinary': '#10ADE4',
   // PIT
   pitTurquoise: '#42F1B8',
+  pitNight: '#0A0D10',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
