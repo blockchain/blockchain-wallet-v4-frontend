@@ -141,6 +141,7 @@ export default {
   greyFade200: 'rgba(5, 24, 61, 0.2)',
   grey000: '#F0F2F7',
   grey100: '#DFE3EB',
+  grey400: '#98A1B2',
   grey600: '#677185',
   grey800: '#353F52',
   blue000: '#ECF5FE',

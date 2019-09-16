@@ -98,7 +98,6 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield delay(renewIn)
       yield call(setSession, userId, lifetimeToken, email, guid)
-      yield fork(syncUserWithWallet)
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
       yield spawn(
