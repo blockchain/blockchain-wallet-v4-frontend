@@ -55,7 +55,9 @@ export const getFinalBalanceLegacy = curry((state, address) =>
 export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(addresses =>
-      address.map(addr => path([addr, 'final_balance'], addresses))
+      address.map
+        ? address.map(addr => path([addr, 'final_balance'], addresses))
+        : path([address, 'final_balance'], addresses)
     )
     .map(x => x || 0)
 )

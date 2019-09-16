@@ -7,6 +7,7 @@ import {
   map,
   not,
   path,
+  pathOr,
   prop
 } from 'ramda'
 
@@ -32,7 +33,7 @@ export const getWalletContext = createDeepEqualSelector(
       }, btcHDAccounts)
       return flatten(
         map(
-          a => Types.HDAccount.selectAllXpubs(Types.HDAccount.fromJS(a)).toJS(),
+          a => Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'),
           activeAccounts
         )
       )
@@ -73,11 +74,11 @@ export const getCoins = path([dataPath, 'bch', 'payment', 'coins'])
 
 // Specific
 export const getChangeIndex = curry((xpub, state) =>
-  getAddresses(state).map(path([xpub, 'change_index']))
+  getAddresses(state).map(pathOr(0, [xpub, 'change_index']))
 )
 
 export const getReceiveIndex = curry((xpub, state) =>
-  getAddresses(state).map(path([xpub, 'account_index']))
+  getAddresses(state).map(pathOr(0, [xpub, 'account_index']))
 )
 
 export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>

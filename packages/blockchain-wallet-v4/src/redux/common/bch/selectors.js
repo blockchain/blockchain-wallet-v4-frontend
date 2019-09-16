@@ -1,16 +1,16 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import {
-  prop,
-  compose,
   assoc,
+  compose,
+  curry,
+  indexOf,
+  lift,
   map,
   path,
-  curry,
-  split,
-  values,
+  prop,
   sequence,
-  lift,
-  indexOf
+  split,
+  values
 } from 'ramda'
 import {
   getAddresses,
@@ -46,7 +46,9 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account =>
     balancesRD
-      .map(prop(prop('xpub', account)))
+      .map(x =>
+        prop('xpub', account.derivations.find(d => d.type === 'legacy'))
+      )
       .map(x => assoc('info', x, account))
   const addBchLabel = account =>
     account.map(a =>
@@ -97,15 +99,20 @@ const digestAddress = acc => ({
   type: ADDRESS_TYPES.LEGACY
 })
 
-const digestAccount = acc => ({
-  coin: 'BCH',
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  balance: path(['info', 'final_balance'], acc),
-  archived: prop('archived', acc),
-  xpub: prop('xpub', acc),
-  index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT
-})
+const digestAccount = acc => {
+  const xpub = prop('xpub', acc.derivations.find(d => d.type === 'legacy'))
+
+  return {
+    archived: prop('archived', acc),
+    balance: path(['info', 'final_balance'], acc),
+    coin: 'BCH',
+    derivations: prop('derivations', acc),
+    index: prop('index', acc),
+    label: prop('label', acc) ? prop('label', acc) : xpub,
+    type: ADDRESS_TYPES.ACCOUNT,
+    xpub
+  }
+}
 
 export const getAccountsBalances = state =>
   map(map(digestAccount), getActiveHDAccounts(state))
