@@ -1,8 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+
+const Scale = () => {
+  return keyframes`
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  `
+}
 
 const TooltipBody = styled.div`
   position: relative;
@@ -10,8 +23,9 @@ const TooltipBody = styled.div`
   max-width: 256px;
   background-color: ${props => props.theme['white']};
   border-radius: 8px;
-  box-shadow: 0 0 15px ${({ theme }) => theme['gray-3']};
+  box-shadow: 0 4px 32px rgba(5, 24, 61, 0.4);
   padding: 32px;
+  animation: ${Scale} 0.3s ease-in-out;
 
   > span:first-child {
     position: absolute;
@@ -51,6 +65,16 @@ const StepTitle = styled(Text)`
 
 const StepContent = styled(Text)`
   line-height: 24px;
+`
+
+const CloseTourIcon = styled(Icon)`
+  &:hover {
+    color: ${({ theme }) => theme['grey600']};
+  }
+
+  &:active {
+    color: ${({ theme }) => theme['grey800']};
+  }
 `
 
 export const TourTooltip = props => {
