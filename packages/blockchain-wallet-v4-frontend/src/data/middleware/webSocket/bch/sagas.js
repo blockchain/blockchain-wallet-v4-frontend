@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, concat } from 'ramda'
+import { equals } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
@@ -18,14 +18,12 @@ export default ({ api, bchSocket }) => {
         selectors.core.kvStore.lockbox.getLockboxBchContext
       )
 
-      subscribeInfo.xpubs = concat(
-        subscribeInfo.xpubs,
-        lockboxXPubs.getOrElse([])
-      )
-
-      subscribeInfo.xpubs.map(xpub =>
+      subscribeInfo.context.legacy.map(xpub =>
         send(JSON.stringify({ op: XPUB_SUB, xpub }))
       )
+      lockboxXPubs
+        .getOrElse([])
+        .map(xpub => send(JSON.stringify({ op: XPUB_SUB, xpub })))
       subscribeInfo.addresses.map(addr =>
         send(JSON.stringify({ op: ADDR_SUB, addr }))
       )
