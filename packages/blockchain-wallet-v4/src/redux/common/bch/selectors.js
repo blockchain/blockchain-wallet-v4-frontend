@@ -46,8 +46,8 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account =>
     balancesRD
-      .map(x =>
-        prop('xpub', account.derivations.find(d => d.type === 'legacy'))
+      .map(
+        prop(prop('xpub', account.derivations.find(d => d.type === 'legacy')))
       )
       .map(x => assoc('info', x, account))
   const addBchLabel = account =>
