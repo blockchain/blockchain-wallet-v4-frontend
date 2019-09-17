@@ -5801,24 +5801,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "The only Exchange that connects to your Wallet.",
-        "id": "modals.onboarding.linktopitaccount.na.subtitle"
+        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access.",
+        "id": "modals.onboarding.linktopitaccount.na.subtitle-1"
       },
       {
-        "defaultMessage": "Lightning Fast Trades",
-        "id": "modals.onboarding.linktopitaccount.na.left.point1"
+        "defaultMessage": "Lightning Fast Trading",
+        "id": "modals.onboarding.linktopitaccount.na.left.point1-1"
       },
       {
         "defaultMessage": "Liquid & Reliable",
-        "id": "modals.onboarding.linktopitaccount.na.left.point2"
+        "id": "modals.onboarding.linktopitaccount.na.left.point3-1"
       },
       {
-        "defaultMessage": "Built by Blockchain.com",
-        "id": "modals.onboarding.linktopitaccount.na.left.point3"
-      },
-      {
-        "defaultMessage": "Low Fees",
+        "defaultMessage": "Extra Low Fees",
         "id": "modals.onboarding.linktopitaccount.na.left.point4"
+      },
+      {
+        "defaultMessage": "Built by the Pros",
+        "id": "modals.onboarding.linktopitaccount.na.left.point2-1"
       },
       {
         "defaultMessage": "The PIT will be able to:",
@@ -5829,16 +5829,16 @@
         "id": "modals.onboarding.linktopitaccount.na.right.topoint"
       },
       {
-        "defaultMessage": "Exchange crypto addresses so you dont have to copy and paste",
-        "id": "modals.onboarding.linktopitaccount.na.right.topoint2"
+        "defaultMessage": "Exchange crypto addresses so you don't have to copy and paste",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint2-1"
       },
       {
         "defaultMessage": "The PIT will not be able to:",
         "id": "modals.onboarding.linktopitaccount.na.right.nottitle"
       },
       {
-        "defaultMessage": "View you wallet password",
-        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1"
+        "defaultMessage": "View your wallet password",
+        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1-1"
       },
       {
         "defaultMessage": "Connect Now",
@@ -8174,8 +8174,8 @@
         "id": "swap.carousel.title.page5"
       },
       {
-        "defaultMessage": "Introducing Digital Dollars USD PAX to de-risk your crypto investment or lock-in gains.",
-        "id": "swap.carousel.desc.page5-1"
+        "defaultMessage": "Introducing Digital Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.",
+        "id": "swap.carousel.desc.page5-2"
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/index.json"
@@ -8445,8 +8445,8 @@
         "id": "scenes.home.banners.pitbanner.new"
       },
       {
-        "defaultMessage": "We built a brand new Crypto Exchange. Trade with The PIT.",
-        "id": "scenes.home.banners.pitbanner.trade"
+        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access.",
+        "id": "scenes.home.banners.pitbanner.trade-1"
       },
       {
         "defaultMessage": "Check It Out",
@@ -8478,8 +8478,8 @@
         "id": "wallet.tour.steptwo.title"
       },
       {
-        "defaultMessage": "To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here.",
-        "id": "wallet.tour.steptwo.content-1"
+        "defaultMessage": "To receive crypto, all the sender needs is your crypto's address. You can find these addresses here.",
+        "id": "wallet.tour.steptwo.content-2"
       },
       {
         "defaultMessage": "Send",
