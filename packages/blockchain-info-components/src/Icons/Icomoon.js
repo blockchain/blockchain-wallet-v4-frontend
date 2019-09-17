@@ -17,6 +17,7 @@ export default {
   chart: '\\e95b',
   check: '\\e910',
   checkmark: '\\e95d',
+  'checkmark-in-square': '\\e931',
   'checkmark-in-circle': '\\e95c',
   'checkmark-in-circle-filled': '\\e90b',
   'cog-filled': '\\e994',
