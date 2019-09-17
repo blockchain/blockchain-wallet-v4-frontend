@@ -292,10 +292,10 @@ export const upgradeToV3 = curry(
   }
 )
 
-// upgradeToV4 :: String -> Network -> Wallet -> Task Error Wallet
-export const upgradeToV4 = curry((password, network, wallet) => {
+// upgradeToV4 :: String -> String -> Network -> Wallet -> Task Error Wallet
+export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
   const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
-  const upgradeAccount = curry((seedHex, account) => {
+  const upgradeAccount = account => {
     const addDerivationToAccount = derivation =>
       over(
         HDAccount.derivations,
@@ -307,18 +307,11 @@ export const upgradeToV4 = curry((password, network, wallet) => {
       HDAccount.DEFAULT_DERIVATION_PURPOSE,
       account.index,
       network,
-      // TODO: SEGWIT check double encrypted wallet
       seedHex
     )
 
     return encryptDerivation(derivation).map(addDerivationToAccount)
-  })
-
-  const selectSeedHex = compose(
-    HDWallet.selectSeedHex,
-    HDWalletList.selectHDWallet,
-    selectHdWallets
-  )
+  }
 
   const traverseAllAccounts = compose(
     hdwallet,
@@ -326,12 +319,7 @@ export const upgradeToV4 = curry((password, network, wallet) => {
     traversed
   )
 
-  return traverseOf(
-    traverseAllAccounts,
-    Task.of,
-    upgradeAccount(selectSeedHex(wallet)),
-    wallet
-  )
+  return traverseOf(traverseAllAccounts, Task.of, upgradeAccount, wallet)
 })
 
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet

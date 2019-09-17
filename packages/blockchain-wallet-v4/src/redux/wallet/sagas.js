@@ -147,8 +147,15 @@ export default ({ api, networks }) => {
 
   const upgradeToV4 = function * ({ password }) {
     const wrapper = yield select(S.getWrapper)
+    const getSeedHex = yield select(S.getSeedHex, password)
+    const seedHex = yield call(() => taskToPromise(getSeedHex))
     if (!Wrapper.isLatestVersion(wrapper)) {
-      let upgradeTask = Wrapper.upgradeToV4(password, networks.btc, wrapper)
+      let upgradeTask = Wrapper.upgradeToV4(
+        seedHex,
+        password,
+        networks.btc,
+        wrapper
+      )
       yield call(runTask, upgradeTask, A.wallet.setWrapper)
     } else {
       throw new Error('Already a v4 wallet')

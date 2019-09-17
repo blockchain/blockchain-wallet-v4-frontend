@@ -46,6 +46,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+      yield put(actions.modals.closeModal())
     }
   }
 

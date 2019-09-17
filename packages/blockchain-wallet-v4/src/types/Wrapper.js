@@ -100,9 +100,9 @@ export const upgradeToV3AndV4 = curry(
   }
 )
 
-// upgradeToV4 :: String -> Network -> Wrapper -> Task Error Wrapper
-export const upgradeToV4 = curry((password, network, wrapper) => {
-  const upgradeWallet = Wallet.upgradeToV4(password, network)
+// upgradeToV4 :: String -> String -> Network -> Wrapper -> Task Error Wrapper
+export const upgradeToV4 = curry((seedHex, password, network, wrapper) => {
+  const upgradeWallet = Wallet.upgradeToV4(seedHex, password, network)
 
   const upgradeWrapper = compose(
     traverseWallet(Task.of, upgradeWallet),
