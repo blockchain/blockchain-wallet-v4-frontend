@@ -63,6 +63,12 @@ const BaseButton = styled.button.attrs({
 
 const selectColor = (nature, disabled, small) => {
   switch (nature) {
+    case 'dark':
+      return {
+        color: 'white',
+        backgroundColor: 'gray-6',
+        borderColor: 'gray-6'
+      }
     case 'empty':
       return {
         color: small ? 'brand-secondary' : 'gray-6',
@@ -70,11 +76,29 @@ const selectColor = (nature, disabled, small) => {
         borderColor: 'gray-2',
         hoverBorderColor: 'white'
       }
+    case 'empty-secondary':
+      return {
+        color: 'brand-secondary',
+        backgroundColor: 'white',
+        borderColor: 'brand-secondary'
+      }
+    case 'gray':
+      return {
+        color: 'white',
+        backgroundColor: 'gray-4',
+        borderColor: 'gray-4'
+      }
     case 'light':
       return {
         color: 'brand-secondary',
         backgroundColor: 'white',
         borderColor: 'brand-secondary'
+      }
+    case 'pitTurquoise':
+      return {
+        color: 'pitNight',
+        backgroundColor: 'pitTurquoise',
+        borderColor: 'pitTurquoise'
       }
     case 'primary':
       return {
@@ -82,17 +106,17 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'brand-secondary',
         borderColor: 'brand-secondary'
       }
+    case 'purple':
+      return {
+        color: 'white',
+        backgroundColor: 'purple',
+        borderColor: 'purple'
+      }
     case 'secondary':
       return {
         color: 'white',
         backgroundColor: 'brand-primary',
         borderColor: 'brand-primary'
-      }
-    case 'success':
-      return {
-        color: 'white',
-        backgroundColor: 'success',
-        borderColor: 'success'
       }
     case 'received':
       return {
@@ -102,6 +126,12 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'sent':
       return { color: 'white', backgroundColor: 'sent', borderColor: 'sent' }
+    case 'success':
+      return {
+        color: 'white',
+        backgroundColor: 'success',
+        borderColor: 'success'
+      }
     case 'transferred':
       return {
         color: 'white',
@@ -110,31 +140,6 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'warning':
       return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
-    case 'dark':
-      return {
-        color: 'white',
-        backgroundColor: 'gray-6',
-        borderColor: 'gray-6'
-      }
-    case 'gray': {
-      return {
-        color: 'white',
-        backgroundColor: 'gray-4',
-        borderColor: 'gray-4'
-      }
-    }
-    case 'empty-secondary':
-      return {
-        color: 'brand-secondary',
-        backgroundColor: 'white',
-        borderColor: 'brand-secondary'
-      }
-    case 'purple':
-      return {
-        color: 'white',
-        backgroundColor: 'purple',
-        borderColor: 'purple'
-      }
     case 'white-transparent':
       return {
         color: 'white',

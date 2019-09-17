@@ -86,14 +86,7 @@ const WelcomePax = props => {
             </div>
           </Column>
           <Column>
-            <Image
-              width='90%'
-              name='coin-dollar'
-              srcset={{
-                'coin-dollar2': '2x',
-                'coin-dollar3': '3x'
-              }}
-            />
+            <Image width='90%' name='coin-pax' />
           </Column>
         </Row>
         <Row>

@@ -4,7 +4,6 @@ import { actions, model } from 'data'
 import * as C from 'services/AlertService'
 
 const {
-  EMAIL_VERIFIED,
   TWO_FACTOR_ENABLED,
   TWO_FACTOR_DISABLED
 } = model.analytics.PREFERENCE_EVENTS.SECURITY
@@ -47,7 +46,6 @@ export default ({ coreSagas }) => {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmailVerified, action.payload)
       yield put(actions.alerts.displaySuccess(C.EMAIL_VERIFY_SUCCESS))
-      yield put(actions.analytics.logEvent(EMAIL_VERIFIED))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_VERIFY_ERROR))

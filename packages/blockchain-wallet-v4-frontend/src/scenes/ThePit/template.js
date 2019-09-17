@@ -14,14 +14,14 @@ import {
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 20px;
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
   margin: 0 auto 25px;
-  width: 630px;
+  width: 660px;
   ${media.tablet`
     flex-direction: column;
     width: 90%;
@@ -31,7 +31,7 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-top: 16px;
+  margin-top: 46px;
   &:last-child {
     margin-top: 32px;
   }
@@ -63,6 +63,8 @@ const StarfieldText = styled(Text)`
   text-align: center;
   line-height: 1.4;
   z-index: 1;
+  max-width: 226px;
+  width: 100%;
 `
 
 const Column = styled.div`
@@ -101,7 +103,7 @@ const ThirdSubTextGroup = styled(TextGroup)`
 `
 
 const TitleTextGroup = styled(TextGroup)`
-  padding-right: 10px;
+  padding-right: 30px;
   ${media.tablet`
     padding-right: 4px;
   `};

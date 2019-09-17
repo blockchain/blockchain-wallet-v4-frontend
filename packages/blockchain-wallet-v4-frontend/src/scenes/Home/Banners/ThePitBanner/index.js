@@ -32,9 +32,12 @@ const NewCartridge = styled(Cartridge)`
   margin-left: 0px;
   margin-right: 20px;
   border-radius: 4px;
+  width: 56px;
+  height: 14px;
 `
 const Copy = styled(Text)`
   display: flex;
+  align-items: center;
   ${media.mobile`
     font-size: 12px;
   `}
@@ -43,9 +46,9 @@ const Copy = styled(Text)`
   `}
 `
 const BannerButton = styled(Button)`
+  height: 48px;
   ${media.mobile`
     font-size: 14px;
-    height: 48px;
     margin-top: 8px;
     padding: 10px;
   `}
@@ -62,8 +65,8 @@ const ThePitBanner = () => {
           />
         </NewCartridge>
         <FormattedMessage
-          id='scenes.home.banners.pitbanner.trade'
-          defaultMessage='We built a brand new Crypto Exchange. Trade with The PIT.'
+          id='scenes.home.banners.pitbanner.trade-1'
+          defaultMessage="There's a new way to trade. Link your Wallet for instant access."
         />
       </Copy>
       <Link
@@ -71,7 +74,7 @@ const ThePitBanner = () => {
         target='_blank'
         rel='noopener noreferrer'
       >
-        <BannerButton jumbo nature='primary'>
+        <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
             id='scenes.home.banners.pitbanner.checkitout'
             defaultMessage='Check It Out'

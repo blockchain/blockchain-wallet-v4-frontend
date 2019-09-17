@@ -7,10 +7,14 @@ import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, WHATSNEW } from '../config'
 import { callTask } from '../../../utils/functional'
 
+const whatsNewDefaultEntry = {
+  lastViewed: 0,
+  hasSkippedWalletTour: false
+}
+
 export default ({ api, networks }) => {
   const createWhatsNew = function * (kv) {
-    const lastViewed = 0
-    const newkv = set(KVStoreEntry.value, { lastViewed }, kv)
+    const newkv = set(KVStoreEntry.value, whatsNewDefaultEntry, kv)
     yield put(A.createMetadataWhatsnew(newkv))
   }
 

@@ -1,8 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+
+const Scale = () => {
+  return keyframes`
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  `
+}
 
 const TooltipBody = styled.div`
   position: relative;
@@ -10,8 +23,9 @@ const TooltipBody = styled.div`
   max-width: 256px;
   background-color: ${props => props.theme['white']};
   border-radius: 8px;
-  box-shadow: 0 0 15px ${({ theme }) => theme['gray-3']};
+  box-shadow: 0 4px 32px rgba(5, 24, 61, 0.4);
   padding: 32px;
+  animation: ${Scale} 0.3s ease-in-out;
 
   > span:first-child {
     position: absolute;
@@ -53,11 +67,21 @@ const StepContent = styled(Text)`
   line-height: 24px;
 `
 
+const CloseTourIcon = styled(Icon)`
+  &:hover {
+    color: ${({ theme }) => theme['grey600']};
+  }
+
+  &:active {
+    color: ${({ theme }) => theme['grey800']};
+  }
+`
+
 export const TourTooltip = props => {
   return (
     <TooltipBody {...props.tooltipProps}>
-      <Icon
-        color='grey-600'
+      <CloseTourIcon
+        color='grey400'
         name='close'
         size='16px'
         weight={600}
@@ -121,8 +145,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.steptwo.content-1'
-            defaultMessage="To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here."
+            id='wallet.tour.steptwo.content-2'
+            defaultMessage="To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
           />
         </StepContent>
       </>

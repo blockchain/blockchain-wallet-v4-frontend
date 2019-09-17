@@ -417,6 +417,7 @@ export default ({ api }) => {
         )
       }
       yield put(A.changeDeviceSetupStep('finish-step'))
+      yield put(actions.preferences.hideLockboxSoftwareDownload())
     } catch (e) {
       yield put(
         actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR, {
