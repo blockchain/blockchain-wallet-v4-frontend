@@ -2,21 +2,22 @@ import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import {
-  prop,
+  add,
+  any,
   compose,
-  endsWith,
-  repeat,
-  range,
-  map,
-  propSatisfies,
-  length,
-  dropLastWhile,
-  not,
-  concat,
-  propEq,
-  is,
+  curry,
+  head,
   find,
-  isEmpty
+  findLastIndex,
+  is,
+  isEmpty,
+  last,
+  map,
+  not,
+  prop,
+  propEq,
+  propSatisfies,
+  range
 } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
@@ -155,53 +156,50 @@ export default ({ api, networks }) => {
     }
   }
 
-  const findUsedAccounts = function * ({ batch, node, usedAccounts }) {
-    if (endsWith(repeat(false, 5), usedAccounts)) {
-      const n = length(dropLastWhile(not, usedAccounts))
-      return n < 1 ? 1 : n
-    } else {
-      const l = length(usedAccounts)
-      const getxpub = i =>
+  const findUsedAccounts = function * ({ batch, nodes }) {
+    const getxpub = curry((nodes, i) =>
+      nodes.map(node =>
         node
           .deriveHardened(i)
           .neutered()
           .toBase58()
-      const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
-      const xpubs = map(getxpub, range(l, l + batch))
-      const result = yield call(
-        api.fetchBlockchainData,
-        {
-          legacy: xpubs
-        },
-        {
-          n: 1,
-          offset: 0,
-          onlyShow: ''
-        }
       )
-      const search = xpub => find(propEq('address', xpub))
-      const accounts = map(
-        xpub => search(xpub)(prop('addresses', result)),
-        xpubs
+    )
+    const xpubs = map(getxpub(nodes), range(0, batch))
+    const result = yield call(
+      api.fetchBlockchainData,
+      {
+        legacy: xpubs.map(head),
+        segwitP2SH: xpubs.map(last)
+      },
+      {
+        n: 1,
+        offset: 0,
+        onlyShow: ''
+      }
+    )
+    const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
+    const search = curry((xpubGroup, addresses) =>
+      any(
+        isUsed,
+        xpubGroup.map(xpub => find(propEq('address', xpub), addresses))
       )
-      const flags = map(isUsed, accounts)
-      return yield call(findUsedAccounts, {
-        batch: batch,
-        node: node,
-        usedAccounts: concat(usedAccounts, flags)
-      })
-    }
+    )
+    const accounts = map(
+      xpubGroup => search(xpubGroup)(prop('addresses', result)),
+      xpubs
+    )
+    return add(1, findLastIndex(a => !!a, accounts))
   }
 
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
-    // TODO: SEGWIT find used segwit accounts too & update fetchBlockchainData call in findUsedAccounts saga
-    const node = masterNode.deriveHardened(44).deriveHardened(0)
+    const legacyNode = masterNode.deriveHardened(44).deriveHardened(0)
+    const segwitP2SHNode = masterNode.deriveHardened(49).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,
-      node: node,
-      usedAccounts: []
+      nodes: [legacyNode, segwitP2SHNode]
     })
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
