@@ -28,12 +28,21 @@ export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 const { LOGIN_EVENTS } = model.analytics
 
 export default ({ api, coreSagas }) => {
-  const upgradeWallet = function * () {
+  const upgradeWallet = function * ({ payload }) {
     try {
+      const { version } = payload
       let password = yield call(promptForSecondPassword)
-      yield coreSagas.wallet.upgradeToHd({ password })
-      yield coreSagas.wallet.upgradeToV4({ password })
+      switch (version) {
+        case 3:
+          yield coreSagas.wallet.upgradeToV3({ password })
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+        case 4:
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+      }
       yield call(forceSyncWallet)
+      yield delay(2000)
       yield put(actions.modals.closeModal())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
@@ -41,25 +50,8 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWalletV4 = function * () {
-    try {
-      let password = yield call(promptForSecondPassword)
-      yield coreSagas.wallet.upgradeToV4({ password })
-      yield call(forceSyncWallet)
-      yield put(actions.modals.closeModal())
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWalletV4', e))
-      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
-    }
-  }
-
-  const upgradeWalletSaga = function * () {
-    yield put(actions.modals.showModal('UpgradeWallet'))
-    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-  }
-
-  const upgradeWalletSagaV4 = function * () {
-    yield put(actions.modals.showModal('UpgradeWalletV4'))
+  const upgradeWalletSaga = function * (version) {
+    yield put(actions.modals.showModal('UpgradeWallet', { version }))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
@@ -135,16 +127,16 @@ export default ({ api, coreSagas }) => {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga)
+        yield call(upgradeWalletSaga, 3)
       }
       const isLatestVersion = yield select(
         selectors.core.wallet.isWrapperLatestVersion
       )
       if (!isLatestVersion) {
-        yield call(upgradeWalletSagaV4)
+        yield call(upgradeWalletSaga, 4)
       }
-
       // Finish upgrades
+
       yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
@@ -567,9 +559,7 @@ export default ({ api, coreSagas }) => {
     startSockets,
     transferEthSaga,
     upgradeWallet,
-    upgradeWalletV4,
     upgradeWalletSaga,
-    upgradeWalletSagaV4,
     upgradeAddressLabelsSaga
   }
 }

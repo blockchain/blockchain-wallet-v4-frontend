@@ -123,7 +123,7 @@ export default ({ api, networks }) => {
     yield put(A.wallet.setWrapper(wrapper))
   }
 
-  const upgradeToHd = function * ({ password }) {
+  const upgradeToV3 = function * ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
       i => i.toJS(),
@@ -133,7 +133,7 @@ export default ({ api, networks }) => {
 
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
-      let upgradeWallet = Wallet.upgradeToHd(
+      let upgradeWallet = Wallet.upgradeToV3(
         mnemonic,
         'My Bitcoin Wallet',
         password,
@@ -289,7 +289,7 @@ export default ({ api, networks }) => {
     updatePbkdf2Iterations,
     remindWalletGuidSaga,
     fetchWalletSaga,
-    upgradeToHd,
+    upgradeToV3,
     upgradeToV4,
     resetWallet2fa,
     refetchContextData,

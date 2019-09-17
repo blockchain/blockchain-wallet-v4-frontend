@@ -6,14 +6,9 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import UpgradeWallet from './template.js'
 
-class UpgradeWizardContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleContinue = this.handleContinue.bind(this)
-  }
-
-  handleContinue () {
-    this.props.authActions.upgradeWallet()
+class UpgradeContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.authActions.upgradeWallet(this.props.version)
   }
 
   render () {
@@ -36,4 +31,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(UpgradeWizardContainer)
+export default enhance(UpgradeContainer)
