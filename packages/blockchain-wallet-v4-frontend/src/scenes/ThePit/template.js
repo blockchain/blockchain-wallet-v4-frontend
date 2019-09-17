@@ -14,7 +14,7 @@ import {
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  padding-top: 50px;
+  padding-top: 20px;
 `
 const Container = styled.div`
   display: flex;
