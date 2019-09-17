@@ -1,8 +1,13 @@
-import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { actions, model } from 'data'
+
+const { GENERAL_EVENTS } = model.analytics
 
 const Scale = () => {
   return keyframes`
@@ -77,28 +82,55 @@ const CloseTourIcon = styled(Icon)`
   }
 `
 
-export const TourTooltip = props => {
+const TourTooltipComponent = ({
+  analyticsActions,
+  index,
+  isLastStep,
+  primaryProps,
+  skipProps,
+  step,
+  tooltipProps,
+  ...rest
+}) => {
+  useEffect(() => {
+    switch (index) {
+      case 0:
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_PORTFOLIO_VIEWED)
+        break
+      case 1:
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_REQUEST_VIEWED)
+        break
+      case 2:
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SEND_VIEWED)
+        break
+      case 3:
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
+        break
+      case 4:
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
+        break
+    }
+  }, [index])
+
   return (
-    <TooltipBody {...props.tooltipProps}>
+    <TooltipBody {...tooltipProps}>
       <CloseTourIcon
         color='grey400'
         name='close'
         size='16px'
         weight={600}
-        {...props.skipProps}
+        {...skipProps}
       />
-      {props.step.content && (
-        <TooltipContent>{props.step.content}</TooltipContent>
-      )}
-      <TooltipFooter isLastStep={props.isLastStep}>
+      {step.content && <TooltipContent>{step.content}</TooltipContent>}
+      <TooltipFooter isLastStep={isLastStep}>
         <Button
           width='110px'
           height='48px'
           nature='primary'
           fullwidth
-          {...props.primaryProps}
+          {...primaryProps}
         >
-          {props.isLastStep ? (
+          {isLastStep ? (
             <FormattedMessage id='wallet.tour.finish' defaultMessage='Close' />
           ) : (
             <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
@@ -145,8 +177,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.steptwo.content-1'
-            defaultMessage="To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here."
+            id='wallet.tour.steptwo.content-2'
+            defaultMessage="To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
           />
         </StepContent>
       </>
@@ -221,3 +253,12 @@ export const TOUR_STEPS = [
     disableBeacon: true
   }
 ]
+
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+export const TourTooltip = connect(
+  null,
+  mapDispatchToProps
+)(TourTooltipComponent)
