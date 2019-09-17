@@ -74,7 +74,9 @@ export default () => {
         })
       )
       yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(true))
-      yield put(actions.analytics.logEvent(GENERAL_EVENTS.SKIP_WALLET_TOUR))
+      yield put(
+        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_DISMISSED)
+      )
       yield put(actions.modals.closeModal())
     } catch (e) {
       yield put(
@@ -88,7 +90,7 @@ export default () => {
       yield put(actions.modals.closeModal())
       yield put(actions.components.onboarding.setWalletTourVisibility(true))
       yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(false))
-      yield put(actions.analytics.logEvent(GENERAL_EVENTS.TAKE_WALLET_TOUR))
+      yield put(actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_STARTED))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'takeWalletTourClicked', e)
