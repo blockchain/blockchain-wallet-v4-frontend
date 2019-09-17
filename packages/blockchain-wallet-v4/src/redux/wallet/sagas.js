@@ -133,16 +133,15 @@ export default ({ api, networks }) => {
 
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
-      let upgradeWallet = Wallet.upgradeToV3(
+      let upgradeTask = Wrapper.upgradeToV3AndV4(
         mnemonic,
-        'My Bitcoin Wallet',
         password,
-        networks.btc
+        networks.btc,
+        wrapper
       )
-      let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
-      yield call(runTask, nextWrapper, A.wallet.setWrapper)
+      yield call(runTask, upgradeTask, A.wallet.setWrapper)
     } else {
-      throw new Error('Already an HD wallet')
+      throw new Error('Already a v3 wallet')
     }
   }
 

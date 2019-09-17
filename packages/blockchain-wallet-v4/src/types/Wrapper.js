@@ -82,6 +82,24 @@ export const isLatestVersion = wrapper => {
   return selectVersion(wrapper) === PAYLOAD_VERSION
 }
 
+export const upgradeToV3AndV4 = curry(
+  (mnemonic, password, network, wrapper) => {
+    let upgradeWallet = Wallet.upgradeToV3(
+      mnemonic,
+      'My Bitcoin Wallet',
+      password,
+      network
+    )
+
+    const upgradeWrapper = compose(
+      traverseWallet(Task.of, upgradeWallet),
+      set(version, PAYLOAD_VERSION)
+    )
+
+    return upgradeWrapper(wrapper)
+  }
+)
+
 // upgradeToV4 :: String -> Network -> Wrapper -> Task Error Wrapper
 export const upgradeToV4 = curry((password, network, wrapper) => {
   const upgradeWallet = Wallet.upgradeToV4(password, network)

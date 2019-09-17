@@ -35,7 +35,6 @@ export default ({ api, coreSagas }) => {
       switch (version) {
         case 3:
           yield coreSagas.wallet.upgradeToV3({ password })
-          yield coreSagas.wallet.upgradeToV4({ password })
           break
         case 4:
           yield coreSagas.wallet.upgradeToV4({ password })
