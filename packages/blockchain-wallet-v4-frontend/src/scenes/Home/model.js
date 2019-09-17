@@ -1,8 +1,13 @@
-import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { actions, model } from 'data'
+
+const { GENERAL_EVENTS } = model.analytics
 
 const Scale = () => {
   return keyframes`
@@ -77,57 +82,69 @@ const CloseTourIcon = styled(Icon)`
   }
 `
 
-export const TourTooltip = props => {
-  let footerButtonDataE2e, tourTooltipDataE2e
+const TourTooltipComponent = ({
+  analyticsActions,
+  index,
+  isLastStep,
+  primaryProps,
+  skipProps,
+  step,
+  tooltipProps,
+  ...rest
+}) => {
+  const [footerButtonDataE2e, setFooterButtonDataE2e] = useState('')
+  const [tourTooltipDataE2e, setTourTooltipDataE2e] = useState('')
 
-  switch (props.index) {
-    case 0:
-      footerButtonDataE2e = 'showWalletTourRequest'
-      tourTooltipDataE2e = 'walletTourPortfolio'
-      break
-    case 1:
-      footerButtonDataE2e = 'showWalletTourSend'
-      tourTooltipDataE2e = 'walletTourRequest'
-      break
-    case 2:
-      footerButtonDataE2e = 'showWalletTourSwap'
-      tourTooltipDataE2e = 'walletTourSend'
-      break
-    case 3:
-      footerButtonDataE2e = 'showWalletTourBuySell'
-      tourTooltipDataE2e = 'walletTourSwap'
-      break
-    case 4:
-      footerButtonDataE2e = 'closeWalletTour'
-      tourTooltipDataE2e = 'walletTourBuySell'
-      break
-  }
+  useEffect(() => {
+    switch (index) {
+      case 0:
+        setFooterButtonDataE2e('showWalletTourRequest')
+        setTourTooltipDataE2e('walletTourPortfolio')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_PORTFOLIO_VIEWED)
+        break
+      case 1:
+        setFooterButtonDataE2e('showWalletTourSend')
+        setTourTooltipDataE2e('walletTourRequest')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_REQUEST_VIEWED)
+        break
+      case 2:
+        setFooterButtonDataE2e('showWalletTourSwap')
+        setTourTooltipDataE2e('walletTourSend')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SEND_VIEWED)
+        break
+      case 3:
+        setFooterButtonDataE2e('showWalletTourBuySell')
+        setTourTooltipDataE2e('walletTourSwap')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
+        break
+      case 4:
+        setFooterButtonDataE2e('closeWalletTour')
+        setTourTooltipDataE2e('walletTourBuySell')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
+        break
+    }
+  }, [index])
 
   return (
-    <TooltipBody {...props.tooltipProps} data-e2e={tourTooltipDataE2e}>
-      <Icon
-        color='grey-600'
+    <TooltipBody {...tooltipProps} data-e2e={tourTooltipDataE2e}>
+      <CloseTourIcon
+        color='grey400'
         data-e2e='modalCloseButton'
         name='close'
         size='16px'
         weight={600}
-        {...props.skipProps}
+        {...skipProps}
       />
-      {props.step.content && (
-        <TooltipContent>{props.step.content}</TooltipContent>
-      )}
-      <TooltipFooter
-        data-e2e={footerButtonDataE2e}
-        isLastStep={props.isLastStep}
-      >
+      {step.content && <TooltipContent>{step.content}</TooltipContent>}
+      <TooltipFooter data-e2e={footerButtonDataE2e} isLastStep={isLastStep}>
         <Button
           width='110px'
           height='48px'
           nature='primary'
           fullwidth
-          {...props.primaryProps}
+          {...primaryProps}
         >
-          {props.isLastStep ? (
+          {isLastStep ? (
             <FormattedMessage id='wallet.tour.finish' defaultMessage='Close' />
           ) : (
             <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
@@ -174,8 +191,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.steptwo.content-1'
-            defaultMessage="To receive crypto, all the Sender needs is your crypto's address. You can find these addresses here."
+            id='wallet.tour.steptwo.content-2'
+            defaultMessage="To receive crypto, all the sender needs is your crypto's address. You can find these addresses here."
           />
         </StepContent>
       </>
@@ -250,3 +267,12 @@ export const TOUR_STEPS = [
     disableBeacon: true
   }
 ]
+
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+export const TourTooltip = connect(
+  null,
+  mapDispatchToProps
+)(TourTooltipComponent)
