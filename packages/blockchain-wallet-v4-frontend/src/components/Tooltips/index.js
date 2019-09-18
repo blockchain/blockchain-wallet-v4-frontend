@@ -240,8 +240,8 @@ class Tooltips extends React.PureComponent {
           <TextGroup size='12px' inline>
             <Text color='white' weight={400} size='12px'>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible'
-                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop program.'
+                id='scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1'
+                defaultMessage='By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
               />
             </Text>
             <Link
