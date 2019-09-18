@@ -93,7 +93,12 @@ const WalletTour = props => {
   const { position, total, onSkipTour, onTakeTour } = props
 
   return (
-    <Modal size='medium' position={position} total={total}>
+    <Modal
+      size='medium'
+      position={position}
+      total={total}
+      dataE2e='infoModalWalletTour'
+    >
       <WalletTourModalHeader onClose={onSkipTour} />
       <WalletTourModalBody>
         <Container>
@@ -169,7 +174,7 @@ const WalletTour = props => {
           <Button
             fullwidth
             onClick={onSkipTour}
-            data-e2e='maybeLaterButton'
+            data-e2e='showWalletTourAlert'
             size='16px'
           >
             <FormattedMessage

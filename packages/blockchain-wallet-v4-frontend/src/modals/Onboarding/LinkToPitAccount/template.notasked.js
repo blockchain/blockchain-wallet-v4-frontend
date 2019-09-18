@@ -122,7 +122,7 @@ const LinkToPitNotAsked = ({
   onResendEmail
 }) => {
   return (
-    <Modal size='large'>
+    <Modal size='large' data-e2e='infoModalLinkToPitAccountNotAsked'>
       <ModalHeaderStyled onClose={close} />
       <ModalBodyStyled>
         <ContentWrapper>

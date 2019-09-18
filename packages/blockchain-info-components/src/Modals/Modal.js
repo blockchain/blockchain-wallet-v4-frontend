@@ -62,6 +62,7 @@ const selectWidth = size => {
 
 const Modal = props => {
   const { children, ...rest } = props
+  const modalDataE2e = rest.dataE2e || 'modal'
   const type = rest.type
   const size = rest.size || 'medium'
   const position = rest.position || 1
@@ -72,7 +73,13 @@ const Modal = props => {
 
   if (type === 'tray') {
     return (
-      <BaseModal isLast={true} position={position} width={width} {...rest}>
+      <BaseModal
+        data-e2e={modalDataE2e}
+        isLast={true}
+        position={position}
+        width={width}
+        {...rest}
+      >
         {children}
       </BaseModal>
     )
@@ -83,7 +90,13 @@ const Modal = props => {
         position={position}
         className={rest.class}
       >
-        <BaseModal isLast={isLast} position={position} width={width} {...rest}>
+        <BaseModal
+          data-e2e={modalDataE2e}
+          isLast={isLast}
+          position={position}
+          width={width}
+          {...rest}
+        >
           {children}
         </BaseModal>
       </ModalBackground>

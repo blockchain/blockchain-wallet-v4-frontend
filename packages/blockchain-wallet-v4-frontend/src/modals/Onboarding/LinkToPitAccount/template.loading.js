@@ -50,7 +50,7 @@ const OpenNowButton = styled(Button)`
 
 const LinkToPitLoading = ({ close, deeplinkToPit }) => {
   return (
-    <ModalStyled size='small'>
+    <ModalStyled size='small' dataE2e='infoModalLinkToPitAccountLoading'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>

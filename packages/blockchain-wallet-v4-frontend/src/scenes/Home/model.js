@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
 
@@ -92,37 +92,51 @@ const TourTooltipComponent = ({
   tooltipProps,
   ...rest
 }) => {
+  const [footerButtonDataE2e, setFooterButtonDataE2e] = useState('')
+  const [tourTooltipDataE2e, setTourTooltipDataE2e] = useState('')
+
   useEffect(() => {
     switch (index) {
       case 0:
+        setFooterButtonDataE2e('showWalletTourRequest')
+        setTourTooltipDataE2e('walletTourPortfolio')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_PORTFOLIO_VIEWED)
         break
       case 1:
+        setFooterButtonDataE2e('showWalletTourSend')
+        setTourTooltipDataE2e('walletTourRequest')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_REQUEST_VIEWED)
         break
       case 2:
+        setFooterButtonDataE2e('showWalletTourSwap')
+        setTourTooltipDataE2e('walletTourSend')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SEND_VIEWED)
         break
       case 3:
+        setFooterButtonDataE2e('showWalletTourBuySell')
+        setTourTooltipDataE2e('walletTourSwap')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
         break
       case 4:
+        setFooterButtonDataE2e('closeWalletTour')
+        setTourTooltipDataE2e('walletTourBuySell')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
         break
     }
   }, [index])
 
   return (
-    <TooltipBody {...tooltipProps}>
+    <TooltipBody {...tooltipProps} data-e2e={tourTooltipDataE2e}>
       <CloseTourIcon
         color='grey400'
+        data-e2e='modalCloseButton'
         name='close'
         size='16px'
         weight={600}
         {...skipProps}
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
-      <TooltipFooter isLastStep={isLastStep}>
+      <TooltipFooter data-e2e={footerButtonDataE2e} isLastStep={isLastStep}>
         <Button
           width='110px'
           height='48px'

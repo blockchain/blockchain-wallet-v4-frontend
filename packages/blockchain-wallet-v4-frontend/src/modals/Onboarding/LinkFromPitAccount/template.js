@@ -66,7 +66,7 @@ const LinkFromPitAccount = ({
 }) => {
   const { current } = userTiers.getOrElse({}) || {}
   return (
-    <ModalStyled size='small'>
+    <ModalStyled size='small' dataE2e='infoModalLinkFromPitAccount'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         {linkFromPitAccountStatus.cata({
