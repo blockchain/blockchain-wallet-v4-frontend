@@ -21,6 +21,7 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
+import coins from './img/coins.png'
 import coinPax from './img/coin-pax.svg'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
@@ -55,6 +56,7 @@ import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
+import money from './img/money.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import poweredBySfox from './img/powered_by_sfox.svg'
@@ -152,6 +154,7 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'checkmark-green': checkmarkGreen,
+  coins: coins,
   'coin-pax': coinPax,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
@@ -216,6 +219,7 @@ export default {
   'lockbox-usb': lockboxUsb,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'micro-deposits-whole': microDepositsWhole,
+  money: money,
   'powered-by-coinify': poweredByCoinify,
   'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,

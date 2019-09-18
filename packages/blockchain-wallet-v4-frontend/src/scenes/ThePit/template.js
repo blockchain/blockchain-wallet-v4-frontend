@@ -21,7 +21,7 @@ const Container = styled.div`
   flex-direction: column;
   position: relative;
   margin: 0 auto 25px;
-  width: 660px;
+  width: 666px;
   ${media.tablet`
     flex-direction: column;
     width: 90%;
@@ -32,15 +32,18 @@ const Row = styled.div`
   flex-direction: row;
   width: 100%;
   margin-top: 46px;
+  &:first-child {
+    align-items: flex-end;
+  }
   &:last-child {
-    margin-top: 32px;
+    margin-top: 35px;
   }
   ${media.tablet`
     flex-direction: column;
   `};
 `
 const Content = styled(Text)`
-  margin: 15px 0 20px 0;
+  margin: 15px 0 0 0;
   line-height: 1.4;
 `
 
@@ -55,15 +58,17 @@ const TitleContent = styled(Text)`
 const SubContent = styled(Text)`
   margin: 8px 0 -1px 0;
   line-height: 1.4;
+  max-width: 202px;
+  width: 100%;
 `
 
 const StarfieldText = styled(Text)`
-  margin: 0 35px;
+  margin-top: 10px;
   color: white;
   text-align: center;
   line-height: 1.4;
   z-index: 1;
-  max-width: 226px;
+  max-width: 260px;
   width: 100%;
 `
 
@@ -73,6 +78,9 @@ const Column = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
+  &:first-child {
+    justify-content: flex-end;
+  }
 `
 
 const FooterColumn = styled(Column)`
@@ -87,12 +95,13 @@ const StarfieldColumn = styled(Column)`
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 15px;
+  height: 180px;
   ${media.tablet`
     padding: 20px 0;
   `}
 `
 const SubTextGroup = styled(TextGroup)`
-  padding-right: 25px;
+  padding-right: 30px;
   ${media.tablet`
     padding-right: 10px;
   `};
@@ -103,7 +112,7 @@ const ThirdSubTextGroup = styled(TextGroup)`
 `
 
 const TitleTextGroup = styled(TextGroup)`
-  padding-right: 30px;
+  padding-right: 40px;
   ${media.tablet`
     padding-right: 4px;
   `};
@@ -147,8 +156,8 @@ const ThePit = props => {
               </TitleContent>
               <Content weight={500} size='16px'>
                 <FormattedMessage
-                  id='scenes.thepit.subtitle1'
-                  defaultMessage='We built the fastest exchange in crypto to re-define the speed, reliability, and liquidity crypto investors should not only expect, but demand.'
+                  id='scenes.thepit.subtitle1-1'
+                  defaultMessage='We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.'
                 />
               </Content>
             </TitleTextGroup>
@@ -159,7 +168,7 @@ const ThePit = props => {
               <StarfieldText weight={600}>
                 <FormattedMessage
                   id='scenes.thepit.image.subtitle'
-                  defaultMessage='The only Exchange that connects to your Wallet.'
+                  defaultMessage='A next generation exchange from the most trusted crypto company'
                 />
               </StarfieldText>
             </StarfieldTextGroup>
@@ -169,42 +178,42 @@ const ThePit = props => {
           <SubTextGroup>
             <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
-                id='scenes.thepit.point1.title'
-                defaultMessage='Fast and Liquid'
+                id='scenes.thepit.point1.title-1'
+                defaultMessage='Access More Assets'
               />
             </SubContent>
             <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point1.subtitle1'
-                defaultMessage='Trade in microseconds with the fastest matching engine in crypto and deep pool of institutional liquidity.'
+                id='scenes.thepit.point1.subtitle1-1'
+                defaultMessage='Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.'
               />
             </SubContent>
           </SubTextGroup>
           <SubTextGroup>
             <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
-                id='scenes.thepit.point2.title'
-                defaultMessage='Easy to Use'
+                id='scenes.thepit.point2.title-1'
+                defaultMessage='Unlock Unlimited Trading'
               />
             </SubContent>
             <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point2.subtitle1'
-                defaultMessage='No instructional manual required! The PIT makes it refreshingly easy for you to use Wall Street quality tech.'
+                id='scenes.thepit.point2.subtitle1-1'
+                defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.'
               />
             </SubContent>
           </SubTextGroup>
           <ThirdSubTextGroup>
             <SubContent size='15px' weight={550} color='brand-primary'>
               <FormattedMessage
-                id='scenes.thepit.point3.title'
-                defaultMessage='Blockchain Connect'
+                id='scenes.thepit.point3.title-1'
+                defaultMessage='Seamlessly Transfer Crypto'
               />
             </SubContent>
             <SubContent size='14px' weight={500}>
               <FormattedMessage
-                id='scenes.thepit.point3.subtitle1'
-                defaultMessage='The only exchange with a seamless, secure integration to your digital Blockchain Wallet.'
+                id='scenes.thepit.point3.subtitle1-1'
+                defaultMessage="Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
               />
             </SubContent>
           </ThirdSubTextGroup>
