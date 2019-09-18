@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -10,6 +11,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
 
+const AuthorizeLoginWrapper = styled(Wrapper)`
+  padding: 48px 0;
+  width: 320px;
+`
+
 const {
   VERIFY_DEVICE_ACCEPTED,
   VERIFY_DEVICE_EMAIL_SENT,
@@ -19,12 +25,14 @@ const {
 class AuthorizeLogin extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.handleSuccessContainer = this.handleSuccessContainer.bind(this)
     this.onAccept = this.onAccept.bind(this)
     this.onReject = this.onReject.bind(this)
     this.state = {
       token: decodeURIComponent(
         props.location.pathname.split('/authorize-approve/')[1]
-      )
+      ),
+      loginApproved: false
     }
   }
 
@@ -48,6 +56,10 @@ class AuthorizeLogin extends React.PureComponent {
     analyticsActions.logEvent(VERIFY_DEVICE_REJECTED)
   }
 
+  handleSuccessContainer (e) {
+    this.setState({ loginApproved: true })
+  }
+
   render () {
     const { data } = this.props
 
@@ -57,6 +69,7 @@ class AuthorizeLogin extends React.PureComponent {
           value={value}
           onAccept={this.onAccept}
           onReject={this.onReject}
+          handleSuccessContainer={this.handleSuccessContainer}
         />
       ),
       Failure: value => <Error value={value} />,
@@ -64,7 +77,11 @@ class AuthorizeLogin extends React.PureComponent {
       NotAsked: () => <Loading />
     })
 
-    return <Wrapper>{AuthorizeLoginStatus}</Wrapper>
+    return this.state.loginApproved ? (
+      <AuthorizeLoginWrapper>{AuthorizeLoginStatus}</AuthorizeLoginWrapper>
+    ) : (
+      <Wrapper>{AuthorizeLoginStatus}</Wrapper>
+    )
   }
 }
 
