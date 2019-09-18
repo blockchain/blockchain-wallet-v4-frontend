@@ -11,6 +11,7 @@ export default ({ api, ethSocket }) => {
 
   const onOpen = function * () {
     try {
+      // yield call(send, JSON.stringify({ command: "subscribe", entity: "header", coin: "eth" }))
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
       const walletContext = yield select(selectors.core.data.eth.getContext)
       const lockboxContext = (yield select(

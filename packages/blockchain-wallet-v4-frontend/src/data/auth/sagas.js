@@ -90,9 +90,10 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.bch.startSocket())
-    yield put(actions.middleware.webSocket.btc.startSocket())
-    yield put(actions.middleware.webSocket.eth.startSocket())
+    // yield put(actions.middleware.webSocket.bch.startSocket())
+    // yield put(actions.middleware.webSocket.btc.startSocket())
+    // yield put(actions.middleware.webSocket.eth.startSocket())
+    yield put(actions.middleware.webSocket.sd.startSocket())
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 

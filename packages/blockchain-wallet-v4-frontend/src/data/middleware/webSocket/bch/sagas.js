@@ -8,9 +8,9 @@ import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
-
   const onOpen = function * () {
     try {
+      // yield call(send, JSON.stringify({ command: "subscribe", entity: "header", coin: "bch" }))
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext

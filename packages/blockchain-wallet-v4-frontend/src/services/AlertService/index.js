@@ -69,10 +69,12 @@ export const MOBILE_VERIFY_SUCCESS = 'mobile_verify_success'
 export const NEW_ADDRESS_GENERATE_ERROR = 'new_address_generate_error'
 export const NEW_WALLET_CREATE_ERROR = 'new_wallet_create_error'
 export const NEW_WALLET_CREATE_SUCCESS = 'new_wallet_create_success'
+
 export const PAYMENT_RECEIVED_BCH = 'payment_received_bch'
 export const PAYMENT_RECEIVED_BTC = 'payment_received_btc'
 export const PAYMENT_RECEIVED_ETH = 'payment_received_eth'
 export const PAYMENT_RECEIVED_XLM = 'payment_received_xlm'
+
 export const PBKDF2_UPDATE_SUCCESS = 'pbkdf2_update_success'
 export const PLEASE_LOGIN = 'please_login'
 export const QR_SCANNER_NOT_ALLOWED = 'qr_scanner_not_allowed'

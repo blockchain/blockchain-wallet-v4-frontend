@@ -14,6 +14,7 @@ export default ({ api, btcSocket }) => {
 
   const onOpen = function * () {
     try {
+      // yield call(send, JSON.stringify({ command: "subscribe", entity: "header", coin: "btc" }))
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
@@ -54,7 +55,6 @@ export default ({ api, btcSocket }) => {
   const onMessage = function * (action) {
     try {
       const message = action.payload
-
       switch (message.op) {
         case 'on_change':
           const newChecksum = message.x.checksum

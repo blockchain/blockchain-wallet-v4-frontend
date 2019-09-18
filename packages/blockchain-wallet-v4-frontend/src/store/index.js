@@ -21,10 +21,8 @@ import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
   streamingXlm,
-  webSocketBch,
-  webSocketBtc,
-  webSocketEth,
-  webSocketRates
+  webSocketRates,
+  webSocketD
 } from '../middleware'
 
 const devToolsConfig = {
@@ -60,21 +58,17 @@ const configureStore = () => {
       // TODO: deprecate when wallet-options-v4 is updated on prod
       const socketUrl = head(options.domains.webSocket.split('/inv'))
       const horizonUrl = options.domains.horizon
-      const btcSocket = new Socket({
+
+      const socketd = new Socket({
         options,
-        url: `${socketUrl}/inv`
+        url: socketUrl
       })
-      const bchSocket = new Socket({
-        options,
-        url: `${socketUrl}/bch/inv`
-      })
-      const ethSocket = new Socket({
-        options,
-        url: `${socketUrl}/eth/inv`
-      })
+
       const ratesSocket = new ApiSocket({
         options,
-        url: `${socketUrl}/nabu-gateway/markets/quotes`,
+        url: `${socketUrl
+          .split('/coins')
+          .join('')}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const xlmStreamingService = new HorizonStreamingService({
@@ -120,11 +114,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            webSocketBtc(btcSocket),
-            webSocketBch(bchSocket),
-            webSocketEth(ethSocket),
             streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
+            webSocketD(socketd),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           )
@@ -134,12 +126,10 @@ const configureStore = () => {
 
       sagaMiddleware.run(rootSaga, {
         api,
-        bchSocket,
-        btcSocket,
-        ethSocket,
         ratesSocket,
         networks,
-        options
+        options,
+        socketd
       })
 
       // expose globals here

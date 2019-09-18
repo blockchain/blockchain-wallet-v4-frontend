@@ -4,6 +4,7 @@ import webSocketBtc from './webSocketBtc'
 import webSocketEth from './webSocketEth'
 import webSocketRates from './webSocketRates'
 import streamingXlm from './streamingXlm'
+import webSocketD from './webSocketD'
 
 export {
   autoDisconnection,
@@ -11,5 +12,6 @@ export {
   webSocketBch,
   webSocketBtc,
   webSocketEth,
-  webSocketRates
+  webSocketRates,
+  webSocketD
 }
