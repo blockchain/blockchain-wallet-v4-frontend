@@ -25,6 +25,21 @@ const Wrapper = styled.div`
     flex-direction: column;
   `}
 `
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & > div:first-child {
+    margin-bottom: 4px;
+  }
+`
 const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['pitTurquoise']};
   background: ${props => props.theme['green900']};
@@ -57,18 +72,28 @@ const BannerButton = styled(Button)`
 const ThePitBanner = () => {
   return (
     <Wrapper>
-      <Copy color='white' size='20px' weight={500}>
+      <Row>
         <NewCartridge>
           <FormattedMessage
             id='scenes.home.banners.pitbanner.new'
             defaultMessage='New'
           />
         </NewCartridge>
-        <FormattedMessage
-          id='scenes.home.banners.pitbanner.trade-1'
-          defaultMessage="There's a new way to trade. Link your Wallet for instant access."
-        />
-      </Copy>
+        <Column>
+          <Copy color='white' size='20px' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banners.pitbanner.content1'
+              defaultMessage='We built our own exchange that links to your Wallet.'
+            />
+          </Copy>
+          <Copy color='white' size='20px' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banners.pitbanner.content2'
+              defaultMessage='Instantly access more cryptos and deposit/withdraw Euros.'
+            />
+          </Copy>
+        </Column>
+      </Row>
       <Link
         href='https://pit.blockchain.com/'
         target='_blank'
@@ -76,8 +101,8 @@ const ThePitBanner = () => {
       >
         <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.checkitout'
-            defaultMessage='Check It Out'
+            id='scenes.home.banners.pitbanner.getstarted'
+            defaultMessage='Get Started'
           />
         </BannerButton>
       </Link>
