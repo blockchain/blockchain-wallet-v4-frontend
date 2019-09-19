@@ -88,8 +88,8 @@ const ThePitBanner = () => {
           </Copy>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
-              id='scenes.home.banners.pitbanner.content2'
-              defaultMessage='Instantly access more cryptos and deposit/withdraw Euros.'
+              id='scenes.home.banners.pitbanner.content3'
+              defaultMessage='Instantly access more cryptos and deposit/withdraw cash.'
             />
           </Copy>
         </Column>
