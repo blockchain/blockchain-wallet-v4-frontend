@@ -571,15 +571,15 @@ const _derivePrivateKey = (network, xpriv, chain, index) =>
 
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
-// TODO: SEGWIT does this method need to care about derivation type?
 export const getHDPrivateKeyWIF = curry(
-  (keypath, secondPassword, network, wallet) => {
-    let [accId, chain, index] = map(parseInt, split('/', keypath))
+  (coin, secondPassword, network, wallet) => {
+    let type = coin.type() === 'P2PKH' ? 'legacy' : 'segwitP2SH'
+    let [accId, chain, index] = map(parseInt, split('/', coin.path))
     if (isNil(accId) || isNil(chain) || isNil(index)) {
       return Task.rejected('WRONG_PATH_KEY')
     }
     let xpriv = compose(
-      HDAccount.selectXpriv,
+      HDAccount.selectXpriv(type),
       HDWallet.selectAccount(accId),
       HDWalletList.selectHDWallet,
       selectHdWallets
@@ -596,9 +596,9 @@ export const getHDPrivateKeyWIF = curry(
         )
         .map(xp => derivePrivateKey(network, xp, chain, index).keyPair.toWIF())
     } else {
-      return Task.of(xpriv).map(xp =>
-        derivePrivateKey(network, xp, chain, index).keyPair.toWIF()
-      )
+      return Task.of(xpriv).map(xp => {
+        return derivePrivateKey(network, xp, chain, index).keyPair.toWIF()
+      })
     }
   }
 )

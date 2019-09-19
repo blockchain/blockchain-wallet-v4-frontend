@@ -1,13 +1,15 @@
 import {
+  always,
+  assoc,
+  compose,
   converge,
+  curry,
+  drop,
   equals,
   or,
-  assoc,
-  drop,
-  curry,
-  set,
-  always,
-  compose
+  prop,
+  propEq,
+  set
 } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
@@ -74,24 +76,30 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-// TODO: SEGWIT does this method need to care about derivation type?
 export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
-  let xpub = HDAccount.selectXpub(account)
+  let defaultDerivationXpub = HDAccount.selectXpub(account)
+  let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
+  let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
+  let segwitP2SH = prop(
+    'xpub',
+    allXpubsGrouped.find(propEq('type', 'segwitP2SH'))
+  )
 
-  let changeIndex = equals(coin, 'BTC')
-    ? S.data.btc.getChangeIndex(xpub, state)
-    : S.data.bch.getChangeIndex(xpub, state)
+  let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(account, index, network))
     .getOrFail('missing_change_address')
 
   return {
-    fromType: ADDRESS_TYPES.ACCOUNT,
-    from: [xpub],
     change: changeAddress,
-    fromAccountIdx: index
+    extras: {
+      segwitP2SH
+    },
+    from: [legacy],
+    fromAccountIdx: index,
+    fromType: ADDRESS_TYPES.ACCOUNT
   }
 }
 

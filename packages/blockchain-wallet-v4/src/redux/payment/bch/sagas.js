@@ -25,10 +25,10 @@ import {
   toOutput,
   fromLegacy,
   fromLegacyList,
-  fromAccount,
   fromPrivateKey,
   fromLockbox
 } from '../btc/utils'
+import { fromAccount } from './utils'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 

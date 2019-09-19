@@ -3,24 +3,6 @@ import { List } from 'immutable-ext'
 import * as Coin from './coin.js'
 
 describe('Coin Selection', () => {
-  describe('constants', () => {
-    it('Coin.TX_EMPTY_SIZE', () => {
-      expect(Coin.TX_EMPTY_SIZE).toEqual(10)
-    })
-    it('Coin.TX_INPUT_BASE', () => {
-      expect(Coin.TX_INPUT_BASE).toEqual(41)
-    })
-    it('Coin.TX_INPUT_PUBKEYHASH', () => {
-      expect(Coin.TX_INPUT_PUBKEYHASH).toEqual(106)
-    })
-    it('Coin.TX_OUTPUT_BASE', () => {
-      expect(Coin.TX_OUTPUT_BASE).toEqual(9)
-    })
-    it('Coin.TX_OUTPUT_PUBKEYHASH', () => {
-      expect(Coin.TX_OUTPUT_PUBKEYHASH).toEqual(25)
-    })
-  })
-
   describe('Coin Type', () => {
     it('coins monoid both valued', () => {
       const A = Coin.fromJS({ value: 100 })

@@ -76,7 +76,7 @@ export const isActive = compose(
 export const isWatchOnly = account =>
   compose(
     isNil,
-    selectXpriv
+    selectXpriv('segwitP2SH')
   )(account)
 
 export const isXpub = curry((myxpub, account) =>
@@ -106,7 +106,7 @@ export const selectXpub = (account, type) => {
   return Derivation.selectXpub(derivation)
 }
 
-export const selectXpriv = (account, type) => {
+export const selectXpriv = curry((type, account) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
   const derivation = DerivationList.getDerivationFromType(
@@ -114,7 +114,7 @@ export const selectXpriv = (account, type) => {
     derivationType
   )
   return Derivation.selectXpriv(derivation)
-}
+})
 
 export const selectAddressLabels = (account, type) => {
   const derivationType = type || selectDefaultDerivation(account)
