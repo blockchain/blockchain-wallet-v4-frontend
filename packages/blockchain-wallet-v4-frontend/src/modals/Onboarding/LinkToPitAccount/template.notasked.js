@@ -235,8 +235,8 @@ const LinkToPitNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.notpoint1-2'
-                        defaultMessage='Access the crypto in your wallet, access your keys, or view your password.'
+                        id='modals.onboarding.linktopitaccount.na.right.notpoint1-3'
+                        defaultMessage='Access the crypto in your wallet, access your keys, or view your password'
                       />
                     </Text>
                   </RightPointRow>
