@@ -1,6 +1,17 @@
-export const CUSTOM_DIMENSIONS = {
-  CURRENCY_PREFERENCE: 1
+//
+// CUSTOM VARIABLES
+//
+export const CUSTOM_VARIABLES = {
+  KYC_TIER: {
+    ID: 1,
+    NAME: 'kyc_tier'
+  },
+  CRYPTO_BALANCES: {
+    ID: 2,
+    NAME: 'crypto_balances'
+  }
 }
+
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
@@ -81,7 +92,22 @@ export const PREFERENCE_EVENTS = {
     IP_RESTRICTIONS: ['preferences', 'security', 'ip_restrictions'],
     TWO_FACTOR_ENABLED: ['preferences', 'security', '2fa_enabled'],
     TWO_FACTOR_DISABLED: ['preferences', 'security', '2fa_disabled'],
-    TOR_ACCESS: ['preferences', 'security', 'tor_access']
+    TOR_ACCESS: ['preferences', 'security', 'tor_access'],
+    VERIFY_DEVICE_ACCEPTED: [
+      'preferences',
+      'security',
+      'verify_device_accepted'
+    ],
+    VERIFY_DEVICE_EMAIL_SENT: [
+      'preferences',
+      'security',
+      'verify_device_email_sent'
+    ],
+    VERIFY_DEVICE_REJECTED: [
+      'preferences',
+      'security',
+      'verify_device_rejected'
+    ]
   }
 }
 export const SUNRIVER_AIRDROP_EVENTS = {
@@ -128,10 +154,28 @@ export const AB_TESTS = {
 }
 
 export const GENERAL_EVENTS = {
-  SKIP_WALLET_TOUR: ['general', 'skip_wallet_tour'],
-  TAKE_WALLET_TOUR: ['general', 'take_wallet_tour'],
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  VIEW_FAQ: ['general', 'view_faq']
+  VIEW_FAQ: ['general', 'view_faq'],
+  WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_tour', 'dismissed'],
+  WALLET_INTRO_OFFERED: ['general', 'wallet_intro_tour', 'offered'],
+  WALLET_INTRO_STARTED: ['general', 'wallet_intro_tour', 'started'],
+  WALLET_INTRO_PORTFOLIO_VIEWED: [
+    'general',
+    'wallet_intro_tour',
+    'step_view_portfolio'
+  ],
+  WALLET_INTRO_REQUEST_VIEWED: [
+    'general',
+    'wallet_intro_tour',
+    'step_view_request'
+  ],
+  WALLET_INTRO_SEND_VIEWED: ['general', 'wallet_intro_tour', 'step_view_send'],
+  WALLET_INTRO_SWAP_VIEWED: ['general', 'wallet_intro_tour', 'step_view_swap'],
+  WALLET_INTRO_BUYSELL_VIEWED: [
+    'general',
+    'wallet_intro_tour',
+    'step_view_buysell'
+  ]
 }
 
 export const ADS_EVENTS = {

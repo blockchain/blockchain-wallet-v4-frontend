@@ -42,8 +42,8 @@ const LeftColumn = styled.div`
 `
 const RightColumn = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin-right: 25px;
 `
@@ -66,6 +66,12 @@ const IconContainer = styled.div`
 const DownloadIcon = styled(Icon)`
   margin-left: 12px;
   margin-top: 10px;
+`
+const DismissDownloadText = styled(Text)`
+  margin-top: 8px;
+  &:hover {
+    cursor: pointer;
+  }
 `
 class UpdateRequiredNotice extends React.PureComponent {
   getOsSpecificUpdater = () => {
@@ -99,7 +105,7 @@ class UpdateRequiredNotice extends React.PureComponent {
   }
 
   render () {
-    const { showLockboxDownload } = this.props
+    const { preferencesActions, showLockboxDownload } = this.props
 
     return (
       showLockboxDownload && (
@@ -156,6 +162,17 @@ class UpdateRequiredNotice extends React.PureComponent {
                 />
               </Button>
             </Link>
+            <DismissDownloadText
+              size='11px'
+              color='blue'
+              weight={500}
+              onClick={() => preferencesActions.hideLockboxSoftwareDownload()}
+            >
+              <FormattedMessage
+                id='scenes.lockbox.dashboard.updaterequirednotice.dismiss'
+                defaultMessage="I've already updated"
+              />
+            </DismissDownloadText>
           </RightColumn>
         </Wrapper>
       )

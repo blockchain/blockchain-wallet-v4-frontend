@@ -1,9 +1,5 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { equals, includes, path, pathOr, prop, head } from 'ramda'
-import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
-import { actions, model, selectors } from 'data'
+import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
   initialize,
   change,
@@ -12,11 +8,17 @@ import {
   stopSubmit,
   destroy
 } from 'redux-form'
+
+import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+
+import * as A from './actions'
+import * as S from './selectors'
+import { FORM } from './model'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
@@ -87,14 +89,22 @@ export default ({ api, coreSagas }) => {
           payment = yield call(setFrom, payment, source, fromType)
           break
         case 'to':
-          const value = pathOr({}, ['value', 'value'], payload)
-          payment = yield payment.to(value)
-          // Do not block payment update when to is changed w/ destinationAccount check
+          // payload may be either an account type (wallet/lockbox) or an address
+          let value = pathOr({}, ['value', 'value'], payload)
+          const splitValue = propOr(value, 'address', value).split(':')
+          const address = head(splitValue)
+          payment = yield payment.to(address)
+          // do not block payment update when to is changed w/ destinationAccount check
           yield put(A.paymentUpdatedSuccess(payment.value()))
           // check if destination exists
-          yield put(A.sendXlmCheckDestinationAccountExists(value))
+          yield put(A.sendXlmCheckDestinationAccountExists(address))
           // check if destination is an exchange
-          yield put(A.sendXlmCheckIfDestinationIsExchange(value))
+          yield put(A.sendXlmCheckIfDestinationIsExchange(address))
+          // PIT address split on : is [address, memo]
+          if (splitValue.length > 1) {
+            const memo = last(splitValue)
+            yield put(actions.form.change(FORM, 'memo', memo))
+          }
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)

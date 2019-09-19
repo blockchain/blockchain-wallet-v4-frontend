@@ -1,12 +1,20 @@
 import React from 'react'
-import { actions } from 'data'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import { bindActionCreators } from 'redux'
+
+import { actions, model } from 'data'
+import { Wrapper } from 'components/Public'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
-import { Wrapper } from 'components/Public'
+
+const {
+  VERIFY_DEVICE_ACCEPTED,
+  VERIFY_DEVICE_EMAIL_SENT,
+  VERIFY_DEVICE_REJECTED
+} = model.analytics.PREFERENCE_EVENTS.SECURITY
 
 class AuthorizeLogin extends React.PureComponent {
   constructor (props) {
@@ -21,17 +29,23 @@ class AuthorizeLogin extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.miscActions.authorizeLogin(this.state.token)
+    const { analyticsActions, miscActions } = this.props
+    miscActions.authorizeLogin(this.state.token)
+    analyticsActions.logEvent(VERIFY_DEVICE_EMAIL_SENT)
   }
 
   onAccept (e) {
+    const { analyticsActions, miscActions } = this.props
     e.preventDefault()
-    this.props.miscActions.authorizeLogin(this.state.token, true)
+    miscActions.authorizeLogin(this.state.token, true)
+    analyticsActions.logEvent(VERIFY_DEVICE_ACCEPTED)
   }
 
   onReject (e) {
+    const { analyticsActions, miscActions } = this.props
     e.preventDefault()
-    this.props.miscActions.authorizeLogin(this.state.token, false)
+    miscActions.authorizeLogin(this.state.token, false)
+    analyticsActions.logEvent(VERIFY_DEVICE_REJECTED)
   }
 
   render () {
@@ -59,6 +73,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 

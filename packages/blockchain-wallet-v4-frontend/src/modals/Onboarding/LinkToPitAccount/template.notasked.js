@@ -80,6 +80,7 @@ const RightColumnGroup = styled.div`
 const RightPointRow = styled(PointRow)`
   align-items: flex-start;
   padding: 6px 10px;
+  max-width: 220px;
 `
 const Circle = styled.div`
   height: 6px;
@@ -121,7 +122,7 @@ const LinkToPitNotAsked = ({
   onResendEmail
 }) => {
   return (
-    <Modal size='large'>
+    <Modal size='large' data-e2e='infoModalLinkToPitAccountNotAsked'>
       <ModalHeaderStyled onClose={close} />
       <ModalBodyStyled>
         <ContentWrapper>
@@ -130,8 +131,8 @@ const LinkToPitNotAsked = ({
               <PitLogo name='the-pit-word' height='50px' />
               <Text color='white' size='18px' weight={400}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.na.subtitle'
-                  defaultMessage='The only Exchange that connects to your Wallet.'
+                  id='modals.onboarding.linktopitaccount.na.subtitle-1'
+                  defaultMessage="There's a new way to trade. Link your Wallet for instant access. "
                 />
               </Text>
             </div>
@@ -150,8 +151,8 @@ const LinkToPitNotAsked = ({
                   style={{ marginLeft: '3px' }}
                 >
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point1'
-                    defaultMessage='Lightning Fast Trades'
+                    id='modals.onboarding.linktopitaccount.na.left.point1-1'
+                    defaultMessage='Lightning Fast Trading'
                   />
                 </Text>
               </PointRow>
@@ -159,17 +160,8 @@ const LinkToPitNotAsked = ({
                 <Icon name='shield-half' color='white' size='27px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point2'
+                    id='modals.onboarding.linktopitaccount.na.left.point3-1'
                     defaultMessage='Liquid & Reliable'
-                  />
-                </Text>
-              </PointRow>
-              <PointRow>
-                <Icon name='users' color='white' size='23px' />
-                <Text color='white' size='15px' weight={400}>
-                  <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point3'
-                    defaultMessage='Built by Blockchain.com'
                   />
                 </Text>
               </PointRow>
@@ -178,7 +170,16 @@ const LinkToPitNotAsked = ({
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
                     id='modals.onboarding.linktopitaccount.na.left.point4'
-                    defaultMessage='Low Fees'
+                    defaultMessage='Extra Low Fees'
+                  />
+                </Text>
+              </PointRow>
+              <PointRow>
+                <Icon name='users' color='white' size='23px' />
+                <Text color='white' size='15px' weight={400}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.na.left.point2-1'
+                    defaultMessage='Built by the Pros'
                   />
                 </Text>
               </PointRow>
@@ -189,7 +190,7 @@ const LinkToPitNotAsked = ({
               <div>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size='16px' weight={500} color='success'>
+                    <Text size='16px' weight={500} color='green400'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.totitle'
                         defaultMessage='The PIT will be able to:'
@@ -198,7 +199,7 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.topoint'
                         defaultMessage='Share your Gold or Silver Level status'
@@ -207,17 +208,17 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.topoint2'
-                        defaultMessage='Exchange crypto addresses so you dont have to copy and paste'
+                        id='modals.onboarding.linktopitaccount.na.right.topoint2-1'
+                        defaultMessage="Exchange crypto addresses so you don't have to copy and paste"
                       />
                     </Text>
                   </RightPointRow>
                 </RightColumnGroup>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size='16px' weight={500} color='error'>
+                    <Text size='16px' weight={500} color='red500'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.nottitle'
                         defaultMessage='The PIT will not be able to:'
@@ -226,10 +227,10 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.notpoint1'
-                        defaultMessage='View you wallet password'
+                        id='modals.onboarding.linktopitaccount.na.right.notpoint1-1'
+                        defaultMessage='View your wallet password'
                       />
                     </Text>
                   </RightPointRow>

@@ -60,7 +60,12 @@ class UpgradeForAirdrop extends React.PureComponent {
   render () {
     const { campaign, position, total, close, actions } = this.props
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal
+        size='small'
+        position={position}
+        total={total}
+        dataE2e='infoModalUpgradeForAirdrop'
+      >
         <AbsoluteModalHeader onClose={close} />
         <Body>
           <Image width='52px' name='gold-verified' />
