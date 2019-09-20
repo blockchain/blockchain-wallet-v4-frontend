@@ -1,16 +1,16 @@
 import { call, select, put } from 'redux-saga/effects'
-import { concat } from 'ramda'
+import { concat, equals, prop } from 'ramda'
 import { selectors } from 'data'
-
-import {
-  header,
-  sentPending,
-  sentConfirmed,
-  receivedPending,
-  receivedConfirmed
-} from './messageTypes'
 import * as actions from '../../../actions'
 import * as T from 'services/AlertService'
+import { WALLET_TX_SEARCH } from '../../../form/model'
+import {
+  header,
+  ethSentConfirmed,
+  ethReceivedPending,
+  ethReceivedConfirmed,
+  bitcoinTransaction
+} from './messageTypes'
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -31,12 +31,12 @@ export default ({ api, socket }) => {
         JSON.stringify({ command: 'subscribe', entity: 'header', coin: 'eth' })
       )
 
-      // 2. subscribe to accounts
-
       /* wallet */
       let walletContext = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
+
+      // 2. subscribe to accounts
       walletContext.addresses.forEach(address => {
         send(
           JSON.stringify({
@@ -55,6 +55,8 @@ export default ({ api, socket }) => {
           })
         )
       })
+
+      // 3. subscribe to xpubs
       walletContext.xpubs.forEach(xpub => {
         send(
           JSON.stringify({
@@ -74,7 +76,7 @@ export default ({ api, socket }) => {
         )
       })
 
-      /* lockbox */
+      // 4. subscribe to lockbox xpubs
       const { data: btcLockboxContext } = yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
       )
@@ -102,7 +104,7 @@ export default ({ api, socket }) => {
         )
       )
 
-      /* eth */
+      // 5. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
       const { data: ethLockboxContext } = yield select(
         selectors.core.kvStore.lockbox.getLockboxEthContext
@@ -130,13 +132,13 @@ export default ({ api, socket }) => {
   }
 
   const onMessage = function * (action) {
-    const message = action.payload
+    const message = prop('payload', action)
 
     try {
       switch (message.coin) {
         case 'btc':
           if (header(message)) {
-            const { header } = message
+            const header = prop('header', message)
             yield put(
               actions.core.data.btc.setBtcLatestBlock(
                 header.blockIndex,
@@ -145,26 +147,47 @@ export default ({ api, socket }) => {
                 header.time
               )
             )
-          } else if (sentPending(message)) {
-            // TODO: handle pending
-          } else if (sentConfirmed(message)) {
-            yield put(
-              actions.alerts.displaySuccess(
-                'Your Bitcoin transaction is now confirmed!'
+          } else if (bitcoinTransaction(message)) {
+            // check of sent or received
+            const context = yield select(selectors.core.data.btc.getContext)
+            const data = yield call(api.fetchBlockchainData, context, {
+              n: 50,
+              offset: 0
+            })
+            const transactions = data.txs || []
+            for (let i in transactions) {
+              const transaction = transactions[i]
+              if (equals(transaction.hash, message.transaction.hash)) {
+                if (transaction.result > 0) {
+                  yield put(
+                    actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC)
+                  )
+                }
+                break
+              }
+            }
+
+            // refresh data
+            yield put(actions.core.data.btc.fetchData())
+
+            // if on transactions page, update
+            const pathname = yield select(selectors.router.getPathname)
+            if (equals(pathname, '/btc/transactions')) {
+              const formValues = yield select(
+                selectors.form.getFormValues(WALLET_TX_SEARCH)
               )
-            )
-          } else if (receivedPending(message)) {
-            yield put(
-              actions.alerts.displayInfo('A Bitcoin payment is pending.')
-            )
-          } else if (receivedConfirmed(message)) {
-            yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC))
+              const source = prop('source', formValues)
+              const onlyShow = equals(source, 'all')
+                ? ''
+                : prop('xpub', source) || prop('address', source)
+              yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
+            }
           }
           break
 
         case 'bch':
           if (header(message)) {
-            const { header } = message
+            const header = prop('header', message)
             yield put(
               actions.core.data.bch.setBCHLatestBlock(
                 header.blockIndex,
@@ -173,43 +196,66 @@ export default ({ api, socket }) => {
                 header.time
               )
             )
-          } else if (sentPending(message)) {
-            // TODO: handle pending
-          } else if (sentConfirmed(message)) {
-            yield put(
-              actions.alerts.displaySuccess(
-                'Your Bitcoin cash transaction is now confirmed!'
+          } else if (bitcoinTransaction(message)) {
+            // check of sent or received
+            const context = yield select(selectors.core.data.btc.getContext)
+            const data = yield call(api.fetchBlockchainData, context, {
+              n: 50,
+              offset: 0
+            })
+            const transactions = data.txs || []
+            for (let i in transactions) {
+              const transaction = transactions[i]
+              if (equals(transaction.hash, message.transaction.hash)) {
+                if (transaction.result > 0) {
+                  yield put(
+                    actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC)
+                  )
+                }
+                break
+              }
+            }
+
+            // refresh data
+            yield put(actions.core.data.bch.fetchData())
+
+            // if on transactions page, update
+            const pathname = yield select(selectors.router.getPathname)
+            if (equals(pathname, '/bch/transactions')) {
+              const formValues = yield select(
+                selectors.form.getFormValues(WALLET_TX_SEARCH)
               )
-            )
-          } else if (receivedPending(message)) {
-            yield put(
-              actions.alerts.displayInfo('A Bitcoin cash payment is pending.')
-            )
-          } else if (receivedConfirmed(message)) {
-            yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BCH))
+              const source = prop('source', formValues)
+              const onlyShow = equals(source, 'all')
+                ? ''
+                : prop('xpub', source) || prop('address', source)
+              yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+            }
           }
           break
 
         case 'eth':
           if (header(message)) {
-            yield put(
-              actions.core.data.eth.fetchLatestBlockSuccess(message.header)
-            )
-          } else if (sentPending(message)) {
-            // TODO: handle pending
-            // yield put(actions.alerts.displayInfo('Your Ethereum transaction is now pending!'))
-          } else if (sentConfirmed(message)) {
+            const header = prop('header', message)
+            yield put(actions.core.data.eth.fetchLatestBlockSuccess(header))
+          } else if (ethSentConfirmed(message)) {
             yield put(
               actions.alerts.displaySuccess(
-                'Your Ethereum transaction is now confirmed!'
+                'Your Ether transaction has been confirmed!'
               )
             )
-          } else if (receivedPending(message)) {
+            yield put(actions.core.data.eth.fetchTransactions(null, true))
+            yield put(actions.core.data.eth.fetchData([message.address]))
+          } else if (ethReceivedPending(message)) {
             yield put(
-              actions.alerts.displayInfo('An Ethereum payment is pending.')
+              actions.alerts.displayInfo(
+                "You've just received a pending Ether payment."
+              )
             )
-          } else if (receivedConfirmed(message)) {
+          } else if (ethReceivedConfirmed(message)) {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
+            yield put(actions.core.data.eth.fetchTransactions(null, true))
+            yield put(actions.core.data.eth.fetchData([message.address]))
           }
           break
 

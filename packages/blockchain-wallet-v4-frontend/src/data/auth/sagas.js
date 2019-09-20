@@ -90,9 +90,6 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    // yield put(actions.middleware.webSocket.bch.startSocket())
-    // yield put(actions.middleware.webSocket.btc.startSocket())
-    // yield put(actions.middleware.webSocket.eth.startSocket())
     yield put(actions.middleware.webSocket.sd.startSocket())
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
@@ -471,9 +468,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
     }
-    yield put(actions.middleware.webSocket.bch.stopSocket())
-    yield put(actions.middleware.webSocket.btc.stopSocket())
-    yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.sd.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)

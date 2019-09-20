@@ -61,7 +61,7 @@ const configureStore = () => {
 
       const socketd = new Socket({
         options,
-        url: socketUrl
+        url: `${socketUrl}`
       })
 
       const ratesSocket = new ApiSocket({

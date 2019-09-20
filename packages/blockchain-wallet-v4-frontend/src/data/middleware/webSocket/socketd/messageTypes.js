@@ -1,21 +1,19 @@
 export const header = message => message.entity === 'header' && message.header
-export const sentPending = message =>
-  message.entity === 'account' &&
-  message.txHash &&
+export const ethSentPending = message =>
+  message.transaction &&
   message.address === message.transaction.from &&
   message.transaction.state === 'pending'
-export const sentConfirmed = message =>
-  message.entity === 'account' &&
-  message.txHash &&
+export const ethSentConfirmed = message =>
+  message.transaction &&
   message.address === message.transaction.from &&
   message.transaction.state === 'confirmed'
-export const receivedPending = message =>
-  message.entity === 'account' &&
-  message.txHash &&
+export const ethReceivedPending = message =>
+  message.transaction &&
   message.address === message.transaction.to &&
   message.transaction.state === 'pending'
-export const receivedConfirmed = message =>
-  message.entity === 'account' &&
-  message.txHash &&
+export const ethReceivedConfirmed = message =>
+  message.transaction &&
   message.address === message.transaction.to &&
   message.transaction.state === 'confirmed'
+export const bitcoinTransaction = message =>
+  message.transaction && message.entity === 'xpub'

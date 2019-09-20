@@ -54,9 +54,6 @@ const languageInitSaga = function * () {
 
 export default function * rootSaga ({
   api,
-  bchSocket,
-  btcSocket,
-  ethSocket,
   ratesSocket,
   networks,
   options,
