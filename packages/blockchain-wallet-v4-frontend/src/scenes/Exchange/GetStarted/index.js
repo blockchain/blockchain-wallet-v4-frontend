@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   width: 100%;
   max-width: 1000px;
   height: auto;
-  padding: 50px;
+  padding: 25px 50px 50px;
   box-sizing: border-box;
   margin: 0 auto;
 
