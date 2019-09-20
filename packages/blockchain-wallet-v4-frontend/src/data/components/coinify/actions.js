@@ -92,3 +92,12 @@ export const fetchCoinifyData = () => ({
 export const compareCoinifyKyc = () => ({
   type: AT.COMPARE_COINIFY_KYC
 })
+
+export const setCoinifySupported = supported => ({
+  type: AT.SET_COINIFY_SUPPORTED,
+  payload: supported
+})
+
+export const checkCountryStateSupported = () => ({
+  type: AT.CHECK_COUNTRY_STATE_SUPPORTED
+})

@@ -36,3 +36,7 @@ export const getCoinifyCancelTradeId = compose(
   prop('cancelTradeId'),
   getCoinifyData
 )
+export const getCoinifySupported = compose(
+  prop('supported'),
+  getCoinifyData
+)

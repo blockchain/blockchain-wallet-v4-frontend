@@ -6,6 +6,7 @@ import CoinCurrentPrice from './CoinCurrentPrice'
 import CoinPerformance from './CoinPerformance'
 import CoinSelectBox from './CoinSelectBox'
 import TimeFilters from './TimeFilters'
+import Footer from './Footer'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   width: 100%;
-  height: 450px;
+  height: 574px;
   border-radius: 4px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
@@ -40,6 +41,9 @@ const PriceChart = () => (
     <Row>
       <Chart />
       <TimeFilters />
+    </Row>
+    <Row>
+      <Footer />
     </Row>
   </Wrapper>
 )

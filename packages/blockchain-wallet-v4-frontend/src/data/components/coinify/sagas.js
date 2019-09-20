@@ -68,31 +68,58 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const checkCountryState = function * () {
-    const nabuStateCode = (yield select(
-      selectors.modules.profile.getUserStateCode
-    )).getOrFail('no state code')
     const nabuCountryCode = (yield select(
       selectors.modules.profile.getUserCountryCode
     )).getOrFail('no country code')
-    const availableCountryStates = yield call(api.getCoinifyStates)
-    if (nabuStateCode && nabuCountryCode === 'US') {
-      const supportedState = path(
-        ['US', 'states', nabuStateCode, 'supported'],
-        availableCountryStates
+    const coinifySupported = yield select(S.getCoinifySupported)
+
+    if (nabuCountryCode === 'US' && !coinifySupported) {
+      throw new Error('State is not supported')
+    } else if (!coinifySupported) {
+      throw new Error('Country is not supported')
+    }
+  }
+
+  const setCountryStateSupported = function * () {
+    try {
+      let nabuStateCode = (yield select(
+        selectors.modules.profile.getUserStateCode
+      )).getOrFail('no state code')
+      const nabuCountryCode = (yield select(
+        selectors.modules.profile.getUserCountryCode
+      )).getOrFail('no country code')
+      const availableCountryStates = yield call(api.getCoinifyStates)
+
+      if (nabuStateCode && nabuStateCode.length > 2) {
+        nabuStateCode = nabuStateCode.slice(nabuStateCode.length - 2)
+      }
+
+      if (nabuCountryCode === 'US') {
+        const supportedState = path(
+          ['US', 'states', nabuStateCode, 'supported'],
+          availableCountryStates
+        )
+
+        yield put(A.setCoinifySupported(supportedState))
+      } else {
+        const supportedCountry = path(
+          [nabuCountryCode, 'supported'],
+          availableCountryStates
+        )
+
+        yield put(A.setCoinifySupported(supportedCountry))
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'coinifySupported', e)
       )
-      if (!supportedState) throw new Error('State is not supported')
-    } else {
-      const supportedCountry = path(
-        [nabuCountryCode, 'supported'],
-        availableCountryStates
-      )
-      if (!supportedCountry) throw new Error('Country is not supported')
     }
   }
 
   const buy = function * (payload) {
     try {
       yield call(checkIfFirstTrade)
+      yield call(setCountryStateSupported)
       yield call(checkCountryState)
       const nextAddressData = yield call(prepareAddress)
       const buyTrade = yield call(
@@ -154,6 +181,7 @@ export default ({ api, coreSagas, networks }) => {
   const sell = function * () {
     try {
       yield call(checkIfFirstTrade)
+      yield call(setCountryStateSupported)
       yield call(checkCountryState)
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
@@ -609,6 +637,7 @@ export default ({ api, coreSagas, networks }) => {
     initializePayment,
     prepareAddress,
     sell,
-    sendCoinifyKYC
+    sendCoinifyKYC,
+    setCountryStateSupported
   }
 }

@@ -6,12 +6,13 @@ import * as actions from './actions'
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
-  coinifyBusy: Remote.NotAsked,
   checkoutStep: 'checkout',
-  signupComplete: null,
-  payment: Remote.NotAsked,
+  coinifyBusy: Remote.NotAsked,
   country: null,
-  medium: null
+  medium: null,
+  payment: Remote.NotAsked,
+  signupComplete: null,
+  supported: 'kycNeeded'
 }
 
 const ERROR = 'error'
@@ -96,6 +97,12 @@ describe('coinify reducers', () => {
   it('should handle SET_CANCEL_TRADE_ID', () => {
     const action = actions.setCancelTradeId(5)
     const expectedState = assoc('cancelTradeId', 5, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should handle SET_COINIFY_SUPPORTED', () => {
+    const action = actions.setCoinifySupported(true)
+    const expectedState = assoc('supported', true, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 })

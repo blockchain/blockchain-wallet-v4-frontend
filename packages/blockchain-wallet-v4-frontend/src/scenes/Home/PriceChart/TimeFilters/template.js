@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 12px;
+  bottom: 100px;
   width: 100%;
 `
 

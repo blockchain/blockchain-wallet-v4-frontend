@@ -5,12 +5,13 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
-  coinifyBusy: Remote.NotAsked,
   checkoutStep: 'checkout',
-  signupComplete: null,
-  payment: Remote.NotAsked,
+  coinifyBusy: Remote.NotAsked,
   country: null,
-  medium: null
+  medium: null,
+  payment: Remote.NotAsked,
+  signupComplete: null,
+  supported: 'kycNeeded'
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -67,6 +68,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SET_COUNTRY: {
       return assoc('country', payload, state)
+    }
+    case AT.SET_COINIFY_SUPPORTED: {
+      return assoc('supported', payload, state)
     }
     default:
       return state

@@ -27,5 +27,9 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_COINIFY_DATA, coinifySagas.fetchCoinifyData)
     yield takeLatest(AT.COMPARE_COINIFY_KYC, coinifySagas.compareKyc)
     yield takeLatest(AT.CANCEL_ISX, coinifySagas.cancelISX)
+    yield takeLatest(
+      AT.CHECK_COUNTRY_STATE_SUPPORTED,
+      coinifySagas.setCountryStateSupported
+    )
   }
 }
