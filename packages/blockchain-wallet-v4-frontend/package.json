@@ -145,5 +145,8 @@
     "slick-carousel": "1.8.1",
     "styled-components": "4.2.0",
     "zxcvbn": "4.4.2"
+  },
+  "devDependencies": {
+    "html-webpack-string-replace-plugin": "1.1.0"
   }
 }
