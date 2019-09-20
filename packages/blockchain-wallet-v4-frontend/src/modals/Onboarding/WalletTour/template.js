@@ -132,8 +132,8 @@ const WalletTour = props => {
                 <Image name='intro-send' width='32px' height='32px' />
                 <Text weight={500}>
                   <FormattedMessage
-                    id='modals.wallet.tour.transaction'
-                    defaultMessage='Transact'
+                    id='modals.wallet.tour.sendrequest'
+                    defaultMessage='Send/Request'
                   />
                 </Text>
               </Transaction>
