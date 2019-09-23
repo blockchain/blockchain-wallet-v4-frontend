@@ -5929,8 +5929,8 @@
         "id": "modals.wallet.tour.securely-store"
       },
       {
-        "defaultMessage": "Transact",
-        "id": "modals.wallet.tour.transaction"
+        "defaultMessage": "Send/Request",
+        "id": "modals.wallet.tour.sendrequest"
       },
       {
         "defaultMessage": "Buy & Sell",
@@ -8506,8 +8506,8 @@
         "id": "wallet.tour.stepfive.title"
       },
       {
-        "defaultMessage": "Jumpstart your crypto portfolio by easily buying and selling Bitcoin.",
-        "id": "wallet.tour.stepfive.content"
+        "defaultMessage": "Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.",
+        "id": "wallet.tour.stepfive.content-1"
       }
     ],
     "path": "src/scenes/Home/model.json"

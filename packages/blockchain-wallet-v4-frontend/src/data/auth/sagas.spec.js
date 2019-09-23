@@ -385,6 +385,10 @@ describe('authSagas', () => {
         .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
     })
 
+    it('should start xlm socket', () => {
+      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
+    })
+
     it('should fetch xlm metadata', () => {
       saga
         .next()

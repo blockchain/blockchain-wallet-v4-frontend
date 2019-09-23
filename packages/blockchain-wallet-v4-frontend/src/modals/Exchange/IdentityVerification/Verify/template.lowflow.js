@@ -163,6 +163,7 @@ const resubmissionTipList = [
 const Verify = ({
   handleSubmit,
   onBack,
+  onClose,
   supportedDocuments,
   showVeriff,
   needsDocResubmit
@@ -172,7 +173,7 @@ const Verify = ({
       fields={
         <VerifyWrapper>
           {showVeriff ? (
-            <Veriff />
+            <Veriff onClose={onClose} />
           ) : needsDocResubmit ? (
             <InputWrapper>
               <ResubmitWrapper>
