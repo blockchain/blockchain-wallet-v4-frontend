@@ -60,7 +60,14 @@ export default (state = INITIAL_STATE, action) => {
         set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
         set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
         set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
-        set(accountLabelLens('xlm'), deviceName + ' - XLM Wallet')
+        lockboxKv => {
+          if (lockboxKv.xlm) {
+            return set(accountLabelLens('xlm'), deviceName + ' - XLM Wallet')(
+              lockboxKv
+            )
+          }
+          return lockboxKv
+        }
       )
 
       return over(valueLens, setDeviceName, state)
