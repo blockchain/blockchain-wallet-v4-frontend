@@ -46,7 +46,7 @@ const Status = styled.div`
 
 const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
   return (
-    <ModalStyled size='xsmall'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountSuccess'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>

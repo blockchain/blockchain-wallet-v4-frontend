@@ -78,7 +78,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const saveGoals = function * (firstLogin) {
-    yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+    yield put(actions.goals.saveGoal('walletTour', { firstLogin }))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
@@ -284,7 +284,19 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
       } else if (initialError) {
+        const ipRestriction =
+          'This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under Login Help.'
         // general error
+        if (initialError === ipRestriction)
+          yield put(
+            actions.alerts.displayError(
+              C.IPRESTRICTION_LOGIN_ERROR,
+              null,
+              null,
+              null,
+              9500
+            )
+          )
         yield put(actions.auth.loginFailure(initialError))
       } else if (
         // Wrong 2fa code error

@@ -43,11 +43,16 @@ const LeftColumn = styled.div`
   border-radius: 8px 10px 10px 8px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 25px 15px 25px 25px;
   width: 100%;
   z-index: 999;
 `
+
+const LeftContent = styled(Text)`
+  line-height: 22px;
+`
+
 const LeftColumnPoints = styled.div`
   margin-top: 20px;
 `
@@ -69,6 +74,7 @@ const PointRow = styled.div`
   width: 100%;
   align-items: center;
   padding: 12px 10px;
+  margin-bottom: 8px;
 
   & > :first-child {
     margin-right: 15px;
@@ -80,6 +86,7 @@ const RightColumnGroup = styled.div`
 const RightPointRow = styled(PointRow)`
   align-items: flex-start;
   padding: 6px 10px;
+  max-width: 220px;
 `
 const Circle = styled.div`
   height: 6px;
@@ -121,21 +128,39 @@ const LinkToPitNotAsked = ({
   onResendEmail
 }) => {
   return (
-    <Modal size='large'>
+    <Modal size='large' data-e2e='infoModalLinkToPitAccountNotAsked'>
       <ModalHeaderStyled onClose={close} />
       <ModalBodyStyled>
         <ContentWrapper>
           <LeftColumn>
             <div>
               <PitLogo name='the-pit-word' height='50px' />
-              <Text color='white' size='18px' weight={400}>
+              <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.na.subtitle'
-                  defaultMessage='The only Exchange that connects to your Wallet.'
+                  id='modals.onboarding.linktopitaccount.na.subtitle-1'
+                  defaultMessage="There's a new way to trade. Link your Wallet for instant access. "
                 />
-              </Text>
+              </LeftContent>
             </div>
             <LeftColumnPoints>
+              <PointRow>
+                <Image name='coins' width='24px' height='24px' />
+                <Text color='white' size='15px' weight={400}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.na.left.point1-2'
+                    defaultMessage='Access More Cryptos'
+                  />
+                </Text>
+              </PointRow>
+              <PointRow>
+                <Image name='money' width='26px' />
+                <Text color='white' size='15px' weight={400}>
+                  <FormattedMessage
+                    id='modals.onboarding.linktopitaccount.na.left.point2-1'
+                    defaultMessage='Deposit & Withdraw Euros/Dollars'
+                  />
+                </Text>
+              </PointRow>
               <PointRow>
                 <Icon
                   name='lightning-bolt'
@@ -150,17 +175,8 @@ const LinkToPitNotAsked = ({
                   style={{ marginLeft: '3px' }}
                 >
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point1'
-                    defaultMessage='Lightning Fast Trades'
-                  />
-                </Text>
-              </PointRow>
-              <PointRow>
-                <Icon name='shield-half' color='white' size='27px' />
-                <Text color='white' size='15px' weight={400}>
-                  <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point2'
-                    defaultMessage='Liquid & Reliable'
+                    id='modals.onboarding.linktopitaccount.na.left.point3-1'
+                    defaultMessage='Lightning Fast Trading'
                   />
                 </Text>
               </PointRow>
@@ -168,17 +184,8 @@ const LinkToPitNotAsked = ({
                 <Icon name='users' color='white' size='23px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point3'
-                    defaultMessage='Built by Blockchain.com'
-                  />
-                </Text>
-              </PointRow>
-              <PointRow>
-                <Icon name='usd-square' color='white' size='32px' />
-                <Text color='white' size='15px' weight={400}>
-                  <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point4'
-                    defaultMessage='Low Fees'
+                    id='modals.onboarding.linktopitaccount.na.left.point4-1'
+                    defaultMessage='Built by the Pros'
                   />
                 </Text>
               </PointRow>
@@ -189,7 +196,7 @@ const LinkToPitNotAsked = ({
               <div>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size='16px' weight={500} color='success'>
+                    <Text size='16px' weight={500} color='green400'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.totitle'
                         defaultMessage='The PIT will be able to:'
@@ -198,7 +205,7 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.topoint'
                         defaultMessage='Share your Gold or Silver Level status'
@@ -207,17 +214,17 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.topoint2'
-                        defaultMessage='Exchange crypto addresses so you dont have to copy and paste'
+                        id='modals.onboarding.linktopitaccount.na.right.topoint2-2'
+                        defaultMessage='Sync addresses with your Wallet so you can securely sweep crypto between accounts'
                       />
                     </Text>
                   </RightPointRow>
                 </RightColumnGroup>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size='16px' weight={500} color='error'>
+                    <Text size='16px' weight={500} color='red500'>
                       <FormattedMessage
                         id='modals.onboarding.linktopitaccount.na.right.nottitle'
                         defaultMessage='The PIT will not be able to:'
@@ -226,10 +233,10 @@ const LinkToPitNotAsked = ({
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text size='14px' weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.notpoint1'
-                        defaultMessage='View you wallet password'
+                        id='modals.onboarding.linktopitaccount.na.right.notpoint1-3'
+                        defaultMessage='Access the crypto in your wallet, access your keys, or view your password'
                       />
                     </Text>
                   </RightPointRow>

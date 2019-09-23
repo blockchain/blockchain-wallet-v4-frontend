@@ -4,18 +4,21 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
-  font-weight: 500;
+  font-weight: 600;
+  height: 56px;
 `
 
 export const InProgress = ({ verifyIdentity }) => (
   <ActionButton onClick={verifyIdentity}>
-    <FormattedMessage
-      id='scenes.exchange.getstarted.status.inprogress.button'
-      defaultMessage='Continue where you left off'
-    />
+    <Text color='white' size='16px' weight={600}>
+      <FormattedMessage
+        id='scenes.exchange.getstarted.status.inprogress.button1'
+        defaultMessage='Continue Where You Left Off'
+      />
+    </Text>
   </ActionButton>
 )
 

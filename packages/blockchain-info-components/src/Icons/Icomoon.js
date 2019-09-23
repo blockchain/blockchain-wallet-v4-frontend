@@ -71,6 +71,7 @@ export default {
   shield: '\\e908',
   'shield-half': '\\e924',
   'short-right-arrow': '\\e97f',
+  spade: '\\e92f',
   'stack-of-coins': '\\e972',
   switch: '\\e9b6',
   'sync-regular': '\\e93d',
@@ -90,5 +91,6 @@ export default {
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
   'wallet-filled': '\\e939',
+  xlm: '\\e930',
   'xlm-circle-filled': '\\e91f'
 }

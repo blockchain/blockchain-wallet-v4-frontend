@@ -30,7 +30,7 @@ import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
-const { DEEPLINK_EVENTS, TRANSACTION_EVENTS } = model.analytics
+const { DEEPLINK_EVENTS, GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -155,7 +155,13 @@ export default ({ api }) => {
   const runPaymentProtocolGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
-    yield put(actions.analytics.logEvent(TRANSACTION_EVENTS.BITPAY_INITIALIZED))
+    // TODO: pass coin type once more deeplink types are supported
+    yield put(
+      actions.analytics.logEvent([
+        ...TRANSACTION_EVENTS.BITPAY_URL_DEEPLINK,
+        'BTC'
+      ])
+    )
 
     yield call(getBtcBalance)
     const { r } = data
@@ -215,6 +221,12 @@ export default ({ api }) => {
       )
     } catch (e) {
       yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+          'invoice not found'
+        ])
+      )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e)
       )
@@ -413,24 +425,18 @@ export default ({ api }) => {
     }
   }
 
-  const runWelcomeGoal = function * (goal) {
+  const runWalletTour = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
     const { firstLogin } = data
     if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(
-        actions.goals.addInitialModal('welcome', 'Welcome', { walletMillions })
-      )
+      yield put(actions.goals.addInitialModal('walletTour', 'WalletTour'))
     } else {
       yield put(
         actions.logs.logInfoMessage(
           logLocation,
-          'runWelcomeGoal',
+          'runWalletTour',
           'login success'
         )
       )
@@ -467,7 +473,8 @@ export default ({ api }) => {
       sunriver,
       swapGetStarted,
       swapUpgrade,
-      upgradeForAirdrop
+      upgradeForAirdrop,
+      walletTour
     } = initialModals
     if (linkAccount) {
       return yield put(
@@ -511,6 +518,12 @@ export default ({ api }) => {
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
+    if (walletTour) {
+      yield put(actions.modals.showModal(walletTour.name, walletTour.data))
+      return yield put(
+        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_OFFERED)
+      )
+    }
   }
 
   const runGoal = function * (goal) {
@@ -552,8 +565,8 @@ export default ({ api }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
-        case 'welcome':
-          yield call(runWelcomeGoal, goal)
+        case 'walletTour':
+          yield call(runWalletTour, goal)
           break
       }
     } catch (error) {
@@ -582,7 +595,7 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runWelcomeGoal,
+    runWalletTour,
     runReferralGoal,
     runSendBtcGoal,
     runUpgradeForAirdropGoal,

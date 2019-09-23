@@ -21,9 +21,8 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
-import coinDollar from './img/coin-dollar.png'
-import coinDollar2 from './img/coin-dollar@2x.png'
-import coinDollar3 from './img/coin-dollar@3x.png'
+import coins from './img/coins.png'
+import coinPax from './img/coin-pax.svg'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import closeError from './img/close-error.svg'
@@ -45,8 +44,19 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
+import introBankGif from './img/intro-bank.gif'
+import introCart from './img/intro-cart.png'
+import introCartGif from './img/intro-cart.gif'
+import introHand from './img/intro-hand.png'
+import introLock from './img/intro-lock.png'
+import introReceiveGif from './img/intro-receive.gif'
+import introSend from './img/intro-send.png'
+import introSendGif from './img/intro-send.gif'
+import introSwap from './img/intro-swap.png'
+import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
+import money from './img/money.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import poweredBySfox from './img/powered_by_sfox.svg'
@@ -67,11 +77,17 @@ import starfield2 from './img/starfield2.png'
 import stellarPlanet from './img/stellar-planet.png'
 import stellarPlanet2 from './img/stellar-planet@2x.png'
 import stellarPlanet3 from './img/stellar-planet@3x.png'
+import swapCarousel1 from './img/swap-carousel1.png'
+import swapCarousel2 from './img/swap-carousel2.png'
+import swapCarousel3 from './img/swap-carousel3.png'
+import swapCarousel4 from './img/swap-carousel4.png'
+import swapCarousel5 from './img/swap-carousel5.png'
 import swapDashboardLeft from './img/swap-dashboard-left.png'
 import swapDashboardRight from './img/swap-dashboard-right.png'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
+import swapModalCoins from './img/swap-modal-coins.png'
 import thePitLogo from './img/the-pit-logo.svg'
 import thePitText from './img/the-pit-text.svg'
 import thePitWord from './img/the-pit-word.svg'
@@ -81,6 +97,7 @@ import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
+import warningCircleFilled from './img/warning-circle-filled.png'
 import yubikey from './img/yubikey.svg'
 // Lockbox
 import deviceLockbox from './img/lockbox/device-lockbox.png'
@@ -137,9 +154,8 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'checkmark-green': checkmarkGreen,
-  'coin-dollar': coinDollar,
-  'coin-dollar2': coinDollar2,
-  'coin-dollar3': coinDollar3,
+  coins: coins,
+  'coin-pax': coinPax,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
   'close-error': closeError,
@@ -164,6 +180,16 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'intro-bank-gif': introBankGif,
+  'intro-cart': introCart,
+  'intro-cart-gif': introCartGif,
+  'intro-hand': introHand,
+  'intro-lock': introLock,
+  'intro-receive-gif': introReceiveGif,
+  'intro-send': introSend,
+  'intro-send-gif': introSendGif,
+  'intro-swap': introSwap,
+  'intro-swap-gif': introSwapGif,
   'ledger-lockbox': ledgerLockbox,
   'ledger-lockbox2': ledgerLockbox2,
   'ledger-lockbox3': ledgerLockbox3,
@@ -193,6 +219,7 @@ export default {
   'lockbox-usb': lockboxUsb,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'micro-deposits-whole': microDepositsWhole,
+  money: money,
   'powered-by-coinify': poweredByCoinify,
   'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,
@@ -206,11 +233,17 @@ export default {
   'stellar-planet': stellarPlanet,
   'stellar-planet2': stellarPlanet2,
   'stellar-planet3': stellarPlanet3,
+  'swap-carousel1': swapCarousel1,
+  'swap-carousel2': swapCarousel2,
+  'swap-carousel3': swapCarousel3,
+  'swap-carousel4': swapCarousel4,
+  'swap-carousel5': swapCarousel5,
   'swap-dashboard-left': swapDashboardLeft,
   'swap-dashboard-right': swapDashboardRight,
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
+  'swap-modal-coins': swapModalCoins,
   'the-pit-logo': thePitLogo,
   'the-pit-text': thePitText,
   'the-pit-word': thePitWord,
@@ -220,6 +253,7 @@ export default {
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
+  'warning-circle-filled': warningCircleFilled,
   printer: printer,
   rocket: rocket,
   search: search,

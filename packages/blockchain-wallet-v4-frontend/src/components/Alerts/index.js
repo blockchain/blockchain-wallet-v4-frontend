@@ -4,14 +4,10 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import Alerts from './template.js'
 
-class AlertsContainer extends React.PureComponent {
-  handleClose = id => {
-    this.props.alertActions.dismissAlert(id)
-  }
-
-  render () {
-    return <Alerts alerts={this.props.alerts} handleClose={this.handleClose} />
-  }
+const AlertsContainer = ({ alerts, alertActions, onboardingActions }) => {
+  return (
+    <Alerts alerts={alerts} handleClose={id => alertActions.dismissAlert(id)} />
+  )
 }
 
 const mapStateToProps = state => ({

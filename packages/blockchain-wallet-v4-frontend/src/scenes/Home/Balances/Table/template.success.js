@@ -18,21 +18,37 @@ const TotalRow = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
+
 const HomeTitle = styled.div`
   flex-grow: 1;
   padding: 10px 20px;
 `
+
 const HomeBalanceAmount = styled(Text)`
+  position: relative;
   padding: 10px 20px;
   font-size: 22px;
   font-weight: 400;
   color: ${props => props.theme['brand-primary']};
 `
+
 const TxLink = styled(LinkContainer)`
   &:hover {
     cursor: pointer;
   }
 `
+
+const JoyrideSpotlight = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto auto;
+  width: 32px;
+  height: 32px;
+`
+
 const Success = props => {
   const { viewType, balances, supportedCoins } = props
   const coinOrder = [
@@ -57,6 +73,7 @@ const Success = props => {
         </HomeTitle>
         <div>
           <HomeBalanceAmount data-e2e='homeBalanceAmt'>
+            <JoyrideSpotlight className='wallet-intro-tour-step-1' />
             {balances.totalBalance.totalBalance}
           </HomeBalanceAmount>
         </div>

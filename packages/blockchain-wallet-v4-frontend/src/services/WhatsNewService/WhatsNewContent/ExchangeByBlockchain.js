@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+
 import { actions, model, selectors } from 'data'
 import { Button, Text } from 'blockchain-info-components'
 import { Container, Row } from 'components/WhatsNew'

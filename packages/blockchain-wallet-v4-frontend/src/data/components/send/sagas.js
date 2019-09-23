@@ -1,6 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import * as A from './actions.js'
+
+const { BAD_2FA } = model.profile.ERROR_TYPES
 
 export default ({ api }) => {
   const logLocation = 'components/send/sagas'
@@ -19,7 +21,13 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'fetchPaymentsAccountPit', e)
       )
-      yield put(A.fetchPaymentsAccountPitFailure(currency, e))
+      if (e.type === BAD_2FA) {
+        yield put(
+          A.fetchPaymentsAccountPitSuccess(currency, { address: e.type })
+        )
+      } else {
+        yield put(A.fetchPaymentsAccountPitFailure(currency, e))
+      }
     }
   }
 

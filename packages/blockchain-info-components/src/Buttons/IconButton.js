@@ -46,8 +46,8 @@ const selectColor = (nature, disabled) => {
 }
 
 const IconButton = props => {
-  const { name, children, ...rest } = props
-  const color = selectColor(props.nature)
+  const { name, children, nature, ...rest } = props
+  const color = selectColor(nature)
 
   return (
     <BaseIconButton {...rest}>

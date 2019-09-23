@@ -100,6 +100,7 @@ export default {
   'logo-quinary': '#10ADE4',
   // PIT
   pitTurquoise: '#42F1B8',
+  pitNight: '#0A0D10',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
@@ -131,6 +132,7 @@ export default {
   // Colors
   red: '#D93B30',
   orange: '#F28B24',
+  orange000: '#FFF2E5',
   // Service Announcements
   info: '#4A90E2',
   // New In Use
@@ -140,6 +142,7 @@ export default {
   greyFade200: 'rgba(5, 24, 61, 0.2)',
   grey000: '#F0F2F7',
   grey100: '#DFE3EB',
+  grey400: '#98A1B2',
   grey600: '#677185',
   grey800: '#353F52',
   blue000: '#ECF5FE',

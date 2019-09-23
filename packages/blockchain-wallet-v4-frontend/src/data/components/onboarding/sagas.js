@@ -1,5 +1,8 @@
 import { put, delay, take } from 'redux-saga/effects'
-import { actions, actionTypes } from 'data'
+import { actions, actionTypes, model } from 'data'
+
+import * as C from '/services/AlertService'
+const { GENERAL_EVENTS } = model.analytics
 
 export const logLocation = 'components/onboarding/sagas'
 
@@ -28,6 +31,25 @@ export default () => {
     }
   }
 
+  const coinifyUpgradeSubmitClicked = function * ({ payload }) {
+    const { campaign } = payload
+    try {
+      yield put(actions.modals.closeModal())
+      yield put(actions.modules.profile.setCampaign({ name: campaign }))
+      yield put(
+        actions.components.identityVerification.createRegisterUserCampaign()
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'coinifyUpgradeSubmitClicked',
+          e
+        )
+      )
+    }
+  }
+
   const swapGetStartedSubmitClicked = function * () {
     try {
       yield put(actions.preferences.hideKycGetStarted())
@@ -40,6 +62,38 @@ export default () => {
           'swapGetStartedSubmitClicked',
           e
         )
+      )
+    }
+  }
+
+  const skipWalletTourClicked = function * (action) {
+    try {
+      yield put(
+        actions.alerts.displayInfo(C.SKIP_WALLET_TOUR_SUCCESS, {
+          startTour: action.payload.startTourCallback
+        })
+      )
+      yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(true))
+      yield put(
+        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_DISMISSED)
+      )
+      yield put(actions.modals.closeModal())
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'skipWalletTourClicked', e)
+      )
+    }
+  }
+
+  const takeWalletTourClicked = function * () {
+    try {
+      yield put(actions.modals.closeModal())
+      yield put(actions.components.onboarding.setWalletTourVisibility(true))
+      yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(false))
+      yield put(actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_STARTED))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'takeWalletTourClicked', e)
       )
     }
   }
@@ -64,29 +118,12 @@ export default () => {
     }
   }
 
-  const coinifyUpgradeSubmitClicked = function * ({ payload }) {
-    const { campaign } = payload
-    try {
-      yield put(actions.modals.closeModal())
-      yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(
-        actions.components.identityVerification.createRegisterUserCampaign()
-      )
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'coinifyUpgradeSubmitClicked',
-          e
-        )
-      )
-    }
-  }
-
   return {
     airdropClaimSubmitClicked,
     coinifyUpgradeSubmitClicked,
+    skipWalletTourClicked,
     swapGetStartedSubmitClicked,
+    takeWalletTourClicked,
     upgradeForAirdropSubmitClicked
   }
 }

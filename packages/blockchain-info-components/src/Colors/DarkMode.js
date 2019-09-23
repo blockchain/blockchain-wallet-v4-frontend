@@ -8,6 +8,7 @@ export default {
   'brand-yellow-lighter': '#7F735A',
   // PIT
   pitTurquoise: '#42F1B8',
+  pitNight: '#0A0D10',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
@@ -39,6 +40,7 @@ export default {
   // Colors
   red: '#651D1E',
   orange: '#F28B24',
+  orange000: '#FFF2E5',
   // Service Announcements
   info: '#2C5687',
   // New In Use
@@ -47,6 +49,7 @@ export default {
   greyFade800: 'rgba(28,28,28,28.8)',
   greyFade200: 'rgba(28,28,28,28.1)',
   grey100: '#333333',
+  grey400: '#747474',
   grey600: '#797979',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',

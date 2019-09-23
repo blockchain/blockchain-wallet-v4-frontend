@@ -13,10 +13,9 @@ const Header = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  background: ${props => props.theme['deep-blue']}
+  height: 204px;
+  background: ${props => props.theme['brand-primary']}
     url(/img/swap-dashboard-right.png);
-  background-color: ${props => props.theme['deep-blue']};
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -58,7 +57,7 @@ const LaterButton = styled(FooterButton)`
 const CenteredText = styled(Text)`
   padding: 0 36px;
   text-align: center;
-  text-shadow: 0px 0px 1px ${props => props.theme['deep-blue']};
+  text-shadow: 0px 0px 1px ${props => props.theme['brand-primary']};
 `
 
 class SwapGetStarted extends React.PureComponent {
@@ -69,7 +68,12 @@ class SwapGetStarted extends React.PureComponent {
   render () {
     const { position, total, close, actions } = this.props
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal
+        size='small'
+        position={position}
+        total={total}
+        dataE2e='infoModalSwapGetStarted'
+      >
         <Header>
           <CenteredText color='white' size='20px' weight={500}>
             <FormattedMessage
@@ -98,7 +102,13 @@ class SwapGetStarted extends React.PureComponent {
               id='modals.swapgetstarted.getstarted'
             />
           </FooterButton>
-          <LaterButton nature='primary' size='18px' fullwidth onClick={close}>
+          <LaterButton
+            data-e2e='modalCloseButton'
+            nature='primary'
+            size='18px'
+            fullwidth
+            onClick={close}
+          >
             <FormattedMessage
               defaultMessage="I'll do this later"
               id='modals.swapgetstarted.later'

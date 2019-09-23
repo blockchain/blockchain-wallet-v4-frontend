@@ -8,7 +8,7 @@ export const getData = (state, coin) => {
   const accountsR = selectors.core.kvStore.eth.getAccounts(state)
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
-    propOr('ETH', coin, coin)
+    coin
   )
   const excludeLockbox = !availability
     .map(propOr(true, 'lockbox'))
@@ -28,7 +28,8 @@ export const getInitialValues = (state, ownProps) => {
     .getErc20CoinList(state)
     .getOrElse([])
   const to = to => ({ to, coin })
-  if (ownProps.lockboxIndex != null) {
+  // this will need to change if we support ERC20 tokens on Lockbox in the future
+  if (ownProps.lockboxIndex != null && !includes(coin, erc20List)) {
     return selectors.core.common.eth
       .getLockboxEthBalances(state)
       .map(nth(ownProps.lockboxIndex))

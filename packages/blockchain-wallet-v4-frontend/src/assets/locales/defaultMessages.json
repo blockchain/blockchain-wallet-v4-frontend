@@ -182,6 +182,14 @@
         "id": "components.alerts.incorrect_bip38_password_error"
       },
       {
+        "defaultMessage": "This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under",
+        "id": "components.alerts.iprestriction_login_error"
+      },
+      {
+        "defaultMessage": "Need some help?",
+        "id": "components.alerts.iprestriction_login_error-link"
+      },
+      {
         "defaultMessage": "You must add at least one IP address to the whitelist to enable Login IP Restriction",
         "id": "components.alerts.iprestriction_no_whitelist_error"
       },
@@ -376,6 +384,18 @@
       {
         "defaultMessage": "Your {coinName} transaction failed to send. Please try again.",
         "id": "components.alerts.send_coin_error"
+      },
+      {
+        "defaultMessage": "Wallet Intro Tour",
+        "id": "components.alerts.wallet_tour_header"
+      },
+      {
+        "defaultMessage": "We've saved your Intro Tour under the What's New tab in case you ever want to revisit.",
+        "id": "components.alerts.wallet_tour_info"
+      },
+      {
+        "defaultMessage": "Start Tour",
+        "id": "components.alerts.wallet_tour_start"
       },
       {
         "defaultMessage": "Error sending SMS verification code.",
@@ -1731,8 +1751,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
-        "id": "scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible"
+        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1"
       },
       {
         "defaultMessage": "Learn more.",
@@ -3486,6 +3506,10 @@
         "id": "modals.sendbtc.firststep.estimated"
       },
       {
+        "defaultMessage": "Insufficient funds to complete BitPay transaction",
+        "id": "modals.sendbtc.firststep.bitpay.insufficientfunds"
+      },
+      {
         "defaultMessage": "Continue",
         "id": "modals.sendbtc.firststep.continue"
       }
@@ -4866,6 +4890,10 @@
         "id": "modals.confirm.title.archive_address"
       },
       {
+        "defaultMessage": "Lockbox Software Download",
+        "id": "modals.confirm.title.lockbox_software_download"
+      },
+      {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
       },
@@ -4896,6 +4924,10 @@
       {
         "defaultMessage": "A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.",
         "id": "modals.confirm.title.archive_address_msg"
+      },
+      {
+        "defaultMessage": "The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions.",
+        "id": "modals.confirm.message.lockbox_software_download"
       },
       {
         "defaultMessage": "Please confirm.",
@@ -5223,6 +5255,14 @@
         "id": "modals.lockboxsetup.connectdevice.new.stepfivenew"
       },
       {
+        "defaultMessage": "6.",
+        "id": "modals.lockboxsetup.connectdevice.new.six"
+      },
+      {
+        "defaultMessage": "Press the continue button below.",
+        "id": "modals.lockboxsetup.connectdevice.new.stepsixnew"
+      },
+      {
         "defaultMessage": "Hint:",
         "id": "modals.lockboxsetup.connectdevice.new.hint"
       },
@@ -5231,12 +5271,16 @@
         "id": "modals.lockboxsetup.connectdevice.new.settingshint"
       },
       {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.connectdevice.continue"
+      },
+      {
         "defaultMessage": "1. Connect your {deviceType} to your computer with the supplied USB cable.",
         "id": "modals.lockboxsetup.connectdevice.existing.stepone"
       },
       {
-        "defaultMessage": "2. Enter your pin for your device.",
-        "id": "modals.lockboxsetup.connectdevice.existing.steptwo"
+        "defaultMessage": "2. Enter your pin on the device.",
+        "id": "modals.lockboxsetup.connectdevice.existing.steptwo1"
       },
       {
         "defaultMessage": "3. Ensure the device dashboard is open and you are not in an application.",
@@ -5346,6 +5390,10 @@
       {
         "defaultMessage": "Let's Get Started",
         "id": "modals.lockbox.setup.setuptype.title"
+      },
+      {
+        "defaultMessage": "Software Download",
+        "id": "modals.lockbox.setup.softwaredownload.title"
       },
       {
         "defaultMessage": "Connect Your Device",
@@ -5467,6 +5515,47 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/SetupTypeStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.downloaded.body"
+      },
+      {
+        "defaultMessage": "Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.downloaded.body2"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.softwaredownloadstep.downloaded.continue"
+      },
+      {
+        "defaultMessage": "Go back to download",
+        "id": "modals.lockboxsetup.softwaredownloadstep.downloaded.dismiss"
+      },
+      {
+        "defaultMessage": "Software Update Required",
+        "id": "modals.lockboxsetup.softwaredownloadstep.header"
+      },
+      {
+        "defaultMessage": "In order to use your Lockbox, you must first update your device firmware and install apps by downloading the updating software below.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.body1"
+      },
+      {
+        "defaultMessage": "If you have already downloaded the software and updated your device, you may dismiss this and continue.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.body2"
+      },
+      {
+        "defaultMessage": "Download Software",
+        "id": "modals.lockboxsetup.softwaredownloadstep.download"
+      },
+      {
+        "defaultMessage": "I've already updated, let's continue",
+        "id": "modals.lockboxsetup.softwaredownloadstep.dismiss"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/SoftwareDownloadStep/template.json"
   },
   {
     "descriptors": [
@@ -5712,24 +5801,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "The only Exchange that connects to your Wallet.",
-        "id": "modals.onboarding.linktopitaccount.na.subtitle"
+        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access.",
+        "id": "modals.onboarding.linktopitaccount.na.subtitle-1"
       },
       {
-        "defaultMessage": "Lightning Fast Trades",
-        "id": "modals.onboarding.linktopitaccount.na.left.point1"
+        "defaultMessage": "Access More Cryptos",
+        "id": "modals.onboarding.linktopitaccount.na.left.point1-2"
       },
       {
-        "defaultMessage": "Liquid & Reliable",
-        "id": "modals.onboarding.linktopitaccount.na.left.point2"
+        "defaultMessage": "Deposit & Withdraw Euros/Dollars",
+        "id": "modals.onboarding.linktopitaccount.na.left.point2-1"
       },
       {
-        "defaultMessage": "Built by Blockchain.com",
-        "id": "modals.onboarding.linktopitaccount.na.left.point3"
+        "defaultMessage": "Lightning Fast Trading",
+        "id": "modals.onboarding.linktopitaccount.na.left.point3-1"
       },
       {
-        "defaultMessage": "Low Fees",
-        "id": "modals.onboarding.linktopitaccount.na.left.point4"
+        "defaultMessage": "Built by the Pros",
+        "id": "modals.onboarding.linktopitaccount.na.left.point4-1"
       },
       {
         "defaultMessage": "The PIT will be able to:",
@@ -5740,16 +5829,16 @@
         "id": "modals.onboarding.linktopitaccount.na.right.topoint"
       },
       {
-        "defaultMessage": "Exchange crypto addresses so you dont have to copy and paste",
-        "id": "modals.onboarding.linktopitaccount.na.right.topoint2"
+        "defaultMessage": "Sync addresses with your Wallet so you can securely sweep crypto between accounts",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint2-2"
       },
       {
         "defaultMessage": "The PIT will not be able to:",
         "id": "modals.onboarding.linktopitaccount.na.right.nottitle"
       },
       {
-        "defaultMessage": "View you wallet password",
-        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1"
+        "defaultMessage": "Access the crypto in your wallet, access your keys, or view your password",
+        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1-3"
       },
       {
         "defaultMessage": "Connect Now",
@@ -5829,18 +5918,38 @@
     "descriptors": [
       {
         "defaultMessage": "Welcome to Blockchain!",
-        "id": "modals.welcome.welcome"
+        "id": "modals.wallet.tour.wallet.tour"
       },
       {
-        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
-        "id": "modals.welcome.thanks"
+        "defaultMessage": "Discover your Wallet's tools and features by taking a quick tour.",
+        "id": "modals.wallet.tour.desc"
       },
       {
-        "defaultMessage": "Get Started",
-        "id": "modals.welcome.continue"
+        "defaultMessage": "Securely Store",
+        "id": "modals.wallet.tour.securely-store"
+      },
+      {
+        "defaultMessage": "Send/Request",
+        "id": "modals.wallet.tour.sendrequest"
+      },
+      {
+        "defaultMessage": "Buy & Sell",
+        "id": "modals.wallet.tour.buy-sell"
+      },
+      {
+        "defaultMessage": "Trade",
+        "id": "modals.wallet.tour.trade"
+      },
+      {
+        "defaultMessage": "Take The Tour",
+        "id": "modals.wallet.tour.take-tour-button"
+      },
+      {
+        "defaultMessage": "Maybe Later",
+        "id": "modals.wallet.tour.later-button"
       }
     ],
-    "path": "src/modals/Onboarding/Welcome/template.json"
+    "path": "src/modals/Onboarding/WalletTour/template.json"
   },
   {
     "descriptors": [
@@ -8029,36 +8138,44 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Trading your crypto doesn't mean trading away control",
-        "id": "scenes.exchange.getstarted.header"
+        "defaultMessage": "Welcome to Swap!",
+        "id": "swap.carousel.title.page1"
       },
       {
-        "defaultMessage": "Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds.",
-        "id": "scenes.exchange.getstarted.description"
+        "defaultMessage": "The easiest way to exchange one crypto for another without leaving your wallet.",
+        "id": "swap.carousel.desc.page1"
       },
       {
-        "defaultMessage": "Low Fees",
-        "id": "scenes.exchange.getstarted.low_fees"
+        "defaultMessage": "Real-time Exchange Rates",
+        "id": "swap.carousel.title.page2"
       },
       {
-        "defaultMessage": "Great news! Get the best prices without having to leave the security of your Wallet.",
-        "id": "scenes.exchange.getstarted.low_fees_description"
+        "defaultMessage": "Access competitive crypto prices right at your fingertips.",
+        "id": "swap.carousel.desc.page2"
       },
       {
-        "defaultMessage": "Higher Limits",
-        "id": "scenes.exchange.getstarted.higher_limits"
+        "defaultMessage": "100% On-Chain",
+        "id": "swap.carousel.title.page3"
       },
       {
-        "defaultMessage": "Like to trade big? Get access to limits of up to $25,000 per day.",
-        "id": "scenes.exchange.getstarted.higher_lits_description"
+        "defaultMessage": "All Swap trades are confirmed and settled directly on-chain.",
+        "id": "swap.carousel.desc.page3"
       },
       {
-        "defaultMessage": "Easy to use",
-        "id": "scenes.exchange.getstarted.easy_to_use"
+        "defaultMessage": "You Control Your Key",
+        "id": "swap.carousel.title.page4"
       },
       {
-        "defaultMessage": "Get started in just a few steps.",
-        "id": "scenes.exchange.getstarted.easy_to_use_description"
+        "defaultMessage": "With Swap your crypto is safe, secure, and your keys are always intact.",
+        "id": "swap.carousel.desc.page4"
+      },
+      {
+        "defaultMessage": "Manage Risk Better",
+        "id": "swap.carousel.title.page5"
+      },
+      {
+        "defaultMessage": "Introducing Digital Dollars (USD PAX) to de-risk your crypto investment or lock-in gains.",
+        "id": "swap.carousel.desc.page5-2"
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/index.json"
@@ -8075,8 +8192,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Continue where you left off",
-        "id": "scenes.exchange.getstarted.status.inprogress.button"
+        "defaultMessage": "Continue Where You Left Off",
+        "id": "scenes.exchange.getstarted.status.inprogress.button1"
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/InProgress.json"
@@ -8084,8 +8201,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Account verification in progress",
-        "id": "scenes.exchange.getstarted.status.pending.title"
+        "defaultMessage": "Account Verification In Progress",
+        "id": "scenes.exchange.getstarted.status.pending.title1"
       },
       {
         "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency. You should receive an update within 5 minutes.",
@@ -8097,8 +8214,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Account verification failed",
-        "id": "scenes.exchange.getstarted.status.rejected.title"
+        "defaultMessage": "Account Verification Failed",
+        "id": "scenes.exchange.getstarted.status.rejected.title1"
       },
       {
         "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.",
@@ -8110,8 +8227,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Account verification under review",
-        "id": "scenes.exchange.getstarted.status.underreview.title"
+        "defaultMessage": "Account Verification Under Review",
+        "id": "scenes.exchange.getstarted.status.underreview.title1"
       },
       {
         "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
@@ -8328,15 +8445,72 @@
         "id": "scenes.home.banners.pitbanner.new"
       },
       {
-        "defaultMessage": "We built a brand new Crypto Exchange. Trade with The PIT.",
-        "id": "scenes.home.banners.pitbanner.trade"
+        "defaultMessage": "We built our own exchange that links to your Wallet.",
+        "id": "scenes.home.banners.pitbanner.content1"
       },
       {
-        "defaultMessage": "Check It Out",
-        "id": "scenes.home.banners.pitbanner.checkitout"
+        "defaultMessage": "Instantly access more cryptos and deposit/withdraw cash.",
+        "id": "scenes.home.banners.pitbanner.content3"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.banners.pitbanner.getstarted"
       }
     ],
     "path": "src/scenes/Home/Banners/ThePitBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Close",
+        "id": "wallet.tour.finish"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "wallet.tour.next"
+      },
+      {
+        "defaultMessage": "View Your Portfolio!",
+        "id": "wallet.tour.stepone.title"
+      },
+      {
+        "defaultMessage": "Keep track of your crypto balances from your Wallet's dashboard. Your Wallet currently supports Bitcoin, Ether, Bitcoin Cash, Stellar XLM and USD PAX.",
+        "id": "wallet.tour.stepone.content"
+      },
+      {
+        "defaultMessage": "Request",
+        "id": "wallet.tour.steptwo.title"
+      },
+      {
+        "defaultMessage": "To receive crypto, all the sender needs is your crypto's address. You can find these addresses here.",
+        "id": "wallet.tour.steptwo.content-2"
+      },
+      {
+        "defaultMessage": "Send",
+        "id": "wallet.tour.stepthree.title"
+      },
+      {
+        "defaultMessage": "Send crypto anywhere, anytime. All you need is the recipient's crypto address.",
+        "id": "wallet.tour.stepthree.content-1"
+      },
+      {
+        "defaultMessage": "Swap",
+        "id": "wallet.tour.stepfour.title"
+      },
+      {
+        "defaultMessage": "Trade crypto with low fees and  quick settlement.",
+        "id": "wallet.tour.stepfour.content"
+      },
+      {
+        "defaultMessage": "Buy & Sell",
+        "id": "wallet.tour.stepfive.title"
+      },
+      {
+        "defaultMessage": "Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.",
+        "id": "wallet.tour.stepfive.content-1"
+      }
+    ],
+    "path": "src/scenes/Home/model.json"
   },
   {
     "descriptors": [
@@ -8442,15 +8616,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Manage Apps",
-        "id": "scenes.lockbox.menu.devicetitle.apps"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Menu/DeviceTitle/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Transactions",
         "id": "scenes.lockbox.menu.transactions"
       },
@@ -8481,6 +8646,23 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Download Apps / Update Device",
+        "id": "scenes.lockbox.settings.downloadupdater.title"
+      },
+      {
+        "defaultMessage": "Download software that allows for updating device and installing/removing apps on the device",
+        "id": "scenes.lockbox.settings.downloadupdater.description"
+      },
+      {
+        "defaultMessage": "Download",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.download"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/DownloadUpdater/index.json"
   },
   {
     "descriptors": [
@@ -8553,8 +8735,8 @@
         "id": "scenes.lockbox.settings.showxpubs.title"
       },
       {
-        "defaultMessage": "Display the Extended Public Keys (xPubs) of your device.",
-        "id": "scenes.lockbox.settings.showxpubs.desc"
+        "defaultMessage": "Display the Extended Public Keys (xPubs) of your device",
+        "id": "scenes.lockbox.settings.showxpubs.description"
       },
       {
         "defaultMessage": "Show xPubs",
@@ -8570,8 +8752,8 @@
         "id": "scenes.lockbox.settings.taketour.title"
       },
       {
-        "defaultMessage": "Take a quick, interactive tour of the features of Lockbox.",
-        "id": "scenes.lockbox.settings.taketour.description"
+        "defaultMessage": "Take a quick, interactive tour of the features of Lockbox",
+        "id": "scenes.lockbox.settings.taketour.description1"
       },
       {
         "defaultMessage": "Take Tour",
@@ -8583,28 +8765,36 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Firmware Update",
-        "id": "scenes.lockbox.settings.updatedevice.title"
-      },
-      {
-        "defaultMessage": "Check for firmware updates for your device",
-        "id": "scenes.lockbox.settings.updatedevice.description"
-      },
-      {
-        "defaultMessage": "Check For Updates",
-        "id": "scenes.lockbox.settings.updatedevice.checkforupdate"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "That's it! No more transactions 📭",
         "id": "scenes.lockbox.dashboard.transactions.thatsit"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Transactions/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Software Update Required",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.title"
+      },
+      {
+        "defaultMessage": "In order to continue using your Lockbox, you must first update your device and reinstall the apps via the following updating software.",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.subtitle"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.learn"
+      },
+      {
+        "defaultMessage": "Download Software",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.download"
+      },
+      {
+        "defaultMessage": "I've already updated",
+        "id": "scenes.lockbox.dashboard.updaterequirednotice.dismiss"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/UpdateRequiredNotice/index.json"
   },
   {
     "descriptors": [
@@ -10654,6 +10844,10 @@
       {
         "defaultMessage": "Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}.",
         "id": "scenes.profile.idv.swaplimit.airdropdisclaimer"
+      },
+      {
+        "defaultMessage": "Our <a href='https://blog.blockchain.com/2019/07/15/airdrops-adoption-whats-ahead/' target='_blank'>Stellar (XLM) airdrop</a> is currently winding down. Get gold verified to be eligible for future crypto airdrops!",
+        "id": "scenes.profile.idv.swaplimit.future.airdrops"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
@@ -10674,36 +10868,36 @@
         "id": "scenes.thepit.title"
       },
       {
-        "defaultMessage": "We built the fastest exchange in crypto to re-define the speed, reliability, and liquidity crypto investors should not only expect, but demand.",
-        "id": "scenes.thepit.subtitle1"
+        "defaultMessage": "We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.",
+        "id": "scenes.thepit.subtitle1-1"
       },
       {
-        "defaultMessage": "The only Exchange that connects to your Wallet.",
+        "defaultMessage": "A next generation exchange from the most trusted crypto company",
         "id": "scenes.thepit.image.subtitle"
       },
       {
-        "defaultMessage": "Fast and Liquid",
-        "id": "scenes.thepit.point1.title"
+        "defaultMessage": "Access More Assets",
+        "id": "scenes.thepit.point1.title-1"
       },
       {
-        "defaultMessage": "Trade in microseconds with the fastest matching engine in crypto and deep pool of institutional liquidity.",
-        "id": "scenes.thepit.point1.subtitle1"
+        "defaultMessage": "Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.",
+        "id": "scenes.thepit.point1.subtitle1-1"
       },
       {
-        "defaultMessage": "Easy to Use",
-        "id": "scenes.thepit.point2.title"
+        "defaultMessage": "Unlock Unlimited Trading",
+        "id": "scenes.thepit.point2.title-1"
       },
       {
-        "defaultMessage": "No instructional manual required! The PIT makes it refreshingly easy for you to use Wall Street quality tech.",
-        "id": "scenes.thepit.point2.subtitle1"
+        "defaultMessage": "Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.",
+        "id": "scenes.thepit.point2.subtitle1-1"
       },
       {
-        "defaultMessage": "Blockchain Connect",
-        "id": "scenes.thepit.point3.title"
+        "defaultMessage": "Seamlessly Transfer Crypto",
+        "id": "scenes.thepit.point3.title-1"
       },
       {
-        "defaultMessage": "The only exchange with a seamless, secure integration to your digital Blockchain Wallet.",
-        "id": "scenes.thepit.point3.subtitle1"
+        "defaultMessage": "Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys.",
+        "id": "scenes.thepit.point3.subtitle1-1"
       },
       {
         "defaultMessage": "Connect Now",
@@ -11188,6 +11382,14 @@
         "id": "formhelper.passwordsdonotmatch"
       },
       {
+        "defaultMessage": "The PIT requires 2FA for deposits.",
+        "id": "formhelper.pitrequires2fa"
+      },
+      {
+        "defaultMessage": "Take me to The PIT.",
+        "id": "formhelper.gotothepit"
+      },
+      {
         "defaultMessage": "Incorrect password",
         "id": "formhelper.incorrectpassword"
       },
@@ -11410,5 +11612,22 @@
       }
     ],
     "path": "src/services/WhatsNewService/WhatsNewContent/USDPax.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet Tour",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour"
+      },
+      {
+        "defaultMessage": "Welcome to your Wallet.  Discover your Wallet's tools and features by taking a quick tour.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour.content"
+      },
+      {
+        "defaultMessage": "Take The Tour Now",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour.start"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/WalletTour.json"
   }
 ]

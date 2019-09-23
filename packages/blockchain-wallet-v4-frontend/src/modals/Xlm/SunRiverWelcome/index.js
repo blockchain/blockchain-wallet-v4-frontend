@@ -48,7 +48,7 @@ const Header = styled(Text)`
 const Container = styled.div`
   text-align: center;
   > div:nth-child(2) {
-    margin: 10px 0 20px 0;
+    margin: 10px auto 20px auto;
   }
 `
 const Copy = styled(Text)`

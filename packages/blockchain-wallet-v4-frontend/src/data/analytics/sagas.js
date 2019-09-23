@@ -1,12 +1,12 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { map, toLower } from 'ramda'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+import { add, equals, map, not, propOr, reduce, toLower } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actionTypes, actions, selectors } from 'data'
-import { CUSTOM_DIMENSIONS } from './model'
+import { CUSTOM_VARIABLES } from './model'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
@@ -61,18 +61,76 @@ export default ({ api }) => {
   const initUserSession = function * () {
     try {
       const guid = yield call(generateUniqueUserID)
-      const isCryptoDisplayed = yield select(
-        selectors.preferences.getCoinDisplayed
-      )
       yield call(startSession, { payload: { guid } })
+      yield call(logPageView, { payload: { route: '/home' } })
+      // wait 10 seconds to ensure required user data is loaded
+      yield delay(10000)
+      // log current user kyc tier
+      const currentUserTiers = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 })
       yield call(postMessage, {
-        method: 'setCustomDimension',
+        method: 'setCustomVariable',
         messageData: {
-          dimensionId: CUSTOM_DIMENSIONS.CURRENCY_PREFERENCE,
-          dimensionValue: isCryptoDisplayed ? 'crypto' : 'fiat'
+          variableId: CUSTOM_VARIABLES.KYC_TIER.ID,
+          variableName: CUSTOM_VARIABLES.KYC_TIER.NAME,
+          variableValue: propOr(0, 'current', currentUserTiers),
+          variableScope: 'visit'
         }
       })
-      yield call(logPageView, { payload: { route: '/home' } })
+      // log current user balance flags
+      const state = yield select()
+      const ethBalance = (yield select(
+        selectors.core.data.eth.getBalance
+      )).getOrElse(0)
+      const paxBalance = (yield select(
+        selectors.core.data.eth.getErc20Balance,
+        'pax'
+      )).getOrElse(0)
+      const xlmBalance = (yield select(
+        selectors.core.data.xlm.getTotalBalance
+      )).getOrElse(0)
+      const btcContext = yield select(selectors.core.wallet.getSpendableContext)
+      const btcBalance = reduce(
+        add,
+        0,
+        map(
+          address =>
+            selectors.core.data.btc
+              .getFinalBalance(state, address)
+              .getOrElse(0),
+          btcContext
+        )
+      )
+      const bchContext = yield select(
+        selectors.core.kvStore.bch.getSpendableContext
+      )
+      const bchBalance = reduce(
+        add,
+        0,
+        map(
+          address =>
+            selectors.core.data.bch
+              .getFinalBalance(state, address)
+              .getOrElse(0),
+          bchContext
+        )
+      )
+      yield call(postMessage, {
+        method: 'setCustomVariable',
+        messageData: {
+          variableId: CUSTOM_VARIABLES.CRYPTO_BALANCES.ID,
+          variableName: CUSTOM_VARIABLES.CRYPTO_BALANCES.NAME,
+          variableValue: JSON.stringify({
+            BTC: not(equals(btcBalance, 0)),
+            BCH: not(equals(bchBalance, 0)),
+            ETH: not(equals(ethBalance, 0)),
+            PAX: not(equals(paxBalance, 0)),
+            XLM: not(equals(xlmBalance, 0))
+          }),
+          variableScope: 'visit'
+        }
+      })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initUserSession', e))
     }

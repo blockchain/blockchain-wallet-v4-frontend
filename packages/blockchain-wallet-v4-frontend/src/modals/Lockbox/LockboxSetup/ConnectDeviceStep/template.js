@@ -53,6 +53,7 @@ const ConnectDeviceStep = props => {
     isConnected,
     isNewSetup,
     handleStepChange,
+    onNewDeviceContinue,
     onTimeoutAccept,
     supportLink
   } = props
@@ -174,6 +175,20 @@ const ConnectDeviceStep = props => {
             </Text>
           </Row>
           <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.six'
+                defaultMessage='6.'
+              />
+            </Text>
+            <Text size='13px' weight={400}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepsixnew'
+                defaultMessage='Press the continue button below.'
+              />
+            </Text>
+          </Row>
+          <Row>
             <TextGroup inline style={{ marginTop: '6px' }}>
               <Text size='12px' weight={500}>
                 <FormattedHTMLMessage
@@ -189,64 +204,74 @@ const ConnectDeviceStep = props => {
               </Text>
             </TextGroup>
           </Row>
+          <ButtonContainer>
+            <Button fullwidth onClick={onNewDeviceContinue} nature='primary'>
+              <FormattedMessage
+                id='modals.lockboxsetup.connectdevice.continue'
+                defaultMessage='Continue'
+              />
+            </Button>
+          </ButtonContainer>
         </React.Fragment>
       ) : (
-        <Instructions>
-          <StepText size='13px' weight={400}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.stepone'
-              defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
-              values={{ deviceType }}
-            />
-          </StepText>
-          <StepText size='13px' weight={400}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.steptwo'
-              defaultMessage='2. Enter your pin for your device.'
-            />
-          </StepText>
-          <StepText size='13px' weight={400}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.stepthreenew'
-              defaultMessage='3. Ensure the device dashboard is open and you are not in an application.'
-            />
-          </StepText>
-          <TextGroup inline style={{ marginTop: '6px' }}>
-            <Text size='12px' weight={500}>
+        <>
+          <Instructions>
+            <StepText size='13px' weight={400}>
               <FormattedHTMLMessage
-                id='modals.lockboxsetup.connectdevice.new.hint'
-                defaultMessage='Hint:'
+                id='modals.lockboxsetup.connectdevice.existing.stepone'
+                defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
+                values={{ deviceType }}
               />
-            </Text>
-            <Text size='12px' weight={300}>
+            </StepText>
+            <StepText size='13px' weight={400}>
               <FormattedHTMLMessage
-                id='modals.lockboxsetup.connectdevice.new.settingshint'
-                defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
+                id='modals.lockboxsetup.connectdevice.existing.steptwo1'
+                defaultMessage='2. Enter your pin on the device.'
               />
-            </Text>
-          </TextGroup>
-        </Instructions>
+            </StepText>
+            <StepText size='13px' weight={400}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.existing.stepthreenew'
+                defaultMessage='3. Ensure the device dashboard is open and you are not in an application.'
+              />
+            </StepText>
+            <TextGroup inline style={{ marginTop: '6px' }}>
+              <Text size='12px' weight={500}>
+                <FormattedHTMLMessage
+                  id='modals.lockboxsetup.connectdevice.new.hint'
+                  defaultMessage='Hint:'
+                />
+              </Text>
+              <Text size='12px' weight={300}>
+                <FormattedHTMLMessage
+                  id='modals.lockboxsetup.connectdevice.new.settingshint'
+                  defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
+                />
+              </Text>
+            </TextGroup>
+          </Instructions>
+          <ButtonContainer>
+            <Button
+              fullwidth
+              disabled={!isConnected}
+              onClick={handleStepChange}
+              nature='primary'
+            >
+              {isConnected ? (
+                <FormattedMessage
+                  id='modals.lockboxsetup.connectdevice.success'
+                  defaultMessage='Success! Click to Continue'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.lockboxsetup.connectdevice.waiting'
+                  defaultMessage='Waiting...'
+                />
+              )}
+            </Button>
+          </ButtonContainer>
+        </>
       )}
-      <ButtonContainer>
-        <Button
-          fullwidth
-          disabled={!isConnected}
-          onClick={handleStepChange}
-          nature='primary'
-        >
-          {isConnected ? (
-            <FormattedMessage
-              id='modals.lockboxsetup.connectdevice.success'
-              defaultMessage='Success! Click to Continue'
-            />
-          ) : (
-            <FormattedMessage
-              id='modals.lockboxsetup.connectdevice.waiting'
-              defaultMessage='Waiting...'
-            />
-          )}
-        </Button>
-      </ButtonContainer>
     </Wrapper>
   )
 }

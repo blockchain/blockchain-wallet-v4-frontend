@@ -111,15 +111,6 @@ class Socket {
     clearTimeout(this.pingTimeoutPID)
   }
 
-  static walletSubMessage (guid) {
-    if (guid == null) return ''
-    return JSON.stringify({ op: 'wallet_sub', guid })
-  }
-
-  static blockSubMessage () {
-    return JSON.stringify({ op: 'blocks_sub' })
-  }
-
   static addrSubMessage (addresses) {
     if (addresses == null) return ''
     let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
@@ -128,25 +119,8 @@ class Socket {
       .reduce(concat, '')
   }
 
-  static xPubSubMessage (xpubs) {
-    if (xpubs == null) return ''
-    let toMsg = xpub => JSON.stringify({ op: 'xpub_sub', xpub })
-    return toArrayFormat(xpubs)
-      .map(toMsg)
-      .reduce(concat, '')
-  }
-
   static pingMessage () {
     return JSON.stringify({ op: 'ping' })
-  }
-
-  static onOpenMessage ({ guid, addresses, xpubs }) {
-    return (
-      Socket.blockSubMessage() +
-      Socket.walletSubMessage(guid) +
-      Socket.addrSubMessage(addresses) +
-      Socket.xPubSubMessage(xpubs)
-    )
   }
 }
 
