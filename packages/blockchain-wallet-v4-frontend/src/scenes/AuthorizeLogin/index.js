@@ -25,7 +25,6 @@ const {
 class AuthorizeLogin extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleSuccessContainer = this.handleSuccessContainer.bind(this)
     this.onAccept = this.onAccept.bind(this)
     this.onReject = this.onReject.bind(this)
     this.state = {
@@ -56,10 +55,6 @@ class AuthorizeLogin extends React.PureComponent {
     analyticsActions.logEvent(VERIFY_DEVICE_REJECTED)
   }
 
-  handleSuccessContainer (e) {
-    this.setState({ loginApproved: true })
-  }
-
   render () {
     const { data } = this.props
 
@@ -69,7 +64,7 @@ class AuthorizeLogin extends React.PureComponent {
           value={value}
           onAccept={this.onAccept}
           onReject={this.onReject}
-          handleSuccessContainer={this.handleSuccessContainer}
+          handleSuccessContainer={() => this.setState({ loginApproved: true })}
         />
       ),
       Failure: value => <Error value={value} />,
