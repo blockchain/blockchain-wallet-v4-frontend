@@ -1,5 +1,5 @@
 import * as xlm from './xlm/actionTypes'
 import * as rates from './rates/actionTypes'
-import * as sd from './socketd/actionTypes'
+import * as coins from './coins/actionTypes'
 
-export { xlm, rates, sd }
+export { xlm, rates, coins }

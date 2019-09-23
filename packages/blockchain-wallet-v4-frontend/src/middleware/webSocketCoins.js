@@ -5,24 +5,24 @@ const socket = socket => store => {
   return next => action => {
     const { type } = action
 
-    if (type === actionTypes.middleware.webSocket.sd.START_SOCKET) {
+    if (type === actionTypes.middleware.webSocket.coins.START_SOCKET) {
       socket.connect(
         compose(
           store.dispatch,
-          actions.middleware.webSocket.sd.openSocket
+          actions.middleware.webSocket.coins.openSocket
         ),
         compose(
           store.dispatch,
-          actions.middleware.webSocket.sd.messageSocket
+          actions.middleware.webSocket.coins.messageSocket
         ),
         compose(
           store.dispatch,
-          actions.middleware.webSocket.sd.closeSocket
+          actions.middleware.webSocket.coins.closeSocket
         )
       )
     }
 
-    if (type === actionTypes.middleware.webSocket.sd.STOP_SOCKET) {
+    if (type === actionTypes.middleware.webSocket.coins.STOP_SOCKET) {
       socket.close()
     }
 

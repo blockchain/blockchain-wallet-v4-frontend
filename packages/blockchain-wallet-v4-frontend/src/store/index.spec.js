@@ -36,7 +36,7 @@ jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
 }))
 
 jest.mock('../middleware', () => ({
-  webSocketD: jest.fn(),
+  webSocketCoins: jest.fn(),
   streamingXlm: jest.fn(),
   webSocketRates: jest.fn(),
   autoDisconnection: jest.fn()
@@ -80,7 +80,7 @@ describe('App Store Config', () => {
     kvStoreSpy,
     walletSyncSpy,
     autoDisconnectSpy,
-    socketDSpy
+    coinsSocketSpy
 
   beforeAll(() => {
     // setup fetch mock
@@ -93,7 +93,7 @@ describe('App Store Config', () => {
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
     kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
     walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
-    socketDSpy = jest.spyOn(Middleware, 'webSocketD')
+    coinsSocketSpy = jest.spyOn(Middleware, 'webSocketCoins')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
 
@@ -109,7 +109,7 @@ describe('App Store Config', () => {
     expect(Socket.mock.calls.length).toEqual(1)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}`
+      url: `${fakeWalletOptions.domains.webSocket}/coins`
     })
     expect(ApiSocket).toHaveBeenCalledTimes(1)
     expect(ApiSocket).toHaveBeenCalledWith({
@@ -132,8 +132,8 @@ describe('App Store Config', () => {
       kvStorePath: 'wallet.kvstore'
     })
 
-    expect(socketDSpy).toHaveBeenCalledTimes(1)
-    expect(socketDSpy).toHaveBeenCalledWith(expect.any(Object))
+    expect(coinsSocketSpy).toHaveBeenCalledTimes(1)
+    expect(coinsSocketSpy).toHaveBeenCalledWith(expect.any(Object))
 
     expect(walletSyncSpy).toHaveBeenCalledTimes(1)
     expect(walletSyncSpy).toHaveBeenCalledWith({

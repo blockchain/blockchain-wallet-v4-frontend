@@ -9,7 +9,7 @@ import {
   ethSentConfirmed,
   ethReceivedPending,
   ethReceivedConfirmed,
-  bitcoinTransaction
+  btcTransaction
 } from './messageTypes'
 
 export default ({ api, socket }) => {
@@ -77,9 +77,10 @@ export default ({ api, socket }) => {
       })
 
       // 4. subscribe to lockbox xpubs
-      const { data: btcLockboxContext } = yield select(
+      const btcLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
-      )
+      )).getOrElse([])
+
       btcLockboxContext.forEach(xpub =>
         send(
           JSON.stringify({
@@ -90,9 +91,10 @@ export default ({ api, socket }) => {
           })
         )
       )
-      const { data: bchLockboxContext } = yield select(
+      const bchLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBchContext
-      )
+      )).getOrElse([])
+
       bchLockboxContext.forEach(xpub =>
         send(
           JSON.stringify({
@@ -106,9 +108,10 @@ export default ({ api, socket }) => {
 
       // 5. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
-      const { data: ethLockboxContext } = yield select(
+      const ethLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxEthContext
-      )
+      )).getOrElse([])
+
       const ethAddresses = concat(ethWalletContext, ethLockboxContext)
       ethAddresses.forEach(address => {
         send(
@@ -123,7 +126,7 @@ export default ({ api, socket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          'middleware/webSocket/socketd/sagas',
+          'middleware/webSocket/coins/sagas',
           'onOpen',
           e.message
         )
@@ -147,41 +150,18 @@ export default ({ api, socket }) => {
                 header.time
               )
             )
-          } else if (bitcoinTransaction(message)) {
+          } else if (btcTransaction(message)) {
             // check of sent or received
-            const context = yield select(selectors.core.data.btc.getContext)
-            const data = yield call(api.fetchBlockchainData, context, {
-              n: 50,
-              offset: 0
-            })
-            const transactions = data.txs || []
-            for (let i in transactions) {
-              const transaction = transactions[i]
-              if (equals(transaction.hash, message.transaction.hash)) {
-                if (transaction.result > 0) {
-                  yield put(
-                    actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC)
-                  )
-                }
-                break
-              }
+            const direction = yield sentOrReceived('btc', message)
+            if (direction === 'received') {
+              yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC))
             }
 
             // refresh data
             yield put(actions.core.data.btc.fetchData())
 
             // if on transactions page, update
-            const pathname = yield select(selectors.router.getPathname)
-            if (equals(pathname, '/btc/transactions')) {
-              const formValues = yield select(
-                selectors.form.getFormValues(WALLET_TX_SEARCH)
-              )
-              const source = prop('source', formValues)
-              const onlyShow = equals(source, 'all')
-                ? ''
-                : prop('xpub', source) || prop('address', source)
-              yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
-            }
+            yield transactionsUpdate('btc')
           }
           break
 
@@ -196,41 +176,18 @@ export default ({ api, socket }) => {
                 header.time
               )
             )
-          } else if (bitcoinTransaction(message)) {
+          } else if (btcTransaction(message)) {
             // check of sent or received
-            const context = yield select(selectors.core.data.btc.getContext)
-            const data = yield call(api.fetchBlockchainData, context, {
-              n: 50,
-              offset: 0
-            })
-            const transactions = data.txs || []
-            for (let i in transactions) {
-              const transaction = transactions[i]
-              if (equals(transaction.hash, message.transaction.hash)) {
-                if (transaction.result > 0) {
-                  yield put(
-                    actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC)
-                  )
-                }
-                break
-              }
+            const direction = yield sentOrReceived('bch', message)
+            if (direction === 'received') {
+              yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BCH))
             }
 
             // refresh data
             yield put(actions.core.data.bch.fetchData())
 
             // if on transactions page, update
-            const pathname = yield select(selectors.router.getPathname)
-            if (equals(pathname, '/bch/transactions')) {
-              const formValues = yield select(
-                selectors.form.getFormValues(WALLET_TX_SEARCH)
-              )
-              const source = prop('source', formValues)
-              const onlyShow = equals(source, 'all')
-                ? ''
-                : prop('xpub', source) || prop('address', source)
-              yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
-            }
+            yield transactionsUpdate('bch')
           }
           break
 
@@ -265,12 +222,49 @@ export default ({ api, socket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          'middleware/webSocket/socketd/sagas',
+          'middleware/webSocket/coins/sagas',
           'onMessage',
           'unknown type for',
           e.message
         )
       )
+    }
+  }
+
+  const sentOrReceived = function * (coin, message) {
+    if (coin !== 'btc' && coin !== 'bch') throw new Error('not a valid coin')
+
+    const context = yield select(selectors.core.data[coin].getContext)
+    const endpoint = coin === 'btc' ? 'fetchBlockchainData' : 'fetchBchData'
+    const data = yield call(api[endpoint], context, {
+      n: 50,
+      offset: 0
+    })
+    const transactions = data.txs || []
+
+    for (let i in transactions) {
+      const transaction = transactions[i]
+      if (equals(transaction.hash, message.transaction.hash)) {
+        if (transaction.result > 0) return 'received'
+        break
+      }
+    }
+    return 'sent'
+  }
+
+  const transactionsUpdate = function * (coin) {
+    if (coin !== 'btc' && coin !== 'bch') throw new Error('not a valid coin')
+
+    const pathname = yield select(selectors.router.getPathname)
+    if (equals(pathname, `/${coin}/transactions`)) {
+      const formValues = yield select(
+        selectors.form.getFormValues(WALLET_TX_SEARCH)
+      )
+      const source = prop('source', formValues)
+      const onlyShow = equals(source, 'all')
+        ? ''
+        : prop('xpub', source) || prop('address', source)
+      yield put(actions.core.data[coin].fetchTransactions(onlyShow, true))
     }
   }
 

@@ -22,7 +22,7 @@ import {
   autoDisconnection,
   streamingXlm,
   webSocketRates,
-  webSocketD
+  webSocketCoins
 } from '../middleware'
 
 const devToolsConfig = {
@@ -59,9 +59,9 @@ const configureStore = () => {
       const socketUrl = head(options.domains.webSocket.split('/inv'))
       const horizonUrl = options.domains.horizon
 
-      const socketd = new Socket({
+      const coinsSocket = new Socket({
         options,
-        url: `${socketUrl}`
+        url: `${socketUrl}/coins`
       })
 
       const ratesSocket = new ApiSocket({
@@ -116,7 +116,7 @@ const configureStore = () => {
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
             streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
-            webSocketD(socketd),
+            webSocketCoins(coinsSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           )
@@ -129,7 +129,7 @@ const configureStore = () => {
         ratesSocket,
         networks,
         options,
-        socketd
+        coinsSocket
       })
 
       // expose globals here

@@ -1027,14 +1027,10 @@ describe('authSagas', () => {
             Remote.of(false)
           ]
         ])
-        .put(actions.middleware.webSocket.sd.stopSocket())
+        .put(actions.middleware.webSocket.coins.stopSocket())
         .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
-
-      // .put(actions.middleware.webSocket.bch.stopSocket())
-      // .put(actions.middleware.webSocket.btc.stopSocket())
-      // .put(actions.middleware.webSocket.eth.stopSocket())
     })
 
     it('should stop sockets and clear redux store if email is not verified', async () => {
@@ -1046,17 +1042,13 @@ describe('authSagas', () => {
             Remote.of(false)
           ]
         ])
-        .put(actions.middleware.webSocket.sd.stopSocket())
+        .put(actions.middleware.webSocket.coins.stopSocket())
         .put(actions.middleware.webSocket.xlm.stopStreams())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)
           expect(pushStateSpy).toHaveBeenCalledWith('', '', '#')
         })
-
-      // .put(actions.middleware.webSocket.bch.stopSocket())
-      // .put(actions.middleware.webSocket.btc.stopSocket())
-      // .put(actions.middleware.webSocket.eth.stopSocket())
     })
   })
 
