@@ -257,8 +257,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.stepfive.content'
-            defaultMessage='Jumpstart your crypto portfolio by easily buying and selling Bitcoin.'
+            id='wallet.tour.stepfive.content-1'
+            defaultMessage='Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.'
           />
         </StepContent>
       </>
