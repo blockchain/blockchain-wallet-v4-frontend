@@ -54,9 +54,10 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
-    const { onlyShow, reset } = payload
+  const fetchTransactions = function * (action) {
     try {
+      const { payload } = action
+      const { onlyShow, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)

@@ -81,7 +81,11 @@ export const getBtcContextForDevice = (state, deviceIndex) =>
 
 export const getLockboxBtcAccount = (state, xpub) =>
   getLockboxBtcAccounts(state)
-    .map(filter(x => x.xpub === xpub))
+    .map(
+      filter(x =>
+        propEq('xpub', xpub, x.derivations.find(propEq('type', 'legacy')))
+      )
+    )
     .map(head)
 
 export const getDeviceFromBtcXpubs = (state, xpubs) => {

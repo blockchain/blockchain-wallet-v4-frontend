@@ -4,6 +4,11 @@ import * as wallet from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
 
+export const getWalletContext = createDeepEqualSelector(
+  [wallet.getContextGrouped],
+  walletContext => walletContext
+)
+
 export const getContext = createDeepEqualSelector(
   [wallet.getContextGrouped, getLockboxBtcContext],
   (walletContext, lockboxContextR) => {

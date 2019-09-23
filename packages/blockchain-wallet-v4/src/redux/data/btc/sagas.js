@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, map, path, prop, replace } from 'ramda'
+import { concat, indexBy, length, map, path, prop, replace } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -60,9 +60,11 @@ export default ({ api }) => {
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(S.getContext)
+      const walletContext = yield select(S.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
-        onlyShow: onlyShow || context.legacy.concat(context.segwitP2SH),
+        onlyShow:
+          onlyShow || concat(walletContext.legacy, walletContext.segwitP2SH),
         offset
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
