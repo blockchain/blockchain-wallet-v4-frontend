@@ -57,7 +57,6 @@ const IdentityVerificationTray = styled(Tray)`
     }
   }
   > div:last-child {
-    overflow: hidden;
     padding: 0;
     height: calc(100% - 57px);
   }
@@ -184,7 +183,8 @@ class IdentityVerification extends React.PureComponent {
         />
       )
 
-    if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
+    if (step === STEPS.verify)
+      return <Verify onBack={actions.goToPrevStep} onClose={this.handleClose} />
     if (step === STEPS.submitted) return <Submitted />
   }
 
