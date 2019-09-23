@@ -44,6 +44,8 @@ export default ({ api, coreSagas }) => {
       yield delay(2000)
       yield put(actions.modals.closeModal())
     } catch (e) {
+      // TODO: SEGWIT (modals are mounted twice)
+      if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
       yield put(actions.modals.closeModal())

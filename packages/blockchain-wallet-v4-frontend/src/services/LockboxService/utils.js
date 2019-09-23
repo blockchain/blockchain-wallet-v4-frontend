@@ -23,7 +23,12 @@ const ethAccount = (xpub, label) => ({
   addr: deriveAddressFromXpub(xpub)
 })
 
-const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
+const btcAccount = (xpub, label) =>
+  Types.HDAccount.js(
+    label,
+    [Types.Derivation.js('legacy', 44, null, xpub)],
+    'legacy'
+  )
 
 /* eslint-disable */
 

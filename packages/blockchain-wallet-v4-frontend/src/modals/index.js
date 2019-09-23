@@ -149,7 +149,7 @@ const Modals = () => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeForAirdrop />
-    <UpgradeWallet />
+    <UpgradeWallet disableOutsideClose />
     <UserExists />
     <WalletTour />
     <XlmCreateAccountLearn />

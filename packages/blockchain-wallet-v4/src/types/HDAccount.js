@@ -211,10 +211,10 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, derivations) => ({
+export const js = (label, derivations, defaultDerivation) => ({
   label: label,
   archived: false,
-  default_derivation: DEFAULT_DERIVATION_TYPE,
+  default_derivation: defaultDerivation || DEFAULT_DERIVATION_TYPE,
   derivations: derivations
 })
 

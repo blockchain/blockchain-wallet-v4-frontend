@@ -73,7 +73,8 @@ const tagCoin = curry((wallet, accountList, coin) => {
         change: isAccountChange(coin),
         coinType: accountPath(index, coin),
         label: HDAccount.selectLabel(account),
-        isWatchOnly: HDAccount.isWatchOnly(account),
+        // TODO: SEGWIT, is this needed?
+        // isWatchOnly: HDAccount.isWatchOnly(account),
         receiveIndex: receiveIndex(coin) // only if change?
       }
     case isLegacy(wallet, coin):

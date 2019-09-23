@@ -11,6 +11,7 @@ import {
   pluck,
   pipe,
   prop,
+  propEq,
   propOr,
   map,
   max,
@@ -107,7 +108,7 @@ const flattenAccount = acc => ({
   xpub: prop(
     'xpub',
     acc.derivations.find(
-      d => d.type === HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc))
+      propEq('type', HDAccount.selectDefaultDerivation(HDAccount.fromJS(acc)))
     )
   )
 })
@@ -120,9 +121,15 @@ export const getLockboxBtcBalances = state => {
   const digest = (addresses, account) => ({
     coin: 'BTC',
     label: account.label,
-    balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub,
-    address: account.xpub,
+    balance: path(
+      [
+        prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
+        'final_balance'
+      ],
+      addresses
+    ),
+    xpub: prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
+    address: prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
     type: ADDRESS_TYPES.LOCKBOX
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))

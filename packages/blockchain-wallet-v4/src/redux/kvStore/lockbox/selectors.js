@@ -3,6 +3,7 @@ import {
   path,
   pathOr,
   prop,
+  propEq,
   propOr,
   map,
   set,
@@ -58,13 +59,25 @@ export const getLockboxBtcAccounts = state =>
 
 export const getLockboxBtcContext = state => {
   return getLockboxBtcAccounts(state).map(accounts => {
-    return accounts ? accounts.map(a => path(['xpub'], a)) : []
+    return accounts
+      ? accounts.map(a =>
+          path(['derivations'], a)
+            .filter(propEq('type', 'legacy'))
+            .map(prop('xpub'))
+        )
+      : []
   })
 }
 export const getBtcContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
-    .map(map(prop('xpub')))
+    .map(
+      map(a =>
+        path(['derivations'], a)
+          .filter(propEq('type', 'legacy'))
+          .map(prop('xpub'))
+      )
+    )
 
 export const getLockboxBtcAccount = (state, xpub) =>
   getLockboxBtcAccounts(state)
