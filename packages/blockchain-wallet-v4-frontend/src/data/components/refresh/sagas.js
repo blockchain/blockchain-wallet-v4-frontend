@@ -37,7 +37,11 @@ export default () => {
           yield call(refreshXlmTransactions)
           break
         case contains('/lockbox/', pathname):
-          yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
+          yield put(
+            actions.components.lockbox.initializeDashboard(
+              pathname.split('/')[3]
+            )
+          )
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
