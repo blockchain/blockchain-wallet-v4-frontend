@@ -11,7 +11,8 @@ import { callTask } from '../../../utils/functional'
 export default ({ api, networks }) => {
   const createLockbox = function * (kv) {
     const newLockboxEntry = {
-      devices: []
+      devices: [],
+      version: 4
     }
     const newkv = set(KVStoreEntry.value, newLockboxEntry, kv)
     yield put(A.createMetadataLockbox(newkv))
