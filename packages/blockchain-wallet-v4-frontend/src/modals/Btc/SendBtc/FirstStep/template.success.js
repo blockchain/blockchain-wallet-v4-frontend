@@ -74,13 +74,11 @@ const TimerContainer = styled.div`
   display: inline-block;
   float: right;
 `
-
 const CustomMerchantInput = styled(Field)`
   & > input {
     padding-right: 84px;
   }
 `
-
 const ImageInInputContainer = styled.div`
   position: absolute;
   margin-top: -35px;

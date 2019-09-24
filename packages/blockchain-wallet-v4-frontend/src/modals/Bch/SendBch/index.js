@@ -5,15 +5,20 @@ import { connect } from 'react-redux'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model, selectors } from 'data'
+
 import SendBch from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class SendBchContainer extends React.PureComponent {
   componentDidMount () {
-    const { from } = this.props
-    this.props.actions.initialized({
-      from
+    const { actions, amount, description, from, payPro, to } = this.props
+    actions.initialized({
+      from,
+      to,
+      description,
+      amount,
+      payPro
     })
   }
 
@@ -22,12 +27,30 @@ class SendBchContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll, excludeHDWallets } = this.props
+    const {
+      amount,
+      closeAll,
+      description,
+      excludeHDWallets,
+      payPro,
+      position,
+      step,
+      to,
+      total
+    } = this.props
 
     return (
       <SendBch position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep excludeHDWallets={excludeHDWallets} />}
-        {step === 2 && <SecondStep />}
+        {step === 1 && (
+          <FirstStep
+            amount={amount}
+            description={description}
+            excludeHDWallets={excludeHDWallets}
+            payPro={payPro}
+            to={to}
+          />
+        )}
+        {step === 2 && <SecondStep payPro={payPro} />}
       </SendBch>
     )
   }

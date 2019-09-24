@@ -22,7 +22,7 @@ export const logLocation = 'components/sendBch/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
     try {
-      const { from } = action.payload
+      const { amount, description, from, payPro, to } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountPit('BCH'))
       let payment = coreSagas.payment.bch.create({
@@ -49,11 +49,34 @@ export default ({ coreSagas, networks }) => {
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else {
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+        if (to) payment = yield payment.to(to)
+        if (amount && amount.coin) {
+          const satAmount = Exchange.convertBchToBch({
+            value: amount.coin,
+            fromUnit: 'BCH',
+            toUnit: 'SAT'
+          }).value
+          payment = yield payment.amount(parseInt(satAmount))
+        }
+        if (description) payment = yield payment.description(description)
       }
       payment = yield payment.fee('regular')
       const initialValues = {
         coin: 'BCH',
-        from: from || defaultAccountR.getOrElse()
+        amount,
+        description,
+        from: from || defaultAccountR.getOrElse(),
+        payPro,
+        to: to ? { value: { value: to, label: to } } : null
+      }
+      if (payPro) {
+        try {
+          payment = yield payment.build()
+        } catch (e) {
+          yield put(
+            actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
+          )
+        }
       }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
@@ -67,6 +90,17 @@ export default ({ coreSagas, networks }) => {
 
   const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
+  }
+
+  const bitpayInvoiceExpired = function * () {
+    yield put(actions.modals.closeAllModals())
+    yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(
+      actions.analytics.logEvent([
+        ...TRANSACTION_EVENTS.BITPAY_FAILURE,
+        'invoice expired'
+      ])
+    )
   }
 
   const firstStepSubmitClicked = function * () {
@@ -303,11 +337,12 @@ export default ({ coreSagas, networks }) => {
   }
 
   return {
-    initialized,
+    bitpayInvoiceExpired,
     destroyed,
-    maximumAmountClicked,
     firstStepSubmitClicked,
-    secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    initialized,
+    maximumAmountClicked,
+    secondStepSubmitClicked
   }
 }

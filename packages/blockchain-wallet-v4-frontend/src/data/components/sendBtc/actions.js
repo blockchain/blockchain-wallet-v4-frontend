@@ -59,6 +59,6 @@ export const sendBtcSecondStepCancelClicked = () => ({
   type: AT.SEND_BTC_SECOND_STEP_CANCEL_CLICKED
 })
 
-export const sendBtcFirstStepBitPayInvoiceExpired = () => ({
-  type: AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED
+export const sendBtcBitPayInvoiceExpired = () => ({
+  type: AT.SEND_BTC_BITPAY_INVOICE_EXPIRED
 })

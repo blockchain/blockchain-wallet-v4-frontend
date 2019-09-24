@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }) => {
       sendBtcSagas.secondStepSubmitClicked
     )
     yield takeLatest(
-      AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED,
+      AT.SEND_BTC_BITPAY_INVOICE_EXPIRED,
       sendBtcSagas.bitpayInvoiceExpired
     )
     yield takeEvery(actionTypes.CHANGE, sendBtcSagas.formChanged)
