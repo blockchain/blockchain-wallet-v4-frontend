@@ -345,7 +345,6 @@ describe('authSagas', () => {
       startSockets,
       transferEthSaga,
       upgradeWalletSaga,
-      upgradeWalletSagaV4,
       upgradeAddressLabelsSaga
     } = authSagas({
       api,
@@ -366,7 +365,7 @@ describe('authSagas', () => {
     it('should call upgradeWalletSaga if wallet is not hd', () => {
       saga
         .next(false)
-        .call(upgradeWalletSaga)
+        .call(upgradeWalletSaga, 3)
         .restore(beforeHdCheck)
     })
 
@@ -375,7 +374,7 @@ describe('authSagas', () => {
         .next(true)
         .select(selectors.core.wallet.isWrapperLatestVersion)
         .next(false)
-        .call(upgradeWalletSagaV4)
+        .call(upgradeWalletSaga, 4)
     })
 
     it('should put authenticate action', () => {

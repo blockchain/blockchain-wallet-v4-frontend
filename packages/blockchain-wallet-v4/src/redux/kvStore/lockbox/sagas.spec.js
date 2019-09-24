@@ -26,7 +26,8 @@ const mockKvStoreEntry = KVStoreEntry.fromMetadataXpriv(
 )
 
 const mockNewLockboxEntry = {
-  devices: []
+  devices: [],
+  version: 4
 }
 
 const newkv = set(KVStoreEntry.value, mockNewLockboxEntry, mockKvStoreEntry)

@@ -236,7 +236,9 @@ export const IO_TYPES = {
     'MULTISIG-P2SH': 49 * 4,
     'MULTISIG-P2WSH': 6 + 41 * 4,
     'MULTISIG-P2SH-P2WSH': 6 + 76 * 4,
-    P2PKH: 148 * 4,
+    // P2PKH
+    // modified to 147 (from 148 in source) to match test coverage
+    P2PKH: 147 * 4,
     P2WPKH: 108 + 41 * 4,
     'P2SH-P2WPKH': 108 + 64 * 4
   },

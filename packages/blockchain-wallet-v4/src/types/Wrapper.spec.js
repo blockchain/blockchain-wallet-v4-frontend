@@ -25,6 +25,7 @@ describe('Wrapper', () => {
   describe('upgradeToV4', () => {
     it('should upgrade to a v4 wallet with segwit', async () => {
       const upgradeTask = Wrapper.upgradeToV4(
+        '6a4d9524d413fdf69ca1b5664d1d6db0',
         null,
         Bitcoin.networks.bitcoin,
         wrapperV3
