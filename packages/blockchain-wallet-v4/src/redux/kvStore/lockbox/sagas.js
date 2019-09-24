@@ -1,9 +1,9 @@
 import { call, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty, path } from 'ramda'
 import { set } from 'ramda-lens'
 
 import * as A from './actions'
-import { KVStoreEntry } from '../../../types'
+import { Derivation, HDAccount, KVStoreEntry } from '../../../types'
 import { derivationMap, LOCKBOX } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { callTask } from '../../../utils/functional'
@@ -17,6 +17,43 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataLockbox(newkv))
   }
 
+  const upgradeLockboxV4 = function * (kv) {
+    try {
+      let upgradedDevices = kv.value.devices.map(d => {
+        const BtcXpub = path(['btc', 'accounts', 0, 'xpub'], d)
+        const BtcLabel = path(['btc', 'accounts', 0, 'label'], d)
+        const BchXpub = path(['bch', 'accounts', 0, 'xpub'], d)
+        const BchLabel = path(['bch', 'accounts', 0, 'label'], d)
+        const btcAccount = HDAccount.js(
+          BtcLabel,
+          [Derivation.js('legacy', 44, null, BtcXpub)],
+          'legacy'
+        )
+        const bchAccount = HDAccount.js(
+          BchLabel,
+          [Derivation.js('bch-145', 145, null, BchXpub)],
+          'bch-145'
+        )
+
+        return {
+          ...d,
+          btc: {
+            accounts: [btcAccount]
+          },
+          bch: {
+            accounts: [bchAccount]
+          }
+        }
+      })
+
+      kv.value.devices = upgradedDevices
+      kv.value.version = 4
+      yield put(A.fetchMetadataLockboxSuccess(kv))
+    } catch (e) {
+      yield put(A.fetchMetadataLockboxFailure(e.message))
+    }
+  }
+
   const fetchMetadataLockbox = function * () {
     try {
       const typeId = derivationMap[LOCKBOX]
@@ -27,6 +64,9 @@ export default ({ api, networks }) => {
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createLockbox, newkv)
       } else {
+        if (!newkv.value.version) {
+          yield call(upgradeLockboxV4, newkv)
+        }
         yield put(A.fetchMetadataLockboxSuccess(newkv))
       }
     } catch (e) {
