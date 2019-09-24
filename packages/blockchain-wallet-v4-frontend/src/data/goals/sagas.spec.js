@@ -22,7 +22,7 @@ describe('goals sagas', () => {
     defineGoals,
     defineDeepLinkGoals,
     defineActionGoal,
-    defineSendBtcGoal,
+    defineSendCryptoGoal,
     defineReferralGoal,
     runGoal,
     runSwapGetStartedGoal,
@@ -119,7 +119,7 @@ describe('goals sagas', () => {
       const saga = testSaga(defineDeepLinkGoals, mockPathname, mockSearch)
 
       it('should call defineReferralGoal goal', () => {
-        saga.next().call(defineSendBtcGoal, mockPathname, mockSearch)
+        saga.next().call(defineSendCryptoGoal, mockPathname, mockSearch)
       })
 
       it('should end saga', () => {
@@ -159,12 +159,12 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('defineSendBtcGoal saga', () => {
+  describe('defineSendCryptoGoal saga', () => {
     it('should save payment goal and route to /wallet', () => {
       const mockPathnameEncoded = 'bitcoin%3A12ms1QW9SNobD5CmBN59zWxcMKs1spB86s'
       const mockSearchEncoded = '%3Famount%3D0.00275134%26message%3Dtest'
       const saga = testSaga(
-        defineSendBtcGoal,
+        defineSendCryptoGoal,
         mockPathnameEncoded,
         mockSearchEncoded
       )
@@ -190,7 +190,7 @@ describe('goals sagas', () => {
         'bitcoin%3A%3Fr%3Dhttps://bitpay.com/i/LKJLKJ3LKJ34HH'
       const mockSearchEncoded = ''
       const saga = testSaga(
-        defineSendBtcGoal,
+        defineSendCryptoGoal,
         mockPathnameEncoded,
         mockSearchEncoded
       )
@@ -199,6 +199,7 @@ describe('goals sagas', () => {
         .next()
         .put(
           actions.goals.saveGoal('paymentProtocol', {
+            coin: 'BTC',
             r: 'https://bitpay.com/i/LKJLKJ3LKJ34HH'
           })
         )
@@ -274,7 +275,7 @@ describe('goals sagas', () => {
       const mockGoal = { name: 'payment', data: {} }
       const saga = testSaga(runGoal, mockGoal)
 
-      it('should call runSendBtcGoal saga and end', () => {
+      it('should call runPaymentProtocolGoal saga and end', () => {
         saga.next().call(runSendBtcGoal, mockGoal)
         saga.next().isDone()
       })

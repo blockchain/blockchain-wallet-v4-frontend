@@ -80,7 +80,7 @@ describe('sendBch sagas', () => {
   })
 
   describe('bch send form initialize', () => {
-    const to = 'bchaddress'
+    const to = null
     const description = 'message'
     const amount = {
       coin: 1,
@@ -92,8 +92,12 @@ describe('sendBch sagas', () => {
     const defaultAccount = 'account1'
     const accountsRStub = Remote.of([defaultAccount, 'account2'])
     const initialValues = {
+      amount,
       coin: 'BCH',
-      from: defaultAccount
+      to,
+      description,
+      from: defaultAccount,
+      payPro: undefined
     }
     const beforeEnd = 'beforeEnd'
 
@@ -131,6 +135,20 @@ describe('sendBch sagas', () => {
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
       expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
+    })
+
+    it('should update payment amount from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(amount.coin * 100000000)
+    })
+
+    it('should update payment description from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith(description)
     })
 
     it('should update payment fee from value', () => {
@@ -216,8 +234,12 @@ describe('sendBch sagas', () => {
         const form = path(FORM.split('.'), resultingState.form)
         expect(form.initial).toEqual(form.values)
         expect(form.initial).toEqual({
+          amount: { coin: 1, fiat: 10000 },
           coin: 'BCH',
-          from: defaultAccount
+          from: defaultAccount,
+          description: 'message',
+          payPro: undefined,
+          to: null
         })
       })
 
