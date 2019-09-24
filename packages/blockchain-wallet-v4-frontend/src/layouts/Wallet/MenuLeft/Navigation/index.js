@@ -11,6 +11,7 @@ class NavigationContainer extends React.PureComponent {
   render () {
     const {
       actions,
+      analyticsActions,
       domains,
       isPitAccountLinked,
       isInvitedToPit,
@@ -20,6 +21,7 @@ class NavigationContainer extends React.PureComponent {
     return (
       <Navigation
         {...props}
+        analyticsActions={analyticsActions}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
         isInvitedToPit={isInvitedToPit}
@@ -43,7 +45,8 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(

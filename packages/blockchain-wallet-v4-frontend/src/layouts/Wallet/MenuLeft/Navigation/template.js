@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 
 import { Cartridge } from '@blockchain-com/components'
+import { model } from 'data'
 import {
   CoinIcon,
   Destination,
@@ -22,6 +23,8 @@ import {
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
+
+const { PIT_EVENTS } = model.analytics
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
@@ -75,6 +78,7 @@ const Navigation = props => {
   const {
     // lockboxOpened,
     // lockboxDevices,
+    analyticsActions,
     supportedCoins
   } = rest
   const coinOrder = [
@@ -227,7 +231,11 @@ const Navigation = props => {
             <MenuItem data-e2e='thePitLink'>{renderPitLinkContent()}</MenuItem>
           </Link>
         ) : (
-          <LinkContainer to='/thepit' activeClassName='active'>
+          <LinkContainer
+            to='/thepit'
+            activeClassName='active'
+            onClick={() => analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)}
+          >
             <MenuItem data-e2e='thePitLink'>
               {renderPitLinkContent()}
               <NewCartridge>

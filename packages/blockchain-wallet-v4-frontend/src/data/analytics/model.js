@@ -181,3 +181,10 @@ export const GENERAL_EVENTS = {
 export const ADS_EVENTS = {
   CLICK_AD: ['navigation', 'click_ad']
 }
+
+export const PIT_EVENTS = {
+  BANNER_GET_STARTED: ['pit', 'banner', 'get_started'],
+  SIDE_NAV: ['pit', 'side_nav', 'the_pit'],
+  CONNECT_NOW: ['pit', 'the_pit', 'connect_now'],
+  LEARN_MORE: ['pit', 'the_pit', 'learn_more']
+}
