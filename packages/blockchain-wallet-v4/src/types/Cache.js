@@ -22,16 +22,17 @@ export const changeChain = 1
 const _getAddress = (cache, chain, index, network, type) => {
   const derive = c => {
     const node = getNode(c, chain, network)
-    if (equals('legacy', type)) {
+    if (equals('segwitP2SH', type)) {
+      const keyhash = Bitcoin.crypto.hash160(
+        node.derive(index).getPublicKeyBuffer()
+      )
+      const scriptsig = Bitcoin.script.witnessPubKeyHash.output.encode(keyhash)
+      const addressbytes = Bitcoin.crypto.hash160(scriptsig)
+      const scriptpubkey = Bitcoin.script.scriptHash.output.encode(addressbytes)
+      return Bitcoin.address.fromOutputScript(scriptpubkey, network)
+    } else {
       return node.derive(index).getAddress()
     }
-    const keyhash = Bitcoin.crypto.hash160(
-      node.derive(index).getPublicKeyBuffer()
-    )
-    const scriptsig = Bitcoin.script.witnessPubKeyHash.output.encode(keyhash)
-    const addressbytes = Bitcoin.crypto.hash160(scriptsig)
-    const scriptpubkey = Bitcoin.script.scriptHash.output.encode(addressbytes)
-    return Bitcoin.address.fromOutputScript(scriptpubkey, network)
   }
   return pipe(
     Cache.guard,

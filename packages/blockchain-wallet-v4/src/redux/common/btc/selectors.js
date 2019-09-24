@@ -118,20 +118,20 @@ export const getAccountsBalances = state =>
   map(map(flattenAccount), getHDAccounts(state))
 
 export const getLockboxBtcBalances = state => {
-  const digest = (addresses, account) => ({
-    coin: 'BTC',
-    label: account.label,
-    balance: path(
-      [
-        prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
-        'final_balance'
-      ],
-      addresses
-    ),
-    xpub: prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
-    address: prop('xpub', account.derivations.find(propEq('type', 'legacy'))),
-    type: ADDRESS_TYPES.LOCKBOX
-  })
+  const digest = (addresses, account) => {
+    const xpub = prop(
+      'xpub',
+      account.derivations.find(propEq('type', 'legacy'))
+    )
+    return {
+      coin: 'BTC',
+      label: account.label,
+      balance: path([xpub, 'final_balance'], addresses),
+      xpub: xpub,
+      address: xpub,
+      type: ADDRESS_TYPES.LOCKBOX
+    }
+  }
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBtcAccounts(state))
 }

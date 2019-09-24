@@ -5,8 +5,8 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.core.kvStore.lockbox.getLockboxBtcDefaultAccount,
-    selectors.core.kvStore.lockbox.getLockboxBchXpub,
+    selectors.core.kvStore.lockbox.getBtcContextForDevice,
+    selectors.core.kvStore.lockbox.getBchContextForDevice,
     selectors.core.kvStore.lockbox.getEthContextForDevice,
     selectors.core.kvStore.lockbox.getXlmContextForDevice
   ],
@@ -17,8 +17,8 @@ export const getData = createDeepEqualSelector(
     const xlm = xlmR.getOrElse([])
 
     return Remote.of({
-      btc: btc.xpub,
-      bch,
+      btc: btc[0],
+      bch: bch[0],
       eth: eth[0],
       xlm: xlm[0]
     })

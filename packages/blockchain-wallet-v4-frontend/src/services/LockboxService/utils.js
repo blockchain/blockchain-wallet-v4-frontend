@@ -30,6 +30,13 @@ const btcAccount = (xpub, label) =>
     'legacy'
   )
 
+const bchAccount = (xpub, label) =>
+  Types.HDAccount.js(
+    label,
+    [Types.Derivation.js('bch-145', 145, null, xpub)],
+    'bch-145'
+  )
+
 /* eslint-disable */
 
 /**
@@ -364,7 +371,7 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
       device_type: deviceType,
       device_name: deviceName,
       btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
-      bch: { accounts: [btcAccount(bch, deviceName + ' - BCH Wallet')] },
+      bch: { accounts: [bchAccount(bch, deviceName + ' - BCH Wallet')] },
       eth: {
         accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
         last_tx: null,

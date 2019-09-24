@@ -8,6 +8,7 @@ import {
   map,
   path,
   prop,
+  propEq,
   sequence,
   split,
   values
@@ -28,14 +29,20 @@ import { toCashAddr } from '../../../utils/bch'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 export const getLockboxBchBalances = state => {
-  const digest = (addresses, account) => ({
-    coin: 'BCH',
-    label: account.label,
-    balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub,
-    address: account.xpub,
-    type: ADDRESS_TYPES.LOCKBOX
-  })
+  const digest = (addresses, account) => {
+    const xpub = prop(
+      'xpub',
+      account.derivations.find(propEq('type', 'bch-145'))
+    )
+    return {
+      coin: 'BCH',
+      label: account.label,
+      balance: path([xpub, 'final_balance'], addresses),
+      xpub: xpub,
+      address: xpub,
+      type: ADDRESS_TYPES.LOCKBOX
+    }
+  }
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBchAccounts(state))
 }
