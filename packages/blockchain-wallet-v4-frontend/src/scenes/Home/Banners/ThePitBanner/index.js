@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+
 import { Cartridge } from '@blockchain-com/components'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 import media from 'services/ResponsiveService'
 
@@ -94,18 +96,14 @@ const ThePitBanner = () => {
           </Copy>
         </Column>
       </Row>
-      <Link
-        href='https://pit.blockchain.com/'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
+      <LinkContainer to='/thepit' rel='noopener noreferrer'>
         <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
             id='scenes.home.banners.pitbanner.getstarted'
             defaultMessage='Get Started'
           />
         </BannerButton>
-      </Link>
+      </LinkContainer>
     </Wrapper>
   )
 }
