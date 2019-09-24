@@ -27,7 +27,11 @@ import bip21 from 'bip21'
 import { actions, actionTypes, model, selectors } from 'data'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
-import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
+import {
+  getBchBalance,
+  getBtcBalance,
+  getAllBalances
+} from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
@@ -166,6 +170,8 @@ export default ({ api }) => {
   const runPaymentProtocolGoal = function * (goal) {
     const { id, data } = goal
     const { coin, r } = data
+    let coinRate, paymentCryptoAmount, paymentFiatAmount
+
     yield put(actions.goals.deleteGoal(id))
     yield put(
       actions.analytics.logEvent([
@@ -174,12 +180,16 @@ export default ({ api }) => {
       ])
     )
 
-    // TODO: BCH BitPay
-    yield call(getBtcBalance)
+    if (equals('BTC', coin)) {
+      yield call(getBtcBalance)
+      coinRate = yield select(selectors.core.data.btc.getRates)
+    } else {
+      yield call(getBchBalance)
+      coinRate = yield select(selectors.core.data.bch.getRates)
+    }
 
     const invoiceId = r.split('/i/')[1]
     const currency = yield select(selectors.core.settings.getCurrency)
-    const btcRates = yield select(selectors.core.data.btc.getRates)
 
     try {
       const rawPaymentRequest = yield call(
@@ -189,25 +199,14 @@ export default ({ api }) => {
       )
       const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
       const { instructions } = paymentRequest
-      const expired = new Date() > new Date(paymentRequest.expires)
+
+      if (new Date() > new Date(paymentRequest.expires)) {
+        return yield put(actions.modals.showModal('BitPayExpired'))
+      }
 
       const tx = path([0, 'outputs', 0], instructions)
       const satoshiAmount = tx.amount
       const address = tx.address
-
-      const amount = Exchange.convertBtcToBtc({
-        value: satoshiAmount,
-        fromUnit: 'SAT',
-        toUnit: 'BTC'
-      }).value
-
-      const fiat = Exchange.convertBtcToFiat({
-        value: amount,
-        fromUnit: 'BTC',
-        toCurrency: currency.getOrElse(null),
-        rates: btcRates.getOrElse(null)
-      }).value
-
       const merchant = paymentRequest.memo.split('for merchant ')[1]
       const payPro = {
         expiration: paymentRequest.expires,
@@ -215,22 +214,61 @@ export default ({ api }) => {
         merchant
       }
 
-      if (expired) {
-        return yield put(actions.modals.showModal('BitPayExpired'))
-      }
-
-      yield put(
-        actions.goals.addInitialModal(
-          'payment',
-          model.components.sendBtc.MODAL,
-          {
-            to: address,
-            amount: { coin: amount, fiat },
-            description: merchant,
-            payPro
-          }
+      if (equals('BTC', coin)) {
+        paymentCryptoAmount = Exchange.convertBtcToBtc({
+          value: satoshiAmount,
+          fromUnit: 'SAT',
+          toUnit: 'BTC'
+        }).value
+        paymentFiatAmount = Exchange.convertBtcToFiat({
+          value: paymentCryptoAmount,
+          fromUnit: 'BTC',
+          toCurrency: currency.getOrElse(null),
+          rates: coinRate.getOrElse(null)
+        }).value
+        yield put(
+          actions.goals.addInitialModal(
+            'payment',
+            model.components.sendBtc.MODAL,
+            {
+              to: address,
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              payPro
+            }
+          )
         )
-      )
+      } else {
+        paymentCryptoAmount = Exchange.convertBchToBch({
+          value: satoshiAmount,
+          fromUnit: 'SAT',
+          toUnit: 'BCH'
+        }).value
+        paymentFiatAmount = Exchange.convertBchToFiat({
+          value: paymentCryptoAmount,
+          fromUnit: 'BCH',
+          toCurrency: currency.getOrElse(null),
+          rates: coinRate.getOrElse(null)
+        }).value
+        yield put(
+          actions.goals.addInitialModal(
+            'payment',
+            model.components.sendBch.MODAL,
+            {
+              to: address,
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              payPro
+            }
+          )
+        )
+      }
     } catch (e) {
       yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
       yield put(
