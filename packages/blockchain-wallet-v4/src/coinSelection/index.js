@@ -242,6 +242,9 @@ export const IO_TYPES = {
   },
   outputs: {
     P2SH: 32 * 4,
+    // P2SH-P2WPKH
+    // this is a hack and technically this is just P2SH
+    'P2SH-P2WPKH': 32 * 4,
     P2PKH: 34 * 4,
     P2WPKH: 31 * 4,
     P2WSH: 43 * 4
