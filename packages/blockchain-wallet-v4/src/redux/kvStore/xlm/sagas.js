@@ -5,34 +5,26 @@ import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, XLM } from '../config'
-import { getMnemonic } from '../../wallet/selectors'
 import { getKeyPair } from '../../../utils/xlm'
 import { callTask } from '../../../utils/functional'
 
-export default ({ api, networks } = {}) => {
+export default ({ api, networks, securityModule } = {}) => {
   const createXlm = function * ({ kv, password }) {
-    try {
-      const mnemonicT = yield select(getMnemonic, password)
-      const mnemonic = yield callTask(mnemonicT)
-      const keypair = getKeyPair(mnemonic)
-      const xlm = {
-        default_account_idx: 0,
-        accounts: [
-          {
-            publicKey: keypair.publicKey(),
-            label: 'My Stellar Wallet',
-            archived: false
-          }
-        ],
-        tx_notes: {}
-      }
-      const newkv = set(KVStoreEntry.value, xlm, kv)
-      yield put(A.createMetadataXlm(newkv))
-    } catch (e) {
-      throw new Error(
-        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createXlm saga'
-      )
+    const keypair = yield call(getKeyPair, securityModule, password)
+
+    const xlm = {
+      default_account_idx: 0,
+      accounts: [
+        {
+          publicKey: keypair.publicKey(),
+          label: 'My Stellar Wallet',
+          archived: false
+        }
+      ],
+      tx_notes: {}
     }
+    const newkv = set(KVStoreEntry.value, xlm, kv)
+    yield put(A.createMetadataXlm(newkv))
   }
 
   const fetchMetadataXlm = function * (secondPasswordSagaEnhancer) {

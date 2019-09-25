@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import { Address, Wallet, AddressMap, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
+import { taskToPromise } from '../utils/functional'
 
 const walletFixture = require('./__mocks__/wallet.v3')
 const walletFixtureSecpass = require('./__mocks__/wallet.v3-secpass')
@@ -107,6 +108,19 @@ describe('Wallet', () => {
     })
   })
 
+  it(`newHDAccount`, async () => {
+    const index = 1
+    const key = `xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi`
+    const label = `label`
+    const password = undefined
+
+    expect(
+      (await taskToPromise(
+        Wallet.newHDAccount(index, key, label, password, wallet)
+      )).toJS()
+    ).toMatchSnapshot()
+  })
+
   describe('setAddressLabel', () => {
     it('should set a new address label', () => {
       let addr = '14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ'
@@ -178,14 +192,4 @@ describe('Wallet', () => {
       expect(string2).toEqual(string)
     })
   })
-
-  // describe('createNew', () => {
-  //   const { mnemonic } = walletNewFixture
-
-  //   it('should create a new wallet', () => {
-  //     let { guid, sharedKey } = walletNewFixture.wallet
-  //     let wallet = Wallet.createNew(guid, sharedKey, mnemonic)
-  //     expect(Wallet.toJS(wallet)).toEqual(walletNewFixture.wallet)
-  //   })
-  // })
 })

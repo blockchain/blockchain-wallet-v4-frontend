@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import { compose } from 'ramda'
 import { Wrapper, Wallet, AddressMap } from '../../types'
 import walletReducer from './reducers.js'
@@ -19,6 +20,13 @@ const wrap = wallet => ({
 describe('reducers', () => {
   describe('wallet', () => {
     const wrapped = Wrapper.fromJS(wrap(walletFixture))
+
+    it('should handle MERGE_WRAPPER', () => {
+      const payload = fromJS({ wallet: { guid: `new guid` } })
+      const action = Actions.mergeWrapper(payload)
+      const next = walletReducer(wrapped, action)
+      expect(next).toMatchSnapshot()
+    })
 
     it('should handle SET_WRAPPER', () => {
       let action = Actions.setWrapper(wrapped)

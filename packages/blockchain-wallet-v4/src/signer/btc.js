@@ -37,10 +37,9 @@ export const sortSelection = selection => ({
   outputs: Coin.bip69SortOutputs(selection.outputs)
 })
 
-// signHDWallet :: network -> password -> wrapper -> selection -> Task selection
 export const signHDWallet = curry(
-  (network, secondPassword, wrapper, selection) =>
-    addHDWalletWIFS(network, secondPassword, wrapper, selection).map(
+  (securityModule, network, secondPassword, wrapper, selection) =>
+    addHDWalletWIFS(securityModule, network, secondPassword, wrapper, selection).map(
       signWithWIF(network)
     )
 )

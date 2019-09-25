@@ -7,13 +7,13 @@ import securityCenter from './securityCenter/sagaRegister'
 import transferEth from './transferEth/sagaRegister'
 import sfox from './sfox/sagaRegister'
 
-export default ({ api, coreSagas, networks }) =>
+export default (...args) =>
   function * modulesSaga () {
-    yield fork(addressesBch({ coreSagas, networks }))
-    yield fork(profile({ api, coreSagas, networks }))
-    yield fork(rates({ api }))
-    yield fork(settings({ api, coreSagas }))
-    yield fork(securityCenter({ coreSagas }))
-    yield fork(transferEth({ coreSagas, networks }))
-    yield fork(sfox({ api, coreSagas, networks }))
+    yield fork(addressesBch(...args))
+    yield fork(profile(...args))
+    yield fork(rates(...args))
+    yield fork(settings(...args))
+    yield fork(securityCenter(...args))
+    yield fork(transferEth(...args))
+    yield fork(sfox(...args))
   }

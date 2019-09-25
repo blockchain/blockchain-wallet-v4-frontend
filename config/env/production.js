@@ -10,6 +10,6 @@ module.exports = {
   ROOT_URL: 'https://blockchain.info',
   THE_PIT_URL: 'https://pit.blockchain.com',
   WEB_SOCKET_URL: 'wss://ws.blockchain.info',
-  WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info',
+  WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.com',
   VERIFF_URL: 'https://magic.veriff.me'
 }

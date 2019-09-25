@@ -1,5 +1,5 @@
 {
-  "name": "blockchain-wallet-v4-frontend",
+  "name": "security-process",
   "version": "0.1.0",
   "description": "Frontend wallet application.",
   "license": "AGPL-3.0-or-later",
@@ -19,13 +19,8 @@
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
     "manage:translations": "yarn build:prod && node ./translationRunner.js",
-    "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env ./../../node_modules/.bin/jest --silent",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
@@ -143,6 +138,7 @@
     "rxjs": "6.5.2",
     "sanitize-html": "1.20.1",
     "styled-components": "4.2.0",
+    "web-microkernel": "1.0.0",
     "zxcvbn": "4.4.2"
   }
 }

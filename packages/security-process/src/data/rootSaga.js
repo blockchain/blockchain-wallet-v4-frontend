@@ -5,7 +5,6 @@ import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
-import middleware from './middleware/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
@@ -37,10 +36,10 @@ const welcomeSaga = function * () {
   }
 }
 
-const languageInitSaga = function * () {
+const languageInitSaga = function * ({ imports }) {
   try {
     yield delay(250)
-    const lang = tryParseLanguageFromUrl()
+    const lang = tryParseLanguageFromUrl(imports)
     if (lang.language) {
       yield put(actions.preferences.setLanguage(lang.language, false))
       if (lang.cultureCode) {
@@ -52,30 +51,21 @@ const languageInitSaga = function * () {
   }
 }
 
-export default function * rootSaga ({
-  api,
-  bchSocket,
-  btcSocket,
-  ethSocket,
-  ratesSocket,
-  networks,
-  options
-}) {
-  const coreSagas = coreSagasFactory({ api, networks, options })
+export default function * rootSaga (args) {
+  const coreSagas = coreSagasFactory(args)
 
   yield all([
     call(welcomeSaga),
     fork(alerts),
-    fork(analytics({ api })),
-    fork(auth({ api, coreSagas })),
-    fork(components({ api, coreSagas, networks, options })),
-    fork(modules({ api, coreSagas, networks })),
-    fork(preferences()),
-    fork(goals({ api })),
-    fork(wallet({ coreSagas })),
-    fork(middleware({ api, bchSocket, btcSocket, ethSocket, ratesSocket })),
-    fork(coreRootSagaFactory({ api, networks, options })),
-    fork(router()),
-    call(languageInitSaga)
+    fork(analytics({ ...args, coreSagas })),
+    fork(auth({ ...args, coreSagas })),
+    fork(components({ ...args, coreSagas })),
+    fork(modules({ ...args, coreSagas })),
+    fork(preferences({ ...args, coreSagas })),
+    fork(goals({ ...args, coreSagas })),
+    fork(wallet({ ...args, coreSagas })),
+    fork(coreRootSagaFactory({ ...args, coreSagas })),
+    fork(router({ ...args, coreSagas })),
+    call(languageInitSaga, { ...args, coreSagas })
   ])
 }

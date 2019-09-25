@@ -1,24 +1,17 @@
-import { select } from 'redux-saga/effects'
-import { promptForSecondPassword } from 'services/SagaService'
+import { assocPath } from 'ramda'
 import { testSaga, expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 import * as actions from '../../actions'
+import { createMockWalletState, walletV3 } from 'blockchain-wallet-v4/data'
 import * as selectors from '../../selectors.js'
-import settingsSagas, {
-  logLocation,
-  ipRestrictionError,
-  taskToPromise
-} from './sagas'
+import settingsSagas, { logLocation, ipRestrictionError } from './sagas'
 import * as C from 'services/AlertService'
-import { contains } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 
 const SECRET_GOOGLE_AUTHENTICATOR_URL = 'some_url'
-const MOCK_PASSWORD = 'password'
 const MOCK_GUID = '50dae286-e42e-4d67-8419-d5dcc563746c'
 
 describe('settingsSagas', () => {
@@ -73,6 +66,79 @@ describe('settingsSagas', () => {
             )
           )
       })
+    })
+  })
+
+  describe(`recoverySaga`, () => {
+    it(`without second password`, () => {
+      const { recoverySaga } = settingsSagas({ coreSagas })
+      const mockState = createMockWalletState(walletV3)
+
+      return expectSaga(recoverySaga, {})
+        .withState(mockState)
+        .put({
+          type: `@COMPONENT.ADD_MNEMONIC`,
+          payload: {
+            phrase: {
+              mnemonic: [
+                `fuel`,
+                `cloth`,
+                `used`,
+                `increase`,
+                `solution`,
+                `dutch`,
+                `void`,
+                `tourist`,
+                `shadow`,
+                `sound`,
+                `soldier`,
+                `chalk`
+              ]
+            }
+          }
+        })
+        .run()
+    })
+
+    it(`with second password`, () => {
+      const securityModule = {
+        decryptWithSecondPassword: () => `5de57bbf395cec88fd672fc4d9fb3a12`
+      }
+
+      const { recoverySaga } = settingsSagas({ coreSagas, securityModule })
+
+      const encryptedState = assocPath(
+        [`hd_wallets`, 0, `seed_hex`],
+        `bKcNwis6TlK2SHRvxqESO+afPtLiNgcoLmqab/F816AVUgnbu+Gc3Bdcf5MAVjBew3mrhpS2Wbrtlg/DzBFMkA==`,
+        walletV3
+      )
+
+      const mockState = createMockWalletState(encryptedState)
+
+      return expectSaga(recoverySaga, { password: `password` })
+        .withState(mockState)
+        .put({
+          type: `@COMPONENT.ADD_MNEMONIC`,
+          payload: {
+            phrase: {
+              mnemonic: [
+                `fuel`,
+                `cloth`,
+                `used`,
+                `increase`,
+                `solution`,
+                `dutch`,
+                `void`,
+                `tourist`,
+                `shadow`,
+                `sound`,
+                `soldier`,
+                `chalk`
+              ]
+            }
+          }
+        })
+        .run()
     })
   })
 
@@ -186,36 +252,6 @@ describe('settingsSagas', () => {
           .put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
           .next()
           .put(actions.modules.settings.verifyMobileFailure())
-      })
-    })
-  })
-
-  describe('updateLanguage', () => {
-    let { updateLanguage } = settingsSagas({ coreSagas })
-
-    let action = { payload: { language: 'ES' } }
-
-    let saga = testSaga(updateLanguage, action)
-
-    it('should call setLanguage', () => {
-      saga.next().call(coreSagas.settings.setLanguage, action.payload)
-    })
-
-    it('should add the language to the url', () => {
-      saga.next()
-      expect(contains(action.payload.language, window.location.href)).toBe(true)
-    })
-
-    describe('error handling', () => {
-      const error = new Error('ERROR')
-      it('should log the error', () => {
-        saga
-          .restart()
-          .next()
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'updateLanguage', error)
-          )
       })
     })
   })
@@ -656,39 +692,6 @@ describe('settingsSagas', () => {
           .next()
           .put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
       })
-    })
-  })
-
-  describe('showBtcPrivateKey', () => {
-    const { showBtcPrivateKey } = settingsSagas({ coreSagas })
-
-    let action = { payload: { addr: 'address' } }
-
-    let saga = testSaga(showBtcPrivateKey, action)
-
-    it('should call promptForSecondPassword', () => {
-      saga.next().call(promptForSecondPassword)
-    })
-
-    it('should select the wallet', () => {
-      saga.next(MOCK_PASSWORD).select(selectors.core.wallet.getWallet)
-    })
-  })
-
-  describe('showEthPrivateKey', () => {
-    const getMnemonic = () => jest.fn()
-    const { showEthPrivateKey } = settingsSagas({ coreSagas })
-
-    let action = { payload: { isLegacy: false } }
-
-    it('should get the mnemonic', () => {
-      return expectSaga(showEthPrivateKey, action)
-        .provide([
-          [matchers.call.fn(promptForSecondPassword), 'password'],
-          [select(getMnemonic), 'mnemonicT'],
-          [matchers.call.fn(() => taskToPromise), 'mnemonic']
-        ])
-        .run()
     })
   })
 })

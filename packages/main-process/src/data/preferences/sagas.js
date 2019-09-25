@@ -3,13 +3,13 @@ import * as actions from '../actions.js'
 import * as C from 'services/AlertService'
 import { addLanguageToUrl } from 'services/LocalesService'
 
-export default () => {
+export default ({ imports }) => {
   const logLocation = 'preferences/sagas'
 
   const setLanguage = function * (action) {
     const { language, showAlert } = action.payload
     try {
-      addLanguageToUrl(language)
+      imports.addLanguageToUrl(language)
       if (showAlert) {
         yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
       }

@@ -48,7 +48,7 @@ describe('authSagas', () => {
   })
 
   describe('login flow', () => {
-    const { login, loginRoutineSaga, pollingSession } = authSagas({
+    const { login, pollingSession } = authSagas({
       api,
       coreSagas
     })
@@ -93,11 +93,11 @@ describe('authSagas', () => {
       })
     })
 
-    it('should call login routine', () => {
+    it('should put login routine', () => {
       const { mobileLogin } = payload
       saga
         .next()
-        .call(loginRoutineSaga, mobileLogin)
+        .put(actions.auth.loginRoutine(mobileLogin))
         .next()
         .isDone()
     })
@@ -185,9 +185,9 @@ describe('authSagas', () => {
               })
           })
 
-          it('should call login routine', () => {
+          it('should put login routine', () => {
             const { mobileLogin } = payload
-            saga.next().call(loginRoutineSaga, mobileLogin)
+            saga.next().put(actions.auth.loginRoutine(mobileLogin))
           })
 
           it('should follow 2FA flow on auth error', () => {
@@ -352,7 +352,11 @@ describe('authSagas', () => {
     })
     const mobileLogin = true
     const firstLogin = false
-    const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
+
+    const saga = testSaga(loginRoutineSaga, {
+      payload: { mobileLogin, firstLogin }
+    })
+
     const beforeHdCheck = 'beforeHdCheck'
 
     it('should check if wallet is an hd wallet', () => {
@@ -369,13 +373,9 @@ describe('authSagas', () => {
         .restore(beforeHdCheck)
     })
 
-    it('should put authenticate action', () => {
-      saga.next(true).put(actions.auth.authenticate())
-    })
-
     it('should fetch root', () => {
       saga
-        .next()
+        .next(true)
         .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     })
 
@@ -444,14 +444,6 @@ describe('authSagas', () => {
       saga.next(guid).put(actions.cache.guidEntered(guid))
     })
 
-    it('should reset auth state', () => {
-      saga.next().put(actions.auth.setAuthType(0))
-    })
-
-    it('should clear login form', () => {
-      saga.next().put(actions.form.destroy('login'))
-    })
-
     it('should select current language', () => {
       saga.next().select(selectors.preferences.getLanguage)
     })
@@ -492,7 +484,10 @@ describe('authSagas', () => {
 
     it("should not display success if it's first login", () => {
       const firstLogin = true
-      return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
+
+      return expectSaga(loginRoutineSaga, {
+        payload: { mobileLogin, firstLogin }
+      })
         .provide([
           // Every async or value returning yield has to be mocked
           // for saga to progress
@@ -527,7 +522,7 @@ describe('authSagas', () => {
   })
 
   describe('register flow', () => {
-    const { loginRoutineSaga, register } = authSagas({
+    const { register } = authSagas({
       api,
       coreSagas
     })
@@ -550,10 +545,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should put login routine action with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {
@@ -586,7 +581,7 @@ describe('authSagas', () => {
   })
 
   describe('restore flow', () => {
-    const { loginRoutineSaga, restore } = authSagas({
+    const { restore } = authSagas({
       api,
       coreSagas
     })
@@ -615,10 +610,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should put login routine action with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {

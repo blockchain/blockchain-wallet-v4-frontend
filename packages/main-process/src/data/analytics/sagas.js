@@ -44,18 +44,7 @@ export default ({ api }) => {
   }
 
   const generateUniqueUserID = function * () {
-    const defaultHDWallet = yield select(
-      selectors.core.wallet.getDefaultHDWallet
-    )
-    const userId = yield call(waitForUserId)
-    if (userId) return userId
-    const { seedHex } = defaultHDWallet
-    const mnemonic = BIP39.entropyToMnemonic(seedHex)
-    const masterhex = BIP39.mnemonicToSeed(mnemonic)
-    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
-    let hash = crypto.sha256('info.blockchain.matomo')
-    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
-    return masterHDNode.deriveHardened(purpose).getAddress()
+    return yield call(waitForUserId) || ``
   }
 
   const initUserSession = function * () {

@@ -50,13 +50,8 @@ export function convertCultureCodeToLanguage (cultureCode) {
   return Maybe.Just(selectedLanguage.language)
 }
 
-// update url with new language without forcing browser reload
-export function addLanguageToUrl (language) {
-  window.history.pushState({}, '', `/${language}/${window.location.hash}`)
-}
-
-export function tryParseLanguageFromUrl () {
-  const path = window.location.pathname.replace(/\//g, '')
+export function tryParseLanguageFromUrl ({ pathname }) {
+  const path = pathname.replace(/\//g, '')
 
   if (path && path.length) {
     return languages[findIndex(propEq('language', path))(languages)]

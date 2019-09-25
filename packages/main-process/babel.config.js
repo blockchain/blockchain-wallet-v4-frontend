@@ -1,11 +1,21 @@
+const path = require(`path`)
+
+const resolve = directory => path.resolve(__dirname, directory)
+
 module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
     'babel-plugin-styled-components',
-    ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
-    ['react-intl', { messagesDir: './build/extractedMessages' }]
+    [
+      'module-resolver',
+      {
+        root: [resolve('src')],
+        alias: { data: resolve('src/data') }
+      }
+    ],
+    ['react-intl', { messagesDir: resolve('build/extractedMessages') }]
   ],
   ignore: [],
   env: {
@@ -18,8 +28,14 @@ module.exports = {
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
         'babel-plugin-styled-components',
-        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
-        ['react-intl', { messagesDir: './build/extractedMessages' }]
+        [
+          'module-resolver',
+          {
+            root: [resolve('src')],
+            alias: { data: resolve('src/data') }
+          }
+        ],
+        ['react-intl', { messagesDir: resolve('build/extractedMessages') }]
       ]
     },
     development: {
@@ -31,7 +47,13 @@ module.exports = {
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
         'babel-plugin-styled-components',
-        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
+        [
+          'module-resolver',
+          {
+            root: [resolve('src')],
+            alias: { data: resolve('src/data') }
+          }
+        ],
         'react-hot-loader/babel'
       ]
     }

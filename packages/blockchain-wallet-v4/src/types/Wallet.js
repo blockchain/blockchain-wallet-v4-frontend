@@ -6,19 +6,9 @@ import Maybe from 'data.maybe'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
-import {
-  compose,
-  curry,
-  map,
-  is,
-  pipe,
-  __,
-  concat,
-  split,
-  isNil,
-  flip
-} from 'ramda'
+import { compose, concat, curry, map, is, pipe, __, split, isNil } from 'ramda'
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
+
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
 import Type from './Type'
@@ -273,15 +263,6 @@ export const importLegacyAddress = curry(
   }
 )
 
-// upgradeToHd :: String -> String -> String? -> Task Error Wallet
-export const upgradeToHd = curry(
-  (mnemonic, firstLabel, password, network, wallet) => {
-    return newHDWallet(mnemonic, password, wallet).chain(
-      newHDAccount(firstLabel, password, network)
-    )
-  }
-)
-
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   let hdWallet = HDWallet.createNew(mnemonic)
@@ -293,26 +274,19 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
   )
 })
 
-// newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
-export const newHDAccount = curry((label, password, network, wallet) => {
-  let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
-  let index = hdWallet.accounts.size
+export const newHDAccount = curry((index, key, label, password, wallet) => {
   let appendAccount = curry((w, account) => {
-    let accountsLens = compose(
+    const accountsLens = compose(
       hdWallets,
       HDWalletList.hdwallet,
       HDWallet.accounts
     )
-    let accountWithIndex = set(HDAccount.index, index, account)
+
+    const accountWithIndex = set(HDAccount.index, index, account)
     return over(accountsLens, accounts => accounts.push(accountWithIndex), w)
   })
-  return applyCipher(
-    wallet,
-    password,
-    flip(crypto.decryptSecPass),
-    hdWallet.seedHex
-  )
-    .map(HDWallet.generateAccount(index, label, network))
+
+  return Task.of(HDWallet.generateAccount(key, label))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })

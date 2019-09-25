@@ -8,21 +8,26 @@ import configureStore from 'store'
 import App from 'scenes/app.js'
 import Error from './index.error'
 
-const renderApp = (Component, store, history, persistor) => {
-  const render = (Component, store, history, persistor) => {
+const renderApp = (Component, root) => {
+  const render = (Component, { imports, securityModule, store, history }) => {
     ReactDOM.render(
       <AppContainer key={Math.random()} warnings={false}>
-        <Component store={store} history={history} persistor={persistor} />
+        <Component
+          imports={imports}
+          securityModule={securityModule}
+          store={store}
+          history={history}
+        />
       </AppContainer>,
       document.getElementById('app')
     )
   }
 
-  render(App, store, history, persistor)
+  render(App, root)
 
   if (module.hot) {
     module.hot.accept('./scenes/app.js', () =>
-      render(require('./scenes/app.js').default, store, history, persistor)
+      render(require('./scenes/app.js').default, root)
     )
   }
 }
@@ -35,7 +40,7 @@ const renderError = e => {
 
 configureStore()
   .then(root => {
-    renderApp(App, root.store, root.history, root.persistor)
+    renderApp(App, root)
   })
   .catch(e => {
     renderError(e)

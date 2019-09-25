@@ -1,0 +1,22 @@
+{
+  "name": "web-microkernel",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "test:build": "echo 'No precomplilation required for tests to execute.'",
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+  },
+  "dependencies": {
+    "lodash": "4.17.11"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.4",
+    "@babel/preset-env": "7.4.4",
+    "babel-jest": "24.8.0",
+    "jest": "24.8.0",
+    "realistic-structured-clone": "2.0.2"
+  }
+}

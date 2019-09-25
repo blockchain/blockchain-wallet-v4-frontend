@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistStore, persistCombineReducers } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
@@ -13,22 +12,19 @@ import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   createWalletApi,
   Socket,
-  ApiSocket,
-  HorizonStreamingService
+  ApiSocket
 } from 'blockchain-wallet-v4/src/network'
+
+import httpService from 'blockchain-wallet-v4/src/network/api/http'
+import Settings from 'blockchain-wallet-v4/src/network/api/settings'
+import SecurityModule from 'blockchain-wallet-v4/src/SecurityModule'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootSaga, rootReducer, selectors } from 'data'
-import {
-  autoDisconnection,
-  streamingXlm,
-  webSocketBch,
-  webSocketBtc,
-  webSocketEth,
-  webSocketRates
-} from '../middleware'
+import IPC from '../IPC'
 
 const devToolsConfig = {
   maxAge: 1000,
+  name: `Security Process`,
   serialize: serializer,
   actionsBlacklist: [
     // '@@redux-form/INITIALIZE',
@@ -43,7 +39,8 @@ const devToolsConfig = {
   ]
 }
 
-const configureStore = () => {
+export default IPC(async ({ imports, middleware: IPCmiddleware }) => {
+  const { options, localStorage } = imports
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -52,109 +49,103 @@ const configureStore = () => {
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
   const isAuthenticated = selectors.auth.isAuthenticated
+  const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+  // TODO: deprecate when wallet-options-v4 is updated on prod
+  const socketUrl = head(options.domains.webSocket.split('/inv'))
+  const btcSocket = new Socket({
+    options,
+    url: `${socketUrl}/inv`
+  })
+  const bchSocket = new Socket({
+    options,
+    url: `${socketUrl}/bch/inv`
+  })
+  const ethSocket = new Socket({
+    options,
+    url: `${socketUrl}/eth/inv`
+  })
+  const ratesSocket = new ApiSocket({
+    options,
+    url: `${socketUrl}/nabu-gateway/markets/quotes`,
+    maxReconnects: 3
+  })
 
-  return fetch('/Resources/wallet-options-v4.json')
-    .then(res => res.json())
-    .then(options => {
-      const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      // TODO: deprecate when wallet-options-v4 is updated on prod
-      const socketUrl = head(options.domains.webSocket.split('/inv'))
-      const horizonUrl = options.domains.horizon
-      const btcSocket = new Socket({
-        options,
-        url: `${socketUrl}/inv`
-      })
-      const bchSocket = new Socket({
-        options,
-        url: `${socketUrl}/bch/inv`
-      })
-      const ethSocket = new Socket({
-        options,
-        url: `${socketUrl}/eth/inv`
-      })
-      const ratesSocket = new ApiSocket({
-        options,
-        url: `${socketUrl}/nabu-gateway/markets/quotes`,
-        maxReconnects: 3
-      })
-      const xlmStreamingService = new HorizonStreamingService({
-        url: horizonUrl
-      })
-      const getAuthCredentials = () =>
-        selectors.modules.profile.getAuthCredentials(store.getState())
-      const reauthenticate = () =>
-        store.dispatch(actions.modules.profile.signIn())
-      const networks = {
-        btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
-        bch:
-          BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
-        eth: options.platforms.web.coins.ETH.config.network,
-        xlm: options.platforms.web.coins.XLM.config.network
-      }
-      const api = createWalletApi({
-        options,
-        apiKey,
-        getAuthCredentials,
-        reauthenticate,
-        networks
-      })
-      const persistWhitelist = ['session', 'preferences', 'cache']
+  const getAuthCredentials = () =>
+    selectors.modules.profile.getAuthCredentials(store.getState())
+  const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
+  const networks = {
+    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
+    bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
+    eth: options.platforms.web.coins.ETH.config.network,
+    xlm: options.platforms.web.coins.XLM.config.network
+  }
 
-      // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
-      const store = createStore(
-        connectRouter(history)(
-          persistCombineReducers(
-            {
-              getStoredState: getStoredStateMigrateV4({
-                whitelist: persistWhitelist
-              }),
-              key: 'root',
-              storage,
-              whitelist: persistWhitelist
-            },
-            rootReducer
-          )
-        ),
-        composeEnhancers(
-          applyMiddleware(
-            sagaMiddleware,
-            routerMiddleware(history),
-            coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            webSocketBtc(btcSocket),
-            webSocketBch(bchSocket),
-            webSocketEth(ethSocket),
-            streamingXlm(xlmStreamingService, api),
-            webSocketRates(ratesSocket),
-            coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
-            autoDisconnection()
-          )
-        )
+  const http = httpService({ apiKey, imports })
+
+  const baseApi = createWalletApi({
+    http,
+    options,
+    getAuthCredentials,
+    reauthenticate,
+    networks
+  })
+  const persistWhitelist = ['session', 'preferences', 'cache']
+
+  // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
+  const store = createStore(
+    connectRouter(history)(
+      persistCombineReducers(
+        {
+          getStoredState: getStoredStateMigrateV4({
+            storage: localStorage,
+            whitelist: persistWhitelist
+          }),
+          key: 'root',
+          storage: localStorage,
+          whitelist: persistWhitelist
+        },
+        rootReducer
       )
-      const persistor = persistStore(store, null)
+    ),
+    composeEnhancers(
+      applyMiddleware(
+        IPCmiddleware,
+        sagaMiddleware,
+        routerMiddleware(history),
+        coreMiddleware.kvStore({ isAuthenticated, api: baseApi, kvStorePath }),
+        coreMiddleware.walletSync({ isAuthenticated, api: baseApi, walletPath })
+      )
+    )
+  )
 
-      sagaMiddleware.run(rootSaga, {
-        api,
-        bchSocket,
-        btcSocket,
-        ethSocket,
-        ratesSocket,
-        networks,
-        options
-      })
+  const rootUrl = options.domains.root
+  const securityModule = SecurityModule({ http, rootUrl, store })
+  const api = { ...baseApi, ...Settings({ ...http, rootUrl, securityModule }) }
+  const persistor = persistStore(store, null)
 
-      // expose globals here
-      window.createTestXlmAccounts = () => {
-        store.dispatch(actions.core.data.xlm.createTestAccounts())
-      }
+  sagaMiddleware.run(rootSaga, {
+    api,
+    bchSocket,
+    btcSocket,
+    ethSocket,
+    imports,
+    ratesSocket,
+    networks,
+    options,
+    securityModule
+  })
 
-      store.dispatch(actions.goals.defineGoals())
+  // expose globals here
+  window.createTestXlmAccounts = () => {
+    store.dispatch(actions.core.data.xlm.createTestAccounts())
+  }
 
-      return {
-        store,
-        history,
-        persistor
-      }
-    })
-}
-
-export default configureStore
+  return {
+    api,
+    imports,
+    securityModule,
+    store,
+    history,
+    persistor
+  }
+})

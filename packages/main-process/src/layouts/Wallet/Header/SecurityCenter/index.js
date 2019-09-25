@@ -7,11 +7,21 @@ import {
   NavbarNavItemTextIcon
 } from 'components/Navbar'
 
-const SecurityCenter = () => {
+const SecurityCenter = props => {
+  const onSecurityCenterClick = event => {
+    props.dispatch({
+      type: `ROOT_LOCATION_CHANGE`,
+      payload: { action: `PUSH`, location: { pathname: `/security-center` } }
+    })
+
+    event.preventDefault()
+  }
+
   return (
     <LinkContainer
       data-e2e='securityCenterLink'
       activeClassName='active'
+      onClick={onSecurityCenterClick}
       to='/security-center'
     >
       <NavbarNavItemTextLink>

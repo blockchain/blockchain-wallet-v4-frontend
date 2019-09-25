@@ -44,7 +44,7 @@ export const taskToPromise = t =>
       .chain().fee(myFee).amount(myAmount).done()
 */
 
-export default ({ api }) => {
+export default ({ api, securityModule }) => {
   const settingsSagas = settingsSagaFactory({ api })
   const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
@@ -218,6 +218,7 @@ export default ({ api }) => {
   }
 
   const __calculateSignature = function * (
+    securityModule,
     network,
     password,
     transport,
@@ -233,7 +234,9 @@ export default ({ api }) => {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         return yield call(() =>
-          taskToPromise(btc.signHDWallet(network, password, wrapper, selection))
+          taskToPromise(
+            btc.signHDWallet(securityModule, network, password, wrapper, selection)
+          )
         )
       case ADDRESS_TYPES.LEGACY:
         return yield call(() =>
@@ -326,6 +329,7 @@ export default ({ api }) => {
       * sign (password, transport, scrambleKey) {
         let signed = yield call(
           __calculateSignature,
+          securityModule,
           network,
           password,
           transport,

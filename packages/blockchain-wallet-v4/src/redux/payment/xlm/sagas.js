@@ -54,7 +54,7 @@ export const NO_TX_ERROR = 'No transaction'
 export const NO_SIGNED_ERROR = 'No signed tx'
 export const WRONG_MEMO_FORMAT = 'Bad memo'
 
-export default ({ api }) => {
+export default ({ api, securityModule }) => {
   const settingsSagas = settingsSagaFactory({ api })
   // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = destination => {
@@ -66,7 +66,7 @@ export default ({ api }) => {
   }
 
   const calculateSignature = function * (
-    password,
+    secondPassword,
     transaction,
     transport,
     scrambleKey,
@@ -75,9 +75,12 @@ export default ({ api }) => {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
-        const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        return xlmSigner.sign({ transaction }, mnemonic)
+
+        return yield call(
+          xlmSigner.sign,
+          { secondPassword, securityModule },
+          transaction
+        )
       case ADDRESS_TYPES.LOCKBOX:
         return yield call(
           xlmSigner.signWithLockbox,
@@ -258,20 +261,16 @@ export default ({ api }) => {
       },
 
       * sign (password, transport, scrambleKey) {
-        try {
-          const transaction = prop('transaction', p)
-          const signed = yield call(
-            calculateSignature,
-            password,
-            transaction,
-            transport,
-            scrambleKey,
-            path(['from', 'type'], p)
-          )
-          return makePayment(merge(p, { signed }))
-        } catch (e) {
-          throw new Error('missing_mnemonic')
-        }
+        const transaction = prop('transaction', p)
+        const signed = yield call(
+          calculateSignature,
+          password,
+          transaction,
+          transport,
+          scrambleKey,
+          path(['from', 'type'], p)
+        )
+        return makePayment(merge(p, { signed }))
       },
 
       * publish () {

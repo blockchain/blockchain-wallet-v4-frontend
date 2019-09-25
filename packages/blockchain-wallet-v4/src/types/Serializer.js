@@ -19,6 +19,17 @@ import Remote from '../remote'
 
 const serializer = {
   replacer: function (key, value) {
+    // Without this, jsan swallows the stack trace.
+    if (value instanceof Error) {
+      return {
+        __serializedType__: `Error`,
+        data: {
+          message: value.message,
+          stack: value.stack
+        }
+      }
+    }
+
     // Remove all functions from the state
     if (value && typeof value === 'function') {
       return ''
@@ -34,13 +45,17 @@ const serializer = {
     return value
   },
   reviver: function (key, value) {
-    if (
+    if (value && value.type === 'Buffer') {
+      return Buffer.from(value.data)
+    } else if (
       typeof value === 'object' &&
       value !== null &&
       '__serializedType__' in value
     ) {
       var data = value.data
       switch (value.__serializedType__) {
+        case `Error`:
+          return Object.assign(new Error(data.message), { stack: data.stack })
         case 'Wrapper':
           return Wrapper.reviver(data)
         case 'Wallet':

@@ -201,11 +201,6 @@ describe('settingsSagas', () => {
       saga.next().call(coreSagas.settings.setLanguage, action.payload)
     })
 
-    it('should add the language to the url', () => {
-      saga.next()
-      expect(contains(action.payload.language, window.location.href)).toBe(true)
-    })
-
     describe('error handling', () => {
       const error = new Error('ERROR')
       it('should log the error', () => {
@@ -672,23 +667,6 @@ describe('settingsSagas', () => {
 
     it('should select the wallet', () => {
       saga.next(MOCK_PASSWORD).select(selectors.core.wallet.getWallet)
-    })
-  })
-
-  describe('showEthPrivateKey', () => {
-    const getMnemonic = () => jest.fn()
-    const { showEthPrivateKey } = settingsSagas({ coreSagas })
-
-    let action = { payload: { isLegacy: false } }
-
-    it('should get the mnemonic', () => {
-      return expectSaga(showEthPrivateKey, action)
-        .provide([
-          [matchers.call.fn(promptForSecondPassword), 'password'],
-          [select(getMnemonic), 'mnemonicT'],
-          [matchers.call.fn(() => taskToPromise), 'mnemonic']
-        ])
-        .run()
     })
   })
 })

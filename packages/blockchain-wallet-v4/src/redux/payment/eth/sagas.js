@@ -37,7 +37,7 @@ const taskToPromise = t =>
       .chain().amount(myAmount).done()
 */
 
-export default ({ api }) => {
+export default ({ api, securityModule }) => {
   const settingsSagas = settingsSagaFactory({ api })
   const selectIndex = function * (from) {
     const appState = yield select(identity)
@@ -60,8 +60,8 @@ export default ({ api }) => {
   }
 
   const calculateSignature = function * (
+    securityModule,
     network,
-    password,
     transport,
     scrambleKey,
     p
@@ -69,9 +69,6 @@ export default ({ api }) => {
     switch (p.raw.fromType) {
       case ADDRESS_TYPES.ACCOUNT: {
         let sign
-        const appState = yield select(identity)
-        const mnemonicT = S.wallet.getMnemonic(appState, password)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
         if (p.isErc20) {
           const contractAddress = (yield select(
             S.kvStore.eth.getErc20ContractAddr,
@@ -79,10 +76,10 @@ export default ({ api }) => {
           )).getOrFail('missing_contract_addr')
           sign = data =>
             taskToPromise(
-              eth.signErc20(network, mnemonic, data, contractAddress)
+              eth.signErc20(network, securityModule, data, contractAddress)
             )
         } else {
-          sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+          sign = data => taskToPromise(eth.sign(network, securityModule, data))
         }
         return yield call(sign, p.raw)
       }
@@ -276,34 +273,24 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign (password, transport, scrambleKey) {
-        try {
-          const signed = yield call(
-            calculateSignature,
-            network,
-            password,
-            transport,
-            scrambleKey,
-            p
-          )
-          return makePayment(mergeRight(p, { signed }))
-        } catch (e) {
-          throw new Error('missing_mnemonic')
-        }
+      * sign (transport, scrambleKey) {
+        const signed = yield call(
+          calculateSignature,
+          network,
+          transport,
+          scrambleKey,
+          p
+        )
+        return makePayment(mergeRight(p, { signed }))
       },
 
-      * signLegacy (password) {
-        try {
-          const appState = yield select(identity)
-          const seedHexT = S.wallet.getSeedHex(appState, password)
-          const seedHex = yield call(() => taskToPromise(seedHexT))
-          const signLegacy = data =>
-            taskToPromise(eth.signLegacy(network, seedHex, data))
-          const signed = yield call(signLegacy, p.raw)
-          return makePayment(mergeRight(p, { signed }))
-        } catch (e) {
-          throw new Error('missing_seed_hex')
-        }
+      * signLegacy (secondPassword) {
+        const signLegacy = data =>
+          taskToPromise(
+            eth.signLegacy(network, securityModule, secondPassword, data)
+          )
+        const signed = yield call(signLegacy, p.raw)
+        return makePayment(mergeRight(p, { signed }))
       },
 
       * publish () {

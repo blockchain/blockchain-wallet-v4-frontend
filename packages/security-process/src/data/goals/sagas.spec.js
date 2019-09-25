@@ -371,41 +371,6 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runKycGoal saga', () => {
-    it('should not show kyc if current tier is >= goal tier', () => {
-      const saga = testSaga(runKycGoal, { id: mockGoalId, data: { tier: 2 } })
-
-      saga
-        .next()
-        .put(actions.goals.deleteGoal(mockGoalId))
-        .next()
-        .call(waitForUserData)
-        .next()
-        .select(selectors.modules.profile.getUserTiers)
-        .next(Remote.of({ current: 2 }))
-        .isDone()
-    })
-
-    it('should show kyc if current tier is < goal tier', () => {
-      const goalTier = 2
-      const saga = testSaga(runKycGoal, {
-        id: mockGoalId,
-        data: { tier: goalTier }
-      })
-      saga
-        .next()
-        .put(actions.goals.deleteGoal(mockGoalId))
-        .next()
-        .call(waitForUserData)
-        .next()
-        .select(selectors.modules.profile.getUserTiers)
-        .next(Remote.of({ current: 1 }))
-        .put(actions.components.identityVerification.verifyIdentity(goalTier))
-        .next()
-        .isDone()
-    })
-  })
-
   describe('runSwapGetStartedGoal saga', () => {
     it('should not show modal if it has already been seen', () => {
       const saga = testSaga(runSwapGetStartedGoal, { id: mockGoalId })

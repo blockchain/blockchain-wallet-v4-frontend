@@ -99,7 +99,6 @@ S.data.xlm.getAccount.mockImplementation(id => () => {
   if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_ACCOUNT)
   return null
 })
-S.wallet.getMnemonic.mockReturnValue(() => Task.of(STUB_MNEMONIC))
 
 xlmSigner.sign.mockReturnValue(STUB_SIGNED_TX)
 
@@ -425,8 +424,6 @@ describe.skip('payment', () => {
       payment = await expectSaga(payment.sign, STUB_PASSWORD)
         .run()
         .then(prop('returnValue'))
-      expect(S.wallet.getMnemonic).toHaveBeenCalledTimes(1)
-      expect(S.wallet.getMnemonic.mock.calls[0][1]).toBe(STUB_PASSWORD)
       expect(xlmSigner.sign).toHaveBeenCalledTimes(1)
       expect(xlmSigner.sign).toHaveBeenCalledWith(
         { transaction: STUB_TX },

@@ -101,7 +101,8 @@ export const getWalletAddresses = async (state, api) => {
  */
 const walletSync = ({
   isAuthenticated,
-  api
+  api,
+  mergeWrapper = false
 } = {}) => store => next => action => {
   const prevState = store.getState()
   const prevWallet = selectors.wallet.getWrapper(prevState)
@@ -164,7 +165,11 @@ const walletSync = ({
       action.type !== T.wallet.SET_PAYLOAD_CHECKSUM &&
       action.type !== T.wallet.REFRESH_WRAPPER &&
       prevWallet !== nextWallet:
-      sync()
+      if (mergeWrapper) {
+        store.dispatch(A.wallet.mergeWrapper(nextWallet))
+      } else {
+        sync()
+      }
       break
     default:
       break

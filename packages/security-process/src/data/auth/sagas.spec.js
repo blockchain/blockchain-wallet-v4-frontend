@@ -1,8 +1,8 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import { fork, call } from 'redux-saga-test-plan/matchers'
+import { call } from 'redux-saga-test-plan/matchers'
 
-import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
+import { confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../selectors'
 import * as actions from '../actions'
@@ -30,25 +30,15 @@ const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 describe('authSagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
   const originalMath = Object.create(Math)
-  let pushStateSpy
-  let locationReloadSpy
   beforeAll(() => {
     Math.random = () => 0.5
-    pushStateSpy = jest
-      .spyOn(window.history, 'pushState')
-      .mockImplementation(() => {})
-    locationReloadSpy = jest
-      .spyOn(window.location, 'reload')
-      .mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
-    pushStateSpy.restore()
-    locationReloadSpy.restore()
   })
 
   describe('login flow', () => {
-    const { login, loginRoutineSaga, pollingSession } = authSagas({
+    const { login, pollingSession } = authSagas({
       api,
       coreSagas
     })
@@ -93,11 +83,11 @@ describe('authSagas', () => {
       })
     })
 
-    it('should call login routine', () => {
+    it('should dispatch login routine action', () => {
       const { mobileLogin } = payload
       saga
         .next()
-        .call(loginRoutineSaga, mobileLogin)
+        .put(actions.auth.loginRoutine(mobileLogin))
         .next()
         .isDone()
     })
@@ -185,9 +175,9 @@ describe('authSagas', () => {
               })
           })
 
-          it('should call login routine', () => {
+          it('should put login routine', () => {
             const { mobileLogin } = payload
-            saga.next().call(loginRoutineSaga, mobileLogin)
+            saga.next().put(actions.auth.loginRoutine(mobileLogin))
           })
 
           it('should follow 2FA flow on auth error', () => {
@@ -335,104 +325,14 @@ describe('authSagas', () => {
   })
 
   describe('login routine', () => {
-    const {
-      authNabu,
-      checkDataErrors,
-      loginRoutineSaga,
-      logoutRoutine,
-      saveGoals,
-      setLogoutEventListener,
-      startSockets,
-      transferEthSaga,
-      upgradeWalletSaga,
-      upgradeAddressLabelsSaga
-    } = authSagas({
+    const { loginRoutineSaga } = authSagas({
       api,
       coreSagas
     })
-    const mobileLogin = true
-    const firstLogin = false
-    const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
-    const beforeHdCheck = 'beforeHdCheck'
-
-    it('should check if wallet is an hd wallet', () => {
-      saga
-        .next()
-        .select(selectors.core.wallet.isHdWallet)
-        .save(beforeHdCheck)
-    })
-
-    it('should call upgradeWalletSaga if wallet is not hd', () => {
-      saga
-        .next(false)
-        .call(upgradeWalletSaga)
-        .restore(beforeHdCheck)
-    })
+    const saga = testSaga(loginRoutineSaga)
 
     it('should put authenticate action', () => {
-      saga.next(true).put(actions.auth.authenticate())
-    })
-
-    it('should fetch root', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch eth metadata', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch xlm metadata', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch bch metadata', () => {
-      saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
-    })
-
-    it('should fetch lockbox metadata', () => {
-      saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-    })
-
-    it('should redirect to home route', () => {
-      saga.next().put(actions.router.push('/home'))
-    })
-
-    it('should fetch settings', () => {
-      saga.next().call(coreSagas.settings.fetchSettings)
-    })
-
-    it('should fetch xlm ledger details', () => {
-      saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
-    })
-
-    it('should fetch xlm accounts', () => {
-      saga.next().call(coreSagas.data.xlm.fetchData)
-    })
-
-    it('should call auth nabu saga', () => {
-      saga.next().call(authNabu)
-    })
-
-    it('should call upgrade address labels saga', () => {
-      saga.next().call(upgradeAddressLabelsSaga)
-    })
-
-    it('should trigger login success action', () => {
-      saga.next().put(actions.auth.loginSuccess())
-    })
-
-    it('should start logout timer', () => {
-      saga.next().put(actions.auth.startLogoutTimer())
-    })
-
-    it('should start sockets', () => {
-      saga.next().call(startSockets)
+      saga.next().put(actions.auth.authenticate())
     })
 
     it('should select guid from state', () => {
@@ -450,60 +350,6 @@ describe('authSagas', () => {
 
     it('should clear login form', () => {
       saga.next().put(actions.form.destroy('login'))
-    })
-
-    it('should select current language', () => {
-      saga.next().select(selectors.preferences.getLanguage)
-    })
-
-    it('should trigger update language action with selected language', () => {
-      const language = 'en'
-      saga.next(language).put(actions.modules.settings.updateLanguage(language))
-    })
-
-    it('should init analytics user session', () => {
-      saga.next().put(actions.analytics.initUserSession())
-    })
-
-    it('should launch transferEth saga', () => {
-      saga.next().fork(transferEthSaga)
-    })
-
-    it('should save goals', () => {
-      saga.next().call(saveGoals, false)
-    })
-
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
-    })
-
-    it('should check for data errors', () => {
-      saga.next().fork(checkDataErrors)
-    })
-
-    it('should start listening for logout event', () => {
-      saga.next().call(setLogoutEventListener)
-    })
-
-    it('should launch logout routine saga upon logout event', () => {
-      const stubLogoutEvent = {}
-      saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent)
-    })
-
-    it("should not display success if it's first login", () => {
-      const firstLogin = true
-      return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
-        .provide([
-          // Every async or value returning yield has to be mocked
-          // for saga to progress
-          [select(selectors.core.wallet.isHdWallet), true],
-          [select(selectors.core.wallet.getGuid), 12],
-          [fork.fn(transferEthSaga), jest.fn],
-          [call.fn(setLogoutEventListener), jest.fn],
-          [fork.fn(logoutRoutine), jest.fn]
-        ])
-        .not.put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-        .run()
     })
 
     describe('error handling', () => {
@@ -527,7 +373,7 @@ describe('authSagas', () => {
   })
 
   describe('register flow', () => {
-    const { loginRoutineSaga, register } = authSagas({
+    const { register } = authSagas({
       api,
       coreSagas
     })
@@ -550,10 +396,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should dispatch login routine action with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {
@@ -586,7 +432,7 @@ describe('authSagas', () => {
   })
 
   describe('restore flow', () => {
-    const { loginRoutineSaga, restore } = authSagas({
+    const { restore } = authSagas({
       api,
       coreSagas
     })
@@ -615,10 +461,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should dispatch a login routine saga with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {
@@ -990,21 +836,11 @@ describe('authSagas', () => {
   describe('logout routine', () => {
     const { logout } = authSagas({
       api,
-      coreSagas
+      coreSagas,
+      imports: { logout: jest.fn() }
     })
 
-    it('should stop rates scoket if user flow is supported', () => {
-      return expectSaga(logout)
-        .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
-          [select(selectors.modules.profile.userFlowSupported), Remote.of(true)]
-        ])
-        .put(actions.modules.profile.clearSession())
-        .put(actions.middleware.webSocket.rates.stopSocket())
-        .run()
-    })
-
-    it('should not stop rates scoket if user flow is supported', () => {
+    it('should redirect to logout if email is verified', () => {
       return expectSaga(logout)
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
@@ -1013,77 +849,19 @@ describe('authSagas', () => {
             Remote.of(false)
           ]
         ])
-        .not.put(actions.modules.profile.clearSession())
-        .not.put(actions.middleware.webSocket.rates.stopSocket())
-        .run()
-    })
-
-    it('should stop sockets and redirect to logout if email is verified', () => {
-      return expectSaga(logout)
-        .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
-          [
-            select(selectors.modules.profile.userFlowSupported),
-            Remote.of(false)
-          ]
-        ])
-        .put(actions.middleware.webSocket.bch.stopSocket())
-        .put(actions.middleware.webSocket.btc.stopSocket())
-        .put(actions.middleware.webSocket.eth.stopSocket())
-        .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
-    })
-
-    it('should stop sockets and clear redux store if email is not verified', async () => {
-      return expectSaga(logout)
-        .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(false)],
-          [
-            select(selectors.modules.profile.userFlowSupported),
-            Remote.of(false)
-          ]
-        ])
-        .put(actions.middleware.webSocket.bch.stopSocket())
-        .put(actions.middleware.webSocket.btc.stopSocket())
-        .put(actions.middleware.webSocket.eth.stopSocket())
-        .put(actions.middleware.webSocket.xlm.stopStreams())
-        .run()
-        .then(() => {
-          expect(pushStateSpy).toHaveBeenCalledTimes(1)
-          expect(pushStateSpy).toHaveBeenCalledWith('', '', '#')
-        })
     })
   })
 
   describe('deauthorization of browser', () => {
     const { deauthorizeBrowser } = authSagas({
       api,
-      coreSagas
+      coreSagas,
+      imports: { logout: jest.fn() }
     })
     const saga = testSaga(deauthorizeBrowser)
     const beforeCatch = 'beforeCatch'
-
-    const pageReloadTest = () =>
-      it('should push login to url to history and reload window', () => {
-        pushStateSpy.mockReset()
-        locationReloadSpy.mockReset()
-
-        saga
-          .next()
-          .inspect(gen => {
-            // Inside the called saga
-            gen.next()
-            expect(pushStateSpy).toHaveBeenCalledTimes(1)
-            expect(pushStateSpy).toHaveBeenCalledWith('', '', '#')
-
-            gen.next()
-            expect(locationReloadSpy).toHaveBeenCalledTimes(1)
-            expect(locationReloadSpy).toHaveBeenCalledWith(true)
-          })
-          .next()
-          .isDone()
-      })
 
     it('should select guid', () => {
       saga.next().select(selectors.core.wallet.getGuid)
@@ -1105,8 +883,6 @@ describe('authSagas', () => {
         .put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
         .save(beforeCatch)
     })
-
-    pageReloadTest()
 
     describe('error handling', () => {
       beforeAll(() => {
@@ -1131,8 +907,6 @@ describe('authSagas', () => {
           .next()
           .put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
       })
-
-      pageReloadTest()
     })
   })
 

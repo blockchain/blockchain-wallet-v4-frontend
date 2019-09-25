@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { PersistGate } from 'redux-persist/integration/react'
 import { map, values } from 'ramda'
 import { createGlobalStyle } from 'styled-components'
 
@@ -56,22 +55,32 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const SetForegroundProcess = ({ children, imports }) => {
+  useEffect(() => {
+    imports.setForegroundProcess()
+  })
+
+  return <React.Fragment>{children}</React.Fragment>
+}
+
 class App extends React.PureComponent {
   render () {
     const {
+      imports,
+      securityModule,
       store,
       history,
-      persistor,
       isAuthenticated,
       supportedCoins
     } = this.props
+
     return (
       <Provider store={store}>
         <TranslationsProvider>
-          <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider>
-              <MediaContextProvider>
-                <ConnectedRouter history={history}>
+          <ThemeProvider>
+            <MediaContextProvider>
+              <ConnectedRouter history={history}>
+                <SetForegroundProcess imports={imports}>
                   <Switch>
                     <PublicLayout path='/login' component={Login} />
                     <PublicLayout path='/logout' component={Logout} />
@@ -159,14 +168,14 @@ class App extends React.PureComponent {
                       <Redirect from='/' to='/login' />
                     )}
                   </Switch>
-                </ConnectedRouter>
-                <AnalyticsTracker />
-                <FontGlobalStyles />
-                <IconGlobalStyles />
-                <GlobalStyle />
-              </MediaContextProvider>
-            </ThemeProvider>
-          </PersistGate>
+                </SetForegroundProcess>
+              </ConnectedRouter>
+              <AnalyticsTracker />
+              <FontGlobalStyles />
+              <IconGlobalStyles />
+              <GlobalStyle />
+            </MediaContextProvider>
+          </ThemeProvider>
         </TranslationsProvider>
       </Provider>
     )
