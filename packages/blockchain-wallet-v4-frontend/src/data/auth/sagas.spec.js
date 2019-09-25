@@ -373,6 +373,10 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
+    it('should set firstLogin', () => {
+      saga.next().put(actions.auth.setFirstLogin(false))
+    })
+
     it('should fetch root', () => {
       saga
         .next()
