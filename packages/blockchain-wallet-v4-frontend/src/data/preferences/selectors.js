@@ -25,3 +25,4 @@ export const getShowLockboxSoftwareDownload = path([
   'preferences',
   'showLockboxSoftwareDownload'
 ])
+export const getShowThePitPulse = path(['preferences', 'showThePitPulse'])

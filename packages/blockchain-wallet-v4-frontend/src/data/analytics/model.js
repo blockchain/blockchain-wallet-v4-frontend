@@ -149,8 +149,8 @@ export const WALLET_EVENTS = {
 }
 
 export const AB_TESTS = {
-  MIN_MAX_EXCHANGE: 'MinMaxExchange',
-  SWAP_OR_TRADE_TEST: 'SwapOrTradeTest'
+  PIT_SIDE_NAV_TEST: 'PitSidenavTest',
+  MIN_MAX_EXCHANGE: 'MinMaxExchange'
 }
 
 export const GENERAL_EVENTS = {
