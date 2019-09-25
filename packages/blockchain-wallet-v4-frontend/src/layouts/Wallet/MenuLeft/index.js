@@ -21,7 +21,7 @@ class MenuLeftContainer extends React.PureComponent {
       if (!Remote.Success.is(this.props.abTest)) {
         this.props.analyticsActions.createABTestSuccess(
           AB_TESTS.PIT_SIDE_NAV_TEST,
-          'original'
+          'sidenav_pit'
         )
       }
     }, 1000)
@@ -29,7 +29,7 @@ class MenuLeftContainer extends React.PureComponent {
 
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      const result = pathOr('original', ['data', 'command'], res)
+      const result = pathOr('sidenav_pit', ['data', 'command'], res)
       this.props.analyticsActions.createABTestSuccess(
         AB_TESTS.PIT_SIDE_NAV_TEST,
         result
