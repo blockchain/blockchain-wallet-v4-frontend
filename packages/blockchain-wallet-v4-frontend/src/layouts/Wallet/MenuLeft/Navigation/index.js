@@ -16,7 +16,7 @@ class NavigationContainer extends React.PureComponent {
       analyticsActions,
       domains,
       isPitAccountLinked,
-      isInvitedToPit,
+      isInvitedToPitSidenav,
       supportedCoins,
       ...props
     } = this.props
@@ -28,7 +28,7 @@ class NavigationContainer extends React.PureComponent {
         }
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
-        isInvitedToPit={isInvitedToPit}
+        isInvitedToPitSidenav={isInvitedToPitSidenav}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
       />
@@ -38,8 +38,8 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isInvitedToPit: selectors.modules.profile
-    .isInvitedToPit(state)
+  isInvitedToPitSidenav: selectors.modules.profile
+    .isInvitedToPitSidenav(state)
     .getOrElse(false),
   isPitAccountLinked: selectors.modules.profile
     .isPitAccountLinked(state)

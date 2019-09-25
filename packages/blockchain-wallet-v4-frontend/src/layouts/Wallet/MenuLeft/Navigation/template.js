@@ -216,8 +216,8 @@ const Navigation = props => {
           coinOrder
         )
       )}
-      {props.isInvitedToPit && <Separator />}
-      {props.isInvitedToPit ? (
+      {props.isInvitedToPitSidenav && <Separator />}
+      {props.isInvitedToPitSidenav ? (
         props.isPitAccountLinked ? (
           <Link
             href={props.pitUrl}
