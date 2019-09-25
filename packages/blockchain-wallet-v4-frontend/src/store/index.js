@@ -58,12 +58,10 @@ const configureStore = () => {
       // TODO: deprecate when wallet-options-v4 is updated on prod
       const socketUrl = head(options.domains.webSocket.split('/inv'))
       const horizonUrl = options.domains.horizon
-
       const coinsSocket = new Socket({
         options,
         url: `${socketUrl}/coins`
       })
-
       const ratesSocket = new ApiSocket({
         options,
         url: `${socketUrl

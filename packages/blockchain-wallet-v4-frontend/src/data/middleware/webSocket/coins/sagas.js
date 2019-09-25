@@ -31,57 +31,13 @@ export default ({ api, socket }) => {
         JSON.stringify({ command: 'subscribe', entity: 'header', coin: 'eth' })
       )
 
-      /* wallet */
-      let walletContext = yield select(
-        selectors.core.wallet.getInitialSocketContext
-      )
-
-      // 2. subscribe to accounts
-      walletContext.addresses.forEach(address => {
-        send(
-          JSON.stringify({
-            command: 'subscribe',
-            entity: 'account',
-            coin: 'btc',
-            param: { address }
-          })
-        )
-        send(
-          JSON.stringify({
-            command: 'subscribe',
-            entity: 'account',
-            coin: 'bch',
-            param: { address }
-          })
-        )
-      })
-
-      // 3. subscribe to xpubs
-      walletContext.xpubs.forEach(xpub => {
-        send(
-          JSON.stringify({
-            command: 'subscribe',
-            entity: 'xpub',
-            coin: 'btc',
-            param: { address: xpub }
-          })
-        )
-        send(
-          JSON.stringify({
-            command: 'subscribe',
-            entity: 'xpub',
-            coin: 'bch',
-            param: { address: xpub }
-          })
-        )
-      })
-
-      // 4. subscribe to lockbox xpubs
+      // 2. subscribe to btc xpubs
+      const btcWalletContext = yield select(selectors.core.data.btc.getContext)
       const btcLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
       )).getOrElse([])
-
-      btcLockboxContext.forEach(xpub =>
+      const btcXPubs = concat(btcWalletContext, btcLockboxContext)
+      btcXPubs.forEach(xpub =>
         send(
           JSON.stringify({
             command: 'subscribe',
@@ -91,11 +47,14 @@ export default ({ api, socket }) => {
           })
         )
       )
+
+      // 3. subscribe to bch xpubs
+      const bchWalletContext = yield select(selectors.core.data.bch.getContext)
       const bchLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxBchContext
       )).getOrElse([])
-
-      bchLockboxContext.forEach(xpub =>
+      const bchXPubs = concat(bchWalletContext, bchLockboxContext)
+      bchXPubs.forEach(xpub =>
         send(
           JSON.stringify({
             command: 'subscribe',
@@ -106,12 +65,11 @@ export default ({ api, socket }) => {
         )
       )
 
-      // 5. subscribe to ethereum addresses
+      // 4. subscribe to ethereum addresses
       const ethWalletContext = yield select(selectors.core.data.eth.getContext)
       const ethLockboxContext = (yield select(
         selectors.core.kvStore.lockbox.getLockboxEthContext
       )).getOrElse([])
-
       const ethAddresses = concat(ethWalletContext, ethLockboxContext)
       ethAddresses.forEach(address => {
         send(
@@ -151,15 +109,12 @@ export default ({ api, socket }) => {
               )
             )
           } else if (btcTransaction(message)) {
-            // check of sent or received
             const direction = yield sentOrReceived('btc', message)
             if (direction === 'received') {
               yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC))
             }
-
             // refresh data
             yield put(actions.core.data.btc.fetchData())
-
             // if on transactions page, update
             yield transactionsUpdate('btc')
           }
@@ -177,15 +132,12 @@ export default ({ api, socket }) => {
               )
             )
           } else if (btcTransaction(message)) {
-            // check of sent or received
             const direction = yield sentOrReceived('bch', message)
             if (direction === 'received') {
               yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BCH))
             }
-
             // refresh data
             yield put(actions.core.data.bch.fetchData())
-
             // if on transactions page, update
             yield transactionsUpdate('bch')
           }
@@ -197,17 +149,15 @@ export default ({ api, socket }) => {
             yield put(actions.core.data.eth.fetchLatestBlockSuccess(header))
           } else if (ethSentConfirmed(message)) {
             yield put(
-              actions.alerts.displaySuccess(
-                'Your Ether transaction has been confirmed!'
-              )
+              actions.alerts.displaySuccess(T.SEND_COIN_CONFIRMED, {
+                coinName: 'Ethereum'
+              })
             )
             yield put(actions.core.data.eth.fetchTransactions(null, true))
             yield put(actions.core.data.eth.fetchData([message.address]))
           } else if (ethReceivedPending(message)) {
             yield put(
-              actions.alerts.displayInfo(
-                "You've just received a pending Ether payment."
-              )
+              actions.alerts.displayInfo(T.PAYMENT_RECEIVED_ETH_PENDING)
             )
           } else if (ethReceivedConfirmed(message)) {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
@@ -224,7 +174,6 @@ export default ({ api, socket }) => {
         actions.logs.logErrorMessage(
           'middleware/webSocket/coins/sagas',
           'onMessage',
-          'unknown type for',
           e.message
         )
       )
@@ -232,8 +181,10 @@ export default ({ api, socket }) => {
   }
 
   const sentOrReceived = function * (coin, message) {
-    if (coin !== 'btc' && coin !== 'bch') throw new Error('not a valid coin')
-
+    if (coin !== 'btc' && coin !== 'bch')
+      throw new Error(
+        `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
+      )
     const context = yield select(selectors.core.data[coin].getContext)
     const endpoint = coin === 'btc' ? 'fetchBlockchainData' : 'fetchBchData'
     const data = yield call(api[endpoint], context, {
@@ -253,8 +204,10 @@ export default ({ api, socket }) => {
   }
 
   const transactionsUpdate = function * (coin) {
-    if (coin !== 'btc' && coin !== 'bch') throw new Error('not a valid coin')
-
+    if (coin !== 'btc' && coin !== 'bch')
+      throw new Error(
+        `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
+      )
     const pathname = yield select(selectors.router.getPathname)
     if (equals(pathname, `/${coin}/transactions`)) {
       const formValues = yield select(
@@ -268,7 +221,15 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function * (action) {}
+  const onClose = function * (action) {
+    yield put(
+      actions.logs.logErrorMessage(
+        'middleware/webSocket/coins/sagas',
+        'onClose',
+        `websocket closed at ${Date.now()}`
+      )
+    )
+  }
 
   return {
     onOpen,
