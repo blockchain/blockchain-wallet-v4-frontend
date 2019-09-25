@@ -2028,6 +2028,18 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Trading",
+        "id": "layouts.wallet.menuleft.navigation.trading"
+      },
+      {
+        "defaultMessage": "The PIT",
+        "id": "layouts.wallet.menuleft.navigation.thepitbold"
+      },
+      {
+        "defaultMessage": "The PIT Exchange",
+        "id": "layouts.wallet.menuleft.navigation.thepitexchange"
+      },
+      {
         "defaultMessage": "The PIT",
         "id": "layouts.wallet.menuleft.navigation.thepit"
       },
@@ -2042,10 +2054,6 @@
       {
         "defaultMessage": "Swap",
         "id": "layouts.wallet.menuleft.navigation.swap"
-      },
-      {
-        "defaultMessage": "Trade",
-        "id": "layouts.wallet.menuleft.navigation.trade"
       },
       {
         "defaultMessage": "Hardware",
@@ -4534,6 +4542,39 @@
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Gold Unavailable At This Time",
+        "id": "identityverification.failure.header"
+      },
+      {
+        "defaultMessage": "We're sorry we can't verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now.",
+        "id": "identityverification.failure.content-1"
+      },
+      {
+        "defaultMessage": "If you're Silver verified you can trade your crypto in Swap",
+        "id": "identityverification.failure.content-2"
+      },
+      {
+        "defaultMessage": "Server Error: {description}",
+        "id": "identityverification.failure.server.error"
+      },
+      {
+        "defaultMessage": "Start Trading",
+        "id": "identityverification.failure.button"
+      },
+      {
+        "defaultMessage": "If you want to learn more about our verification process. Visit our",
+        "id": "identityverification.failure.content-3"
+      },
+      {
+        "defaultMessage": "Support Center.",
+        "id": "identityverification.failure.content-3-link"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Veriff/template.failure.json"
   },
   {
     "descriptors": [
