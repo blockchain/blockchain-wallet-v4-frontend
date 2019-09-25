@@ -141,7 +141,7 @@ const PitLogo = styled(Image)`
 `
 
 const ThePit = props => {
-  const { onSignup, pitSideNavTest } = props
+  const { onLearnMore, onSignup, pitSideNavTest } = props
   return (
     <Wrapper>
       <Container>
@@ -235,7 +235,11 @@ const ThePit = props => {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <FooterButton nature='empty-secondary' fullwidth>
+              <FooterButton
+                nature='empty-secondary'
+                fullwidth
+                onClick={onLearnMore}
+              >
                 <FormattedMessage
                   id='scenes.thepit.learnmore'
                   defaultMessage='Learn More'

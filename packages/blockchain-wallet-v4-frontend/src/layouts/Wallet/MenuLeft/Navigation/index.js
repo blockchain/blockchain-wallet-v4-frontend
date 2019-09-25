@@ -4,16 +4,19 @@ import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { concat, prop } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Navigation from './template'
+
+const { PIT_EVENTS } = model.analytics
 
 class NavigationContainer extends React.PureComponent {
   render () {
     const {
       actions,
+      analyticsActions,
       domains,
       isPitAccountLinked,
-      isInvitedToPit,
+      isInvitedToPitSidenav,
       supportedCoins,
       ...props
     } = this.props
@@ -21,9 +24,12 @@ class NavigationContainer extends React.PureComponent {
     return (
       <Navigation
         {...props}
+        onClickPitSideNavLink={() =>
+          analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)
+        }
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
-        isInvitedToPit={isInvitedToPit}
+        isInvitedToPitSidenav={isInvitedToPitSidenav}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
       />
@@ -33,8 +39,8 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isInvitedToPit: selectors.modules.profile
-    .isInvitedToPit(state)
+  isInvitedToPitSidenav: selectors.modules.profile
+    .isInvitedToPitSidenav(state)
     .getOrElse(false),
   isPitAccountLinked: selectors.modules.profile
     .isPitAccountLinked(state)
@@ -44,7 +50,8 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(

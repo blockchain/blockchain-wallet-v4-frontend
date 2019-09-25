@@ -117,6 +117,7 @@ const Navigation = props => {
   const {
     // lockboxOpened,
     // lockboxDevices,
+    onClickPitSideNavLink,
     supportedCoins
   } = rest
   const coinOrder = [
@@ -247,8 +248,8 @@ const Navigation = props => {
           coinOrder
         )
       )}
-      {props.isInvitedToPit && <Separator />}
-      {props.isInvitedToPit ? (
+      {props.isInvitedToPitSidenav && <Separator />}
+      {props.isInvitedToPitSidenav ? (
         props.isPitAccountLinked ? (
           <Link
             href={props.pitUrl}
@@ -261,7 +262,7 @@ const Navigation = props => {
             </MenuItem>
           </Link>
         ) : (
-          <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+          <SpotlightLinkContainer to='/thepit' activeClassName='active' onClick={onClickPitSideNavLink}>
             <MenuItem data-e2e='thePitLink'>
               <PitLinkContent {...rest} />
               <NewCartridge>
