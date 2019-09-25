@@ -1,10 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+
 import { Cartridge } from '@blockchain-com/components'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
+import { actions, model } from 'data'
 
 import media from 'services/ResponsiveService'
+
+const { PIT_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,7 +76,7 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const ThePitBanner = () => {
+const ThePitBanner = ({ analyticsActions }) => {
   return (
     <Wrapper>
       <Row>
@@ -94,10 +101,10 @@ const ThePitBanner = () => {
           </Copy>
         </Column>
       </Row>
-      <Link
-        href='https://pit.blockchain.com/'
-        target='_blank'
+      <LinkContainer
+        to='/thepit'
         rel='noopener noreferrer'
+        onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
       >
         <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
@@ -105,9 +112,16 @@ const ThePitBanner = () => {
             defaultMessage='Get Started'
           />
         </BannerButton>
-      </Link>
+      </LinkContainer>
     </Wrapper>
   )
 }
 
-export default ThePitBanner
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ThePitBanner)

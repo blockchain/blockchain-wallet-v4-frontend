@@ -75,6 +75,7 @@ const Navigation = props => {
   const {
     // lockboxOpened,
     // lockboxDevices,
+    onClickPitSideNavLink,
     supportedCoins
   } = rest
   const coinOrder = [
@@ -227,7 +228,11 @@ const Navigation = props => {
             <MenuItem data-e2e='thePitLink'>{renderPitLinkContent()}</MenuItem>
           </Link>
         ) : (
-          <LinkContainer to='/thepit' activeClassName='active'>
+          <LinkContainer
+            to='/thepit'
+            activeClassName='active'
+            onClick={onClickPitSideNavLink}
+          >
             <MenuItem data-e2e='thePitLink'>
               {renderPitLinkContent()}
               <NewCartridge>
