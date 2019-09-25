@@ -20,6 +20,7 @@ class NavigationContainer extends React.PureComponent {
       supportedCoins,
       ...props
     } = this.props
+
     return (
       <Navigation
         {...props}
