@@ -4,8 +4,10 @@ import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { concat, prop } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Navigation from './template'
+
+const { PIT_EVENTS } = model.analytics
 
 class NavigationContainer extends React.PureComponent {
   render () {
@@ -21,7 +23,9 @@ class NavigationContainer extends React.PureComponent {
     return (
       <Navigation
         {...props}
-        analyticsActions={analyticsActions}
+        onClickPitSideNavLink={() =>
+          analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)
+        }
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
         isInvitedToPit={isInvitedToPit}
