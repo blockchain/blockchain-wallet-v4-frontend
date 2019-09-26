@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import UnusedAddresses from './template'
 import {
@@ -20,8 +20,6 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const { WALLET_EVENTS } = model.analytics
-const { ARCHIVE, CHANGE_DEFAULT, EDIT_NAME, SHOW_XPUB } = WALLET_EVENTS
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
@@ -38,7 +36,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     const {
       account,
       alertActions,
-      analyticsActions,
       componentActions,
       coreActions,
       currentReceiveIndex,
@@ -62,17 +59,14 @@ class UnusedAddressesContainer extends React.PureComponent {
     }
     const onEditBtcAccountLabel = () => {
       walletActions.editBtcAccountLabel(account.index, account.label)
-      analyticsActions.logEvent(EDIT_NAME)
     }
 
     const onShowXPub = () => {
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
-      analyticsActions.logEvent(SHOW_XPUB)
     }
 
     const onMakeDefault = () => {
       coreActions.setDefaultAccountIdx(account.index)
-      analyticsActions.logEvent(CHANGE_DEFAULT)
     }
     const onGenerateNextAddress = () => {
       if (length(unusedAddresses.getOrElse([])) >= 15) {
@@ -84,7 +78,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
       routerActions.push('/settings/addresses/btc')
-      analyticsActions.logEvent(ARCHIVE)
     }
     const props = {
       account,

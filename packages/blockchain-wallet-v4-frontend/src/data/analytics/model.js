@@ -42,12 +42,7 @@ export const LOCKBOX_EVENTS = {
 }
 export const PREFERENCE_EVENTS = {
   GENERAL: {
-    AUTO_LOGOUT: ['preferences', 'general', 'auto_logout'],
-    CHANGE_CURRENCY: ['preferences', 'general', 'currency'],
-    CHANGE_LANGUAGE: ['preferences', 'general', 'language'],
-    CHANGE_THEME: ['preferences', 'general', 'theme'],
-    ENABLE_BTC_LINKS: ['preferences', 'general', 'enable_btc_links'],
-    SHOW_PAIRING_CODE: ['preferences', 'general', 'show_pairing_code']
+    ENABLE_BTC_LINKS: 'enable_btc_links'
   },
   SECURITY: {
     ACTIVITY_LOGGING: ['preferences', 'security', 'activity_logging'],
@@ -81,9 +76,6 @@ export const PREFERENCE_EVENTS = {
     ]
   }
 }
-export const SUNRIVER_AIRDROP_EVENTS = {
-  SOCIAL_SHARE: ['sunriver', 'airdrop', 'social_share']
-}
 export const SWAP_EVENTS = {
   ORDER_CONFIRM: ['swap', 'order_form', 'order_confirm'],
   ORDER_CONFIRM_ERROR: ['swap', 'order_form', 'order_confirm_error'],
@@ -109,14 +101,6 @@ export const TRANSACTION_EVENTS = {
   BITPAY_URL_DEEPLINK: ['transactions', 'bitpay', 'bitpay_url_deeplink'],
   BITPAY_FAILURE: ['transactions', 'bitpay', 'bitpay_payment_failure'],
   BITPAY_SUCCESS: ['transactions', 'bitpay', 'bitpay_payment_success']
-}
-export const WALLET_EVENTS = {
-  ADD_NEW: ['wallets', 'add_new'],
-  ARCHIVE: ['wallets', 'archive'],
-  CHANGE_DEFAULT: ['wallets', 'change_default'],
-  EDIT_NAME: ['wallets', 'edit_name'],
-  SHOW_XPUB: ['wallets', 'show_xpub'],
-  UNARCHIVE: ['wallets', 'unarchive']
 }
 
 export const AB_TESTS = {
