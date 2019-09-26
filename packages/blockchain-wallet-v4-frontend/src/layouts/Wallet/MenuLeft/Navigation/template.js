@@ -36,7 +36,7 @@ const NewCartridge = styled(Cartridge)`
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
-  padding: 4px 10px;
+  padding: 4px 4px;
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
@@ -262,7 +262,11 @@ const Navigation = props => {
             </MenuItem>
           </Link>
         ) : (
-          <SpotlightLinkContainer to='/thepit' activeClassName='active' onClick={onClickPitSideNavLink}>
+          <SpotlightLinkContainer
+            to='/thepit'
+            activeClassName='active'
+            onClick={onClickPitSideNavLink}
+          >
             <MenuItem data-e2e='thePitLink'>
               <PitLinkContent {...rest} />
               <NewCartridge>
