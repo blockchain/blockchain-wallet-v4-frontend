@@ -16,8 +16,7 @@ import {
   getSupportedCountries,
   getStates,
   getSteps,
-  getVerificationStep,
-  getSmsStep
+  getVerificationStep
 } from 'data/components/identityVerification/selectors'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
@@ -29,7 +28,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last, values, pickAll, compose, head, find, pathEq } from 'ramda'
+import { last, head, find, pathEq } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -50,7 +49,7 @@ import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
 import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
 import { getCoinifyBusy } from 'data/components/coinify/selectors'
 
-const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
+const { KYC_MODAL, STEPS } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -85,23 +84,6 @@ const SUPPORTED_COUNTRIES = [{ code: STUB_COUNTRY_CODE, name: 'France' }]
 
 const stubMail = 'mail@mail.com'
 const STUB_MOBILE = '212555555'
-const STUB_CODE = '12345'
-
-const MOCK_USER_DATA = {
-  id: '12345abcde',
-  firstName: 'Satoshi',
-  lastName: 'Nakamoto',
-  email: stubMail,
-  dob: '1988-12-11',
-  mobile: null,
-  mobileVerified: false,
-  state: 'CREATED',
-  kycState: 'NONE',
-  address: {
-    country: STUB_COUNTRY_CODE,
-    ...POSSIBLE_ADDRESSES[0]
-  }
-}
 
 const coreSagas = coreSagasFactory({ api: {} })
 const api = {
@@ -306,154 +288,6 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
-      })
-    })
-  })
-
-  describe('mobile verification form', () => {
-    beforeEach(() => {
-      getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
-      getVerificationStep.mockImplementation(() => STEPS.mobile)
-      store.dispatch(actions.modals.showModal(KYC_MODAL))
-      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
-      // coreSagas.settings.setMobile.mockClear()
-      wrapper.update()
-    })
-
-    describe('mobile form', () => {
-      beforeEach(() => {
-        store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
-        // store.dispatch(actions.core.settings.setEmail(stubMail))
-        // store.dispatch(actions.core.settings.setEmailVerified())
-        // store.dispatch(actions.core.settings.setMobile(stubMobile))
-        // store.dispatch(actions.core.settings.setMobileVerified())
-        store.dispatch(
-          actions.modules.profile.fetchUserDataSuccess(MOCK_USER_DATA)
-        )
-        // store.dispatch(actions.components.identityVerification.setVerificationStep(STEPS.mobile))
-      })
-
-      it('should be disabled and not submit by default', async () => {
-        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-          true
-        )
-        wrapper.find('form').simulate('submit')
-        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
-          actionTypes.form.SET_SUBMIT_FAILED
-        )
-      })
-
-      it('should have the "send code" button disabled if sms input is empty', async () => {
-        expect(
-          wrapper
-            .find('Field')
-            .find('PhoneNumberBox')
-            .props().input.value
-        ).toBe('')
-        expect(
-          wrapper
-            .find('button')
-            .first()
-            .prop('disabled')
-        ).toBe(true)
-      })
-
-      it('should enable the "send code" button when a valid phone number is entered', async () => {
-        wrapper.unmount().mount()
-        wrapper
-          .find('Field[name="smsNumber"]')
-          .find('PhoneNumberBox')
-          .find('.intl-tel-input')
-          .find('input')
-          .simulate('change', { target: { value: STUB_MOBILE } })
-
-        expect(
-          wrapper
-            .find('button')
-            .first()
-            .props().disabled
-        ).toBe(false)
-      })
-
-      it('should execute the send code flow when button is clicked', async () => {
-        wrapper.unmount().mount()
-        wrapper
-          .find('Field[name="smsNumber"]')
-          .find('PhoneNumberBox')
-          .find('.intl-tel-input')
-          .find('input')
-          .simulate('change', { target: { value: STUB_MOBILE } })
-
-        wrapper
-          .find('button')
-          .first()
-          .simulate('click')
-
-        let pickIndex = compose(
-          values,
-          pickAll
-        )
-        let calls = dispatchSpy.mock.calls
-        expect(head(pickIndex([calls.length - 5], calls)[0]).type).toEqual(
-          actionTypes.components.identityVerification.UPDATE_SMS_NUMBER
-        )
-
-        expect(head(pickIndex([calls.length - 4], calls)[0]).type).toEqual(
-          actionTypes.form.START_SUBMIT
-        )
-
-        expect(head(pickIndex([calls.length - 3], calls)[0]).type).toEqual(
-          actionTypes.components.identityVerification.SET_SMS_STEP
-        )
-      })
-
-      it('should show the code field', async () => {
-        getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
-
-        expect(wrapper.find('Field[name="code"]')).toHaveLength(0)
-
-        wrapper
-          .find('Field[name="smsNumber"]')
-          .find('PhoneNumberBox')
-          .find('.intl-tel-input')
-          .find('input')
-          .simulate('change', { target: { value: STUB_MOBILE } })
-
-        wrapper
-          .find('button')
-          .first()
-          .simulate('click')
-
-        wrapper.update()
-
-        expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
-      })
-
-      it('should enable the continue button when a code is entered', () => {
-        wrapper.unmount().mount()
-        getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
-        wrapper
-          .find('Field[name="smsNumber"]')
-          .find('PhoneNumberBox')
-          .find('.intl-tel-input')
-          .find('input')
-          .simulate('change', { target: { value: STUB_MOBILE } })
-        wrapper
-          .find('button')
-          .first()
-          .simulate('click')
-
-        wrapper
-          .find('Field[name="code"]')
-          .find('input[name="code"]')
-          .simulate('change', { target: { value: STUB_CODE } })
-
-        expect(
-          wrapper
-            .find('button')
-            .last()
-            .props().disabled
-        ).toBe(false)
       })
     })
   })
