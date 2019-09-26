@@ -165,7 +165,6 @@ const Personal = ({
   activeFieldError,
   onCountrySelect,
   onStateSelect,
-  onFieldBlur,
   onPromptForEmailVerification,
   handleSubmit,
   sendEmailVerification,
@@ -224,7 +223,6 @@ const Personal = ({
                             verificationSent={emailStep === EMAIL_STEPS.verify}
                             verified={emailVerified}
                             onVerificationSend={sendEmailVerification}
-                            onBlur={() => onFieldBlur('email')}
                             onUpdate={updateEmail}
                             onEdit={editEmail}
                             errorBottom
@@ -250,7 +248,6 @@ const Personal = ({
                           component={SelectBox}
                           menuPlacement='auto'
                           onChange={onCountrySelect}
-                          onBlur={() => onFieldBlur('country')}
                           label={
                             <FormattedMessage
                               id='components.selectboxcountry.label'
@@ -276,7 +273,6 @@ const Personal = ({
                             component={SelectBox}
                             menuPlacement='auto'
                             onChange={onStateSelect}
-                            onBlur={() => onFieldBlur('state')}
                             label={
                               <FormattedMessage
                                 id='identityverification.personal.label.state'
@@ -315,7 +311,6 @@ const Personal = ({
                                 name='firstName'
                                 validate={required}
                                 component={TextBox}
-                                onBlur={() => onFieldBlur('firstName')}
                                 errorBottom
                               />
                             </PersonalField>
@@ -330,7 +325,6 @@ const Personal = ({
                                 name='lastName'
                                 validate={required}
                                 component={TextBox}
-                                onBlur={() => onFieldBlur('lastName')}
                                 errorBottom
                               />
                             </PersonalField>
@@ -377,7 +371,6 @@ const Personal = ({
                             countryIsUS={countryIsUS}
                             parse={objectToDOB}
                             format={DOBToObject}
-                            onBlur={() => onFieldBlur('dob')}
                           />
                         </FormItem>
                         {activeField === 'dob' && !mobile && !tablet && (
@@ -422,7 +415,6 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
-                              onBlur={() => onFieldBlur('line1')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -445,7 +437,6 @@ const Personal = ({
                               name='line2'
                               errorBottom
                               component={TextBox}
-                              onBlur={() => onFieldBlur('line2')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -462,7 +453,6 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
-                              onBlur={() => onFieldBlur('city')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -480,7 +470,6 @@ const Personal = ({
                                   name='state'
                                   errorBottom
                                   countryCode={countryCode}
-                                  onBlur={() => onFieldBlur('state')}
                                   component={TextBox}
                                 />
                               </PersonalField>
@@ -502,7 +491,6 @@ const Personal = ({
                                 </Label>
                                 <Field
                                   name='postCode'
-                                  onBlur={() => onFieldBlur('postCode')}
                                   errorBottom
                                   validate={requiredZipCode}
                                   component={TextBox}

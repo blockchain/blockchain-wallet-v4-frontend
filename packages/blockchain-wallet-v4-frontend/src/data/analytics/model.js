@@ -16,39 +16,10 @@ export const CUSTOM_VARIABLES = {
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
-export const ADDRESS_EVENTS = {
-  ADD_NEXT_ADDR: ['addresses', 'add_next_addr'],
-  DELETE_LABEL: ['addresses', 'delete_label'],
-  EDIT_LABEL: ['addresses', 'edit_label'],
-  HIDE_USED_ADDRS: ['addresses', 'hide_used'],
-  IMPORT_ADDR: ['addresses', 'import'],
-  SHOW_CHANGE_ADDRS: ['addresses', 'show_change_addrs'],
-  SHOW_USED_ADDRS: ['addresses', 'show_used_addrs']
-}
-export const DEEPLINK_EVENTS = {
-  PIT: ['deeplink', 'pit_deeplink']
-}
-export const LOGIN_EVENTS = {
-  TRANSFER_ETH_LEGACY: ['login', 'transfer_eth_legacy']
-}
-export const KYC_EVENTS = {
-  FORMS: {
-    PERSONAL: ['kyc', 'personal_form'],
-    UPDATE_PHONE_NUMBER: ['kyc', 'personal_form', 'mobile']
-  },
-  ONBOARDING_START: ['kyc', 'onboarding', 'kyc_onboarding_start'],
-  SELECT_TIER: ['kyc', 'onboarding', 'select_tier'],
-  STEP_CHANGE: ['kyc', 'onboarding', 'kyc_onboarding_step_to_'],
-  SEND_VERIFICATION_EMAIL: ['kyc', 'onboarding', 'send_verification_email'],
-  SEND_SMS_CODE: ['kyc', 'onboarding', 'send_sms_code'],
-  VERIFY_PHONE_SUCCESS: ['kyc', 'onboarding', 'verify_phone_number_success'],
-  VERIFY_PHONE_FAILURE: ['kyc', 'onboarding', 'verify_phone_number_failure']
-}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
   SETTINGS: {
-    ADD_DEVICE: ['lockbox', 'settings', 'add_device'],
     FIRMWARE_UPDATE: ['lockbox', 'settings', 'firmware_update'],
     RENAME_DEVICE: ['lockbox', 'settings', 'rename_device'],
     REMOVE_DEVICE: ['lockbox', 'settings', 'remove_device'],

@@ -7,8 +7,7 @@ import Wallets from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 const { WALLET_TX_SEARCH } = model.form
-const { ADDRESS_EVENTS, WALLET_EVENTS } = model.analytics
-const { SHOW_CHANGE_ADDRS } = ADDRESS_EVENTS
+const { WALLET_EVENTS } = model.analytics
 const {
   ARCHIVE,
   CHANGE_DEFAULT,
@@ -39,7 +38,6 @@ class BchWalletsContainer extends React.Component {
     }
     const onShowChangeAddrs = account => {
       addressesBchActions.showChangeAddrs(account.index, account.xpub)
-      analyticsActions.logEvent(SHOW_CHANGE_ADDRS)
     }
     const onShowXPub = account => {
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
