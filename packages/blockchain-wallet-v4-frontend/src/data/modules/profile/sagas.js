@@ -22,11 +22,13 @@ import {
 } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
-import { selectors, actions, actionTypes } from 'data'
+import { selectors, actions, actionTypes, model } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+
+const { AB_TESTS } = model.analytics
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -403,9 +405,12 @@ export default ({ api, coreSagas, networks }) => {
       const data = yield call(api.createLinkAccountId)
       const pitLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      const variant = (yield select(
+        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST)
+      )).getOrElse('sidenav_pit')
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
-      )}`
+      )}&utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${variant}`
       // share addresses
       yield put(A.shareWalletAddressesWithPit())
       // simulate wait while allowing user to read modal

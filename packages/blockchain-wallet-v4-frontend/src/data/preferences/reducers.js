@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   showSwapUpgradeModal: true,
   showAirdropClaimModal: true,
   showUpgradeForAirdropModal: true,
+  showThePitPulse: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -73,6 +74,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_SWAP_UPGRADE_MODAL: {
       return assoc('showSwapUpgradeModal', false, state)
+    }
+    case AT.HIDE_THE_PIT_PULSE: {
+      return assoc('showThePitPulse', false, state)
     }
     default:
       return state

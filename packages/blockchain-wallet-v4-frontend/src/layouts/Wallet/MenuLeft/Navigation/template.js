@@ -36,7 +36,7 @@ const NewCartridge = styled(Cartridge)`
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
-  padding: 4px 10px;
+  padding: 4px 4px;
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
@@ -56,18 +56,60 @@ const JoyrideSpotlight = styled.div`
   height: 32px;
 `
 
-const renderPitLinkContent = () => {
-  return (
-    <React.Fragment>
-      <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
-      <Destination>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.thepit'
-          defaultMessage='The PIT'
-        />
-      </Destination>
-    </React.Fragment>
-  )
+const PitLinkContent = ({ pitSideNavTest, firstLogin, showThePitPulse }) => {
+  switch (pitSideNavTest) {
+    case 'sidenav_trading':
+      return (
+        <React.Fragment>
+          <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.trading'
+              defaultMessage='Trading'
+            />
+          </Destination>
+        </React.Fragment>
+      )
+    case 'sidenav_pulsing_pit':
+      return (
+        <React.Fragment>
+          {!firstLogin && showThePitPulse && (
+            <JoyrideSpotlight className='react-joyride__spotlight' />
+          )}
+          <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.thepitbold'
+              defaultMessage='The PIT'
+            />
+          </Destination>
+        </React.Fragment>
+      )
+    case 'sidenav_pit_exchange':
+      return (
+        <React.Fragment>
+          <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.thepitexchange'
+              defaultMessage='The PIT Exchange'
+            />
+          </Destination>
+        </React.Fragment>
+      )
+    default:
+      return (
+        <React.Fragment>
+          <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.thepit'
+              defaultMessage='The PIT'
+            />
+          </Destination>
+        </React.Fragment>
+      )
+  }
 }
 
 const Navigation = props => {
@@ -75,6 +117,7 @@ const Navigation = props => {
   const {
     // lockboxOpened,
     // lockboxDevices,
+    onClickPitSideNavLink,
     supportedCoins
   } = rest
   const coinOrder = [
@@ -84,8 +127,6 @@ const Navigation = props => {
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
-  // SwapOrTradeTest
-  const { swapOrTrade } = rest
 
   return (
     <Wrapper {...rest}>
@@ -117,19 +158,11 @@ const Navigation = props => {
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />
           <MenuIcon name='thick-arrow-switch' size='24px' />
-          {/* SwapOrTradeTest */}
           <Destination>
-            {swapOrTrade !== 'trade' ? (
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.swap'
-                defaultMessage='Swap'
-              />
-            ) : (
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.trade'
-                defaultMessage='Trade'
-              />
-            )}
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.swap'
+              defaultMessage='Swap'
+            />
           </Destination>
         </MenuItem>
       </SpotlightLinkContainer>
@@ -215,8 +248,8 @@ const Navigation = props => {
           coinOrder
         )
       )}
-      {props.isInvitedToPit && <Separator />}
-      {props.isInvitedToPit ? (
+      {props.isInvitedToPitSidenav && <Separator />}
+      {props.isInvitedToPitSidenav ? (
         props.isPitAccountLinked ? (
           <Link
             href={props.pitUrl}
@@ -224,12 +257,18 @@ const Navigation = props => {
             target='_blank'
             style={{ width: '100%' }}
           >
-            <MenuItem data-e2e='thePitLink'>{renderPitLinkContent()}</MenuItem>
+            <MenuItem data-e2e='thePitLink'>
+              <PitLinkContent pitSideNavTest='original' />
+            </MenuItem>
           </Link>
         ) : (
-          <LinkContainer to='/thepit' activeClassName='active'>
+          <SpotlightLinkContainer
+            to='/thepit'
+            activeClassName='active'
+            onClick={onClickPitSideNavLink}
+          >
             <MenuItem data-e2e='thePitLink'>
-              {renderPitLinkContent()}
+              <PitLinkContent {...rest} />
               <NewCartridge>
                 <Text color='orange' size='12' weight={500} uppercase>
                   <FormattedMessage
@@ -239,7 +278,7 @@ const Navigation = props => {
                 </Text>
               </NewCartridge>
             </MenuItem>
-          </LinkContainer>
+          </SpotlightLinkContainer>
         )
       ) : null}
     </Wrapper>

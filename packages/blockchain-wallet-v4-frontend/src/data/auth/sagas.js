@@ -93,7 +93,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.startSocket())
     yield put(actions.middleware.webSocket.btc.startSocket())
     yield put(actions.middleware.webSocket.eth.startSocket())
-    yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
   const authNabu = function * () {
@@ -117,12 +116,14 @@ export default ({ api, coreSagas }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
+      yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(
         coreSagas.kvStore.eth.fetchMetadataEth,
         askSecondPasswordEnhancer
       )
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(
         coreSagas.kvStore.xlm.fetchMetadataXlm,
         askSecondPasswordEnhancer

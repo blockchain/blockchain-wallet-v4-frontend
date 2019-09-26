@@ -6,9 +6,11 @@ const { AB_TESTS } = model.analytics
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.analytics.selectAbTest(AB_TESTS.SWAP_OR_TRADE_TEST),
+    selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST),
+    selectors.preferences.getShowThePitPulse,
     selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getLockboxOpened,
+    selectors.auth.getFirstLogin,
     selectors.exchange.getCanTrade,
     selectors.router.getPathname,
     selectors.core.kvStore.lockbox.getDevices,
@@ -17,9 +19,11 @@ export const getData = createDeepEqualSelector(
     selectors.core.walletOptions.getAdsUrl
   ],
   (
-    swapOrTradeTestR,
+    pitSideNavTestR,
+    showThePitPulse,
     menuOpened,
     lockboxOpened,
+    firstLogin,
     canTradeR,
     pathname,
     lockboxDevicesR,
@@ -27,22 +31,29 @@ export const getData = createDeepEqualSelector(
     adsBlacklistR,
     adsUrlR
   ) => {
-    const transform = (swapOrTrade, canTrade, lockboxDevices, countryCode) => {
+    const transform = (
+      pitSideNavTest,
+      canTrade,
+      lockboxDevices,
+      countryCode
+    ) => {
       return {
-        swapOrTrade,
-        canTrade,
-        pathname,
-        menuOpened,
-        lockboxOpened,
-        lockboxDevices,
-        countryCode,
         adsBlacklist: adsBlacklistR.getOrElse([]),
-        adsUrl: adsUrlR.getOrElse('')
+        adsUrl: adsUrlR.getOrElse(''),
+        canTrade,
+        countryCode,
+        firstLogin,
+        lockboxDevices,
+        lockboxOpened,
+        menuOpened,
+        pathname,
+        pitSideNavTest,
+        showThePitPulse
       }
     }
 
     return lift(transform)(
-      swapOrTradeTestR,
+      pitSideNavTestR,
       canTradeR,
       lockboxDevicesR,
       countryCodeR
