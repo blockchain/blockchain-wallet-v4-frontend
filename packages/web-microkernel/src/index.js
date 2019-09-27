@@ -1,8 +1,18 @@
 import Core from './Core'
+import EventTargetPolyfill from './EventTargetPolyfill'
+
+let EventTargetImplementation = EventTarget
+
+try {
+  // This doesn't work on Safari.
+  new EventTargetImplementation()
+} catch {
+  EventTargetImplementation = EventTargetPolyfill
+}
 
 const core = Core({
   ErrorEvent,
-  EventTarget,
+  EventTarget: EventTargetImplementation,
   getRandomValues: typedArray => window.crypto.getRandomValues(typedArray)
 })
 

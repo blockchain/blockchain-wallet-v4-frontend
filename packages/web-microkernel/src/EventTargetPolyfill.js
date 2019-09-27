@@ -1,6 +1,4 @@
-import structuredClone from 'realistic-structured-clone'
-
-export function EventTarget() {
+export default function () {
   const listeners = {}
 
   return {
@@ -21,17 +19,4 @@ export function EventTarget() {
       listeners[type].delete(listener)
     }
   }
-}
-
-export const MockWindow = name => {
-  const target = new EventTarget()
-
-  const postMessage = (message, targetOrigin, transfer, source) => {
-    target.dispatchEvent({
-      type: `message`,
-      properties: { data: structuredClone(message), source }
-    })
-  }
-
-  return { ...target, name, postMessage }
 }

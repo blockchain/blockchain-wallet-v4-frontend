@@ -1,5 +1,20 @@
-import { EventTarget, MockWindow } from './mocks'
+import structuredClone from 'realistic-structured-clone'
+
+import EventTarget from './EventTargetPolyfill'
 import Core from './Core.js'
+
+const MockWindow = name => {
+  const target = new EventTarget()
+
+  const postMessage = (message, targetOrigin, transfer, source) => {
+    target.dispatchEvent({
+      type: `message`,
+      properties: { data: structuredClone(message), source }
+    })
+  }
+
+  return { ...target, name, postMessage }
+}
 
 function ErrorEvent (type, properties) {
   this.type = type
