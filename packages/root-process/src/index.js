@@ -11,6 +11,7 @@ const securityProcessPaths = [
   `/login`,
   `/logout`,
   `/mobile-login`,
+  `/open`,
   `/recover`,
   `/reminder`,
   `/reset-2fa`,

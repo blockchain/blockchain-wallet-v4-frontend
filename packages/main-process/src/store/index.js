@@ -152,8 +152,6 @@ export default IPC(async ({ imports, middleware: IPCmiddleware }) => {
     store.dispatch(actions.core.data.xlm.createTestAccounts())
   }
 
-  store.dispatch(actions.goals.defineGoals())
-
   return {
     imports,
     securityModule,

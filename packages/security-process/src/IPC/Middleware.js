@@ -44,7 +44,9 @@ const handlers = {
   [router.LOCATION_CHANGE]: dispatchToRootProcess,
 
   // Proceed with the login routine after receiving the payload.
-  [types.auth.AUTHENTICATE]: dispatchToMainProcess
+  [types.auth.AUTHENTICATE]: dispatchToMainProcess,
+
+  [types.goals.SAVE_GOAL]: dispatchToMainProcess
 }
 
 // Used to set the wrapper in /recover.
