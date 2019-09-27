@@ -21,7 +21,13 @@ class ThePitContainer extends React.PureComponent {
   }
 
   render () {
-    return <ThePit onSignup={this.onSignup} onLearnMore={this.onLearnMore} {...this.props} />
+    return (
+      <ThePit
+        onSignup={this.onSignup}
+        onLearnMore={this.onLearnMore}
+        {...this.props}
+      />
+    )
   }
 }
 
