@@ -32,7 +32,8 @@ module.exports = ({ localhostUrl, mainDomain, PATHS, securityDomain }) => ({
   },
   output: {
     filename: `index.js`,
-    path: PATHS.ciBuild
+    path: PATHS.ciBuild,
+    publicPath: `/`
   },
   plugins: [
     new CleanWebpackPlugin(),
