@@ -106,10 +106,6 @@
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
     "release": "release-it"
   },
-  "dependencies": {
-    "compression": "https://registry.npmjs.org/compression/-/compression-1.7.2.tgz",
-    "onetime": "https://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz"
-  },
   "devDependencies": {
     "@babel/cli": "7.6.2",
     "@babel/core": "7.6.2",

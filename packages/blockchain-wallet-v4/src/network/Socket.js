@@ -62,6 +62,7 @@ class Socket {
         this.socket.on('error', onError)
         this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose)
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error('Failed to connect to websocket', e)
       }
     }
