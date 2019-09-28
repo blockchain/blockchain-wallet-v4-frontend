@@ -331,7 +331,7 @@ const Navigation = props => {
             </MenuItem>
           </Link>
         ) : (
-          <PitLinkContent {...rest} pitSideNavTest2='sidenav_pulsing_pit' />
+          <PitLinkContent {...rest} />
         )
       ) : null}
       <Separator />
