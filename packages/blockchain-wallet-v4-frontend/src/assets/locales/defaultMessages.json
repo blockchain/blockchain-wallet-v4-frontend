@@ -2028,7 +2028,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Check It Out",
+        "defaultMessage": "Check it out",
         "id": "the.pit.tooltip.check.it.out"
       }
     ],
@@ -2045,11 +2045,11 @@
         "id": "layouts.wallet.menuleft.navigation.transactions.new"
       },
       {
-        "defaultMessage": "Exchange in The Pit.",
+        "defaultMessage": "Trade in The PIT.",
         "id": "the.pit.tooltip.title"
       },
       {
-        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own Crypto Exchange.",
+        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
         "id": "the.pit.tooltip.content"
       },
       {
