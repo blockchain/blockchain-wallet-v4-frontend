@@ -2028,16 +2028,29 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Trading",
-        "id": "layouts.wallet.menuleft.navigation.trading"
-      },
+        "defaultMessage": "Check It Out",
+        "id": "the.pit.tooltip.check.it.out"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Navigation/model.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "The PIT",
         "id": "layouts.wallet.menuleft.navigation.thepitbold"
       },
       {
-        "defaultMessage": "The PIT Exchange",
-        "id": "layouts.wallet.menuleft.navigation.thepitexchange"
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
+      },
+      {
+        "defaultMessage": "Exchange in The Pit.",
+        "id": "the.pit.tooltip.title"
+      },
+      {
+        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own Crypto Exchange.",
+        "id": "the.pit.tooltip.content"
       },
       {
         "defaultMessage": "The PIT",
@@ -2058,10 +2071,6 @@
       {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
-      },
-      {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
