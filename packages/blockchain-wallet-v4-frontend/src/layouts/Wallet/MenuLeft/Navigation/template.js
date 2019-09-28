@@ -185,13 +185,13 @@ const PitLinkContent = props => {
                         <StepTitle size='20px' weight={600}>
                           <FormattedMessage
                             id='the.pit.tooltip.title'
-                            defaultMessage='Exchange in The Pit.'
+                            defaultMessage='Trade in The PIT.'
                           />
                         </StepTitle>
                         <StepContent color='grey600' size='14px' weight={500}>
                           <FormattedMessage
                             id='the.pit.tooltip.content'
-                            defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own Crypto Exchange."
+                            defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
                           />
                         </StepContent>
                       </>
@@ -221,7 +221,7 @@ const PitLinkContent = props => {
         <SpotlightLinkContainer
           to={'/thepit'}
           activeClassName='active'
-          onClick={onClickPitSideNavLink}
+          onClick={() => onClickPitSideNavLink(true)}
         >
           <MenuItem data-e2e='thePitLink'>
             <MenuIcon
@@ -334,30 +334,6 @@ const Navigation = props => {
           <PitLinkContent {...rest} />
         )
       ) : null}
-      {/* TODO: bring back lockbox menu */}
-      {/* lockboxOpened && (
-        <SubMenu>
-          {lockboxDevices.map((device, index) => {
-            const deviceName = device.device_name
-            return (
-              <LinkContainer
-                key={index}
-                activeClassName='active'
-                to={`/lockbox/dashboard/${index}`}
-                isActive={() => rest.pathname.includes(index)}
-              >
-                <SubMenuItem>
-                  <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.lockbox.device'
-                    defaultMessage='{deviceName}'
-                    values={{ deviceName }}
-                  />
-                </SubMenuItem>
-              </LinkContainer>
-            )
-          })}
-        </SubMenu>
-      ) */}
       <Separator />
       {values(
         mapObjIndexed(

@@ -34,8 +34,8 @@ class NavigationContainer extends React.PureComponent {
     return (
       <Navigation
         {...props}
-        onClickPitSideNavLink={() => {
-          this.setState({ hasRanPitTour: true })
+        onClickPitSideNavLink={isTour => {
+          if (isTour) this.setState({ hasRanPitTour: true })
           analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)
         }}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
