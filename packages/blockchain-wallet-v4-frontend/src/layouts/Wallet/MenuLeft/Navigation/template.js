@@ -223,7 +223,7 @@ const PitLinkContent = props => {
           activeClassName='active'
           onClick={() => onClickPitSideNavLink(true)}
         >
-          <MenuItem data-e2e='thePitLink'>
+          <MenuItem data-e2e='thePitLink' style={{ padding: 0 }}>
             <MenuIcon
               name='the-pit'
               style={{ paddingLeft: '2px' }}
@@ -326,9 +326,7 @@ const Navigation = props => {
             target='_blank'
             style={{ width: '100%' }}
           >
-            <MenuItem data-e2e='thePitLink'>
-              <PitLinkContent pitSideNavTest2='original' />
-            </MenuItem>
+            <PitLinkContent pitSideNavTest2='original' />
           </Link>
         ) : (
           <PitLinkContent {...rest} />
