@@ -141,7 +141,7 @@ const PitLogo = styled(Image)`
 `
 
 const ThePit = props => {
-  const { onLearnMore, onSignup, pitSideNavTest } = props
+  const { onLearnMore, onSignup, pitSideNavTest2 } = props
   return (
     <Wrapper>
       <Container>
@@ -229,7 +229,7 @@ const ThePit = props => {
           </Column>
           <FooterColumn>
             <FooterLink
-              href={`https://pit.blockchain.com/?utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${pitSideNavTest.getOrElse(
+              href={`https://pit.blockchain.com/?utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${pitSideNavTest2.getOrElse(
                 'sidenav_pit'
               )}`}
               target='_blank'
