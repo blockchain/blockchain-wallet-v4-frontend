@@ -81,7 +81,7 @@ export const PitTooltip = props => {
         >
           <FormattedMessage
             id='the.pit.tooltip.check.it.out'
-            defaultMessage='Check It Out'
+            defaultMessage='Check it out'
           />
         </Button>
       </TooltipFooter>
