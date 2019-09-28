@@ -21,14 +21,20 @@ class ThePitContainer extends React.PureComponent {
   }
 
   render () {
-    return <ThePit onSignup={this.onSignup} onLearnMore={this.onLearnMore} {...this.props} />
+    return (
+      <ThePit
+        onSignup={this.onSignup}
+        onLearnMore={this.onLearnMore}
+        {...this.props}
+      />
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  pitSideNavTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST)(
-    state
-  )
+  pitSideNavTest2: selectors.analytics.selectAbTest(
+    AB_TESTS.PIT_SIDE_NAV_TEST2
+  )(state)
 })
 
 const mapDispatchToProps = dispatch => ({

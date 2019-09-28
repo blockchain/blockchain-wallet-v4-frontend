@@ -149,7 +149,7 @@ export const WALLET_EVENTS = {
 }
 
 export const AB_TESTS = {
-  PIT_SIDE_NAV_TEST: 'PitSidenavTest',
+  PIT_SIDE_NAV_TEST2: 'PitSidenavTest2',
   MIN_MAX_EXCHANGE: 'MinMaxExchange'
 }
 
