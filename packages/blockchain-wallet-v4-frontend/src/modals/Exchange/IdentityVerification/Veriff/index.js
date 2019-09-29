@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { getData } from './selectors'
 import { actions } from 'data'
 import Loading from './template.loading'
-import DataError from 'components/DataError'
+import Failure from './template.failure'
 
 const VeriffIframe = styled.iframe.attrs({
   allow: 'camera; microphone'
@@ -39,7 +39,7 @@ class Veriff extends React.PureComponent {
   }
 
   render () {
-    const { veriffUrl, actions } = this.props
+    const { veriffUrl, actions, onClose } = this.props
 
     if (this.state.loading) return <Loading />
 
@@ -48,8 +48,13 @@ class Veriff extends React.PureComponent {
         <VeriffIframe data-e2e='veriffIframe' src={url} id='veriff-iframe' />
       ),
       Loading: () => <Loading />,
-      Failure: () => (
-        <DataError data-e2e='veriffFailure' onClick={actions.fetchVeriffUrl} />
+      Failure: message => (
+        <Failure
+          data-e2e='veriffFailure'
+          message={message}
+          onClick={actions.fetchVeriffUrl}
+          onClose={onClose}
+        />
       ),
       NotAsked: () => <Loading />
     })

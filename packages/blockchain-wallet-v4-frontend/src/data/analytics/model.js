@@ -149,8 +149,8 @@ export const WALLET_EVENTS = {
 }
 
 export const AB_TESTS = {
-  MIN_MAX_EXCHANGE: 'MinMaxExchange',
-  SWAP_OR_TRADE_TEST: 'SwapOrTradeTest'
+  PIT_SIDE_NAV_TEST2: 'PitSidenavTest2',
+  MIN_MAX_EXCHANGE: 'MinMaxExchange'
 }
 
 export const GENERAL_EVENTS = {
@@ -180,4 +180,11 @@ export const GENERAL_EVENTS = {
 
 export const ADS_EVENTS = {
   CLICK_AD: ['navigation', 'click_ad']
+}
+
+export const PIT_EVENTS = {
+  BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
+  SIDE_NAV: ['pit', 'sidenav', 'sidenav_link_click'],
+  CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
+  LEARN_MORE: ['pit', 'link_page', 'learn_more_click']
 }

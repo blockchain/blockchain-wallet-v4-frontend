@@ -10,7 +10,8 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
+
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -66,11 +67,17 @@ export default ({ api, coreSagas }) => {
     )
     const legacyAccount = legacyAccountR.getOrElse(null)
     const { addr, correct } = legacyAccount || {}
+    const fees = yield call(api.getEthFees)
+    const feeAmount = yield call(
+      utils.eth.calculateFee,
+      fees.regular,
+      fees.gasLimit
+    )
     // If needed, get the eth legacy account balance and prompt sweep
     if (!correct && addr) {
       const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
-      if (balance > 0) {
+      if (balance > feeAmount) {
         yield put(actions.modals.showModal('TransferEth', { balance, addr }))
         yield put(actions.analytics.logEvent(LOGIN_EVENTS.TRANSFER_ETH_LEGACY))
       }
@@ -93,7 +100,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.startSocket())
     yield put(actions.middleware.webSocket.btc.startSocket())
     yield put(actions.middleware.webSocket.eth.startSocket())
-    yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
   const authNabu = function * () {
@@ -117,12 +123,14 @@ export default ({ api, coreSagas }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
+      yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(
         coreSagas.kvStore.eth.fetchMetadataEth,
         askSecondPasswordEnhancer
       )
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield call(
         coreSagas.kvStore.xlm.fetchMetadataXlm,
         askSecondPasswordEnhancer

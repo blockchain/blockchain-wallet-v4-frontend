@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   auth_type: 0,
   isLoggingIn: false,
   isAuthenticated: false,
+  firstLogin: false,
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
@@ -70,6 +71,9 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.REMIND_GUID_NOTASKED: {
       return assoc('remindGuid', Remote.NotAsked, state)
+    }
+    case AT.SET_FIRST_LOGIN: {
+      return assoc('firstLogin', payload.firstLogin, state)
     }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload

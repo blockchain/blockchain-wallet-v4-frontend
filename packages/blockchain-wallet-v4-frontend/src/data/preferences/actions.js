@@ -28,3 +28,6 @@ export const hideUpgradeForAirdropModal = () => ({
 export const hideLockboxSoftwareDownload = () => ({
   type: AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD
 })
+export const hideThePitPulse = () => ({
+  type: AT.HIDE_THE_PIT_PULSE
+})

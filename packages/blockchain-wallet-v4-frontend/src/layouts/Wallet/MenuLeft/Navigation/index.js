@@ -3,28 +3,54 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { concat, prop } from 'ramda'
+import { STATUS } from 'react-joyride/lib'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Navigation from './template'
 
+const { PIT_EVENTS } = model.analytics
+
 class NavigationContainer extends React.PureComponent {
+  state = { hasRanPitTour: false, tourRunning: false }
+
+  handleTourCallbacks = data => {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      this.setState({ tourRunning: false, hasRanPitTour: true })
+    }
+  }
+
   render () {
     const {
       actions,
+      analyticsActions,
       domains,
       isPitAccountLinked,
-      isInvitedToPit,
+      isInvitedToPitSidenav,
       supportedCoins,
+      routerActions,
       ...props
     } = this.props
+
     return (
       <Navigation
         {...props}
+        onClickPitSideNavLink={isTour => {
+          if (isTour) this.setState({ hasRanPitTour: true })
+          analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)
+        }}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
-        isInvitedToPit={isInvitedToPit}
+        isInvitedToPitSidenav={isInvitedToPitSidenav}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
+        hasRanPitTour={this.state.hasRanPitTour}
+        tourRunning={this.state.tourRunning}
+        startTour={() => this.setState({ tourRunning: true })}
+        handleTourCallbacks={this.handleTourCallbacks}
+        routeToPit={() => {
+          this.setState({ tourRunning: false, hasRanPitTour: true })
+          routerActions.push('/thepit')
+        }}
       />
     )
   }
@@ -32,8 +58,8 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isInvitedToPit: selectors.modules.profile
-    .isInvitedToPit(state)
+  isInvitedToPitSidenav: selectors.modules.profile
+    .isInvitedToPitSidenav(state)
     .getOrElse(false),
   isPitAccountLinked: selectors.modules.profile
     .isPitAccountLinked(state)
@@ -43,7 +69,9 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const enhance = compose(

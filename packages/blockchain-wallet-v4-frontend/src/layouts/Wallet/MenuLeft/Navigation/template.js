@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
+import Joyride from 'react-joyride/lib'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
@@ -12,16 +13,17 @@ import {
   MenuIcon,
   MenuItem,
   Separator,
-  // SubMenu,
-  // SubMenuItem,
   Wrapper
 } from 'components/MenuLeft'
 import {
   Link,
   Text,
   TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  Icon
 } from 'blockchain-info-components'
+
+import { PitTooltip } from './model'
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
@@ -29,22 +31,19 @@ const HelperTipContainer = styled.div`
     color: ${props => props.theme['gray-3']};
   }
 `
-
 const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
   background-color: ${props => props.theme['white']};
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
-  padding: 4px 10px;
+  padding: 4px 4px;
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
-
 const SpotlightLinkContainer = styled(LinkContainer)`
   position: relative;
 `
-
 const JoyrideSpotlight = styled.div`
   position: absolute;
   top: 0;
@@ -52,31 +51,207 @@ const JoyrideSpotlight = styled.div`
   bottom: 0;
   left: 0;
   margin: auto 11px;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
 `
 
-const renderPitLinkContent = () => {
-  return (
-    <React.Fragment>
-      <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
-      <Destination>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.thepit'
-          defaultMessage='The PIT'
-        />
-      </Destination>
-    </React.Fragment>
-  )
+const PitJoyrideStyles = createGlobalStyle`
+  .__floater__open {
+    transition: none !important;
+    filter: none !important;
+    margin-left: 170px !important;
+  }
+`
+
+const PitLinkContent = props => {
+  const {
+    pitSideNavTest2,
+    firstLogin,
+    showThePitPulse,
+    onClickPitSideNavLink,
+    hasRanPitTour,
+    startTour,
+    tourRunning,
+    handleTourCallbacks,
+    routeToPit
+  } = props
+
+  switch (pitSideNavTest2) {
+    case 'sidenav_pulsing_pit':
+      return (
+        <SpotlightLinkContainer
+          to='/thepit'
+          activeClassName='active'
+          onClick={onClickPitSideNavLink}
+        >
+          <MenuItem data-e2e='thePitLink'>
+            {!firstLogin && showThePitPulse && (
+              <JoyrideSpotlight className='react-joyride__spotlight' />
+            )}
+            <MenuIcon
+              name='the-pit'
+              style={{ paddingLeft: '2px' }}
+              size='24px'
+            />
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.thepitbold'
+                defaultMessage='The PIT'
+              />
+            </Destination>
+            <NewCartridge>
+              <Text color='orange' size='12' weight={500} uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.transactions.new'
+                  defaultMessage='New'
+                />
+              </Text>
+            </NewCartridge>
+          </MenuItem>
+        </SpotlightLinkContainer>
+      )
+    case 'sidenav_pulsing_pit_callout_text':
+      const StepTitle = styled(Text)`
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 8px;
+        line-height: 24px;
+      `
+      const StepIcon = styled(Icon)`
+        margin: 0 auto 12px auto;
+        width: fit-content;
+      `
+      const StepContent = styled(Text)`
+        line-height: 24px;
+      `
+      return firstLogin || !showThePitPulse || hasRanPitTour ? (
+        <SpotlightLinkContainer
+          to='/thepit'
+          activeClassName='active'
+          onClick={onClickPitSideNavLink}
+        >
+          <MenuItem data-e2e='thePitLink'>
+            <MenuIcon
+              name='the-pit'
+              style={{ paddingLeft: '2px' }}
+              size='24px'
+            />
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.thepitbold'
+                defaultMessage='The PIT'
+              />
+            </Destination>
+            <NewCartridge>
+              <Text color='orange' size='12' weight={500} uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.transactions.new'
+                  defaultMessage='New'
+                />
+              </Text>
+            </NewCartridge>
+          </MenuItem>
+        </SpotlightLinkContainer>
+      ) : (
+        <div style={{ position: 'relative', width: '100%' }}>
+          <MenuItem data-e2e='thePitLink' onClick={startTour}>
+            {!tourRunning && (
+              <JoyrideSpotlight className='react-joyride__spotlight' />
+            )}
+            <MenuIcon name='the-pit' size='24px' className='the-pit-tooltip' />
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.thepitbold'
+                defaultMessage='The PIT'
+              />
+            </Destination>
+            <NewCartridge>
+              <Text color='orange' size='12' weight={500} uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.transactions.new'
+                  defaultMessage='New'
+                />
+              </Text>
+            </NewCartridge>
+            {tourRunning && !hasRanPitTour && (
+              <Joyride
+                run={tourRunning}
+                steps={[
+                  {
+                    target: '.the-pit-tooltip',
+                    content: (
+                      <>
+                        <StepIcon name='the-pit' size='56px' color='pitBlue' />
+                        <StepTitle size='20px' weight={600}>
+                          <FormattedMessage
+                            id='the.pit.tooltip.title'
+                            defaultMessage='Trade in The PIT.'
+                          />
+                        </StepTitle>
+                        <StepContent color='grey600' size='14px' weight={500}>
+                          <FormattedMessage
+                            id='the.pit.tooltip.content'
+                            defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
+                          />
+                        </StepContent>
+                      </>
+                    ),
+                    disableBeacon: true,
+                    placement: 'right',
+                    routeToPit
+                  }
+                ]}
+                tooltipComponent={PitTooltip}
+                callback={handleTourCallbacks}
+                showSkipButton={true}
+                styles={{
+                  overlay: {
+                    backgroundColor: 'none'
+                  }
+                }}
+                {...props.Joyride}
+              />
+            )}
+          </MenuItem>
+          <PitJoyrideStyles />
+        </div>
+      )
+    default:
+      return (
+        <SpotlightLinkContainer
+          to={'/thepit'}
+          activeClassName='active'
+          onClick={() => onClickPitSideNavLink(true)}
+        >
+          <MenuItem data-e2e='thePitLink' style={{ padding: 0 }}>
+            <MenuIcon
+              name='the-pit'
+              style={{ paddingLeft: '2px' }}
+              size='24px'
+            />
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.thepit'
+                defaultMessage='The PIT'
+              />
+            </Destination>
+            <NewCartridge>
+              <Text color='orange' size='12' weight={500} uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.transactions.new'
+                  defaultMessage='New'
+                />
+              </Text>
+            </NewCartridge>
+          </MenuItem>
+        </SpotlightLinkContainer>
+      )
+  }
 }
 
 const Navigation = props => {
   const { ...rest } = props
-  const {
-    // lockboxOpened,
-    // lockboxDevices,
-    supportedCoins
-  } = rest
+  const { supportedCoins } = rest
   const coinOrder = [
     supportedCoins.PAX,
     supportedCoins.BTC,
@@ -84,8 +259,6 @@ const Navigation = props => {
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
-  // SwapOrTradeTest
-  const { swapOrTrade } = rest
 
   return (
     <Wrapper {...rest}>
@@ -117,19 +290,11 @@ const Navigation = props => {
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />
           <MenuIcon name='thick-arrow-switch' size='24px' />
-          {/* SwapOrTradeTest */}
           <Destination>
-            {swapOrTrade !== 'trade' ? (
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.swap'
-                defaultMessage='Swap'
-              />
-            ) : (
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.trade'
-                defaultMessage='Trade'
-              />
-            )}
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.swap'
+              defaultMessage='Swap'
+            />
           </Destination>
         </MenuItem>
       </SpotlightLinkContainer>
@@ -153,30 +318,20 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {/* TODO: bring back lockbox menu */}
-      {/* lockboxOpened && (
-        <SubMenu>
-          {lockboxDevices.map((device, index) => {
-            const deviceName = device.device_name
-            return (
-              <LinkContainer
-                key={index}
-                activeClassName='active'
-                to={`/lockbox/dashboard/${index}`}
-                isActive={() => rest.pathname.includes(index)}
-              >
-                <SubMenuItem>
-                  <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.lockbox.device'
-                    defaultMessage='{deviceName}'
-                    values={{ deviceName }}
-                  />
-                </SubMenuItem>
-              </LinkContainer>
-            )
-          })}
-        </SubMenu>
-      ) */}
+      {props.isInvitedToPitSidenav ? (
+        props.isPitAccountLinked ? (
+          <Link
+            href={props.pitUrl}
+            rel='noopener noreferrer'
+            target='_blank'
+            style={{ width: '100%' }}
+          >
+            <PitLinkContent pitSideNavTest2='original' />
+          </Link>
+        ) : (
+          <PitLinkContent {...rest} />
+        )
+      ) : null}
       <Separator />
       {values(
         mapObjIndexed(
@@ -215,33 +370,6 @@ const Navigation = props => {
           coinOrder
         )
       )}
-      {props.isInvitedToPit && <Separator />}
-      {props.isInvitedToPit ? (
-        props.isPitAccountLinked ? (
-          <Link
-            href={props.pitUrl}
-            rel='noopener noreferrer'
-            target='_blank'
-            style={{ width: '100%' }}
-          >
-            <MenuItem data-e2e='thePitLink'>{renderPitLinkContent()}</MenuItem>
-          </Link>
-        ) : (
-          <LinkContainer to='/thepit' activeClassName='active'>
-            <MenuItem data-e2e='thePitLink'>
-              {renderPitLinkContent()}
-              <NewCartridge>
-                <Text color='orange' size='12' weight={500} uppercase>
-                  <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.transactions.new'
-                    defaultMessage='New'
-                  />
-                </Text>
-              </NewCartridge>
-            </MenuItem>
-          </LinkContainer>
-        )
-      ) : null}
     </Wrapper>
   )
 }
