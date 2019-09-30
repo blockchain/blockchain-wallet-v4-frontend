@@ -41,7 +41,11 @@ const Header = props => {
         <Navbar height='90px'>
           <NavbarBrand>
             <Link to='/'>
-              <Image name='blockchain-vector' height='20px' />
+              <Image
+                name='blockchain-vector'
+                onClick={onCloseClick}
+                height='20px'
+              />
             </Link>
           </NavbarBrand>
           <Dashboard>
