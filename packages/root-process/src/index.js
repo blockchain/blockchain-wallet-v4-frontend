@@ -172,11 +172,16 @@ const pathnameIsInSecurityProcess = pathname =>
 
   const mainProcess = await mainProcessPromise
 
+  const registerProtocolHandler = window.navigator.registerProtocolHandler.bind(
+    window.navigator
+  )
+
   mainProcessExports = await mainProcess({
     addLanguageToUrl,
     axios: sanitizedAxios,
     options,
     pathname: window.location.pathname,
+    registerProtocolHandler,
     rootProcessDispatch: dispatchFromMainProcess,
     securityProcess: securityProcessExports,
     setForegroundProcess

@@ -67,7 +67,6 @@ class App extends React.PureComponent {
   render () {
     const {
       imports,
-      securityModule,
       store,
       history,
       isAuthenticated,
