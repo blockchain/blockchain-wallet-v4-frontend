@@ -39,21 +39,15 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "*.js": [
-        "prettier --write",
-        "eslint --fix",
-        "stylelint",
-        "git add"
-      ],
-      "*.json": [
-        "prettier --write",
-        "git add"
-      ]
-    },
-    "concurrent": false,
-    "ignore": [
-      "**/package.json"
+    "*.js": [
+      "prettier --write",
+      "eslint --fix",
+      "stylelint",
+      "git add"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
     ]
   },
   "scripts": {
@@ -169,7 +163,7 @@
     "jest-css-modules": "2.1.0",
     "jest-fetch-mock": "2.1.2",
     "jest-styled-components": "6.3.3",
-    "lint-staged": "8.1.7",
+    "lint-staged": "9.4.0",
     "mock-socket": "8.0.5",
     "prettier": "1.18.2",
     "react-hot-loader": "4.8.4",
