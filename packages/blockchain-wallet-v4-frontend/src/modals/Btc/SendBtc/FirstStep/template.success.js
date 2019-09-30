@@ -332,7 +332,7 @@ const FirstStep = props => {
                   )}
                 </FeeFormLabel>
                 {feePerByteToggled && (
-                  <FeePerByteContainer>
+                  <FeePerByteContainer style={{ marginTop: '10px' }}>
                     <Field
                       name='feePerByte'
                       component={NumberBoxDebounced}
