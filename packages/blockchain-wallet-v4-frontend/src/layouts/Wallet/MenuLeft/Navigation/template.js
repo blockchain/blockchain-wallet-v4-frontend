@@ -155,10 +155,18 @@ const PitLinkContent = props => {
       ) : (
         <div style={{ position: 'relative', width: '100%' }}>
           <MenuItem data-e2e='thePitLink' onClick={startTour}>
-            {!tourRunning && (
-              <JoyrideSpotlight className='react-joyride__spotlight' />
+            {!tourRunning ? (
+              <JoyrideSpotlight
+                className='react-joyride__spotlight'
+                style={{ left: '1px' }}
+              />
+            ) : (
+              <JoyrideSpotlight
+                className='the-pit-tooltip'
+                style={{ top: '-11px' }}
+              />
             )}
-            <MenuIcon name='the-pit' size='24px' className='the-pit-tooltip' />
+            <MenuIcon name='the-pit' size='24px' />
             <Destination>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.thepitbold'
