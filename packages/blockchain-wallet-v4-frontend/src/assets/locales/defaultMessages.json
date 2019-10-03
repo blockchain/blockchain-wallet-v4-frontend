@@ -2053,10 +2053,6 @@
         "id": "the.pit.tooltip.content"
       },
       {
-        "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepit"
-      },
-      {
         "defaultMessage": "Dashboard",
         "id": "layouts.wallet.menuleft.navigation.dashboard"
       },
@@ -4518,8 +4514,8 @@
         "id": "modals.exchange.identityverification.submitted.nextstepsheader"
       },
       {
-        "defaultMessage": "You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
-        "id": "modals.exchange.identityverification.submitted.mayaskforid2"
+        "defaultMessage": "You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.",
+        "id": "modals.exchange.identityverification.submitted.mayaskforid3"
       },
       {
         "defaultMessage": "While you wait, you can still trade and move currency up to your current limit.",
@@ -4546,8 +4542,12 @@
         "id": "modals.exchange.identityverification.submitted.enterairdrop"
       },
       {
-        "defaultMessage": "By entering the airdrop program you’ll become eligible to receive future airdrops.",
-        "id": "modals.exchange.identityverification.submitted.makesuretoclick2"
+        "defaultMessage": "By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region.",
+        "id": "modals.exchange.identityverification.submitted.makesuretoclick3"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchange.identityverification.submitted.close"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
