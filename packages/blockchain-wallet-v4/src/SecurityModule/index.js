@@ -44,10 +44,17 @@ export default ({ store }) => {
     return core.deriveSLIP10ed25519Key({ entropy }, path)
   }
 
+  const generateMatomoUserId = () => {
+    const state = store.getState()
+    const { seedHex } = selectors.getDefaultHDWallet(state)
+    return core.generateMatomoUserId({ seedHex })
+  }
+
   return {
     credentialsEntropy,
     deriveBIP32Key,
     deriveLegacyEthereumKey,
-    deriveSLIP10ed25519Key
+    deriveSLIP10ed25519Key,
+    generateMatomoUserId
   }
 }

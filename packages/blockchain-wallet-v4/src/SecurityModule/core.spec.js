@@ -46,11 +46,13 @@ it(`derives a BIP32 key from seedHex`, async () => {
 
 // Derivation error using seedHex directly instead of seed derived from
 // mnemonic derived from seedHex
-it(`derives a legacy Ethereum key from seedHex`, async () => {
+it(`derives a legacy Ethereum key from seedHex`, () => {
   expect(
-    (await core.deriveLegacyEthereumKey({
-      entropy: `e39c77ed95097f9006c34e1a843aa151`
-    })).toString(`hex`)
+    core
+      .deriveLegacyEthereumKey({
+        entropy: `e39c77ed95097f9006c34e1a843aa151`
+      })
+      .toString(`hex`)
   ).toEqual(`bb9c3e500b9c41ce9836619fb840436c2d98695d6dc43fb73e6e02df7ee7fc5c`)
 })
 
@@ -91,4 +93,12 @@ describe(`derives a SLIP-10 ed25519 key from the seed`, () => {
       expect(keypair.secret()).toEqual(secret)
     })
   })
+})
+
+it('generates a Matomo user ID from seedHex', () => {
+  expect(
+    core.generateMatomoUserId({
+      seedHex: `713a3ae074e60e56c6bd0557c4984af1`
+    })
+  ).toEqual(`1D3FfVe6pxyvUVQCfhXuXmSR8Fwe2r2vj5`)
 })

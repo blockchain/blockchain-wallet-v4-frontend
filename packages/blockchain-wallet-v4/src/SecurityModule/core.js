@@ -21,9 +21,18 @@ export default ({ BIP39, Bitcoin, crypto, ed25519, EthHd }) => {
       .getWallet()
       .getPrivateKey()
 
-  const deriveSLIP10ed25519Key = async ({ entropy }, path) => {
+  const deriveSLIP10ed25519Key = ({ entropy }, path) => {
     const seed = entropyToSeed(entropy)
     return ed25519.derivePath(path, seed.toString(`hex`))
+  }
+
+  const hash = crypto.sha256('info.blockchain.matomo')
+  const purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
+
+  const generateMatomoUserId = ({ seedHex }) => {
+    const seed = entropyToSeed(seedHex)
+    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(seed)
+    return masterHDNode.deriveHardened(purpose).getAddress()
   }
 
   return {
@@ -31,6 +40,7 @@ export default ({ BIP39, Bitcoin, crypto, ed25519, EthHd }) => {
     deriveBIP32KeyFromSeedHex,
     deriveLegacyEthereumKey,
     deriveSLIP10ed25519Key,
-    entropyToSeed
+    entropyToSeed,
+    generateMatomoUserId
   }
 }
