@@ -13,9 +13,20 @@ export const CUSTOM_VARIABLES = {
 }
 
 //
+// AB TESTS
+//
+export const AB_TESTS = {
+  PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
+  MIN_MAX_EXCHANGE: 'MinMaxExchange'
+}
+
+//
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
+export const AB_TEST_GOALS = {
+  PIT_LINKOUT_CLICKED: ['ab_test_goals', 'pit_linkout_clicked']
+}
 export const ADDRESS_EVENTS = {
   ADD_NEXT_ADDR: ['addresses', 'add_next_addr'],
   DELETE_LABEL: ['addresses', 'delete_label'],
@@ -146,11 +157,6 @@ export const WALLET_EVENTS = {
   EDIT_NAME: ['wallets', 'edit_name'],
   SHOW_XPUB: ['wallets', 'show_xpub'],
   UNARCHIVE: ['wallets', 'unarchive']
-}
-
-export const AB_TESTS = {
-  PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
-  MIN_MAX_EXCHANGE: 'MinMaxExchange'
 }
 
 export const GENERAL_EVENTS = {
