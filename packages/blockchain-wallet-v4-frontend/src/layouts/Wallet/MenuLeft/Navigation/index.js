@@ -25,9 +25,9 @@ class NavigationContainer extends React.PureComponent {
       analyticsActions,
       domains,
       isPitAccountLinked,
-      isInvitedToPitSidenav,
-      supportedCoins,
       routerActions,
+      supportedCoins,
+      userKycState,
       ...props
     } = this.props
 
@@ -39,7 +39,6 @@ class NavigationContainer extends React.PureComponent {
         }
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
-        isInvitedToPitSidenav={isInvitedToPitSidenav}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
         hasRanPitTour={this.state.hasRanPitTour}
@@ -48,6 +47,7 @@ class NavigationContainer extends React.PureComponent {
           this.setState({ hasRanPitTour: true })
           routerActions.push('/thepit')
         }}
+        userHasntDoneKyc={userKycState === 'NONE'}
       />
     )
   }
@@ -55,15 +55,13 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isInvitedToPitSidenav: selectors.modules.profile
-    .isInvitedToPitSidenav(state)
-    .getOrElse(false),
   isPitAccountLinked: selectors.modules.profile
     .isPitAccountLinked(state)
     .getOrElse(false),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrFail(),
+  userKycState: selectors.modules.profile.getUserKYCState(state).getOrElse(null)
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),

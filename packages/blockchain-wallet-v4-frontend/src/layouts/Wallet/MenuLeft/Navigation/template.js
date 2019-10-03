@@ -262,7 +262,8 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {props.isInvitedToPitSidenav ? (
+      {/* SHOW PIT TO ALL NON KYC USERS */}
+      {props.userHasntDoneKyc ? (
         props.isPitAccountLinked ? (
           <Link
             href={props.pitUrl}
