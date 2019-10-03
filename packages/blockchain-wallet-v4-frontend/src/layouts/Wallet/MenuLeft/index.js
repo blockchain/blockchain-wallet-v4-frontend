@@ -13,13 +13,13 @@ const { AB_TESTS } = model.analytics
 class MenuLeftContainer extends React.PureComponent {
   componentDidMount () {
     if (Remote.Success.is(this.props.abTest)) return
-    this.props.analyticsActions.createABTest(AB_TESTS.PIT_SIDE_NAV_TEST2)
+    this.props.analyticsActions.createABTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
     window.addEventListener('message', this.receiveMatomoMessage, false)
     // Fallback if a/b test can not be created
     setTimeout(() => {
       if (!Remote.Success.is(this.props.abTest)) {
         this.props.analyticsActions.createABTestSuccess(
-          AB_TESTS.PIT_SIDE_NAV_TEST2,
+          AB_TESTS.PIT_SIDE_NAV_TEST3,
           'sidenav_pit'
         )
       }
@@ -30,7 +30,7 @@ class MenuLeftContainer extends React.PureComponent {
     if (res.data.from === 'matomo') {
       const result = pathOr('sidenav_pit', ['data', 'command'], res)
       this.props.analyticsActions.createABTestSuccess(
-        AB_TESTS.PIT_SIDE_NAV_TEST2,
+        AB_TESTS.PIT_SIDE_NAV_TEST3,
         result
       )
     }
@@ -50,7 +50,7 @@ class MenuLeftContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  abTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST2)(state)
+  abTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)(state)
 })
 
 const mapDispatchToProps = dispatch => ({

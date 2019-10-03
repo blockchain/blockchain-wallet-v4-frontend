@@ -11,11 +11,11 @@ import Navigation from './template'
 const { PIT_EVENTS } = model.analytics
 
 class NavigationContainer extends React.PureComponent {
-  state = { hasRanPitTour: false, tourRunning: false }
+  state = { hasRanPitTour: false }
 
   handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      this.setState({ tourRunning: false, hasRanPitTour: true })
+      this.setState({ hasRanPitTour: true })
     }
   }
 
@@ -34,21 +34,18 @@ class NavigationContainer extends React.PureComponent {
     return (
       <Navigation
         {...props}
-        onClickPitSideNavLink={isTour => {
-          if (isTour) this.setState({ hasRanPitTour: true })
+        onClickPitSideNavLink={() =>
           analyticsActions.logEvent(PIT_EVENTS.SIDE_NAV)
-        }}
+        }
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         isPitAccountLinked={isPitAccountLinked}
         isInvitedToPitSidenav={isInvitedToPitSidenav}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
         hasRanPitTour={this.state.hasRanPitTour}
-        tourRunning={this.state.tourRunning}
-        startTour={() => this.setState({ tourRunning: true })}
         handleTourCallbacks={this.handleTourCallbacks}
         routeToPit={() => {
-          this.setState({ tourRunning: false, hasRanPitTour: true })
+          this.setState({ hasRanPitTour: true })
           routerActions.push('/thepit')
         }}
       />

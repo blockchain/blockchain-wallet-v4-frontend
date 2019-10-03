@@ -406,7 +406,7 @@ export default ({ api, coreSagas, networks }) => {
       const pitLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
       const variant = (yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST2)
+        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
       )).getOrElse('sidenav_pit')
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
