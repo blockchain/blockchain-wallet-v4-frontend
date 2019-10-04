@@ -230,7 +230,7 @@ const ThePit = props => {
           <FooterColumn>
             <FooterLink
               href={`https://pit.blockchain.com/?utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${pitSideNavTest3.getOrElse(
-                'sidenav_pit'
+                'sidenav_pulse'
               )}`}
               target='_blank'
               rel='noopener noreferrer'

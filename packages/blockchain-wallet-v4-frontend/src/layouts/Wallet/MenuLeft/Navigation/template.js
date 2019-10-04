@@ -95,7 +95,7 @@ const PitLinkContent = props => {
     routeToPit
   } = props
 
-  if (pitSideNavTest3 === 'sidenav_pulsing_pit_callout_text') {
+  if (pitSideNavTest3 === 'sidenav_pulse_callout') {
     const StepTitle = styled(Text)`
       font-size: 20px;
       text-align: center;
