@@ -407,7 +407,7 @@ export default ({ api, coreSagas, networks }) => {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
       const variant = (yield select(
         selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
-      )).getOrElse('sidenav_pit')
+      )).getOrElse('sidenav_pulse')
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
       )}&utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${variant}`
