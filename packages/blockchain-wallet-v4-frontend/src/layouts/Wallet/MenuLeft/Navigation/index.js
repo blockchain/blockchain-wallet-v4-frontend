@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import { concat, prop } from 'ramda'
+import { concat, equals, not, prop } from 'ramda'
 import { STATUS } from 'react-joyride/lib'
 
 import { actions, model, selectors } from 'data'
 import Navigation from './template'
+const { NONE, REJECTED } = model.profile.KYC_STATES
 
 const { PIT_EVENTS } = model.analytics
 
@@ -47,7 +48,9 @@ class NavigationContainer extends React.PureComponent {
           this.setState({ hasRanPitTour: true })
           routerActions.push('/thepit')
         }}
-        userHasntDoneKyc={userKycState === 'NONE'}
+        userNonRejectAndHasntDoneKyc={
+          equals(NONE, userKycState) && not(equals(REJECTED, userKycState))
+        }
       />
     )
   }
