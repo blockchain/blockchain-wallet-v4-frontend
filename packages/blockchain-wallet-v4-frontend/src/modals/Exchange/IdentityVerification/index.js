@@ -177,7 +177,8 @@ class IdentityVerification extends React.PureComponent {
 
     if (step === STEPS.verify)
       return <Verify onBack={actions.goToPrevStep} onClose={this.handleClose} />
-    if (step === STEPS.submitted) return <Submitted />
+    if (step === STEPS.submitted)
+      return <Submitted onClose={this.handleClose} />
   }
 
   render () {

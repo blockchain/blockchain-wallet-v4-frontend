@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
-  siteId: selectors.core.walletOptions.getAnalyticsSiteId(state).getOrElse(1)
+  siteId: selectors.core.walletOptions.getAnalyticsSiteId(state).getOrElse(3) // prod siteId is 3
 })
 
 export default connect(

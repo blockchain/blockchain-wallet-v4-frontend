@@ -10,7 +10,8 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
+
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -64,11 +65,17 @@ export default ({ api, coreSagas }) => {
     )
     const legacyAccount = legacyAccountR.getOrElse(null)
     const { addr, correct } = legacyAccount || {}
+    const fees = yield call(api.getEthFees)
+    const feeAmount = yield call(
+      utils.eth.calculateFee,
+      fees.regular,
+      fees.gasLimit
+    )
     // If needed, get the eth legacy account balance and prompt sweep
     if (!correct && addr) {
       const balances = yield call(api.getEthBalances, addr)
       const balance = path([addr, 'balance'], balances)
-      if (balance > 0) {
+      if (balance > feeAmount) {
         yield put(actions.modals.showModal('TransferEth', { balance, addr }))
       }
     }

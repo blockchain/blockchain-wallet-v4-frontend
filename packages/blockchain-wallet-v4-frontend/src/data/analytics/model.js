@@ -13,9 +13,20 @@ export const CUSTOM_VARIABLES = {
 }
 
 //
+// AB TESTS
+//
+export const AB_TESTS = {
+  PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
+  MIN_MAX_EXCHANGE: 'MinMaxExchange'
+}
+
+//
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
+export const AB_TEST_GOALS = {
+  PIT_LINKOUT_CLICKED: ['ab_test_goals', 'pit_linkout_clicked']
+}
 export const LOCKBOX_EVENTS = {
   INSTALL_APP: ['lockbox', 'apps', 'install'],
   UNINSTALL_APP: ['lockbox', 'apps', 'uninstall'],
@@ -101,11 +112,6 @@ export const TRANSACTION_EVENTS = {
   BITPAY_URL_DEEPLINK: ['transactions', 'bitpay', 'bitpay_url_deeplink'],
   BITPAY_FAILURE: ['transactions', 'bitpay', 'bitpay_payment_failure'],
   BITPAY_SUCCESS: ['transactions', 'bitpay', 'bitpay_payment_success']
-}
-
-export const AB_TESTS = {
-  PIT_SIDE_NAV_TEST: 'PitSidenavTest',
-  MIN_MAX_EXCHANGE: 'MinMaxExchange'
 }
 
 export const GENERAL_EVENTS = {
