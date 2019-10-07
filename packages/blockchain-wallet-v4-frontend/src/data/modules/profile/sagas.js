@@ -419,10 +419,11 @@ export default ({ api, coreSagas, networks }) => {
       window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
       yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
       // check if this is actually due to AB test pulse sidenav, if so log goal completion to matomo
-      const isFromAbTest = yield select(
-        selectors.preferences.getShowThePitPulse
+      const abTestGroupR = yield select(
+        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
       )
-      if (isFromAbTest) {
+      const abTestGroup = abTestGroupR.getOrElse('original')
+      if (abTestGroup === 'sidenav_pulse') {
         yield put(actions.analytics.logEvent(AB_TEST_GOALS.PIT_LINKOUT_CLICKED))
       }
       // poll for account link
