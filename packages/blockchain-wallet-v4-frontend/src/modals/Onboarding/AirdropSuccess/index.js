@@ -165,7 +165,6 @@ AirdropSuccess.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 

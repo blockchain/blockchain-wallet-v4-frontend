@@ -7,9 +7,8 @@ import ReactTooltip from 'react-tooltip'
 
 import { OPEN_BTC_TIMEOUT } from './../model'
 import PairDeviceStep from './template'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 
-const { PAIR_DEVICE } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
 class PairDeviceStepContainer extends React.PureComponent {
   state = { btcOpenTimeout: false }
 
@@ -18,7 +17,6 @@ class PairDeviceStepContainer extends React.PureComponent {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
     this.startBtcOpenTimeout()
-    this.props.analyticsActions.logEvent(PAIR_DEVICE)
   }
 
   componentWillUnmount () {
@@ -71,7 +69,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)

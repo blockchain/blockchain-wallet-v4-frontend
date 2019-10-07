@@ -11,8 +11,6 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
-import { SWAP_EVENTS } from 'data/analytics/model'
-const { fiatActive } = model.rates
 
 const extractFieldValue = (e, value) => {
   return value
@@ -20,7 +18,6 @@ const extractFieldValue = (e, value) => {
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
-const { VALUE_INPUT } = model.analytics.SWAP_EVENTS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -48,7 +45,6 @@ class ExchangeForm extends React.Component {
     if (e.target.value === '0') {
       this.props.formActions.change(EXCHANGE_FORM, e.target.name, '')
     }
-    this.props.analyticsActions.logEvent([...VALUE_INPUT, inputSource])
   }
 
   addZero = e => {
@@ -58,23 +54,6 @@ class ExchangeForm extends React.Component {
       )
     }
   }
-
-  logSwapCryptoFiat = () =>
-    fiatActive(this.props.fix)
-      ? this.props.analyticsActions.logEvent([
-          ...SWAP_EVENTS.FIAT_TO_CRYPTO_CHANGE,
-          1
-        ])
-      : this.props.analyticsActions.logEvent([
-          ...SWAP_EVENTS.CRYPTO_TO_FIAT_CHANGE,
-          1
-        ])
-
-  logSwapExchangeReceive = () =>
-    this.props.analyticsActions.logEvent([
-      ...SWAP_EVENTS.EXCHANGE_RECEIVE_CHANGE,
-      1
-    ])
 
   render () {
     const { actions, data, showError, txError } = this.props
@@ -107,12 +86,10 @@ class ExchangeForm extends React.Component {
             }}
             handleInputBlur={this.addZero}
             swapFix={compose(
-              this.logSwapExchangeReceive,
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
             )}
             swapCoinAndFiat={compose(
-              this.logSwapCryptoFiat,
               actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
             )}

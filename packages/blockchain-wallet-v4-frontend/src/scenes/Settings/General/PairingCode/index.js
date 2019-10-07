@@ -75,7 +75,6 @@ class PairingCode extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

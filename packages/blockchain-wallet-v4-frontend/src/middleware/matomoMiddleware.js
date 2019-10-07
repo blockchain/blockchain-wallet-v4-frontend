@@ -16,11 +16,14 @@ const TYPE_WHITELIST = [
   '@CORE.SET_ACCOUNT_ARCHIVED',
   '@CORE.SET_ACCOUNT_LABEL',
   '@CORE.SET_DEFAULT_ACCOUNT',
+  '@CORE.SET_EMAIL_VERIFIED',
   '@EVENT.KYC.INITIALIZE_VERIFICATION',
   '@EVENT.KYC.UPDATE_EMAIL',
   'LOG_ERROR_MSG',
   'SHOW_MODAL'
 ]
+
+const _paq = window._paq || []
 
 const matomoMiddleware = () => store => next => action => {
   const eventCategory = prop('type', action)
@@ -35,13 +38,8 @@ const matomoMiddleware = () => store => next => action => {
     typeof nextAction !== 'string' ? JSON.stringify(nextAction) : nextAction
   const logEvent = contains(action.type, TYPE_WHITELIST)
 
-  // if (logEvent) {
-  //   window._paq.push(['trackEvent', eventCategory, eventAction, eventName])
-  // }
-  console.log('action', action)
-  console.log('logEvent', logEvent)
   if (logEvent) {
-    console.log(['trackEvent', eventCategory, eventAction, eventName])
+    _paq.push(['trackEvent', eventCategory, eventAction, eventName])
   }
 
   return next(action)
