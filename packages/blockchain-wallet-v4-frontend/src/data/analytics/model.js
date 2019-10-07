@@ -13,9 +13,20 @@ export const CUSTOM_VARIABLES = {
 }
 
 //
+// AB TESTS
+//
+export const AB_TESTS = {
+  PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
+  MIN_MAX_EXCHANGE: 'MinMaxExchange'
+}
+
+//
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
+export const AB_TEST_GOALS = {
+  PIT_LINKOUT_CLICKED: ['ab_test_goals', 'pit_linkout_clicked']
+}
 export const ADDRESS_EVENTS = {
   ADD_NEXT_ADDR: ['addresses', 'add_next_addr'],
   DELETE_LABEL: ['addresses', 'delete_label'],
@@ -148,11 +159,6 @@ export const WALLET_EVENTS = {
   UNARCHIVE: ['wallets', 'unarchive']
 }
 
-export const AB_TESTS = {
-  MIN_MAX_EXCHANGE: 'MinMaxExchange',
-  SWAP_OR_TRADE_TEST: 'SwapOrTradeTest'
-}
-
 export const GENERAL_EVENTS = {
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
   VIEW_FAQ: ['general', 'view_faq'],
@@ -180,4 +186,11 @@ export const GENERAL_EVENTS = {
 
 export const ADS_EVENTS = {
   CLICK_AD: ['navigation', 'click_ad']
+}
+
+export const PIT_EVENTS = {
+  BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
+  SIDE_NAV: ['pit', 'sidenav', 'sidenav_link_click'],
+  CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
+  LEARN_MORE: ['pit', 'link_page', 'learn_more_click']
 }
