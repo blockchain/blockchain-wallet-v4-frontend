@@ -195,7 +195,7 @@ export default ({ api, networks }) => {
       xpubGroup => search(xpubGroup)(prop('addresses', result)),
       xpubs
     )
-    return add(1, findLastIndex(a => !!a, accounts))
+    return add(1, findLastIndex(a => !!a, accounts)) || 1
   }
 
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
