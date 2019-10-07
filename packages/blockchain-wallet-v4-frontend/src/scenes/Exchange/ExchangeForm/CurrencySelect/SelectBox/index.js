@@ -89,6 +89,7 @@ const ItemIcon = styled(Icon)`
 const renderDisplay = (props, children) => {
   const coin = pathOr('', ['value', 'coin'], props)
   const icon = pathOr('', ['value', 'icon'], props)
+
   return (
     <DisplayWrapper className={props.className} coin={toLower(coin)}>
       {<DisplayIcon name={icon} />}
@@ -99,24 +100,7 @@ const renderDisplay = (props, children) => {
 
 const renderItem = item => {
   const coin = pathOr('', ['value', 'coin'], item)
-  let icon = pathOr('', ['value', 'icon'], item)
-
-  switch (icon) {
-    case 'btc':
-      icon = icon + '-circle-filled'
-      break
-
-    case 'eth':
-      icon = icon + '-circle-filled'
-      break
-
-    case 'bch':
-      icon = icon + '-circle-filled'
-      break
-
-    default:
-      break
-  }
+  const icon = pathOr('', ['value', 'icon'], item)
 
   const isSelected = prop('isSelected', item)
   return (
