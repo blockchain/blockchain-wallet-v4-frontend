@@ -56,7 +56,6 @@ export const PREFERENCE_EVENTS = {
     ENABLE_BTC_LINKS: 'enable_btc_links'
   },
   SECURITY: {
-    ACTIVITY_LOGGING: ['preferences', 'security', 'activity_logging'],
     BACKUP_PHRASE_VERIFIED: [
       'preferences',
       'security',

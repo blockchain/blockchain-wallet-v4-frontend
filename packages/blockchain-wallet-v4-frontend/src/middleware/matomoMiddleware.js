@@ -35,14 +35,14 @@ const matomoMiddleware = () => store => next => action => {
     typeof nextAction !== 'string' ? JSON.stringify(nextAction) : nextAction
   const logEvent = contains(action.type, TYPE_WHITELIST)
 
-  if (logEvent) {
-    window._paq.push(['trackEvent', eventCategory, eventAction, eventName])
-  }
   // if (logEvent) {
-  //   console.log('action', action)
-  //   console.log('logEvent', logEvent)
-  //   console.log(['trackEvent', eventCategory, eventAction, eventName])
+  //   window._paq.push(['trackEvent', eventCategory, eventAction, eventName])
   // }
+  console.log('action', action)
+  console.log('logEvent', logEvent)
+  if (logEvent) {
+    console.log(['trackEvent', eventCategory, eventAction, eventName])
+  }
 
   return next(action)
 }
