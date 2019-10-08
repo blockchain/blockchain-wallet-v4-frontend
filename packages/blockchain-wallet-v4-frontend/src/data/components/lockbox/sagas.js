@@ -18,7 +18,7 @@ import {
   values
 } from 'ramda'
 import { eventChannel, END } from 'redux-saga'
-import { actionTypes, actions, model, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
@@ -29,7 +29,6 @@ import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 const sagaCancelledMsg = 'Saga cancelled from user modal close'
-const { INSTALL_APP, UNINSTALL_APP } = model.analytics.LOCKBOX_EVENTS
 export default ({ api }) => {
   // variables for deviceType and app polling during new device setup
   let pollPosition, closePoll
@@ -721,7 +720,6 @@ export default ({ api }) => {
         appName,
         latestAppVersions
       )
-      yield put(actions.analytics.logEvent([...INSTALL_APP, appName]))
       yield put(A.appChangeSuccess(appName, 'install'))
     } catch (e) {
       yield put(A.appChangeFailure(appName, 'install', e))
@@ -754,17 +752,6 @@ export default ({ api }) => {
         domains.ledgerSocket,
         targetId,
         appInfo
-      )
-      const getCoinFromAppName = appName => {
-        return Object.keys(Lockbox.constants.supportedApps).find(
-          key => Lockbox.constants.supportedApps[key] === appName
-        )
-      }
-      yield put(
-        actions.analytics.logEvent([
-          ...UNINSTALL_APP,
-          getCoinFromAppName(appName)
-        ])
       )
       yield put(A.appChangeSuccess(appName, 'uninstall'))
     } catch (e) {

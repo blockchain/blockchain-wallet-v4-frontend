@@ -4,10 +4,8 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
 import { SETUP_TIMEOUT } from './../model'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import Template from './template'
-
-const { CONNECT_DEVICE } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
 
 class ConnectDeviceStepContainer extends React.PureComponent {
   state = { connectTimeout: false }
@@ -16,7 +14,6 @@ class ConnectDeviceStepContainer extends React.PureComponent {
     if (this.props.setupType === 'existing') {
       this.props.lockboxActions.initializeNewDeviceSetup()
       this.startConnectionTimeout()
-      this.props.analyticsActions.logEvent(CONNECT_DEVICE)
     }
   }
 
