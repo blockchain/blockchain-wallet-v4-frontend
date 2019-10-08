@@ -67,7 +67,7 @@ const Pulse = ({ theme }) => {
     }
     100% {
       box-shadow: 0 0 0 32px ${theme['blue']};
-      opacity: 0.25;
+      opacity: 0;
     }
   `
 }

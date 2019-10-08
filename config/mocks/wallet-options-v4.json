@@ -2,7 +2,7 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 3,
+        "analyticsSiteId": 2,
         "environment": "dev",
         "announcements": {
           "lockbox": {},
