@@ -61,6 +61,9 @@ import money from './img/money.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import poweredBySfox from './img/powered_by_sfox.svg'
+import pitMacbookGold from './img/pit-macbook-gold.png'
+import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
+import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -222,6 +225,9 @@ export default {
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
+  'pit-macbook-gold': pitMacbookGold,
+  'pit-macbook-gold2': pitMacbookGold2,
+  'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
   'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,

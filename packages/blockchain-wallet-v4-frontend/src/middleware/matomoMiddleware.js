@@ -23,8 +23,6 @@ const TYPE_WHITELIST = [
   'SHOW_MODAL'
 ]
 
-const _paq = window._paq || []
-
 const matomoMiddleware = () => store => next => action => {
   const eventCategory = prop('type', action)
   const nextAction =
@@ -39,7 +37,14 @@ const matomoMiddleware = () => store => next => action => {
   const logEvent = contains(action.type, TYPE_WHITELIST)
 
   if (logEvent) {
-    _paq.push(['trackEvent', eventCategory, eventAction, eventName])
+    const frame = document.getElementById('matomo-iframe')
+    frame.contentWindow.postMessage(
+      {
+        method: 'trackEvent',
+        messageData: [eventCategory, eventAction, eventName]
+      },
+      '*'
+    )
   }
 
   return next(action)

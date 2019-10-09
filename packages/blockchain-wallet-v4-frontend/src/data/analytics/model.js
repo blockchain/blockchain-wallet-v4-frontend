@@ -17,7 +17,7 @@ export const CUSTOM_VARIABLES = {
 //
 export const AB_TESTS = {
   PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
-  MIN_MAX_EXCHANGE: 'MinMaxExchange'
+  WALLET_PIT_SIGNUP: 'WalletPitSignup'
 }
 
 //
