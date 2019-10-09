@@ -6,6 +6,7 @@ const resolveRoot = relativePath => path.resolve(appDirectory, relativePath)
 module.exports = {
   appBuild: resolveRoot('lib'),
   ciBuild: resolveRoot('dist'),
+  src: resolveRoot('packages/root-process/src'),
   pkgJson: resolveRoot('package.json'),
   envConfig: resolveRoot('config/env'),
   sslConfig: resolveRoot('config/ssl')
