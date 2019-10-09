@@ -323,6 +323,8 @@
   "components.orderstatus.note.swappending": "Thanks for placing your trade! Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens. Keep track of your trade’s progress in the Order History tab.",
   "components.orderstatus.note.swaprefunded": "We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.",
   "components.orderstatus.note.swaprefunding": "We are now processing a refund for any funds broadcast minus the network fee. Please check your Order History to check the refund status.",
+  "components.pitcallout.tradecrypto": "Trade crypto & fiat in The PIT, Blockchain’s new lightning fast exchange.",
+  "components.pitcallout.tradeinthepit": "Trade in The PIT.",
   "components.qrreader.warning": "Your browser does not have webcam support.",
   "components.selectboxbchaddresses.watchonly": "Non-Spendable",
   "components.selectboxbtcaddresses.watchonly": "Non-Spendable",
