@@ -324,54 +324,6 @@ describe('authSagas', () => {
     })
   })
 
-  describe('login routine', () => {
-    const { loginRoutineSaga } = authSagas({
-      api,
-      coreSagas
-    })
-    const saga = testSaga(loginRoutineSaga)
-
-    it('should put authenticate action', () => {
-      saga.next().put(actions.auth.authenticate())
-    })
-
-    it('should select guid from state', () => {
-      saga.next().select(selectors.core.wallet.getGuid)
-    })
-
-    it('should cache guid', () => {
-      const guid = 'guid'
-      saga.next(guid).put(actions.cache.guidEntered(guid))
-    })
-
-    it('should reset auth state', () => {
-      saga.next().put(actions.auth.setAuthType(0))
-    })
-
-    it('should clear login form', () => {
-      saga.next().put(actions.form.destroy('login'))
-    })
-
-    describe('error handling', () => {
-      it('should log error', () => {
-        const error = {}
-        saga
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', error)
-          )
-      })
-
-      it('should show wallet error alert', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-          .next()
-          .isDone()
-      })
-    })
-  })
-
   describe('register flow', () => {
     const { register } = authSagas({
       api,
