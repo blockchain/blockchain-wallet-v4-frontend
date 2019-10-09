@@ -86,7 +86,7 @@ const validStrongPassword = value =>
       )
 
 const Register = props => {
-  const { handleSubmit, busy, invalid, password, passwordLength, goals } = props
+  const { busy, goals, handleSubmit, invalid, password, passwordLength } = props
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
 
@@ -233,7 +233,7 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
-      <PitCallout />
+      <PitCallout {...props} />
     </SignupWrapper>
   )
 }

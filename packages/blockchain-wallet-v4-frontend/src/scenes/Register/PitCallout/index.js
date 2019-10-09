@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { keyframes, css } from 'styled-components'
+import { prop } from 'ramda'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
@@ -70,8 +71,14 @@ const GoLink = styled.div`
   }
 `
 
-const PitCallout = () => {
-  return (
+const PitCallout = ({ abTestR, domainsR }) => {
+  const domain = prop(
+    'thePit',
+    domainsR.getOrElse({ thePit: 'https://pit.blockchain.com' })
+  )
+  const campaign = abTestR.getOrElse('original')
+
+  return campaign === 'original' ? null : (
     <PitCalloutWrapper>
       <InnerWrapper>
         <CopyWrapper>
@@ -97,7 +104,7 @@ const PitCallout = () => {
           }}
         />
         <FooterLink
-          href='google.com'
+          href={`${domain}/?utm_source=web_wallet&utm_medium=wallet_signup&utm_campaign=${campaign}`}
           className='footer'
           target='_blank'
           rel='noopener noreferrer'
