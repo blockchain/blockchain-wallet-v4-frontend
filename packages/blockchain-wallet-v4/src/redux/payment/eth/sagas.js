@@ -16,6 +16,7 @@ import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
+  getPrivateKey,
   calculateEffectiveBalance,
   isValidAddress,
   convertGweiToWei,
@@ -60,8 +61,8 @@ export default ({ api, securityModule }) => {
   }
 
   const calculateSignature = function * (
-    securityModule,
     network,
+    secondPassword,
     transport,
     scrambleKey,
     p
@@ -69,6 +70,14 @@ export default ({ api, securityModule }) => {
     switch (p.raw.fromType) {
       case ADDRESS_TYPES.ACCOUNT: {
         let sign
+        const { index } = p.raw
+
+        const privateKey = yield call(getPrivateKey, {
+          index,
+          secondPassword,
+          securityModule
+        })
+
         if (p.isErc20) {
           const contractAddress = (yield select(
             S.kvStore.eth.getErc20ContractAddr,
@@ -76,10 +85,10 @@ export default ({ api, securityModule }) => {
           )).getOrFail('missing_contract_addr')
           sign = data =>
             taskToPromise(
-              eth.signErc20(network, securityModule, data, contractAddress)
+              eth.signErc20(network, privateKey, data, contractAddress)
             )
         } else {
-          sign = data => taskToPromise(eth.sign(network, securityModule, data))
+          sign = data => taskToPromise(eth.sign(network, privateKey, data))
         }
         return yield call(sign, p.raw)
       }
@@ -273,10 +282,11 @@ export default ({ api, securityModule }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign (transport, scrambleKey) {
+      * sign (secondPassword, transport, scrambleKey) {
         const signed = yield call(
           calculateSignature,
           network,
+          secondPassword,
           transport,
           scrambleKey,
           p

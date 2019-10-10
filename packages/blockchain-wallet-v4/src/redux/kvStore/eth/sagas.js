@@ -1,6 +1,5 @@
 import {
   assoc,
-  curry,
   includes,
   filter,
   forEach,
@@ -31,13 +30,13 @@ export default ({ api, networks, securityModule } = {}) => {
   const deriveAccount = function * (secondPassword) {
     const defaultIndex = 0
 
-    const addr = yield call(
-      eth.deriveAddress,
-      securityModule,
+    const privateKey = yield call(eth.getPrivateKey, {
+      index: defaultIndex,
       secondPassword,
-      defaultIndex
-    )
+      securityModule
+    })
 
+    const addr = eth.privateKeyToAddress(privateKey)
     return { defaultIndex, addr }
   }
   const buildErc20Entry = (token, coinModels) => ({

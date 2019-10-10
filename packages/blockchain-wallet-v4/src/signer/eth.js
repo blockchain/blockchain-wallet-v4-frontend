@@ -15,9 +15,8 @@ const toHex = value => {
 }
 
 export const signErc20 = curry(
-  (network = 1, securityModule, data, contractAddress) => {
-    const { index, to, amount, nonce, gasPrice, gasLimit } = data
-    const privateKey = eth.getPrivateKey(securityModule, index)
+  (network = 1, privateKey, data, contractAddress) => {
+    const { to, amount, nonce, gasPrice, gasLimit } = data
     const transferMethodHex = '0xa9059cbb'
     const txParams = {
       to: contractAddress,
@@ -38,9 +37,8 @@ export const signErc20 = curry(
   }
 )
 
-export const sign = curry((network = 1, securityModule, data) => {
-  const { index, to, amount, nonce, gasPrice, gasLimit } = data
-  const privateKey = eth.getPrivateKey(securityModule, index)
+export const sign = curry((network = 1, privateKey, data) => {
+  const { to, amount, nonce, gasPrice, gasLimit } = data
   const txParams = {
     to,
     nonce: toHex(nonce),

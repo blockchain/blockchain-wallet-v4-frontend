@@ -9,11 +9,11 @@ import BigNumber from 'bignumber.js'
  */
 export const isValidAddress = address => /^0x[a-fA-F0-9]{40}$/.test(address)
 
-export const getPrivateKey = async (
-  { deriveBIP32Key },
+export const getPrivateKey = async ({
+  index = 0,
   secondPassword,
-  index
-) => {
+  securityModule: { deriveBIP32Key }
+}) => {
   const key = await deriveBIP32Key(
     { secondPassword },
     `m/44'/60'/0'/0/${index}`
@@ -26,9 +26,6 @@ export const getPrivateKey = async (
 
 export const privateKeyToAddress = pk =>
   EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
-
-export const deriveAddress = async (...args) =>
-  privateKeyToAddress(await getPrivateKey(...args))
 
 export const deriveAddressFromXpub = xpub => {
   const ethPublic = EthHd.fromExtendedKey(xpub)

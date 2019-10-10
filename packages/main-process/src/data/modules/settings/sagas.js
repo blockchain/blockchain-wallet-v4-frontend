@@ -304,19 +304,17 @@ export default ({ api, coreSagas, imports, securityModule }) => {
   const showEthPrivateKey = function * (action) {
     const { isLegacy } = action.payload
     try {
-      const password = yield call(promptForSecondPassword)
+      const secondPassword = yield call(promptForSecondPassword)
       if (isLegacy) {
         const legPriv = utils.eth
           .getLegacyPrivateKey(securityModule)
           .toString('hex')
         yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
       } else {
-        let priv = (yield call(
-          utils.eth.getPrivateKey,
-          securityModule,
-          password,
-          0
-        )).toString('hex')
+        const priv = (yield call(utils.eth.getPrivateKey, {
+          secondPassword,
+          securityModule
+        })).toString('hex')
 
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
