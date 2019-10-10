@@ -6,7 +6,7 @@ import Table from './Table'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 450px;
+  height: 574px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
