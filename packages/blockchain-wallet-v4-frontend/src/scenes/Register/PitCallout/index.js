@@ -18,7 +18,7 @@ const PitCalloutWrapper = styled(Wrapper)`
   flex-direction: column;
   transform: translateY(-50%);
   padding: ${WrapperPaddingY}px ${WrapperPaddingX}px;
-  transition: transform 0.3s 0.7s, opacity 0.3s 0.7s;
+  transition: transform 0.8s 0.7s, opacity 0.8s 0.7s;
   &.active {
     transform: translateY(-50%)
       translateX(${InnerWrapperWidth + WrapperPaddingX - 20}px);
@@ -69,9 +69,7 @@ const PitCallout = ({ abTestR, domainsR }) => {
     'thePit',
     domainsR.getOrElse({ thePit: 'https://pit.blockchain.com' })
   )
-  const campaign = abTestR.getOrElse('original')
-
-  setTimeout(() => showCallout(true), 1)
+  const campaign = ''
 
   return campaign === 'original' ? null : (
     <PitCalloutWrapper className={isCalloutVisible && 'active'}>
@@ -101,6 +99,7 @@ const PitCallout = ({ abTestR, domainsR }) => {
           </CopyWrapper>
           <Image
             width='100%'
+            onLoad={() => showCallout(true)}
             name='pit-macbook-gold'
             srcset={{
               'pit-macbook-gold2': '2x',
