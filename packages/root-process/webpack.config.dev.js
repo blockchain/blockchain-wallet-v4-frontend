@@ -6,13 +6,14 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const net = require(`net`)
 const Webpack = require('webpack')
+const webpackDevServer = require(`webpack-dev-server`)
 const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 
-const mainProcess = require(`main-process/localServer`)
-const securityProcess = require(`security-process/localServer`)
+const MainProcessWebpackConfiguration = require(`main-process/webpack.config.dev.js`)
+const SecurityProcessWebpackConfiguration = require(`security-process/webpack.config.dev.js`)
 
 const cspToString = policy =>
   Object.entries(policy)
@@ -34,65 +35,71 @@ const getAvailablePort = () =>
     })
   })
 
-let envConfig = {}
-let manifestCacheBust = new Date().getTime()
-let sslEnabled = process.env.DISABLE_SSL
-  ? false
-  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
-    fs.existsSync(PATHS.sslConfig + '/cert.pem')
-
-const port = 8080
-const protocol = sslEnabled ? `https` : `http`
-const localhostUrl = `${protocol}://localhost:${port}`
-const webSocketProtocol = sslEnabled ? `wss` : `ws`
-const webSocketUrl = `${webSocketProtocol}://localhost:${port}`
-
-try {
-  envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
-} catch (e) {
-  console.log(
-    chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-      chalk.yellow(
-        `Failed to load ${
-          process.env.NODE_ENV
-        }.js config file! Using the production config instead.\n`
-      )
-  )
-  envConfig = require(PATHS.envConfig + '/production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-  console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-  console.log(
-    chalk.cyan('Wallet Helper Domain') +
-      ': ' +
-      chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
-  )
-  console.log(
-    chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-  )
-  console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
-}
-
 module.exports = async () => {
-  const [mainProcessUrl, securityProcessUrl] = await Promise.all([
-    mainProcess({
-      envConfig,
-      manifestCacheBust,
-      PATHS,
-      port: await getAvailablePort(),
-      rootProcessUrl: localhostUrl,
-      sslEnabled
-    }),
+  let envConfig = {}
+  let manifestCacheBust = new Date().getTime()
+  let sslEnabled = process.env.DISABLE_SSL
+    ? false
+    : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+      fs.existsSync(PATHS.sslConfig + '/cert.pem')
 
-    securityProcess({
+  const port = 8080
+  const protocol = sslEnabled ? `https` : `http`
+  const rootProcessUrl = `${protocol}://localhost:${port}`
+  const webSocketProtocol = sslEnabled ? `wss` : `ws`
+  const webSocketUrl = `${webSocketProtocol}://localhost:${port}`
+
+  try {
+    envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
+  } catch (e) {
+    console.log(
+      chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
+        chalk.yellow(
+          `Failed to load ${
+            process.env.NODE_ENV
+          }.js config file! Using the production config instead.\n`
+        )
+    )
+    envConfig = require(PATHS.envConfig + '/production.js')
+  } finally {
+    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
+    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
+    console.log(
+      chalk.cyan('Wallet Helper Domain') +
+        ': ' +
+        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
+    )
+    console.log(
+      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
+    )
+    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
+  }
+
+  const startServer = async WebpackConfiguration => {
+    const port = await getAvailablePort()
+    const protocol = sslEnabled ? `https` : `http`
+    const localhostUrl = `${protocol}://localhost:${port}`
+
+    const configuration = WebpackConfiguration({
       envConfig,
+      localhostUrl,
       manifestCacheBust,
       PATHS,
-      port: await getAvailablePort(),
-      protocol,
-      rootProcessUrl: localhostUrl
+      port,
+      rootProcessUrl,
+      sslEnabled
     })
+
+    const compiler = Webpack(configuration)
+    const server = new webpackDevServer(compiler, configuration.devServer)
+    await new Promise(resolve => server.listen(port, `localhost`, resolve))
+    return localhostUrl
+  }
+
+  const [mainProcessUrl, securityProcessUrl] = await Promise.all([
+    startServer(MainProcessWebpackConfiguration),
+    startServer(SecurityProcessWebpackConfiguration)
   ])
 
   return {
@@ -167,7 +174,7 @@ module.exports = async () => {
             comRoot: envConfig.COM_ROOT,
             comWalletApp: envConfig.COM_WALLET_APP,
             horizon: envConfig.HORIZON_URL,
-            ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+            ledger: rootProcessUrl + '/ledger', // will trigger reverse proxy
             ledgerSocket: envConfig.LEDGER_SOCKET_URL,
             root: envConfig.ROOT_URL,
             thePit: envConfig.THE_PIT_URL,
@@ -198,7 +205,7 @@ module.exports = async () => {
         })
 
         app.get('/Resources/wallet-options.json', function (req, res) {
-          mockWalletOptions.domains = { comWalletApp: localhostUrl }
+          mockWalletOptions.domains = { comWalletApp: rootProcessUrl }
           res.json(mockWalletOptions)
         })
       },
@@ -217,9 +224,9 @@ module.exports = async () => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Security-Policy': cspToString({
-          'base-uri': [localhostUrl],
+          'base-uri': [rootProcessUrl],
           'connect-src': [
-            localhostUrl,
+            rootProcessUrl,
             webSocketUrl,
             envConfig.API_DOMAIN,
             envConfig.ROOT_URL
@@ -227,10 +234,10 @@ module.exports = async () => {
           'default-src': [`'none'`],
           'form-action': [`'none'`],
           'frame-src': [mainProcessUrl, securityProcessUrl],
-          'img-src': [localhostUrl],
-          'manifest-src': [localhostUrl],
+          'img-src': [rootProcessUrl],
+          'manifest-src': [rootProcessUrl],
           'object-src': [`'none'`],
-          'script-src': [localhostUrl, `'unsafe-eval'`],
+          'script-src': [rootProcessUrl, `'unsafe-eval'`],
           'style-src': [`'unsafe-inline'`]
         })
       }
