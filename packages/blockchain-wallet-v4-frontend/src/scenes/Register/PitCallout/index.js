@@ -69,7 +69,7 @@ const PitCallout = ({ abTestR, domainsR }) => {
     'thePit',
     domainsR.getOrElse({ thePit: 'https://pit.blockchain.com' })
   )
-  const campaign = 'pit_signup'
+  const campaign = abTestR.getOrElse('original')
 
   setTimeout(() => showCallout(true), 1)
 
