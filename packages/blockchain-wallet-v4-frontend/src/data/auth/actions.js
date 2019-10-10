@@ -68,6 +68,10 @@ export const setAuthType = authType => ({
   type: AT.SET_AUTH_TYPE,
   payload: { authType }
 })
+export const setFirstLogin = firstLogin => ({
+  type: AT.SET_FIRST_LOGIN,
+  payload: { firstLogin }
+})
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 export const upgradeWallet = version => ({
   type: AT.UPGRADE_WALLET,

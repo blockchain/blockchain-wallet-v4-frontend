@@ -6,11 +6,11 @@ import { actions, model } from 'data'
 import { getData, getPreIdvData } from './selectors'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import SiftScience from 'components/SiftScience'
+import DataError from 'components/DataError'
 
 import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
-import DataError from 'components/DataError'
 import { hasWebcam } from 'utils/helpers'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
@@ -47,7 +47,14 @@ class VerifyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, preIdvData, actions, modalActions, ...rest } = this.props
+    const {
+      actions,
+      data,
+      modalActions,
+      onClose,
+      preIdvData,
+      ...rest
+    } = this.props
 
     const VerificationFlow = data.cata({
       Success: ({
@@ -75,6 +82,7 @@ class VerifyContainer extends React.PureComponent {
                   showVeriff={this.state.showVeriff}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
                   needsDocResubmit={needsDocResubmit}
+                  onClose={onClose}
                   {...rest}
                 />
               )

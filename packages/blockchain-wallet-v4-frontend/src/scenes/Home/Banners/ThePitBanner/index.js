@@ -1,10 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+
 import { Cartridge } from '@blockchain-com/components'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
+import { actions, model } from 'data'
 
 import media from 'services/ResponsiveService'
+
+const { PIT_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +31,21 @@ const Wrapper = styled.div`
   ${media.mobile`
     flex-direction: column;
   `}
+`
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & > div:first-child {
+    margin-bottom: 4px;
+  }
 `
 const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['pitTurquoise']};
@@ -54,35 +76,52 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const ThePitBanner = () => {
+const ThePitBanner = ({ analyticsActions }) => {
   return (
     <Wrapper>
-      <Copy color='white' size='20px' weight={500}>
+      <Row>
         <NewCartridge>
           <FormattedMessage
             id='scenes.home.banners.pitbanner.new'
             defaultMessage='New'
           />
         </NewCartridge>
-        <FormattedMessage
-          id='scenes.home.banners.pitbanner.trade-1'
-          defaultMessage="There's a new way to trade. Link your Wallet for instant access."
-        />
-      </Copy>
-      <Link
-        href='https://pit.blockchain.com/'
-        target='_blank'
+        <Column>
+          <Copy color='white' size='20px' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banners.pitbanner.content1'
+              defaultMessage='We built our own exchange that links to your Wallet.'
+            />
+          </Copy>
+          <Copy color='white' size='20px' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banners.pitbanner.content3'
+              defaultMessage='Instantly access more cryptos and deposit/withdraw cash.'
+            />
+          </Copy>
+        </Column>
+      </Row>
+      <LinkContainer
+        to='/thepit'
         rel='noopener noreferrer'
+        onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
       >
         <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.checkitout'
-            defaultMessage='Check It Out'
+            id='scenes.home.banners.pitbanner.getstarted'
+            defaultMessage='Get Started'
           />
         </BannerButton>
-      </Link>
+      </LinkContainer>
     </Wrapper>
   )
 }
 
-export default ThePitBanner
+const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ThePitBanner)

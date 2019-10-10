@@ -12,27 +12,25 @@ import Failure from './template.failure'
 const { AB_TESTS } = model.analytics
 class MenuLeftContainer extends React.PureComponent {
   componentDidMount () {
-    // SwapOrTradeTest
     if (Remote.Success.is(this.props.abTest)) return
-    this.props.analyticsActions.createABTest(AB_TESTS.SWAP_OR_TRADE_TEST)
+    this.props.analyticsActions.createABTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
     window.addEventListener('message', this.receiveMatomoMessage, false)
     // Fallback if a/b test can not be created
     setTimeout(() => {
       if (!Remote.Success.is(this.props.abTest)) {
         this.props.analyticsActions.createABTestSuccess(
-          AB_TESTS.SWAP_OR_TRADE_TEST,
-          'original'
+          AB_TESTS.PIT_SIDE_NAV_TEST3,
+          'sidenav_pulse'
         )
       }
     }, 1000)
   }
 
-  // SwapOrTradeTest
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      const result = pathOr('original', ['data', 'command'], res)
+      const result = pathOr('sidenav_pulse', ['data', 'command'], res)
       this.props.analyticsActions.createABTestSuccess(
-        AB_TESTS.SWAP_OR_TRADE_TEST,
+        AB_TESTS.PIT_SIDE_NAV_TEST3,
         result
       )
     }
@@ -52,7 +50,7 @@ class MenuLeftContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  abTest: selectors.analytics.selectAbTest(AB_TESTS.SWAP_OR_TRADE_TEST)(state)
+  abTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)(state)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import bip21 from 'bip21'
 
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 import CopyClipboard from 'components/CopyClipboard'
@@ -54,6 +55,10 @@ const ShareRequestLink = props => {
   const link = `https://blockchain.com/btc/payment_request?address=${receiveAddress}&amount=${
     requestAmount.coin
   }&message=${requestMessage}`
+  const requestBip21 = bip21.encode(receiveAddress, {
+    amount: requestAmount.coin,
+    label: requestMessage
+  })
 
   return (
     <React.Fragment>
@@ -66,7 +71,7 @@ const ShareRequestLink = props => {
       <Details>
         <QrCodeColumn>
           <QRCodeWrapper
-            value={receiveAddress}
+            value={requestBip21}
             size={150}
             data-e2e='requestBtcAddressQrCode'
           />

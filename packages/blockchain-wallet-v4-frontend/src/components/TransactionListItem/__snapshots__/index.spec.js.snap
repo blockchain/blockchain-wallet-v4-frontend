@@ -126,6 +126,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideLockboxSoftwareDownload": [Function],
         "hideSwapBanner": [Function],
         "hideSwapUpgradeModal": [Function],
+        "hideThePitPulse": [Function],
         "hideUpgradeForAirdropModal": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],

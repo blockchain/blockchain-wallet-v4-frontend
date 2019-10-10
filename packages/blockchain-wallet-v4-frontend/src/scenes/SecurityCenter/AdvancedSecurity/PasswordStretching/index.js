@@ -4,10 +4,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import PasswordStretching from './template'
 
-const { PASSWORD_STRETCHING } = model.analytics.PREFERENCE_EVENTS.SECURITY
 class PasswordStretchingContainer extends React.PureComponent {
   state = { updateToggled: false }
 
@@ -17,10 +16,6 @@ class PasswordStretchingContainer extends React.PureComponent {
       Number(passwordStretchingValue)
     )
     this.handleToggle()
-    this.props.analyticsActions.logEvent([
-      ...PASSWORD_STRETCHING,
-      passwordStretchingValue
-    ])
   }
 
   handleToggle = () => {
@@ -51,7 +46,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })

@@ -98,6 +98,7 @@ const FirstStep = props => {
     handleBitPayInvoiceExpiration,
     ...rest
   } = props
+
   const {
     from,
     watchOnly,
@@ -109,7 +110,8 @@ const FirstStep = props => {
     totalFee,
     excludeLockbox,
     excludeHDWallets,
-    payPro
+    payPro,
+    autofilled
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -330,7 +332,7 @@ const FirstStep = props => {
                   )}
                 </FeeFormLabel>
                 {feePerByteToggled && (
-                  <FeePerByteContainer>
+                  <FeePerByteContainer style={{ marginTop: '10px' }}>
                     <Field
                       name='feePerByte'
                       component={NumberBoxDebounced}
@@ -434,7 +436,7 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
-            (!isPayPro && pristine) ||
+            (!isPayPro && pristine && !autofilled) ||
             disableLockboxSend
           }
         >

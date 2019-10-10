@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Bowser from 'bowser'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import Bowser from 'bowser'
 import { find, has, propEq } from 'ramda'
 
 import {
@@ -27,6 +27,7 @@ import {
 } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
+import PitCallout from './PitCallout'
 import LinkAccount from '../LinkAccount'
 
 // load zxcvbn dependency async and set on window
@@ -49,10 +50,12 @@ const isSupportedBrowser = browser.satisfies({
 
 const SignupWrapper = styled.div`
   display: flex;
+  position: relative;
 `
 const PublicWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
+  z-index: 1;
 `
 
 const Header = styled.div`
@@ -83,7 +86,7 @@ const validStrongPassword = value =>
       )
 
 const Register = props => {
-  const { handleSubmit, busy, invalid, password, passwordLength, goals } = props
+  const { busy, goals, handleSubmit, invalid, password, passwordLength } = props
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
 
@@ -230,6 +233,7 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
+      <PitCallout {...props} />
     </SignupWrapper>
   )
 }

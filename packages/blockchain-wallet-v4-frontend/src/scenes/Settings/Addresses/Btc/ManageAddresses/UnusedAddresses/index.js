@@ -10,7 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Toggler, TogglerItem } from '@blockchain-com/components'
 
 import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import UnusedAddresses from './template'
 import {
@@ -22,9 +22,6 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const { ADDRESS_EVENTS, WALLET_EVENTS } = model.analytics
-const { ADD_NEXT_ADDR, DELETE_LABEL, EDIT_LABEL } = ADDRESS_EVENTS
-const { ARCHIVE, CHANGE_DEFAULT, EDIT_NAME, SHOW_XPUB } = WALLET_EVENTS
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
@@ -53,59 +50,46 @@ class UnusedAddressesContainer extends React.PureComponent {
   onEditLabel = i => {
     const {
       accountIndex,
-      analyticsActions,
       componentActions,
       derivation,
       walletIndex
     } = this.props
     componentActions.editAddressLabel(accountIndex, walletIndex, derivation, i)
-    analyticsActions.logEvent(EDIT_LABEL)
   }
 
   onDeleteLabel = i => {
-    const {
-      accountIndex,
-      analyticsActions,
-      derivation,
-      modalsActions,
-      walletIndex
-    } = this.props
+    const { accountIndex, derivation, modalsActions, walletIndex } = this.props
     modalsActions.showModal('DeleteAddressLabel', {
       accountIdx: accountIndex,
       addressIdx: i,
       derivation,
       walletIdx: walletIndex
     })
-    analyticsActions.logEvent(DELETE_LABEL)
   }
 
   onEditBtcAccountLabel = () => {
     const {
       accountIndex,
       accountLabel,
-      analyticsActions,
+
       walletActions
     } = this.props
     walletActions.editBtcAccountLabel(accountIndex, accountLabel)
-    analyticsActions.logEvent(EDIT_NAME)
   }
 
   onShowXPub = () => {
-    const { analyticsActions, modalsActions, xpub } = this.props
+    const { modalsActions, xpub } = this.props
     modalsActions.showModal('ShowXPub', { xpub: xpub })
-    analyticsActions.logEvent(SHOW_XPUB)
   }
 
   onMakeDefault = () => {
-    const { accountIndex, analyticsActions, coreActions } = this.props
+    const { accountIndex, coreActions } = this.props
     coreActions.setDefaultAccountIdx(accountIndex)
-    analyticsActions.logEvent(CHANGE_DEFAULT)
   }
 
   onGenerateNextAddress = () => {
     const {
       alertActions,
-      analyticsActions,
       componentActions,
       derivation,
       unusedAddresses,
@@ -116,19 +100,12 @@ class UnusedAddressesContainer extends React.PureComponent {
     } else {
       componentActions.generateNextReceiveAddress(walletIndex, derivation)
     }
-    analyticsActions.logEvent(ADD_NEXT_ADDR)
   }
 
   onSetArchived = () => {
-    const {
-      accountIndex,
-      analyticsActions,
-      coreActions,
-      routerActions
-    } = this.props
+    const { accountIndex, coreActions, routerActions } = this.props
     coreActions.setAccountArchived(accountIndex, true)
     routerActions.push('/settings/addresses/btc')
-    analyticsActions.logEvent(ARCHIVE)
   }
 
   render () {
@@ -361,7 +338,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

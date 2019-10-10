@@ -1,5 +1,5 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import { add, equals, map, not, propOr, reduce, toLower } from 'ramda'
+import { add, equals, map, not, propOr, reduce } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 
@@ -141,7 +141,7 @@ export default ({ api }) => {
       const { event } = action.payload
       yield call(postMessage, {
         method: 'trackEvent',
-        messageData: map(toLower, event)
+        messageData: event
       })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logEvent', e))

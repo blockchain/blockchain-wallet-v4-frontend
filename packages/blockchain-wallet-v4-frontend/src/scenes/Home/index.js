@@ -59,28 +59,34 @@ const ColumnRight = styled(Column)`
 const Pulse = ({ theme }) => {
   return keyframes`
     0% {
-      box-shadow: 0 0 0 0 ${theme['deep-blue']};
+      box-shadow: 0 0 0 0 ${theme['blue']};
       opacity: 1;
     }
     30%{
       opacity: 0.7;
     }
     100% {
-      box-shadow: 0 0 0 32px ${theme['deep-blue']};
-      opacity: 0.25;
+      box-shadow: 0 0 0 32px ${theme['blue']};
+      opacity: 0;
     }
   `
 }
 
 const GlobalJoyrideStyles = createGlobalStyle`
   .react-joyride__spotlight {
-    background-color: ${({ theme }) => theme['deep-blue']} !important;
+    background-color: ${({ theme }) => theme['blue']} !important;
     opacity: 0.25 !important;
     border-radius: 50% !important;
     animation: ${props => Pulse(props)} 1s infinite;
     height: 16px !important;
     width: 16px !important;
     margin: 19px 0 0 19px;
+    top: -2px;
+    left: 3px;
+  }
+
+  .react-joyride__overlay {
+    mix-blend-mode: initial !important;
   }
 
   .__floater__open {

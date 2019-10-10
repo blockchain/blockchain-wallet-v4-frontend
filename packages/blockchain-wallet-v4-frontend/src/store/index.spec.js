@@ -36,12 +36,13 @@ jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
 }))
 
 jest.mock('../middleware', () => ({
-  webSocketBtc: jest.fn(),
-  webSocketBch: jest.fn(),
-  webSocketEth: jest.fn(),
+  autoDisconnection: jest.fn(),
+  matomoMiddleware: jest.fn(),
   streamingXlm: jest.fn(),
-  webSocketRates: jest.fn(),
-  autoDisconnection: jest.fn()
+  webSocketBch: jest.fn(),
+  webSocketBtc: jest.fn(),
+  webSocketEth: jest.fn(),
+  webSocketRates: jest.fn()
 }))
 
 describe('App Store Config', () => {
@@ -82,6 +83,7 @@ describe('App Store Config', () => {
     kvStoreSpy,
     walletSyncSpy,
     autoDisconnectSpy,
+    matomoMiddlewareSpy,
     btcSocketSpy,
     bchSocketSpy,
     ethSocketSpy
@@ -100,6 +102,7 @@ describe('App Store Config', () => {
     btcSocketSpy = jest.spyOn(Middleware, 'webSocketBtc')
     bchSocketSpy = jest.spyOn(Middleware, 'webSocketBch')
     ethSocketSpy = jest.spyOn(Middleware, 'webSocketEth')
+    matomoMiddlewareSpy = jest.spyOn(Middleware, 'matomoMiddleware')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
 
@@ -157,6 +160,7 @@ describe('App Store Config', () => {
       api: 'FAKE_WALLET_API',
       walletPath: 'wallet.payload'
     })
+    expect(matomoMiddlewareSpy).toHaveBeenCalledTimes(1)
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose
     expect(composeSpy).toHaveBeenCalledTimes(1)

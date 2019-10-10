@@ -21,6 +21,7 @@ import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
+import coins from './img/coins.png'
 import coinPax from './img/coin-pax.svg'
 import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
@@ -36,6 +37,7 @@ import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
 import goldApproved from './img/gold-approved.svg'
+import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
@@ -55,9 +57,13 @@ import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
+import money from './img/money.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import poweredBySfox from './img/powered_by_sfox.svg'
+import pitMacbookGold from './img/pit-macbook-gold.png'
+import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
+import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -152,6 +158,7 @@ export default {
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
   'checkmark-green': checkmarkGreen,
+  coins: coins,
   'coin-pax': coinPax,
   'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
@@ -170,6 +177,7 @@ export default {
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
   'gold-approved': goldApproved,
+  'gold-notice': goldNotice,
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
@@ -216,6 +224,10 @@ export default {
   'lockbox-usb': lockboxUsb,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'micro-deposits-whole': microDepositsWhole,
+  money: money,
+  'pit-macbook-gold': pitMacbookGold,
+  'pit-macbook-gold2': pitMacbookGold2,
+  'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
   'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,
