@@ -69,7 +69,7 @@ const PitCallout = ({ abTestR, domainsR }) => {
     'thePit',
     domainsR.getOrElse({ thePit: 'https://pit.blockchain.com' })
   )
-  const campaign = ''
+  const campaign = abTestR.getOrElse('original')
 
   return campaign === 'original' ? null : (
     <PitCalloutWrapper className={isCalloutVisible && 'active'}>
