@@ -14,6 +14,7 @@ const PitCalloutWrapper = styled(Wrapper)`
   width: auto;
   top: 50%;
   right: -20px;
+  min-height: 400px;
   position: absolute;
   flex-direction: column;
   transform: translateY(-50%);
