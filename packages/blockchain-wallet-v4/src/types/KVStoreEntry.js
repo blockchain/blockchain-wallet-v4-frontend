@@ -5,6 +5,7 @@ import { assoc, curry, compose, prop, is, isNil } from 'ramda'
 import { view } from 'ramda-lens'
 import Either from 'data.either'
 import * as crypto from '../walletCrypto'
+import * as U from '../walletCrypto/utils'
 import Type from './Type'
 import BigInteger from 'bigi'
 // import { shift, shiftIProp } from './util'
@@ -106,7 +107,7 @@ export const fromHdWallet = curry((hdWallet, typeId) => {
 })
 
 export const encrypt = curry((key, data) =>
-  crypto.encryptDataWithKey(data, key, null)
+  crypto.encryptDataWithKey(data, key, null, { mode: U.AES.CBC })
 )
 export const decrypt = curry((key, data) =>
   crypto.decryptDataWithKey(data, key)

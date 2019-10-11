@@ -1,4 +1,5 @@
 import * as wCrypto from './'
+import * as U from './utils'
 import data from './wallet-data.json'
 import { repeat } from 'ramda'
 
@@ -28,7 +29,7 @@ describe('WalletCrypto', () => {
       let key = wCrypto.sha256('mykey')
       let iv = Buffer.from(repeat(3, 16))
       let message = 'hello'
-      let encrypted = wCrypto.encryptDataWithKey(message, key, iv)
+      let encrypted = wCrypto.encryptDataWithKey(message, key, iv, null)
       let decrypted = wCrypto.decryptDataWithKey(encrypted, key, iv)
       expect(decrypted).toBe(message)
     })
@@ -39,7 +40,9 @@ describe('WalletCrypto', () => {
       let message = '155 is a bad number'
       wCrypto
         .encryptDataWithPassword(message, '1714', 11)
-        .chain(msg => wCrypto.decryptDataWithPassword(msg, '1714', 11))
+        .chain(msg =>
+          wCrypto.decryptDataWithPassword(msg, '1714', 11, { mode: U.AES.GCM })
+        )
         .fork(done, text => {
           expect(text).toEqual(message)
           done()
@@ -139,7 +142,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('decryptWallet (V3)', () => {
+  describe('decryptWallet (V4)', () => {
     it('should decrypt the wallet correctly', done => {
       wCrypto.decryptWallet('mypassword', data.v3).fork(done, wallet => {
         expect(wallet.guid).toEqual('e01a59a0-31f2-4403-8488-32ffd8fdb3cc')
@@ -148,7 +151,9 @@ describe('WalletCrypto', () => {
     })
     it('should fail because of wrong password', done => {
       wCrypto.decryptWallet('wrong password', data.v3).fork(failure => {
-        expect(failure).toEqual('v2v3: wrong_wallet_password')
+        expect(failure.message).toEqual(
+          'Unsupported state or unable to authenticate data'
+        )
         done()
       }, done)
     })
