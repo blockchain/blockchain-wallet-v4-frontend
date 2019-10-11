@@ -1,10 +1,11 @@
-const babelConfig = require(`./babel.config.js`)
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const fs = require('fs')
 const path = require(`path`)
 const Webpack = require('webpack')
+
+const babelConfig = require(`./babel.config.js`)
 
 const src = path.join(__dirname, `src`)
 
