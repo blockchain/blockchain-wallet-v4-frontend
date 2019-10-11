@@ -88,6 +88,7 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapDashboardLeft from './img/swap-dashboard-left.png'
 import swapDashboardRight from './img/swap-dashboard-right.png'
+import swapModalBg from './img/swap-modal-bg.svg'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
@@ -248,6 +249,7 @@ export default {
   'swap-carousel5': swapCarousel5,
   'swap-dashboard-left': swapDashboardLeft,
   'swap-dashboard-right': swapDashboardRight,
+  'swap-modal-bg': swapModalBg,
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
