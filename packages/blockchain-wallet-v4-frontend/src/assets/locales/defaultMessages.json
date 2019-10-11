@@ -6992,28 +6992,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Welcome to your Blockchain Wallet!",
-        "id": "modals.upgradewallet.title"
+        "defaultMessage": "Upgrading your Wallet to our latest version.",
+        "id": "modals.upgradewallet.upgradingtolatest"
       },
       {
-        "defaultMessage": "Completely updated design and user experience",
-        "id": "modals.upgradewallet.title1"
-      },
-      {
-        "defaultMessage": "Robust security center",
-        "id": "modals.upgradewallet.title2"
-      },
-      {
-        "defaultMessage": "Simplified backup and recovery",
-        "id": "modals.upgradewallet.title3"
-      },
-      {
-        "defaultMessage": "Customized fund management",
-        "id": "modals.upgradewallet.title4"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.upgradewallet.continue"
+        "defaultMessage": "Hang tight.",
+        "id": "modals.upgradewallet.hangtight"
       }
     ],
     "path": "src/modals/Wallet/UpgradeWallet/template.json"
@@ -10337,6 +10321,14 @@
         "id": "scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault"
       },
       {
+        "defaultMessage": "Legacy",
+        "id": "scenes.settings.addresses.btc.wallets.managelegacy"
+      },
+      {
+        "defaultMessage": "Segwit P2SH",
+        "id": "scenes.settings.addresses.btc.wallets.managesegwit"
+      },
+      {
         "defaultMessage": "More Options",
         "id": "scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions"
       },
@@ -10475,10 +10467,6 @@
       {
         "defaultMessage": "Balance",
         "id": "scenes.settings.addresses.btc.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.btc.wallets.actions"
       },
       {
         "defaultMessage": "No wallets matched your search",
