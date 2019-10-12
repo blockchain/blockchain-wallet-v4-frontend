@@ -14,11 +14,12 @@ const PitCalloutWrapper = styled(Wrapper)`
   width: auto;
   top: 50%;
   right: -20px;
+  min-height: 400px;
   position: absolute;
   flex-direction: column;
   transform: translateY(-50%);
   padding: ${WrapperPaddingY}px ${WrapperPaddingX}px;
-  transition: transform 0.3s 0.7s, opacity 0.3s 0.7s;
+  transition: transform 0.8s 0.7s, opacity 0.8s 0.7s;
   &.active {
     transform: translateY(-50%)
       translateX(${InnerWrapperWidth + WrapperPaddingX - 20}px);
@@ -71,8 +72,6 @@ const PitCallout = ({ abTestR, domainsR }) => {
   )
   const campaign = abTestR.getOrElse('original')
 
-  setTimeout(() => showCallout(true), 1)
-
   return campaign === 'original' ? null : (
     <PitCalloutWrapper className={isCalloutVisible && 'active'}>
       <Link
@@ -101,6 +100,7 @@ const PitCallout = ({ abTestR, domainsR }) => {
           </CopyWrapper>
           <Image
             width='100%'
+            onLoad={() => showCallout(true)}
             name='pit-macbook-gold'
             srcset={{
               'pit-macbook-gold2': '2x',
