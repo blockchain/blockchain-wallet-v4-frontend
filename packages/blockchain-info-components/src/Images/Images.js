@@ -4,7 +4,7 @@ import airdropWelcome from './img/airdrop-welcome.png'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
-import appStoreBadge from './img/app-store-badge.svg'
+import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -141,7 +141,7 @@ export default {
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
-  'app-store-badge': appStoreBadge,
+  'apple-app-store-badge': appleAppStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'bitpay-logo': bitpayLogo,
   'blockchain-blue': blockchainBlue,
