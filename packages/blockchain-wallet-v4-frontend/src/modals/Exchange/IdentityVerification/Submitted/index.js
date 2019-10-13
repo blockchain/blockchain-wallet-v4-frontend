@@ -27,14 +27,14 @@ const SubmittedIdentityVerificationForm = styled(IdentityVerificationForm)`
 const SubmittedWrapper = styled.div`
   display: flex;
   height: 100%;
-  width: 520px;
+  width: 475px;
   padding: 48px;
   text-align: center;
   align-items: center;
   flex-direction: column;
 `
 const Header = styled(Text).attrs({
-  size: '24px',
+  size: '30px',
   weight: 500,
   color: 'black'
 })`
@@ -42,7 +42,7 @@ const Header = styled(Text).attrs({
 `
 const SubHeader = styled(Text).attrs({
   size: '16px',
-  weight: 300
+  weight: 400
 })`
   margin-top: 16px;
 `
@@ -50,20 +50,29 @@ const NextSteps = styled.div`
   margin: 42px 0;
 `
 const NextStepsHeader = styled(Text).attrs({
-  size: '20px',
-  color: 'black'
+  size: '22px',
+  color: 'black',
+  weight: '500'
 })``
 const NextStepsSubHeader = styled(Text).attrs({
-  size: '12px',
-  weight: 300
+  size: '13px',
+  weight: 400
 })`
   margin-top: 16px;
 `
 const ClaimButton = styled(Button)`
-  margin: 0 auto;
-  height: 56px;
-  font-size: 18px;
-  min-width: 200px;
+  margin: 0 auto 40px;
+  height: 48px;
+  font-size: 16px;
+  width: 210px;
+  min-width: 210px;
+`
+const CloseButton = styled(Button)`
+  margin: 30px auto 0;
+  height: 48px;
+  font-size: 16px;
+  width: 210px;
+  min-width: 210px;
 `
 const Footer = styled.div`
   display: flex;
@@ -103,7 +112,12 @@ class Submitted extends React.PureComponent {
   }
 
   render () {
-    const { campaign, identityVerificationActions, submitting } = this.props
+    const {
+      campaign,
+      onClose,
+      identityVerificationActions,
+      submitting
+    } = this.props
     const { initialIsSunRiverTagged } = this.state
     const { isLinkCopied } = this.state
     const link = 'https://www.blockchain.com/getcrypto'
@@ -137,8 +151,8 @@ class Submitted extends React.PureComponent {
             </NextStepsHeader>
             <NextStepsSubHeader>
               <FormattedHTMLMessage
-                id='modals.exchange.identityverification.submitted.mayaskforid2'
-                defaultMessage="You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID."
+                id='modals.exchange.identityverification.submitted.mayaskforid3'
+                defaultMessage='You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.'
               />
             </NextStepsSubHeader>
             <NextStepsSubHeader>
@@ -234,10 +248,20 @@ class Submitted extends React.PureComponent {
                 </ClaimButton>
                 <NextStepsSubHeader>
                   <FormattedMessage
-                    id='modals.exchange.identityverification.submitted.makesuretoclick2'
-                    defaultMessage='By entering the airdrop program you’ll become eligible to receive future airdrops.'
+                    id='modals.exchange.identityverification.submitted.makesuretoclick3'
+                    defaultMessage="By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region."
                   />
                 </NextStepsSubHeader>
+                <CloseButton
+                  nature='empty-secondary'
+                  disabled={submitting}
+                  onClick={onClose}
+                >
+                  <FormattedMessage
+                    id='modals.exchange.identityverification.submitted.close'
+                    defaultMessage='Close'
+                  />
+                </CloseButton>
               </React.Fragment>
             )}
           </Form>

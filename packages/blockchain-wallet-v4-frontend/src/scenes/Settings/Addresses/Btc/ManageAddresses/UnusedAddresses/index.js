@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import * as C from 'services/AlertService'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import UnusedAddresses from './template'
 import {
@@ -20,9 +20,6 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const { ADDRESS_EVENTS, WALLET_EVENTS } = model.analytics
-const { ADD_NEXT_ADDR, DELETE_LABEL, EDIT_LABEL } = ADDRESS_EVENTS
-const { ARCHIVE, CHANGE_DEFAULT, EDIT_NAME, SHOW_XPUB } = WALLET_EVENTS
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
@@ -39,7 +36,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     const {
       account,
       alertActions,
-      analyticsActions,
       componentActions,
       coreActions,
       currentReceiveIndex,
@@ -53,7 +49,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     } = this.props
     const onEditLabel = i => {
       componentActions.editAddressLabel(account.index, walletIndex, i)
-      analyticsActions.logEvent(EDIT_LABEL)
     }
     const onDeleteLabel = i => {
       modalsActions.showModal('DeleteAddressLabel', {
@@ -61,21 +56,17 @@ class UnusedAddressesContainer extends React.PureComponent {
         walletIdx: walletIndex,
         addressIdx: i
       })
-      analyticsActions.logEvent(DELETE_LABEL)
     }
     const onEditBtcAccountLabel = () => {
       walletActions.editBtcAccountLabel(account.index, account.label)
-      analyticsActions.logEvent(EDIT_NAME)
     }
 
     const onShowXPub = () => {
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
-      analyticsActions.logEvent(SHOW_XPUB)
     }
 
     const onMakeDefault = () => {
       coreActions.setDefaultAccountIdx(account.index)
-      analyticsActions.logEvent(CHANGE_DEFAULT)
     }
     const onGenerateNextAddress = () => {
       if (length(unusedAddresses.getOrElse([])) >= 15) {
@@ -83,12 +74,10 @@ class UnusedAddressesContainer extends React.PureComponent {
       } else {
         componentActions.generateNextReceiveAddress(walletIndex)
       }
-      analyticsActions.logEvent(ADD_NEXT_ADDR)
     }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
       routerActions.push('/settings/addresses/btc')
-      analyticsActions.logEvent(ARCHIVE)
     }
     const props = {
       account,
@@ -271,7 +260,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch

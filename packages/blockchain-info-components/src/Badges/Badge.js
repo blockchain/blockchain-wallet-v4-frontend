@@ -13,7 +13,7 @@ const Badge = ({ ...props }) => {
           href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309'
           target='_blank'
         >
-          <Image name='app-store-badge' height='48px' />
+          <Image name='apple-app-store-badge' height='48px' />
         </Link>
       )
     case 'googleplay':

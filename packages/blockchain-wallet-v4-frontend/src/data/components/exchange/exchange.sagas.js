@@ -666,7 +666,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(checkLatestTx, prop('source', target))
       yield call(clearMinMax)
       yield call(updateSourceFee)
-      yield put(actions.analytics.logEvent([...SWAP_EVENTS.REVERSE_PAIR, pair]))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
     }
@@ -681,7 +680,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
       yield put(actions.modals.showModal(CONFIRM_MODAL))
-      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW))
     }
   }
 
@@ -840,11 +838,9 @@ export default ({ api, coreSagas, networks }) => {
           actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
         )
       }
-      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM))
       yield put(actions.components.refresh.refreshClicked())
       yield put(actions.modules.profile.fetchUser())
     } catch (err) {
-      yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_CONFIRM_ERROR))
       return yield call(showConfirmationError, err)
     }
   }

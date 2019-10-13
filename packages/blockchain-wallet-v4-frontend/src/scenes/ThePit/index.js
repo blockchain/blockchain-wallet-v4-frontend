@@ -32,8 +32,8 @@ class ThePitContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  pitSideNavTest2: selectors.analytics.selectAbTest(
-    AB_TESTS.PIT_SIDE_NAV_TEST2
+  pitSideNavTest3: selectors.analytics.selectAbTest(
+    AB_TESTS.PIT_SIDE_NAV_TEST3
   )(state)
 })
 

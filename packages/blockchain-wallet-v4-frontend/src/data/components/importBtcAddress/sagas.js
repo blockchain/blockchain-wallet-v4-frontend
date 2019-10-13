@@ -1,12 +1,11 @@
 import { call, select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 
-const { IMPORT_ADDR } = model.analytics.ADDRESS_EVENTS
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
@@ -32,14 +31,12 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       yield call(importLegacyAddress, address, value, null, null, to)
-      yield put(actions.analytics.logEvent(IMPORT_ADDR))
       return
     }
 
     // address handling (watch-only)
     if (value && utils.btc.isValidBtcAddress(value, networks.btc)) {
       yield call(importLegacyAddress, value, null, null, null, null)
-      yield put(actions.analytics.logEvent(IMPORT_ADDR))
     }
   }
 
