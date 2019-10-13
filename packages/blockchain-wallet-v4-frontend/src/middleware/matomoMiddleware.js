@@ -24,27 +24,32 @@ const TYPE_WHITELIST = [
 ]
 
 const matomoMiddleware = () => store => next => action => {
-  const eventCategory = prop('type', action)
-  const nextAction =
-    path(FORM, action) ||
-    path(NAME, action) ||
-    path(TYPE, action) ||
-    path(LOCATION, action) ||
-    path(PAYLOAD, action)
-  const eventName = path(FIELD, action)
-  const eventAction =
-    typeof nextAction !== 'string' ? JSON.stringify(nextAction) : nextAction
-  const logEvent = contains(action.type, TYPE_WHITELIST)
+  try {
+    const eventCategory = prop('type', action)
+    const nextAction =
+      path(FORM, action) ||
+      path(NAME, action) ||
+      path(TYPE, action) ||
+      path(LOCATION, action) ||
+      path(PAYLOAD, action)
+    const eventName = path(FIELD, action)
+    const eventAction =
+      typeof nextAction !== 'string' ? JSON.stringify(nextAction) : nextAction
+    const logEvent = contains(action.type, TYPE_WHITELIST)
 
-  if (logEvent) {
-    const frame = document.getElementById('matomo-iframe')
-    frame.contentWindow.postMessage(
-      {
-        method: 'trackEvent',
-        messageData: [eventCategory, eventAction, eventName]
-      },
-      '*'
-    )
+    if (logEvent) {
+      const frame = document.getElementById('matomo-iframe')
+      frame.contentWindow.postMessage(
+        {
+          method: 'trackEvent',
+          messageData: [eventCategory, eventAction, eventName]
+        },
+        '*'
+      )
+    }
+  } catch (e) {
+    /* eslint-disable-next-line */
+    console.log(e)
   }
 
   return next(action)
