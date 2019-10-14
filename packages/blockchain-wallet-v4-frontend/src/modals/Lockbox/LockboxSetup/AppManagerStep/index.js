@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { AppManager } from 'components/Lockbox'
 
 const Wrapper = styled.div`
@@ -14,12 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-const { INSTALL_APPS } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
-
 class AppManagerStepContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.analyticsActions.logEvent(INSTALL_APPS)
-  }
   onStepChange = () => {
     this.props.lockboxActions.changeDeviceSetupStep('pair-device')
     this.props.lockboxActions.finalizeNewDeviceSetup()

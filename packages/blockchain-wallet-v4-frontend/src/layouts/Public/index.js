@@ -34,7 +34,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  overflow-y: auto;
   margin: 0 25px;
   z-index: 1;
 
