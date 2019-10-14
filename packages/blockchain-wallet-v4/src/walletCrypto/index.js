@@ -303,7 +303,7 @@ export const decryptWalletV4 = (password, data) => {
           mode: U.AES.GCM
         })
       )
-      .chain(p => safeParse(p, 'v4: wrong_wallet_password'))
+      .chain(p => safeParse(p))
   )
 }
 

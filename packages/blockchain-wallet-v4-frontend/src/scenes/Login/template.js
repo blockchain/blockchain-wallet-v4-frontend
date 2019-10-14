@@ -108,7 +108,9 @@ const Login = props => {
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError =
-    loginError && loginError.toLowerCase().includes('wrong_wallet_password')
+    loginError &&
+    (loginError.toLowerCase().includes('wrong_wallet_password') ||
+      loginError.includes('Unsupported state or unable to authenticate data'))
   const twoFactorError =
     loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked =
