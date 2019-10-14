@@ -77,6 +77,7 @@ export const PitTooltip = props => {
           height='48px'
           nature='primary'
           fullwidth
+          dataE2e='checkOutPitButton'
           onClick={step.routeToPit}
         >
           <FormattedMessage

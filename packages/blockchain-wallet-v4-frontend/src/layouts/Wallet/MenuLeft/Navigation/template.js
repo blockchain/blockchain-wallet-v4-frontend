@@ -145,7 +145,7 @@ const PitLinkContent = props => {
               {
                 target: '.the-pit-tooltip',
                 content: (
-                  <>
+                  <div data-e2e='tradePitPromo'>
                     <StepIcon name='the-pit' size='56px' color='pitBlue' />
                     <StepTitle size='20px' weight={600}>
                       <FormattedMessage
@@ -159,7 +159,7 @@ const PitLinkContent = props => {
                         defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
                       />
                     </StepContent>
-                  </>
+                  </div>
                 ),
                 disableBeacon: true,
                 placement: 'right',
