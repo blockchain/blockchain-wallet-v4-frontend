@@ -40,8 +40,6 @@ export default ({ api, coreSagas }) => {
           break
       }
       yield call(forceSyncWallet)
-      yield delay(2000)
-      yield put(actions.modals.closeModal())
     } catch (e) {
       // TODO: SEGWIT (modals are mounted twice)
       if (e.message === 'Already a v4 wallet') return
@@ -51,8 +49,10 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWalletSaga = function * (version) {
-    yield put(actions.modals.showModal('UpgradeWallet', { version }))
+  const upgradeWalletSaga = function * (isDoubleEncrypted, version) {
+    yield put(
+      actions.modals.showModal('UpgradeWallet', { isDoubleEncrypted, version })
+    )
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
@@ -130,14 +130,17 @@ export default ({ api, coreSagas }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const isDoubleEncrypted = yield select(
+        selectors.core.wallet.isSecondPasswordOn
+      )
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga, 3)
+        yield call(upgradeWalletSaga, isDoubleEncrypted, 3)
       }
       const isLatestVersion = yield select(
         selectors.core.wallet.isWrapperLatestVersion
       )
       if (!isLatestVersion) {
-        yield call(upgradeWalletSaga, 4)
+        yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
       }
       // Finish upgrades
 
