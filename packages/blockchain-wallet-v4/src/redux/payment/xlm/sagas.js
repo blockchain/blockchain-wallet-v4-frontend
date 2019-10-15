@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { contains, flip, merge, prop, path, values } from 'ramda'
+import { contains, merge, prop, path, values } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 
 import * as S from '../../selectors'
@@ -10,7 +10,8 @@ import {
   calculateFee as utilsCalculateFee,
   calculateReserve,
   overflowsFullBalance,
-  overflowsEffectiveBalance
+  overflowsEffectiveBalance,
+  getKeyPair
 } from '../../../utils/xlm'
 import {
   isString,
@@ -20,9 +21,6 @@ import {
 import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
 import settingsSagaFactory from '../../../redux/settings/sagas'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
   Usage:
@@ -72,15 +70,12 @@ export default ({ api, securityModule }) => {
     scrambleKey,
     fromType
   ) {
+    const keyPair = yield call(getKeyPair, { secondPassword, securityModule })
+
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
-
-        return yield call(
-          xlmSigner.sign,
-          { secondPassword, securityModule },
-          transaction
-        )
+        return xlmSigner.sign({ keyPair, transaction })
       case ADDRESS_TYPES.LOCKBOX:
         return yield call(
           xlmSigner.signWithLockbox,

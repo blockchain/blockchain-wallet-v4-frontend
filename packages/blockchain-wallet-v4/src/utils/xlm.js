@@ -50,10 +50,10 @@ export const getKeyPair = async ({
   secondPassword,
   securityModule: { deriveSLIP10ed25519Key }
 }) => {
-  const masterKey = await deriveSLIP10ed25519Key(
+  const { key } = await deriveSLIP10ed25519Key(
     { secondPassword },
     `m/44'/148'/0'`
   )
 
-  return StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
+  return StellarSdk.Keypair.fromRawEd25519Seed(key)
 }
