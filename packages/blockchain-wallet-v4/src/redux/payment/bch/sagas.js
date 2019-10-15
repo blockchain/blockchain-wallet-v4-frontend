@@ -50,7 +50,7 @@ export default ({ api }) => {
   const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
-      .getBchUnspents(fromData.from, -1)
+      .getBchUnspents(fromData.from)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
