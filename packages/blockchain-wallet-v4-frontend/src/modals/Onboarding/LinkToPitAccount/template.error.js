@@ -12,9 +12,7 @@ import {
 
 const ModalStyled = styled(Modal)`
   background: ${props =>
-    `linear-gradient(321.54deg, ${props.theme.purple} -15.42%, ${
-      props.theme.black
-    } 54.12%)`};
+    `linear-gradient(321.54deg, ${props.theme.purple} -15.42%, ${props.theme.black} 54.12%)`};
 `
 const ModalHeaderStyled = styled(ModalHeader)`
   position: absolute;
@@ -46,7 +44,7 @@ const Status = styled.div`
 
 const LinkToPitError = ({ close, error }) => {
   return (
-    <ModalStyled size='xsmall'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountError'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>

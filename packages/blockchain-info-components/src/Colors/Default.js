@@ -99,8 +99,9 @@ export default {
   'logo-quaternary': '#B2D5E5',
   'logo-quinary': '#10ADE4',
   // PIT
-  pitTurquoise: '#42F1B8',
+  pitBlue: '#2219CC',
   pitNight: '#0A0D10',
+  pitTurquoise: '#42F1B8',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
@@ -144,6 +145,7 @@ export default {
   grey100: '#DFE3EB',
   grey400: '#98A1B2',
   grey600: '#677185',
+  grey700: '#50596B',
   grey800: '#353F52',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',

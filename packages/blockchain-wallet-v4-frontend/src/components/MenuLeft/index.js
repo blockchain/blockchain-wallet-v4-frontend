@@ -40,6 +40,7 @@ export const MenuItem = styled.button`
     color: ${props => props.theme['gray-3']};
   }
   .destination {
+    white-space: nowrap;
     color: ${props => props.theme['grey600']};
   }
   &:hover {

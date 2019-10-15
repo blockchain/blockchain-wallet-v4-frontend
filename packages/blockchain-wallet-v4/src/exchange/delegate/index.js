@@ -79,7 +79,6 @@ export default class ExchangeDelegate {
 
   monitorAddress (address, callback) {
     // TODO: monitor address
-    console.log('Monitor address: ' + address)
   }
 
   checkAddress (address) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { clone, includes, keys, pickBy } from 'ramda'
+import { includes, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -57,7 +57,6 @@ const IdentityVerificationTray = styled(Tray)`
     }
   }
   > div:last-child {
-    overflow: hidden;
     padding: 0;
     height: calc(100% - 57px);
   }
@@ -131,8 +130,6 @@ const stepMap = {
   )
 }
 
-const { KYC_EVENTS } = model.analytics
-
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -153,17 +150,11 @@ class IdentityVerification extends React.PureComponent {
   initializeVerification = () => {
     const { tier, isCoinify, needMoreInfo } = this.props
     this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
-    this.props.analyticsActions.logEvent([...KYC_EVENTS.ONBOARDING_START, tier])
   }
 
   getStepComponent = step => {
     const { actions, isCoinify } = this.props
 
-    if (step) {
-      const kycEvents = clone(KYC_EVENTS.STEP_CHANGE)
-      kycEvents[2] += step
-      this.props.analyticsActions.logEvent([...kycEvents])
-    }
     if (step === STEPS.coinify) return <CoinifyCreate />
     if (step === STEPS.personal)
       return (
@@ -184,8 +175,10 @@ class IdentityVerification extends React.PureComponent {
         />
       )
 
-    if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
-    if (step === STEPS.submitted) return <Submitted />
+    if (step === STEPS.verify)
+      return <Verify onBack={actions.goToPrevStep} onClose={this.handleClose} />
+    if (step === STEPS.submitted)
+      return <Submitted onClose={this.handleClose} />
   }
 
   render () {
@@ -251,11 +244,7 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(

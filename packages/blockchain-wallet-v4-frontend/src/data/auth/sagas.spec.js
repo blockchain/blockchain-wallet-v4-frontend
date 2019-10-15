@@ -373,6 +373,10 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
+    it('should set firstLogin', () => {
+      saga.next().put(actions.auth.setFirstLogin(false))
+    })
+
     it('should fetch root', () => {
       saga
         .next()
@@ -383,6 +387,10 @@ describe('authSagas', () => {
       saga
         .next()
         .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
+    })
+
+    it('should start xlm socket', () => {
+      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
     })
 
     it('should fetch xlm metadata', () => {

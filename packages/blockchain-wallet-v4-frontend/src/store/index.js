@@ -20,6 +20,7 @@ import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
+  matomoMiddleware,
   streamingXlm,
   webSocketRates,
   webSocketCoins
@@ -116,6 +117,7 @@ const configureStore = () => {
             webSocketRates(ratesSocket),
             webSocketCoins(coinsSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
+            matomoMiddleware(),
             autoDisconnection()
           )
         )

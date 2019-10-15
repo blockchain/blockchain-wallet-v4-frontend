@@ -4,17 +4,15 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const { VIEW_ORDER_DETAILS } = model.analytics.SWAP_EVENTS
 class ShapeshiftTradeDetailsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.modalInitialized(this.props.depositAddress)
-    this.props.analyticsActions.logEvent(VIEW_ORDER_DETAILS)
   }
 
   componentWillUnmount () {

@@ -1751,8 +1751,8 @@
         "id": "modals.signmessage.label"
       },
       {
-        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop program.",
-        "id": "scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible"
+        "defaultMessage": "By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.",
+        "id": "scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1"
       },
       {
         "defaultMessage": "Learn more.",
@@ -2028,8 +2028,29 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Check it out",
+        "id": "the.pit.tooltip.check.it.out"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Navigation/model.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepit"
+        "id": "layouts.wallet.menuleft.navigation.thepitbold"
+      },
+      {
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
+      },
+      {
+        "defaultMessage": "Trade in The PIT.",
+        "id": "the.pit.tooltip.title"
+      },
+      {
+        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
+        "id": "the.pit.tooltip.content"
       },
       {
         "defaultMessage": "Dashboard",
@@ -2044,16 +2065,8 @@
         "id": "layouts.wallet.menuleft.navigation.swap"
       },
       {
-        "defaultMessage": "Trade",
-        "id": "layouts.wallet.menuleft.navigation.trade"
-      },
-      {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
-      },
-      {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
@@ -4501,8 +4514,8 @@
         "id": "modals.exchange.identityverification.submitted.nextstepsheader"
       },
       {
-        "defaultMessage": "You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
-        "id": "modals.exchange.identityverification.submitted.mayaskforid2"
+        "defaultMessage": "You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.",
+        "id": "modals.exchange.identityverification.submitted.mayaskforid3"
       },
       {
         "defaultMessage": "While you wait, you can still trade and move currency up to your current limit.",
@@ -4529,11 +4542,48 @@
         "id": "modals.exchange.identityverification.submitted.enterairdrop"
       },
       {
-        "defaultMessage": "By entering the airdrop program you’ll become eligible to receive future airdrops.",
-        "id": "modals.exchange.identityverification.submitted.makesuretoclick2"
+        "defaultMessage": "By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region.",
+        "id": "modals.exchange.identityverification.submitted.makesuretoclick3"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchange.identityverification.submitted.close"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Gold Unavailable At This Time",
+        "id": "identityverification.failure.header"
+      },
+      {
+        "defaultMessage": "We're sorry we can't verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now.",
+        "id": "identityverification.failure.content-1"
+      },
+      {
+        "defaultMessage": "If you're Silver verified you can trade your crypto in Swap",
+        "id": "identityverification.failure.content-2"
+      },
+      {
+        "defaultMessage": "Server Error: {description}",
+        "id": "identityverification.failure.server.error"
+      },
+      {
+        "defaultMessage": "Start Trading",
+        "id": "identityverification.failure.button"
+      },
+      {
+        "defaultMessage": "If you want to learn more about our verification process. Visit our",
+        "id": "identityverification.failure.content-3"
+      },
+      {
+        "defaultMessage": "Support Center.",
+        "id": "identityverification.failure.content-3-link"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Veriff/template.failure.json"
   },
   {
     "descriptors": [
@@ -5805,20 +5855,20 @@
         "id": "modals.onboarding.linktopitaccount.na.subtitle-1"
       },
       {
-        "defaultMessage": "Lightning Fast Trading",
-        "id": "modals.onboarding.linktopitaccount.na.left.point1-1"
+        "defaultMessage": "Access More Cryptos",
+        "id": "modals.onboarding.linktopitaccount.na.left.point1-2"
       },
       {
-        "defaultMessage": "Liquid & Reliable",
+        "defaultMessage": "Deposit & Withdraw Euros/Dollars",
+        "id": "modals.onboarding.linktopitaccount.na.left.point2-1"
+      },
+      {
+        "defaultMessage": "Lightning Fast Trading",
         "id": "modals.onboarding.linktopitaccount.na.left.point3-1"
       },
       {
-        "defaultMessage": "Extra Low Fees",
-        "id": "modals.onboarding.linktopitaccount.na.left.point4"
-      },
-      {
         "defaultMessage": "Built by the Pros",
-        "id": "modals.onboarding.linktopitaccount.na.left.point2-1"
+        "id": "modals.onboarding.linktopitaccount.na.left.point4-1"
       },
       {
         "defaultMessage": "The PIT will be able to:",
@@ -5829,16 +5879,16 @@
         "id": "modals.onboarding.linktopitaccount.na.right.topoint"
       },
       {
-        "defaultMessage": "Exchange crypto addresses so you don't have to copy and paste",
-        "id": "modals.onboarding.linktopitaccount.na.right.topoint2-1"
+        "defaultMessage": "Sync addresses with your Wallet so you can securely sweep crypto between accounts",
+        "id": "modals.onboarding.linktopitaccount.na.right.topoint2-2"
       },
       {
         "defaultMessage": "The PIT will not be able to:",
         "id": "modals.onboarding.linktopitaccount.na.right.nottitle"
       },
       {
-        "defaultMessage": "View your wallet password",
-        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1-1"
+        "defaultMessage": "Access the crypto in your wallet, access your keys, or view your password",
+        "id": "modals.onboarding.linktopitaccount.na.right.notpoint1-3"
       },
       {
         "defaultMessage": "Connect Now",
@@ -5929,8 +5979,8 @@
         "id": "modals.wallet.tour.securely-store"
       },
       {
-        "defaultMessage": "Transact",
-        "id": "modals.wallet.tour.transaction"
+        "defaultMessage": "Send/Request",
+        "id": "modals.wallet.tour.sendrequest"
       },
       {
         "defaultMessage": "Buy & Sell",
@@ -8445,12 +8495,16 @@
         "id": "scenes.home.banners.pitbanner.new"
       },
       {
-        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access.",
-        "id": "scenes.home.banners.pitbanner.trade-1"
+        "defaultMessage": "We built our own exchange that links to your Wallet.",
+        "id": "scenes.home.banners.pitbanner.content1"
       },
       {
-        "defaultMessage": "Check It Out",
-        "id": "scenes.home.banners.pitbanner.checkitout"
+        "defaultMessage": "Instantly access more cryptos and deposit/withdraw cash.",
+        "id": "scenes.home.banners.pitbanner.content3"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.banners.pitbanner.getstarted"
       }
     ],
     "path": "src/scenes/Home/Banners/ThePitBanner/index.json"
@@ -8502,8 +8556,8 @@
         "id": "wallet.tour.stepfive.title"
       },
       {
-        "defaultMessage": "Jumpstart your crypto portfolio by easily buying and selling Bitcoin.",
-        "id": "wallet.tour.stepfive.content"
+        "defaultMessage": "Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.",
+        "id": "wallet.tour.stepfive.content-1"
       }
     ],
     "path": "src/scenes/Home/model.json"
@@ -9082,6 +9136,19 @@
       }
     ],
     "path": "src/scenes/Recover/SecondStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Trade in The PIT.",
+        "id": "components.pitcallout.tradeinthepit"
+      },
+      {
+        "defaultMessage": "Trade crypto & fiat in The PIT, Blockchain’s new lightning fast exchange.",
+        "id": "components.pitcallout.tradecrypto"
+      }
+    ],
+    "path": "src/scenes/Register/PitCallout/index.json"
   },
   {
     "descriptors": [
@@ -10864,36 +10931,36 @@
         "id": "scenes.thepit.title"
       },
       {
-        "defaultMessage": "We built the fastest exchange in crypto to re-define the speed, reliability, and liquidity crypto investors should not only expect, but demand.",
-        "id": "scenes.thepit.subtitle1"
+        "defaultMessage": "We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.",
+        "id": "scenes.thepit.subtitle1-1"
       },
       {
-        "defaultMessage": "The only Exchange that connects to your Wallet.",
+        "defaultMessage": "A next generation exchange from the most trusted crypto company",
         "id": "scenes.thepit.image.subtitle"
       },
       {
-        "defaultMessage": "Fast and Liquid",
-        "id": "scenes.thepit.point1.title"
+        "defaultMessage": "Access More Assets",
+        "id": "scenes.thepit.point1.title-1"
       },
       {
-        "defaultMessage": "Trade in microseconds with the fastest matching engine in crypto and deep pool of institutional liquidity.",
-        "id": "scenes.thepit.point1.subtitle1"
+        "defaultMessage": "Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.",
+        "id": "scenes.thepit.point1.subtitle1-1"
       },
       {
-        "defaultMessage": "Easy to Use",
-        "id": "scenes.thepit.point2.title"
+        "defaultMessage": "Unlock Unlimited Trading",
+        "id": "scenes.thepit.point2.title-1"
       },
       {
-        "defaultMessage": "No instructional manual required! The PIT makes it refreshingly easy for you to use Wall Street quality tech.",
-        "id": "scenes.thepit.point2.subtitle1"
+        "defaultMessage": "Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.",
+        "id": "scenes.thepit.point2.subtitle1-1"
       },
       {
-        "defaultMessage": "Blockchain Connect",
-        "id": "scenes.thepit.point3.title"
+        "defaultMessage": "Seamlessly Transfer Crypto",
+        "id": "scenes.thepit.point3.title-1"
       },
       {
-        "defaultMessage": "The only exchange with a seamless, secure integration to your digital Blockchain Wallet.",
-        "id": "scenes.thepit.point3.subtitle1"
+        "defaultMessage": "Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys.",
+        "id": "scenes.thepit.point3.subtitle1-1"
       },
       {
         "defaultMessage": "Connect Now",

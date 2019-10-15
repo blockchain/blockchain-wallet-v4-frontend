@@ -7,8 +7,9 @@ export default {
   'brand-yellow': '#665227',
   'brand-yellow-lighter': '#7F735A',
   // PIT
-  pitTurquoise: '#42F1B8',
+  pitBlue: '#2219CC',
   pitNight: '#0A0D10',
+  pitTurquoise: '#42F1B8',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
@@ -51,6 +52,7 @@ export default {
   grey100: '#333333',
   grey400: '#747474',
   grey600: '#797979',
+  grey700: '#50596B',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
