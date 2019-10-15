@@ -133,7 +133,7 @@ export const TierCard = ({
   if (isRejected) className += ' rejected'
 
   return (
-    <Wrapper className={className} onClick={verifyIdentity}>
+    <Wrapper className={className}>
       {tier === 2 && (
         <Announcement uppercase weight={500} size='18px' color='white'>
           <FormattedMessage
@@ -192,7 +192,12 @@ export const TierCard = ({
           </Row>
         </Content>
         {tierData.state === TIERS_STATES.NONE && (
-          <ActionButton jumbo fullwidth nature='primary'>
+          <ActionButton
+            jumbo
+            fullwidth
+            nature='primary'
+            onClick={verifyIdentity}
+          >
             {tierStarted ? (
               <FormattedMessage
                 id='components.identityverification.tiercard.continue'

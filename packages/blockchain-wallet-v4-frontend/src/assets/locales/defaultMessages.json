@@ -2028,20 +2028,29 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Trading",
-        "id": "layouts.wallet.menuleft.navigation.trading"
-      },
+        "defaultMessage": "Check it out",
+        "id": "the.pit.tooltip.check.it.out"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Navigation/model.json"
+  },
+  {
+    "descriptors": [
       {
         "defaultMessage": "The PIT",
         "id": "layouts.wallet.menuleft.navigation.thepitbold"
       },
       {
-        "defaultMessage": "The PIT Exchange",
-        "id": "layouts.wallet.menuleft.navigation.thepitexchange"
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       },
       {
-        "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepit"
+        "defaultMessage": "Trade in The PIT.",
+        "id": "the.pit.tooltip.title"
+      },
+      {
+        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
+        "id": "the.pit.tooltip.content"
       },
       {
         "defaultMessage": "Dashboard",
@@ -2058,10 +2067,6 @@
       {
         "defaultMessage": "Hardware",
         "id": "layouts.wallet.menuleft.navigation.hardware"
-      },
-      {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
@@ -4509,8 +4514,8 @@
         "id": "modals.exchange.identityverification.submitted.nextstepsheader"
       },
       {
-        "defaultMessage": "You'll hear back from us in the <b>next 5 business days</b>. If something looks odd, we may have to ask you to upload another form of ID.",
-        "id": "modals.exchange.identityverification.submitted.mayaskforid2"
+        "defaultMessage": "You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.",
+        "id": "modals.exchange.identityverification.submitted.mayaskforid3"
       },
       {
         "defaultMessage": "While you wait, you can still trade and move currency up to your current limit.",
@@ -4537,8 +4542,12 @@
         "id": "modals.exchange.identityverification.submitted.enterairdrop"
       },
       {
-        "defaultMessage": "By entering the airdrop program you’ll become eligible to receive future airdrops.",
-        "id": "modals.exchange.identityverification.submitted.makesuretoclick2"
+        "defaultMessage": "By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region.",
+        "id": "modals.exchange.identityverification.submitted.makesuretoclick3"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchange.identityverification.submitted.close"
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Submitted/index.json"
@@ -9127,6 +9136,19 @@
       }
     ],
     "path": "src/scenes/Recover/SecondStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Trade in The PIT.",
+        "id": "components.pitcallout.tradeinthepit"
+      },
+      {
+        "defaultMessage": "Trade crypto & fiat in The PIT, Blockchain’s new lightning fast exchange.",
+        "id": "components.pitcallout.tradecrypto"
+      }
+    ],
+    "path": "src/scenes/Register/PitCallout/index.json"
   },
   {
     "descriptors": [

@@ -1,12 +1,8 @@
 import { put, call } from 'redux-saga/effects'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import * as C from 'services/AlertService'
 
-const {
-  TWO_FACTOR_ENABLED,
-  TWO_FACTOR_DISABLED
-} = model.analytics.PREFERENCE_EVENTS.SECURITY
 export default ({ coreSagas }) => {
   const logLocation = 'modules/securityCenter/sagas'
 
@@ -94,12 +90,6 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
       yield put(actions.alerts.displaySuccess(C.GOOGLE_AUTH_VERIFY_SUCCESS))
-      yield put(
-        actions.analytics.logEvent([
-          ...TWO_FACTOR_ENABLED,
-          'google_authenticator'
-        ])
-      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -116,7 +106,6 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
       yield put(actions.alerts.displaySuccess(C.YUBIKEY_VERIFY_SUCCESS))
-      yield put(actions.analytics.logEvent([...TWO_FACTOR_ENABLED, 'yubikey']))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setYubikey', e))
       yield put(actions.alerts.displayError(C.YUBIKEY_VERIFY_ERROR))
@@ -143,7 +132,6 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setMobileVerifiedAs2FA, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_VERIFY_SUCCESS))
-      yield put(actions.analytics.logEvent([...TWO_FACTOR_ENABLED, 'mobile']))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_VERIFY_ERROR))
@@ -154,7 +142,6 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_UPDATE_SUCCESS))
-      yield put(actions.analytics.logEvent(TWO_FACTOR_DISABLED))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'disableTwoStep', e))
       yield put(actions.alerts.displayError(C.TWOFA_UPDATE_ERROR))
