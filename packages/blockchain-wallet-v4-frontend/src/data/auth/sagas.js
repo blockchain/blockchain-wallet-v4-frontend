@@ -128,11 +128,11 @@ export default ({ api, coreSagas }) => {
   }
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
-      // If needed, the user should upgrade its wallet before being able to open the wallet
-      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       const isDoubleEncrypted = yield select(
         selectors.core.wallet.isSecondPasswordOn
       )
+      // If needed, the user should upgrade its wallet before being able to open the wallet
+      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield call(upgradeWalletSaga, isDoubleEncrypted, 3)
       }

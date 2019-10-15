@@ -355,9 +355,16 @@ describe('authSagas', () => {
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
 
-    it('should check if wallet is an hd wallet', () => {
+    it('should check if wallet is double encrypted', () => {
       saga
         .next()
+        .select(selectors.core.wallet.isSecondPasswordOn)
+        .save(beforeHdCheck)
+    })
+
+    it('should check if wallet is an hd wallet', () => {
+      saga
+        .next(false)
         .select(selectors.core.wallet.isHdWallet)
         .save(beforeHdCheck)
     })
@@ -365,7 +372,7 @@ describe('authSagas', () => {
     it('should call upgradeWalletSaga if wallet is not hd', () => {
       saga
         .next(false)
-        .call(upgradeWalletSaga, 3)
+        .call(upgradeWalletSaga, false, 3)
         .restore(beforeHdCheck)
     })
 
@@ -374,7 +381,7 @@ describe('authSagas', () => {
         .next(true)
         .select(selectors.core.wallet.isWrapperLatestVersion)
         .next(false)
-        .call(upgradeWalletSaga, 4)
+        .call(upgradeWalletSaga, false, 4)
     })
 
     it('should put authenticate action', () => {
