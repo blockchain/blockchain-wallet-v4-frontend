@@ -59,7 +59,7 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.html()).toBe('')
+      expect(wrapper.html()).toBe(null)
     })
 
     it('should render nothing if last attempted Tier 1 and Tier 2 are REJECTED', () => {
@@ -82,7 +82,7 @@ describe('Profile Settings', () => {
       const store = createStore(userTiers, userLimits, tiers)
       const wrapper = render(store)
 
-      expect(wrapper.html()).toBe('')
+      expect(wrapper.html()).toBe(null)
     })
 
     it('should render "Silver - In Review" if Tier 1 is PENDING and next is 1', () => {
