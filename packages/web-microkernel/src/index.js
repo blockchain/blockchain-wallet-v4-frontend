@@ -46,7 +46,7 @@ const ChildProcess = (options, exportedFunction) =>
   )
 
 const hide = element => {
-  element.style.display = `none`
+  element.hidden = true
 }
 
 const insertHTML = HTML => {
@@ -56,7 +56,7 @@ const insertHTML = HTML => {
 }
 
 const show = element => {
-  element.style.display = `block`
+  element.hidden = false
 }
 
 const RootProcess = options =>

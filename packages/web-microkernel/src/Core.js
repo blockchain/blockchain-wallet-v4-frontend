@@ -395,9 +395,10 @@ export default ({ ErrorEvent, EventTarget, getRandomValues }) => {
     new Promise(resolve => {
       const element = insertHTML(
         `<iframe
-           name="${name || Key()}"
-           sandbox="${sandbox}"
-           src="${src}"
+          hidden
+          name="${name || Key()}"
+          sandbox="${sandbox}"
+          src="${src}"
          ></iframe>`
       )
 
