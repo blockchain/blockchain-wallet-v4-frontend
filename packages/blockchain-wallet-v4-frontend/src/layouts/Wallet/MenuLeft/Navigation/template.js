@@ -63,7 +63,7 @@ const PitJoyrideStyles = createGlobalStyle`
   }
 `
 
-const renderPitSidenav = showSpotlight => (
+const renderPitSidenav = (showSpotlight, isPitAccountLinked) => (
   <MenuItem data-e2e='thePitLink'>
     {showSpotlight && <JoyrideSpotlight className='react-joyride__spotlight' />}
     <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
@@ -73,14 +73,22 @@ const renderPitSidenav = showSpotlight => (
         defaultMessage='The PIT'
       />
     </Destination>
-    <NewCartridge>
-      <Text color='orange' size='12' weight={500} uppercase>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.transactions.new'
-          defaultMessage='New'
-        />
-      </Text>
-    </NewCartridge>
+    {isPitAccountLinked ? (
+      <HelperTipContainer>
+        <TooltipHost id='pitSideNavConnected'>
+          <TooltipIcon color='blue' name='info' />
+        </TooltipHost>
+      </HelperTipContainer>
+    ) : (
+      <NewCartridge>
+        <Text color='orange' size='12' weight={500} uppercase>
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.new'
+            defaultMessage='New'
+          />
+        </Text>
+      </NewCartridge>
+    )}
   </MenuItem>
 )
 
@@ -270,7 +278,7 @@ const Navigation = props => {
             target='_blank'
             style={{ width: '100%' }}
           >
-            {renderPitSidenav()}
+            {renderPitSidenav(null, true)}
           </Link>
         ) : (
           <PitLinkContent {...rest} />
