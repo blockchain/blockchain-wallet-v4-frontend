@@ -32,6 +32,14 @@ const ClickableText = styled(Text)`
 const DerivationSwitchContainer = styled.div`
   margin-left: 12px;
 `
+const LegacyToggledLink = styled(Link)`
+  color: ${({ derivation, theme }) =>
+    derivation === 'legacy' ? theme.grey000 : theme['brand-secondary']};
+`
+const SegWitToggledLink = styled(Link)`
+  color: ${({ derivation, theme }) =>
+    derivation === 'segwitP2SH' ? theme.grey000 : theme['brand-secondary']};
+`
 class UnusedAddressesContainer extends React.PureComponent {
   componentDidMount () {
     const { componentActions, derivation, walletIndex } = this.props
@@ -151,32 +159,34 @@ class UnusedAddressesContainer extends React.PureComponent {
                     <LinkContainer
                       to={`/settings/addresses/btc/${walletIndex}/legacy`}
                     >
-                      <Link
+                      <LegacyToggledLink
                         weight={500}
                         size='13px'
+                        derivation={derivation}
                         data-e2e='btcManageLegacyWalletLink'
                       >
                         <FormattedMessage
                           id='scenes.settings.addresses.btc.wallets.managelegacy'
                           defaultMessage='Legacy'
                         />
-                      </Link>
+                      </LegacyToggledLink>
                     </LinkContainer>
                   </TogglerItem>
                   <TogglerItem selected={equals('segwitP2SH', derivation)}>
                     <LinkContainer
                       to={`/settings/addresses/btc/${walletIndex}/segwitP2SH`}
                     >
-                      <Link
+                      <SegWitToggledLink
                         weight={500}
                         size='13px'
+                        derivation={derivation}
                         data-e2e='btcManageSegwitWalletLink'
                       >
                         <FormattedMessage
                           id='scenes.settings.addresses.btc.wallets.managesegwit'
                           defaultMessage='Segwit P2SH'
                         />
-                      </Link>
+                      </SegWitToggledLink>
                     </LinkContainer>
                   </TogglerItem>
                 </Toggler>
