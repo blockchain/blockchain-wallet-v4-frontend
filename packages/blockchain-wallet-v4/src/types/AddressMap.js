@@ -67,7 +67,7 @@ export const toJS = pipe(
   }
 )
 
-export const fromJS = keys => {
+export const fromJS = (keys = []) => {
   if (is(AddressMap, keys)) {
     return keys
   } else {
