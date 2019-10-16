@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { keyframes } from 'styled-components'
-
-import { Button, Icon } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Scale = () => {
   return keyframes`
@@ -72,17 +72,15 @@ export const PitTooltip = props => {
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
       <TooltipFooter>
-        <Button
-          width='110px'
-          height='48px'
-          nature='primary'
-          fullwidth
-          onClick={step.routeToPit}
-        >
-          <FormattedMessage
-            id='the.pit.tooltip.check.it.out'
-            defaultMessage='Check it out'
-          />
+        <Button width='110px' height='48px' nature='primary' fullwidth>
+          <LinkContainer to='/thepit'>
+            <Text color='white' size='14px' weight={600}>
+              <FormattedMessage
+                id='the.pit.tooltip.checkitout'
+                defaultMessage='Check It Out'
+              />
+            </Text>
+          </LinkContainer>
         </Button>
       </TooltipFooter>
     </TooltipBody>

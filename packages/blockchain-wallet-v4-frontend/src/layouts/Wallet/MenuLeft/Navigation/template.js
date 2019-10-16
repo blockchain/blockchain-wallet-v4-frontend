@@ -63,6 +63,20 @@ const PitJoyrideStyles = createGlobalStyle`
   }
 `
 
+const StepTitle = styled(Text)`
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 24px;
+`
+const StepIcon = styled(Icon)`
+  margin: 0 auto 12px auto;
+  width: fit-content;
+`
+const StepContent = styled(Text)`
+  line-height: 24px;
+`
+
 const renderPitSidenav = showSpotlight => (
   <MenuItem data-e2e='thePitLink'>
     {showSpotlight && <JoyrideSpotlight className='react-joyride__spotlight' />}
@@ -85,40 +99,11 @@ const renderPitSidenav = showSpotlight => (
 )
 
 const PitLinkContent = props => {
-  const {
-    pitSideNavTest3,
-    firstLogin,
-    showThePitPulse,
-    onClickPitSideNavLink,
-    handleTourCallbacks,
-    hasRanPitTour,
-    routeToPit
-  } = props
+  const { firstLogin, showThePitPulse, handleTourCallbacks } = props
 
-  if (pitSideNavTest3 === 'sidenav_pulse_callout') {
-    const StepTitle = styled(Text)`
-      font-size: 20px;
-      text-align: center;
-      margin-bottom: 8px;
-      line-height: 24px;
-    `
-    const StepIcon = styled(Icon)`
-      margin: 0 auto 12px auto;
-      width: fit-content;
-    `
-    const StepContent = styled(Text)`
-      line-height: 24px;
-    `
-    return firstLogin || hasRanPitTour || !showThePitPulse ? (
-      <SpotlightLinkContainer
-        to='/thepit'
-        activeClassName='active'
-        onClick={onClickPitSideNavLink}
-      >
-        {renderPitSidenav()}
-      </SpotlightLinkContainer>
-    ) : (
-      <div style={{ position: 'relative', width: '100%' }}>
+  return (
+    <div style={{ position: 'relative', width: '100%' }}>
+      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
         <MenuItem data-e2e='thePitLink'>
           <JoyrideSpotlight
             className='the-pit-tooltip'
@@ -140,7 +125,7 @@ const PitLinkContent = props => {
             </Text>
           </NewCartridge>
           <Joyride
-            run={true}
+            run={firstLogin || showThePitPulse}
             steps={[
               {
                 target: '.the-pit-tooltip',
@@ -154,16 +139,22 @@ const PitLinkContent = props => {
                       />
                     </StepTitle>
                     <StepContent color='grey600' size='14px' weight={500}>
-                      <FormattedMessage
-                        id='the.pit.tooltip.content'
-                        defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
-                      />
+                      {firstLogin ? (
+                        <FormattedMessage
+                          id='the.pit.tooltip.content'
+                          defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id='the.pit.tooltip.contentshort'
+                          defaultMessage="Link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
+                        />
+                      )}
                     </StepContent>
                   </>
                 ),
                 disableBeacon: true,
-                placement: 'right',
-                routeToPit
+                placement: 'right'
               }
             ]}
             tooltipComponent={PitTooltip}
@@ -176,20 +167,10 @@ const PitLinkContent = props => {
             }}
             {...props.Joyride}
           />
+          <PitJoyrideStyles />
         </MenuItem>
-        <PitJoyrideStyles />
-      </div>
-    )
-  }
-
-  return (
-    <SpotlightLinkContainer
-      to='/thepit'
-      activeClassName='active'
-      onClick={onClickPitSideNavLink}
-    >
-      {renderPitSidenav(!firstLogin && showThePitPulse)}
-    </SpotlightLinkContainer>
+      </SpotlightLinkContainer>
+    </div>
   )
 }
 
@@ -262,7 +243,7 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {props.userNonRejectAndHasntDoneKyc ? (
+      {props.userEligibleForPIT ? (
         props.isPitAccountLinked ? (
           <Link
             href={props.pitUrl}

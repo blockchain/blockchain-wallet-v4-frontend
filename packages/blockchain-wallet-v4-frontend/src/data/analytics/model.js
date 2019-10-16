@@ -97,7 +97,6 @@ export const ADS_EVENTS = {
 
 export const PIT_EVENTS = {
   BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
-  SIDE_NAV: ['pit', 'sidenav', 'sidenav_link_click'],
   CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
   LEARN_MORE: ['pit', 'link_page', 'learn_more_click']
 }

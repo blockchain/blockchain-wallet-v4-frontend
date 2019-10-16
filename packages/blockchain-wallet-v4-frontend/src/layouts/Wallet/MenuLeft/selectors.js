@@ -16,7 +16,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getAdsBlacklist,
-    selectors.core.walletOptions.getAdsUrl
+    selectors.core.walletOptions.getAdsUrl,
+    selectors.modules.profile.getUserKYCState
   ],
   (
     pitSideNavTest3R,
@@ -29,13 +30,15 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     countryCodeR,
     adsBlacklistR,
-    adsUrlR
+    adsUrlR,
+    userKYCState
   ) => {
     const transform = (
       pitSideNavTest3,
       canTrade,
       lockboxDevices,
-      countryCode
+      countryCode,
+      userKYCState
     ) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
@@ -48,7 +51,8 @@ export const getData = createDeepEqualSelector(
         menuOpened,
         pathname,
         pitSideNavTest3,
-        showThePitPulse
+        showThePitPulse,
+        userKYCState
       }
     }
 
@@ -56,7 +60,8 @@ export const getData = createDeepEqualSelector(
       pitSideNavTest3R,
       canTradeR,
       lockboxDevicesR,
-      countryCodeR
+      countryCodeR,
+      userKYCState
     )
   }
 )
