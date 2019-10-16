@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
-import Joyride from 'react-joyride/lib'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
@@ -15,15 +14,10 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import {
-  Link,
-  Text,
-  TooltipIcon,
-  TooltipHost,
-  Icon
-} from 'blockchain-info-components'
+import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
+import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 
-import { PitTooltip } from './model'
+import ThePitLink from '../ThePitLink'
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
@@ -31,7 +25,7 @@ const HelperTipContainer = styled.div`
     color: ${props => props.theme['gray-3']};
   }
 `
-const NewCartridge = styled(Cartridge)`
+export const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
   background-color: ${props => props.theme['white']};
   letter-spacing: 1px;
@@ -41,138 +35,6 @@ const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
-const SpotlightLinkContainer = styled(LinkContainer)`
-  position: relative;
-`
-const JoyrideSpotlight = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto 11px;
-  width: 28px;
-  height: 28px;
-`
-
-const PitJoyrideStyles = createGlobalStyle`
-  .__floater__open {
-    transition: none !important;
-    filter: none !important;
-    margin-left: 170px !important;
-  }
-`
-
-const StepTitle = styled(Text)`
-  font-size: 20px;
-  text-align: center;
-  margin-bottom: 8px;
-  line-height: 24px;
-`
-const StepIcon = styled(Icon)`
-  margin: 0 auto 12px auto;
-  width: fit-content;
-`
-const StepContent = styled(Text)`
-  line-height: 24px;
-`
-
-const renderPitSidenav = showSpotlight => (
-  <MenuItem data-e2e='thePitLink'>
-    {showSpotlight && <JoyrideSpotlight className='react-joyride__spotlight' />}
-    <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
-    <Destination>
-      <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.thepitbold'
-        defaultMessage='The PIT'
-      />
-    </Destination>
-    <NewCartridge>
-      <Text color='orange' size='12' weight={500} uppercase>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.transactions.new'
-          defaultMessage='New'
-        />
-      </Text>
-    </NewCartridge>
-  </MenuItem>
-)
-
-const PitLinkContent = props => {
-  const { firstLogin, showThePitPulse, handleTourCallbacks } = props
-
-  return (
-    <div style={{ position: 'relative', width: '100%' }}>
-      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
-        <MenuItem data-e2e='thePitLink'>
-          <JoyrideSpotlight
-            className='the-pit-tooltip'
-            style={{ top: '-11px' }}
-          />
-          <MenuIcon name='the-pit' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.thepitbold'
-              defaultMessage='The PIT'
-            />
-          </Destination>
-          <NewCartridge>
-            <Text color='orange' size='12' weight={500} uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
-          <Joyride
-            run={firstLogin || showThePitPulse}
-            steps={[
-              {
-                target: '.the-pit-tooltip',
-                content: (
-                  <>
-                    <StepIcon name='the-pit' size='56px' color='pitBlue' />
-                    <StepTitle size='20px' weight={600}>
-                      <FormattedMessage
-                        id='the.pit.tooltip.title'
-                        defaultMessage='Trade in The PIT.'
-                      />
-                    </StepTitle>
-                    <StepContent color='grey600' size='14px' weight={500}>
-                      {firstLogin ? (
-                        <FormattedMessage
-                          id='the.pit.tooltip.content'
-                          defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
-                        />
-                      ) : (
-                        <FormattedMessage
-                          id='the.pit.tooltip.contentshort'
-                          defaultMessage="Link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
-                        />
-                      )}
-                    </StepContent>
-                  </>
-                ),
-                disableBeacon: true,
-                placement: 'right'
-              }
-            ]}
-            tooltipComponent={PitTooltip}
-            callback={handleTourCallbacks}
-            showSkipButton={true}
-            styles={{
-              overlay: {
-                backgroundColor: 'none'
-              }
-            }}
-            {...props.Joyride}
-          />
-          <PitJoyrideStyles />
-        </MenuItem>
-      </SpotlightLinkContainer>
-    </div>
-  )
-}
 
 const Navigation = props => {
   const { ...rest } = props
@@ -243,20 +105,7 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      {props.userEligibleForPIT ? (
-        props.isPitAccountLinked ? (
-          <Link
-            href={props.pitUrl}
-            rel='noopener noreferrer'
-            target='_blank'
-            style={{ width: '100%' }}
-          >
-            {renderPitSidenav()}
-          </Link>
-        ) : (
-          <PitLinkContent {...rest} />
-        )
-      ) : null}
+      <ThePitLink {...props} />
       <Separator />
       {values(
         mapObjIndexed(

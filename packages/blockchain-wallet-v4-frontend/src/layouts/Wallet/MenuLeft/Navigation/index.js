@@ -7,7 +7,7 @@ import { STATUS } from 'react-joyride/lib'
 import { actions, model, selectors } from 'data'
 import Navigation from './template'
 
-const { REJECTED } = model.profile.KYC_STATES
+const { NONE, REJECTED } = model.profile.KYC_STATES
 
 class NavigationContainer extends React.PureComponent {
   handleTourCallbacks = data => {
@@ -35,7 +35,9 @@ class NavigationContainer extends React.PureComponent {
         pitUrl={concat(prop('thePit', domains), '/trade')}
         supportedCoins={supportedCoins}
         handleTourCallbacks={this.handleTourCallbacks}
-        userEligibleForPIT={not(equals(REJECTED, userKYCState))}
+        userEligibleForPIT={
+          (equals(NONE, userKYCState), not(equals(REJECTED, userKYCState)))
+        }
       />
     )
   }
