@@ -278,7 +278,7 @@ const Navigation = props => {
             target='_blank'
             style={{ width: '100%' }}
           >
-            {renderPitSidenav(null, true)}
+            {renderPitSidenav(null, props.isPitAccountLinked)}
           </Link>
         ) : (
           <PitLinkContent {...rest} />
