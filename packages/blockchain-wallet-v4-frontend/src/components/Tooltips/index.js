@@ -320,6 +320,19 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
+        <Tooltip
+          id='pitSideNavConnected'
+          bgColor='grey800'
+          toolTipPad='13px'
+          toolTipOpacity='1'
+        >
+          <Text color='green400' weight={700} uppercase>
+            <FormattedMessage
+              id='pit-side-nav-tooltip-connected'
+              defaultMessage='connected'
+            />
+          </Text>
+        </Tooltip>
       </TooltipWrapper>
     )
   }
