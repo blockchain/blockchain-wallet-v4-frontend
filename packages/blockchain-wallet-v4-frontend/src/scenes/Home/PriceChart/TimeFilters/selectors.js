@@ -1,14 +1,19 @@
+import { isNil, path } from 'ramda'
+
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { isNil, path } from 'ramda'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.layoutWallet.getBalancesTable,
+    selectors.components.priceChart.getTime,
     selectors.modules.profile.getUserTiers
   ],
-  (currentTab, userTiers) => {
+  (time, userTiers) => {
     const isSilverOrAbove = !isNil(path(['data', 'current'], userTiers))
-    return { currentTab, isSilverOrAbove }
+
+    return {
+      time,
+      isSilverOrAbove
+    }
   }
 )

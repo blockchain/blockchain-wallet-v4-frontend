@@ -101,8 +101,3 @@ export const PIT_EVENTS = {
   CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
   LEARN_MORE: ['pit', 'link_page', 'learn_more_click']
 }
-
-export const PRICE_CHART_EVENTS = {
-  CLICK_BUY_BITCOIN: ['price_chart', 'footer_button', 'buy_bitcoin'],
-  CLICK_SWAP_COIN: ['price_chart', 'footer_button', 'swap_coin']
-}

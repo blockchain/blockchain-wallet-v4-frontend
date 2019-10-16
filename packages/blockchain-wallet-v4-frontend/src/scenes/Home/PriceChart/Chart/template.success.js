@@ -7,7 +7,7 @@ import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 110px;
+  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '110px' : 0)};
   left: 0;
   width: 100%;
   * {
@@ -72,7 +72,10 @@ class Chart extends React.PureComponent {
 
   render () {
     return (
-      <Wrapper coin={this.props.coin}>
+      <Wrapper
+        coin={this.props.coin}
+        isSilverOrAbove={this.props.isSilverOrAbove}
+      >
         <ReactHighcharts
           config={this.state.config}
           callback={this.handleCallback}

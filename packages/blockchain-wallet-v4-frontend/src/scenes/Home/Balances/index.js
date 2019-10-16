@@ -5,9 +5,12 @@ import { getData } from './selectors'
 
 class BalancesTableContainer extends React.PureComponent {
   render () {
-    const { currentTab, lockboxEnabled } = this.props
+    const { currentTab, isSilverOrAbove } = this.props
     return (
-      <BalancesTable currentTab={currentTab} lockboxEnabled={lockboxEnabled} />
+      <BalancesTable
+        currentTab={currentTab}
+        isSilverOrAbove={isSilverOrAbove}
+      />
     )
   }
 }

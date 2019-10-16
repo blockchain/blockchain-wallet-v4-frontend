@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 100px;
+  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '100px' : '12px')};
   width: 100%;
 `
 
@@ -40,10 +40,10 @@ const FilterContainer = styled(Text).attrs({
 `
 
 const TimeFilters = props => {
-  const { time, handleClick } = props
+  const { time, isSilverOrAbove, handleClick } = props
 
   return (
-    <Wrapper>
+    <Wrapper isSilverOrAbove={isSilverOrAbove}>
       <FilterContainer
         selected={time === '1day'}
         onClick={() => handleClick('1day')}
