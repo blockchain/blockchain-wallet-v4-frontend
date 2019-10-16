@@ -15,7 +15,7 @@ const Header = styled.div`
   align-items: center;
   height: 204px;
   background: ${props => props.theme['brand-primary']}
-    url(/img/swap-dashboard-right.png);
+    url(/img/swap-modal-bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
