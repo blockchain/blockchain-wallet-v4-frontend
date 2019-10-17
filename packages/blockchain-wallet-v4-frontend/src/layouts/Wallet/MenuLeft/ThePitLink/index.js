@@ -50,8 +50,17 @@ const PitLink = props => {
 }
 
 const PitLinkContent = props => {
-  const { firstLogin, handlePitTourCallbacks, showThePitPulse } = props
-  const runJoyride = showThePitPulse && !firstLogin
+  const {
+    firstLogin,
+    handlePitTourCallbacks,
+    hasRunWalletTour,
+    hasSkippedTour,
+    showThePitPulse
+  } = props
+  const isTourFinished = hasRunWalletTour || hasSkippedTour
+  const runJoyride = firstLogin
+    ? isTourFinished && showThePitPulse
+    : showThePitPulse
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
