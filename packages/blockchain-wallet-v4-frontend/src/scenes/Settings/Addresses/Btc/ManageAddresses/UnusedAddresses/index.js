@@ -32,6 +32,13 @@ const ClickableText = styled(Text)`
 const DerivationSwitchContainer = styled.div`
   margin-left: 12px;
 `
+
+const ToggledLink = styled(Link)`
+  &.active {
+    color: ${({ theme }) => theme.grey000};
+  }
+`
+
 class UnusedAddressesContainer extends React.PureComponent {
   componentDidMount () {
     const { componentActions, derivation, walletIndex } = this.props
@@ -151,7 +158,7 @@ class UnusedAddressesContainer extends React.PureComponent {
                     <LinkContainer
                       to={`/settings/addresses/btc/${walletIndex}/legacy`}
                     >
-                      <Link
+                      <ToggledLink
                         weight={500}
                         size='13px'
                         data-e2e='btcManageLegacyWalletLink'
@@ -160,14 +167,14 @@ class UnusedAddressesContainer extends React.PureComponent {
                           id='scenes.settings.addresses.btc.wallets.managelegacy'
                           defaultMessage='Legacy'
                         />
-                      </Link>
+                      </ToggledLink>
                     </LinkContainer>
                   </TogglerItem>
                   <TogglerItem selected={equals('segwitP2SH', derivation)}>
                     <LinkContainer
                       to={`/settings/addresses/btc/${walletIndex}/segwitP2SH`}
                     >
-                      <Link
+                      <ToggledLink
                         weight={500}
                         size='13px'
                         data-e2e='btcManageSegwitWalletLink'
@@ -176,7 +183,7 @@ class UnusedAddressesContainer extends React.PureComponent {
                           id='scenes.settings.addresses.btc.wallets.managesegwit'
                           defaultMessage='Segwit P2SH'
                         />
-                      </Link>
+                      </ToggledLink>
                     </LinkContainer>
                   </TogglerItem>
                 </Toggler>
