@@ -12,10 +12,22 @@ export default ({ coreSagas, networks }) => {
   const editBchAccountLabel = function * (action) {
     try {
       const { index, label } = action.payload
+      const wallets = (yield select(
+        selectors.core.common.bch.getAccountsBalances
+      ))
+        .getOrFail()
+        .map(wallet => wallet.label)
+      const isUnique = (value, allValues) => {
+        const walletIdx = wallets.indexOf(value)
+        return walletIdx !== index && walletIdx > -1
+          ? 'Wallet name is already taken.'
+          : undefined
+      }
       const newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Cash Wallet',
         initial: label,
-        maxLength: 30
+        maxLength: 30,
+        validations: [isUnique]
       })
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BCH_WALLET_SUCCESS))

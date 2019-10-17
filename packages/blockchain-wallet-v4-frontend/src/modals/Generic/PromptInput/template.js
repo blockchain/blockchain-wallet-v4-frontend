@@ -32,45 +32,49 @@ const PromptTemplate = ({
   submitting,
   invalid,
   title,
-  secret = false,
+  secret,
   handleSubmit,
-  maxLength
-}) => (
-  <Modal size='large' position={position} total={total}>
-    <Form onSubmit={handleSubmit}>
-      <Wrapper>
-        <ModalHeader icon='pencil' onClose={close}>
-          {title}
-        </ModalHeader>
-        <ModalBody>
-          <FormGroup>
-            <FormItem data-e2e='inputModalInputField'>
-              <Field
-                name='value'
-                validate={[required]}
-                component={secret ? PasswordBox : TextBox}
-                maxLength={maxLength}
+  maxLength,
+  validations,
+  pristine
+}) => {
+  return (
+    <Modal size='large' position={position} total={total}>
+      <Form onSubmit={handleSubmit}>
+        <Wrapper>
+          <ModalHeader icon='pencil' onClose={close}>
+            {title}
+          </ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <FormItem data-e2e='inputModalInputField'>
+                <Field
+                  name='value'
+                  validate={[required, ...validations]}
+                  component={secret ? PasswordBox : TextBox}
+                  maxLength={maxLength}
+                />
+              </FormItem>
+            </FormGroup>
+          </ModalBody>
+          <ModalFooter align='right'>
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid || pristine}
+              data-e2e='inputModalSubmitButton'
+            >
+              <FormattedMessage
+                id='modals.prompt.button'
+                defaultMessage='Submit'
               />
-            </FormItem>
-          </FormGroup>
-        </ModalBody>
-        <ModalFooter align='right'>
-          <Button
-            type='submit'
-            nature='primary'
-            capitalize
-            disabled={submitting || invalid}
-            data-e2e='inputModalSubmitButton'
-          >
-            <FormattedMessage
-              id='modals.prompt.button'
-              defaultMessage='Submit'
-            />
-          </Button>
-        </ModalFooter>
-      </Wrapper>
-    </Form>
-  </Modal>
-)
+            </Button>
+          </ModalFooter>
+        </Wrapper>
+      </Form>
+    </Modal>
+  )
+}
 
 export default reduxForm({ form: 'promptInputModal' })(PromptTemplate)

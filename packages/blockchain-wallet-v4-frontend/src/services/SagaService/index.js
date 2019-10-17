@@ -34,16 +34,18 @@ export const promptForSecondPassword = function * () {
 
 export const promptForInput = function * ({
   title,
-  secret,
+  secret = false,
   initial = '',
-  maxLength
+  maxLength,
+  validations = []
 }) {
   yield put(
     actions.modals.showModal('PromptInput', {
       title,
       secret,
       initial,
-      maxLength
+      maxLength,
+      validations
     })
   )
   let { response, canceled } = yield race({
