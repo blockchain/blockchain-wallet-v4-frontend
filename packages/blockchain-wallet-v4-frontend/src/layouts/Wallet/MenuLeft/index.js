@@ -13,14 +13,14 @@ const { AB_TESTS } = model.analytics
 class MenuLeftContainer extends React.PureComponent {
   componentDidMount () {
     if (Remote.Success.is(this.props.abTest)) return
-    this.props.analyticsActions.createABTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
+    this.props.analyticsActions.createABTest(AB_TESTS.PIT_CONNECT_TEST)
     window.addEventListener('message', this.receiveMatomoMessage, false)
     // Fallback if a/b test can not be created
     setTimeout(() => {
       if (!Remote.Success.is(this.props.abTest)) {
         this.props.analyticsActions.createABTestSuccess(
-          AB_TESTS.PIT_SIDE_NAV_TEST3,
-          'sidenav_pulse'
+          AB_TESTS.PIT_CONNECT_TEST,
+          'original'
         )
       }
     }, 1000)
@@ -28,9 +28,9 @@ class MenuLeftContainer extends React.PureComponent {
 
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      const result = pathOr('sidenav_pulse', ['data', 'command'], res)
+      const result = pathOr('original', ['data', 'command'], res)
       this.props.analyticsActions.createABTestSuccess(
-        AB_TESTS.PIT_SIDE_NAV_TEST3,
+        AB_TESTS.PIT_CONNECT_TEST,
         result
       )
     }
@@ -40,7 +40,7 @@ class MenuLeftContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: val => <MenuLeft {...val} />,
+      Success: val => <MenuLeft {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Failure: msg => <Failure msg={msg} />
@@ -50,10 +50,11 @@ class MenuLeftContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  abTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)(state)
+  abTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST)(state)
 })
 
 const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 

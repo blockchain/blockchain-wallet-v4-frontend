@@ -13,13 +13,13 @@ import {
   StepTitle
 } from 'components/Tour'
 
-import { PitTooltip } from './model'
+import PitTooltip from './PitTooltip'
 
 import { NewCartridge } from '../Navigation/template'
 
-const renderPitSidenav = showSpotlight => (
-  <MenuItem data-e2e='thePitLink'>
-    {showSpotlight && <JoyrideSpotlight className='react-joyride__spotlight' />}
+const ThePitSidenavItem = showSpotlight => (
+  <>
+    <JoyrideSpotlight className='the-pit-tooltip' />
     <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
     <Destination>
       <FormattedMessage
@@ -35,37 +35,31 @@ const renderPitSidenav = showSpotlight => (
         />
       </Text>
     </NewCartridge>
-  </MenuItem>
+  </>
 )
 
+const PitLink = props => {
+  if (!props.showThePitPulse || props.pitConnectTest === 'original')
+    return (
+      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+        {props.children}
+      </SpotlightLinkContainer>
+    )
+
+  return <div>{props.children}</div>
+}
+
 const PitLinkContent = props => {
-  const { firstLogin, showThePitPulse, handleTourCallbacks } = props
+  const { firstLogin, handlePitTourCallbacks, showThePitPulse } = props
+  const runJoyride = showThePitPulse && !firstLogin
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
-      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+      <PitLink {...props}>
         <MenuItem data-e2e='thePitLink'>
-          <JoyrideSpotlight
-            className='the-pit-tooltip'
-            style={{ top: '-11px' }}
-          />
-          <MenuIcon name='the-pit' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.thepitbold'
-              defaultMessage='The PIT'
-            />
-          </Destination>
-          <NewCartridge>
-            <Text color='orange' size='12' weight={500} uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
+          {ThePitSidenavItem(runJoyride)}
           <Joyride
-            run={!firstLogin && showThePitPulse}
+            run={runJoyride}
             steps={[
               {
                 target: '.the-pit-tooltip',
@@ -87,11 +81,12 @@ const PitLinkContent = props => {
                   </>
                 ),
                 disableBeacon: true,
-                placement: 'right'
+                placement: 'right',
+                props
               }
             ]}
             tooltipComponent={PitTooltip}
-            callback={handleTourCallbacks}
+            callback={handlePitTourCallbacks}
             showSkipButton={true}
             styles={{
               overlay: {
@@ -99,10 +94,11 @@ const PitLinkContent = props => {
               }
             }}
             {...props.Joyride}
+            {...props}
           />
           <PitJoyrideStyles />
         </MenuItem>
-      </SpotlightLinkContainer>
+      </PitLink>
     </div>
   )
 }
@@ -116,7 +112,7 @@ const ThePitLink = props => {
         target='_blank'
         style={{ width: '100%' }}
       >
-        {renderPitSidenav()}
+        <MenuItem data-e2e='thePitLink'>{ThePitSidenavItem()}</MenuItem>
       </Link>
     ) : (
       <PitLinkContent {...props} />

@@ -6,7 +6,7 @@ const { AB_TESTS } = model.analytics
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3),
+    selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST),
     selectors.preferences.getShowThePitPulse,
     selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getLockboxOpened,
@@ -20,7 +20,7 @@ export const getData = createDeepEqualSelector(
     selectors.modules.profile.getUserKYCState
   ],
   (
-    pitSideNavTest3R,
+    pitConnectTest,
     showThePitPulse,
     menuOpened,
     lockboxOpened,
@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
     userKYCState
   ) => {
     const transform = (
-      pitSideNavTest3,
+      pitConnectTest,
       canTrade,
       lockboxDevices,
       countryCode,
@@ -50,14 +50,14 @@ export const getData = createDeepEqualSelector(
         lockboxOpened,
         menuOpened,
         pathname,
-        pitSideNavTest3,
+        pitConnectTest,
         showThePitPulse,
         userKYCState
       }
     }
 
     return lift(transform)(
-      pitSideNavTest3R,
+      pitConnectTest,
       canTradeR,
       lockboxDevicesR,
       countryCodeR,

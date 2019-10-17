@@ -16,7 +16,7 @@ export const CUSTOM_VARIABLES = {
 // AB TESTS
 //
 export const AB_TESTS = {
-  PIT_SIDE_NAV_TEST3: 'PitSidenavTest3',
+  PIT_CONNECT_TEST: 'PitConnectTest',
   WALLET_PIT_SIGNUP: 'WalletPitSignup'
 }
 

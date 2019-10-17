@@ -77,12 +77,12 @@ const GlobalJoyrideStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme['blue']} !important;
     opacity: 0.25 !important;
     border-radius: 50% !important;
-    animation: ${props => Pulse(props)} 1s infinite;
+    animation: ${props => Pulse(props)} 1.4s infinite;
     height: 16px !important;
     width: 16px !important;
     margin: 19px 0 0 19px;
-    top: -2px;
-    left: 3px;
+    top: 0px;
+    left: 0px;
   }
 
   .react-joyride__overlay {

@@ -10,7 +10,7 @@ import Navigation from './template'
 const { NONE, REJECTED } = model.profile.KYC_STATES
 
 class NavigationContainer extends React.PureComponent {
-  handleTourCallbacks = data => {
+  handlePitTourCallbacks = (data, e) => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       this.props.preferencesActions.hideThePitPulse()
     }
@@ -21,8 +21,6 @@ class NavigationContainer extends React.PureComponent {
       actions,
       analyticsActions,
       domains,
-      isPitAccountLinked,
-      supportedCoins,
       userKYCState,
       ...props
     } = this.props
@@ -31,10 +29,8 @@ class NavigationContainer extends React.PureComponent {
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
-        isPitAccountLinked={isPitAccountLinked}
         pitUrl={concat(prop('thePit', domains), '/trade')}
-        supportedCoins={supportedCoins}
-        handleTourCallbacks={this.handleTourCallbacks}
+        handlePitTourCallbacks={this.handlePitTourCallbacks}
         userEligibleForPIT={
           (equals(NONE, userKYCState), not(equals(REJECTED, userKYCState)))
         }
