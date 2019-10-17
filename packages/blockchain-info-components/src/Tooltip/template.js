@@ -7,7 +7,7 @@ const StyledTip = styled(ReactTooltip)`
   cursor: pointer;
   font-weight: 400;
   text-align: left;
-  padding: ${({ toolTipPad }) => (toolTipPad || '7px 12px')};
+  padding: ${({ toolTipPad }) => toolTipPad || '7px 12px'};
   text-transform: none;
   z-index: 2000 !important;
   font-size: 11px !important;
