@@ -50,7 +50,8 @@ export default ({ api }) => {
       if (!path(['data', 'value', 'coinify', 'offline_token'], val)) return
       yield call(refreshCoinify)
     } catch (e) {
-      console.warn(e)
+      // eslint-disable-next-line no-console
+      console.error('init error', e)
     }
   }
 
@@ -156,7 +157,8 @@ export default ({ api }) => {
       yield call(getPaymentMediums, { payload: quote })
       yield put(A.fetchRateQuoteSuccess(quote))
     } catch (e) {
-      console.log(e)
+      // eslint-disable-next-line no-console
+      console.error('fetchRateQuote error', e)
       yield put(A.fetchRateQuoteFailure(e))
     }
   }
@@ -208,7 +210,8 @@ export default ({ api }) => {
       yield apply(medium, medium.getBankAccounts)
       yield put(A.getPaymentMediumsSuccess(mediums))
     } catch (e) {
-      console.log(e)
+      // eslint-disable-next-line no-console
+      console.error('getMediumsWithBankAccounts error', e)
       yield put(A.getPaymentMediumsFailure(e))
     }
   }
@@ -219,7 +222,8 @@ export default ({ api }) => {
       const bankAccount = yield apply(medium, medium.addBankAccount, [account])
       yield put(A.setBankAccount(bankAccount))
     } catch (e) {
-      console.log(e)
+      // eslint-disable-next-line no-console
+      console.error('addBankAccount error', e)
     }
   }
 
@@ -228,7 +232,8 @@ export default ({ api }) => {
       const account = data.payload
       yield apply(account, account.delete)
     } catch (e) {
-      console.log(e)
+      // eslint-disable-next-line no-console
+      console.error('deleteBankAccount error', e)
     }
   }
 
@@ -317,7 +322,8 @@ export default ({ api }) => {
         yield call(fetchSubscriptions)
       }
     } catch (e) {
-      console.log('issue cancelling trade', e)
+      // eslint-disable-next-line no-console
+      console.error('cancelTrade error', e)
     }
   }
 
@@ -395,7 +401,8 @@ export default ({ api }) => {
       yield call(fetchSubscriptions)
       return cancelSub
     } catch (e) {
-      console.warn(e)
+      // eslint-disable-next-line no-console
+      console.error('cancelSubscription error', e)
     }
   }
 

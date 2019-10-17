@@ -281,6 +281,24 @@ describe('FormHelper', () => {
     })
   })
 
+  describe('requireUniqueDeviceName()', () => {
+    it('returns true if device name is not unique', () => {
+      expect(FormHelper.requireUniqueDeviceName('device', ['device'])).toEqual(
+        <M.UniqueDeviceName />
+      )
+    })
+
+    it('returns undefined if device name is unqiue', () => {
+      expect(
+        FormHelper.requireUniqueDeviceName('uniqueDevice', ['device'])
+      ).toBeUndefined()
+    })
+  })
+
+  it('removeWhitespace()', () => {
+    expect(FormHelper.removeWhitespace('block chain')).toEqual('blockchain')
+  })
+
   it('normalizeSocialSecurity() returns normalized SSN', () => {
     expect(FormHelper.normalizeSocialSecurity('111223333')).toEqual(
       '111-22-3333'
