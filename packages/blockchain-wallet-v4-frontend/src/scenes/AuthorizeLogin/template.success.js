@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 
 const Fragment = React.Fragment
 
@@ -14,28 +14,11 @@ const Wrapper = styled.div`
 const InfoWrapper = styled.div`
   text-align: left;
 `
-const DeviceInfoWrapper = styled.div`
-  margin-top: 20px;
-`
-const DeviceInfoHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-const DeviceDiff = styled.div`
-  margin-top: 10px;
-`
-const DeviceInfoRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 5px;
-`
 const ApproveWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: space-between;
+  margin-top: 33px;
   > div:nth-child(2) {
     margin: 0px 5px;
   }
@@ -56,10 +39,12 @@ const Success = props => {
   /* eslint-disable */
   const {
     approver_device_description,
-    requester_device_description
+    requester_device_description,
+    approver_country,
+    requester_country,
+    approver_ip,
+    requester_ip
   } = props.value
-  const { approver_country, requester_country } = props.value
-  const { approver_ip, requester_ip } = props.value
   const requestDenied = props.value['request-denied']
   /* eslint-enable */
 
@@ -71,161 +56,79 @@ const Success = props => {
     <Wrapper>
       {props.value.device_change_reason ? (
         <Fragment>
-          <Image name='blue-logo' width='50px' height='50px' />
           <InfoWrapper>
-            <Text
-              size='24px'
-              weight={500}
-              color='gray-5'
-              style={{ 'margin-top': '25px' }}
-            >
+            <Text size='20px' weight={500} color='grey800'>
               <FormattedMessage
-                id='scenes.authorizelogin.attemptfrombrowser'
-                defaultMessage='Login attempt from another browser'
+                id='scenes.authorizelogin.attemptfrombrowser-1'
+                defaultMessage='New Login Attempt'
               />
             </Text>
             <Text
-              size='13px'
+              size='16px'
               weight={400}
-              color='gray-5'
-              style={{ 'margin-top': '10px' }}
+              color='grey800'
+              style={{ 'margin-top': '15px' }}
             >
               <FormattedMessage
-                id='scenes.authorizelogin.attemptfrombrowsermsg'
-                defaultMessage='Someone, hopefully you, is attempting to login to your wallet from a different browser.'
+                id='scenes.authorizelogin.attemptfrombrowsermsg-1'
+                defaultMessage='Looks like someone is attempting to login to your wallet.'
               />
             </Text>
-            <DeviceInfoWrapper>
-              <DeviceInfoHeader>
-                <Text size='16px' weight={500} color='success'>
-                  <FormattedMessage
-                    id='scenes.authorizelogin.yourdevice'
-                    defaultMessage='Your Device'
-                  />
-                </Text>
-                &nbsp;
-                <Text size='16px' weight={500} color='gray-5'>
-                  <FormattedMessage
-                    id='scenes.authorizelogin.vs'
-                    defaultMessage='vs.'
-                  />
-                </Text>
-                &nbsp;
-                <Text size='16px' weight={500} color='error'>
-                  <FormattedMessage
-                    id='scenes.authorizelogin.requestingdevice'
-                    defaultMessage='Requesting Device'
-                  />
-                </Text>
-              </DeviceInfoHeader>
-              <DeviceDiff>
-                <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_device_description ===
-                  requester_device_description ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.browser"
-                      defaultMessage="Browser: "
-                    />
-                  </Text>
-                  <Banner type="success" inline>
-                    {approver_device_description}
-                  </Banner>
-                  {approver_device_description !==
-                    requester_device_description && (
-                    <Banner type="warning" inline>
-                      {requester_device_description}
-                    </Banner>
-                  )}
-                  {/* eslint-enable */}
-                </DeviceInfoRow>
-                <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_ip === requester_ip ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.ipaddress"
-                      defaultMessage="IP Address: "
-                    />
-                  </Text>
-                  <Banner type="success" inline>
-                    {approver_ip}
-                  </Banner>
-                  {approver_ip !== requester_ip && (
-                    <Banner type="warning" inline>
-                      {requester_ip}
-                    </Banner>
-                  )}
-                  {/* eslint-enable */}
-                </DeviceInfoRow>
-                <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_country === requester_country ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.country"
-                      defaultMessage="Country of Origin: "
-                    />
-                  </Text>
-                  <Banner type="success" inline>
-                    {approver_country}
-                  </Banner>
-                  {approver_country !== requester_country && (
-                    <Banner type="warning" inline>
-                      {requester_country}
-                    </Banner>
-                  )}
-                  {/* eslint-enable */}
-                </DeviceInfoRow>
-              </DeviceDiff>
-            </DeviceInfoWrapper>
+            <Text
+              size='14px'
+              weight={400}
+              color='grey700'
+              style={{ 'margin-top': '24px' }}
+            >
+              <FormattedMessage
+                id='scenes.authorizelogin.attemptfrombrowser.ipaddress'
+                defaultMessage='IP Address'
+              />
+            </Text>
+            <Text size='16px' color='grey800' weight={600}>
+              {requester_ip}
+            </Text>
+            <Text size='16px' color='grey800' weight={600}>
+              {requester_country}
+            </Text>
+            <Text />
+            <Text
+              size='14px'
+              weight={400}
+              color='grey700'
+              style={{ 'margin-top': '24px' }}
+            >
+              <FormattedMessage
+                id='scenes.authorizelogin.attemptfrombrowser.browser'
+                defaultMessage='Browser'
+              />
+            </Text>
+            <Text size='16px' color='grey800' weight={600}>
+              {requester_device_description}
+            </Text>
             <ApproveWrapper>
-              <Button nature='warning' onClick={props.onAccept}>
+              <Button
+                nature='warning'
+                width='188px'
+                height='56px'
+                size='17px'
+                onClick={props.onReject}
+              >
                 <FormattedMessage
-                  id='scenes.authorizelogin.accept'
-                  defaultMessage='Accept'
+                  id='scenes.authorizelogin.deny'
+                  defaultMessage='Deny'
                 />
               </Button>
-              &nbsp;
-              <Text size='12px' weight={400}>
+              <Button
+                nature='authorize-login-approve'
+                width='188px'
+                height='56px'
+                size='17px'
+                onClick={props.onAccept}
+              >
                 <FormattedMessage
-                  id='scenes.authorizelogin.or'
-                  defaultMessage='Or'
-                />
-              </Text>
-              &nbsp;
-              <Button nature='primary' onClick={props.onReject}>
-                <FormattedMessage
-                  id='scenes.authorizelogin.reject'
-                  defaultMessage='Reject'
+                  id='scenes.authorizelogin.Approve'
+                  defaultMessage='Approve'
                 />
               </Button>
             </ApproveWrapper>

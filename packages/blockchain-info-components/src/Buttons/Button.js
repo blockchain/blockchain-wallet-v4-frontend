@@ -106,6 +106,12 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'brand-secondary',
         borderColor: 'brand-secondary'
       }
+    case 'authorize-login-approve':
+      return {
+        color: 'white',
+        backgroundColor: 'green400',
+        borderColor: 'green400'
+      }
     case 'purple':
       return {
         color: 'white',
