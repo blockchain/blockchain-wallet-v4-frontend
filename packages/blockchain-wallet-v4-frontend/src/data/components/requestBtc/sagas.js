@@ -20,7 +20,12 @@ export default ({ networks }) => {
       let { accountIdx, addressIdx, message } = action.payload
       if (Number.isInteger(accountIdx)) {
         yield put(
-          actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message)
+          actions.core.wallet.setHdAddressLabel(
+            accountIdx,
+            addressIdx,
+            'segwitP2SH',
+            message
+          )
         )
         yield put(actions.analytics.logEvent([...PAYMENT_REQUEST, 'BTC']))
       } else {
