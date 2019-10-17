@@ -63,6 +63,7 @@ describe('Wallet', () => {
         0,
         undefined,
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),
@@ -88,6 +89,7 @@ describe('Wallet', () => {
         0,
         'secret',
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),
