@@ -1,6 +1,7 @@
 import { select, call, put } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
+import { requireUniqueWalletName } from 'services/FormHelper'
 import { promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 const { toCashAddr } = utils.bch
@@ -12,22 +13,19 @@ export default ({ coreSagas, networks }) => {
   const editBchAccountLabel = function * (action) {
     try {
       const { index, label } = action.payload
-      const wallets = (yield select(
-        selectors.core.common.bch.getAccountsBalances
+      const allWalletLabels = (yield select(
+        selectors.core.common.bch.getActiveHDAccounts
       ))
         .getOrFail()
         .map(wallet => wallet.label)
-      const isUnique = (value, allValues) => {
-        const walletIdx = wallets.indexOf(value)
-        return walletIdx !== index && walletIdx > -1
-          ? 'Wallet name is already taken.'
-          : undefined
-      }
+
       const newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Cash Wallet',
         initial: label,
         maxLength: 30,
-        validations: [isUnique]
+        validations: [
+          value => requireUniqueWalletName(value, allWalletLabels, index)
+        ]
       })
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BCH_WALLET_SUCCESS))

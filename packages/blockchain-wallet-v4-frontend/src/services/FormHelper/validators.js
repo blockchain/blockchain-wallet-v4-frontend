@@ -246,3 +246,12 @@ export const requireUniqueDeviceName = (value, usedDeviceNames) => {
     undefined
   )
 }
+
+export const requireUniqueWalletName = (value, allWalletLabels, index) => {
+  const walletIdx = allWalletLabels.indexOf(value)
+  return walletIdx !== index && walletIdx > -1 ? (
+    <M.UniqueWalletName />
+  ) : (
+    undefined
+  )
+}

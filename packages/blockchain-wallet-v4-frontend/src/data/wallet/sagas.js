@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 import * as actions from '../actions.js'
 import * as C from 'services/AlertService'
+import { requireUniqueWalletName } from 'services/FormHelper'
 import { selectors } from 'data'
 import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
@@ -53,20 +54,16 @@ export default ({ coreSagas }) => {
   const editBtcAccountLabel = function * (action) {
     try {
       let { index, label } = action.payload
-      const wallets = (yield select(selectors.core.common.btc.getHDAccounts))
+      const allWalletLabels = (yield select(
+        selectors.core.common.btc.getHDAccounts
+      ))
         .getOrFail()
         .map(wallet => wallet.label)
-      const isUnique = (value, allValues) => {
-        const walletIdx = wallets.indexOf(value)
-        return walletIdx !== index && walletIdx > -1
-          ? 'Wallet name is already taken.'
-          : undefined
-      }
       let newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Wallet',
         initial: label,
         maxLength: 30,
-        validations: [isUnique]
+        validations: [requireUniqueWalletName(allWalletLabels, index)]
       })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BTC_WALLET_SUCCESS))
