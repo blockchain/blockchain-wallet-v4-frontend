@@ -1,8 +1,9 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
@@ -14,6 +15,7 @@ const iSignThisDomain =
 const coinifyPaymentDomain =
   mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
+const cspNonce = `2726c7f26c`
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
 let sslEnabled = process.env.DISABLE_SSL
@@ -30,9 +32,7 @@ try {
   console.log(
     chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
       chalk.yellow(
-        `Failed to load ${
-          process.env.NODE_ENV
-        }.js config file! Using the production config instead.\n`
+        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
       )
   )
   envConfig = require(PATHS.envConfig + '/production.js')
@@ -129,6 +129,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
+    }),
+    new HtmlWebpackStringReplacePlugin({
+      '\\*\\*CSP_NONCE\\*\\*': cspNonce
     }),
     new Webpack.IgnorePlugin({
       resourceRegExp: /^\.\/locale$/,
@@ -260,14 +263,10 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "script-src 'self'",
+        `script-src 'nonce-${cspNonce}' 'self'`,
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
-          envConfig.WALLET_HELPER_DOMAIN
-        } ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
-          envConfig.WALLET_HELPER_DOMAIN
-        } blob:`,
+        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
+        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
           "'self'",

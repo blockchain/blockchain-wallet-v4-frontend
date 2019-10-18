@@ -68,7 +68,7 @@ const Row = styled.div`
     flex-direction: row;
     min-height: 100%;
     width: ${props => props.width || '100%'};
-    margin-bottom: 'none';
+    margin-bottom: 0;
   }
 `
 

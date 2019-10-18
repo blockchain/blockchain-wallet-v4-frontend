@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals } from 'ramda'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import SetupTypeStep from './template'
 
-const { SETUP_TYPE } = model.analytics.LOCKBOX_EVENTS.DEVICE_SETUP
 class SetupTypeStepContainer extends React.PureComponent {
   onChangeStep = setupType => {
     this.props.lockboxActions.setSetupNewOrExisting(setupType)
@@ -15,7 +14,6 @@ class SetupTypeStepContainer extends React.PureComponent {
     } else {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')
     }
-    this.props.analyticsActions.logEvent([...SETUP_TYPE, setupType])
   }
 
   render () {
@@ -33,7 +31,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

@@ -37,9 +37,7 @@ const ContentWrapper = styled.div`
 `
 const LeftColumn = styled.div`
   background: ${props =>
-    `linear-gradient(312.54deg, ${props.theme.purple} -25.42%, ${
-      props.theme.black
-    } 70.12%)`};
+    `linear-gradient(312.54deg, ${props.theme.purple} -25.42%, ${props.theme.black} 70.12%)`};
   border-radius: 8px 10px 10px 8px;
   display: flex;
   flex-direction: column;

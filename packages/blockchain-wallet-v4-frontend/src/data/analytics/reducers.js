@@ -2,9 +2,12 @@ import * as AT from './actionTypes'
 import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+import { AB_TESTS } from './model'
+
 const INITIAL_STATE = {
   ab_tests: {
-    SwapOrTradeTest: Remote.NotAsked
+    [AB_TESTS.PIT_CONNECT_TEST]: Remote.NotAsked,
+    [AB_TESTS.WALLET_PIT_SIGNUP]: Remote.NotAsked
   }
 }
 

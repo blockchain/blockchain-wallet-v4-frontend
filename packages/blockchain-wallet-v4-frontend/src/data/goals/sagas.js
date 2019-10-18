@@ -35,7 +35,7 @@ import {
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
-const { DEEPLINK_EVENTS, GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
+const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -67,7 +67,6 @@ export default ({ api }) => {
       })
     )
     yield delay(3000)
-    yield put(actions.analytics.logEvent(DEEPLINK_EVENTS.PIT))
   }
 
   const defineReferralGoal = function * (search) {

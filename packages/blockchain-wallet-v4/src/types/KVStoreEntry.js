@@ -170,6 +170,7 @@ export const extractResponse = curry((encKey, res) => {
   } else {
     // TODO: remove when redux/core is moved to frontend
     if (window.logLevel === 'verbose' && res.type_id !== -1) {
+      // eslint-disable-next-line no-console
       console.info(
         'LOG: ',
         encKey

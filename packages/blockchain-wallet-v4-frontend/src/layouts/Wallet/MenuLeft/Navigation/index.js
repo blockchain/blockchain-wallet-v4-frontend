@@ -1,30 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { withRouter } from 'react-router-dom'
-import { concat, prop } from 'ramda'
+import { concat, equals, not, prop } from 'ramda'
+import { STATUS } from 'react-joyride/lib'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Navigation from './template'
 
+const { NONE, REJECTED } = model.profile.KYC_STATES
+
 class NavigationContainer extends React.PureComponent {
+  handlePitTourCallbacks = (data, e) => {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      this.props.preferencesActions.hideThePitPulse()
+    }
+  }
+
   render () {
     const {
       actions,
+      analyticsActions,
       domains,
-      isPitAccountLinked,
-      isInvitedToPit,
-      supportedCoins,
+      userKYCState,
       ...props
     } = this.props
+
     return (
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
-        isPitAccountLinked={isPitAccountLinked}
-        isInvitedToPit={isInvitedToPit}
         pitUrl={concat(prop('thePit', domains), '/trade')}
-        supportedCoins={supportedCoins}
+        handlePitTourCallbacks={this.handlePitTourCallbacks}
+        userEligibleForPIT={
+          (equals(NONE, userKYCState), not(equals(REJECTED, userKYCState)))
+        }
       />
     )
   }
@@ -32,9 +41,6 @@ class NavigationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isInvitedToPit: selectors.modules.profile
-    .isInvitedToPit(state)
-    .getOrElse(false),
   isPitAccountLinked: selectors.modules.profile
     .isPitAccountLinked(state)
     .getOrElse(false),
@@ -43,11 +49,12 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(
-  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps

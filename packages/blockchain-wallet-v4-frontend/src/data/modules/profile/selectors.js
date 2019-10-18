@@ -94,14 +94,15 @@ export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
 export const isInvitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
+
 export const userFlowSupported = isInvitedToKyc
 
-export const isInvitedToPit = state => {
+export const isInvitedToPitHomeBanner = state => {
   const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
   const userCountry = selectors.core.settings.getCountryCode(state)
   const isInvited = selectors.core.settings
     .getInvitations(state)
-    .map(prop('pit'))
+    .map(prop('pitHomeBanner'))
 
   const transform = (pitCountries, userCountry, isInvited) => {
     const isCountryWhitelisted =

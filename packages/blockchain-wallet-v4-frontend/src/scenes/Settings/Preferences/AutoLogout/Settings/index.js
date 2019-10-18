@@ -7,9 +7,8 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 import AutoLogoutForm from './template'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 
-const { AUTO_LOGOUT } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class SettingContainer extends React.PureComponent {
   state = { updateToggled: false }
 
@@ -19,7 +18,6 @@ class SettingContainer extends React.PureComponent {
     this.props.settingsActions.updateAutoLogout(
       parseInt(autoLogoutTime) * 60000
     )
-    this.props.analyticsActions.logEvent([...AUTO_LOGOUT, autoLogoutTime])
     this.handleToggle()
   }
 
@@ -69,7 +67,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

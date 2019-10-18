@@ -15,10 +15,11 @@ class FirstStep extends React.Component {
   }
 
   render () {
-    const { actions, data, excludeHDWallets, payPro } = this.props
+    const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
       Success: value => (
         <Success
+          autofilled={!!(amount && to)}
           destination={value.destination}
           effectiveBalance={value.effectiveBalance}
           enableToggle={value.enableToggle}

@@ -78,6 +78,7 @@ export default ({ apiUrl, networks, get, put }) => {
       .chain(eitherToTask)
       .map(setKvFromResponse(kv))
       .rejectedMap(e => {
+        // eslint-disable-next-line no-console
         console.error(
           `Failed to fetch metadata entry ${kv.typeId} at ${kv.address}:`,
           e

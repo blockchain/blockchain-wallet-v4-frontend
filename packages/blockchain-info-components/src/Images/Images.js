@@ -4,7 +4,7 @@ import airdropWelcome from './img/airdrop-welcome.png'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
-import appStoreBadge from './img/app-store-badge.svg'
+import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -61,6 +61,9 @@ import money from './img/money.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import poweredBySfox from './img/powered_by_sfox.svg'
+import pitMacbookGold from './img/pit-macbook-gold.png'
+import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
+import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -85,6 +88,7 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapDashboardLeft from './img/swap-dashboard-left.png'
 import swapDashboardRight from './img/swap-dashboard-right.png'
+import swapModalBg from './img/swap-modal-bg.svg'
 import swapIntro from './img/swap-intro.png'
 import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
@@ -138,7 +142,7 @@ export default {
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
-  'app-store-badge': appStoreBadge,
+  'apple-app-store-badge': appleAppStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'bitpay-logo': bitpayLogo,
   'blockchain-blue': blockchainBlue,
@@ -222,6 +226,9 @@ export default {
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
+  'pit-macbook-gold': pitMacbookGold,
+  'pit-macbook-gold2': pitMacbookGold2,
+  'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
   'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,
@@ -242,6 +249,7 @@ export default {
   'swap-carousel5': swapCarousel5,
   'swap-dashboard-left': swapDashboardLeft,
   'swap-dashboard-right': swapDashboardRight,
+  'swap-modal-bg': swapModalBg,
   'swap-intro': swapIntro,
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
