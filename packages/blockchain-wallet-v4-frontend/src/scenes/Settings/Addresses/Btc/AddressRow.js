@@ -62,12 +62,12 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
           </Banner>
         )}
       </AddressTableCell>
-      <TableCell width='30%'>
+      <TableCell width='20%'>
         <Text size='13px' weight={300}>
           {address.label ? address.label : 'NO LABEL'}
         </Text>
       </TableCell>
-      <TableCell width='30%'>
+      <TableCell width='10%'>
         {!archived && (
           <SwitchableDisplay size='13px' coin={coin || 'BTC'}>
             {address.info && address.info.final_balance}

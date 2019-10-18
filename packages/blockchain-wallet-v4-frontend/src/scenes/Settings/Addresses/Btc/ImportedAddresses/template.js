@@ -173,7 +173,7 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='20%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.label'
@@ -181,7 +181,7 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='10%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.balance'
