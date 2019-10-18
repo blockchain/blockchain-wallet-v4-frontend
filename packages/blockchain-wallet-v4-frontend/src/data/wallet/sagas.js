@@ -63,7 +63,9 @@ export default ({ coreSagas }) => {
         title: 'Rename Bitcoin Wallet',
         initial: label,
         maxLength: 30,
-        validations: [requireUniqueWalletName(allWalletLabels, index)]
+        validations: [
+          value => requireUniqueWalletName(value, allWalletLabels, index)
+        ]
       })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BTC_WALLET_SUCCESS))
