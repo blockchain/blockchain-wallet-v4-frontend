@@ -3,7 +3,12 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Joyride from 'react-joyride/lib'
 
-import { Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
+import {
+  Link,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem } from 'components/MenuLeft'
 import {
   JoyrideSpotlight,
@@ -15,6 +20,7 @@ import {
 } from 'components/Tour'
 
 import PitTooltip from './PitTooltip'
+import { NewCartridge } from '../Navigation/template'
 
 const HelperTipContainer = styled.div`
   margin-left: auto;
@@ -23,7 +29,7 @@ const HelperTipContainer = styled.div`
   }
 `
 
-const ThePitSidenavItem = showSpotlight => (
+const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
   <>
     <JoyrideSpotlight className='the-pit-tooltip' />
     <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
@@ -33,11 +39,23 @@ const ThePitSidenavItem = showSpotlight => (
         defaultMessage='The PIT'
       />
     </Destination>
-    <HelperTipContainer>
-      <TooltipHost id='pitSideNavConnected'>
-        <TooltipIcon color='blue' name='info' />
-      </TooltipHost>
-    </HelperTipContainer>
+
+    {isPitAccountLinked ? (
+      <HelperTipContainer>
+        <TooltipHost id='pitSideNavConnected'>
+          <TooltipIcon color='blue' name='info' />
+        </TooltipHost>
+      </HelperTipContainer>
+    ) : (
+      <NewCartridge>
+        <Text color='orange' size='12' weight={500} uppercase>
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.new'
+            defaultMessage='New'
+          />
+        </Text>
+      </NewCartridge>
+    )}
   </>
 )
 
@@ -124,7 +142,9 @@ const ThePitLink = props => {
         target='_blank'
         style={{ width: '100%' }}
       >
-        <MenuItem data-e2e='thePitLink'>{ThePitSidenavItem()}</MenuItem>
+        <MenuItem data-e2e='thePitLink'>
+          {ThePitSidenavItem(null, props.isPitAccountLinked)}
+        </MenuItem>
       </Link>
     ) : (
       <PitLinkContent {...props} />
