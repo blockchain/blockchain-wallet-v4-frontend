@@ -1,8 +1,9 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Joyride from 'react-joyride/lib'
 
-import { Link, Text } from 'blockchain-info-components'
+import { Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem } from 'components/MenuLeft'
 import {
   JoyrideSpotlight,
@@ -15,7 +16,12 @@ import {
 
 import PitTooltip from './PitTooltip'
 
-import { NewCartridge } from '../Navigation/template'
+const HelperTipContainer = styled.div`
+  margin-left: auto;
+  > div span {
+    color: ${props => props.theme['gray-3']};
+  }
+`
 
 const ThePitSidenavItem = showSpotlight => (
   <>
@@ -27,14 +33,11 @@ const ThePitSidenavItem = showSpotlight => (
         defaultMessage='The PIT'
       />
     </Destination>
-    <NewCartridge>
-      <Text color='orange' size='12' weight={500} uppercase>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.transactions.new'
-          defaultMessage='New'
-        />
-      </Text>
-    </NewCartridge>
+    <HelperTipContainer>
+      <TooltipHost id='pitSideNavConnected'>
+        <TooltipIcon color='blue' name='info' />
+      </TooltipHost>
+    </HelperTipContainer>
   </>
 )
 
