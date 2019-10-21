@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "es6",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noResolve": false,
+    "outDir": "./dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6",
+    "baseUrl": "packages/",
+    "paths": {
+      "@network/*": ["blockchain-wallet-v4/src/network/*"]
+    }
+  },
+  "include": [
+    "packages/blockchain-wallet-v4-frontend/src/",
+    "packages/blockchain-wallet-v4/src/"
+  ],
+  "exclude": ["node_modules"]
+}

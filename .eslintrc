@@ -8,7 +8,16 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react", "jest", "json"],
+  "plugins": ["babel", "react", "jest", "json", "@typescript-eslint"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "no-unused-vars": 0
+      }
+    }
+  ],
   "env": {
     "browser": true,
     "jest": true,
@@ -24,7 +33,7 @@
   },
   "rules": {
     "camelcase": 0,
-    "generator-star-spacing": ["error", {"before": true, "after": true}],
+    "generator-star-spacing": ["error", { "before": true, "after": true }],
     "jest/no-disabled-tests": 1,
     "jest/no-focused-tests": 2,
     "jest/no-identical-title": 2,

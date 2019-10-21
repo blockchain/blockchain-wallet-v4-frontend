@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
+
 import { Wrapper } from 'components/Public'
 
 const InnerWrapperWidth = 280

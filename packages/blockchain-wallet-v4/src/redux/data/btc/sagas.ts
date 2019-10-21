@@ -12,15 +12,24 @@ import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
+import { API } from '@network/types'
+import { MultiaddrResponse } from '@network/api/wallet/types'
+
+import { FetchTransactionsAction } from './types'
+
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
-export default ({ api }) => {
+export default ({ api }: { api: API }) => {
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
-      const data = yield call(api.fetchBlockchainData, context, { n: 1 })
+      const data = yield call(api.fetchBlockchainData, context, {
+        n: 1,
+        offset: 0,
+        onlyShow: null
+      })
       const btcData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
@@ -50,7 +59,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * (action) {
+  const fetchTransactions = function * (action: FetchTransactionsAction) {
     try {
       const { payload } = action
       const { address, reset } = payload
@@ -61,11 +70,15 @@ export default ({ api }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
-      const data = yield call(api.fetchBlockchainData, context, {
-        n: TX_PER_PAGE,
-        onlyShow: address || walletContext,
-        offset
-      })
+      const data: MultiaddrResponse = yield call(
+        api.fetchBlockchainData,
+        context,
+        {
+          n: TX_PER_PAGE,
+          onlyShow: address || walletContext,
+          offset
+        }
+      )
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const page = yield call(__processTxs, data.txs)

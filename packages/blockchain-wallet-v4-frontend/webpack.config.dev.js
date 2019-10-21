@@ -70,12 +70,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js?$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
-        use: [
-          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
-          'babel-loader'
-        ]
+        use: ['babel-loader']
+      },
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        options: {
+          useCache: true,
+          configFileName: PATHS.tsconfig
+        }
       },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,

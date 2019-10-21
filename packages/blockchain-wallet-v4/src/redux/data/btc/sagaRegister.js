@@ -1,6 +1,6 @@
 import { fork, takeLatest, takeEvery } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import sagas from './sagas'
+import sagas from './sagas.ts'
 
 export default ({ api }) => {
   const dataBtcSagas = sagas({ api })

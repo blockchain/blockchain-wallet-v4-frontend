@@ -1,5 +1,5 @@
 import bch from './bch/sagas'
-import btc from './btc/sagas'
+import btc from './btc/sagas.ts'
 import coinify from './coinify/sagas'
 import eth from './eth/sagas'
 import sfox from './sfox/sagas'

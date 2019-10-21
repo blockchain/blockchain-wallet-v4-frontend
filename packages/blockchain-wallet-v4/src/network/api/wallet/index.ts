@@ -1,4 +1,5 @@
 import { merge } from 'ramda'
+import { MultiaddrResponse } from './types'
 
 export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
@@ -47,9 +48,13 @@ export default ({ rootUrl, get, post }) => {
 
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
-    context,
-    { n = 50, offset = 0, onlyShow } = {}
-  ) => {
+    context: any,
+    {
+      n = 50,
+      offset = 0,
+      onlyShow
+    }: { n: number; offset: number; onlyShow: any }
+  ): Promise<MultiaddrResponse> => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',
