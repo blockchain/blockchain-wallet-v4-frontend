@@ -15,7 +15,7 @@ const ItemWrapper = styled.div`
   height: 100%;
   box-sizing: border-box;
   cursor: pointer;
-  overflow-x: hidden;
+  overflow-x: scroll;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;
