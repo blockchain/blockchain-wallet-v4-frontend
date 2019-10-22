@@ -44,6 +44,10 @@ export const getPowerPaxTag = compose(
   lift(hasPath(['tags', 'POWER_PAX'])),
   getUserData
 )
+export const getBlockstackTag = compose(
+  lift(path(['tags', 'BLOCKSTACK'])),
+  getUserData
+)
 export const isUserCreated = compose(
   lift(equals(USER_ACTIVATION_STATES.CREATED)),
   getUserActivationState

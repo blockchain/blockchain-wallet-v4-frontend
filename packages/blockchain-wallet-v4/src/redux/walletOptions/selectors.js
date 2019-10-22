@@ -56,6 +56,8 @@ export const getXlmSendTimeOutSeconds = state =>
   getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
 export const getXlmExchangeAddresses = state =>
   getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
+export const getStxCampaign = state =>
+  getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
 export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
