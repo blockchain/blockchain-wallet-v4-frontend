@@ -134,7 +134,7 @@ const PitLinkContent = props => {
 }
 
 const ThePitLink = props => {
-  return props.userEligibleForPIT ? (
+  return props.isInvitedToPitSidenav ? (
     props.isPitAccountLinked ? (
       <Link
         href={props.pitUrl}
