@@ -26,7 +26,6 @@ class ImportedAddressesContainer extends React.Component {
     const btcAddr = fromCashAddr(address.addr)
     this.props.componentActions.editLegacyAddressLabel(btcAddr)
   }
-
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -36,8 +35,6 @@ class ImportedAddressesContainer extends React.Component {
             importedAddresses={addresses}
             onTransferAll={this.handleTransferAll}
             onEditLabel={this.handleEditLabel}
-            onToggleArchived={this.handleToggleArchived}
-            onShowPriv={this.handleShowPriv}
             {...rest}
           />
         ) : (
