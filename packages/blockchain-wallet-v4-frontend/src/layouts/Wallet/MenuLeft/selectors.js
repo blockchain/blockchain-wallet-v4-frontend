@@ -19,7 +19,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getAdsBlacklist,
     selectors.core.walletOptions.getAdsUrl,
-    selectors.modules.profile.getUserKYCState
+    selectors.modules.profile.getUserKYCState,
+    selectors.modules.profile.isInvitedToPitSidenav
   ],
   (
     pitConnectTest,
@@ -35,14 +36,16 @@ export const getData = createDeepEqualSelector(
     countryCodeR,
     adsBlacklistR,
     adsUrlR,
-    userKYCState
+    userKYCState,
+    isInvitedToPitSidenavR
   ) => {
     const transform = (
       pitConnectTest,
       canTrade,
       lockboxDevices,
       countryCode,
-      userKYCState
+      userKYCState,
+      isInvitedToPitSidenav
     ) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
@@ -51,6 +54,7 @@ export const getData = createDeepEqualSelector(
         countryCode,
         hasRunWalletTour: walletTourVisibility,
         hasSkippedTour: hasSkippedTourR.getOrElse(false),
+        isInvitedToPitSidenav,
         firstLogin,
         lockboxDevices,
         lockboxOpened,
@@ -67,7 +71,8 @@ export const getData = createDeepEqualSelector(
       canTradeR,
       lockboxDevicesR,
       countryCodeR,
-      userKYCState
+      userKYCState,
+      isInvitedToPitSidenavR
     )
   }
 )

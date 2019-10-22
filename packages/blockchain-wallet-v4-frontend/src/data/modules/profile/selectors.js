@@ -97,6 +97,21 @@ export const isInvitedToKyc = state =>
 
 export const userFlowSupported = isInvitedToKyc
 
+export const isInvitedToPitSidenav = state => {
+  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
+  const userCountry = selectors.core.settings.getCountryCode(state)
+
+  const transform = (pitCountries, userCountry) => {
+    const isCountryWhitelisted =
+      pitCountries &&
+      (pitCountries === '*' || includes(userCountry, pitCountries))
+
+    return isCountryWhitelisted
+  }
+
+  return lift(transform)(pitCountries, userCountry)
+}
+
 export const isInvitedToPitHomeBanner = state => {
   const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
   const userCountry = selectors.core.settings.getCountryCode(state)

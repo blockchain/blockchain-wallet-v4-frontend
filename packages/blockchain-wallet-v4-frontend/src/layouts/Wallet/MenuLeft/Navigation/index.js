@@ -1,13 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { concat, equals, not, prop } from 'ramda'
+import { concat, prop } from 'ramda'
 import { STATUS } from 'react-joyride/lib'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import Navigation from './template'
-
-const { NONE, REJECTED } = model.profile.KYC_STATES
 
 class NavigationContainer extends React.PureComponent {
   handlePitTourCallbacks = (data, e) => {
@@ -31,9 +29,6 @@ class NavigationContainer extends React.PureComponent {
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         handlePitTourCallbacks={this.handlePitTourCallbacks}
-        userEligibleForPIT={
-          (equals(NONE, userKYCState), not(equals(REJECTED, userKYCState)))
-        }
       />
     )
   }
