@@ -72,8 +72,9 @@ const TourTooltipComponent = ({
         {...skipProps}
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
-      <TooltipFooter data-e2e={footerButtonDataE2e} isLastStep={isLastStep}>
+      <TooltipFooter isLastStep={isLastStep}>
         <Button
+          data-e2e={footerButtonDataE2e}
           width='110px'
           height='48px'
           nature='primary'
