@@ -23,14 +23,14 @@ import Task from 'data.task'
 import * as A from '../actions'
 import * as S from './selectors'
 import { fetchData } from '../data/btc/actions'
+import BtcAPIFactory from '../../network/api/btc/index'
 
 import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
+import { taskToPromise } from '../../utils/functional'
 
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
-
-export default ({ api, networks }) => {
+export default ({ api, networks, domains, http }) => {
+  const BtcAPI = BtcAPIFactory({ ...domains, ...http })
   const runTask = function * (task, setActionCreator) {
     let result = yield call(
       compose(
@@ -158,7 +158,7 @@ export default ({ api, networks }) => {
           .toBase58()
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
-      const result = yield call(api.fetchBlockchainData, xpubs, {
+      const result = yield call(BtcAPI.fetchBtcData, xpubs, {
         n: 1,
         offset: 0,
         onlyShow: ''

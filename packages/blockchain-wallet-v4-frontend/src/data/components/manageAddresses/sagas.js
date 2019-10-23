@@ -88,7 +88,7 @@ export default ({ api, networks }) => {
       }))
       // fetch blockchain data for each address
       const labeledAddrsFull = yield call(
-        api.fetchBlockchainData,
+        api.fetchBtcData,
         pluck('address', labeledAddrs)
       )
       // filter only addresses with 0 txs
@@ -143,7 +143,7 @@ export default ({ api, networks }) => {
         receiveIndex.getOrElse(0)
       )
       // fetch blockchain data for each address
-      const derivedAddrsFull = yield call(api.fetchBlockchainData, derivedAddrs)
+      const derivedAddrsFull = yield call(api.fetchBtcData, derivedAddrs)
       // fetch label indexes and derive those addresses
       const labels = Types.HDAccount.selectAddressLabels(account)
         .reverse()

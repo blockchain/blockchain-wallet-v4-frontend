@@ -5,9 +5,9 @@ import eth from './eth/sagas'
 import sfox from './sfox/sagas'
 import xlm from './xlm/sagas'
 
-export default ({ api, options, networks }) => ({
+export default ({ api, options, networks, ...rest }) => ({
   bch: bch({ api }),
-  btc: btc({ api }),
+  btc: btc({ api, ...rest }),
   coinify: coinify({ api, options }),
   eth: eth({ api }),
   sfox: sfox({ api, options }),

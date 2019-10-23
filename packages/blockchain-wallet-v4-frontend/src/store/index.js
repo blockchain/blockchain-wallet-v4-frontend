@@ -17,6 +17,8 @@ import {
   HorizonStreamingService
 } from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
+import httpService from 'blockchain-wallet-v4/src/network/api/http'
+import apiAuthorize from 'blockchain-wallet-v4/src/network/api/apiAuthorize'
 import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
@@ -92,6 +94,18 @@ const configureStore = () => {
         eth: options.platforms.web.coins.ETH.config.network,
         xlm: options.platforms.web.coins.XLM.config.network
       }
+      // New API
+      const http = httpService({ apiKey })
+      const authorizedHttp = apiAuthorize(
+        http,
+        getAuthCredentials,
+        reauthenticate
+      )
+      const { domains } = options
+      domains.apiUrl = domains.api
+      domains.rootUrl = domains.root
+      // Old API
+      // TODO: TypeScript remove this?
       const api = createWalletApi({
         options,
         apiKey,
@@ -141,7 +155,10 @@ const configureStore = () => {
         ethSocket,
         ratesSocket,
         networks,
-        options
+        options,
+        domains,
+        http,
+        authorizedHttp
       })
 
       // expose globals here

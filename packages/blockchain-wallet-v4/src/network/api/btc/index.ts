@@ -1,4 +1,5 @@
-import { toUpper } from 'ramda'
+import { equals, merge, toUpper } from 'ramda'
+import { MultiaddrResponse } from './types'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBtcTicker = () =>
@@ -18,6 +19,47 @@ export default ({ rootUrl, apiUrl, get, post }) => {
         format: 'json'
       }
     })
+
+  const getTransactionHistory = (coin, active, currency, start, end) => {
+    const isBCH = equals(coin, 'BCH')
+    const endpoint = '/v2/export-history'
+    return post({
+      url: isBCH ? apiUrl : rootUrl,
+      endPoint: isBCH ? '/bch' + endpoint : endpoint,
+      data: { active, currency: toUpper(currency), start, end }
+    })
+  }
+
+  const fetchBtcData = (
+    context: any,
+    {
+      n = 50,
+      offset = 0,
+      onlyShow
+    }: { n: number; offset: number; onlyShow: any }
+  ): Promise<MultiaddrResponse> => {
+    const data = {
+      active: (Array.isArray(context) ? context : [context]).join('|'),
+      format: 'json',
+      offset: offset,
+      no_compact: true,
+      ct: new Date().getTime(),
+      n: n,
+      language: 'en',
+      no_buttons: true
+    }
+    return post({
+      url: rootUrl,
+      endPoint: '/multiaddr',
+      data: onlyShow
+        ? merge(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
+              '|'
+            )
+          })
+        : data
+    })
+  }
 
   const getBtcFees = () =>
     get({
@@ -72,13 +114,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
 
   return {
+    fetchBtcData,
+    getBalances,
+    getBtcFees,
+    getBtcFiatAtTime,
     getBtcTicker,
     getBtcUnspents,
-    getBtcFees,
-    pushBtcTx,
-    getBtcFiatAtTime,
     getLatestBlock,
     getRawTx,
-    getBalances
+    getTransactionHistory,
+    pushBtcTx
   }
 }

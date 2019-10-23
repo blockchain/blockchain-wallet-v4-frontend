@@ -33,7 +33,7 @@ interface OutputType {
   xpub: XpubType
 }
 
-interface TransactionType {
+export interface TransactionType {
   balance: number
   block_height: number
   block_index: number

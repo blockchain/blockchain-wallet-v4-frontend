@@ -1,5 +1,4 @@
 import { merge } from 'ramda'
-import { MultiaddrResponse } from './types'
 
 export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
@@ -45,38 +44,6 @@ export default ({ rootUrl, get, post }) => {
       endPoint: '/wallet',
       data: merge({ method: 'insert', format: 'plain', email }, data)
     }).then(() => data.checksum)
-
-  // onlyShow is xpub or address to filter data with
-  const fetchBlockchainData = (
-    context: any,
-    {
-      n = 50,
-      offset = 0,
-      onlyShow
-    }: { n: number; offset: number; onlyShow: any }
-  ): Promise<MultiaddrResponse> => {
-    const data = {
-      active: (Array.isArray(context) ? context : [context]).join('|'),
-      format: 'json',
-      offset: offset,
-      no_compact: true,
-      ct: new Date().getTime(),
-      n: n,
-      language: 'en',
-      no_buttons: true
-    }
-    return post({
-      url: rootUrl,
-      endPoint: '/multiaddr',
-      data: onlyShow
-        ? merge(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
-          })
-        : data
-    })
-  }
 
   const obtainSessionToken = () =>
     post({
@@ -214,7 +181,6 @@ export default ({ rootUrl, get, post }) => {
     createPayload,
     createPinEntry,
     deauthorizeBrowser,
-    fetchBlockchainData,
     fetchPayloadWithSession,
     fetchPayloadWithSharedKey,
     fetchPayloadWithTwoFactorAuth,

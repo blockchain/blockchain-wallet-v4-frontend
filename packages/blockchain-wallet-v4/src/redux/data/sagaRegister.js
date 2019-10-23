@@ -8,10 +8,10 @@ import misc from './misc/sagaRegister'
 import sfox from './sfox/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
-export default ({ api, options, networks }) =>
+export default ({ api, options, networks, ...rest }) =>
   function * coreDataSaga () {
     yield fork(bch({ api }))
-    yield fork(btc({ api }))
+    yield fork(btc({ api, ...rest }))
     yield fork(coinify({ api, options }))
     yield fork(eth({ api }))
     yield fork(misc({ api }))

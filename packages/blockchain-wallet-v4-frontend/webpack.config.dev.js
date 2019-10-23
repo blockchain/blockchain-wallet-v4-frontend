@@ -67,6 +67,9 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json']
+  },
   module: {
     rules: [
       {

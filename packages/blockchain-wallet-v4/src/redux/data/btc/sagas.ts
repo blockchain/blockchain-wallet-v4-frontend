@@ -12,20 +12,21 @@ import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
-import { API } from '@network/types'
-import { MultiaddrResponse } from '@network/api/wallet/types'
+import BtcAPIFactory from '../../../network/api/btc/index'
+import { MultiaddrResponse } from '@network/api/btc/types'
 
 import { FetchTransactionsAction } from './types'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
-export default ({ api }: { api: API }) => {
+export default ({ domains, http }) => {
+  const BtcAPI = BtcAPIFactory({ ...domains, ...http })
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
-      const data = yield call(api.fetchBlockchainData, context, {
+      const data = yield call(BtcAPI.fetchBtcData, context, {
         n: 1,
         offset: 0,
         onlyShow: null
@@ -45,7 +46,7 @@ export default ({ api }: { api: API }) => {
   const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBtcTicker)
+      const data = yield call(BtcAPI.getBtcTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -70,15 +71,11 @@ export default ({ api }: { api: API }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
-      const data: MultiaddrResponse = yield call(
-        api.fetchBlockchainData,
-        context,
-        {
-          n: TX_PER_PAGE,
-          onlyShow: address || walletContext,
-          offset
-        }
-      )
+      const data: MultiaddrResponse = yield call(BtcAPI.fetchBtcData, context, {
+        n: TX_PER_PAGE,
+        onlyShow: address || walletContext,
+        offset
+      })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const page = yield call(__processTxs, data.txs)
@@ -88,14 +85,14 @@ export default ({ api }: { api: API }) => {
     }
   }
 
-  const fetchTransactionHistory = function * ({ type, payload }) {
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
         const data = yield call(
-          api.getTransactionHistory,
+          BtcAPI.getTransactionHistory,
           'BTC',
           address,
           currency.getOrElse('USD'),
@@ -107,7 +104,7 @@ export default ({ api }: { api: API }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
+          BtcAPI.getTransactionHistory,
           'BTC',
           active,
           currency.getOrElse('USD'),
@@ -154,7 +151,7 @@ export default ({ api }: { api: API }) => {
     const { hash, amount, time, currency } = action.payload
     try {
       yield put(A.fetchFiatAtTimeLoading(hash, currency))
-      const data = yield call(api.getBtcFiatAtTime, amount, currency, time)
+      const data = yield call(BtcAPI.getBtcFiatAtTime, amount, currency, time)
       let parsedData
       try {
         parsedData = parseFloat(replace(/,/g, '', data))

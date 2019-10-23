@@ -10,7 +10,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es6",
-    "baseUrl": "packages/",
+    "baseUrl": "./packages/",
     "paths": {
       "@network/*": ["blockchain-wallet-v4/src/network/*"]
     }

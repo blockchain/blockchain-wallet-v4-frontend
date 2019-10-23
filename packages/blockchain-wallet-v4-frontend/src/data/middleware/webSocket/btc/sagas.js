@@ -66,7 +66,7 @@ export default ({ api, btcSocket }) => {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
           const context = yield select(selectors.core.data.btc.getContext)
-          const data = yield call(api.fetchBlockchainData, context, {
+          const data = yield call(api.fetchBtcData, context, {
             n: 50,
             offset: 0
           })

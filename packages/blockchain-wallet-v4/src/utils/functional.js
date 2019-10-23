@@ -4,7 +4,7 @@ import { call } from 'redux-saga/effects'
 // Used as default value for functions
 export const noop = () => {}
 
-const taskToPromise = t =>
+export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const callTask = function * (task) {

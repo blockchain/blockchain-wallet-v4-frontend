@@ -1,9 +1,9 @@
 import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import sagas from './sagas'
+import sagas from './sagas.ts'
 
-export default ({ api, networks }) => {
-  const walletSagas = sagas({ api, networks })
+export default rest => {
+  const walletSagas = sagas(rest)
 
   return function * coreWalletSaga () {
     yield takeLatest(AT.SET_DEFAULT_ACCOUNT, walletSagas.refetchContextData)

@@ -1,7 +1,7 @@
+// TODO: TypeScript remove this entire file?
 import analytics from './analytics'
 import bch from './bch'
 import bitpay from './bitpay'
-import btc from './btc/index.ts'
 import coinify from './coinify'
 import delegate from './delegate'
 import eth from './eth'
@@ -41,7 +41,6 @@ export default ({
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
-    ...btc({ rootUrl, apiUrl, ...http }),
     ...coinify({ coinifyUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
     ...eth({ rootUrl, apiUrl, ...http }),
