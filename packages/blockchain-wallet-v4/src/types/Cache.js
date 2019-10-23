@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import { is, pipe, ifElse } from 'ramda'
 import { view } from 'ramda-lens'
@@ -43,7 +43,7 @@ const _getNode = (cache, chain, network) =>
       selectChangeAccount,
       selectReceiveAccount
     ),
-    xpub => Bitcoin.HDNode.fromBase58(xpub, network)
+    xpub => Bitcoin.bip32.fromBase58(xpub, network)
   )(cache)
 export const getNode = memoize(_getNode)
 
@@ -59,7 +59,7 @@ export const reviver = jsObject => {
 }
 
 export const js = (node, xpub) => {
-  node = xpub ? Bitcoin.HDNode.fromBase58(xpub) : node
+  node = xpub ? Bitcoin.bip32.fromBase58(xpub) : node
   const receiveAccount = node
     ? node
         .derive(0)

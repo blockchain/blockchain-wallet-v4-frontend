@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { path, prop } from 'ramda'
 
 import { btc } from '../../redux/common/selectors'

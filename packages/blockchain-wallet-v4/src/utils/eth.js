@@ -1,7 +1,7 @@
 import * as Exchange from '../exchange'
 import { prop, path } from 'ramda'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
 import EthUtil from 'ethereumjs-util'
 import BigNumber from 'bignumber.js'
@@ -17,7 +17,8 @@ export const isValidAddress = address => /^0x[a-fA-F0-9]{40}$/.test(address)
  */
 export const getPrivateKey = (mnemonic, index) => {
   const seed = BIP39.mnemonicToSeed(mnemonic)
-  const account = Bitcoin.HDNode.fromSeedBuffer(seed)
+  const account = Bitcoin.bip32
+    .fromSeed(seed)
     .deriveHardened(44)
     .deriveHardened(60)
     .deriveHardened(0)

@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import {
   prop,
   compose,
@@ -179,7 +179,7 @@ export default ({ api, networks }) => {
 
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
-    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
+    const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,

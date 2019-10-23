@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { testSaga } from 'redux-saga-test-plan'
 import { KVStoreEntry } from '../../../types'
 import * as A from './actions'

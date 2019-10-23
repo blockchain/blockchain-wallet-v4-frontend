@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import { mapped } from 'ramda-lens'
 import * as crypto from '../walletCrypto'

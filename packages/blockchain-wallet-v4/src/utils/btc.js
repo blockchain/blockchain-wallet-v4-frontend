@@ -2,11 +2,10 @@ import { selectAll } from '../coinSelection'
 import { address, networks, ECPair, crypto } from 'bitcoinjs-lib'
 import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
-import { fromPublicKey } from 'bip32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
-import BigInteger from 'bigi'
+// import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
@@ -167,13 +166,14 @@ export const privateKeyStringToKey = function (
         throw new Error('Unsupported Key Format')
     }
 
-    const d = BigInteger.fromBuffer(keyBuffer)
-    let keyPair = new ECPair(d, null, { network: network })
-
-    if (addr && keyPair.getAddress() !== addr) {
-      keyPair.compressed = false
-    }
-
+    // const d = BigInteger.fromBuffer(keyBuffer)
+    // !!! TODO: add network config
+    // (seems to default to btc anyway)
+    let keyPair = ECPair.fromPrivateKey(keyBuffer)
+    // !!! TODO: check if compressed
+    // if (addr && keyPair.getAddress() !== addr) {
+    //   keyPair.compressed = false
+    // }
     return keyPair
   }
 }
@@ -271,7 +271,10 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
   let pathArray = bippath.fromString(path).toPathArray()
   let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
   let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
-  let hdnode = fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
+  let hdnode = ECPair.fromPublicKey(
+    pkChild,
+    Buffer.from(child.chainCode, 'hex')
+  )
   hdnode.parentFingerprint = fingerprint(pkParent)
   hdnode.depth = pathArray.length
   hdnode.index = last(pathArray)

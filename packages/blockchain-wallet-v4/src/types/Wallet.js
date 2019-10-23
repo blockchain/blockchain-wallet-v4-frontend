@@ -1,9 +1,9 @@
-import Bigi from 'bigi'
+// import Bigi from 'bigi'
 import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
 import Maybe from 'data.maybe'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import BIP39 from 'bip39'
 import {
@@ -521,7 +521,8 @@ export const decrypt = decryptMonadic(
 )
 
 const _derivePrivateKey = (network, xpriv, chain, index) =>
-  Bitcoin.HDNode.fromBase58(xpriv, network)
+  Bitcoin.bip32
+    .fromBase58(xpriv, network)
     .derive(chain)
     .derive(index)
 
@@ -560,9 +561,12 @@ export const getHDPrivateKeyWIF = curry(
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
-  var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {
-    network
-  })
+  // var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {
+  //   network
+  // })
+
+  var key = Bitcoin.ECPair(Base58.decode(string))
+
   if (key.getAddress() === address) return key
   key.compressed = !key.compressed
   return key

@@ -1,7 +1,7 @@
 import { shift, shiftIProp } from './util'
 import { pipe, compose, curry, is, range, map } from 'ramda'
 import { view, over, traverseOf, traversed } from 'ramda-lens'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
 import * as crypto from '../walletCrypto'
 import Task from 'data.task'
@@ -77,7 +77,7 @@ export const reviver = jsObject => {
 
 export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
   let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
-  let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+  let masterNode = Bitcoin.bip32.fromSeed(seed.toString(), network)
   return masterNode
     .deriveHardened(44)
     .deriveHardened(0)
@@ -138,7 +138,7 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
   const masterNode = mnemonic
-    ? Bitcoin.HDNode.fromSeedBuffer(seed, network)
+    ? Bitcoin.bip32.fromSeed(seed.tostring(), network)
     : undefined
   const parentNode = mnemonic
     ? masterNode.deriveHardened(44).deriveHardened(0)
