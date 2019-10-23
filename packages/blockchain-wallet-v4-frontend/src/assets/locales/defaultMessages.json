@@ -182,7 +182,7 @@
         "id": "components.alerts.incorrect_bip38_password_error"
       },
       {
-        "defaultMessage": "This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under",
+        "defaultMessage": "This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under ",
         "id": "components.alerts.iprestriction_login_error"
       },
       {
@@ -718,7 +718,7 @@
         "id": "coinifyexchangedata.create.accept.err3"
       },
       {
-        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please ",
         "id": "coinifyexchangedata.create.accept.unknownError"
       },
       {
@@ -855,19 +855,19 @@
         "id": "scenes.buysell.empty.content.header"
       },
       {
-        "defaultMessage": "To get started, go to",
+        "defaultMessage": "To get started, go to ",
         "id": "scenes.buysell.empty.content.goto"
       },
       {
-        "defaultMessage": "buy",
+        "defaultMessage": "buy ",
         "id": "scenes.buysell.empty.content.buy"
       },
       {
-        "defaultMessage": "or",
+        "defaultMessage": "or ",
         "id": "scenes.buysell.empty.content.or"
       },
       {
-        "defaultMessage": "sell",
+        "defaultMessage": "sell ",
         "id": "scenes.buysell.empty.content.sell"
       }
     ],
@@ -997,7 +997,7 @@
         "id": "components.dataerror.feesfetchfailure"
       },
       {
-        "defaultMessage": "Please",
+        "defaultMessage": "Please ",
         "id": "components.dataerror.body"
       },
       {
@@ -1005,7 +1005,7 @@
         "id": "components.dataerror.click"
       },
       {
-        "defaultMessage": "to refresh.",
+        "defaultMessage": " to refresh.",
         "id": "components.dataerror.refresh"
       }
     ],
@@ -1554,7 +1554,7 @@
         "id": "scenes.register.registerform.shapeshift.terms"
       },
       {
-        "defaultMessage": "I accept Blockchain's",
+        "defaultMessage": "I accept Blockchain's ",
         "id": "buysellexchangedata.create.accept.terms"
       },
       {
@@ -1793,6 +1793,10 @@
       {
         "defaultMessage": "Contact support.",
         "id": "identityverification.tooltip.headerhelper.contactsupport"
+      },
+      {
+        "defaultMessage": "connected",
+        "id": "pit-side-nav-tooltip-connected"
       }
     ],
     "path": "src/components/Tooltips/index.json"
@@ -1800,11 +1804,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "To:",
+        "defaultMessage": "To: ",
         "id": "components.transactionlistitem.addresses.to"
       },
       {
-        "defaultMessage": "From:",
+        "defaultMessage": "From: ",
         "id": "components.transactionlistitem.addresses.from"
       }
     ],
@@ -2028,11 +2032,36 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Check it out",
-        "id": "the.pit.tooltip.check.it.out"
+        "defaultMessage": "Dashboard",
+        "id": "layouts.wallet.menuleft.navigation.dashboard"
+      },
+      {
+        "defaultMessage": "Buy & Sell",
+        "id": "layouts.wallet.menuleft.navigation.buysell"
+      },
+      {
+        "defaultMessage": "Swap",
+        "id": "layouts.wallet.menuleft.navigation.swap"
+      },
+      {
+        "defaultMessage": "Hardware",
+        "id": "layouts.wallet.menuleft.navigation.hardware"
+      },
+      {
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.new"
       }
     ],
-    "path": "src/layouts/Wallet/MenuLeft/Navigation/model.json"
+    "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Something went wrong. Please refresh",
+        "id": "layouts.wallet.menuleft.failure"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/template.failure.json"
   },
   {
     "descriptors": [
@@ -2049,36 +2078,24 @@
         "id": "the.pit.tooltip.title"
       },
       {
-        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
-        "id": "the.pit.tooltip.content"
-      },
-      {
-        "defaultMessage": "Dashboard",
-        "id": "layouts.wallet.menuleft.navigation.dashboard"
-      },
-      {
-        "defaultMessage": "Buy & Sell",
-        "id": "layouts.wallet.menuleft.navigation.buysell"
-      },
-      {
-        "defaultMessage": "Swap",
-        "id": "layouts.wallet.menuleft.navigation.swap"
-      },
-      {
-        "defaultMessage": "Hardware",
-        "id": "layouts.wallet.menuleft.navigation.hardware"
+        "defaultMessage": "Link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
+        "id": "the.pit.tooltip.contentshort"
       }
     ],
-    "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
+    "path": "src/layouts/Wallet/MenuLeft/ThePitLink/index.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "Something went wrong. Please refresh",
-        "id": "layouts.wallet.menuleft.failure"
+        "defaultMessage": "Connect Now",
+        "id": "the.pit.tooltip.connectnow"
+      },
+      {
+        "defaultMessage": "Check It Out",
+        "id": "the.pit.tooltip.checkitout"
       }
     ],
-    "path": "src/layouts/Wallet/MenuLeft/template.failure.json"
+    "path": "src/layouts/Wallet/MenuLeft/ThePitLink/PitTooltip.json"
   },
   {
     "descriptors": [
@@ -3445,7 +3462,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Reg: {fee},",
+        "defaultMessage": "Reg: {fee}, ",
         "id": "modals.sendbtc.regularfeelink.regular"
       }
     ],
@@ -3809,7 +3826,7 @@
         "id": "coinifytradedetails.orderdetails.totaltobereceived"
       },
       {
-        "defaultMessage": "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
+        "defaultMessage": "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. ",
         "id": "coinifytradedetails.orderdetails.footnote"
       },
       {
@@ -3951,7 +3968,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Reg: {fee},",
+        "defaultMessage": "Reg: {fee}, ",
         "id": "modals.sendeth.regularfeelink.regular"
       }
     ],
@@ -4575,7 +4592,7 @@
         "id": "identityverification.failure.button"
       },
       {
-        "defaultMessage": "If you want to learn more about our verification process. Visit our",
+        "defaultMessage": "If you want to learn more about our verification process. Visit our ",
         "id": "identityverification.failure.content-3"
       },
       {
@@ -4612,11 +4629,11 @@
         "id": "identityverification.highflow.gotodashboard"
       },
       {
-        "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app.",
+        "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. ",
         "id": "identityverification.highflow.scanqr"
       },
       {
-        "defaultMessage": "3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.",
+        "defaultMessage": "3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video. ",
         "id": "identityverification.highflow.getidready"
       },
       {
@@ -5643,7 +5660,7 @@
         "id": "modals.mobilenumberchange.explain"
       },
       {
-        "defaultMessage": "Mobile number:",
+        "defaultMessage": "Mobile number: ",
         "id": "modals.mobilenumberchange.mobile"
       },
       {
@@ -5684,7 +5701,7 @@
         "id": "modals.mobilenumberverify.getcode2"
       },
       {
-        "defaultMessage": "change mobile number",
+        "defaultMessage": " change mobile number",
         "id": "modals.mobilenumberverify.change"
       },
       {
@@ -5851,7 +5868,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access.",
+        "defaultMessage": "There's a new way to trade. Link your Wallet for instant access. ",
         "id": "modals.onboarding.linktopitaccount.na.subtitle-1"
       },
       {
@@ -6284,11 +6301,11 @@
         "id": "clickhere"
       },
       {
-        "defaultMessage": "to change it.",
+        "defaultMessage": " to change it.",
         "id": "sfoxexchangedata.create.accept.tochangeit"
       },
       {
-        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please ",
         "id": "sfoxexchangedata.create.accept.unknownError"
       },
       {
@@ -7436,15 +7453,15 @@
         "id": "scenes.authorizelogin.requestingdevice"
       },
       {
-        "defaultMessage": "Browser:",
+        "defaultMessage": "Browser: ",
         "id": "scenes.authorizelogin.browser"
       },
       {
-        "defaultMessage": "IP Address:",
+        "defaultMessage": "IP Address: ",
         "id": "scenes.authorizelogin.ipaddress"
       },
       {
-        "defaultMessage": "Country of Origin:",
+        "defaultMessage": "Country of Origin: ",
         "id": "scenes.authorizelogin.country"
       },
       {
@@ -7460,12 +7477,20 @@
         "id": "scenes.authorizelogin.reject"
       },
       {
-        "defaultMessage": "Login attempt rejected! Please contact our support team if you have any questions or concerns.",
-        "id": "scenes.authorizelogin.loading.rejected"
+        "defaultMessage": "Login Attempt Rejected!",
+        "id": "scenes.authorizelogin.loading.rejected.title"
       },
       {
-        "defaultMessage": "Login approved! Please return to your previous tab to view your wallet.",
-        "id": "scenes.authorizelogin.loading.approved"
+        "defaultMessage": "Login Approved!",
+        "id": "scenes.authorizelogin.loading.approved.title"
+      },
+      {
+        "defaultMessage": "Please contact our support team if you have any questions or concerns.",
+        "id": "scenes.authorizelogin.loading.rejected.content"
+      },
+      {
+        "defaultMessage": "Please return to your previous tab to view your wallet.",
+        "id": "scenes.authorizelogin.loading.approved.content"
       }
     ],
     "path": "src/scenes/AuthorizeLogin/template.success.json"
@@ -7805,7 +7830,7 @@
         "id": "coinifyexchangedata.addcustomerdetails.header"
       },
       {
-        "defaultMessage": "Who owns this bank account?  This information should match the holder’s bank statement.",
+        "defaultMessage": "Who owns this bank account?  This information should match the holder’s bank statement. ",
         "id": "coinifyexchangedata.addcustomerdetails.subheader"
       },
       {
@@ -7846,7 +7871,7 @@
         "id": "coinifyexchangedata.selectaccounts.header"
       },
       {
-        "defaultMessage": "Where would you like your funds sent? You have the following bank accounts linked:",
+        "defaultMessage": "Where would you like your funds sent? You have the following bank accounts linked: ",
         "id": "coinifyexchangedata.selectaccounts.subheader"
       },
       {
@@ -8252,7 +8277,7 @@
         "id": "scenes.exchange.getstarted.status.rejected.title1"
       },
       {
-        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. ",
         "id": "scenes.exchange.getstarted.status.rejected.description"
       }
     ],
@@ -8542,6 +8567,14 @@
       {
         "defaultMessage": "Buy Bitcoin with your credit card or bank account to kickstart your crypto portfolio.",
         "id": "wallet.tour.stepfive.content-1"
+      },
+      {
+        "defaultMessage": "Trade in The PIT.",
+        "id": "the.pit.tooltip.title"
+      },
+      {
+        "defaultMessage": "Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange.",
+        "id": "wallettour.pit.tooltip.content"
       }
     ],
     "path": "src/scenes/Home/model.json"
@@ -8947,7 +8980,7 @@
         "id": "scenes.login.guid"
       },
       {
-        "defaultMessage": "Unknown Wallet ID. If you need a reminder",
+        "defaultMessage": "Unknown Wallet ID. If you need a reminder ",
         "id": "scenes.login.guiderror"
       },
       {
@@ -9145,7 +9178,7 @@
         "id": "scenes.register.createawallet"
       },
       {
-        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
+        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ",
         "id": "scenes.register.browserwarning"
       },
       {
@@ -9301,7 +9334,7 @@
         "id": "scenes.reset2fa.thirdstep.message"
       },
       {
-        "defaultMessage": "This process usually takes two weeks. If you would like to learn more about the reset process, visit our",
+        "defaultMessage": "This process usually takes two weeks. If you would like to learn more about the reset process, visit our ",
         "id": "scenes.reset2fa.thirdstep.info"
       },
       {
@@ -9951,11 +9984,11 @@
         "id": "scenes.securitysettings.basicsecurity.twostepverification.settings.disable"
       },
       {
-        "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for",
+        "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ",
         "id": "scenes.securitycenter.2fa.tip"
       },
       {
-        "defaultMessage": "and",
+        "defaultMessage": " and ",
         "id": "scenes.securitycenter.2fa.tip.two"
       },
       {
@@ -11075,7 +11108,7 @@
         "id": "scenes.uploaddoc.success.success"
       },
       {
-        "defaultMessage": "Reference",
+        "defaultMessage": "Reference ",
         "id": "scenes.uploaddoc.success.reference"
       },
       {
@@ -11092,7 +11125,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Hello",
+        "defaultMessage": "Hello ",
         "id": "scenes.uploaddoc.hello"
       },
       {
@@ -11100,7 +11133,7 @@
         "id": "scenes.uploaddoc.verify"
       },
       {
-        "defaultMessage": "Please upload the following documents:",
+        "defaultMessage": "Please upload the following documents: ",
         "id": "scenes.uploaddoc.docs"
       },
       {
@@ -11112,7 +11145,7 @@
         "id": "scenes.uploaddoc.dragdrop"
       },
       {
-        "defaultMessage": "Place your files here,",
+        "defaultMessage": "Place your files here, ",
         "id": "scenes.uploaddoc.placefiles"
       },
       {

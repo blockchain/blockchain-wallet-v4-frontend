@@ -28,7 +28,7 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
-const { AB_TESTS, AB_TEST_GOALS } = model.analytics
+const { AB_TESTS } = model.analytics
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -406,11 +406,11 @@ export default ({ api, coreSagas, networks }) => {
       const pitLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
       const variant = (yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
-      )).getOrElse('sidenav_pulse')
+        selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST)
+      )).getOrElse('original')
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
-      )}&utm_source=web_wallet&utm_medium=wallet_linking&utm_campaign=${variant}`
+      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${variant}`
       // share addresses
       yield put(A.shareWalletAddressesWithPit())
       // simulate wait while allowing user to read modal
@@ -418,14 +418,6 @@ export default ({ api, coreSagas, networks }) => {
       // attempt to open url for user
       window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
       yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
-      // check if this is actually due to AB test pulse sidenav, if so log goal completion to matomo
-      const abTestGroupR = yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.PIT_SIDE_NAV_TEST3)
-      )
-      const abTestGroup = abTestGroupR.getOrElse('original')
-      if (abTestGroup === 'sidenav_pulse') {
-        yield put(actions.analytics.logEvent(AB_TEST_GOALS.PIT_LINKOUT_CLICKED))
-      }
       // poll for account link
       yield race({
         task: call(pollForAccountLinkSuccess, 0),
