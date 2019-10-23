@@ -8,6 +8,7 @@ const Wrapper = styled.div`
     padding: 12px;
     border: 1px solid ${props => props.theme['gray-2']};
     border-radius: 6px;
+    background-color: white;
   }
 `
 
