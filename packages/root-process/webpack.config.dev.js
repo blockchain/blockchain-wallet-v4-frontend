@@ -1,19 +1,44 @@
 /* eslint no-console: "off" */
 
+'use strict'
+
 const chalk = require('chalk')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const fetch = require('node-fetch')
 const net = require(`net`)
+const R = require(`ramda`)
 const Webpack = require('webpack')
 const webpackDevServer = require(`webpack-dev-server`)
 const path = require('path')
 const fs = require('fs')
+
 const PATHS = require('../../config/paths')
-const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 
 const MainProcessWebpackConfiguration = require(`main-process/webpack.config.dev.js`)
 const SecurityProcessWebpackConfiguration = require(`security-process/webpack.config.dev.js`)
+
+const ContentSecurityPolicy = ({
+  api,
+  comWalletApp,
+  mainProcess,
+  root,
+  securityProcess,
+  webpack,
+  webSocket
+}) => ({
+  'base-uri': [comWalletApp],
+  'connect-src': [api, comWalletApp, root, webpack, webSocket],
+  'default-src': [`'none'`],
+  'form-action': [`'none'`],
+  'frame-src': [mainProcess, securityProcess],
+  'img-src': [comWalletApp],
+  'manifest-src': [comWalletApp],
+  'object-src': [`'none'`],
+  'script-src': [comWalletApp, `'unsafe-eval'`],
+  'style-src': [`'unsafe-inline'`]
+})
 
 const cspToString = policy =>
   Object.entries(policy)
@@ -35,59 +60,75 @@ const getAvailablePort = () =>
     })
   })
 
+const src = path.join(__dirname, `src`)
+
 module.exports = async () => {
-  let envConfig = {}
+  const serverNames = {
+    development: `dev`,
+    staging: `staging`,
+    production: `prod`,
+    testnet: `prod`
+  }
+
+  const serverName = serverNames[process.env.NODE_ENV]
+  const walletOptionsUrl = `https://wallet-frontend-v4.${serverName}.blockchain.info/Resources/wallet-options-v4.json`
+  const originalWalletOptions = await (await fetch(walletOptionsUrl)).json()
+
   let manifestCacheBust = new Date().getTime()
+  let localOverrides = {}
+
+  try {
+    localOverrides = require(PATHS.envConfig +
+      `/${process.env.NODE_ENV}` +
+      '.js')
+  } catch {}
+
   let sslEnabled = process.env.DISABLE_SSL
     ? false
     : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
       fs.existsSync(PATHS.sslConfig + '/cert.pem')
 
   const port = 8080
-  const protocol = sslEnabled ? `https` : `http`
-  const rootProcessUrl = `${protocol}://localhost:${port}`
-  const webSocketProtocol = sslEnabled ? `wss` : `ws`
-  const webSocketUrl = `${webSocketProtocol}://localhost:${port}`
+  const comWalletAppProtocol = sslEnabled ? `https` : `http`
+  const webPackProtocol = sslEnabled ? `wss` : `ws`
 
-  try {
-    envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
-  } catch (e) {
-    console.log(
-      chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-        chalk.yellow(
-          `Failed to load ${
-            process.env.NODE_ENV
-          }.js config file! Using the production config instead.\n`
-        )
-    )
-    envConfig = require(PATHS.envConfig + '/production.js')
-  } finally {
-    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-    console.log(
-      chalk.cyan('Wallet Helper Domain') +
-        ': ' +
-        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
-    )
-    console.log(
-      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-    )
-    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
+  const serverOverrides = {
+    domains: {
+      comWalletApp: `${comWalletAppProtocol}://localhost:${port}`,
+      webpack: `${webPackProtocol}://localhost:${port}`
+    }
   }
+
+  const walletOptions = [
+    originalWalletOptions,
+    localOverrides,
+    serverOverrides
+  ].reduce(R.mergeDeepRight)
+
+  const { domains } = walletOptions
+
+  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+  console.log(chalk.cyan('Root URL') + `: ${domains.root}`)
+  console.log(chalk.cyan('API Domain') + `: ${domains.api}`)
+  console.log(
+    chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(domains.walletHelper)
+  )
+  console.log(
+    chalk.cyan('Web Socket URL') + ': ' + chalk.blue(domains.webSocket)
+  )
+  console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
   const startServer = async WebpackConfiguration => {
     const port = await getAvailablePort()
-    const protocol = sslEnabled ? `https` : `http`
-    const localhostUrl = `${protocol}://localhost:${port}`
+    const localhostProtocol = sslEnabled ? `https` : `http`
+    const localhostUrl = `${localhostProtocol}://localhost:${port}`
 
     const configuration = WebpackConfiguration({
-      envConfig,
+      domains: walletOptions.domains,
       localhostUrl,
       manifestCacheBust,
       PATHS,
       port,
-      rootProcessUrl,
       sslEnabled
     })
 
@@ -109,7 +150,7 @@ module.exports = async () => {
       'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}`,
       'webpack/hot/only-dev-server',
-      PATHS.src + '/index.js'
+      src + '/index.js'
     ],
     output: {
       path: PATHS.appBuild,
@@ -134,12 +175,12 @@ module.exports = async () => {
       new CleanWebpackPlugin(),
       new CaseSensitivePathsPlugin(),
       new HtmlWebpackPlugin({
-        template: PATHS.src + '/index.html',
+        template: src + '/index.html',
         filename: 'index.html'
       }),
       new Webpack.DefinePlugin({
-        MAIN_DOMAIN: `"${mainProcessUrl}"`,
-        SECURITY_DOMAIN: `"${securityProcessUrl}"`
+        MAIN_PROCESS_URL: `"${mainProcessUrl}"`,
+        SECURITY_PROCESS_URL: `"${securityProcessUrl}"`
       }),
       new Webpack.HotModuleReplacementPlugin()
     ],
@@ -154,7 +195,7 @@ module.exports = async () => {
       cert: sslEnabled
         ? fs.readFileSync(PATHS.sslConfig + '/cert.pem', 'utf8')
         : '',
-      contentBase: PATHS.src,
+      contentBase: src,
       disableHostCheck: true,
       host: 'localhost',
       https: sslEnabled,
@@ -166,31 +207,7 @@ module.exports = async () => {
       historyApiFallback: true,
       before (app) {
         app.get('/Resources/wallet-options-v4.json', function (req, res) {
-          // combine wallet options base with custom environment config
-          mockWalletOptions.domains = {
-            api: envConfig.API_DOMAIN,
-            coinify: envConfig.COINIFY_URL,
-            coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
-            comRoot: envConfig.COM_ROOT,
-            comWalletApp: envConfig.COM_WALLET_APP,
-            horizon: envConfig.HORIZON_URL,
-            ledger: rootProcessUrl + '/ledger', // will trigger reverse proxy
-            ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-            root: envConfig.ROOT_URL,
-            thePit: envConfig.THE_PIT_URL,
-            veriff: envConfig.VERIFF_URL,
-            walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-            webSocket: envConfig.WEB_SOCKET_URL
-          }
-
-          if (process.env.NODE_ENV === 'testnet') {
-            mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
-            mockWalletOptions.platforms.web.coinify.config.partnerId = 35
-            mockWalletOptions.platforms.web.sfox.config.apiKey =
-              '6fbfb80536564af8bbedb7e3be4ec439'
-          }
-
-          res.json(mockWalletOptions)
+          res.json(walletOptions)
         })
 
         // TODO: DEPRECATE
@@ -205,13 +222,12 @@ module.exports = async () => {
         })
 
         app.get('/Resources/wallet-options.json', function (req, res) {
-          mockWalletOptions.domains = { comWalletApp: rootProcessUrl }
-          res.json(mockWalletOptions)
+          res.json(walletOptions)
         })
       },
       proxy: {
         '/ledger': {
-          target: envConfig.LEDGER_URL,
+          target: domains.ledger,
           secure: false,
           changeOrigin: true,
           pathRewrite: { '^/ledger': '' }
@@ -223,23 +239,13 @@ module.exports = async () => {
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Content-Security-Policy': cspToString({
-          'base-uri': [rootProcessUrl],
-          'connect-src': [
-            rootProcessUrl,
-            webSocketUrl,
-            envConfig.API_DOMAIN,
-            envConfig.ROOT_URL
-          ],
-          'default-src': [`'none'`],
-          'form-action': [`'none'`],
-          'frame-src': [mainProcessUrl, securityProcessUrl],
-          'img-src': [rootProcessUrl],
-          'manifest-src': [rootProcessUrl],
-          'object-src': [`'none'`],
-          'script-src': [rootProcessUrl, `'unsafe-eval'`],
-          'style-src': [`'unsafe-inline'`]
-        })
+        'Content-Security-Policy': cspToString(
+          ContentSecurityPolicy({
+            ...domains,
+            mainProcess: mainProcessUrl,
+            securityProcess: securityProcessUrl
+          })
+        )
       }
     }
   }

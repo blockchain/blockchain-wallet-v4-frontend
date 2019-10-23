@@ -189,6 +189,7 @@
     "jest-styled-components": "6.3.1",
     "lint-staged": "8.1.7",
     "mock-socket": "8.0.5",
+    "node-fetch": "2.6.0",
     "prettier": "1.17.1",
     "react-hot-loader": "4.8.4",
     "react-intl-translations-manager": "5.0.3",

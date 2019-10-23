@@ -174,8 +174,8 @@ module.exports = async () => {
         filename: 'index.html'
       }),
       new Webpack.DefinePlugin({
-        MAIN_DOMAIN: `"${mainProcessUrl}"`,
-        SECURITY_DOMAIN: `"${securityProcessUrl}"`
+        MAIN_PROCESS_URL: `"${mainProcessUrl}"`,
+        SECURITY_PROCESS_URL: `"${securityProcessUrl}"`
       }),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,

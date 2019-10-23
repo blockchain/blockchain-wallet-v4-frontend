@@ -1,39 +1,70 @@
+/* eslint no-console: "off" */
+
 import axios from 'axios'
 import * as kernel from 'web-microkernel'
-
 import './favicons'
-
-const LOCATION_CHANGE = `@@router/LOCATION_CHANGE`
-
-const securityProcessPaths = [
-  `/authorize-approve`,
-  `/help`,
-  `/login`,
-  `/logout`,
-  `/mobile-login`,
-  `/open`,
-  `/recover`,
-  `/reminder`,
-  `/reset-2fa`,
-  `/reset-two-factor`,
-  `/security-center`,
-  `/signup`,
-  `/verify-email`
-]
-
-const pathnameIsInSecurityProcess = pathname =>
-  securityProcessPaths.some(path => pathname.startsWith(path))
-
 ;(async () => {
+  const LOCATION_CHANGE = `@@router/LOCATION_CHANGE`
+
+  const securityProcessPaths = [
+    `/authorize-approve`,
+    `/help`,
+    `/login`,
+    `/logout`,
+    `/mobile-login`,
+    `/open`,
+    `/recover`,
+    `/reminder`,
+    `/reset-2fa`,
+    `/reset-two-factor`,
+    `/security-center`,
+    `/signup`,
+    `/verify-email`
+  ]
+
+  const pathnameIsInSecurityProcess = pathname =>
+    securityProcessPaths.some(path => pathname.startsWith(path))
+
   const rootProcess = kernel.RootProcess()
   rootProcess.addEventListener(`error`, console.error)
   const { createProcess, setForeground } = rootProcess
-  const optionsPromise = fetch('/Resources/wallet-options-v4.json')
+
+  const processUrlGenerators = [
+    [
+      /.+\.blockchain\.com/,
+      ({ environment }, name) =>
+        `https://wallet-${name}-${environment}.blockchain.com`
+    ],
+
+    [
+      /.+\.blockchain\.info/,
+      ({ environment }, name) =>
+        `https://wallet-frontend-v4-${name}.${environment}.blockchain.info`
+    ],
+
+    [
+      /localhost/,
+      ({ environment }, name) =>
+        name === `main` ? MAIN_PROCESS_URL : SECURITY_PROCESS_URL
+    ]
+  ]
+
+  const [, generator] = processUrlGenerators.find(([expression]) =>
+    expression.test(window.location.hostname)
+  )
+
+  const options = await (await fetch(
+    '/Resources/wallet-options-v4.json'
+  )).json()
+
+  const { environment } = options.platforms.web.application
+  const mainProcessDomain = generator({ environment }, `main`)
+  const securityProcessDomain = generator({ environment }, `security`)
 
   const mainProcessPromise = createProcess({
     name: `main`,
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: MAIN_DOMAIN + `/index.html#/login`
+    src: `${mainProcessDomain}/index.html#/login`
   })
 
   const pathname = window.location.hash.slice(1)
@@ -43,7 +74,7 @@ const pathnameIsInSecurityProcess = pathname =>
     // `allow-popups allow-popups-to-escape-sandbox`: Allow downloading of the
     // backup phrase recovery PDF.
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: SECURITY_DOMAIN + `/index.html#${pathname}`
+    src: `${securityProcessDomain}/index.html#${pathname}`
   })
 
   setForeground(securityProcess, `lightgreen`)
@@ -89,8 +120,6 @@ const pathnameIsInSecurityProcess = pathname =>
     mainProcessActions.push(action)
     processMainActionsQueue()
   }
-
-  const options = await (await optionsPromise).json()
 
   const setForegroundProcess = () => {
     const pathname = window.location.hash.slice(1)
