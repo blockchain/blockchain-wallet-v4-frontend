@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions, model, selectors } from 'data'
+import { actions, model } from 'data'
 import ThePit from './template'
 
-const { AB_TESTS, PIT_EVENTS } = model.analytics
+const { PIT_EVENTS } = model.analytics
 
 class ThePitContainer extends React.PureComponent {
   componentDidMount () {
@@ -31,12 +31,6 @@ class ThePitContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  pitConnectTest: selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST)(
-    state
-  )
-})
-
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -44,6 +38,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ThePitContainer)
