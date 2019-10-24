@@ -1,4 +1,4 @@
-import { includes, isNil, path } from 'ramda'
+import { includes, path } from 'ramda'
 
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -9,12 +9,17 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getCoinifyCountries,
     selectors.core.walletOptions.getSupportedCoins,
-    selectors.modules.profile.getUserTiers
+    selectors.modules.profile.isSilverOrAbove
   ],
-  (coinTicker, countryCode, coinifyCountries, supportedCoins, userTiers) => {
+  (
+    coinTicker,
+    countryCode,
+    coinifyCountries,
+    supportedCoins,
+    isSilverOrAbove
+  ) => {
     const coinName = path(['data', coinTicker, 'displayName'], supportedCoins)
     const isCoinifySupported = includes(countryCode.data, coinifyCountries.data)
-    const isSilverOrAbove = !isNil(path(['data', 'current'], userTiers))
 
     return {
       coinTicker,
