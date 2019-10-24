@@ -140,6 +140,7 @@ export default ({ api }) => {
     try {
       yield call(api.updateLastTxTime, guid, sharedKey, epoch)
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn('Error: setLastTxTime')
     }
   }

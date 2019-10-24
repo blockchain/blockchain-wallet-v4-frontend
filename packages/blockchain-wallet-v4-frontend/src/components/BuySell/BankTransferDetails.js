@@ -90,9 +90,7 @@ const BankTransferDetails = ({ trade, inModal }) => {
             />
           </Text>
           <Text size='13px' weight={400}>
-            {`${holderAddress.street}, ${holderAddress.zipcode} ${
-              holderAddress.city
-            }, ${holderAddress.country}`}
+            {`${holderAddress.street}, ${holderAddress.zipcode} ${holderAddress.city}, ${holderAddress.country}`}
           </Text>
         </DetailsRow>
         <DetailsRow>
@@ -125,9 +123,7 @@ const BankTransferDetails = ({ trade, inModal }) => {
             />
           </Text>
           <Text size='13px' weight={400}>
-            {`${trade.bankAccount.bankName}, ${bankAddress.street}, ${
-              bankAddress.zipcode
-            } ${bankAddress.city}, ${bankAddress.country}`}
+            {`${trade.bankAccount.bankName}, ${bankAddress.street}, ${bankAddress.zipcode} ${bankAddress.city}, ${bankAddress.country}`}
           </Text>
         </DetailsRow>
         <DetailsRow>

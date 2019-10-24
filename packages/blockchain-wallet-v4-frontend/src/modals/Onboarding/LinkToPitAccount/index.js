@@ -12,6 +12,7 @@ import { actions, selectors } from 'data'
 class LinkToPitAccountContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.actions.linkToPitAccountReset()
+    this.props.actions.hideThePitPulse()
   }
 
   onAccountLinkComplete = () => {
@@ -63,6 +64,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
       ...actions.components.identityVerification,
+      ...actions.preferences,
       ...actions.modals,
       ...actions.modules.profile,
       ...actions.modules.securityCenter

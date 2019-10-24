@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -41,6 +41,17 @@ const ApproveWrapper = styled.div`
   }
 `
 
+const Title = styled(Text)`
+  margin: 40px 0 14px 0;
+  line-height: 22px;
+  width: 252px;
+`
+
+const Content = styled(Text)`
+  line-height: 22px;
+  width: 252px;
+`
+
 const Success = props => {
   /* eslint-disable */
   const {
@@ -51,6 +62,10 @@ const Success = props => {
   const { approver_ip, requester_ip } = props.value
   const requestDenied = props.value['request-denied']
   /* eslint-enable */
+
+  useEffect(() => {
+    if (!props.value.device_change_reason) props.handleSuccessContainer()
+  })
 
   return (
     <Wrapper>
@@ -221,26 +236,34 @@ const Success = props => {
           {requestDenied ? (
             <Icon name='close-filled' color='error' size='40px' />
           ) : (
-            <Icon name='checkmark-in-circle' color='success' size='40px' />
+            <Image name='checkmark-green' width='56px' height='56px' />
           )}
-          <Text
-            size='16px'
-            weight={400}
-            color='gray-5'
-            style={{ 'margin-top': '25px' }}
-          >
+          <Title size='20px' weight={600} color='brand-primary'>
             {requestDenied ? (
               <FormattedMessage
-                id='scenes.authorizelogin.loading.rejected'
-                defaultMessage='Login attempt rejected! Please contact our support team if you have any questions or concerns.'
+                id='scenes.authorizelogin.loading.rejected.title'
+                defaultMessage='Login Attempt Rejected!'
               />
             ) : (
               <FormattedMessage
-                id='scenes.authorizelogin.loading.approved'
-                defaultMessage='Login approved! Please return to your previous tab to view your wallet.'
+                id='scenes.authorizelogin.loading.approved.title'
+                defaultMessage='Login Approved!'
               />
             )}
-          </Text>
+          </Title>
+          <Content size='16px' weight={500} color='grey700'>
+            {requestDenied ? (
+              <FormattedMessage
+                id='scenes.authorizelogin.loading.rejected.content'
+                defaultMessage='Please contact our support team if you have any questions or concerns.'
+              />
+            ) : (
+              <FormattedMessage
+                id='scenes.authorizelogin.loading.approved.content'
+                defaultMessage='Please return to your previous tab to view your wallet.'
+              />
+            )}
+          </Content>
         </Fragment>
       )}
     </Wrapper>

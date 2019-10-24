@@ -77,12 +77,12 @@ const GlobalJoyrideStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme['blue']} !important;
     opacity: 0.25 !important;
     border-radius: 50% !important;
-    animation: ${props => Pulse(props)} 1s infinite;
+    animation: ${props => Pulse(props)} 1.4s infinite;
     height: 16px !important;
     width: 16px !important;
     margin: 19px 0 0 19px;
-    top: -2px;
-    left: 3px;
+    top: 0px;
+    left: 0px;
   }
 
   .react-joyride__overlay {
@@ -96,11 +96,15 @@ const GlobalJoyrideStyles = createGlobalStyle`
 `
 
 const Home = props => {
-  const { onboardingActions, showWalletTour } = props
+  const { onboardingActions, preferencesActions, showWalletTour } = props
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       onboardingActions.setWalletTourVisibility(false)
+    }
+    // PIT tooltip seen
+    if (data.index === 5) {
+      preferencesActions.hideThePitPulse()
     }
   }
   return (
@@ -138,7 +142,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
+  onboardingActions: bindActionCreators(
+    actions.components.onboarding,
+    dispatch
+  ),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(
