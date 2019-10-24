@@ -599,6 +599,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage="You've just received an Ethereum payment"
         />
       )
+    case C.PAYMENT_RECEIVED_ETH_PENDING:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.payment_received_eth_pending'
+          defaultMessage="You've just received a pending Ethereum payment"
+        />
+      )
     case C.PAYMENT_RECEIVED_XLM:
       return buildMessageTemplate(
         <FormattedMessage
@@ -737,6 +744,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
         <FormattedMessage
           id='components.alerts.send_coin_success'
           defaultMessage='Your {coinName} transaction is now pending!'
+          values={data}
+        />
+      )
+    case C.SEND_COIN_CONFIRMED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.send_coin_confirmed'
+          defaultMessage='Your {coinName} transaction is now confirmed!'
           values={data}
         />
       )

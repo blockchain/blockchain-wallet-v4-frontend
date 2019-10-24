@@ -1035,9 +1035,7 @@ describe('authSagas', () => {
             Remote.of(false)
           ]
         ])
-        .put(actions.middleware.webSocket.bch.stopSocket())
-        .put(actions.middleware.webSocket.btc.stopSocket())
-        .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.coins.stopSocket())
         .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
@@ -1052,9 +1050,7 @@ describe('authSagas', () => {
             Remote.of(false)
           ]
         ])
-        .put(actions.middleware.webSocket.bch.stopSocket())
-        .put(actions.middleware.webSocket.btc.stopSocket())
-        .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.coins.stopSocket())
         .put(actions.middleware.webSocket.xlm.stopStreams())
         .run()
         .then(() => {
