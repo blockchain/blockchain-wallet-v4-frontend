@@ -9,7 +9,7 @@ jest.mock('data', () => ({
   selectors: {
     modules: {
       profile: {
-        getUserTiers: jest.fn()
+        isSilverOrAbove: jest.fn()
       }
     },
     components: {
