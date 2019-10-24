@@ -1,5 +1,4 @@
 import React from 'react'
-import { prop, map } from 'ramda'
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import {
@@ -25,15 +24,15 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-const unique = (value, allValues, { wallets }) => {
-  return map(prop('label'), wallets).indexOf(value) > -1
-    ? 'Wallet name is already taken.'
-    : undefined
-}
-
-const AddBtcWallet = props => {
-  const { close, handleSubmit, invalid, position, submitting, total } = props
-
+const AddBtcWallet = ({
+  close,
+  handleSubmit,
+  invalid,
+  position,
+  submitting,
+  total,
+  uniqueWalletName
+}) => {
   return (
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
@@ -56,7 +55,7 @@ const AddBtcWallet = props => {
                 <Field
                   name='wallet'
                   autoFocus
-                  validate={[required, unique]}
+                  validate={[required, uniqueWalletName]}
                   component={TextBox}
                   maxLength={30}
                   data-e2e='newWalletNameInput'
