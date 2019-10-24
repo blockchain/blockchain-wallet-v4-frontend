@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.23.9",
+  "version": "4.23.10",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -60,7 +60,7 @@
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env yarn wsrun clean && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf node_modules",
-    "coverage": "cross-env rimraf coverage && yarn wsrun coverage --fast-exit && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "coverage": "cross-env rimraf coverage && yarn wsrun coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "yarn workspace blockchain-info-components coverage",
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",

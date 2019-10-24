@@ -10998,10 +10998,6 @@
       {
         "defaultMessage": "Connect Now",
         "id": "scenes.thepit.connectnow"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.thepit.learnmore"
       }
     ],
     "path": "src/scenes/ThePit/template.json"
