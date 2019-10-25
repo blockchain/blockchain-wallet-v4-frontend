@@ -59,16 +59,11 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
   </>
 )
 
-const PitLink = props => {
-  // if (!props.showThePitPulse || props.pitConnectTest === 'original')
-  return (
-    <SpotlightLinkContainer to='/thepit' activeClassName='active'>
-      {props.children}
-    </SpotlightLinkContainer>
-  )
-
-  // return <div>{props.children}</div>
-}
+const PitLink = props => (
+  <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+    {props.children}
+  </SpotlightLinkContainer>
+)
 
 const PitLinkContent = props => {
   const {
@@ -136,10 +131,11 @@ const PitLinkContent = props => {
 const ThePitLink = props => {
   return props.isPitAccountLinked ? (
     <Link
-      href={props.pitUrl}
+      href={`${props.pitUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_pit_linked`}
       rel='noopener noreferrer'
       target='_blank'
       style={{ width: '100%' }}
+      onClick={props.onLinkedPitSidenavCLick}
     >
       <MenuItem data-e2e='thePitLink'>
         {ThePitSidenavItem(null, props.isPitAccountLinked)}
