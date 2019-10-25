@@ -77,7 +77,7 @@ export const reviver = jsObject => {
 
 export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
   let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
-  let masterNode = Bitcoin.bip32.fromSeed(seed.toString(), network)
+  let masterNode = Bitcoin.bip32.fromSeed(Buffer.from(seed), network)
   return masterNode
     .deriveHardened(44)
     .deriveHardened(0)
@@ -138,7 +138,7 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
   const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
   const masterNode = mnemonic
-    ? Bitcoin.bip32.fromSeed(seed.tostring(), network)
+    ? Bitcoin.bip32.fromSeed(Buffer.from(seed), network)
     : undefined
   const parentNode = mnemonic
     ? masterNode.deriveHardened(44).deriveHardened(0)
@@ -151,7 +151,6 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
     passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
-    // accounts: [HDAccount.js(label, node, xpub)]
     accounts: map(account, range(0, nAccounts))
   }
 }

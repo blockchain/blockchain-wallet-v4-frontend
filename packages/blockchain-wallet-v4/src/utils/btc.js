@@ -44,7 +44,6 @@ export const isValidBtcAddress = (value, network) => {
 
 export const addressToScript = (value, network) => {
   const n = network || networks.bitcoin
-
   try {
     if (value.toLowerCase().startsWith('bc')) {
       const words = decode(value).words
@@ -166,9 +165,6 @@ export const privateKeyStringToKey = function (
         throw new Error('Unsupported Key Format')
     }
 
-    // const d = BigInteger.fromBuffer(keyBuffer)
-    // !!! TODO: add network config
-    // (seems to default to btc anyway)
     let keyPair = ECPair.fromPrivateKey(keyBuffer)
     // !!! TODO: check if compressed
     // if (addr && keyPair.getAddress() !== addr) {

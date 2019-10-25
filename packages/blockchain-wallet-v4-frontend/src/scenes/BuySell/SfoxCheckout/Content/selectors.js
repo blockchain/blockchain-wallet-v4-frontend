@@ -1,6 +1,6 @@
 import { lift, path } from 'ramda'
 import { selectors } from 'data'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
   const profile = selectors.core.data.sfox.getProfile(state)

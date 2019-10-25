@@ -1,7 +1,7 @@
 import { prop, path } from 'ramda'
 import { model, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
   const paymentR = selectors.components.sendBch.getPayment(state)

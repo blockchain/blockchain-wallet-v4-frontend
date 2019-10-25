@@ -209,7 +209,7 @@ export default ({ api }) => {
       const { outputs } = CoinSelection.selectAll(
         fee,
         coins,
-        'fake-target-address'
+        '16xq4AVL8shMiF3MYM7zm9Ac1G3QfUWjDi' // fake target address
       )
       return outputs[0].value
     } else {

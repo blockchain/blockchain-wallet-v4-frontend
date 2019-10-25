@@ -2,7 +2,7 @@ import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import sagas from './sagas.js'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 
 const api = {}
 const networks = { btc: Bitcoin.networks['bitcoin'] }

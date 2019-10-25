@@ -6,7 +6,7 @@ import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStat
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { head } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
 import { coreMiddleware } from 'blockchain-wallet-v4/src'

@@ -6,8 +6,6 @@ import { view } from 'ramda-lens'
 import Either from 'data.either'
 import * as crypto from '../walletCrypto'
 import Type from './Type'
-// import BigInteger from 'bigi'
-// import { shift, shiftIProp } from './util'
 
 /*
 Payload types:
@@ -64,7 +62,6 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
 
 export const fromCredentials = curry((guid, sharedKey, password, network) => {
   const entropy = crypto.sha256(Buffer.from(guid + sharedKey + password))
-  // const d = BigInteger.fromBuffer(entropy)
   const key = Bitcoin.ECPair.fromPrivateKey(entropy)
   const enc = key.__D
   return fromKeys(key, enc)
@@ -84,16 +81,16 @@ export const deriveMetadataNode = masterHDNode => {
   return masterHDNode.deriveHardened(purpose)
 }
 
-export const fromMetadataXpriv = curry((xpriv, typeId, network) =>
-  fromMetadataHDNode(Bitcoin.bip32.fromBase58(xpriv, network), typeId)
-)
+export const fromMetadataXpriv = curry((xpriv, typeId, network) => {
+  return fromMetadataHDNode(Bitcoin.bip32.fromBase58(xpriv, network), typeId)
+})
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
-  let node = payloadTypeNode.deriveHardened(0)
   let privateKeyBuffer = payloadTypeNode.deriveHardened(1).__D
   let encryptionKey = crypto.sha256(privateKeyBuffer)
-  return fromKeys(node.keyPair, encryptionKey, typeId)
+  let keypair = Bitcoin.ECPair.fromPrivateKey(privateKeyBuffer)
+  return fromKeys(keypair, encryptionKey, typeId)
 })
 
 export const fromMasterHDNode = curry((masterHDNode, typeId) => {

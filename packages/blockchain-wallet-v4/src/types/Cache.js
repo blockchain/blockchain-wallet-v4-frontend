@@ -26,7 +26,10 @@ export const changeChain = 1
 const _getAddress = (cache, chain, index, network) => {
   const derive = c => {
     const node = getNode(c, chain, network)
-    return node.derive(index).getAddress()
+    const childNode = node.derive(index)
+    const publicKey = childNode.publicKey
+    const { address } = Bitcoin.payments.p2pkh({ pubkey: publicKey })
+    return address
   }
   return pipe(
     Cache.guard,

@@ -550,21 +550,28 @@ export const getHDPrivateKeyWIF = curry(
             xpriv
           )
         )
-        .map(xp => derivePrivateKey(network, xp, chain, index).keyPair.toWIF())
+        .map(xp => {
+          const node = derivePrivateKey(
+            network,
+            xp,
+            chain,
+            index
+          ).keyPair.toWIF()
+          const keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
+          return keypair.toWIF()
+        })
     } else {
-      return Task.of(xpriv).map(xp =>
-        derivePrivateKey(network, xp, chain, index).keyPair.toWIF()
-      )
+      return Task.of(xpriv).map(xp => {
+        const node = derivePrivateKey(network, xp, chain, index)
+        const keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
+        return keypair.toWIF()
+      })
     }
   }
 )
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
-  // var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {
-  //   network
-  // })
-
   var key = Bitcoin.ECPair(Base58.decode(string))
 
   if (key.getAddress() === address) return key
