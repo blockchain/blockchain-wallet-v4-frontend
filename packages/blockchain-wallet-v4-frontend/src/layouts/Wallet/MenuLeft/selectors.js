@@ -3,11 +3,8 @@ import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { STATUS } from 'react-joyride/lib'
 
-// const { AB_TESTS } = model.analytics
-
 export const getData = createDeepEqualSelector(
   [
-    // selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST),
     selectors.preferences.getShowThePitPulse,
     selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getLockboxOpened,
@@ -23,7 +20,6 @@ export const getData = createDeepEqualSelector(
     selectors.modules.profile.getUserKYCState
   ],
   (
-    // pitConnectTest,
     showThePitPulse,
     menuOpened,
     lockboxOpened,
@@ -38,13 +34,7 @@ export const getData = createDeepEqualSelector(
     adsUrlR,
     userKYCState
   ) => {
-    const transform = (
-      // pitConnectTest,
-      canTrade,
-      lockboxDevices,
-      countryCode,
-      userKYCState
-    ) => {
+    const transform = (canTrade, lockboxDevices, countryCode, userKYCState) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
         adsUrl: adsUrlR.getOrElse(''),
@@ -57,14 +47,12 @@ export const getData = createDeepEqualSelector(
         lockboxOpened,
         menuOpened,
         pathname,
-        // pitConnectTest,
         showThePitPulse,
         userKYCState
       }
     }
 
     return lift(transform)(
-      // pitConnectTest,
       canTradeR,
       lockboxDevicesR,
       countryCodeR,

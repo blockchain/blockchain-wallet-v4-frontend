@@ -4,14 +4,21 @@ import { compose, bindActionCreators } from 'redux'
 import { concat, prop } from 'ramda'
 import { STATUS } from 'react-joyride/lib'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import Navigation from './template'
+
+const { PIT_EVENTS } = model.analytics
 
 class NavigationContainer extends React.PureComponent {
   handlePitTourCallbacks = (data, e) => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       this.props.preferencesActions.hideThePitPulse()
     }
+  }
+  onLinkedPitSidenavCLick = () => {
+    this.props.analyticsActions.logEvent(
+      PIT_EVENTS.LINKED_WALLET_LINKOUT_CLICKED
+    )
   }
 
   render () {
@@ -29,6 +36,7 @@ class NavigationContainer extends React.PureComponent {
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
         pitUrl={concat(prop('thePit', domains), '/trade')}
         handlePitTourCallbacks={this.handlePitTourCallbacks}
+        onLinkedPitSidenavCLick={this.onLinkedPitSidenavCLick}
       />
     )
   }
