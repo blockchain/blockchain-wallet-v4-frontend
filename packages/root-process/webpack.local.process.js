@@ -5,10 +5,9 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const Webpack = require('webpack')
-const path = require('path')
 const fs = require('fs')
+const path = require(`path`)
+const Webpack = require('webpack')
 
 const babelConfig = require(`./babel.config.js`)
 
@@ -30,8 +29,7 @@ const ContentSecurityPolicy = ({
   shapeshift_url,
   veriff,
   walletHelper,
-  webpackHttp,
-  webpackWebSocket,
+  webpack,
   webSocket
 }) => ({
   'child-src': [
@@ -54,8 +52,7 @@ const ContentSecurityPolicy = ({
     sfox_quote_url,
     sfox_url,
     shapeshift_url,
-    webpackHttp,
-    webpackWebSocket,
+    webpack,
     webSocket,
     'https://horizon.stellar.org',
     'https://www.unocoin.com'
@@ -98,24 +95,28 @@ const cspToString = policy =>
 
 const src = path.join(__dirname, `src`)
 
-module.exports = ({
-  domains,
-  localhostUrl,
-  manifestCacheBust,
-  PATHS,
-  sslEnabled
-}) => {
-  const webpackHttpProtocol = sslEnabled ? `https` : `http`
-  const webpackUrlProtocol = sslEnabled ? `wss` : `ws`
+module.exports = (
+  { domains, localhostUrl, manifestCacheBust, PATHS, port, sslEnabled },
+  name
+) => {
+  const webpackProtocol = sslEnabled ? `wss` : `ws`
+  const webpackUrl = `${webpackProtocol}://localhost:${port}`
 
   return {
-    mode: 'production',
+    mode: 'development',
+    name,
     node: {
       fs: 'empty'
     },
-    entry: ['@babel/polyfill', src + '/index.js'],
+    entry: [
+      '@babel/polyfill',
+      'react-hot-loader/patch',
+      `webpack-dev-server/client?${localhostUrl}`,
+      'webpack/hot/only-dev-server',
+      src + '/index.js'
+    ],
     output: {
-      path: path.join(PATHS.ciBuild, `security`),
+      path: path.join(PATHS.appBuild, name),
       chunkFilename: '[name].[chunkhash:10].js',
       publicPath: '/',
       crossOriginLoading: 'anonymous'
@@ -124,6 +125,7 @@ module.exports = ({
       rules: [
         {
           test: /\.js$/,
+          include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
           use: [
             { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
             { loader: 'babel-loader', options: babelConfig }
@@ -162,9 +164,6 @@ module.exports = ({
         }
       ]
     },
-    performance: {
-      hints: false
-    },
     plugins: [
       new CleanWebpackPlugin(),
       new CaseSensitivePathsPlugin(),
@@ -179,26 +178,12 @@ module.exports = ({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/
       }),
+      new Webpack.HotModuleReplacementPlugin(),
       new Webpack.ProgressPlugin()
     ],
     optimization: {
       namedModules: true,
-      minimizer: [
-        new UglifyJSPlugin({
-          uglifyOptions: {
-            warnings: false,
-            compress: {
-              keep_fnames: true
-            },
-            mangle: {
-              keep_fnames: true
-            }
-          },
-          parallel: true,
-          cache: false
-        })
-      ],
-      concatenateModules: true,
+      concatenateModules: false,
       runtimeChunk: {
         name: `manifest.${manifestCacheBust}`
       }
@@ -209,12 +194,12 @@ module.exports = ({
         : '',
       contentBase: src,
       disableHostCheck: true,
+      host: 'localhost',
       https: sslEnabled,
       key: sslEnabled
         ? fs.readFileSync(PATHS.sslConfig + '/key.pem', 'utf8')
         : '',
-      liveReload: false,
-      hot: false,
+      hot: true,
       historyApiFallback: true,
       proxy: {
         '/ledger': {
@@ -224,18 +209,20 @@ module.exports = ({
           pathRewrite: { '^/ledger': '' }
         }
       },
+      overlay: {
+        warnings: true,
+        errors: true
+      },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Security-Policy': cspToString(
           ContentSecurityPolicy({
             ...domains,
             localhostUrl,
-            webpackHttp: `${webpackHttpProtocol}://localhost:8080`,
-            webpackWebSocket: `${webpackUrlProtocol}://localhost:8080`
+            webpack: webpackUrl
           })
         )
-      },
-      writeToDisk: true
+      }
     }
   }
 }

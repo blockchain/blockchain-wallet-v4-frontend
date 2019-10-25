@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
-    "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
+    "debug:dev": "cross-env-shell BACKEND_ENV=development NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
+    "debug:prod": "cross-env-shell BACKEND_ENV=production NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
+    "debug:staging": "cross-env-shell BACKEND_ENV=staging NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
+    "start:dev": "cross-env-shell NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:staging": "cross-env-shell NODE_ENV=staging NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:testnet": "cross-env-shell NODE_ENV=testnet NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "echo 'No tests to execute.'",
     "test:build": "echo 'No precomplilation required for tests to execute.'"
   },

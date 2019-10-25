@@ -1,3 +1,7 @@
+/* eslint no-console: "off" */
+
+'use strict'
+
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -8,35 +12,110 @@ const fs = require('fs')
 
 const babelConfig = require(`./babel.config.js`)
 
-const src = path.join(__dirname, `src`)
+const ContentSecurityPolicy = ({
+  api,
+  bitpay,
+  coinify,
+  coinifyPaymentDomain,
+  comWalletApp,
+  horizon,
+  i_sign_this_domain,
+  ledger,
+  ledgerSocket,
+  localhostUrl,
+  root,
+  sfox_kyc_url,
+  sfox_quote_url,
+  sfox_url,
+  shapeshift_url,
+  veriff,
+  walletHelper,
+  webpackHttp,
+  webpackWebSocket,
+  webSocket
+}) => ({
+  'child-src': [
+    coinifyPaymentDomain,
+    i_sign_this_domain,
+    root,
+    veriff,
+    walletHelper
+  ],
+  'connect-src': [
+    api,
+    bitpay,
+    coinify,
+    horizon,
+    ledgerSocket,
+    ledger,
+    localhostUrl,
+    root,
+    sfox_kyc_url,
+    sfox_quote_url,
+    sfox_url,
+    shapeshift_url,
+    webpackHttp,
+    webpackWebSocket,
+    webSocket,
+    'https://horizon.stellar.org',
+    'https://www.unocoin.com'
+  ],
+  'default-src': [localhostUrl],
+  'font-src': [localhostUrl],
+  'form-action': [localhostUrl],
+  'frame-ancestors': [comWalletApp],
+  'frame-src': [
+    coinifyPaymentDomain,
+    i_sign_this_domain,
+    root,
+    veriff,
+    walletHelper
+  ],
+  'img-src': [
+    localhostUrl,
+    root,
+    'android-webview-video-poster:',
+    'blob:',
+    'data:'
+  ],
+  'media-src': [
+    localhostUrl,
+    'blob:',
+    'data:',
+    'https://storage.googleapis.com/bc_public_assets/',
+    'mediastream:'
+  ],
+  'object-src': ["'none'"],
+  'script-src': [localhostUrl, "'unsafe-eval'"],
+  'style-src': ["'unsafe-inline'", localhostUrl],
+  'worker-src': ['blob:;']
+})
 
 const cspToString = policy =>
   Object.entries(policy)
     .map(([key, value]) => `${key} ${value.join(' ')}`)
     .join(`; `)
 
+const src = path.join(__dirname, `src`)
+
 module.exports = ({
-  envConfig,
+  domains,
   localhostUrl,
   manifestCacheBust,
   PATHS,
-  port,
-  rootProcessUrl,
   sslEnabled
 }) => {
-  const webSocketProtocol = sslEnabled ? `wss` : `ws`
-  const webSocketUrl = `${webSocketProtocol}://localhost:${port}`
+  const webpackHttpProtocol = sslEnabled ? `https` : `http`
+  const webpackUrlProtocol = sslEnabled ? `wss` : `ws`
 
   return {
     mode: 'production',
     node: {
       fs: 'empty'
     },
-    entry: {
-      app: ['@babel/polyfill', src + '/index.js']
-    },
+    entry: ['@babel/polyfill', src + '/index.js'],
     output: {
-      path: PATHS.ciBuild,
+      path: path.join(PATHS.ciBuild, `main`),
       chunkFilename: '[name].[chunkhash:10].js',
       publicPath: '/',
       crossOriginLoading: 'anonymous'
@@ -90,8 +169,7 @@ module.exports = ({
       new CleanWebpackPlugin(),
       new CaseSensitivePathsPlugin(),
       new Webpack.DefinePlugin({
-        APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
-        NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
+        APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version)
       }),
       new HtmlWebpackPlugin({
         template: src + '/index.html',
@@ -131,86 +209,33 @@ module.exports = ({
         : '',
       contentBase: src,
       disableHostCheck: true,
-      host: 'localhost',
       https: sslEnabled,
       key: sslEnabled
         ? fs.readFileSync(PATHS.sslConfig + '/key.pem', 'utf8')
         : '',
+      liveReload: false,
       hot: false,
       historyApiFallback: true,
       proxy: {
         '/ledger': {
-          target: envConfig.LEDGER_URL,
+          target: domains.ledger,
           secure: false,
           changeOrigin: true,
           pathRewrite: { '^/ledger': '' }
         }
       },
-      overlay: {
-        warnings: true,
-        errors: true
-      },
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Content-Security-Policy': cspToString({
-          'base-uri': [localhostUrl],
-          'connect-src': [
+        'Content-Security-Policy': cspToString(
+          ContentSecurityPolicy({
+            ...domains,
             localhostUrl,
-            webSocketUrl,
-            envConfig.COINIFY_URL,
-            envConfig.WEB_SOCKET_URL,
-            envConfig.WALLET_HELPER_DOMAIN,
-            envConfig.LEDGER_URL,
-            envConfig.LEDGER_SOCKET_URL,
-            envConfig.HORIZON_URL,
-            envConfig.VERIFF_URL,
-            'https://app-api.sandbox.coinify.com',
-            'https://api.sfox.com',
-            'https://api.staging.sfox.com',
-            'https://api.testnet.blockchain.info',
-            `https://bitpay.com`,
-            'https://friendbot.stellar.org',
-            `https://horizon.blockchain.info`,
-            'https://quotes.sfox.com',
-            `https://quotes.staging.sfox.com`,
-            'https://sfox-kyc.s3.amazonaws.com',
-            'https://sfox-kyctest.s3.amazonaws.com',
-            'https://shapeshift.io',
-            'https://testnet5.blockchain.info',
-            `https://www.unocoin.com`,
-            `wss://api.ledgerwallet.com`,
-            `wss://ws.testnet.blockchain.info/inv`
-          ],
-          'default-src': [localhostUrl],
-          'form-action': [localhostUrl],
-          'frame-ancestors': [rootProcessUrl],
-          'frame-src': [
-            envConfig.COINIFY_PAYMENT_DOMAIN,
-            envConfig.WALLET_HELPER_DOMAIN,
-            envConfig.ROOT_URL,
-            envConfig.VERIFF_URL,
-            `https://verify.isignthis.com/`
-          ],
-          'img-src': [
-            localhostUrl,
-            `https://blockchain.info/`,
-            `data:`,
-            `blob:`,
-            `android-webview-video-poster:`
-          ],
-          'media-src': [
-            localhostUrl,
-            `blob:`,
-            `data:`,
-            `mediastream:`,
-            `https://storage.googleapis.com/bc_public_assets/`
-          ],
-          'object-src': [`'none'`],
-          'script-src': [localhostUrl, `'unsafe-eval'`],
-          'style-src': [localhostUrl, `'unsafe-inline'`],
-          'worker-src': [`blob:`]
-        })
-      }
+            webpackHttp: `${webpackHttpProtocol}://localhost:8080`,
+            webpackWebSocket: `${webpackUrlProtocol}://localhost:8080`
+          })
+        )
+      },
+      writeToDisk: true
     }
   }
 }

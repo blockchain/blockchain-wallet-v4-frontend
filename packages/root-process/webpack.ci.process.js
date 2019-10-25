@@ -1,21 +1,29 @@
-/* eslint-disable */
-const babelConfig = require(`./babel.config.js`)
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const path = require(`path`)
-const Webpack = require('webpack')
+/* eslint no-console: "off" */
 
-const runBundleAnalyzer = process.env.ANALYZE
+'use strict'
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const Webpack = require('webpack')
+const path = require('path')
+
+const babelConfig = require(`./babel.config.js`)
+
 const src = path.join(__dirname, `src`)
 
-module.exports = ({ envConfig, PATHS }) => ({
-  name: `security`,
-  entry: ['@babel/polyfill', path.join(src, 'index.js')],
+module.exports = ({ manifestCacheBust, PATHS }, name) => ({
+  mode: 'production',
+  name,
+  node: {
+    fs: 'empty'
+  },
+  entry: ['@babel/polyfill', src + '/index.js'],
   output: {
-    path: PATHS.ciBuild,
+    path: path.join(PATHS.ciBuild, name),
     chunkFilename: '[name].[chunkhash:10].js',
+    publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
   module: {
@@ -60,20 +68,45 @@ module.exports = ({ envConfig, PATHS }) => ({
       }
     ]
   },
+  performance: {
+    hints: false
+  },
   plugins: [
     new CleanWebpackPlugin(),
+    new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
-      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
+      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version)
     }),
     new HtmlWebpackPlugin({
-      template: path.join(src, 'index.html'),
+      template: src + '/index.html',
       filename: 'index.html'
     }),
     new Webpack.IgnorePlugin({
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/
     }),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
-  ]
+    new Webpack.ProgressPlugin()
+  ],
+  optimization: {
+    namedModules: true,
+    minimizer: [
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          warnings: false,
+          compress: {
+            keep_fnames: true
+          },
+          mangle: {
+            keep_fnames: true
+          }
+        },
+        parallel: true,
+        cache: false
+      })
+    ],
+    concatenateModules: true,
+    runtimeChunk: {
+      name: `manifest.${manifestCacheBust}`
+    }
+  }
 })
