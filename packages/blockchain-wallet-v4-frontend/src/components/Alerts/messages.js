@@ -793,6 +793,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
               </Text>
               <Text>
                 <Link
+                  data-e2e='startTourFromAlert'
                   weight={500}
                   size='12px'
                   onClick={() => {
