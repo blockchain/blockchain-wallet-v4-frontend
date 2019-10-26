@@ -264,6 +264,7 @@ const FirstStep = props => {
               size='13px'
               weight={500}
               onClick={onToggleMakeRequestLink}
+              data-e2e='shareableRequestLink'
             >
               <FormattedHTMLMessage
                 id='modals.requestbtc.makerequestlink'
