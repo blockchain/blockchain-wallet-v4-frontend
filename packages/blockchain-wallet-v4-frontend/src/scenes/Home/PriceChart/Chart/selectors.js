@@ -9,9 +9,17 @@ export const getData = createDeepEqualSelector(
     selectors.preferences.getPriceChart,
     selectors.components.priceChart.getCoin,
     selectors.components.priceChart.getTime,
-    selectors.core.data.misc.getPriceIndexSeries
+    selectors.core.data.misc.getPriceIndexSeries,
+    selectors.modules.profile.isSilverOrAbove
   ],
-  (currencyR, priceChartPreferences, coin, time, priceIndexSeriesDataR) => {
+  (
+    currencyR,
+    priceChartPreferences,
+    coin,
+    time,
+    priceIndexSeriesDataR,
+    isSilverOrAbove
+  ) => {
     const currency = currencyR.getOrElse('USD')
     const currencySymbol = Exchange.getSymbol(currency)
     const cacheCoin = prop('coin', priceChartPreferences)
@@ -29,7 +37,8 @@ export const getData = createDeepEqualSelector(
       cache: {
         coin: cacheCoin,
         time: cacheTime
-      }
+      },
+      isSilverOrAbove
     }
   }
 )

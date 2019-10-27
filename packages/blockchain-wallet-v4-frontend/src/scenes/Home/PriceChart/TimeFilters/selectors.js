@@ -3,8 +3,8 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.layoutWallet.getBalancesTable,
+    selectors.components.priceChart.getTime,
     selectors.modules.profile.isSilverOrAbove
   ],
-  (currentTab, isSilverOrAbove) => ({ currentTab, isSilverOrAbove })
+  (time, isSilverOrAbove) => ({ time, isSilverOrAbove })
 )

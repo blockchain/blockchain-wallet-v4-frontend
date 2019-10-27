@@ -7,7 +7,7 @@ import { getConfig, renderMinMax } from './services'
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '110px' : 0)};
   left: 0;
   width: 100%;
   * {
@@ -18,6 +18,13 @@ const Wrapper = styled.div`
     .highcharts-background {
       fill: ${props => props.theme['white']} !important;
     }
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
+    -webkit-mask-size: 100% 125%;
+    -webkit-mask-repeat: no-repeat;
   }
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
@@ -65,7 +72,10 @@ class Chart extends React.PureComponent {
 
   render () {
     return (
-      <Wrapper coin={this.props.coin}>
+      <Wrapper
+        coin={this.props.coin}
+        isSilverOrAbove={this.props.isSilverOrAbove}
+      >
         <ReactHighcharts
           config={this.state.config}
           callback={this.handleCallback}
