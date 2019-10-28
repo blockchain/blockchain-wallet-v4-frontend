@@ -20,7 +20,7 @@ import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 import ThePitLink from '../ThePitLink'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  margin-left: 74px;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
@@ -92,7 +92,7 @@ const Navigation = props => {
             style={{ paddingLeft: '2px' }}
             size='24px'
           />
-          <Destination>
+          <Destination style={{ paddingLeft: '8px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'

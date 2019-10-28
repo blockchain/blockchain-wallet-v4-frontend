@@ -33,13 +33,12 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
   <>
     <JoyrideSpotlight className='the-pit-tooltip' />
     <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
-    <Destination>
+    <Destination style={{ marginLeft: '4px' }}>
       <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.thepitbold'
-        defaultMessage='The PIT'
+        id='layouts.wallet.menuleft.navigation.thepitexchange'
+        defaultMessage='The PIT Exchange'
       />
     </Destination>
-
     {isPitAccountLinked ? (
       <HelperTipContainer>
         <TooltipHost id='pitSideNavConnected'>
@@ -47,7 +46,7 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
         </TooltipHost>
       </HelperTipContainer>
     ) : (
-      <NewCartridge>
+      <NewCartridge style={{ marginLeft: '10px' }}>
         <Text color='orange' size='12' weight={500} uppercase>
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.new'
