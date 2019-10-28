@@ -15,6 +15,7 @@ const path = require('path')
 const fs = require('fs')
 
 const PATHS = require('../../config/paths')
+const { version } = require(`../../package.json`)
 
 const MainProcessWebpackConfiguration = require(`main-process/webpack.config.dev.js`)
 const SecurityProcessWebpackConfiguration = require(`security-process/webpack.config.dev.js`)
@@ -206,6 +207,10 @@ module.exports = async () => {
       hot: true,
       historyApiFallback: true,
       before (app) {
+        app.get(`/healthz`, (request, response) => {
+          response.json({ 'blockchain-wallet-v4-frontend': version })
+        })
+
         app.get('/Resources/wallet-options-v4.json', function (req, res) {
           res.json(walletOptions)
         })

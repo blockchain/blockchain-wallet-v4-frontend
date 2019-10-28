@@ -19,6 +19,7 @@ const fs = require('fs')
 
 const babelConfig = require(`./babel.config.js`)
 const PATHS = require('../../config/paths')
+const { version } = require(`../../package.json`)
 
 const MainProcessWebpackConfiguration = require(`main-process/webpack.debug.js`)
 const SecurityProcessWebpackConfiguration = require(`security-process/webpack.debug.js`)
@@ -192,6 +193,10 @@ module.exports = async () => {
         })
       )
     }
+
+    app.get(`/healthz`, (request, response) => {
+      response.json({ 'blockchain-wallet-v4-frontend': version })
+    })
 
     app.get('/Resources/wallet-options-v4.json', function (req, res) {
       res.json(walletOptions)
