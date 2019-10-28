@@ -2066,8 +2066,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepitbold"
+        "defaultMessage": "The PIT Exchange",
+        "id": "layouts.wallet.menuleft.navigation.thepitexchange"
       },
       {
         "defaultMessage": "New",

@@ -509,7 +509,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Dashboard",
   "layouts.wallet.menuleft.navigation.hardware": "Hardware",
   "layouts.wallet.menuleft.navigation.swap": "Swap",
-  "layouts.wallet.menuleft.navigation.thepitbold": "The PIT",
+  "layouts.wallet.menuleft.navigation.thepitexchange": "The PIT Exchange",
   "layouts.wallet.menuleft.navigation.transactions.new": "New",
   "layouts.wallet.menutop.balance.walletbalance.Lockbox": "Lockbox",
   "layouts.wallet.menutop.balance.walletbalance.nonspendable": "Non-Spendable",
