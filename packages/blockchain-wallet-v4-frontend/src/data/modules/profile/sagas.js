@@ -49,6 +49,16 @@ export default ({ api, coreSagas, networks }) => {
         'x-campaign-email': campaign.email
       }
     }
+    if (campaign.name === 'BLOCKSTACK') {
+      // 2nd pw check
+      const password = null
+      yield put(actions.core.data.stx.generateAddress(password))
+      const { payload } = yield take(actions.core.data.stx.setAddress)
+      const { address } = payload
+      return {
+        'x-campaign-address': address
+      }
+    }
 
     return null
   }

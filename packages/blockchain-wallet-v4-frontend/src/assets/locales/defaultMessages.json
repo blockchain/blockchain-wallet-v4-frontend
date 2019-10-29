@@ -4890,7 +4890,7 @@
         "id": "modals.sunriverlinkerror.continue"
       }
     ],
-    "path": "src/modals/Exchange/SunRiverLinkError/index.json"
+    "path": "src/modals/Exchange/AirdropError/index.json"
   },
   {
     "descriptors": [

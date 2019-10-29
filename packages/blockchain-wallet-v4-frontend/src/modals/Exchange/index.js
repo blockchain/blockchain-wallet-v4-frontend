@@ -4,7 +4,7 @@ import ExchangeResults from './ExchangeResults'
 import KycDocResubmit from './KycDocResubmit'
 import IdentityVerification from './IdentityVerification'
 import ShapeshiftTradeDetails from './ShapeshiftTradeDetails'
-import SunRiverLinkError from './SunRiverLinkError'
+import AirdropError from './AirdropError'
 import SwapUpgrade from './SwapUpgrade'
 import UserExists from './UserExists'
 
@@ -15,7 +15,7 @@ export {
   KycDocResubmit,
   IdentityVerification,
   ShapeshiftTradeDetails,
-  SunRiverLinkError,
+  AirdropError,
   SwapUpgrade,
   UserExists
 }

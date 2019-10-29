@@ -436,17 +436,21 @@ export default ({ api }) => {
         selectors.modules.profile.getBlockstackTag
       )).getOrElse(false)
       if (!blockstackTag && current === TIERS[2]) {
-        const password = null
-        yield put(actions.core.data.stx.generateAddress(password))
-        const { payload } = yield take(actions.core.data.stx.setAddress)
-        const { address } = payload
-        yield call(api.registerUserCampaign, 'BLOCKSTACK', {
-          'x-campaign-address': address
-        })
+        const campaign = (yield select(
+          selectors.core.walletOptions.getStxCampaign
+        )).getOrElse('BLOCKSTACK')
+        yield put(actions.modules.profile.setCampaign({ name: campaign }))
+        yield put(
+          actions.components.identityVerification.registerUserCampaign()
+        )
       }
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'runRegisterForBlockstackAirdropGoal',
+          e
+        )
       )
     }
   }

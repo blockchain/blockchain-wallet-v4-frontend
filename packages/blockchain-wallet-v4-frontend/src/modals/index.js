@@ -34,7 +34,7 @@ import {
   KycDocResubmit,
   IdentityVerification,
   ShapeshiftTradeDetails,
-  SunRiverLinkError,
+  AirdropError,
   SwapUpgrade,
   UserExists
 } from './Exchange'
@@ -138,7 +138,7 @@ const Modals = () => (
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
-    <SunRiverLinkError />
+    <AirdropError />
     <Support />
     <SwapGetStarted />
     <SwapUpgrade />
