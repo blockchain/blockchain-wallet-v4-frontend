@@ -34,6 +34,7 @@ describe('importBtcAddress sagas', () => {
             'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB',
             null,
             null,
+            undefined,
             undefined
           )
       })
@@ -69,6 +70,7 @@ describe('importBtcAddress sagas', () => {
             '6PYKXJ9yisUdA8Qxv3H1bzrsxhMABYNgLTKvpvEFqMRYA1oyAmn9gvzF3W',
             null,
             null,
+            undefined,
             undefined
           )
       })

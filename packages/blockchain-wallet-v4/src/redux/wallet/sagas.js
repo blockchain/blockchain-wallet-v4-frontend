@@ -61,7 +61,13 @@ export default ({ api, networks }) => {
     }
   }
 
-  const importLegacyAddress = function * ({ key, network, password, bipPass }) {
+  const importLegacyAddress = function * ({
+    key,
+    network,
+    password,
+    bipPass,
+    label
+  }) {
     const wallet = yield select(S.getWallet)
     const wrapper = yield select(S.getWrapper)
     const walletT = Wallet.importLegacyAddress(
@@ -70,6 +76,7 @@ export default ({ api, networks }) => {
       Date.now(),
       password,
       bipPass,
+      label,
       { network, api }
     )
     const wrapperT = walletT.map(wallet => set(Wrapper.wallet, wallet, wrapper))

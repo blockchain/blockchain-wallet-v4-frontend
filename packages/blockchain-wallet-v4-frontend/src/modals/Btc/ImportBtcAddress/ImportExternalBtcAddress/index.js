@@ -60,6 +60,23 @@ class ImportExternalBtcAddress extends React.PureComponent {
               />
             </Row>
           </FormItem>
+          <FormItem width={'100%'}>
+            <Label for='addrOrPriv'>
+              <FormattedMessage
+                id='modals.importbtcaddress.importexternalbitcoinaddress.label'
+                defaultMessage='Enter a label for your address (optional)'
+              />
+            </Label>
+            <Row>
+              <Field
+                name='label'
+                validate={[]}
+                normalize={removeWhitespace}
+                component={TextBox}
+                data-e2e='labelInput'
+              />
+            </Row>
+          </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'}>
             <Label for='wallets'>
               <FormattedMessage

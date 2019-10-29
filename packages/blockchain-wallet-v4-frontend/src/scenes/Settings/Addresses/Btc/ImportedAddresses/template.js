@@ -48,6 +48,7 @@ const Success = ({
   onTransferAll,
   onShowPriv,
   onShowSignMessage,
+  onEditLabel,
   search,
   failure
 }) => {
@@ -95,6 +96,16 @@ const Success = ({
                     <FormattedMessage
                       id='scenes.settings.addresses.sign_message'
                       defaultMessage='Sign Message'
+                    />
+                  </ClickableText>,
+                  <ClickableText
+                    size='small'
+                    onClick={() => onEditLabel(address)}
+                    data-e2e='btcSignMessageImportedAddressLink'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.addresses.edit_name'
+                      defaultMessage='Edit Label'
                     />
                   </ClickableText>
                 ]
@@ -162,7 +173,15 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='20%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.importedaddresses.success.label'
+                  defaultMessage='Label'
+                />
+              </Text>
+            </TableCell>
+            <TableCell width='10%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.balance'

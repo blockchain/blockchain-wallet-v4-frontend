@@ -19,6 +19,7 @@ import {
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
@@ -50,15 +51,16 @@ export const getData = (state, ownProps) => {
     includePitAddress
   } = ownProps
   const buildDisplay = wallet => {
+    const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let btcDisplay = Exchange.displayBtcToBtc({
         value: wallet.balance,
         fromUnit: 'SAT',
         toUnit: 'BTC'
       })
-      return wallet.label + ` (${btcDisplay})`
+      return label + ` (${btcDisplay})`
     }
-    return wallet.label
+    return label
   }
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
