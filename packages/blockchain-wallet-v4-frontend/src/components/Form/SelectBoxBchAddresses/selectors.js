@@ -1,4 +1,6 @@
 import {
+  assoc,
+  assocPath,
   concat,
   compose,
   curry,
@@ -6,8 +8,11 @@ import {
   filter,
   has,
   head,
+  isNil,
   lensIndex,
   lensProp,
+  lift,
+  not,
   map,
   path,
   prepend,
@@ -15,16 +20,12 @@ import {
   reduce,
   set,
   sequence,
-  sort,
-  lift,
-  assoc,
-  assocPath,
-  not,
-  isNil
+  sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
@@ -58,10 +59,7 @@ export const getData = (state, ownProps) => {
     includePitAddress
   } = ownProps
   const buildDisplay = wallet => {
-    const label =
-      wallet.label.length > 30
-        ? wallet.label.replace(/(.{17})..+/, '$1…')
-        : wallet.label
+    const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let bchDisplay = Exchange.displayBchToBch({
         value: wallet.balance,

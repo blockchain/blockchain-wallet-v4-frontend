@@ -19,6 +19,7 @@ import {
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
@@ -50,10 +51,7 @@ export const getData = (state, ownProps) => {
     includePitAddress
   } = ownProps
   const buildDisplay = wallet => {
-    const label =
-      wallet.label.length > 30
-        ? wallet.label.replace(/(.{15})..+/, '$1…')
-        : wallet.label
+    const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let btcDisplay = Exchange.displayBtcToBtc({
         value: wallet.balance,
