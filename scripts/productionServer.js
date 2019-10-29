@@ -146,9 +146,7 @@ const { version } = require(`../package.json`)
     })
 
     const url = `${protocol}://${host}:${port}`
-    console.log(name, self)
     const csp = CSP[name]({ ...domains, self: self || url })
-    console.log(csp)
 
     const setHeaders = response => {
       response.set({
@@ -230,7 +228,7 @@ const { version } = require(`../package.json`)
       securityProcess: securityProcessUrl,
       ...domains
     },
-    host: SERVER_HOST || `0.0.0.0`,
+    host: SERVER_HOST || `localhost`,
     name: `root`,
     port
   })

@@ -4,9 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "debug:dev": "cross-env-shell BACKEND_ENV=development NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
-    "debug:prod": "cross-env-shell BACKEND_ENV=production NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
-    "debug:staging": "cross-env-shell BACKEND_ENV=staging NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
+    "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.ci.js --display-error-details",
     "start:dev": "cross-env-shell NODE_ENV=development NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging NODE_OPTIONS=--max-old-space-size=8192 webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
