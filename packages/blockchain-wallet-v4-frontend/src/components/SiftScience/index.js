@@ -31,7 +31,6 @@ class SiftScience extends Component {
           return null
       }
     }
-    this.props.onDone()
     window.addEventListener('message', receiveMessage, false)
   }
 
