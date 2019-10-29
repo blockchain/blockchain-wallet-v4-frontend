@@ -145,9 +145,7 @@ export default ({ api, options }) => {
       const walletOptions = state.walletOptionsPath.data
       const sfox = sfoxService.refresh(value, delegate, walletOptions)
       return sfox
-    } catch (error) {
-      console.warn(error)
-    }
+    } catch (error) {}
   }
 
   const setBankManually = function * (data) {
@@ -258,7 +256,6 @@ export default ({ api, options }) => {
       yield call(fetchSfoxAccounts)
       return response
     } catch (e) {
-      console.warn(e)
       return e
     }
   }
@@ -282,7 +279,6 @@ export default ({ api, options }) => {
       yield call(labelAddressForBuy, trade, addressData)
       return trade
     } catch (e) {
-      console.warn(e)
       yield put(A.handleTradeFailure(e))
       return e
     }
@@ -302,7 +298,6 @@ export default ({ api, options }) => {
         )
       )
     } catch (e) {
-      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -325,7 +320,6 @@ export default ({ api, options }) => {
 
       return trade
     } catch (e) {
-      console.log(e)
       yield put(A.handleTradeFailure(e))
     }
   }

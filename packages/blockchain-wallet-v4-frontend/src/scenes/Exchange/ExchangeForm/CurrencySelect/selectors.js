@@ -23,7 +23,7 @@ const { formatPair } = model.rates
 
 const generateItems = ({ coin, accounts }, supportedCoins) =>
   accounts.map(account => {
-    account.icon = path([coin, 'icons', 'default'], supportedCoins)
+    account.icon = path([coin, 'icons', 'circleFilled'], supportedCoins)
     return {
       value: account,
       text: gt(length(accounts), 1)

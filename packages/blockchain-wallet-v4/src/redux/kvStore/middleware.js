@@ -63,6 +63,7 @@ const kvStoreMiddleware = ({
       }
       const taskObject = mapObjIndexed(saveTasks, changes)
       const syncTask = sequence(Task.of, values(taskObject))
+      // eslint-disable-next-line no-console
       syncTask.fork(console.log, identity)
       break
     default:

@@ -336,9 +336,9 @@ export const ExchangeResults = ({
                     defaultMessage='Exchange rate'
                   />
                 </ExchangeText>
-                <ExchangeText weight={400}>{`1 ${
-                  sourceCoinModel.coinTicker
-                } = ${rate} ${targetCoinModel.coinTicker}`}</ExchangeText>
+                <ExchangeText
+                  weight={400}
+                >{`1 ${sourceCoinModel.coinTicker} = ${rate} ${targetCoinModel.coinTicker}`}</ExchangeText>
               </MidTableRow>
             )}
           {includes(status, [REFUNDED, PENDING_REFUND]) && (

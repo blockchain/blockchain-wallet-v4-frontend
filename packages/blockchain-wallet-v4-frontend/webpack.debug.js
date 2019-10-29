@@ -1,6 +1,6 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
@@ -32,9 +32,7 @@ try {
   console.log(
     chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
       chalk.yellow(
-        `Failed to load ${
-          process.env.NODE_ENV
-        }.js config file! Using the production config instead.\n`
+        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
       )
   )
   envConfig = require(PATHS.envConfig + '/production.js')
@@ -267,12 +265,8 @@ module.exports = {
         "img-src 'self' data: blob:",
         `script-src 'nonce-${cspNonce}' 'self'`,
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
-          envConfig.WALLET_HELPER_DOMAIN
-        } ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
-          envConfig.WALLET_HELPER_DOMAIN
-        } blob:`,
+        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
+        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
           "'self'",
