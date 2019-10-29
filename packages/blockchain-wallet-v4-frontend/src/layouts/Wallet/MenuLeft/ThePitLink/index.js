@@ -17,10 +17,15 @@ import {
 import PitTooltip from './PitTooltip'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  position: relative;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 12px;
+  top: -8px;
 `
 
 const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
@@ -35,9 +40,9 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
     </Destination>
     {isPitAccountLinked && (
       <HelperTipContainer>
-        <TooltipHost id='pitSideNavConnected'>
+        <HelperTip id='pitSideNavConnected'>
           <TooltipIcon color='blue' name='info' />
-        </TooltipHost>
+        </HelperTip>
       </HelperTipContainer>
     )}
   </>
