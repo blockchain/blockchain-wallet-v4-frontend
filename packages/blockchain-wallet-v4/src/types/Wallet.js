@@ -21,6 +21,7 @@ import {
 import { traversed, traverseOf, over, view, set } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
 import { shift, shiftIProp } from './util'
+import { keyPairToAddress } from '../utils/btc'
 import Type from './Type'
 import * as HDWallet from './HDWallet'
 import * as HDAccount from './HDAccount'
@@ -573,8 +574,7 @@ export const getHDPrivateKeyWIF = curry(
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
   var key = Bitcoin.ECPair(Base58.decode(string))
-
-  if (key.getAddress() === address) return key
+  if (keyPairToAddress(key) === address) return key
   key.compressed = !key.compressed
   return key
 }

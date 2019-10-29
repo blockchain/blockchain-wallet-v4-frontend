@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, crypto } from 'bitcoinjs-lib'
+import { address, networks, ECPair, crypto, payments } from 'bitcoinjs-lib'
 import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
@@ -164,12 +164,10 @@ export const privateKeyStringToKey = function (
       default:
         throw new Error('Unsupported Key Format')
     }
-
     let keyPair = ECPair.fromPrivateKey(keyBuffer)
-    // !!! TODO: check if compressed
-    // if (addr && keyPair.getAddress() !== addr) {
-    //   keyPair.compressed = false
-    // }
+    if (addr && keyPairToAddress(keyPair) !== addr) {
+      keyPair.compressed = false
+    }
     return keyPair
   }
 }
@@ -185,7 +183,7 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   )
   return eitherKey.chain(key => {
     if (format === 'wif') return Either.of(key.toWIF())
-    if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
+    if (format === 'base58') return Either.of(Base58.encode(key.__D))
     return Either.Left(new Error('Unsupported Key Format'))
   })
 }
@@ -210,7 +208,7 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
 }
 
 export const isKey = function (btcKey) {
-  return btcKey instanceof ECPair
+  return btcKey instanceof Object // hack since ECPair instance of is breaking
 }
 
 export const calculateBalanceBtc = (coins, feePerByte) => {
@@ -276,3 +274,6 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
   hdnode.index = last(pathArray)
   return hdnode.toBase58()
 }
+
+export const keyPairToAddress = key =>
+  payments.p2pkh({ pubkey: key.publicKey }).address

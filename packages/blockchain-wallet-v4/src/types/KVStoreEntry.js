@@ -6,6 +6,7 @@ import { view } from 'ramda-lens'
 import Either from 'data.either'
 import * as crypto from '../walletCrypto'
 import Type from './Type'
+import { keyPairToAddress } from '../utils/btc'
 
 /*
 Payload types:
@@ -48,12 +49,11 @@ export const createEmpty = typeId => {
 }
 
 export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
-  const { address } = Bitcoin.payments.p2pkh({ pubkey: entryECKey.publicKey })
   return new KVStoreEntry({
     VERSION: 1,
     typeId: isNil(typeId) ? -1 : typeId,
     magicHash: null,
-    address: address,
+    address: keyPairToAddress(entryECKey),
     signKey: entryECKey.toWIF(),
     encKeyBuffer: encKeyBuffer,
     value: void 0

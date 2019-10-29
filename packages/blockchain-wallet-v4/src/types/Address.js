@@ -115,13 +115,13 @@ export const importAddress = (key, createdTime, label, network) => {
       object.priv = null
       break
     case utils.btc.isKey(key):
-      object.addr = key.getAddress()
-      object.priv = Base58.encode(key.d.toBuffer(32))
+      object.addr = utils.btc.keyPairToAddress(key)
+      object.priv = Base58.encode(key.__D)
       break
     case utils.btc.isValidBtcPrivateKey(key, network):
       key = ECPair.fromWIF(key, network)
-      object.addr = key.getAddress()
-      object.priv = Base58.encode(key.d.toBuffer(32))
+      object.addr = utils.btc.keyPairToAddress(key)
+      object.priv = Base58.encode(key.__D)
       break
     default:
       throw new Error('unsupported_address_import_format')
