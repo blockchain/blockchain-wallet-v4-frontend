@@ -425,24 +425,29 @@ export default ({ api }) => {
   }
 
   const runRegisterForBlockstackAirdropGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    yield call(waitForUserData)
-    // const { current } = (yield select(
-    //   selectors.modules.profile.getUserTiers
-    // )).getOrElse({ current: 0 }) || { current: 0 }
-    const blockstackTag = (yield select(
-      selectors.modules.profile.getBlockstackTag
-    )).getOrElse(false)
-    // TODO: check current === TIERS[2]
-    if (!blockstackTag) {
-      const password = null
-      yield put(actions.core.data.stx.generateAddress(password))
-      const { payload } = yield take(actions.core.data.stx.setAddress)
-      const { address } = payload
-      yield call(api.registerUserCampaign, 'BLOCKSTACK', {
-        'x-campaign-address': address
-      })
+    try {
+      const { id } = goal
+      yield put(actions.goals.deleteGoal(id))
+      yield call(waitForUserData)
+      const { current } = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 }) || { current: 0 }
+      const blockstackTag = (yield select(
+        selectors.modules.profile.getBlockstackTag
+      )).getOrElse(false)
+      if (!blockstackTag && current === TIERS[2]) {
+        const password = null
+        yield put(actions.core.data.stx.generateAddress(password))
+        const { payload } = yield take(actions.core.data.stx.setAddress)
+        const { address } = payload
+        yield call(api.registerUserCampaign, 'BLOCKSTACK', {
+          'x-campaign-address': address
+        })
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e)
+      )
     }
   }
 
