@@ -27,6 +27,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { promptForSecondPassword } from 'services/SagaService'
 
 const { AB_TESTS } = model.analytics
 
@@ -50,8 +51,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
     if (campaign.name === 'BLOCKSTACK') {
-      // 2nd pw check
-      const password = null
+      let password = yield call(promptForSecondPassword)
       yield put(actions.core.data.stx.generateAddress(password))
       const { payload } = yield take(actions.core.data.stx.setAddress)
       const { address } = payload
