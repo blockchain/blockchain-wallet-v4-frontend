@@ -1,5 +1,4 @@
 import { fork } from 'redux-saga/effects'
-import activityList from './activityList/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import coinify from './coinify/sagaRegister'
@@ -33,7 +32,6 @@ import veriff from './veriff/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function * componentsSaga () {
-    yield fork(activityList())
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(coinify({ api, coreSagas, networks }))

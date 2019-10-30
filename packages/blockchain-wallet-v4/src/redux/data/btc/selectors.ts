@@ -3,6 +3,7 @@ import { dataPath } from '../../paths'
 import * as wallet from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
+import { TransactionType } from '@network/api/btc/types'
 
 export const getContext = createDeepEqualSelector(
   [wallet.getContext, getLockboxBtcContext],
@@ -22,7 +23,11 @@ export const getLatestBlock = path([dataPath, 'btc', 'latest_block'])
 
 export const getRates = path([dataPath, 'btc', 'rates'])
 
-export const getTransactions = path([dataPath, 'btc', 'transactions'])
+export const getTransactions: (state) => Array<TransactionType> = path([
+  dataPath,
+  'btc',
+  'transactions'
+])
 
 export const getTransactionHistory = path([
   dataPath,
@@ -83,7 +88,7 @@ export const getFiatAtTime = curry((hash, currency, state) =>
 
 export const getAllFiatAtTime = path([dataPath, 'btc', 'transactions_fiat'])
 
-export const getTransactionsAtBound = path([
+export const getTransactionsAtBound: (state) => boolean = path([
   dataPath,
   'btc',
   'transactions_at_bound'

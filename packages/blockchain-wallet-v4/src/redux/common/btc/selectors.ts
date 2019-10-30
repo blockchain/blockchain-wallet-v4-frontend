@@ -18,7 +18,7 @@ import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex
-} from '../../data/btc/selectors.js'
+} from '../../data/btc/selectors'
 import {
   getLockboxBtcAccounts,
   getLockboxBtcAccount
@@ -26,6 +26,8 @@ import {
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
+
+import { TransactionType } from '@network/api/btc/types'
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
@@ -160,7 +162,8 @@ export const getAddressesInfo = state => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = state => state.dataPath.btc.transactions
+export const getWalletTransactions: (state) => Array<TransactionType> = state =>
+  state.dataPath.btc.transactions
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {

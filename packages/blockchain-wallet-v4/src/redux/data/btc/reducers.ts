@@ -11,6 +11,9 @@ import {
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
+import { TransactionType } from '@network/api/btc/types'
+import { BtcActionType } from './actions'
+
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
   fee: Remote.NotAsked,
@@ -24,7 +27,14 @@ const INITIAL_STATE = {
   transaction_history: Remote.NotAsked
 }
 
-const btcReducer = (state = INITIAL_STATE, action) => {
+export type BtcStateType = {
+  transactions: Array<TransactionType>
+}
+
+const btcReducer = (
+  state: BtcStateType = INITIAL_STATE,
+  action: BtcActionType
+) => {
   const { type, payload } = action
 
   switch (type) {
@@ -83,7 +93,10 @@ const btcReducer = (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), append(Remote.Loading), state)
     }
     case AT.FETCH_BTC_TRANSACTIONS_SUCCESS: {
-      const { reset, transactions } = payload
+      const {
+        reset,
+        transactions
+      }: { reset: boolean; transactions: Array<TransactionType> } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
         : over(

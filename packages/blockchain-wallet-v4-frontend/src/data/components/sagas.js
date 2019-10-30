@@ -1,4 +1,3 @@
-import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import coinify from './coinify/sagas'
@@ -30,7 +29,6 @@ import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
-  activityList: activityList(),
   bchTransactions: bchTransactions(),
   btcTransactions: btcTransactions(),
   coinify: coinify({ api, coreSagas }),

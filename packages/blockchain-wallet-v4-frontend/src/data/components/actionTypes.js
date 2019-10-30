@@ -1,4 +1,3 @@
-import * as activityList from './activityList/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as btcTransactions from './btcTransactions/actionTypes'
 import * as coinify from './coinify/actionTypes'
@@ -32,7 +31,6 @@ import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
 
 export {
-  activityList,
   bchTransactions,
   btcTransactions,
   coinify,

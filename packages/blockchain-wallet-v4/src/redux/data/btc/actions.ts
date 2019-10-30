@@ -1,6 +1,17 @@
 import * as AT from './actionTypes'
 import { TransactionType } from '@network/api/btc/types'
 
+export type BtcActionType = {
+  payload: {
+    transactions: Array<TransactionType>
+    reset: boolean
+  }
+  type: typeof AT.FETCH_BTC_TRANSACTIONS_SUCCESS
+} & {
+  payload: any
+  type: any
+}
+
 export const setBtcLatestBlock = (block_index, hash, height, time) => ({
   type: AT.SET_BTC_LATEST_BLOCK,
   payload: { block_index, hash, height, time }
@@ -61,17 +72,16 @@ export const fetchTransactionsLoading = reset => ({
 })
 export const fetchTransactionsSuccess = (
   transactions: Array<TransactionType>,
-  reset: boolean,
-  isFinalPage?: boolean
-) => ({
+  reset: boolean
+): BtcActionType => ({
   type: AT.FETCH_BTC_TRANSACTIONS_SUCCESS,
-  payload: { transactions, reset, isFinalPage }
+  payload: { transactions, reset }
 })
 export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_BTC_TRANSACTIONS_FAILURE,
   payload: error
 })
-export const transactionsAtBound = payload => ({
+export const transactionsAtBound = (payload: boolean) => ({
   type: AT.BTC_TRANSACTIONS_AT_BOUND,
   payload
 })

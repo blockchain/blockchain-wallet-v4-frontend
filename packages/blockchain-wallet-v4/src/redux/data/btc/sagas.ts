@@ -13,7 +13,7 @@ import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
 
 import BtcAPIFactory from '../../../network/api/btc/index'
-import { MultiaddrResponse } from '@network/api/btc/types'
+import { MultiaddrResponse, TransactionType } from '@network/api/btc/types'
 
 import { FetchTransactionsAction } from './types'
 
@@ -66,8 +66,12 @@ export default ({ domains, http }) => {
       const { address, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
-      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      const transactionsAtBound: ReturnType<
+        typeof S.getTransactionsAtBound
+      > = yield select(S.getTransactionsAtBound)
+
       if (transactionsAtBound && !reset) return
+
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
@@ -76,9 +80,10 @@ export default ({ domains, http }) => {
         onlyShow: address || walletContext,
         offset
       })
+
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, data.txs)
+      const page: Array<TransactionType> = yield call(__processTxs, data.txs)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
