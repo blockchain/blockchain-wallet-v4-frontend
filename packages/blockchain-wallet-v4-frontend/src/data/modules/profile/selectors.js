@@ -36,12 +36,20 @@ export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
 )
+export const getTags = compose(
+  lift(path(['tags'])),
+  getUserData
+)
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
 export const getPowerPaxTag = compose(
   lift(hasPath(['tags', 'POWER_PAX'])),
+  getUserData
+)
+export const getBlockstackTag = compose(
+  lift(path(['tags', 'BLOCKSTACK'])),
   getUserData
 )
 export const isUserCreated = compose(

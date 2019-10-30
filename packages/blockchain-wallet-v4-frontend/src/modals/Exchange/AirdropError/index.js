@@ -29,7 +29,7 @@ const Header = styled(ModalHeader)`
 `
 
 const {
-  SUNRIVER_LINK_ERROR_MODAL,
+  AIRDROP_ERROR_MODAL,
   ERROR_TYPES
 } = model.components.identityVerification
 
@@ -66,7 +66,7 @@ const getErrorMessage = ({ code }) => {
   }
 }
 
-export const SunRiverLinkError = ({ position, total, error, closeAll }) => {
+export const AirdropError = ({ position, total, error, closeAll }) => {
   return (
     <Modal size='medium' position={position} total={total}>
       <Header onClose={closeAll}>
@@ -92,4 +92,4 @@ export const SunRiverLinkError = ({ position, total, error, closeAll }) => {
   )
 }
 
-export default modalEnhancer(SUNRIVER_LINK_ERROR_MODAL)(SunRiverLinkError)
+export default modalEnhancer(AIRDROP_ERROR_MODAL)(AirdropError)

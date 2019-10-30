@@ -139,6 +139,21 @@
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/pax/transactions"
         },
+        "STX": {
+          "campaign": "BLOCKSTACK",
+          "coinCode": "STX",
+          "coinTicker": "STX",
+          "displayName": "Stacks",
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "hasLockboxSupport": false
+        },
         "XLM": {
           "airdrop": {
             "link": "https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway",

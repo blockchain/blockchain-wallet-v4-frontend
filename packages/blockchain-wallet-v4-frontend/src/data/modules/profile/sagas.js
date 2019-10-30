@@ -27,6 +27,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { promptForSecondPassword } from 'services/SagaService'
 
 const { AB_TESTS } = model.analytics
 
@@ -47,6 +48,15 @@ export default ({ api, coreSagas, networks }) => {
         'x-campaign-address': xlmAccount,
         'x-campaign-code': campaign.code,
         'x-campaign-email': campaign.email
+      }
+    }
+    if (campaign.name === 'BLOCKSTACK') {
+      let password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
+      yield put(actions.core.data.stx.generateAddress(password))
+      const { payload } = yield take(actionTypes.core.data.stx.SET_ADDRESS)
+      const { address } = payload
+      return {
+        'x-campaign-address': address
       }
     }
 

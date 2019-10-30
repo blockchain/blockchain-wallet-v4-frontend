@@ -8,6 +8,7 @@ export const logLocation = 'components/onboarding/sagas'
 
 export default () => {
   const airdropClaimSubmitClicked = function * ({ payload }) {
+    // TODO: REFACTOR TO USE claimCampaignClicked
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit('airdropClaim'))
