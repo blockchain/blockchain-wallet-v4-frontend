@@ -20,7 +20,7 @@ export default ({ api, coreSagas, networks }) => {
       const format = utils.btc.detectPrivateKeyFormat(value)
       try {
         const key = utils.btc.privateKeyStringToKey(value, format)
-        address = key.getAddress()
+        address = utils.btc.keyPairToAddress(key)
       } catch (error) {
         yield put(
           actions.logs.logErrorMessage(
