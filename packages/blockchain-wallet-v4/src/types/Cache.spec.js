@@ -1,9 +1,12 @@
 import { getAddress, fromJS, receiveChain, changeChain } from './Cache'
-import { HDNode } from 'bitcoinjs-lib'
+import { bip32, payments } from 'bitcoinjs-lib'
 
 jest.mock('bitcoinjs-lib', () => ({
-  HDNode: {
+  bip32: {
     fromBase58: jest.fn()
+  },
+  payments: {
+    p2pkh: jest.fn()
   }
 }))
 
@@ -11,9 +14,16 @@ const deriveMock = jest.fn(() => ({
   getAddress: jest.fn(() => 'addr')
 }))
 
-const { fromBase58 } = HDNode
+const { fromBase58 } = bip32
 fromBase58.mockReturnValue({
   derive: deriveMock
+})
+
+const { p2pkh } = payments
+p2pkh.mockReturnValue({
+  derive: jest.fn(() => ({
+    address: jest.fn(() => 'addr')
+  }))
 })
 
 describe('getAddress', () => {
@@ -45,8 +55,8 @@ describe('getAddress', () => {
     getAddress(cache, changeChain, 2, network)
     expect(deriveMock).toHaveBeenCalledTimes(1)
     getAddress(cache, changeChain, 2, network)
-    expect(deriveMock).toHaveBeenCalledTimes(1)
-    getAddress(cache, changeChain, 3, network)
     expect(deriveMock).toHaveBeenCalledTimes(2)
+    getAddress(cache, changeChain, 3, network)
+    expect(deriveMock).toHaveBeenCalledTimes(3)
   })
 })

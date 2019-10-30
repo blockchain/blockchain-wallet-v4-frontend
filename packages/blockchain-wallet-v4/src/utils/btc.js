@@ -1,5 +1,12 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, crypto, payments } from 'bitcoinjs-lib'
+import {
+  address,
+  networks,
+  ECPair,
+  crypto,
+  payments,
+  bip32
+} from 'bitcoinjs-lib'
 import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
@@ -235,7 +242,7 @@ export const calculateBalanceBtc = (coins, feePerByte) => {
 export const getWifAddress = (key, compressed = true) => {
   let oldFlag = key.compressed // avoid input mutation
   key.compressed = compressed
-  let result = { address: key.getAddress(), wif: key.toWIF() }
+  let result = { address: keyPairToAddress(key), wif: key.toWIF() }
   key.compressed = oldFlag
   return result
 }
@@ -265,14 +272,12 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
   let pathArray = bippath.fromString(path).toPathArray()
   let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
   let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
-  let hdnode = ECPair.fromPublicKey(
-    pkChild,
-    Buffer.from(child.chainCode, 'hex')
-  )
-  hdnode.parentFingerprint = fingerprint(pkParent)
-  hdnode.depth = pathArray.length
-  hdnode.index = last(pathArray)
-  return hdnode.toBase58()
+  let hdnode = bip32.fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
+  hdnode.__PARENT_FINGERPRINT = fingerprint(pkParent)
+  hdnode.__DEPTH = pathArray.length
+  hdnode.__INDEX = last(pathArray)
+
+  return hdnode.neutered().toBase58()
 }
 
 export const keyPairToAddress = key =>

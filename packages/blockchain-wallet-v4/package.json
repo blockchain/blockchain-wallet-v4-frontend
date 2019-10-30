@@ -16,7 +16,7 @@
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/blockchain-wallet-v4-frontend ./node_modules",
     "start": "babel-node src/index.js",
-    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "yarn compile",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
