@@ -2070,10 +2070,6 @@
         "id": "layouts.wallet.menuleft.navigation.thepitexchange"
       },
       {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
-      },
-      {
         "defaultMessage": "Trade in The PIT.",
         "id": "the.pit.tooltip.title"
       },
@@ -4200,6 +4196,35 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
+        "id": "modals.sunriverlinkerror.airdrop_not_available"
+      },
+      {
+        "defaultMessage": "Looks like you've already received your airdrop!",
+        "id": "modals.sunriverlinkerror.already_received"
+      },
+      {
+        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
+        "id": "modals.sunriverlinkerror.campaign_has_expired"
+      },
+      {
+        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
+        "id": "modals.sunriverlinkerror.error"
+      },
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.sunriverlinkerror.title"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sunriverlinkerror.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/AirdropError/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Success!",
         "id": "modals.exchange.ethairdrop.success"
       },
@@ -4862,35 +4887,6 @@
       }
     ],
     "path": "src/modals/Exchange/ShapeshiftTradeDetails/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
-        "id": "modals.sunriverlinkerror.airdrop_not_available"
-      },
-      {
-        "defaultMessage": "Looks like you've already received your airdrop!",
-        "id": "modals.sunriverlinkerror.already_received"
-      },
-      {
-        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
-        "id": "modals.sunriverlinkerror.campaign_has_expired"
-      },
-      {
-        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
-        "id": "modals.sunriverlinkerror.error"
-      },
-      {
-        "defaultMessage": "Whoops!",
-        "id": "modals.sunriverlinkerror.title"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.sunriverlinkerror.continue"
-      }
-    ],
-    "path": "src/modals/Exchange/AirdropError/index.json"
   },
   {
     "descriptors": [
@@ -6080,12 +6076,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Second password required",
-        "id": "modals.secondpassword.title"
+        "defaultMessage": "Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop.",
+        "id": "modals.secondpassword.blockstack"
       },
       {
-        "defaultMessage": "Please enter your second password",
-        "id": "modals.secondpassword.explain"
+        "defaultMessage": "Enter Your Second Password",
+        "id": "modals.secondpassword.title1"
+      },
+      {
+        "defaultMessage": "Second Password",
+        "id": "modals.secondpassword.explain1"
       },
       {
         "defaultMessage": "Cancel",
