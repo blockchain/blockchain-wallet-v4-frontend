@@ -20,6 +20,7 @@ const { version } = require(`../package.json`)
 
 ;(async (
   {
+    BACKEND_ENV,
     DISABLE_SSL,
     MAIN_PROCESS_URL,
     NODE_ENV,
@@ -66,7 +67,7 @@ const { version } = require(`../package.json`)
     testnet: `prod`
   }
 
-  const environment = NODE_ENV || `development`
+  const environment = BACKEND_ENV || NODE_ENV || `development`
   const subdomain = subdomains[environment]
   const walletOptionsUrl = `https://wallet-frontend-v4.${subdomain}.blockchain.info/Resources/wallet-options-v4.json`
   const originalWalletOptions = await (await fetch(walletOptionsUrl)).json()

@@ -79,7 +79,7 @@
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:main": "yarn workspace main-process coverage",
     "coverage:security": "yarn workspace security-process coverage",
-    "debug:prod": "cross-env-shell NODE_ENV=production node scripts/productionServer.js",
+    "debug:prod": "cross-env-shell NODE_ENV=production node scripts/mock-service-wallet.js",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
