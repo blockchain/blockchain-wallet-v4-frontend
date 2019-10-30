@@ -51,9 +51,9 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
     if (campaign.name === 'BLOCKSTACK') {
-      let password = yield call(promptForSecondPassword)
+      let password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
       yield put(actions.core.data.stx.generateAddress(password))
-      const { payload } = yield take(actions.core.data.stx.setAddress)
+      const { payload } = yield take(actionTypes.core.data.stx.SET_ADDRESS)
       const { address } = payload
       return {
         'x-campaign-address': address
