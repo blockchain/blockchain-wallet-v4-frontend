@@ -179,13 +179,32 @@ const { version } = require(`../package.json`)
 
   const app = express()
 
+  if (domains.mainProcess && domains.securityProcess) {
+    const proxy = httpProxy.createProxyServer()
+
+    app.use(
+      vhost(domains.mainProcess, (request, response) => {
+        proxy.web(request, response, { target: mainProcessUrl })
+      })
+    )
+
+    app.use(
+      vhost(domains.securityProcess, (request, response) => {
+        proxy.web(request, response, { target: securityProcessUrl })
+      })
+    )
+  }
+
   app.get(`/healthz`, (request, response) => {
+    console.log(`FOO`)
     response.json({ 'blockchain-wallet-v4-frontend': version })
   })
 
-  app.get(`/index.js`, async (request, response) => {
+  app.get(`/main.*.js`, async (request, response) => {
+    const filename = request.path.slice(1)
+
     const template = await fs.readFile(
-      path.join(__dirname, `../packages/root-process/src/index.js`),
+      path.join(__dirname, `../dist/root/${filename}`),
       `utf8`
     )
 
@@ -205,22 +224,6 @@ const { version } = require(`../package.json`)
   app.get('/Resources/wallet-options-v4.json', function (request, response) {
     response.json(walletOptions)
   })
-
-  if (domains.mainProcess && domains.securityProcess) {
-    const proxy = httpProxy.createProxyServer()
-
-    app.use(
-      vhost(domains.mainProcess, (request, response) => {
-        proxy.web(request, response, { target: mainProcessUrl })
-      })
-    )
-
-    app.use(
-      vhost(domains.securityProcess, (request, response) => {
-        proxy.web(request, response, { target: securityProcessUrl })
-      })
-    )
-  }
 
   const url = await createProcessServer({
     app,
