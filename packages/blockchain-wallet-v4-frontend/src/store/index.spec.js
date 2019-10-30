@@ -39,9 +39,7 @@ jest.mock('../middleware', () => ({
   autoDisconnection: jest.fn(),
   matomoMiddleware: jest.fn(),
   streamingXlm: jest.fn(),
-  webSocketBch: jest.fn(),
-  webSocketBtc: jest.fn(),
-  webSocketEth: jest.fn(),
+  webSocketCoins: jest.fn(),
   webSocketRates: jest.fn()
 }))
 
@@ -84,9 +82,7 @@ describe('App Store Config', () => {
     walletSyncSpy,
     autoDisconnectSpy,
     matomoMiddlewareSpy,
-    btcSocketSpy,
-    bchSocketSpy,
-    ethSocketSpy
+    coinsSocketSpy
 
   beforeAll(() => {
     // setup fetch mock
@@ -99,9 +95,7 @@ describe('App Store Config', () => {
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
     kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
     walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
-    btcSocketSpy = jest.spyOn(Middleware, 'webSocketBtc')
-    bchSocketSpy = jest.spyOn(Middleware, 'webSocketBch')
-    ethSocketSpy = jest.spyOn(Middleware, 'webSocketEth')
+    coinsSocketSpy = jest.spyOn(Middleware, 'webSocketCoins')
     matomoMiddlewareSpy = jest.spyOn(Middleware, 'matomoMiddleware')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
@@ -115,18 +109,10 @@ describe('App Store Config', () => {
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual('/Resources/wallet-options-v4.json')
     // socket registration
-    expect(Socket.mock.calls.length).toEqual(3)
+    expect(Socket.mock.calls.length).toEqual(1)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}/inv`
-    })
-    expect(Socket.mock.calls[1][0]).toEqual({
-      options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}/bch/inv`
-    })
-    expect(Socket.mock.calls[2][0]).toEqual({
-      options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}/eth/inv`
+      url: `${fakeWalletOptions.domains.webSocket}/coins`
     })
     expect(ApiSocket).toHaveBeenCalledTimes(1)
     expect(ApiSocket).toHaveBeenCalledWith({
@@ -148,12 +134,10 @@ describe('App Store Config', () => {
       api: 'FAKE_WALLET_API',
       kvStorePath: 'wallet.kvstore'
     })
-    expect(btcSocketSpy).toHaveBeenCalledTimes(1)
-    expect(btcSocketSpy).toHaveBeenCalledWith(expect.any(Object))
-    expect(bchSocketSpy).toHaveBeenCalledTimes(1)
-    expect(bchSocketSpy).toHaveBeenCalledWith(expect.any(Object))
-    expect(ethSocketSpy).toHaveBeenCalledTimes(1)
-    expect(ethSocketSpy).toHaveBeenCalledWith(expect.any(Object))
+
+    expect(coinsSocketSpy).toHaveBeenCalledTimes(1)
+    expect(coinsSocketSpy).toHaveBeenCalledWith(expect.any(Object))
+
     expect(walletSyncSpy).toHaveBeenCalledTimes(1)
     expect(walletSyncSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),

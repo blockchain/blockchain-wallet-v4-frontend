@@ -24,10 +24,8 @@ import {
   autoDisconnection,
   matomoMiddleware,
   streamingXlm,
-  webSocketBch,
-  webSocketBtc,
-  webSocketEth,
-  webSocketRates
+  webSocketRates,
+  webSocketCoins
 } from '../middleware'
 
 const devToolsConfig = {
@@ -63,21 +61,15 @@ const configureStore = () => {
       // TODO: deprecate when wallet-options-v4 is updated on prod
       const socketUrl = head(options.domains.webSocket.split('/inv'))
       const horizonUrl = options.domains.horizon
-      const btcSocket = new Socket({
+      const coinsSocket = new Socket({
         options,
-        url: `${socketUrl}/inv`
-      })
-      const bchSocket = new Socket({
-        options,
-        url: `${socketUrl}/bch/inv`
-      })
-      const ethSocket = new Socket({
-        options,
-        url: `${socketUrl}/eth/inv`
+        url: `${socketUrl}/coins`
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `${socketUrl}/nabu-gateway/markets/quotes`,
+        url: `${socketUrl
+          .split('/coins')
+          .join('')}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const xlmStreamingService = new HorizonStreamingService({
@@ -135,11 +127,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            webSocketBtc(btcSocket),
-            webSocketBch(bchSocket),
-            webSocketEth(ethSocket),
             streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
+            webSocketCoins(coinsSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             matomoMiddleware(),
             autoDisconnection()
@@ -150,15 +140,13 @@ const configureStore = () => {
 
       sagaMiddleware.run(rootSaga, {
         api,
-        bchSocket,
-        btcSocket,
-        ethSocket,
         ratesSocket,
         networks,
         options,
         domains,
         http,
-        authorizedHttp
+        authorizedHttp,
+        coinsSocket
       })
 
       // expose globals here

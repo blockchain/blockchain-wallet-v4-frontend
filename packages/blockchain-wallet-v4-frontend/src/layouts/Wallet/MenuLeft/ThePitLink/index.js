@@ -60,14 +60,14 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
 )
 
 const PitLink = props => {
-  if (!props.showThePitPulse || props.pitConnectTest === 'original')
-    return (
-      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
-        {props.children}
-      </SpotlightLinkContainer>
-    )
+  // if (!props.showThePitPulse || props.pitConnectTest === 'original')
+  return (
+    <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+      {props.children}
+    </SpotlightLinkContainer>
+  )
 
-  return <div>{props.children}</div>
+  // return <div>{props.children}</div>
 }
 
 const PitLinkContent = props => {
@@ -134,22 +134,20 @@ const PitLinkContent = props => {
 }
 
 const ThePitLink = props => {
-  return props.isInvitedToPitSidenav ? (
-    props.isPitAccountLinked ? (
-      <Link
-        href={props.pitUrl}
-        rel='noopener noreferrer'
-        target='_blank'
-        style={{ width: '100%' }}
-      >
-        <MenuItem data-e2e='thePitLink'>
-          {ThePitSidenavItem(null, props.isPitAccountLinked)}
-        </MenuItem>
-      </Link>
-    ) : (
-      <PitLinkContent {...props} />
-    )
-  ) : null
+  return props.isPitAccountLinked ? (
+    <Link
+      href={props.pitUrl}
+      rel='noopener noreferrer'
+      target='_blank'
+      style={{ width: '100%' }}
+    >
+      <MenuItem data-e2e='thePitLink'>
+        {ThePitSidenavItem(null, props.isPitAccountLinked)}
+      </MenuItem>
+    </Link>
+  ) : (
+    <PitLinkContent {...props} />
+  )
 }
 
 export default ThePitLink

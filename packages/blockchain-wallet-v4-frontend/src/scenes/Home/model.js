@@ -54,9 +54,13 @@ const TourTooltipComponent = ({
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
         break
       case 4:
-        setFooterButtonDataE2e('closeWalletTour')
+        setFooterButtonDataE2e('showWalletTourThePit')
         setTourTooltipDataE2e('walletTourBuySell')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
+        break
+      case 5:
+        setFooterButtonDataE2e('closeWalletTour')
+        setTourTooltipDataE2e('walletTourThePit')
         break
     }
   }, [index])
@@ -72,8 +76,9 @@ const TourTooltipComponent = ({
         {...skipProps}
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
-      <TooltipFooter data-e2e={footerButtonDataE2e} isLastStep={isLastStep}>
+      <TooltipFooter isLastStep={isLastStep}>
         <Button
+          data-e2e={footerButtonDataE2e}
           width='110px'
           height='48px'
           nature='primary'

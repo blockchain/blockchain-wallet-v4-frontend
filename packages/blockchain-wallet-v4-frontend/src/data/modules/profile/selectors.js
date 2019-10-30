@@ -7,9 +7,10 @@ import {
   find,
   findLast,
   hasPath,
-  lift,
   includes,
   isNil,
+  lift,
+  lte,
   not,
   path,
   pathOr,
@@ -59,6 +60,12 @@ export const isUserStateNone = compose(
 export const isUserVerified = compose(
   lift(equals(KYC_STATES.VERIFIED)),
   getUserKYCState
+)
+export const isSilverOrAbove = compose(
+  lte(1),
+  path(['data', 'current']),
+  lift(path(['tiers'])),
+  getUserData
 )
 export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),

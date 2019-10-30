@@ -100,7 +100,7 @@ const Home = props => {
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      onboardingActions.setWalletTourVisibility(false)
+      onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
     }
     // PIT tooltip seen
     if (data.index === 5) {
@@ -119,7 +119,7 @@ const Home = props => {
         </ColumnRight>
       </ColumnWrapper>
       <Joyride
-        run={showWalletTour}
+        run={showWalletTour === true}
         steps={TOUR_STEPS}
         disableScrollParentFix={true}
         callback={handleTourCallbacks}
