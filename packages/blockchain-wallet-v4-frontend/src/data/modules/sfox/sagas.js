@@ -1,7 +1,7 @@
 import { apply, call, delay, put, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
+import * as selectors from '../../selectors'
 import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
 import * as C from 'services/AlertService'

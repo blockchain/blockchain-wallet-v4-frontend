@@ -5,7 +5,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
+import * as selectors from '../../selectors'
 import settingsSagas, {
   logLocation,
   ipRestrictionError,

@@ -17,8 +17,9 @@ import {
   toLower
 } from 'ramda'
 
-import { selectors, model } from 'data'
-import { hasAccount } from 'services/ExchangeService'
+import { model } from '../../../data/index'
+import * as selectors from '../../../data/selectors'
+import { hasAccount } from '../../../services/ExchangeService'
 
 const { WALLET_TX_SEARCH } = model.form
 const filterTransactions = curry((status, criteria, transactions) => {
@@ -76,13 +77,20 @@ export const getData = (state, coin) =>
       const status = propOr('', 'status', userSearch)
       const filteredPages =
         pages && !isEmpty(pages)
-          ? pages.map(map(filterTransactions(status, search)))
+          ? // @ts-ignore
+            // @ts-ignore
+            pages.map(map(filterTransactions(status, search)))
           : []
+      // @ts-ignore
       const partnerData = prop('value', buySellMetadata.getOrElse())
+      // @ts-ignore
       const currency = currencyR.getOrElse('')
+      // TS Testing
+      const btcAtBounds = selectors.core.data.btc.getTransactionsAtBound(state)
 
       return {
         currency: currency,
+        btcAtBounds,
         pages: filteredPages,
         empty: all(empty)(filteredPages),
         search: search.length > 0 || status !== '',

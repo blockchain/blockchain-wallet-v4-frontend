@@ -1,7 +1,7 @@
 import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
+import * as selectors from '../../selectors'
 import transactionReportSagas, { initialValues, logLocation } from './sagas'
 import moment from 'services/MomentHelper'
 

@@ -1,7 +1,7 @@
 import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions.js'
 import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
+import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Types } from 'blockchain-wallet-v4/src'
