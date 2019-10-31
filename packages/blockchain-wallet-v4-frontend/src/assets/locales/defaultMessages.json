@@ -4208,7 +4208,7 @@
         "id": "modals.sunriverlinkerror.campaign_has_expired"
       },
       {
-        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
+        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again. Server msg: {error}",
         "id": "modals.sunriverlinkerror.error"
       },
       {
