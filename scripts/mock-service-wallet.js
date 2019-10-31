@@ -3,6 +3,7 @@
 'use strict'
 
 const chalk = require('chalk')
+const crypto = require(`crypto`)
 const express = require(`express`)
 const fetch = require('node-fetch')
 const fs = require(`fs`).promises
@@ -22,31 +23,35 @@ const { version } = require(`../package.json`)
   {
     BACKEND_ENV,
     DISABLE_SSL,
+    GENERATE_NONCE,
     MAIN_PROCESS_URL,
     NODE_ENV,
     SECURITY_PROCESS_URL,
     SERVER_HOST
   } = process.env
 ) => {
+  const nonce = GENERATE_NONCE
+    ? crypto.randomBytes(16).toString('base64')
+    : undefined
+
   const RootCSP = ({
     api,
-    comWalletApp,
     mainProcess,
     root,
     securityProcess,
     webpack,
     webSocket
   }) => ({
-    'base-uri': [comWalletApp],
-    'connect-src': [api, comWalletApp, root, webpack, webSocket],
+    'base-uri': [`'self'`],
+    'connect-src': [`'self'`, api, root, webpack, webSocket],
     'default-src': [`'none'`],
     'form-action': [`'none'`],
     'frame-src': [mainProcess, securityProcess],
-    'img-src': [comWalletApp],
-    'manifest-src': [comWalletApp],
+    'img-src': [`'self'`],
+    'manifest-src': [`'self'`],
     'object-src': [`'none'`],
-    'script-src': [comWalletApp, `'unsafe-eval'`],
-    'style-src': [`'unsafe-inline'`]
+    'script-src': [`'self'`, `'nonce-**CSP_NONCE**'`],
+    'style-src': [`'nonce-**CSP_NONCE**'`]
   })
 
   const CSP = {
@@ -55,10 +60,15 @@ const { version } = require(`../package.json`)
     security: SecurityCSP
   }
 
-  const cspToString = policy =>
-    Object.entries(policy)
+  const replaceNonce = string => string.replace(/\*\*CSP_NONCE\*\*/g, nonce)
+
+  const cspToString = policy => {
+    const string = Object.entries(policy)
       .map(([key, value]) => `${key} ${value.join(' ')}`)
       .join(`; `)
+
+    return nonce ? replaceNonce(string) : string
+  }
 
   const subdomains = {
     development: `dev`,
@@ -95,9 +105,14 @@ const { version } = require(`../package.json`)
 
   const port = 8080
 
+  const comWalletApp =
+    SERVER_HOST === `0.0.0.0`
+      ? originalWalletOptions.domains.comWalletApp
+      : `${protocol}://localhost:${port}`
+
   const serverOverrides = {
     domains: {
-      comWalletApp: `${protocol}://localhost:${port}`,
+      comWalletApp,
       ...(MAIN_PROCESS_URL ? { mainProcess: MAIN_PROCESS_URL } : {}),
       ...(SECURITY_PROCESS_URL ? { securityProcess: SECURITY_PROCESS_URL } : {})
     }
@@ -125,19 +140,22 @@ const { version } = require(`../package.json`)
       ],
       domains
     ),
+    nonce,
     protocol
   }
 
   console.log(util.inspect(configuration, { colors: true }))
 
   const createProcessServer = async ({
-    app = express(),
+    configureApp = () => {},
     domains,
     host = `localhost`,
     name,
     port: requestedPort = 0,
     self
   }) => {
+    const app = express()
+
     const port = await new Promise(resolve => {
       const server = createServer(app)
 
@@ -149,21 +167,61 @@ const { version } = require(`../package.json`)
     const url = `${protocol}://${host}:${port}`
     const csp = CSP[name]({ ...domains, self: self || url })
 
-    const setHeaders = response => {
+    app.use((request, response, next) => {
       response.set({
         'Access-Control-Allow-Origin': '*',
         'Content-Security-Policy': cspToString(csp)
       })
-    }
 
-    app.use(express.static(path.join(PATHS.ciBuild, name), { setHeaders }))
+      next()
+    })
+
+    configureApp(app)
+
+    app.use(express.static(path.join(PATHS.ciBuild, name)))
     return url
+  }
+
+  const configureMainApp = app => {
+    if (nonce) {
+      app.get(`/`, async (request, response) => {
+        const template = await fs.readFile(
+          path.join(__dirname, `../dist/main/index.html`),
+          `utf8`
+        )
+
+        response.send(replaceNonce(template))
+      })
+    }
+  }
+
+  const configureSecurityApp = app => {
+    if (nonce) {
+      app.get(`/`, async (request, response) => {
+        const template = await fs.readFile(
+          path.join(__dirname, `../dist/security/index.html`),
+          `utf8`
+        )
+
+        response.send(replaceNonce(template))
+      })
+    }
   }
 
   const [mainProcessUrl, securityProcessUrl] = await Promise.all(
     [
-      { domains, name: `main`, self: domains.mainProcess },
-      { domains, name: `security`, self: domains.securityProcess }
+      {
+        configureApp: configureMainApp,
+        domains,
+        name: `main`,
+        self: domains.mainProcess
+      },
+      {
+        configureApp: configureSecurityApp,
+        domains,
+        name: `security`,
+        self: domains.securityProcess
+      }
     ].map(createProcessServer)
   )
 
@@ -177,56 +235,66 @@ const { version } = require(`../package.json`)
     }
   }
 
-  const app = express()
+  const configureApp = app => {
+    if (domains.mainProcess && domains.securityProcess) {
+      const proxy = httpProxy.createProxyServer()
 
-  if (domains.mainProcess && domains.securityProcess) {
-    const proxy = httpProxy.createProxyServer()
+      app.use(
+        vhost(domains.mainProcess, (request, response) => {
+          proxy.web(request, response, { target: mainProcessUrl })
+        })
+      )
 
-    app.use(
-      vhost(domains.mainProcess, (request, response) => {
-        proxy.web(request, response, { target: mainProcessUrl })
+      app.use(
+        vhost(domains.securityProcess, (request, response) => {
+          proxy.web(request, response, { target: securityProcessUrl })
+        })
+      )
+    }
+
+    if (nonce) {
+      app.get(`/`, async (request, response) => {
+        const template = await fs.readFile(
+          path.join(__dirname, `../dist/root/index.html`),
+          `utf8`
+        )
+
+        response.send(replaceNonce(template))
       })
-    )
+    }
 
-    app.use(
-      vhost(domains.securityProcess, (request, response) => {
-        proxy.web(request, response, { target: securityProcessUrl })
-      })
-    )
+    app.get(`/healthz`, (request, response) => {
+      response.json({ 'blockchain-wallet-v4-frontend': version })
+    })
+
+    app.get(`/main.*.js`, async (request, response) => {
+      const filename = request.path.slice(1)
+
+      const template = await fs.readFile(
+        path.join(__dirname, `../dist/root/${filename}`),
+        `utf8`
+      )
+
+      const index = template
+        .replace(
+          `MAIN_PROCESS_URL`,
+          JSON.stringify(domains.mainProcess || mainProcessUrl)
+        )
+        .replace(
+          `SECURITY_PROCESS_URL`,
+          JSON.stringify(domains.securityProcess || securityProcessUrl)
+        )
+
+      response.send(index)
+    })
+
+    app.get('/Resources/wallet-options-v4.json', function (request, response) {
+      response.json(walletOptions)
+    })
   }
 
-  app.get(`/healthz`, (request, response) => {
-    console.log(`FOO`)
-    response.json({ 'blockchain-wallet-v4-frontend': version })
-  })
-
-  app.get(`/main.*.js`, async (request, response) => {
-    const filename = request.path.slice(1)
-
-    const template = await fs.readFile(
-      path.join(__dirname, `../dist/root/${filename}`),
-      `utf8`
-    )
-
-    const index = template
-      .replace(
-        `MAIN_PROCESS_URL`,
-        JSON.stringify(domains.mainProcess || mainProcessUrl)
-      )
-      .replace(
-        `SECURITY_PROCESS_URL`,
-        JSON.stringify(domains.securityProcess || securityProcessUrl)
-      )
-
-    response.send(index)
-  })
-
-  app.get('/Resources/wallet-options-v4.json', function (request, response) {
-    response.json(walletOptions)
-  })
-
   const url = await createProcessServer({
-    app,
+    configureApp,
     domains: {
       mainProcess: mainProcessUrl,
       securityProcess: securityProcessUrl,

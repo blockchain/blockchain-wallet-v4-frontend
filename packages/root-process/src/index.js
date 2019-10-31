@@ -64,7 +64,7 @@ import './favicons'
   const mainProcessPromise = createProcess({
     name: `main`,
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: `${mainProcessDomain}/index.html#/login`
+    src: `${mainProcessDomain}/#/login`
   })
 
   const pathname = window.location.hash.slice(1)
@@ -74,7 +74,7 @@ import './favicons'
     // `allow-popups allow-popups-to-escape-sandbox`: Allow downloading of the
     // backup phrase recovery PDF.
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: `${securityProcessDomain}/index.html#${pathname}`
+    src: `${securityProcessDomain}/#${pathname}`
   })
 
   setForeground(securityProcess, `lightgreen`)

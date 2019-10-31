@@ -68,7 +68,7 @@ module.exports = ({
     'mediastream:'
   ],
   'object-src': ["'none'"],
-  'script-src': [self, "'unsafe-eval'"],
-  'style-src': ["'unsafe-inline'", self],
+  'script-src': [self, `'nonce-**CSP_NONCE**'`],
+  'style-src': [self, `'nonce-**CSP_NONCE**'`],
   'worker-src': ['blob:;']
 })
