@@ -30,6 +30,8 @@ module.exports = ({
     walletHelper
   ],
   'connect-src': [
+    'https://horizon.stellar.org',
+    'https://www.unocoin.com',
     api,
     bitpay,
     coinify,
@@ -44,9 +46,7 @@ module.exports = ({
     shapeshift_url,
     webpackHttp,
     webpackWebSocket,
-    webSocket,
-    'https://horizon.stellar.org',
-    'https://www.unocoin.com'
+    webSocket
   ],
   'default-src': [self],
   'font-src': [self],
@@ -59,16 +59,16 @@ module.exports = ({
     veriff,
     walletHelper
   ],
-  'img-src': [self, root, 'android-webview-video-poster:', 'blob:', 'data:'],
+  'img-src': ['android-webview-video-poster:', 'blob:', 'data:', root, self],
   'media-src': [
-    self,
     'blob:',
     'data:',
     'https://storage.googleapis.com/bc_public_assets/',
-    'mediastream:'
+    'mediastream:',
+    self
   ],
   'object-src': ["'none'"],
-  'script-src': [self, `'nonce-**CSP_NONCE**'`],
-  'style-src': [self, `'nonce-**CSP_NONCE**'`],
+  'script-src': [`'nonce-**CSP_NONCE**'`, self],
+  'style-src': [`'nonce-**CSP_NONCE**'`, self],
   'worker-src': ['blob:;']
 })

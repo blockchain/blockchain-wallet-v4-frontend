@@ -118,10 +118,19 @@ const { version } = require(`../package.json`)
     }
   }
 
+  const TERRIBLE_HACK =
+    SERVER_HOST === `0.0.0.0`
+      ? {
+          mainProcess: `https://wallet-frontend-v4-main.dev.blockchain.info/`,
+          securityProcess: `https://wallet-frontend-v4-security.dev.blockchain.info/`
+        }
+      : {}
+
   const walletOptions = [
     originalWalletOptions,
     localOverrides,
-    serverOverrides
+    serverOverrides,
+    TERRIBLE_HACK
   ].reduce(R.mergeDeepRight)
 
   const { domains } = walletOptions
