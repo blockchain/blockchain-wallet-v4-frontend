@@ -285,6 +285,7 @@ const { version } = require(`../package.json`)
           JSON.stringify(domains.securityProcess || securityProcessUrl)
         )
 
+      response.type(`js`)
       response.send(index)
     })
 
