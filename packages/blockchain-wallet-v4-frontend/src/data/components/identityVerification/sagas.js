@@ -99,13 +99,13 @@ export default ({ api, coreSagas }) => {
       // Buffer for tagging user
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
+      yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
       const tags = (yield select(selectors.modules.profile.getTags)).getOrElse({
         [campaign]: false
       })
       const isCampaignTagged = prop(campaign, tags)
       // Something went wrong with tagging the campaign
       if (!isCampaignTagged) return
-      yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
       yield put(actions.modals.closeAllModals())
       yield put(actions.modals.showModal('AirdropSuccess'))

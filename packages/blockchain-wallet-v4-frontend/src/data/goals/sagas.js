@@ -416,10 +416,10 @@ export default ({ api }) => {
     const { current } = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({ current: 0 }) || { current: 0 }
-    const sunRiverTag = (yield select(
-      selectors.modules.profile.getSunRiverTag
+    const blockstackTag = (yield select(
+      selectors.modules.profile.getBlockstackTag
     )).getOrElse(false)
-    if (current === TIERS[2] && !sunRiverTag) {
+    if (current === TIERS[2] && !blockstackTag) {
       yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
     }
   }
