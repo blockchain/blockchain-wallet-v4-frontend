@@ -30,6 +30,9 @@ const getAmount = operation => {
   if (operation.startingBalance) return operation.startingBalance().toString()
   return '0'
 }
+
+const getAsset = operation =>
+  'asset' in operation ? operation.asset()._switch.name : 'assetTypeNative'
 export const getDestination = operation =>
   StellarSdk.StrKey.encodeEd25519PublicKey(operation.destination().value())
 
@@ -43,6 +46,8 @@ const getLabel = (accounts, address) =>
 export const isLumenOperation = operation =>
   typeof operation.destination === 'function'
 
+export const isNativeAsset = tx => tx.asset === 'assetTypeNative'
+
 export const belongsToCurrentWallet = (accounts, from, to) => {
   const accountIds = map(prop('publicKey'), accounts)
   return !isEmpty(intersection([from, to], accountIds))
@@ -50,6 +55,7 @@ export const belongsToCurrentWallet = (accounts, from, to) => {
 
 export const transformTx = curry((accounts, txNotes, tx, operation) => {
   const addresses = map(prop('publicKey'), accounts)
+  const asset = getAsset(operation)
   const operationAmount = getAmount(operation)
   const to = getDestination(operation)
   const from = prop('source_account', tx)
@@ -68,6 +74,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
   return {
     blockHeight: -1,
     description: pathOr('', [hash], txNotes),
+    asset,
     amount,
     fee: Remote.Success(fee),
     from: getLabel(accounts, from),

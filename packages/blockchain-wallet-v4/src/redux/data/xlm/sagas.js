@@ -22,9 +22,9 @@ import { xlm } from '../../../transactions'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 
-const { transformTx, decodeOperations, isLumenOperation } = xlm
+const { transformTx, decodeOperations, isLumenOperation, isNativeAsset } = xlm
 
-export const ACCOUNT_NOT_FOUND = 'Not Found'
+export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
 
 export const sumBigNumbers = reduce(
@@ -137,6 +137,7 @@ export default ({ api, networks }) => {
         const operations = decodeOperations(tx)
         return compose(
           filter(prop('belongsToWallet')),
+          filter(isNativeAsset),
           map(transformTx(accounts, txNotes, tx)),
           filter(isLumenOperation)
         )(operations)
