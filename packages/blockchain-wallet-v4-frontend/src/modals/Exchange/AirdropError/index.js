@@ -60,7 +60,8 @@ const getErrorMessage = ({ code }) => {
       return (
         <FormattedHTMLMessage
           id='modals.sunriverlinkerror.error'
-          defaultMessage='Oops! We had trouble processing your airdrop. Please try again.'
+          defaultMessage='Oops! We had trouble processing your airdrop. Please try again. Server msg: {error}'
+          values={{ error: code }}
         />
       )
   }
