@@ -62,7 +62,7 @@
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.dev.js --progress --colors",
-    "ci:compile": "echo yarn workspace root-process ci:compile",
+    "ci:compile": "yarn workspace root-process ci:compile",
     "ci:coverage:components": "yarn workspace blockchain-info-components ci:coverage:components",
     "ci:coverage:core": "yarn workspace blockchain-wallet-v4 ci:coverage:core",
     "ci:coverage:main": "yarn workspace main-process ci:coverage:frontend",
