@@ -1,6 +1,6 @@
 import { delay, put } from 'redux-saga/effects'
 
-import * as actions from './actions.js'
+import * as actions from './actions.ts'
 import * as sagas from './sagas'
 
 describe('Alert Sagas', () => {

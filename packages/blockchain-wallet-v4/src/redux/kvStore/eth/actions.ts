@@ -26,7 +26,7 @@ export const createMetadataEth = data => ({
   type: AT.CREATE_METADATA_ETH,
   payload: data
 })
-export const setTxNotesEth = (txHash, txNote) => ({
+export const setTxNotesEth = (txHash: string, txNote: string) => ({
   type: AT.SET_TRANSACTION_NOTE_ETH,
   payload: { txHash, txNote }
 })

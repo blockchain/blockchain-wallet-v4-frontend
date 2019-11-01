@@ -3,11 +3,32 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { includes } from 'ramda'
 
-import { actions, model, selectors } from 'data'
+import { actions, model, selectors } from '../../data'
 import TransactionListItem from './template'
+import { TransactionType } from '@network/api/btc/types'
+import {
+  CoinType,
+  Erc20Type,
+  CurrencyType
+} from 'blockchain-wallet-v4-frontend/src/types'
+
+type PropTypes = {
+  analyticsActions: any
+  coin: CoinType
+  currency: CurrencyType
+  buySellPartner: string
+  ethTxActions: any
+  erc20List: Erc20Type
+  bchActions: typeof actions.core.kvStore.bch
+  ethActions: typeof actions.core.kvStore.eth
+  logActions: any
+  transaction: TransactionType
+  walletActions: typeof actions.core.wallet
+  xlmActions: typeof actions.core.kvStore.xlm
+}
 
 const { TRANSACTION_EVENTS } = model.analytics
-class ListItemContainer extends React.PureComponent {
+class ListItemContainer extends React.PureComponent<PropTypes> {
   state = { isToggled: false }
 
   handleToggle = () => {
@@ -60,7 +81,7 @@ class ListItemContainer extends React.PureComponent {
     ])
   }
 
-  render () {
+  render() {
     const { coin, currency, transaction, buySellPartner } = this.props
     return (
       <TransactionListItem

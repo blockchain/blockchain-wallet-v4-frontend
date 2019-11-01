@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import * as actions from '../actions.js'
+import * as actions from '../actions.ts'
 import * as C from 'services/AlertService'
 import { requireUniqueWalletName } from 'services/FormHelper'
 import { selectors } from 'data'

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { compose, prop, length, reverse, sortBy } from 'ramda'
 
-import TransactionListItem from 'components/TransactionListItem'
+import TransactionListItem from 'components/TransactionListItem/index.tsx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import EmptyTx from 'components/EmptyTx'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'

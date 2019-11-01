@@ -1,81 +1,83 @@
-import { taggedSum } from 'daggy'
-
-const Remote = taggedSum('Remote', {
+'use strict'
+exports.__esModule = true
+var daggy_1 = require('daggy')
+var Remote = daggy_1.taggedSum('Remote', {
   NotAsked: [],
   Loading: [],
   Failure: ['error'],
   Success: ['data']
 })
 Remote.of = Remote.Success
-
 Remote.prototype.map = function (f) {
+  var _this = this
   return this.cata({
-    Success: x => Remote.Success(f(x)),
-    Failure: () => this,
-    Loading: () => this,
-    NotAsked: () => this
+    Success: function (x) {
+      return Remote.Success(f(x))
+    },
+    Failure: function () {
+      return _this
+    },
+    Loading: function () {
+      return _this
+    },
+    NotAsked: function () {
+      return _this
+    }
   })
 }
-
-Remote.prototype.ap = function (that) {
-  return this.cata({
-    Success: f => that.map(f),
-    Failure: () =>
-      that.cata({
-        Success: f => this,
-        Failure: () => this,
-        Loading: () => this,
-        NotAsked: () => that
-      }),
-    Loading: () =>
-      that.cata({
-        Success: f => this,
-        Failure: () => that,
-        Loading: () => that,
-        NotAsked: () => that
-      }),
-    NotAsked: () => this
-  })
-}
-
 Remote.prototype.toJSON = function () {
   return {
     data: { __remote: this['@@values'][0] || [] },
     __serializedType__: this['@@tag']
   }
 }
-
 Remote.prototype.chain = function (f) {
+  var _this = this
   return this.cata({
-    Success: x => f(x),
-    Failure: () => this,
-    Loading: () => this,
-    NotAsked: () => this
+    Success: function (x) {
+      return f(x)
+    },
+    Failure: function () {
+      return _this
+    },
+    Loading: function () {
+      return _this
+    },
+    NotAsked: function () {
+      return _this
+    }
   })
 }
-
 Remote.prototype.getOrElse = function (defaultValue) {
   return this.cata({
-    Success: value => value,
-    Failure: () => defaultValue,
-    Loading: () => defaultValue,
-    NotAsked: () => defaultValue
+    Success: function (value) {
+      return value
+    },
+    Failure: function () {
+      return defaultValue
+    },
+    Loading: function () {
+      return defaultValue
+    },
+    NotAsked: function () {
+      return defaultValue
+    }
   })
 }
-
 Remote.prototype.getOrFail = function (errorValue) {
   return this.cata({
-    Success: value => value,
-    Failure: () => {
+    Success: function (value) {
+      return value
+    },
+    Failure: function () {
       throw errorValue
     },
-    Loading: () => {
+    Loading: function () {
       throw errorValue
     },
-    NotAsked: () => {
+    NotAsked: function () {
       throw errorValue
     }
   })
 }
-
-export default Remote
+exports['default'] = Remote

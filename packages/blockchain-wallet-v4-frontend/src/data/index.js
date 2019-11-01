@@ -1,4 +1,4 @@
-import * as actions from './actions'
+import * as actions from './actions.ts'
 import * as actionTypes from './actionTypes'
 import * as model from './model'
 import rootReducer from './rootReducer'

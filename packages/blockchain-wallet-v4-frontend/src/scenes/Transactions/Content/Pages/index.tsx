@@ -1,16 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import DataError from 'components/DataError'
+import DataError from '../../../../components/DataError'
 import Loading from './template.loading'
 import Success from './template.success'
+import { TransactionType } from '@network/api/btc/types'
+import { CoinType, CurrencyType } from 'blockchain-wallet-v4-frontend/src/types'
 
-class Pages extends React.PureComponent {
-  render () {
+export type PropTypes = {
+  buySellPartner: string
+  coin: CoinType
+  currency: CurrencyType
+  data?: any
+  transactions: Array<TransactionType>
+  onArchive?: () => void
+}
+
+class Pages extends React.PureComponent<PropTypes> {
+  render() {
     const { buySellPartner, coin, currency, data } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value: Array<TransactionType>) => (
         <Success
           coin={coin}
           currency={currency}
@@ -25,10 +35,6 @@ class Pages extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
-}
-
-Pages.propTypes = {
-  coin: PropTypes.string.isRequired
 }
 
 export default Pages

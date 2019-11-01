@@ -1,6 +1,6 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 
-import * as actions from '../../actions.js'
+import * as actions from '../../actions.ts'
 import * as C from 'services/AlertService'
 import sagas from './sagas.js'
 
