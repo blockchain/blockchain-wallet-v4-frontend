@@ -112,7 +112,7 @@ const LinkAccount = () => {
             weight={500}
             color='gray-6'
             size='12px'
-            style={{ marginTop: '4px' }}
+            style={{ marginTop: '4px', marginLeft: '16px' }}
           >
             <FormattedMessage
               id='scenes.linkaccount.by_blockchain'
