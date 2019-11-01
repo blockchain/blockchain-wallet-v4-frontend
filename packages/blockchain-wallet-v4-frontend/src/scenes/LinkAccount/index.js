@@ -7,7 +7,6 @@ import media from 'services/ResponsiveService'
 
 const InfoWrapper = styled(Wrapper)`
   width: 360px;
-  height: 100%;
   margin-right: 16px;
   padding: 0px;
 `
@@ -104,7 +103,7 @@ const LinkAccount = () => {
       </InnerWrapper>
       <Footer>
         <PitLogo name='the-pit-logo' height='42px' />
-        <div>
+        <div style={{ marginLeft: '16px' }}>
           <Text size='20px' color='brand-primary' weight={600}>
             The PIT
           </Text>
@@ -112,7 +111,7 @@ const LinkAccount = () => {
             weight={500}
             color='gray-6'
             size='12px'
-            style={{ marginTop: '4px', marginLeft: '16px' }}
+            style={{ marginTop: '4px' }}
           >
             <FormattedMessage
               id='scenes.linkaccount.by_blockchain'
