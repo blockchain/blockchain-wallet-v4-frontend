@@ -240,7 +240,7 @@ const { version } = require(`../package.json`)
     const { hostname } = new URL(url)
 
     return (request, response, next) => {
-      if (request.hostname === hostname) {
+      if (request.headers[`x-original-host`] === hostname) {
         middleware(request, response, next)
       } else {
         next()
@@ -250,7 +250,6 @@ const { version } = require(`../package.json`)
 
   const configureApp = app => {
     if (domains.mainProcess && domains.securityProcess) {
-      app.enable('trust proxy')
       const proxy = httpProxy.createProxyServer()
 
       app.use(
