@@ -22,13 +22,6 @@ module.exports = ({
   webpackWebSocket,
   webSocket
 }) => ({
-  'child-src': [
-    coinifyPaymentDomain,
-    i_sign_this_domain,
-    root,
-    veriff,
-    walletHelper
-  ],
   'connect-src': [
     'https://horizon.stellar.org',
     'https://www.unocoin.com',

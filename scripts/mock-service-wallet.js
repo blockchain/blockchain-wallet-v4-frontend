@@ -252,12 +252,36 @@ const { version } = require(`../package.json`)
 
       app.use(
         vhost(domains.mainProcess, (request, response) => {
+          const router = express.Router()
+
+          router.get(`/healthz`, (request, response) => {
+            response.json({
+              mainProcess: {
+                domains,
+                request: R.pick([`hostname`, `url`], request)
+              }
+            })
+          })
+
+          router(request, response)
           proxy.web(request, response, { target: mainProcessUrl })
         })
       )
 
       app.use(
         vhost(domains.securityProcess, (request, response) => {
+          const router = express.Router()
+
+          router.get(`/healthz`, (request, response) => {
+            response.json({
+              securityProcess: {
+                domains,
+                request: R.pick([`hostname`, `url`], request)
+              }
+            })
+          })
+
+          router(request, response)
           proxy.web(request, response, { target: securityProcessUrl })
         })
       )
@@ -275,7 +299,11 @@ const { version } = require(`../package.json`)
     }
 
     app.get(`/healthz`, (request, response) => {
-      response.json({ 'blockchain-wallet-v4-frontend': version })
+      response.json({
+        'blockchain-wallet-v4-frontend': version,
+        domains,
+        request: R.pick([`hostname`, `url`], request)
+      })
     })
 
     app.get(`/main.*.js`, async (request, response) => {
