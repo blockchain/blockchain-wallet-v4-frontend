@@ -239,28 +239,8 @@ const { version } = require(`../package.json`)
   const vhost = (url, middleware) => {
     const { hostname } = new URL(url)
 
-    const subdomains = hostname
-      .split(`.`)
-      .slice(0, -2)
-      .join(`.`)
-
     return (request, response, next) => {
-      /* 
-      This originally checked request.hostname but no longer because of this:
-
-      When a proxy receives a request with an absolute-form of
-      request-target, the proxy MUST ignore the received Host header field
-      (if any) and instead replace it with the host information of the
-      request-target.  A proxy that forwards such a request MUST generate a
-      new Host field-value based on the received request-target rather than
-      forward the received Host field-value.
-
-      https://tools.ietf.org/html/rfc7230#section-5.4
-      */
-
-      const requestedSubdomains = request.subdomains.join(`.`)
-
-      if (requestedSubdomains === subdomains) {
+      if (request.hostname === hostname) {
         middleware(request, response, next)
       } else {
         next()
@@ -270,6 +250,7 @@ const { version } = require(`../package.json`)
 
   const configureApp = app => {
     if (domains.mainProcess && domains.securityProcess) {
+      app.enable('trust proxy')
       const proxy = httpProxy.createProxyServer()
 
       app.use(
