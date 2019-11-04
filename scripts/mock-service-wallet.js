@@ -79,7 +79,7 @@ const { version } = require(`../package.json`)
 
   const environment = BACKEND_ENV || NODE_ENV || `development`
   const subdomain = subdomains[environment]
-  const walletOptionsUrl = `https://wallet-frontend-v4.${subdomain}.blockchain.info/Resources/wallet-options-v4.json`
+  const walletOptionsUrl = `https://login-${subdomain}.blockchain.com/Resources/wallet-options-v4.json`
   const originalWalletOptions = await (await fetch(walletOptionsUrl)).json()
   let localOverrides = {}
 
