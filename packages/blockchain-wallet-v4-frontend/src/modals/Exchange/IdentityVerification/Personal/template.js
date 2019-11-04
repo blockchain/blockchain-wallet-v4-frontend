@@ -242,6 +242,7 @@ const Personal = ({
                           />
                         </Label>
                         <Field
+                          data-e2e='selectCountryDropdown'
                           name='country'
                           validate={required}
                           elements={supportedCountries}
@@ -267,6 +268,7 @@ const Personal = ({
                             />
                           </Label>
                           <Field
+                            data-e2e='selectStateDropdown'
                             name='state'
                             validate={[required]}
                             elements={states}
