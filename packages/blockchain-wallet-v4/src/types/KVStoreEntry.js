@@ -1,5 +1,5 @@
 import * as crypto from '../walletCrypto'
-import * as U from '../utils'
+import * as U from '../walletCrypto/utils'
 import { assoc, compose, curry, is, isNil, prop } from 'ramda'
 import { view } from 'ramda-lens'
 import BigInteger from 'bigi'
