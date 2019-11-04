@@ -240,7 +240,10 @@ const { version } = require(`../package.json`)
     const { hostname } = new URL(url)
 
     return (request, response, next) => {
-      if (request.headers[`x-original-host`] === hostname) {
+      const requestedHostname =
+        request.headers[`x-original-host`] || request.hostname
+
+      if (requestedHostname === hostname) {
         middleware(request, response, next)
       } else {
         next()
@@ -252,41 +255,39 @@ const { version } = require(`../package.json`)
     if (domains.mainProcess && domains.securityProcess) {
       const proxy = httpProxy.createProxyServer()
 
-      app.use(
-        vhost(domains.mainProcess, (request, response) => {
-          const router = express.Router()
+      const mainRouter = express.Router()
 
-          router.get(`/healthz`, (request, response) => {
-            response.json({
-              mainProcess: {
-                domains,
-                request: R.pick([`headers`, `hostname`, `url`], request)
-              }
-            })
-          })
-
-          router(request, response)
-          proxy.web(request, response, { target: mainProcessUrl })
+      mainRouter.get(`/healthz`, (request, response) => {
+        response.json({
+          mainProcess: {
+            domains,
+            request: R.pick([`headers`, `hostname`, `url`], request)
+          }
         })
-      )
+      })
 
-      app.use(
-        vhost(domains.securityProcess, (request, response) => {
-          const router = express.Router()
+      mainRouter.use((request, response) => {
+        proxy.web(request, response, { target: mainProcessUrl })
+      })
 
-          router.get(`/healthz`, (request, response) => {
-            response.json({
-              securityProcess: {
-                domains,
-                request: R.pick([`headers`, `hostname`, `url`], request)
-              }
-            })
-          })
+      app.use(vhost(domains.mainProcess, mainRouter))
 
-          router(request, response)
-          proxy.web(request, response, { target: securityProcessUrl })
+      const securityRouter = express.Router()
+
+      securityRouter.get(`/healthz`, (request, response) => {
+        response.json({
+          securityProcess: {
+            domains,
+            request: R.pick([`headers`, `hostname`, `url`], request)
+          }
         })
-      )
+      })
+
+      securityRouter.use((request, response) => {
+        proxy.web(request, response, { target: securityProcessUrl })
+      })
+
+      app.use(vhost(domains.securityProcess, securityRouter))
     }
 
     if (nonce) {
