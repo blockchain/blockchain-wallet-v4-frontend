@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import React from 'react'
 
 import { actions } from 'data'
-import ErrorModal from './template'
 import { selectors } from '../../data'
+import ErrorModal from './template'
 
 class ErrorBoundary extends React.Component {
   state = {

@@ -1,19 +1,19 @@
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
 
 import {
   Button,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
-import { validMobileNumber, required } from 'services/FormHelper'
+import { required, validMobileNumber } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 
 const MobileNumber = styled.div`

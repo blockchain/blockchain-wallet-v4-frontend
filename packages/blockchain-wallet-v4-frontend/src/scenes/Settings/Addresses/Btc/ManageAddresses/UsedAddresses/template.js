@@ -1,9 +1,9 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
+import { Link, Text } from 'blockchain-info-components'
 import UsedAddressesTable from './Table'
-import { Text, Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   margin-top: 30px;

@@ -1,15 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import { formatAmount } from '../services'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-
 import { model } from 'data'
+import { prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
+import CheckConfirmationLink from './CheckConfirmationLink'
 import LimitsUpdateLink from './LimitsUpdateLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import MinimumAmountLink from './MinimumAmountLink'
-import CheckConfirmationLink from './CheckConfirmationLink'
-import { formatAmount } from '../services'
+import React from 'react'
+import styled from 'styled-components'
 
 const {
   NO_LIMITS_ERROR,

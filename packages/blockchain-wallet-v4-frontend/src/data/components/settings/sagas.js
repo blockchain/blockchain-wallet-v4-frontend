@@ -1,7 +1,7 @@
-import { call, select, put } from 'redux-saga/effects'
-import { equals, includes, path, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
+import { call, put, select } from 'redux-saga/effects'
+import { equals, includes, path, prop } from 'ramda'
 
 export const logLocation = 'components/settings/sagas'
 

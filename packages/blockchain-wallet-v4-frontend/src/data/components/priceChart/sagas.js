@@ -1,10 +1,10 @@
-import { put, select, take } from 'redux-saga/effects'
-import * as S from './selectors'
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
+import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { calculateScale, calculateStart } from 'services/ChartService'
+import { put, select, take } from 'redux-saga/effects'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { calculateStart, calculateScale } from 'services/ChartService'
 
 /**
  * Price Chart Sagas

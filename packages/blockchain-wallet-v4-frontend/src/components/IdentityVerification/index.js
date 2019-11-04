@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 import { Button, Image } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
+import media from 'services/ResponsiveService'
+import styled from 'styled-components'
 
 export const Form = styled.form`
   width: 100%;

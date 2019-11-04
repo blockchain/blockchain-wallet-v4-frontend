@@ -1,17 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import { equals, flatten, includes } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
-import { flatten, includes, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
-  SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
-  TextBox,
-  TabMenuTransactionStatus
+  SelectBoxBtcAddresses,
+  TabMenuTransactionStatus,
+  TextBox
 } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
+import styled from 'styled-components'
 
 const { WALLET_TX_SEARCH } = model.form
 
@@ -95,18 +95,21 @@ const EthPrivateKeys = () => (
     />
   </Link>
 )
-const Menu = props => {
-  const {
-    accounts,
-    coin,
-    handleClickReporting,
-    onShowPrivateKey,
-    onShowEthPrivateKeyLegacy,
-    isLegacyEthAddr
-  } = props
+const Menu = ({
+  accounts,
+  coin,
+  handleClickReporting,
+  onShowPrivateKey,
+  onShowEthPrivateKeyLegacy,
+  isLegacyEthAddr
+}) => {
   const options =
     includes(coin, ACCOUNT_FILTER_COINS) && accounts
-      ? flatten(accounts.map(prop('options')))
+      ? flatten(
+          accounts
+            .filter(({ label }) => !equals(label, 'All'))
+            .map(({ options }) => options)
+        )
       : []
 
   return (

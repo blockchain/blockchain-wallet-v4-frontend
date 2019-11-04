@@ -1,7 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-
 import {
   SecurityComponent,
   SecurityContainer,
@@ -10,6 +7,8 @@ import {
   SecurityIcon,
   SecuritySummary
 } from 'components/Security'
+import { Text } from 'blockchain-info-components'
+import React from 'react'
 
 const TwoStepVerification = props => {
   const { message } = props

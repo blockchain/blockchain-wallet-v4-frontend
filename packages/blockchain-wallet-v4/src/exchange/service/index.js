@@ -1,6 +1,6 @@
-import SFOX from 'bitcoin-sfox-client'
-import COINIFY from 'bitcoin-coinify-client'
 import { path } from 'ramda'
+import COINIFY from 'bitcoin-coinify-client'
+import SFOX from 'bitcoin-sfox-client'
 
 const configPath = (partner, key) => [
   'platforms',

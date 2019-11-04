@@ -8,9 +8,9 @@ import {
   set
 } from 'ramda'
 
-import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
-import { FIX_TYPES, MIN_ERROR, MAX_ERROR } from './model'
+import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
+import { FIX_TYPES, MAX_ERROR, MIN_ERROR } from './model'
 import { Remote } from 'blockchain-wallet-v4'
 
 const INITIAL_STATE = {

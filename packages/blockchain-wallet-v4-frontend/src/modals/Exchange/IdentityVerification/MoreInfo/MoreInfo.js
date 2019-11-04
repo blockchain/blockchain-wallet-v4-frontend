@@ -1,21 +1,21 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
 import { actions } from 'data'
-import { Button } from 'blockchain-info-components'
-import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
+  Footer,
   IdentityVerificationForm,
-  InputWrapper,
-  IdentityVerificationImage,
   IdentityVerificationHeader,
+  IdentityVerificationImage,
   IdentityVerificationSubHeader,
-  Footer
+  InputWrapper
 } from 'components/IdentityVerification'
+import { Button } from 'blockchain-info-components'
+import { FooterShadowWrapper } from 'components/Form'
+import media from 'services/ResponsiveService'
 
 const MoreInfoWrapper = styled.div`
   display: flex;

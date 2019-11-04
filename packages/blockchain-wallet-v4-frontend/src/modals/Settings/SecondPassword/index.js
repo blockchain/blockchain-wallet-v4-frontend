@@ -1,13 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 
+import * as C from 'services/AlertService'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
-import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
   state = { secondPassword: '' }

@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import Dropzone from 'react-dropzone'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
+import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
+import Dropzone from 'react-dropzone'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 import {
   Button,

@@ -1,10 +1,9 @@
-import React from 'react'
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-
-import { actions, selectors } from 'data'
 import BasicSecurity from './template'
+import React from 'react'
 
 class BasicSecurityContainer extends React.PureComponent {
   state = {

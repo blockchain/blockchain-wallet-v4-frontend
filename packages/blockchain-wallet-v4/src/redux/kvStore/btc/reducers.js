@@ -1,8 +1,8 @@
-import { assocPath, compose } from 'ramda'
-import { mapped, over } from 'ramda-lens'
 import * as AT from './actionTypes'
-import Remote from '../../../remote'
+import { assocPath, compose } from 'ramda'
 import { KVStoreEntry } from '../../../types'
+import { mapped, over } from 'ramda-lens'
+import Remote from '../../../remote'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked

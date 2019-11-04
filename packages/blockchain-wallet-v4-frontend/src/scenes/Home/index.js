@@ -1,15 +1,14 @@
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { TOUR_STEPS, TourTooltip } from './model'
+import Balances from './Balances'
+import Banners from './Banners'
 import Joyride, { STATUS } from 'react-joyride/lib'
+import PriceChart from './PriceChart'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled, { createGlobalStyle, keyframes } from 'styled-components'
-import { actions, selectors } from 'data'
-
-import { TourTooltip, TOUR_STEPS } from './model'
-import Balances from './Balances'
-import Banners from './Banners'
-import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -100,7 +99,7 @@ const Home = props => {
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      onboardingActions.setWalletTourVisibility(false)
+      onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
     }
     // PIT tooltip seen
     if (data.index === 5) {
@@ -119,7 +118,7 @@ const Home = props => {
         </ColumnRight>
       </ColumnWrapper>
       <Joyride
-        run={showWalletTour}
+        run={showWalletTour === true}
         steps={TOUR_STEPS}
         disableScrollParentFix={true}
         callback={handleTourCallbacks}

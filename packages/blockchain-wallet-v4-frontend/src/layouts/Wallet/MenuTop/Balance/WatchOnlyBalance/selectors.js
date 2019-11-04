@@ -1,7 +1,7 @@
-import { selectors } from 'data'
+import { add, lift, pathOr, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { add, reduce, lift, pathOr } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 export const getBtcWatchOnlyBalance = createDeepEqualSelector(
   [

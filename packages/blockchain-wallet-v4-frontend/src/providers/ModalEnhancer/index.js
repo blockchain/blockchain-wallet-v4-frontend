@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import ReactDOM from 'react-dom'
 import { equals } from 'ramda'
+import React, { PureComponent } from 'react'
+import ReactDOM from 'react-dom'
 
 import { actions, selectors } from 'data'
 

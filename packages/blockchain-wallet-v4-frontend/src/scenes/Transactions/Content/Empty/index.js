@@ -1,11 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import CoinWelcome from './CoinWelcome'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

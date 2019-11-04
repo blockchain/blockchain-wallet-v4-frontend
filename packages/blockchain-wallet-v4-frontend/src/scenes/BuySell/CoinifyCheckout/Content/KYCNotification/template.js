@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react'
+import { Button, Text } from 'blockchain-info-components'
+import { equals, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { Text, Button } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
   kycNotificationBodyHelper
 } from 'services/CoinifyService'
-import { spacing } from 'services/StyleService'
-import { prop, equals } from 'ramda'
 import { model } from 'data'
+import { spacing } from 'services/StyleService'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 const { NONE } = model.profile.KYC_STATES
 

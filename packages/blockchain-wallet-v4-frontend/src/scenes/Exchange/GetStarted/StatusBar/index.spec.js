@@ -1,7 +1,7 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
+import React from 'react'
 import Status from './index'
+import toJson from 'enzyme-to-json'
 
 jest.mock('./Statuses/GetStarted', () => 'GetStarted')
 jest.mock('./Statuses/InProgress', () => 'InProgress')

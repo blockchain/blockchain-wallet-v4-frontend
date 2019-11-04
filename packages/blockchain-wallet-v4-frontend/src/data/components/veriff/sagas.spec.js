@@ -1,9 +1,9 @@
-import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
+import { select } from 'redux-saga/effects'
 
-import { actions, model } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
+import { actions, model } from 'data'
 import sagas from './sagas'
 
 const { STEPS } = model.components.identityVerification

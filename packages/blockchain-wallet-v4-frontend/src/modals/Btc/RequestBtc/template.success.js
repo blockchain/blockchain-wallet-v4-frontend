@@ -1,15 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { includes } from 'ramda'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { model } from 'data'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import { required } from 'services/FormHelper'
-import { invalidAmountMin, invalidAmountMax } from './validation'
 import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   FiatConverter,
@@ -18,10 +14,14 @@ import {
   FormItem,
   FormLabel,
   SelectBoxBtcAddresses,
-  TextArea,
-  SelectBoxCoin
+  SelectBoxCoin,
+  TextArea
 } from 'components/Form'
+import { invalidAmountMax, invalidAmountMin } from './validation'
+import { model } from 'data'
+import { required } from 'services/FormHelper'
 import CopyClipboard from 'components/CopyClipboard'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 const AddressContainer = styled.div`
   display: flex;
@@ -264,6 +264,7 @@ const FirstStep = props => {
               size='13px'
               weight={500}
               onClick={onToggleMakeRequestLink}
+              data-e2e='shareableRequestLink'
             >
               <FormattedHTMLMessage
                 id='modals.requestbtc.makerequestlink'

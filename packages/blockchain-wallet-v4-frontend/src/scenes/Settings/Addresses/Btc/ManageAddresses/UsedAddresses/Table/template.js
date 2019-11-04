@@ -1,17 +1,17 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
-import CoinDisplay from 'components/Display/CoinDisplay'
 import {
   Link,
-  Text,
   Table,
+  TableCell,
   TableHeader,
   TableRow,
-  TableCell,
-  TooltipIcon,
-  TooltipHost
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 const UsedTable = ({ children }) => (
   <Table dataE2e='btcUsedAddressesTable'>

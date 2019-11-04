@@ -1,10 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
+import React from 'react'
 
 const MaximumAmountLink = props => (
   <React.Fragment>

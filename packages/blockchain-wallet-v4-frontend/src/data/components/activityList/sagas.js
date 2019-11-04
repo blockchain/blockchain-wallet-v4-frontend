@@ -1,7 +1,7 @@
-import { select, put } from 'redux-saga/effects'
-import { isEmpty } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
+import { isEmpty } from 'ramda'
+import { put, select } from 'redux-saga/effects'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export default () => {
   const initialized = function * () {

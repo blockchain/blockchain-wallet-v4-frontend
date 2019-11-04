@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts'
-import { calculateStart, calculateInterval } from 'services/ChartService'
+import { calculateInterval, calculateStart } from 'services/ChartService'
 import { getConfig, renderMinMax } from './services'
+import PropTypes from 'prop-types'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '110px' : 0)};
   left: 0;
   width: 100%;
   * {
@@ -18,6 +18,13 @@ const Wrapper = styled.div`
     .highcharts-background {
       fill: ${props => props.theme['white']} !important;
     }
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1),
+      rgba(0, 0, 0, 0)
+    );
+    -webkit-mask-size: 100% 125%;
+    -webkit-mask-repeat: no-repeat;
   }
   .highcharts-tooltip span {
     padding: 0px 2px 2px 2px;
@@ -65,7 +72,10 @@ class Chart extends React.PureComponent {
 
   render () {
     return (
-      <Wrapper coin={this.props.coin}>
+      <Wrapper
+        coin={this.props.coin}
+        isSilverOrAbove={this.props.isSilverOrAbove}
+      >
         <ReactHighcharts
           config={this.state.config}
           callback={this.handleCallback}

@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export const Success = props => (
   <Text size='14px' weight={400} data-e2e='valueAtTimeOfTransaction'>

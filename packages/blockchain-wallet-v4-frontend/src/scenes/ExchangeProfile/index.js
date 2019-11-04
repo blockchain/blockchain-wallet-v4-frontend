@@ -1,14 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-
 import { actions } from 'data'
-import { getData } from './selectors'
-
-import IdentityVerification from './IdentityVerification'
-import DataError from 'components/DataError'
-
 import { BlockchainLoader } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import DataError from 'components/DataError'
+import IdentityVerification from './IdentityVerification'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.section`
   width: 100%;

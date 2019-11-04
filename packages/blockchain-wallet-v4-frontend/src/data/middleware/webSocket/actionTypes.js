@@ -1,7 +1,5 @@
-import * as bch from './bch/actionTypes'
-import * as btc from './btc/actionTypes'
-import * as eth from './eth/actionTypes'
-import * as xlm from './xlm/actionTypes'
+import * as coins from './coins/actionTypes'
 import * as rates from './rates/actionTypes'
+import * as xlm from './xlm/actionTypes'
 
-export { bch, btc, eth, xlm, rates }
+export { xlm, rates, coins }

@@ -1,21 +1,21 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { prop, path, sortBy, reverse, head } from 'ramda'
-import moment from 'moment'
-import RecurringTradeItem from '../RecurringTrade'
-import media from 'services/ResponsiveService'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { RecurringTableHeader } from '../components'
 import {
+  Button,
+  Icon,
+  Link,
   TableCell,
   TableRow,
-  Text,
-  Link,
-  Icon,
-  Button
+  Text
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { head, path, prop, reverse, sortBy } from 'ramda'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { RecurringTableHeader } from '../components'
+import media from 'services/ResponsiveService'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import RecurringTradeItem from '../RecurringTrade'
+import styled from 'styled-components'
 
 const ToggleIcon = styled(Icon)`
   cursor: pointer;

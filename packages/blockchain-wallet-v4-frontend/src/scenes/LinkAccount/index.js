@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const InfoWrapper = styled(Wrapper)`
   width: 360px;

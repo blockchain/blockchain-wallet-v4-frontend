@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { any, assoc, contains, curry, filter, map, path, toLower } from 'ramda'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import FaqContent from './FaqContent'
 import { getData } from './selectors'
 import { selectors } from 'data'
 import Faq from './template.js'
+import FaqContent from './FaqContent'
 
 class FaqContainer extends React.PureComponent {
   render () {

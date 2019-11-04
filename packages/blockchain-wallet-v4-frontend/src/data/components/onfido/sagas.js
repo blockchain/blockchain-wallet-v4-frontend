@@ -1,7 +1,7 @@
-import { put, call, select } from 'redux-saga/effects'
-import { actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
+import { actions } from 'data'
+import { call, put, select } from 'redux-saga/effects'
 export const logLocation = 'components/identityVerification/sagas'
 export default ({ api }) => {
   const fetchOnfidoSDKKey = function * () {

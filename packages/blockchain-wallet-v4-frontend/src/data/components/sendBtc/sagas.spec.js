@@ -1,15 +1,15 @@
-import { select } from 'redux-saga/effects'
+import { combineReducers } from 'redux'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
 import { path, prop } from 'ramda'
-import { combineReducers } from 'redux'
+import { select } from 'redux-saga/effects'
 
-import rootReducer from '../../rootReducer'
-import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
-import { FORM } from './model'
 import { actions, selectors } from 'data'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
+import rootReducer from '../../rootReducer'
 import sendBtcSagas, { logLocation } from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')

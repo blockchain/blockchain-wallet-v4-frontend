@@ -1,8 +1,8 @@
+import { components } from 'react-select'
+import { flatten, length, prop } from 'ramda'
+import CreatableSelect from 'react-select/lib/Creatable'
 import React from 'react'
 import styled from 'styled-components'
-import { flatten, length, prop } from 'ramda'
-import { components } from 'react-select'
-import CreatableSelect from 'react-select/lib/Creatable'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;

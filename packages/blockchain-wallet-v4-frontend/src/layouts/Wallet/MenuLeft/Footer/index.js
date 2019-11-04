@@ -1,11 +1,11 @@
+import { actions, model } from 'data'
+import { bindActionCreators } from 'redux'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { includes } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { includes } from 'ramda'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { actions, model } from 'data'
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 const { ADS_EVENTS } = model.analytics
 

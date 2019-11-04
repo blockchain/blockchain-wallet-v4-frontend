@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 import Template from './template'
 
 class CurrencySwitchContainer extends React.PureComponent {

@@ -1,12 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
-import Success from './template.success'
 import Error from './template.error'
 import Loading from './template.loading'
+import React from 'react'
+import Success from './template.success'
 
 class YubikeyContainer extends React.PureComponent {
   constructor (props) {

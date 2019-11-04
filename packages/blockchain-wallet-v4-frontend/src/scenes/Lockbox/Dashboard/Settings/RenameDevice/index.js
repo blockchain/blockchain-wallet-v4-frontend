@@ -1,10 +1,9 @@
-import React from 'react'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector, SubmissionError } from 'redux-form'
-import { bindActionCreators } from 'redux'
-
 import { requireUniqueDeviceName } from 'services/FormHelper'
+import React from 'react'
 import RenameDevice from './template'
 
 class RenameDeviceContainer extends React.PureComponent {

@@ -1,15 +1,15 @@
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
 
 import {
   Button,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'

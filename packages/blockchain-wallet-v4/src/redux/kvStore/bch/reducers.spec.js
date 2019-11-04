@@ -1,10 +1,10 @@
-import { assocPath, compose, set } from 'ramda'
-import { mapped, over } from 'ramda-lens'
-import Remote from '../../../remote'
-import { KVStoreEntry } from '../../../types'
-import { derivationMap, BCH } from '../config'
-import reducer from './reducers'
 import * as actions from './actions'
+import { assocPath, compose, set } from 'ramda'
+import { BCH, derivationMap } from '../config'
+import { KVStoreEntry } from '../../../types'
+import { mapped, over } from 'ramda-lens'
+import reducer from './reducers'
+import Remote from '../../../remote'
 
 const INITIAL_STATE = Remote.NotAsked
 

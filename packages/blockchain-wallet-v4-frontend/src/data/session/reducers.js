@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { merge, dissoc } from 'ramda'
+import { dissoc, merge } from 'ramda'
 
 const INITIAL_STATE = {}
 

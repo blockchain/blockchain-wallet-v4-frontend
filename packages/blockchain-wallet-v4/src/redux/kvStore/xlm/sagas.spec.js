@@ -1,15 +1,14 @@
-import { select } from 'redux-saga/effects'
-import { expectSaga } from 'redux-saga-test-plan'
-import Task from 'data.task'
-import BIP39 from 'bip39'
+import * as A from './actions'
 import * as ed25519 from 'ed25519-hd-key'
-import { set } from 'ramda-lens'
-
+import { derivationMap, XLM } from '../config'
+import { expectSaga } from 'redux-saga-test-plan'
 import { getMnemonic } from '../../wallet/selectors'
 import { KVStoreEntry } from '../../../types'
-import { derivationMap, XLM } from '../config'
-import * as A from './actions'
+import { select } from 'redux-saga/effects'
+import { set } from 'ramda-lens'
+import BIP39 from 'bip39'
 import sagas from './sagas'
+import Task from 'data.task'
 
 jest.spyOn(BIP39, 'mnemonicToSeed')
 jest.spyOn(ed25519, 'derivePath')

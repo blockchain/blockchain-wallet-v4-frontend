@@ -1,11 +1,11 @@
-import React from 'react'
 import { actions, selectors } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData, getTrade } from './selectors'
-import Success from './template.success.js'
-import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import Loading from 'components/BuySell/Loading'
+import React from 'react'
+import Success from './template.success.js'
 
 class OrderHistoryContainer extends React.Component {
   componentDidMount () {

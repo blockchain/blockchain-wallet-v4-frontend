@@ -1,7 +1,7 @@
-import React from 'react'
-import FormError from './index.js'
-import renderer from 'react-test-renderer'
 import 'jest-styled-components'
+import FormError from './index.js'
+import React from 'react'
+import renderer from 'react-test-renderer'
 jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 
 describe('FormError', () => {

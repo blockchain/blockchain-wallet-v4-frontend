@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, selectors } from 'data'
-import SignMessage from './template'
 import FirstStep from './FirstStep'
+import modalEnhancer from 'providers/ModalEnhancer'
 import SecondStep from './SecondStep'
+import SignMessage from './template'
 
 class SignMessageContainer extends React.PureComponent {
   componentDidMount () {

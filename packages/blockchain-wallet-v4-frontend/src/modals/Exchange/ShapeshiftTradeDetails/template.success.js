@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text,
-  TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 

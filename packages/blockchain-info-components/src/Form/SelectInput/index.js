@@ -1,6 +1,6 @@
-import React from 'react'
+import { contains, equals, prop, toUpper } from 'ramda'
 import PropTypes from 'prop-types'
-import { equals, prop, contains, toUpper } from 'ramda'
+import React from 'react'
 
 import SelectInput from './template.js'
 

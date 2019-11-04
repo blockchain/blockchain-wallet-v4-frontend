@@ -1,14 +1,14 @@
-import Bitcoin from 'bitcoinjs-lib'
-import { testSaga } from 'redux-saga-test-plan'
-import { KVStoreEntry } from '../../../types'
 import * as A from './actions'
-import bch from './sagas'
-import { walletV3 } from '../../../../data'
-import { derivationMap, BCH } from '../config'
-import { set } from 'ramda-lens'
-import { getMetadataXpriv } from '../root/selectors'
-import { getHDAccounts } from '../../wallet/selectors'
 import * as bchActions from '../../data/bch/actions'
+import { BCH, derivationMap } from '../config'
+import { getHDAccounts } from '../../wallet/selectors'
+import { getMetadataXpriv } from '../root/selectors'
+import { KVStoreEntry } from '../../../types'
+import { set } from 'ramda-lens'
+import { testSaga } from 'redux-saga-test-plan'
+import { walletV3 } from '../../../../data'
+import bch from './sagas'
+import Bitcoin from 'bitcoinjs-lib'
 
 const api = {
   fetchKVStore: () => {}

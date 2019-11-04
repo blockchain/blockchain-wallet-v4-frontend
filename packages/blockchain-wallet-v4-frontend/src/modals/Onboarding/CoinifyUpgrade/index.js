@@ -1,19 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;

@@ -1,17 +1,17 @@
-import React from 'react'
-import { filter } from 'ramda'
-import styled from 'styled-components'
-import AddressRow from '../../Btc/AddressRow'
-import { FormattedMessage } from 'react-intl'
-import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Button,
   Icon,
   Table,
-  TableHeader,
   TableCell,
+  TableHeader,
   Text
 } from 'blockchain-info-components'
+import { filter } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import AddressRow from '../../Btc/AddressRow'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -35,8 +35,12 @@ const WarningWrapper = styled.div`
   }
 `
 
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
+
 const BchImportedAddresses = props => {
-  const { importedAddresses, onTransferAll, search } = props
+  const { importedAddresses, onTransferAll, search, onEditLabel } = props
 
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
@@ -49,6 +53,18 @@ const BchImportedAddresses = props => {
           address={address}
           coin='BCH'
           dataE2e='bchImportedAddressRow'
+          renderOptions={() => [
+            <ClickableText
+              size='small'
+              onClick={() => onEditLabel(address)}
+              data-e2e='btcSignMessageImportedAddressLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.edit_name'
+                defaultMessage='Edit Label'
+              />
+            </ClickableText>
+          ]}
         />
       )
     }
@@ -103,7 +119,15 @@ const BchImportedAddresses = props => {
                 />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell width='20%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage
+                  id='scenes.settings.addresses.bch.importedaddresses.success.label'
+                  defaultMessage='Label'
+                />
+              </Text>
+            </TableCell>
+            <TableCell width='10%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bch.importedaddresses.balance'

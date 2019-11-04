@@ -1,4 +1,4 @@
-import { includes, compose, propOr } from 'ramda'
+import { compose, includes, propOr } from 'ramda'
 
 import { TIERS } from '../../modules/profile/model'
 

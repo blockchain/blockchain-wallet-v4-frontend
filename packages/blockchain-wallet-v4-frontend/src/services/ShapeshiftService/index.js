@@ -1,5 +1,5 @@
-import moment from 'moment'
 import { assoc, compose, path, prop, toLower } from 'ramda'
+import moment from 'moment'
 
 export const formatTrade = trade => {
   const { sourceCoin, targetCoin } = getCoinFromPair(

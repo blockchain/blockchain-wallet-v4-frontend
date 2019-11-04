@@ -1,11 +1,11 @@
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import { prop } from 'ramda'
+import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-import { getData } from './selectors'
-import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
-import { prop } from 'ramda'
 
 export const Wrapper = styled.div`
   width: 100%;

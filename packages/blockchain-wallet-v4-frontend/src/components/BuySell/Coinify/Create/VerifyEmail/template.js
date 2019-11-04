@@ -1,11 +1,11 @@
-import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { required, validEmail } from 'services/FormHelper'
 import { EmailVerification, FormItem } from 'components/Form'
 import { FaqFormGroup, Form } from 'components/IdentityVerification'
+import { model } from 'data'
+import { required, validEmail } from 'services/FormHelper'
 import media from 'services/ResponsiveService'
 
 const { EMAIL_STEPS } = model.components.identityVerification

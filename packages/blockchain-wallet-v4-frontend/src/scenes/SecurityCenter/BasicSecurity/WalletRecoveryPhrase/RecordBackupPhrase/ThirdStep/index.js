@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { SubmissionError } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
-
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { SubmissionError } from 'redux-form'
+import React from 'react'
 import ThirdStep from './template'
+
 class ThirdStepContainer extends React.PureComponent {
   state = { indexes: [] }
 

@@ -1,21 +1,21 @@
-import { call, delay, put, select } from 'redux-saga/effects'
-import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
 import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
-import { actions, model, selectors } from 'data'
-import {
-  initialize,
-  change,
-  startSubmit,
-  stopSubmit,
-  destroy
-} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import * as S from './selectors'
+import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { call, delay, put, select } from 'redux-saga/effects'
+import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
+import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendBch/sagas'

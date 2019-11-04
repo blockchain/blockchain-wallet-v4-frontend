@@ -1,6 +1,6 @@
-import { call, put, select } from 'redux-saga/effects'
-import { actions, model, selectors } from 'data'
 import * as A from './actions.js'
+import { actions, model, selectors } from 'data'
+import { call, put, select } from 'redux-saga/effects'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 

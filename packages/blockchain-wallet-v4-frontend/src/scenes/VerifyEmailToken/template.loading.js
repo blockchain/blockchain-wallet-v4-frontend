@@ -1,7 +1,7 @@
-import React from 'react'
-import styled, { css, keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
+import React from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

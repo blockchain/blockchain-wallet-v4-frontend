@@ -1,8 +1,8 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Joyride from 'react-joyride/lib'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Link, Text } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem } from 'components/MenuLeft'
 import {
   JoyrideSpotlight,
@@ -12,46 +12,60 @@ import {
   StepIcon,
   StepTitle
 } from 'components/Tour'
+import { Link, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import PitTooltip from './PitTooltip'
 
-import { NewCartridge } from '../Navigation/template'
+const HelperTipContainer = styled.div`
+  position: relative;
+  > div span {
+    color: ${props => props.theme['gray-3']};
+  }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 12px;
+  top: -8px;
+`
 
-const ThePitSidenavItem = showSpotlight => (
+const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
   <>
     <JoyrideSpotlight className='the-pit-tooltip' />
     <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
     <Destination>
       <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.thepitbold'
-        defaultMessage='The PIT'
+        id='layouts.wallet.menuleft.navigation.thepitexchange'
+        defaultMessage='The PIT Exchange'
       />
     </Destination>
-    <NewCartridge>
-      <Text color='orange' size='12' weight={500} uppercase>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.navigation.transactions.new'
-          defaultMessage='New'
-        />
-      </Text>
-    </NewCartridge>
+    {isPitAccountLinked && (
+      <HelperTipContainer>
+        <HelperTip id='pitSideNavConnected'>
+          <TooltipIcon color='blue' name='info' />
+        </HelperTip>
+      </HelperTipContainer>
+    )}
   </>
 )
 
-const PitLink = props => {
-  if (!props.showThePitPulse || props.pitConnectTest === 'original')
-    return (
-      <SpotlightLinkContainer to='/thepit' activeClassName='active'>
-        {props.children}
-      </SpotlightLinkContainer>
-    )
-
-  return <div>{props.children}</div>
-}
+const PitLink = props => (
+  <SpotlightLinkContainer to='/thepit' activeClassName='active'>
+    {props.children}
+  </SpotlightLinkContainer>
+)
 
 const PitLinkContent = props => {
-  const { firstLogin, handlePitTourCallbacks, showThePitPulse } = props
-  const runJoyride = showThePitPulse && !firstLogin
+  const {
+    firstLogin,
+    handlePitTourCallbacks,
+    hasRunWalletTour,
+    hasSkippedTour,
+    showThePitPulse
+  } = props
+  const isTourFinished = hasRunWalletTour || hasSkippedTour
+  const runJoyride = firstLogin
+    ? isTourFinished && showThePitPulse
+    : showThePitPulse
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
@@ -104,20 +118,21 @@ const PitLinkContent = props => {
 }
 
 const ThePitLink = props => {
-  return props.userEligibleForPIT ? (
-    props.isPitAccountLinked ? (
-      <Link
-        href={props.pitUrl}
-        rel='noopener noreferrer'
-        target='_blank'
-        style={{ width: '100%' }}
-      >
-        <MenuItem data-e2e='thePitLink'>{ThePitSidenavItem()}</MenuItem>
-      </Link>
-    ) : (
-      <PitLinkContent {...props} />
-    )
-  ) : null
+  return props.isPitAccountLinked ? (
+    <Link
+      href={`${props.pitUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_pit_linked`}
+      rel='noopener noreferrer'
+      target='_blank'
+      style={{ width: '100%' }}
+      onClick={props.onLinkedPitSidenavCLick}
+    >
+      <MenuItem data-e2e='thePitLink'>
+        {ThePitSidenavItem(null, props.isPitAccountLinked)}
+      </MenuItem>
+    </Link>
+  ) : (
+    <PitLinkContent {...props} />
+  )
 }
 
 export default ThePitLink

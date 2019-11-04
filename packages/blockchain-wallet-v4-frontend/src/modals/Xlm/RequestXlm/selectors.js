@@ -1,7 +1,7 @@
-import { selectors } from 'data'
-import { head, lift, nth, prop, propOr } from 'ramda'
-import { utils } from 'blockchain-wallet-v4'
 import { formValueSelector } from 'redux-form'
+import { head, lift, nth, prop, propOr } from 'ramda'
+import { selectors } from 'data'
+import { utils } from 'blockchain-wallet-v4'
 
 const extractAddress = account => prop('publicKey', head(account))
 

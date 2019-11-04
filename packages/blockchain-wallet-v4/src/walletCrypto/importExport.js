@@ -1,9 +1,9 @@
+import * as WalletCrypto from './utils'
+import Base58 from 'bs58'
+import BigInteger from 'bigi'
 import Bitcoin from 'bitcoinjs-lib'
 import scrypt from 'scryptsy'
-import BigInteger from 'bigi'
-import Base58 from 'bs58'
 import Unorm from 'unorm'
-import * as WalletCrypto from './utils'
 
 const hash256 = Bitcoin.crypto.hash256
 

@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { transparentize } from 'polished'
 import { Icon } from 'blockchain-info-components'
+import { transparentize } from 'polished'
+import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   display: flex;
