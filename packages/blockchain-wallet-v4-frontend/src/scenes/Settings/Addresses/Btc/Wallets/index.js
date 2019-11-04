@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import { actions, model } from 'data'
 import { getData, getWalletsWithoutRemoteData } from './selectors'
+import { requireUniqueWalletName } from 'services/FormHelper'
 import Template from './template'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -15,8 +16,11 @@ class BtcWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onAddNewWallet = value => {
-    this.props.modalActions.showModal('AddBtcWallet', { wallets: value })
+  onAddNewWallet = wallets => {
+    const allWalletLabels = wallets.map(wallet => wallet.label)
+    this.props.modalActions.showModal('AddBtcWallet', {
+      uniqueWalletName: value => requireUniqueWalletName(value, allWalletLabels)
+    })
   }
 
   onUnarchive = i => {

@@ -207,3 +207,10 @@ export const UniqueDeviceName = () => (
     defaultMessage='Device name is already in use.'
   />
 )
+
+export const UniqueWalletName = () => (
+  <FormattedMessage
+    id='formhelper.uniquewalletname'
+    defaultMessage='Wallet name is already taken.'
+  />
+)

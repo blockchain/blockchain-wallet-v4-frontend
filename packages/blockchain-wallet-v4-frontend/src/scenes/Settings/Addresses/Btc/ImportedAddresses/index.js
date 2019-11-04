@@ -34,6 +34,10 @@ class ImportedAddressesContainer extends React.Component {
     })
   }
 
+  handleEditLabel = address => {
+    this.props.componentActions.editImportedAddressLabel(address)
+  }
+
   handleToggleArchived = address => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
@@ -59,6 +63,7 @@ class ImportedAddressesContainer extends React.Component {
           onTransferAll={this.handleTransferAll}
           onShowPriv={this.handleShowPriv}
           onShowSignMessage={this.handleSignMessage}
+          onEditLabel={this.handleEditLabel}
         />
       ),
       Failure: () => (
@@ -71,6 +76,7 @@ class ImportedAddressesContainer extends React.Component {
           onToggleArchived={this.handleToggleArchived}
           onTransferAll={this.handleTransferAll}
           onShowSignMessage={this.handleSignMessage}
+          onEditLabel={this.handleEditLabel}
         />
       ),
       Loading: () => <div />,
@@ -87,7 +93,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  componentActions: bindActionCreators(
+    actions.components.manageAddresses,
+    dispatch
+  )
 })
 
 export default connect(

@@ -6,6 +6,8 @@ import { getData } from './selectors'
 import BchImportedAddresses from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
+
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
@@ -20,6 +22,10 @@ class ImportedAddressesContainer extends React.Component {
     })
   }
 
+  handleEditLabel = address => {
+    const btcAddr = fromCashAddr(address.addr)
+    this.props.componentActions.editLegacyAddressLabel(btcAddr)
+  }
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -28,6 +34,7 @@ class ImportedAddressesContainer extends React.Component {
           <BchImportedAddresses
             importedAddresses={addresses}
             onTransferAll={this.handleTransferAll}
+            onEditLabel={this.handleEditLabel}
             {...rest}
           />
         ) : (
@@ -42,7 +49,12 @@ class ImportedAddressesContainer extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  componentActions: bindActionCreators(
+    actions.components.manageAddresses,
+    dispatch
+  )
 })
 
 const mapStateToProps = state => ({

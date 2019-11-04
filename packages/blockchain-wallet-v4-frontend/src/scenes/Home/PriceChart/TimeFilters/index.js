@@ -3,13 +3,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { selectors, actions } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
 import TimeFilters from './template'
 
-export const TimeFiltersContainer = props => (
+export const TimeFiltersContainer = ({ actions, isSilverOrAbove, time }) => (
   <TimeFilters
-    time={props.time}
-    handleClick={time => props.actions.timeClicked(time)}
+    isSilverOrAbove={isSilverOrAbove}
+    time={time}
+    handleClick={time => actions.timeClicked(time)}
   />
 )
 
@@ -17,9 +19,7 @@ TimeFiltersContainer.propTypes = {
   time: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
-  time: selectors.components.priceChart.getTime(state)
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)

@@ -20,10 +20,15 @@ import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 import ThePitLink from '../ThePitLink'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  position: relative;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 74px;
+  top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
@@ -99,9 +104,9 @@ const Navigation = props => {
             />
           </Destination>
           <HelperTipContainer>
-            <TooltipHost id='lockboxRequired'>
+            <HelperTip id='lockboxRequired'>
               <TooltipIcon color='blue' name='info' />
-            </TooltipHost>
+            </HelperTip>
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>

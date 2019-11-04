@@ -33,7 +33,7 @@ const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
   chrome: '>45',
   chromium: '>45',
-  edge: '>40',
+  edge: '>16',
   firefox: '>45',
   opera: '>20',
   safari: '>8',

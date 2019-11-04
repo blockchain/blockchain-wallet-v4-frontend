@@ -53,7 +53,10 @@ const WalletTour = ({ onRightTrayClose, onTakeTour }) => {
         </DarkText>
       </Row>
       <Row>
-        <GetStartedButton onClick={onTakeWalletTour}>
+        <GetStartedButton
+          onClick={onTakeWalletTour}
+          data-e2e='takeTourFromWhatsNew'
+        >
           <FormattedMessage
             id='layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour.start'
             defaultMessage='Take The Tour Now'
