@@ -1,6 +1,6 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { OrderHistoryText } from '../TradeItem'
+import React from 'react'
 
 const selectStyle = status => {
   switch (status) {

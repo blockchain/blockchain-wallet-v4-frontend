@@ -1,18 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Text,
   Icon,
-  Link
+  Link,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 
 const Header = styled.div`

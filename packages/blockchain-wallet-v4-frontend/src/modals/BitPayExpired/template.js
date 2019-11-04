@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import {
   Button,
   Image,
   Modal,
-  Text,
-  ModalHeader
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 const Body = styled.div`
   display: flex;

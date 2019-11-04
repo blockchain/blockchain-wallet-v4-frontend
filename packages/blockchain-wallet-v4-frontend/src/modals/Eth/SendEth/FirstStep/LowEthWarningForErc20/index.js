@@ -1,12 +1,12 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
 import {
-  WarningWrapper,
+  WarningHeader,
   WarningLeftColumn,
   WarningRightColumn,
-  WarningHeader
+  WarningWrapper
 } from '../Components'
+import React from 'react'
 
 const LowEthWarningForErc20 = () => {
   return (

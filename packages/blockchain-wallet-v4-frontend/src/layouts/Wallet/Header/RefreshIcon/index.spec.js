@@ -1,9 +1,9 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
-import { mount } from 'enzyme'
-import RefreshIcon from './index'
-import { SpinningIcon } from './template'
 import * as actionTypes from 'data/actionTypes'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
+import { mount } from 'enzyme'
+import { SpinningIcon } from './template'
+import React from 'react'
+import RefreshIcon from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 

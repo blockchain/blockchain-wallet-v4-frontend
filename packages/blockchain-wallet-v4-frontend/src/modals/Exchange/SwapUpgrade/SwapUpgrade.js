@@ -1,15 +1,15 @@
+import { connect } from 'react-redux'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
-import { connect } from 'react-redux'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-import { getData } from './selectors'
 import { Button, Image, Modal, Text } from 'blockchain-info-components'
-import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import { getData } from './selectors'
 import { headers } from 'components/IdentityVerification/TierCard/services'
+import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Body = styled.div`
   display: flex;

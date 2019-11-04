@@ -1,29 +1,28 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-
-import { model, selectors } from 'data'
-import { Error } from './Error'
 import {
-  NoLimitsMessage,
+  AnnualLimitMessage,
+  BalanceLimitMessage,
+  CreateTargetXlmAccountMessage,
+  DailyLimitMessage,
+  LatestTxFetchFailedMessage,
+  LatestTxMessage,
+  MaximumAmountMessage,
+  MinimumAmountMessage,
   MinimumNoLinkMessage,
+  NoAdviceMessage,
+  NoLimitsMessage,
+  NoSourceXlmAccountMessage,
+  OrderLimitMessage,
+  ReachedAnnualLimitMessage,
   ReachedDailyLimitMessage,
   ReachedWeeklyLimitMessage,
-  ReachedAnnualLimitMessage,
-  MinimumAmountMessage,
-  MaximumAmountMessage,
-  BalanceLimitMessage,
-  DailyLimitMessage,
-  WeeklyLimitMessage,
-  AnnualLimitMessage,
-  OrderLimitMessage,
-  LatestTxMessage,
-  LatestTxFetchFailedMessage,
-  CreateTargetXlmAccountMessage,
-  NoSourceXlmAccountMessage,
   ReserveOverflowMessage,
-  NoAdviceMessage
+  WeeklyLimitMessage
 } from './validationMessages'
+import { Error } from './Error'
 import { formatAmount } from '../services'
+import { model, selectors } from 'data'
+import { shallow } from 'enzyme'
+import React from 'react'
 
 const {
   NO_LIMITS_ERROR,

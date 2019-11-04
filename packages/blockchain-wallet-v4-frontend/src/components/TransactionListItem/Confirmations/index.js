@@ -1,19 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { selectors } from 'data'
 import { getBlockHeight } from './selectors'
 import {
   Icon,
   Link,
   Text,
-  TooltipHost,
-  Tooltip
+  Tooltip,
+  TooltipHost
 } from 'blockchain-info-components'
+import { selectors } from 'data'
 
 const Wrapper = styled.div`
   display: flex;

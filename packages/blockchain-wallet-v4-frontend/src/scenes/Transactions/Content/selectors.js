@@ -1,24 +1,24 @@
-import { createSelector } from 'reselect'
 import {
   all,
-  curry,
-  isEmpty,
-  propSatisfies,
-  toUpper,
-  prop,
   allPass,
   anyPass,
   compose,
-  includes,
-  map,
+  curry,
   filter,
+  includes,
+  isEmpty,
+  map,
   path,
+  prop,
   propOr,
-  toLower
+  propSatisfies,
+  toLower,
+  toUpper
 } from 'ramda'
+import { createSelector } from 'reselect'
 
-import { selectors, model } from 'data'
 import { hasAccount } from 'services/ExchangeService'
+import { model, selectors } from 'data'
 
 const { WALLET_TX_SEARCH } = model.form
 const filterTransactions = curry((status, criteria, transactions) => {

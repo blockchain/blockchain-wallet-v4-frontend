@@ -1,8 +1,8 @@
-import React from 'react'
-import { prop } from 'ramda'
-import { model } from 'data'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Button, Link } from 'blockchain-info-components'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { model } from 'data'
+import { prop } from 'ramda'
+import React from 'react'
 const {
   MISSING_DEVICE_ERROR,
   NO_TRADE_PERMISSION,

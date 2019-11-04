@@ -1,12 +1,12 @@
-import React from 'react'
 import { actions } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
-import Success from './template.success'
-import Loading from 'components/BuySell/Loading'
-import Failure from 'components/BuySell/Failure'
 import { KYC_MODAL } from 'data/components/identityVerification/model'
+import Failure from 'components/BuySell/Failure'
+import Loading from 'components/BuySell/Loading'
+import React from 'react'
+import Success from './template.success'
 
 class CoinifyBuyContainer extends React.PureComponent {
   componentDidMount () {

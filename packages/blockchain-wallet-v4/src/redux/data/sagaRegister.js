@@ -1,5 +1,4 @@
 import { fork } from 'redux-saga/effects'
-
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'
 import coinify from './coinify/sagaRegister'

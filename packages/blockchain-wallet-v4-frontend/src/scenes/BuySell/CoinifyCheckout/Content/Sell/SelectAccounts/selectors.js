@@ -1,5 +1,5 @@
-import { lift } from 'ramda'
 import { formValueSelector } from 'redux-form'
+import { lift } from 'ramda'
 
 import { selectors } from 'data'
 

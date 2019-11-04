@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import { actions, model } from 'data'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
-import { actions, model } from 'data'
 const { TIERS } = model.profile
 
 const Wrapper = styled.div`

@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 import DropdownLanguage from 'components/DropdownLanguage'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const LinkContainer = styled.div`
   display: flex;

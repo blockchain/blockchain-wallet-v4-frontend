@@ -1,7 +1,7 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { or, path, prop, propEq } from 'ramda'
 import { Text } from 'blockchain-info-components'
-import { path, prop, propEq, or } from 'ramda'
+import React from 'react'
 
 export const headers = {
   SILVER: (

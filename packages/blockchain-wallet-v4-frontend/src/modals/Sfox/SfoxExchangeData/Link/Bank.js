@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import { prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
-import { prop } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
 const BankInfo = styled.div`
   display: flex;

@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { getData } from './selectors'
 import { actions } from 'data'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'

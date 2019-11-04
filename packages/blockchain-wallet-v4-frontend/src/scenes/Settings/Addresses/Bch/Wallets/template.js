@@ -1,20 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { filter, take } from 'ramda'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
-import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
   ComponentDropdown,
   Link,
   Table,
-  TableHeader,
   TableCell,
+  TableHeader,
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { filter, take } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

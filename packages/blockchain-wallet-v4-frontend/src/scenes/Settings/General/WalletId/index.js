@@ -1,9 +1,8 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 import { selectors } from 'data'
-import { Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -11,6 +10,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import { Text } from 'blockchain-info-components'
 
 const WalletId = props => {
   return (

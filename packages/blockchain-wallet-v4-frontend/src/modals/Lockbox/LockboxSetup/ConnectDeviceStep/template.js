@@ -1,14 +1,14 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import {
   Button,
   Icon,
   Image,
   Link,
-  TextGroup,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`

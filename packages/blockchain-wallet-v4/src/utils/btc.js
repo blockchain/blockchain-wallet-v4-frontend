@@ -1,16 +1,16 @@
-import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, crypto } from 'bitcoinjs-lib'
-import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
+import * as bippath from 'bip32-path'
+import * as Exchange from '../exchange'
+import * as OP from 'bitcoin-ops'
+import { address, crypto, ECPair, networks } from 'bitcoinjs-lib'
+import { compile } from 'bitcoinjs-lib/src/script'
+import { compose, dropLast, equals, head, last, or, propOr } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { fromPublicKey } from 'bip32'
-import { compile } from 'bitcoinjs-lib/src/script'
-import * as OP from 'bitcoin-ops'
+import { selectAll } from '../coinSelection'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
-import * as Exchange from '../exchange'
 import Either from 'data.either'
-import * as bippath from 'bip32-path'
 
 export const isValidBtcAddress = (value, network) => {
   try {

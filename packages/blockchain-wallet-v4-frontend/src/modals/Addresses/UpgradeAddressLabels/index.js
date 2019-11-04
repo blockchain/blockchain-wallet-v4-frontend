@@ -1,5 +1,5 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import UpgradeAddressLabels from './template.js'

@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions, model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import { Button, Image, Modal, Text } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 const { TIERS } = model.profile
 
 const Header = styled.div`

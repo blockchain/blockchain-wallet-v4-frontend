@@ -1,7 +1,7 @@
 import {
   any,
-  compose,
   complement,
+  compose,
   curry,
   equals,
   find,
@@ -17,8 +17,8 @@ import {
   prop,
   propEq
 } from 'ramda'
+import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserId = compose(

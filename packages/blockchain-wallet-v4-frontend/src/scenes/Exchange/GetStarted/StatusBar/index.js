@@ -1,8 +1,7 @@
-import React from 'react'
-
 import GetStarted from './Statuses/GetStarted'
 import InProgress from './Statuses/InProgress'
 import Pending from './Statuses/Pending'
+import React from 'react'
 import Rejected from './Statuses/Rejected'
 import UnderReview from './Statuses/UnderReview'
 

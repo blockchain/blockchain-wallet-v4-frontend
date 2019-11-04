@@ -1,8 +1,8 @@
-import { testSaga } from 'redux-saga-test-plan'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
-import bchTransactionsSagas, { logLocation } from './sagas'
+import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import { model } from 'data'
+import { testSaga } from 'redux-saga-test-plan'
+import bchTransactionsSagas, { logLocation } from './sagas'
 
 const coreSagas = coreSagasFactory()
 

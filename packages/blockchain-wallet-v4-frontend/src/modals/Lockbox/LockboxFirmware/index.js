@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { prop } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import { actions, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-import FirmwareContainer from './template'
-import ConnectDeviceStep from './ConnectDeviceStep'
-import UninstallAppsStep from './UninstallAppsStep'
-import CompleteStep from './CompleteStep'
 import CheckVersionsStep from './CheckVersionsStep'
+import CompleteStep from './CompleteStep'
+import ConnectDeviceStep from './ConnectDeviceStep'
+import FirmwareContainer from './template'
 import InstallFirmwareStep from './InstallFirmwareStep'
+import modalEnhancer from 'providers/ModalEnhancer'
+import UninstallAppsStep from './UninstallAppsStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
   componentDidMount () {

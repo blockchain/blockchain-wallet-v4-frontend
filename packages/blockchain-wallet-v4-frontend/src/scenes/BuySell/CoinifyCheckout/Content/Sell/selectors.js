@@ -1,6 +1,6 @@
+import { equals, lift, path, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import { lift, equals, path, prop } from 'ramda'
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
 
 const { TIERS_STATES } = model.profile
 

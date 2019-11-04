@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
+import { contains, filter, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import { filter, contains, path, prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
+import React from 'react'
+import styled from 'styled-components'
 
+import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'
-import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 
 const OrderHistoryWrapper = styled.div`
   width: 100%;

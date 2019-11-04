@@ -1,31 +1,31 @@
 import {
-  getFormValues,
-  getFormInitialValues,
-  getFormSyncErrors,
-  getFormMeta,
-  getFormAsyncErrors,
-  getFormSyncWarnings,
-  getFormSubmitErrors,
-  getFormError,
-  getFormNames,
-  isDirty,
-  isPristine,
-  isValid,
-  isInvalid,
-  isSubmitting,
-  hasSubmitSucceeded,
-  hasSubmitFailed
-} from 'redux-form'
-import {
   compose,
-  head,
   defaultTo,
+  head,
   keys,
   path,
-  propEq,
   pickBy,
+  propEq,
   split
 } from 'ramda'
+import {
+  getFormAsyncErrors,
+  getFormError,
+  getFormInitialValues,
+  getFormMeta,
+  getFormNames,
+  getFormSubmitErrors,
+  getFormSyncErrors,
+  getFormSyncWarnings,
+  getFormValues,
+  hasSubmitFailed,
+  hasSubmitSucceeded,
+  isDirty,
+  isInvalid,
+  isPristine,
+  isSubmitting,
+  isValid
+} from 'redux-form'
 
 const getActiveField = formName => state =>
   compose(

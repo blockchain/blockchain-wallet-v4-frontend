@@ -1,13 +1,12 @@
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { Button, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { Container, Row } from 'components/WhatsNew'
+import { FormattedMessage } from 'react-intl'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
-import { Container, Row } from 'components/WhatsNew'
-import { bindActionCreators } from 'redux'
-
-import media from 'services/ResponsiveService'
-import { actions } from 'data'
 
 const DarkText = styled(Text).attrs({
   color: 'gray-5',

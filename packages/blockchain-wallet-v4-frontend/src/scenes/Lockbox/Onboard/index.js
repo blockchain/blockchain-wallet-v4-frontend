@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
 import Announcements from 'components/Announcements'
-import { actions } from 'data'
+import React from 'react'
 import Setup from './template'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   height: 100%;

@@ -1,13 +1,13 @@
-import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 import { assoc, curry, map, prop } from 'ramda'
 import { createSelector } from 'reselect'
-import { selectors } from 'data'
 import {
-  isValidBtcStartDate,
+  isValidBchEndDate,
   isValidBchStartDate,
   isValidBtcEndDate,
-  isValidBchEndDate
+  isValidBtcStartDate
 } from './services'
+import { selectors } from 'data'
+import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 
 export const getData = (coin, state) => {
   switch (coin) {

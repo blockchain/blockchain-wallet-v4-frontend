@@ -1,18 +1,18 @@
-import { select } from 'redux-saga/effects'
-import { promptForSecondPassword } from 'services/SagaService'
-import { testSaga, expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { promptForSecondPassword } from 'services/SagaService'
+import { select } from 'redux-saga/effects'
 
 import * as actions from '../../actions'
+import * as C from 'services/AlertService'
 import * as selectors from '../../selectors.js'
+import { contains } from 'ramda'
 import settingsSagas, {
-  logLocation,
   ipRestrictionError,
+  logLocation,
   taskToPromise
 } from './sagas'
-import * as C from 'services/AlertService'
-import { contains } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()

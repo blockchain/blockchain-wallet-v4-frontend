@@ -1,13 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { prop } from 'ramda'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
 import { reduxForm } from 'redux-form'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions, model, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
   HeartbeatLoader,
@@ -17,6 +16,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const { CAMPAIGNS } = model.components.identityVerification
 

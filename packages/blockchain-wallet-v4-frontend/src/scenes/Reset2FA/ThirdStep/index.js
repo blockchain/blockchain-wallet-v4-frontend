@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import React from 'react'
+import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;

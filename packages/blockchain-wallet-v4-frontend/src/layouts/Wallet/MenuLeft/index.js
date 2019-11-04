@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import MenuLeft from './template.success'
-import Loading from './template.loading'
 import Failure from './template.failure'
+import Loading from './template.loading'
+import MenuLeft from './template.success'
 
 class MenuLeftContainer extends React.PureComponent {
   render () {

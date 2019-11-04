@@ -1,6 +1,6 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { any, append, filter, head, keys, toUpper } from 'ramda'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { getData } from './selectors'
 import Template from './template'

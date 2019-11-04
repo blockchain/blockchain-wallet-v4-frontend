@@ -1,11 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Error from './template.error'
 import Loading from './template.loading'
+import PropTypes from 'prop-types'
+import React from 'react'
 import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {

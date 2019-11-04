@@ -1,18 +1,18 @@
+import * as walletSelectors from '../../wallet/selectors'
+import { BCH } from '../config'
 import {
   concat,
   curry,
   filter,
-  not,
   lift,
   map,
+  not,
   path,
   prop,
   values
 } from 'ramda'
-import { BCH } from '../config'
-import { kvStorePath } from '../../paths'
-import * as walletSelectors from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
+import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, BCH])
 

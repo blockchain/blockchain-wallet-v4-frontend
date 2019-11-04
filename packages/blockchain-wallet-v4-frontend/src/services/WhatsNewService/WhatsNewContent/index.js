@@ -1,8 +1,7 @@
-import React from 'react'
 import { equals, includes, prop, propOr } from 'ramda'
-import moment from 'moment'
-
 import ExchangeByBlockchain from './ExchangeByBlockchain'
+import moment from 'moment'
+import React from 'react'
 import USDPax from './USDPax'
 import WalletTour from './WalletTour'
 

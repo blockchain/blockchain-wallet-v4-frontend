@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import Webcam from 'react-webcam'
-import PropTypes from 'prop-types'
 
-import { IconButton } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { IconButton } from 'blockchain-info-components'
 
 const VideoContainer = styled.div`
   width: 100%;

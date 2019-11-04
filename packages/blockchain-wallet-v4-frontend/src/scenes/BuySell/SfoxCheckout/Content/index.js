@@ -1,20 +1,20 @@
-import React from 'react'
 import { actions } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import {
   getBase,
   getData,
   getErrors,
+  getPayment,
   getQuote,
   getSellQuote,
-  getTrades,
-  getPayment
+  getTrades
 } from './selectors'
-import Success from './template.success'
-import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
 import Failure from 'components/BuySell/Failure'
+import Loading from 'components/BuySell/Loading'
+import React from 'react'
+import Success from './template.success'
 
 class SfoxCheckout extends React.PureComponent {
   constructor (props) {

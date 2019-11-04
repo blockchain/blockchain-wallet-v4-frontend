@@ -1,9 +1,9 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { Provider } from 'react-redux'
-import GetStarted from './index'
+import { shallow } from 'enzyme'
 import configureMockStore from 'redux-mock-store'
+import GetStarted from './index'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 const mockStore = configureMockStore()
 const store = mockStore({})

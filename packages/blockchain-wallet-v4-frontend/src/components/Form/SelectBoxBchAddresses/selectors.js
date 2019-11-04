@@ -1,8 +1,9 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
-  concat,
   compose,
+  concat,
   curry,
   descend,
   filter,
@@ -12,20 +13,19 @@ import {
   lensIndex,
   lensProp,
   lift,
-  not,
   map,
+  not,
   path,
   prepend,
   prop,
   reduce,
-  set,
   sequence,
+  set,
   sort
 } from 'ramda'
+import { collapse } from 'utils/helpers'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',

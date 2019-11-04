@@ -1,7 +1,5 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-
 import { FlatLoader } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
@@ -9,6 +7,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import React from 'react'
 
 const MobileNumber = props => {
   return (

@@ -1,7 +1,7 @@
-import { assoc, assocPath, compose } from 'ramda'
-import { mapped, over } from 'ramda-lens'
-import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
+import { assoc, assocPath, compose } from 'ramda'
+import { KVStoreEntry } from '../../../types'
+import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 
 // initial state should be a kvstore object

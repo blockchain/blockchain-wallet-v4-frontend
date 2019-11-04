@@ -1,6 +1,7 @@
+import { collapse } from 'utils/helpers'
 import {
-  concat,
   compose,
+  concat,
   curry,
   descend,
   filter,
@@ -13,13 +14,12 @@ import {
   prepend,
   prop,
   reduce,
-  set,
   sequence,
+  set,
   sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',

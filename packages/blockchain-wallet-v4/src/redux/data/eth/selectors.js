@@ -1,8 +1,8 @@
-import { concat, head, keys, path, prop } from 'ramda'
-import { dataPath } from '../../paths'
-import { createDeepEqualSelector } from '../../../utils'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
+import { concat, head, keys, path, prop } from 'ramda'
+import { createDeepEqualSelector } from '../../../utils'
+import { dataPath } from '../../paths'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 
 //
 // ETH

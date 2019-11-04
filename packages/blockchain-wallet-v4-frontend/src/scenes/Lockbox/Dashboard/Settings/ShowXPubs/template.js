@@ -1,6 +1,5 @@
-import React from 'react'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-
 import {
   SettingComponent,
   SettingContainer,
@@ -8,8 +7,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-
-import { Button } from 'blockchain-info-components'
+import React from 'react'
 
 const ShowXPubs = props => {
   const { onShowXPubs } = props

@@ -1,20 +1,20 @@
-import React from 'react'
+import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   any,
-  gt,
-  slice,
-  toUpper,
   equals,
+  gt,
+  mapObjIndexed,
   path,
   prop,
+  slice,
   toLower,
-  mapObjIndexed
+  toUpper
 } from 'ramda'
-import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { KYC_STATES } from '../../data/modules/profile/model'
+import { Link } from 'blockchain-info-components'
+import React from 'react'
 const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {

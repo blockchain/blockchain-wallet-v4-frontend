@@ -1,7 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import ReactDatetime from 'react-datetime'
+import styled from 'styled-components'
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;

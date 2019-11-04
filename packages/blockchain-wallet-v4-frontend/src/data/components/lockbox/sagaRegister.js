@@ -1,5 +1,5 @@
-import { takeLatest, race, take, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import { call, race, take, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {

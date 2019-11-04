@@ -1,25 +1,25 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Field, formValueSelector } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector, Field } from 'redux-form'
 
 import { actions, selectors } from 'data'
-import { PhoneNumberBox, TextBox } from 'components/Form'
-import { Text, Button } from 'blockchain-info-components'
-import { required, validMobileNumber } from 'services/FormHelper'
+import { Button, Text } from 'blockchain-info-components'
 import {
-  Form,
+  ButtonWrapper,
   ColLeft,
   ColRight,
+  ColRightInner,
+  EmailHelper,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  ButtonWrapper,
-  ColRightInner,
-  EmailHelper
+  PartnerSubHeader
 } from 'components/IdentityVerification'
+import { PhoneNumberBox, TextBox } from 'components/Form'
+import { required, validMobileNumber } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 

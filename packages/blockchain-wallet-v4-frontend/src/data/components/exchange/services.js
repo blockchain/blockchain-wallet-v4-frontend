@@ -1,9 +1,7 @@
+import { assoc, compose, curry, map, path, pathOr, prop } from 'ramda'
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { assoc, compose, curry, path, pathOr, prop, map } from 'ramda'
 
-import { currencySymbolMap } from 'services/CoinifyService'
-import { formatPair } from 'data/modules/rates/model'
 import {
   ANNUAL_ERROR,
   BALANCE_ERROR,
@@ -16,6 +14,8 @@ import {
   REACHED_WEEKLY_ERROR,
   WEEKLY_ERROR
 } from './model'
+import { currencySymbolMap } from 'services/CoinifyService'
+import { formatPair } from 'data/modules/rates/model'
 
 export const convertBaseToStandard = (coin, value) => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: true }).value

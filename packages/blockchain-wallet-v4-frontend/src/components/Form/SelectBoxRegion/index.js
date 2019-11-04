@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { defaultTo, find, pipe, prop, propEq, map } from 'ramda'
+import { defaultTo, find, map, pipe, prop, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import countryRegionData from 'country-region-data'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import SelectBox from '../SelectBox'
 

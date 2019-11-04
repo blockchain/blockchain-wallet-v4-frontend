@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import { BorderBox } from 'components/IdentityVerification'
 import { Button } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
-import { BorderBox } from 'components/IdentityVerification'
+import styled from 'styled-components'
 
 export const MethodContainer = styled.div`
   height: 65px;

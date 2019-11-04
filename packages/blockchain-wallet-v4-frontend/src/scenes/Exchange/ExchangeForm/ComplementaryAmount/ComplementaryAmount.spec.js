@@ -1,10 +1,9 @@
-import React from 'react'
+import { ComplementaryAmount } from './ComplementaryAmount'
 import { forEachObjIndexed } from 'ramda'
 import { mount, shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-
 import { Remote } from 'blockchain-wallet-v4'
-import { ComplementaryAmount } from './ComplementaryAmount'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 const props = {
   isFiat: false,

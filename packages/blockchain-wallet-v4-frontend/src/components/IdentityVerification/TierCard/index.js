@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { all, head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
-import { actions, model } from 'data'
-import { getData } from './selectors'
-import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { actions, model } from 'data'
+import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors'
+import media from 'services/ResponsiveService'
 
+import { ctas, headers, limits, messages, status } from './services'
 import { TIERS } from './model'
-import { ctas, headers, messages, limits, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;

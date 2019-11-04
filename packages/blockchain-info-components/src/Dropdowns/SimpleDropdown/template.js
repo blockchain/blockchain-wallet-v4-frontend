@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 import { Icon } from '../../Icons'
-import { Palette } from '../../Colors'
 import { keysIn } from 'ramda'
+import { Palette } from '../../Colors'
 
 const Wrapper = styled.div`
   display: inline-flex;

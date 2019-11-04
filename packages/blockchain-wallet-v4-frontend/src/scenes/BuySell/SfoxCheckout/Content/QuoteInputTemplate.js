@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { equals, gt, prop } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { StepTransition } from 'components/Utilities/Stepper'
-import { spacing } from 'services/StyleService'
+import { Button, Icon, Text, TextInput } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { Icon, TextInput, Text, Button } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`

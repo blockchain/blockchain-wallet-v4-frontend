@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Joyride from 'react-joyride/lib'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem } from 'components/MenuLeft'
 import {
   JoyrideSpotlight,
@@ -13,6 +12,7 @@ import {
   StepIcon,
   StepTitle
 } from 'components/Tour'
+import { Link, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import PitTooltip from './PitTooltip'
 

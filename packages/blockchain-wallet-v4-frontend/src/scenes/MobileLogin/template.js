@@ -1,12 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import QRReader from 'components/QRReader'
-import { LinkContainer } from 'react-router-bootstrap'
-
 import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Wrapper } from 'components/Public'
+import PropTypes from 'prop-types'
+import QRReader from 'components/QRReader'
+import React from 'react'
+import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;

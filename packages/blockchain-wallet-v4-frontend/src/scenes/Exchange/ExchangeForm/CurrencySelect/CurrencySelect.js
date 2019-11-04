@@ -1,15 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
+import { Cell, Row } from '../Layout'
+import { compose } from 'ramda'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
-import { compose } from 'ramda'
-
-import { actions } from 'data'
 import { getData, shouldUpdate } from './selectors'
-import SelectBox from './SelectBox'
 import { Icon, TooltipHost } from 'blockchain-info-components'
-import { Cell, Row } from '../Layout'
+import React from 'react'
+import SelectBox from './SelectBox'
+import styled from 'styled-components'
 
 const CoinSwapIcon = styled(Icon)`
   font-size: 18px;

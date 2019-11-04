@@ -1,7 +1,7 @@
 import { both, compose, filter, flip, gte, lte, prop, values } from 'ramda'
 
 import { model } from 'data'
-import { STEPS, STEP_TIERS } from './model'
+import { STEP_TIERS, STEPS } from './model'
 
 export const computeSteps = ({
   coinifyUser,

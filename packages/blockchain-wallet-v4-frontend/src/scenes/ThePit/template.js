@@ -1,9 +1,8 @@
+import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
-import media from 'services/ResponsiveService'
-import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;

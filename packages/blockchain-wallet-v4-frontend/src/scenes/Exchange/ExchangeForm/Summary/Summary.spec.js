@@ -1,10 +1,9 @@
-import React from 'react'
 import { forEachObjIndexed } from 'ramda'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-
 import { Remote } from 'blockchain-wallet-v4'
+import { shallow } from 'enzyme'
 import { Summary } from './Summary'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 const props = {
   sourceCoin: 'BTC',
