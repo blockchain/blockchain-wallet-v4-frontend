@@ -122,6 +122,7 @@ const { version } = require(`../package.json`)
     SERVER_HOST === `0.0.0.0`
       ? {
           domains: {
+            comWalletApp: `https://wallet-frontend-v4.dev.blockchain.info`,
             mainProcess: `https://wallet-frontend-v4-main.dev.blockchain.info/`,
             securityProcess: `https://wallet-frontend-v4-security.dev.blockchain.info/`
           }
@@ -305,6 +306,7 @@ const { version } = require(`../package.json`)
       response.json({
         'blockchain-wallet-v4-frontend': version,
         domains,
+        env: process.env,
         request: R.pick([`headers`, `hostname`, `url`], request)
       })
     })
