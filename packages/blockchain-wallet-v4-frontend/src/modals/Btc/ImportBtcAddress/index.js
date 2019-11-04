@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import modalEnhancer from 'providers/ModalEnhancer'
-import ImportBtcAddress from './template.js'
 import { getData } from './selectors'
 import { utils } from 'blockchain-wallet-v4/src'
+import ImportBtcAddress from './template.js'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render () {

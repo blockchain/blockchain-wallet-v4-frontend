@@ -1,40 +1,40 @@
-import Bigi from 'bigi'
-import Base58 from 'bs58'
-import Either from 'data.either'
-import Task from 'data.task'
-import Maybe from 'data.maybe'
-import Bitcoin from 'bitcoinjs-lib'
-import memoize from 'fast-memoize'
-import BIP39 from 'bip39'
-import {
-  compose,
-  curry,
-  map,
-  is,
-  pipe,
-  __,
-  concat,
-  split,
-  isNil,
-  flip
-} from 'ramda'
-import { traversed, traverseOf, over, view, set } from 'ramda-lens'
-import * as crypto from '../walletCrypto'
-import { shift, shiftIProp } from './util'
-import Type from './Type'
-import * as HDWallet from './HDWallet'
-import * as HDAccount from './HDAccount'
 import * as Address from './Address'
-import * as AddressMap from './AddressMap'
-import * as AddressLabelMap from './AddressLabelMap'
-import * as Derivation from './Derivation'
-import * as DerivationList from './DerivationList'
-import * as HDWalletList from './HDWalletList'
-import * as HDAccountList from './HDAccountList'
 import * as AddressBook from './AddressBook'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as AddressMap from './AddressMap'
+import * as crypto from '../walletCrypto'
+import * as Derivation from '../Derivation'
+import * as DerivationList from '../DerivationList'
+import * as HDAccount from './HDAccount'
+import * as HDAccountList from './HDAccountList'
+import * as HDWallet from './HDWallet'
+import * as HDWalletList from './HDWalletList'
+import * as Options from './Options'
 import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
-import * as Options from './Options'
+import {
+  __,
+  compose,
+  concat,
+  curry,
+  flip,
+  is,
+  isNil,
+  map,
+  pipe,
+  split
+} from 'ramda'
+import { over, set, traversed, traverseOf, view } from 'ramda-lens'
+import { shift, shiftIProp } from './util'
+import Base58 from 'bs58'
+import Bigi from 'bigi'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
+import Either from 'data.either'
+import Maybe from 'data.maybe'
+import memoize from 'fast-memoize'
+import Task from 'data.task'
+import Type from './Type'
 
 /* Wallet :: {
   guid :: String

@@ -1,16 +1,16 @@
-import React from 'react'
-import { path, prop } from 'ramda'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   AddressMatchesPriv,
+  InsufficientFundsMessage,
+  InvalidAmountMessage,
   MaximumAmountMessage,
   MaximumFeeMessage,
   MinimumAmountMessage,
   MinimumFeeMessage,
-  MinimumOneSatoshiMessage,
-  InsufficientFundsMessage,
-  InvalidAmountMessage
+  MinimumOneSatoshiMessage
 } from './validationMessages'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { path, prop } from 'ramda'
+import React from 'react'
 
 const DUST = 546
 

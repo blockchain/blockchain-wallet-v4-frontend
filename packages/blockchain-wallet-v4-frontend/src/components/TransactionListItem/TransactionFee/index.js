@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
-import { FlatLoader, Text } from 'blockchain-info-components'
-import ComboDisplay from 'components/Display/ComboDisplay'
 import { actions, selectors } from 'data'
+import { FlatLoader, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 class TransactionFee extends React.PureComponent {
   componentDidMount () {

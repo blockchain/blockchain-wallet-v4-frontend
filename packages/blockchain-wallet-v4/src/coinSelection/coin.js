@@ -1,9 +1,15 @@
-import { curry, is, clamp, split, length, sort } from 'ramda'
-import { over, view } from 'ramda-lens'
-import { inputComparator, sortOutputs } from 'bip69'
-import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/btc'
+import { clamp, curry, is, length, sort, split } from 'ramda'
+import { inputComparator, sortOutputs } from 'bip69'
 import { IO_TYPES } from './'
+import { over, view } from 'ramda-lens'
+import Type from '../types/Type'
+
+export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
+export const TX_INPUT_BASE = 32 + 4 + 1 + 4
+export const TX_INPUT_PUBKEYHASH = 106
+export const TX_OUTPUT_BASE = 8 + 1
+export const TX_OUTPUT_PUBKEYHASH = 25
 
 export class Coin extends Type {
   toString () {

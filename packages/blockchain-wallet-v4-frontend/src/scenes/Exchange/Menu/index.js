@@ -1,14 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-
 import { actions } from 'data'
-import { getData } from './selectors'
 import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { getData } from './selectors'
+import { LinkContainer } from 'react-router-bootstrap'
 import Announcements from 'components/Announcements'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
+import styled from 'styled-components'
 
 const LinkItem = styled(TabMenuItem)`
   &.active {

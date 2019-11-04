@@ -1,11 +1,11 @@
+import { FormattedMessage } from 'react-intl'
+import { getReasonExplanation } from 'services/CoinifyService'
+import { Icon, Text } from 'blockchain-info-components'
+import { rateHelper, submitButtonHelper, wantToHelper } from './Helpers'
+import media from 'services/ResponsiveService'
+import QuoteInput from './QuoteInput'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import QuoteInput from './QuoteInput'
-import { getReasonExplanation } from 'services/CoinifyService'
-import { submitButtonHelper, wantToHelper, rateHelper } from './Helpers'
-import media from 'services/ResponsiveService'
 
 const ExchangeCheckoutWrapper = styled.div`
   padding: 30px;

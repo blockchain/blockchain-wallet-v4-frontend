@@ -1,11 +1,11 @@
-import { assocPath, merge } from 'ramda'
-import Remote from '../../../remote'
 import * as selectors from './selectors'
+import { assocPath, merge } from 'ramda'
 import {
   createMockWalletState,
   walletV4,
   walletV4WithLegacy
 } from '../../../../data'
+import Remote from '../../../remote'
 
 describe('kvstore bch selectors', () => {
   const accounts = [

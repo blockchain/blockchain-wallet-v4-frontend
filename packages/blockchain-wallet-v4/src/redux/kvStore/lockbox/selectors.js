@@ -1,18 +1,18 @@
 import {
+  addIndex,
   any,
+  filter,
+  flatten,
+  head,
+  lensProp,
+  map,
+  nth,
   path,
   pathOr,
   prop,
   propEq,
   propOr,
-  map,
-  set,
-  flatten,
-  filter,
-  lensProp,
-  addIndex,
-  head,
-  nth
+  set
 } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'

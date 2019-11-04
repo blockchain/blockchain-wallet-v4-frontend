@@ -1,9 +1,9 @@
+import { FormattedMessage } from 'react-intl'
+import { spacing } from 'services/StyleService'
+import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
-import PropTypes from 'prop-types'
 
 const BankTransferDetailsTable = styled.div`
   display: flex;

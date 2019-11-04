@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, model } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 import ThePit from './template'
 
 const { PIT_EVENTS } = model.analytics

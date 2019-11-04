@@ -1,15 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedHTMLMessage } from 'react-intl'
-import { mapObjIndexed, toLower, values } from 'ramda'
-
-import { Text } from 'blockchain-info-components'
 import {
   HomeBalanceRow,
   HomeBalanceTable,
   HomeCoinBalanceCell
 } from 'components/Balances'
+import { LinkContainer } from 'react-router-bootstrap'
+import { mapObjIndexed, toLower, values } from 'ramda'
+import { Text } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
 
 const TotalRow = styled.div`
   display: flex;

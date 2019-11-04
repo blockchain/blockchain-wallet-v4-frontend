@@ -1,9 +1,9 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import React from 'react'
 
-import Loading from 'components/BuySell/Loading'
 import { getData } from './selectors'
 import AddBankDetails from './template.js'
+import Loading from 'components/BuySell/Loading'
 
 class AddBankDetailsContainer extends React.PureComponent {
   render () {

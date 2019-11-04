@@ -1,6 +1,6 @@
-import addressesBchSagas from './sagas'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import { createMockWalletState, walletV3 } from 'blockchain-wallet-v4/data'
+import addressesBchSagas from './sagas'
 import Bitcoin from 'bitcoinjs-lib'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')

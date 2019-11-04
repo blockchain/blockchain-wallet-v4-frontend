@@ -1,7 +1,7 @@
-import React from 'react'
-import RecurringOrder from './RecurringOrder'
 import { FormattedMessage } from 'react-intl'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import React from 'react'
+import RecurringOrder from './RecurringOrder'
 
 class RecurringOrderHistoryTable extends React.PureComponent {
   constructor () {

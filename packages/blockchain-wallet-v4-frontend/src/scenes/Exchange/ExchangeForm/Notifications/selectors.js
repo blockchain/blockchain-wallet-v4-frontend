@@ -1,7 +1,6 @@
-import { take } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
+import { take } from 'ramda'
 
 const {
   TIERS_STATES,

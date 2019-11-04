@@ -1,10 +1,10 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import * as C from 'services/AlertService'
+import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Content = styled.div`
   display: flex;

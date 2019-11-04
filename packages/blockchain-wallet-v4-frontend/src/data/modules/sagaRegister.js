@@ -2,10 +2,10 @@ import { fork } from 'redux-saga/effects'
 import addressesBch from './addressesBch/sagaRegister'
 import profile from './profile/sagaRegister'
 import rates from './rates/sagaRegister'
-import settings from './settings/sagaRegister'
 import securityCenter from './securityCenter/sagaRegister'
-import transferEth from './transferEth/sagaRegister'
+import settings from './settings/sagaRegister'
 import sfox from './sfox/sagaRegister'
+import transferEth from './transferEth/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function * modulesSaga () {

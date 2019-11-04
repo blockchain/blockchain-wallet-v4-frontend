@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextArea } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const DetailRow = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
-import { selectors, model } from 'data'
-import { xlmFromLabel } from 'services/PaymentHelper'
+import { model, selectors } from 'data'
 import { utils } from 'blockchain-wallet-v4/src'
+import { xlmFromLabel } from 'services/PaymentHelper'
 const isSubmitting = selectors.form.isSubmitting(model.components.sendXlm.FORM)
 
 export const getData = state => {

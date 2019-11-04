@@ -1,5 +1,5 @@
-import { bchTx, createMockWalletState, walletV4 } from '../../data'
 import { _transformTx } from './bch'
+import { bchTx, createMockWalletState, walletV4 } from '../../data'
 import { Types } from '../../src'
 
 // TODO: SEGWIT fix test

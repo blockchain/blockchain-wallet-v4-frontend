@@ -1,7 +1,7 @@
+import { compose, includes, keys, lift, path, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import { compose, lift, prop, includes, keys, path } from 'ramda'
 
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
 
 const {
   getEmailStep,

@@ -1,9 +1,9 @@
-import { set } from 'ramda'
-import Remote from '../../../remote'
-import { KVStoreEntry } from '../../../types'
-import { derivationMap, USER_CREDENTIALS } from '../config'
-import reducer from './reducers'
 import * as actions from './actions'
+import { derivationMap, USER_CREDENTIALS } from '../config'
+import { KVStoreEntry } from '../../../types'
+import { set } from 'ramda'
+import reducer from './reducers'
+import Remote from '../../../remote'
 
 const INITIAL_STATE = Remote.NotAsked
 

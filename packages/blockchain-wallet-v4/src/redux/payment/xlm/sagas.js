@@ -1,24 +1,23 @@
-import { call, select } from 'redux-saga/effects'
-import { contains, flip, merge, prop, path, values } from 'ramda'
-import * as StellarSdk from 'stellar-sdk'
-
 import * as S from '../../selectors'
-import { xlm as xlmSigner } from '../../../signer'
-import {
-  isValidAddress,
-  calculateEffectiveBalance,
-  calculateFee as utilsCalculateFee,
-  calculateReserve,
-  overflowsFullBalance,
-  overflowsEffectiveBalance
-} from '../../../utils/xlm'
-import {
-  isString,
-  isPositiveInteger,
-  isPositiveNumber
-} from '../../../utils/checks'
-import { convertXlmToXlm } from '../../../exchange'
+import * as StellarSdk from 'stellar-sdk'
 import { ADDRESS_TYPES } from '../btc/utils'
+import {
+  calculateEffectiveBalance,
+  calculateReserve,
+  isValidAddress,
+  overflowsEffectiveBalance,
+  overflowsFullBalance,
+  calculateFee as utilsCalculateFee
+} from '../../../utils/xlm'
+import { call, select } from 'redux-saga/effects'
+import { contains, flip, merge, path, prop, values } from 'ramda'
+import { convertXlmToXlm } from '../../../exchange'
+import {
+  isPositiveInteger,
+  isPositiveNumber,
+  isString
+} from '../../../utils/checks'
+import { xlm as xlmSigner } from '../../../signer'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 
 const taskToPromise = t =>

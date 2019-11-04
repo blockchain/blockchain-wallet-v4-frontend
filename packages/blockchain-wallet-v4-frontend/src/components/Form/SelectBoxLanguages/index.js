@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { assoc, curry, keys, map, reduce } from 'ramda'
+import { connect } from 'react-redux'
+import React from 'react'
 
+import { languagesSortedByName } from 'services/LocalesService'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
-import { languagesSortedByName } from 'services/LocalesService'
 
 const renameKeys = curry((keysMap, obj) =>
   reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj))

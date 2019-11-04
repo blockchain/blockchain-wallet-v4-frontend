@@ -1,17 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import { equals, flatten, includes } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
-import { flatten, includes, equals } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
-  SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
-  TextBox,
-  TabMenuTransactionStatus
+  SelectBoxBtcAddresses,
+  TabMenuTransactionStatus,
+  TextBox
 } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
+import styled from 'styled-components'
 
 const { WALLET_TX_SEARCH } = model.form
 

@@ -1,9 +1,9 @@
-import Task from 'data.task'
-import { compose, map, identity, propSatisfies, ifElse, contains } from 'ramda'
-import Promise from 'es6-promise'
-import { Wrapper } from '../types'
+import { compose, contains, identity, ifElse, map, propSatisfies } from 'ramda'
 import { futurizeP } from 'futurize'
+import { Wrapper } from '../types'
 import createApi from './api'
+import Promise from 'es6-promise'
+import Task from 'data.task'
 
 const createWalletApi = (
   { options, apiKey, getAuthCredentials, reauthenticate, networks } = {},

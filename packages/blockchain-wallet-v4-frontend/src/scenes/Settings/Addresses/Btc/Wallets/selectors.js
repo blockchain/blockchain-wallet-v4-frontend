@@ -1,4 +1,4 @@
-import { isNil, map, pipe, prop, pluck, reject, sum } from 'ramda'
+import { isNil, map, pipe, pluck, prop, reject, sum } from 'ramda'
 
 import { selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'

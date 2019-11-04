@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-
 import { model } from 'data'
-import { Button } from 'blockchain-info-components'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

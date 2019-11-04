@@ -1,7 +1,7 @@
-import { assoc, assocPath, path, prop } from 'ramda'
+import * as Currencies from './currencies'
 import * as Currency from './currency'
 import * as Pairs from './pairs'
-import * as Currencies from './currencies'
+import { assoc, assocPath, path, prop } from 'ramda'
 
 const { BCH, BTC, ETH, PAX, XLM } = Currencies
 

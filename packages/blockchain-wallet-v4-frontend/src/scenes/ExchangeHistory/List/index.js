@@ -1,9 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import List from './template'
+import React from 'react'
 
 class ListContainer extends React.PureComponent {
   componentDidMount () {

@@ -1,23 +1,23 @@
-import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
-import bip21 from 'bip21'
 import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
-import { actions, actionTypes, model, selectors } from 'data'
-import {
-  initialize,
-  change,
-  startSubmit,
-  stopSubmit,
-  destroy
-} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import * as Lockbox from 'services/LockboxService'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
+import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import bip21 from 'bip21'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'

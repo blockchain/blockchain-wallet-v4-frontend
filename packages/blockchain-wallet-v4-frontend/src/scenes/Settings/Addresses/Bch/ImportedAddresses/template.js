@@ -1,17 +1,17 @@
-import React from 'react'
-import { filter } from 'ramda'
-import styled from 'styled-components'
-import AddressRow from '../../Btc/AddressRow'
-import { FormattedMessage } from 'react-intl'
-import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Button,
   Icon,
   Table,
-  TableHeader,
   TableCell,
+  TableHeader,
   Text
 } from 'blockchain-info-components'
+import { filter } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import AddressRow from '../../Btc/AddressRow'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

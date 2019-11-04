@@ -1,21 +1,21 @@
-import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { getData } from './selectors'
-import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
+import { getData } from './selectors'
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Text,
   Icon,
-  Link
+  Link,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 
 const Header = styled.div`

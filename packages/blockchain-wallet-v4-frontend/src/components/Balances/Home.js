@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import React from 'react'
+import styled from 'styled-components'
 
 export const HomeBalanceTable = styled.div`
   display: flex;

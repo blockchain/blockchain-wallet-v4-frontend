@@ -1,5 +1,5 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { Button, Icon } from 'blockchain-info-components'

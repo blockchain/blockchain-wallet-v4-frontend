@@ -1,17 +1,21 @@
+import * as A from './actions'
+import * as C from 'services/AlertService'
+import * as S from './selectors'
+import { actions, selectors } from 'data'
 import {
-  cancel,
+  all,
   call,
+  cancel,
   delay,
   fork,
   put,
-  all,
   select,
   spawn
 } from 'redux-saga/effects'
 import {
   any,
-  concat,
   compose,
+  concat,
   contains,
   equals,
   identity,
@@ -23,11 +27,7 @@ import {
   path,
   prop
 } from 'ramda'
-import { actions, selectors } from 'data'
-import * as A from './actions'
-import * as S from './selectors'
-import * as C from 'services/AlertService'
-import { PER_PAGE, INCOMPLETE_STATES } from './model'
+import { INCOMPLETE_STATES, PER_PAGE } from './model'
 
 export const pollTimeout = 5000
 export default ({ api, coreSagas }) => {

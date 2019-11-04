@@ -1,7 +1,7 @@
-import { addIndex, map, pipe, is, lens } from 'ramda'
-import List from './List'
-import { iLensProp } from './util'
 import * as Derivation from './Derivation'
+import { addIndex, is, lens, map, pipe } from 'ramda'
+import { iLensProp } from './util'
+import List from './List'
 
 export class DerivationList extends List {}
 

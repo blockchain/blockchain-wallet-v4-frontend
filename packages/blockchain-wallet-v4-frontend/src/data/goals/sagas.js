@@ -1,4 +1,14 @@
 import {
+  all,
+  call,
+  delay,
+  join,
+  put,
+  select,
+  spawn,
+  take
+} from 'redux-saga/effects'
+import {
   anyPass,
   equals,
   map,
@@ -10,23 +20,13 @@ import {
   sum,
   values
 } from 'ramda'
-import {
-  all,
-  call,
-  delay,
-  join,
-  put,
-  select,
-  spawn,
-  take
-} from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
 
+import * as C from 'services/AlertService'
 import { actions, actionTypes, model, selectors } from 'data'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import * as C from 'services/AlertService'
-import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
+import { getAllBalances, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 

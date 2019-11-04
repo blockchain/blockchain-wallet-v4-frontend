@@ -9,9 +9,9 @@ import {
   prop,
   propEq
 } from 'ramda'
+import { selectors } from 'data'
 import { utils } from 'blockchain-wallet-v4/src'
 import EthUtil from 'ethereumjs-util'
-import { selectors } from 'data'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 

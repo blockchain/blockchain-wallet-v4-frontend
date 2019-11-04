@@ -1,27 +1,27 @@
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { FormGroup, FormItem, PasswordBox, TextBox } from 'components/Form'
+import { spacing } from 'services/StyleService'
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
 
 import {
-  requiredSSN,
-  requiredDOB,
-  normalizeSocialSecurity,
+  ageOverEighteen,
   normalizeDateOfBirth,
-  ageOverEighteen
+  normalizeSocialSecurity,
+  requiredDOB,
+  requiredSSN
 } from 'services/FormHelper'
 import {
-  Form,
   ColLeft,
   ColRight,
+  ColRightInner,
+  ErrorWrapper,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  ErrorWrapper,
-  ColRightInner
+  PartnerSubHeader
 } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 

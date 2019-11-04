@@ -1,15 +1,15 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
-import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
+import { mount } from 'enzyme'
+import React from 'react'
 
 import { actions } from 'data'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import modalsReducer from 'data/modals/reducers'
 
-import MobileNumberVerify from './index'
-import { ModalHeader, Modal, ModalBody } from 'blockchain-info-components'
 import { Code } from './template'
+import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
+import MobileNumberVerify from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 

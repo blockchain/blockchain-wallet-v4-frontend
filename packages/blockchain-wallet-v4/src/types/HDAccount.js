@@ -1,24 +1,25 @@
 import {
-  pipe,
+  assoc,
+  compose,
   contains,
   curry,
-  compose,
-  not,
-  is,
-  assoc,
   dissoc,
+  is,
   isNil,
+  not,
+  pipe,
   split
 } from 'ramda'
-import { view, over, traversed, traverseOf } from 'ramda-lens'
-import * as crypto from '../walletCrypto'
+import { over, traversed, traverseOf, view } from 'ramda-lens'
 import Task from 'data.task'
-import Type from './Type'
-import * as DerivationList from './DerivationList'
-import * as Derivation from './Derivation'
-import * as Cache from './Cache'
 /* eslint-disable */
-import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+import * as AddressLabelMap from './AddressLabelMap' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+import * as Cache from './Cache'
+import * as crypto from '../walletCrypto'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
+import { fromJS as iFromJS } from 'immutable-ext'
+import Type from './Type'
 /* eslint-enable */
 
 export const DEFAULT_DERIVATION_TYPE = 'segwitP2SH'

@@ -1,10 +1,10 @@
-import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import React from 'react'
 
-import { FlatLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
+import { FlatLoader } from 'blockchain-info-components'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent {

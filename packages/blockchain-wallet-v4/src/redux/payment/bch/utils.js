@@ -1,6 +1,6 @@
-import { Wallet, HDAccount } from '../../../types'
-import { ADDRESS_TYPES } from '../btc/utils'
 import * as S from '../../selectors'
+import { ADDRESS_TYPES } from '../btc/utils'
+import { HDAccount, Wallet } from '../../../types'
 
 export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)

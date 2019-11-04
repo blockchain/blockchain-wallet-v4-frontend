@@ -1,5 +1,5 @@
-import { put } from 'redux-saga/effects'
 import * as A from './actions'
+import { put } from 'redux-saga/effects'
 
 export default ({ api, options }) => {
   return function * coreWalletOptionsSaga () {

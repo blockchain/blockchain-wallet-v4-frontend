@@ -1,5 +1,5 @@
+import { head, lift, prop, propOr } from 'ramda'
 import { selectors } from 'data'
-import { lift, head, prop, propOr } from 'ramda'
 
 const extractAddress = addr => prop('addr', head(addr))
 

@@ -1,12 +1,11 @@
-import { call, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty, path } from 'ramda'
-import { set } from 'ramda-lens'
-
 import * as A from './actions'
+import { call, put, select } from 'redux-saga/effects'
+import { callTask } from '../../../utils/functional'
 import { Derivation, HDAccount, KVStoreEntry } from '../../../types'
 import { derivationMap, LOCKBOX } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { callTask } from '../../../utils/functional'
+import { isEmpty, isNil, path } from 'ramda'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
   const createLockbox = function * (kv) {

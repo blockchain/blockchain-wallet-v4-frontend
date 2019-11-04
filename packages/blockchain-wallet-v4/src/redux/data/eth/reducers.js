@@ -1,20 +1,20 @@
+import * as AT from './actionTypes'
 import {
+  append,
   assoc,
   assocPath,
-  mergeRight,
-  reduce,
-  lensPath,
-  over,
-  append,
   compose,
   dropLast,
+  lensPath,
+  mergeRight,
+  over,
   path,
-  prop,
   prepend,
+  prop,
+  reduce,
   toLower
 } from 'ramda'
 import { mapped } from 'ramda-lens'
-import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
 // TODO: figure out how to pull ERC20 from walletOptions state

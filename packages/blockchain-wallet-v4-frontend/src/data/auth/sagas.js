@@ -1,5 +1,5 @@
+import { assoc, is, path, prop } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import { assoc, path, prop, is } from 'ramda'
 
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
@@ -7,8 +7,8 @@ import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  promptForSecondPassword,
-  forceSyncWallet
+  forceSyncWallet,
+  promptForSecondPassword
 } from 'services/SagaService'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 

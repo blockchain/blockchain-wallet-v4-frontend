@@ -1,4 +1,5 @@
-import { HDWallet, HDAccountList, HDAccount } from '../../../types'
+import * as walletSelectors from '../../wallet/selectors'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   assoc,
   compose,
@@ -7,16 +8,15 @@ import {
   keys,
   lensProp,
   lift,
+  map,
+  max,
   path,
-  pluck,
   pipe,
+  pluck,
   prop,
   propEq,
   propOr,
-  map,
-  max,
   reject,
-  set,
   sequence,
   split,
   sum,
@@ -28,12 +28,12 @@ import {
   getReceiveIndex
 } from '../../data/btc/selectors'
 import {
-  getLockboxBtcAccounts,
-  getLockboxBtcAccount
+  getLockboxBtcAccount,
+  getLockboxBtcAccounts
 } from '../../kvStore/lockbox/selectors'
-import * as walletSelectors from '../../wallet/selectors'
+import { HDAccount, HDAccountList, HDWallet } from '../../../types'
+import { set } from 'ramda-lens'
 import Remote from '../../../remote'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 const _getAccounts = selector => state => {
   const balances = Remote.of(getAddresses(state).getOrElse({}))

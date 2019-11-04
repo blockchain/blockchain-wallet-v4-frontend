@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { path } from 'ramda'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
-import Create from './template'
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
+import Create from './template'
 
 class CreateContainer extends Component {
   state = {

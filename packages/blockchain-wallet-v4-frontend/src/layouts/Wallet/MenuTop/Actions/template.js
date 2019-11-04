@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled, { css } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled, { css } from 'styled-components'
 
-import { Text, IconButton } from 'blockchain-info-components'
+import { IconButton, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 

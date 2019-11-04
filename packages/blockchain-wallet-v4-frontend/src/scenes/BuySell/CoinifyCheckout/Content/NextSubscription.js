@@ -1,10 +1,10 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { Text, Link } from 'blockchain-info-components'
-import { prop, head } from 'ramda'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
+import { FormattedMessage } from 'react-intl'
+import { head, prop } from 'ramda'
+import { Link, Text } from 'blockchain-info-components'
+import { recurringFee, recurringTimeHelper } from 'services/CoinifyService'
+import React from 'react'
+import styled from 'styled-components'
 
 const NextRecurringWrapper = styled.div`
   background: ${props => props.theme['brand-quaternary']};

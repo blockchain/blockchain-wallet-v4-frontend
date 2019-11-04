@@ -1,10 +1,10 @@
-import BigNumber from 'bignumber.js'
-import EthereumTx from 'ethereumjs-tx'
-import EthereumAbi from 'ethereumjs-abi'
 import * as eth from '../utils/eth'
-import Task from 'data.task'
 import { curry } from 'ramda'
+import BigNumber from 'bignumber.js'
 import Eth from '@ledgerhq/hw-app-eth'
+import EthereumAbi from 'ethereumjs-abi'
+import EthereumTx from 'ethereumjs-tx'
+import Task from 'data.task'
 
 const isOdd = str => str.length % 2 !== 0
 const toHex = value => {

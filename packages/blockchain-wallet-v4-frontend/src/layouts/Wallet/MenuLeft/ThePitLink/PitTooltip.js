@@ -1,12 +1,12 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Button, Link, Text } from 'blockchain-info-components'
 import {
+  CloseTourIcon,
   TooltipBody,
   TooltipContent,
-  TooltipFooter,
-  CloseTourIcon
+  TooltipFooter
 } from 'components/Tour'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 const PitTooltip = props => {
   const { skipProps, step, tooltipProps } = props

@@ -1,11 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { formValueSelector, getFormMeta } from 'redux-form'
-
-import Login from './template.js'
 import { actions, selectors } from 'data'
-import { isGuid, isEmail } from '../../services/ValidationHelper'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector, getFormMeta } from 'redux-form'
+import { isEmail, isGuid } from '../../services/ValidationHelper'
+import Login from './template.js'
+import React from 'react'
 
 class LoginContainer extends React.PureComponent {
   state = { useCode: true }

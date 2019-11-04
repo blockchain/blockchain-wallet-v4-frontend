@@ -1,14 +1,13 @@
-import { call, put, select } from 'redux-saga/effects'
-import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
+import * as A from '../actions'
+import * as S from './selectors'
 import {
   add,
   any,
   compose,
   curry,
-  head,
   find,
   findLastIndex,
+  head,
   is,
   isEmpty,
   last,
@@ -19,14 +18,14 @@ import {
   propSatisfies,
   range
 } from 'ramda'
-import { set } from 'ramda-lens'
-import Task from 'data.task'
-import * as A from '../actions'
-import * as S from './selectors'
+import { call, put, select } from 'redux-saga/effects'
 import { fetchData } from '../data/btc/actions'
-
-import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
+import { HDAccount, Wallet, Wrapper } from '../../types'
+import { set } from 'ramda-lens'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
+import Task from 'data.task'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

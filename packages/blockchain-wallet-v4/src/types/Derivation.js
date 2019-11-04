@@ -1,10 +1,10 @@
-import Type from './Type'
-import * as Cache from './Cache'
 import * as AddressLabelMap from './AddressLabelMap'
-import { curry, compose, over, pipe, is, dissoc } from 'ramda'
-import { view, traverseOf } from 'ramda-lens'
-import Task from 'data.task'
+import * as Cache from './Cache'
 import * as crypto from '../walletCrypto'
+import { compose, curry, dissoc, is, over, pipe } from 'ramda'
+import { traverseOf, view } from 'ramda-lens'
+import Task from 'data.task'
+import Type from './Type'
 
 export class Derivation extends Type {}
 

@@ -1,8 +1,8 @@
-import { pipe, map, find, propEq, prop } from 'ramda'
-import React from 'react'
+import { find, map, pipe, prop, propEq } from 'ramda'
 import { shallow } from 'enzyme'
-import SelectBoxRegion from './index.js'
 import countryRegionData from 'country-region-data'
+import React from 'react'
+import SelectBoxRegion from './index.js'
 
 jest.mock('blockchain-info-components', () => ({ SelectInput: 'select-input' }))
 

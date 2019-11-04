@@ -1,7 +1,7 @@
 import { includes, lift, toLower } from 'ramda'
 
-import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
   const { coin } = ownProps

@@ -1,10 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { isNil, equals } from 'ramda'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { equals, isNil } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import React from 'react'
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {

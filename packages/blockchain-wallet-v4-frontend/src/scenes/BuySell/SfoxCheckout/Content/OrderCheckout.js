@@ -1,15 +1,15 @@
-import React, { Fragment } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { equals } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import { Text, Icon, Button } from 'blockchain-info-components'
-import { flex, spacing } from 'services/StyleService'
-import QuoteInput from './QuoteInput'
-import FundingSource from 'components/BuySell/FundingSource'
-import { MethodContainer } from 'components/BuySell/styled'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { flex, spacing } from 'services/StyleService'
+import { MethodContainer } from 'components/BuySell/styled'
 import { Remote } from 'blockchain-wallet-v4/src'
+import FundingSource from 'components/BuySell/FundingSource'
+import QuoteInput from './QuoteInput'
 
 const Wrapper = styled.div`
   padding: 30px;

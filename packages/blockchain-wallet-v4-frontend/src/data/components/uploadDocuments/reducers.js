@@ -1,5 +1,5 @@
-import { assoc } from 'ramda'
 import * as AT from './actionTypes'
+import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const INITIAL_STATE = {

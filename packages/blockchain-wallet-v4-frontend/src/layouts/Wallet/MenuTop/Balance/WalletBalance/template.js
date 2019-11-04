@@ -1,15 +1,15 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { map } from 'ramda'
+import React from 'react'
 
-import Balance from './Balance'
-import { Icon } from 'blockchain-info-components'
 import {
-  Wrapper,
   BalancesWrapper,
   Header,
-  HeaderText
+  HeaderText,
+  Wrapper
 } from 'components/Balances'
+import { Icon } from 'blockchain-info-components'
+import Balance from './Balance'
 
 const Template = props => {
   const { supportedCoins } = props

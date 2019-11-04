@@ -1,10 +1,9 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import SelectBox from '../SelectBox'
-import { Icon, Text } from 'blockchain-info-components'
-
 import { getCoins } from './selectors'
+import { Icon, Text } from 'blockchain-info-components'
+import React from 'react'
+import SelectBox from '../SelectBox'
+import styled from 'styled-components'
 
 const HeaderWrapper = styled.div`
   display: flex;

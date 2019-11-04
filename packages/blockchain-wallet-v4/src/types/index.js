@@ -13,11 +13,11 @@ import * as HDWallet from './HDWallet'
 import * as HDWalletList from './HDWalletList'
 import * as KVStoreEntry from './KVStoreEntry'
 import * as Options from './Options'
-import serializer from './Serializer'
 import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
+import serializer from './Serializer'
 
 export {
   AddressMap,

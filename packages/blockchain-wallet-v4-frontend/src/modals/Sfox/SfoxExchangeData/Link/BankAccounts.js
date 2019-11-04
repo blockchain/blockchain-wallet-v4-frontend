@@ -1,11 +1,11 @@
+import { Field, reduxForm } from 'redux-form'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { required } from 'services/FormHelper'
+import { Text } from 'blockchain-info-components'
+import Bank from './Bank'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm, Field } from 'redux-form'
-import { TextBox, Form, FormGroup, FormItem, FormLabel } from 'components/Form'
-import { required } from 'services/FormHelper'
-import Bank from './Bank'
-import { Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;

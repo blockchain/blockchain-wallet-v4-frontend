@@ -1,11 +1,11 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import { prop } from 'ramda'
-import { Text, Icon } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const PaymentOptionContainer = styled.div`
   width: 160px;

@@ -1,16 +1,16 @@
-import { call, select, put } from 'redux-saga/effects'
-import { concat, equals, prop } from 'ramda'
-import { selectors } from 'data'
 import * as actions from '../../../actions'
 import * as T from 'services/AlertService'
-import { WALLET_TX_SEARCH } from '../../../form/model'
 import {
-  header,
-  ethSentConfirmed,
-  ethReceivedPending,
+  btcTransaction,
   ethReceivedConfirmed,
-  btcTransaction
+  ethReceivedPending,
+  ethSentConfirmed,
+  header
 } from './messageTypes'
+import { call, put, select } from 'redux-saga/effects'
+import { concat, equals, prop } from 'ramda'
+import { selectors } from 'data'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)

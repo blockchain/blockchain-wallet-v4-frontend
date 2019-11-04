@@ -1,4 +1,14 @@
 import {
+  Address,
+  AddressMap,
+  HDAccount,
+  HDWallet,
+  HDWalletList,
+  Options,
+  Wallet,
+  Wrapper
+} from '../../types'
+import {
   always,
   compose,
   curry,
@@ -8,16 +18,6 @@ import {
   map,
   prop
 } from 'ramda'
-import {
-  Wallet,
-  Wrapper,
-  HDAccount,
-  Address,
-  HDWalletList,
-  HDWallet,
-  Options,
-  AddressMap
-} from '../../types'
 import { walletPath } from '../paths'
 
 const intoJS = i => i.toJS()

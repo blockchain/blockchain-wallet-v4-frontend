@@ -1,12 +1,12 @@
 import * as crypto from 'crypto'
+import * as U from './utils'
+import { compose, curry, has, is, isNil, propSatisfies, sequence } from 'ramda'
 import { pbkdf2 } from 'pbkdf2'
 import assert from 'assert'
-import Task from 'data.task'
 import BIP39 from 'bip39'
-import * as U from './utils'
-import Either from 'data.either'
 import createRng from './rng'
-import { curry, compose, is, isNil, sequence, has, propSatisfies } from 'ramda'
+import Either from 'data.either'
+import Task from 'data.task'
 
 export const SUPPORTED_ENCRYPTION_VERSION = 4
 

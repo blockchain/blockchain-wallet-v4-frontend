@@ -1,7 +1,7 @@
+import * as U from '../utils'
 import * as wCrypto from './'
-import * as U from './utils'
-import data from './wallet-data.json'
 import { repeat } from 'ramda'
+import data from './wallet-data.json'
 
 describe('WalletCrypto', () => {
   describe('safeParse', () => {

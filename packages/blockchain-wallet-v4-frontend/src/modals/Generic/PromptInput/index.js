@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
 import PromptTemplate from './template.js'
+import React from 'react'
 
 class PromptContainer extends React.PureComponent {
   onSubmit = () => {

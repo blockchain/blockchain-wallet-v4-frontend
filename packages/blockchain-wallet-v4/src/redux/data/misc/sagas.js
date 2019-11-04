@@ -1,9 +1,9 @@
-import { call, put, select } from 'redux-saga/effects'
-import readBlob from 'read-blob'
 import * as A from './actions'
+import * as pairing from '../../../pairing'
 import * as selectors from '../../selectors'
 import * as wS from '../../wallet/selectors'
-import * as pairing from '../../../pairing'
+import { call, put, select } from 'redux-saga/effects'
+import readBlob from 'read-blob'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

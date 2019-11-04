@@ -1,8 +1,6 @@
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinMessage from 'bitcoinjs-message'
-import { mapped } from 'ramda-lens'
+import * as Coin from '../coinSelection/coin.js'
 import * as crypto from '../walletCrypto'
-
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 import {
   addIndex,
   compose,
@@ -12,10 +10,10 @@ import {
   lensProp,
   over
 } from 'ramda'
-
+import { mapped } from 'ramda-lens'
 import { privateKeyStringToKey } from '../utils/btc'
-import * as Coin from '../coinSelection/coin.js'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinMessage from 'bitcoinjs-message'
 import Btc from '@ledgerhq/hw-app-btc'
 
 const getRedeemScript = keyPair => {

@@ -1,20 +1,19 @@
-import { Observable } from 'rxjs'
-import React from 'react'
-import { prop } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import TransportU2F from '@ledgerhq/hw-transport-u2f'
-import Btc from '@ledgerhq/hw-app-btc'
-import Str from '@ledgerhq/hw-app-str'
-
 import {
   createXpubFromChildAndParent,
   getParentPath
 } from 'blockchain-wallet-v4/src/utils/btc'
-import { Types } from 'blockchain-wallet-v4/src'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
-import firmware from './firmware'
-import constants from './constants'
+import { FormattedMessage } from 'react-intl'
 import { LOG_LEVELS } from '../../data/logs/model'
+import { Observable } from 'rxjs'
+import { prop } from 'ramda'
+import { Types } from 'blockchain-wallet-v4/src'
+import Btc from '@ledgerhq/hw-app-btc'
+import constants from './constants'
+import firmware from './firmware'
+import React from 'react'
+import Str from '@ledgerhq/hw-app-str'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
 
 const ethAccount = (xpub, label) => ({
   label: label,

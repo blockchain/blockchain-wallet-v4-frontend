@@ -1,6 +1,5 @@
-import { testSaga } from 'redux-saga-test-plan'
-
 import * as A from './actions'
+import { testSaga } from 'redux-saga-test-plan'
 import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import sagas from './sagas'
 

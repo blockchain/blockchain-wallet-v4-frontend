@@ -1,6 +1,6 @@
 import { filter } from 'ramda'
-import React from 'react'
 import { shallow } from 'enzyme'
+import React from 'react'
 import SelectBoxCountry, {
   countries,
   whiteBlackListsConflictMessage

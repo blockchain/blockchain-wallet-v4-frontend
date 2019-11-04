@@ -1,4 +1,4 @@
-import { is, curry, identity, reduceRight, compose, prop, assoc } from 'ramda'
+import { assoc, compose, curry, identity, is, prop, reduceRight } from 'ramda'
 import { lens } from 'ramda-lens'
 import { Map } from 'immutable'
 

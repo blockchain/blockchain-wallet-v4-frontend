@@ -1,3 +1,6 @@
+import * as Coin from '../../../coinSelection/coin'
+import * as S from '../../selectors'
+import { Address, HDAccount, Wallet } from '../../../types'
 import {
   always,
   assoc,
@@ -11,10 +14,7 @@ import {
   propEq,
   set
 } from 'ramda'
-import * as Coin from '../../../coinSelection/coin'
-import { Wallet, HDAccount, Address } from '../../../types'
-import { isValidBtcAddress, getWifAddress } from '../../../utils/btc'
-import * as S from '../../selectors'
+import { getWifAddress, isValidBtcAddress } from '../../../utils/btc'
 
 // /////////////////////////////////////////////////////////////////////////////
 // Validations

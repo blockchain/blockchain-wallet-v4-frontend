@@ -1,20 +1,20 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
-  initialize,
   change,
-  touch,
+  destroy,
+  initialize,
   startSubmit,
   stopSubmit,
-  destroy
+  touch
 } from 'redux-form'
+import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 
-import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
 import * as A from './actions'
 import * as S from './selectors'

@@ -1,8 +1,8 @@
+import { Button, Image, Text } from 'blockchain-info-components'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Text, Image } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 const ErrorContainer = styled.div`
   width: 100%;

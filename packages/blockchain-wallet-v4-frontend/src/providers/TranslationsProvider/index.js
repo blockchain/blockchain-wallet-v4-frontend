@@ -1,7 +1,7 @@
-import React from 'react'
-import { IntlProvider } from 'react-intl'
-import { connect } from 'react-redux'
 import { any, propOr } from 'ramda'
+import { connect } from 'react-redux'
+import { IntlProvider } from 'react-intl'
+import React from 'react'
 
 import { languages, loadLocaleData } from 'services/LocalesService'
 import { selectors } from 'data'

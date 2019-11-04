@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-
-import Tabs from './Tabs'
 import Table from './Table'
+import Tabs from './Tabs'
 
 const Wrapper = styled.div`
   width: 100%;

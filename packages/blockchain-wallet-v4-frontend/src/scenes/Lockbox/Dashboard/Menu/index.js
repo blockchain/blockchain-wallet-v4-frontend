@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
-import { withRouter } from 'react-router-dom'
-import { getFormValues } from './selectors'
 import { actions, selectors } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { getFormValues } from './selectors'
+import { withRouter } from 'react-router-dom'
 import LockboxMenu from './template'
+import React from 'react'
 
 class LockboxMenuContainer extends React.PureComponent {
   render () {

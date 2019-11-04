@@ -1,6 +1,6 @@
-import * as R from 'ramda'
-import { Address, Wallet, AddressMap, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
+import * as R from 'ramda'
+import { Address, AddressMap, serializer, Wallet } from './index'
 
 const walletFixture = require('./__mocks__/wallet.v4')
 const walletFixtureSecpass = require('./__mocks__/wallet.v4-secpass')

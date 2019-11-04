@@ -1,8 +1,8 @@
-import { add, concat, flatten, lift, map, prop, reduce } from 'ramda'
-import { selectors } from 'data'
-import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { add, concat, flatten, lift, map, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 export const getBtcBalance = createDeepEqualSelector(
   [

@@ -1,31 +1,31 @@
+import * as A from './actions'
+import * as C from 'services/AlertService'
+import * as Lockbox from 'services/LockboxService'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
+import {
   equals,
+  head,
   identity,
   includes,
   path,
   pathOr,
   prop,
   propOr,
-  head,
   toLower
 } from 'ramda'
-import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
-import { actions, actionTypes, selectors, model } from 'data'
-import {
-  initialize,
-  change,
-  startSubmit,
-  stopSubmit,
-  destroy
-} from 'redux-form'
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { FORM } from './model'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
 const { TRANSACTION_EVENTS } = model.analytics
 

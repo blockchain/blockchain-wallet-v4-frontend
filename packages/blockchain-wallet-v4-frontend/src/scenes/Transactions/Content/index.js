@@ -1,7 +1,7 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { path, toLower } from 'ramda'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'

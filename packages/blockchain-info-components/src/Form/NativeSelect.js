@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import selectArrow from '../Images/img/select-arrow.png'
+import styled from 'styled-components'
 
 const BaseSelectInput = styled.select`
   height: 30px;

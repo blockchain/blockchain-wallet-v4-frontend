@@ -1,7 +1,7 @@
-import React from 'react'
-import { reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import React from 'react'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'

@@ -1,13 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validXlmAddress } from 'services/FormHelper'
+import {
+  accountCreationAmount,
+  balanceReserveAmount,
+  insufficientFunds,
+  invalidAmount,
+  shouldError,
+  shouldWarn,
+  validateMemo,
+  validateMemoType
+} from './validation'
 import {
   Banner,
   Button,
@@ -16,6 +23,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { ErrorBanner } from './ErrorBanner'
 import {
   Form,
   FormGroup,
@@ -23,27 +31,19 @@ import {
   FormLabel,
   SelectBoxCoin,
   SelectBoxXlmAddresses,
-  TextBox,
-  TextAreaDebounced
+  TextAreaDebounced,
+  TextBox
 } from 'components/Form'
-import {
-  accountCreationAmount,
-  balanceReserveAmount,
-  invalidAmount,
-  insufficientFunds,
-  shouldError,
-  shouldWarn,
-  validateMemo,
-  validateMemoType
-} from './validation'
-import { Row } from 'components/Send'
-import QRCodeCapture from 'components/QRCodeCapture'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import { NoAccountTemplate } from './NoAccountTemplate'
-import { ErrorBanner } from './ErrorBanner'
-import { XlmFiatConverter } from './XlmFiatConverter'
 import { InfoBanner } from './InfoBanner'
+import { model } from 'data'
+import { NoAccountTemplate } from './NoAccountTemplate'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { required, validXlmAddress } from 'services/FormHelper'
+import { Row } from 'components/Send'
 import { SelectBoxMemo } from './SelectBoxMemo'
+import { XlmFiatConverter } from './XlmFiatConverter'
+import ComboDisplay from 'components/Display/ComboDisplay'
+import QRCodeCapture from 'components/QRCodeCapture'
 
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
