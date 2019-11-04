@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import onClickOutside from 'react-onclickoutside'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import Dropdown from './template'
 

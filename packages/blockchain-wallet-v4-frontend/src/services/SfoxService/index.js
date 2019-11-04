@@ -1,7 +1,7 @@
-import React from 'react'
-import moment from 'moment'
 import { FormattedMessage } from 'react-intl'
-import { prop, length, head } from 'ramda'
+import { head, length, prop } from 'ramda'
+import moment from 'moment'
+import React from 'react'
 
 export const isVerified = verificationStatus => {
   const { level } = verificationStatus

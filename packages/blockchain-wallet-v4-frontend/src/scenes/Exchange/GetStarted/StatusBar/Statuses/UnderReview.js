@@ -1,9 +1,8 @@
+import { FasExclamationCircle } from '@blockchain-com/components'
+import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
-import { FasExclamationCircle } from '@blockchain-com/components'
-import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,7 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-
-import { Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -9,6 +6,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import { Text } from 'blockchain-info-components'
+import React from 'react'
 
 const LocalCurrency = props => {
   const { message } = props

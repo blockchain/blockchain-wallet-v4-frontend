@@ -1,8 +1,8 @@
-import Base64 from 'base-64'
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Base64 from 'base-64'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 import { actions, selectors } from 'data'
 import UploadDocuments from './template'

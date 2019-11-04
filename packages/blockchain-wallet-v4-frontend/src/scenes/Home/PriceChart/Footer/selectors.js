@@ -1,7 +1,6 @@
-import { includes, path } from 'ramda'
-
-import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { includes, path } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

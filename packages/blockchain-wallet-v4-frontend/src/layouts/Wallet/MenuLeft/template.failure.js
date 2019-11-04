@@ -1,9 +1,9 @@
-import React from 'react'
-import { prop } from 'ramda'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 import { Container } from './template.success'
 import { FormattedMessage } from 'react-intl'
-import { Wrapper, MenuItem } from 'components/MenuLeft'
-import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { MenuItem, Wrapper } from 'components/MenuLeft'
+import { prop } from 'ramda'
+import React from 'react'
 
 const Failure = props => {
   return (

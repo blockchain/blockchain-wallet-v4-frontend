@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React from 'react'
 
 import { actions } from 'data'
 import TabMenuBuySellStatus from './template.js'

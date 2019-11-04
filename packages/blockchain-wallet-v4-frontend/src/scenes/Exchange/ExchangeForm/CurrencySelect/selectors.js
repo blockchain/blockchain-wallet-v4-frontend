@@ -1,19 +1,19 @@
 import {
   compose,
-  includes,
   curry,
+  gt,
+  includes,
+  length,
   map,
   path,
   prop,
   reject,
-  unnest,
-  gt,
-  length,
-  sort
+  sort,
+  unnest
 } from 'ramda'
 
-import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { model, selectors } from 'data'
 
 const {
   getAvailableSourceCoins,

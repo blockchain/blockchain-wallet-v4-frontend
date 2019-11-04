@@ -1,28 +1,27 @@
-import { call, select } from 'redux-saga/effects'
-import {
-  isNil,
-  mergeRight,
-  prop,
-  path,
-  identity,
-  indexOf,
-  toLower
-} from 'ramda'
-import EthUtil from 'ethereumjs-util'
-
 import * as S from '../../selectors'
-import { isValidIndex } from './utils'
-import { eth } from '../../../signer'
-import { isString, isPositiveInteger } from '../../../utils/checks'
-import settingsSagaFactory from '../../../redux/settings/sagas'
+import { ADDRESS_TYPES } from '../btc/utils'
 import {
   calculateEffectiveBalance,
-  isValidAddress,
+  calculateFee,
   convertGweiToWei,
-  calculateFee
+  isValidAddress
 } from '../../../utils/eth'
-import { ADDRESS_TYPES } from '../btc/utils'
+import { call, select } from 'redux-saga/effects'
+import { eth } from '../../../signer'
 import { FETCH_FEES_FAILURE } from '../model'
+import {
+  identity,
+  indexOf,
+  isNil,
+  mergeRight,
+  path,
+  prop,
+  toLower
+} from 'ramda'
+import { isPositiveInteger, isString } from '../../../utils/checks'
+import { isValidIndex } from './utils'
+import EthUtil from 'ethereumjs-util'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

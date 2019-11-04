@@ -1,5 +1,5 @@
-import { contains } from 'ramda'
 import { actions, actionTypes, selectors } from 'data'
+import { contains } from 'ramda'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer

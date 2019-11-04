@@ -1,4 +1,4 @@
-import { prop, lensProp, over, eqBy, flip, contains, split } from 'ramda'
+import { contains, eqBy, flip, lensProp, over, prop, split } from 'ramda'
 
 export const formatPair = (source, target) => `${source}-${target}`
 export const splitPair = split('-')

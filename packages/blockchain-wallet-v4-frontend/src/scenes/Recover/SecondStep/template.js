@@ -1,15 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import {
-  required,
-  validEmail,
-  validPasswordConfirmation
-} from 'services/FormHelper'
-import { has } from 'ramda'
-
-import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -18,7 +7,17 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { has } from 'ramda'
+import {
+  required,
+  validEmail,
+  validPasswordConfirmation
+} from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
+import React from 'react'
+import styled from 'styled-components'
 import Terms from 'components/Terms'
 
 // load zxcvbn dependency async and set on window

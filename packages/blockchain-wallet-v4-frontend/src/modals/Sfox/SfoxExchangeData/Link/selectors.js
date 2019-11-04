@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
+import { selectors } from 'data'
 
 const getFormValues = formValueSelector('sfoxLink')
 

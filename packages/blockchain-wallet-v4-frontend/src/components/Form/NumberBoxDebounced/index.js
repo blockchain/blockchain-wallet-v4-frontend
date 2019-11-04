@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { equals, isNil } from 'ramda'
-import { Text, NumberInput } from 'blockchain-info-components'
+import { NumberInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

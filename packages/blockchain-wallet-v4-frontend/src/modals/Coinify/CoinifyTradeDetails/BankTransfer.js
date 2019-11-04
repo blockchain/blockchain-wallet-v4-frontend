@@ -1,13 +1,13 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import {
+  Button,
   ModalBody,
   ModalHeader,
-  Button,
   Text
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 const ButtonRow = styled.div`
   display: flex;

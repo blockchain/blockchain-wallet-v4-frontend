@@ -1,4 +1,4 @@
-import React from 'react'
+import { Button, Icon, Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
@@ -7,8 +7,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-
-import { Button, Link, Icon } from 'blockchain-info-components'
+import React from 'react'
 
 const RestoreLockboxDevice = () => {
   return (

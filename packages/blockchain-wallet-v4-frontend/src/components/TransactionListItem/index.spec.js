@@ -1,15 +1,15 @@
-import React from 'react'
-import { shallow, mount } from 'enzyme'
-import toJson from 'enzyme-to-json'
-import ListItemContainer from './index'
+import { mount, shallow } from 'enzyme'
 import configureStore from 'redux-mock-store'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import {
+  getErc20CoinList,
   getOptions,
-  getSupportedCoins,
-  getErc20CoinList
+  getSupportedCoins
 } from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
+import ListItemContainer from './index'
 
 jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
 jest.mock('./template', () => () => <div />)

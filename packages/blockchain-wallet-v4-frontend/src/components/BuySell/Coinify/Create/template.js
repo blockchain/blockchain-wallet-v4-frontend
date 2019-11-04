@@ -1,17 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import AcceptTerms from './AcceptTerms'
-import VerifyEmail from './VerifyEmail'
 import { FormattedMessage } from 'react-intl'
-import { model } from 'data'
 import {
-  InputWrapper,
   IdentityVerificationHeader,
+  InputWrapper,
   PartnerSubHeader
 } from 'components/IdentityVerification'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { model } from 'data'
+import AcceptTerms from './AcceptTerms'
 import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import VerifyEmail from './VerifyEmail'
 
 const { CHANGE } = model.components.coinify.REGISTER_STATES
 const { EMAIL, TERMS } = model.components.coinify.REGISTER_STEPS

@@ -1,9 +1,9 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { model } from 'data'
 import { Banner } from 'blockchain-info-components'
+import { model } from 'data'
 import MaximumAmountLink from './MaximumAmountLink'
 import ModalIcon from './ModalIcon'
 

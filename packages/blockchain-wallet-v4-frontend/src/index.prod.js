@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './favicons'
-import configureStore from 'store'
 import App from 'scenes/app.js'
+import configureStore from 'store'
 import Error from './index.error'
 
 const renderApp = (Component, store, history, persistor) => {

@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
-
 import { getData } from './selectors'
 import KycResubmit from './KycResubmit'
+import React from 'react'
+import styled from 'styled-components'
 import ThePitBanner from './ThePitBanner'
 
 const BannerWrapper = styled.div`

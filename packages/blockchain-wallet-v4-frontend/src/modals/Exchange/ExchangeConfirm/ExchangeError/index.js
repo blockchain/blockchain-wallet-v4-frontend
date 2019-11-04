@@ -1,14 +1,14 @@
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { Text } from 'blockchain-info-components'
-import { actions } from 'data'
-import { getData } from './selectors'
 
 import {
-  ErrorMessageHeader,
   ErrorMessageBody,
-  ErrorMessageButtons
+  ErrorMessageButtons,
+  ErrorMessageHeader
 } from './components'
 
 const Error = styled.div`

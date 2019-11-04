@@ -1,9 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions, model } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { formatTrade } from './selectors'
+import React from 'react'
 import TradeItem from './template'
 
 const { RESULTS_MODAL } = model.components.exchangeHistory

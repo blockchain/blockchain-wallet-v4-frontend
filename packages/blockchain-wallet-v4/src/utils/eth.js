@@ -1,10 +1,10 @@
 import * as Exchange from '../exchange'
-import { prop, path } from 'ramda'
+import { path, prop } from 'ramda'
+import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
 import EthUtil from 'ethereumjs-util'
-import BigNumber from 'bignumber.js'
 
 /**
  * @param {string} address - The ethereum address

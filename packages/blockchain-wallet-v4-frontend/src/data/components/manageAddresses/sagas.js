@@ -1,12 +1,12 @@
 import { call, put, select } from 'redux-saga/effects'
 import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 
-import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as actions from '../../actions'
+import * as C from 'services/AlertService'
+import { promptForInput } from 'services/SagaService'
 import { selectors } from '../../index'
 import { Types } from 'blockchain-wallet-v4/src'
-import { promptForInput } from 'services/SagaService'
 
 export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'

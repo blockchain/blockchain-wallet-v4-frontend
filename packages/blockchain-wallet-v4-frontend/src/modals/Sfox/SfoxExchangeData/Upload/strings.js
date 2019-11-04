@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import { Text, Banner } from 'blockchain-info-components'
+import { Banner, Text } from 'blockchain-info-components'
 import { Info, PartnerSubHeader } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 

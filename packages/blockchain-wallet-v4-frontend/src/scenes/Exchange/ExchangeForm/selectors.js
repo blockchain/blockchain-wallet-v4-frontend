@@ -1,11 +1,10 @@
-import Bowser from 'bowser'
-import { equals, lift, path, prop } from 'ramda'
-
-import { selectors, model } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { equals, lift, path, prop } from 'ramda'
+import { model, selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import Bowser from 'bowser'
 
 const { EXCHANGE_FORM } = model.components.exchange
 const {

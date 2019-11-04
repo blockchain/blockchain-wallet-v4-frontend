@@ -1,15 +1,14 @@
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { TOUR_STEPS, TourTooltip } from './model'
+import Balances from './Balances'
+import Banners from './Banners'
 import Joyride, { STATUS } from 'react-joyride/lib'
+import PriceChart from './PriceChart'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled, { createGlobalStyle, keyframes } from 'styled-components'
-import { actions, selectors } from 'data'
-
-import { TourTooltip, TOUR_STEPS } from './model'
-import Balances from './Balances'
-import Banners from './Banners'
-import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 

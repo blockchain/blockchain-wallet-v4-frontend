@@ -1,5 +1,5 @@
-import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { model, selectors } from 'data'
 
 const { EXCHANGE_FORM } = model.components.exchange
 const getFormError = selectors.form.getFormError(EXCHANGE_FORM)

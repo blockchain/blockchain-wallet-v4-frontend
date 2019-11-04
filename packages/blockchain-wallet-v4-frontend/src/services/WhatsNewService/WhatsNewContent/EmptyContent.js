@@ -1,7 +1,7 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   > div:first-child {

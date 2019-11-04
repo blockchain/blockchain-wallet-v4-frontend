@@ -1,9 +1,8 @@
-import React from 'react'
 import { actions, selectors } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { connect } from 'react-redux'
 import DeviceStatus from './template'
+import React from 'react'
 
 class RemoveDeviceContainer extends React.PureComponent {
   deleteDevice = () => {

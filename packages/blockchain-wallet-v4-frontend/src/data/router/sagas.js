@@ -1,5 +1,5 @@
-import { put } from 'redux-saga/effects'
 import { actions } from 'data'
+import { put } from 'redux-saga/effects'
 
 export default () => {
   const logLocation = 'modules/router/sagas'

@@ -1,10 +1,10 @@
+import { reduxForm } from 'redux-form'
 import React from 'react'
 import styled from 'styled-components'
-import { reduxForm } from 'redux-form'
 
+import { model } from 'data'
 import UnusedAddresses from './UnusedAddresses'
 import UsedAddresses from './UsedAddresses'
-import { model } from 'data'
 const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.section`

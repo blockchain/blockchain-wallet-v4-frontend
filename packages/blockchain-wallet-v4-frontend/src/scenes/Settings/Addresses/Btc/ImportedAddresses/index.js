@@ -1,11 +1,11 @@
-import React from 'react'
-import { actions, selectors, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import ImportedAddresses from './template'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { values } from 'ramda'
+import ImportedAddresses from './template'
+import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {

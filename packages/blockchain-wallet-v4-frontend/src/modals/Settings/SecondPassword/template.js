@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import {
   Button,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   PasswordInput,
   Text
 } from 'blockchain-info-components'

@@ -1,10 +1,9 @@
-import React from 'react'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-import { actions } from 'data'
 import { getData } from './selectors'
 import Footer from './template'
+import React from 'react'
 
 class FooterContainer extends React.PureComponent {
   render () {

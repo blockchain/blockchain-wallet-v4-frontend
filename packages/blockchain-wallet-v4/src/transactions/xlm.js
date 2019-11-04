@@ -1,11 +1,10 @@
 import * as StellarSdk from 'stellar-sdk'
-import moment from 'moment'
 import {
   compose,
-  includes,
   curry,
   defaultTo,
   find,
+  includes,
   intersection,
   isEmpty,
   map,
@@ -14,7 +13,7 @@ import {
   propEq
 } from 'ramda'
 import BigNumber from 'bignumber.js'
-
+import moment from 'moment'
 import Remote from '../remote'
 
 const getType = (tx, addresses) => {

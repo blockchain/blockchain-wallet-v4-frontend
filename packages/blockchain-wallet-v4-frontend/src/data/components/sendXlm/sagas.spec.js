@@ -1,18 +1,18 @@
+import { combineReducers } from 'redux'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize, touch } from 'redux-form'
 import { path, prop } from 'ramda'
-import { combineReducers } from 'redux'
 
-import rootReducer from '../../rootReducer'
-import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
-import * as S from './selectors'
 import * as C from 'services/AlertService'
-import { FORM } from './model'
-import { actions, model, selectors } from 'data'
-import sendXlmSagas, { logLocation, INITIAL_MEMO_TYPE } from './sagas'
-import { promptForSecondPassword } from 'services/SagaService'
+import * as S from './selectors'
 import * as StellarSdk from 'stellar-sdk'
+import { actions, model, selectors } from 'data'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
+import { promptForSecondPassword } from 'services/SagaService'
+import rootReducer from '../../rootReducer'
+import sendXlmSagas, { INITIAL_MEMO_TYPE, logLocation } from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {

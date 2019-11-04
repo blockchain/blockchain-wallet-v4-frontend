@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
+import PropTypes from 'prop-types'
+import React from 'react'
 import TimeFilters from './template'
 
 export const TimeFiltersContainer = ({ actions, isSilverOrAbove, time }) => (

@@ -1,21 +1,19 @@
+import * as Coin from '../coinSelection/coin.js'
+import * as crypto from '../walletCrypto'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import {
+  addIndex,
+  compose,
+  curry,
+  defaultTo,
+  forEach,
+  lensProp,
+  over
+} from 'ramda'
+import { mapped } from 'ramda-lens'
+import { privateKeyStringToKey } from '../utils/btc'
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
-import { mapped } from 'ramda-lens'
-import * as crypto from '../walletCrypto'
-
-import {
-  curry,
-  forEach,
-  addIndex,
-  defaultTo,
-  over,
-  compose,
-  lensProp
-} from 'ramda'
-
-import { privateKeyStringToKey } from '../utils/btc'
-import * as Coin from '../coinSelection/coin.js'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 import Btc from '@ledgerhq/hw-app-btc'
 
 export const signSelection = curry((network, selection) => {

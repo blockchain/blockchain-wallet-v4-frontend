@@ -1,10 +1,9 @@
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import { getErrorMessage } from './validationMessages'
+import { Row } from '../Layout'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { getErrorMessage } from './validationMessages'
-
-import { getData } from './selectors'
-import { Row } from '../Layout'
 
 const ErrorRow = styled(Row)`
   justify-content: center;

@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
@@ -14,8 +14,8 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import ThePitLink from '../ThePitLink'
 

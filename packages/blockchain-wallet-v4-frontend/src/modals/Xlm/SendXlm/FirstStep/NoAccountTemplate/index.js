@@ -1,10 +1,10 @@
-import React from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 
 import { Banner, Button, Text } from 'blockchain-info-components'
-import { model } from 'data'
 import { FormGroup } from 'components/Form'
+import { model } from 'data'
 import ModalIcon from '../ModalIcon'
 
 const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm

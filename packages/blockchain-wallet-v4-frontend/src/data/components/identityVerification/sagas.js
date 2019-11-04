@@ -1,25 +1,25 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import { head, isEmpty, mapObjIndexed, prop, toUpper, sort } from 'ramda'
+import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
 
-import { actions, actionTypes, selectors, model } from 'data'
-import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/AlertService'
+import { actions, actionTypes, model, selectors } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import {
-  EMAIL_STEPS,
-  SMS_STEPS,
-  SMS_NUMBER_FORM,
-  PERSONAL_FORM,
-  ID_VERIFICATION_SUBMITTED_FORM,
   BAD_CODE_ERROR,
-  PHONE_EXISTS_ERROR,
-  UPDATE_FAILURE,
-  KYC_MODAL,
+  EMAIL_STEPS,
   FLOW_TYPES,
-  SUNRIVER_LINK_ERROR_MODAL
+  ID_VERIFICATION_SUBMITTED_FORM,
+  KYC_MODAL,
+  PERSONAL_FORM,
+  PHONE_EXISTS_ERROR,
+  SMS_NUMBER_FORM,
+  SMS_STEPS,
+  SUNRIVER_LINK_ERROR_MODAL,
+  UPDATE_FAILURE
 } from './model'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'

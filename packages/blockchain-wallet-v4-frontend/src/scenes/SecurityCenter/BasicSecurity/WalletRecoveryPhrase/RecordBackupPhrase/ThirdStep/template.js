@@ -1,13 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm, Field } from 'redux-form'
-
-import { spacing } from 'services/StyleService'
 import { Button, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import { Form, TextBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
 import { required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

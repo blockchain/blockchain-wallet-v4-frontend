@@ -1,8 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { equals, isNil } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import { isNil, equals } from 'ramda'
+import React from 'react'
 
 import { actions } from 'data'
 import Settings from './template'

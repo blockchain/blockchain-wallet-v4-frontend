@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Transition from 'react-transition-group/Transition'
-import PropTypes from 'prop-types'
-import { propOr } from 'ramda'
-import styled from 'styled-components'
 import { darken } from 'polished'
 import { Icon } from '../Icons'
+import { propOr } from 'ramda'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Transition from 'react-transition-group/Transition'
 
 const Wrapper = styled.div`
   width: 100%;

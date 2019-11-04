@@ -1,14 +1,14 @@
-import { compose, map, curry, ifElse, always, isNil, prop } from 'ramda'
 import {
-  Wallet,
-  Wrapper,
-  HDAccount,
   Address,
-  HDWalletList,
+  AddressMap,
+  HDAccount,
   HDWallet,
+  HDWalletList,
   Options,
-  AddressMap
+  Wallet,
+  Wrapper
 } from '../../types'
+import { always, compose, curry, ifElse, isNil, map, prop } from 'ramda'
 import { walletPath } from '../paths'
 
 const ImtoJS = i => i.toJS()

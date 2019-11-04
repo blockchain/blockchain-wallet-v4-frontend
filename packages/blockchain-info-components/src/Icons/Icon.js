@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import Icomoon from './Icomoon'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};

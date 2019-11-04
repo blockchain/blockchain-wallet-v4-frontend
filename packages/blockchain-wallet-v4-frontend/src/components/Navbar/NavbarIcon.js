@@ -1,6 +1,6 @@
-import styled from 'styled-components'
 import { Icon } from 'blockchain-info-components'
 import { transparentize } from 'polished'
+import styled from 'styled-components'
 
 const NavbarIcon = styled(Icon)`
   transition: color 0.3s;

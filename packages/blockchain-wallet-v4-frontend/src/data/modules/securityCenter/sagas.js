@@ -1,7 +1,7 @@
-import { put, call } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 
-import { actions } from 'data'
 import * as C from 'services/AlertService'
+import { actions } from 'data'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/securityCenter/sagas'

@@ -1,6 +1,6 @@
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { STATUS } from 'react-joyride/lib'
 
 export const getData = createDeepEqualSelector(

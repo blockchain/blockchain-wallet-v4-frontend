@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { Faq, FaqContent, FaqHeader } from './../FaqItem'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
   return (

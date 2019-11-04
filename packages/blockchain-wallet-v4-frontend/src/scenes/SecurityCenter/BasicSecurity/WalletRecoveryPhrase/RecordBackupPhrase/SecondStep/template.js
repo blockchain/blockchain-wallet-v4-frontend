@@ -1,9 +1,8 @@
+import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { spacing } from 'services/StyleService'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
-import { Button, Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
 
 const Wrapper = styled.div`
   display: flex;

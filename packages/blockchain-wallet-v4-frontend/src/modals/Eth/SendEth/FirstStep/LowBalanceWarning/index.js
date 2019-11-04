@@ -1,16 +1,16 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { propOr, lt } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
+import { lt, propOr } from 'ramda'
+import React from 'react'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { model, selectors } from 'data'
 import { Link, Text } from 'blockchain-info-components'
+import { model, selectors } from 'data'
 import {
-  WarningWrapper,
   WarningLeftColumn,
-  WarningRightColumn
+  WarningRightColumn,
+  WarningWrapper
 } from '../Components'
 
 const LowBalanceWarning = props => {

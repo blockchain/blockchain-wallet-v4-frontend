@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-
 import { actions } from 'data'
 import { Button, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
   font-weight: 600;

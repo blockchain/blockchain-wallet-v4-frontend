@@ -1,16 +1,16 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  TextGroup,
-  Text
+  ModalHeader,
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 
 const TitleGroup = styled(TextGroup)`

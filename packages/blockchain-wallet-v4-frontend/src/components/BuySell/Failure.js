@@ -1,8 +1,8 @@
+import { Button, Link, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Text, Link, Button } from 'blockchain-info-components'
-import { path } from 'ramda'
 
 const Container = styled.div`
   display: flex;

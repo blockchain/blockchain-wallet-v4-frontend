@@ -1,5 +1,5 @@
-import { delay, put } from 'redux-saga/effects'
 import * as actions from './actions'
+import { delay, put } from 'redux-saga/effects'
 
 export const handleTimer = function * (action) {
   const { id, persist, timeout } = action.payload

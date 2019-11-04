@@ -1,5 +1,5 @@
-import Remote from '../../../remote'
 import * as selectors from './selectors'
+import Remote from '../../../remote'
 
 describe('kvstore whatsNew selectors', () => {
   const lastViewed = 1522942568480

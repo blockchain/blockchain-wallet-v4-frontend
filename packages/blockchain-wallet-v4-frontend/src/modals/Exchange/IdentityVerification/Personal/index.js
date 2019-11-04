@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { find, map, prop, propEq, test, head } from 'ramda'
+import { find, head, map, prop, propEq, test } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4'
-
-import Personal from './template'
-import Loading from './template.loading'
 import DataError from 'components/DataError'
+
+import Loading from './template.loading'
+import Personal from './template'
 
 export const SCROLL_REF_ID = 'scroll-ref-id'
 

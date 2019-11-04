@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Banner } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
-  SelectBoxBtcAddresses,
   FormGroup,
   FormItem,
+  SelectBoxBtcAddresses,
   TextBox
 } from 'components/Form'
-import QRCodeCapture from 'components/QRCodeCapture'
-import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
+import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
-import { Banner } from 'blockchain-info-components'
+import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
+import styled from 'styled-components'
 
 const Label = styled.label`
   font-size: 12px;

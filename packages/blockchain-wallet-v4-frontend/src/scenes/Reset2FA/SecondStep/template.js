@@ -1,12 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-
-import { required } from 'services/FormHelper'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, FormGroup } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { required } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
+import React from 'react'
+import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;

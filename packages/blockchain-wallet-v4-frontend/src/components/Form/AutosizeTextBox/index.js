@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text, AutosizeTextInput } from 'blockchain-info-components'
+import { AutosizeTextInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

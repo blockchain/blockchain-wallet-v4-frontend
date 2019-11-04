@@ -1,12 +1,12 @@
-import React from 'react'
 import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
-import BchImportedAddresses from './template'
 import { formValueSelector } from 'redux-form'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
+import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
+import BchImportedAddresses from './template'
+import React from 'react'
 
 const { WALLET_TX_SEARCH } = model.form
 

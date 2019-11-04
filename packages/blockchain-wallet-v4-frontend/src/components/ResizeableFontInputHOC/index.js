@@ -1,5 +1,5 @@
-import React from 'react'
 import { findDOMNode } from 'react-dom'
+import React from 'react'
 
 const fontSizeToNumber = fontSize => Number(fontSize.replace(/px/, ''))
 

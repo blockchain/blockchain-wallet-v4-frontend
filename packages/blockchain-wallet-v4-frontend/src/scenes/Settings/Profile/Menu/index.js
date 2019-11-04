@@ -1,12 +1,10 @@
-import React from 'react'
-import { FormattedHTMLMessage } from 'react-intl'
 import { all, propEq } from 'ramda'
 import { connect } from 'react-redux'
-
+import { FormattedHTMLMessage } from 'react-intl'
 import { getData } from './selectors'
-
 import { Image, TabMenu, Text } from 'blockchain-info-components'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
 
 export const Menu = ({ userTiers }) => {
   const isRejected = all(propEq('state', 'rejected'), userTiers)

@@ -1,20 +1,20 @@
-import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Button, Link, Text } from 'blockchain-info-components'
-import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
+  Footer,
   IdentityVerificationForm,
-  InputWrapper,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
   IdentityVerificationImage,
-  Footer
+  IdentityVerificationSubHeader,
+  InputWrapper
 } from 'components/IdentityVerification'
+import { Button, Link, Text } from 'blockchain-info-components'
+import { FooterShadowWrapper } from 'components/Form'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const ColumnSubHeader = styled(IdentityVerificationSubHeader)`

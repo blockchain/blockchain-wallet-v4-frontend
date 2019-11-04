@@ -1,5 +1,5 @@
-import { TIERS } from '../../modules/profile/model'
 import * as AT from './actionTypes'
+import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
   tier = TIERS[2],

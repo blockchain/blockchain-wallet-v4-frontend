@@ -1,20 +1,19 @@
+import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Button } from 'blockchain-info-components'
-
 import {
   CloseTourIcon,
-  StepImg,
-  StepIcon,
-  StepTitle,
   StepContent,
+  StepIcon,
+  StepImg,
+  StepTitle,
   TooltipBody,
   TooltipContent,
   TooltipFooter
 } from 'components/Tour'
-import { actions, model } from 'data'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React, { useEffect, useState } from 'react'
 
 const { GENERAL_EVENTS } = model.analytics
 

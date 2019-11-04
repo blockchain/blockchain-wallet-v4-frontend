@@ -1,6 +1,6 @@
-import { toCashAddr } from './bch'
 import { isValidBtcAddress } from './btc'
-import { map, length, take } from 'ramda'
+import { length, map, take } from 'ramda'
+import { toCashAddr } from './bch'
 
 // Adding account names for btc forks
 // Wallet, kvStore Account List, txs -> txList

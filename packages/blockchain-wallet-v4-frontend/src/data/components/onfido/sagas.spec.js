@@ -1,8 +1,8 @@
-import { select } from 'redux-saga/effects'
-import { expectSaga } from 'redux-saga-test-plan'
-import { actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
+import { actions } from 'data'
+import { expectSaga } from 'redux-saga-test-plan'
+import { select } from 'redux-saga/effects'
 import sagas from './sagas'
 const api = {
   syncOnfido: jest.fn()

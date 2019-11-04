@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React from 'react'
 
-import { SETUP_TIMEOUT } from './../model'
 import { actions, selectors } from 'data'
+import { SETUP_TIMEOUT } from './../model'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {

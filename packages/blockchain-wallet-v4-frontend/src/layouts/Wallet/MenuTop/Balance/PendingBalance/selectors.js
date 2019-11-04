@@ -1,6 +1,6 @@
-import { selectors } from 'data'
-import { add, filter, reduce, pathOr } from 'ramda'
+import { add, filter, pathOr, reduce } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 const isBuyProcessing = trade => trade.isBuy && trade.state === 'processing'
 

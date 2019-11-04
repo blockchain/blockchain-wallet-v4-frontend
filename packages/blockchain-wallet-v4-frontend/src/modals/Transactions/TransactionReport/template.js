@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm, Field } from 'redux-form'
 import { CSVLink } from 'react-csv'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
   Button,
@@ -11,18 +11,18 @@ import {
   Icon,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 import {
   DateBoxDebounced,
-  SelectBoxBtcAddresses,
+  Form,
   SelectBoxBchAddresses,
-  Form
+  SelectBoxBtcAddresses
 } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { validStartDate, validEndDate } from './validation'
+import { validEndDate, validStartDate } from './validation'
 
 const Container = styled.div`
   display: flex;

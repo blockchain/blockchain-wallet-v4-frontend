@@ -1,13 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import { Text } from 'blockchain-info-components'
 import { CreatableInputField } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
 import { toLower } from 'ramda'
-
 import CurrencyList from './CurrencyList'
 import DeviceTitle from './DeviceTitle'
+import React from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
