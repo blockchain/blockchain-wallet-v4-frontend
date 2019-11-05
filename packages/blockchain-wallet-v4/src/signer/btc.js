@@ -16,26 +16,29 @@ import { privateKeyStringToKey } from '../utils/btc'
 import BitcoinMessage from 'bitcoinjs-message'
 import Btc from '@ledgerhq/hw-app-btc'
 
-const getRedeemScript = keyPair => {
+const getOutputScript = keyPair => {
   const pubKey = keyPair.publicKey
-  const pubKeyHash = Bitcoin.crypto.hash160(pubKey)
-  const redeemScript = Bitcoin.script.witnessPubKeyHash.output.encode(
-    pubKeyHash
-  )
-  return redeemScript
+  const payment = Bitcoin.payments.p2sh({
+    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+  })
+  return payment.output
 }
 
-const getScriptPubKey = keyPair => {
-  const redeemScript = getRedeemScript(keyPair)
-  const redeemScriptHash = Bitcoin.crypto.hash160(redeemScript)
-  const scriptPubKey = Bitcoin.script.scriptHash.output.encode(redeemScriptHash)
-  return scriptPubKey
+const getRedeemScript = keyPair => {
+  const pubKey = keyPair.publicKey
+  const payment = Bitcoin.payments.p2sh({
+    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+  })
+  return payment.redeem.output
 }
 
 const getOutput = (coin, network) => {
   const address = Bitcoin.address.fromBase58Check(coin.address)
   if (address.version === network.scriptHash) {
-    return Bitcoin.script.scriptHash.output.encode(address.hash)
+    const payment = Bitcoin.payments.p2sh({
+      redeem: Bitcoin.payments.p2wpkh({ hash: address.hash })
+    })
+    return payment.output
   } else {
     return defaultTo(coin.address, coin.script)
   }
@@ -52,7 +55,7 @@ export const signSelection = curry((network, selection) => {
           coin.txHash,
           coin.index,
           0xffffffff,
-          getScriptPubKey(coin.priv)
+          getOutputScript(coin.priv)
         )
       default:
         return tx.addInput(coin.txHash, coin.index)
@@ -77,7 +80,6 @@ export const signSelection = curry((network, selection) => {
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
   const signedTx = tx.build()
-
   return {
     txHex: signedTx.toHex(),
     txId: signedTx.getId(),
