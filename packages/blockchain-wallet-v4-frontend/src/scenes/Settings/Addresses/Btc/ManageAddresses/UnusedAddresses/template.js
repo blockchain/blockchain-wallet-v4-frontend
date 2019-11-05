@@ -1,30 +1,22 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { filter } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 import {
-  Text,
+  Icon,
+  Link,
   Table,
+  TableCell,
   TableHeader,
   TableRow,
-  TableCell,
-  Icon,
-  Link
+  Text
 } from 'blockchain-info-components'
 
 const UnusedAddressesTemplate = ({
-  account,
-  currentReceiveIndex,
-  unusedAddresses,
-  isDefault,
-  onGenerateNextAddress,
   onEditLabel,
   onDeleteLabel,
-  onEditBtcAccountLabel,
-  onShowXPub,
-  onMakeDefault,
-  onSetArchived,
-  search
+  search,
+  unusedAddresses
 }) => {
   const isMatch = addr =>
     !search ||

@@ -1,12 +1,12 @@
 import {
   compose,
   curry,
-  values,
   lift,
+  mapObjIndexed,
   path,
   prop,
   propOr,
-  mapObjIndexed
+  values
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4'
 

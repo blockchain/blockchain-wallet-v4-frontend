@@ -1,19 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import {
+  Button,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Text,
-  Button,
-  SelectInput
+  ModalHeader,
+  SelectInput,
+  Text
 } from 'blockchain-info-components'
-import { spacing, flex } from 'services/StyleService'
+import { flex, spacing } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
 import { utils } from 'blockchain-wallet-v4/src'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import QRCodeWrapper from 'components/QRCodeWrapper'
+import React from 'react'
+import styled from 'styled-components'
 
 const DropdownWrapper = styled.div`
   position: relative;

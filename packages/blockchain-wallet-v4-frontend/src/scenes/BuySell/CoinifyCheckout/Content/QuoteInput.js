@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getQuoteInputData } from './selectors'
 import {
   QuoteInputTemplateBuy,
   QuoteInputTemplateSell
 } from './QuoteInputTemplate'
-import { actions, selectors } from 'data'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { getQuoteInputData } from './selectors'
 import Loading from 'components/BuySell/Loading'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 class QuoteInput extends Component {
   render () {

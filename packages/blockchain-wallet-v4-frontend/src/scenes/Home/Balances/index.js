@@ -1,13 +1,16 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import BalancesTable from './template'
 import { getData } from './selectors'
+import BalancesTable from './template'
+import React from 'react'
 
 class BalancesTableContainer extends React.PureComponent {
   render () {
-    const { currentTab, lockboxEnabled } = this.props
+    const { currentTab, isSilverOrAbove } = this.props
     return (
-      <BalancesTable currentTab={currentTab} lockboxEnabled={lockboxEnabled} />
+      <BalancesTable
+        currentTab={currentTab}
+        isSilverOrAbove={isSilverOrAbove}
+      />
     )
   }
 }

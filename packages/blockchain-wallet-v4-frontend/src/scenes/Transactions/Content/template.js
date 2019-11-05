@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
-import Pages from './Pages'
+import EmptyTx from 'components/EmptyTx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import Pages from './Pages'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;

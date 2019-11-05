@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
+import { selectors } from 'data'
 
 export const getData = state => ({
   emailCode: formValueSelector('coinifyVerifyEmail')(state, 'emailCode'),

@@ -1,10 +1,10 @@
-import React from 'react'
 import { shallow } from 'enzyme'
+import React from 'react'
 import toJson from 'enzyme-to-json'
 
-import HighFlow from './template.highflow'
 import { BackButton } from 'components/IdentityVerification'
 import { Button } from 'blockchain-info-components'
+import HighFlow from './template.highflow'
 
 const onBack = jest.fn()
 const send = jest.fn()

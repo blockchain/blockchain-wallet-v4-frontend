@@ -1,9 +1,8 @@
-import React from 'react'
+import { HeartbeatLoader, Image } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import QRReader from '../QRReader'
-
-import { Image, HeartbeatLoader } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;

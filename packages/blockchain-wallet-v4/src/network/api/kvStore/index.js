@@ -1,6 +1,6 @@
-import Task from 'data.task'
-import { compose, dissoc, set, curry, prop } from 'ramda'
 import * as KV from '../../../types/KVStoreEntry'
+import { compose, curry, dissoc, prop, set } from 'ramda'
+import Task from 'data.task'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 

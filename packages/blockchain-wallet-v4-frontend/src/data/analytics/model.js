@@ -24,9 +24,6 @@ export const AB_TESTS = {
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
-export const AB_TEST_GOALS = {
-  PIT_LINKOUT_CLICKED: ['ab_test_goals', 'pit_linkout_clicked']
-}
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'
@@ -98,5 +95,10 @@ export const ADS_EVENTS = {
 export const PIT_EVENTS = {
   BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
   CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
-  LEARN_MORE: ['pit', 'link_page', 'learn_more_click']
+  LEARN_MORE: ['pit', 'link_page', 'learn_more_click'],
+  LINKED_WALLET_LINKOUT_CLICKED: [
+    'pit',
+    'homepage',
+    'linked_wallet_linkout_clicked'
+  ]
 }

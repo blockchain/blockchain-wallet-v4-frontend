@@ -1,7 +1,7 @@
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 
 const Fragment = React.Fragment
 

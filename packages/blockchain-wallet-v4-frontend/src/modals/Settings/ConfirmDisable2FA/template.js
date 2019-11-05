@@ -1,17 +1,17 @@
+import { flex, spacing } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { spacing, flex } from 'services/StyleService'
 
 import {
   Button,
+  ButtonGroup,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Text,
-  ButtonGroup
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 
 const Wrapper = styled.div`

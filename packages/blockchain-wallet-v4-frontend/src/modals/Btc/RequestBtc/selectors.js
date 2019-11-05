@@ -1,9 +1,9 @@
-import { formValueSelector } from 'redux-form'
-import { equals, head, lift, filter, map, prop, propOr, nth } from 'ramda'
-import { selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { equals, filter, head, lift, map, nth, prop, propOr } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 const extractAddress = (walletSelector, lockboxSelector, value) =>
   value
@@ -42,17 +42,18 @@ export const getData = state => {
   const excludeLockbox = !availability
     .map(propOr(true, 'lockbox'))
     .getOrElse(true)
-
   const getReceiveAddressWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveAddress(
       Bitcoin.networks[network],
       index,
+      selectors.core.common.btc.getAccountDefaultDerivation(index, state),
       state
     )
   const getReceiveIdxWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       Bitcoin.networks[network],
       index,
+      selectors.core.common.btc.getAccountDefaultDerivation(index, state),
       state
     )
   const getReceiveAddressLockbox = xpub =>

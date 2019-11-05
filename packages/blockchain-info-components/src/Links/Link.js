@@ -1,8 +1,8 @@
+import { keysIn } from 'ramda'
+import { Palette } from '../Colors'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { Palette } from '../Colors'
-import { keysIn } from 'ramda'
 
 const BaseLink = styled.a`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

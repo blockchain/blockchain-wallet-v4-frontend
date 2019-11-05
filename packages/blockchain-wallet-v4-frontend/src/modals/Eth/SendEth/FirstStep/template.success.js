@@ -1,21 +1,29 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { required, validEthAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
+  Link,
   Text,
   TooltipHost,
-  TooltipIcon,
-  Link
+  TooltipIcon
 } from 'blockchain-info-components'
+import {
+  ColLeft,
+  ColRight,
+  CustomFeeAlertBanner,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer,
+  Row
+} from 'components/Send'
 import {
   FiatConverter,
   Form,
@@ -29,31 +37,23 @@ import {
   TextAreaDebounced
 } from 'components/Form'
 import {
-  invalidAmount,
   insufficientFunds,
+  invalidAmount,
   maximumAmount,
-  shouldError,
-  shouldWarn,
+  maximumFee,
   minimumFee,
-  maximumFee
+  shouldError,
+  shouldWarn
 } from './validation'
+import { model } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { required, validEthAddress } from 'services/FormHelper'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
-import {
-  Row,
-  ColLeft,
-  ColRight,
-  CustomFeeAlertBanner,
-  FeeFormContainer,
-  FeeFormGroup,
-  FeeFormLabel,
-  FeeOptionsContainer,
-  FeePerByteContainer
-} from 'components/Send'
-import QRCodeCapture from 'components/QRCodeCapture'
-import ComboDisplay from 'components/Display/ComboDisplay'
-import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
+import QRCodeCapture from 'components/QRCodeCapture'
+import RegularFeeLink from './RegularFeeLink'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;

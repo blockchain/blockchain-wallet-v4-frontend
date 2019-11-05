@@ -1,6 +1,6 @@
 import { HDWallet, serializer } from './index'
 
-const walletFixture = require('./__mocks__/wallet.v3')
+const walletFixture = require('./__mocks__/wallet.v4')
 
 describe('HDWallet', () => {
   const hdWalletFixture = walletFixture.hd_wallets[0]

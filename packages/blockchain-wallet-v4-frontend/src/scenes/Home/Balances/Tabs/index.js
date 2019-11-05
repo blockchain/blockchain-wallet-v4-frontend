@@ -1,11 +1,10 @@
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-
-import { Icon, Text } from 'blockchain-info-components'
-import { actions } from 'data'
 
 const Tabs = styled.div`
   display: flex;

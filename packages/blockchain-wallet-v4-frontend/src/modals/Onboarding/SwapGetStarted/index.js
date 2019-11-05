@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions } from 'data'
+import { Button, Modal, Text } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal, Text, Button } from 'blockchain-info-components'
 
 const Header = styled.div`
   display: flex;

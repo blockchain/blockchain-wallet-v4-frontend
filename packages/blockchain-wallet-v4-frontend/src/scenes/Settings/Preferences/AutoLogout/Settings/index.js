@@ -1,13 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-
 import { Button, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
 import { SettingWrapper } from 'components/Setting'
 import AutoLogoutForm from './template'
-import { actions, selectors } from 'data'
+import React from 'react'
 
 class SettingContainer extends React.PureComponent {
   state = { updateToggled: false }

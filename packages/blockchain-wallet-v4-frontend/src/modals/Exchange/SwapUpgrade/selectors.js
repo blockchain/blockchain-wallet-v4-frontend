@@ -1,7 +1,7 @@
 import { path, propOr } from 'ramda'
 
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { selectors } from 'data'
 
 export const getData = (state, { currentTier, nextTier }) => {

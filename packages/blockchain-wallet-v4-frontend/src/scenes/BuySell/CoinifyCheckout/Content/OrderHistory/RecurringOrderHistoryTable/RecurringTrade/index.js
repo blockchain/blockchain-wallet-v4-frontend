@@ -1,22 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { canCancelTrade } from 'services/CoinifyService'
-import { prop } from 'ramda'
-import moment from 'moment'
-import { RecurringTableRow } from '../components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FormattedMessage } from 'react-intl'
 import {
-  TableCell,
-  Text,
-  Link,
+  HeartbeatLoader,
   Icon,
-  HeartbeatLoader
+  Link,
+  TableCell,
+  Text
 } from 'blockchain-info-components'
-import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { prop } from 'ramda'
+import { RecurringTableRow } from '../components'
+import media from 'services/ResponsiveService'
+import moment from 'moment'
+import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const StatusContainer = styled(TableCell)`
   display: flex;

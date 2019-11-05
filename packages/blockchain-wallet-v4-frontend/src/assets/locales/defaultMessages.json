@@ -302,6 +302,10 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
+        "defaultMessage": "You've just received a pending Ethereum payment",
+        "id": "components.alerts.payment_received_eth_pending"
+      },
+      {
         "defaultMessage": "You've just received a stellar payment",
         "id": "components.alerts.payment_received_xlm"
       },
@@ -380,6 +384,10 @@
       {
         "defaultMessage": "Your {coinName} transaction is now pending!",
         "id": "components.alerts.send_coin_success"
+      },
+      {
+        "defaultMessage": "Your {coinName} transaction is now confirmed!",
+        "id": "components.alerts.send_coin_confirmed"
       },
       {
         "defaultMessage": "Your {coinName} transaction failed to send. Please try again.",
@@ -2066,12 +2074,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "The PIT",
-        "id": "layouts.wallet.menuleft.navigation.thepitbold"
-      },
-      {
-        "defaultMessage": "New",
-        "id": "layouts.wallet.menuleft.navigation.transactions.new"
+        "defaultMessage": "The PIT Exchange",
+        "id": "layouts.wallet.menuleft.navigation.thepitexchange"
       },
       {
         "defaultMessage": "Trade in The PIT.",
@@ -3260,6 +3264,10 @@
       {
         "defaultMessage": "Enter bitcoin address or private key",
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
+      },
+      {
+        "defaultMessage": "Enter a label for your address (optional)",
+        "id": "modals.importbtcaddress.importexternalbitcoinaddress.label"
       },
       {
         "defaultMessage": "Transfer funds to an existing wallet (optional)",
@@ -7009,28 +7017,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Welcome to your Blockchain Wallet!",
-        "id": "modals.upgradewallet.title"
+        "defaultMessage": "Upgrading your Wallet to our latest version.",
+        "id": "modals.upgradewallet.upgradingtolatest"
       },
       {
-        "defaultMessage": "Completely updated design and user experience",
-        "id": "modals.upgradewallet.title1"
-      },
-      {
-        "defaultMessage": "Robust security center",
-        "id": "modals.upgradewallet.title2"
-      },
-      {
-        "defaultMessage": "Simplified backup and recovery",
-        "id": "modals.upgradewallet.title3"
-      },
-      {
-        "defaultMessage": "Customized fund management",
-        "id": "modals.upgradewallet.title4"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.upgradewallet.continue"
+        "defaultMessage": "Hang tight.",
+        "id": "modals.upgradewallet.hangtight"
       }
     ],
     "path": "src/modals/Wallet/UpgradeWallet/template.json"
@@ -8632,6 +8624,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Buy {coinName}",
+        "id": "price.chart.buy.coin"
+      },
+      {
+        "defaultMessage": "Swap {coinName}",
+        "id": "price.chart.swap.coin"
+      }
+    ],
+    "path": "src/scenes/Home/PriceChart/Footer/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Day",
         "id": "scenes.priceindexseries.timefilters.day"
       },
@@ -10181,6 +10186,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Edit Label",
+        "id": "scenes.settings.addresses.edit_name"
+      },
+      {
         "defaultMessage": "Imported Bitcoin Cash Addresses",
         "id": "scenes.settings.addresses.bch.importedaddresses.title"
       },
@@ -10195,6 +10204,10 @@
       {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Label",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.label"
       },
       {
         "defaultMessage": "Balance",
@@ -10329,6 +10342,10 @@
         "id": "scenes.settings.addresses.sign_message"
       },
       {
+        "defaultMessage": "Edit Label",
+        "id": "scenes.settings.addresses.edit_name"
+      },
+      {
         "defaultMessage": "Imported Bitcoin Addresses",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
       },
@@ -10347,6 +10364,10 @@
       {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
+      },
+      {
+        "defaultMessage": "Label",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.label"
       },
       {
         "defaultMessage": "Balance",
@@ -10368,6 +10389,14 @@
       {
         "defaultMessage": "Default",
         "id": "scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault"
+      },
+      {
+        "defaultMessage": "Legacy",
+        "id": "scenes.settings.addresses.btc.wallets.managelegacy"
+      },
+      {
+        "defaultMessage": "Segwit P2SH",
+        "id": "scenes.settings.addresses.btc.wallets.managesegwit"
       },
       {
         "defaultMessage": "More Options",
@@ -10508,10 +10537,6 @@
       {
         "defaultMessage": "Balance",
         "id": "scenes.settings.addresses.btc.wallets.balance"
-      },
-      {
-        "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.btc.wallets.actions"
       },
       {
         "defaultMessage": "No wallets matched your search",
@@ -10998,10 +11023,6 @@
       {
         "defaultMessage": "Connect Now",
         "id": "scenes.thepit.connectnow"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.thepit.learnmore"
       }
     ],
     "path": "src/scenes/ThePit/template.json"
@@ -11528,6 +11549,10 @@
       {
         "defaultMessage": "Device name is already in use.",
         "id": "formhelper.uniquedevicename"
+      },
+      {
+        "defaultMessage": "Wallet name is already taken.",
+        "id": "formhelper.uniquewalletname"
       }
     ],
     "path": "src/services/FormHelper/validationMessages.json"

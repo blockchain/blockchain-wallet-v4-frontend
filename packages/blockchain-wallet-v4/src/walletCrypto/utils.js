@@ -1,8 +1,8 @@
 import * as crypto from 'crypto'
 import assert from 'assert'
 
-export const SUPPORTED_ENCRYPTION_VERSION = 3
 export const SALT_BYTES = 16
+export const AUTH_TAG_BYTES = 16
 export const KEY_BIT_LEN = 256
 export const BLOCK_BIT_LEN = 128
 
@@ -78,6 +78,7 @@ export const AES = {
   CBC: 'aes-256-cbc',
   OFB: 'aes-256-ofb',
   ECB: 'aes-256-ecb',
+  GCM: 'aes-256-gcm',
 
   /*
    *   Encrypt / Decrypt with aes-256
@@ -105,7 +106,12 @@ export const AES = {
       cipher.final()
     ])
 
-    return encryptedBytes
+    let tag
+    if (options.mode === AES.GCM) {
+      tag = cipher.getAuthTag()
+    }
+
+    return { encryptedBytes, tag }
   },
 
   decrypt: function (dataBytes, key, salt, options) {
@@ -124,12 +130,14 @@ export const AES = {
     )
     decipher.setAutoPadding(!options.padding)
 
+    if (options.tag) decipher.setAuthTag(options.tag)
+
     let decryptedBytes = Buffer.concat([
       decipher.update(dataBytes),
       decipher.final()
     ])
-    if (options.padding) decryptedBytes = options.padding.unpad(decryptedBytes)
 
+    if (options.padding) decryptedBytes = options.padding.unpad(decryptedBytes)
     return decryptedBytes
   }
 }

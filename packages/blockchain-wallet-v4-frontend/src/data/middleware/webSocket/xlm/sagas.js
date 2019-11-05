@@ -1,15 +1,15 @@
-import { call, put, select } from 'redux-saga/effects'
 import * as T from 'services/AlertService'
 import {
   append,
-  includes,
   compose,
+  includes,
   intersection,
   isEmpty,
   map,
   path,
   test
 } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { transactions } from 'blockchain-wallet-v4/src'

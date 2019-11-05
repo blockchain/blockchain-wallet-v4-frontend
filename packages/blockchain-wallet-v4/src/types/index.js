@@ -1,39 +1,43 @@
-import * as Wallet from './Wallet'
 import * as Address from './Address'
-import * as AddressLabel from './AddressLabel'
-import * as HDWallet from './HDWallet'
-import * as HDAccount from './HDAccount'
-import * as Wrapper from './Wrapper'
-import * as Cache from './Cache'
-import * as AddressMap from './AddressMap'
-import * as AddressLabelMap from './AddressLabelMap'
-import * as HDAccountList from './HDAccountList'
-import * as HDWalletList from './HDWalletList'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
-import * as TXNotes from './TXNotes'
-import * as TXNames from './TXNames'
-import * as Options from './Options'
+import * as AddressLabel from './AddressLabel'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as AddressMap from './AddressMap'
+import * as Cache from './Cache'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
+import * as HDAccount from './HDAccount'
+import * as HDAccountList from './HDAccountList'
+import * as HDWallet from './HDWallet'
+import * as HDWalletList from './HDWalletList'
 import * as KVStoreEntry from './KVStoreEntry'
+import * as Options from './Options'
+import * as TXNames from './TXNames'
+import * as TXNotes from './TXNotes'
+import * as Wallet from './Wallet'
+import * as Wrapper from './Wrapper'
 import serializer from './Serializer'
 
 export {
-  Wallet,
-  Address,
-  AddressLabel,
-  HDWallet,
-  HDAccount,
-  Wrapper,
-  Cache,
-  serializer,
   AddressMap,
   AddressLabelMap,
-  HDWalletList,
-  HDAccountList,
+  Address,
+  AddressLabel,
   AddressBookEntry,
   AddressBook,
-  TXNotes,
-  TXNames,
+  Cache,
+  Derivation,
+  DerivationList,
+  HDAccount,
+  HDAccountList,
+  HDWallet,
+  HDWalletList,
+  KVStoreEntry,
   Options,
-  KVStoreEntry
+  serializer,
+  TXNames,
+  TXNotes,
+  Wallet,
+  Wrapper
 }

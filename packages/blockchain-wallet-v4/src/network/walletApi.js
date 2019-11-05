@@ -1,24 +1,9 @@
-import Task from 'data.task'
-import Either from 'data.either'
-import {
-  assoc,
-  compose,
-  map,
-  identity,
-  prop,
-  propSatisfies,
-  over,
-  lensProp,
-  is,
-  ifElse,
-  contains
-} from 'ramda'
-import { mapped } from 'ramda-lens'
-import Promise from 'es6-promise'
-import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
+import { compose, contains, identity, ifElse, map, propSatisfies } from 'ramda'
 import { futurizeP } from 'futurize'
+import { Wrapper } from '../types'
 import createApi from './api'
-import * as Coin from '../coinSelection/coin.js'
+import Promise from 'es6-promise'
+import Task from 'data.task'
 
 const createWalletApi = (
   { options, apiKey, getAuthCredentials, reauthenticate, networks } = {},
@@ -32,7 +17,6 @@ const createWalletApi = (
     reauthenticate,
     networks
   })
-  const eitherToTask = e => e.fold(Task.rejected, Task.of)
   const taskToPromise = t =>
     new Promise((resolve, reject) => t.fork(reject, resolve))
   const promiseToTask = futurizeP(Task)
@@ -123,52 +107,6 @@ const createWalletApi = (
       createWalletTask(email)
     )(wrapper)
 
-  // source is an account index or a legacy address
-  const getWalletUnspentsTask = getCoinUnspents => (
-    wrapper,
-    source,
-    confirmations = -1
-  ) => {
-    if (is(Number, source)) {
-      const selectXpub = Either.try(
-        compose(
-          HDAccount.selectXpub,
-          HDWallet.selectAccount(source),
-          HDWalletList.selectHDWallet,
-          Wallet.selectHdWallets,
-          Wrapper.selectWallet
-        )
-      )
-      return eitherToTask(selectXpub(wrapper))
-        .chain(xpub => promiseToTask(getCoinUnspents)([xpub], confirmations))
-        .map(prop('unspent_outputs'))
-        .map(
-          over(
-            compose(
-              mapped,
-              lensProp('xpub')
-            ),
-            assoc('index', source)
-          )
-        )
-        .map(map(Coin.fromJS))
-    } else {
-      // legacy address
-      return promiseToTask(getCoinUnspents)([source], confirmations)
-        .map(prop('unspent_outputs'))
-        .map(over(mapped, assoc('priv', source)))
-        .map(map(Coin.fromJS))
-    }
-  }
-  const getBTCWalletUnspents = compose(
-    taskToPromise,
-    getWalletUnspentsTask(ApiPromise.getBtcUnspents)
-  )
-  const getBCHWalletUnspents = compose(
-    taskToPromise,
-    getWalletUnspentsTask(ApiPromise.getBchUnspents)
-  )
-
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)
 
@@ -179,9 +117,7 @@ const createWalletApi = (
     fetchWalletWithTwoFactor: future(fetchWalletWithTwoFactorTask),
     fetchWallet: future(fetchWallet),
     saveWallet: future(saveWallet),
-    createWallet: future(createWallet),
-    getBTCWalletUnspents: future(getBTCWalletUnspents),
-    getBCHWalletUnspents: future(getBCHWalletUnspents)
+    createWallet: future(createWallet)
   }
 }
 export default createWalletApi

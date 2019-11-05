@@ -1,6 +1,6 @@
-import styled, { keyframes, createGlobalStyle } from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, Image, Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import styled, { createGlobalStyle, keyframes } from 'styled-components'
 
 export const Scale = () => {
   return keyframes`

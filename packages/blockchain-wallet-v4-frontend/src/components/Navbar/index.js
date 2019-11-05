@@ -1,16 +1,15 @@
-import styled from 'styled-components'
 import { transparentize } from 'polished'
-
-import Navbar from './Navbar'
-import NavbarBrand from './NavbarBrand'
-import NavbarHeader from './NavbarHeader'
-import NavbarMenu from './NavbarMenu'
-import NavbarNav from './NavbarNav'
-import NavbarIcon from './NavbarIcon'
-import NavbarNavItem from './NavbarNavItem'
+import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
+import Navbar from './Navbar'
+import NavbarBrand from './NavbarBrand'
+import NavbarHeader from './NavbarHeader'
+import NavbarIcon from './NavbarIcon'
+import NavbarMenu from './NavbarMenu'
+import NavbarNav from './NavbarNav'
+import NavbarNavItem from './NavbarNavItem'
 
 export const NavbarNavItemTextLink = styled(Link)`
   display: flex;

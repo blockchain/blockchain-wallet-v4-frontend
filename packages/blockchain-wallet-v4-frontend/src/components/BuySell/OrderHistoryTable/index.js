@@ -1,8 +1,8 @@
+import { filter, prop, reverse, sortBy } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import React from 'react'
 import TradeItem from './TradeItem'
-import { FormattedMessage } from 'react-intl'
-import { filter, prop, reverse, sortBy } from 'ramda'
-import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class OrderHistoryTable extends React.PureComponent {
   constructor () {

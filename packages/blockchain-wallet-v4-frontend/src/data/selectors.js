@@ -1,4 +1,3 @@
-import { coreSelectors as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/selectors'
 import * as analytics from './analytics/selectors'
 import * as auth from './auth/selectors'
@@ -14,6 +13,7 @@ import * as preferences from './preferences/selectors'
 import * as router from './router/selectors'
 import * as session from './session/selectors'
 import * as wizard from './wizard/selectors'
+import { coreSelectors as core } from 'blockchain-wallet-v4/src'
 
 export {
   alerts,

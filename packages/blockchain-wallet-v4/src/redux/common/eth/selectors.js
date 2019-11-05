@@ -1,9 +1,9 @@
-import { head, keys, lift, map, path, prop, toLower, toUpper } from 'ramda'
-import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
-import { getAccounts, getErc20Account } from '../../kvStore/eth/selectors'
-import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors'
-import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import { getAccounts, getErc20Account } from '../../kvStore/eth/selectors'
+import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
+import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors'
+import { head, keys, lift, map, path, prop, toLower, toUpper } from 'ramda'
+import Remote from '../../../remote'
 
 //
 // ETH

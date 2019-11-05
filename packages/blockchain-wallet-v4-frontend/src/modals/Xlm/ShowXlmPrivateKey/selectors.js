@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { Exchange } from 'blockchain-wallet-v4'
+import { selectors } from 'data'
 
 export const getData = state => {
   const accountId = selectors.core.kvStore.xlm

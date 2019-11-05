@@ -1,5 +1,5 @@
-import Remote from '../../../remote'
 import * as selectors from './selectors'
+import Remote from '../../../remote'
 
 describe('kvstore userCredentials selectors', () => {
   const user_id = '3d448ad7-0e2c-4b65-91b0-c149892e243c'

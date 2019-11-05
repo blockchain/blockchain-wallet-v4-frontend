@@ -1,7 +1,5 @@
 import React from 'react'
 
-import styled from 'styled-components'
-import Announcements from 'components/Announcements'
 import { Image, Link } from 'blockchain-info-components'
 import {
   Navbar,
@@ -10,8 +8,10 @@ import {
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
-import media from 'services/ResponsiveService'
+import Announcements from 'components/Announcements'
 import LoginOrCreate from './LoginOrCreate'
+import media from 'services/ResponsiveService'
+import styled from 'styled-components'
 
 const VersionWrapper = styled.div`
   margin-top: 4px;

@@ -1,15 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
+import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
+import { Button, Text } from 'blockchain-info-components'
+import { Cartridge } from '@blockchain-com/components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-
-import { Cartridge } from '@blockchain-com/components'
-import { Button, Text } from 'blockchain-info-components'
-import { actions, model } from 'data'
-
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const { PIT_EVENTS } = model.analytics
 

@@ -1,5 +1,5 @@
-import Remote from '../../remote'
 import * as AT from './actionTypes'
+import Remote from '../../remote'
 
 // TODO: once getWalletOptions is working implement default object for failure
 const INITIAL_STATE = Remote.NotAsked

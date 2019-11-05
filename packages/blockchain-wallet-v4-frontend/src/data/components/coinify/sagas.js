@@ -1,15 +1,15 @@
-import { put, call, select } from 'redux-saga/effects'
-import { any, merge, path, prop, equals, length } from 'ramda'
 import * as A from './actions'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
-import * as service from 'services/CoinifyService'
-import * as S from './selectors'
-import * as model from '../../model'
-import { promptForSecondPassword } from 'services/SagaService'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import * as coinifyModel from './model'
+import * as model from '../../model'
+import * as S from './selectors'
+import * as selectors from '../../selectors.js'
+import * as service from 'services/CoinifyService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { any, equals, length, merge, path, prop } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+import { promptForSecondPassword } from 'services/SagaService'
 
 const { STEPS } = model.components.identityVerification
 const { TIERS_STATES } = model.profile
@@ -130,21 +130,26 @@ export default ({ api, coreSagas, networks }) => {
   const prepareAddress = function * () {
     try {
       const state = yield select()
-      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
+      const accountIndex = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
         networks.btc,
-        defaultIdx,
+        accountIndex,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
         networks.btc,
-        defaultIdx,
+        accountIndex,
+        state
+      )
+      const derivationType = selectors.core.common.btc.getAccountDefaultDerivation(
+        accountIndex,
         state
       )
       return {
         address: receiveR.getOrElse(),
         index: receiveIdxR.getOrElse(),
-        accountIndex: defaultIdx
+        derivationType,
+        accountIndex
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))

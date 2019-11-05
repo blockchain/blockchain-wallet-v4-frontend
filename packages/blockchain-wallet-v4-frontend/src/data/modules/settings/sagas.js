@@ -1,15 +1,15 @@
-import { put, call, select } from 'redux-saga/effects'
-import profileSagas from 'data/modules/profile/sagas'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
+import * as selectors from '../../selectors'
 import { addLanguageToUrl } from 'services/LocalesService'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
 } from 'services/SagaService'
+import { call, put, select } from 'redux-saga/effects'
+import { head, includes, prop, propEq, toLower } from 'ramda'
 import { Types, utils } from 'blockchain-wallet-v4/src'
-import { contains, toLower, prop, propEq, head } from 'ramda'
+import profileSagas from 'data/modules/profile/sagas'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -120,7 +120,7 @@ export default ({ api, coreSagas }) => {
       const modals = yield select(selectors.modals.getModals)
 
       if (
-        contains('successfully', toLower(response)) &&
+        includes('successfully', toLower(response)) &&
         prop('type', head(modals)) !== 'SfoxExchangeData'
       )
         yield put(actions.modals.closeAllModals())

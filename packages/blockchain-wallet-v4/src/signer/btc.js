@@ -1,33 +1,83 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import BitcoinMessage from 'bitcoinjs-message'
-import { mapped } from 'ramda-lens'
-import * as crypto from '../walletCrypto'
-
-import {
-  curry,
-  forEach,
-  addIndex,
-  defaultTo,
-  over,
-  compose,
-  lensProp
-} from 'ramda'
-
-import { privateKeyStringToKey } from '../utils/btc'
 import * as Coin from '../coinSelection/coin.js'
+import * as crypto from '../walletCrypto'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import {
+  addIndex,
+  compose,
+  curry,
+  defaultTo,
+  forEach,
+  lensProp,
+  over
+} from 'ramda'
+import { mapped } from 'ramda-lens'
+import { privateKeyStringToKey } from '../utils/btc'
+import BitcoinMessage from 'bitcoinjs-message'
 import Btc from '@ledgerhq/hw-app-btc'
+
+const getRedeemScript = keyPair => {
+  const pubKey = keyPair.publicKey
+  const pubKeyHash = Bitcoin.crypto.hash160(pubKey)
+  const redeemScript = Bitcoin.script.witnessPubKeyHash.output.encode(
+    pubKeyHash
+  )
+  return redeemScript
+}
+
+const getScriptPubKey = keyPair => {
+  const redeemScript = getRedeemScript(keyPair)
+  const redeemScriptHash = Bitcoin.crypto.hash160(redeemScript)
+  const scriptPubKey = Bitcoin.script.scriptHash.output.encode(redeemScriptHash)
+  return scriptPubKey
+}
+
+const getOutput = (coin, network) => {
+  const address = Bitcoin.address.fromBase58Check(coin.address)
+  if (address.version === network.scriptHash) {
+    return Bitcoin.script.scriptHash.output.encode(address.hash)
+  } else {
+    return defaultTo(coin.address, coin.script)
+  }
+}
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
-  const addInput = coin => tx.addInput(coin.txHash, coin.index)
-  const addOutput = coin =>
-    tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
-  const sign = (coin, i) => tx.sign(i, coin.priv)
+
+  const addOutput = coin => tx.addOutput(getOutput(coin, network), coin.value)
+  const addInput = coin => {
+    switch (coin.type()) {
+      case 'P2SH-P2WPKH':
+        return tx.addInput(
+          coin.txHash,
+          coin.index,
+          0xffffffff,
+          getScriptPubKey(coin.priv)
+        )
+      default:
+        return tx.addInput(coin.txHash, coin.index)
+    }
+  }
+  const sign = (coin, i) => {
+    switch (coin.type()) {
+      case 'P2SH-P2WPKH':
+        return tx.sign(
+          i,
+          coin.priv,
+          getRedeemScript(coin.priv),
+          null,
+          coin.value
+        )
+      default:
+        return tx.sign(i, coin.priv)
+    }
+  }
+
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
   const signedTx = tx.build()
+
   return {
     txHex: signedTx.toHex(),
     txId: signedTx.getId(),

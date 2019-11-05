@@ -1,9 +1,9 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
+import { Icon, Link, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
-import { Link, Icon, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;

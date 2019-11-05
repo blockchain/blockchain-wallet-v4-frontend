@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions, selectors } from 'data'
+import { Wrapper } from 'components/Public'
+import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import Error from './template.error'
-import { Wrapper } from 'components/Public'
 
 const VALID_CONTEXTS = ['PIT_SIGNUP', 'KYC', 'SETTINGS']
 const PARAM_DEEP_LINK_PATH = 'email_verified'

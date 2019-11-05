@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-import { actions } from 'data'
 import ExchangeForm from '../ExchangeForm'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export class ExchangeContainer extends React.PureComponent {
   componentDidMount () {

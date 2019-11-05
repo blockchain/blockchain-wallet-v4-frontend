@@ -1,32 +1,29 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-import createSagaMiddleware from 'redux-saga'
-import { persistStore, persistCombineReducers } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
-import { createHashHistory } from 'history'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
-import { head } from 'ramda'
 import * as Bitcoin from 'bitcoinjs-lib'
-import BitcoinCash from 'bitcoinforksjs-lib'
-
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
+import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
-  createWalletApi,
-  Socket,
   ApiSocket,
-  HorizonStreamingService
+  createWalletApi,
+  HorizonStreamingService,
+  Socket
 } from 'blockchain-wallet-v4/src/network'
-import { serializer } from 'blockchain-wallet-v4/src/types'
-import { actions, rootSaga, rootReducer, selectors } from 'data'
+import { applyMiddleware, compose, createStore } from 'redux'
 import {
   autoDisconnection,
   matomoMiddleware,
   streamingXlm,
-  webSocketBch,
-  webSocketBtc,
-  webSocketEth,
+  webSocketCoins,
   webSocketRates
 } from '../middleware'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
+import { createHashHistory } from 'history'
+import { head } from 'ramda'
+import { persistCombineReducers, persistStore } from 'redux-persist'
+import { serializer } from 'blockchain-wallet-v4/src/types'
+import BitcoinCash from 'bitcoinforksjs-lib'
+import createSagaMiddleware from 'redux-saga'
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
+import storage from 'redux-persist/lib/storage'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -61,21 +58,15 @@ const configureStore = () => {
       // TODO: deprecate when wallet-options-v4 is updated on prod
       const socketUrl = head(options.domains.webSocket.split('/inv'))
       const horizonUrl = options.domains.horizon
-      const btcSocket = new Socket({
+      const coinsSocket = new Socket({
         options,
-        url: `${socketUrl}/inv`
-      })
-      const bchSocket = new Socket({
-        options,
-        url: `${socketUrl}/bch/inv`
-      })
-      const ethSocket = new Socket({
-        options,
-        url: `${socketUrl}/eth/inv`
+        url: `${socketUrl}/coins`
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `${socketUrl}/nabu-gateway/markets/quotes`,
+        url: `${socketUrl
+          .split('/coins')
+          .join('')}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const xlmStreamingService = new HorizonStreamingService({
@@ -121,11 +112,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            webSocketBtc(btcSocket),
-            webSocketBch(bchSocket),
-            webSocketEth(ethSocket),
             streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
+            webSocketCoins(coinsSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             matomoMiddleware(),
             autoDisconnection()
@@ -136,12 +125,10 @@ const configureStore = () => {
 
       sagaMiddleware.run(rootSaga, {
         api,
-        bchSocket,
-        btcSocket,
-        ethSocket,
         ratesSocket,
         networks,
-        options
+        options,
+        coinsSocket
       })
 
       // expose globals here

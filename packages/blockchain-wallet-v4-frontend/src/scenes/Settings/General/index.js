@@ -1,6 +1,6 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import { Banner, Text } from 'blockchain-info-components'
 

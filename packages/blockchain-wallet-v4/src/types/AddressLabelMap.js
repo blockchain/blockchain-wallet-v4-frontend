@@ -1,8 +1,8 @@
-import { indexBy, map, prop, compose, is, pipe, curry } from 'ramda'
+import * as AddressLabel from './AddressLabel'
+import { compose, curry, indexBy, is, map, pipe, prop } from 'ramda'
+import { iLensProp } from './util'
 import { view } from 'ramda-lens'
 import Type from './Type'
-import * as AddressLabel from './AddressLabel'
-import { iLensProp } from './util'
 
 export class AddressLabelMap extends Type {}
 

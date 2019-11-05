@@ -1,9 +1,9 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { Button, Image, Link, Modal, Text } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Body = styled.div`
   display: flex;

@@ -1,10 +1,10 @@
+import { reduxForm } from 'redux-form'
 import React from 'react'
 import styled from 'styled-components'
-import { reduxForm } from 'redux-form'
 
+import { model } from 'data'
 import UnusedAddresses from './UnusedAddresses'
 import UsedAddresses from './UsedAddresses'
-import { model } from 'data'
 const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.section`
@@ -12,11 +12,17 @@ const Wrapper = styled.section`
 `
 class ManageAddressesContainer extends React.PureComponent {
   render () {
-    const walletIndex = this.props.match.params.index
+    const routeParams = this.props.match.params
     return (
       <Wrapper>
-        <UnusedAddresses walletIndex={walletIndex} />
-        <UsedAddresses walletIndex={walletIndex} />
+        <UnusedAddresses
+          derivation={routeParams.derivation}
+          walletIndex={routeParams.walletIndex}
+        />
+        <UsedAddresses
+          derivation={routeParams.derivation}
+          walletIndex={routeParams.walletIndex}
+        />
       </Wrapper>
     )
   }

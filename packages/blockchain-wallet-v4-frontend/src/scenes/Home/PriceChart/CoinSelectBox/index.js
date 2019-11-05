@@ -1,11 +1,11 @@
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import { propOr } from 'ramda'
+import { SelectBoxCoinPriceChart } from 'components/Form'
 import React from 'react'
 import styled from 'styled-components'
-import { bindActionCreators, compose } from 'redux'
-import { propOr } from 'ramda'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import { actions, selectors } from 'data'
-import { SelectBoxCoinPriceChart } from 'components/Form'
 
 const Wrapper = styled.div`
   z-index: 2;

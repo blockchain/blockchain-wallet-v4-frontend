@@ -1,9 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions, model } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import BtcLinkHandling from './template'
+import React from 'react'
 
 const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class BtcLinkHandlingContainer extends React.PureComponent {

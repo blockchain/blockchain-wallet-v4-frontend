@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { path, prop } from 'ramda'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 const SiftScienceIframe = styled.iframe`
   opacity: 0;

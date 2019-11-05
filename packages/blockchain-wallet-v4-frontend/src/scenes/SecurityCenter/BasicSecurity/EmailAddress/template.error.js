@@ -1,6 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import {
   SecurityComponent,
   SecurityContainer,
@@ -8,6 +6,8 @@ import {
   SecurityHeader,
   SecuritySummary
 } from 'components/Security'
+import { Text } from 'blockchain-info-components'
+import React from 'react'
 
 const EmailAddress = props => {
   const { message } = props

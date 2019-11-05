@@ -1,9 +1,9 @@
-import { selectors, model } from 'data'
 import {
-  bchToLabel,
   bchFromLabel,
+  bchToLabel,
   isBchLegacyAddress
 } from 'services/PaymentHelper'
+import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendBch.FORM)
 

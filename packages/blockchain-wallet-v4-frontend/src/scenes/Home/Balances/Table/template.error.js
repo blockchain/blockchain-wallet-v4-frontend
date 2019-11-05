@@ -1,6 +1,6 @@
+import DataError from 'components/DataError'
 import React from 'react'
 import styled from 'styled-components'
-import DataError from 'components/DataError'
 
 const Wrapper = styled.div`
   display: flex;

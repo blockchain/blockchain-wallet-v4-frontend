@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
 import { equals } from 'ramda'
-import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { NumberBoxDebounced, SelectBoxCoinifyCurrency } from 'components/Form'
 import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

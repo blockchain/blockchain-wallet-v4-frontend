@@ -1,6 +1,6 @@
 import {
-  formatSSN,
   formatDOB,
+  formatSSN,
   formatUSZipcode
 } from 'services/ValidationHelper'
 

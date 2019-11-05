@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import media from 'services/ResponsiveService'
+import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   padding: 40px;

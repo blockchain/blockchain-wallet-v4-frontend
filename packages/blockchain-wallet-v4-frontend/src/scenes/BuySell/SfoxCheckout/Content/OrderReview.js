@@ -1,29 +1,29 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import {
-  Text,
-  Icon,
-  Link,
-  TooltipIcon,
-  TooltipHost
-} from 'blockchain-info-components'
-import CountdownTimer from 'components/Form/CountdownTimer'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { flex, spacing } from 'services/StyleService'
-import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import {
-  OrderDetailsTable,
-  OrderDetailsRow
+  Icon,
+  Link,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
+import {
+  OrderDetailsRow,
+  OrderDetailsTable
 } from 'components/BuySell/OrderDetails'
-import FundingSource from 'components/BuySell/FundingSource'
 import {
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
+import { reviewOrder } from 'services/SfoxService'
 import { StepTransition } from 'components/Utilities/Stepper'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import FundingSource from 'components/BuySell/FundingSource'
+import React, { Fragment } from 'react'
 import renderFaq from 'components/FaqDropdown'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   padding: 30px;

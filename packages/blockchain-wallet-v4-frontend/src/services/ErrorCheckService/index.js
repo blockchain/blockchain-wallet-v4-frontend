@@ -1,4 +1,4 @@
-import { match, isEmpty, head, is } from 'ramda'
+import { head, is, isEmpty, match } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 
 const checkForVulnerableAddressError = message => {

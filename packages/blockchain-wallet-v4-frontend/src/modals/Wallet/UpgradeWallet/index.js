@@ -1,25 +1,21 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { reduxForm } from 'redux-form'
+import React from 'react'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import UpgradeWallet from './template.js'
 
-class UpgradeWizardContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleContinue = this.handleContinue.bind(this)
-  }
-
-  handleContinue () {
-    this.props.authActions.upgradeWallet()
+class UpgradeContainer extends React.PureComponent {
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.modalActions.closeModal()
+    this.props.authActions.upgradeWallet(this.props.version)
   }
 
   render () {
-    return (
-      <UpgradeWallet {...this.props} handleContinue={this.handleContinue} />
-    )
+    return <UpgradeWallet {...this.props} handleSubmit={this.handleSubmit} />
   }
 }
 
@@ -30,10 +26,11 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('UpgradeWallet'),
+  reduxForm({ form: 'upgradeWallet' }),
   connect(
     undefined,
     mapDispatchToProps
   )
 )
 
-export default enhance(UpgradeWizardContainer)
+export default enhance(UpgradeContainer)

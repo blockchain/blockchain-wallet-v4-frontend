@@ -1,7 +1,7 @@
 import { is, pipe } from 'ramda'
-import { view, set } from 'ramda-lens'
-import Type from './Type'
 import { iToJS } from './util'
+import { set, view } from 'ramda-lens'
+import Type from './Type'
 
 /* AddressBookEntry :: {
   addr :: String

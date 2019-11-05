@@ -1,12 +1,12 @@
+import { always, equals, head, includes, prop, toLower } from 'ramda'
 import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
-import { always, includes, equals, head, prop, toLower } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { selectors, actions, actionTypes } from 'data'
 import * as S from './selectors'
+import { actions, actionTypes, selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'

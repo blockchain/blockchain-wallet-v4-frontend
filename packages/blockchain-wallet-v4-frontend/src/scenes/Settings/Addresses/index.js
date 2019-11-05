@@ -1,10 +1,10 @@
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import React from 'react'
 import styled from 'styled-components'
-import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 
+import Bch from './Bch'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
-import Bch from './Bch'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ class AddressesContainer extends React.PureComponent {
         <ContentWrapper>
           <Switch>
             <Route
-              path='/settings/addresses/btc/:index'
+              path='/settings/addresses/btc/:walletIndex/:derivation'
               component={BtcManage}
             />
             <Route path='/settings/addresses/btc' component={Btc} exact />

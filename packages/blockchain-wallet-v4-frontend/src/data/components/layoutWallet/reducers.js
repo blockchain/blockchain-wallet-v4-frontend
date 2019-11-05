@@ -1,5 +1,5 @@
-import { merge, path, assoc } from 'ramda'
 import * as AT from './actionTypes'
+import { assoc, merge, path } from 'ramda'
 
 const INITIAL_STATE = {
   trayOpened: false,

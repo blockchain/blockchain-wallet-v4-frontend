@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react'
+import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import { flex, spacing } from 'services/StyleService'
+import React, { Fragment } from 'react'
 
 const capitalize = s => s[0].toUpperCase() + s.slice(1)
 

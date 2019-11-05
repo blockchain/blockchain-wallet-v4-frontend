@@ -1,20 +1,20 @@
 import {
+  all,
   call,
-  delay,
   cancel,
+  delay,
   fork,
   put,
   select,
-  all,
   spawn,
   take
 } from 'redux-saga/effects'
 import {
   compose,
-  includes,
   converge,
   equals,
   head,
+  includes,
   keys,
   last,
   or,
@@ -24,45 +24,45 @@ import {
   propOr
 } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4'
-import { currencySymbolMap } from 'services/CoinifyService'
-import { actions, actionTypes, selectors, model } from 'data'
-import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
+import * as Lockbox from 'services/LockboxService'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
+import {
+  addBalanceLimit,
+  convertBaseToStandard,
+  convertSourceFeesToFiat,
+  convertSourceToTarget,
+  convertStandardToBase,
+  divide,
+  formatLimits,
+  getEffectiveBalanceStandard,
+  selectFee,
+  validateMinMax,
+  validateVolume
+} from './services'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   CONFIRM_FORM,
   CONFIRM_MODAL,
   EXCHANGE_FORM,
+  getSourceCoinsPairedToTarget,
+  getTargetCoinsPairedToSource,
   INSUFFICIENT_ETH_FOR_TX_FEE,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
   MISSING_DEVICE_ERROR,
   NO_ADVICE_ERROR,
-  NO_LIMITS_ERROR,
-  getTargetCoinsPairedToSource,
-  getSourceCoinsPairedToTarget
+  NO_LIMITS_ERROR
 } from './model'
-import utils from './sagas.utils'
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as C from 'services/AlertService'
-import * as S from './selectors'
-import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { currencySymbolMap } from 'services/CoinifyService'
+import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
+import { Exchange, Remote } from 'blockchain-wallet-v4'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
-import {
-  getEffectiveBalanceStandard,
-  divide,
-  validateMinMax,
-  validateVolume,
-  addBalanceLimit,
-  selectFee,
-  convertStandardToBase,
-  convertSourceFeesToFiat,
-  convertSourceToTarget,
-  convertBaseToStandard,
-  formatLimits
-} from './services'
+import utils from './sagas.utils'
 
 export const logLocation = 'exchange/sagas'
 export const renewLimitsDelay = 30 * 1000

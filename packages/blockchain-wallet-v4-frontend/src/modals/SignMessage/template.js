@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import {
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'

@@ -1,9 +1,9 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import memoize from 'fast-memoize'
-import { is, pipe, ifElse } from 'ramda'
-import { view } from 'ramda-lens'
-import Type from './Type'
+import { equals, ifElse, is, pipe } from 'ramda'
 import { iToJS } from './util'
+import { view } from 'ramda-lens'
+import memoize from 'fast-memoize'
+import Type from './Type'
 
 /* AddressLabel :: {
   index :: Number
@@ -11,23 +11,27 @@ import { iToJS } from './util'
 } */
 
 export class Cache extends Type {}
-
 export const isCache = is(Cache)
-
 export const receiveAccount = Cache.define('receiveAccount')
 export const changeAccount = Cache.define('changeAccount')
-
 export const selectReceiveAccount = view(receiveAccount)
 export const selectChangeAccount = view(changeAccount)
-
 export const receiveChain = 0
 export const changeChain = 1
 
-const _getAddress = (cache, chain, index, network) => {
+const _getAddress = (cache, chain, index, network, type) => {
   const derive = c => {
     const node = getNode(c, chain, network)
     const childNode = node.derive(index)
     const publicKey = childNode.publicKey
+
+    if (equals('segwitP2SH', type)) {
+      const { address } = Bitcoin.payments.p2sh({
+        redeem: Bitcoin.payments.p2wpkh({ pubkey: publicKey })
+      })
+      return address
+    }
+
     const { address } = Bitcoin.payments.p2pkh({ pubkey: publicKey })
     return address
   }

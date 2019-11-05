@@ -1,8 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
-import StaticAnnouncement from './Static'
 import ServiceAnnouncement from './Service'
+import StaticAnnouncement from './Static'
 
 const Announcements = props => {
   return props.type === 'service' ? (

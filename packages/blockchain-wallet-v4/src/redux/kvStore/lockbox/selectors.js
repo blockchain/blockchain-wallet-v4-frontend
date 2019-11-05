@@ -1,17 +1,18 @@
 import {
+  addIndex,
   any,
+  filter,
+  flatten,
+  head,
+  lensProp,
+  map,
+  nth,
   path,
   pathOr,
   prop,
+  propEq,
   propOr,
-  map,
-  set,
-  flatten,
-  filter,
-  lensProp,
-  addIndex,
-  head,
-  nth
+  set
 } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
@@ -58,33 +59,52 @@ export const getLockboxBtcAccounts = state =>
 
 export const getLockboxBtcContext = state => {
   return getLockboxBtcAccounts(state).map(accounts => {
-    return accounts ? accounts.map(a => path(['xpub'], a)) : []
+    return accounts
+      ? accounts.map(a =>
+          path(['derivations'], a)
+            .filter(propEq('type', 'legacy'))
+            .map(prop('xpub'))
+        )
+      : []
   })
 }
 export const getBtcContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
-    .map(map(prop('xpub')))
+    .map(
+      map(a =>
+        path(['derivations'], a)
+          .filter(propEq('type', 'legacy'))
+          .map(prop('xpub'))
+      )
+    )
 
 export const getLockboxBtcAccount = (state, xpub) =>
   getLockboxBtcAccounts(state)
-    .map(filter(x => x.xpub === xpub))
+    .map(
+      filter(x =>
+        propEq('xpub', xpub, x.derivations.find(propEq('type', 'legacy')))
+      )
+    )
     .map(head)
 
 export const getDeviceFromBtcXpubs = (state, xpubs) => {
   const accountContainsXpubs = account =>
-    any(xpub => xpub === account.xpub, xpubs)
+    any(
+      xpub =>
+        propEq(
+          'xpub',
+          xpub,
+          account.derivations.find(propEq('type', 'legacy'))
+        ),
+      xpubs
+    )
   const deviceFilter = device =>
     any(accountContainsXpubs, path(['btc', 'accounts'], device))
   return getDevices(state)
     .map(filter(deviceFilter))
     .map(head)
 }
-
-export const getLockboxBtcDefaultAccount = (state, deviceIndex) =>
-  getDevice(state, deviceIndex)
-    .map(path(['btc', 'accounts']))
-    .map(head)
 
 // BCH
 export const getLockboxBch = state => getDevices(state).map(map(path(['bch'])))
@@ -96,26 +116,47 @@ export const getLockboxBchAccounts = state =>
 
 export const getLockboxBchContext = state => {
   return getLockboxBchAccounts(state).map(accounts => {
-    return accounts ? accounts.map(a => path(['xpub'], a)) : []
+    return accounts
+      ? accounts.map(a =>
+          path(['derivations'], a)
+            .filter(propEq('type', 'bch-145'))
+            .map(prop('xpub'))
+        )
+      : []
   })
 }
-
-export const getLockboxBchXpub = (state, deviceIndex) =>
-  getDevice(state, deviceIndex).map(path(['bch', 'accounts', 0, 'xpub']))
 
 export const getBchContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
     .map(path(['bch', 'accounts']))
-    .map(map(prop('xpub')))
+    .map(
+      map(a =>
+        path(['derivations'], a)
+          .filter(propEq('type', 'bch-145'))
+          .map(prop('xpub'))
+      )
+    )
 
 export const getLockboxBchAccount = (state, xpub) =>
   getLockboxBchAccounts(state)
-    .map(filter(x => x.xpub === xpub))
+    .map(
+      filter(x =>
+        propEq('xpub', xpub, x.derivations.find(propEq('type', 'bch-145')))
+      )
+    )
     .map(head)
 
 export const getDeviceFromBchXpubs = (state, xpubs) => {
   const accountContainsXpubs = account =>
-    any(xpub => xpub === account.xpub, xpubs)
+    any(
+      xpub =>
+        propEq(
+          'xpub',
+          xpub,
+          account.derivations.find(propEq('type', 'bch-145'))
+        ),
+      xpubs
+    )
   const deviceFilter = device =>
     any(accountContainsXpubs, path(['bch', 'accounts'], device))
   return getDevices(state)

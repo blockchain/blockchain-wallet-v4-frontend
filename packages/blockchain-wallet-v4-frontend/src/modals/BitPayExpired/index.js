@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import BitPayExpiredModal from './template.js'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 class BitPayExpired extends React.PureComponent {
   render () {

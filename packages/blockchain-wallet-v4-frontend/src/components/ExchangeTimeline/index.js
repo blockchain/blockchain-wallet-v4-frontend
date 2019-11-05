@@ -1,13 +1,13 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
 import { calculateAnimation } from './services'
+import Error from './Error'
+import Line from './Line'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
-import Line from './Line'
-import Error from './Error'
 
 const Wrapper = styled.div`
   position: relative;

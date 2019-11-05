@@ -1,7 +1,7 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
+import React from 'react'
 import TemplateError from './template.error'
+import toJson from 'enzyme-to-json'
 jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 
 describe('CoinTicker template error', () => {

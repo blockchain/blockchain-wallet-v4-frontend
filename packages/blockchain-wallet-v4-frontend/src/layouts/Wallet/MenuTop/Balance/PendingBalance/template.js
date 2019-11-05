@@ -1,14 +1,14 @@
 import React from 'react'
 
-import SfoxPendingBalance from './SfoxPendingBalance'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import {
-  Wrapper,
   BalancesWrapper,
   Header,
-  HeaderText
+  HeaderText,
+  Wrapper
 } from 'components/Balances'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import SfoxPendingBalance from './SfoxPendingBalance'
 
 const Template = props => (
   <Wrapper>

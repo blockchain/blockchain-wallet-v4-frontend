@@ -1,12 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { pathOr } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4'
-
+import React from 'react'
 import Register from './template'
-import { actions, model, selectors } from 'data'
 
 const { AB_TESTS } = model.analytics
 

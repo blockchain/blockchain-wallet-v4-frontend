@@ -1,4 +1,4 @@
-import createRng, { _overrides, xor, getServerEntropy, mixEntropy } from './rng'
+import createRng, { _overrides, getServerEntropy, mixEntropy, xor } from './rng'
 
 describe('rng', () => {
   let api = {

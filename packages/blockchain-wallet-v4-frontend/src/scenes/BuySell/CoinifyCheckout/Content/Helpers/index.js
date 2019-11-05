@@ -1,17 +1,17 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
-import { FormattedMessage } from 'react-intl'
 import {
   checkoutButtonLimitsHelper,
-  getRateFromQuote,
-  currencySymbolMap
+  currencySymbolMap,
+  getRateFromQuote
 } from 'services/CoinifyService'
+import { FormattedMessage } from 'react-intl'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { SubmitButton } from 'components/BuySell/styled'
+import { NavLink } from 'react-router-dom'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
+import { SubmitButton } from 'components/BuySell/styled'
 import media from 'services/ResponsiveService'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 const Error = styled(Text)`
   display: block;

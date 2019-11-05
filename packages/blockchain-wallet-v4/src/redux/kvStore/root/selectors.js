@@ -1,6 +1,6 @@
+import { kvStorePath } from '../../paths'
 import { path } from 'ramda'
 import { ROOT } from '../config'
-import { kvStorePath } from '../../paths'
 
 export const getMetadataXpriv = state =>
   path([kvStorePath, ROOT], state)

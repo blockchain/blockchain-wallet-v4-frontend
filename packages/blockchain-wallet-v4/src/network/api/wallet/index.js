@@ -1,4 +1,4 @@
-import { merge } from 'ramda'
+import { concat, mergeRight, prop, propOr } from 'ramda'
 
 export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
@@ -35,23 +35,35 @@ export default ({ rootUrl, get, post }) => {
     post({
       url: rootUrl,
       endPoint: '/wallet',
-      data: merge({ method: 'update', format: 'plain' }, data)
+      data: mergeRight({ method: 'update', format: 'plain' }, data)
     }).then(() => data.checksum)
 
   const createPayload = (email, data) =>
     post({
       url: rootUrl,
       endPoint: '/wallet',
-      data: merge({ method: 'insert', format: 'plain', email }, data)
+      data: mergeRight({ method: 'insert', format: 'plain', email }, data)
     }).then(() => data.checksum)
 
+  // context => {
+  //  addresses: [],
+  //  legacy: [],
+  //  segwitP2SH: []
+  // }
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
     { n = 50, offset = 0, onlyShow } = {}
   ) => {
+    const addresses = prop('addresses', context)
+    const addressArray = Array.isArray(addresses) ? addresses : [addresses]
+    // both addresses and legacy xpubs
+    const active = concat(addressArray, propOr([], 'legacy', context)).join('|')
+    // segwitP2SH xpubs only
+    const activeP2SH = propOr([], 'segwitP2SH', context).join('|')
     const data = {
-      active: (Array.isArray(context) ? context : [context]).join('|'),
+      active,
+      activeP2SH,
       format: 'json',
       offset: offset,
       no_compact: true,
@@ -64,7 +76,7 @@ export default ({ rootUrl, get, post }) => {
       url: rootUrl,
       endPoint: '/multiaddr',
       data: onlyShow
-        ? merge(data, {
+        ? mergeRight(data, {
             onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
               '|'
             )

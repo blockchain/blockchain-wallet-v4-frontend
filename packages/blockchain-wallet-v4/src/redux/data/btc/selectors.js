@@ -1,14 +1,20 @@
-import { concat, curry, path } from 'ramda'
-import { dataPath } from '../../paths'
 import * as wallet from '../../wallet/selectors'
+import { assoc, concat, curry, path, propOr } from 'ramda'
 import { createDeepEqualSelector } from '../../../utils'
+import { dataPath } from '../../paths'
 import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
 
+export const getWalletContext = createDeepEqualSelector(
+  [wallet.getContextGrouped],
+  walletContext => walletContext
+)
+
 export const getContext = createDeepEqualSelector(
-  [wallet.getContext, getLockboxBtcContext],
+  [wallet.getContextGrouped, getLockboxBtcContext],
   (walletContext, lockboxContextR) => {
     const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
-    return concat(walletContext, lockboxContext)
+    const legacyContext = propOr([], 'legacy', walletContext)
+    return assoc('legacy', concat(legacyContext, lockboxContext), walletContext)
   }
 )
 
@@ -45,9 +51,19 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
   getAddresses(state).map(path([xpubOrAddress, 'n_tx']))
 )
 
-export const getFinalBalance = curry((state, address) =>
+export const getFinalBalanceLegacy = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
+    .map(x => x || 0)
+)
+
+export const getFinalBalance = curry((state, address) =>
+  getAddresses(state)
+    .map(addresses =>
+      address.map
+        ? address.map(addr => path([addr, 'final_balance'], addresses))
+        : path([address, 'final_balance'], addresses)
+    )
     .map(x => x || 0)
 )
 

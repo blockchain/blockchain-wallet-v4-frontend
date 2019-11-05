@@ -1,9 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
 import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 12px;
+  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '100px' : '12px')};
   width: 100%;
 `
 
@@ -40,10 +39,10 @@ const FilterContainer = styled(Text).attrs({
 `
 
 const TimeFilters = props => {
-  const { time, handleClick } = props
+  const { time, isSilverOrAbove, handleClick } = props
 
   return (
-    <Wrapper>
+    <Wrapper isSilverOrAbove={isSilverOrAbove}>
       <FilterContainer
         selected={time === '1day'}
         onClick={() => handleClick('1day')}

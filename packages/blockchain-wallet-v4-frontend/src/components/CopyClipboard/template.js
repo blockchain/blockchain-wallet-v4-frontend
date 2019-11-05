@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import CopyToClipBoard from 'react-copy-to-clipboard'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { IconButton } from 'blockchain-info-components'
 

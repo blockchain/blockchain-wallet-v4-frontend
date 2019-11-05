@@ -1,10 +1,10 @@
-import React from 'react'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Text, Button } from 'blockchain-info-components'
-import styled from 'styled-components'
-import { SecuritySummary } from 'components/Security'
+import { Button, Text } from 'blockchain-info-components'
 import { Field } from 'redux-form'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { SecuritySummary } from 'components/Security'
 import { TextBox } from 'components/Form'
+import React from 'react'
+import styled from 'styled-components'
 
 import { validEmail } from 'services/FormHelper'
 

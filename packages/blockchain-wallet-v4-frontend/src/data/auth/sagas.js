@@ -1,5 +1,5 @@
+import { assoc, is, path, prop } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import { assoc, path, prop, is } from 'ramda'
 
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
@@ -7,15 +7,14 @@ import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  promptForSecondPassword,
-  forceSyncWallet
+  forceSyncWallet,
+  promptForSecondPassword
 } from 'services/SagaService'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
-
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
@@ -28,21 +27,35 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
-  const upgradeWallet = function * () {
+  const upgradeWallet = function * ({ payload }) {
     try {
+      const { version } = payload
       let password = yield call(promptForSecondPassword)
-      yield coreSagas.wallet.upgradeToHd({ password })
+      switch (version) {
+        case 3:
+          yield coreSagas.wallet.upgradeToV3({ password })
+          break
+        case 4:
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+      }
       yield call(forceSyncWallet)
-      yield put(actions.modals.closeModal())
     } catch (e) {
+      // TODO: SEGWIT (modals are mounted twice)
+      if (e.message === 'Already a v4 wallet') return
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+      yield put(actions.modals.closeModal())
     }
   }
-  const upgradeWalletSaga = function * () {
-    yield put(actions.modals.showModal('UpgradeWallet'))
+
+  const upgradeWalletSaga = function * (isDoubleEncrypted, version) {
+    yield put(
+      actions.modals.showModal('UpgradeWallet', { isDoubleEncrypted, version })
+    )
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
+
   const upgradeAddressLabelsSaga = function * () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -59,6 +72,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     }
   }
+
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(
       selectors.core.kvStore.eth.getLegacyAccount
@@ -94,9 +108,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.bch.startSocket())
-    yield put(actions.middleware.webSocket.btc.startSocket())
-    yield put(actions.middleware.webSocket.eth.startSocket())
+    yield put(actions.middleware.webSocket.coins.startSocket())
+    yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
   const authNabu = function * () {
@@ -114,11 +127,22 @@ export default ({ api, coreSagas }) => {
   }
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
+      const isDoubleEncrypted = yield select(
+        selectors.core.wallet.isSecondPasswordOn
+      )
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga)
+        yield call(upgradeWalletSaga, isDoubleEncrypted, 3)
       }
+      const isLatestVersion = yield select(
+        selectors.core.wallet.isWrapperLatestVersion
+      )
+      if (!isLatestVersion) {
+        yield call(upgradeWalletSaga, isDoubleEncrypted, 4)
+      }
+      // Finish upgrades
+
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
@@ -166,6 +190,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
+
   const checkAndHandleVulnerableAddress = function * (data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
@@ -184,6 +209,7 @@ export default ({ api, coreSagas }) => {
         )
     }
   }
+
   const checkDataErrors = function * () {
     const btcDataR = yield select(selectors.core.data.btc.getInfo)
 
@@ -198,6 +224,7 @@ export default ({ api, coreSagas }) => {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
+
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {
       return false
@@ -213,6 +240,7 @@ export default ({ api, coreSagas }) => {
     }
     return yield call(pollingSession, session, n - 1)
   }
+
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     let session = yield select(selectors.session.getSession, guid)
@@ -320,6 +348,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const mobileLogin = function * (action) {
     try {
       const { guid, sharedKey, password } = yield call(
@@ -345,6 +374,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
@@ -358,6 +388,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
+
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
@@ -372,6 +403,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
+
   const remindGuid = function * (action) {
     try {
       yield put(actions.auth.remindGuidLoading())
@@ -389,6 +421,7 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const reset2fa = function * (action) {
     try {
       yield put(actions.auth.reset2faLoading())
@@ -433,11 +466,13 @@ export default ({ api, coreSagas }) => {
       }
     }
   }
+
   const setLogoutEventListener = function () {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })
   }
+
   const resendSmsLoginCode = function * (action) {
     try {
       const { guid } = action.payload
@@ -461,9 +496,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
+
   const logout = function * () {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
@@ -475,9 +512,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
     }
-    yield put(actions.middleware.webSocket.bch.stopSocket())
-    yield put(actions.middleware.webSocket.btc.stopSocket())
-    yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.coins.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
@@ -485,6 +520,7 @@ export default ({ api, coreSagas }) => {
       : yield logoutClearReduxStore()
     yield put(actions.analytics.stopSession())
   }
+
   const deauthorizeBrowser = function * () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -500,6 +536,7 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
+
   const logoutClearReduxStore = function * () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')

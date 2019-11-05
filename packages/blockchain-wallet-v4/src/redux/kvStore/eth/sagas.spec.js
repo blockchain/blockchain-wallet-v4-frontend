@@ -1,11 +1,11 @@
-import * as Bitcoin from 'bitcoinjs-lib'
-import { testSaga } from 'redux-saga-test-plan'
-import { KVStoreEntry } from '../../../types'
 import * as A from './actions'
-import eth from './sagas'
-import { walletV3 } from '../../../../data'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { derivationMap, ETH } from '../config'
+import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
+import { testSaga } from 'redux-saga-test-plan'
+import { walletV3 } from '../../../../data'
+import eth from './sagas'
 
 const api = {
   fetchKVStore: () => {}

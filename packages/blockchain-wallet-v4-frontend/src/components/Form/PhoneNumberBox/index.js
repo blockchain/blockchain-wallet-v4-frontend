@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
 import { prop, toLower } from 'ramda'
 import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import IntlTelInput from 'react-intl-tel-input'
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
-import { Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4'
+import { Text } from 'blockchain-info-components'
+import IntlTelInput from 'react-intl-tel-input'
 
 const Container = styled.div`
   position: relative;

@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, model } from 'data'
-import { getData } from './selectors'
-import Wallets from './template'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import React from 'react'
+import Wallets from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class BchWalletsContainer extends React.Component {

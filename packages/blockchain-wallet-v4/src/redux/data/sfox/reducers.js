@@ -1,5 +1,5 @@
-import { assoc } from 'ramda'
 import * as AT from './actionTypes.js'
+import { assoc } from 'ramda'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {

@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { toUpper, path } from 'ramda'
-import FiatConverter from './QuoteInputTemplate'
+import { path, toUpper } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import FiatConverter from './QuoteInputTemplate'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 const WrappedFiatConverter = ({
   leftVal,
