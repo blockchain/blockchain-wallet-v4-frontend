@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import { actions, model } from 'data'
+import { Button, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-
-import { Button, Text } from 'blockchain-info-components'
-import { actions, model } from 'data'
+import React from 'react'
+import styled from 'styled-components'
 
 const { TIERS } = model.profile
 

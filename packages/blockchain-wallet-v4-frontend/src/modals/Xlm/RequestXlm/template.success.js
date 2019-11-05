@@ -1,13 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { model } from 'data'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import { required } from 'services/FormHelper'
 import { Banner, Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   Form,
@@ -17,7 +14,10 @@ import {
   SelectBoxCoin,
   SelectBoxXlmAddresses
 } from 'components/Form'
+import { model } from 'data'
+import { required } from 'services/FormHelper'
 import CopyClipboard from 'components/CopyClipboard'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 const AddressContainer = styled.div`
   display: flex;

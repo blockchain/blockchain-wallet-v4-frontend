@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, model } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import AcceptTerms from './template'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
 
 const { CHANGE } = model.components.coinify.REGISTER_STATES
 const { EMAIL_STEPS } = model.components.identityVerification

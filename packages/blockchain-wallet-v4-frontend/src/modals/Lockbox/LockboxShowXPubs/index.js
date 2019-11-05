@@ -1,25 +1,25 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { keys } from 'ramda'
-import styled from 'styled-components'
-import QRCodeWrapper from 'components/QRCodeWrapper'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { keys } from 'ramda'
+import QRCodeWrapper from 'components/QRCodeWrapper'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions } from 'data'
-import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import {
   Banner,
+  Button,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Text,
-  Button
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
+import { getData } from './selectors'
 
 const Content = styled.div`
   display: flex;

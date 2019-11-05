@@ -1,17 +1,17 @@
-import React, { PureComponent, Fragment } from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { path, prop } from 'ramda'
-import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
+import { Button, Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { path, prop } from 'ramda'
+import React, { Fragment, PureComponent } from 'react'
+import styled from 'styled-components'
 
-import renderFaq from 'components/FaqDropdown'
-import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import media from 'services/ResponsiveService'
 import { getData } from './selectors'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import media from 'services/ResponsiveService'
+import renderFaq from 'components/FaqDropdown'
 
 const ISXContainer = styled.div`
   display: flex;

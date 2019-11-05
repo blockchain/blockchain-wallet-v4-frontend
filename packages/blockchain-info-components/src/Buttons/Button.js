@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { darken } from 'polished'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseButton = styled.button.attrs({
   type: props => (props.type ? props.type : 'button')

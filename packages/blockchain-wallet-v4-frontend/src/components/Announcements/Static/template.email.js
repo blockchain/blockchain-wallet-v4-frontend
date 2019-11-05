@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled, { css, keyframes } from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 const revealFrames = keyframes`
   0% { top: 30px; }

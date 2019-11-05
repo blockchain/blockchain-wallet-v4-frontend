@@ -1,19 +1,18 @@
-import React from 'react'
-import { path } from 'ramda'
-import { FormattedMessage } from 'react-intl'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-
-import { actions } from 'data'
+import { ExchangeText } from 'components/Exchange'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Link } from 'blockchain-info-components'
-import { Row } from '../Layout'
-import { ExchangeText } from 'components/Exchange'
-import { TIERS } from 'components/IdentityVerification/TierCard/model'
 import { levelName } from 'components/IdentityVerification/TierCard/services'
+import { LinkContainer } from 'react-router-bootstrap'
+import { path } from 'ramda'
+import { Row } from '../Layout'
+import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import React from 'react'
+import styled from 'styled-components'
 
 const LimitText = styled(ExchangeText)`
   font-weight: 500;

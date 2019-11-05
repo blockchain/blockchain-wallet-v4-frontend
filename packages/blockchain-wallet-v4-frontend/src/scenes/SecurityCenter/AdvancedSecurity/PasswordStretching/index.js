@@ -1,11 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
 import PasswordStretching from './template'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 class PasswordStretchingContainer extends React.PureComponent {
   state = { updateToggled: false }

@@ -1,15 +1,15 @@
-import { expectSaga } from 'redux-saga-test-plan'
 import { call, fork, spawn } from 'redux-saga-test-plan/matchers'
+import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
 import { tail } from 'ramda'
 
-import { selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import sagas, { userRequiresRestoreError, renewUserDelay } from './sagas'
-import { USER_ACTIVATION_STATES, KYC_STATES, INITIAL_TIERS } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import { INITIAL_TIERS, KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { selectors } from 'data'
+import sagas, { renewUserDelay, userRequiresRestoreError } from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()

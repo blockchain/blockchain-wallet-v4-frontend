@@ -1,5 +1,5 @@
 import * as StellarSDK from 'stellar-sdk'
-import { assoc, difference, dissoc, forEach, keys, prop, isEmpty } from 'ramda'
+import { assoc, difference, dissoc, forEach, isEmpty, keys, prop } from 'ramda'
 
 export const RECONNECT_TIMEOUT = 30 * 1000
 

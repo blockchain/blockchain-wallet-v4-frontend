@@ -1,12 +1,11 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
-import { traverseOf, view, over, set } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+import * as Options from './Options'
+import * as Wallet from './Wallet'
+import { assoc, compose, curry, dissoc, is, lensProp, pipe, prop } from 'ramda'
+import { over, set, traverseOf, view } from 'ramda-lens'
 import Either from 'data.either'
 import Task from 'data.task'
-
-import * as crypto from '../walletCrypto'
 import Type from './Type'
-import * as Wallet from './Wallet'
-import * as Options from './Options'
 
 /* Wrapper :: {
   wallet             :: Wallet

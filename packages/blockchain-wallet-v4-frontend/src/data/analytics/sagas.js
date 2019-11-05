@@ -1,12 +1,12 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
 import { add, equals, map, not, propOr, reduce } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { actionTypes, actions, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import { CUSTOM_VARIABLES } from './model'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {

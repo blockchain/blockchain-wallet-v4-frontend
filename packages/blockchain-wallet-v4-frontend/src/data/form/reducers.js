@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
-import { reducer as formReducer } from 'redux-form'
 import { assocPath } from 'ramda'
+import { reducer as formReducer } from 'redux-form'
 
 const reducerReducers = (...reducers) => (prevState, value, ...args) =>
   reducers.reduce(

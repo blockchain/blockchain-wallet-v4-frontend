@@ -1,4 +1,4 @@
-import { Wrapper, serializer } from './index'
+import { serializer, Wrapper } from './index'
 
 const wrapperFixture = require('./__mocks__/wrapper.v3')
 

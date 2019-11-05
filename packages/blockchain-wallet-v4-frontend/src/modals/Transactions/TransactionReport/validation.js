@@ -1,12 +1,12 @@
-import React from 'react'
-import { prop } from 'ramda'
 import { InvalidDateMessage } from './validationMessages'
 import {
-  isValidBtcStartDate,
+  isValidBchEndDate,
   isValidBchStartDate,
   isValidBtcEndDate,
-  isValidBchEndDate
+  isValidBtcStartDate
 } from './services'
+import { prop } from 'ramda'
+import React from 'react'
 
 export const validStartDate = (value, allValues, props) => {
   const coin = prop('coin', props)

@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
-
-import { Button, Text, Link } from 'blockchain-info-components'
-import { TextBox, PhoneNumberBox, Form } from 'components/Form'
-import { validMobileNumber, required } from 'services/FormHelper'
+import { Form, PhoneNumberBox, TextBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { required, validMobileNumber } from 'services/FormHelper'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;

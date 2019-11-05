@@ -1,27 +1,27 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors } from 'data'
 import {
-  map,
-  pathOr,
-  curry,
-  flatten,
-  filter,
-  assoc,
-  lift,
-  isEmpty,
-  unapply,
-  reduce,
-  concat,
-  last,
-  dropLast,
-  anyPass,
-  compose,
-  contains,
-  toUpper,
   any,
-  path
+  anyPass,
+  assoc,
+  compose,
+  concat,
+  contains,
+  curry,
+  dropLast,
+  filter,
+  flatten,
+  isEmpty,
+  last,
+  lift,
+  map,
+  path,
+  pathOr,
+  reduce,
+  toUpper,
+  unapply
 } from 'ramda'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 export const concatAll = unapply(reduce(concat, []))
 
 const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))

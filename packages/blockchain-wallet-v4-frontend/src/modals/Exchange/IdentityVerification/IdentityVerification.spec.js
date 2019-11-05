@@ -1,53 +1,53 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
+import { actions, model } from 'data'
+import { combineReducers } from 'redux'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
 import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
-import { combineReducers } from 'redux'
-import { actions, model } from 'data'
+import React from 'react'
 
+import * as actionTypes from 'data/actionTypes'
 import {
   coreReducers,
-  paths,
   coreSagasFactory,
+  paths,
   Remote
 } from 'blockchain-wallet-v4/src'
-import identityVerificationReducer from 'data/components/identityVerification/reducers'
-import {
-  getSupportedCountries,
-  getStates,
-  getSteps,
-  getVerificationStep
-} from 'data/components/identityVerification/selectors'
-import modalsReducer from 'data/modals/reducers'
-import profileReducer from 'data/modules/profile/reducers'
-import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
-import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
-import settingsSagas from 'data/modules/settings/sagaRegister'
-import profileSagas from 'data/modules/profile/sagaRegister'
-import * as actionTypes from 'data/actionTypes'
-import IdentityVerification from './index'
-import Tray from 'components/Tray'
-import { ModalHeader } from 'blockchain-info-components'
-import { last, head, find, pathEq } from 'ramda'
-import {
-  getUserId,
-  getLifetimeToken
-} from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
-import {
-  getEmail,
-  getEmailVerified,
-  getSmsVerified,
-  getCountryCode,
-  getSmsNumber
-} from 'blockchain-wallet-v4/src/redux/settings/selectors'
-import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
+import { find, head, last, pathEq } from 'ramda'
+import { getCoinifyBusy } from 'data/components/coinify/selectors'
 import {
   getCountry,
   getProfile
 } from 'blockchain-wallet-v4/src/redux/data/coinify/selectors'
-import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
+import {
+  getCountryCode,
+  getEmail,
+  getEmailVerified,
+  getSmsNumber,
+  getSmsVerified
+} from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
+import {
+  getLifetimeToken,
+  getUserId
+} from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
+import {
+  getStates,
+  getSteps,
+  getSupportedCountries,
+  getVerificationStep
+} from 'data/components/identityVerification/selectors'
+import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import { ModalHeader } from 'blockchain-info-components'
 import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
-import { getCoinifyBusy } from 'data/components/coinify/selectors'
+import IdentityVerification from './index'
+import identityVerificationReducer from 'data/components/identityVerification/reducers'
+import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
+import modalsReducer from 'data/modals/reducers'
+import profileReducer from 'data/modules/profile/reducers'
+import profileSagas from 'data/modules/profile/sagaRegister'
+import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
+import settingsSagas from 'data/modules/settings/sagaRegister'
+import Tray from 'components/Tray'
 
 const { KYC_MODAL, STEPS } = model.components.identityVerification
 

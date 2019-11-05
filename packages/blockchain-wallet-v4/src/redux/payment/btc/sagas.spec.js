@@ -1,11 +1,11 @@
-import { call, select } from 'redux-saga/effects'
-import createPaymentFactory from './sagas'
-import { ADDRESS_TYPES } from './utils'
-import { prop } from 'ramda'
-import * as S from '../../selectors'
-import { btc } from '../../../signer'
-import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
+import * as CoinSelection from '../../../coinSelection'
+import * as S from '../../selectors'
+import { ADDRESS_TYPES } from './utils'
+import { btc } from '../../../signer'
+import { call, select } from 'redux-saga/effects'
+import { prop } from 'ramda'
+import createPaymentFactory from './sagas'
 
 jest.mock('../../selectors')
 jest.mock('../../../signer')

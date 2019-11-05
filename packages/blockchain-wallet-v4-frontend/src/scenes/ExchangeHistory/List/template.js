@@ -1,20 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
 import {
   HeartbeatLoader,
   Table,
   TableCell,
-  TableRow,
   TableHeader,
+  TableRow,
   Text
 } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-import TradeItem from './TradeItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import TradeItem from './TradeItem'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;

@@ -1,9 +1,9 @@
-import { curry, prop, path, lift } from 'ramda'
+import { curry, lift, path, prop } from 'ramda'
 
-import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { model, selectors } from 'data'
 
 const { formatPair } = model.rates
 

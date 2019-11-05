@@ -1,5 +1,5 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import { getData as getDataBtcBch } from 'components/Form/SelectBoxBtcAddresses/selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {

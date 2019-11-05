@@ -1,25 +1,25 @@
-import React, { Fragment } from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { reduxForm } from 'redux-form'
-import { model } from 'data'
 import {
   Button,
   HeartbeatLoader,
-  Text,
-  TextGroup,
+  Icon,
   Link,
-  Icon
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import {
-  Form,
   ColLeft,
-  InputWrapper,
+  ErrorWrapper,
   FieldMimic,
-  ErrorWrapper
+  Form,
+  InputWrapper
 } from 'components/IdentityVerification'
+import { FormattedMessage } from 'react-intl'
+import { model } from 'data'
 import { prop } from 'ramda'
+import { reduxForm } from 'redux-form'
 import media from 'services/ResponsiveService'
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
 
 const { VERIFY } = model.components.coinify.REGISTER_STATES
 

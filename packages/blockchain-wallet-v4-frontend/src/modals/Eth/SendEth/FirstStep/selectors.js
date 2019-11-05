@@ -1,9 +1,9 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { head, gt, prop, propOr, path, includes, isEmpty } from 'ramda'
-import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { FormattedMessage } from 'react-intl'
+import { gt, head, includes, isEmpty, path, prop, propOr } from 'ramda'
+import { model, selectors } from 'data'
 import BigNumber from 'bignumber.js'
+import React from 'react'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 

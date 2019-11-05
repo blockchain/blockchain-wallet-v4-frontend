@@ -1,11 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-import { has } from 'ramda'
-
 import { Button } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import {
   Form,
   FormGroup,
@@ -13,13 +7,18 @@ import {
   FormLabel,
   PasswordBox
 } from 'components/Form'
-import { SettingWrapper } from 'components/Setting'
+import { FormattedMessage } from 'react-intl'
+import { has } from 'ramda'
 import {
+  isNotCurrentPassword,
   required,
-  validPasswordConfirmation,
   validCurrentPassword,
-  isNotCurrentPassword
+  validPasswordConfirmation
 } from 'services/FormHelper'
+import { SettingWrapper } from 'components/Setting'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 // load zxcvbn dependency async and set on window
 require.ensure(

@@ -1,7 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Settings from './Settings'
-
 import {
   SettingComponent,
   SettingContainer,
@@ -9,6 +6,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import React from 'react'
+import Settings from './Settings'
 
 const LocalCurrency = props => {
   const { currency } = props

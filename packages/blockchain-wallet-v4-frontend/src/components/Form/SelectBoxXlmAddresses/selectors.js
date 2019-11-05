@@ -1,7 +1,7 @@
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [

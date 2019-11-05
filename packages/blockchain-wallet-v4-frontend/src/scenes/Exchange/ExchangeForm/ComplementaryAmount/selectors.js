@@ -1,7 +1,6 @@
-import { prop } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { getCurrentPairAmounts } from '../selectors'
+import { prop } from 'ramda'
 
 export const getData = createDeepEqualSelector(
   [

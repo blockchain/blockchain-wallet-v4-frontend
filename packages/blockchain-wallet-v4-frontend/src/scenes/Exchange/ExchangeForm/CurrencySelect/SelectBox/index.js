@@ -1,9 +1,8 @@
+import { Icon } from 'blockchain-info-components'
+import { pathOr, prop, toLower } from 'ramda'
+import { SelectBox } from 'components/Form'
 import React from 'react'
 import styled from 'styled-components'
-import { pathOr, prop, toLower } from 'ramda'
-
-import { Icon } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
 
 const ExchangeSelect = styled(SelectBox)`
   .bc__control {

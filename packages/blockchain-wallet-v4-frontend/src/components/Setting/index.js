@@ -3,10 +3,10 @@ import SettingContainer from './SettingContainer'
 import SettingDescription from './SettingDescription'
 import SettingForm from './SettingForm'
 import SettingHeader from './SettingHeader'
-import SettingSummary from './SettingSummary'
-import SettingStatus from './SettingStatus'
-import SettingWrapper from './SettingWrapper'
 import SettingSelectBoxWrapper from './SettingSelectBoxWrapper'
+import SettingStatus from './SettingStatus'
+import SettingSummary from './SettingSummary'
+import SettingWrapper from './SettingWrapper'
 
 export {
   SettingComponent,

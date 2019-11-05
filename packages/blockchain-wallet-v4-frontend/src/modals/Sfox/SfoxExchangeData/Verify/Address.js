@@ -1,29 +1,29 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import {
-  Text,
+  Banner,
   Button,
   HeartbeatLoader,
-  Banner
+  Text
 } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { FormGroup, FormItem, SelectBoxUSState, TextBox } from 'components/Form'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
-  required,
-  requiredUsZipcode,
-  normalizeUSZipcode
-} from 'services/FormHelper'
-import {
-  Form,
   ColLeft,
   ColRight,
+  ColRightInner,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  ColRightInner
+  PartnerSubHeader
 } from 'components/IdentityVerification'
+import {
+  normalizeUSZipcode,
+  required,
+  requiredUsZipcode
+} from 'services/FormHelper'
 import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`

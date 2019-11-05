@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import Settings from './template.js'
 
 class SettingContainer extends Component {

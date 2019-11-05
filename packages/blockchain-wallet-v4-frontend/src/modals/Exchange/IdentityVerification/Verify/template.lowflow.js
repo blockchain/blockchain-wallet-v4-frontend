@@ -1,11 +1,18 @@
-import React from 'react'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
-import { model } from 'data'
-import { map, flip, prop } from 'ramda'
+import {
+  BackButton,
+  FaqHeaderHelper,
+  Footer,
+  IdentityVerificationForm,
+  IdentityVerificationHeader,
+  IdentityVerificationImage,
+  IdentityVerificationSubHeader,
+  InputWrapper
+} from 'components/IdentityVerification'
 import {
   Button,
   Image,
@@ -13,17 +20,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { flip, map, prop } from 'ramda'
 import { FooterShadowWrapper } from 'components/Form'
-import {
-  BackButton,
-  IdentityVerificationForm,
-  InputWrapper,
-  IdentityVerificationImage,
-  IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
-  FaqHeaderHelper,
-  Footer
-} from 'components/IdentityVerification'
+import { model } from 'data'
+import media from 'services/ResponsiveService'
 import Veriff from '../Veriff'
 
 const VerifyWrapper = styled.div`

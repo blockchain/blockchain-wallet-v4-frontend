@@ -1,11 +1,11 @@
-import { put, select, take } from 'redux-saga/effects'
-import { identity, prop } from 'ramda'
-import { model } from 'data'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
+import * as selectors from '../../selectors'
+import { identity, prop } from 'ramda'
+import { model } from 'data'
+import { put, select, take } from 'redux-saga/effects'
 import Btc from '@ledgerhq/hw-app-btc'
 
 const { TRANSACTION_EVENTS } = model.analytics

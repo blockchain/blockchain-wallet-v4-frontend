@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   text-align: right;

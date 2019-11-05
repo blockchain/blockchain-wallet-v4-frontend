@@ -1,7 +1,6 @@
-import { curry, is, prop, map, compose } from 'ramda'
+import { compose, curry, is, map, prop } from 'ramda'
 import { view } from 'ramda-lens'
 import BigRational from 'big-rational'
-
 import Type from '../../types/Type'
 
 export class Pairs extends Type {

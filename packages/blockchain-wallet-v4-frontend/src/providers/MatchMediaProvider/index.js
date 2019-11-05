@@ -1,7 +1,7 @@
-import React from 'react'
-import { map, forEachObjIndexed, assoc } from 'ramda'
 import 'matchmedia-polyfill'
 import 'matchmedia-polyfill/matchMedia.addListener'
+import { assoc, forEachObjIndexed, map } from 'ramda'
+import React from 'react'
 
 import { sizes } from 'services/ResponsiveService'
 

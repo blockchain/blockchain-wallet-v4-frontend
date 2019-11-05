@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-
 import { Button, Text } from 'blockchain-info-components'
 import { Container, Row } from 'components/WhatsNew'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const DarkText = styled(Text).attrs({
   color: 'gray-5',

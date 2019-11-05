@@ -1,24 +1,24 @@
-import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
 import { length } from 'ramda'
 import PropTypes from 'prop-types'
-import { formValueSelector } from 'redux-form'
+import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
-import { Types } from 'blockchain-wallet-v4'
-import UnusedAddresses from './template'
 import {
   Banner,
   ComponentDropdown,
   FlatLoader,
-  Link,
   IconButton,
+  Link,
   Text
 } from 'blockchain-info-components'
+import { Types } from 'blockchain-wallet-v4'
+import UnusedAddresses from './template'
 
 const WalletLabelCell = styled.div`
   display: flex;

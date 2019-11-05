@@ -1,11 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-
-import { Text, Button } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;

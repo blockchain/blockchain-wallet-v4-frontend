@@ -1,7 +1,7 @@
-import { lift, equals } from 'ramda'
-import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { equals, lift } from 'ramda'
 import { KYC_STATES } from 'data/modules/profile/model'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

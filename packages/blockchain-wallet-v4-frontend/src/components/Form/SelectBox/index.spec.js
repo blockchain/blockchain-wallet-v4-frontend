@@ -1,7 +1,7 @@
+import 'jest-styled-components'
+import { mount } from 'enzyme'
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { mount } from 'enzyme'
-import 'jest-styled-components'
 import SelectBox from './index.js'
 jest.mock('blockchain-info-components', () => ({
   SelectInput: ({ getRef, ...props }) => <input {...props} ref={getRef} />

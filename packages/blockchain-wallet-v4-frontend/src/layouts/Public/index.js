@@ -1,12 +1,12 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
 
-import ExternalLinks from './ExternalLinks'
-import Header from './Header'
-import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import ExternalLinks from './ExternalLinks'
+import Footer from './Footer'
+import Header from './Header'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`

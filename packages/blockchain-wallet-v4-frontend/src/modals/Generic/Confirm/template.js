@@ -1,22 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
 import {
   Button,
   Image,
   Modal,
-  Text,
   ModalBody,
+  ModalFooter,
   ModalHeader,
-  ModalFooter
+  Text
 } from 'blockchain-info-components'
-import { reduxForm } from 'redux-form'
 import { Form } from 'components/Form'
+import { reduxForm } from 'redux-form'
 import {
-  selectTitle,
-  selectMessage,
   selectCancel,
-  selectConfirm
+  selectConfirm,
+  selectMessage,
+  selectTitle
 } from './helpers'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   font-weight: 400;

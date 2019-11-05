@@ -1,4 +1,4 @@
-import { path, compose, prop } from 'ramda'
+import { compose, path, prop } from 'ramda'
 
 export const getSfoxData = path(['sfoxSignup'])
 export const getSfoxBusy = compose(

@@ -1,8 +1,7 @@
-import PhoneNumber from 'awesome-phonenumber'
-import { lift } from 'ramda'
-
-import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { lift } from 'ramda'
+import { selectors } from 'data'
+import PhoneNumber from 'awesome-phonenumber'
 
 const getCountryCode = (defaultCode, currentNumber) =>
   currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode

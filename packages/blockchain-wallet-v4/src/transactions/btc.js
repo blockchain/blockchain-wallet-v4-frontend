@@ -1,39 +1,38 @@
 import {
-  prop,
-  compose,
-  curry,
-  mapAccum,
-  isNil,
-  not,
-  findIndex,
-  view,
-  allPass,
-  propSatisfies,
-  ifElse,
-  always,
-  propEq,
-  propOr,
-  find,
-  over,
-  lensProp,
-  lensIndex,
-  equals,
-  toLower
-} from 'ramda'
-import moment from 'moment'
-
-import {
-  Wallet,
-  HDWallet,
-  HDWalletList,
-  HDAccountList,
-  AddressMap,
   Address,
-  HDAccount,
   AddressBook,
   AddressBookEntry,
-  TXNotes
+  AddressMap,
+  HDAccount,
+  HDAccountList,
+  HDWallet,
+  HDWalletList,
+  TXNotes,
+  Wallet
 } from '../types'
+import {
+  allPass,
+  always,
+  compose,
+  curry,
+  equals,
+  find,
+  findIndex,
+  ifElse,
+  isNil,
+  lensIndex,
+  lensProp,
+  mapAccum,
+  not,
+  over,
+  prop,
+  propEq,
+  propOr,
+  propSatisfies,
+  toLower,
+  view
+} from 'ramda'
+import moment from 'moment'
 import Remote from '../remote'
 
 const unpackInput = prop('prev_out')

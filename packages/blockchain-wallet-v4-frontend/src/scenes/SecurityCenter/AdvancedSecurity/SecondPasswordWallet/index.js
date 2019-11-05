@@ -1,7 +1,6 @@
-import React from 'react'
 import { connect } from 'react-redux'
-
 import { selectors } from 'data'
+import React from 'react'
 import SecondPassword from './template'
 
 class SecondPasswordWalletContainer extends React.PureComponent {

@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
+import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
-import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendHeader = styled(ModalHeader)`
   border-bottom: 0;

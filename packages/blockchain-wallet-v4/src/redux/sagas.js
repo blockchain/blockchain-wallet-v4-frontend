@@ -1,9 +1,9 @@
 import data from './data/sagas'
+import kvStore from './kvStore/sagas'
+import payment from './payment/sagas'
 import settings from './settings/sagas'
 import wallet from './wallet/sagas'
 import walletOptions from './walletOptions/sagas'
-import kvStore from './kvStore/sagas'
-import payment from './payment/sagas'
 
 export default ({ api, networks, options }) => ({
   data: data({ api, options, networks }),

@@ -1,16 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import {
   Banner,
+  ComponentDropdown,
+  Link,
   TableCell,
   TableRow,
-  Text,
-  Link,
-  ComponentDropdown
+  Text
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const AddressTableCell = styled(TableCell)`
   display: flex;
@@ -62,7 +62,12 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
           </Banner>
         )}
       </AddressTableCell>
-      <TableCell width='30%'>
+      <TableCell width='20%'>
+        <Text size='13px' weight={300}>
+          {address.label ? address.label : 'NO LABEL'}
+        </Text>
+      </TableCell>
+      <TableCell width='10%'>
         {!archived && (
           <SwitchableDisplay size='13px' coin={coin || 'BTC'}>
             {address.info && address.info.final_balance}

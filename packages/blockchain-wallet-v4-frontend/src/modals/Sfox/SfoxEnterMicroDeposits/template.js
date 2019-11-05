@@ -1,20 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Text,
   Button,
+  HeartbeatLoader,
   Link,
-  HeartbeatLoader
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
 import { required } from 'services/FormHelper'
-import PropTypes from 'prop-types'
 import BuySellAnimation from '../../../scenes/BuySell/BuySellAnimation'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const ButtonRow = styled.div`
   display: flex;

@@ -119,6 +119,7 @@ We are snapshot testing UI some components. Here are the commands to update them
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
 
+### Broken (https://linear.app/issue/WEB-150)
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages

@@ -1,7 +1,10 @@
+import * as A from './actions'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
 import { all, call, put, select } from 'redux-saga/effects'
 import {
-  concat,
   compose,
+  concat,
   filter,
   last,
   length,
@@ -9,18 +12,14 @@ import {
   path,
   prop,
   reduce,
-  values,
-  unnest
+  unnest,
+  values
 } from 'ramda'
-import BigNumber from 'bignumber.js'
-
-import * as A from './actions'
-import * as S from './selectors'
-import * as selectors from '../../selectors'
-import Remote from '../../../remote'
-import { xlm } from '../../../transactions'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
+import { xlm } from '../../../transactions'
+import BigNumber from 'bignumber.js'
+import Remote from '../../../remote'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
 

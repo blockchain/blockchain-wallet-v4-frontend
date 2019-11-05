@@ -1,12 +1,12 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
-import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
+import { mount } from 'enzyme'
+import React from 'react'
 
-import { coreReducers, paths, Remote } from 'blockchain-wallet-v4/src'
-import modalsReducer from 'data/modals/reducers'
-import AcceptTerms from './index'
 import { AcceptTermsForm } from './template'
+import { coreReducers, paths, Remote } from 'blockchain-wallet-v4/src'
+import AcceptTerms from './index'
+import modalsReducer from 'data/modals/reducers'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 

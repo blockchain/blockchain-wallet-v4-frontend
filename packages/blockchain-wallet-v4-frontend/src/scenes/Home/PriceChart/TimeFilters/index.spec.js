@@ -1,15 +1,28 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { testPropTypes } from 'utils/test.utils'
 import { TimeFiltersContainer } from './index'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 jest.mock('./template', () => 'template.na.js')
-jest.mock('data', () => ({}))
+jest.mock('data', () => ({
+  selectors: {
+    modules: {
+      profile: {
+        isSilverOrAbove: jest.fn()
+      }
+    },
+    components: {
+      priceChart: {
+        getTime: jest.fn()
+      }
+    }
+  }
+}))
 
 describe('TimeFilters container', () => {
   it('renders correctly', () => {
-    const baseProps = { time: '1month' }
+    const baseProps = { time: '1month', isSilverOrAbove: false }
     const component = shallow(<TimeFiltersContainer {...baseProps} />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()

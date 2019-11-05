@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'

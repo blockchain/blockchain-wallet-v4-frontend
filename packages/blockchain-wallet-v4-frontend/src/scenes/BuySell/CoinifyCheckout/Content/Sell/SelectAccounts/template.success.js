@@ -1,25 +1,25 @@
-import React from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { equals, isNil, or, path } from 'ramda'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { equals, isNil, or, path } from 'ramda'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
-import { spacing } from 'services/StyleService'
-import { RadioButton } from 'components/Form'
-import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  Form,
   CancelWrapper,
   ColLeft,
+  ColRight,
+  ColRightInner,
+  Form,
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader,
-  ColRight,
-  ColRightInner,
   Row
 } from 'components/IdentityVerification'
+import { RadioButton } from 'components/Form'
 import { SellContainer } from 'components/BuySell/styled'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
 
 const RowContent = styled(Row)`
   padding-left: 10px;

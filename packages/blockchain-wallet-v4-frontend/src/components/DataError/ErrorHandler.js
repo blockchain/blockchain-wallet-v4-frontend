@@ -1,10 +1,10 @@
-import React from 'react'
-import { prop } from 'ramda'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
-import { Link, Text, TextGroup, Button } from 'blockchain-info-components'
 import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
+import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
 const MessageText = styled(Text)`
   width: 80%;

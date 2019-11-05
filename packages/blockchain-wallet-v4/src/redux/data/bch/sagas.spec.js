@@ -1,15 +1,14 @@
-import { select } from 'redux-saga/effects'
-import { indexBy, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { fromCashAddr } from '../../../utils/bch'
-
-import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import sagas from './sagas'
+import { fromCashAddr } from '../../../utils/bch'
+import { indexBy, path, prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { select } from 'redux-saga/effects'
 import reducers from '../reducers'
+import sagas from './sagas'
 
 const CASH_ADDR_ADDRESS = 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
 const bchFetchData = {

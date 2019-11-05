@@ -1,6 +1,6 @@
+import { Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import styled from 'styled-components'
-import { Text } from 'blockchain-info-components'
 
 const containerWidth = '650px'
 const containerPadding = '25px'

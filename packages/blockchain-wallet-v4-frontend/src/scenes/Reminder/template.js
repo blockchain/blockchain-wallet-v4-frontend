@@ -1,10 +1,3 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
-
-import { required, validEmail } from 'services/FormHelper'
 import {
   Button,
   HeartbeatLoader,
@@ -20,7 +13,13 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { required, validEmail } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
+import React from 'react'
+import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;

@@ -1,13 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { includes, toLower } from 'ramda'
+import React from 'react'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
+import { LoadingBalance } from 'components/Balances'
 import Error from './template.error'
 import Success from './template.success'
-import { LoadingBalance } from 'components/Balances'
 
 class Balance extends React.PureComponent {
   componentDidMount () {

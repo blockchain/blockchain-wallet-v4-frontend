@@ -1,7 +1,7 @@
-import React from 'react'
 import { actions } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import ShowXpubs from './template'
 

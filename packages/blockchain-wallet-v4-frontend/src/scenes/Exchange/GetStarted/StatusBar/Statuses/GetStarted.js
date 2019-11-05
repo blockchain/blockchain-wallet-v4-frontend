@@ -1,9 +1,8 @@
+import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import { FormattedMessage } from 'react-intl'
-
-import { Button, Text } from 'blockchain-info-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
   font-weight: 600;

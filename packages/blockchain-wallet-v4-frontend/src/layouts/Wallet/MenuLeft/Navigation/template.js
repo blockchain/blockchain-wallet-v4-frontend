@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
@@ -14,16 +14,21 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import ThePitLink from '../ThePitLink'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  position: relative;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 74px;
+  top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
@@ -99,9 +104,9 @@ const Navigation = props => {
             />
           </Destination>
           <HelperTipContainer>
-            <TooltipHost id='lockboxRequired'>
+            <HelperTip id='lockboxRequired'>
               <TooltipIcon color='blue' name='info' />
-            </TooltipHost>
+            </HelperTip>
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
