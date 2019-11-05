@@ -12,7 +12,6 @@ import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
-// import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
@@ -190,7 +189,7 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   )
   return eitherKey.chain(key => {
     if (format === 'wif') return Either.of(key.toWIF())
-    if (format === 'base58') return Either.of(Base58.encode(key.__D))
+    if (format === 'base58') return Either.of(Base58.encode(key.privateKey))
     return Either.Left(new Error('Unsupported Key Format'))
   })
 }
@@ -214,8 +213,10 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function (btcKey) {
-  return btcKey instanceof Object // hack since ECPair instance of is breaking
+export const isKey = btcKey => {
+  // creating fake keypair for ECPair class comparison
+  const mockECPair = ECPair.fromPrivateKey(crypto.sha256('mock privatekey'))
+  return btcKey.constructor === mockECPair.constructor
 }
 
 export const calculateBalanceBtc = (coins, feePerByte) => {

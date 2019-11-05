@@ -63,7 +63,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
 export const fromCredentials = curry((guid, sharedKey, password, network) => {
   const entropy = crypto.sha256(Buffer.from(guid + sharedKey + password))
   const key = Bitcoin.ECPair.fromPrivateKey(entropy)
-  const enc = key.__D
+  const enc = key.privateKey
   return fromKeys(key, enc)
 })
 
@@ -87,9 +87,10 @@ export const fromMetadataXpriv = curry((xpriv, typeId, network) => {
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
-  let privateKeyBuffer = payloadTypeNode.deriveHardened(1).__D
-  let encryptionKey = crypto.sha256(privateKeyBuffer)
-  let keypair = Bitcoin.ECPair.fromPrivateKey(privateKeyBuffer)
+  let node = payloadTypeNode.deriveHardened(0)
+  let keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
+  let privateKey = payloadTypeNode.deriveHardened(1).privateKey
+  let encryptionKey = crypto.sha256(privateKey)
   return fromKeys(keypair, encryptionKey, typeId)
 })
 
@@ -137,7 +138,7 @@ export const verify = curry((address, signature, hash, network) => {
 
 // sign :: keyPair -> msg -> Buffer
 export const sign = curry((keyPair, msg) =>
-  BitcoinMessage.sign(msg, keyPair.__D, keyPair.compressed)
+  BitcoinMessage.sign(msg, keyPair.privateKey, keyPair.compressed)
 )
 
 // computeSignature :: keypair -> buffer -> buffer -> base64

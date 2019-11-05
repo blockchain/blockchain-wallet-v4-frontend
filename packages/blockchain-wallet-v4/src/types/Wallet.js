@@ -552,20 +552,13 @@ export const getHDPrivateKeyWIF = curry(
           )
         )
         .map(xp => {
-          const node = derivePrivateKey(
-            network,
-            xp,
-            chain,
-            index
-          ).keyPair.toWIF()
-          const keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
-          return keypair.toWIF()
+          const node = derivePrivateKey(network, xp, chain, index)
+          return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
         })
     } else {
       return Task.of(xpriv).map(xp => {
         const node = derivePrivateKey(network, xp, chain, index)
-        const keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
-        return keypair.toWIF()
+        return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
       })
     }
   }
