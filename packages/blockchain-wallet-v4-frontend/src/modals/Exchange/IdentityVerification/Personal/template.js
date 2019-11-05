@@ -310,6 +310,7 @@ const Personal = ({
                                 />
                               </Label>
                               <Field
+                                date-e2e='personalInformationFirstName'
                                 name='firstName'
                                 validate={required}
                                 component={TextBox}
