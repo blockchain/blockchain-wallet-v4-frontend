@@ -79,7 +79,12 @@ const { version } = require(`../package.json`)
 
   const environment = BACKEND_ENV || NODE_ENV || `development`
   const subdomain = subdomains[environment]
-  const walletOptionsUrl = `https://login-${subdomain}.blockchain.com/Resources/wallet-options-v4.json`
+
+  const walletOptionsUrl =
+    environment === `production`
+      ? `https://login.blockchain.com/Resources/wallet-options-v4.json`
+      : `https://login-${subdomain}.blockchain.com/Resources/wallet-options-v4.json`
+
   const originalWalletOptions = await (await fetch(walletOptionsUrl)).json()
   let localOverrides = {}
 
@@ -158,6 +163,15 @@ const { version } = require(`../package.json`)
 
   console.log(util.inspect(configuration, { colors: true }))
 
+  const renderIndex = processName => async (request, response) => {
+    const template = await fs.readFile(
+      path.join(__dirname, `../dist/${processName}/index.html`),
+      `utf8`
+    )
+
+    response.send(nonce ? replaceNonce(template) : template)
+  }
+
   const createProcessServer = async ({
     configureApp = () => {},
     domains,
@@ -167,6 +181,7 @@ const { version } = require(`../package.json`)
     self
   }) => {
     const app = express()
+    app.set(`json spaces`, 2)
 
     const port = await new Promise(resolve => {
       const server = createServer(app)
@@ -189,8 +204,9 @@ const { version } = require(`../package.json`)
     })
 
     configureApp(app)
-
-    app.use(express.static(path.join(PATHS.ciBuild, name)))
+    app.get(`index.html`, renderIndex(name))
+    app.use(express.static(path.join(PATHS.ciBuild, name), { index: false }))
+    app.use(renderIndex(name))
     return url
   }
 
@@ -261,8 +277,7 @@ const { version } = require(`../package.json`)
       mainRouter.get(`/healthz`, (request, response) => {
         response.json({
           mainProcess: {
-            domains,
-            request: R.pick([`headers`, `hostname`, `url`], request)
+            domains
           }
         })
       })
@@ -278,8 +293,7 @@ const { version } = require(`../package.json`)
       securityRouter.get(`/healthz`, (request, response) => {
         response.json({
           securityProcess: {
-            domains,
-            request: R.pick([`headers`, `hostname`, `url`], request)
+            domains
           }
         })
       })
@@ -291,23 +305,10 @@ const { version } = require(`../package.json`)
       app.use(vhost(domains.securityProcess, securityRouter))
     }
 
-    if (nonce) {
-      app.get(`/`, async (request, response) => {
-        const template = await fs.readFile(
-          path.join(__dirname, `../dist/root/index.html`),
-          `utf8`
-        )
-
-        response.send(replaceNonce(template))
-      })
-    }
-
     app.get(`/healthz`, (request, response) => {
       response.json({
         'blockchain-wallet-v4-frontend': version,
-        domains,
-        env: process.env,
-        request: R.pick([`headers`, `hostname`, `url`], request)
+        domains
       })
     })
 
