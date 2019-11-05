@@ -1,6 +1,6 @@
-import { path, keys } from 'ramda'
-import { kvStorePath } from '../../paths'
 import { BTC } from '../config'
+import { keys, path } from 'ramda'
+import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, BTC])
 export const getAddressLabel = (address, state) =>

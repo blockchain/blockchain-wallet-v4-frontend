@@ -1,8 +1,8 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import Bowser from 'bowser'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import { prop } from 'ramda'
 
 import {
   BlockchainLoader,

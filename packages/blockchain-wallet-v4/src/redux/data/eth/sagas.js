@@ -1,3 +1,10 @@
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as Exchange from '../../../exchange'
+import * as kvStoreSelectors from '../../kvStore/eth/selectors'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
+import * as transactions from '../../../transactions'
 import { call, put, select, take } from 'redux-saga/effects'
 import {
   concat,
@@ -13,14 +20,7 @@ import {
   toUpper,
   values
 } from 'ramda'
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import * as Exchange from '../../../exchange'
-import * as selectors from '../../selectors'
-import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
-import * as transactions from '../../../transactions'
 
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 40

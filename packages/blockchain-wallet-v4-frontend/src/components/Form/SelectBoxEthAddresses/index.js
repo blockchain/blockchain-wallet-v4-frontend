@@ -1,8 +1,8 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import React from 'react'
 
-import { getEthData, getErc20Data } from './selectors'
+import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
 class SelectBoxEthAddresses extends React.PureComponent {

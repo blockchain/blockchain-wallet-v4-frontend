@@ -1,10 +1,10 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import React from 'react'
 
 import { getData } from './selectors'
-import Wallets from './Wallets'
 import ArchivedAddresses from './ArchivedAddresses'
 import ImportedAddresses from './ImportedAddresses'
+import Wallets from './Wallets'
 
 class BtcAddressesContainer extends React.PureComponent {
   render () {

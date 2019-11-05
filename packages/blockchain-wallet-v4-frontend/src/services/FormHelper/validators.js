@@ -1,26 +1,25 @@
-import React from 'react'
-import bip39 from 'bip39'
-import {
-  isNumeric,
-  isEmail,
-  isDOB,
-  isGuid,
-  isUsZipcode,
-  isIpValid,
-  isAlphaNumeric,
-  isOverEighteen,
-  isSSN
-} from 'services/ValidationHelper'
-
-import isObject from 'isobject'
-import { isValidIBAN, isValidBIC } from 'ibantools'
-import { isValidNumber } from 'libphonenumber-js'
-import { validate } from 'postal-codes-js'
-import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
-import { utils } from 'blockchain-wallet-v4/src'
-import { model } from 'data'
 import * as M from './validationMessages'
-import { all, any, concat, equals, path, takeWhile, prop, propOr } from 'ramda'
+import { all, any, concat, equals, path, prop, propOr, takeWhile } from 'ramda'
+import {
+  isAlphaNumeric,
+  isDOB,
+  isEmail,
+  isGuid,
+  isIpValid,
+  isNumeric,
+  isOverEighteen,
+  isSSN,
+  isUsZipcode
+} from 'services/ValidationHelper'
+import { isValidBIC, isValidIBAN } from 'ibantools'
+import { isValidNumber } from 'libphonenumber-js'
+import { model } from 'data'
+import { utils } from 'blockchain-wallet-v4/src'
+import { validate } from 'postal-codes-js'
+import bip39 from 'bip39'
+import isObject from 'isobject'
+import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
+import React from 'react'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
@@ -242,6 +241,15 @@ export const onPartnerStateWhitelist = (value, allValues, props) => {
 export const requireUniqueDeviceName = (value, usedDeviceNames) => {
   return any(equals(value))(usedDeviceNames) ? (
     <M.UniqueDeviceName />
+  ) : (
+    undefined
+  )
+}
+
+export const requireUniqueWalletName = (value, allWalletLabels, index) => {
+  const walletIdx = allWalletLabels.indexOf(value)
+  return walletIdx !== index && walletIdx > -1 ? (
+    <M.UniqueWalletName />
   ) : (
     undefined
   )

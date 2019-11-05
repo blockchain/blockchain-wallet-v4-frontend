@@ -1,28 +1,28 @@
-import { compose } from 'ramda'
 import { actions, actionTypes } from 'data'
+import { compose } from 'ramda'
 
 const socket = socket => store => {
   return next => action => {
     const { type } = action
 
-    if (type === actionTypes.middleware.webSocket.eth.START_SOCKET) {
+    if (type === actionTypes.middleware.webSocket.coins.START_SOCKET) {
       socket.connect(
         compose(
           store.dispatch,
-          actions.middleware.webSocket.eth.openSocket
+          actions.middleware.webSocket.coins.openSocket
         ),
         compose(
           store.dispatch,
-          actions.middleware.webSocket.eth.messageSocket
+          actions.middleware.webSocket.coins.messageSocket
         ),
         compose(
           store.dispatch,
-          actions.middleware.webSocket.eth.closeSocket
+          actions.middleware.webSocket.coins.closeSocket
         )
       )
     }
 
-    if (type === actionTypes.middleware.webSocket.eth.STOP_SOCKET) {
+    if (type === actionTypes.middleware.webSocket.coins.STOP_SOCKET) {
       socket.close()
     }
 

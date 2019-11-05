@@ -1,15 +1,15 @@
-import { curry, compose, lensProp, set } from 'ramda'
-import { traversed, traverseOf } from 'ramda-lens'
-import Task from 'data.task'
-import { Wrapper, Wallet } from '../types'
 import * as Coin from '../coinSelection/coin'
+import { compose, curry, lensProp, set } from 'ramda'
+import { traversed, traverseOf } from 'ramda-lens'
+import { Wallet, Wrapper } from '../types'
+import Task from 'data.task'
 
 // addHDWalletWIFS :: network -> password -> wrapper -> selection -> Task selection
 export const addHDWalletWIFS = curry(
   (network, secondPassword, wrapper, selection) => {
     const wallet = Wrapper.selectWallet(wrapper)
     const deriveKey = coin =>
-      Wallet.getHDPrivateKeyWIF(coin.path, secondPassword, network, wallet)
+      Wallet.getHDPrivateKeyWIF(coin, secondPassword, network, wallet)
         // .map(wif => Bitcoin.ECPair.fromWIF(wif, network))
         .map(wif => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(

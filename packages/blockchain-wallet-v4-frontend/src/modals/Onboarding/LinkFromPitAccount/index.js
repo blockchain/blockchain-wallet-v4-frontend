@@ -1,10 +1,10 @@
-import React from 'react'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
 
-import LinkFromPitAccount from './template'
 import { actions, selectors } from 'data'
+import LinkFromPitAccount from './template'
 
 class LinkFromPitAccountContainer extends React.PureComponent {
   componentDidMount () {

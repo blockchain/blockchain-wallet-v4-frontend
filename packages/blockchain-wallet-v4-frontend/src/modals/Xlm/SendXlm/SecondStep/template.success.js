@@ -1,7 +1,8 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -9,7 +10,6 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

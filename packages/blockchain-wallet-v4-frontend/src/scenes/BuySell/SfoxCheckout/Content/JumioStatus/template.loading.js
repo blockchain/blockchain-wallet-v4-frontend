@@ -1,6 +1,6 @@
+import { BlockchainLoader } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { BlockchainLoader } from 'blockchain-info-components'
 
 const Container = styled.div`
   height: 150px;

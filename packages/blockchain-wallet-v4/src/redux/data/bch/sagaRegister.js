@@ -1,6 +1,6 @@
-import { fork, takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as kvAT from '../../kvStore/actionTypes'
+import { fork, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api }) => {

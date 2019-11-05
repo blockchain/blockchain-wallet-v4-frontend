@@ -1,14 +1,14 @@
-import { compose, is, equals, not, pipe, curry, isNil } from 'ramda'
-import { view, set, traverseOf } from 'ramda-lens'
-import Base58 from 'bs58'
-import { ECPair } from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
+import * as utils from '../utils'
+import { compose, curry, equals, is, isNil, not, pipe } from 'ramda'
+import { ECPair } from 'bitcoinjs-lib'
+import { iToJS } from './util'
 import { parseBIP38toECPair } from '../walletCrypto/importExport'
+import { set, traverseOf, view } from 'ramda-lens'
+import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
 import Type from './Type'
-import { iToJS } from './util'
-import * as utils from '../utils'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 const wrapPromiseInTask = fP =>

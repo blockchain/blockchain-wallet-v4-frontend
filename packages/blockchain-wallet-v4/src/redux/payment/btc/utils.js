@@ -1,18 +1,20 @@
+import * as Coin from '../../../coinSelection/coin'
+import * as S from '../../selectors'
+import { Address, HDAccount, Wallet } from '../../../types'
 import {
+  always,
+  assoc,
+  compose,
   converge,
+  curry,
+  drop,
   equals,
   or,
-  assoc,
-  drop,
-  curry,
-  set,
-  always,
-  compose
+  prop,
+  propEq,
+  set
 } from 'ramda'
-import * as Coin from '../../../coinSelection/coin'
-import { Wallet, HDAccount, Address } from '../../../types'
-import { isValidBtcAddress, getWifAddress } from '../../../utils/btc'
-import * as S from '../../selectors'
+import { getWifAddress, isValidBtcAddress } from '../../../utils/btc'
 
 // /////////////////////////////////////////////////////////////////////////////
 // Validations
@@ -74,23 +76,30 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-
 export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
+  let defaultDerivationXpub = HDAccount.selectXpub(account)
+  let allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
+  let legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
+  let segwitP2SH = prop(
+    'xpub',
+    allXpubsGrouped.find(propEq('type', 'segwitP2SH'))
+  )
 
-  let changeIndex = equals(coin, 'BTC')
-    ? S.data.btc.getChangeIndex(account.xpub, state)
-    : S.data.bch.getChangeIndex(account.xpub, state)
+  let changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(account, index, network))
     .getOrFail('missing_change_address')
 
   return {
-    fromType: ADDRESS_TYPES.ACCOUNT,
-    from: [account.xpub],
     change: changeAddress,
-    fromAccountIdx: index
+    extras: {
+      segwitP2SH
+    },
+    from: [legacy],
+    fromAccountIdx: index,
+    fromType: ADDRESS_TYPES.ACCOUNT
   }
 }
 
@@ -142,10 +151,11 @@ export const fromPrivateKey = (network, wallet, key) => {
 export const toOutputAccount = (coin, network, state, accountIndex) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
+  let xpub = HDAccount.selectXpub(account)
   const receiveIndexR =
     coin === 'BTC'
-      ? S.data.btc.getReceiveIndex(account.xpub, state)
-      : S.data.bch.getReceiveIndex(account.xpub, state)
+      ? S.data.btc.getReceiveIndex(xpub, state)
+      : S.data.bch.getReceiveIndex(xpub, state)
   const receiveIndex = receiveIndexR.getOrFail(
     new Error('missing_receive_address')
   )

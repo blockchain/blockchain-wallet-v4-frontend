@@ -1,12 +1,12 @@
 import { testSaga } from 'redux-saga-test-plan'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import * as actions from '../actions'
 import * as C from 'services/AlertService'
 import * as selectors from '../selectors'
-import * as actions from '../actions'
-import { model } from 'data'
-import goalsSagas from './sagas'
 import { getAllBalances } from 'data/balance/sagas'
+import { model } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import goalsSagas from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/balance/sagas', () => ({

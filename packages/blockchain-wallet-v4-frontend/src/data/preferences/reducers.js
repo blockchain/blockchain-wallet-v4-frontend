@@ -1,6 +1,6 @@
-import { assoc, assocPath } from 'ramda'
 import * as AT from './actionTypes'
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
+import { assoc, assocPath } from 'ramda'
 
 const INITIAL_STATE = {
   language: 'en',

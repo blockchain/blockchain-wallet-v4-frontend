@@ -1,14 +1,13 @@
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { Button } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { formatAmount } from '../services'
+import { FormattedMessage } from 'react-intl'
+import { getData } from './selectors'
+import { Row } from '../Layout'
 import React from 'react'
 import styled from 'styled-components'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-
-import { actions } from 'data'
-import { getData } from './selectors'
-import { formatAmount } from '../services'
-import { Row } from '../Layout'
-import { Button } from 'blockchain-info-components'
 
 export const MinMaxButton = styled(Button)`
   width: 48%;

@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { lift, path } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = state => {
   const accountsR = selectors.core.data.sfox.getAccounts(state)

@@ -1,16 +1,16 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, map, path, prop, replace } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import Remote from '../../../remote'
-import * as walletSelectors from '../../wallet/selectors'
-import { MISSING_WALLET } from '../utils'
-import { HDAccountList, Wallet } from '../../../types'
-import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
-import { getAddressLabels } from '../../kvStore/btc/selectors'
 import * as transactions from '../../../transactions'
+import * as walletSelectors from '../../wallet/selectors'
+import { call, put, select, take } from 'redux-saga/effects'
+import { concat, indexBy, length, map, path, prop, replace } from 'ramda'
+import { getAddressLabels } from '../../kvStore/btc/selectors'
+import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import { HDAccountList, Wallet } from '../../../types'
+import { MISSING_WALLET } from '../utils'
+import Remote from '../../../remote'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
@@ -53,17 +53,18 @@ export default ({ api }) => {
   const fetchTransactions = function * (action) {
     try {
       const { payload } = action
-      const { address, reset } = payload
+      const { onlyShow, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
+      const walletContext = yield select(S.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
-        onlyShow: address || walletContext,
+        onlyShow:
+          onlyShow || concat(walletContext.legacy, walletContext.segwitP2SH),
         offset
       })
       const atBounds = length(data.txs) < TX_PER_PAGE

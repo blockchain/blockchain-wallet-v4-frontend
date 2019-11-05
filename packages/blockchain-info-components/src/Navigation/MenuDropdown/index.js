@@ -1,6 +1,6 @@
+import onClickOutside from 'react-onclickoutside'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import onClickOutside from 'react-onclickoutside'
 
 import ButtonGroup from '../ButtonGroup'
 import DropdownLink from './DropdownLink'

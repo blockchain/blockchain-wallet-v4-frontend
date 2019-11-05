@@ -1,5 +1,5 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = (state, ownProps) => {
   switch (ownProps.coin) {

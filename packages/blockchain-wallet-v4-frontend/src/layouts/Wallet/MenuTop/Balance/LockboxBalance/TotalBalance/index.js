@@ -1,10 +1,10 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { getTotalBalance } from 'components/Balances/lockbox/selectors'
+import React from 'react'
 
+import { LoadingBalance } from 'components/Balances'
 import Error from './template.error'
 import Success from './template.success'
-import { LoadingBalance } from 'components/Balances'
 
 class TotalBalance extends React.PureComponent {
   render () {

@@ -1,10 +1,10 @@
 import {
   compose,
   curry,
-  indexOf,
   filter,
   flip,
   head,
+  indexOf,
   last,
   map,
   sortBy,

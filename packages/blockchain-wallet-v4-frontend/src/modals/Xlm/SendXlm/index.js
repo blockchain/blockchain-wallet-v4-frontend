@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model, selectors } from 'data'
-import SendXlm from './template'
 import FirstStep from './FirstStep'
+import modalEnhancer from 'providers/ModalEnhancer'
 import SecondStep from './SecondStep'
+import SendXlm from './template'
 
 class SendXlmContainer extends React.PureComponent {
   componentDidMount () {

@@ -1,12 +1,12 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { pathOr } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
+import { getCoins } from './selectors'
+import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
-import { Icon, Text } from 'blockchain-info-components'
-import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;

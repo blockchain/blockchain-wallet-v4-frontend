@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { Link } from 'blockchain-info-components'
+import React from 'react'
 
 export const AgeOverEighteenMessage = () => (
   <FormattedMessage
@@ -205,5 +205,12 @@ export const UniqueDeviceName = () => (
   <FormattedMessage
     id='formhelper.uniquedevicename'
     defaultMessage='Device name is already in use.'
+  />
+)
+
+export const UniqueWalletName = () => (
+  <FormattedMessage
+    id='formhelper.uniquewalletname'
+    defaultMessage='Wallet name is already taken.'
   />
 )

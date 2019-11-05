@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { keys, includes, toUpper } from 'ramda'
+import { connect } from 'react-redux'
+import { includes, keys, toUpper } from 'ramda'
+import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'

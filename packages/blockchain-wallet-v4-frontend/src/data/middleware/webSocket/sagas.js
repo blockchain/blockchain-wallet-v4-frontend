@@ -1,13 +1,9 @@
-import bch from './bch/sagas'
-import btc from './btc/sagas'
-import eth from './eth/sagas'
-import xlm from './xlm/sagas'
+import coins from './coins/sagas'
 import rates from './rates/sagas'
+import xlm from './xlm/sagas'
 
-export default ({ api, bchSocket, btcSocket, ethSocket, ratesSocket }) => ({
-  bch: bch({ api, bchSocket }),
-  btc: btc({ api, btcSocket }),
-  eth: eth({ api, ethSocket }),
+export default ({ api, ratesSocket, coinsSocket }) => ({
   xlm: xlm(),
-  rates: rates({ api, ratesSocket })
+  rates: rates({ api, ratesSocket }),
+  sds: coins({ api, coinsSocket })
 })

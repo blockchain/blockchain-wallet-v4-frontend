@@ -1,6 +1,6 @@
 import {
-  fiatToString,
-  coinToString
+  coinToString,
+  fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const formatAmount = (isFiat, symbol, value = 0) =>

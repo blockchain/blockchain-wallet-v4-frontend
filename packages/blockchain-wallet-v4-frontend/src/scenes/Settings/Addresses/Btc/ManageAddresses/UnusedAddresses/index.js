@@ -1,24 +1,25 @@
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { length } from 'ramda'
-import PropTypes from 'prop-types'
-import { formValueSelector } from 'redux-form'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
 import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
-import { Types } from 'blockchain-wallet-v4'
-import UnusedAddresses from './template'
+import { any, equals, length, prop, propEq } from 'ramda'
 import {
   Banner,
   ComponentDropdown,
   FlatLoader,
-  Link,
   IconButton,
+  Link,
   Text
 } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Toggler, TogglerItem } from '@blockchain-com/components'
+import { Types } from 'blockchain-wallet-v4'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import UnusedAddresses from './template'
 
 const WalletLabelCell = styled.div`
   display: flex;
@@ -27,72 +28,102 @@ const WalletLabelCell = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
+const DerivationSwitchContainer = styled.div`
+  margin-left: 12px;
+`
+
+const ToggledLink = styled(Link)`
+  &.active {
+    color: ${({ theme }) => theme.grey000};
+  }
+`
+
 class UnusedAddressesContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
+    const { componentActions, derivation, walletIndex } = this.props
+    componentActions.fetchUnusedAddresses(walletIndex, derivation)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.derivation !== prevProps.derivation) {
+      this.props.componentActions.fetchUnusedAddresses(
+        this.props.walletIndex,
+        this.props.derivation
+      )
+    }
+  }
+
+  onEditLabel = i => {
+    const {
+      accountIndex,
+      componentActions,
+      derivation,
+      walletIndex
+    } = this.props
+    componentActions.editAddressLabel(accountIndex, walletIndex, derivation, i)
+  }
+
+  onDeleteLabel = i => {
+    const { accountIndex, derivation, modalsActions, walletIndex } = this.props
+    modalsActions.showModal('DeleteAddressLabel', {
+      accountIdx: accountIndex,
+      addressIdx: i,
+      derivation,
+      walletIdx: walletIndex
+    })
+  }
+
+  onEditBtcAccountLabel = () => {
+    const {
+      accountIndex,
+      accountLabel,
+
+      walletActions
+    } = this.props
+    walletActions.editBtcAccountLabel(accountIndex, accountLabel)
+  }
+
+  onShowXPub = () => {
+    const { modalsActions, xpub } = this.props
+    modalsActions.showModal('ShowXPub', { xpub: xpub })
+  }
+
+  onMakeDefault = () => {
+    const { accountIndex, coreActions } = this.props
+    coreActions.setDefaultAccountIdx(accountIndex)
+  }
+
+  onGenerateNextAddress = () => {
+    const {
+      alertActions,
+      componentActions,
+      derivation,
+      unusedAddresses,
+      walletIndex
+    } = this.props
+    if (length(unusedAddresses.getOrElse([])) >= 15) {
+      alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
+    } else {
+      componentActions.generateNextReceiveAddress(walletIndex, derivation)
+    }
+  }
+
+  onSetArchived = () => {
+    const { accountIndex, coreActions, routerActions } = this.props
+    coreActions.setAccountArchived(accountIndex, true)
+    routerActions.push('/settings/addresses/btc')
   }
 
   render () {
     const {
-      account,
-      alertActions,
-      componentActions,
-      coreActions,
-      currentReceiveIndex,
+      accountLabel,
+      derivation,
+      hasLegacyDerivation,
       isDefault,
-      modalsActions,
-      routerActions,
       search,
-      unusedAddresses,
-      walletActions,
-      walletIndex
+      walletIndex,
+      unusedAddresses
     } = this.props
-    const onEditLabel = i => {
-      componentActions.editAddressLabel(account.index, walletIndex, i)
-    }
-    const onDeleteLabel = i => {
-      modalsActions.showModal('DeleteAddressLabel', {
-        accountIdx: account.index,
-        walletIdx: walletIndex,
-        addressIdx: i
-      })
-    }
-    const onEditBtcAccountLabel = () => {
-      walletActions.editBtcAccountLabel(account.index, account.label)
-    }
-
-    const onShowXPub = () => {
-      modalsActions.showModal('ShowXPub', { xpub: account.xpub })
-    }
-
-    const onMakeDefault = () => {
-      coreActions.setDefaultAccountIdx(account.index)
-    }
-    const onGenerateNextAddress = () => {
-      if (length(unusedAddresses.getOrElse([])) >= 15) {
-        alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
-      } else {
-        componentActions.generateNextReceiveAddress(walletIndex)
-      }
-    }
-    const onSetArchived = () => {
-      coreActions.setAccountArchived(account.index, true)
-      routerActions.push('/settings/addresses/btc')
-    }
-    const props = {
-      account,
-      unusedAddresses,
-      currentReceiveIndex,
-      isDefault,
-      onGenerateNextAddress,
-      onEditLabel,
-      search,
-      onDeleteLabel,
-      onEditBtcAccountLabel,
-      onShowXPub,
-      onMakeDefault,
-      onSetArchived
-    }
 
     return (
       <React.Fragment>
@@ -109,7 +140,7 @@ class UnusedAddressesContainer extends React.PureComponent {
               style={{ marginRight: 10 }}
               data-e2e='btcWalletName'
             >
-              {account.label}
+              {accountLabel}
             </Text>
             {isDefault && (
               <Banner label data-e2e='btcDefaultWallet'>
@@ -118,6 +149,44 @@ class UnusedAddressesContainer extends React.PureComponent {
                   defaultMessage='Default'
                 />
               </Banner>
+            )}
+            {hasLegacyDerivation && (
+              <DerivationSwitchContainer>
+                <Toggler>
+                  <TogglerItem selected={equals('legacy', derivation)}>
+                    <LinkContainer
+                      to={`/settings/addresses/btc/${walletIndex}/legacy`}
+                    >
+                      <ToggledLink
+                        weight={500}
+                        size='13px'
+                        data-e2e='btcManageLegacyWalletLink'
+                      >
+                        <FormattedMessage
+                          id='scenes.settings.addresses.btc.wallets.managelegacy'
+                          defaultMessage='Legacy'
+                        />
+                      </ToggledLink>
+                    </LinkContainer>
+                  </TogglerItem>
+                  <TogglerItem selected={equals('segwitP2SH', derivation)}>
+                    <LinkContainer
+                      to={`/settings/addresses/btc/${walletIndex}/segwitP2SH`}
+                    >
+                      <ToggledLink
+                        weight={500}
+                        size='13px'
+                        data-e2e='btcManageSegwitWalletLink'
+                      >
+                        <FormattedMessage
+                          id='scenes.settings.addresses.btc.wallets.managesegwit'
+                          defaultMessage='Segwit P2SH'
+                        />
+                      </ToggledLink>
+                    </LinkContainer>
+                  </TogglerItem>
+                </Toggler>
+              </DerivationSwitchContainer>
             )}
           </WalletLabelCell>
           <ComponentDropdown
@@ -139,7 +208,7 @@ class UnusedAddressesContainer extends React.PureComponent {
             components={[
               <ClickableText
                 size='small'
-                onClick={onEditBtcAccountLabel}
+                onClick={this.onEditBtcAccountLabel}
                 data-e2e='btcEditWalletNameLink'
               >
                 <FormattedMessage
@@ -148,32 +217,32 @@ class UnusedAddressesContainer extends React.PureComponent {
                 />
               </ClickableText>,
               !isDefault && (
-                <ClickableText
-                  size='small'
-                  onClick={onMakeDefault}
-                  data-e2e='btcMakeWalletDefaultLink'
-                >
-                  <FormattedMessage
-                    id='scenes.settings.manage_addresses.make_default'
-                    defaultMessage='Make Default'
-                  />
-                </ClickableText>
-              ),
-              !isDefault && (
-                <ClickableText
-                  size='small'
-                  onClick={onSetArchived}
-                  data-e2e='btcArchiveWalletLink'
-                >
-                  <FormattedMessage
-                    id='scenes.settings.manage_addresses.archive'
-                    defaultMessage='Archive'
-                  />
-                </ClickableText>
+                <React.Fragment>
+                  <ClickableText
+                    size='small'
+                    onClick={this.onMakeDefault}
+                    data-e2e='btcMakeWalletDefaultLink'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.manage_addresses.make_default'
+                      defaultMessage='Make Default'
+                    />
+                  </ClickableText>
+                  <ClickableText
+                    size='small'
+                    onClick={this.onSetArchived}
+                    data-e2e='btcArchiveWalletLink'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.manage_addresses.archive'
+                      defaultMessage='Archive'
+                    />
+                  </ClickableText>
+                </React.Fragment>
               ),
               <ClickableText
                 size='small'
-                onClick={onShowXPub}
+                onClick={this.onShowXPub}
                 data-e2e='btcShowWalletXpubLink'
               >
                 <FormattedMessage
@@ -204,7 +273,12 @@ class UnusedAddressesContainer extends React.PureComponent {
           ? null
           : unusedAddresses.cata({
               Success: unusedAddresses => (
-                <UnusedAddresses {...props} unusedAddresses={unusedAddresses} />
+                <UnusedAddresses
+                  search={search}
+                  onDeleteLabel={this.onDeleteLabel}
+                  onEditLabel={this.onEditLabel}
+                  unusedAddresses={unusedAddresses}
+                />
               ),
               Failure: () => <div />,
               Loading: () => (
@@ -219,7 +293,7 @@ class UnusedAddressesContainer extends React.PureComponent {
         <IconButton
           style={{ marginTop: 15 }}
           name='plus'
-          onClick={() => onGenerateNextAddress()}
+          onClick={this.onGenerateNextAddress}
           data-e2e='btcAddNextAddressButton'
         >
           <FormattedMessage
@@ -233,29 +307,39 @@ class UnusedAddressesContainer extends React.PureComponent {
 }
 
 UnusedAddressesContainer.propTypes = {
-  walletIndex: PropTypes.number
+  derivation: PropTypes.string.isRequired,
+  walletIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const { derivation, walletIndex } = ownProps
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(
-    ownProps.walletIndex
+    walletIndex
   )
   const isDefault =
-    parseInt(ownProps.walletIndex) ===
+    parseInt(walletIndex) ===
     Types.HDWallet.selectDefaultAccountIdx(
       Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
     )
   const unusedAddresses = selectors.components.manageAddresses.getWalletUnusedAddresses(
     state,
-    ownProps.walletIndex
+    walletIndex,
+    derivation
   )
-  const currentReceiveIndex = selectors.core.data.btc.getReceiveIndex(
-    account.xpub,
-    state
-  )
-  const search = formValueSelector('manageAddresses')(state, 'search')
 
-  return { account, isDefault, currentReceiveIndex, unusedAddresses, search }
+  return {
+    accountIndex: prop('index', account),
+    accountLabel: prop('label', account),
+    hasLegacyDerivation: any(
+      propEq('type', 'legacy'),
+      prop('derivations', account.toJS())
+    ),
+    isDefault,
+    unusedAddresses,
+    search: formValueSelector('manageAddresses')(state, 'search'),
+    xpub: Types.HDAccount.selectXpub(account, derivation)
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

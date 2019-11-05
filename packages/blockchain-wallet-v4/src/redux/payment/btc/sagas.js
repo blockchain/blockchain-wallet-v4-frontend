@@ -1,34 +1,34 @@
-import { call, select } from 'redux-saga/effects'
-import { merge, zip, prop, map, identity, isNil, isEmpty } from 'ramda'
-import Task from 'data.task'
-
-import * as S from '../../selectors'
-import { btc } from '../../../signer'
-import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
-import settingsSagaFactory from '../../../redux/settings/sagas'
-import {
-  privateKeyStringToKey,
-  detectPrivateKeyFormat
-} from '../../../utils/btc'
-import { futurizeP } from 'futurize'
-import {
-  isString,
-  isPositiveNumber,
-  isPositiveInteger
-} from '../../../utils/checks'
+import * as CoinSelection from '../../../coinSelection'
+import * as S from '../../selectors'
 import {
   ADDRESS_TYPES,
-  toCoin,
-  isValidAddressOrIndex,
-  toOutput,
+  fromAccount,
   fromLegacy,
   fromLegacyList,
-  fromAccount,
+  fromLockbox,
   fromPrivateKey,
-  fromLockbox
+  isValidAddressOrIndex,
+  toCoin,
+  toOutput
 } from './utils'
+import { btc } from '../../../signer'
+import { call, select } from 'redux-saga/effects'
+import {
+  detectPrivateKeyFormat,
+  privateKeyStringToKey
+} from '../../../utils/btc'
 import { FETCH_FEES_FAILURE } from '../model'
+import { futurizeP } from 'futurize'
+import { identity, isEmpty, isNil, map, merge, prop, zip } from 'ramda'
+import {
+  isPositiveInteger,
+  isPositiveNumber,
+  isString
+} from '../../../utils/checks'
+import settingsSagaFactory from '../../../redux/settings/sagas'
+import Task from 'data.task'
+
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -49,7 +49,7 @@ export default ({ api }) => {
   const __pushBtcTx = futurizeP(Task)(api.pushBtcTx)
   const __getWalletUnspent = (network, fromData) =>
     api
-      .getBtcUnspents(fromData.from, -1)
+      .getBtcUnspents(fromData.from, 0, fromData.extras)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 

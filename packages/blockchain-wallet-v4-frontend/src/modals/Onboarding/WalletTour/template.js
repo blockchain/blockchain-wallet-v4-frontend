@@ -1,13 +1,13 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
   Image,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 

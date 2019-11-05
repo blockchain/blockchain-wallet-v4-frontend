@@ -30,9 +30,9 @@ export const fetchRatesFailure = error => ({
 })
 
 // FETCH_BCH_TRANSACTIONS
-export const fetchTransactions = (address, reset) => ({
+export const fetchTransactions = (onlyShow, reset) => ({
   type: AT.FETCH_BCH_TRANSACTIONS,
-  payload: { address, reset }
+  payload: { onlyShow, reset }
 })
 export const fetchTransactionsLoading = reset => ({
   type: AT.FETCH_BCH_TRANSACTIONS_LOADING,

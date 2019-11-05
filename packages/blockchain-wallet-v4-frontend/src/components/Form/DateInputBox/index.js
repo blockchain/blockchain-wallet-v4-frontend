@@ -1,14 +1,14 @@
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { replace } from 'ramda'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import moment from 'moment'
-import { replace } from 'ramda'
-import { FormattedMessage, injectIntl } from 'react-intl'
 
 import media from 'services/ResponsiveService'
 
 import { Text } from 'blockchain-info-components'
-import SelectBox from '../SelectBox'
 import NumberBox from '../NumberBox'
+import SelectBox from '../SelectBox'
 
 const Container = styled.div`
   position: relative;

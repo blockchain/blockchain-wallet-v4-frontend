@@ -1,9 +1,9 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { assoc } from 'ramda'
 import { ChartContainer } from './index'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { shallow } from 'enzyme'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 jest.mock('./template.success', () => 'template.na.js.success')
 jest.mock('./template.error', () => 'template.na.js.error')
 jest.mock('./template.loading', () => 'template.na.js.loading')

@@ -1,6 +1,6 @@
+import * as actions from './actions'
 import { assoc } from 'ramda'
 import reducer from './reducers'
-import * as actions from './actions'
 
 const INITIAL_STATE = {}
 

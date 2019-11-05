@@ -1,15 +1,14 @@
-import React from 'react'
+import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { equals } from 'ramda'
 import { withRouter } from 'react-router-dom'
-
-import UpdateRequiredNotice from './UpdateRequiredNotice'
-import Transactions from './Transactions'
-import Settings from './Settings'
-import { actions, selectors } from 'data'
 import Menu from './Menu'
+import React from 'react'
+import Settings from './Settings'
+import styled from 'styled-components'
+import Transactions from './Transactions'
+import UpdateRequiredNotice from './UpdateRequiredNotice'
 
 const Wrapper = styled.div`
   height: 100%;

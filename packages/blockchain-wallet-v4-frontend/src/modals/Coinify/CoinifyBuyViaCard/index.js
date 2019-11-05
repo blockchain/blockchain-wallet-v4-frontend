@@ -1,8 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -11,8 +11,8 @@ import {
   Button,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 

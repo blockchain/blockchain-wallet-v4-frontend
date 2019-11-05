@@ -1,17 +1,26 @@
-import { compose, map, curry, ifElse, always, isNil, prop } from 'ramda'
 import {
-  Wallet,
-  Wrapper,
-  HDAccount,
   Address,
-  HDWalletList,
+  AddressMap,
+  HDAccount,
   HDWallet,
+  HDWalletList,
   Options,
-  AddressMap
+  Wallet,
+  Wrapper
 } from '../../types'
+import {
+  always,
+  compose,
+  curry,
+  flatten,
+  ifElse,
+  isNil,
+  map,
+  prop
+} from 'ramda'
 import { walletPath } from '../paths'
 
-const ImtoJS = i => i.toJS()
+const intoJS = i => i.toJS()
 export const getWrapper = prop(walletPath)
 export const getWallet = compose(
   Wrapper.selectWallet,
@@ -23,37 +32,42 @@ export const getDefaultHDWallet = compose(
   getWallet
 )
 export const getWalletContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectContext,
   getWallet
 )
+export const getContextGrouped = compose(
+  Wallet.selectContextGrouped,
+  getWallet
+)
 export const getContext = compose(
-  ImtoJS,
+  flatten,
+  intoJS,
   Wallet.selectContext,
   getWallet
 )
 export const getSpendableContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectSpendableContext,
   getWallet
 )
 export const getSpendableAddrContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectSpendableAddrContext,
   getWallet
 )
 export const getUnspendableContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectUnspendableContext,
   getWallet
 )
 export const getAddressContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectAddrContext,
   getWallet
 )
 export const getXpubsContext = compose(
-  ImtoJS,
+  intoJS,
   Wallet.selectXpubsContext,
   getWallet
 )
@@ -66,27 +80,27 @@ export const getGuid = compose(
   getWallet
 )
 export const getAddresses = compose(
-  ImtoJS,
+  intoJS,
   map(Address.toJS),
   Wallet.selectAddresses,
   getWallet
 )
 export const getActiveAddresses = compose(
-  ImtoJS,
+  intoJS,
   map(Address.toJS),
   AddressMap.selectActive,
   Wallet.selectAddresses,
   getWallet
 )
 export const getArchivedAddresses = compose(
-  ImtoJS,
+  intoJS,
   map(Address.toJS),
   AddressMap.selectArchived,
   Wallet.selectAddresses,
   getWallet
 )
 export const getHDAccounts = compose(
-  ImtoJS,
+  intoJS,
   map(HDAccount.toJSwithIndex),
   Wallet.selectHDAccounts,
   getWallet
@@ -143,8 +157,7 @@ export const getDefaultAccountXpub = state =>
   getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({
   guid: getGuid(state),
-  addresses: getAddressContext(state),
-  xpubs: getWalletContext(state)
+  context: getContextGrouped(state)
 })
 export const getLogoutTime = compose(
   Options.selectLogoutTime,
@@ -184,5 +197,9 @@ export const getAddress = curry((address, state) =>
 )
 export const shouldSyncPubKeys = compose(
   Wrapper.selectSyncPubKeys,
+  getWrapper
+)
+export const isWrapperLatestVersion = compose(
+  Wrapper.isLatestVersion,
   getWrapper
 )

@@ -1,9 +1,9 @@
 import { and, compose, head, last, prop } from 'ramda'
-import { put, select, call } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
-import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
+import { actions, selectors } from 'data'
 import { configEquals, splitPair } from './model'
 
 export default ({ api }) => {

@@ -1,17 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  ModalHeader
 } from 'blockchain-info-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { RadioButton, Form } from 'components/Form'
-import ImportInternalBtcAddress from './ImportInternalBtcAddress'
+import { Form, RadioButton } from 'components/Form'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import ImportExternalBtcAddress from './ImportExternalBtcAddress'
+import ImportInternalBtcAddress from './ImportInternalBtcAddress'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   font-weight: 400;

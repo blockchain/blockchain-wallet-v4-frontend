@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import AutosizeInput from 'react-input-autosize'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseTextInput = styled(AutosizeInput).attrs({
   type: 'text',

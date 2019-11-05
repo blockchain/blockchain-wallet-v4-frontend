@@ -1,6 +1,6 @@
-import Remote from '../../remote'
 import * as AT from './actionTypes'
 import { assoc, compose } from 'ramda'
+import Remote from '../../remote'
 
 const INITIAL_STATE = Remote.NotAsked
 

@@ -1,7 +1,7 @@
+import EmailAddress from './EmailAddress'
 import React from 'react'
 import styled from 'styled-components'
 
-import EmailAddress from './EmailAddress'
 import TwoStepVerification from './TwoStepVerification'
 import WalletRecoveryPhrase from './WalletRecoveryPhrase'
 

@@ -1,16 +1,16 @@
+import * as C from './config'
 import { combineReducers } from 'redux'
-import whatsNew from './whatsNew/reducers'
-import eth from './eth/reducers'
-import shapeShift from './shapeShift/reducers'
-import buySell from './buySell/reducers'
-import contacts from './contacts/reducers'
-import root from './root/reducers'
 import bch from './bch/reducers'
 import btc from './btc/reducers'
+import buySell from './buySell/reducers'
+import contacts from './contacts/reducers'
+import eth from './eth/reducers'
 import lockbox from './lockbox/reducers'
+import root from './root/reducers'
+import shapeShift from './shapeShift/reducers'
 import userCredentials from './userCredentials/reducers'
+import whatsNew from './whatsNew/reducers'
 import xlm from './xlm/reducers'
-import * as C from './config'
 
 const kvStoreReducer = combineReducers({
   [C.ROOT]: root,

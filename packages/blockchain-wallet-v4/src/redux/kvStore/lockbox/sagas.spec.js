@@ -1,12 +1,12 @@
-import * as Bitcoin from 'bitcoinjs-lib'
-import { testSaga } from 'redux-saga-test-plan'
-import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
-import { derivationMap, LOCKBOX } from '../config'
 import * as A from './actions'
-import lockbox from './sagas'
+import * as Bitcoin from 'bitcoinjs-lib'
+import { derivationMap, LOCKBOX } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
+import { testSaga } from 'redux-saga-test-plan'
 import { walletV3 } from '../../../../data'
+import lockbox from './sagas'
 
 const api = {
   fetchKVStore: () => {}
@@ -26,7 +26,8 @@ const mockKvStoreEntry = KVStoreEntry.fromMetadataXpriv(
 )
 
 const mockNewLockboxEntry = {
-  devices: []
+  devices: [],
+  version: 4
 }
 
 const newkv = set(KVStoreEntry.value, mockNewLockboxEntry, mockKvStoreEntry)

@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
+import { LoadingBalance } from 'components/Balances'
 import Error from './template.error'
 import Success from './template.success'
-import { LoadingBalance } from 'components/Balances'
 
 class EthLockboxBalance extends React.PureComponent {
   constructor (props) {

@@ -1,23 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import LinkAccount from '../LinkAccount'
-import { find, path, propEq } from 'ramda'
-import Bowser from 'bowser'
-
-import Modals from 'modals'
-import { required, validWalletId } from 'services/FormHelper'
 import {
   Banner,
   Button,
+  HeartbeatLoader,
   Link,
   Text,
-  TextGroup,
-  HeartbeatLoader
+  TextGroup
 } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { find, path, propEq } from 'ramda'
 import {
   Form,
   FormError,
@@ -27,13 +17,22 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { required, validWalletId } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
+import Bowser from 'bowser'
+import LinkAccount from '../LinkAccount'
+import Modals from 'modals'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
   chrome: '>45',
   chromium: '>45',
-  edge: '>40',
+  edge: '>16',
   firefox: '>45',
   opera: '>20',
   safari: '>8',
@@ -108,7 +107,9 @@ const Login = props => {
   const guidError =
     loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError =
-    loginError && loginError.toLowerCase().includes('wrong_wallet_password')
+    loginError &&
+    (loginError.toLowerCase().includes('wrong_wallet_password') ||
+      loginError.includes('Unsupported state or unable to authenticate data'))
   const twoFactorError =
     loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked =

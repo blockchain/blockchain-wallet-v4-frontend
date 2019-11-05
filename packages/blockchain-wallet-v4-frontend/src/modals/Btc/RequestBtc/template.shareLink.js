@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import bip21 from 'bip21'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Button, Text, TextGroup } from 'blockchain-info-components'
-import CopyClipboard from 'components/CopyClipboard'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import QRCodeWrapper from 'components/QRCodeWrapper'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import CopyClipboard from 'components/CopyClipboard'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 const Details = styled.div`
   width: 100%;

@@ -1,15 +1,15 @@
 import React from 'react'
 
-import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
-import BchWatchOnlyBalance from './BchWatchOnlyBalance'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import {
-  Wrapper,
   BalancesWrapper,
   Header,
-  HeaderText
+  HeaderText,
+  Wrapper
 } from 'components/Balances'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import BchWatchOnlyBalance from './BchWatchOnlyBalance'
+import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
 
 const Template = props => (
   <Wrapper>

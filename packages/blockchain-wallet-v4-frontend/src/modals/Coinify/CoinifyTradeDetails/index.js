@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import { Modal } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
 
 import BankTransfer from './BankTransfer'
 import Trade from './Trade'

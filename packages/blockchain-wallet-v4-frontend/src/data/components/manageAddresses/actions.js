@@ -1,92 +1,122 @@
 import * as AT from './actionTypes'
 
 // UNUSED ADDRESSES
-export const deleteAddressLabel = (accountIdx, walletIdx, addressIdx) => ({
+export const deleteAddressLabel = (
+  accountIdx,
+  walletIdx,
+  addressIdx,
+  derivation
+) => ({
   type: AT.DELETE_ADDRESS_LABEL,
-  payload: { accountIdx, walletIdx, addressIdx }
+  payload: { accountIdx, addressIdx, derivation, walletIdx }
 })
-export const deleteAddressLabelError = (walletIndex, message) => ({
+export const deleteAddressLabelError = (walletIndex, derivation, message) => ({
   type: AT.DELETE_ADDRESS_LABEL_ERROR,
-  payload: { walletIndex, message }
+  payload: { derivation, message, walletIndex }
 })
-export const deleteAddressLabelLoading = walletIndex => ({
+export const deleteAddressLabelLoading = (walletIndex, derivation) => ({
   type: AT.DELETE_ADDRESS_LABEL_LOADING,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const deleteAddressLabelSuccess = walletIndex => ({
+export const deleteAddressLabelSuccess = (walletIndex, derivation) => ({
   type: AT.DELETE_ADDRESS_LABEL_SUCCESS,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
 
-export const editAddressLabel = (accountIndex, walletIndex, addressIndex) => ({
+export const editAddressLabel = (
+  accountIndex,
+  walletIndex,
+  derivation,
+  addressIndex
+) => ({
   type: AT.EDIT_ADDRESS_LABEL,
-  payload: { accountIndex, walletIndex, addressIndex }
+  payload: { accountIndex, addressIndex, derivation, walletIndex }
 })
-export const editAddressLabelError = (walletIndex, message) => ({
+export const editAddressLabelError = (walletIndex, derivation, message) => ({
   type: AT.EDIT_ADDRESS_LABEL_ERROR,
-  payload: { walletIndex, message }
+  payload: { derivation, message, walletIndex }
 })
-export const editAddressLabelLoading = walletIndex => ({
+export const editAddressLabelLoading = (walletIndex, derivation) => ({
   type: AT.EDIT_ADDRESS_LABEL_LOADING,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const editAddressLabelSuccess = walletIndex => ({
+export const editAddressLabelSuccess = (walletIndex, derivation) => ({
   type: AT.EDIT_ADDRESS_LABEL_SUCCESS,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
 
-export const generateNextReceiveAddress = walletIndex => ({
+export const generateNextReceiveAddress = (walletIndex, derivation) => ({
   type: AT.GENERATE_NEXT_RECEIVE_ADDRESS,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const generateNextReceiveAddressError = (walletIndex, message) => ({
+export const generateNextReceiveAddressError = (
+  walletIndex,
+  derivation,
+  message
+) => ({
   type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_ERROR,
-  payload: { walletIndex, message }
+  payload: { derivation, message, walletIndex }
 })
-export const generateNextReceiveAddressLoading = walletIndex => ({
+export const generateNextReceiveAddressLoading = (walletIndex, derivation) => ({
   type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_LOADING,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const generateNextReceiveAddressSuccess = (walletIndex, newAddress) => ({
+export const generateNextReceiveAddressSuccess = (
+  walletIndex,
+  derivation,
+  newAddress
+) => ({
   type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_SUCCESS,
-  payload: { walletIndex, newAddress }
+  payload: { derivation, newAddress, walletIndex }
 })
 
-export const fetchUnusedAddresses = walletIndex => ({
+export const fetchUnusedAddresses = (walletIndex, derivation) => ({
   type: AT.FETCH_UNUSED_ADDRESSES,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const fetchUnusedAddressesError = (walletIndex, message) => ({
+export const fetchUnusedAddressesError = (
+  walletIndex,
+  derivation,
+  message
+) => ({
   type: AT.FETCH_UNUSED_ADDRESSES_ERROR,
-  payload: { walletIndex, message }
+  payload: { derivation, message, walletIndex }
 })
-export const fetchUnusedAddressesLoading = walletIndex => ({
+export const fetchUnusedAddressesLoading = (walletIndex, derivation) => ({
   type: AT.FETCH_UNUSED_ADDRESSES_LOADING,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const fetchUnusedAddressesSuccess = (walletIndex, unusedAddresses) => ({
+export const fetchUnusedAddressesSuccess = (
+  walletIndex,
+  derivation,
+  unusedAddresses
+) => ({
   type: AT.FETCH_UNUSED_ADDRESSES_SUCCESS,
-  payload: { walletIndex, unusedAddresses }
+  payload: { derivation, walletIndex, unusedAddresses }
 })
 
 // USED ADDRESSES
-export const toggleUsedAddresses = (walletIndex, visible) => ({
+export const toggleUsedAddresses = (walletIndex, derivation, visible) => ({
   type: AT.TOGGLE_USED_ADDRESSES,
-  payload: { walletIndex, visible }
+  payload: { derivation, walletIndex, visible }
 })
-export const fetchUsedAddresses = walletIndex => ({
+export const fetchUsedAddresses = (walletIndex, derivation) => ({
   type: AT.FETCH_USED_ADDRESSES,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const fetchUsedAddressesError = (walletIndex, message) => ({
+export const fetchUsedAddressesError = (walletIndex, derivation, message) => ({
   type: AT.FETCH_USED_ADDRESSES_ERROR,
-  payload: { walletIndex, message }
+  payload: { derivation, message, walletIndex }
 })
-export const fetchUsedAddressesLoading = walletIndex => ({
+export const fetchUsedAddressesLoading = (walletIndex, derivation) => ({
   type: AT.FETCH_USED_ADDRESSES_LOADING,
-  payload: { walletIndex }
+  payload: { derivation, walletIndex }
 })
-export const fetchUsedAddressesSuccess = (walletIndex, usedAddresses) => ({
+export const fetchUsedAddressesSuccess = (
+  walletIndex,
+  derivation,
+  usedAddresses
+) => ({
   type: AT.FETCH_USED_ADDRESSES_SUCCESS,
-  payload: { walletIndex, usedAddresses }
+  payload: { derivation, walletIndex, usedAddresses }
 })

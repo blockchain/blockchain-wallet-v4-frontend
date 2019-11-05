@@ -1,91 +1,49 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 import {
   Button,
-  Carousel,
-  Image,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
   Text
 } from 'blockchain-info-components'
 
-const Slide = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  margin: 0 40px;
-
-  & > :first-child {
-    margin-bottom: 20px;
-  }
-`
+import { Form } from 'components/Form'
 
 const UpgradeWallet = props => {
-  const { position, total, ...rest } = props
-  const { handleContinue } = rest
+  const { isDoubleEncrypted, position, total, ...rest } = props
+  const { handleSubmit } = rest
 
   return (
-    <Modal size='large' position={position} total={total}>
-      <ModalHeader closeButton={false}>
-        <FormattedMessage
-          id='modals.upgradewallet.title'
-          defaultMessage='Welcome to your Blockchain Wallet!'
-        />
-      </ModalHeader>
-      <ModalBody>
-        <Carousel height={300} auto>
-          <Slide>
-            <Text size='18px' weight={400}>
+    <Modal size='small' position={position} total={total}>
+      <Form onSubmit={handleSubmit}>
+        <ModalBody style={{ textAlign: 'center' }}>
+          <Text size='16px' weight={600}>
+            <FormattedMessage
+              id='modals.upgradewallet.upgradingtolatest'
+              defaultMessage='Upgrade your Wallet to our latest version.'
+            />
+          </Text>
+          {isDoubleEncrypted && (
+            <Text size='14px' weight={600}>
+              <br />
               <FormattedMessage
-                id='modals.upgradewallet.title1'
-                defaultMessage='Completely updated design and user experience'
+                id='modals.upgradewallet.secpass'
+                defaultMessage='Please have your Second Password handy.'
               />
             </Text>
-            <Image name='wallet-v3-new-design' width='100%' />
-          </Slide>
-          <Slide>
-            <Text size='20px' weight={400}>
-              <FormattedMessage
-                id='modals.upgradewallet.title2'
-                defaultMessage='Robust security center'
-              />
-            </Text>
-            <Image name='wallet-v3-security-upgrade' width='100%' />
-          </Slide>
-          <Slide>
-            <Text size='20px' weight={400}>
-              <FormattedMessage
-                id='modals.upgradewallet.title3'
-                defaultMessage='Simplified backup and recovery'
-              />
-            </Text>
-            <Image name='wallet-v3-backup' width='100%' />
-          </Slide>
-          <Slide>
-            <Text size='20px' weight={400}>
-              <FormattedMessage
-                id='modals.upgradewallet.title4'
-                defaultMessage='Customized fund management'
-              />
-            </Text>
-            <Image name='wallet-v3-fund-management' width='100%' />
-          </Slide>
-        </Carousel>
-      </ModalBody>
-      <ModalFooter align='right'>
-        <Button nature='primary' onClick={handleContinue}>
-          <FormattedMessage
-            id='modals.upgradewallet.continue'
-            defaultMessage='Continue'
-          />
-        </Button>
-      </ModalFooter>
+          )}
+        </ModalBody>
+        <ModalFooter align='right'>
+          <Button nature='primary' type='submit' data-e2e='confirmUpgrade'>
+            <FormattedMessage
+              id='modals.upgradewallet.upgrade'
+              defaultMessage='Upgrade'
+            />
+          </Button>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 }

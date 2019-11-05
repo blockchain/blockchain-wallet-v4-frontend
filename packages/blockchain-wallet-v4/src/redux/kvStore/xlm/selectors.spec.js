@@ -1,7 +1,6 @@
-import { prop } from 'ramda'
-
-import Remote from '../../../remote'
 import * as selectors from './selectors'
+import { prop } from 'ramda'
+import Remote from '../../../remote'
 
 describe('kvstore stellar selectors', () => {
   const accounts = [

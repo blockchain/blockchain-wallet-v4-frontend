@@ -1,7 +1,7 @@
-import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { length, lift, prop } from 'ramda'
 import { filterAnnouncements } from 'services/WhatsNewService/WhatsNewContent'
+import { length, lift, prop } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

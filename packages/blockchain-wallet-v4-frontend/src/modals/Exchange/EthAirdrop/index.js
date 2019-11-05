@@ -1,11 +1,10 @@
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 
 import { actions, model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Button,
   Image,
@@ -14,6 +13,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const { ETH_AIRDROP_MODAL, RESULTS_MODAL } = model.components.exchangeHistory
 

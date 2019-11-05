@@ -1,14 +1,14 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import {
   currentUserTier,
   getAvailability,
   getCanBuyBtc,
   getDomains
 } from './selectors'
+import PropTypes from 'prop-types'
+import React from 'react'
 import Welcome from './template'
 import WelcomePax from './template.pax'
 

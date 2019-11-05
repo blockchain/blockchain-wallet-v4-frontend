@@ -1,8 +1,7 @@
-import { over, set } from 'ramda-lens'
-import { compose } from 'ramda'
-
 import * as T from './actionTypes.js'
-import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
+import { compose } from 'ramda'
+import { HDWallet, HDWalletList, Options, Wallet, Wrapper } from '../../types'
+import { over, set } from 'ramda-lens'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(
   Wrapper.createNewReadOnly('', '')
@@ -58,18 +57,18 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       return set(Wrapper.password, password, state)
     }
     case T.SET_HD_ADDRESS_LABEL: {
-      let { accountIdx, addressIdx, label } = action.payload
+      let { accountIdx, addressIdx, derivationType, label } = action.payload
       return over(
         Wrapper.wallet,
-        Wallet.setHdAddressLabel(accountIdx, addressIdx, label),
+        Wallet.setHdAddressLabel(accountIdx, addressIdx, derivationType, label),
         state
       )
     }
     case T.DELETE_HD_ADDRESS_LABEL: {
-      const { accountIdx, addressIdx } = action.payload
+      const { accountIdx, addressIdx, derivationType } = action.payload
       return over(
         Wrapper.wallet,
-        Wallet.deleteHdAddressLabel(accountIdx, addressIdx),
+        Wallet.deleteHdAddressLabel(accountIdx, addressIdx, derivationType),
         state
       )
     }

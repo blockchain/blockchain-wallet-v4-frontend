@@ -1,11 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-
-import media from 'services/ResponsiveService'
-import { model } from 'data'
 import {
   Button,
   Image,
@@ -13,6 +5,13 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { model } from 'data'
+import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   padding-top: 20px;

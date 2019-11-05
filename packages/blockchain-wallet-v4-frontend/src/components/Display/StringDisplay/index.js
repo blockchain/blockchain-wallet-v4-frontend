@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import { propOr } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Remote } from 'blockchain-wallet-v4'
 

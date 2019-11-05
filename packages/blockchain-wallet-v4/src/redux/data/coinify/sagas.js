@@ -1,13 +1,12 @@
-import { apply, call, delay, put, select } from 'redux-saga/effects'
-
-import ExchangeDelegate from '../../../exchange/delegate'
 import * as A from './actions'
+import * as buySellA from '../../kvStore/buySell/actions'
+import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as S from './selectors'
 import * as walletActions from '../../wallet/actions'
-import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import { apply, call, delay, put, select } from 'redux-saga/effects'
 import { coinifyService } from '../../../exchange/service'
-import * as buySellA from '../../kvStore/buySell/actions'
-import { equals, head, prop, sort, path } from 'ramda'
+import { equals, head, path, prop, sort } from 'ramda'
+import ExchangeDelegate from '../../../exchange/delegate'
 import settingsSagaFactory from '../../settings/sagas'
 
 export default ({ api }) => {
@@ -290,6 +289,7 @@ export default ({ api }) => {
         walletActions.setHdAddressLabel(
           addressData.accountIndex,
           addressData.index,
+          addressData.derivationType,
           `Coinify order #${id}`
         )
       )

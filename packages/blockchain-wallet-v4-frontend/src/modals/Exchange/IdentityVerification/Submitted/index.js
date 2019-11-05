@@ -1,10 +1,10 @@
-import React from 'react'
-import { reduxForm } from 'redux-form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
 import CopyToClipBoard from 'react-copy-to-clipboard'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions, model, selectors } from 'data'
 import {
@@ -12,8 +12,8 @@ import {
   HeartbeatLoader,
   Icon,
   Link,
-  TooltipHost,
-  Text
+  Text,
+  TooltipHost
 } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { IdentityVerificationForm } from 'components/IdentityVerification'

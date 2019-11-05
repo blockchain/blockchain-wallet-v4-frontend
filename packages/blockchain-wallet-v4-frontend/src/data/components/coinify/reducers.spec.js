@@ -1,7 +1,7 @@
+import * as actions from './actions'
 import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import reducer from './reducers'
-import * as actions from './actions'
 
 const INITIAL_STATE = {
   checkoutBusy: false,

@@ -1,7 +1,7 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
-import { mount } from 'enzyme'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
 import { init, last } from 'ramda'
+import { mount } from 'enzyme'
+import React from 'react'
 
 import { actions, actionTypes } from 'data'
 import profileReducer from 'data/modules/profile/reducers'

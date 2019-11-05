@@ -1,10 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { path } from 'ramda'
-
-import WalletRecoveryPhrase from './template'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { path } from 'ramda'
+import React from 'react'
+import WalletRecoveryPhrase from './template'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   state = { nextStepToggled: false, descriptionToggled: false }

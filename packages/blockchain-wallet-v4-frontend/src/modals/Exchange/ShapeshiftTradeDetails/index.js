@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import { getData } from './selectors'
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
+import modalEnhancer from 'providers/ModalEnhancer'
 import Success from './template.success'
 
 class ShapeshiftTradeDetailsContainer extends React.PureComponent {

@@ -1,9 +1,9 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import React from 'react'
 
 import { getData } from '../selectors'
-import Success from './template.success'
 import { LoadingBalance } from 'components/Balances'
+import Success from './template.success'
 
 class SfoxPendingBalance extends React.PureComponent {
   render () {

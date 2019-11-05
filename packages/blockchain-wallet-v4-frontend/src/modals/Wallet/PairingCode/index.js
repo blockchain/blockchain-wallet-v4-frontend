@@ -1,22 +1,22 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { getData } from './selectors'
 import { actions } from 'data'
-import Error from './template.error'
-import Loading from './template.loading'
-import Success from './template.success'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import { bindActionCreators, compose } from 'redux'
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  ModalHeader
 } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
 import modalEnhancer from 'providers/ModalEnhancer'
+import Success from './template.success'
 
 const QRCodeContainer = styled.div`
   display: flex;

@@ -1,19 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
+import React from 'react'
+import styled from 'styled-components'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model } from 'data'
-import { getData } from './selectors'
 import {
   BlockchainLoader,
   Modal,
   ModalBody,
   ModalHeader
 } from 'blockchain-info-components'
+import { getData } from './selectors'
 import DataError from 'components/DataError'
 import ExchangeConfirm from './template'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const { CONFIRM_MODAL } = model.components.exchange
 

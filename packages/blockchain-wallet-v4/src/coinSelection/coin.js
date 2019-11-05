@@ -1,21 +1,9 @@
-import {
-  curry,
-  is,
-  clamp,
-  split,
-  length,
-  add,
-  compose,
-  sort,
-  ifElse,
-  always,
-  complement,
-  tryCatch
-} from 'ramda'
-import { over, view } from 'ramda-lens'
-import { inputComparator, sortOutputs } from 'bip69'
-import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/btc'
+import { clamp, curry, is, length, sort, split } from 'ramda'
+import { inputComparator, sortOutputs } from 'bip69'
+import { IO_TYPES } from './'
+import { over, view } from 'ramda-lens'
+import Type from '../types/Type'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -47,6 +35,20 @@ export class Coin extends Type {
   }
   isFromLegacy () {
     return !this.isFromAccount()
+  }
+  type () {
+    try {
+      switch (this.address[0]) {
+        case '1':
+          return 'P2PKH'
+        case '3':
+          return 'P2SH-P2WPKH'
+        default:
+          return 'P2PKH'
+      }
+    } catch (e) {
+      return 'P2PKH'
+    }
   }
 }
 
@@ -86,25 +88,12 @@ export const fromJS = (o, network) => {
 export const empty = new Coin({ value: 0 })
 
 export const inputBytes = input => {
-  // const coin = isCoin(input) ? input : new Coin(input)
-  // return TX_INPUT_BASE + (isNil(coin.script) ? TX_INPUT_PUBKEYHASH : coin.script.length)
-  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
+  return Math.ceil(IO_TYPES.inputs[input.type ? input.type() : 'P2PKH'] / 4)
 }
 
-export const outputBytes = ifElse(
-  complement(isCoin),
-  always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
-  compose(
-    add(TX_OUTPUT_BASE),
-    tryCatch(
-      compose(
-        s => s.length,
-        selectScript
-      ),
-      always(TX_OUTPUT_PUBKEYHASH)
-    )
-  )
-)
+export const outputBytes = output => {
+  return Math.ceil(IO_TYPES.outputs[output.type ? output.type() : 'P2PKH'] / 4)
+}
 
 export const effectiveValue = curry((feePerByte, coin) =>
   clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin))

@@ -2,12 +2,12 @@ import {
   compose,
   curry,
   find,
-  head,
   findIndex,
-  propEq,
+  head,
+  mapObjIndexed,
   path,
   prop,
-  mapObjIndexed,
+  propEq,
   toLower,
   values
 } from 'ramda'

@@ -1,6 +1,5 @@
-import { ifElse } from 'ramda'
-
 import { getCoinFromPair } from 'services/ShapeshiftService'
+import { ifElse } from 'ramda'
 import { model } from 'data'
 
 const {

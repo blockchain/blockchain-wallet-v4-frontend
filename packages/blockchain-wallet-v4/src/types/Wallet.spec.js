@@ -1,9 +1,10 @@
-import * as R from 'ramda'
-import { Address, Wallet, AddressMap, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
+import * as R from 'ramda'
+import { Address, AddressMap, serializer, Wallet } from './index'
 
-const walletFixture = require('./__mocks__/wallet.v3')
-const walletFixtureSecpass = require('./__mocks__/wallet.v3-secpass')
+const walletFixture = require('./__mocks__/wallet.v4')
+const walletFixtureSecpass = require('./__mocks__/wallet.v4-secpass')
+const walletFixtureV3 = require('./__mocks__/wallet.v3')
 const secpass = 'secret'
 
 describe('Wallet', () => {
@@ -11,6 +12,12 @@ describe('Wallet', () => {
   const walletSecpass = Wallet.fromJS(walletFixtureSecpass)
 
   crypto.encryptDataWithKey = (data, key, iv) => (data ? `enc<${data}>` : null)
+
+  describe('fromJS', () => {
+    it('should migrate a wallet from v3 to v4 format', () => {
+      expect(Wallet.fromJS(walletFixtureV3)).toEqual(wallet)
+    })
+  })
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -63,6 +70,7 @@ describe('Wallet', () => {
         0,
         undefined,
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),
@@ -88,6 +96,7 @@ describe('Wallet', () => {
         0,
         'secret',
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),

@@ -1,10 +1,9 @@
-import React from 'react'
 import { actions } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
-
+import { connect } from 'react-redux'
 import AddDevice from './template'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 class AddDeviceContainer extends React.PureComponent {
   onClick = () => {

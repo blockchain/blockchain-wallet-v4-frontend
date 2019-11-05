@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import { actionTypes } from 'data'
 import * as AT from './actionTypes'
+import { actionTypes } from 'data'
 import sagas from './exchange.sagas'
 
 export default ({ api, coreSagas, networks }) => {

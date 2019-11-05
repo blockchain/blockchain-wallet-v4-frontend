@@ -1,8 +1,8 @@
-import { testSaga } from 'redux-saga-test-plan'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { actions } from 'data'
-import sagas from './sagas.js'
 import * as Bitcoin from 'bitcoinjs-lib'
+import { actions } from 'data'
+import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import { testSaga } from 'redux-saga-test-plan'
+import sagas from './sagas.js'
 
 const api = {}
 const networks = { btc: Bitcoin.networks['bitcoin'] }
@@ -34,6 +34,7 @@ describe('importBtcAddress sagas', () => {
             'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB',
             null,
             null,
+            undefined,
             undefined
           )
       })
@@ -69,6 +70,7 @@ describe('importBtcAddress sagas', () => {
             '6PYKXJ9yisUdA8Qxv3H1bzrsxhMABYNgLTKvpvEFqMRYA1oyAmn9gvzF3W',
             null,
             null,
+            undefined,
             undefined
           )
       })

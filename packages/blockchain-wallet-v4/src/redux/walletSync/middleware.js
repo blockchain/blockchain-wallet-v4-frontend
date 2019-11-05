@@ -1,24 +1,23 @@
-import { futurizeP } from 'futurize'
-import Task from 'data.task'
+import * as A from '../actions'
+import * as selectors from '../selectors'
+import * as T from '../actionTypes'
 import {
-  compose,
   assoc,
-  join,
+  compose,
   curry,
-  range,
-  keysIn,
-  isNil,
-  pluck,
   filter,
+  isNil,
+  join,
+  keysIn,
+  pluck,
   propEq,
+  range,
   uniq
 } from 'ramda'
+import { futurizeP } from 'futurize'
+import { HDAccount, Wallet, Wrapper } from '../../types'
 import { networks } from 'bitcoinjs-lib'
-
-import * as A from '../actions'
-import * as T from '../actionTypes'
-import { Wrapper, Wallet, HDAccount } from '../../types'
-import * as selectors from '../selectors'
+import Task from 'data.task'
 
 /**
  * Number of addresses for each HD Account to sync with platform
@@ -65,9 +64,9 @@ export const getHDAccountAddressPromises = curry((state, account) => {
  * getWalletAddresses :: (state, api) -> Promise<String[]>
  */
 export const getUnusedLabeledAddresses = async (state, api) => {
-  const labeledAddresses = await api.fetchBlockchainData(
-    selectors.kvStore.btc.getAddressLabelKeys(state)
-  )
+  const labeledAddresses = await api.fetchBlockchainData({
+    addresses: selectors.kvStore.btc.getAddressLabelKeys(state)
+  })
   return compose(
     pluck('address'),
     filter(propEq('n_tx', 0))

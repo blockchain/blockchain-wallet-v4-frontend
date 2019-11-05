@@ -1,6 +1,6 @@
+import { actions, selectors } from 'data'
 import { call, put, select } from 'redux-saga/effects'
 import { contains } from 'ramda'
-import { actions, selectors } from 'data'
 
 export default () => {
   const refreshClicked = function * () {
@@ -37,7 +37,11 @@ export default () => {
           yield call(refreshXlmTransactions)
           break
         case contains('/lockbox/', pathname):
-          yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
+          yield put(
+            actions.components.lockbox.initializeDashboard(
+              pathname.split('/')[3]
+            )
+          )
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
@@ -57,11 +61,17 @@ export default () => {
   }
 
   const refreshBchTransactions = function * () {
-    yield put(actions.core.data.bch.fetchTransactions('', true))
+    const onlyShow = yield select(
+      selectors.components.bchTransactions.selectOnlyShow
+    )
+    yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
   }
 
   const refreshBtcTransactions = function * () {
-    yield put(actions.core.data.btc.fetchTransactions('', true))
+    const onlyShow = yield select(
+      selectors.components.btcTransactions.selectOnlyShow
+    )
+    yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
   }
 
   const refreshEthTransactions = function * () {

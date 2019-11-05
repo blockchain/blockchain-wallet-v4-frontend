@@ -1,37 +1,37 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { path } from 'ramda'
+import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
-import { CheckBox } from 'components/Form'
 import {
   Button,
   HeartbeatLoader,
-  Text,
+  Icon,
   Link,
-  Icon
+  Text
 } from 'blockchain-info-components'
-import renderFaq from 'components/FaqDropdown'
 import {
-  Form,
+  ButtonWrapper,
   ColLeft,
   ColRight,
+  ColRightInner,
+  ErrorWrapper,
+  FieldMimic,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  FieldMimic,
-  ButtonWrapper,
-  ErrorWrapper,
-  ColRightInner
+  PartnerSubHeader
 } from 'components/IdentityVerification'
+import { CheckBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import Terms from 'components/Terms'
 import media from 'services/ResponsiveService'
+import renderFaq from 'components/FaqDropdown'
+import Terms from 'components/Terms'
 
 const FaqWrapper = styled.div``
 

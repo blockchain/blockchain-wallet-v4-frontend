@@ -1,20 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
-import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import BuySellAnimation from './BuySellAnimation'
-import { Text, Button, Image } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, SelectBoxCountry } from 'components/Form'
-import { spacing } from 'services/StyleService'
-import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
-import media from 'services/ResponsiveService'
+import { FormattedMessage } from 'react-intl'
 import {
-  Wrapper,
   GetStartedContainer,
   GetStartedContent,
   GetStartedHeader,
-  GetStartedText
+  GetStartedText,
+  Wrapper
 } from 'components/FeatureLandingPage'
+import { onPartnerCountryWhitelist, required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import BuySellAnimation from './BuySellAnimation'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const CountryFAQText = styled.div`
   padding-top: 25px;

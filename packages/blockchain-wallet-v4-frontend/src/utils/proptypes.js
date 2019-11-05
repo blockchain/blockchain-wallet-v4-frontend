@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { Remote } from 'blockchain-wallet-v4/src'
+import PropTypes from 'prop-types'
 
 export const getRemotePropType = dataPropType =>
   PropTypes.oneOfType([

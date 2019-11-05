@@ -1,16 +1,14 @@
-import React from 'react'
+import { actions, model } from 'data'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { debounce } from 'utils/helpers'
+import { getData } from './selectors'
 import { isEmpty } from 'ramda'
 import { reduxForm } from 'redux-form'
-
-import { debounce } from 'utils/helpers'
-import { actions, model } from 'data'
-import { getData } from './selectors'
-
-import Loading from './template.loading'
-import Success from './template.success'
 import DataError from 'components/DataError'
+import Loading from './template.loading'
+import React from 'react'
+import Success from './template.success'
 
 const extractFieldValue = (e, value) => {
   return value

@@ -1,13 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import { model } from 'data'
 import { required, validMobileNumber } from 'services/FormHelper'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
+import {
+  BackButton,
+  EmailHelper,
+  FaqFormGroup,
+  FaqFormMessage,
+  Footer,
+  IdentityVerificationForm,
+  IdentityVerificationHeader,
+  IdentityVerificationSubHeader,
+  InputWrapper,
+  Label
+} from 'components/IdentityVerification'
 import {
   Button,
   HeartbeatLoader,
@@ -20,18 +32,6 @@ import {
   PhoneNumberBox,
   TextBox
 } from 'components/Form'
-import {
-  BackButton,
-  IdentityVerificationForm,
-  InputWrapper,
-  IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
-  EmailHelper,
-  FaqFormMessage,
-  FaqFormGroup,
-  Label,
-  Footer
-} from 'components/IdentityVerification'
 
 const FormContainer = styled.div`
   margin-top: 25px;

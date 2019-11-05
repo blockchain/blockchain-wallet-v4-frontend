@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { length, path, prop } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
 import { actions, model } from 'data'
+import { hasAccount } from 'services/ExchangeService'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import Loading from 'components/BuySell/Loading'
-import { hasAccount } from 'services/ExchangeService'
 // import SfoxCheckout from './SfoxCheckout'
-import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
+import CoinifyCheckout from './CoinifyCheckout'
 import SelectPartner from './template'
 
 const { KYC_MODAL } = model.components.identityVerification

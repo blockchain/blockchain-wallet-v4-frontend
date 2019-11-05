@@ -1,5 +1,4 @@
 import { complement, equals, path } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { model, selectors } from 'data'
 

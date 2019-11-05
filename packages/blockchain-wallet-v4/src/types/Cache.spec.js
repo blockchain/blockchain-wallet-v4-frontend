@@ -1,5 +1,5 @@
-import { getAddress, fromJS, receiveChain, changeChain } from './Cache'
 import { bip32, payments } from 'bitcoinjs-lib'
+import { changeChain, fromJS, getAddress, receiveChain } from './Cache'
 
 jest.mock('bitcoinjs-lib', () => ({
   bip32: {
@@ -40,21 +40,23 @@ describe('getAddress', () => {
 
   it('should memoize node selection', () => {
     expect(fromBase58).toHaveBeenCalledTimes(0)
-    getAddress(cache, changeChain, 0, network)
+    getAddress(cache, changeChain, 0, network, 'legacy')
     expect(fromBase58).toHaveBeenCalledTimes(1)
-    getAddress(cache, changeChain, 0, network)
+    getAddress(cache, changeChain, 0, network, 'legacy')
     expect(fromBase58).toHaveBeenCalledTimes(1)
-    getAddress(cache, changeChain, 1, network)
+    getAddress(cache, changeChain, 1, network, 'legacy')
     expect(fromBase58).toHaveBeenCalledTimes(1)
-    getAddress(cache, receiveChain, 1, network)
+    getAddress(cache, receiveChain, 1, network, 'legacy')
     expect(fromBase58).toHaveBeenCalledTimes(2)
   })
 
   it('should memoize address derivation', () => {
     expect(deriveMock).toHaveBeenCalledTimes(0)
-    getAddress(cache, changeChain, 2, network)
+    getAddress(cache, changeChain, 2, network, 'legacy')
     expect(deriveMock).toHaveBeenCalledTimes(1)
-    getAddress(cache, changeChain, 2, network)
+    getAddress(cache, changeChain, 2, network, 'legacy')
+    expect(deriveMock).toHaveBeenCalledTimes(1)
+    getAddress(cache, changeChain, 3, network, 'legacy')
     expect(deriveMock).toHaveBeenCalledTimes(2)
     getAddress(cache, changeChain, 3, network)
     expect(deriveMock).toHaveBeenCalledTimes(3)

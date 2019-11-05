@@ -1,18 +1,18 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { spacing } from 'services/StyleService'
 import {
   Button,
   HeartbeatLoader,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 const HeaderWrapper = styled.div`
   display: flex;

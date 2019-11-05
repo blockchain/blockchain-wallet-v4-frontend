@@ -1,15 +1,14 @@
-import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import React, { useState } from 'react'
-import Slider from 'react-slick'
-import styled, { css } from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import 'slick-carousel/slick/slick.css'
 import { connect } from 'react-redux'
-
-import media from 'services/ResponsiveService'
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Image, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+import React, { useState } from 'react'
+import Slider from 'react-slick'
 import StatusBar from './StatusBar'
+import styled, { css } from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

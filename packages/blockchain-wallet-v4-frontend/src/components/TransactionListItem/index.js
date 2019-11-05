@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { includes } from 'ramda'
+import React from 'react'
 
 import { actions, model, selectors } from 'data'
 import TransactionListItem from './template'

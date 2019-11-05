@@ -1,7 +1,7 @@
-import { Color } from 'blockchain-info-components'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import ReactHighcharts from 'react-highcharts'
+import { Color } from 'blockchain-info-components'
 import { head, last, map, sort } from 'ramda'
+import ReactHighcharts from 'react-highcharts'
 
 export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   chart: {

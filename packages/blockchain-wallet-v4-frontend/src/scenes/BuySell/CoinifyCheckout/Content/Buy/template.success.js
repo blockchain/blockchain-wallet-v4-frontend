@@ -1,21 +1,21 @@
+import { contains, prop } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { contains, prop } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
-import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import Payment from 'components/BuySell/Coinify/Payment'
+import { Remote } from 'blockchain-wallet-v4/src'
+import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
-import NextSubscription from '../NextSubscription'
-import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import media from 'services/ResponsiveService'
+import NextSubscription from '../NextSubscription'
+import OrderCheckout from '../OrderCheckout'
+import Payment from 'components/BuySell/Coinify/Payment'
+import Stepper, { StepView } from 'components/Utilities/Stepper'
 
 export const CheckoutWrapper = styled.div`
   display: grid;

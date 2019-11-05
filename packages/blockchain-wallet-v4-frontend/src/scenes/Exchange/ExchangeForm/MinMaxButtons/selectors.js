@@ -1,7 +1,6 @@
-import { includes, equals, gte, isNil, prop } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors, model } from 'data'
+import { equals, gte, includes, isNil, prop } from 'ramda'
+import { model, selectors } from 'data'
 
 const {
   EXCHANGE_FORM,

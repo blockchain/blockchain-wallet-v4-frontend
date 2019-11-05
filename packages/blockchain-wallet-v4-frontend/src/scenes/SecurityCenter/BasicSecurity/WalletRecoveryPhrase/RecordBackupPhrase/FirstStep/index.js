@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
 import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import { spacing } from 'services/StyleService'
+import React from 'react'
 import recoveryPdf from './recovery_phrase.pdf'
+import styled from 'styled-components'
 
 const PrintContainer = styled.div`
   display: flex;

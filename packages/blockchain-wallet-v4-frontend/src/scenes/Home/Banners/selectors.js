@@ -1,6 +1,5 @@
 import { anyPass, equals } from 'ramda'
-
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
 
 const { KYC_STATES } = model.profile
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS

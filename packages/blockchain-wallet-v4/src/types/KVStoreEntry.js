@@ -1,12 +1,13 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import BitcoinMessage from 'bitcoinjs-message'
-import BIP39 from 'bip39'
-import { assoc, curry, compose, prop, is, isNil } from 'ramda'
-import { view } from 'ramda-lens'
-import Either from 'data.either'
 import * as crypto from '../walletCrypto'
-import Type from './Type'
+import * as U from '../walletCrypto/utils'
+import { assoc, compose, curry, is, isNil, prop } from 'ramda'
 import { keyPairToAddress } from '../utils/btc'
+import { view } from 'ramda-lens'
+import BIP39 from 'bip39'
+import BitcoinMessage from 'bitcoinjs-message'
+import Either from 'data.either'
+import Type from './Type'
 
 /*
 Payload types:
@@ -105,7 +106,7 @@ export const fromHdWallet = curry((hdWallet, typeId) => {
 })
 
 export const encrypt = curry((key, data) =>
-  crypto.encryptDataWithKey(data, key, null)
+  crypto.encryptDataWithKey(data, key, null, { mode: U.AES.CBC })
 )
 export const decrypt = curry((key, data) =>
   crypto.decryptDataWithKey(data, key)

@@ -1,22 +1,22 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import {
-  convertFromCashAddrIfCashAddr,
-  TX_PER_PAGE,
-  BCH_FORK_TIME
-} from '../../../utils/bch'
-import { addFromToAccountNames } from '../../../utils/accounts'
-import Remote from '../../../remote'
+import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
-import { MISSING_WALLET } from '../utils'
-import { HDAccountList } from '../../../types'
+import { addFromToAccountNames } from '../../../utils/accounts'
+import {
+  BCH_FORK_TIME,
+  convertFromCashAddrIfCashAddr,
+  TX_PER_PAGE
+} from '../../../utils/bch'
+import { call, put, select, take } from 'redux-saga/effects'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import * as transactions from '../../../transactions'
+import { HDAccountList } from '../../../types'
+import { indexBy, length, map, path, prop } from 'ramda'
+import { MISSING_WALLET } from '../utils'
+import Remote from '../../../remote'
 
 const transformTx = transactions.bch.transformTx
 
@@ -54,9 +54,10 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
-    const { address, reset } = payload
+  const fetchTransactions = function * (action) {
     try {
+      const { payload } = action
+      const { onlyShow, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
@@ -64,10 +65,10 @@ export default ({ api }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(S.getWalletContext)
       const context = yield select(S.getContext)
-      const convertedAddress = convertFromCashAddrIfCashAddr(address)
+      const convertedAddress = convertFromCashAddrIfCashAddr(onlyShow)
       const data = yield call(api.fetchBchData, context, {
         n: TX_PER_PAGE,
-        onlyShow: convertedAddress || walletContext.join('|'),
+        onlyShow: convertedAddress || onlyShow || walletContext.join('|'),
         offset
       })
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)

@@ -27,7 +27,6 @@ export const eeaCountryCodes = [
   'LT',
   'LU',
   'MT',
-
   'MQ',
   'YT',
   'NL',

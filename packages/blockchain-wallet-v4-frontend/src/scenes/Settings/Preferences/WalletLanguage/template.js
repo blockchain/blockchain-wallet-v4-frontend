@@ -1,6 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-
 import {
   SettingComponent,
   SettingContainer,
@@ -8,6 +6,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import React from 'react'
 import Settings from './Settings'
 
 const WalletLanguage = props => {

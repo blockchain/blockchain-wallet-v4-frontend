@@ -1,8 +1,7 @@
 import { compose, isNil, map, max, path, prop, reduce, take } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors, model } from 'data'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { model, selectors } from 'data'
 
 const {
   TIERS_STATES,
