@@ -32,22 +32,11 @@ const getRedeemScript = keyPair => {
   return payment.redeem.output
 }
 
-const getOutput = (coin, network) => {
-  const address = Bitcoin.address.fromBase58Check(coin.address)
-  if (address.version === network.scriptHash) {
-    const payment = Bitcoin.payments.p2sh({
-      redeem: Bitcoin.payments.p2wpkh({ hash: address.hash })
-    })
-    return payment.output
-  } else {
-    return defaultTo(coin.address, coin.script)
-  }
-}
-
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
 
-  const addOutput = coin => tx.addOutput(getOutput(coin, network), coin.value)
+  const addOutput = coin =>
+    tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
   const addInput = coin => {
     switch (coin.type()) {
       case 'P2SH-P2WPKH':
