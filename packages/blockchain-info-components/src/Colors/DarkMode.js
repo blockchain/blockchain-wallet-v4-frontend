@@ -56,6 +56,7 @@ export default {
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
+  blue500: '#3D89F5',
   green400: '#59CD93',
   green500: '#339F7B',
   red500: '#EA5B50',

@@ -104,11 +104,8 @@ export default ({ api, coreSagas }) => {
         [campaign]: false
       })
       const isCampaignTagged = prop(campaign, tags)
-      // Something went wrong with tagging the campaign
-      if (!isCampaignTagged) return
+      if (!isCampaignTagged) throw new Error(`${campaign} not tagged.`)
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
-      yield put(actions.modals.closeAllModals())
-      yield put(actions.modals.showModal('AirdropSuccess'))
     } catch (error) {
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
         _error: error

@@ -54,6 +54,7 @@ export default {
   'nav-buy': '\\e988',
   'nav-switch': '\\e903',
   'open-in-new-tab': '\\e979',
+  parachute: '\\e931',
   pencil: '\\e96a',
   pending: '\\e915',
   phone: '\\e96c',
