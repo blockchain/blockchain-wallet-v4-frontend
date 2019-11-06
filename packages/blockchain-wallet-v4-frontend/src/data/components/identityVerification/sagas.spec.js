@@ -5,16 +5,12 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
-import { EMAIL_STEPS, SUNRIVER_LINK_ERROR_MODAL } from './model'
+import { EMAIL_STEPS } from './model'
 import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getUserData, getUserTiers } from 'data/modules/profile/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas'
-import sagas, {
-  invalidLinkError,
-  logLocation,
-  noCampaignDataError
-} from './sagas'
+import sagas, { logLocation, noCampaignDataError } from './sagas'
 
 const api = {
   fetchKycConfig: jest.fn(),
@@ -222,31 +218,6 @@ describe('registerUserCampaign', () => {
           logLocation,
           'registerUserCampaign',
           noCampaignDataError
-        )
-      )
-      .next()
-      .isDone()
-  })
-  it('should show error modal and log error if registering fails', () => {
-    const saga = testSaga(registerUserCampaign, { newUser })
-    const error = new Error()
-    saga
-      .next()
-      .select(selectors.modules.profile.getCampaign)
-      .next(campaign)
-      .call(getCampaignData, campaign)
-      .next(campaignData)
-      .call(api.registerUserCampaign, campaign.name, campaignData, newUser)
-      .throw(error)
-      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error }))
-      .next()
-      .put(actions.modules.profile.setCampaign({}))
-      .next()
-      .put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'registerUserCampaign',
-          invalidLinkError
         )
       )
       .next()

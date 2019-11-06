@@ -1,3 +1,7 @@
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   call,
   cancel,
@@ -19,14 +23,10 @@ import {
   sortBy,
   tail
 } from 'ramda'
-import moment from 'moment'
-
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4'
+import moment from 'moment'
 
 const { AB_TESTS } = model.analytics
 
@@ -47,6 +47,15 @@ export default ({ api, coreSagas, networks }) => {
         'x-campaign-address': xlmAccount,
         'x-campaign-code': campaign.code,
         'x-campaign-email': campaign.email
+      }
+    }
+    if (campaign.name === 'BLOCKSTACK') {
+      let password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
+      yield put(actions.core.data.stx.generateAddress(password))
+      const { payload } = yield take(actionTypes.core.data.stx.SET_ADDRESS)
+      const { address } = payload
+      return {
+        'x-campaign-address': address
       }
     }
 
