@@ -172,6 +172,9 @@ export const validBtcAddressOrPrivateKey = (value, allValues, props) =>
     <M.InvalidBtcAddressAndPrivateKeyMessage />
   )
 
+export const isSegwitAddress = value =>
+  utils.btc.isSegwitAddress(value) ? <M.SegwitAddressMessage /> : undefined
+
 export const validIban = value =>
   isValidIBAN(value) ? undefined : 'Invalid IBAN'
 
