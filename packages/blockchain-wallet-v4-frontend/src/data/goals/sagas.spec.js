@@ -24,13 +24,9 @@ describe('goals sagas', () => {
     defineActionGoal,
     defineSendBtcGoal,
     defineReferralGoal,
-    runGoal,
     runSwapGetStartedGoal,
-    runKycDocResubmitGoal,
     runKycGoal,
     runReferralGoal,
-    runSendBtcGoal,
-    runPaymentProtocolGoal,
     runSwapUpgradeGoal,
     runWalletTour,
     showInitialModal,
@@ -255,81 +251,6 @@ describe('goals sagas', () => {
       })
 
       it('should end saga', () => {
-        saga.next().isDone()
-      })
-    })
-  })
-
-  describe('runGoal saga', () => {
-    describe('should run referral goal', () => {
-      const mockGoal = { name: 'referral', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runReferralGoal saga and end', () => {
-        saga.next().call(runReferralGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run payment goal', () => {
-      const mockGoal = { name: 'payment', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runSendBtcGoal saga and end', () => {
-        saga.next().call(runSendBtcGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run payment protocol goal', () => {
-      const mockGoal = { name: 'paymentProtocol', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runPaymentProtocolGoal saga and end', () => {
-        saga.next().call(runPaymentProtocolGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run kyc goal', () => {
-      const mockGoal = { name: 'kyc', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runKyc saga and end', () => {
-        saga.next().call(runKycGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run kycDocResubmit goal', () => {
-      const mockGoal = { name: 'kycDocResubmit', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runKycDocResubmitGoal saga and end', () => {
-        saga.next().call(runKycDocResubmitGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run swapUpgrade goal', () => {
-      const mockGoal = { name: 'swapUpgrade', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call swapUpgrade saga and end', () => {
-        saga.next().call(runSwapUpgradeGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run swapGetStarted goal', () => {
-      const mockGoal = { name: 'swapGetStarted', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runSwapGetStartedGoal saga and end', () => {
-        saga.next().call(runSwapGetStartedGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run walletTour goal', () => {
-      const mockGoal = { name: 'walletTour', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runWalletTour saga and end', () => {
-        saga.next().call(runWalletTour, mockGoal)
         saga.next().isDone()
       })
     })

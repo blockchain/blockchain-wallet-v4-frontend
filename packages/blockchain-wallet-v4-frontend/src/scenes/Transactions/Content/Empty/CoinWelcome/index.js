@@ -27,6 +27,7 @@ class CoinWelcomeContainer extends React.PureComponent {
     const currentCoin = supportedCoins[coin]
 
     switch (currentCoin.coinCode) {
+      case 'STX':
       case 'PAX': {
         return (
           <WelcomePax
