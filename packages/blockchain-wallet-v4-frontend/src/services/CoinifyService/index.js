@@ -6,6 +6,7 @@ import {
   gt,
   mapObjIndexed,
   path,
+  pathOr,
   prop,
   slice,
   toLower,
@@ -19,13 +20,12 @@ const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
-  const getMin = (limits, curr) =>
-    Math.min(
-      limits.bank.minimumInAmounts[curr],
-      limits.card.minimumInAmounts[curr]
-    )
-  const getMax = (limits, curr) =>
-    Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
+  const bankMin = pathOr(0, ['bank', 'minimumInAmounts', curr], limits)
+  const bankMax = pathOr(0, ['bank', 'inRemaining', curr], limits)
+  const cardMin = pathOr(0, ['card, minimumInAmounts', curr], limits)
+  const cardMax = pathOr(0, ['card', 'inRemaining', curr], limits)
+  const getMin = (limits, curr) => Math.min(bankMin, cardMin)
+  const getMax = (limits, curr) => Math.max(bankMax, cardMax)
   const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
   const getSellMax = (limits, curr) => limits.blockchain.inRemaining[curr]
   return {
