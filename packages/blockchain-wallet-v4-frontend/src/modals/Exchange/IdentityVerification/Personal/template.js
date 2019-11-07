@@ -532,6 +532,7 @@ const Personal = ({
               </EmailHelper>
             )}
             <Button
+              data-e2e='submitSilverVerification'
               type='submit'
               nature='primary'
               disabled={invalid || submitting || showStateError}
