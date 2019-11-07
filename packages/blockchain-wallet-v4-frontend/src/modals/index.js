@@ -19,6 +19,17 @@ import {
   WalletTour
 } from './Onboarding'
 import {
+  AirdropError,
+  EthAirdrop,
+  ExchangeConfirm,
+  ExchangeResults,
+  IdentityVerification,
+  KycDocResubmit,
+  ShapeshiftTradeDetails,
+  SwapUpgrade,
+  UserExists
+} from './Exchange'
+import {
   AutoDisconnection,
   ConfirmDisable2FA,
   SecondPassword,
@@ -38,17 +49,6 @@ import {
   UpgradeAddressLabels
 } from './Addresses'
 import { EditTxDescription, TransactionReport } from './Transactions'
-import {
-  EthAirdrop,
-  ExchangeConfirm,
-  ExchangeResults,
-  IdentityVerification,
-  KycDocResubmit,
-  ShapeshiftTradeDetails,
-  SunRiverLinkError,
-  SwapUpgrade,
-  UserExists
-} from './Exchange'
 import {
   LockboxAppManager,
   LockboxConnectionPrompt,
@@ -138,7 +138,7 @@ const Modals = () => (
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
-    <SunRiverLinkError />
+    <AirdropError />
     <Support />
     <SwapGetStarted />
     <SwapUpgrade />

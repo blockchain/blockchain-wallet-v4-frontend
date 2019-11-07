@@ -272,7 +272,7 @@ class Submitted extends React.PureComponent {
 }
 
 Submitted.defaultProps = {
-  campaign: 'sunriver'
+  campaign: 'BLOCKSTACK'
 }
 
 const mapStateToProps = state => ({

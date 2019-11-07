@@ -7,6 +7,7 @@ exports[`GetStarted renders correctly 1`] = `
   <GetStarted__ActionButton>
     <Component
       color="white"
+      data-e2e="swapGetStarted"
       size="16px"
       weight={600}
     >

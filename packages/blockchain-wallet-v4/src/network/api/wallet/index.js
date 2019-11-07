@@ -142,7 +142,7 @@ export default ({ rootUrl, get, post }) => {
     post({
       url: rootUrl,
       endPoint: '/wallet',
-      data: { method: 'recover-wallet', email, captcha },
+      data: { method: 'send-guid-reminder', email, captcha },
       sessionToken
     })
 
