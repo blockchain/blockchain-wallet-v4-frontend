@@ -7,8 +7,12 @@ import {
   SelectBoxBtcAddresses,
   TextBox
 } from 'components/Form'
+import {
+  isSegwitAddress,
+  required,
+  validBtcAddressOrPrivateKey
+} from 'services/FormHelper'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
-import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
@@ -49,7 +53,11 @@ class ImportExternalBtcAddress extends React.PureComponent {
             <Row>
               <Field
                 name='addrOrPriv'
-                validate={[validBtcAddressOrPrivateKey, required]}
+                validate={[
+                  validBtcAddressOrPrivateKey,
+                  required,
+                  isSegwitAddress
+                ]}
                 normalize={removeWhitespace}
                 component={TextBox}
                 data-e2e='addressOrPrKeyInput'

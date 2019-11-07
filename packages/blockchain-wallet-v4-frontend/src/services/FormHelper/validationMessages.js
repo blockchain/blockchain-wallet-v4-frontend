@@ -36,6 +36,12 @@ export const InvalidBtcAddressAndPrivateKeyMessage = () => (
     defaultMessage='Not a valid bitcoin address or private key'
   />
 )
+export const SegwitAddressMessage = () => (
+  <FormattedMessage
+    id='formhelper.segwitaddress'
+    defaultMessage='Segwit addresses are not supported'
+  />
+)
 export const InvalidEmailCodeMessage = () => (
   <FormattedMessage
     id='formhelper.invalidemailcode'
