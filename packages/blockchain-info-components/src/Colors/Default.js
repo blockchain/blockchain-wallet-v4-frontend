@@ -159,5 +159,6 @@ export default {
   bch: '#8DC351',
   eth: '#473BCB',
   pax: '#00522C',
+  stx: '#211F6D',
   xlm: '#121D33'
 }

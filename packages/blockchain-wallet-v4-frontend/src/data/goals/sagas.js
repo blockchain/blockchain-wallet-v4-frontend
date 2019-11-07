@@ -305,8 +305,11 @@ export default ({ api }) => {
     if (!showUpgradeForAirdropModal) return
     yield call(waitForUserData)
     const kycNotFinished = yield call(isKycNotFinished)
+    const isRegistered = (yield select(
+      selectors.modules.profile.getBlockstackTag
+    )).getOrElse(false)
 
-    if (kycNotFinished) {
+    if (kycNotFinished && !isRegistered) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',

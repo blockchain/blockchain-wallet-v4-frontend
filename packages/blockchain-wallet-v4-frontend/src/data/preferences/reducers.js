@@ -64,8 +64,7 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showAirdropClaimModal', false, state)
     }
     case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
-      return state
-      // return assoc('showUpgradeForStxAirdropModal', false, state)
+      return assoc('showUpgradeForStxAirdropModal', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)

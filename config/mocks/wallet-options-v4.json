@@ -152,6 +152,11 @@
             "exchangeFrom": false,
             "syncToPit": false
           },
+          "icons": {
+            "default": "stx",
+            "circle": "stx",
+            "circleFilled": "stx"
+          },
           "hasLockboxSupport": false
         },
         "XLM": {
