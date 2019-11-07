@@ -18,8 +18,8 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  FLOW_TYPES,
-  AIRDROP_ERROR_MODAL
+  FLOW_TYPES
+  // AIRDROP_ERROR_MODAL
 } from './model'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
@@ -61,8 +61,9 @@ export default ({ api, coreSagas }) => {
           newUser
         )
       } catch (error) {
-        yield put(actions.modals.showModal(AIRDROP_ERROR_MODAL, { error }))
-        yield put(actions.modules.profile.setCampaign({}))
+        // TODO: Phil take a look
+        // yield put(actions.modals.showModal(AIRDROP_ERROR_MODAL, { error }))
+        // yield put(actions.modules.profile.setCampaign({}))
         throw new Error(invalidLinkError)
       }
     } catch (e) {
