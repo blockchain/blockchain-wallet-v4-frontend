@@ -53,6 +53,7 @@ export default {
   grey400: '#747474',
   grey600: '#797979',
   grey700: '#50596B',
+  grey900: '#747474',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
@@ -64,5 +65,6 @@ export default {
   bch: '#8DC351',
   eth: '#473BCB',
   pax: '#00522C',
+  stx: '#211F6D',
   xlm: '#797979'
 }

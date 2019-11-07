@@ -159,6 +159,7 @@
             "circle": "stx",
             "circleFilled": "stx"
           },
+          "showNewTagSidenav": true,
           "txListAppRoute": "/stx/transactions"
         },
         "XLM": {

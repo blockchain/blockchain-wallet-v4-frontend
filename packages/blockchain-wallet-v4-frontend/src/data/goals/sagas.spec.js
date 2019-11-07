@@ -414,24 +414,6 @@ describe('goals sagas', () => {
   describe('showInitialModal saga', () => {
     const saga = testSaga(showInitialModal)
 
-    it('should show sunriver modal', () => {
-      const mockModals = {
-        sunriver: { name: 'sunriver', data: {} }
-      }
-      saga
-        .next()
-        .select(selectors.goals.getInitialModals)
-        .next(mockModals)
-        .put(
-          actions.modals.showModal(
-            mockModals.sunriver.name,
-            mockModals.sunriver.data
-          )
-        )
-        .next()
-        .isDone()
-    })
-
     it('should show payment modal', () => {
       const mockModals = {
         payment: { name: 'payment', data: {} }
