@@ -20,20 +20,26 @@ const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
-  const bankMin = pathOr(0, ['bank', 'minimumInAmounts', curr], limits)
-  const bankMax = pathOr(0, ['bank', 'inRemaining', curr], limits)
-  const cardMin = pathOr(0, ['card, minimumInAmounts', curr], limits)
-  const cardMax = pathOr(0, ['card', 'inRemaining', curr], limits)
-  const getMin = (limits, curr) => Math.min(bankMin, cardMin)
-  const getMax = (limits, curr) => Math.max(bankMax, cardMax)
-  const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
-  const getSellMax = (limits, curr) => limits.blockchain.inRemaining[curr]
+  const getMin = (limits, curr) =>
+    Math.min(
+      pathOr(Infinity, ['bank', 'minimumInAmounts', curr], limits),
+      pathOr(Infinity, ['card', 'minimumInAmounts', curr], limits)
+    )
+  const getMax = (limits, curr) =>
+    Math.max(
+      pathOr(0, ['bank', 'inRemaining', curr], limits),
+      pathOr(0, ['card', 'inRemaining', curr], limits)
+    )
+  const getSellMin = (limits, curr) =>
+    pathOr(Infinity, ['blockchain', 'minimumInAmounts', curr], limits)
+  const getSellMax = (limits, curr) =>
+    pathOr(0, ['blockchain', 'inRemaining', curr], limits)
   return {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr),
-      bankMax: path(['bank', 'inRemaining', curr], limits),
-      cardMax: path(['card', 'inRemaining', curr], limits)
+      bankMax: pathOr(0, ['bank', 'inRemaining', curr], limits),
+      cardMax: pathOr(0, ['card', 'inRemaining', curr], limits)
     },
     sell: {
       min: getSellMin(limits, 'BTC'),
