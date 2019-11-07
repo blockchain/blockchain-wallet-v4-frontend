@@ -950,6 +950,8 @@ describe('authSagas', () => {
         it('should display error alert', () => {
           saga
             .next()
+            .put(actions.core.data.misc.fetchCaptcha())
+            .next()
             .put(actions.alerts.displayError(C.GUID_SENT_ERROR))
             .next()
             .isDone()
@@ -958,7 +960,7 @@ describe('authSagas', () => {
 
       describe('Captcha error', () => {
         const captchaError = {
-          message: 'Captcha Code Incorrect'
+          message: 'Wrong captcha'
         }
         beforeAll(() => {
           saga.restart().next()
