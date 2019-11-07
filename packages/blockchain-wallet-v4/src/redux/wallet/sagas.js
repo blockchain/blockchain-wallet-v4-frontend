@@ -1,4 +1,5 @@
 import * as A from '../actions'
+import * as Bitcoin from 'bitcoinjs-lib'
 import * as S from './selectors'
 import {
   add,
@@ -24,7 +25,6 @@ import { generateMnemonic } from '../../walletCrypto'
 import { HDAccount, Wallet, Wrapper } from '../../types'
 import { set } from 'ramda-lens'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 
 const taskToPromise = t =>
@@ -206,7 +206,7 @@ export default ({ api, networks }) => {
 
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
-    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
+    const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
     const legacyNode = masterNode.deriveHardened(44).deriveHardened(0)
     const segwitP2SHNode = masterNode.deriveHardened(49).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {

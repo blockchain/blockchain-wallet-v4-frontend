@@ -1,14 +1,13 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
 import * as U from '../walletCrypto/utils'
 import { assoc, compose, curry, is, isNil, prop } from 'ramda'
+import { keyPairToAddress } from '../utils/btc'
 import { view } from 'ramda-lens'
-import BigInteger from 'bigi'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import Either from 'data.either'
 import Type from './Type'
-// import { shift, shiftIProp } from './util'
 
 /*
 Payload types:
@@ -55,7 +54,7 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
     VERSION: 1,
     typeId: isNil(typeId) ? -1 : typeId,
     magicHash: null,
-    address: entryECKey.getAddress(),
+    address: keyPairToAddress(entryECKey),
     signKey: entryECKey.toWIF(),
     encKeyBuffer: encKeyBuffer,
     value: void 0
@@ -64,16 +63,15 @@ export const fromKeys = (entryECKey, encKeyBuffer, typeId) => {
 
 export const fromCredentials = curry((guid, sharedKey, password, network) => {
   const entropy = crypto.sha256(Buffer.from(guid + sharedKey + password))
-  const d = BigInteger.fromBuffer(entropy)
-  const key = new Bitcoin.ECPair(d, null, { network })
-  const enc = key.d.toBuffer(32)
+  const key = Bitcoin.ECPair.fromPrivateKey(entropy)
+  const enc = key.privateKey
   return fromKeys(key, enc)
 })
 
 export const getMasterHDNode = curry((network, seedHex) => {
   const mnemonic = BIP39.entropyToMnemonic(seedHex)
   const masterhex = BIP39.mnemonicToSeed(mnemonic)
-  return Bitcoin.HDNode.fromSeedBuffer(masterhex, network)
+  return Bitcoin.bip32.fromSeed(masterhex, network)
 })
 
 export const deriveMetadataNode = masterHDNode => {
@@ -84,16 +82,17 @@ export const deriveMetadataNode = masterHDNode => {
   return masterHDNode.deriveHardened(purpose)
 }
 
-export const fromMetadataXpriv = curry((xpriv, typeId, network) =>
-  fromMetadataHDNode(Bitcoin.HDNode.fromBase58(xpriv, network), typeId)
-)
+export const fromMetadataXpriv = curry((xpriv, typeId, network) => {
+  return fromMetadataHDNode(Bitcoin.bip32.fromBase58(xpriv, network), typeId)
+})
 
 export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
   let payloadTypeNode = metadataHDNode.deriveHardened(typeId)
   let node = payloadTypeNode.deriveHardened(0)
-  let privateKeyBuffer = payloadTypeNode.deriveHardened(1).keyPair.d.toBuffer()
-  let encryptionKey = crypto.sha256(privateKeyBuffer)
-  return fromKeys(node.keyPair, encryptionKey, typeId)
+  let keypair = Bitcoin.ECPair.fromPrivateKey(node.privateKey)
+  let privateKey = payloadTypeNode.deriveHardened(1).privateKey
+  let encryptionKey = crypto.sha256(privateKey)
+  return fromKeys(keypair, encryptionKey, typeId)
 })
 
 export const fromMasterHDNode = curry((masterHDNode, typeId) => {
@@ -140,7 +139,7 @@ export const verify = curry((address, signature, hash, network) => {
 
 // sign :: keyPair -> msg -> Buffer
 export const sign = curry((keyPair, msg) =>
-  BitcoinMessage.sign(msg, keyPair.d.toBuffer(32), keyPair.compressed)
+  BitcoinMessage.sign(msg, keyPair.privateKey, keyPair.compressed)
 )
 
 // computeSignature :: keypair -> buffer -> buffer -> base64

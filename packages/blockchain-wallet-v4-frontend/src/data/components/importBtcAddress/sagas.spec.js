@@ -1,7 +1,7 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { actions } from 'data'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import { testSaga } from 'redux-saga-test-plan'
-import Bitcoin from 'bitcoinjs-lib'
 import sagas from './sagas.js'
 
 const api = {}

@@ -2,6 +2,7 @@ import * as Address from './Address'
 import * as AddressBook from './AddressBook'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as AddressMap from './AddressMap'
+import * as Bitcoin from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
 import * as Derivation from './Derivation'
 import * as DerivationList from './DerivationList'
@@ -24,12 +25,11 @@ import {
   pipe,
   split
 } from 'ramda'
+import { keyPairToAddress } from '../utils/btc'
 import { over, set, traversed, traverseOf, view } from 'ramda-lens'
 import { shift, shiftIProp } from './util'
 import Base58 from 'bs58'
-import Bigi from 'bigi'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 import Either from 'data.either'
 import Maybe from 'data.maybe'
 import memoize from 'fast-memoize'
@@ -568,7 +568,8 @@ export const decrypt = decryptMonadic(
 )
 
 const _derivePrivateKey = (network, xpriv, chain, index) =>
-  Bitcoin.HDNode.fromBase58(xpriv, network)
+  Bitcoin.bip32
+    .fromBase58(xpriv, network)
     .derive(chain)
     .derive(index)
 
@@ -597,10 +598,14 @@ export const getHDPrivateKeyWIF = curry(
             xpriv
           )
         )
-        .map(xp => derivePrivateKey(network, xp, chain, index).keyPair.toWIF())
+        .map(xp => {
+          const node = derivePrivateKey(network, xp, chain, index)
+          return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
+        })
     } else {
       return Task.of(xpriv).map(xp => {
-        return derivePrivateKey(network, xp, chain, index).keyPair.toWIF()
+        const node = derivePrivateKey(network, xp, chain, index)
+        return Bitcoin.ECPair.fromPrivateKey(node.privateKey).toWIF()
       })
     }
   }
@@ -608,10 +613,8 @@ export const getHDPrivateKeyWIF = curry(
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
-  var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {
-    network
-  })
-  if (key.getAddress() === address) return key
+  var key = Bitcoin.ECPair(Base58.decode(string))
+  if (keyPairToAddress(key) === address) return key
   key.compressed = !key.compressed
   return key
 }

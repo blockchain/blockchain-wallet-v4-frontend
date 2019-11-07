@@ -1,7 +1,7 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { add, equals, map, not, propOr, reduce } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { actions, actionTypes, selectors } from 'data'
@@ -52,7 +52,7 @@ export default ({ api }) => {
     const { seedHex } = defaultHDWallet
     const mnemonic = BIP39.entropyToMnemonic(seedHex)
     const masterhex = BIP39.mnemonicToSeed(mnemonic)
-    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
+    const masterHDNode = Bitcoin.bip32.fromSeed(masterhex)
     let hash = crypto.sha256('info.blockchain.matomo')
     let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
     return masterHDNode.deriveHardened(purpose).getAddress()

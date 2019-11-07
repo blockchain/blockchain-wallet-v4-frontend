@@ -1,5 +1,6 @@
 import * as A from './actions'
 import * as bchActions from '../../data/bch/actions'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { BCH, derivationMap } from '../config'
 import { getHDAccounts } from '../../wallet/selectors'
 import { getMetadataXpriv } from '../root/selectors'
@@ -8,7 +9,6 @@ import { set } from 'ramda-lens'
 import { testSaga } from 'redux-saga-test-plan'
 import { walletV3 } from '../../../../data'
 import bch from './sagas'
-import Bitcoin from 'bitcoinjs-lib'
 
 const api = {
   fetchKVStore: () => {}

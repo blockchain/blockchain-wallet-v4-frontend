@@ -1,11 +1,11 @@
 import * as A from './actions'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { derivationMap, LOCKBOX } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
 import { testSaga } from 'redux-saga-test-plan'
 import { walletV3 } from '../../../../data'
-import Bitcoin from 'bitcoinjs-lib'
 import lockbox from './sagas'
 
 const api = {

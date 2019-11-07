@@ -1,3 +1,4 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import * as crypto from '../walletCrypto'
 import * as Derivation from './Derivation'
 import * as HDAccount from './HDAccount'
@@ -6,7 +7,6 @@ import { compose, curry, is, map, pipe, range } from 'ramda'
 import { over, traversed, traverseOf, view } from 'ramda-lens'
 import { shift, shiftIProp } from './util'
 import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import Type from './Type'
 
@@ -88,7 +88,7 @@ export const reviver = jsObject => {
 const deriveAccountNodeAtIndex = (seedHex, purpose, index, network) => {
   if (!seedHex) return
   let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
-  let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+  let masterNode = Bitcoin.bip32.fromSeed(Buffer.from(seed), network)
   return masterNode
     .deriveHardened(purpose)
     .deriveHardened(0)

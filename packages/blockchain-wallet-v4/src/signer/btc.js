@@ -1,3 +1,4 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import * as Coin from '../coinSelection/coin.js'
 import * as crypto from '../walletCrypto'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
@@ -12,39 +13,30 @@ import {
 } from 'ramda'
 import { mapped } from 'ramda-lens'
 import { privateKeyStringToKey } from '../utils/btc'
-import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import Btc from '@ledgerhq/hw-app-btc'
 
+const getOutputScript = keyPair => {
+  const pubKey = keyPair.publicKey
+  const payment = Bitcoin.payments.p2sh({
+    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+  })
+  return payment.output
+}
+
 const getRedeemScript = keyPair => {
-  const pubKey = keyPair.getPublicKeyBuffer()
-  const pubKeyHash = Bitcoin.crypto.hash160(pubKey)
-  const redeemScript = Bitcoin.script.witnessPubKeyHash.output.encode(
-    pubKeyHash
-  )
-  return redeemScript
-}
-
-const getScriptPubKey = keyPair => {
-  const redeemScript = getRedeemScript(keyPair)
-  const redeemScriptHash = Bitcoin.crypto.hash160(redeemScript)
-  const scriptPubKey = Bitcoin.script.scriptHash.output.encode(redeemScriptHash)
-  return scriptPubKey
-}
-
-const getOutput = (coin, network) => {
-  const address = Bitcoin.address.fromBase58Check(coin.address)
-  if (address.version === network.scriptHash) {
-    return Bitcoin.script.scriptHash.output.encode(address.hash)
-  } else {
-    return defaultTo(coin.address, coin.script)
-  }
+  const pubKey = keyPair.publicKey
+  const payment = Bitcoin.payments.p2sh({
+    redeem: Bitcoin.payments.p2wpkh({ pubkey: pubKey })
+  })
+  return payment.redeem.output
 }
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
 
-  const addOutput = coin => tx.addOutput(getOutput(coin, network), coin.value)
+  const addOutput = coin =>
+    tx.addOutput(defaultTo(coin.address, coin.script), coin.value)
   const addInput = coin => {
     switch (coin.type()) {
       case 'P2SH-P2WPKH':
@@ -52,7 +44,7 @@ export const signSelection = curry((network, selection) => {
           coin.txHash,
           coin.index,
           0xffffffff,
-          getScriptPubKey(coin.priv)
+          getOutputScript(coin.priv)
         )
       default:
         return tx.addInput(coin.txHash, coin.index)
@@ -77,7 +69,6 @@ export const signSelection = curry((network, selection) => {
   forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
   const signedTx = tx.build()
-
   return {
     txHex: signedTx.toHex(),
     txId: signedTx.getId(),
@@ -129,7 +120,7 @@ export const signWithWIF = curry((network, selection) =>
 
 export const signMessage = (priv, addr, message) => {
   const keyPair = privateKeyStringToKey(priv, 'base58', null, addr)
-  const privateKey = keyPair.d.toBuffer(32)
+  const privateKey = keyPair.privateKey
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString(
     'base64'
   )

@@ -1,14 +1,19 @@
 import * as bippath from 'bip32-path'
 import * as Exchange from '../exchange'
 import * as OP from 'bitcoin-ops'
-import { address, crypto, ECPair, networks } from 'bitcoinjs-lib'
+import {
+  address,
+  bip32,
+  crypto,
+  ECPair,
+  networks,
+  payments
+} from 'bitcoinjs-lib'
 import { compile } from 'bitcoinjs-lib/src/script'
 import { compose, dropLast, equals, head, last, or, propOr } from 'ramda'
 import { decode, fromWords } from 'bech32'
-import { fromPublicKey } from 'bip32'
 import { selectAll } from '../coinSelection'
 import Base58 from 'bs58'
-import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
 import Either from 'data.either'
 
@@ -45,7 +50,6 @@ export const isValidBtcAddress = (value, network) => {
 
 export const addressToScript = (value, network) => {
   const n = network || networks.bitcoin
-
   try {
     if (value.toLowerCase().startsWith('bc')) {
       const words = decode(value).words
@@ -166,14 +170,10 @@ export const privateKeyStringToKey = function (
       default:
         throw new Error('Unsupported Key Format')
     }
-
-    const d = BigInteger.fromBuffer(keyBuffer)
-    let keyPair = new ECPair(d, null, { network: network })
-
-    if (addr && keyPair.getAddress() !== addr) {
+    let keyPair = ECPair.fromPrivateKey(keyBuffer)
+    if (addr && keyPairToAddress(keyPair) !== addr) {
       keyPair.compressed = false
     }
-
     return keyPair
   }
 }
@@ -189,7 +189,7 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   )
   return eitherKey.chain(key => {
     if (format === 'wif') return Either.of(key.toWIF())
-    if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
+    if (format === 'base58') return Either.of(Base58.encode(key.privateKey))
     return Either.Left(new Error('Unsupported Key Format'))
   })
 }
@@ -213,8 +213,10 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function (btcKey) {
-  return btcKey instanceof ECPair
+export const isKey = btcKey => {
+  // creating fake keypair for ECPair class comparison
+  const mockECPair = ECPair.fromPrivateKey(crypto.sha256('mock privatekey'))
+  return btcKey.constructor === mockECPair.constructor
 }
 
 export const calculateBalanceBtc = (coins, feePerByte) => {
@@ -241,7 +243,7 @@ export const calculateBalanceBtc = (coins, feePerByte) => {
 export const getWifAddress = (key, compressed = true) => {
   let oldFlag = key.compressed // avoid input mutation
   key.compressed = compressed
-  let result = { address: key.getAddress(), wif: key.toWIF() }
+  let result = { address: keyPairToAddress(key), wif: key.toWIF() }
   key.compressed = oldFlag
   return result
 }
@@ -271,9 +273,13 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
   let pathArray = bippath.fromString(path).toPathArray()
   let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
   let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
-  let hdnode = fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
-  hdnode.parentFingerprint = fingerprint(pkParent)
-  hdnode.depth = pathArray.length
-  hdnode.index = last(pathArray)
-  return hdnode.toBase58()
+  let hdnode = bip32.fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
+  hdnode.__PARENT_FINGERPRINT = fingerprint(pkParent)
+  hdnode.__DEPTH = pathArray.length
+  hdnode.__INDEX = last(pathArray)
+
+  return hdnode.neutered().toBase58()
 }
+
+export const keyPairToAddress = key =>
+  payments.p2pkh({ pubkey: key.publicKey }).address

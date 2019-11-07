@@ -1,3 +1,4 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
   ApiSocket,
@@ -19,7 +20,6 @@ import { createHashHistory } from 'history'
 import { head } from 'ramda'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import { serializer } from 'blockchain-wallet-v4/src/types'
-import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import createSagaMiddleware from 'redux-saga'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'

@@ -1,7 +1,7 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { equals, ifElse, is, pipe } from 'ramda'
 import { iToJS } from './util'
 import { view } from 'ramda-lens'
-import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
 import Type from './Type'
 
@@ -22,17 +22,18 @@ export const changeChain = 1
 const _getAddress = (cache, chain, index, network, type) => {
   const derive = c => {
     const node = getNode(c, chain, network)
+    const childNode = node.derive(index)
+    const publicKey = childNode.publicKey
+
     if (equals('segwitP2SH', type)) {
-      const keyhash = Bitcoin.crypto.hash160(
-        node.derive(index).getPublicKeyBuffer()
-      )
-      const scriptsig = Bitcoin.script.witnessPubKeyHash.output.encode(keyhash)
-      const addressbytes = Bitcoin.crypto.hash160(scriptsig)
-      const scriptpubkey = Bitcoin.script.scriptHash.output.encode(addressbytes)
-      return Bitcoin.address.fromOutputScript(scriptpubkey, network)
-    } else {
-      return node.derive(index).getAddress()
+      const { address } = Bitcoin.payments.p2sh({
+        redeem: Bitcoin.payments.p2wpkh({ pubkey: publicKey })
+      })
+      return address
     }
+
+    const { address } = Bitcoin.payments.p2pkh({ pubkey: publicKey })
+    return address
   }
   return pipe(
     Cache.guard,
@@ -49,7 +50,7 @@ const _getNode = (cache, chain, network) =>
       selectChangeAccount,
       selectReceiveAccount
     ),
-    xpub => Bitcoin.HDNode.fromBase58(xpub, network)
+    xpub => Bitcoin.bip32.fromBase58(xpub, network)
   )(cache)
 export const getNode = memoize(_getNode)
 
@@ -65,7 +66,7 @@ export const reviver = jsObject => {
 }
 
 export const js = (node, xpub) => {
-  node = xpub ? Bitcoin.HDNode.fromBase58(xpub) : node
+  node = xpub ? Bitcoin.bip32.fromBase58(xpub) : node
   const receiveAccount = node
     ? node
         .derive(0)

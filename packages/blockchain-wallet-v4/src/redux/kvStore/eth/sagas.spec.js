@@ -1,10 +1,10 @@
 import * as A from './actions'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { derivationMap, ETH } from '../config'
 import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
 import { testSaga } from 'redux-saga-test-plan'
 import { walletV3 } from '../../../../data'
-import Bitcoin from 'bitcoinjs-lib'
 import eth from './sagas'
 
 const api = {
