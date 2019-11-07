@@ -143,7 +143,9 @@
           "campaign": "BLOCKSTACK",
           "coinCode": "STX",
           "coinTicker": "STX",
+          "colorCode": "stx",
           "displayName": "Stacks",
+          "hasLockboxSupport": false,
           "availability": {
             "send": false,
             "request": false,
@@ -157,7 +159,7 @@
             "circle": "stx",
             "circleFilled": "stx"
           },
-          "hasLockboxSupport": false
+          "txListAppRoute": "/stx/transactions"
         },
         "XLM": {
           "airdrop": {

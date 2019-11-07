@@ -49,7 +49,8 @@ const Navigation = props => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM
+    supportedCoins.XLM,
+    supportedCoins.STX
   ]
 
   return (

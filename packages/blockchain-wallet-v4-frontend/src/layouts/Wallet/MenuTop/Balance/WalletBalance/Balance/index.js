@@ -52,6 +52,7 @@ const mapDispatchToProps = dispatch => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
+  stxActions: bindActionCreators(actions.core.data.stx, dispatch),
   xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
