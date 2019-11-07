@@ -4,7 +4,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
@@ -62,6 +61,7 @@ module.exports = {
     ]
   },
   output: {
+    pathinfo: false,
     path: PATHS.appBuild,
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/',
@@ -73,7 +73,17 @@ module.exports = {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
-          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 8, // number of cores on intel i5
+              workerParallelJobs: 32,
+              workerNodeArgs: ['--max-old-space-size=2048'],
+              poolRespawn: false,
+              poolTimeout: Infinity,
+              poolParallelJobs: 32
+            }
+          },
           'babel-loader'
         ]
       },
@@ -119,6 +129,7 @@ module.exports = {
       }
     ]
   },
+  devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
@@ -140,56 +151,7 @@ module.exports = {
     new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
-    namedModules: true,
-    minimizer: [
-      new UglifyJSPlugin({
-        uglifyOptions: {
-          warnings: false,
-          compress: {
-            warnings: false,
-            keep_fnames: true
-          },
-          mangle: {
-            keep_fnames: true
-          }
-        },
-        parallel: true,
-        cache: true
-      })
-    ],
-    concatenateModules: false,
-    runtimeChunk: {
-      name: `manifest.${manifestCacheBust}`
-    },
-    splitChunks: {
-      cacheGroups: {
-        default: {
-          chunks: 'initial',
-          name: 'app',
-          priority: -20,
-          reuseExistingChunk: true
-        },
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          priority: -10,
-          test: function(module) {
-            // ensure other packages in mono repo don't get put into vendor bundle
-            return (
-              module.resource &&
-              module.resource.indexOf('blockchain-wallet-v4-frontend/src') ===
-                -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-info-components/src'
-              ) === -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-wallet-v4/src'
-              ) === -1
-            )
-          }
-        }
-      }
-    }
+    minimize: false
   },
   devServer: {
     cert: sslEnabled
