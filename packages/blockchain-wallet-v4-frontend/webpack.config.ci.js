@@ -107,7 +107,7 @@ module.exports = {
           }
         },
         parallel: true,
-        cache: true
+        cache: false
       })
     ],
     runtimeChunk: {
