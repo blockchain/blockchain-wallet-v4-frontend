@@ -12,7 +12,6 @@ const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 
 const cspNonce = `2726c7f26c`
 let envConfig = {}
-let manifestCacheBust = new Date().getTime()
 let sslEnabled = process.env.DISABLE_SSL
   ? false
   : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
@@ -151,7 +150,36 @@ module.exports = {
     new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
-    minimize: false
+    minimize: false,
+    splitChunks: {
+      cacheGroups: {
+        default: {
+          chunks: 'initial',
+          name: 'app',
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        },
+        frontend: {
+          chunks: 'initial',
+          name: 'frontend',
+          priority: -11,
+          reuseExistingChunk: true,
+          test: function(module) {
+            return (
+              module.resource &&
+              module.resource.indexOf('blockchain-wallet-v4-frontend/src') !==
+                -1
+            )
+          }
+        }
+      }
+    }
   },
   devServer: {
     cert: sslEnabled
