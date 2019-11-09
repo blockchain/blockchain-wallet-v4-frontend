@@ -5,6 +5,7 @@ import coinify from './coinify/sagaRegister'
 import eth from './eth/sagaRegister'
 import misc from './misc/sagaRegister'
 import sfox from './sfox/sagaRegister'
+import stx from './stx/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, options, networks }) =>
@@ -15,5 +16,6 @@ export default ({ api, options, networks }) =>
     yield fork(eth({ api }))
     yield fork(misc({ api }))
     yield fork(sfox({ api, options }))
+    yield fork(stx())
     yield fork(xlm({ api, networks }))
   }
