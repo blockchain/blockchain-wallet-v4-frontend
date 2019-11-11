@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showAirdropClaimModal: true,
-  showUpgradeForAirdropModal: true,
+  showUpgradeForStxAirdropModal: true,
   showThePitPulse: true,
   totalBalancesDropdown: {
     wallet: true,
@@ -64,7 +64,7 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showAirdropClaimModal', false, state)
     }
     case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
-      return assoc('showUpgradeForAirdropModal', false, state)
+      return assoc('showUpgradeForStxAirdropModal', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)

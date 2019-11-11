@@ -26,6 +26,7 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
+import * as stxTransactions from './stxTransactions/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
@@ -61,6 +62,7 @@ export {
   sendXlm,
   settings,
   signMessage,
+  stxTransactions,
   transactionReport,
   uploadDocuments,
   veriff

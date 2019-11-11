@@ -27,7 +27,7 @@ const SubmittedIdentityVerificationForm = styled(IdentityVerificationForm)`
 const SubmittedWrapper = styled.div`
   display: flex;
   height: 100%;
-  width: 475px;
+  width: 450px;
   padding: 48px;
   text-align: center;
   align-items: center;
@@ -60,13 +60,6 @@ const NextStepsSubHeader = styled(Text).attrs({
 })`
   margin-top: 16px;
 `
-const ClaimButton = styled(Button)`
-  margin: 0 auto 40px;
-  height: 48px;
-  font-size: 16px;
-  width: 210px;
-  min-width: 210px;
-`
 const CloseButton = styled(Button)`
   margin: 30px auto 0;
   height: 48px;
@@ -89,6 +82,10 @@ const FooterButton = styled(Button)`
   min-width: auto;
   padding: 14px;
 `
+const AirdropIcon = styled(Icon)`
+  justify-content: center;
+  margin-bottom: 12px;
+`
 const FooterIcon = styled(Icon).attrs({
   color: 'white'
 })`
@@ -97,7 +94,12 @@ const FooterIcon = styled(Icon).attrs({
 
 class Submitted extends React.PureComponent {
   state = {
-    initialIsSunRiverTagged: this.props.isSunRiverTagged
+    initialIsBlockstackTagged: this.props.isBlockstackTagged
+  }
+
+  componentDidMount () {
+    const { identityVerificationActions, campaign } = this.props
+    identityVerificationActions.claimCampaignClicked(campaign)
   }
 
   handleCopy = () => {
@@ -112,19 +114,20 @@ class Submitted extends React.PureComponent {
   }
 
   render () {
-    const {
-      campaign,
-      onClose,
-      identityVerificationActions,
-      submitting
-    } = this.props
-    const { initialIsSunRiverTagged } = this.state
+    const { onClose, submitting, error } = this.props
+    const { initialIsBlockstackTagged } = this.state
     const { isLinkCopied } = this.state
     const link = 'https://www.blockchain.com/getcrypto'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
       `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
+    const parsedError =
+      typeof error === 'object'
+        ? error.message
+        : typeof error === 'string'
+        ? error
+        : 'Unknown Error'
 
     return (
       <SubmittedIdentityVerificationForm>
@@ -162,13 +165,8 @@ class Submitted extends React.PureComponent {
               />
             </NextStepsSubHeader>
           </NextSteps>
-          <Form
-            onSubmit={e => {
-              e.preventDefault()
-              identityVerificationActions.claimCampaignClicked(campaign)
-            }}
-          >
-            {initialIsSunRiverTagged ? (
+          <Form>
+            {initialIsBlockstackTagged ? (
               <React.Fragment>
                 <Text color='black' size='20px'>
                   <FormattedMessage
@@ -232,26 +230,26 @@ class Submitted extends React.PureComponent {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <ClaimButton
-                  nature='primary'
-                  type='submit'
-                  disabled={submitting}
-                >
-                  {submitting ? (
-                    <HeartbeatLoader height='20px' width='20px' color='white' />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.exchange.identityverification.submitted.enterairdrop'
-                      defaultMessage='Enter Airdrop Program'
-                    />
-                  )}
-                </ClaimButton>
-                <NextStepsSubHeader>
-                  <FormattedMessage
-                    id='modals.exchange.identityverification.submitted.makesuretoclick3'
-                    defaultMessage="By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region."
+                {submitting ? (
+                  <HeartbeatLoader
+                    height='32px'
+                    width='32px'
+                    color='blue500'
+                    style={{ margin: '0 auto' }}
                   />
-                </NextStepsSubHeader>
+                ) : error ? (
+                  parsedError
+                ) : (
+                  <React.Fragment>
+                    <AirdropIcon name='parachute' color='blue500' size='40px' />
+                    <NextStepsSubHeader>
+                      <FormattedMessage
+                        id='modals.exchange.identityverification.submitted.secured'
+                        defaultMessage='Once your verification is confirmed you’ll have secured your Stacks Airdrop.'
+                      />
+                    </NextStepsSubHeader>
+                  </React.Fragment>
+                )}
                 <CloseButton
                   nature='empty-secondary'
                   disabled={submitting}
@@ -276,8 +274,8 @@ Submitted.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  isSunRiverTagged: selectors.modules.profile
-    .getSunRiverTag(state)
+  isBlockstackTagged: selectors.modules.profile
+    .getBlockstackTag(state)
     .getOrElse(false)
 })
 
