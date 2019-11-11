@@ -1,13 +1,8 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
-import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
-
-import * as C from 'services/AlertService'
-import { actions, actionTypes, model, selectors } from 'data'
-import profileSagas from 'data/modules/profile/sagas'
-
 import * as A from './actions'
 import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   AIRDROP_ERROR_MODAL,
   BAD_CODE_ERROR,
@@ -21,8 +16,12 @@ import {
   SMS_STEPS,
   UPDATE_FAILURE
 } from './model'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
+import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { Types } from 'blockchain-wallet-v4'
+import profileSagas from 'data/modules/profile/sagas'
 
 export const logLocation = 'components/identityVerification/sagas'
 export const invalidNumberError = 'Failed to update mobile number'
@@ -73,6 +72,7 @@ export default ({ api, coreSagas }) => {
           e.message
         )
       )
+      if (e.message === 'PROMPT_FOR_SEC_PW_CANCEL') throw e
     }
   }
 
@@ -97,6 +97,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
       yield put(A.registerUserCampaign())
       // Buffer for tagging user
+      const wallet = yield select(selectors.core.wallet.getWallet)
+      if (Types.Wallet.isDoubleEncrypted(wallet)) {
+        yield take([
+          actionTypes.wallet.SUBMIT_SECOND_PASSWORD,
+          actionTypes.modals.CLOSE_MODAL
+        ])
+      }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
       yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)

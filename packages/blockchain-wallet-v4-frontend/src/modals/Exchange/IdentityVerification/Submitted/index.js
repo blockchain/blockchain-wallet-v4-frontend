@@ -114,13 +114,7 @@ class Submitted extends React.PureComponent {
   }
 
   render () {
-    const {
-      campaign,
-      onClose,
-      identityVerificationActions,
-      submitting,
-      _error
-    } = this.props
+    const { onClose, submitting, _error } = this.props
     const { initialIsBlockstackTagged } = this.state
     const { isLinkCopied } = this.state
     const link = 'https://www.blockchain.com/getcrypto'
@@ -171,12 +165,7 @@ class Submitted extends React.PureComponent {
               />
             </NextStepsSubHeader>
           </NextSteps>
-          <Form
-            onSubmit={e => {
-              e.preventDefault()
-              identityVerificationActions.claimCampaignClicked(campaign)
-            }}
-          >
+          <Form>
             {initialIsBlockstackTagged ? (
               <React.Fragment>
                 <Text color='black' size='20px'>
@@ -242,7 +231,12 @@ class Submitted extends React.PureComponent {
             ) : (
               <React.Fragment>
                 {submitting ? (
-                  <HeartbeatLoader height='20px' width='20px' color='blue500' />
+                  <HeartbeatLoader
+                    height='32px'
+                    width='32px'
+                    color='blue500'
+                    style={{ margin: '0 auto' }}
+                  />
                 ) : _error ? (
                   error
                 ) : (
