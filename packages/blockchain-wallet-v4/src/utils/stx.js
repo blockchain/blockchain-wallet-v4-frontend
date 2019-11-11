@@ -3,7 +3,8 @@ import Bitcoin from 'bitcoinjs-lib'
 
 export const deriveAddress = mnemonic => {
   const seed = BIP39.mnemonicToSeed(mnemonic)
-  const address = Bitcoin.HDNode.fromSeedBuffer(seed)
+  const address = Bitcoin.bip32
+    .fromSeedBuffer(seed)
     .deriveHardened(44)
     .deriveHardened(5757)
     .deriveHardened(0)
