@@ -30,7 +30,6 @@ export const failedResendError = 'Failed to resend the code'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
-export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
   const { TIERS } = model.profile
@@ -52,19 +51,7 @@ export default ({ api, coreSagas }) => {
     try {
       if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
       const campaignData = yield call(getCampaignData, campaign)
-      try {
-        yield call(
-          api.registerUserCampaign,
-          campaign.name,
-          campaignData,
-          newUser
-        )
-      } catch (error) {
-        // TODO: Phil take a look
-        // yield put(actions.modals.showModal(AIRDROP_ERROR_MODAL, { error }))
-        // yield put(actions.modules.profile.setCampaign({}))
-        throw new Error(invalidLinkError)
-      }
+      yield call(api.registerUserCampaign, campaign.name, campaignData, newUser)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -73,7 +60,6 @@ export default ({ api, coreSagas }) => {
           e.message
         )
       )
-      if (e.message === 'PROMPT_FOR_SEC_PW_CANCEL') throw e
     }
   }
 
@@ -112,17 +98,21 @@ export default ({ api, coreSagas }) => {
         [campaign]: false
       })
       const isCampaignTagged = prop(campaign, tags)
-      if (!isCampaignTagged) throw new Error(`${campaign} not tagged.`)
+      if (!isCampaignTagged) {
+        throw new Error(`${campaign} not tagged.`)
+      }
       yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
     } catch (error) {
-      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
-        _error: error
-      })
+      yield put(
+        actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM, {
+          _error: error
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
           'claimCampaignClicked',
-          `Error claim campaign: ${error}`
+          `Error claim campaign, ${error}`
         )
       )
     }

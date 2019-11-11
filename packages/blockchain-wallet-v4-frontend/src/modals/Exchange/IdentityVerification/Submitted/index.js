@@ -114,7 +114,7 @@ class Submitted extends React.PureComponent {
   }
 
   render () {
-    const { onClose, submitting, _error } = this.props
+    const { onClose, submitting, error } = this.props
     const { initialIsBlockstackTagged } = this.state
     const { isLinkCopied } = this.state
     const link = 'https://www.blockchain.com/getcrypto'
@@ -122,11 +122,11 @@ class Submitted extends React.PureComponent {
       'https://twitter.com/intent/tweet?text=' +
       `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
-    const error =
-      typeof _error === 'object'
-        ? _error.message
-        : typeof _error === 'string'
-        ? _error
+    const parsedError =
+      typeof error === 'object'
+        ? error.message
+        : typeof error === 'string'
+        ? error
         : 'Unknown Error'
 
     return (
@@ -237,8 +237,8 @@ class Submitted extends React.PureComponent {
                     color='blue500'
                     style={{ margin: '0 auto' }}
                   />
-                ) : _error ? (
-                  error
+                ) : error ? (
+                  parsedError
                 ) : (
                   <React.Fragment>
                     <AirdropIcon name='parachute' color='blue500' size='40px' />
