@@ -36,7 +36,11 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     // address handling (watch-only)
-    if (value && utils.btc.isValidBtcAddress(value, networks.btc)) {
+    if (
+      value &&
+      utils.btc.isValidBtcAddress(value, networks.btc) &&
+      !utils.btc.isSegwitAddress(value)
+    ) {
       yield call(importLegacyAddress, value, null, null, null, null)
     }
   }

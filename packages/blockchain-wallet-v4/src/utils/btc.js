@@ -28,11 +28,9 @@ export const isValidBtcAddress = (value, network) => {
   } catch (e) {
     try {
       const decoded = decode(value)
-
       if (decoded.prefix !== 'bc') {
         return false
       }
-
       // We only validate version 0 scripts
       // TODO Should we fail other scripts? This would make upgrading harder in the future
       if (decoded.words[0] === 0) {
@@ -45,6 +43,15 @@ export const isValidBtcAddress = (value, network) => {
     } catch (e1) {
       return false
     }
+  }
+}
+
+export const isSegwitAddress = value => {
+  try {
+    const decoded = decode(value)
+    return decoded.prefix === 'bc'
+  } catch (e) {
+    return false
   }
 }
 
