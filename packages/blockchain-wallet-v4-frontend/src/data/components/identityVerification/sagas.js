@@ -4,7 +4,7 @@ import * as C from 'services/AlertService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
-  AIRDROP_ERROR_MODAL,
+  // AIRDROP_ERROR_MODAL,
   BAD_CODE_ERROR,
   EMAIL_STEPS,
   FLOW_TYPES,
@@ -60,8 +60,9 @@ export default ({ api, coreSagas }) => {
           newUser
         )
       } catch (error) {
-        yield put(actions.modals.showModal(AIRDROP_ERROR_MODAL, { error }))
-        yield put(actions.modules.profile.setCampaign({}))
+        // TODO: Phil take a look
+        // yield put(actions.modals.showModal(AIRDROP_ERROR_MODAL, { error }))
+        // yield put(actions.modules.profile.setCampaign({}))
         throw new Error(invalidLinkError)
       }
     } catch (e) {

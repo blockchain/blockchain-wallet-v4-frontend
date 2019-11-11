@@ -102,3 +102,8 @@ export const PIT_EVENTS = {
     'linked_wallet_linkout_clicked'
   ]
 }
+
+export const PRICE_CHART_EVENTS = {
+  CLICK_BUY_BITCOIN: ['price_chart', 'footer_button', 'buy_bitcoin'],
+  CLICK_SWAP_COIN: ['price_chart', 'footer_button', 'swap_coin']
+}

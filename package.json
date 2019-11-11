@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.24.1",
+  "version": "4.24.2",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -21,8 +21,8 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.2",
-    "yarn": ">= 1.12"
+    "node": ">= 10.15",
+    "yarn": ">= 1.13"
   },
   "workspaces": [
     "packages/*"
@@ -98,7 +98,8 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "release": "release-it"
+    "release": "release-it",
+    "vet": "yarn prettier && yarn lint:fix && yarn lint:css && yarn test"
   },
   "devDependencies": {
     "@babel/cli": "7.6.2",
