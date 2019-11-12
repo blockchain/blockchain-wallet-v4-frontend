@@ -29,42 +29,16 @@ import './favicons'
   rootProcess.addEventListener(`error`, console.error)
   const { createProcess, setForeground } = rootProcess
 
-  const processUrlGenerators = [
-    [
-      /.+\.blockchain\.com/,
-      ({ environment }, name) =>
-        `https://wallet-${name}-${environment}.blockchain.com`
-    ],
-
-    [
-      /.+\.blockchain\.info/,
-      ({ environment }, name) =>
-        `https://wallet-frontend-v4-${name}.${environment}.blockchain.info`
-    ],
-
-    [
-      /localhost/,
-      ({ environment }, name) =>
-        name === `main` ? MAIN_PROCESS_URL : SECURITY_PROCESS_URL
-    ]
-  ]
-
-  const [, generator] = processUrlGenerators.find(([expression]) =>
-    expression.test(window.location.hostname)
-  )
-
   const options = await (await fetch(
     '/Resources/wallet-options-v4.json'
   )).json()
 
-  const { environment } = options.platforms.web.application
-  const mainProcessDomain = generator({ environment }, `main`)
-  const securityProcessDomain = generator({ environment }, `security`)
+  const { domains } = options
 
   const mainProcessPromise = createProcess({
     name: `main`,
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: `${mainProcessDomain}/#/login`
+    src: `${domains.mainProcess}/#/login`
   })
 
   const pathname = window.location.hash.slice(1)
@@ -74,7 +48,7 @@ import './favicons'
     // `allow-popups allow-popups-to-escape-sandbox`: Allow downloading of the
     // backup phrase recovery PDF.
     sandbox: `allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts`,
-    src: `${securityProcessDomain}/#${pathname}`
+    src: `${domains.securityProcess}/#${pathname}`
   })
 
   setForeground(securityProcess, `lightgreen`)
