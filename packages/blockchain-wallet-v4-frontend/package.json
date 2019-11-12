@@ -17,7 +17,7 @@
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
-    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage --silent",
+    "coverage": "cross-env npx jest --coverage --silent",
     "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
     "manage:translations": "yarn build:prod && node ./translationRunner.js",
