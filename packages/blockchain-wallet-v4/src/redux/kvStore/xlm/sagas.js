@@ -10,7 +10,10 @@ import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks, securityModule } = {}) => {
   const createXlm = function * ({ kv, password }) {
-    const keypair = yield call(getKeyPair, securityModule, password)
+    const keypair = yield call(getKeyPair, {
+      securityModule,
+      secondPassword: password
+    })
 
     const xlm = {
       default_account_idx: 0,

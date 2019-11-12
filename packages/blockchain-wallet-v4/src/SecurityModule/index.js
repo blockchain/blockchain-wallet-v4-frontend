@@ -5,6 +5,7 @@
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import * as ed25519 from 'ed25519-hd-key'
+import EthHd from 'ethereumjs-wallet/hdkey'
 
 import * as selectors from '../redux/wallet/selectors'
 import Core from './core'
@@ -12,7 +13,7 @@ import * as types from '../types'
 import { taskToPromise } from '../utils/functional'
 import * as crypto from '../walletCrypto'
 
-const core = Core({ BIP39, Bitcoin, crypto, ed25519 })
+const core = Core({ BIP39, Bitcoin, crypto, ed25519, EthHd })
 
 export default ({ store }) => {
   const getSeedHex = ({ secondPassword }) => {
