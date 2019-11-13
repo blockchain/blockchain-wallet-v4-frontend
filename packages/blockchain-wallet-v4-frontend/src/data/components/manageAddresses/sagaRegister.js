@@ -15,6 +15,10 @@ export default ({ api, networks }) => {
       manageAddressesSagas.editAddressLabel
     )
     yield takeLatest(
+      AT.EDIT_IMPORTED_ADDRESS_LABEL,
+      manageAddressesSagas.editImportedAddressLabel
+    )
+    yield takeLatest(
       AT.GENERATE_NEXT_RECEIVE_ADDRESS,
       manageAddressesSagas.generateNextReceiveAddress
     )
