@@ -12,84 +12,14 @@ const path = require('path')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 
-const babelConfig = require(`./babel.config`)
-const ProcessBabelConfig = require(`./babel.process.config`)
-const PATHS = require('../../config/paths')
+const BabelConfig = require(`./BabelConfig.js`)
+const PATHS = require('../config/paths')
 
-let manifestCacheBust = new Date().getTime()
-const runBundleAnalyzer = process.env.ANALYZE
-
-const rootProcess = () => {
-  const src = path.join(__dirname, `src`)
-
-  return {
-    mode: 'production',
-    name: `root`,
-    node: {
-      fs: 'empty'
-    },
-    entry: ['@babel/polyfill', src + '/index.js'],
-    output: {
-      path: path.join(PATHS.ciBuild, `root`),
-      chunkFilename: '[name].[chunkhash:10].js',
-      publicPath: '/',
-      crossOriginLoading: 'anonymous'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          use: [
-            { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
-            { loader: 'babel-loader', options: babelConfig }
-          ]
-        },
-        {
-          test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
-          use: {
-            loader: 'file-loader',
-            options: {
-              name: 'img/[name].[ext]'
-            }
-          }
-        }
-      ]
-    },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new CaseSensitivePathsPlugin(),
-      new HtmlWebpackPlugin({
-        template: src + '/index.html',
-        filename: 'index.html'
-      })
-    ],
-    optimization: {
-      namedModules: true,
-      minimizer: [
-        new UglifyJSPlugin({
-          uglifyOptions: {
-            warnings: false,
-            compress: {
-              keep_fnames: true
-            },
-            mangle: {
-              keep_fnames: true
-            }
-          },
-          parallel: true,
-          cache: false
-        })
-      ],
-      concatenateModules: true,
-      runtimeChunk: {
-        name: `manifest.${manifestCacheBust}`
-      }
-    }
-  }
-}
-
-const ProcessConfiguration = name => {
-  const directory = path.join(__dirname, `../${name}-process`)
+const ProcessConfiguration = ({
+  now: manifestCacheBust,
+  runBundleAnalyzer
+}) => name => {
+  const directory = path.join(__dirname, `../packages/${name}-process`)
   const src = path.join(directory, `src`)
 
   return {
@@ -111,7 +41,7 @@ const ProcessConfiguration = name => {
           test: /\.js$/,
           use: [
             { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
-            { loader: 'babel-loader', options: ProcessBabelConfig(directory) }
+            { loader: 'babel-loader', options: BabelConfig(directory) }
           ]
         },
         {
@@ -189,8 +119,9 @@ const ProcessConfiguration = name => {
   }
 }
 
-module.exports = [
-  rootProcess,
-  ProcessConfiguration(`main`),
-  ProcessConfiguration(`security`)
-]
+const main = ({ env: { ANALYZE }, now }) =>
+  [`main`, `root`, `security`].map(
+    ProcessConfiguration({ now, runBundleAnalyzer: ANALYZE })
+  )
+
+module.exports = main({ env: process.env, now: Date.now() })

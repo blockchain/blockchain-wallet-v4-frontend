@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "test": "echo 'No tests to execute.'",
     "test:build": "echo 'No precomplilation required for tests to execute.'"
   },
