@@ -18,11 +18,11 @@ const BuyTradeButton = styled(Button)`
   width: 100%;
 
   &:first-child {
-    margin: 0 24px;
+    margin: 0 12px;
   }
 
   &:last-child {
-    margin: 0 24px;
+    margin: 0 12px;
   }
 `
 
