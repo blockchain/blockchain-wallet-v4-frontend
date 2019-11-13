@@ -23,6 +23,10 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(actionTypes.CHANGE, sendEthSagas.formChanged)
     yield takeLatest(
+      AT.SEND_ETH_CHECK_IS_CONTRACT,
+      sendEthSagas.checkIsContract
+    )
+    yield takeLatest(
       AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED,
       sendEthSagas.regularFeeClicked
     )

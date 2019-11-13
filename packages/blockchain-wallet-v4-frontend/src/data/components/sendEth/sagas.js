@@ -137,21 +137,8 @@ export default ({ api, coreSagas, networks }) => {
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
-          // sending TO lockbox results in payload being an object
           // After updating payment success check if to isContract
-          try {
-            yield put(A.sendEthCheckIsContractLoading())
-            const { contract } = yield call(api.checkContract, value)
-            const { fee, account } = yield select(
-              selectors.form.getFormValues(FORM)
-            )
-            payment = yield payment.setIsContract(contract)
-            payment = yield payment.fee(fee, account)
-            yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
-            yield put(A.sendEthCheckIsContractSuccess(contract))
-          } catch (e) {
-            yield put(A.sendEthCheckIsContractFailure(e))
-          }
+          yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
           const coinCode = prop('coinCode', payload)
@@ -381,11 +368,17 @@ export default ({ api, coreSagas, networks }) => {
 
   const checkIsContract = function * ({ payload }) {
     try {
+      let p = yield select(S.getPayment)
+      let payment = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: networks.eth
+      })
       yield put(A.sendEthCheckIsContractLoading())
-      // sending TO lockbox results in payload being an object
-      const ethAddr = propOr(payload, 'address', payload)
-      const { contract } = yield call(api.checkContract, ethAddr)
-
+      const { contract } = yield call(api.checkContract, payload)
+      const { fee, account } = yield select(selectors.form.getFormValues(FORM))
+      payment = yield payment.setIsContract(contract)
+      payment = yield payment.fee(fee, account)
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       yield put(A.sendEthCheckIsContractSuccess(contract))
     } catch (e) {
       yield put(A.sendEthCheckIsContractFailure(e))
