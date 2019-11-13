@@ -156,6 +156,7 @@ export const FieldMimic = styled.div`
 
 export const IdentityVerificationForm = styled(Form)`
   height: 100%;
+  scroll-behavior: smooth;
   label[for='${props => props.activeField}'] {
     color: ${props => props.theme['brand-primary']};
   }

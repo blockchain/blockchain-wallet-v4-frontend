@@ -1,10 +1,3 @@
-import { defaultTo, replace } from 'ramda'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   ageOverEighteen,
   countryUsesPostalcode,
@@ -14,11 +7,6 @@ import {
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
-import { getElementsPropType } from 'utils/proptypes'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { model } from 'data'
-import media from 'services/ResponsiveService'
-
 import {
   Banner,
   Button,
@@ -36,6 +24,7 @@ import {
   SelectBox,
   TextBox
 } from 'components/Form'
+import { defaultTo, replace } from 'ramda'
 import {
   EmailHelper,
   FaqFormGroup,
@@ -47,7 +36,16 @@ import {
   InputWrapper,
   Label
 } from 'components/IdentityVerification'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { getElementsPropType } from 'utils/proptypes'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { model } from 'data'
 import { SCROLL_REF_ID } from './index'
+import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
@@ -171,6 +169,13 @@ const Personal = ({
   editEmail,
   updateEmail
 }) => {
+  const scrollToId = id => {
+    const element = document.getElementById(id)
+    const parent = document.getElementById(SCROLL_REF_ID)
+    const { y } = element.getBoundingClientRect()
+    parent.scrollTo(0, y - 50)
+  }
+
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
 
@@ -303,7 +308,7 @@ const Personal = ({
                         <FaqFormGroup>
                           <PersonalItem>
                             <PersonalField>
-                              <Label htmlFor='firstName'>
+                              <Label htmlFor='firstName' id='firstName'>
                                 <FormattedMessage
                                   id='identityverification.personal.firstnamerequired'
                                   defaultMessage='First Name *'
@@ -315,6 +320,7 @@ const Personal = ({
                                 validate={required}
                                 component={TextBox}
                                 errorBottom
+                                onFocus={() => scrollToId('firstName')}
                               />
                             </PersonalField>
                             <PersonalField>
