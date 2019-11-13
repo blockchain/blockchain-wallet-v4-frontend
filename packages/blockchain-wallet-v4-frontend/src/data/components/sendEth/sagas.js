@@ -137,8 +137,21 @@ export default ({ api, coreSagas, networks }) => {
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+          // sending TO lockbox results in payload being an object
           // After updating payment success check if to isContract
-          yield put(A.sendEthCheckIsContract(value))
+          try {
+            yield put(A.sendEthCheckIsContractLoading())
+            const { contract } = yield call(api.checkContract, value)
+            const { fee, account } = yield select(
+              selectors.form.getFormValues(FORM)
+            )
+            payment = yield payment.setIsContract(contract)
+            payment = yield payment.fee(fee, account)
+            yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+            yield put(A.sendEthCheckIsContractSuccess(contract))
+          } catch (e) {
+            yield put(A.sendEthCheckIsContractFailure(e))
+          }
           return
         case 'amount':
           const coinCode = prop('coinCode', payload)
@@ -372,6 +385,7 @@ export default ({ api, coreSagas, networks }) => {
       // sending TO lockbox results in payload being an object
       const ethAddr = propOr(payload, 'address', payload)
       const { contract } = yield call(api.checkContract, ethAddr)
+
       yield put(A.sendEthCheckIsContractSuccess(contract))
     } catch (e) {
       yield put(A.sendEthCheckIsContractFailure(e))

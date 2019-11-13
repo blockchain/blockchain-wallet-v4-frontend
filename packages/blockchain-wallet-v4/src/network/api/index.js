@@ -34,7 +34,7 @@ export default ({
   const coinifyUrl = options.domains.coinify
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
-  const nabuUrl = `${apiUrl}/nabu-gateway`
+  const nabuUrl = `${apiUrl}/nabu-gateways`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
   return {
