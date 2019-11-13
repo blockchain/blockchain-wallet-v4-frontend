@@ -218,9 +218,10 @@ export default ({ api }) => {
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
 
-        const gasLimit = p.isErc20
-          ? path(['fees', 'gasLimitContract'], p)
-          : path(['fees', 'gasLimit'], p)
+        const gasLimit =
+          p.isErc20 || p.isContract
+            ? path(['fees', 'gasLimitContract'], p)
+            : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
 
         const data = p.isErc20
@@ -247,9 +248,10 @@ export default ({ api }) => {
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
-        const gasLimit = p.isErc20
-          ? path(['fees', 'gasLimitContract'], p)
-          : path(['fees', 'gasLimit'], p)
+        const gasLimit =
+          p.isErc20 || p.isContract
+            ? path(['fees', 'gasLimitContract'], p)
+            : path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', fromData)
         const from = prop('address', fromData)
         const fromType = prop('type', fromData)
@@ -354,6 +356,8 @@ export default ({ api }) => {
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
           setIsErc20: val => chain(gen, payment => payment.setIsErc20(val)),
+          setIsContract: val =>
+            chain(gen, payment => payment.setIsContract(val)),
           setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
           description: message =>
             chain(gen, payment => payment.description(message)),
