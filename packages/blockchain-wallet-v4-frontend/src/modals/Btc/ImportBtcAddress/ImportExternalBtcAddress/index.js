@@ -72,7 +72,7 @@ class ImportExternalBtcAddress extends React.PureComponent {
             <Label for='addrOrPriv'>
               <FormattedMessage
                 id='modals.importbtcaddress.importexternalbitcoinaddress.label'
-                defaultMessage='Enter a label for your address (optional)'
+                defaultMessage='Enter a label (optional)'
               />
             </Label>
             <Row>

@@ -24,7 +24,7 @@ class ImportedAddressesContainer extends React.Component {
 
   handleEditLabel = address => {
     const btcAddr = fromCashAddr(address.addr)
-    this.props.componentActions.editLegacyAddressLabel(btcAddr)
+    this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
   render () {
     const { data, ...rest } = this.props
