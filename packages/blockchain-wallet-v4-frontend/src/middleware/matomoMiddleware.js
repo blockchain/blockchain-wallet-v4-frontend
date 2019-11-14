@@ -1,4 +1,4 @@
-import { contains, path, prop } from 'ramda'
+import { contains, equals, path, prop } from 'ramda'
 
 const PAYLOAD = ['payload']
 const NAME = ['payload', 'name']
@@ -23,6 +23,8 @@ const TYPE_WHITELIST = [
   'SHOW_MODAL'
 ]
 
+let lastEvent = []
+
 const matomoMiddleware = () => store => next => action => {
   try {
     const eventCategory = prop('type', action)
@@ -36,16 +38,19 @@ const matomoMiddleware = () => store => next => action => {
     const eventAction =
       typeof nextAction !== 'string' ? JSON.stringify(nextAction) : nextAction
     const logEvent = contains(action.type, TYPE_WHITELIST)
+    const nextEvent = [eventCategory, eventAction, eventName]
 
-    if (logEvent) {
+    if (logEvent && !equals(nextEvent, lastEvent)) {
       const frame = document.getElementById('matomo-iframe')
       frame.contentWindow.postMessage(
         {
           method: 'trackEvent',
-          messageData: [eventCategory, eventAction, eventName]
+          messageData: nextEvent
         },
         '*'
       )
+
+      lastEvent = nextEvent
     }
   } catch (e) {
     /* eslint-disable-next-line */
