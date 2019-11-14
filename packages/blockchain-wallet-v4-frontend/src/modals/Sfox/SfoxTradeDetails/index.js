@@ -1,29 +1,29 @@
-import React from 'react'
-import moment from 'moment'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { FormattedMessage } from 'react-intl'
 import { actions, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
+import { bindActionCreators, compose } from 'redux'
+import { bodyStatusHelper, statusHelper } from 'services/SfoxService'
 import {
+  Button,
   Icon,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text,
-  Button,
-  TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
-import {
-  OrderDetailsTable,
-  OrderDetailsRow
-} from 'components/BuySell/OrderDetails'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { MethodContainer } from 'components/BuySell/styled.js'
-import { statusHelper, bodyStatusHelper } from 'services/SfoxService'
+import {
+  OrderDetailsRow,
+  OrderDetailsTable
+} from 'components/BuySell/OrderDetails'
 import { spacing } from 'services/StyleService'
 import FundingSource from 'components/BuySell/FundingSource'
+import modalEnhancer from 'providers/ModalEnhancer'
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
 
 const ButtonRow = styled.div`
   display: flex;

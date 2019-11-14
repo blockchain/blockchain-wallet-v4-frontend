@@ -1,24 +1,24 @@
-import React from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { Button, Link, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
-import { required } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
-import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  Form,
   CancelWrapper,
   ColLeft,
   ColRight,
   ColRightInner,
+  Form,
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
+import { required } from 'services/FormHelper'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 import { SellContainer } from 'components/BuySell/styled'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
 
 const SpaceRow = styled.div`
   width: 100%;

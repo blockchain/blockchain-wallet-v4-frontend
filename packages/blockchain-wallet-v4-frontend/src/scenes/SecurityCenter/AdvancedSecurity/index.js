@@ -1,14 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-
 import APIAccess from './APIAccess'
 import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
-import WalletAccessTor from './WalletAccessTor'
-import TwoStepVerificationRemember from './TwoStepVerificationRemember'
-import WalletPassword from './WalletPassword'
+import React from 'react'
 import SecondPasswordWallet from './SecondPasswordWallet'
+import styled from 'styled-components'
+import TwoStepVerificationRemember from './TwoStepVerificationRemember'
+import WalletAccessTor from './WalletAccessTor'
+import WalletPassword from './WalletPassword'
 
 const Wrapper = styled.div`
   margin-top: 20px;

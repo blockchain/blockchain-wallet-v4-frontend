@@ -1,12 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
+import React from 'react'
 import Success from './template.success'
 
 class EmailAddressContainer extends React.PureComponent {

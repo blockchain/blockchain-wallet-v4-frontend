@@ -1,3 +1,4 @@
+import { all, call, delay, put, select } from 'redux-saga/effects'
 import {
   both,
   complement,
@@ -13,11 +14,10 @@ import {
   values,
   whereEq
 } from 'ramda'
-import { all, call, put, delay, select } from 'redux-saga/effects'
 import moment from 'moment'
 
-import { selectors, model, actions } from 'data'
 import * as A from './actions'
+import { actions, model, selectors } from 'data'
 
 export const socketAuthRetryDelay = 5000
 const openChannels = {

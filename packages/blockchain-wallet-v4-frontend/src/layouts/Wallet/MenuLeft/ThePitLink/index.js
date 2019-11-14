@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Joyride from 'react-joyride/lib'
+import React from 'react'
+import styled from 'styled-components'
 
-import { Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem } from 'components/MenuLeft'
 import {
   JoyrideSpotlight,
@@ -13,14 +12,20 @@ import {
   StepIcon,
   StepTitle
 } from 'components/Tour'
+import { Link, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import PitTooltip from './PitTooltip'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  position: relative;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 12px;
+  top: -8px;
 `
 
 const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
@@ -35,9 +40,9 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
     </Destination>
     {isPitAccountLinked && (
       <HelperTipContainer>
-        <TooltipHost id='pitSideNavConnected'>
+        <HelperTip id='pitSideNavConnected'>
           <TooltipIcon color='blue' name='info' />
-        </TooltipHost>
+        </HelperTip>
       </HelperTipContainer>
     )}
   </>

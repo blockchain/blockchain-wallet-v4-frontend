@@ -1,6 +1,6 @@
+import { merge, path, pathOr, prop } from 'ramda'
 import axios from 'axios'
 import queryString from 'query-string'
-import { prop, path, pathOr, merge } from 'ramda'
 
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity

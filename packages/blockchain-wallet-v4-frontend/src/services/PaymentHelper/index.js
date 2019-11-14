@@ -1,7 +1,7 @@
-import { model, selectors } from 'data'
-import { curry, prop, toLower } from 'ramda'
-import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { curry, prop, toLower } from 'ramda'
+import { model, selectors } from 'data'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export const btcToLabel = curry((payment, state) => {
   const target = payment.to[0]

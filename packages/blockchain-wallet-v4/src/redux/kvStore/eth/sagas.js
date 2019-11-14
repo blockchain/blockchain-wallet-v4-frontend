@@ -1,31 +1,31 @@
+import * as A from './actions'
+import * as eth from '../../../utils/eth'
 import {
   assoc,
-  includes,
   filter,
   forEach,
   head,
+  includes,
+  isEmpty,
+  isNil,
   keys,
   path,
   pathOr,
   prop,
-  isNil,
-  isEmpty,
   toLower
 } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
-import { set } from 'ramda-lens'
-import * as A from './actions'
-import { Map } from 'immutable-ext'
-import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
+import { callTask } from '../../../utils/functional'
 import { derivationMap, ETH } from '../config'
-import * as eth from '../../../utils/eth'
-import { getMnemonic } from '../../wallet/selectors'
 import {
   getErc20CoinList,
   getSupportedCoins
 } from '../../walletOptions/selectors'
-import { callTask } from '../../../utils/functional'
+import { getMetadataXpriv } from '../root/selectors'
+import { getMnemonic } from '../../wallet/selectors'
+import { KVStoreEntry } from '../../../types'
+import { Map } from 'immutable-ext'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks } = {}) => {
   const deriveAccount = function * (password) {

@@ -1,6 +1,6 @@
+import * as selectors from './selectors'
 import { reverse } from 'ramda'
 import Remote from '../../../remote'
-import * as selectors from './selectors'
 
 describe('kvstore shapeshift selectors', () => {
   const pendingTrade = {

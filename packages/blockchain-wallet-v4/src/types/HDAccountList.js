@@ -1,8 +1,8 @@
-import { filter, map, addIndex, is, pipe, curry } from 'ramda'
+import * as HDAccount from './HDAccount'
+import { addIndex, curry, filter, is, map, pipe } from 'ramda'
+import { iLensProp } from './util'
 import { view } from 'ramda-lens'
 import List from './List'
-import * as HDAccount from './HDAccount'
-import { iLensProp } from './util'
 
 const mapIndexed = addIndex(map)
 

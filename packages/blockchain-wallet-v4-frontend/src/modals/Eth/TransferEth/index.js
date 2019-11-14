@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-import Success from './template.success.js'
 import { getData } from './selectors.js'
 import { Remote } from 'blockchain-wallet-v4/src'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Success from './template.success.js'
 
 class TransferEthContainer extends React.PureComponent {
   constructor (props) {

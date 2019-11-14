@@ -1,8 +1,8 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Link, Icon, Image, Text } from 'blockchain-info-components'
+import { Icon, Image, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

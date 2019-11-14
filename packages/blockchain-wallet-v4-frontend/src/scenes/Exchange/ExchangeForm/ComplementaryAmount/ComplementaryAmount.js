@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
-
-import { getData } from './selectors'
 import { formatAmount } from '../services'
+import { getData } from './selectors'
+import React from 'react'
 import StringDisplay from 'components/Display/StringDisplay'
+import styled from 'styled-components'
 
 const ComplementaryAmountContainer = styled.div`
   font-weight: 400;

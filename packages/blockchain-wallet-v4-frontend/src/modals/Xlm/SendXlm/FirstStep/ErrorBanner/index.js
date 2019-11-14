@@ -6,9 +6,9 @@ import {
   RESERVE_ERROR
 } from '../validation'
 import {
-  ShouldCreateAccountMessage,
   NoFundsMessage,
-  ReserveMessage
+  ReserveMessage,
+  ShouldCreateAccountMessage
 } from '../validationMessages'
 
 export const ErrorBanner = ({ error }) => {

@@ -1,6 +1,6 @@
+import { actions, selectors } from 'data'
 import { call, put, select } from 'redux-saga/effects'
 import { contains } from 'ramda'
-import { actions, selectors } from 'data'
 
 export default () => {
   const refreshClicked = function * () {

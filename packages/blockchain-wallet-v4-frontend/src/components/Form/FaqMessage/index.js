@@ -1,6 +1,6 @@
+import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Icon } from 'blockchain-info-components'
 
 const Container = styled.div`
   box-sizing: border-box;

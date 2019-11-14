@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Route, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Redirect, Route } from 'react-router-dom'
+import React from 'react'
 
 import { actions, selectors } from 'data'
 import WalletLayout from './template'

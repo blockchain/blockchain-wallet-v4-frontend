@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import { filter } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import AddressRow from '../AddressRow'
-import { filter } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

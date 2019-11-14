@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text,
   TooltipHost,
   TooltipIcon

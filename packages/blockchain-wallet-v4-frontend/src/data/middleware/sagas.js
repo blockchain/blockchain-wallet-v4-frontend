@@ -1,5 +1,9 @@
 import webSocket from './webSocket/sagas'
 
-export default ({ api, bchSocket, btcSocket, ethSocket, ratesSocket }) => ({
-  webSocket: webSocket({ api, bchSocket, btcSocket, ethSocket, ratesSocket })
+export default ({ api, ratesSocket, coinsSocket }) => ({
+  webSocket: webSocket({
+    api,
+    ratesSocket,
+    coinsSocket
+  })
 })

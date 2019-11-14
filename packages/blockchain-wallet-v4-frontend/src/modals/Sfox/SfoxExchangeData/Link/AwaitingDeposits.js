@@ -1,10 +1,10 @@
+import { Button, Image, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { PartnerHeader } from 'components/IdentityVerification'
+import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Image, Text, Button } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
-import media from 'services/ResponsiveService'
-import { PartnerHeader } from 'components/IdentityVerification'
 
 const Container = styled.div`
   height: 100%;

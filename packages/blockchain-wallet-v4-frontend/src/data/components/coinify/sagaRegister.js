@@ -1,7 +1,7 @@
-import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import sagas from './sagas'
 import { actionTypes } from 'redux-form'
+import { takeLatest } from 'redux-saga/effects'
+import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const coinifySagas = sagas({ api, coreSagas, networks })

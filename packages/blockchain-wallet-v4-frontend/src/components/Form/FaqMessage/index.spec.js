@@ -1,7 +1,7 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import FaqMessage from './index.js'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 describe('FooterShadowWrapper', () => {
   it('renders correctly', () => {

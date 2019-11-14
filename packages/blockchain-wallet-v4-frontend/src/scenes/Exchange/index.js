@@ -1,16 +1,15 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { path } from 'ramda'
-
 import { actions } from 'data'
 import { BlockchainLoader } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
-import media from 'services/ResponsiveService'
-import GetStarted from './GetStarted'
-import Exchange from './ExchangeContainer'
+import { path } from 'ramda'
 import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
+import Exchange from './ExchangeContainer'
+import GetStarted from './GetStarted'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData, getQuote } from './selectors'
-import Success from './template.success'
-import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import Loading from 'components/BuySell/Loading'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import Success from './template.success'
 
 class PaymentContainer extends PureComponent {
   componentDidMount () {

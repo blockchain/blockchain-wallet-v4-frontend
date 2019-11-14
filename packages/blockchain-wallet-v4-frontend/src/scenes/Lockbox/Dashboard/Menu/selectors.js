@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { pathOr } from 'ramda'
+import { selectors } from 'data'
 
 export const getFormValues = state => {
   const formValues = selectors.form.getFormValues('lockboxTransactions')(state)

@@ -1,7 +1,7 @@
-import React from 'react'
 import Buy from './Buy'
-import Sell from './Sell'
 import OrderHistory from './OrderHistory'
+import React from 'react'
+import Sell from './Sell'
 
 class Checkout extends React.PureComponent {
   render () {

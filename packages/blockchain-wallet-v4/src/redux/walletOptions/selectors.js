@@ -1,3 +1,4 @@
+import { createDeepEqualSelector } from '../../utils'
 import {
   curry,
   filter,
@@ -12,7 +13,6 @@ import {
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
 import { walletOptionsPath } from '../paths'
-import { createDeepEqualSelector } from '../../utils'
 
 // general
 export const getOptions = path([walletOptionsPath])

@@ -1,11 +1,10 @@
-import { mapObjIndexed, any, equals, identity, values, sequence } from 'ramda'
-import Task from 'data.task'
-
 import * as A from './actions'
-import * as T from './actionTypes'
 import * as C from './config'
+import * as T from './actionTypes'
+import { any, equals, identity, mapObjIndexed, sequence, values } from 'ramda'
 import { kvStorePath } from '../paths'
 import Remote from '../../remote'
+import Task from 'data.task'
 
 const kvStoreMiddleware = ({
   isAuthenticated,

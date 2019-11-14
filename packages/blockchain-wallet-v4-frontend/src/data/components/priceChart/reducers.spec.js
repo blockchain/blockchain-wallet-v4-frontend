@@ -1,5 +1,5 @@
-import reducer from './reducers'
 import * as actions from './actions'
+import reducer from './reducers'
 
 const INITIAL_STATE = {
   coin: 'BTC',

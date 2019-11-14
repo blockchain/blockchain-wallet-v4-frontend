@@ -1,7 +1,7 @@
+import { Banner } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Banner } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   margin-top: 15px;

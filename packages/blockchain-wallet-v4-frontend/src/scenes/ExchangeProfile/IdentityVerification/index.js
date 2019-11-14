@@ -1,7 +1,4 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-
 import {
   Icon,
   Text,
@@ -9,8 +6,10 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import TierCard from 'components/IdentityVerification/TierCard'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,11 +1,10 @@
-import React from 'react'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-
-import { actions } from 'data'
 import { Icon, Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

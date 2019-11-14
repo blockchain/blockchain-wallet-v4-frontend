@@ -1,6 +1,6 @@
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { STATUS } from 'react-joyride/lib'
 
 export const getData = createDeepEqualSelector(
@@ -34,7 +34,7 @@ export const getData = createDeepEqualSelector(
     adsUrlR,
     userKYCState
   ) => {
-    const transform = (canTrade, lockboxDevices, countryCode, userKYCState) => {
+    const transform = (canTrade, lockboxDevices, countryCode) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
         adsUrl: adsUrlR.getOrElse(''),
@@ -48,15 +48,10 @@ export const getData = createDeepEqualSelector(
         menuOpened,
         pathname,
         showThePitPulse,
-        userKYCState
+        userKYCState: userKYCState.getOrElse(null)
       }
     }
 
-    return lift(transform)(
-      canTradeR,
-      lockboxDevicesR,
-      countryCodeR,
-      userKYCState
-    )
+    return lift(transform)(canTradeR, lockboxDevicesR, countryCodeR)
   }
 )

@@ -1,18 +1,18 @@
-import { over, mapped, set, view } from 'ramda-lens'
+import * as AT from './actionTypes'
 import {
   append,
   assoc,
   compose,
-  findIndex,
-  path,
   equals,
+  findIndex,
   lensIndex,
+  path,
   toLower
 } from 'ramda'
-import * as AT from './actionTypes'
-import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
+import { mapped, over, set, view } from 'ramda-lens'
 import { value } from '../../../types/KVStoreEntry'
+import Remote from '../../../remote'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked

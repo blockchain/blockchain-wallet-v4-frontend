@@ -1,8 +1,8 @@
-import { indexBy, map, prop, compose, is, pipe, curry } from 'ramda'
+import * as AddressBookEntry from './AddressBookEntry'
+import { compose, curry, indexBy, is, map, pipe, prop } from 'ramda'
+import { iLensProp } from './util'
 import { view } from 'ramda-lens'
 import Type from './Type'
-import * as AddressBookEntry from './AddressBookEntry'
-import { iLensProp } from './util'
 
 export class AddressBook extends Type {}
 

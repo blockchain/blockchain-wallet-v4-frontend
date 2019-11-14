@@ -4,19 +4,19 @@ import {
   Banner,
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  TooltipIcon,
-  TooltipHost
+  ModalHeader,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 
-import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
 import * as services from './services'
+import { FormattedMessage } from 'react-intl'
+import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
+import { validBtcAddress } from 'services/FormHelper'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { validBtcAddress } from 'services/FormHelper'
 import styled from 'styled-components'
 
 const Item = styled(FormItem)`

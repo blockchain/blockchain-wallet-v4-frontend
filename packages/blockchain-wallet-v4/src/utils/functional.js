@@ -1,5 +1,5 @@
-import { compose } from 'ramda'
 import { call } from 'redux-saga/effects'
+import { compose } from 'ramda'
 
 // Used as default value for functions
 export const noop = () => {}

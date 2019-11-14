@@ -1,7 +1,7 @@
-import React from 'react'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { SkeletonRectangle } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import React from 'react'
 
 // Rates API is not the most accurate for COIN-FIAT pairs
 // So fallback for targetFiat to our ticker API (FiatDisplay)

@@ -1,8 +1,8 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 
-import { Link } from '../Links'
 import { Image } from '../Images'
+import { Link } from '../Links'
 
 const Badge = ({ ...props }) => {
   const { type } = props

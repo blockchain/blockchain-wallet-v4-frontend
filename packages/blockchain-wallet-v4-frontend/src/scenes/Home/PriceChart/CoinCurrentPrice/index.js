@@ -1,12 +1,11 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { propOr } from 'ramda'
-import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
-
+import { Text } from 'blockchain-info-components'
 import CoinTicker from './CoinTicker'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

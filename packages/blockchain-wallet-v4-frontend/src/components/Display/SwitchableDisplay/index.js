@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectors } from 'data'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import CoinDisplay from '../CoinDisplay'
 import FiatDisplay from '../FiatDisplay'

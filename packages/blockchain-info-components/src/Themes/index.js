@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { ThemeProvider } from 'styled-components'
 import { Palette } from '../Colors'
+import { ThemeProvider } from 'styled-components'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const Themes = props => {
   const { theme, children } = props

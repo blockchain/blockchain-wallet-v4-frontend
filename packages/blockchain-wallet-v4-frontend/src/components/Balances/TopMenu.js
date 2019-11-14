@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text, SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'

@@ -1,17 +1,17 @@
+import { equals, includes, keys, toUpper } from 'ramda'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { equals, keys, includes, toUpper } from 'ramda'
 
-import TotalBalance from './TotalBalance'
-import WalletBalance from './WalletBalance'
+import { ComponentDropdown, Text } from 'blockchain-info-components'
+import Balance from './WalletBalance/Balance'
+import CurrencySwitch from './CurrencySwitch'
 import LockboxBalance from './LockboxBalance'
 import LockboxTotalBalance from './LockboxBalance/TotalBalance'
 import PendingBalance from './PendingBalance'
+import TotalBalance from './TotalBalance'
+import WalletBalance from './WalletBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
-import Balance from './WalletBalance/Balance'
-import CurrencySwitch from './CurrencySwitch'
-import { ComponentDropdown, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

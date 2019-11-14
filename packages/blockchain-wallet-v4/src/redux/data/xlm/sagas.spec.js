@@ -1,12 +1,11 @@
-import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
-import * as StellarSdk from 'stellar-sdk'
-
-import * as S from './selectors'
 import * as A from './actions'
-import sagas, { sumBigNumbers } from './sagas'
+import * as S from './selectors'
+import * as StellarSdk from 'stellar-sdk'
+import { call } from 'redux-saga-test-plan/matchers'
+import { expectSaga } from 'redux-saga-test-plan'
+import { select } from 'redux-saga/effects'
 import Remote from '../../../remote'
+import sagas, { sumBigNumbers } from './sagas'
 
 const STUB_LEDGER = {
   base_reserve_in_stroops: 500000,

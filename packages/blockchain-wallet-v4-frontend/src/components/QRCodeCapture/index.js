@@ -1,14 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { isNil, isEmpty, replace, toUpper } from 'ramda'
+import { connect } from 'react-redux'
+import { isEmpty, isNil, replace, toUpper } from 'ramda'
 import bip21 from 'bip21'
+import PropTypes from 'prop-types'
+import React from 'react'
 
-import { actions, model, selectors } from 'data'
-import QRCodeCapture from './template.js'
 import * as C from 'services/AlertService'
+import { actions, model, selectors } from 'data'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import QRCodeCapture from './template.js'
 
 const { FORM: BTC_FORM } = model.components.sendBtc
 const { FORM: BCH_FORM } = model.components.sendBch

@@ -1,5 +1,5 @@
-import { takeLatest } from 'redux-saga/effects'
 import * as requestAT from './actionTypes'
+import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default () => {

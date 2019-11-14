@@ -11,18 +11,17 @@ import {
   prop,
   toLower
 } from 'ramda'
-import moment from 'moment'
-import BigNumber from 'bignumber.js'
-
-import Remote from '../remote'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getEthTxNote,
   getErc20Accounts,
-  getErc20TxNote
+  getErc20TxNote,
+  getEthTxNote
 } from '../redux/kvStore/eth/selectors'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
+import Remote from '../remote'
 
 //
 // Shared Utils

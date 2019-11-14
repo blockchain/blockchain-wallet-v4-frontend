@@ -1,9 +1,9 @@
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import BlockstackBanner from './BlockstackBanner'
+import KycResubmit from './KycResubmit'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-
-import { getData } from './selectors'
-import KycResubmit from './KycResubmit'
 import ThePitBanner from './ThePitBanner'
 
 const BannerWrapper = styled.div`
@@ -20,6 +20,12 @@ class Banners extends React.PureComponent {
         return (
           <BannerWrapper>
             <KycResubmit />
+          </BannerWrapper>
+        )
+      case 'blockstack':
+        return (
+          <BannerWrapper>
+            <BlockstackBanner />
           </BannerWrapper>
         )
       case 'thepit':

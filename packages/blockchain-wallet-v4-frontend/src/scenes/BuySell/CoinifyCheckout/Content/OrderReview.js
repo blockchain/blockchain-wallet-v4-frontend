@@ -1,29 +1,29 @@
+import { FormattedMessage } from 'react-intl'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
+import { BackButton } from 'components/BuySell/styled'
+import { getRateFromQuote, reviewOrder } from 'services/CoinifyService'
 import {
-  Text,
-  Link,
   Icon,
+  Link,
+  Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import CountdownTimer from 'components/Form/CountdownTimer'
-import { spacing } from 'services/StyleService'
-import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import {
-  OrderDetailsTable,
-  OrderDetailsRow
+  OrderDetailsRow,
+  OrderDetailsTable
 } from 'components/BuySell/OrderDetails'
 import {
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
+import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
-import ReviewForm from './ReviewForm'
+import CountdownTimer from 'components/Form/CountdownTimer'
 import media from 'services/ResponsiveService'
-import { BackButton } from 'components/BuySell/styled'
+import ReviewForm from './ReviewForm'
 
 const Wrapper = styled.div`
   display: flex;

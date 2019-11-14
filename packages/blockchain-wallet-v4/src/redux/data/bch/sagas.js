@@ -1,22 +1,22 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, map, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import {
-  convertFromCashAddrIfCashAddr,
-  TX_PER_PAGE,
-  BCH_FORK_TIME
-} from '../../../utils/bch'
-import { addFromToAccountNames } from '../../../utils/accounts'
-import Remote from '../../../remote'
+import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
-import { MISSING_WALLET } from '../utils'
-import { HDAccountList } from '../../../types'
+import { addFromToAccountNames } from '../../../utils/accounts'
+import {
+  BCH_FORK_TIME,
+  convertFromCashAddrIfCashAddr,
+  TX_PER_PAGE
+} from '../../../utils/bch'
+import { call, put, select, take } from 'redux-saga/effects'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import * as transactions from '../../../transactions'
+import { HDAccountList } from '../../../types'
+import { indexBy, length, map, path, prop } from 'ramda'
+import { MISSING_WALLET } from '../utils'
+import Remote from '../../../remote'
 
 const transformTx = transactions.bch.transformTx
 

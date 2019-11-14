@@ -14,6 +14,9 @@ export const addInitialModal = (key, name, data) => ({
   type: AT.ADD_INITIAL_MODAL,
   payload: { key, name, data }
 })
+export const initialModalDisplayed = {
+  type: AT.INITIAL_MODAL_DISPLAYED
+}
 
 export const runGoals = () => ({ type: AT.RUN_GOALS })
 export const defineGoals = () => ({ type: AT.DEFINE_GOALS })

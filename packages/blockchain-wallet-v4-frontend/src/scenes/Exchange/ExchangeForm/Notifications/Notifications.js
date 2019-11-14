@@ -1,13 +1,12 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { equals } from 'ramda'
-
+import { ExchangeText, Note } from 'components/Exchange'
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Row } from '../Layout'
-import { ExchangeText, Note } from 'components/Exchange'
+import React from 'react'
+import styled from 'styled-components'
 
 const InfoRow = styled(Row)`
   padding: 16px 4px;

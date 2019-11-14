@@ -8,7 +8,7 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react", "jest", "json"],
+  "plugins": ["babel", "react", "jest", "json", "sort-imports-es6-autofix"],
   "env": {
     "browser": true,
     "jest": true,
@@ -24,7 +24,7 @@
   },
   "rules": {
     "camelcase": 0,
-    "generator-star-spacing": ["error", {"before": true, "after": true}],
+    "generator-star-spacing": ["error", { "before": true, "after": true }],
     "jest/no-disabled-tests": 1,
     "jest/no-focused-tests": 2,
     "jest/no-identical-title": 2,
@@ -67,6 +67,10 @@
     "react/sort-comp": 2,
     "require-yield": 2,
     "space-before-function-paren": 2,
+    "sort-imports-es6-autofix/sort-imports-es6": [
+      "error",
+      { "ignoreCase": true }
+    ],
     "strict": 0
   }
 }

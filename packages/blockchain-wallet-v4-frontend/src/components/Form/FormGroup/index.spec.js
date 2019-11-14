@@ -1,7 +1,7 @@
-import React from 'react'
-import FormGroup from './index.js'
-import renderer from 'react-test-renderer'
 import 'jest-styled-components'
+import FormGroup from './index.js'
+import React from 'react'
+import renderer from 'react-test-renderer'
 
 describe('FormGroup', () => {
   it('renders correctly', () => {

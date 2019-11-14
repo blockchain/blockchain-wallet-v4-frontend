@@ -1,8 +1,7 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-
 import Loading from './template.loading'
+import React from 'react'
 import Success from './template.success'
 
 class CoinPerformance extends React.PureComponent {

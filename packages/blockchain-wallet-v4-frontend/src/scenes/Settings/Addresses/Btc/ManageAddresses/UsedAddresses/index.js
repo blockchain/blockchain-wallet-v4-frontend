@@ -1,6 +1,6 @@
-import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions, selectors } from 'data'
 import UsedAddressesShowTemplate from './template'

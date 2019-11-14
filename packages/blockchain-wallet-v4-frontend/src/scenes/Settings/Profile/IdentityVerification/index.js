@@ -1,20 +1,18 @@
-import React from 'react'
-import { pathOr, propEq } from 'ramda'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import styled from 'styled-components'
-
-import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Image,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import TierCard from 'components/IdentityVerification/TierCard'
-import media from 'services/ResponsiveService'
-
 import { KYC_STATES } from 'data/modules/profile/model'
+import { pathOr, propEq } from 'ramda'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
   display: flex;

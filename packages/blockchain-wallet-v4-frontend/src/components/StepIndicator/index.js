@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
 import { Image } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;

@@ -1,13 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const InfoWrapper = styled(Wrapper)`
   width: 360px;
-  height: 100%;
   margin-right: 16px;
   padding: 0px;
 `
@@ -104,7 +103,7 @@ const LinkAccount = () => {
       </InnerWrapper>
       <Footer>
         <PitLogo name='the-pit-logo' height='42px' />
-        <div>
+        <div style={{ marginLeft: '16px' }}>
           <Text size='20px' color='brand-primary' weight={600}>
             The PIT
           </Text>

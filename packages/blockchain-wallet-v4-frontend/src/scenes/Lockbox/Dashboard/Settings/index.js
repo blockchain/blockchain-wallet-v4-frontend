@@ -1,18 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-
-import { model } from 'data'
 import { Banner, Text } from 'blockchain-info-components'
-
+import { FormattedMessage } from 'react-intl'
+import { model } from 'data'
 import AddDevice from './AddDevice'
-import RenameDevice from './RenameDevice'
+import Bowser from 'bowser'
+import DownloadUpdater from './DownloadUpdater'
+import React from 'react'
 import RemoveDevice from './RemoveDevice'
+import RenameDevice from './RenameDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
+import styled from 'styled-components'
 import TakeTour from './TakeTour'
-import DownloadUpdater from './DownloadUpdater'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;

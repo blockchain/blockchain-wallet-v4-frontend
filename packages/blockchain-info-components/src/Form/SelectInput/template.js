@@ -1,8 +1,8 @@
-import React from 'react'
+import { assoc, equals, filter, flatten, head, path } from 'ramda'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from 'react'
 import Select, { components } from 'react-select'
-import { equals, flatten, filter, head, assoc, path } from 'ramda'
+import styled from 'styled-components'
 
 const StyledSelect = styled(Select)`
   font-weight: 500;

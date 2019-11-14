@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components'
 
-import InterBlackOtf from './fonts/Inter-Black.otf'
-import InterBlackTtf from './fonts/Inter-Black.ttf'
 import InterBlackItalicOtf from './fonts/Inter-BlackItalic.otf'
 import InterBlackItalicTtf from './fonts/Inter-BlackItalic.ttf'
+import InterBlackOtf from './fonts/Inter-Black.otf'
+import InterBlackTtf from './fonts/Inter-Black.ttf'
 import InterBoldOtf from './fonts/Inter-Bold.otf'
 import InterBoldTtf from './fonts/Inter-Bold.ttf'
 import InterExtraBoldOtf from './fonts/Inter-ExtraBold.otf'

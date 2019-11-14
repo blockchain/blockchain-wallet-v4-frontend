@@ -1,8 +1,7 @@
-import qs from 'qs'
 import { find, propEq } from 'ramda'
-
-import utils from './utils'
 import constants from './constants'
+import qs from 'qs'
+import utils from './utils'
 
 // gets version of btc application
 const getBtcAppVersion = transport => {

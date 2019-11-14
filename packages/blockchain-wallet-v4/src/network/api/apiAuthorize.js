@@ -1,4 +1,4 @@
-import { curry, compose, map, mergeDeepLeft } from 'ramda'
+import { compose, curry, map, mergeDeepLeft } from 'ramda'
 
 const getAuthOptions = ({ email, guid, token }) => ({
   headers: {

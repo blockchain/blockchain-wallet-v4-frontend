@@ -1,5 +1,5 @@
-import { Address, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
+import { Address, serializer } from './index'
 
 describe('Address', () => {
   const addressFixture = { priv: '5priv', addr: '1addr' }

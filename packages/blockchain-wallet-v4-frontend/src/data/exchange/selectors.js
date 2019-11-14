@@ -1,6 +1,6 @@
+import { canTrade } from 'services/ExchangeService'
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { canTrade } from 'services/ExchangeService'
 
 export const getCanTrade = (state, type) => {
   const settingsR = selectors.core.settings.getSettings(state)

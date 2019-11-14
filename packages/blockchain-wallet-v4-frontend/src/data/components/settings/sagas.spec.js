@@ -1,8 +1,8 @@
 import { testSaga } from 'redux-saga-test-plan'
 
 import * as S from '../../selectors'
-import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import settingsSagas, { logLocation } from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')

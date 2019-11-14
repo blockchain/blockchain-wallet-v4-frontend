@@ -1,14 +1,14 @@
+import * as AT from './actionTypes'
 import {
+  append,
   assoc,
   assocPath,
+  compose,
+  dropLast,
   lensProp,
   over,
-  append,
-  prepend,
-  compose,
-  dropLast
+  prepend
 } from 'ramda'
-import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {

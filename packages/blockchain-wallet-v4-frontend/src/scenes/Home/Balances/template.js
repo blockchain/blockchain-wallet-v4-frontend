@@ -1,12 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-
-import Tabs from './Tabs'
 import Table from './Table'
+import Tabs from './Tabs'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 450px;
+  height: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '574px' : '450px')};
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -15,9 +14,9 @@ const Wrapper = styled.div`
 `
 
 const BalancesTable = props => {
-  const { currentTab } = props
+  const { currentTab, isSilverOrAbove } = props
   return (
-    <Wrapper>
+    <Wrapper isSilverOrAbove={isSilverOrAbove}>
       <Tabs {...props} />
       {currentTab === 'total' && <Table viewType='Total' />}
       {currentTab === 'wallet' && <Table viewType='Wallet' />}

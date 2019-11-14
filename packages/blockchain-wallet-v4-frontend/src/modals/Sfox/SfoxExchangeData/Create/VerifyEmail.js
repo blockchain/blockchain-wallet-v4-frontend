@@ -1,27 +1,27 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Field, formValueSelector } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector, Field } from 'redux-form'
 
 import { actions, selectors } from 'data'
-import { TextBox } from 'components/Form'
-import { Text, Button } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+import { Button, Text } from 'blockchain-info-components'
 import {
-  Form,
+  ButtonWrapper,
   ColLeft,
   ColRight,
+  ColRightInner,
+  EmailHelper,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  ButtonWrapper,
-  ColRightInner,
-  EmailHelper
+  PartnerSubHeader
 } from 'components/IdentityVerification'
+import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
+import { TextBox } from 'components/Form'
 import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`

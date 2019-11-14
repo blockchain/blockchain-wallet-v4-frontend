@@ -1,12 +1,12 @@
-import React from 'react'
 import { actions } from 'data'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { bindActionCreators } from 'redux'
-import Loading from './template.loading'
-import Success from './template.success'
-import Error from './template.error'
 import { Wrapper } from 'components/Public'
+import Error from './template.error'
+import Loading from './template.loading'
+import React from 'react'
+import Success from './template.success'
 
 class Reset2FAToken extends React.PureComponent {
   constructor (props) {

@@ -1,5 +1,5 @@
 import { contains, curry, filter, isEmpty, lift, or, prop } from 'ramda'
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
 
 const { COMPLETE_STATES, INCOMPLETE_STATES } = model.components.exchangeHistory
 

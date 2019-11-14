@@ -1,9 +1,9 @@
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import React, { PureComponent } from 'react'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 import WalletTour from './template'
 

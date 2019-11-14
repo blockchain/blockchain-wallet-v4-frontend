@@ -1,17 +1,19 @@
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import { equals, flatten, includes } from 'ramda'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import { flatten, includes, prop } from 'ramda'
-import { FormattedMessage } from 'react-intl'
+
 import { model } from 'data'
-import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
-  SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
-  TextBox,
-  TabMenuTransactionStatus
+  SelectBoxBtcAddresses,
+  TabMenuTransactionStatus,
+  TextBox
 } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import media from 'services/ResponsiveService'
 
 const { WALLET_TX_SEARCH } = model.form
 
@@ -58,9 +60,10 @@ const Search = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: auto;
-  @media (min-width: 900px) {
-    width: 300px;
+  width: 300px;
+
+  @media (max-width: 1265px) {
+    width: inherit;
   }
 `
 const EthPrivateKeysWrapper = styled.div`
@@ -81,6 +84,24 @@ const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
+
+  ${media.laptop`
+    display: none;
+  `}
+`
+
+const SearchField = styled(Field)`
+  min-width: 100px;
+  max-width: 250px;
+  & > input {
+    padding-right: 34px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  ${media.laptop`
+    display: none;
+  `}
 `
 
 const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
@@ -95,18 +116,21 @@ const EthPrivateKeys = () => (
     />
   </Link>
 )
-const Menu = props => {
-  const {
-    accounts,
-    coin,
-    handleClickReporting,
-    onShowPrivateKey,
-    onShowEthPrivateKeyLegacy,
-    isLegacyEthAddr
-  } = props
+const Menu = ({
+  accounts,
+  coin,
+  handleClickReporting,
+  onShowPrivateKey,
+  onShowEthPrivateKeyLegacy,
+  isLegacyEthAddr
+}) => {
   const options =
     includes(coin, ACCOUNT_FILTER_COINS) && accounts
-      ? flatten(accounts.map(prop('options')))
+      ? flatten(
+          accounts
+            .filter(({ label }) => !equals(label, 'All'))
+            .map(({ options }) => options)
+        )
       : []
 
   return (
@@ -189,7 +213,7 @@ const Menu = props => {
                 data-e2e='generateTxReport'
               />
             )}
-            <Field
+            <SearchField
               name='search'
               height='40px'
               component={TextBox}

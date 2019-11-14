@@ -1,26 +1,26 @@
-import Bitcoin from 'bitcoinjs-lib'
 import {
-  pipe,
-  curry,
-  compose,
-  not,
-  is,
-  equals,
   assoc,
+  compose,
+  curry,
   dissoc,
-  isNil,
-  split,
+  equals,
+  is,
   isEmpty,
+  isNil,
+  not,
+  pipe,
+  split,
   values
 } from 'ramda'
-import { view, over, traverseOf } from 'ramda-lens'
-import * as crypto from '../walletCrypto'
+import { over, traverseOf, view } from 'ramda-lens'
+import Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
-import Type from './Type'
-import * as AddressLabelMap from './AddressLabelMap'
-import * as Cache from './Cache'
 /* eslint-disable */
-import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+import * as AddressLabelMap from './AddressLabelMap' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+import * as Cache from './Cache'
+import * as crypto from '../walletCrypto'
+import { fromJS as iFromJS } from 'immutable-ext'
+import Type from './Type'
 /* eslint-enable */
 
 /* HDAccount :: {

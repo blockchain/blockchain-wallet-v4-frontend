@@ -1,10 +1,10 @@
 import { equals, lift, toLower } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { selectors, model } from 'data'
-import { ethFromLabel, erc20FromLabel } from 'services/PaymentHelper'
+import { erc20FromLabel, ethFromLabel } from 'services/PaymentHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
 

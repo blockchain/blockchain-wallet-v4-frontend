@@ -1,23 +1,23 @@
+import * as A from './actions'
+import * as bchActions from '../../data/bch/actions'
+import { BCH, derivationMap } from '../config'
 import { call, put, select } from 'redux-saga/effects'
+import { callTask } from '../../../utils/functional'
 import {
   concat,
   gt,
+  isEmpty,
   isNil,
   length,
   map,
   pathOr,
   propOr,
-  range,
-  isEmpty
+  range
 } from 'ramda'
-import { set } from 'ramda-lens'
-import * as A from './actions'
-import * as bchActions from '../../data/bch/actions'
-import { KVStoreEntry } from '../../../types'
-import { derivationMap, BCH } from '../config'
-import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
-import { callTask } from '../../../utils/functional'
+import { getMetadataXpriv } from '../root/selectors'
+import { KVStoreEntry } from '../../../types'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
   const createBch = function * (kv, hdAccounts, bchAccounts) {

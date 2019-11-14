@@ -1,17 +1,17 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import { model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import {
+  Button,
   Modal,
   ModalBody,
-  ModalHeader,
   ModalFooter,
-  Text,
-  Button
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
+import { model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Row = styled(Text)`
   margin-bottom: 20px;

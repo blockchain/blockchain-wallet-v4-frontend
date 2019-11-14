@@ -1,4 +1,4 @@
-import { path, lift } from 'ramda'
+import { lift, path } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {

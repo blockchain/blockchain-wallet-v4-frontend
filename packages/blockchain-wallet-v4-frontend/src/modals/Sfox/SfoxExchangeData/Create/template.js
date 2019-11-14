@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import React from 'react'
 
+import { Row } from 'components/IdentityVerification'
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
 import VerifyMobile from './VerifyMobile'
-import { Row } from 'components/IdentityVerification'
 
 const Create = props => {
   const { create, handleSignup, signupError } = props

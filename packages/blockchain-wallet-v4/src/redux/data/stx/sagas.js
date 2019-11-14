@@ -1,8 +1,8 @@
-import { put, select } from 'redux-saga/effects'
-import { getMnemonic } from '../../wallet/selectors'
+import * as A from './actions'
 import { callTask } from '../../../utils/functional'
 import { deriveAddress } from '../../../utils/stx'
-import * as A from './actions'
+import { getMnemonic } from '../../wallet/selectors'
+import { put, select } from 'redux-saga/effects'
 
 export default () => {
   const generateAddress = function * (action) {

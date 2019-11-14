@@ -1,15 +1,15 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import React from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { actions, model } from 'data'
 import { Wrapper } from 'components/Public'
 
 import { getData } from './selectors'
+import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import Error from './template.error'
 
 const AuthorizeLoginWrapper = styled(Wrapper)`
   padding: 48px 0;

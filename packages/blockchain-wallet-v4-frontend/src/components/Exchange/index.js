@@ -1,5 +1,5 @@
+import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
-import { Text, Button } from 'blockchain-info-components'
 
 export const Wrapper = styled.div`
   padding: 32px;

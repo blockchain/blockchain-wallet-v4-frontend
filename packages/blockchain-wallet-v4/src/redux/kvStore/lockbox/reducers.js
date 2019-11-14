@@ -1,17 +1,17 @@
 import * as AT from './actionTypes'
-import Remote from '../../../remote'
-import { mapped, over, set } from 'ramda-lens'
 import {
   append,
   assoc,
   assocPath,
   compose,
-  lensProp,
+  lensIndex,
   lensPath,
-  remove,
-  lensIndex
+  lensProp,
+  remove
 } from 'ramda'
 import { KVStoreEntry } from '../../../types'
+import { mapped, over, set } from 'ramda-lens'
+import Remote from '../../../remote'
 
 const INITIAL_STATE = Remote.NotAsked
 

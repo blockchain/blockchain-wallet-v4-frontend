@@ -9,3 +9,5 @@ export const setAddress = address => ({
   type: AT.SET_ADDRESS,
   payload: { address }
 })
+
+export const fetchData = () => ({ type: AT.FETCH_DATA })

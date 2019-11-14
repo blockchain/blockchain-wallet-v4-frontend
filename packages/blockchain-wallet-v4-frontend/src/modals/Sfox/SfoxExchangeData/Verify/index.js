@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { equals, path } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
-import { path, equals } from 'ramda'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import Upload from '../Upload'
-import Jumio from '../Jumio'
 import { Link } from 'blockchain-info-components'
-import renderFaq from 'components/FaqDropdown'
 import Address from './Address'
 import Identity from './Identity'
+import Jumio from '../Jumio'
+import renderFaq from 'components/FaqDropdown'
+import Upload from '../Upload'
 
 const FaqWrapper = styled.div``
 

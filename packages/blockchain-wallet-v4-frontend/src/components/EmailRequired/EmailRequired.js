@@ -1,6 +1,6 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 import styled from 'styled-components'
 
 import { Image, Link, Text, TextGroup } from 'blockchain-info-components'

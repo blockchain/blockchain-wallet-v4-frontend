@@ -1,6 +1,6 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { selectors } from 'data'
 import { includes, lift, prop, toLower } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = (state, coin, amount) => {
   const coinLower = toLower(coin)

@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { equals } from 'ramda'
+import React from 'react'
 
 import { actions, selectors } from 'data'
 import SetupTypeStep from './template'

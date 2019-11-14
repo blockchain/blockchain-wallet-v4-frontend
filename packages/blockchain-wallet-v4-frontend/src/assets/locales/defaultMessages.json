@@ -302,6 +302,10 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
+        "defaultMessage": "You've just received a pending Ethereum payment",
+        "id": "components.alerts.payment_received_eth_pending"
+      },
+      {
         "defaultMessage": "You've just received a stellar payment",
         "id": "components.alerts.payment_received_xlm"
       },
@@ -380,6 +384,10 @@
       {
         "defaultMessage": "Your {coinName} transaction is now pending!",
         "id": "components.alerts.send_coin_success"
+      },
+      {
+        "defaultMessage": "Your {coinName} transaction is now confirmed!",
+        "id": "components.alerts.send_coin_confirmed"
       },
       {
         "defaultMessage": "Your {coinName} transaction failed to send. Please try again.",
@@ -3256,6 +3264,10 @@
       {
         "defaultMessage": "Enter bitcoin address or private key",
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
+      },
+      {
+        "defaultMessage": "Enter a label for your address (optional)",
+        "id": "modals.importbtcaddress.importexternalbitcoinaddress.label"
       },
       {
         "defaultMessage": "Transfer funds to an existing wallet (optional)",
@@ -8632,6 +8644,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Buy {coinName}",
+        "id": "price.chart.buy.coin"
+      },
+      {
+        "defaultMessage": "Swap {coinName}",
+        "id": "price.chart.swap.coin"
+      }
+    ],
+    "path": "src/scenes/Home/PriceChart/Footer/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Day",
         "id": "scenes.priceindexseries.timefilters.day"
       },
@@ -10181,6 +10206,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Edit Label",
+        "id": "scenes.settings.addresses.edit_name"
+      },
+      {
         "defaultMessage": "Imported Bitcoin Cash Addresses",
         "id": "scenes.settings.addresses.bch.importedaddresses.title"
       },
@@ -10195,6 +10224,10 @@
       {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Label",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.label"
       },
       {
         "defaultMessage": "Balance",
@@ -10329,6 +10362,10 @@
         "id": "scenes.settings.addresses.sign_message"
       },
       {
+        "defaultMessage": "Edit Label",
+        "id": "scenes.settings.addresses.edit_name"
+      },
+      {
         "defaultMessage": "Imported Bitcoin Addresses",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
       },
@@ -10347,6 +10384,10 @@
       {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
+      },
+      {
+        "defaultMessage": "Label",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.label"
       },
       {
         "defaultMessage": "Balance",
@@ -11524,6 +11565,10 @@
       {
         "defaultMessage": "Device name is already in use.",
         "id": "formhelper.uniquedevicename"
+      },
+      {
+        "defaultMessage": "Wallet name is already taken.",
+        "id": "formhelper.uniquewalletname"
       }
     ],
     "path": "src/services/FormHelper/validationMessages.json"

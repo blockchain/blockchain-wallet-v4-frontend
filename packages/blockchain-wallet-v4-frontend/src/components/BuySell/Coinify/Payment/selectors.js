@@ -1,7 +1,7 @@
-import { lift, prop, path, contains } from 'ramda'
-import { selectors } from 'data'
+import { contains, lift, path, prop } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
