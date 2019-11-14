@@ -62,7 +62,7 @@ const createProcessRouter = (
 
   router.get(`/index.html`, renderIndex({ cspNonce }, name))
 
-  router.get('/Resources/wallet-options-v4.json', function (request, response) {
+  router.get('/Resources/wallet-options-v4.json', function(request, response) {
     response.json(walletOptions)
   })
 

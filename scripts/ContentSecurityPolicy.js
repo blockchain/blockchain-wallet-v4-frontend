@@ -134,7 +134,7 @@ const CSP = ({
 })
 
 const replaceNonce = ({ nonce }, string) =>
-  nonce ? string.replace(/\*\*CSP_NONCE\*\*/g, nonce) : nonce
+  nonce ? string.replace(/\*\*CSP_NONCE\*\*/g, nonce) : string
 
 const cspToString = R.curry(({ nonce }, policy) => {
   const string = Object.entries(policy)
@@ -144,4 +144,4 @@ const cspToString = R.curry(({ nonce }, policy) => {
   return replaceNonce({ nonce }, string)
 })
 
-module.exports = { CSP, cspToString }
+module.exports = { CSP, cspToString, replaceNonce }
