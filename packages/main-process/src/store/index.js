@@ -91,7 +91,7 @@ export default IPC(async ({ imports, middleware: IPCmiddleware }) => {
   }
 
   const http = httpService({ apiKey, imports })
-  const securityModule = imports.securityProcess.securityModule
+  const { securityModule } = imports.securityProcess
 
   const baseApi = createWalletApi({
     getAuthCredentials,
