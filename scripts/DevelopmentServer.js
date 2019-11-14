@@ -142,11 +142,13 @@ const startDevServer = async (
     hot: true,
     historyApiFallback: true,
     before: app => {
+      app.set(`json spaces`, 2)
+
       app.get(`/healthz`, (request, response) => {
         response.json({ process: name, ...configuration })
       })
 
-      app.get('/Resources/wallet-options-v4.json', function (req, res) {
+      app.get('/Resources/wallet-options-v4.json', (req, res) => {
         res.json(walletOptions)
       })
     },
