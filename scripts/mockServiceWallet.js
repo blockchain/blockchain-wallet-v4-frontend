@@ -100,7 +100,7 @@ const getHttpsConfiguration = async ({ DISABLE_SSL }) => {
   if (!DISABLE_SSL) {
     try {
       const [cert, key] = await Promise.all(
-        [(`cert.pem`, `key.pem`)].map(name =>
+        [`cert.pem`, `key.pem`].map(name =>
           fs.readFile(path.join(PATHS.sslConfig, name), `utf8`)
         )
       )
