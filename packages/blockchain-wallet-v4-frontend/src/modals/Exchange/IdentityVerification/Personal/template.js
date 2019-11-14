@@ -48,6 +48,9 @@ import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
 
+const STICKY_HEADER_HEIGHT = 57
+const PADDING = 20
+
 const FormContainer = styled.div`
   margin-top: 24px;
   margin-bottom: 25px;
@@ -173,7 +176,8 @@ const Personal = ({
     const element = document.getElementById(id)
     const parent = document.getElementById(SCROLL_REF_ID)
     const { y } = element.getBoundingClientRect()
-    parent.scrollTo(0, y - 50)
+    // if (y <= STICKY_HEADER_HEIGHT + PADDING) return
+    parent.scrollTo(0, parent.scrollTop + y - STICKY_HEADER_HEIGHT - PADDING)
   }
 
   const countryUsesZipOrPostcode =
@@ -406,7 +410,7 @@ const Personal = ({
                         <KycSeparator />
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='line1'>
+                            <Label htmlFor='line1' id='line1'>
                               {countryIsUS ? (
                                 <FormattedMessage
                                   id='identityverification.personal.address_line1required'
@@ -424,6 +428,7 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
+                              onFocus={() => scrollToId('line1')}
                             />
                           </FormItem>
                         </FaqFormGroup>
