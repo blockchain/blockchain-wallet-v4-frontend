@@ -3,7 +3,8 @@ import { append, assoc, assocPath, filter } from 'ramda'
 
 const INITIAL_STATE = {
   goals: [],
-  initialModals: {}
+  initialModals: {},
+  initialModalDisplayed: false
 }
 
 const goal = (state = INITIAL_STATE, action) => {
@@ -19,6 +20,9 @@ const goal = (state = INITIAL_STATE, action) => {
     }
     case AT.ADD_INITIAL_MODAL: {
       return assocPath(['initialModals', payload.key], payload, state)
+    }
+    case AT.INITIAL_MODAL_DISPLAYED: {
+      return assoc('initialModalDisplayed', true, state)
     }
     default:
       return state

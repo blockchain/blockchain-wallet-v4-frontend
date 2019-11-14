@@ -147,9 +147,11 @@ export default {
   grey600: '#677185',
   grey700: '#50596B',
   grey800: '#353F52',
+  grey900: '#121D33',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
+  blue500: '#3D89F5',
   green400: '#59CD93',
   green500: '#339F7B',
   green900: '#004025',
@@ -158,5 +160,6 @@ export default {
   bch: '#8DC351',
   eth: '#473BCB',
   pax: '#00522C',
+  stx: '#211F6D',
   xlm: '#121D33'
 }

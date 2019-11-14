@@ -17,7 +17,7 @@
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
     "clean": "cross-env rimraf node_modules && rimraf build",
-    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
+    "coverage": "cross-env npx jest --coverage --silent",
     "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
     "manage:translations": "yarn build:prod && node ./translationRunner.js",
@@ -25,11 +25,11 @@
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "test": "cross-env npx jest --silent",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
-    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:update": "cross-env ./../../node_modules/.bin/jest -u",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:debug": "cross-env npx --inspect-brk jest --runInBand",
+    "test:update": "cross-env npx jest -u",
+    "test:watch": "cross-env npx jest --watchAll"
   },
   "jest": {
     "automock": false,

@@ -13,13 +13,13 @@
     "ci:test": "yarn test --runInBand",
     "clean": "cross-env rimraf node_modules && rimraf lib",
     "compile": "babel -d lib/ --ignore spec.js src/ --copy-files",
-    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
+    "coverage": "cross-env npx jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/blockchain-wallet-v4-frontend ./node_modules",
     "start": "babel-node src/index.js",
-    "test": "cross-env ./../../node_modules/.bin/jest",
+    "test": "cross-env npx jest --silent",
     "test:build": "yarn compile",
-    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:debug": "cross-env npx --inspect-brk jest --runInBand",
+    "test:watch": "cross-env npx jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [

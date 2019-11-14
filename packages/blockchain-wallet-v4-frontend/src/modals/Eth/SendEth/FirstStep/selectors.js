@@ -56,7 +56,6 @@ export const getData = createDeepEqualSelector(
       const isSufficientEthForErc20 = new BigNumber(
         ethBalanceR.getOrElse(0)
       ).isGreaterThan(new BigNumber(fee))
-      const isContract = isContractR.getOrElse(false)
       const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
@@ -87,7 +86,6 @@ export const getData = createDeepEqualSelector(
       return {
         effectiveBalance,
         unconfirmedTx,
-        isContract,
         isContractChecked,
         isSufficientEthForErc20,
         fee,

@@ -100,7 +100,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.goals.saveGoal('registerForBlockstackAirdrop'))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
-    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
+    yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
     // yield put(actions.goals.saveGoal('airdropClaim'))

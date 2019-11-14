@@ -1,4 +1,5 @@
-import { path } from 'ramda'
+import { getInitialModalDisplayed, getInitialModals } from '../goals/selectors'
+import { isEmpty, path } from 'ramda'
 
 export const getCulture = path(['preferences', 'culture'])
 export const getLanguage = path(['preferences', 'language'])
@@ -21,8 +22,18 @@ export const getShowUpgradeForAirdropModal = path([
   'preferences',
   'showUpgradeForAirdropModal'
 ])
+export const getShowUpgradeForStxAirdropModal = path([
+  'preferences',
+  'showUpgradeForStxAirdropModal'
+])
 export const getShowLockboxSoftwareDownload = path([
   'preferences',
   'showLockboxSoftwareDownload'
 ])
-export const getShowThePitPulse = path(['preferences', 'showThePitPulse'])
+export const getShowThePitPulse = state => {
+  return (
+    path(['preferences', 'showThePitPulse'], state) &&
+    isEmpty(getInitialModals(state)) &&
+    getInitialModalDisplayed(state)
+  )
+}
