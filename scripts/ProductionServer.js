@@ -7,10 +7,7 @@ const https = require(`https`)
 const path = require('path')
 
 const PATHS = require('../config/paths')
-const { CSP, cspToString } = require(`./ContentSecurityPolicy.js`)
-
-const replaceNonce = ({ nonce }, string) =>
-  nonce ? string.replace(/\*\*CSP_NONCE\*\*/g, nonce) : nonce
+const { CSP, cspToString, replaceNonce } = require(`./ContentSecurityPolicy.js`)
 
 const startProcessServer = async ({
   httpsConfiguration,
@@ -62,7 +59,7 @@ const createProcessRouter = (
 
   router.get(`/index.html`, renderIndex({ cspNonce }, name))
 
-  router.get('/Resources/wallet-options-v4.json', function(request, response) {
+  router.get('/Resources/wallet-options-v4.json', (request, response) => {
     response.json(walletOptions)
   })
 
