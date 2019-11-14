@@ -176,7 +176,6 @@ const Personal = ({
     const element = document.getElementById(id)
     const parent = document.getElementById(SCROLL_REF_ID)
     const { y } = element.getBoundingClientRect()
-    // if (y <= STICKY_HEADER_HEIGHT + PADDING) return
     parent.scrollTo(0, parent.scrollTop + y - STICKY_HEADER_HEIGHT - PADDING)
   }
 
