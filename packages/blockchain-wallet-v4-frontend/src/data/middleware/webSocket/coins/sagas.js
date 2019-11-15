@@ -203,7 +203,7 @@ export default ({ api, socket }) => {
         `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
       )
     const context = yield select(selectors.core.data[coin].getContext)
-    const endpoint = coin === 'btc' ? 'fetchBtcData' : 'fetchBchData'
+    const endpoint = coin === 'btc' ? 'fetchBlockchainData' : 'fetchBchData'
     const data = yield call(api[endpoint], context, {
       n: 50,
       offset: 0
