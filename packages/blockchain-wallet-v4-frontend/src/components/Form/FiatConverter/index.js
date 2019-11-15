@@ -9,7 +9,15 @@ import Loading from './template.loading'
 
 class FiatConverterContainer extends React.PureComponent {
   render () {
-    const { input, meta, data, disabled, errorBottom, className } = this.props
+    const {
+      input,
+      meta,
+      data,
+      disabled,
+      errorBottom,
+      className,
+      marginTop
+    } = this.props
 
     return data.cata({
       Success: value => (
@@ -23,6 +31,7 @@ class FiatConverterContainer extends React.PureComponent {
           onBlur={input.onBlur}
           onFocus={input.onFocus}
           disabled={disabled}
+          marginTop={marginTop}
           data-e2e={this.props['data-e2e']}
         />
       ),
