@@ -23,6 +23,7 @@ const FiatConverterInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0;
+  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
 `
 const Container = styled.div`
   position: relative;
@@ -68,13 +69,14 @@ const Converter = props => {
     handleFiatChange,
     handleBlur,
     handleFocus,
-    className
+    className,
+    marginTop
   } = props
   const errorState = getErrorState(meta)
 
   return (
     <Wrapper className={className}>
-      <FiatConverterInput>
+      <FiatConverterInput marginTop={marginTop}>
         <Container>
           <TextInput
             value={fiat}

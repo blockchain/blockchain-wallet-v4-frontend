@@ -61,7 +61,8 @@ class ConverterContainer extends React.PureComponent {
       currency,
       meta,
       errorBottom,
-      className
+      className,
+      marginTop
     } = this.props
     return (
       <Converter
@@ -78,6 +79,7 @@ class ConverterContainer extends React.PureComponent {
         handleCoinChange={this.handleCoinChange}
         handleFiatChange={this.handleFiatChange}
         data-e2e={this.props['data-e2e']}
+        marginTop={marginTop}
       />
     )
   }
