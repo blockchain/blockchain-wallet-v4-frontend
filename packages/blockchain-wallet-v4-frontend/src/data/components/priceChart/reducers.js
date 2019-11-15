@@ -1,5 +1,5 @@
-import { assoc } from 'ramda'
 import * as AT from './actionTypes'
+import { assoc } from 'ramda'
 
 const INITIAL_STATE = {
   coin: 'BTC',

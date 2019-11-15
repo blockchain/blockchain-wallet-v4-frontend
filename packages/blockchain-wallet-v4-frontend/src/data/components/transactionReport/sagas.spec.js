@@ -1,9 +1,9 @@
-import { testSaga } from 'redux-saga-test-plan'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import transactionReportSagas, { initialValues, logLocation } from './sagas'
+import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import { testSaga } from 'redux-saga-test-plan'
 import moment from 'services/MomentHelper'
+import transactionReportSagas, { initialValues, logLocation } from './sagas'
 
 const coreSagas = coreSagasFactory()
 

@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { getData } from './selectors'
 import { actions } from 'data'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -17,7 +17,6 @@ class FirstStep extends React.PureComponent {
           coin={coin}
           fee={value.fee}
           from={value.from}
-          isContract={value.isContract}
           isContractChecked={value.isContractChecked}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}

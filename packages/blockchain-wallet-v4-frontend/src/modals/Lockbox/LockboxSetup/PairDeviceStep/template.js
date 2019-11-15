@@ -1,10 +1,8 @@
+import { Field, reduxForm } from 'redux-form'
+import { FormattedHTMLMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedHTMLMessage } from 'react-intl'
-import { reduxForm, Field } from 'redux-form'
 
-import { required } from 'services/FormHelper'
-import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
 import {
   Button,
   Image,
@@ -14,6 +12,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,11 +1,11 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { values } from 'ramda'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
+import { BackButton } from 'components/IdentityVerification'
 import { model } from 'data'
 import LowFlow from './template.lowflow'
-import { BackButton } from 'components/IdentityVerification'
 
 const handleSubmit = jest.fn()
 const onBack = jest.fn()

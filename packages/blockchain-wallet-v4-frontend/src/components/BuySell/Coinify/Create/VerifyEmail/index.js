@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
+import React, { PureComponent } from 'react'
 
-import { model, actions } from 'data'
+import { actions, model } from 'data'
 
 import { getData } from './selectors'
 import VerifyEmail from './template'

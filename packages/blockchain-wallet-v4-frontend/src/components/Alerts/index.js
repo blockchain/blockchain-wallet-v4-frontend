@@ -1,8 +1,8 @@
-import React from 'react'
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { actions, selectors } from 'data'
 import Alerts from './template.js'
+import React from 'react'
 
 const AlertsContainer = ({ alerts, alertActions, onboardingActions }) => {
   return (

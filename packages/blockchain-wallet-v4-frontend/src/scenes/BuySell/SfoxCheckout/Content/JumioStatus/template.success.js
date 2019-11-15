@@ -1,7 +1,7 @@
+import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Button, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   padding: 15px;

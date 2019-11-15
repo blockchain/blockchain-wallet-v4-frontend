@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { contains } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import { withRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { withRouter } from 'react-router-dom'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const ResponsiveText = styled(Text)`
   font-size: 14px;

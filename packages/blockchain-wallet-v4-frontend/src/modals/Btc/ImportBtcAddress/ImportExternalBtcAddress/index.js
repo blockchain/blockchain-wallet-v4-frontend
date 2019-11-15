@@ -1,18 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Banner } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
-  SelectBoxBtcAddresses,
   FormGroup,
   FormItem,
+  SelectBoxBtcAddresses,
   TextBox
 } from 'components/Form'
-import QRCodeCapture from 'components/QRCodeCapture'
-import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
+import {
+  isSegwitAddress,
+  required,
+  validBtcAddressOrPrivateKey
+} from 'services/FormHelper'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
 import { spacing } from 'services/StyleService'
-import { Banner } from 'blockchain-info-components'
+import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
+import styled from 'styled-components'
 
 const Label = styled.label`
   font-size: 12px;
@@ -49,7 +53,11 @@ class ImportExternalBtcAddress extends React.PureComponent {
             <Row>
               <Field
                 name='addrOrPriv'
-                validate={[validBtcAddressOrPrivateKey, required]}
+                validate={[
+                  validBtcAddressOrPrivateKey,
+                  required,
+                  isSegwitAddress
+                ]}
                 normalize={removeWhitespace}
                 component={TextBox}
                 data-e2e='addressOrPrKeyInput'
@@ -57,6 +65,23 @@ class ImportExternalBtcAddress extends React.PureComponent {
               <QRCodeCapture
                 scanType='btcPrivOrAddress'
                 border={['top', 'bottom', 'right']}
+              />
+            </Row>
+          </FormItem>
+          <FormItem width={'100%'}>
+            <Label for='addrOrPriv'>
+              <FormattedMessage
+                id='modals.importbtcaddress.importexternalbitcoinaddress.label'
+                defaultMessage='Enter a label for your address (optional)'
+              />
+            </Label>
+            <Row>
+              <Field
+                name='label'
+                validate={[]}
+                normalize={removeWhitespace}
+                component={TextBox}
+                data-e2e='labelInput'
               />
             </Row>
           </FormItem>

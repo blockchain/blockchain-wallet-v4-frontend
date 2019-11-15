@@ -1,24 +1,23 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 import { defaultTo, replace } from 'ramda'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
   ageOverEighteen,
-  countryUsesZipcode,
   countryUsesPostalcode,
+  countryUsesZipcode,
   required,
   requiredDOB,
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
-import { model } from 'data'
-import media from 'services/ResponsiveService'
 import { getElementsPropType } from 'utils/proptypes'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { SCROLL_REF_ID } from './index'
+import { model } from 'data'
+import media from 'services/ResponsiveService'
 
 import {
   Banner,
@@ -31,23 +30,24 @@ import {
 } from 'blockchain-info-components'
 import {
   DateInputBox,
+  EmailVerification,
   FooterShadowWrapper,
   FormItem,
-  EmailVerification,
   SelectBox,
   TextBox
 } from 'components/Form'
 import {
   EmailHelper,
-  IdentityVerificationForm,
-  InputWrapper,
-  IdentityVerificationHeader,
+  FaqFormGroup,
   FaqFormMessage,
   FaqHeaderHelper,
-  FaqFormGroup,
-  Label,
-  Footer
+  Footer,
+  IdentityVerificationForm,
+  IdentityVerificationHeader,
+  InputWrapper,
+  Label
 } from 'components/IdentityVerification'
+import { SCROLL_REF_ID } from './index'
 import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
@@ -242,6 +242,7 @@ const Personal = ({
                           />
                         </Label>
                         <Field
+                          data-e2e='selectCountryDropdown'
                           name='country'
                           validate={required}
                           elements={supportedCountries}
@@ -267,6 +268,7 @@ const Personal = ({
                             />
                           </Label>
                           <Field
+                            data-e2e='selectStateDropdown'
                             name='state'
                             validate={[required]}
                             elements={states}
@@ -308,6 +310,7 @@ const Personal = ({
                                 />
                               </Label>
                               <Field
+                                date-e2e='personalInformationFirstName'
                                 name='firstName'
                                 validate={required}
                                 component={TextBox}
@@ -529,6 +532,7 @@ const Personal = ({
               </EmailHelper>
             )}
             <Button
+              data-e2e='submitSilverVerification'
               type='submit'
               nature='primary'
               disabled={invalid || submitting || showStateError}

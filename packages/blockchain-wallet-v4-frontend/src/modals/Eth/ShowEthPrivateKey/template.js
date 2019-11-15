@@ -1,17 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import QRCodeWrapper from 'components/QRCodeWrapper'
 import {
+  Button,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
-  Text,
-  Button
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
-import { spacing, flex } from 'services/StyleService'
+import { flex, spacing } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import QRCodeWrapper from 'components/QRCodeWrapper'
+import React from 'react'
+import styled from 'styled-components'
 
 const DetailTable = styled.div`
   min-width: 0;

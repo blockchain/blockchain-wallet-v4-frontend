@@ -1,7 +1,7 @@
+import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Link, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 
 import { isMobile } from 'services/ResponsiveService'
 

@@ -1,16 +1,16 @@
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import {
   Button,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'

@@ -1,9 +1,9 @@
-import React from 'react'
 import { shallow } from 'enzyme'
+import React from 'react'
 import toJson from 'enzyme-to-json'
 
-import { Remote } from 'blockchain-wallet-v4'
 import { LockboxShowXPubs } from './index'
+import { Remote } from 'blockchain-wallet-v4'
 
 jest.mock('blockchain-info-components', () => ({
   Banner: '',

@@ -1,15 +1,3 @@
-import React from 'react'
-import styled from 'styled-components'
-import Bowser from 'bowser'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { find, has, propEq } from 'ramda'
-
-import {
-  validPasswordConfirmation,
-  required,
-  validEmail
-} from 'services/FormHelper'
 import {
   Banner,
   Button,
@@ -25,10 +13,21 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { find, has, propEq } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import {
+  required,
+  validEmail,
+  validPasswordConfirmation
+} from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
-import Terms from 'components/Terms'
-import PitCallout from './PitCallout'
+import Bowser from 'bowser'
 import LinkAccount from '../LinkAccount'
+import PitCallout from './PitCallout'
+import React from 'react'
+import styled from 'styled-components'
+import Terms from 'components/Terms'
 
 // load zxcvbn dependency async and set on window
 require.ensure(
@@ -41,7 +40,7 @@ const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
   chrome: '>45',
   chromium: '>45',
-  edge: '>40',
+  edge: '>16',
   firefox: '>45',
   opera: '>20',
   safari: '>8',

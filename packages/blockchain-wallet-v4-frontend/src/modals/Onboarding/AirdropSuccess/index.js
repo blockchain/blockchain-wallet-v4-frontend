@@ -1,13 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
-import { compose, bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import CopyToClipBoard from 'react-copy-to-clipboard'
-
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-
+import { bindActionCreators, compose } from 'redux'
 import {
   Button,
   Icon,
@@ -18,6 +10,12 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import CopyToClipBoard from 'react-copy-to-clipboard'
+import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
+import styled from 'styled-components'
 
 const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;

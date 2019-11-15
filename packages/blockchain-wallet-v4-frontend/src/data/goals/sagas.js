@@ -1,15 +1,5 @@
-import {
-  anyPass,
-  equals,
-  map,
-  path,
-  pathOr,
-  prop,
-  propEq,
-  startsWith,
-  sum,
-  values
-} from 'ramda'
+import * as C from 'services/AlertService'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   all,
   call,
@@ -20,14 +10,22 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
+import {
+  anyPass,
+  equals,
+  map,
+  path,
+  pathOr,
+  prop,
+  startsWith,
+  sum,
+  values
+} from 'ramda'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { getAllBalances, getBtcBalance } from 'data/balance/sagas'
+import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
 import bip21 from 'bip21'
-
-import { actions, actionTypes, model, selectors } from 'data'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import * as C from 'services/AlertService'
-import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
-import { parsePaymentRequest } from 'data/bitpay/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 
 const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
@@ -302,24 +300,22 @@ export default ({ api }) => {
     yield put(actions.goals.deleteGoal(id))
 
     const showUpgradeForAirdropModal = yield select(
-      selectors.preferences.getShowUpgradeForAirdropModal
+      selectors.preferences.getShowUpgradeForStxAirdropModal
     )
     if (!showUpgradeForAirdropModal) return
     yield call(waitForUserData)
     const kycNotFinished = yield call(isKycNotFinished)
-    const userTiers = (yield select(
-      selectors.modules.profile.getUserTiers
-    )).getOrElse({})
-    const userCanUpgrade =
-      kycNotFinished && userTiers && propEq('current', 1, userTiers)
+    const isRegistered = (yield select(
+      selectors.modules.profile.getBlockstackTag
+    )).getOrElse(false)
 
-    if (userCanUpgrade) {
+    if (kycNotFinished && !isRegistered) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',
           'UpgradeForAirdrop',
           {
-            campaign: 'sunriver'
+            campaign: 'BLOCKSTACK'
           }
         )
       )
@@ -516,10 +512,15 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(kycDocResubmit.name))
     }
     if (sunriver) {
-      return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
+      // return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    }
+    if (upgradeForAirdrop) {
+      return yield put(
+        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
+      )
     }
     if (coinifyUpgrade) {
       return yield put(
@@ -529,11 +530,6 @@ export default ({ api }) => {
     if (coinifyBuyViaCard) {
       return yield put(
         actions.modals.showModal(coinifyBuyViaCard.name, coinifyBuyViaCard.data)
-      )
-    }
-    if (upgradeForAirdrop) {
-      return yield put(
-        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
       )
     }
     if (swapGetStarted) {
@@ -603,6 +599,7 @@ export default ({ api }) => {
         case 'registerForBlockstackAirdrop':
           yield call(runRegisterForBlockstackAirdropGoal, goal)
       }
+      yield put(actions.goals.initialModalDisplayed)
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'runGoal', error))
     }

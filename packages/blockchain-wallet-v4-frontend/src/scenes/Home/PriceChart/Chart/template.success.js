@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts'
-import { calculateStart, calculateInterval } from 'services/ChartService'
+import { calculateInterval, calculateStart } from 'services/ChartService'
 import { getConfig, renderMinMax } from './services'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import ReactHighcharts from 'react-highcharts'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -45,35 +45,54 @@ const Wrapper = styled.div`
   }
 `
 
-class Chart extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    const { coin, time, data, currency } = this.props
-    const decimals = coin === 'XLM' ? 4 : 2
-    const start = calculateStart(coin, time)
-    const interval = calculateInterval(coin, time)
-    const config = getConfig(start, interval, coin, currency, data, decimals)
-    this.state = { config, start, interval, decimals }
-  }
+const Chart = props => {
+  const { coin, time, data, currency, isSilverOrAbove } = props
+  const decimals = coin === 'XLM' ? 4 : 2
+  const start = calculateStart(coin, time)
+  const interval = calculateInterval(coin, time)
+  let config = getConfig(
+    coin,
+    currency,
+    data,
+    decimals,
+    interval,
+    isSilverOrAbove,
+    start
+  )
 
-  handleCallback = chart => {
-    const { currency, data } = this.props
-    const { decimals } = this.state
+  const [chartObj, setChartObj] = useState({
+    config,
+    start,
+    interval,
+    decimals,
+    isSilverOrAbove
+  })
 
-    renderMinMax(chart, { currency, data, decimals })
-  }
-
-  render () {
-    return (
-      <Wrapper coin={this.props.coin}>
-        <ReactHighcharts
-          config={this.state.config}
-          callback={this.handleCallback}
-          isPureConfig
-        />
-      </Wrapper>
+  useEffect(() => {
+    config = getConfig(
+      coin,
+      currency,
+      data,
+      decimals,
+      interval,
+      isSilverOrAbove,
+      start
     )
-  }
+    setChartObj({ config })
+  }, [isSilverOrAbove])
+
+  const handleCallback = chart =>
+    renderMinMax(chart, { currency, data, decimals })
+
+  return (
+    <Wrapper coin={coin}>
+      <ReactHighcharts
+        config={chartObj.config}
+        callback={handleCallback}
+        isPureConfig
+      />
+    </Wrapper>
+  )
 }
 
 Chart.propTypes = {

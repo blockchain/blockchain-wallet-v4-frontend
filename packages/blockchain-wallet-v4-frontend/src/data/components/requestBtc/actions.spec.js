@@ -1,5 +1,5 @@
-import * as AT from './actionTypes'
 import * as actions from './actions'
+import * as AT from './actionTypes'
 
 describe('request Btc actions', () => {
   it('should export first step submit action', () => {

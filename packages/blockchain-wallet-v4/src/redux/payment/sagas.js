@@ -1,5 +1,5 @@
-import btc from './btc/sagas'
 import bch from './bch/sagas'
+import btc from './btc/sagas'
 import eth from './eth/sagas'
 import xlm from './xlm/sagas'
 

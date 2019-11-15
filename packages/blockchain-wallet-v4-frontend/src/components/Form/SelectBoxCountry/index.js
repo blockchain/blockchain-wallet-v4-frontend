@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { filter, contains, isEmpty, cond, T, identity } from 'ramda'
+import { cond, contains, filter, identity, isEmpty, T } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import SelectBox from '../SelectBox'
 

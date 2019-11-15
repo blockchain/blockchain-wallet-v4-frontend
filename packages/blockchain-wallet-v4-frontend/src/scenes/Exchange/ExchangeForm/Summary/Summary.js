@@ -1,23 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { BigNumber } from 'bignumber.js'
-
-import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { formatAmount } from '../services'
-import { getData } from './selectors'
 import {
   AmountHeader,
+  Wrapper as BorderWrapper,
   ExchangeAmount,
   ExchangeAmounts,
-  SubExchangeAmount,
   LargeTableRow,
-  Wrapper as BorderWrapper
+  SubExchangeAmount
 } from 'components/Exchange'
+import { BigNumber } from 'bignumber.js'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { connect } from 'react-redux'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatAmount } from '../services'
+import { FormattedMessage } from 'react-intl'
+import { getData } from './selectors'
+import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import React from 'react'
 import StringDisplay from 'components/Display/StringDisplay'
+import styled from 'styled-components'
 import TargetFiatAmount from './TargetFiatAmount'
 
 const SummaryWrapper = styled(BorderWrapper)`

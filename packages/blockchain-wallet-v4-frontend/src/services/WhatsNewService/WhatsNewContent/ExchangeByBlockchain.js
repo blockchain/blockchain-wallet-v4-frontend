@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-
 import { actions, model, selectors } from 'data'
 import { Button, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { Container, Row } from 'components/WhatsNew'
 import { equals } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+
 const { NONE } = model.profile.KYC_STATES
 
 const DarkText = styled(Text).attrs({

@@ -1,8 +1,8 @@
 import { formValueSelector } from 'redux-form'
 import { lift, prop } from 'ramda'
 
-import { selectors } from 'data'
 import { getCountryCodeFromIban } from 'services/CoinifyService'
+import { selectors } from 'data'
 
 export const getData = state => {
   const insertSpaces = str => {

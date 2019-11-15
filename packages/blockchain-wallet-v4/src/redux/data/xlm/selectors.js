@@ -1,3 +1,5 @@
+import * as Exchange from '../../../exchange'
+import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import {
   compose,
   curry,
@@ -6,16 +8,13 @@ import {
   map,
   path,
   prop,
-  propOr,
   propEq,
+  propOr,
   sum,
   uniq
 } from 'ramda'
-
-import { dataPath } from '../../paths'
-import * as Exchange from '../../../exchange'
 import { createDeepEqualSelector } from '../../../utils'
-import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
+import { dataPath } from '../../paths'
 import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
 import Remote from '../../../remote'
 

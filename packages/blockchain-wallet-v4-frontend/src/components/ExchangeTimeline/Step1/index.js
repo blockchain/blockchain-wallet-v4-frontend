@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled, { css, keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 

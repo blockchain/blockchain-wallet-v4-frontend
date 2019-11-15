@@ -1,17 +1,17 @@
 import {
   compose,
+  contains,
   curry,
   equals,
   filter,
   head,
   path,
-  reverse,
-  sortBy,
   prop,
-  contains
+  reverse,
+  sortBy
 } from 'ramda'
-import { SHAPESHIFT } from '../config'
 import { kvStorePath } from '../../paths'
+import { SHAPESHIFT } from '../config'
 
 export const getMetadata = path([kvStorePath, SHAPESHIFT])
 export const getUsState = state =>

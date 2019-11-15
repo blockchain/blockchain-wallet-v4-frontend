@@ -1,5 +1,5 @@
+import { fork, join, put, select, take } from 'redux-saga/effects'
 import { pathOr } from 'ramda'
-import { select, put, fork, join, take } from 'redux-saga/effects'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { actions, actionTypes, selectors } from 'data'

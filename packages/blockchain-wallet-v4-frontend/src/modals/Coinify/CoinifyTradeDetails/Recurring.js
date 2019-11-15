@@ -1,11 +1,11 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { FormattedMessage } from 'react-intl'
+import { head, prop } from 'ramda'
+import { Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { recurringFee, recurringTimeHelper } from 'services/CoinifyService'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { prop, head } from 'ramda'
-import media from 'services/ResponsiveService'
-import { Text, TooltipHost, Icon } from 'blockchain-info-components'
-import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const RecurringTradeWrapper = styled.div`
   display: flex;

@@ -1,31 +1,30 @@
-import { call, put, select } from 'redux-saga/effects'
-import BIP39 from 'bip39'
-import Bitcoin from 'bitcoinjs-lib'
-import {
-  prop,
-  compose,
-  endsWith,
-  repeat,
-  range,
-  map,
-  propSatisfies,
-  length,
-  dropLastWhile,
-  not,
-  concat,
-  propEq,
-  is,
-  find,
-  isEmpty
-} from 'ramda'
-import { set } from 'ramda-lens'
-import Task from 'data.task'
 import * as A from '../actions'
 import * as S from './selectors'
+import { call, put, select } from 'redux-saga/effects'
+import {
+  compose,
+  concat,
+  dropLastWhile,
+  endsWith,
+  find,
+  is,
+  isEmpty,
+  length,
+  map,
+  not,
+  prop,
+  propEq,
+  propSatisfies,
+  range,
+  repeat
+} from 'ramda'
 import { fetchData } from '../data/btc/actions'
-
-import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
+import { HDAccount, Wallet, Wrapper } from '../../types'
+import { set } from 'ramda-lens'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
+import Task from 'data.task'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -61,7 +60,13 @@ export default ({ api, networks }) => {
     }
   }
 
-  const importLegacyAddress = function * ({ key, network, password, bipPass }) {
+  const importLegacyAddress = function * ({
+    key,
+    network,
+    password,
+    bipPass,
+    label
+  }) {
     const wallet = yield select(S.getWallet)
     const wrapper = yield select(S.getWrapper)
     const walletT = Wallet.importLegacyAddress(
@@ -70,6 +75,7 @@ export default ({ api, networks }) => {
       Date.now(),
       password,
       bipPass,
+      label,
       { network, api }
     )
     const wrapperT = walletT.map(wallet => set(Wrapper.wallet, wallet, wrapper))

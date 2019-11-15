@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { lift } from 'ramda'
+import { selectors } from 'data'
 
 // getData :: state -> Remote( [email, emailVerified ])
 export const getData = state => {

@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
-import Template from './template'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { prop } from 'ramda'
+import React from 'react'
+import Template from './template'
 
 const key = 'wallet'
 

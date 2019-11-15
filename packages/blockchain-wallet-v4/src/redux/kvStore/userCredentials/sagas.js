@@ -1,11 +1,11 @@
-import { call, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty } from 'ramda'
-import { set } from 'ramda-lens'
 import * as A from './actions'
-import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
-import { derivationMap, USER_CREDENTIALS } from '../config'
+import { call, put, select } from 'redux-saga/effects'
 import { callTask } from '../../../utils/functional'
+import { derivationMap, USER_CREDENTIALS } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { isEmpty, isNil } from 'ramda'
+import { KVStoreEntry } from '../../../types'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
   const createUserCredentials = function * (kv) {

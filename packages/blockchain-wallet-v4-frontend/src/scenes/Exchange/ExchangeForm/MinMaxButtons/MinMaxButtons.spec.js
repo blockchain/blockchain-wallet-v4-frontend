@@ -1,7 +1,6 @@
-import React from 'react'
+import { MinMaxButton, MinMaxButtons, MinMaxValue } from './MinMaxButtons'
 import { shallow } from 'enzyme'
-
-import { MinMaxButtons, MinMaxButton, MinMaxValue } from './MinMaxButtons'
+import React from 'react'
 
 const useMin = jest.fn()
 const useMax = jest.fn()

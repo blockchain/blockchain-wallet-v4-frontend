@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import React from 'react'
+import styled from 'styled-components'
 
-import { model } from 'data'
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { model } from 'data'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

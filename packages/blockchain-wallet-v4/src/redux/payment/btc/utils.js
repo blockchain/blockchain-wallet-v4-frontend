@@ -1,18 +1,18 @@
+import * as Coin from '../../../coinSelection/coin'
+import * as S from '../../selectors'
+import { Address, HDAccount, Wallet } from '../../../types'
 import {
+  always,
+  assoc,
+  compose,
   converge,
+  curry,
+  drop,
   equals,
   or,
-  assoc,
-  drop,
-  curry,
-  set,
-  always,
-  compose
+  set
 } from 'ramda'
-import * as Coin from '../../../coinSelection/coin'
-import { Wallet, HDAccount, Address } from '../../../types'
-import { isValidBtcAddress, getWifAddress } from '../../../utils/btc'
-import * as S from '../../selectors'
+import { getWifAddress, isValidBtcAddress } from '../../../utils/btc'
 
 // /////////////////////////////////////////////////////////////////////////////
 // Validations

@@ -1,9 +1,9 @@
+import { ifElse, is, pipe } from 'ramda'
+import { iToJS } from './util'
+import { view } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
 import memoize from 'fast-memoize'
-import { is, pipe, ifElse } from 'ramda'
-import { view } from 'ramda-lens'
 import Type from './Type'
-import { iToJS } from './util'
 
 /* AddressLabel :: {
   index :: Number

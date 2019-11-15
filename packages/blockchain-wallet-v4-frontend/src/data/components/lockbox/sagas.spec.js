@@ -1,15 +1,15 @@
 import { testSaga } from 'redux-saga-test-plan'
 
-import { Remote, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
-import * as CC from 'services/ConfirmService'
-import * as S from './selectors'
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
-import * as selectors from '../../selectors'
+import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
-import lockboxSagas from './sagas'
+import * as S from './selectors'
 import * as SagaService from 'services/SagaService'
+import * as selectors from '../../selectors'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import lockboxSagas from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 Lockbox.apps.installApp = jest.fn()

@@ -1,4 +1,4 @@
-import { compose, concat, prop, propEq, identity } from 'ramda'
+import { compose, concat, identity, prop, propEq } from 'ramda'
 
 const WebSocket = global.WebSocket || global.MozWebSocket
 
@@ -93,7 +93,7 @@ class Socket {
   }
 
   onPong = msg => {
-    if (propEq('op', 'pong')) {
+    if (propEq('command', 'pong')) {
       clearTimeout(this.pingTimeoutPID)
     }
     return msg
@@ -121,7 +121,7 @@ class Socket {
   }
 
   static pingMessage () {
-    return JSON.stringify({ op: 'ping' })
+    return JSON.stringify({ command: 'ping' })
   }
 }
 

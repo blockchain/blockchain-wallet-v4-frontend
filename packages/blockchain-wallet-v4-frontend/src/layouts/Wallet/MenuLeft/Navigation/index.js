@@ -1,8 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { concat, prop } from 'ramda'
+import { connect } from 'react-redux'
 import { STATUS } from 'react-joyride/lib'
+import React from 'react'
 
 import { actions, model, selectors } from 'data'
 import Navigation from './template'

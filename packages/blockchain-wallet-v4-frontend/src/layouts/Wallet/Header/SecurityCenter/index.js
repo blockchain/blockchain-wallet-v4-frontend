@@ -1,11 +1,11 @@
-import React from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import {
-  NavbarNavItemTextLink,
   NavbarNavItemTextHeader,
-  NavbarNavItemTextIcon
+  NavbarNavItemTextIcon,
+  NavbarNavItemTextLink
 } from 'components/Navbar'
+import React from 'react'
 
 const SecurityCenter = () => {
   return (

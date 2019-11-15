@@ -1,17 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { all, fork } from 'redux-saga/effects'
 import { applyMiddleware, combineReducers, createStore } from 'redux'
+import { IntlProvider } from 'react-intl'
+import { map } from 'ramda'
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import { MemoryRouter } from 'react-router'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
-import { all, fork } from 'redux-saga/effects'
-import { MemoryRouter } from 'react-router'
-import { map } from 'ramda'
-import { IntlProvider } from 'react-intl'
-
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
-import ThemeProvider from 'providers/ThemeProvider'
-import preferencesReducer from 'data/preferences/reducers'
 import formReducer from 'data/form/reducers'
+import preferencesReducer from 'data/preferences/reducers'
+import PropTypes from 'prop-types'
+import React from 'react'
+import ThemeProvider from 'providers/ThemeProvider'
 
 export const createTestStore = (
   reducers = {},

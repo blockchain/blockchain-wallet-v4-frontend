@@ -1,6 +1,6 @@
+import { compose, pickAll, values } from 'ramda'
 import React from 'react'
 import SecondStep from './template.js'
-import { compose, values, pickAll } from 'ramda'
 
 class SecondStepContainer extends React.PureComponent {
   state = { step: 1 }

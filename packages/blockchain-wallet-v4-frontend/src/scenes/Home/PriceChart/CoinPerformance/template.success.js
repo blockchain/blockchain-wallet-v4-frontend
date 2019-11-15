@@ -1,9 +1,9 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { getPriceChartTime } from './services'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { Text } from 'blockchain-info-components'
-import { getPriceChartTime } from './services'
 
 const Wrapper = styled.div`
   z-index: 1;

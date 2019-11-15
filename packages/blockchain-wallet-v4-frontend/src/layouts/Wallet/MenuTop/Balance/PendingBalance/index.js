@@ -1,10 +1,10 @@
-import React from 'react'
-import Template from './template'
+import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
 import { gt, prop } from 'ramda'
+import React from 'react'
+import Template from './template'
 
 const key = 'pending'
 

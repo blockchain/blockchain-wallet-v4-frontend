@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import { selectors } from 'data'
 
 export const getData = state => {
   const userState = selectors.modules.profile

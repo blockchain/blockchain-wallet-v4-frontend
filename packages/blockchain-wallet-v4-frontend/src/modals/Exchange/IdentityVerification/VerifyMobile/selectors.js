@@ -1,6 +1,6 @@
 import { contains, keys, path } from 'ramda'
 
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
 
 const { SMS_NUMBER_FORM } = model.components.identityVerification
 const activeFieldSelector = selectors.form.getActiveField(SMS_NUMBER_FORM)

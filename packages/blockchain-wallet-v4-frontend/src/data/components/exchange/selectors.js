@@ -1,13 +1,14 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   all,
   any,
   compose,
-  includes,
   curry,
   defaultTo,
   filter,
   findIndex,
   head,
+  includes,
   last,
   lift,
   lt,
@@ -18,15 +19,14 @@ import {
   propEq,
   values
 } from 'ramda'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { selectors, model } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
-  getTargetCoinsPairedToSource,
+  EXCHANGE_FORM,
   getAvailableSourceCoins,
-  EXCHANGE_FORM
+  getTargetCoinsPairedToSource
 } from './model'
+import { model, selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4'
 
 export const canUseExchange = state =>

@@ -1,13 +1,13 @@
-import React from 'react'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
 
-import LinkToPitNotAsked from './template.notasked'
-import LinkToPitLoading from './template.loading'
-import LinkToPitError from './template.error'
-import LinkToPitSuccess from './template.success'
 import { actions, selectors } from 'data'
+import LinkToPitError from './template.error'
+import LinkToPitLoading from './template.loading'
+import LinkToPitNotAsked from './template.notasked'
+import LinkToPitSuccess from './template.success'
 
 class LinkToPitAccountContainer extends React.PureComponent {
   componentWillUnmount () {

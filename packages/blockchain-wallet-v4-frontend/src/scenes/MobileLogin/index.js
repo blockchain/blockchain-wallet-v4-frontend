@@ -1,11 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { isNil, isEmpty } from 'ramda'
-
 import * as C from 'services/AlertService'
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { isEmpty, isNil } from 'ramda'
 import MobileLogin from './template'
+import React from 'react'
 
 class MobileLoginContainer extends React.PureComponent {
   handleScan = result => {

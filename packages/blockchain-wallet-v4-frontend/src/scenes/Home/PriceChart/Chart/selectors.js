@@ -1,7 +1,7 @@
+import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { lift, map, prop } from 'ramda'
 import { selectors } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
@@ -9,9 +9,17 @@ export const getData = createDeepEqualSelector(
     selectors.preferences.getPriceChart,
     selectors.components.priceChart.getCoin,
     selectors.components.priceChart.getTime,
-    selectors.core.data.misc.getPriceIndexSeries
+    selectors.core.data.misc.getPriceIndexSeries,
+    selectors.modules.profile.isSilverOrAbove
   ],
-  (currencyR, priceChartPreferences, coin, time, priceIndexSeriesDataR) => {
+  (
+    currencyR,
+    priceChartPreferences,
+    coin,
+    time,
+    priceIndexSeriesDataR,
+    isSilverOrAbove
+  ) => {
     const currency = currencyR.getOrElse('USD')
     const currencySymbol = Exchange.getSymbol(currency)
     const cacheCoin = prop('coin', priceChartPreferences)
@@ -29,7 +37,8 @@ export const getData = createDeepEqualSelector(
       cache: {
         coin: cacheCoin,
         time: cacheTime
-      }
+      },
+      isSilverOrAbove
     }
   }
 )

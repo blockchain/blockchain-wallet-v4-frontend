@@ -1,21 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
+import { NumberBox } from 'components/Form'
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
+  SettingForm,
   SettingHeader,
   SettingSummary,
-  SettingForm,
   SettingWrapper
 } from 'components/Setting'
-import { Button, Text } from 'blockchain-info-components'
-import { NumberBox } from 'components/Form'
 import { validPasswordStretchingNumber } from 'services/FormHelper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const ButtonWrapper = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;

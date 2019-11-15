@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react'
-import styled from 'styled-components'
-import { reduxForm, Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
+import { Form, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { TextBox, Form } from 'components/Form'
 import { PartnerHeader } from 'components/IdentityVerification'
 import { required } from 'services/FormHelper'
-import { Text, TextGroup } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import { Text, TextGroup } from 'blockchain-info-components'
+import React, { Component, Fragment } from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;

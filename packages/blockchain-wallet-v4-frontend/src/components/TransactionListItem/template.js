@@ -1,26 +1,26 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { prop } from 'ramda'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import {
   Banner,
   Text,
-  TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import Addresses from './Addresses'
-import Description from './Description'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import Confirmations from './Confirmations'
+import Description from './Description'
 import FiatAtTime from './FiatAtTime'
-import Status from './Status'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import media from 'services/ResponsiveService'
 import PartnerLabel from './PartnerLabel'
+import Status from './Status'
 import TransactionFee from './TransactionFee'
 
 const TransactionRowContainer = styled.div`

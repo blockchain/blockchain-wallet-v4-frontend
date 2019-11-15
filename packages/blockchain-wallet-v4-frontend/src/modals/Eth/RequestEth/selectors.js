@@ -1,6 +1,6 @@
-import { selectors } from 'data'
-import { head, includes, lift, prop, propOr, nth, toLower } from 'ramda'
 import { formValueSelector } from 'redux-form'
+import { head, includes, lift, nth, prop, propOr, toLower } from 'ramda'
+import { selectors } from 'data'
 
 const extractAddress = addr => prop('addr', head(addr))
 export const getData = (state, coin) => {

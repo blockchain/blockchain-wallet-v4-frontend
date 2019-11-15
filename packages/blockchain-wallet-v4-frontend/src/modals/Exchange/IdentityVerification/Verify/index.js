@@ -1,17 +1,17 @@
-import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions, model } from 'data'
 import { getData, getPreIdvData } from './selectors'
+import { hasWebcam } from 'utils/helpers'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import SiftScience from 'components/SiftScience'
 import DataError from 'components/DataError'
+import SiftScience from 'components/SiftScience'
 
-import LowFlow from './template.lowflow'
 import HighFlow from './template.highflow'
 import Loading from './template.loading'
-import { hasWebcam } from 'utils/helpers'
+import LowFlow from './template.lowflow'
 
 const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 

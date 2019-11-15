@@ -1,13 +1,13 @@
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
-import HorizontalMenu from 'components/HorizontalMenu'
-import { TextBox } from 'components/Form'
 import { model } from 'data'
+import { TextBox } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
 const { WALLET_TX_SEARCH } = model.form
 
 const Container = styled.div`

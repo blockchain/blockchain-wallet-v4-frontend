@@ -20,3 +20,6 @@ export const getMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia ||
   navigator.msGetUserMedia
+
+export const collapse = text =>
+  text.length > 30 ? text.replace(/(.{17})..+/, '$1…') : text

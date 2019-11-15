@@ -1,6 +1,6 @@
-import { assocPath, assoc } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
+import { assoc, assocPath } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   connection: {},

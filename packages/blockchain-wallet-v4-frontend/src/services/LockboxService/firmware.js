@@ -1,7 +1,6 @@
-import qs from 'qs'
-
-import utils from './utils'
 import constants from './constants'
+import qs from 'qs'
+import utils from './utils'
 
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {

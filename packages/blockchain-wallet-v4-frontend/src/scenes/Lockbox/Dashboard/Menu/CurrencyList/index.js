@@ -1,13 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { contains, map, prop } from 'ramda'
-
 import { actions } from 'data'
-import { getData, getCoinContexts } from './selectors'
-import Success from './template.success'
-import Loading from './template.loading'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { contains, map, prop } from 'ramda'
+import { getCoinContexts, getData } from './selectors'
 import Error from './template.error'
+import Loading from './template.loading'
+import React from 'react'
+import Success from './template.success'
 
 const createOption = label => ({
   label,

@@ -1,7 +1,7 @@
-import { testSaga } from 'redux-saga-test-plan'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 
 const mockPairs = [

@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { prop } from 'ramda'
 import { CancelWrapper } from 'components/IdentityVerification'
 import { CheckBox } from 'components/Form'
-import { StepTransition } from 'components/Utilities/Stepper'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { required } from 'services/FormHelper'
+import { StepTransition } from 'components/Utilities/Stepper'
+import React from 'react'
+import styled from 'styled-components'
 
 const OrderSubmitForm = styled.form`
   margin-bottom: 30px;

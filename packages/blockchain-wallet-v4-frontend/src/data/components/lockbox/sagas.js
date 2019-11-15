@@ -1,31 +1,31 @@
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
+import * as Lockbox from 'services/LockboxService'
+import * as S from './selectors'
+import { actions, actionTypes, selectors } from 'data'
 import {
   call,
   cancelled,
   delay,
   put,
-  take,
   select,
+  take,
   takeEvery
 } from 'redux-saga/effects'
+import { confirm, promptForLockbox } from 'services/SagaService'
+import { END, eventChannel } from 'redux-saga'
 import {
-  head,
-  includes,
   filter,
   find,
+  head,
+  includes,
   length,
   prop,
   propEq,
   values
 } from 'ramda'
-import { eventChannel, END } from 'redux-saga'
-import { actionTypes, actions, selectors } from 'data'
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as C from 'services/AlertService'
-import * as S from './selectors'
-import * as CC from 'services/ConfirmService'
-import * as Lockbox from 'services/LockboxService'
-import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 const sagaCancelledMsg = 'Saga cancelled from user modal close'

@@ -1,6 +1,10 @@
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
-  cancel,
   call,
+  cancel,
   delay,
   fork,
   put,
@@ -9,7 +13,6 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import moment from 'moment'
 import {
   compose,
   difference,
@@ -20,14 +23,10 @@ import {
   sortBy,
   tail
 } from 'ramda'
-
-import { Remote } from 'blockchain-wallet-v4'
-import { selectors, actions, actionTypes, model } from 'data'
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
+import { Remote } from 'blockchain-wallet-v4'
+import moment from 'moment'
 
 const { AB_TESTS } = model.analytics
 

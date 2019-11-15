@@ -1,9 +1,8 @@
-import { assoc, compose, curry, map, prop } from 'ramda'
-
-import { getBalance } from '../../data/xlm/selectors'
-import { getAccounts } from '../../kvStore/xlm/selectors'
-import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import { assoc, compose, curry, map, prop } from 'ramda'
+import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getBalance } from '../../data/xlm/selectors'
+import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 
 const digest = type => ({ label, publicKey }) => ({
   coin: 'XLM',
