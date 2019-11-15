@@ -26,7 +26,7 @@ const ContentWrapper = styled.div`
   `};
 `
 const Content = styled.div`
-  margin-left: 8px;
+  margin-left: 16px;
   ${media.tablet`
     text-align: center;
     margin-top: 4px;

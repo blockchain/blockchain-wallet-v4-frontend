@@ -299,10 +299,11 @@ export default ({ api }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    const showUpgradeForAirdropModal = yield select(
-      selectors.preferences.getShowUpgradeForStxAirdropModal
-    )
-    if (!showUpgradeForAirdropModal) return
+    // temp always show airdrop modal
+    // const showUpgradeForAirdropModal = yield select(
+    //   selectors.preferences.getShowUpgradeForStxAirdropModal
+    // )
+    // if (!showUpgradeForAirdropModal) return
     yield call(waitForUserData)
     const kycNotFinished = yield call(isKycNotFinished)
     const isRegistered = (yield select(
