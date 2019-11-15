@@ -79,7 +79,6 @@ class ImportExternalBtcAddress extends React.PureComponent {
               <Field
                 name='label'
                 validate={[]}
-                normalize={removeWhitespace}
                 component={TextBox}
                 data-e2e='labelInput'
               />
