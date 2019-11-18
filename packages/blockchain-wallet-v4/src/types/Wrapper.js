@@ -48,6 +48,17 @@ export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
 export const selectSyncPubKeys = view(syncPubKeys)
 
+const keyPaths = [[`password`], [`wallet`, `hd_wallets`, 0, `seedHex`]]
+
+// Remove some properties before transferring between the Security and Main
+// Processes.
+export const redact = wrapper =>
+  wrapper.withMutations(mutable => {
+    keyPaths.forEach(keyPath => {
+      mutable.deleteIn(keyPath)
+    })
+  })
+
 // traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
 export const traverseWallet = curry((of, f, wrapper) =>
   of(wrapper).chain(traverseOf(wallet, of, f))

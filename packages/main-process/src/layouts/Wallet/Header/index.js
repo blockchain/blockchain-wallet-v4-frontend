@@ -18,7 +18,8 @@ class HeaderContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  dispatch
 })
 
 export default withRouter(

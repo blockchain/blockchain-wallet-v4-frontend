@@ -48,7 +48,7 @@ describe('authSagas', () => {
   })
 
   describe('login flow', () => {
-    const { login, loginRoutineSaga, pollingSession } = authSagas({
+    const { login, pollingSession } = authSagas({
       api,
       coreSagas
     })
@@ -93,11 +93,11 @@ describe('authSagas', () => {
       })
     })
 
-    it('should call login routine', () => {
+    it('should put login routine', () => {
       const { mobileLogin } = payload
       saga
         .next()
-        .call(loginRoutineSaga, mobileLogin)
+        .put(actions.auth.loginRoutine(mobileLogin))
         .next()
         .isDone()
     })
@@ -185,9 +185,9 @@ describe('authSagas', () => {
               })
           })
 
-          it('should call login routine', () => {
+          it('should put login routine', () => {
             const { mobileLogin } = payload
-            saga.next().call(loginRoutineSaga, mobileLogin)
+            saga.next().put(actions.auth.loginRoutine(mobileLogin))
           })
 
           it('should follow 2FA flow on auth error', () => {
@@ -334,200 +334,8 @@ describe('authSagas', () => {
     })
   })
 
-  describe('login routine', () => {
-    const {
-      authNabu,
-      checkDataErrors,
-      loginRoutineSaga,
-      logoutRoutine,
-      saveGoals,
-      setLogoutEventListener,
-      startSockets,
-      transferEthSaga,
-      upgradeWalletSaga,
-      upgradeAddressLabelsSaga
-    } = authSagas({
-      api,
-      coreSagas
-    })
-    const mobileLogin = true
-    const firstLogin = false
-    const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
-    const beforeHdCheck = 'beforeHdCheck'
-
-    it('should check if wallet is an hd wallet', () => {
-      saga
-        .next()
-        .select(selectors.core.wallet.isHdWallet)
-        .save(beforeHdCheck)
-    })
-
-    it('should call upgradeWalletSaga if wallet is not hd', () => {
-      saga
-        .next(false)
-        .call(upgradeWalletSaga)
-        .restore(beforeHdCheck)
-    })
-
-    it('should put authenticate action', () => {
-      saga.next(true).put(actions.auth.authenticate())
-    })
-
-    it('should fetch root', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch eth metadata', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch xlm metadata', () => {
-      saga
-        .next()
-        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
-    })
-
-    it('should fetch bch metadata', () => {
-      saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
-    })
-
-    it('should fetch lockbox metadata', () => {
-      saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-    })
-
-    it('should redirect to home route', () => {
-      saga.next().put(actions.router.push('/home'))
-    })
-
-    it('should fetch settings', () => {
-      saga.next().call(coreSagas.settings.fetchSettings)
-    })
-
-    it('should fetch xlm ledger details', () => {
-      saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
-    })
-
-    it('should fetch xlm accounts', () => {
-      saga.next().call(coreSagas.data.xlm.fetchData)
-    })
-
-    it('should call auth nabu saga', () => {
-      saga.next().call(authNabu)
-    })
-
-    it('should call upgrade address labels saga', () => {
-      saga.next().call(upgradeAddressLabelsSaga)
-    })
-
-    it('should trigger login success action', () => {
-      saga.next().put(actions.auth.loginSuccess())
-    })
-
-    it('should start logout timer', () => {
-      saga.next().put(actions.auth.startLogoutTimer())
-    })
-
-    it('should start sockets', () => {
-      saga.next().call(startSockets)
-    })
-
-    it('should select guid from state', () => {
-      saga.next().select(selectors.core.wallet.getGuid)
-    })
-
-    it('should cache guid', () => {
-      const guid = 'guid'
-      saga.next(guid).put(actions.cache.guidEntered(guid))
-    })
-
-    it('should reset auth state', () => {
-      saga.next().put(actions.auth.setAuthType(0))
-    })
-
-    it('should clear login form', () => {
-      saga.next().put(actions.form.destroy('login'))
-    })
-
-    it('should select current language', () => {
-      saga.next().select(selectors.preferences.getLanguage)
-    })
-
-    it('should trigger update language action with selected language', () => {
-      const language = 'en'
-      saga.next(language).put(actions.modules.settings.updateLanguage(language))
-    })
-
-    it('should init analytics user session', () => {
-      saga.next().put(actions.analytics.initUserSession())
-    })
-
-    it('should launch transferEth saga', () => {
-      saga.next().fork(transferEthSaga)
-    })
-
-    it('should save goals', () => {
-      saga.next().call(saveGoals, false)
-    })
-
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
-    })
-
-    it('should check for data errors', () => {
-      saga.next().fork(checkDataErrors)
-    })
-
-    it('should start listening for logout event', () => {
-      saga.next().call(setLogoutEventListener)
-    })
-
-    it('should launch logout routine saga upon logout event', () => {
-      const stubLogoutEvent = {}
-      saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent)
-    })
-
-    it("should not display success if it's first login", () => {
-      const firstLogin = true
-      return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
-        .provide([
-          // Every async or value returning yield has to be mocked
-          // for saga to progress
-          [select(selectors.core.wallet.isHdWallet), true],
-          [select(selectors.core.wallet.getGuid), 12],
-          [fork.fn(transferEthSaga), jest.fn],
-          [call.fn(setLogoutEventListener), jest.fn],
-          [fork.fn(logoutRoutine), jest.fn]
-        ])
-        .not.put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-        .run()
-    })
-
-    describe('error handling', () => {
-      it('should log error', () => {
-        const error = {}
-        saga
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', error)
-          )
-      })
-
-      it('should show wallet error alert', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-          .next()
-          .isDone()
-      })
-    })
-  })
-
   describe('register flow', () => {
-    const { loginRoutineSaga, register } = authSagas({
+    const { register } = authSagas({
       api,
       coreSagas
     })
@@ -550,10 +358,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should put login routine action with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {
@@ -586,7 +394,7 @@ describe('authSagas', () => {
   })
 
   describe('restore flow', () => {
-    const { loginRoutineSaga, restore } = authSagas({
+    const { restore } = authSagas({
       api,
       coreSagas
     })
@@ -615,10 +423,10 @@ describe('authSagas', () => {
       saga.next().put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
     })
 
-    it('should call login routine saga with falsy mobileLogin and truthy firstLogin', () => {
+    it('should put login routine action with falsy mobileLogin and truthy firstLogin', () => {
       const mobileLogin = false
       const firstLogin = true
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+      saga.next().put(actions.auth.loginRoutine(mobileLogin, firstLogin))
     })
 
     it('should finally trigger action that restore is successful', () => {

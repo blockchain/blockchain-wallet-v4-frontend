@@ -47,7 +47,5 @@ packages/main-process/package-lock.json
 packages/security-process/package-lock.json
 
 # Config Files
-config/env/development.js
-config/env/staging.js
 config/ssl/*
 !config/ssl/ssl.md

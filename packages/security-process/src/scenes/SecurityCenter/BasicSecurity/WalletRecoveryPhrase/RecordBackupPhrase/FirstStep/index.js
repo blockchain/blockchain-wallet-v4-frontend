@@ -71,6 +71,8 @@ const FirstStep = props => {
           href={recoveryPdf}
           download='recovery_phrase.pdf'
           data-e2e='downloadRecoveryPhraseLink'
+          target='_blank'
+          rel='noopener noreferrer'
         >
           <Button nature='empty'>
             <Image

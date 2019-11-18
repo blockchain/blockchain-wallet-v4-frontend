@@ -38,11 +38,6 @@ export const verifyMobile = code => ({
   payload: { code }
 })
 
-export const updateLanguage = language => ({
-  type: AT.UPDATE_LANGUAGE,
-  payload: { language }
-})
-
 export const updateCurrency = currency => ({
   type: AT.UPDATE_CURRENCY,
   payload: { currency }

@@ -3,7 +3,6 @@ import { pipe, compose, curry, is, range, map } from 'ramda'
 import { view, over, traverseOf, traversed } from 'ramda-lens'
 import Bitcoin from 'bitcoinjs-lib'
 import BIP39 from 'bip39'
-import * as crypto from '../walletCrypto'
 import Task from 'data.task'
 
 import Type from './Type'
@@ -75,19 +74,10 @@ export const reviver = jsObject => {
   return new HDWallet(jsObject)
 }
 
-export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
-  let seed = BIP39.mnemonicToSeed(BIP39.entropyToMnemonic(seedHex))
-  let masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
-  return masterNode
-    .deriveHardened(44)
-    .deriveHardened(0)
-    .deriveHardened(index)
-}
-
-export const generateAccount = curry((index, label, network, seedHex) => {
-  let node = deriveAccountNodeAtIndex(seedHex, index, network)
+export const generateAccount = (key, label) => {
+  const node = Bitcoin.HDNode.fromBase58(key)
   return HDAccount.fromJS(HDAccount.js(label, node, null))
-})
+}
 
 // encrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
 export const encrypt = curry((iterations, sharedKey, password, hdWallet) => {

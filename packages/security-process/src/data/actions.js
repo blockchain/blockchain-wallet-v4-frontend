@@ -6,7 +6,6 @@ import * as cache from './cache/actions'
 import * as components from './components/actions'
 import * as goals from './goals/actions'
 import * as logs from './logs/actions'
-import * as middleware from './middleware/actions'
 import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as form from './form/actions'
@@ -26,7 +25,6 @@ export {
   goals,
   logs,
   form,
-  middleware,
   modals,
   modules,
   preferences,

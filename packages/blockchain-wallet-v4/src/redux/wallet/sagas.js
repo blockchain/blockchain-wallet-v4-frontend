@@ -30,7 +30,7 @@ import { generateMnemonic } from '../../walletCrypto'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, networks }) => {
+export default ({ api, networks, securityModule }) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(
       compose(
@@ -77,10 +77,22 @@ export default ({ api, networks }) => {
   }
 
   const newHDAccount = function * ({ label, password }) {
+    const hdWallet = yield select(S.getDefaultHDWallet)
+    const index = hdWallet.accounts.size
+
+    const key = yield call(
+      securityModule.deriveBIP32Key,
+      {
+        network: networks.btc,
+        secondPassword: password
+      },
+      `m/44'/0'/${index}'`
+    )
+
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
-      Wallet.newHDAccount(label, password, networks.btc),
+      Wallet.newHDAccount(index, key, label, password),
       wrapper
     )
     yield call(runTask, nextWrapper, A.wallet.setWrapper)
@@ -132,14 +144,10 @@ export default ({ api, networks }) => {
 
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
-      let upgradeWallet = Wallet.upgradeToHd(
-        mnemonic,
-        'My Bitcoin Wallet',
-        password,
-        networks.btc
-      )
+      const upgradeWallet = Wallet.newHDWallet(mnemonic, password)
       let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
       yield call(runTask, nextWrapper, A.wallet.setWrapper)
+      yield put(A.wallet.newHdAccount({ label: `My Bitcoin Wallet`, password }))
     } else {
       throw new Error('Already an HD wallet')
     }

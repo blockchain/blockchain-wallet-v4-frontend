@@ -28,7 +28,7 @@ import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 
-export default ({ api, coreSagas, networks }) => ({
+export default ({ api, coreSagas, imports, networks }) => ({
   activityList: activityList(),
   bchTransactions: bchTransactions(),
   btcTransactions: btcTransactions(),
@@ -38,7 +38,7 @@ export default ({ api, coreSagas, networks }) => ({
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),
-  importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
+  importBtcAddress: importBtcAddress({ api, coreSagas, imports, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
   onfido: onfido({ api }),

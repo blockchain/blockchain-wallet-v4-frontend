@@ -1,3 +1,5 @@
+// https://medium.com/@jaumepernas/your-data-is-loading-1425c6b76bf0
+
 import { taggedSum } from 'daggy'
 
 const Remote = taggedSum('Remote', {

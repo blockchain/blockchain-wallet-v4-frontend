@@ -36,21 +36,20 @@ To ensure proper support for Windows, please take the following actions before r
 ### Tips & Useful Commands
 1. To completely remove all dependencies and artifacts run `yarn clean`
 2. To add/remove an NPM package run `yarn add` or `yarn remove` in the package folder. After installing or uninstalling a NPM package, run `yarn` in the root folder to re-init the project
-3. All development specific dependencies should be installed as a `dev-dependency` in the top level `package.json` via `yarn i --save-dev [package-name]`
-4. All application specific dependencies should be installed in the specific packages `package.json` via `yarn i --save [package-name]`
+3. All development specific dependencies should be installed as a `dev-dependency` in the top level `package.json` via `yarn add -D -W [package-name]`
+4. All application specific dependencies should be installed in the specific packages `package.json` via `yarn add [package-name]`
 
 ### Running Environments Locally
-The frontend application can be ran locally with different build configurations found in `config/env`.  The following commands are available:
+The frontend application can be run locally with different build configurations found in `config/env`.  The following commands are available:
  * `yarn start` Runs the application with the `development.js` configuration file
  * `yarn start:dev` Runs the application with the `development.js` configuration file
  * `yarn start:staging` Runs the application with the `staging.js` configuration file
  * `yarn start:testnet` Runs the application with the `testnet.js` configuration file
  * `yarn start:prod` Runs the application with the `production.js` configuration file
- * `yarn run:prod` Runs the application mimicking the production environment entirely (i.e. code is bundled and minified, HMR is disabled,
-  Express server is used (`./server.js`) and the `production.js` configuration file is loaded)
+ * `yarn debug:prod` Runs the application mimicking the production environment entirely (i.e. code is bundled and minified, HMR is disabled,
+  Express server is used and the `production.js` configuration file is loaded)
 
 Notes:
- * Developers will need to manually create the `development.js` and `staging.js` files
  * Custom application runtimes are possible by modifying the corresponding environment files found in the `config/env` folder
  
 ### Useful Chrome Extensions

@@ -1,5 +1,10 @@
 import * as AT from './actionTypes'
 
+export const registerProtocolHandler = (protocol, url, title) => ({
+  type: AT.REGISTER_PROTOCOL_HANDLER,
+  payload: { protocol, url, title }
+})
+
 export const setCulture = culture => ({
   type: AT.SET_CULTURE,
   payload: { culture }

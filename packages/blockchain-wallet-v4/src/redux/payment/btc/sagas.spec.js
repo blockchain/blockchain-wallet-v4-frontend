@@ -67,6 +67,8 @@ Coin.fromJS.mockImplementation(() => true)
 let api = { getBtcFees: () => feeResult }
 
 describe('createPayment', () => {
+  const securityModule = {}
+
   let {
     create,
     __calculateTo,
@@ -79,7 +81,7 @@ describe('createPayment', () => {
     __calculateSignature,
     __calculateSweepSelection,
     __getWalletUnspent
-  } = createPaymentFactory({ api })
+  } = createPaymentFactory({ api, securityModule })
   let payment = create({ network, payment: p })
 
   describe('*init', () => {
@@ -159,6 +161,7 @@ describe('createPayment', () => {
       expect(gen.next(PASSWORD_VALUE).value).toEqual(
         call(
           __calculateSignature,
+          securityModule,
           network,
           PASSWORD_VALUE,
           TRANSPORT_VALUE,
@@ -187,6 +190,7 @@ describe('createPayment', () => {
     it('should follow the ADDRESS_TYPES.ACCOUNT case', () => {
       let WRAPPER_VALUE = {}
       let result = __calculateSignature(
+        securityModule,
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
@@ -201,6 +205,7 @@ describe('createPayment', () => {
     it('should follow the ADDRESS_TYPES.LEGACY case', () => {
       let WRAPPER_VALUE = {}
       let result = __calculateSignature(
+        securityModule,
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
@@ -214,6 +219,7 @@ describe('createPayment', () => {
     })
     it('should follow the ADDRESS_TYPES.EXTERNAL case', () => {
       let result = __calculateSignature(
+        securityModule,
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
@@ -226,6 +232,7 @@ describe('createPayment', () => {
     })
     it('should follow the ADDRESS_TYPES.WATCH_ONLY case', () => {
       let result = __calculateSignature(
+        securityModule,
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,

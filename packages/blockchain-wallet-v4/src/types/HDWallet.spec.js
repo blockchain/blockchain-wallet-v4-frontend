@@ -18,27 +18,28 @@ describe('HDWallet', () => {
     })
   })
 
-  // describe('createNew', () => {
-  //   const { wallet, mnemonic } = walletNewFixture
-  //   const hdWallet = HDWallet.createNew(mnemonic)
-
-  //   it('should generate the correct seed hex', () => {
-  //     expect(hdWallet.seedHex).toEqual(wallet.hd_wallets[0].seed_hex)
-  //   })
-
-  //   it('should have the correct first account', () => {
-  //     let firstAccount = HDWallet.toJS(hdWallet).accounts[0]
-  //     let accountFixtureNoLabels = R.set(R.lensProp('address_labels'), [], hdWalletFixture.accounts[0])
-  //     expect(firstAccount).toEqual(accountFixtureNoLabels)
-  //   })
-
-  //   it('should optionally set the first account label', () => {
-  //     let label = 'another label'
-  //     let hdWalletLabelled = HDWallet.createNew(mnemonic, { label })
-  //     let firstAccount = HDWallet.toJS(hdWalletLabelled).accounts[0]
-  //     expect(firstAccount.label).toEqual(label)
-  //   })
-  // })
+  it(`generateAccount`, () => {
+    expect(
+      HDWallet.generateAccount(
+        `xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi`,
+        `label`
+      ).toJS()
+    ).toEqual({
+      label: 'label',
+      archived: false,
+      xpriv:
+        'xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi',
+      xpub:
+        'xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8',
+      address_labels: {},
+      cache: {
+        receiveAccount:
+          'xpub68Gmy5EVb2BdFbj2LpWrk1M7obNuaPTpT5oh9QCCo5sRfqSHVYWex97WpDZzszdzHzxXDAzPLVSwybe4uPYkSk4G3gnrPqqkV9RyNzAcNJ1',
+        changeAccount:
+          'xpub68Gmy5EVb2BdHTYHpekwGdcbBWax19w9HwA2DaADYvuCSSgt4YAErxxSN1KWSnmyqkwRNbnTj3XiUBKmHeC8rTjLRPjSULcDKQQgfgJDppq'
+      }
+    })
+  })
 
   describe('serializer', () => {
     it('compose(reviver, replacer) should be identity', () => {
