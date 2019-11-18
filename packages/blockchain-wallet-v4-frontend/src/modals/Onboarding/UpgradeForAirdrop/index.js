@@ -2,11 +2,12 @@ import { actions } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import {
   Button,
-  Icon,
+  Link,
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -30,25 +31,27 @@ const Body = styled(ModalBody)`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  padding: 0px;
+  padding: 0;
 `
-// TODO: STX, fix hardcoded background color
-const Header = styled(Text)`
+const BgHeader = styled.div`
+  width: 100%;
+  height: 150px;
+  background-image: url('/img/airdrop-welcome.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 8px 8px 0 0;
+  box-sizing: border-box;
+`
+const CopyHeader = styled(Text)`
   width: 100%;
   font-size: 24px;
   font-weight: 600;
-  border-radius: 8px 8px 0 0;
-  padding: 45px 25px;
-  background: #f4f4fe;
-  box-sizing: border-box;
-  color: ${props => props.theme['stx']};
-`
-const AirdropIcon = styled(Icon)`
-  margin-bottom: 12px;
-  justify-content: center;
+  color: ${props => props.theme['grey800']};
+  margin-top: -20px;
+  padding: 0 25px;
 `
 const CopyContainer = styled.div`
-  padding: 25px 30px;
+  padding: 25px 34px;
 `
 const Copy = styled(Text)`
   font-weight: 500;
@@ -57,12 +60,22 @@ const Copy = styled(Text)`
   color: ${props => props.theme['grey600']};
 `
 const FooterButton = styled(Button)`
-  height: 56px;
-  font-weight: 500;
-  margin-top: 24px;
+  height: 46px;
+  font-weight: 600;
+  margin: 38px auto 0;
+  width: 285px;
+  border-radius: 8px;
+  background-color: ${props => props.theme['green600']};
+  color: white;
+  &:hover {
+    background-color: ${props => props.theme['green700']};
+  }
 `
-const Note = styled(Text)`
-  margin-top: 12px;
+const FooterTextGroup = styled(TextGroup)`
+  margin: 22px 10px 12px;
+`
+const LearnMoreLink = styled(Link)`
+  display: inline-flex;
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
@@ -74,49 +87,60 @@ class UpgradeForAirdrop extends React.PureComponent {
     const { campaign, position, total, close, actions } = this.props
     return (
       <Modal
-        size='medium'
+        size='small'
         position={position}
         total={total}
         dataE2e='infoModalUpgradeForAirdrop'
       >
         <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Header>
-            <AirdropIcon name='stx' size='32px' color='stx' />
+          <BgHeader />
+          <CopyHeader>
             <FormattedMessage
-              id='modals.upgradeforairdrop.latestairdrop'
-              defaultMessage='Our Latest Airdrop is Here.'
+              id='modals.upgradeforairdrop.latestairdrop1'
+              defaultMessage='Our Latest Airdrop is Here!'
             />
             <br />
             <FormattedMessage
-              id='modals.upgradeforairdrop.reserve'
-              defaultMessage='Reserve Your Free Stacks'
+              id='modals.upgradeforairdrop.unlock'
+              defaultMessage='Unlock Access Today.'
             />
-          </Header>
+          </CopyHeader>
           <CopyContainer>
-            <Copy>
+            <Copy size='16px'>
               <FormattedMessage
-                id='modals.upgradeforairdrop.goldprofilelevel'
-                defaultMessage='Upgrade your profile to the Gold Level to be eligible for this and all future Airdrops.'
+                id='modals.upgradeforairdrop.goldprofilelevel1'
+                defaultMessage='Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).'
               />
             </Copy>
             <FooterButton
-              nature='primary'
-              size='18px'
-              fullwidth
               onClick={() => actions.upgradeForAirdropSubmitClicked(campaign)}
+              size='16px'
             >
               <FormattedMessage
-                defaultMessage='Complete Your Profile Now'
-                id='modals.upgradeforairdrop.completeprofilenow'
+                defaultMessage='Complete My Profile Now'
+                id='modals.upgradeforairdrop.completeprofile'
               />
             </FooterButton>
-            <Note size='12px' color='grey600'>
-              <FormattedMessage
-                id='modals.upgradeforairdrop.note'
-                defaultMessage='*Note: Unfortunately, this airdrop is not available for US, Canada and Japanese passport holders.'
-              />
-            </Note>
+            <FooterTextGroup inline>
+              <Text size='12px' color='grey600'>
+                <FormattedMessage
+                  id='modals.upgradeforairdrop.regulations'
+                  defaultMessage="*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
+                />
+              </Text>
+              <LearnMoreLink
+                href='https://support.blockchain.com/hc/en-us/articles/360035793932-How-to-participate-in-the-Blockstack-Airdrop'
+                size='12px'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FormattedMessage
+                  id='modals.upgradeforairdrop.learnmore'
+                  defaultMessage='Learn more'
+                />
+              </LearnMoreLink>
+            </FooterTextGroup>
           </CopyContainer>
         </Body>
       </Modal>
