@@ -3,28 +3,61 @@
 import axios from 'axios'
 import * as kernel from 'web-microkernel'
 import './favicons'
-;(async () => {
-  const LOCATION_CHANGE = `@@router/LOCATION_CHANGE`
 
-  const securityProcessPaths = [
-    `/authorize-approve`,
-    `/help`,
-    `/login`,
-    `/logout`,
-    `/mobile-login`,
-    `/open`,
-    `/recover`,
-    `/reminder`,
-    `/reset-2fa`,
-    `/reset-two-factor`,
-    `/security-center`,
-    `/signup`,
-    `/verify-email`
-  ]
+// update url with new language without forcing browser reload
+const addLanguageToUrl = language => {
+  replaceUrl(`/${language}/${window.location.hash}`)
+}
 
-  const pathnameIsInSecurityProcess = pathname =>
-    securityProcessPaths.some(path => pathname.startsWith(path))
+const localStorageProxy = {
+  getItem: key => localStorage.getItem(key),
+  setItem: (key, value) => localStorage.setItem(key, value),
+  removeItem: key => localStorage.removeItem(key)
+}
 
+const LOCATION_CHANGE = `@@router/LOCATION_CHANGE`
+
+const logout = () => {
+  // router will fallback to /login route
+  replaceUrl(`#`)
+  window.location.reload(true)
+}
+
+const pathnameIsInSecurityProcess = pathname =>
+  securityProcessPaths.some(path => pathname.startsWith(path))
+
+const registerProtocolHandler = window.navigator.registerProtocolHandler.bind(
+  window.navigator
+)
+
+const replaceFragment = identifier => {
+  const [withoutFragment] = window.location.href.split(`#`)
+  replaceUrl(`${withoutFragment}#${identifier}`)
+}
+
+const replaceUrl = url => {
+  const data = {}
+  const title = ``
+  window.history.replaceState(data, title, url)
+}
+
+const securityProcessPaths = [
+  `/authorize-approve`,
+  `/help`,
+  `/login`,
+  `/logout`,
+  `/mobile-login`,
+  `/open`,
+  `/recover`,
+  `/reminder`,
+  `/reset-2fa`,
+  `/reset-two-factor`,
+  `/security-center`,
+  `/signup`,
+  `/verify-email`
+]
+
+const main = async () => {
   const rootProcess = kernel.RootProcess()
   rootProcess.addEventListener(`error`, console.error)
   const { createProcess, setForeground } = rootProcess
@@ -53,31 +86,7 @@ import './favicons'
 
   setForeground(securityProcess, `lightgreen`)
 
-  const replaceUrl = url => {
-    const data = {}
-    const title = ``
-    window.history.replaceState(data, title, url)
-  }
-
-  // update url with new language without forcing browser reload
-  const addLanguageToUrl = language => {
-    replaceUrl(`/${language}/${window.location.hash}`)
-  }
-
   const sanitizedAxios = kernel.sanitizeFunction(axios)
-
-  const localStorageProxy = {
-    getItem: key => localStorage.getItem(key),
-    setItem: (key, value) => localStorage.setItem(key, value),
-    removeItem: key => localStorage.removeItem(key)
-  }
-
-  const logout = () => {
-    // router will fallback to /login route
-    replaceUrl(`#`)
-    window.location.reload(true)
-  }
-
   let mainProcessExports
   const mainProcessActions = []
 
@@ -103,11 +112,6 @@ import './favicons'
     } else {
       setForeground(mainProcess)
     }
-  }
-
-  const replaceFragment = identifier => {
-    const [withoutFragment] = window.location.href.split(`#`)
-    replaceUrl(`${withoutFragment}#${identifier}`)
   }
 
   // We remember the most recent Main Process location so we can revert the
@@ -175,10 +179,6 @@ import './favicons'
 
   const mainProcess = await mainProcessPromise
 
-  const registerProtocolHandler = window.navigator.registerProtocolHandler.bind(
-    window.navigator
-  )
-
   mainProcessExports = await mainProcess({
     addLanguageToUrl,
     axios: sanitizedAxios,
@@ -209,4 +209,24 @@ import './favicons'
 
     setForegroundProcess()
   })
-})().catch(console.error)
+}
+
+const errorMessage = `
+  <div>
+    <h1 style="text-align: center">We’ll be back soon!</h1>
+    <p>Sorry for the inconvenience but we’re performing some maintenance at the
+    moment.</p>
+    <p>— The Blockchain Team</p>
+  </div>
+`
+
+const displayErrorPage = () => {
+  const { body } = document
+  body.style.removeProperty(`margin`)
+  body.innerHTML = errorMessage
+}
+
+main().catch(reason => {
+  displayErrorPage()
+  console.error(reason)
+})
