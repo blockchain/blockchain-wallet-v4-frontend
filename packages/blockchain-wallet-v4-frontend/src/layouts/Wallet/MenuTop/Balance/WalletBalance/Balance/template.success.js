@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { LinkContainer } from 'react-router-bootstrap'
+import { toLower } from 'ramda'
 
 import { CoinBalanceWrapper } from 'components/Balances'
 
@@ -7,14 +9,16 @@ const Success = props => {
   const { balance, coin, coinTicker, large } = props
 
   return (
-    <div data-e2e={`balanceDropdown-wallet-${coin}`}>
-      <CoinBalanceWrapper
-        coin={coin}
-        balance={balance}
-        large={large}
-        coinTicker={coinTicker}
-      />
-    </div>
+     <LinkContainer to={`/${toLower(coin)}/transactions`}>
+        <div data-e2e={`balanceDropdown-wallet-${coin}`}>
+          <CoinBalanceWrapper
+          coin={coin}
+          balance={balance}
+          large={large}
+          coinTicker={coinTicker}
+          />
+        </div>
+    </LinkContainer>
   )
 }
 
