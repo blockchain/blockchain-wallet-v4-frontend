@@ -5979,24 +5979,28 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Our Latest Airdrop is Here.",
-        "id": "modals.upgradeforairdrop.latestairdrop"
+        "defaultMessage": "Our Latest Airdrop is Here!",
+        "id": "modals.upgradeforairdrop.latestairdrop1"
       },
       {
-        "defaultMessage": "Reserve Your Free Stacks",
-        "id": "modals.upgradeforairdrop.reserve"
+        "defaultMessage": "Unlock Access Today.",
+        "id": "modals.upgradeforairdrop.unlock"
       },
       {
-        "defaultMessage": "Upgrade your profile to the Gold Level to be eligible for this and all future Airdrops.",
-        "id": "modals.upgradeforairdrop.goldprofilelevel"
+        "defaultMessage": "Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).",
+        "id": "modals.upgradeforairdrop.goldprofilelevel1"
       },
       {
-        "defaultMessage": "Complete Your Profile Now",
-        "id": "modals.upgradeforairdrop.completeprofilenow"
+        "defaultMessage": "Complete My Profile Now",
+        "id": "modals.upgradeforairdrop.completeprofile"
       },
       {
-        "defaultMessage": "*Note: Unfortunately, this airdrop is not available for US, Canada and Japanese passport holders.",
-        "id": "modals.upgradeforairdrop.note"
+        "defaultMessage": "*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop.",
+        "id": "modals.upgradeforairdrop.regulations"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "modals.upgradeforairdrop.learnmore"
       }
     ],
     "path": "src/modals/Onboarding/UpgradeForAirdrop/index.json"
@@ -8523,16 +8527,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get $10 of Stacks (STX).",
-        "id": "scenes.home.banners.stx.get10"
+        "defaultMessage": "Our Latest Airdrop is Here!",
+        "id": "scenes.home.banners.stx.latestairdrop"
       },
       {
-        "defaultMessage": "Verify your identity and we’ll airdrop $10 worth of Stacks to your Wallet.",
-        "id": "scenes.home.banners.stx.verifyid"
+        "defaultMessage": "Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).",
+        "id": "scenes.home.banners.stx.updateprofile"
       },
       {
-        "defaultMessage": "Upgrade to Gold",
-        "id": "scenes.home.banners.stx.upgrade"
+        "defaultMessage": "Complete My Profile Now",
+        "id": "scenes.home.banners.stx.completeprofile"
       }
     ],
     "path": "src/scenes/Home/Banners/BlockstackBanner/index.json"
