@@ -1,6 +1,6 @@
 import airdropEnrolled from './img/airdrop-enrolled.png'
-import airdropSunRiverDashboard from './img/airdrop-sunriver-dashboard.png'
 import airdropWelcome from './img/airdrop-welcome.png'
+import airdropWelcomeDashboard from './img/airdrop-welcome-dashboard.png'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
@@ -137,7 +137,7 @@ import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
   'airdrop-enrolled': airdropEnrolled,
-  'airdrop-sunriver-dashboard': airdropSunRiverDashboard,
+  'airdrop-welcome-dashboard': airdropWelcomeDashboard,
   'airdrop-welcome': airdropWelcome,
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,

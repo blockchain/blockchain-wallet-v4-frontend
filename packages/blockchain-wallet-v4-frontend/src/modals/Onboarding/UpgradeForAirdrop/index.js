@@ -65,6 +65,11 @@ const FooterButton = styled(Button)`
   margin: 38px auto 0;
   width: 285px;
   border-radius: 8px;
+  background-color: ${props => props.theme['green600']};
+  color: white;
+  &:hover {
+    background-color: ${props => props.theme['green700']};
+  }
 `
 const FooterTextGroup = styled(TextGroup)`
   margin: 22px 10px 12px;
@@ -109,9 +114,8 @@ class UpgradeForAirdrop extends React.PureComponent {
               />
             </Copy>
             <FooterButton
-              nature='primary'
-              size='16px'
               onClick={() => actions.upgradeForAirdropSubmitClicked(campaign)}
+              size='16px'
             >
               <FormattedMessage
                 defaultMessage='Complete My Profile Now'
