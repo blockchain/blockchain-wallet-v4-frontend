@@ -2,10 +2,12 @@ import { actions } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import {
   Button,
+  Link,
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -49,7 +51,7 @@ const CopyHeader = styled(Text)`
   padding: 0 25px;
 `
 const CopyContainer = styled.div`
-  padding: 25px 30px;
+  padding: 25px 34px;
 `
 const Copy = styled(Text)`
   font-weight: 500;
@@ -59,12 +61,16 @@ const Copy = styled(Text)`
 `
 const FooterButton = styled(Button)`
   height: 46px;
-  font-weight: 500;
+  font-weight: 600;
   margin: 38px auto 0;
   width: 285px;
+  border-radius: 8px;
 `
-const Note = styled(Text)`
-  margin: 32px 10px 12px;
+const FooterTextGroup = styled(TextGroup)`
+  margin: 22px 10px 12px;
+`
+const LearnMoreLink = styled(Link)`
+  display: inline-flex;
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
@@ -112,12 +118,25 @@ class UpgradeForAirdrop extends React.PureComponent {
                 id='modals.upgradeforairdrop.completeprofile'
               />
             </FooterButton>
-            <Note size='12px' color='grey600'>
-              <FormattedMessage
-                id='modals.upgradeforairdrop.regulations'
-                defaultMessage="*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
-              />
-            </Note>
+            <FooterTextGroup inline>
+              <Text size='12px' color='grey600'>
+                <FormattedMessage
+                  id='modals.upgradeforairdrop.regulations'
+                  defaultMessage="*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
+                />
+              </Text>
+              <LearnMoreLink
+                href='https://support.blockchain.com/hc/en-us/articles/360035793932-How-to-participate-in-the-Blockstack-Airdrop'
+                size='12px'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FormattedMessage
+                  id='modals.upgradeforairdrop.learnmore'
+                  defaultMessage='Learn more'
+                />
+              </LearnMoreLink>
+            </FooterTextGroup>
           </CopyContainer>
         </Body>
       </Modal>
