@@ -1,5 +1,6 @@
 import airdropEnrolled from './img/airdrop-enrolled.png'
 import airdropWelcome from './img/airdrop-welcome.png'
+import airdropWelcome2 from './img/airdrop-welcome@2x.png'
 import airdropWelcomeBanner from './img/airdrop-welcome-banner.png'
 import airdropWelcomeBanner2 from './img/airdrop-welcome-banner@2x.png'
 import allowCamera from './img/allow-camera.png'
@@ -141,6 +142,7 @@ export default {
   'airdrop-welcome-banner': airdropWelcomeBanner,
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
   'airdrop-welcome': airdropWelcome,
+  'airdrop-welcome2': airdropWelcome2,
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
