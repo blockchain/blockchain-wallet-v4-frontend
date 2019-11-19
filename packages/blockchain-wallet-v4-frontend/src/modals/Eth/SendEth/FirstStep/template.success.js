@@ -72,6 +72,7 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
+    isContract,
     isContractChecked,
     feeToggled,
     from,
@@ -180,6 +181,14 @@ const FirstStep = props => {
               <FormattedMessage
                 id='modals.sendeth.unconfirmedtransactionmessage'
                 defaultMessage='Please wait until your previous transaction confirms.'
+              />
+            </Text>
+          )}
+          {isContract && (
+            <Text color='error' size='12px' weight={400}>
+              <FormattedMessage
+                id='modals.sendeth.contractaddr'
+                defaultMessage='Sending to contract addresses is disabled.'
               />
             </Text>
           )}
@@ -322,6 +331,7 @@ const FirstStep = props => {
             pristine ||
             submitting ||
             invalid ||
+            isContract ||
             !isContractChecked ||
             disableDueToLowEth ||
             Remote.Loading.is(balanceStatus)

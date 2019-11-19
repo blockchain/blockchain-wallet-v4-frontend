@@ -17,6 +17,7 @@ class FirstStep extends React.PureComponent {
           coin={coin}
           fee={value.fee}
           from={value.from}
+          isContract={value.isContract}
           isContractChecked={value.isContractChecked}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
