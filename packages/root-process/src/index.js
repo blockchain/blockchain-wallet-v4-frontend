@@ -9,6 +9,23 @@ const addLanguageToUrl = language => {
   replaceUrl(`/${language}/${window.location.hash}`)
 }
 
+const displayWelcome = version => {
+  const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
+  const defaultStyle = 'font-size: 18px;'
+
+  ;[
+    ['======================================================='],
+    [`Wallet version ${version}`],
+    ['======================================================='],
+    ['STOP!', style1],
+    ['This browser feature is intended for developers.'],
+    ['If someone told you to copy and paste something here,'],
+    ['it is a scam and will give them access to your money!']
+  ].forEach(([line, style = defaultStyle]) => {
+    console.log(`%c ${line}`, style)
+  })
+}
+
 const localStorageProxy = {
   getItem: key => localStorage.getItem(key),
   setItem: (key, value) => localStorage.setItem(key, value),
@@ -58,6 +75,7 @@ const securityProcessPaths = [
 ]
 
 const main = async () => {
+  displayWelcome(APP_VERSION)
   const rootProcess = kernel.RootProcess()
   rootProcess.addEventListener(`error`, console.error)
   const { createProcess, setForeground } = rootProcess

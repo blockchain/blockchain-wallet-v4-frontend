@@ -14,28 +14,6 @@ import { tryParseLanguageFromUrl } from 'services/LocalesService'
 
 const logLocation = 'data/rootSaga'
 
-const welcomeSaga = function * () {
-  try {
-    const version = APP_VERSION
-    const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
-    const style2 = 'font-size: 18px;'
-    /* eslint-disable */
-    console.log('=======================================================')
-    console.log(`%c Wallet version ${version}`, style2)
-    console.log('=======================================================')
-    console.log('%c STOP!!', style1)
-    console.log('%c This browser feature is intended for developers.', style2)
-    console.log('%c If someone told you to copy-paste something here,', style2)
-    console.log(
-      '%c it is a scam and will give them access to your money!',
-      style2
-    )
-    /* eslint-enable */
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
-  }
-}
-
 const languageInitSaga = function * ({ imports }) {
   try {
     yield delay(250)
@@ -55,7 +33,6 @@ export default function * rootSaga (args) {
   const coreSagas = coreSagasFactory(args)
 
   yield all([
-    call(welcomeSaga),
     fork(alerts),
     fork(analytics({ ...args, coreSagas })),
     fork(auth({ ...args, coreSagas })),
