@@ -18,6 +18,8 @@ import styled from 'styled-components'
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
   border: none;
+  top: 3px;
+  right: -6px;
   > span {
     &:hover {
       cursor: pointer;
@@ -66,6 +68,7 @@ const FooterButton = styled(Button)`
   width: 285px;
   border-radius: 8px;
   background-color: ${props => props.theme['green600']};
+  border: none;
   color: white;
   &:hover {
     background-color: ${props => props.theme['green700']};

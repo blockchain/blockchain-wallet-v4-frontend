@@ -48,6 +48,7 @@ const CompleteProfileButton = styled(Button)`
   background-color: ${props => props.theme['green600']};
   color: white;
   min-width: 200px;
+  border: none;
   &:hover {
     background-color: ${props => props.theme['green700']};
   }
