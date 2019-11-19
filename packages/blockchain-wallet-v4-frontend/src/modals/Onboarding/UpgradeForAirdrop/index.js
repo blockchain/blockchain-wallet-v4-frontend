@@ -39,13 +39,13 @@ const Body = styled(ModalBody)`
 const BgHeader = styled.div`
   width: 100%;
   height: 150px;
+  background-image: url('/img/airdrop-welcome.png');
   /* stylelint-disable */
   background-image: -webkit-image-set(
     url('/img/airdrop-welcome.png') 1x,
     url('/img/airdrop-welcome@2x.png') 2x
   );
   /* stylelint-enable */
-  background-image: url('/img/airdrop-welcome.png');
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 8px 8px 0 0;
