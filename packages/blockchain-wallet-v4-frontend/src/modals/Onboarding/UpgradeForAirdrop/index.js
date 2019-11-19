@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import {
   Button,
+  Icon,
   Link,
   Modal,
   ModalBody,
@@ -18,6 +19,8 @@ import styled from 'styled-components'
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
   border: none;
+  top: 3px;
+  right: -6px;
   > span {
     &:hover {
       cursor: pointer;
@@ -36,18 +39,35 @@ const Body = styled(ModalBody)`
 const BgHeader = styled.div`
   width: 100%;
   height: 150px;
+  /* stylelint-disable */
+  background-image: -webkit-image-set(
+    url('/img/airdrop-welcome.png') 1x,
+    url('/img/airdrop-welcome@2x.png') 2x
+  );
+  /* stylelint-enable */
   background-image: url('/img/airdrop-welcome.png');
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 8px 8px 0 0;
   box-sizing: border-box;
 `
+const TitleHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-top: -100px;
+  padding: 0;
+`
+const AirdropIcon = styled(Icon)`
+  margin-bottom: 30px;
+`
 const CopyHeader = styled(Text)`
   width: 100%;
   font-size: 24px;
   font-weight: 600;
   color: ${props => props.theme['grey800']};
-  margin-top: -20px;
   padding: 0 25px;
 `
 const CopyContainer = styled.div`
@@ -66,6 +86,7 @@ const FooterButton = styled(Button)`
   width: 285px;
   border-radius: 8px;
   background-color: ${props => props.theme['green600']};
+  border: none;
   color: white;
   &:hover {
     background-color: ${props => props.theme['green700']};
@@ -95,17 +116,20 @@ class UpgradeForAirdrop extends React.PureComponent {
         <AbsoluteModalHeader onClose={close} />
         <Body>
           <BgHeader />
-          <CopyHeader>
-            <FormattedMessage
-              id='modals.upgradeforairdrop.latestairdrop1'
-              defaultMessage='Our Latest Airdrop is Here!'
-            />
-            <br />
-            <FormattedMessage
-              id='modals.upgradeforairdrop.unlock'
-              defaultMessage='Unlock Access Today.'
-            />
-          </CopyHeader>
+          <TitleHeader>
+            <AirdropIcon name='parachute' color='green600' size='40px' />
+            <CopyHeader>
+              <FormattedMessage
+                id='modals.upgradeforairdrop.latestairdrop1'
+                defaultMessage='Our Latest Airdrop is Here!'
+              />
+              <br />
+              <FormattedMessage
+                id='modals.upgradeforairdrop.unlock'
+                defaultMessage='Unlock Access Today.'
+              />
+            </CopyHeader>
+          </TitleHeader>
           <CopyContainer>
             <Copy size='16px'>
               <FormattedMessage
