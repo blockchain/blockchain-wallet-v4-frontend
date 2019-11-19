@@ -12,6 +12,12 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  /* stylelint-disable */
+  background-image: -webkit-image-set(
+    url('/img/airdrop-welcome-banner.png') 1x,
+    url('/img/airdrop-welcome-banner@2x.png') 2x
+  );
+  /* stylelint-enable */
   background-image: url('/img/airdrop-welcome-dashboard.png');
   background-size: cover;
   border-radius: 8px;
