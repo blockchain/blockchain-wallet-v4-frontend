@@ -9,7 +9,7 @@ const addLanguageToUrl = language => {
   replaceUrl(`/${language}/${window.location.hash}`)
 }
 
-const displayWelcome = version => {
+const displayConsoleWelcome = version => {
   const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
   const defaultStyle = 'font-size: 18px;'
 
@@ -75,7 +75,7 @@ const securityProcessPaths = [
 ]
 
 const main = async () => {
-  displayWelcome(APP_VERSION)
+  displayConsoleWelcome(APP_VERSION)
   const rootProcess = kernel.RootProcess()
   rootProcess.addEventListener(`error`, console.error)
   const { createProcess, setForeground } = rootProcess

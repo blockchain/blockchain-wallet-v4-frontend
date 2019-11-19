@@ -117,17 +117,16 @@ export default ({ api, coreSagas, imports }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
-
-      imports.mainProcessDispatch(
-        actions.auth.loginRoutine(mobileLogin, firstLogin)
-      )
-
       const guid = yield select(selectors.core.wallet.getGuid)
       // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
-      yield put(actions.form.destroy('login'))
+
+      yield call(
+        imports.mainProcessDispatch,
+        actions.auth.loginRoutine(mobileLogin, firstLogin)
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e)

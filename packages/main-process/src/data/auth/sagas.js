@@ -28,7 +28,7 @@ export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 const { LOGIN_EVENTS } = model.analytics
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, imports }) => {
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -124,6 +124,12 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
+
+      yield call(
+        imports.securityProcess.dispatch,
+        actions.form.destroy('login')
+      )
+
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
