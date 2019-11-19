@@ -1,3 +1,5 @@
+import { LinkContainer } from 'react-router-bootstrap'
+import { toLower } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -60,19 +62,21 @@ export const CoinBalanceWrapper = props => {
       </FiatDisplay>
     </CoinBalanceMain>
   ) : (
-    <CoinBalanceSwitchable>
-      <Text size='12px' weight={400}>
-        {props.coinTicker ? props.coinTicker : props.coin}
-      </Text>
-      <SwitchableDisplay
-        size='12px'
-        weight={500}
-        coin={props.coin}
-        hideCoinTicker
-      >
-        {props.balance}
-      </SwitchableDisplay>
-    </CoinBalanceSwitchable>
+    <LinkContainer to={`/${toLower(props.coin)}/transactions`}>
+      <CoinBalanceSwitchable>
+        <Text size='12px' weight={400}>
+          {props.coinTicker ? props.coinTicker : props.coin}
+        </Text>
+        <SwitchableDisplay
+          size='12px'
+          weight={500}
+          coin={props.coin}
+          hideCoinTicker
+        >
+          {props.balance}
+        </SwitchableDisplay>
+      </CoinBalanceSwitchable>
+    </LinkContainer>
   )
 }
 
