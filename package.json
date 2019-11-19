@@ -60,6 +60,7 @@
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env yarn wsrun clean && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf node_modules",
+    "commit": "git cz --gpg-sign",
     "coverage": "cross-env rimraf coverage && yarn wsrun coverage && yarn run report",
     "coverage:components": "cross-env rimraf coverage && yarn workspace blockchain-info-components coverage && yarn run report",
     "coverage:core": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4 coverage && yarn run report",
