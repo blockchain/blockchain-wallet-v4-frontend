@@ -13,7 +13,7 @@ export const getConfig = (
   start
 ) => ({
   chart: {
-    height: isSilverOrAbove ? 425 : 295,
+    height: isSilverOrAbove ? 400 : 295,
     type: 'area',
     spacing: [25, 0, 0, 0],
     data: {
