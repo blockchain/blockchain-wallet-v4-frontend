@@ -164,6 +164,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BCH'
+            marginTop='8px'
             data-e2e='sendBch'
           />
         </FormItem>

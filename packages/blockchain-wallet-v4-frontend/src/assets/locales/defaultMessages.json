@@ -514,8 +514,16 @@
         "id": "components.alerts.update_address_label_success"
       },
       {
-        "defaultMessage": "Failed to update address label.",
+        "defaultMessage": "Failed to update address label",
         "id": "components.alerts.update_address_label_error"
+      },
+      {
+        "defaultMessage": "Address label updated",
+        "id": "components.alerts.update_imported_address_label_success"
+      },
+      {
+        "defaultMessage": "Failed to update imported address label",
+        "id": "components.alerts.update_imported_address_label_error"
       },
       {
         "defaultMessage": "Verification email sent. Please check your email.",
@@ -3266,7 +3274,7 @@
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
       },
       {
-        "defaultMessage": "Enter a label for your address (optional)",
+        "defaultMessage": "Enter a label (optional)",
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.label"
       },
       {
@@ -4022,10 +4030,6 @@
         "id": "modals.sendeth.unconfirmedtransactionmessage"
       },
       {
-        "defaultMessage": "Sending to contract addresses is disabled.",
-        "id": "modals.sendeth.contractaddr"
-      },
-      {
         "defaultMessage": "Amount",
         "id": "modals.sendeth.firststep.sendamount"
       },
@@ -4204,6 +4208,35 @@
       }
     ],
     "path": "src/modals/Eth/TransferEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
+        "id": "modals.sunriverlinkerror.airdrop_not_available"
+      },
+      {
+        "defaultMessage": "Looks like you've already received your airdrop!",
+        "id": "modals.sunriverlinkerror.already_received"
+      },
+      {
+        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
+        "id": "modals.sunriverlinkerror.campaign_has_expired"
+      },
+      {
+        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again. Server msg: {error}",
+        "id": "modals.sunriverlinkerror.error"
+      },
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.sunriverlinkerror.title"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sunriverlinkerror.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/AirdropError/index.json"
   },
   {
     "descriptors": [
@@ -4563,12 +4596,8 @@
         "id": "modals.airdropsuccess.copy"
       },
       {
-        "defaultMessage": "Enter Airdrop Program",
-        "id": "modals.exchange.identityverification.submitted.enterairdrop"
-      },
-      {
-        "defaultMessage": "By tapping on 'Enter Airdrop Program', you'll be eligible to receive future airdrops extended to your region.",
-        "id": "modals.exchange.identityverification.submitted.makesuretoclick3"
+        "defaultMessage": "Once your verification is confirmed you’ll have secured your Stacks Airdrop.",
+        "id": "modals.exchange.identityverification.submitted.secured"
       },
       {
         "defaultMessage": "Close",
@@ -4870,35 +4899,6 @@
       }
     ],
     "path": "src/modals/Exchange/ShapeshiftTradeDetails/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "We're sorry, the airdrop program is currently not available where you are.",
-        "id": "modals.sunriverlinkerror.airdrop_not_available"
-      },
-      {
-        "defaultMessage": "Looks like you've already received your airdrop!",
-        "id": "modals.sunriverlinkerror.already_received"
-      },
-      {
-        "defaultMessage": "We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops.",
-        "id": "modals.sunriverlinkerror.campaign_has_expired"
-      },
-      {
-        "defaultMessage": "Oops! We had trouble processing your airdrop. Please try again.",
-        "id": "modals.sunriverlinkerror.error"
-      },
-      {
-        "defaultMessage": "Whoops!",
-        "id": "modals.sunriverlinkerror.title"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.sunriverlinkerror.continue"
-      }
-    ],
-    "path": "src/modals/Exchange/SunRiverLinkError/index.json"
   },
   {
     "descriptors": [
@@ -5614,12 +5614,16 @@
         "id": "modals.lockboxsetup.softwaredownloadstep.header"
       },
       {
-        "defaultMessage": "In order to use your Lockbox, you must first update your device firmware and install apps by downloading the updating software below.",
-        "id": "modals.lockboxsetup.softwaredownloadstep.body1"
+        "defaultMessage": "In order to use your Lockbox, you must first update your device by installing apps via the software below.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.1body"
       },
       {
-        "defaultMessage": "If you have already downloaded the software and updated your device, you may dismiss this and continue.",
-        "id": "modals.lockboxsetup.softwaredownloadstep.body2"
+        "defaultMessage": "This software is intended for Blockchain Lockbox devices only. If you have a Ledger Nano S, please update your device using Ledger Live.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.2body"
+      },
+      {
+        "defaultMessage": "If you have previously updated your device, you may dismiss this and continue.",
+        "id": "modals.lockboxsetup.softwaredownloadstep.3body"
       },
       {
         "defaultMessage": "Download Software",
@@ -5975,16 +5979,28 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Go for Gold",
-        "id": "modals.upgradeforairdrop.goforgold"
+        "defaultMessage": "Our Latest Airdrop is Here!",
+        "id": "modals.upgradeforairdrop.latestairdrop1"
       },
       {
-        "defaultMessage": "Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.",
-        "id": "modals.upgradeforairdrop.completeprofileforairdropprogram"
+        "defaultMessage": "Unlock Access Today.",
+        "id": "modals.upgradeforairdrop.unlock"
       },
       {
-        "defaultMessage": "Complete Profile",
+        "defaultMessage": "Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).",
+        "id": "modals.upgradeforairdrop.goldprofilelevel1"
+      },
+      {
+        "defaultMessage": "Complete My Profile Now",
         "id": "modals.upgradeforairdrop.completeprofile"
+      },
+      {
+        "defaultMessage": "*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop.",
+        "id": "modals.upgradeforairdrop.regulations"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "modals.upgradeforairdrop.learnmore"
       }
     ],
     "path": "src/modals/Onboarding/UpgradeForAirdrop/index.json"
@@ -6088,12 +6104,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Second password required",
-        "id": "modals.secondpassword.title"
+        "defaultMessage": "Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop.",
+        "id": "modals.secondpassword.blockstack"
       },
       {
-        "defaultMessage": "Please enter your second password",
-        "id": "modals.secondpassword.explain"
+        "defaultMessage": "Enter Your Second Password",
+        "id": "modals.secondpassword.title1"
+      },
+      {
+        "defaultMessage": "Second Password",
+        "id": "modals.secondpassword.explain1"
       },
       {
         "defaultMessage": "Cancel",
@@ -8503,6 +8523,23 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Our Latest Airdrop is Here!",
+        "id": "scenes.home.banners.stx.latestairdrop"
+      },
+      {
+        "defaultMessage": "Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).",
+        "id": "scenes.home.banners.stx.updateprofile"
+      },
+      {
+        "defaultMessage": "Complete My Profile Now",
+        "id": "scenes.home.banners.stx.completeprofile"
+      }
+    ],
+    "path": "src/scenes/Home/Banners/BlockstackBanner/index.json"
   },
   {
     "descriptors": [
@@ -11132,6 +11169,43 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your {coin} Wallet",
+        "id": "scenes.transaction.content.empty.newcoinwallet"
+      },
+      {
+        "defaultMessage": "Blockstack apps protect your digital rights and are powered by the {displayName} ({coinCode}) blockchain.",
+        "id": "scenes.transaction.content.empty.stxnew"
+      },
+      {
+        "defaultMessage": "Complete your profile and get $10 for free.",
+        "id": "scenes.transaction.content.empty.freestx"
+      },
+      {
+        "defaultMessage": "Airdrop Ready",
+        "id": "scenes.transaction.content.empty.airdropready"
+      },
+      {
+        "defaultMessage": "Complete Profile",
+        "id": "scenes.transaction.content.empty.completeprofile"
+      },
+      {
+        "defaultMessage": "Ineligible for Airdrop",
+        "id": "scenes.transaction.content.empty.ineligibleforairdrop"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.transaction.content.empty.getstarted.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.content.empty.getstarted.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.stx.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Private Keys",
         "id": "scenes.transactions.menu.ethprivatekeys"
       },
@@ -11457,6 +11531,10 @@
       {
         "defaultMessage": "Not a valid bitcoin address or private key",
         "id": "formhelper.invalidbitcoinaddressandkey"
+      },
+      {
+        "defaultMessage": "Segwit addresses are not supported",
+        "id": "formhelper.segwitaddress"
       },
       {
         "defaultMessage": "Invalid Email Code",

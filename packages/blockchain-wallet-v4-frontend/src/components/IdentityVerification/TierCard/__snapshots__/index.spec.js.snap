@@ -227,11 +227,15 @@ exports[`TierCard renders correctly with column view 1`] = `
       jumbo={true}
       nature="primary"
     >
-      <FormattedMessage
-        defaultMessage="Unlock Gold 🥇"
-        id="components.identityverification.tiercard.goldctamedal"
-        values={Object {}}
-      />
+      <span
+        data-e2e="unlockGold"
+      >
+        <FormattedMessage
+          defaultMessage="Unlock Gold 🥇"
+          id="components.identityverification.tiercard.goldctamedal"
+          values={Object {}}
+        />
+      </span>
     </TierCard__ActionButton>
   </TierCard__Container>
 </TierCard__Wrapper>
@@ -450,11 +454,15 @@ exports[`TierCard renders null w/o showBanner 1`] = `
       jumbo={true}
       nature="primary"
     >
-      <FormattedMessage
-        defaultMessage="Unlock Silver"
-        id="components.identityverification.tiercard.silvercta"
-        values={Object {}}
-      />
+      <span
+        data-e2e="unlockSilver"
+      >
+        <FormattedMessage
+          defaultMessage="Unlock Silver"
+          id="components.identityverification.tiercard.silvercta"
+          values={Object {}}
+        />
+      </span>
     </TierCard__ActionButton>
   </TierCard__Container>
 </TierCard__Wrapper>

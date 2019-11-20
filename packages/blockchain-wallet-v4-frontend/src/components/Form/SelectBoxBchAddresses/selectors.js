@@ -91,7 +91,12 @@ export const getData = (state, ownProps) => {
           ? assoc('label', prop('addr', addressData), a)
           : assoc('label', prop('label', addressData), a),
       a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
-      a => assoc('balance', path(['info', 'final_balance'], addressData), a),
+      a =>
+        assocPath(
+          ['value', 'balance'],
+          path(['info', 'final_balance'], addressData),
+          a
+        ),
       a => assocPath(['value', 'coin'], coin, a),
       a => assocPath(['value', 'address'], prop('addr', addressData), a),
       a => assoc('value', prop('info', addressData), a)
@@ -122,7 +127,6 @@ export const getData = (state, ownProps) => {
       excludeImported
         ? Remote.of([])
         : lift(formatImportedAddressesData)(relevantAddresses)
-            .map(toDropdown)
             .map(toGroup('Imported Addresses'))
             .map(x =>
               set(

@@ -64,7 +64,7 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
       </AddressTableCell>
       <TableCell width='20%'>
         <Text size='13px' weight={300}>
-          {address.label ? address.label : 'NO LABEL'}
+          {address.label ? address.label : ''}
         </Text>
       </TableCell>
       <TableCell width='10%'>

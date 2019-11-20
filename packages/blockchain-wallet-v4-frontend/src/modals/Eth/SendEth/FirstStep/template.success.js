@@ -72,7 +72,6 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
-    isContract,
     isContractChecked,
     feeToggled,
     from,
@@ -184,14 +183,6 @@ const FirstStep = props => {
               />
             </Text>
           )}
-          {isContract && (
-            <Text color='error' size='12px' weight={400}>
-              <FormattedMessage
-                id='modals.sendeth.contractaddr'
-                defaultMessage='Sending to contract addresses is disabled.'
-              />
-            </Text>
-          )}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -214,6 +205,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             data-e2e={`${coin}Send`}
+            marginTop='8px'
           />
         </FormItem>
       </FormGroup>
@@ -330,7 +322,6 @@ const FirstStep = props => {
             pristine ||
             submitting ||
             invalid ||
-            isContract ||
             !isContractChecked ||
             disableDueToLowEth ||
             Remote.Loading.is(balanceStatus)

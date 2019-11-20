@@ -6,6 +6,7 @@ import {
   gt,
   mapObjIndexed,
   path,
+  pathOr,
   prop,
   slice,
   toLower,
@@ -21,19 +22,24 @@ export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
   const getMin = (limits, curr) =>
     Math.min(
-      limits.bank.minimumInAmounts[curr],
-      limits.card.minimumInAmounts[curr]
+      pathOr(Infinity, ['bank', 'minimumInAmounts', curr], limits),
+      pathOr(Infinity, ['card', 'minimumInAmounts', curr], limits)
     )
   const getMax = (limits, curr) =>
-    Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
-  const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
-  const getSellMax = (limits, curr) => limits.blockchain.inRemaining[curr]
+    Math.max(
+      pathOr(0, ['bank', 'inRemaining', curr], limits),
+      pathOr(0, ['card', 'inRemaining', curr], limits)
+    )
+  const getSellMin = (limits, curr) =>
+    pathOr(Infinity, ['blockchain', 'minimumInAmounts', curr], limits)
+  const getSellMax = (limits, curr) =>
+    pathOr(0, ['blockchain', 'inRemaining', curr], limits)
   return {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr),
-      bankMax: path(['bank', 'inRemaining', curr], limits),
-      cardMax: path(['card', 'inRemaining', curr], limits)
+      bankMax: pathOr(0, ['bank', 'inRemaining', curr], limits),
+      cardMax: pathOr(0, ['card', 'inRemaining', curr], limits)
     },
     sell: {
       min: getSellMin(limits, 'BTC'),

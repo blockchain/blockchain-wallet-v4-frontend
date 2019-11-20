@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.24.1",
+  "version": "4.24.7",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -21,8 +21,8 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.2",
-    "yarn": ">= 1.12"
+    "node": ">= 10.15",
+    "yarn": ">= 1.13"
   },
   "workspaces": [
     "packages/*"
@@ -60,10 +60,10 @@
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env yarn wsrun clean && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf node_modules",
-    "coverage": "cross-env rimraf coverage && yarn wsrun coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
-    "coverage:components": "yarn workspace blockchain-info-components coverage",
-    "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
-    "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
+    "coverage": "cross-env rimraf coverage && yarn wsrun coverage && yarn run report",
+    "coverage:components": "cross-env rimraf coverage && yarn workspace blockchain-info-components coverage && yarn run report",
+    "coverage:core": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4 coverage && yarn run report",
+    "coverage:frontend": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4-frontend coverage && yarn run report",
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun --exclude-missing link:resolved:paths",
@@ -78,6 +78,7 @@
     "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
     "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
     "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
+    "report": "npx istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
@@ -98,7 +99,8 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "release": "release-it"
+    "release": "release-it",
+    "vet": "yarn prettier && yarn lint:fix && yarn lint:css && yarn test"
   },
   "devDependencies": {
     "@babel/cli": "7.6.2",
@@ -156,6 +158,7 @@
     "html-webpack-string-replace-plugin": "1.1.0",
     "husky": "3.0.5",
     "identity-obj-proxy": "3.0.0",
+    "istanbul": "0.4.5",
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
     "jest-css-modules": "2.1.0",

@@ -35,7 +35,7 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleEditLabel = address => {
-    this.props.componentActions.editImportedAddressLabel(address)
+    this.props.componentActions.editImportedAddressLabel(address.addr)
   }
 
   handleToggleArchived = address => {
