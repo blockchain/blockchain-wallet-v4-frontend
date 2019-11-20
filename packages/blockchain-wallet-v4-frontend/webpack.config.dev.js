@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
@@ -122,6 +123,12 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
+    new UnusedFilesWebpackPlugin({
+      globOptions: {
+        cwd: PATHS.src,
+        ignore: [`**/__mocks__/**`, `**/*.spec.*`, `index.prod.js`, `utils/**`]
+      }
+    }),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
