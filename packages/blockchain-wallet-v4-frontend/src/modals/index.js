@@ -65,7 +65,7 @@ import {
   ShowEthPrivateKey,
   TransferEth
 } from './Eth'
-import { RequestBch, SendBch, ShowBchPrivateKey } from './Bch'
+import { RequestBch, SendBch, ShowBchPrivateKey, SignMessageBch } from './Bch'
 import {
   RequestXlm,
   SendXlm,
@@ -135,6 +135,7 @@ const Modals = () => (
     <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
+    <SignMessageBch />
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />

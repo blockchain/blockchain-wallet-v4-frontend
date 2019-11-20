@@ -45,7 +45,8 @@ const BchImportedAddresses = props => {
     onTransferAll,
     search,
     onEditLabel,
-    handleShowPriv
+    handleShowPriv,
+    handleSignMessage
   } = props
 
   const isMatch = address =>
@@ -81,6 +82,16 @@ const BchImportedAddresses = props => {
                     <FormattedMessage
                       id='scenes.settings.addresses.edit_label'
                       defaultMessage='Private Key'
+                    />
+                  </ClickableText>,
+                  <ClickableText
+                    size='small'
+                    onClick={() => handleSignMessage(address)}
+                    data-e2e='bchImportedAddressSignMessage'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.addresses.sign_message'
+                      defaultMessage='Sign Message'
                     />
                   </ClickableText>
                 ]

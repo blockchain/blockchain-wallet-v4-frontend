@@ -36,6 +36,14 @@ class ImportedAddressesContainer extends React.Component {
     this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
 
+  handleSignMessage = address => {
+    const btcAddr = fromCashAddr(address.addr)
+    this.props.modalActions.showModal('SignMessageBch', {
+      address: btcAddr,
+      bchAddr: address.addr
+    })
+  }
+
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -46,6 +54,7 @@ class ImportedAddressesContainer extends React.Component {
             onTransferAll={this.handleTransferAll}
             onEditLabel={this.handleEditLabel}
             handleShowPriv={this.handleShowPriv}
+            handleSignMessage={this.handleSignMessage}
             {...rest}
           />
         ) : (
