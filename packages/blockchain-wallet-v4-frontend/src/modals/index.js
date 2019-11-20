@@ -65,7 +65,7 @@ import {
   ShowEthPrivateKey,
   TransferEth
 } from './Eth'
-import { RequestBch, SendBch } from './Bch'
+import { RequestBch, SendBch, ShowBchPrivateKey } from './Bch'
 import {
   RequestXlm,
   SendXlm,
@@ -130,6 +130,7 @@ const Modals = () => (
     <SendXlm />
     <ShapeshiftTradeDetails />
     <ShowBtcPrivateKey />
+    <ShowBchPrivateKey />
     <ShowEthPrivateKey />
     <ShowXlmPrivateKey />
     <ShowUsedAddresses />

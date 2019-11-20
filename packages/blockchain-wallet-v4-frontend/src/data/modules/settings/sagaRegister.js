@@ -45,6 +45,7 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.NEW_HD_ACCOUNT, settingsSagas.newHDAccount)
     yield takeLatest(AT.SHOW_BTC_PRIV_KEY, settingsSagas.showBtcPrivateKey)
+    yield takeLatest(AT.SHOW_BCH_PRIV_KEY, settingsSagas.showBchPrivateKey)
     yield takeLatest(AT.SHOW_ETH_PRIV_KEY, settingsSagas.showEthPrivateKey)
     yield takeLatest(AT.SHOW_XLM_PRIV_KEY, settingsSagas.showXlmPrivateKey)
   }

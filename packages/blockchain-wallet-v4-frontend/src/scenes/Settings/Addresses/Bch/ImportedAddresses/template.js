@@ -40,7 +40,13 @@ const ClickableText = styled(Text)`
 `
 
 const BchImportedAddresses = props => {
-  const { importedAddresses, onTransferAll, search, onEditLabel } = props
+  const {
+    importedAddresses,
+    onTransferAll,
+    search,
+    onEditLabel,
+    handleShowPriv
+  } = props
 
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
@@ -53,18 +59,32 @@ const BchImportedAddresses = props => {
           address={address}
           coin='BCH'
           dataE2e='bchImportedAddressRow'
-          renderOptions={() => [
-            <ClickableText
-              size='small'
-              onClick={() => onEditLabel(address)}
-              data-e2e='btcSignMessageImportedAddressLink'
-            >
-              <FormattedMessage
-                id='scenes.settings.addresses.edit_name'
-                defaultMessage='Edit Label'
-              />
-            </ClickableText>
-          ]}
+          renderOptions={() =>
+            !address.priv
+              ? []
+              : [
+                  <ClickableText
+                    size='small'
+                    onClick={() => onEditLabel(address)}
+                    data-e2e='bchImportedAddressEditLabel'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.addresses.edit_name'
+                      defaultMessage='Edit Label'
+                    />
+                  </ClickableText>,
+                  <ClickableText
+                    size='small'
+                    onClick={() => handleShowPriv(address)}
+                    data-e2e='bchImportedAddressShowPriv'
+                  >
+                    <FormattedMessage
+                      id='scenes.settings.addresses.edit_label'
+                      defaultMessage='Private Key'
+                    />
+                  </ClickableText>
+                ]
+          }
         />
       )
     }

@@ -110,6 +110,10 @@ export const showBtcPrivateKey = addr => ({
   payload: { addr }
 })
 
+export const showBchPrivateKey = (addr, bchAddr) => ({
+  type: AT.SHOW_BCH_PRIV_KEY,
+  payload: { addr, bchAddr }
+})
 export const showEthPrivateKey = isLegacy => ({
   type: AT.SHOW_ETH_PRIV_KEY,
   payload: { isLegacy }
@@ -121,6 +125,11 @@ export const showXlmPrivateKey = () => ({
 
 export const addShownBtcPrivateKey = priv => ({
   type: AT.ADD_SHOWN_BTC_PRIV_KEY,
+  payload: { priv }
+})
+
+export const addShownBchPrivateKey = priv => ({
+  type: AT.ADD_SHOWN_BCH_PRIV_KEY,
   payload: { priv }
 })
 
@@ -136,6 +145,10 @@ export const addShownXlmPrivateKey = priv => ({
 
 export const clearShownBtcPrivateKey = () => ({
   type: AT.CLEAR_SHOWN_BTC_PRIV_KEY
+})
+
+export const clearShownBchPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_BCH_PRIV_KEY
 })
 
 export const clearShownEthPrivateKey = () => ({

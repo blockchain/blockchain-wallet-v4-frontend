@@ -16,6 +16,9 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.ADD_SHOWN_BTC_PRIV_KEY: {
       return assoc('shownBtcPrivKey', payload.priv, state)
     }
+    case AT.ADD_SHOWN_BCH_PRIV_KEY: {
+      return assoc('shownBchPrivKey', payload.priv, state)
+    }
     case AT.ADD_SHOWN_ETH_PRIV_KEY: {
       return assoc('shownEthPrivKey', payload.priv, state)
     }
@@ -24,6 +27,9 @@ const settings = (state = INITIAL_STATE, action) => {
     }
     case AT.CLEAR_SHOWN_BTC_PRIV_KEY: {
       return dissoc('shownBtcPrivKey', state)
+    }
+    case AT.CLEAR_SHOWN_BCH_PRIV_KEY: {
+      return dissoc('shownBchPrivKey', state)
     }
     case AT.CLEAR_SHOWN_ETH_PRIV_KEY: {
       return dissoc('shownEthPrivKey', state)
