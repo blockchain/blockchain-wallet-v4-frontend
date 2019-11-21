@@ -25,7 +25,7 @@ export const getData = state => {
       'to'
     )
     const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
-
+    const watchOnly = prop('watchOnly', from)
     return {
       from,
       network,
@@ -34,7 +34,8 @@ export const getData = state => {
       maxFeePerByte,
       destination,
       totalFee,
-      excludeLockbox
+      excludeLockbox,
+      watchOnly
     }
   }
 

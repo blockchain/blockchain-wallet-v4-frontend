@@ -20,7 +20,8 @@ import {
   FormLabel,
   SelectBoxBchAddresses,
   SelectBoxCoin,
-  TextAreaDebounced
+  TextAreaDebounced,
+  TextBox
 } from 'components/Form'
 import {
   insufficientFunds,
@@ -29,7 +30,11 @@ import {
   shouldError
 } from './validation'
 import { model } from 'data'
-import { required, validBchAddress } from 'services/FormHelper'
+import {
+  required,
+  validBchAddress,
+  validBtcPrivateKey
+} from 'services/FormHelper'
 import { Row } from 'components/Send'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -51,7 +56,8 @@ const FirstStep = props => {
     totalFee,
     pristine,
     excludeLockbox,
-    excludeHDWallets
+    excludeHDWallets,
+    watchOnly
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const browser = Bowser.getParser(window.navigator.userAgent)
@@ -92,8 +98,23 @@ const FirstStep = props => {
             component={SelectBoxBchAddresses}
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
-            excludeWatchOnly
           />
+          {watchOnly && (
+            <Row>
+              <Field
+                name='priv'
+                placeholder='Please enter your private key...'
+                component={TextBox}
+                validate={[required, validBtcPrivateKey]}
+                autoFocus
+                errorBottom
+              />
+              <QRCodeCapture
+                scanType='btcPriv'
+                border={['top', 'bottom', 'right']}
+              />
+            </Row>
+          )}
         </FormItem>
       </FormGroup>
       {isFromLockbox && !disableLockboxSend && (

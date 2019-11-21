@@ -11,12 +11,12 @@ import Success from './template.success'
 class FirstStep extends React.Component {
   render () {
     const { data, actions } = this.props
-
     return data.cata({
       Success: value => (
         <Success
           from={value.from}
           network={value.network}
+          watchOnly={value.watchOnly}
           destination={value.destination}
           effectiveBalance={value.effectiveBalance}
           totalFee={value.totalFee}

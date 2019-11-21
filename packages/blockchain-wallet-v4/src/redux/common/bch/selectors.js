@@ -5,6 +5,7 @@ import {
   compose,
   curry,
   indexOf,
+  isNil,
   lift,
   map,
   path,
@@ -94,6 +95,10 @@ const digestAddress = acc => ({
   label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
   balance: path(['info', 'final_balance'], acc),
   address: prop('addr', acc),
+  watchOnly: compose(
+    isNil,
+    prop('priv')
+  )(acc),
   type: ADDRESS_TYPES.LEGACY
 })
 

@@ -1,7 +1,5 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { collapse } from 'utils/helpers'
 import {
-  assoc,
-  assocPath,
   compose,
   concat,
   curry,
@@ -9,12 +7,9 @@ import {
   filter,
   has,
   head,
-  isNil,
   lensIndex,
   lensProp,
-  lift,
   map,
-  not,
   path,
   prepend,
   prop,
@@ -23,7 +18,6 @@ import {
   set,
   sort
 } from 'ramda'
-import { collapse } from 'utils/helpers'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
@@ -49,12 +43,10 @@ const allImportedAddresses = {
 
 export const getData = (state, ownProps) => {
   const {
-    coin,
     exclude = [],
     excludeHDWallets,
     excludeImported,
     excludeLockbox,
-    excludeWatchOnly,
     includeAll = true,
     includePitAddress
   } = ownProps
@@ -83,40 +75,7 @@ export const getData = (state, ownProps) => {
   )
   const hasPitAddress = Remote.Success.is(pitAddress)
 
-  const formatAddress = addressData => {
-    const formattedAddress = {}
-    return compose(
-      a =>
-        isNil(prop('label', addressData))
-          ? assoc('label', prop('addr', addressData), a)
-          : assoc('label', prop('label', addressData), a),
-      a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
-      a =>
-        assocPath(
-          ['value', 'balance'],
-          path(['info', 'final_balance'], addressData),
-          a
-        ),
-      a => assocPath(['value', 'coin'], coin, a),
-      a => assocPath(['value', 'address'], prop('addr', addressData), a),
-      a => assoc('value', prop('info', addressData), a)
-    )(formattedAddress)
-  }
-
-  const formatImportedAddressesData = addressesData => {
-    return map(formatAddress, addressesData)
-  }
-
   const getAddressesData = () => {
-    const importedAddresses = selectors.core.common.bch.getActiveAddresses(
-      state
-    )
-    const filterRelevantAddresses = addrs =>
-      excludeWatchOnly
-        ? filter(addr => not(isNil(prop('priv', addr))), addrs)
-        : addrs
-    const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
-
     return sequence(Remote.of, [
       selectors.core.common.bch
         .getAccountsBalances(state)
@@ -126,7 +85,9 @@ export const getData = (state, ownProps) => {
         .map(toGroup('Wallet')),
       excludeImported
         ? Remote.of([])
-        : lift(formatImportedAddressesData)(relevantAddresses)
+        : selectors.core.common.bch
+            .getAddressesBalances(state)
+            .map(toDropdown)
             .map(toGroup('Imported Addresses'))
             .map(x =>
               set(
