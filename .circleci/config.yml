@@ -44,7 +44,7 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo ./../setup.sh
+          command: sudo ./setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
