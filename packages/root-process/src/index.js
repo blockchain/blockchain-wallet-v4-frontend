@@ -230,8 +230,17 @@ const main = async () => {
 }
 
 const errorMessage = `
+  <style nonce="${window.NONCE}">
+    div {
+      margin: 5%;
+    }
+
+    h1 {
+      text-align: center;
+    }
+  </style>
   <div>
-    <h1 style="text-align: center">We’ll be back soon!</h1>
+    <h1>We’ll be back soon!</h1>
     <p>Sorry for the inconvenience but we’re performing some maintenance at the
     moment.</p>
     <p>— The Blockchain Team</p>
@@ -240,7 +249,6 @@ const errorMessage = `
 
 const displayErrorPage = () => {
   const { body } = document
-  body.style.removeProperty(`margin`)
   body.innerHTML = errorMessage
 }
 

@@ -112,6 +112,9 @@ const webpackifyCsp = ({ port, protocol }, csp) => {
       `${webSocketProtocol}://localhost:${port}`
     ),
     'script-src': csp[`script-src`].concat(`'unsafe-eval'`),
+
+    // necessary because of HMR?  See:
+    // https://github.com/webpack-contrib/style-loader/issues/306#issuecomment-414161225
     'style-src': csp[`style-src`].slice(1).concat(`'unsafe-inline'`)
   }
 }
