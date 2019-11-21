@@ -7,6 +7,10 @@
 .idea/
 .vscode
 
+# Locales
+src/assets/locales/defaultMessages.json
+src/assets/locales/whitelists
+
 # Node
 node_modules
 npm-shrinkwrap.json
@@ -30,21 +34,9 @@ dist/
 lib/
 
 # Package Files
-packages/blockchain-info-components/lib
-packages/blockchain-info-components/node_modules
 packages/blockchain-info-components/storybook-static
-packages/blockchain-wallet-v4/lib
-packages/blockchain-wallet-v4/node_modules
 packages/main-process/build
-packages/main-process/dist
-packages/main-process/node_modules
 packages/security-process/build
-packages/security-process/dist
-packages/security-process/node_modules
-packages/blockchain-info-components/package-lock.json
-packages/blockchain-wallet-v4/package-lock.json
-packages/main-process/package-lock.json
-packages/security-process/package-lock.json
 
 # Config Files
 config/env/development.js

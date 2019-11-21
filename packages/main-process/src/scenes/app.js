@@ -16,7 +16,6 @@ import ThemeProvider from 'providers/ThemeProvider'
 import WalletLayout from 'layouts/Wallet'
 
 import Addresses from './Settings/Addresses'
-import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
@@ -26,21 +25,12 @@ import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
 import Login from './Login'
-import Logout from './Logout'
-import MobileLogin from './MobileLogin'
 import Preferences from './Settings/Preferences'
 import Profile from './Settings/Profile'
-import Recover from './Recover'
-import Register from './Register'
-import Reminder from './Reminder'
-import Reset2FA from './Reset2FA'
-import Reset2FAToken from './Reset2FAToken'
-import SecurityCenter from './SecurityCenter'
 import ThePit from './ThePit'
 import Transactions from './Transactions'
 import UploadDocuments from './UploadDocuments'
 import UploadDocumentsSuccess from './UploadDocuments/Success'
-import VerifyEmailToken from './VerifyEmailToken'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
@@ -74,28 +64,7 @@ class App extends React.PureComponent {
                 <ConnectedRouter history={history}>
                   <Switch>
                     <PublicLayout path='/login' component={Login} />
-                    <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout path='/help' component={Help} />
-                    <PublicLayout path='/recover' component={Recover} />
-                    <PublicLayout path='/reminder' component={Reminder} />
-                    <PublicLayout path='/reset-2fa' component={Reset2FA} />
-                    <PublicLayout
-                      path='/mobile-login'
-                      component={MobileLogin}
-                    />
-                    <PublicLayout
-                      path='/reset-two-factor'
-                      component={Reset2FAToken}
-                    />
-                    <PublicLayout
-                      path='/verify-email'
-                      component={VerifyEmailToken}
-                    />
-                    <PublicLayout path='/signup' component={Register} />
-                    <PublicLayout
-                      path='/authorize-approve'
-                      component={AuthorizeLogin}
-                    />
                     <PublicLayout
                       path='/upload-document/success'
                       component={UploadDocumentsSuccess}
@@ -118,10 +87,6 @@ class App extends React.PureComponent {
                     />
                     <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout path='/thepit' component={ThePit} />
-                    <WalletLayout
-                      path='/security-center'
-                      component={SecurityCenter}
-                    />
                     <WalletLayout
                       path='/settings/preferences'
                       component={Preferences}

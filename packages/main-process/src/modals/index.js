@@ -73,7 +73,7 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
-import { PairingCode, ShowXPub, UpgradeWallet } from './Wallet'
+import { ShowXPub } from './Wallet'
 import {
   RequestXlm,
   SendXlm,
@@ -113,7 +113,6 @@ const Modals = () => (
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
-    <PairingCode />
     <PaxWelcome />
     <PromptInput />
     <QRCode />
@@ -147,7 +146,6 @@ const Modals = () => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeForAirdrop />
-    <UpgradeWallet />
     <UserExists />
     <Welcome />
     <XlmCreateAccountLearn />
