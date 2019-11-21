@@ -91,6 +91,27 @@ const Navigation = props => {
           </Destination>
         </MenuItem>
       </SpotlightLinkContainer>
+      <SpotlightLinkContainer to='/airdrops' activeClassName='active'>
+        <MenuItem data-e2e='airdropLink'>
+          <JoyrideSpotlight className='airdrop-tooltip' />
+          <MenuIcon name='parachute' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.airdrops'
+              defaultMessage='Airdrops'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='orange' size='12' weight={500} uppercase>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.transactions.new'
+                defaultMessage='New'
+              />
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </SpotlightLinkContainer>
+      <ThePitLink {...props} />
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon
@@ -111,7 +132,6 @@ const Navigation = props => {
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      <ThePitLink {...props} />
       <Separator />
       {values(
         mapObjIndexed(
