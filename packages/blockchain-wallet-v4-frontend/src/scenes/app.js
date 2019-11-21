@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Redirect, Switch } from 'react-router-dom'
 import { selectors } from 'data'
 import Addresses from './Settings/Addresses'
+import Airdrops from './Airdrops'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
 import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
@@ -116,6 +117,7 @@ class App extends React.PureComponent {
                     />
                     <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout path='/thepit' component={ThePit} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}
