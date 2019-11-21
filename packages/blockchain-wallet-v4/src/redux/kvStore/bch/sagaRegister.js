@@ -7,5 +7,9 @@ export default ({ api, networks }) => {
 
   return function * coreKvStoreBchSaga () {
     yield takeLatest(AT.FETCH_METADATA_BCH, kvStoreBchSagas.fetchMetadataBch)
+    yield takeLatest(
+      AT.IMPORT_LEGACY_ADDR_BCH,
+      kvStoreBchSagas.importLegacyAddress
+    )
   }
 }

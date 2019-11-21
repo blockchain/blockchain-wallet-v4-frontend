@@ -54,6 +54,15 @@ export default (state = INITIAL_STATE, action) => {
       const setDefaultAccount = assoc('default_account_idx', index)
       return over(valueLens, setDefaultAccount, state)
     }
+    case AT.SET_LEGACY_ADDR_BCH: {
+      const { addr } = action.payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setAddr = assocPath(['addresses', addr.addr], addr)
+      return over(valueLens, setAddr, state)
+    }
     case AT.SET_TRANSACTION_NOTE_BCH: {
       const { txHash, txNote } = action.payload
       let valueLens = compose(
