@@ -70,7 +70,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
       </SettingDescription>
       <Table dataE2e='btcArchivedAddressesTable'>
         <TableHeader>
-          <TableCell width='50%'>
+          <TableCell width='40%'>
             <Text size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.archivedaddresses.address'
@@ -81,13 +81,21 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           <TableCell width='30%'>
             <Text size='13px' weight={500}>
               <FormattedMessage
+                id='scenes.settings.addresses.btc.archivedaddresses.label'
+                defaultMessage='Label'
+              />
+            </Text>
+          </TableCell>
+          <TableCell width='15%'>
+            <Text size='13px' weight={500}>
+              <FormattedMessage
                 id='scenes.settings.addresses.btc.archivedaddresses.balance'
                 defaultMessage='Balance'
               />
             </Text>
           </TableCell>
           <TableCell
-            width='20%'
+            width='15%'
             style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
             <Text size='13px' weight={500}>

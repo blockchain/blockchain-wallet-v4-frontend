@@ -44,7 +44,7 @@ const MoreOptions = () => (
 const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
   return (
     <TableRow dataE2e={dataE2e}>
-      <AddressTableCell width='50%'>
+      <AddressTableCell width='40%'>
         <AddressCell
           size='13px'
           data-e2e={`${
@@ -62,12 +62,12 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
           </Banner>
         )}
       </AddressTableCell>
-      <TableCell width='20%'>
+      <TableCell width='30%'>
         <Text size='13px' weight={300}>
           {address.label ? address.label : ''}
         </Text>
       </TableCell>
-      <TableCell width='10%'>
+      <TableCell width='15%'>
         {!archived && (
           <SwitchableDisplay size='13px' coin={coin || 'BTC'}>
             {address.info && address.info.final_balance}
@@ -75,7 +75,7 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
         )}
       </TableCell>
       <TableCell
-        width='20%'
+        width='15%'
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         {renderOptions && (

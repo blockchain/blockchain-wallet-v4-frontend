@@ -165,7 +165,7 @@ const Success = ({
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>
-            <TableCell width='50%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.address'
@@ -173,7 +173,7 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
+            <TableCell width='30%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.label'
@@ -181,7 +181,7 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell width='10%'>
+            <TableCell width='15%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.balance'
@@ -190,7 +190,7 @@ const Success = ({
               </Text>
             </TableCell>
             <TableCell
-              width='20%'
+              width='15%'
               style={{ display: 'flex', justifyContent: 'flex-end' }}
             >
               <Text size='13px' weight={500}>
