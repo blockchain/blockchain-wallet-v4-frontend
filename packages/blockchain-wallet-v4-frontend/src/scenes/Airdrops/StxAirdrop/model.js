@@ -34,7 +34,7 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
         <GreyCartridge>
           <FormattedMessage
             id='scenes.airdrop.stx.pending'
-            defaultMessage='Enrollment Pending'
+            defaultMessage='Pending KYC'
           />
         </GreyCartridge>
       )
@@ -42,8 +42,8 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
       return tags['BLOCKSTACK'] ? (
         <SuccessCartridge>
           <FormattedMessage
-            id='scenes.airdrop.stx.enrolled'
-            defaultMessage='Enrolled'
+            id='scenes.airdrop.stx.claimed'
+            defaultMessage='Claimed'
           />
         </SuccessCartridge>
       ) : (
@@ -53,8 +53,8 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
           }
         >
           <FormattedMessage
-            id='scenes.airdrop.stx.enroll'
-            defaultMessage='Enroll'
+            id='scenes.airdrop.stx.claim'
+            defaultMessage='Claim'
           />
         </BlueCartridge>
       )

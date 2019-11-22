@@ -72,7 +72,7 @@ export const AirdropInfoCopy = ({ kycState }) => {
         <Copy size='14px' color='grey600' weight={500}>
           <FormattedMessage
             id='scenes.airdrops.success.goldfailed'
-            defaultMessage='You are not eligible for the Blockchain Airdrop program. There was an issue with your identity verification.'
+            defaultMessage='You are not enrolled in the Blockchain Airdrop program. There was an issue with your identity verification.'
           />
         </Copy>
       )
@@ -81,7 +81,7 @@ export const AirdropInfoCopy = ({ kycState }) => {
         <Copy size='14px' color='grey600' weight={500}>
           <FormattedMessage
             id='scenes.airdrops.success.goldverified'
-            defaultMessage='You are eligible for the Blockchain Airdrop program. The easiest way to try and discover new cryptos.'
+            defaultMessage='You are enrolled in the Blockchain Airdrop program. The easiest way to try and discover new cryptos.'
           />
         </Copy>
       )
@@ -90,7 +90,7 @@ export const AirdropInfoCopy = ({ kycState }) => {
         <Copy size='14px' color='grey600' weight={500}>
           <FormattedMessage
             id='scenes.airdrops.success.goldlevel'
-            defaultMessage='Upgrade to Gold Level to be eligible for the Blockchain Airdrop program. You will be automatically eligible for future Blockchain Airdrops.'
+            defaultMessage='Upgrade to Gold Level to enroll in the Blockchain Airdrop program. You will be automatically enrolled in future Blockchain Airdrops.'
           />
         </Copy>
       )
@@ -107,8 +107,8 @@ export const AirdropInfoButton = ({
       return (
         <GreyCartridge style={{ marginTop: '16px' }}>
           <FormattedMessage
-            id='scenes.airdrop.pending'
-            defaultMessage='Eligibility Pending'
+            id='scenes.airdrop.enrollmentpending'
+            defaultMessage='Enrollment Pending'
           />
         </GreyCartridge>
       )
@@ -139,8 +139,8 @@ export const AirdropInfoButton = ({
           </Text>
           <SuccessCartridge>
             <FormattedMessage
-              id='scenes.airdrop.eligible'
-              defaultMessage='Eligible'
+              id='scenes.airdrop.enrolled'
+              defaultMessage='Enrolled'
             />
           </SuccessCartridge>
         </>
