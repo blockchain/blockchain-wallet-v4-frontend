@@ -72,6 +72,7 @@ const AutoDisconnectionMiddleware = () => store => next => action => {
   // We reset the timer if the action is not in the blacklist
   if (!contains(action.type, blackListedActivityTypes)) {
     // 👋 Uncomment the next line to debug autoDisconnection!!
+    // console.log(action.type)
     resetTimer()
   }
 
