@@ -6,6 +6,7 @@ import {
   RequestBtc,
   SendBtc,
   ShowBtcPrivateKey,
+  SignMessage,
   VerifyMessage
 } from './Btc'
 import {
@@ -88,7 +89,6 @@ import {
 import BitPayExpired from './BitPayExpired'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
-import SignMessage from './SignMessage'
 
 const Modals = () => (
   <div>

@@ -3,6 +3,7 @@ import ImportBtcAddress from './ImportBtcAddress'
 import RequestBtc from './RequestBtc'
 import SendBtc from './SendBtc'
 import ShowBtcPrivateKey from './ShowBtcPrivateKey'
+import SignMessage from './SignMessage'
 import VerifyMessage from './VerifyMessage'
 
 export {
@@ -11,5 +12,6 @@ export {
   RequestBtc,
   SendBtc,
   ShowBtcPrivateKey,
-  VerifyMessage
+  VerifyMessage,
+  SignMessage
 }
