@@ -134,7 +134,15 @@ export default ({ api, coreSagas, networks }) => {
             title: 'Enter BIP38 Password',
             secret: true
           })
-          yield call(importLegacyAddress, address, priv, password, bipPass, to)
+          yield call(
+            importLegacyAddress,
+            address,
+            priv,
+            password,
+            bipPass,
+            to,
+            label
+          )
           break
         default:
           yield put(actions.alerts.displayError(C.ADDRESS_ADD_ERROR))
