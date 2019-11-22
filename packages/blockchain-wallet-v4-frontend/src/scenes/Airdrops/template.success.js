@@ -14,6 +14,7 @@ export const Container = styled.div`
   }
   ${media.laptop`
     flex-direction: column;
+    align-items: center;
     > div {
       margin-right: 0;
       margin-bottom: 12px; 
