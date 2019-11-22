@@ -5,8 +5,8 @@ import React from 'react'
 const Loading = () => {
   return (
     <Container>
-      <SkeletonRectangle width='300px' height='300px' />
-      <SkeletonRectangle width='300px' height='300px' />
+      <SkeletonRectangle width='350px' height='300px' />
+      <SkeletonRectangle width='350px' height='300px' />
     </Container>
   )
 }

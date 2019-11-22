@@ -25,7 +25,9 @@ class Airdrops extends React.PureComponent {
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Failure: () => <span>Oops.</span>
+      Failure: () => (
+        <Text>Oops. Something went wrong and we don't know why</Text>
+      )
     })
     return (
       <Wrapper>

@@ -11,7 +11,7 @@ export const Box = styled.div`
   padding: 24px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme['grey000']};
-  max-width: 300px;
+  width: 300px;
 `
 
 const AirdropBox = styled(Box)`
