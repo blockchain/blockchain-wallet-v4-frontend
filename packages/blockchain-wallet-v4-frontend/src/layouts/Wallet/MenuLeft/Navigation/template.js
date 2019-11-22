@@ -92,7 +92,7 @@ const Navigation = props => {
         </MenuItem>
       </SpotlightLinkContainer>
       <SpotlightLinkContainer to='/airdrops' activeClassName='active'>
-        <MenuItem data-e2e='airdropLink'>
+        <MenuItem data-e2e='airdropLink' className='airdrop'>
           <JoyrideSpotlight className='airdrop-tooltip' />
           <MenuIcon name='parachute' size='24px' />
           <Destination>
@@ -102,10 +102,10 @@ const Navigation = props => {
             />
           </Destination>
           <NewCartridge>
-            <Text color='orange' size='12' weight={500} uppercase>
+            <Text color='green600' size='12' weight={600} uppercase>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.transactions.new'
-                defaultMessage='New'
+                id='layouts.wallet.menuleft.navigation.airdrop.active'
+                defaultMessage='Active'
               />
             </Text>
           </NewCartridge>

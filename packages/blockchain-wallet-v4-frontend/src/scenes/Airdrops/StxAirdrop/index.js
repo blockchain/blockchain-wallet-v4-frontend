@@ -82,7 +82,7 @@ const StxAirdrop = props => {
           </Text>
         </Date>
       </StatusContainer>
-      <Text size='11px' color='grey600' style={{ marginTop: '12px' }}>
+      <Text size='11px' color='grey600' style={{ marginTop: '36px' }}>
         <FormattedMessage
           id='scenes.airdrop.stx.regulatory'
           defaultMessage="*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
