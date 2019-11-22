@@ -46,7 +46,8 @@ const BchImportedAddresses = props => {
     search,
     onEditLabel,
     handleShowPriv,
-    handleSignMessage
+    handleSignMessage,
+    onClickVerify
   } = props
 
   const isMatch = address =>
@@ -124,6 +125,15 @@ const BchImportedAddresses = props => {
             </WarningWrapper>
           </SettingDescription>
         </div>
+        <Button
+          onClick={onClickVerify}
+          data-e2e='btcVerifyMessageImportedAddressLink'
+        >
+          <FormattedMessage
+            id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
+            defaultMessage='Verify Message'
+          />
+        </Button>
         {importedAddressesTableRows.length > 0 && (
           <ImportedActions>
             <Button

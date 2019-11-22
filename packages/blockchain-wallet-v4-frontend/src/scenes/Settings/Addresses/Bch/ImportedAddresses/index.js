@@ -44,6 +44,10 @@ class ImportedAddressesContainer extends React.Component {
     })
   }
 
+  handleClickVerify = () => {
+    this.props.modalActions.showModal('VerifyMessage')
+  }
+
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -55,6 +59,7 @@ class ImportedAddressesContainer extends React.Component {
             onEditLabel={this.handleEditLabel}
             handleShowPriv={this.handleShowPriv}
             handleSignMessage={this.handleSignMessage}
+            onClickVerify={this.handleClickVerify}
             {...rest}
           />
         ) : (

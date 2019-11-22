@@ -65,7 +65,13 @@ import {
   ShowEthPrivateKey,
   TransferEth
 } from './Eth'
-import { RequestBch, SendBch, ShowBchPrivateKey, SignMessageBch } from './Bch'
+import {
+  RequestBch,
+  SendBch,
+  ShowBchPrivateKey,
+  SignMessageBch,
+  VerifyMessageBch
+} from './Bch'
 import {
   RequestXlm,
   SendXlm,
@@ -158,6 +164,7 @@ const Modals = () => (
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
+    <VerifyMessageBch />
   </div>
 )
 
