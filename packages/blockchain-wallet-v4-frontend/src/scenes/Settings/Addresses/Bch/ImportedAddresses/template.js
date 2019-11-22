@@ -125,17 +125,17 @@ const BchImportedAddresses = props => {
             </WarningWrapper>
           </SettingDescription>
         </div>
-        <Button
-          onClick={onClickVerify}
-          data-e2e='btcVerifyMessageImportedAddressLink'
-        >
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
-            defaultMessage='Verify Message'
-          />
-        </Button>
-        {importedAddressesTableRows.length > 0 && (
-          <ImportedActions>
+        <ImportedActions>
+          <Button
+            onClick={onClickVerify}
+            data-e2e='btcVerifyMessageImportedAddressLink'
+          >
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
+              defaultMessage='Verify Message'
+            />
+          </Button>
+          {importedAddressesTableRows.length > 0 && (
             <Button
               onClick={onTransferAll}
               nature='primary'
@@ -146,8 +146,8 @@ const BchImportedAddresses = props => {
                 defaultMessage='Transfer All'
               />
             </Button>
-          </ImportedActions>
-        )}
+          )}
+        </ImportedActions>
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
         <Table dataE2e='bchImportedAddressesTable'>
