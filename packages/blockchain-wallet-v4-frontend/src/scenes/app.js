@@ -118,6 +118,7 @@ class App extends React.PureComponent {
                     <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout path='/thepit' component={ThePit} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}

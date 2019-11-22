@@ -158,7 +158,7 @@ export default {
   green300: '#8BDCB3',
   green400: '#59CD93',
   green500: '#339F7B',
-  green600: '#00875A',
+  green600: '#00994C',
   green700: '#006B47',
   green800: '#04593D',
   green900: '#004025',
