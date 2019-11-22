@@ -62,40 +62,43 @@ const BchImportedAddresses = props => {
           coin='BCH'
           dataE2e='bchImportedAddressRow'
           renderOptions={() =>
-            !address.priv
-              ? []
-              : [
-                  <ClickableText
-                    size='small'
-                    onClick={() => onEditLabel(address)}
-                    data-e2e='bchImportedAddressEditLabel'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.edit_name'
-                      defaultMessage='Edit Label'
-                    />
-                  </ClickableText>,
-                  <ClickableText
-                    size='small'
-                    onClick={() => handleShowPriv(address)}
-                    data-e2e='bchImportedAddressShowPriv'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.edit_label'
-                      defaultMessage='Private Key'
-                    />
-                  </ClickableText>,
-                  <ClickableText
-                    size='small'
-                    onClick={() => handleSignMessage(address)}
-                    data-e2e='bchImportedAddressSignMessage'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.sign_message'
-                      defaultMessage='Sign Message'
-                    />
-                  </ClickableText>
-                ]
+            [
+              <ClickableText
+                size='small'
+                onClick={() => onEditLabel(address)}
+                data-e2e='bchImportedAddressEditLabel'
+              >
+                <FormattedMessage
+                  id='scenes.settings.addresses.edit_name'
+                  defaultMessage='Edit Label'
+                />
+              </ClickableText>
+            ].concat(
+              !address.priv
+                ? []
+                : [
+                    <ClickableText
+                      size='small'
+                      onClick={() => handleShowPriv(address)}
+                      data-e2e='bchImportedAddressShowPriv'
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.edit_label'
+                        defaultMessage='Private Key'
+                      />
+                    </ClickableText>,
+                    <ClickableText
+                      size='small'
+                      onClick={() => handleSignMessage(address)}
+                      data-e2e='bchImportedAddressSignMessage'
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.sign_message'
+                        defaultMessage='Sign Message'
+                      />
+                    </ClickableText>
+                  ]
+            )
           }
         />
       )

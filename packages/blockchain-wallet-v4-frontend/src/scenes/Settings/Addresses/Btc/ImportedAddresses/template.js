@@ -71,6 +71,16 @@ const Success = ({
                 id='scenes.settings.addresses.archive'
                 defaultMessage='Archive'
               />
+            </ClickableText>,
+            <ClickableText
+              size='small'
+              onClick={() => onEditLabel(address)}
+              data-e2e='btcSignMessageImportedAddressLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.edit_name'
+                defaultMessage='Edit Label'
+              />
             </ClickableText>
           ].concat(
             !address.priv
@@ -96,16 +106,6 @@ const Success = ({
                     <FormattedMessage
                       id='scenes.settings.addresses.sign_message'
                       defaultMessage='Sign Message'
-                    />
-                  </ClickableText>,
-                  <ClickableText
-                    size='small'
-                    onClick={() => onEditLabel(address)}
-                    data-e2e='btcSignMessageImportedAddressLink'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.edit_name'
-                      defaultMessage='Edit Label'
                     />
                   </ClickableText>
                 ]
