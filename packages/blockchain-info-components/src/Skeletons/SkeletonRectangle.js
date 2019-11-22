@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  border-radius: 3px;
+  border-radius: 8px;
   width: ${props => props.width};
   height: ${props => props.height};
   background-color: ${props => props.theme[props.bgColor]};

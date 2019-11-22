@@ -19,6 +19,7 @@ const Wrapper = styled.div`
     url('/img/airdrop-welcome-banner@2x.png') 2x
   );
   /* stylelint-enable */
+  background-repeat: no-repeat;
   background-size: cover;
   border-radius: 8px;
   overflow: hidden;
