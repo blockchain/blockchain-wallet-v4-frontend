@@ -126,7 +126,14 @@ module.exports = {
     new UnusedFilesWebpackPlugin({
       globOptions: {
         cwd: PATHS.src,
-        ignore: [`**/__mocks__/**`, `**/*.spec.*`, `index.prod.js`, `utils/**`]
+        ignore: [
+          `**/__mocks__/**`,
+          `**/*.spec.*`,
+          `index.prod.js`,
+          `utils/**`,
+          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
+          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js'
+        ]
       }
     }),
     new Webpack.DefinePlugin({
