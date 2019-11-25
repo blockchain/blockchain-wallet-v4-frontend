@@ -41,29 +41,29 @@ const SecondStep = props => {
       <DetailRow>
         <Text size='14px' weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.address'
+            id='modals.btc.signmessage.secondstep.address'
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
+        <Text size='14px' weight={400} data-e2e='btcSignMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
       <DetailRow>
         <Text size='14px' weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.message'
+            id='modals.btc.signmessage.secondstep.message'
             defaultMessage='Message:'
           />
         </Text>
-        <Text size='14px' weight={400} data-e2e='signMessageMsgValue'>
+        <Text size='14px' weight={400} data-e2e='btcSignMessageMsgValue'>
           {message}
         </Text>
       </DetailRow>
       <DetailRow column>
         <Text size='14px' weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.signature'
+            id='modals.btc.signmessage.secondstep.signature'
             defaultMessage='Signature:'
           />
         </Text>
@@ -74,20 +74,20 @@ const SecondStep = props => {
           size='14px'
           weight={400}
           onClick={resetForm}
-          data-e2e='signMessageResetFormButton'
+          data-e2e='btcSignMessageResetFormButton'
         >
           <FormattedMessage
-            id='modals.signmessage.reset'
+            id='modals.btc.signmessage.reset'
             defaultMessage='Reset Form'
           />
         </ClickableText>
         <Button
           nature='primary'
           onClick={closeAll}
-          data-e2e='signMessageDoneButton'
+          data-e2e='btcSignMessageDoneButton'
         >
           <FormattedMessage
-            id='modals.signmessage.secondstep.done'
+            id='modals.btc.signmessage.secondstep.done'
             defaultMessage='Done'
           />
         </Button>

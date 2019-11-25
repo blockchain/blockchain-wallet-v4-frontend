@@ -14,7 +14,7 @@ const SignMessage = props => (
   <Modal size='medium' position={props.position} total={props.total}>
     <ModalHeader onClose={props.closeAll}>
       <FormattedMessage
-        id='modals.signmessage.title'
+        id='modals.btc.signmessage.title'
         defaultMessage='Sign Message'
       />
       <TooltipHost id='signmessage.label.tooltip'>

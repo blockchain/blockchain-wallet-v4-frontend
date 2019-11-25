@@ -52,13 +52,13 @@ const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
       <FormattedMessage
-        id='modals.showchpriv.warning'
+        id='modals.bch.showpriv.warning'
         defaultMessage='Warning'
       />
     </Text>
     <Text size='14px' style={spacing('mt-10')} weight={400}>
       <FormattedMessage
-        id='modals.showbchpriv.warning.message'
+        id='modals.showpriv.warning.message'
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
       />
     </Text>
@@ -82,7 +82,7 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbchpriv.balance'
+            id='modals.bch.showpriv.balance'
             defaultMessage='Balance'
           />
         </DetailRowText>
@@ -95,7 +95,7 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbchpriv.address'
+            id='modals.bch.showpriv.address'
             defaultMessage='Address'
           />
         </DetailRowText>
@@ -108,7 +108,7 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbchpriv.priv_key'
+            id='modals.bch.showpriv.priv_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
@@ -130,13 +130,13 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbchpriv.priv_key_format'
+            id='modals.bch.showpriv.priv_key_format'
             defaultMessage='Private Key Format'
           />
         </DetailRowText>
         {':'}
         &nbsp;
-        <DropdownWrapper data-e2e='dropdownSelect'>
+        <DropdownWrapper data-e2e='bchDropdownSelect'>
           <KeySelectInput
             label='Export Format'
             value={format}
@@ -161,7 +161,7 @@ const ShowBchPrivateKeyTemplate = ({
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
       <FormattedMessage
-        id='modals.showbchpriv.title'
+        id='modals.bch.showpriv.title'
         defaultMessage='Private Key'
       />
     </ModalHeader>
@@ -178,7 +178,7 @@ const ShowBchPrivateKeyTemplate = ({
         data-e2e='bchPrivateKeyCloseButton'
       >
         <FormattedMessage
-          id='modals.showbchpriv.close'
+          id='modals.bch.showpriv.close'
           defaultMessage='Close'
         />
       </Text>
@@ -189,7 +189,7 @@ const ShowBchPrivateKeyTemplate = ({
           data-e2e='bchPrivateKeyContinueButton'
         >
           <FormattedMessage
-            id='modals.showbchpriv.continue'
+            id='modals.bch.showpriv.continue'
             defaultMessage='Continue'
           />
         </Button>

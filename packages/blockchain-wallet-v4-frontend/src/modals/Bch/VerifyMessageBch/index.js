@@ -33,8 +33,8 @@ const ItemAddress = ({ address, network, onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id='modals.verifyMessage.address'
-          defaultMessage='Bitcoin Address:'
+          id='modals.bch.verifyMessage.address'
+          defaultMessage='Bitcoin Cash Address:'
         />
       </LabelMessage>
       <TextBox
@@ -46,7 +46,7 @@ const ItemAddress = ({ address, network, onChange }) => (
           error: validBchAddress(address, null, { network }),
           touched: address !== ``
         }}
-        data-e2e='bitcoinAddressInput'
+        data-e2e='bchAddressInput'
       />
     </FormLabel>
   </Item>
@@ -57,7 +57,7 @@ const ItemMessage = ({ onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id='modals.verifyMessage.message'
+          id='modals.bch.verifyMessage.message'
           defaultMessage='Message:'
         />
       </LabelMessage>
@@ -78,7 +78,7 @@ const ItemSignature = ({ onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id='modals.verifyMessage.signature'
+          id='modals.bch.verifyMessage.signature'
           defaultMessage='Signature:'
         />
       </LabelMessage>
@@ -88,7 +88,7 @@ const ItemSignature = ({ onChange }) => (
           onChange
         }}
         meta={{}}
-        data-e2e='signatureInput'
+        data-e2e='bchSignatureInput'
       />
     </FormLabel>
   </Item>
@@ -104,7 +104,6 @@ class VerifyMessage extends React.PureComponent {
   state = { address: ``, message: ``, signature: `` }
 
   onChange = ({ target: { name, value } }) => {
-    // convert bch address to btc address
     this.setState({ [name]: value })
   }
 
@@ -115,7 +114,7 @@ class VerifyMessage extends React.PureComponent {
       <Modal>
         <ModalHeader onClose={close}>
           <FormattedMessage
-            id='modals.verifyMessage.title'
+            id='modals.bch.verifyMessage.title'
             defaultMessage='Verify Message'
           />
           <TooltipHost id='verifyMessage'>
@@ -132,16 +131,16 @@ class VerifyMessage extends React.PureComponent {
           <ItemSignature onChange={this.onChange} />
           <Result visible={services.showResult(this.state)}>
             {services.verifySignature(this.state) ? (
-              <Banner type='success' data-e2e='validSignatureBadge'>
+              <Banner type='success' data-e2e='bchValidSignatureBadge'>
                 <FormattedMessage
-                  id='modals.verifyMessage.success'
+                  id='modals.bch.verifyMessage.success'
                   defaultMessage='The message has a valid signature from the address.'
                 />
               </Banner>
             ) : (
-              <Banner type='caution' data-e2e='incorrectSignatureBadge'>
+              <Banner type='caution' data-e2e='bchIncorrectSignatureBadge'>
                 <FormattedMessage
-                  id='modals.verifyMessage.failure'
+                  id='modals.bch.verifyMessage.failure'
                   defaultMessage='The signature does not match the message.'
                 />
               </Banner>
@@ -152,7 +151,7 @@ class VerifyMessage extends React.PureComponent {
           <Button
             onClick={close}
             nature='primary'
-            data-e2e='closeVerifyMessageButton'
+            data-e2e='bchCloseVerifyMessageButton'
           >
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>

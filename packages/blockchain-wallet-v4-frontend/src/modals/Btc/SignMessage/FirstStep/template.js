@@ -36,7 +36,7 @@ const FirstStep = props => {
       <DetailRow>
         <Text size='14px' weight={500}>
           <FormattedMessage
-            id='modals.signmessage.firststep.address'
+            id='modals.btc.signmessage.firststep.address'
             defaultMessage='Address:'
           />
         </Text>
@@ -48,7 +48,7 @@ const FirstStep = props => {
         <FormItem width={'100%'}>
           <FormLabel for='message'>
             <FormattedMessage
-              id='modals.signmessage.firststep.message'
+              id='modals.btc.signmessage.firststep.message'
               defaultMessage='Message:'
             />
           </FormLabel>
@@ -57,7 +57,7 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder='Thanks for accepting bitcoin!'
-            data-e2e='signMessageInputField'
+            data-e2e='btcSignMessageInputField'
           />
         </FormItem>
       </FormGroup>
@@ -67,10 +67,10 @@ const FirstStep = props => {
             size='14px'
             weight={400}
             onClick={closeAll}
-            data-e2e='signMessageCloseButton'
+            data-e2e='btcSignMessageCloseButton'
           >
             <FormattedMessage
-              id='modals.signmessage.close'
+              id='modals.btc.signmessage.close'
               defaultMessage='Close'
             />
           </ClickableText>
@@ -78,10 +78,10 @@ const FirstStep = props => {
             type='submit'
             nature='primary'
             disabled={submitting || invalid}
-            data-e2e='signMessageButton'
+            data-e2e='btSignMessageButton'
           >
             <FormattedMessage
-              id='modals.signmessage.firststep.sign'
+              id='modals.btc.signmessage.firststep.sign'
               defaultMessage='Sign'
             />
           </Button>

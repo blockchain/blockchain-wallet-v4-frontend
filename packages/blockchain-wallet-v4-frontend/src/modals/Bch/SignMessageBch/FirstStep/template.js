@@ -36,11 +36,11 @@ const FirstStep = props => {
       <DetailRow>
         <Text size='14px' weight={500}>
           <FormattedMessage
-            id='modals.signmessage.firststep.address'
+            id='modals.bch.signmessage.firststep.address'
             defaultMessage='Address:'
           />
         </Text>
-        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
+        <Text size='14px' weight={400} data-e2e='bchSignMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
@@ -48,7 +48,7 @@ const FirstStep = props => {
         <FormItem width={'100%'}>
           <FormLabel for='message'>
             <FormattedMessage
-              id='modals.signmessage.firststep.message'
+              id='modals.bch.signmessage.firststep.message'
               defaultMessage='Message:'
             />
           </FormLabel>
@@ -57,7 +57,7 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder='Thanks for accepting bitcoin!'
-            data-e2e='signMessageInputField'
+            data-e2e='bchSignMessageInputField'
           />
         </FormItem>
       </FormGroup>
@@ -67,10 +67,10 @@ const FirstStep = props => {
             size='14px'
             weight={400}
             onClick={closeAll}
-            data-e2e='signMessageCloseButton'
+            data-e2e='bchSignMessageCloseButton'
           >
             <FormattedMessage
-              id='modals.signmessage.close'
+              id='modals.bch.signmessage.close'
               defaultMessage='Close'
             />
           </ClickableText>
@@ -78,10 +78,10 @@ const FirstStep = props => {
             type='submit'
             nature='primary'
             disabled={submitting || invalid}
-            data-e2e='signMessageButton'
+            data-e2e='bchSignMessageButton'
           >
             <FormattedMessage
-              id='modals.signmessage.firststep.sign'
+              id='modals.bch.signmessage.firststep.sign'
               defaultMessage='Sign'
             />
           </Button>
