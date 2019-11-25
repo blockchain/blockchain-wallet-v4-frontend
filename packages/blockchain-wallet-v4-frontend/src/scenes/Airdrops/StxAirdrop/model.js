@@ -1,4 +1,4 @@
-import { Button, Link } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import {
   CustomCartridge,
   ErrorCartridge,
@@ -53,10 +53,12 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
             identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
           }
         >
-          <FormattedMessage
-            id='scenes.airdrop.stx.claim'
-            defaultMessage='Claim'
-          />
+          <Text weight={600} size='14px' color='white'>
+            <FormattedMessage
+              id='scenes.airdrop.stx.claim'
+              defaultMessage='Claim'
+            />
+          </Text>
         </BlueCartridge>
       )
     case KYC_STATES.NONE:
@@ -64,10 +66,12 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
         <BlueCartridge
           onClick={() => identityVerificationActions.verifyIdentity(2)}
         >
-          <FormattedMessage
-            id='scenes.airdrop.stx.upgrade'
-            defaultMessage='Upgrade'
-          />
+          <Text weight={600} size='14px' color='white'>
+            <FormattedMessage
+              id='scenes.airdrop.stx.upgrade'
+              defaultMessage='Upgrade'
+            />
+          </Text>
         </BlueCartridge>
       )
     default:
