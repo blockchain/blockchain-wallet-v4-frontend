@@ -18,6 +18,10 @@ export const Header = styled.div`
   margin-bottom: 40px;
 `
 
+export const MainTitle = styled(Text)`
+  margin-bottom: 8px;
+`
+
 class Airdrops extends React.PureComponent {
   render () {
     const { data } = this.props
@@ -32,12 +36,12 @@ class Airdrops extends React.PureComponent {
     return (
       <Wrapper>
         <Header>
-          <Text size='32px' color='grey800' weight={600}>
+          <MainTitle size='32px' color='grey800' weight={600}>
             <FormattedMessage
               id='scenes.airdrops.blockchain'
               defaultMessage='Blockchain Airdrops'
             />
-          </Text>
+          </MainTitle>
           <Text size='16px' color='grey400' weight={500}>
             <FormattedMessage
               id='scenes.airdrops.blockchain.safest'

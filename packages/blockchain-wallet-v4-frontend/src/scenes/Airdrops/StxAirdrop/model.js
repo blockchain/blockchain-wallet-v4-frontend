@@ -15,6 +15,9 @@ const { KYC_STATES } = model.profile
 const BlueCartridge = styled(CustomCartridge)`
   cursor: pointer;
   background-color: ${props => props.theme['blue600']};
+  font-weight: 600;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 
 export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {

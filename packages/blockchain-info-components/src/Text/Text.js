@@ -7,6 +7,7 @@ const BaseText = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
+  line-height: ${props => props.lineHeight};
   text-transform: ${props =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-style: ${props => (props.italic ? 'italic' : 'normal')};
@@ -30,6 +31,7 @@ Text.propTypes = {
   size: PropTypes.string,
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
+  lineHeight: PropTypes.string,
   italic: PropTypes.bool,
   altFont: PropTypes.bool,
   cursor: PropTypes.string,
@@ -41,6 +43,7 @@ Text.defaultProps = {
   size: '16px',
   uppercase: false,
   capitalize: false,
+  lineHeight: 'inherit',
   italic: false,
   color: 'gray-5',
   altFont: false,
