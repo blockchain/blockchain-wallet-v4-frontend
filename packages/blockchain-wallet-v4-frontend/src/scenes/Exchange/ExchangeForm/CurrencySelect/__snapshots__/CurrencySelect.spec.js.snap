@@ -36,11 +36,11 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
     id="exchange.changeinput"
   >
     <Layout__Cell
-      data-e2e="exchangeSwitchTargets"
       size="small"
     >
       <CurrencySelect__CoinSwapIcon
         cursor={true}
+        data-e2e="exchangeSwitchTargets"
         disabled={false}
         name="arrow-switch"
         onClick={[Function]}

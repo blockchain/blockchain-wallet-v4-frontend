@@ -14,10 +14,10 @@ export const Container = styled.div`
   }
   ${media.laptop`
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     > div {
       margin-right: 0;
-      margin-bottom: 12px; 
+      margin-bottom: 12px;
     }
   `};
 `
