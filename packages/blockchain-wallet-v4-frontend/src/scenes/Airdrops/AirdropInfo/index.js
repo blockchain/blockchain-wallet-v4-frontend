@@ -8,6 +8,7 @@ const Footer = styled.div`
 `
 
 export const Box = styled.div`
+  position: relative;
   padding: 24px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme['grey000']};
