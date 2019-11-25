@@ -12,7 +12,14 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-image: url('/img/airdrop-welcome-dashboard.png');
+  background-image: url('/img/airdrop-welcome-banner.png');
+  /* stylelint-disable */
+  background-image: -webkit-image-set(
+    url('/img/airdrop-welcome-banner.png') 1x,
+    url('/img/airdrop-welcome-banner@2x.png') 2x
+  );
+  /* stylelint-enable */
+  background-repeat: no-repeat;
   background-size: cover;
   border-radius: 8px;
   overflow: hidden;
@@ -48,6 +55,7 @@ const CompleteProfileButton = styled(Button)`
   background-color: ${props => props.theme['green600']};
   color: white;
   min-width: 200px;
+  border: none;
   &:hover {
     background-color: ${props => props.theme['green700']};
   }

@@ -38,7 +38,8 @@ const mockNewBchEntry = {
       label: 'My Bitcoin Cash Wallet 2',
       archived: false
     }
-  ]
+  ],
+  addresses: {}
 }
 
 const newkv = set(KVStoreEntry.value, mockNewBchEntry, mockKvStoreEntry)

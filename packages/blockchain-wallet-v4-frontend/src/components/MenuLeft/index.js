@@ -61,6 +61,26 @@ export const MenuItem = styled.button`
       color: ${props => props.theme['deep-blue']};
     }
   }
+  &.airdrop {
+    &:hover {
+      background: ${props => props.theme['green000']};
+    }
+    &.active {
+      background: ${props => props.theme['green100']};
+    }
+    &:active {
+      background: ${props => props.theme['green200']};
+    }
+    &:hover,
+    &.active {
+      .icon {
+        color: ${props => props.theme['green600']};
+      }
+      .destination {
+        color: ${props => props.theme['green800']};
+      }
+    }
+  }
   &.coin {
     .coin-icon {
       width: 30px;

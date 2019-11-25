@@ -45,6 +45,15 @@ let blackListedActivityTypes = [
   actionTypes.components.exchange.SET_MIN_MAX,
   actionTypes.components.exchange.SET_SOURCE_FEE,
   actionTypes.modules.rates.UPDATE_BEST_RATES,
+  // COINS
+  actionTypes.middleware.webSocket.coins.OPEN_SOCKET,
+  actionTypes.middleware.webSocket.coins.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.coins.CLOSE_SOCKET,
+  // XLM
+  actionTypes.middleware.webSocket.xlm.START_STREAMS,
+  actionTypes.middleware.webSocket.xlm.STOP_STREAMS,
+  actionTypes.middleware.webSocket.xlm.STREAM_MESSAGE,
+  actionTypes.middleware.webSocket.xlm.STREAM_ERROR,
   // USER
   actionTypes.modules.profile.SET_API_TOKEN_SUCCESS,
   actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
