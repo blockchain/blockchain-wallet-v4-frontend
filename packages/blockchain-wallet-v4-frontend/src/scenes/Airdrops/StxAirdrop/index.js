@@ -2,6 +2,7 @@ import { Box } from '../AirdropInfo'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { StxShare, StxStatus } from './model'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -26,6 +27,11 @@ const Date = styled.div`
 const OverflowFooterText = styled(Text)`
   position: absolute;
   bottom: -36px;
+
+  ${media.laptop`
+    padding-bottom: 12px;
+    bottom: -50px;
+  `};
 `
 
 const StxAirdrop = props => {
