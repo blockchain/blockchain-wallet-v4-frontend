@@ -1,4 +1,4 @@
-import { Button, Link } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import {
   CustomCartridge,
   ErrorCartridge,
@@ -15,9 +15,6 @@ const { KYC_STATES } = model.profile
 const BlueCartridge = styled(CustomCartridge)`
   cursor: pointer;
   background-color: ${props => props.theme['blue600']};
-  font-weight: 600;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 
 export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
@@ -56,10 +53,12 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
             identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
           }
         >
-          <FormattedMessage
-            id='scenes.airdrop.stx.claim'
-            defaultMessage='Claim'
-          />
+          <Text weight={600} size='14px' color='white'>
+            <FormattedMessage
+              id='scenes.airdrop.stx.claim'
+              defaultMessage='Claim'
+            />
+          </Text>
         </BlueCartridge>
       )
     case KYC_STATES.NONE:
@@ -67,10 +66,12 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
         <BlueCartridge
           onClick={() => identityVerificationActions.verifyIdentity(2)}
         >
-          <FormattedMessage
-            id='scenes.airdrop.stx.upgrade'
-            defaultMessage='Upgrade'
-          />
+          <Text weight={600} size='14px' color='white'>
+            <FormattedMessage
+              id='scenes.airdrop.stx.upgrade'
+              defaultMessage='Upgrade'
+            />
+          </Text>
         </BlueCartridge>
       )
     default:
