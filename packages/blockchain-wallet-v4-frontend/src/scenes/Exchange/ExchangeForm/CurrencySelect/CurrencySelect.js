@@ -49,8 +49,9 @@ export class CurrencySelect extends React.Component {
           />
         </Cell>
         <TooltipHost id='exchange.changeinput'>
-          <Cell size='small' data-e2e='exchangeSwitchTargets'>
+          <Cell size='small'>
             <CoinSwapIcon
+              data-e2e='exchangeSwitchTargets'
               name='arrow-switch'
               size='24px'
               weight={500}
