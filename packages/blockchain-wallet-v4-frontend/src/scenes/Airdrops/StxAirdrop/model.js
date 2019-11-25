@@ -1,3 +1,4 @@
+import { Button, Link } from 'blockchain-info-components'
 import {
   CustomCartridge,
   ErrorCartridge,
@@ -68,6 +69,60 @@ export const StxStatus = ({ tags, kycState, identityVerificationActions }) => {
             defaultMessage='Upgrade'
           />
         </BlueCartridge>
+      )
+    default:
+      return null
+  }
+}
+
+export const StxShare = ({ tags, kycState }) => {
+  switch (kycState) {
+    case KYC_STATES.REJECTED:
+    case KYC_STATES.EXPIRED:
+    case KYC_STATES.PENDING:
+    case KYC_STATES.UNDER_REVIEW:
+    case KYC_STATES.NONE:
+      return (
+        <Link
+          href='https://blockstack.org/try-blockstack'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button nature='light' fullwidth>
+            <FormattedMessage
+              id='scenes.airdrop.stx.learnmore'
+              defaultMessage='Learn More'
+            />
+          </Button>
+        </Link>
+      )
+    case KYC_STATES.VERIFIED:
+      return tags['BLOCKSTACK'] ? (
+        <Link
+          href='https://blockchain.com/getcrypto'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button nature='light' fullwidth>
+            <FormattedMessage
+              id='scenes.airdrop.stx.share'
+              defaultMessage='Share'
+            />
+          </Button>
+        </Link>
+      ) : (
+        <Link
+          href='https://blockstack.org/try-blockstack'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button nature='light' fullwidth>
+            <FormattedMessage
+              id='scenes.airdrop.stx.learnmore'
+              defaultMessage='Learn More'
+            />
+          </Button>
+        </Link>
       )
     default:
       return null
