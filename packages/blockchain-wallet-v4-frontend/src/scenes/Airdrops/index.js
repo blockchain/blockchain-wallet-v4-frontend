@@ -44,8 +44,8 @@ class Airdrops extends React.PureComponent {
           </MainTitle>
           <Text size='16px' color='grey400' weight={500}>
             <FormattedMessage
-              id='scenes.airdrops.blockchain.safest'
-              defaultMessage='The safest and easiest way to automatically try and discover new crypto'
+              id='scenes.airdrops.blockchain.safest1'
+              defaultMessage='The safest and easiest way to try and discover new crypto'
             />
           </Text>
         </Header>

@@ -91,8 +91,8 @@ export const AirdropInfoCopy = ({ kycState }) => {
       return (
         <Copy size='14px' color='grey600' weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.success.goldlevel'
-            defaultMessage='Upgrade to Gold Level to enroll in the Blockchain Airdrop program. You will be automatically enrolled in future Blockchain Airdrops.'
+            id='scenes.airdrops.success.goldlevel1'
+            defaultMessage='Upgrade to Gold Level to enroll in the Blockchain Airdrop program. You will then be eligible for future Blockchain Airdrops.'
           />
         </Copy>
       )
@@ -156,8 +156,8 @@ export const AirdropInfoButton = ({
           style={{ marginTop: '32px' }}
         >
           <FormattedMessage
-            id='scenes.airdrops.success.completeprofile'
-            defaultMessage='Complete My Profile'
+            id='scenes.airdrops.success.upgradenow'
+            defaultMessage='Upgrade Now'
           />
         </Button>
       )

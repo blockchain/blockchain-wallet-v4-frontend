@@ -66,8 +66,8 @@ const StxAirdrop = props => {
           style={{ marginTop: '16px' }}
         >
           <FormattedHTMLMessage
-            id='scenes.airdrop.stx.stxinfo'
-            defaultMessage='Own your digital identity and data. With hundreds of decentralized apps in the Blockstack ecosystem.'
+            id='scenes.airdrop.stx.stxinfo1'
+            defaultMessage='Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
           />{' '}
           <Link
             href='https://blockstack.org/try-blockstack'
