@@ -12,7 +12,7 @@ const revealFrames = keyframes`
   50% { top: 0; }
   75% { top: 0; }
   85% { top: 0; }
-  100% { top: -30px; }
+  100% { top: -100px; }
 `
 const revealAnimation = css`
   animation: ${revealFrames} 3s 1;
@@ -33,7 +33,7 @@ const EmailSentNotification = styled(Text)`
     ${revealAnimation};
   }
   position: relative;
-  top: -30px;
+  top: -100px;
   @media (max-width: 1023px) {
     display: none;
   }
