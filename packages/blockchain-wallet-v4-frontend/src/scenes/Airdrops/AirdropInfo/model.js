@@ -17,6 +17,8 @@ export const CustomCartridge = styled(Cartridge)`
   padding: 6px 8px;
   font-size: 14px;
   margin-left: 0px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 export const GreyCartridge = styled(CustomCartridge)`
   background-color: ${props => props.theme['grey000']};
