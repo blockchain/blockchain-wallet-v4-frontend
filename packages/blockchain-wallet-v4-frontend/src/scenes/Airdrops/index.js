@@ -23,6 +23,10 @@ export const MainTitle = styled(Text)`
 `
 
 class Airdrops extends React.PureComponent {
+  componentDidMount () {
+    this.props.profileActions.fetchUserCampaigns()
+  }
+
   render () {
     const { data } = this.props
     const Templates = data.cata({
@@ -63,7 +67,8 @@ const mapDispatchToProps = dispatch => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 export default connect(
