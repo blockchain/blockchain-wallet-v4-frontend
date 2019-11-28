@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import Loading from './template.loading'
+import PastAirdropsSuccess from './PastAirdrops/template.success'
 import React from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
@@ -17,6 +18,9 @@ export const Wrapper = styled.div`
 export const Header = styled.div`
   margin-bottom: 40px;
 `
+export const History = styled.div`
+  margin-top: 120px;
+`
 
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
@@ -28,11 +32,19 @@ class Airdrops extends React.PureComponent {
   }
 
   render () {
-    const { data } = this.props
-    const Templates = data.cata({
+    const { data, campaigns } = this.props
+    const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
+      Failure: () => (
+        <Text>Oops. Something went wrong and we don't know why</Text>
+      )
+    })
+    const PastAirdrops = campaigns.cata({
+      Success: val => <PastAirdropsSuccess {...val} />,
+      Loading: () => <div>Loading</div>,
+      NotAsked: () => <div>Loading</div>,
       Failure: () => (
         <Text>Oops. Something went wrong and we don't know why</Text>
       )
@@ -53,14 +65,24 @@ class Airdrops extends React.PureComponent {
             />
           </Text>
         </Header>
-        {Templates}
+        {AirdropCards}
+        <History>
+          <MainTitle size='24px' color='grey800' weight={600}>
+            <FormattedMessage
+              id='scenes.airdrops.pastairdrops'
+              defaultMessage='Past Airdrops'
+            />
+          </MainTitle>
+        </History>
+        {PastAirdrops}
       </Wrapper>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  data: selectors.modules.profile.getUserData(state)
+  data: selectors.modules.profile.getUserData(state),
+  campaigns: selectors.modules.profile.getUserCampaigns(state)
 })
 
 const mapDispatchToProps = dispatch => ({
