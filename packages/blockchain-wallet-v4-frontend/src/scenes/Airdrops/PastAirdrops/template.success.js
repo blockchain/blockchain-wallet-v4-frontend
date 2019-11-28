@@ -1,3 +1,4 @@
+import { FormattedMessage } from 'react-intl'
 import { Status, To, Type } from './model'
 import {
   Table,
@@ -9,26 +10,52 @@ import {
 import React from 'react'
 
 export default function Success ({ userCampaignsInfoResponseList }) {
+  const completedCampaigns = userCampaignsInfoResponseList.filter(
+    campaign => campaign.campaignState === 'ENDED'
+  )
+
   return (
     <Table>
       <TableHeader>
         <TableCell>
-          <Text>Type</Text>
+          <Text size='12px' weight={500}>
+            <FormattedMessage
+              id='scenes.pastairdrops.type'
+              defaultMessage='Type'
+            />
+          </Text>
         </TableCell>
         <TableCell>
-          <Text>Status</Text>
+          <Text size='12px' weight={500}>
+            <FormattedMessage
+              id='scenes.pastairdrops.status'
+              defaultMessage='Status'
+            />
+          </Text>
         </TableCell>
         <TableCell>
-          <Text>Date</Text>
+          <Text size='12px' weight={500}>
+            <FormattedMessage
+              id='scenes.pastairdrops.date'
+              defaultMessage='Date'
+            />
+          </Text>
         </TableCell>
         <TableCell>
-          <Text>To</Text>
+          <Text size='12px' weight={500}>
+            <FormattedMessage id='scenes.pastairdrops.to' defaultMessage='To' />
+          </Text>
         </TableCell>
         <TableCell>
-          <Text>Amount</Text>
+          <Text size='12px' weight={500}>
+            <FormattedMessage
+              id='scenes.pastairdrops.amount'
+              defaultMessage='Amount'
+            />
+          </Text>
         </TableCell>
       </TableHeader>
-      {userCampaignsInfoResponseList.map((campaign, id) => {
+      {completedCampaigns.map((campaign, id) => {
         return (
           <TableRow>
             <TableCell>

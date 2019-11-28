@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { lift } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
@@ -32,7 +33,7 @@ class Airdrops extends React.PureComponent {
   }
 
   render () {
-    const { data, campaigns } = this.props
+    const { data } = this.props
     const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
@@ -41,10 +42,10 @@ class Airdrops extends React.PureComponent {
         <Text>Oops. Something went wrong and we don't know why</Text>
       )
     })
-    const PastAirdrops = campaigns.cata({
+    const PastAirdrops = data.cata({
       Success: val => <PastAirdropsSuccess {...val} />,
-      Loading: () => <div>Loading</div>,
-      NotAsked: () => <div>Loading</div>,
+      Loading: () => <Text weight={500}>Loading...</Text>,
+      NotAsked: () => <Text weight={500}>Loading...</Text>,
       Failure: () => (
         <Text>Oops. Something went wrong and we don't know why</Text>
       )
@@ -81,8 +82,13 @@ class Airdrops extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: selectors.modules.profile.getUserData(state),
-  campaigns: selectors.modules.profile.getUserCampaigns(state)
+  data: lift((userData, campaignData) => ({
+    ...userData,
+    ...campaignData
+  }))(
+    selectors.modules.profile.getUserData(state),
+    selectors.modules.profile.getUserCampaigns(state)
+  )
 })
 
 const mapDispatchToProps = dispatch => ({

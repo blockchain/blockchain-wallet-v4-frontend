@@ -9,6 +9,7 @@ const TypeWrapper = styled.div`
   align-items: center;
 `
 // TypeScript🔮
+// attributes: {}
 // campaignEndDate: null
 // campaignName: "BLOCKSTACK", "SUNRIVER", "POWER_PAX"
 // campaignState: "NONE", "STARTED", "ENDED"
