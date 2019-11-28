@@ -19,6 +19,7 @@ const Wrapper = styled.div`
     url('/img/airdrop-welcome-banner@2x.png') 2x
   );
   /* stylelint-enable */
+  background-repeat: no-repeat;
   background-size: cover;
   border-radius: 8px;
   overflow: hidden;
@@ -43,6 +44,7 @@ const ContentWrapper = styled.div`
 `
 const Content = styled.div`
   margin-left: 18px;
+
   ${media.tablet`
     text-align: center;
     margin-top: 4px;
@@ -76,7 +78,7 @@ const BlockstackBanner = ({ actions }) => {
               defaultMessage='Our Latest Airdrop is Here!'
             />
           </Text>
-          <Text size='14px' weight={500}>
+          <Text size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='scenes.home.banners.stx.updateprofile'
               defaultMessage='Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).'

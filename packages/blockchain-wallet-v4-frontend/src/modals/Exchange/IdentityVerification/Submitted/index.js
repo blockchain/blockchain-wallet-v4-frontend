@@ -244,8 +244,8 @@ class Submitted extends React.PureComponent {
                     <AirdropIcon name='parachute' color='blue500' size='40px' />
                     <NextStepsSubHeader>
                       <FormattedMessage
-                        id='modals.exchange.identityverification.submitted.secured'
-                        defaultMessage='Once your verification is confirmed you’ll have secured your Stacks Airdrop.'
+                        id='modals.exchange.identityverification.submitted.securedregulatory'
+                        defaultMessage="Once your verification is confirmed you’ll have secured your Stacks Airdrop. For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
                       />
                     </NextStepsSubHeader>
                   </React.Fragment>
