@@ -38,6 +38,12 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
+  const waitForUserData = function * () {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
   const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
@@ -297,6 +303,17 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.fetchUserDataSuccess(userData))
   }
 
+  const fetchUserCampaigns = function * () {
+    try {
+      yield put(A.fetchUserCampaignsLoading())
+      yield call(waitForUserData)
+      const userCampaigns = yield call(api.getUserCampaigns)
+      yield put(A.fetchUserCampaignsSuccess(userCampaigns))
+    } catch (e) {
+      yield put(A.fetchUserCampaignsFailure(e))
+    }
+  }
+
   const fetchTiers = function * () {
     try {
       const tiers = yield select(S.getTiers)
@@ -476,6 +493,7 @@ export default ({ api, coreSagas, networks }) => {
     createUser,
     fetchTiers,
     fetchUser,
+    fetchUserCampaigns,
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,

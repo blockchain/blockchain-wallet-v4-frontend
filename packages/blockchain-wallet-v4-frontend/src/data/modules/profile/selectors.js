@@ -25,6 +25,7 @@ export const getUserId = compose(
   lift(prop('id')),
   getUserData
 )
+export const getUserCampaigns = path(['profile', 'userCampaigns'])
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData
