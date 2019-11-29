@@ -85,7 +85,13 @@ const WebpackConfiguration = ({
     new UnusedFilesWebpackPlugin({
       globOptions: {
         cwd: join(directory, `src`),
-        ignore: [`**/__mocks__/**`, `**/*.spec.*`, `index.prod.js`, `utils/**`]
+        ignore: [
+          `**/__mocks__/**`,
+          `**/*.spec.*`,
+          `index.prod.js`,
+          `*.md`,
+          `utils/**`
+        ]
       }
     }),
     new Webpack.DefinePlugin({

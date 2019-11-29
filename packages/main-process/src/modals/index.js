@@ -65,14 +65,7 @@ import {
 } from './Sfox'
 import SignMessage from './SignMessage'
 import { EditTxDescription, TransactionReport } from './Transactions'
-import {
-  AutoDisconnection,
-  ConfirmDisable2FA,
-  SecondPassword,
-  TwoStepGoogleAuthenticator,
-  TwoStepSetup,
-  TwoStepYubico
-} from './Settings'
+import { AutoDisconnection } from './Settings'
 import { ShowXPub } from './Wallet'
 import {
   RequestXlm,
@@ -94,7 +87,6 @@ const Modals = () => (
     <CoinifyTradeDetails />
     <CoinifyUpgrade />
     <Confirm />
-    <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
     <EthAirdrop />
@@ -120,7 +112,6 @@ const Modals = () => (
     <RequestBtc />
     <RequestEth />
     <RequestXlm />
-    <SecondPassword />
     <SendBch />
     <SendBtc />
     <SendEth />
@@ -141,9 +132,6 @@ const Modals = () => (
     <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
-    <TwoStepGoogleAuthenticator />
-    <TwoStepSetup />
-    <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeForAirdrop />
     <UserExists />
