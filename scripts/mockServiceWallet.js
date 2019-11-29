@@ -70,8 +70,8 @@ const generateWalletOptions = async ({
   const mockServerOptions = {
     domains: {
       comWalletApp: `https://wallet-frontend-v4.${mockSubdomain}.blockchain.info`,
-      mainProcess: `https://wallet-frontend-v4-main.${mockSubdomain}.blockchain.info/`,
-      securityProcess: `https://wallet-frontend-v4-security.${mockSubdomain}.blockchain.info/`
+      mainProcess: `https://wallet-frontend-v4-main.${mockSubdomain}.blockchain.info`,
+      securityProcess: `https://wallet-frontend-v4-security.${mockSubdomain}.blockchain.info`
     }
   }
 
