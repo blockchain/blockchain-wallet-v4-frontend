@@ -12,7 +12,7 @@ class BtcLinkHandlingContainer extends React.PureComponent {
   handleClick = () => {
     this.setState({ warningDisplayed: !this.state.warningDisplayed })
     // Register bitcoin links
-    window.navigator.registerProtocolHandler(
+    this.props.preferencesActions.registerProtocolHandler(
       'bitcoin',
       '/#/open/%s',
       'Blockchain'
@@ -31,7 +31,8 @@ class BtcLinkHandlingContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(

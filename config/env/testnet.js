@@ -1,13 +1,27 @@
 module.exports = {
-  API_DOMAIN: 'https://api-testnet.blockchain.info',
-  COINIFY_URL: 'https://app-api.coinify.com',
-  COINIFY_PAYMENT_DOMAIN: 'https://pay.sandbox.coinify.com',
-  HORIZON_URL: 'https://horizon-testnet.stellar.org',
-  LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
-  LEDGER_URL: 'https://manager.api.live.ledger.com',
-  NETWORK_TYPE: 'testnet',
-  WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info',
-  WEB_SOCKET_URL: 'wss://ws.blockchain.info/testnet3',
-  ROOT_URL: 'https://testnet.blockchain.info',
-  THE_PIT_URL: 'https://dev.blockchain.info'
+  domains: {
+    api: 'https://api-testnet.blockchain.info',
+    coinifyPaymentDomain: 'https://pay.sandbox.coinify.com',
+    horizon: 'https://horizon-testnet.stellar.org',
+    webSocket: 'wss://ws.blockchain.info/testnet3',
+    root: 'https://testnet.blockchain.info',
+    thePit: 'https://dev.blockchain.info'
+  },
+  platforms: {
+    web: {
+      coins: {
+        BTC: {
+          config: {
+            network: `testnet`
+          }
+        }
+      },
+      coinify: {
+        config: {
+          partnerId: 35
+        }
+      },
+      sfox: { config: { apiKey: '6fbfb80536564af8bbedb7e3be4ec439' } }
+    }
+  }
 }

@@ -5,6 +5,10 @@ const wrapperFixture = require('./__mocks__/wrapper.v3')
 describe('Wrapper', () => {
   const myWrapper = Wrapper.fromJS(wrapperFixture)
 
+  it(`redact`, () => {
+    expect(Wrapper.redact(myWrapper)).toMatchSnapshot()
+  })
+
   describe('serializer', () => {
     it('compose(replacer, reviver) should be identity', () => {
       const string = JSON.stringify(myWrapper)

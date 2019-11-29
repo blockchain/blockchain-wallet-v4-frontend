@@ -20,28 +20,24 @@ import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, ETH } from '../config'
 import * as eth from '../../../utils/eth'
-import { getMnemonic } from '../../wallet/selectors'
 import {
   getErc20CoinList,
   getSupportedCoins
 } from '../../walletOptions/selectors'
 import { callTask } from '../../../utils/functional'
 
-export default ({ api, networks } = {}) => {
-  const deriveAccount = function * (password) {
-    try {
-      const obtainMnemonic = state => getMnemonic(state, password)
-      const mnemonicT = yield select(obtainMnemonic)
-      const mnemonic = yield callTask(mnemonicT)
-      const defaultIndex = 0
-      const addr = eth.deriveAddress(mnemonic, defaultIndex)
+export default ({ api, networks, securityModule } = {}) => {
+  const deriveAccount = function * (secondPassword) {
+    const defaultIndex = 0
 
-      return { defaultIndex, addr }
-    } catch (e) {
-      throw new Error(
-        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEth saga'
-      )
-    }
+    const privateKey = yield call(eth.getPrivateKey, {
+      index: defaultIndex,
+      secondPassword,
+      securityModule
+    })
+
+    const addr = eth.privateKeyToAddress(privateKey)
+    return { defaultIndex, addr }
   }
   const buildErc20Entry = (token, coinModels) => ({
     label: `My ${coinModels[token].displayName} Wallet`,

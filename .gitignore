@@ -39,7 +39,5 @@ packages/main-process/build
 packages/security-process/build
 
 # Config Files
-config/env/development.js
-config/env/staging.js
 config/ssl/*
 !config/ssl/ssl.md

@@ -2,10 +2,12 @@ import axios from 'axios'
 import queryString from 'query-string'
 import { prop, path, pathOr, merge } from 'ramda'
 
+import * as kernel from 'web-microkernel/src'
+
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
 
-export default ({ apiKey }) => {
+export default ({ apiKey, imports }) => {
   const encodeData = (data, contentType) => {
     const defaultData = {
       api_code: apiKey,
@@ -39,6 +41,7 @@ export default ({ apiKey }) => {
     ...options
   }) =>
     axios({
+      adapter: kernel.sanitizeFunction(imports.axios),
       url: `${url}${endPoint}`,
       method,
       data: encodeData(data, contentType),

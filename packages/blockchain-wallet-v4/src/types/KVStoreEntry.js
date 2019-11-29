@@ -69,11 +69,26 @@ export const fromCredentials = curry((guid, sharedKey, password, network) => {
   return fromKeys(key, enc)
 })
 
+export const fromEntropy = ({ entropy, network }) => {
+  const d = BigInteger.fromBuffer(entropy)
+  const key = new Bitcoin.ECPair(d, null, { network })
+  const enc = key.d.toBuffer(32)
+  return fromKeys(key, enc)
+}
+
 export const getMasterHDNode = curry((network, seedHex) => {
   const mnemonic = BIP39.entropyToMnemonic(seedHex)
   const masterhex = BIP39.mnemonicToSeed(mnemonic)
   return Bitcoin.HDNode.fromSeedBuffer(masterhex, network)
 })
+
+// BIP 43 purpose needs to be 31 bit or less. For lack of a BIP number
+// we take the first 31 bits of the SHA256 hash of a reverse domain.
+export const metadataPurpose =
+  crypto
+    .sha256('info.blockchain.metadata')
+    .slice(0, 4)
+    .readUInt32BE(0) & 0x7fffffff // 510742
 
 export const deriveMetadataNode = masterHDNode => {
   // BIP 43 purpose needs to be 31 bit or less. For lack of a BIP number
@@ -98,11 +113,6 @@ export const fromMetadataHDNode = curry((metadataHDNode, typeId) => {
 export const fromMasterHDNode = curry((masterHDNode, typeId) => {
   let metadataHDNode = deriveMetadataNode(masterHDNode)
   return fromMetadataHDNode(metadataHDNode, typeId)
-})
-
-export const fromHdWallet = curry((hdWallet, typeId) => {
-  const masterHdNode = getMasterHDNode(hdWallet.seedHex)
-  return fromMasterHDNode(masterHdNode, typeId)
 })
 
 export const encrypt = curry((key, data) =>

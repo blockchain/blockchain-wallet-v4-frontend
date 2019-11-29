@@ -6,12 +6,12 @@ import securityCenter from './securityCenter/sagas'
 import transferEth from './transferEth/sagas'
 import sfox from './sfox/sagas'
 
-export default ({ api, coreSagas, networks }) => ({
-  addressesBch: addressesBch({ coreSagas }),
-  profile: profile({ api, coreSagas, networks }),
-  rates: rates({ api }),
-  settings: settings({ api, coreSagas }),
-  securityCenter: securityCenter({ coreSagas }),
-  transferEth: transferEth({ coreSagas, networks }),
-  sfox: sfox({ api, coreSagas })
+export default (...args) => ({
+  addressesBch: addressesBch(...args),
+  profile: profile(...args),
+  rates: rates(...args),
+  settings: settings(...args),
+  securityCenter: securityCenter(...args),
+  transferEth: transferEth(...args),
+  sfox: sfox(...args)
 })

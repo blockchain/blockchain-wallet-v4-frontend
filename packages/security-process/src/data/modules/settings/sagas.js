@@ -3,12 +3,7 @@ import profileSagas from 'data/modules/profile/sagas'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
-import { addLanguageToUrl } from 'services/LocalesService'
-import {
-  askSecondPasswordEnhancer,
-  promptForSecondPassword
-} from 'services/SagaService'
-import { Types, utils } from 'blockchain-wallet-v4/src'
+import { askSecondPasswordEnhancer } from 'services/SagaService'
 import { contains, toLower, prop, propEq, head } from 'ramda'
 
 export const taskToPromise = t =>
@@ -134,17 +129,6 @@ export default ({ api, coreSagas }) => {
       if (propEq('type', 'UNKNOWN_USER', e)) return
       yield put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
       yield put(actions.modules.settings.verifyMobileFailure())
-    }
-  }
-
-  // We prefer local storage language and update this in background for
-  // things like emails and external communication with the user
-  const updateLanguage = function * (action) {
-    try {
-      yield call(coreSagas.settings.setLanguage, action.payload)
-      addLanguageToUrl(action.payload.language)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
     }
   }
 
@@ -307,65 +291,6 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const showBtcPrivateKey = function * (action) {
-    const { addr } = action.payload
-    try {
-      const password = yield call(promptForSecondPassword)
-      const wallet = yield select(selectors.core.wallet.getWallet)
-      const privT = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr)
-      const priv = yield call(() => taskToPromise(privT))
-      yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'showBtcPrivateKey', e)
-      )
-    }
-  }
-
-  const showEthPrivateKey = function * (action) {
-    const { isLegacy } = action.payload
-    try {
-      const password = yield call(promptForSecondPassword)
-      if (isLegacy) {
-        const getSeedHex = state =>
-          selectors.core.wallet.getSeedHex(state, password)
-        const seedHexT = yield select(getSeedHex)
-        const seedHex = yield call(() => taskToPromise(seedHexT))
-        const legPriv = utils.eth.getLegacyPrivateKey(seedHex).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
-      } else {
-        const getMnemonic = state =>
-          selectors.core.wallet.getMnemonic(state, password)
-        const mnemonicT = yield select(getMnemonic)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
-      }
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e)
-      )
-    }
-  }
-
-  const showXlmPrivateKey = function * () {
-    try {
-      const password = yield call(promptForSecondPassword)
-      const getMnemonic = state =>
-        selectors.core.wallet.getMnemonic(state, password)
-      const mnemonicT = yield select(getMnemonic)
-      const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      const keyPair = utils.xlm.getKeyPair(mnemonic)
-      yield put(
-        actions.modules.settings.addShownXlmPrivateKey(keyPair.secret())
-      )
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'showXlmPrivateKey', e)
-      )
-    }
-  }
-
   return {
     initSettingsInfo,
     initSettingsPreferences,
@@ -374,7 +299,6 @@ export default ({ api, coreSagas }) => {
     updateMobile,
     resendMobile,
     verifyMobile,
-    updateLanguage,
     updateCurrency,
     updateAutoLogout,
     updateLoggingLevel,
@@ -387,9 +311,6 @@ export default ({ api, coreSagas }) => {
     enableTwoStepGoogleAuthenticator,
     enableTwoStepYubikey,
     newHDAccount,
-    recoverySaga,
-    showBtcPrivateKey,
-    showEthPrivateKey,
-    showXlmPrivateKey
+    recoverySaga
   }
 }

@@ -28,7 +28,7 @@ export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 const { LOGIN_EVENTS } = model.analytics
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, imports }) => {
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -109,14 +109,8 @@ export default ({ api, coreSagas }) => {
     )).getOrElse(false)
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
-  const loginRoutineSaga = function * (mobileLogin, firstLogin) {
+  const loginRoutineSaga = function * ({ payload: { mobileLogin, firstLogin } }) {
     try {
-      // If needed, the user should upgrade its wallet before being able to open the wallet
-      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
-      if (!isHdWallet) {
-        yield call(upgradeWalletSaga)
-      }
-      yield put(actions.auth.authenticate())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
       yield call(
@@ -130,6 +124,12 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
+
+      yield call(
+        imports.securityProcess.dispatch,
+        actions.form.destroy('login')
+      )
+
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
@@ -141,9 +141,6 @@ export default ({ api, coreSagas }) => {
       const guid = yield select(selectors.core.wallet.getGuid)
       // store guid in cache for future login
       yield put(actions.cache.guidEntered(guid))
-      // reset auth type and clear previous login form state
-      yield put(actions.auth.setAuthType(0))
-      yield put(actions.form.destroy('login'))
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
@@ -224,7 +221,7 @@ export default ({ api, coreSagas }) => {
         password,
         code
       })
-      yield call(loginRoutineSaga, mobileLogin)
+      yield put(actions.auth.loginRoutine(mobileLogin))
     } catch (error) {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
@@ -247,7 +244,7 @@ export default ({ api, coreSagas }) => {
               session,
               password
             })
-            yield call(loginRoutineSaga, mobileLogin)
+            yield put(actions.auth.loginRoutine(mobileLogin))
           } catch (error) {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
@@ -333,7 +330,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.registerLoading())
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield call(loginRoutineSaga, false, true)
+      yield put(actions.auth.loginRoutine(false, true))
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -347,7 +344,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      yield call(loginRoutineSaga, false, true)
+      yield put(actions.auth.loginRoutine(false, true))
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())

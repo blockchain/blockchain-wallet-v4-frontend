@@ -2,12 +2,13 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
-  const authSagas = sagas({ api, coreSagas })
+export default (...args) => {
+  const authSagas = sagas(...args)
 
   return function * authSaga () {
     yield takeLatest(AT.DEAUTHORIZE_BROWSER, authSagas.deauthorizeBrowser)
     yield takeLatest(AT.LOGIN, authSagas.login)
+    yield takeLatest(AT.LOGIN_ROUTINE, authSagas.loginRoutineSaga)
     yield takeLatest(AT.LOGOUT, authSagas.logout)
     yield takeLatest(
       AT.LOGOUT_CLEAR_REDUX_STORE,

@@ -1,15 +1,20 @@
-import { put } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import * as actions from '../actions.js'
 import * as C from 'services/AlertService'
-import { addLanguageToUrl } from 'services/LocalesService'
 
-export default () => {
+export default ({ imports }) => {
   const logLocation = 'preferences/sagas'
+
+  const registerProtocolHandler = function * ({
+    payload: { protocol, url, title }
+  }) {
+    yield call(imports.registerProtocolHandler, protocol, url, title)
+  }
 
   const setLanguage = function * (action) {
     const { language, showAlert } = action.payload
     try {
-      addLanguageToUrl(language)
+      imports.addLanguageToUrl(language)
       if (showAlert) {
         yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
       }
@@ -20,6 +25,7 @@ export default () => {
   }
 
   return {
+    registerProtocolHandler,
     setLanguage
   }
 }

@@ -1,18 +1,13 @@
 import { call, put, select } from 'redux-saga/effects'
 import { prop, compose, isNil } from 'ramda'
 import * as A from './actions'
-import BIP39 from 'bip39'
 import { KVStoreEntry } from '../../../types'
-import {
-  getMnemonic,
-  getGuid,
-  getMainPassword,
-  getSharedKey
-} from '../../wallet/selectors'
+import { getGuid, getSharedKey } from '../../wallet/selectors'
+
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, networks }) => {
+export default ({ api, securityModule = {}, networks }) => {
   const callTask = function * (task) {
     return yield call(
       compose(
@@ -23,16 +18,15 @@ export default ({ api, networks }) => {
   }
   const createRoot = function * ({ password }) {
     try {
-      const obtainMnemonic = state => getMnemonic(state, password)
-      const mnemonicT = yield select(obtainMnemonic)
-      const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      const seedHex = BIP39.mnemonicToEntropy(mnemonic)
-      const getMetadataNode = compose(
-        KVStoreEntry.deriveMetadataNode,
-        KVStoreEntry.getMasterHDNode(networks.btc)
+      const metadata = yield call(
+        securityModule.deriveBIP32Key,
+        {
+          network: networks.btc,
+          secondPassword: password
+        },
+        `m/${KVStoreEntry.metadataPurpose}'`
       )
-      const metadataNode = getMetadataNode(seedHex)
-      const metadata = metadataNode.toBase58()
+
       yield put(A.updateMetadataRoot({ metadata }))
     } catch (e) {
       throw new Error('create root Metadata :: Error decrypting mnemonic')
@@ -43,14 +37,18 @@ export default ({ api, networks }) => {
     try {
       const guid = yield select(getGuid)
       const sharedKey = yield select(getSharedKey)
-      const mainPassword = yield select(getMainPassword)
       yield put(A.fetchMetadataRootLoading())
-      const kv = KVStoreEntry.fromCredentials(
+
+      const entropy = yield call(securityModule.generateCredentialsEntropy, {
         guid,
-        sharedKey,
-        mainPassword,
-        networks.btc
-      )
+        sharedKey
+      })
+
+      const kv = yield call(KVStoreEntry.fromEntropy, {
+        entropy,
+        network: networks.btc
+      })
+
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataRootSuccess(newkv))
       if (isNil(prop('metadata', newkv.value))) {

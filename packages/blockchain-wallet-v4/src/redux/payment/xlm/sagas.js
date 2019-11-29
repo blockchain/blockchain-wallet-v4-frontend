@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { contains, flip, merge, prop, path, values } from 'ramda'
+import { contains, merge, prop, path, values } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 
 import * as S from '../../selectors'
@@ -10,7 +10,8 @@ import {
   calculateFee as utilsCalculateFee,
   calculateReserve,
   overflowsFullBalance,
-  overflowsEffectiveBalance
+  overflowsEffectiveBalance,
+  getKeyPair
 } from '../../../utils/xlm'
 import {
   isString,
@@ -20,9 +21,6 @@ import {
 import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
 import settingsSagaFactory from '../../../redux/settings/sagas'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
   Usage:
@@ -54,7 +52,7 @@ export const NO_TX_ERROR = 'No transaction'
 export const NO_SIGNED_ERROR = 'No signed tx'
 export const WRONG_MEMO_FORMAT = 'Bad memo'
 
-export default ({ api }) => {
+export default ({ api, securityModule }) => {
   const settingsSagas = settingsSagaFactory({ api })
   // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = destination => {
@@ -66,18 +64,18 @@ export default ({ api }) => {
   }
 
   const calculateSignature = function * (
-    password,
+    secondPassword,
     transaction,
     transport,
     scrambleKey,
     fromType
   ) {
+    const keyPair = yield call(getKeyPair, { secondPassword, securityModule })
+
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
-        const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        return xlmSigner.sign({ transaction }, mnemonic)
+        return xlmSigner.sign({ keyPair, transaction })
       case ADDRESS_TYPES.LOCKBOX:
         return yield call(
           xlmSigner.signWithLockbox,
@@ -258,20 +256,16 @@ export default ({ api }) => {
       },
 
       * sign (password, transport, scrambleKey) {
-        try {
-          const transaction = prop('transaction', p)
-          const signed = yield call(
-            calculateSignature,
-            password,
-            transaction,
-            transport,
-            scrambleKey,
-            path(['from', 'type'], p)
-          )
-          return makePayment(merge(p, { signed }))
-        } catch (e) {
-          throw new Error('missing_mnemonic')
-        }
+        const transaction = prop('transaction', p)
+        const signed = yield call(
+          calculateSignature,
+          password,
+          transaction,
+          transport,
+          scrambleKey,
+          path(['from', 'type'], p)
+        )
+        return makePayment(merge(p, { signed }))
       },
 
       * publish () {

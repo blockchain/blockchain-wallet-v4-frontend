@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers wallet should handle MERGE_WRAPPER 1`] = `
+Immutable.Map {
+  "sync_pubkeys": false,
+  "payload_checksum": "payload_checksum",
+  "storage_token": "storage_token",
+  "version": 3,
+  "language": "en",
+  "wallet": Immutable.Map {
+    "addresses": Immutable.Map {
+      "19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF": Immutable.Map {
+        "addr": "19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF",
+        "priv": "38W3vsxt246Lhawvz81y2HQVnsJrBUX87jSTUUnixPsE",
+        "tag": 0,
+        "label": "",
+        "created_time": 1492721419269,
+        "created_device_name": "javascript_web",
+        "created_device_version": "3.0",
+      },
+      "14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ": Immutable.Map {
+        "addr": "14mQxLtEagsS8gYsdWJbzthFFuPDqDgtxQ",
+        "priv": "BpD2ZuJjZ8PJPpDX6ZmsKFsXHkL7XV3dt385zghMfF6C",
+        "tag": 0,
+        "label": "labeled_imported",
+        "created_time": 1492721432222,
+        "created_device_name": "javascript_web",
+        "created_device_version": "3.0",
+      },
+      "1JD73aGSdeqKUjJ4ntP4eCyUiuZ3ogJE1u": Immutable.Map {
+        "addr": "1JD73aGSdeqKUjJ4ntP4eCyUiuZ3ogJE1u",
+        "priv": null,
+        "tag": 0,
+        "label": "",
+        "created_time": 1492721461228,
+        "created_device_name": "javascript_web",
+        "created_device_version": "3.0",
+      },
+    },
+    "tx_notes": Immutable.Map {},
+    "guid": "new guid",
+    "metadataHDNode": "xprv9tygGQP8be7uzNm5Czuy41juTK9pUKnWyZtDxgbmSEcCYa9VdvvtSknEyiKitqqm2TMv14NjXPQ68XLwSdH6Scc5GwXoZ31yRZZysxhVGU7",
+    "tx_names": Immutable.List [],
+    "double_encryption": false,
+    "address_book": Immutable.Map {},
+    "hd_wallets": Immutable.List [
+      Immutable.Map {
+        "seedHex": "6a4d9524d413fdf69ca1b5664d1d6db0",
+        "passphrase": "",
+        "mnemonic_verified": false,
+        "default_account_idx": 0,
+        "accounts": Immutable.List [
+          Immutable.Map {
+            "label": "My Bitcoin Wallet",
+            "archived": false,
+            "xpriv": "xprv9yL1ousLjQQzGNBAYykaT8J3U626NV6zbLYkRv8rvUDpY4f1RnrvAXQneGXC9UNuNvGXX4j6oHBK5KiV2hKevRxY5ntis212oxjEL11ysuG",
+            "xpub": "xpub6CKNDRQEZmyHUrFdf1HapGEn27ramwpqxZUMEJYUUokoQrz9yLBAiKjGVWDuiCT39udj1r3whqQN89Tar5KrojH8oqSy7ytzJKW8gwmhwD3",
+            "address_labels": Immutable.Map {
+              "0": Immutable.Map {
+                "index": 0,
+                "label": "labeled_address",
+              },
+            },
+            "cache": Immutable.Map {
+              "receiveAccount": "xpub6F41z8MqNcJMvKQgAd5QE2QYo32cocYigWp1D8726ykMmaMqvtqLkvuL1NqGuUJvU3aWyJaV2J4V6sD7Pv59J3tYGZdYRSx8gU7EG8ZuPSY",
+              "changeAccount": "xpub6F41z8MqNcJMwmeUExdCv7UXvYBEgQB29SWq9jyxuZ7WefmSTWcwXB6NRAJkGCkB3L1Eu4ttzWnPVKZ6REissrQ4i6p8gTi9j5YwDLxmZ8p",
+            },
+            "index": 0,
+          },
+        ],
+      },
+    ],
+    "sharedKey": "8a260b2b-5257-4357-ac56-7a7efca323ea",
+    "options": Immutable.Map {
+      "pbkdf2_iterations": 5000,
+      "fee_per_kb": 10000,
+      "html5_notifications": false,
+      "logout_time": 600000,
+    },
+  },
+  "war_checksum": "war_checksum",
+  "password": "password",
+  "pbkdf2_iterations": 5000,
+}
+`;

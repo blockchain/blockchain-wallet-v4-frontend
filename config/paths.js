@@ -6,7 +6,6 @@ const resolveRoot = relativePath => path.resolve(appDirectory, relativePath)
 module.exports = {
   appBuild: resolveRoot('lib'),
   ciBuild: resolveRoot('dist'),
-  src: resolveRoot('packages/blockchain-wallet-v4-frontend/src'),
   pkgJson: resolveRoot('package.json'),
   envConfig: resolveRoot('config/env'),
   sslConfig: resolveRoot('config/ssl')

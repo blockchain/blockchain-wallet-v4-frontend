@@ -16,17 +16,15 @@ import sfox from './sfox'
 import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
-import httpService from './http'
 import apiAuthorize from './apiAuthorize'
 
 export default ({
+  http,
   options,
-  apiKey,
   getAuthCredentials,
   reauthenticate,
   networks
 } = {}) => {
-  const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const coinifyUrl = options.domains.coinify

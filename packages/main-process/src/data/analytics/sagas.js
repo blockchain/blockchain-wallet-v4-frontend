@@ -1,7 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { map, toLower } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
-import BIP39 from 'bip39'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
@@ -9,7 +7,7 @@ import { actionTypes, actions, selectors } from 'data'
 import { CUSTOM_DIMENSIONS } from './model'
 
 export const logLocation = 'analytics/sagas'
-export default ({ api }) => {
+export default ({ securityModule }) => {
   const waitForUserId = function * () {
     const userId = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -44,18 +42,9 @@ export default ({ api }) => {
   }
 
   const generateUniqueUserID = function * () {
-    const defaultHDWallet = yield select(
-      selectors.core.wallet.getDefaultHDWallet
-    )
     const userId = yield call(waitForUserId)
     if (userId) return userId
-    const { seedHex } = defaultHDWallet
-    const mnemonic = BIP39.entropyToMnemonic(seedHex)
-    const masterhex = BIP39.mnemonicToSeed(mnemonic)
-    const masterHDNode = Bitcoin.HDNode.fromSeedBuffer(masterhex)
-    let hash = crypto.sha256('info.blockchain.matomo')
-    let purpose = hash.slice(0, 4).readUInt32BE(0) & 0x7fffffff
-    return masterHDNode.deriveHardened(purpose).getAddress()
+    return yield call(securityModule.generateMatomoUserId)
   }
 
   const initUserSession = function * () {

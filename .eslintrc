@@ -24,6 +24,8 @@
   },
   "rules": {
     "camelcase": 0,
+    "no-undef": "error",
+    "no-unused-vars": "warn",
     "generator-star-spacing": ["error", {"before": true, "after": true}],
     "jest/no-disabled-tests": 1,
     "jest/no-focused-tests": 2,
