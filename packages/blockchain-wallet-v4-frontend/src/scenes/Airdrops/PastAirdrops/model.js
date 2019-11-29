@@ -26,10 +26,19 @@ export const Type = ({ campaignName }) => {
             name='xlm-circle-filled'
             color='xlm'
             size='24px'
-            style={{ marginRight: '16px' }}
+            style={{ marginRight: '8px' }}
           />
           <Text size='14px' weight={500}>
             Stellar (XLM)
+          </Text>
+        </TypeWrapper>
+      )
+    case 'POWER_PAX':
+      return (
+        <TypeWrapper>
+          <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
+          <Text size='14px' weight={500}>
+            USD Pax
           </Text>
         </TypeWrapper>
       )
@@ -43,7 +52,7 @@ export const Status = ({ campaignState, userCampaignState }) => {
     case campaignState === 'ENDED' && userCampaignState === 'REWARD_RECEIVED':
       return (
         <SuccessCartridge>
-          <Text size='14px' weight={500}>
+          <Text size='14px' weight={700} color='green600'>
             <FormattedMessage
               id='scenes.pastairdrops.received'
               defaultMessage='Received'
@@ -54,7 +63,7 @@ export const Status = ({ campaignState, userCampaignState }) => {
     case campaignState === 'ENDED':
       return (
         <GreyCartridge>
-          <Text size='14px' weight={600} color='grey600'>
+          <Text size='14px' weight={700} color='grey600'>
             <FormattedMessage
               id='scenes.pastairdrops.offerexpired'
               defaultMessage='Offer Expired'
