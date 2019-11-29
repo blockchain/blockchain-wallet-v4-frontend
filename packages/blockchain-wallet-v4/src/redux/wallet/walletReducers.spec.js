@@ -3,7 +3,7 @@ import { AddressMap, Wallet, Wrapper } from '../../types'
 import { compose } from 'ramda'
 import walletReducer from './reducers.js'
 
-const wrapperFixture = require('./__mocks__/wrapper.v4')
+const wrapperFixture = require('../../types/__mocks__/wrapper.v4')
 
 describe('reducers', () => {
   describe('wallet', () => {

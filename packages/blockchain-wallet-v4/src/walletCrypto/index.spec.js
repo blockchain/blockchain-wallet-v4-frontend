@@ -1,4 +1,4 @@
-import * as U from '../utils'
+import * as U from './utils'
 import * as wCrypto from './'
 import { repeat } from 'ramda'
 import data from './wallet-data.json'
@@ -156,6 +156,27 @@ describe('WalletCrypto', () => {
         )
         done()
       }, done)
+    })
+  })
+
+  describe('decryptWallet (Corrupted V4)', () => {
+    it('should fail to decrypt corrupted payload', done => {
+      wCrypto.decryptWallet('blockchain', data.corrupted.v4).fork(failure => {
+        expect(failure.message).toEqual(
+          'Unsupported state or unable to authenticate data'
+        )
+        done()
+      }, done)
+    })
+    it('should fail because of wrong password', done => {
+      wCrypto
+        .decryptWallet('wrong password', data.corrupted.v4)
+        .fork(failure => {
+          expect(failure.message).toEqual(
+            'Unsupported state or unable to authenticate data'
+          )
+          done()
+        }, done)
     })
   })
 

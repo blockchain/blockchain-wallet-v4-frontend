@@ -1,5 +1,5 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { serializer, Wrapper } from './index'
-import Bitcoin from 'bitcoinjs-lib'
 
 const wrapperFixture = require('./__mocks__/wrapper.v4')
 const wrapperFixtureV4Segwit = require('./__mocks__/wrapper.v4-segwit')
