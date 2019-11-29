@@ -298,7 +298,6 @@ export default ({ api }) => {
   const runUpgradeForAirdropGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-
     const showUpgradeForAirdropModal = yield select(
       selectors.preferences.getShowUpgradeForStxAirdropModal
     )

@@ -25,12 +25,8 @@ export default () => {
     )(tx)
 
   const addWalletTransaction = function * (tx) {
-    const defaultAccountId = (yield select(
-      selectors.core.kvStore.xlm.getDefaultAccountId
-    )).getOrElse('')
-    const txAccountIds = getAccountIds(tx)
-    if (includes(defaultAccountId, txAccountIds))
-      yield put(actions.core.data.xlm.addNewTransactions([tx]))
+    // refresh transaction list
+    yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
   const addLockboxTransaction = function * (tx, deviceIndex) {

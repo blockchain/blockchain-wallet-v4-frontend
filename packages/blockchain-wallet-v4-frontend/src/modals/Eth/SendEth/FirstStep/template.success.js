@@ -205,6 +205,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             data-e2e={`${coin}Send`}
+            marginTop='8px'
           />
         </FormItem>
       </FormGroup>

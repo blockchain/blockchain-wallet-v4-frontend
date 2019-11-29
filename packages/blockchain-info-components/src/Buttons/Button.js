@@ -92,7 +92,7 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'brand-secondary',
         backgroundColor: 'white',
-        borderColor: 'brand-secondary'
+        borderColor: 'grey000'
       }
     case 'pitTurquoise':
       return {
@@ -144,6 +144,12 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'white',
         borderColor: 'white'
+      }
+    case 'green':
+      return {
+        color: 'white',
+        backgroundColor: 'green600',
+        borderColor: 'green600'
       }
     default:
       return {

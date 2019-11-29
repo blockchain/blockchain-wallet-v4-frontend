@@ -9,6 +9,7 @@ const Container = styled.div`
 `
 const Fields = styled.div`
   display: flex;
+  scroll-behavior: smooth;
   flex-direction: column;
   overflow: auto;
   position: relative;

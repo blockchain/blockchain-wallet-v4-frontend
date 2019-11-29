@@ -199,6 +199,7 @@ const FirstStep = props => {
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
                 data-e2e='sendXlm'
+                marginTop='8px'
               />
             </FormItem>
           </FormGroup>

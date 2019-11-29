@@ -133,6 +133,10 @@ export const YUBIKEY_VERIFY_ERROR = 'yubikey_verify_error'
 export const YUBIKEY_VERIFY_SUCCESS = 'yubikey_verify_success'
 export const UPDATE_ADDRESS_LABEL_SUCCESS = 'update_address_label_success'
 export const UPDATE_ADDRESS_LABEL_ERROR = 'update_address_label_error'
+export const UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS =
+  'update_imported_address_label_success'
+export const UPDATE_IMPORTED_ADDRESS_LABEL_ERROR =
+  'update_imported_address_label_error'
 export const CAPTCHA_CODE_INCORRECT = 'captcha_code_incorrect'
 export const BTC_ADDRESS_INVALID = 'btc_address_invalid'
 export const BCH_ADDRESS_INVALID = 'bch_address_invalid'

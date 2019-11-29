@@ -43,6 +43,15 @@ export default () => {
             )
           )
           break
+        case contains('profile', pathname):
+        case contains('/airdrops', pathname):
+          yield put(actions.modules.profile.fetchUserDataLoading())
+          yield put(actions.modules.profile.fetchUser())
+          break
+        case contains('/swap/history', pathname):
+          yield put(actions.components.exchangeHistory.clearTrades())
+          yield put(actions.components.exchangeHistory.fetchNextPage())
+          break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.btc.fetchTransactions('', true))

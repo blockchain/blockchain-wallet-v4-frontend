@@ -69,3 +69,6 @@ export const getBchTxNotes = state =>
 
 export const getBchTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+
+export const getLegacyAddrs = state =>
+  getMetadata(state).map(path(['value', 'addresses']))

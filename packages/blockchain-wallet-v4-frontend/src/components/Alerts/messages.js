@@ -1005,7 +1005,21 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.update_address_label_error'
-          defaultMessage='Failed to update address label.'
+          defaultMessage='Failed to update address label'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_success'
+          defaultMessage='Address label updated'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_error'
+          defaultMessage='Failed to update imported address label'
         />
       )
     case C.VERIFY_EMAIL_SENT:

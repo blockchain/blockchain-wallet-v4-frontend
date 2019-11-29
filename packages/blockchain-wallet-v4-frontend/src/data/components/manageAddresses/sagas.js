@@ -224,6 +224,32 @@ export default ({ api, networks }) => {
     }
   }
 
+  const editImportedAddressLabel = function * (action) {
+    const {
+      payload: { address }
+    } = action
+    try {
+      yield put(A.editImportedAddressLabelLoading(address))
+      let newLabel = yield call(promptForInput, {
+        title: 'Rename Address Label',
+        maxLength: 50
+      })
+      yield put(actions.core.wallet.setLegacyAddressLabel(address, newLabel))
+      yield put(A.editImportedAddressLabelSuccess(address))
+      yield put(
+        actions.alerts.displaySuccess(C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS)
+      )
+    } catch (e) {
+      yield put(A.editImportedAddressLabelError(address, e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'editImportedAddressLabel', e)
+      )
+      yield put(
+        actions.alerts.displayError(C.UPDATE_IMPORTED_ADDRESS_LABEL_ERROR)
+      )
+    }
+  }
+
   const deleteAddressLabel = function * (action) {
     const { accountIdx, addressIdx, derivation, walletIdx } = action.payload
 
@@ -260,6 +286,7 @@ export default ({ api, networks }) => {
     fetchUnusedAddresses,
     fetchUsedAddresses,
     deleteAddressLabel,
-    toggleUsedAddresses
+    toggleUsedAddresses,
+    editImportedAddressLabel
   }
 }
