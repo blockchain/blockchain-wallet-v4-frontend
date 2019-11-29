@@ -144,13 +144,13 @@ describe('WalletCrypto', () => {
 
   describe('decryptWallet (V4)', () => {
     it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWallet('mypassword', data.v3).fork(done, wallet => {
-        expect(wallet.guid).toEqual('e01a59a0-31f2-4403-8488-32ffd8fdb3cc')
+      wCrypto.decryptWallet('blockchainwallet', data.v4).fork(done, wallet => {
+        expect(wallet.guid).toEqual('e84398b8-77a4-4811-9806-2f85e22cb967')
         done()
       })
     })
     it('should fail because of wrong password', done => {
-      wCrypto.decryptWallet('wrong password', data.v3).fork(failure => {
+      wCrypto.decryptWallet('wrong password', data.v4).fork(failure => {
         expect(failure.message).toEqual(
           'Unsupported state or unable to authenticate data'
         )

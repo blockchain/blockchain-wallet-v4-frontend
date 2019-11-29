@@ -21,7 +21,12 @@ describe('requestBtc sagas', () => {
     it('should update setHdAddressLabel', () => {
       return expectSaga(requestBtcSagas.firstStepSubmitClicked, action)
         .put(
-          actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message)
+          actions.core.wallet.setHdAddressLabel(
+            accountIdx,
+            addressIdx,
+            'segwitP2SH',
+            message
+          )
         )
         .run()
     })
