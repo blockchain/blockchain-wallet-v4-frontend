@@ -1,11 +1,13 @@
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import React from 'react'
-
-import { actions } from 'data'
 import { getBtcData, getData } from './selectors'
+import { includes } from 'ramda'
+import { NUMBER_OF_ADDRS_LIMIT } from 'blockchain-wallet-v4/src/redux/payment/model'
+import AddressesLimitFailure from './template.failure.addresseslimit'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
+import React from 'react'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
@@ -44,9 +46,13 @@ class FirstStep extends React.Component {
           autofilled={autofilled}
         />
       ),
-      Failure: message => (
-        <DataError onClick={this.handleRefresh} message={message} />
-      ),
+      Failure: message => {
+        return includes(NUMBER_OF_ADDRS_LIMIT, message) ? (
+          <AddressesLimitFailure {...this.props} />
+        ) : (
+          <DataError onClick={this.handleRefresh} message={message} />
+        )
+      },
       NotAsked: () => <Loading />,
       Loading: () => <Loading />
     })

@@ -14,7 +14,7 @@ import {
   stopSubmit
 } from 'redux-form'
 import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import bip21 from 'bip21'
@@ -58,10 +58,22 @@ export default ({ api, coreSagas, networks }) => {
           .filter(prop('priv'))
           .map(prop('addr'))
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
+      } else if (from === 'addressLimitError') {
+        // Find default index without multiaddr dependency
+        // Set payment.from with special request for unspents, so that request will work
+        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       } else {
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
+        // Multiaddr is required to build the payment
+        // Error messages include:
+        // 1. `Number of addresses must be between 1 and...`
+        // 2. `General 400 response from multiaddr endpoint`
+        // If the error is 1 see template.failure.addresseslimit
+        if (Remote.Failure.is(accountsR)) {
+          throw accountsR.error
+        }
         const defaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
@@ -115,6 +127,16 @@ export default ({ api, coreSagas, networks }) => {
 
   const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
+  }
+
+  const handleAddressLimitError = function * () {
+    // Generate new account
+    // yield put(A.initialized({ to: newAccount, from: 'addressLimitError' }))
+    // Allow user to select problematic account
+    // Allow send
+    // Make new account the default account
+    // Archive old account
+    yield
   }
 
   const bitPayInvoiceEntered = function * (bip21Payload) {

@@ -14,7 +14,10 @@ const MessageText = styled(Text)`
 const ErrorHandler = props => {
   const { message, onClick } = props
   const e2e = props['data-e2e']
-  const errorMessage = prop('message', message) || prop('description', message)
+  const errorMessage =
+    prop('message', message) ||
+    prop('description', message) ||
+    JSON.stringify(message)
   const vulnerableAddress = checkForVulnerableAddressError(message)
 
   if (vulnerableAddress) {
