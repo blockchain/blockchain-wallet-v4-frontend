@@ -62,3 +62,7 @@ export const sendBtcSecondStepCancelClicked = () => ({
 export const sendBtcFirstStepBitPayInvoiceExpired = () => ({
   type: AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED
 })
+
+export const handleAddressLimitError = () => ({
+  type: AT.HANDLE_ADDRESS_LIMIT_ERROR
+})

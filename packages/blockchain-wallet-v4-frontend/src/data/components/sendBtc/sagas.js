@@ -5,6 +5,11 @@ import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  askSecondPasswordEnhancer,
+  promptForLockbox,
+  promptForSecondPassword
+} from 'services/SagaService'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -16,7 +21,6 @@ import {
 import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import bip21 from 'bip21'
 
 const DUST = 546
@@ -59,9 +63,13 @@ export default ({ api, coreSagas, networks }) => {
           .map(prop('addr'))
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else if (from === 'addressLimitError') {
-        // Find default index without multiaddr dependency
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
         // Set payment.from with special request for unspents, so that request will work
+        // Figure out how to bypass missing_change_address issue
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+        payment = yield payment.to(to, ADDRESS_TYPES.ACCOUNT)
       } else {
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
@@ -131,7 +139,21 @@ export default ({ api, coreSagas, networks }) => {
 
   const handleAddressLimitError = function * () {
     // Generate new account
-    // yield put(A.initialized({ to: newAccount, from: 'addressLimitError' }))
+    let accounts = yield select(selectors.core.wallet.getHDAccounts)
+    yield call(
+      askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount),
+      `My Bitcoin Wallet ${accounts.length}`
+    )
+    yield put(actions.core.kvStore.bch.fetchMetadataBch())
+    yield put(actions.alerts.displaySuccess(C.NEW_WALLET_CREATE_SUCCESS))
+    yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+    accounts = yield select(selectors.core.wallet.getHDAccounts)
+    yield put(
+      A.initialized({
+        to: accounts.length - 1,
+        from: 'addressLimitError'
+      })
+    )
     // Allow user to select problematic account
     // Allow send
     // Make new account the default account
@@ -546,6 +568,7 @@ export default ({ api, coreSagas, networks }) => {
     bitpayInvoiceExpired,
     initialized,
     destroyed,
+    handleAddressLimitError,
     minimumAmountClicked,
     maximumAmountClicked,
     minimumFeeClicked,

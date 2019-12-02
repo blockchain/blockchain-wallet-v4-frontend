@@ -14,7 +14,6 @@ const CustomButton = styled(Button)`
 `
 
 function AddressesLimit ({ actions }) {
-  console.log(actions)
   return (
     <Container>
       <Text
@@ -36,7 +35,10 @@ function AddressesLimit ({ actions }) {
         generate a new wallet for you and transfer your funds there.'
         />
       </Text>
-      <CustomButton nature='primary'>
+      <CustomButton
+        nature='primary'
+        onClick={() => actions.handleAddressLimitError()}
+      >
         <FormattedMessage
           id='addresseslimit.error.cta'
           defaultMessage='Transfer Funds'

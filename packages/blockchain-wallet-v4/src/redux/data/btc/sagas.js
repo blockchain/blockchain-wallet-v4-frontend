@@ -26,7 +26,8 @@ export default ({ api }) => {
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      throw new Error('Number of addresses must be between 1')
+      // TODO: handleAddressLimitError
+      // throw new Error('Number of addresses must be between 1')
       yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
       if (prop('message', e)) yield put(A.fetchDataFailure(e.message))

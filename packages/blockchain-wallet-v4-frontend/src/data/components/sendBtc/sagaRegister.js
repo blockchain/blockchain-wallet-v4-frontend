@@ -45,6 +45,10 @@ export default ({ api, coreSagas, networks }) => {
       AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED,
       sendBtcSagas.bitpayInvoiceExpired
     )
+    yield takeLatest(
+      AT.HANDLE_ADDRESS_LIMIT_ERROR,
+      sendBtcSagas.handleAddressLimitError
+    )
     yield takeEvery(actionTypes.CHANGE, sendBtcSagas.formChanged)
   }
 }
