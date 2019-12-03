@@ -1,10 +1,11 @@
 import * as A from './actions'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
-import { actions, model, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
   destroy,
@@ -12,12 +13,24 @@ import {
   startSubmit,
   stopSubmit
 } from 'redux-form'
-import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
+import {
+  equals,
+  identity,
+  includes,
+  is,
+  isNil,
+  nth,
+  path,
+  pathOr,
+  prop
+} from 'ramda'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import bip21 from 'bip21'
 
 const { TRANSACTION_EVENTS } = model.analytics
+
 export const logLocation = 'components/sendBch/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function * (action) {
@@ -90,6 +103,28 @@ export default ({ coreSagas, networks }) => {
 
   const destroyed = function * () {
     yield put(actions.form.destroy(FORM))
+  }
+
+  const bitPayInvoiceEntered = function * (bip21Payload) {
+    yield put(
+      actions.modals.showModal('Confirm', {
+        title: CC.BITPAY_CONFIRM_TITLE,
+        message: CC.BITPAY_CONFIRM_MSG
+      })
+    )
+    let { canceled } = yield race({
+      response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
+      canceled: take(actionTypes.modals.CLOSE_MODAL)
+    })
+    if (canceled) return
+    yield put(actions.modals.closeAllModals())
+    yield put(
+      actions.goals.saveGoal('paymentProtocol', {
+        coin: 'BCH',
+        r: pathOr({}, ['options', 'r'], bip21Payload)
+      })
+    )
+    return yield put(actions.goals.runGoals())
   }
 
   const bitpayInvoiceExpired = function * () {
@@ -166,15 +201,27 @@ export default ({ coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           const toType = prop('type', value)
-          switch (toType) {
-            case ADDRESS_TYPES.ACCOUNT:
+          const address = prop('address', value) || value
+          let payProInvoice
+          const tryParsePayPro = () => {
+            try {
+              payProInvoice = bip21.decode(address, 'bitcoincash')
+              return payProInvoice
+            } catch (e) {
+              return null
+            }
+          }
+          switch (true) {
+            case equals(toType, ADDRESS_TYPES.ACCOUNT):
               payment = yield payment.to(value.index, toType)
               break
-            case ADDRESS_TYPES.LOCKBOX:
+            case equals(toType, ADDRESS_TYPES.LOCKBOX):
               payment = yield payment.to(value.xpub, toType)
               break
+            case !isNil(tryParsePayPro()):
+              yield call(bitPayInvoiceEntered, payProInvoice)
+              break
             default:
-              const address = prop('address', value) || value
               payment = yield payment.to(address, toType)
           }
           break
@@ -337,6 +384,7 @@ export default ({ coreSagas, networks }) => {
   }
 
   return {
+    bitPayInvoiceEntered,
     bitpayInvoiceExpired,
     destroyed,
     firstStepSubmitClicked,

@@ -13,7 +13,17 @@ import {
   startSubmit,
   stopSubmit
 } from 'redux-form'
-import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
+import {
+  equals,
+  identity,
+  includes,
+  is,
+  isNil,
+  nth,
+  path,
+  pathOr,
+  prop
+} from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
@@ -22,6 +32,7 @@ import bip21 from 'bip21'
 const DUST = 546
 const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
+
 export const logLocation = 'components/sendBtc/sagas'
 export default ({ api, coreSagas, networks }) => {
   const initialized = function * (action) {
@@ -218,25 +229,28 @@ export default ({ api, coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           const toType = prop('type', value)
-          switch (toType) {
-            case ADDRESS_TYPES.ACCOUNT:
+          const address = prop('address', value) || value
+          let payProInvoice
+          const tryParsePayPro = () => {
+            try {
+              payProInvoice = bip21.decode(address)
+              return payProInvoice
+            } catch (e) {
+              return null
+            }
+          }
+          switch (true) {
+            case equals(toType, ADDRESS_TYPES.ACCOUNT):
               payment = yield payment.to(value.index, toType)
               break
-            case ADDRESS_TYPES.LOCKBOX:
+            case equals(toType, ADDRESS_TYPES.LOCKBOX):
               payment = yield payment.to(value.xpub, toType)
               break
+            case !isNil(tryParsePayPro()):
+              yield call(bitPayInvoiceEntered, payProInvoice)
+              break
             default:
-              const address = prop('address', value) || value
-              // Special case to handle bitcoin bip21
-              try {
-                const bip21Payload = bip21.decode(address)
-                if (path(['options', 'r'], bip21Payload)) {
-                  yield call(bitPayInvoiceEntered, bip21Payload)
-                }
-              } catch (e) {
-                // Default address entry
-                payment = yield payment.to(address, toType)
-              }
+              payment = yield payment.to(address, toType)
           }
           break
         case 'amount':
