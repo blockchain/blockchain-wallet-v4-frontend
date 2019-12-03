@@ -1,13 +1,12 @@
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { required, validEmail, validWalletId } from 'services/FormHelper'
+import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
-
-import { required, validEmail, validWalletId } from 'services/FormHelper'
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
-import { Wrapper } from 'components/Public'
 
 const Header = styled.div`
   display: flex;

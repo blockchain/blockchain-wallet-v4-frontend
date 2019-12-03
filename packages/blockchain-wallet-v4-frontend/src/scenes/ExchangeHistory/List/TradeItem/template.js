@@ -1,15 +1,14 @@
+import { FormattedMessage } from 'react-intl'
+import { Link, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { model } from 'data'
+import { OrderStatus, selectColor } from 'components/OrderStatus'
+import { pathOr } from 'ramda'
+import media from 'services/ResponsiveService'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
-import { pathOr } from 'ramda'
-
-import { model } from 'data'
-import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
-import { selectColor, OrderStatus } from 'components/OrderStatus'
-import media from 'services/ResponsiveService'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const StatusContainer = styled(TableCell)`
   display: flex;

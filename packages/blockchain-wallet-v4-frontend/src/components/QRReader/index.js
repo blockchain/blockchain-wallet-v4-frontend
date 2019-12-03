@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import QrReader from 'react-qr-reader'
-import styled from 'styled-components'
 import { Banner } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { hasWebcam } from 'utils/helpers'
+import PropTypes from 'prop-types'
+import QrReader from 'react-qr-reader'
+import React from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   > section > section > div {

@@ -1,9 +1,9 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
+import React from 'react'
 
+import { Color, Link } from 'blockchain-info-components'
 import styled from 'styled-components'
-import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
   & > * {

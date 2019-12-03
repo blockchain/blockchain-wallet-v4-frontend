@@ -1,5 +1,5 @@
-import styled from 'styled-components'
 import media from 'services/ResponsiveService'
+import styled from 'styled-components'
 
 const SecuritySummary = styled.div`
   display: flex;

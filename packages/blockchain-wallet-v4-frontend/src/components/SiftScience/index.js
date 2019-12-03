@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import { path, prop } from 'ramda'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 const SiftScienceIframe = styled.iframe`
   opacity: 0;
@@ -43,7 +43,8 @@ class SiftScience extends Component {
 
     const walletOptions = options || prop('data', this.props.walletOptions)
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
-    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
+    // reverse sift-science
+    let url = `${helperDomain}/wallet-helper/ecneics-tfis/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
     return (
       <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />
     )

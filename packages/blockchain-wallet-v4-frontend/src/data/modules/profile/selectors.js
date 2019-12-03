@@ -1,29 +1,31 @@
 import {
   any,
-  compose,
   complement,
+  compose,
   curry,
   equals,
   find,
   findLast,
   hasPath,
-  lift,
   includes,
   isNil,
+  lift,
+  lte,
   not,
   path,
   pathOr,
   prop,
   propEq
 } from 'ramda'
+import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserId = compose(
   lift(prop('id')),
   getUserData
 )
+export const getUserCampaigns = path(['profile', 'userCampaigns'])
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData
@@ -36,12 +38,20 @@ export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
 )
+export const getTags = compose(
+  lift(path(['tags'])),
+  getUserData
+)
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
 )
 export const getPowerPaxTag = compose(
   lift(hasPath(['tags', 'POWER_PAX'])),
+  getUserData
+)
+export const getBlockstackTag = compose(
+  lift(path(['tags', 'BLOCKSTACK'])),
   getUserData
 )
 export const isUserCreated = compose(
@@ -59,6 +69,12 @@ export const isUserStateNone = compose(
 export const isUserVerified = compose(
   lift(equals(KYC_STATES.VERIFIED)),
   getUserKYCState
+)
+export const isSilverOrAbove = compose(
+  lte(1),
+  path(['data', 'current']),
+  lift(path(['tiers'])),
+  getUserData
 )
 export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
@@ -96,6 +112,21 @@ export const isInvitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
 
 export const userFlowSupported = isInvitedToKyc
+
+export const isInvitedToPitSidenav = state => {
+  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
+  const userCountry = selectors.core.settings.getCountryCode(state)
+
+  const transform = (pitCountries, userCountry) => {
+    const isCountryWhitelisted =
+      pitCountries &&
+      (pitCountries === '*' || includes(userCountry, pitCountries))
+
+    return isCountryWhitelisted
+  }
+
+  return lift(transform)(pitCountries, userCountry)
+}
 
 export const isInvitedToPitHomeBanner = state => {
   const pitCountries = selectors.core.walletOptions.getPitCountryList(state)

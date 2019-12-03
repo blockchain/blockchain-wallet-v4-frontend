@@ -1,5 +1,5 @@
-import { USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { selectors } from 'data'
+import { USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 
 export const getData = state => ({
   showGetStarted:

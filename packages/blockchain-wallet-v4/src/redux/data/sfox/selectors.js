@@ -1,5 +1,5 @@
-import { path } from 'ramda'
 import { dataPath } from '../../paths'
+import { path } from 'ramda'
 
 export const getSfox = path([dataPath, 'sfox'])
 

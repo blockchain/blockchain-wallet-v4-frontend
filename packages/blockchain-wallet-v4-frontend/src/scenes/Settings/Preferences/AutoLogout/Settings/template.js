@@ -1,14 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-
 import { Button, Text } from 'blockchain-info-components'
-import { NumberBox, FormGroup, FormItem } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { FormGroup, FormItem, NumberBox } from 'components/Form'
+import { isValidAutoLogoutTime } from './validation'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { spacing } from 'services/StyleService'
-import { isValidAutoLogoutTime } from './validation'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

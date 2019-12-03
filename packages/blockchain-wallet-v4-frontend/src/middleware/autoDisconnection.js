@@ -1,11 +1,10 @@
-import { contains } from 'ramda'
 import { actions, actionTypes, selectors } from 'data'
+import { contains } from 'ramda'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = [
   // ETH
-  actionTypes.middleware.webSocket.eth.MESSAGE_SOCKET,
   actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_SUCCESS,
   actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_LOADING,
   actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_FAILURE,
@@ -15,7 +14,6 @@ let blackListedActivityTypes = [
   actionTypes.core.data.eth.FETCH_ETH_DATA_FAILURE,
   actionTypes.core.data.eth.FETCH_ETH_DATA,
   // BTC
-  actionTypes.middleware.webSocket.btc.MESSAGE_SOCKET,
   actionTypes.core.data.btc.SET_BTC_LATEST_BLOCK,
   actionTypes.core.data.btc.FETCH_BTC_TRANSACTIONS,
   actionTypes.core.data.btc.FETCH_BTC_TRANSACTIONS_LOADING,
@@ -26,7 +24,6 @@ let blackListedActivityTypes = [
   actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS,
   actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE,
   // BCH
-  actionTypes.middleware.webSocket.bch.MESSAGE_SOCKET,
   actionTypes.core.data.bch.SET_BCH_LATEST_BLOCK,
   actionTypes.core.data.bch.FETCH_BCH_TRANSACTIONS,
   actionTypes.core.data.bch.FETCH_BCH_TRANSACTIONS_LOADING,
@@ -48,6 +45,15 @@ let blackListedActivityTypes = [
   actionTypes.components.exchange.SET_MIN_MAX,
   actionTypes.components.exchange.SET_SOURCE_FEE,
   actionTypes.modules.rates.UPDATE_BEST_RATES,
+  // COINS
+  actionTypes.middleware.webSocket.coins.OPEN_SOCKET,
+  actionTypes.middleware.webSocket.coins.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.coins.CLOSE_SOCKET,
+  // XLM
+  actionTypes.middleware.webSocket.xlm.START_STREAMS,
+  actionTypes.middleware.webSocket.xlm.STOP_STREAMS,
+  actionTypes.middleware.webSocket.xlm.STREAM_MESSAGE,
+  actionTypes.middleware.webSocket.xlm.STREAM_ERROR,
   // USER
   actionTypes.modules.profile.SET_API_TOKEN_SUCCESS,
   actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,

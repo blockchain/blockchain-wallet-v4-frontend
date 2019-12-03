@@ -1,7 +1,7 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { createSelector } from 'reselect'
 import { curry } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { selectors } from 'data'
 
 export const getData = curry((hash, currency, state) => {

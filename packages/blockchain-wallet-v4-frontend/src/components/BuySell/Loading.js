@@ -1,6 +1,6 @@
+import { HeartbeatLoader } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { HeartbeatLoader } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;

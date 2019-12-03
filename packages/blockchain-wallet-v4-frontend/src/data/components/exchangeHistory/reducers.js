@@ -1,5 +1,5 @@
-import { always, assoc, compose, identity, ifElse, map, propEq } from 'ramda'
 import * as AT from './actionTypes'
+import { always, assoc, compose, identity, ifElse, map, propEq } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {

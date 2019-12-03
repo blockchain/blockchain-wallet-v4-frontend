@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-
 import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+
 import { SettingWrapper } from 'components/Setting'
 
 const Setting = props => {

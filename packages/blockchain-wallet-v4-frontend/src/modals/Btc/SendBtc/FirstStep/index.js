@@ -1,13 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
-
+import { getBtcData, getData } from './selectors'
+import DataError from 'components/DataError'
 import Loading from './template.loading'
 import Success from './template.success'
-import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {

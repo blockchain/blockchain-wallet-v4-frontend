@@ -1,13 +1,12 @@
+import AutoLogout from './AutoLogout'
+import CryptoLinkHandling from './CryptoLinkHandling'
+import LocalCurrency from './LocalCurrency'
+import MobileNumber from './MobileNumber'
+import Notifications from './Notifications'
 import React from 'react'
 import styled from 'styled-components'
-
-import MobileNumber from './MobileNumber'
-import WalletLanguage from './WalletLanguage'
-import LocalCurrency from './LocalCurrency'
-import Notifications from './Notifications'
-import CryptoLinkHandling from './CryptoLinkHandling'
-import AutoLogout from './AutoLogout'
 import Themes from './Themes'
+import WalletLanguage from './WalletLanguage'
 
 const Wrapper = styled.section`
   width: 100%;

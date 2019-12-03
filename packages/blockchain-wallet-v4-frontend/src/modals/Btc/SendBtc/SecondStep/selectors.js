@@ -1,5 +1,5 @@
-import { selectors, model } from 'data'
-import { btcToLabel, btcFromLabel } from 'services/PaymentHelper'
+import { btcFromLabel, btcToLabel } from 'services/PaymentHelper'
+import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendBtc.FORM)
 

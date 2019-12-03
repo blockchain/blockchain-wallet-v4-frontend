@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedHTMLMessage } from 'react-intl'
-import { equals, prop } from 'ramda'
 import {
   Banner,
   Button,
-  Icon,
   HeartbeatLoader,
+  Icon,
   Text
 } from 'blockchain-info-components'
+import { equals, prop } from 'ramda'
+import { FormattedHTMLMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 const Row = styled.div`
   width: 100%;

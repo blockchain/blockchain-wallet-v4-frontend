@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 import styled from 'styled-components'
 
-import { getData } from './selectors'
 import { actions } from 'data'
-import Loading from './template.loading'
+import { getData } from './selectors'
 import Failure from './template.failure'
+import Loading from './template.loading'
 
 const VeriffIframe = styled.iframe.attrs({
   allow: 'camera; microphone'

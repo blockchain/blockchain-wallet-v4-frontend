@@ -1,28 +1,27 @@
-import { call, delay, put, select, take } from 'redux-saga/effects'
-import { head, isEmpty, mapObjIndexed, prop, toUpper, sort } from 'ramda'
-
-import { actions, actionTypes, selectors, model } from 'data'
-import profileSagas from 'data/modules/profile/sagas'
-import * as C from 'services/AlertService'
-
 import * as A from './actions'
 import * as AT from './actionTypes'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
-  EMAIL_STEPS,
-  SMS_STEPS,
-  SMS_NUMBER_FORM,
-  PERSONAL_FORM,
-  ID_VERIFICATION_SUBMITTED_FORM,
+  // AIRDROP_ERROR_MODAL,
   BAD_CODE_ERROR,
-  PHONE_EXISTS_ERROR,
-  UPDATE_FAILURE,
-  KYC_MODAL,
+  EMAIL_STEPS,
   FLOW_TYPES,
-  SUNRIVER_LINK_ERROR_MODAL
+  ID_VERIFICATION_SUBMITTED_FORM,
+  KYC_MODAL,
+  PERSONAL_FORM,
+  PHONE_EXISTS_ERROR,
+  SMS_NUMBER_FORM,
+  SMS_STEPS,
+  UPDATE_FAILURE
 } from './model'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
+import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { Types } from 'blockchain-wallet-v4'
+import profileSagas from 'data/modules/profile/sagas'
 
 export const logLocation = 'components/identityVerification/sagas'
 export const invalidNumberError = 'Failed to update mobile number'
@@ -31,7 +30,6 @@ export const failedResendError = 'Failed to resend the code'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
-export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
   const { TIERS } = model.profile
@@ -53,22 +51,7 @@ export default ({ api, coreSagas }) => {
     try {
       if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
       const campaignData = yield call(getCampaignData, campaign)
-      try {
-        yield call(
-          api.registerUserCampaign,
-          campaign.name,
-          campaignData,
-          newUser
-        )
-      } catch (error) {
-        // Todo: use generic confirm modal
-        // Should NOT be specific to sunriver
-        yield put(
-          actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL, { error })
-        )
-        yield put(actions.modules.profile.setCampaign({}))
-        throw new Error(invalidLinkError)
-      }
+      yield call(api.registerUserCampaign, campaign.name, campaignData, newUser)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -101,21 +84,35 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
       yield put(A.registerUserCampaign())
       // Buffer for tagging user
+      const wallet = yield select(selectors.core.wallet.getWallet)
+      if (Types.Wallet.isDoubleEncrypted(wallet)) {
+        yield take([
+          actionTypes.wallet.SUBMIT_SECOND_PASSWORD,
+          actionTypes.modals.CLOSE_MODAL
+        ])
+      }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
       yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
-      yield put(actions.modals.closeAllModals())
-      yield put(actions.modals.showModal('AirdropSuccess'))
-    } catch (error) {
-      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM), {
-        _error: error
+      const tags = (yield select(selectors.modules.profile.getTags)).getOrElse({
+        [campaign]: false
       })
+      const isCampaignTagged = prop(campaign, tags)
+      if (!isCampaignTagged) {
+        throw new Error(`${campaign} not tagged.`)
+      }
+      yield put(actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM))
+    } catch (error) {
+      yield put(
+        actions.form.stopSubmit(ID_VERIFICATION_SUBMITTED_FORM, {
+          _error: error
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
           'claimCampaignClicked',
-          `Error claim campaign: ${error}`
+          `Error claim campaign, ${error}`
         )
       )
     }

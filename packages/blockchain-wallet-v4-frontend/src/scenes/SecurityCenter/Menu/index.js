@@ -1,9 +1,9 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
+import styled from 'styled-components'
 
 const LinkItem = styled(TabMenuItem)`
   &.active {

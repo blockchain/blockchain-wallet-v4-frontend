@@ -1,7 +1,7 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { Support } from './index'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 describe('Support modal component', () => {
   it('matches snapshot', () => {

@@ -1,6 +1,6 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import { getTotalBalance } from 'components/Balances/total/selectors'
+import React from 'react'
 
 import Error from './template.error'
 import Loading from './template.loading'

@@ -1,16 +1,5 @@
-import {
-  anyPass,
-  equals,
-  includes,
-  map,
-  path,
-  pathOr,
-  prop,
-  propEq,
-  startsWith,
-  sum,
-  values
-} from 'ramda'
+import * as C from 'services/AlertService'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   all,
   call,
@@ -21,18 +10,27 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import base64 from 'base-64'
-import bip21 from 'bip21'
-
-import { actions, actionTypes, model, selectors } from 'data'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import * as C from 'services/AlertService'
 import {
+  anyPass,
+  equals,
+  includes,
+  map,
+  path,
+  pathOr,
+  prop,
+  startsWith,
+  sum,
+  values
+} from 'ramda'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import {
+  getAllBalances,
   getBchBalance,
-  getBtcBalance,
-  getAllBalances
+  getBtcBalance
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
+import base64 from 'base-64'
+import bip21 from 'bip21'
 import profileSagas from 'data/modules/profile/sagas'
 
 const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
@@ -350,26 +348,23 @@ export default ({ api }) => {
   const runUpgradeForAirdropGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-
     const showUpgradeForAirdropModal = yield select(
-      selectors.preferences.getShowUpgradeForAirdropModal
+      selectors.preferences.getShowUpgradeForStxAirdropModal
     )
     if (!showUpgradeForAirdropModal) return
     yield call(waitForUserData)
     const kycNotFinished = yield call(isKycNotFinished)
-    const userTiers = (yield select(
-      selectors.modules.profile.getUserTiers
-    )).getOrElse({})
-    const userCanUpgrade =
-      kycNotFinished && userTiers && propEq('current', 1, userTiers)
+    const isRegistered = (yield select(
+      selectors.modules.profile.getBlockstackTag
+    )).getOrElse(false)
 
-    if (userCanUpgrade) {
+    if (kycNotFinished && !isRegistered) {
       return yield put(
         actions.goals.addInitialModal(
           'upgradeForAirdrop',
           'UpgradeForAirdrop',
           {
-            campaign: 'sunriver'
+            campaign: 'BLOCKSTACK'
           }
         )
       )
@@ -466,11 +461,42 @@ export default ({ api }) => {
     const { current } = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({ current: 0 }) || { current: 0 }
-    const sunRiverTag = (yield select(
-      selectors.modules.profile.getSunRiverTag
+    const blockstackTag = (yield select(
+      selectors.modules.profile.getBlockstackTag
     )).getOrElse(false)
-    if (current === TIERS[2] && !sunRiverTag) {
+    if (current === TIERS[2] && !blockstackTag) {
       yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+    }
+  }
+
+  const runRegisterForBlockstackAirdropGoal = function * (goal) {
+    try {
+      const { id } = goal
+      yield put(actions.goals.deleteGoal(id))
+      yield call(waitForUserData)
+      const { current } = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 }) || { current: 0 }
+      const blockstackTag = (yield select(
+        selectors.modules.profile.getBlockstackTag
+      )).getOrElse(false)
+      if (!blockstackTag && current === TIERS[2]) {
+        const campaign = (yield select(
+          selectors.core.walletOptions.getStxCampaign
+        )).getOrElse('BLOCKSTACK')
+        yield put(actions.modules.profile.setCampaign({ name: campaign }))
+        yield put(
+          actions.components.identityVerification.registerUserCampaign()
+        )
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'runRegisterForBlockstackAirdropGoal',
+          e
+        )
+      )
     }
   }
 
@@ -525,6 +551,7 @@ export default ({ api }) => {
       upgradeForAirdrop,
       walletTour
     } = initialModals
+    // Order matters here
     if (linkAccount) {
       return yield put(
         actions.modals.showModal(linkAccount.name, linkAccount.data)
@@ -534,10 +561,15 @@ export default ({ api }) => {
       return yield put(actions.modals.showModal(kycDocResubmit.name))
     }
     if (sunriver) {
-      return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
+      // return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    }
+    if (upgradeForAirdrop) {
+      return yield put(
+        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
+      )
     }
     if (coinifyUpgrade) {
       return yield put(
@@ -547,11 +579,6 @@ export default ({ api }) => {
     if (coinifyBuyViaCard) {
       return yield put(
         actions.modals.showModal(coinifyBuyViaCard.name, coinifyBuyViaCard.data)
-      )
-    }
-    if (upgradeForAirdrop) {
-      return yield put(
-        actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
       )
     }
     if (swapGetStarted) {
@@ -577,6 +604,7 @@ export default ({ api }) => {
 
   const runGoal = function * (goal) {
     try {
+      // Ordering doesn't matter here
       switch (goal.name) {
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)
@@ -617,7 +645,10 @@ export default ({ api }) => {
         case 'walletTour':
           yield call(runWalletTour, goal)
           break
+        case 'registerForBlockstackAirdrop':
+          yield call(runRegisterForBlockstackAirdropGoal, goal)
       }
+      yield put(actions.goals.initialModalDisplayed)
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'runGoal', error))
     }

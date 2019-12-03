@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import { transparentize } from 'polished'
 import { Icon } from 'blockchain-info-components'
+import { transparentize } from 'polished'
+import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -59,6 +59,26 @@ export const MenuItem = styled.button`
     }
     .destination {
       color: ${props => props.theme['deep-blue']};
+    }
+  }
+  &.airdrop {
+    &:hover {
+      background: ${props => props.theme['green000']};
+    }
+    &.active {
+      background: ${props => props.theme['green100']};
+    }
+    &:active {
+      background: ${props => props.theme['green200']};
+    }
+    &:hover,
+    &.active {
+      .icon {
+        color: ${props => props.theme['green600']};
+      }
+      .destination {
+        color: ${props => props.theme['green800']};
+      }
     }
   }
   &.coin {

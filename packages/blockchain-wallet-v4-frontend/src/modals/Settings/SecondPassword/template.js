@@ -1,40 +1,67 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-
 import {
   Button,
   Link,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   PasswordInput,
   Text
 } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import { Form, FormLabel } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+
+const SecPasswordHeader = styled(ModalHeader)`
+  border-bottom: 0;
+  padding-bottom: 12px;
+`
+
+const PurposeContainer = styled.div`
+  padding: 6px 30px 0px 30px;
+`
+
+const PURPOSES = {
+  BLOCKSTACK: (
+    <Text size='14px' weight={600} color='grey600'>
+      <FormattedMessage
+        id='modals.secondpassword.blockstack'
+        defaultMessage='Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop.'
+      />
+    </Text>
+  )
+}
 
 const SecondPassword = props => {
   const { position, total, close, ...rest } = props
-  const { handleSubmit, handleChange, value } = rest
+  const { handleSubmit, handleChange, purposes = [], value } = rest
 
   return (
     <Modal size='medium' position={position} total={total} closeButton={false}>
       <Form onSubmit={handleSubmit}>
-        <ModalHeader icon='safe' onClose={close}>
-          <FormattedMessage
-            id='modals.secondpassword.title'
-            defaultMessage='Second password required'
-          />
-        </ModalHeader>
-        <ModalBody>
-          <Text size='14px' weight={500}>
+        <SecPasswordHeader icon='safe' onClose={close}>
+          <Text weight={600} size='20px'>
             <FormattedMessage
-              id='modals.secondpassword.explain'
-              defaultMessage='Please enter your second password'
+              id='modals.secondpassword.title1'
+              defaultMessage='Enter Your Second Password'
             />
           </Text>
+        </SecPasswordHeader>
+        {purposes && purposes.length ? (
+          <PurposeContainer>
+            {purposes.map(purpose => PURPOSES[purpose])}
+          </PurposeContainer>
+        ) : null}
+        <ModalBody>
+          <FormLabel>
+            <FormattedMessage
+              id='modals.secondpassword.explain1'
+              defaultMessage='Second Password'
+            />
+          </FormLabel>
           <PasswordInput
             value={value}
             onChange={handleChange}

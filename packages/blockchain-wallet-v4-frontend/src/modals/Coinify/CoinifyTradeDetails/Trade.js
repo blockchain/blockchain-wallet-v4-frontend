@@ -1,25 +1,25 @@
+import { any, equals, prop } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { any, equals, prop } from 'ramda'
-import moment from 'moment'
 
-import Recurring from './Recurring'
 import {
-  ModalHeader,
+  bodyStatusHelper,
+  statusHelper,
+  tradeDetails
+} from 'services/CoinifyService'
+import {
+  Button,
   ModalBody,
-  Text,
-  Button
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 import {
-  OrderDetailsTable,
-  OrderDetailsRow
+  OrderDetailsRow,
+  OrderDetailsTable
 } from 'components/BuySell/OrderDetails'
-import {
-  tradeDetails,
-  statusHelper,
-  bodyStatusHelper
-} from 'services/CoinifyService'
+import Recurring from './Recurring'
 
 const TableTitle = styled(Text)`
   padding-top: 10px;

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { Form as ReduxForm } from 'redux-form'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseForm = styled(ReduxForm)`
   width: 100%;

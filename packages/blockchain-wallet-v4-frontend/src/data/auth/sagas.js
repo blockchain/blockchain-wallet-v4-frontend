@@ -1,5 +1,5 @@
+import { assoc, is, path, prop } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import { assoc, path, prop, is } from 'ramda'
 
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
@@ -7,8 +7,8 @@ import { actions, actionTypes, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
-  promptForSecondPassword,
-  forceSyncWallet
+  forceSyncWallet,
+  promptForSecondPassword
 } from 'services/SagaService'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 
@@ -83,20 +83,20 @@ export default ({ api, coreSagas }) => {
 
   const saveGoals = function * (firstLogin) {
     yield put(actions.goals.saveGoal('walletTour', { firstLogin }))
+    yield put(actions.goals.saveGoal('registerForBlockstackAirdrop'))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
-    yield put(actions.goals.saveGoal('airdropClaim'))
+    // yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
     yield put(actions.goals.saveGoal('pax'))
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.bch.startSocket())
-    yield put(actions.middleware.webSocket.btc.startSocket())
-    yield put(actions.middleware.webSocket.eth.startSocket())
+    yield put(actions.middleware.webSocket.coins.startSocket())
+    yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
   const authNabu = function * () {
@@ -381,10 +381,11 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.auth.remindGuidFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
-      if (e.message === 'Captcha Code Incorrect') {
+      if (e.message === 'Wrong captcha') {
         yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
       } else {
+        yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
       }
     }
@@ -475,9 +476,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
     }
-    yield put(actions.middleware.webSocket.bch.stopSocket())
-    yield put(actions.middleware.webSocket.btc.stopSocket())
-    yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.coins.stopSocket())
     yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)

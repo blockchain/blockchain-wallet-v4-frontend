@@ -1,33 +1,33 @@
+import { always, equals, identity, ifElse, includes } from 'ramda'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { always, includes, identity, ifElse, equals } from 'ramda'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 
 import { model, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import {
   AmountHeader,
-  ExchangeText,
+  Wrapper as BorderWrapper,
   ExchangeAmount,
   ExchangeAmounts,
+  ExchangeText,
   LargeTableRow,
   Note,
-  Title,
-  Wrapper as BorderWrapper
+  Title
 } from 'components/Exchange'
-import { OrderStatus, selectColor, OrderNote } from 'components/OrderStatus'
 import {
   Button,
-  Link,
   Icon,
+  Link,
   Modal,
   ModalBody,
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { OrderNote, OrderStatus, selectColor } from 'components/OrderStatus'
 
 const SummaryWrapper = styled(BorderWrapper)`
   padding: 0;

@@ -3,7 +3,6 @@ import * as bchTransactions from './bchTransactions/actions'
 import * as btcTransactions from './btcTransactions/actions'
 import * as coinify from './coinify/actions'
 import * as ethTransactions from './ethTransactions/actions'
-import * as xlmTransactions from './xlmTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
 import * as identityVerification from './identityVerification/actions'
@@ -16,8 +15,8 @@ import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as refresh from './refresh/actions'
-import * as requestBtc from './requestBtc/actions'
 import * as requestBch from './requestBch/actions'
+import * as requestBtc from './requestBtc/actions'
 import * as requestEth from './requestEth/actions'
 import * as requestXlm from './requestXlm/actions'
 import * as send from './send/actions'
@@ -27,9 +26,11 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
+import * as stxTransactions from './stxTransactions/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
+import * as xlmTransactions from './xlmTransactions/actions'
 
 export {
   activityList,
@@ -61,6 +62,7 @@ export {
   sendXlm,
   settings,
   signMessage,
+  stxTransactions,
   transactionReport,
   uploadDocuments,
   veriff

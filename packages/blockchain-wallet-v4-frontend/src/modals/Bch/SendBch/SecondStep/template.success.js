@@ -1,7 +1,15 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
+import {
+  Banner,
+  Button,
+  HeartbeatLoader,
+  Link,
+  Text
+} from 'blockchain-info-components'
+import { CountdownTimer } from 'components/Form'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -9,19 +17,11 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import { CountdownTimer } from 'components/Form'
-import {
-  Banner,
-  Button,
-  Link,
-  HeartbeatLoader,
-  Text
-} from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 const ConfirmWrapper = styled(Wrapper)`
-  padding: 0;
+  padding: 0px;
 `
 const WarningBanner = styled.div`
   margin-top: 16px;

@@ -1,9 +1,9 @@
-import { call, select, put } from 'redux-saga/effects'
-import { prop } from 'ramda'
-import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
+import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { promptForSecondPassword, promptForInput } from 'services/SagaService'
+import { call, put, select } from 'redux-saga/effects'
+import { promptForInput, promptForSecondPassword } from 'services/SagaService'
+import { prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 
 export default ({ api, coreSagas, networks }) => {
@@ -13,6 +13,7 @@ export default ({ api, coreSagas, networks }) => {
     const form = yield select(selectors.form.getFormValues('importBtcAddress'))
     const value = prop('addrOrPriv', form)
     const to = prop('to', form)
+    const label = prop('label', form)
 
     // private key handling
     if (value && utils.btc.isValidBtcPrivateKey(value, networks.btc)) {
@@ -30,13 +31,17 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
       }
-      yield call(importLegacyAddress, address, value, null, null, to)
+      yield call(importLegacyAddress, address, value, null, null, to, label)
       return
     }
 
     // address handling (watch-only)
-    if (value && utils.btc.isValidBtcAddress(value, networks.btc)) {
-      yield call(importLegacyAddress, value, null, null, null, null)
+    if (
+      value &&
+      utils.btc.isValidBtcAddress(value, networks.btc) &&
+      !utils.btc.isSegwitAddress(value)
+    ) {
+      yield call(importLegacyAddress, value, null, null, null, null, label)
     }
   }
 
@@ -76,7 +81,14 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const importLegacyAddress = function * (address, priv, secPass, bipPass, to) {
+  const importLegacyAddress = function * (
+    address,
+    priv,
+    secPass,
+    bipPass,
+    to,
+    label
+  ) {
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
     let password
@@ -92,7 +104,8 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.wallet.importLegacyAddress, {
         key,
         password,
-        bipPass
+        bipPass,
+        label
       })
       yield put(actions.alerts.displaySuccess(C.IMPORT_LEGACY_SUCCESS))
       yield sweepImportedToAccount(priv, to, password)

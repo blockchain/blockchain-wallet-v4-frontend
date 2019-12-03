@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
 import { Field } from 'redux-form'
+import { Form, SelectBoxBankAccountType, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
-import { required } from 'services/FormHelper'
 import { Image, Text } from 'blockchain-info-components'
+import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;

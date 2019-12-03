@@ -1,13 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { path } from 'ramda'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-
 import { getData } from './selectors'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
-import StringDisplay from 'components/Display/StringDisplay'
 import { LargeTableRow, Wrapper } from 'components/Exchange'
+import { path } from 'ramda'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import React from 'react'
+import StringDisplay from 'components/Display/StringDisplay'
+import styled from 'styled-components'
 
 const RatesWrapper = styled(Wrapper)`
   padding: 0;

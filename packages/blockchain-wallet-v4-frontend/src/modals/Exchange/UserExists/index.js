@@ -1,22 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
-import { model } from 'data'
-import { getData } from './selectors'
-import modalEnhancer from 'providers/ModalEnhancer'
 import {
+  Button,
   Modal,
   ModalBody,
-  ModalHeader,
   ModalFooter,
-  Text,
-  Button
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
+import { getData } from './selectors'
+import { model } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const Row = styled(Text)`
   margin-bottom: 20px;

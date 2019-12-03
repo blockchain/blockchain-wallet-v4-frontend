@@ -1,8 +1,7 @@
-import { pathOr, prop, propOr } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { model, selectors } from 'data'
 import { getCurrentPairAmounts } from '../selectors'
+import { model, selectors } from 'data'
+import { pathOr, prop, propOr } from 'ramda'
 
 const { getSourceFee } = selectors.components.exchange
 const { EXCHANGE_FORM } = model.components.exchange

@@ -1,8 +1,8 @@
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import Bowser from 'bowser'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import { prop } from 'ramda'
 
 import {
   BlockchainLoader,
@@ -116,14 +116,20 @@ const SoftwareDownloadStep = props => {
       </HeadingWrapper>
       <Text size='13px' weight={500}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.body1'
-          defaultMessage='In order to use your Lockbox, you must first update your device firmware and install apps by downloading the updating software below.'
+          id='modals.lockboxsetup.softwaredownloadstep.1body'
+          defaultMessage='In order to use your Lockbox, you must first update your device by installing apps via the software below.'
         />
       </Text>
       <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.body2'
-          defaultMessage='If you have already downloaded the software and updated your device, you may dismiss this and continue.'
+          id='modals.lockboxsetup.softwaredownloadstep.2body'
+          defaultMessage='This software is intended for Blockchain Lockbox devices only. If you have a Ledger Nano S, please update your device using Ledger Live.'
+        />
+      </Text>
+      <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
+        <FormattedMessage
+          id='modals.lockboxsetup.softwaredownloadstep.3body'
+          defaultMessage='If you have previously updated your device, you may dismiss this and continue.'
         />
       </Text>
       <Link

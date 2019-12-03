@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import styled from 'styled-components'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 

@@ -1,12 +1,12 @@
-import { length, lift } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { selectors } from 'data'
 import {
-  getLockboxBtcBalance,
   getLockboxBchBalance,
+  getLockboxBtcBalance,
   getLockboxEthBalance,
   getLockboxXlmBalance
 } from 'components/Balances/lockbox/selectors'
+import { length, lift } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

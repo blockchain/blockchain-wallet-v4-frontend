@@ -1,8 +1,9 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
-  concat,
   compose,
+  concat,
   curry,
   descend,
   filter,
@@ -12,19 +13,19 @@ import {
   lensIndex,
   lensProp,
   lift,
-  not,
   map,
+  not,
   path,
   prepend,
   prop,
   reduce,
-  set,
   sequence,
+  set,
   sort
 } from 'ramda'
+import { collapse } from 'utils/helpers'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const allWallets = {
   label: 'All',
@@ -51,23 +52,25 @@ export const getData = (state, ownProps) => {
     coin,
     exclude = [],
     excludeHDWallets,
-    excludeWatchOnly,
     excludeImported,
     excludeLockbox,
+    excludeWatchOnly,
     includeAll = true,
     includePitAddress
   } = ownProps
   const buildDisplay = wallet => {
+    const label = collapse(wallet.label)
     if (has('balance', wallet)) {
       let bchDisplay = Exchange.displayBchToBch({
         value: wallet.balance,
         fromUnit: 'SAT',
         toUnit: 'BCH'
       })
-      return wallet.label + ` (${bchDisplay})`
+      return label + ` (${bchDisplay})`
     }
-    return wallet.label
+    return label
   }
+
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
@@ -83,7 +86,10 @@ export const getData = (state, ownProps) => {
   const formatAddress = addressData => {
     const formattedAddress = {}
     return compose(
-      a => assoc('label', prop('addr', addressData), a),
+      a =>
+        isNil(prop('label', addressData))
+          ? assoc('label', prop('addr', addressData), a)
+          : assoc('label', prop('label', addressData), a),
       a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
       a =>
         assocPath(

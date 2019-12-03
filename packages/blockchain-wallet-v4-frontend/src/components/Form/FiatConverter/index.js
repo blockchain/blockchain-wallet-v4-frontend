@@ -1,15 +1,23 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import { getData } from './selectors'
+import Converter from './Converter'
 import Error from './template.error'
 import Loading from './template.loading'
-import Converter from './Converter'
 
 class FiatConverterContainer extends React.PureComponent {
   render () {
-    const { input, meta, data, disabled, errorBottom, className } = this.props
+    const {
+      input,
+      meta,
+      data,
+      disabled,
+      errorBottom,
+      className,
+      marginTop
+    } = this.props
 
     return data.cata({
       Success: value => (
@@ -23,6 +31,7 @@ class FiatConverterContainer extends React.PureComponent {
           onBlur={input.onBlur}
           onFocus={input.onFocus}
           disabled={disabled}
+          marginTop={marginTop}
           data-e2e={this.props['data-e2e']}
         />
       ),

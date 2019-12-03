@@ -1,6 +1,10 @@
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
-  cancel,
   call,
+  cancel,
   delay,
   fork,
   put,
@@ -9,7 +13,6 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import moment from 'moment'
 import {
   compose,
   difference,
@@ -20,13 +23,10 @@ import {
   sortBy,
   tail
 } from 'ramda'
-
-import { Remote } from 'blockchain-wallet-v4'
-import { selectors, actions, actionTypes, model } from 'data'
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { promptForSecondPassword } from 'services/SagaService'
+import { Remote } from 'blockchain-wallet-v4'
+import moment from 'moment'
 
 const { AB_TESTS } = model.analytics
 
@@ -38,6 +38,12 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
+  const waitForUserData = function * () {
+    const userData = yield select(selectors.modules.profile.getUserData)
+    if (Remote.Success.is(userData)) return
+    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
   const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
@@ -47,6 +53,15 @@ export default ({ api, coreSagas, networks }) => {
         'x-campaign-address': xlmAccount,
         'x-campaign-code': campaign.code,
         'x-campaign-email': campaign.email
+      }
+    }
+    if (campaign.name === 'BLOCKSTACK') {
+      let password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
+      yield put(actions.core.data.stx.generateAddress(password))
+      const { payload } = yield take(actionTypes.core.data.stx.SET_ADDRESS)
+      const { address } = payload
+      return {
+        'x-campaign-address': address
       }
     }
 
@@ -288,6 +303,17 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.fetchUserDataSuccess(userData))
   }
 
+  const fetchUserCampaigns = function * () {
+    try {
+      yield put(A.fetchUserCampaignsLoading())
+      yield call(waitForUserData)
+      const userCampaigns = yield call(api.getUserCampaigns)
+      yield put(A.fetchUserCampaignsSuccess(userCampaigns))
+    } catch (e) {
+      yield put(A.fetchUserCampaignsFailure(e))
+    }
+  }
+
   const fetchTiers = function * () {
     try {
       const tiers = yield select(S.getTiers)
@@ -467,6 +493,7 @@ export default ({ api, coreSagas, networks }) => {
     createUser,
     fetchTiers,
     fetchUser,
+    fetchUserCampaigns,
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,

@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import ConfirmDisable2FA from './template.js'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 class ConfirmDisable2FAContainer extends React.PureComponent {
   constructor (props) {

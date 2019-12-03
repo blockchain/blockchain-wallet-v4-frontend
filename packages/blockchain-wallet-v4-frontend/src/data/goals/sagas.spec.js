@@ -1,12 +1,12 @@
 import { testSaga } from 'redux-saga-test-plan'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import * as actions from '../actions'
 import * as C from 'services/AlertService'
 import * as selectors from '../selectors'
-import * as actions from '../actions'
-import { model } from 'data'
-import goalsSagas from './sagas'
 import { getAllBalances } from 'data/balance/sagas'
+import { model } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import goalsSagas from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/balance/sagas', () => ({
@@ -24,18 +24,14 @@ describe('goals sagas', () => {
     defineActionGoal,
     defineSendCryptoGoal,
     defineReferralGoal,
-    runGoal,
+    isKycNotFinished,
     runSwapGetStartedGoal,
-    runKycDocResubmitGoal,
     runKycGoal,
     runReferralGoal,
-    runSendBtcGoal,
-    runPaymentProtocolGoal,
     runSwapUpgradeGoal,
     runWalletTour,
-    showInitialModal,
-    isKycNotFinished,
-    waitForUserData
+    waitForUserData,
+    showInitialModal
   } = goalsSagas({ api })
   const mathCopy = global.Math
   const mockGoalId = '4h96hsvbcj'
@@ -261,81 +257,6 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runGoal saga', () => {
-    describe('should run referral goal', () => {
-      const mockGoal = { name: 'referral', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runReferralGoal saga and end', () => {
-        saga.next().call(runReferralGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run payment goal', () => {
-      const mockGoal = { name: 'payment', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runPaymentProtocolGoal saga and end', () => {
-        saga.next().call(runSendBtcGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run payment protocol goal', () => {
-      const mockGoal = { name: 'paymentProtocol', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runPaymentProtocolGoal saga and end', () => {
-        saga.next().call(runPaymentProtocolGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run kyc goal', () => {
-      const mockGoal = { name: 'kyc', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runKyc saga and end', () => {
-        saga.next().call(runKycGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run kycDocResubmit goal', () => {
-      const mockGoal = { name: 'kycDocResubmit', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runKycDocResubmitGoal saga and end', () => {
-        saga.next().call(runKycDocResubmitGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run swapUpgrade goal', () => {
-      const mockGoal = { name: 'swapUpgrade', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call swapUpgrade saga and end', () => {
-        saga.next().call(runSwapUpgradeGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run swapGetStarted goal', () => {
-      const mockGoal = { name: 'swapGetStarted', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runSwapGetStartedGoal saga and end', () => {
-        saga.next().call(runSwapGetStartedGoal, mockGoal)
-        saga.next().isDone()
-      })
-    })
-    describe('should run walletTour goal', () => {
-      const mockGoal = { name: 'walletTour', data: {} }
-      const saga = testSaga(runGoal, mockGoal)
-
-      it('should call runWalletTour saga and end', () => {
-        saga.next().call(runWalletTour, mockGoal)
-        saga.next().isDone()
-      })
-    })
-  })
-
   describe('runReferralGoal saga', () => {
     const mockGoalData = { name: 'sunriver' }
     const saga = testSaga(runReferralGoal, {
@@ -493,24 +414,6 @@ describe('goals sagas', () => {
 
   describe('showInitialModal saga', () => {
     const saga = testSaga(showInitialModal)
-
-    it('should show sunriver modal', () => {
-      const mockModals = {
-        sunriver: { name: 'sunriver', data: {} }
-      }
-      saga
-        .next()
-        .select(selectors.goals.getInitialModals)
-        .next(mockModals)
-        .put(
-          actions.modals.showModal(
-            mockModals.sunriver.name,
-            mockModals.sunriver.data
-          )
-        )
-        .next()
-        .isDone()
-    })
 
     it('should show payment modal', () => {
       const mockModals = {

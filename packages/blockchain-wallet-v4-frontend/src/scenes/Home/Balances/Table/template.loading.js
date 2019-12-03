@@ -1,7 +1,6 @@
+import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-
-import { SkeletonRectangle } from 'blockchain-info-components'
 
 const BalanceSkeleton = styled.div`
   flex: 1;

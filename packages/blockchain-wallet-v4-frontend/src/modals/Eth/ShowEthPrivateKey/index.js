@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 import { getData } from './selectors'
+import modalEnhancer from 'providers/ModalEnhancer'
 import ShowEthPrivateKeyTemplate from './template'
 
 class ShowEthPrivateKeyContainer extends Component {

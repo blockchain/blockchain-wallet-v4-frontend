@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import { CoinBalanceWrapper } from 'components/Balances'
+import { LinkContainer } from 'react-router-bootstrap'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const Success = props => {
   const { balance } = props

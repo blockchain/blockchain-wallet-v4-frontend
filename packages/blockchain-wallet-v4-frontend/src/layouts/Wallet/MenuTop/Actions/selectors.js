@@ -1,5 +1,5 @@
-import { path, propOr, toUpper } from 'ramda'
 import { createSelector } from 'reselect'
+import { path, propOr, toUpper } from 'ramda'
 
 import { selectors } from 'data'
 

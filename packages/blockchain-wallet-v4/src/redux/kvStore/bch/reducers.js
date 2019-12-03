@@ -1,7 +1,7 @@
-import { assoc, assocPath, compose } from 'ramda'
-import { mapped, over } from 'ramda-lens'
-import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
+import { assoc, assocPath, compose } from 'ramda'
+import { KVStoreEntry } from '../../../types'
+import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 
 // initial state should be a kvstore object
@@ -53,6 +53,15 @@ export default (state = INITIAL_STATE, action) => {
       )
       const setDefaultAccount = assoc('default_account_idx', index)
       return over(valueLens, setDefaultAccount, state)
+    }
+    case AT.SET_LEGACY_ADDR_BCH: {
+      const { addr } = action.payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setAddr = assocPath(['addresses', addr.addr], addr)
+      return over(valueLens, setAddr, state)
     }
     case AT.SET_TRANSACTION_NOTE_BCH: {
       const { txHash, txNote } = action.payload

@@ -1,53 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import {
-  required,
-  validBtcAddress,
-  validBtcPrivateKey
-} from 'services/FormHelper'
 import {
   Banner,
   Button,
+  Image,
   Link,
   Text,
   TooltipHost,
-  TooltipIcon,
-  Image
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
-  FiatConverter,
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  NumberBoxDebounced,
-  SelectBoxBtcAddresses,
-  SelectBoxCoin,
-  SelectBox,
-  TextBox,
-  TextAreaDebounced,
-  CountdownTimer
-} from 'components/Form'
-import {
-  shouldError,
-  shouldWarn,
-  isAddressDerivedFromPriv,
-  insufficientFunds,
-  minimumAmount,
-  maximumAmount,
-  minimumFeePerByte,
-  maximumFeePerByte,
-  minimumOneSatoshi,
-  invalidAmount
-} from './validation'
-import {
-  Row,
   ColLeft,
   ColRight,
   CustomFeeAlertBanner,
@@ -55,12 +22,45 @@ import {
   FeeFormGroup,
   FeeFormLabel,
   FeeOptionsContainer,
-  FeePerByteContainer
+  FeePerByteContainer,
+  Row
 } from 'components/Send'
+import {
+  CountdownTimer,
+  FiatConverter,
+  Form,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  NumberBoxDebounced,
+  SelectBox,
+  SelectBoxBtcAddresses,
+  SelectBoxCoin,
+  TextAreaDebounced,
+  TextBox
+} from 'components/Form'
+import {
+  insufficientFunds,
+  invalidAmount,
+  isAddressDerivedFromPriv,
+  maximumAmount,
+  maximumFeePerByte,
+  minimumAmount,
+  minimumFeePerByte,
+  minimumOneSatoshi,
+  shouldError,
+  shouldWarn
+} from './validation'
+import { model } from 'data'
+import {
+  required,
+  validBtcAddress,
+  validBtcPrivateKey
+} from 'services/FormHelper'
+import ComboDisplay from 'components/Display/ComboDisplay'
+import PriorityFeeLink from './PriorityFeeLink'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
-import PriorityFeeLink from './PriorityFeeLink'
-import ComboDisplay from 'components/Display/ComboDisplay'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -265,6 +265,7 @@ const FirstStep = props => {
             coin='BTC'
             data-e2e='sendBtc'
             disabled={isPayPro}
+            marginTop='8px'
           />
         </FormItem>
       </FormGroup>

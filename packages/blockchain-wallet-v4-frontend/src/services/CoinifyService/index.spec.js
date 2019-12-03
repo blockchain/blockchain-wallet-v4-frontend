@@ -1,6 +1,6 @@
-import * as CoinifyService from './index'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+import * as CoinifyService from './index'
 import { KYC_STATES } from '../../data/modules/profile/model'
 const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 

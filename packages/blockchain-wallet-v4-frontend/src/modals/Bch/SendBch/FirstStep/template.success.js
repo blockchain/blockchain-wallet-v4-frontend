@@ -1,19 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { required, validBchAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Image,
   Text,
-  TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   CountdownTimer,
@@ -27,14 +25,16 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
-import ComboDisplay from 'components/Display/ComboDisplay'
 import {
-  shouldError,
   insufficientFunds,
+  invalidAmount,
   maximumAmount,
-  invalidAmount
+  shouldError
 } from './validation'
+import { model } from 'data'
+import { required, validBchAddress } from 'services/FormHelper'
 import { Row } from 'components/Send'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const WarningBanners = styled(Banner)`
@@ -206,6 +206,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BCH'
+            marginTop='8px'
             data-e2e='sendBch'
             disabled={isPayPro}
           />

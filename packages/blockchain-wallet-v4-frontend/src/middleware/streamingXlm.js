@@ -1,3 +1,4 @@
+import { actions, actionTypes } from 'data'
 import {
   compose,
   head,
@@ -9,7 +10,6 @@ import {
   reject,
   unnest
 } from 'ramda'
-import { actions, actionTypes } from 'data'
 
 const logLocation = 'middleware/streamingXlm'
 

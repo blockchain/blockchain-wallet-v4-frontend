@@ -1,13 +1,13 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { equals } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
 import ReactTooltip from 'react-tooltip'
 
+import { actions, selectors } from 'data'
 import { OPEN_BTC_TIMEOUT } from './../model'
 import PairDeviceStep from './template'
-import { actions, selectors } from 'data'
 
 class PairDeviceStepContainer extends React.PureComponent {
   state = { btcOpenTimeout: false }

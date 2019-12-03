@@ -1,5 +1,5 @@
-import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, networks }) => {
@@ -7,5 +7,9 @@ export default ({ api, networks }) => {
 
   return function * coreKvStoreBchSaga () {
     yield takeLatest(AT.FETCH_METADATA_BCH, kvStoreBchSagas.fetchMetadataBch)
+    yield takeLatest(
+      AT.IMPORT_LEGACY_ADDR_BCH,
+      kvStoreBchSagas.importLegacyAddress
+    )
   }
 }

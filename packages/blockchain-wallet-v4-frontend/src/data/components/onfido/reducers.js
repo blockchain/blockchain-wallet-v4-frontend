@@ -1,6 +1,6 @@
+import * as AT from './actionTypes'
 import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
-import * as AT from './actionTypes'
 export const INITIAL_STATE = {
   onfidoSDKKey: Remote.NotAsked,
   onfidoSyncStatus: Remote.NotAsked,

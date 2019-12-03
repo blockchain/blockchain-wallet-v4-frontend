@@ -1,24 +1,24 @@
-import React from 'react'
-import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import { any, equals, prop } from 'ramda'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Button, Link, Text } from 'blockchain-info-components'
-import { required, validIban, validBIC } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
-import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  Form,
   ColLeft,
+  ColRight,
+  ColRightInner,
+  Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader,
-  ColRight,
-  ColRightInner
+  PartnerSubHeader
 } from 'components/IdentityVerification'
-import { TextBox } from 'components/Form'
+import { required, validBIC, validIban } from 'services/FormHelper'
 import { SellContainer } from 'components/BuySell/styled'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
+import { TextBox } from 'components/Form'
 
 const CancelWrapper = styled.div`
   display: flex;

@@ -1,14 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
-import { prop } from 'ramda'
-import { compose, bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import CopyToClipBoard from 'react-copy-to-clipboard'
-
-import { actions, model } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-
+import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
 import {
   Button,
   Icon,
@@ -19,8 +10,12 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
-
-const { CAMPAIGNS } = model.components.identityVerification
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import CopyToClipBoard from 'react-copy-to-clipboard'
+import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
+import styled from 'styled-components'
 
 const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -80,7 +75,7 @@ class AirdropSuccess extends React.PureComponent {
 
   render () {
     const { isLinkCopied } = this.state
-    const { campaign, close, position, total } = this.props
+    const { close, position, total } = this.props
     const link = 'https://www.blockchain.com/getcrypto'
     const tweetLink =
       'https://twitter.com/intent/tweet?text=' +
@@ -100,7 +95,6 @@ class AirdropSuccess extends React.PureComponent {
             <FormattedMessage
               id='modals.airdropsuccess.airdropprogram'
               defaultMessage='Enrolled in Airdrop Program!'
-              values={{ coinCode: prop('coinCode', CAMPAIGNS[campaign]) }}
             />
           </Text>
           <Copy weight={400}>
@@ -158,10 +152,6 @@ class AirdropSuccess extends React.PureComponent {
       </Modal>
     )
   }
-}
-
-AirdropSuccess.defaultProps = {
-  campaign: 'sunriver'
 }
 
 const mapDispatchToProps = dispatch => ({

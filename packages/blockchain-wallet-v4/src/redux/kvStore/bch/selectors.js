@@ -1,18 +1,18 @@
+import * as walletSelectors from '../../wallet/selectors'
+import { BCH } from '../config'
 import {
   concat,
   curry,
   filter,
-  not,
   lift,
   map,
+  not,
   path,
   prop,
   values
 } from 'ramda'
-import { BCH } from '../config'
-import { kvStorePath } from '../../paths'
-import * as walletSelectors from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
+import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, BCH])
 
@@ -61,3 +61,6 @@ export const getBchTxNotes = state =>
 
 export const getBchTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+
+export const getLegacyAddrs = state =>
+  getMetadata(state).map(path(['value', 'addresses']))

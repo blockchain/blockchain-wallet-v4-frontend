@@ -1,6 +1,6 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { BigNumber } from 'bignumber.js'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const convertXlmToFiat = (rates, currency) => amount =>
   Exchange.convertXlmToFiat({

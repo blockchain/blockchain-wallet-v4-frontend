@@ -1,25 +1,25 @@
+import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Button } from 'blockchain-info-components'
-
 import {
   CloseTourIcon,
-  StepImg,
-  StepIcon,
-  StepTitle,
   StepContent,
+  StepIcon,
+  StepImg,
+  StepTitle,
   TooltipBody,
   TooltipContent,
   TooltipFooter
 } from 'components/Tour'
-import { actions, model } from 'data'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React, { useEffect, useState } from 'react'
 
 const { GENERAL_EVENTS } = model.analytics
 
 const TourTooltipComponent = ({
   analyticsActions,
+  routerActions,
   index,
   isLastStep,
   primaryProps,
@@ -54,12 +54,24 @@ const TourTooltipComponent = ({
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
         break
       case 4:
-        setFooterButtonDataE2e('closeWalletTour')
+        setFooterButtonDataE2e('showWalletTourThePit')
         setTourTooltipDataE2e('walletTourBuySell')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
         break
+      case 5:
+        setFooterButtonDataE2e('showWalletTourAirdrops')
+        setTourTooltipDataE2e('walletTourThePit')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_THE_PIT_VIEWED)
+        break
+      case 6:
+        setFooterButtonDataE2e('closeWalletTour')
+        setTourTooltipDataE2e('walletTourAirdrops')
+        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_AIRDROPS)
+        break
     }
   }, [index])
+
+  const isAirdropStep = index === 6
 
   return (
     <TooltipBody {...tooltipProps} data-e2e={tourTooltipDataE2e}>
@@ -72,20 +84,41 @@ const TourTooltipComponent = ({
         {...skipProps}
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
-      <TooltipFooter data-e2e={footerButtonDataE2e} isLastStep={isLastStep}>
-        <Button
-          width='110px'
-          height='48px'
-          nature='primary'
-          fullwidth
-          {...primaryProps}
-        >
-          {isLastStep ? (
-            <FormattedMessage id='wallet.tour.finish' defaultMessage='Close' />
-          ) : (
-            <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
-          )}
-        </Button>
+      <TooltipFooter isLastStep={isLastStep}>
+        {isAirdropStep ? (
+          <Button
+            data-e2e={footerButtonDataE2e}
+            width='110px'
+            height='48px'
+            nature='green'
+            fullwidth
+            {...primaryProps}
+            onClick={() => routerActions.push('/airdrops')}
+          >
+            <FormattedMessage
+              id='wallet.tour.checkitout'
+              defaultMessage='Check It Out'
+            />
+          </Button>
+        ) : (
+          <Button
+            data-e2e={footerButtonDataE2e}
+            width='110px'
+            height='48px'
+            nature='primary'
+            fullwidth
+            {...primaryProps}
+          >
+            {isLastStep ? (
+              <FormattedMessage
+                id='wallet.tour.finish'
+                defaultMessage='Close'
+              />
+            ) : (
+              <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
+            )}
+          </Button>
+        )}
       </TooltipFooter>
     </TooltipBody>
   )
@@ -223,11 +256,34 @@ export const TOUR_STEPS = [
     ),
     disableBeacon: true,
     placement: 'right'
+  },
+  {
+    target: '.airdrop-tooltip',
+    content: (
+      <>
+        <StepIcon name='parachute' size='56px' color='green600' />
+        <StepTitle size='20px' weight={600}>
+          <FormattedMessage
+            id='the.airdrop.tooltip.title'
+            defaultMessage='Our Latest Airdrop is Here!'
+          />
+        </StepTitle>
+        <StepContent color='grey600' size='14px' weight={500}>
+          <FormattedMessage
+            id='wallettour.airdrop.tooltip.stx'
+            defaultMessage='Our latest airdrop with Blockstack is here. Secure your free Stacks (STX) today.'
+          />
+        </StepContent>
+      </>
+    ),
+    disableBeacon: true,
+    placement: 'right'
   }
 ]
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export const TourTooltip = connect(

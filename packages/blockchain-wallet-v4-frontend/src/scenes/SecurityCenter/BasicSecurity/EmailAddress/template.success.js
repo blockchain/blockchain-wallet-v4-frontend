@@ -1,20 +1,19 @@
-import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import styled from 'styled-components'
-import { reduxForm } from 'redux-form'
 import { Button, Text } from 'blockchain-info-components'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
+  IconContainer,
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecurityIcon,
-  SecuritySummary,
-  IconContainer
+  SecuritySummary
 } from 'components/Security'
-
+import { reduxForm } from 'redux-form'
 import ChangeEmailSteps from './ChangeEmailSteps'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`

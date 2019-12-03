@@ -1,7 +1,7 @@
-import { compose } from 'ramda'
-import { Wrapper, Wallet, AddressMap } from '../../types'
-import walletReducer from './reducers.js'
 import * as Actions from './actions.js'
+import { AddressMap, Wallet, Wrapper } from '../../types'
+import { compose } from 'ramda'
+import walletReducer from './reducers.js'
 const walletFixture = require('../../types/__mocks__/wallet.v3')
 
 const wrap = wallet => ({

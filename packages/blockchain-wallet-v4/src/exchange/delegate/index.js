@@ -1,8 +1,7 @@
-import Bitcoin from 'bitcoinjs-lib'
-import { path, prop } from 'ramda'
-
 import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
+import { path, prop } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
 
 export default class ExchangeDelegate {
   constructor (state, api, partner) {

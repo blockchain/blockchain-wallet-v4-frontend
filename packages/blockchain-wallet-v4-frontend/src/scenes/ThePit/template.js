@@ -1,15 +1,8 @@
+import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
-import media from 'services/ResponsiveService'
-import {
-  Button,
-  Image,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -83,13 +76,6 @@ const Column = styled.div`
   }
 `
 
-const FooterColumn = styled(Column)`
-  padding-left: 25px;
-  ${media.tablet`
-    padding-left: 0;
-  `}
-`
-
 const StarfieldColumn = styled(Column)`
   background-image: url('/img/starfield2.png');
   background-repeat: no-repeat;
@@ -131,9 +117,6 @@ const FooterButton = styled(Button)`
   font-size: 16px;
   font-weight: 700;
 `
-const FooterLink = styled(Link)`
-  width: 100%;
-`
 const PitLogo = styled(Image)`
   margin-bottom: 10px;
   filter: invert(0);
@@ -141,7 +124,7 @@ const PitLogo = styled(Image)`
 `
 
 const ThePit = props => {
-  const { onLearnMore, onSignup, pitConnectTest } = props
+  const { onSignup } = props
   return (
     <Wrapper>
       <Container>
@@ -227,26 +210,6 @@ const ThePit = props => {
               />
             </FooterButton>
           </Column>
-          <FooterColumn>
-            <FooterLink
-              href={`https://pit.blockchain.com/?utm_source=web_wallet&utm_medium=referral&utm_campaign=${pitConnectTest.getOrElse(
-                'original'
-              )}`}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <FooterButton
-                nature='empty-secondary'
-                fullwidth
-                onClick={onLearnMore}
-              >
-                <FormattedMessage
-                  id='scenes.thepit.learnmore'
-                  defaultMessage='Learn More'
-                />
-              </FooterButton>
-            </FooterLink>
-          </FooterColumn>
         </Row>
       </Container>
     </Wrapper>

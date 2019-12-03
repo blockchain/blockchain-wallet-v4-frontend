@@ -1,5 +1,5 @@
-import { selectors, model } from 'data'
 import { lift, path } from 'ramda'
+import { model, selectors } from 'data'
 
 const { formatPair } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange

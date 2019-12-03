@@ -1,6 +1,6 @@
-import React from 'react'
-import QRCodeReact from 'qrcode.react'
 import PropTypes from 'prop-types'
+import QRCodeReact from 'qrcode.react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -8,6 +8,7 @@ const Wrapper = styled.div`
     padding: 12px;
     border: 1px solid ${props => props.theme['gray-2']};
     border-radius: 6px;
+    background-color: white;
   }
 `
 

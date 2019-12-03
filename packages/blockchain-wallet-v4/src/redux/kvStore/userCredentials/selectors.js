@@ -1,6 +1,6 @@
+import { kvStorePath } from '../../paths'
 import { path } from 'ramda'
 import { USER_CREDENTIALS } from '../config'
-import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, USER_CREDENTIALS])
 

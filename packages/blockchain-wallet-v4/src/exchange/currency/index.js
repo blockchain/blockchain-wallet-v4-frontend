@@ -1,11 +1,10 @@
-import { BigNumber } from 'bignumber.js'
-import BigRational from 'big-rational'
-import { compose, curry, is, prop, flip, sequence } from 'ramda'
-import { view } from 'ramda-lens'
-import Maybe from 'data.maybe'
-
-import Type from '../../types/Type'
 import * as Currencies from '../currencies'
+import { BigNumber } from 'bignumber.js'
+import { compose, curry, flip, is, prop, sequence } from 'ramda'
+import { view } from 'ramda-lens'
+import BigRational from 'big-rational'
+import Maybe from 'data.maybe'
+import Type from '../../types/Type'
 
 export class Currency extends Type {
   toString () {

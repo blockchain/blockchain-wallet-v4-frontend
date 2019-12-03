@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
-import { reduxForm, formValueSelector } from 'redux-form'
-import Template from './template'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector, reduxForm } from 'redux-form'
 import { path } from 'ramda'
+import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
+import Template from './template'
 
 class SfoxEnterMicroDeposits extends React.PureComponent {
   constructor (props) {

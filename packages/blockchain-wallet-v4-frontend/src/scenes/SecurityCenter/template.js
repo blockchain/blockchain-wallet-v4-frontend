@@ -1,10 +1,9 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-
 import { Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   padding: 10px 30px 30px;

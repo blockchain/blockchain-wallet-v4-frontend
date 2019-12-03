@@ -1,8 +1,7 @@
-import React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
-
 import { CurrencySelect } from './CurrencySelect'
+import { shallow } from 'enzyme'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 const swapBaseAndCounter = jest.fn()
 const changeSource = jest.fn()

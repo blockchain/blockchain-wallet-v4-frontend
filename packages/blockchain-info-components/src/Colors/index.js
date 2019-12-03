@@ -1,8 +1,8 @@
-import Default from './Default'
 import Complement from './Complement'
+import DarkMode from './DarkMode'
+import Default from './Default'
 import Grayscale from './Grayscale'
 import Invert from './Invert'
-import DarkMode from './DarkMode'
 
 const Color = (color, theme) => {
   switch (theme) {

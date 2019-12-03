@@ -1,10 +1,10 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import * as C from 'services/AlertService'
+import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Content = styled.div`
   display: flex;
@@ -599,6 +599,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage="You've just received an Ethereum payment"
         />
       )
+    case C.PAYMENT_RECEIVED_ETH_PENDING:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.payment_received_eth_pending'
+          defaultMessage="You've just received a pending Ethereum payment"
+        />
+      )
     case C.PAYMENT_RECEIVED_XLM:
       return buildMessageTemplate(
         <FormattedMessage
@@ -740,6 +747,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           values={data}
         />
       )
+    case C.SEND_COIN_CONFIRMED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.send_coin_confirmed'
+          defaultMessage='Your {coinName} transaction is now confirmed!'
+          values={data}
+        />
+      )
     case C.SEND_COIN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -778,6 +793,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
               </Text>
               <Text>
                 <Link
+                  data-e2e='startTourFromAlert'
                   weight={500}
                   size='12px'
                   onClick={() => {
@@ -989,7 +1005,21 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.update_address_label_error'
-          defaultMessage='Failed to update address label.'
+          defaultMessage='Failed to update address label'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_success'
+          defaultMessage='Address label updated'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_error'
+          defaultMessage='Failed to update imported address label'
         />
       )
     case C.VERIFY_EMAIL_SENT:

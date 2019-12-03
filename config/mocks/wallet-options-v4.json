@@ -139,6 +139,29 @@
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/pax/transactions"
         },
+        "STX": {
+          "campaign": "BLOCKSTACK",
+          "coinCode": "STX",
+          "coinTicker": "STX",
+          "colorCode": "stx",
+          "displayName": "Stacks",
+          "hasLockboxSupport": false,
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "icons": {
+            "default": "stx",
+            "circle": "stx",
+            "circleFilled": "stx"
+          },
+          "showNewTagSidenav": true,
+          "txListAppRoute": "/stx/transactions"
+        },
         "XLM": {
           "airdrop": {
             "link": "https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway",
@@ -266,7 +289,7 @@
         }
       },
       "thePit": {
-        "countries": ["UK"]
+        "countries": []
       },
       "sfox": {
         "countries": ["US"],

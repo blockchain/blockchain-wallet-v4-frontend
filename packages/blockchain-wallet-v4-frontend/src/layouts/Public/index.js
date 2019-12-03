@@ -1,13 +1,13 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
-import styled from 'styled-components'
-
-import ExternalLinks from './ExternalLinks'
-import Header from './Header'
-import Footer from './Footer'
+import AirdropCallout from './AirdropCallout'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import ExternalLinks from './ExternalLinks'
+import Footer from './Footer'
+import Header from './Header'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -63,6 +63,7 @@ class PublicLayoutContainer extends React.PureComponent {
                 <ContentContainer>
                   <Spacer />
                   <ComponentContainer>
+                    <AirdropCallout {...rest} />
                     <Component {...matchProps} />
                     <ExternalLinks />
                   </ComponentContainer>

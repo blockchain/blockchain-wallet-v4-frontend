@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 import { Cartridge } from '@blockchain-com/components'
 import {
@@ -14,16 +14,21 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { Text, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 import ThePitLink from '../ThePitLink'
 
 const HelperTipContainer = styled.div`
-  margin-left: auto;
+  position: relative;
   > div span {
     color: ${props => props.theme['gray-3']};
   }
+`
+const HelperTip = styled(TooltipHost)`
+  position: absolute;
+  left: 74px;
+  top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['orange']} !important;
@@ -44,7 +49,8 @@ const Navigation = props => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM
+    supportedCoins.XLM,
+    supportedCoins.STX
   ]
 
   return (
@@ -85,6 +91,27 @@ const Navigation = props => {
           </Destination>
         </MenuItem>
       </SpotlightLinkContainer>
+      <SpotlightLinkContainer to='/airdrops' activeClassName='active'>
+        <MenuItem data-e2e='airdropLink' className='airdrop'>
+          <JoyrideSpotlight className='airdrop-tooltip' />
+          <MenuIcon name='parachute' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.airdrops'
+              defaultMessage='Airdrops'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='green600' size='12' weight={600} uppercase>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.airdrop.active'
+                defaultMessage='Active'
+              />
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </SpotlightLinkContainer>
+      <ThePitLink {...props} />
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon
@@ -99,13 +126,12 @@ const Navigation = props => {
             />
           </Destination>
           <HelperTipContainer>
-            <TooltipHost id='lockboxRequired'>
+            <HelperTip id='lockboxRequired'>
               <TooltipIcon color='blue' name='info' />
-            </TooltipHost>
+            </HelperTip>
           </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
-      <ThePitLink {...props} />
       <Separator />
       {values(
         mapObjIndexed(

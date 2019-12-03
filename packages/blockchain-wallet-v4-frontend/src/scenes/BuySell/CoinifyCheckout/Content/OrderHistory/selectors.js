@@ -1,7 +1,7 @@
-import { selectors } from 'data'
 import { concat, curry, lift, map } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 export const getTrade = state =>
   selectors.core.data.coinify.getTrade(state).getOrElse(null)

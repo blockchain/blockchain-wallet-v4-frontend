@@ -1,7 +1,6 @@
-import { path, prop } from 'ramda'
-
-import { WHATSNEW } from '../config'
 import { kvStorePath } from '../../paths'
+import { path, prop } from 'ramda'
+import { WHATSNEW } from '../config'
 
 export const getMetadata = path([kvStorePath, WHATSNEW])
 

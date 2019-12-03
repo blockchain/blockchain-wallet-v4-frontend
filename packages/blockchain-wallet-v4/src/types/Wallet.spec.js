@@ -1,6 +1,6 @@
-import * as R from 'ramda'
-import { Address, Wallet, AddressMap, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
+import * as R from 'ramda'
+import { Address, AddressMap, serializer, Wallet } from './index'
 
 const walletFixture = require('./__mocks__/wallet.v3')
 const walletFixtureSecpass = require('./__mocks__/wallet.v3-secpass')
@@ -63,6 +63,7 @@ describe('Wallet', () => {
         0,
         undefined,
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),
@@ -88,6 +89,7 @@ describe('Wallet', () => {
         0,
         'secret',
         undefined,
+        null,
         {}
       ).fork(
         failure => expect(failure).toEqual(undefined),

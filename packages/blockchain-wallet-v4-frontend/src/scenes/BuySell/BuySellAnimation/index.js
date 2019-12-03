@@ -1,6 +1,6 @@
+import { Image } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { Image } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   overflow: hidden;

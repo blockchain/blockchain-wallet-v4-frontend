@@ -1,7 +1,7 @@
-import { assoc, assocPath, compose, merge } from 'ramda'
 import * as AT from './actionTypes'
-
+import { assoc, assocPath, compose, merge } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4'
+
 import { INITIAL_TIERS } from './model'
 
 const INITIAL_STATE = {
@@ -14,6 +14,7 @@ const INITIAL_STATE = {
     shareWalletAddressesWithPit: Remote.NotAsked
   },
   userData: Remote.NotAsked,
+  userCampaigns: Remote.NotAsked,
   userTiers: Remote.of(INITIAL_TIERS)
 }
 
@@ -32,6 +33,16 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('userData', Remote.Loading, state)
     case AT.FETCH_USER_DATA_FAILURE:
       return assoc('userData', Remote.Failure(payload.error), state)
+    case AT.FETCH_USER_CAMPAIGNS_SUCCESS:
+      return assoc(
+        'userCampaigns',
+        Remote.Success(payload.userCampaigns),
+        state
+      )
+    case AT.FETCH_USER_CAMPAIGNS_LOADING:
+      return assoc('userCampaigns', Remote.Loading, state)
+    case AT.FETCH_USER_CAMPAIGNS_FAILURE:
+      return assoc('userCampaigns', Remote.Failure(payload.error), state)
     case AT.FETCH_TIERS_SUCCESS:
       return assoc('userTiers', Remote.Success(payload.userTiers), state)
     case AT.FETCH_TIERS_LOADING:

@@ -1,21 +1,20 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
-import PropTypes from 'prop-types'
-
 import { Button, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
-import { validIpList } from 'services/FormHelper'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
+  SettingForm,
   SettingHeader,
   SettingSummary,
-  SettingForm,
   SettingWrapper
 } from 'components/Setting'
+import { TextBox } from 'components/Form'
+import { validIpList } from 'services/FormHelper'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const ButtonWrapper = styled.div`
   display: flex;
