@@ -18,6 +18,7 @@ class FirstStep extends React.Component {
   render () {
     const { data, actions } = this.props
     const autofilled = !!(this.props.amount && this.props.to)
+
     return data.cata({
       Success: value => (
         <Success

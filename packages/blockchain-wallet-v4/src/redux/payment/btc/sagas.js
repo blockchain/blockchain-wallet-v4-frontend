@@ -10,7 +10,8 @@ import {
   fromPrivateKey,
   isValidAddressOrIndex,
   toCoin,
-  toOutput
+  toOutput,
+  toOutputAccount
 } from './utils'
 import { btc } from '../../../signer'
 import { call, select } from 'redux-saga/effects'
@@ -53,9 +54,14 @@ export default ({ api }) => {
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  const __calculateTo = function * (destinations, type, network) {
+  const __calculateTo = function * (destinations, type, isSweep, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
+
+    // if is sweep (for handleAddressLimitError's)
+    if (isSweep && isValidAddressOrIndex(destinations)) {
+      return [toOutputAccount('BTC', network, appState, destinations, isSweep)]
+    }
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
@@ -90,7 +96,7 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  const __calculateFrom = function * (origin, type, network) {
+  const __calculateFrom = function * (origin, type, isSweep, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -104,7 +110,7 @@ export default ({ api }) => {
 
     switch (type) {
       case ADDRESS_TYPES.ACCOUNT:
-        return fromAccount(network, appState, origin, 'BTC')
+        return fromAccount(network, appState, origin, 'BTC', isSweep)
       case ADDRESS_TYPES.LEGACY:
         if (Array.isArray(origin) && origin.length > 0) {
           return fromLegacyList(origin)
@@ -278,8 +284,8 @@ export default ({ api }) => {
         }
       },
 
-      * to (destinations, type) {
-        let to = yield call(__calculateTo, destinations, type, network)
+      * to (destinations, type, isSweep) {
+        let to = yield call(__calculateTo, destinations, type, isSweep, network)
         return makePayment(merge(p, { to }))
       },
 
@@ -288,8 +294,14 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      * from (origins, type) {
-        let fromData = yield call(__calculateFrom, origins, type, network)
+      * from (origins, type, isSweep) {
+        let fromData = yield call(
+          __calculateFrom,
+          origins,
+          type,
+          isSweep,
+          network
+        )
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
           let effectiveBalance = yield call(__calculateEffectiveBalance, {

@@ -27,6 +27,7 @@ export default ({ api }) => {
         latest_block: path(['info', 'latest_block'], data)
       }
       // TODO: handleAddressLimitError
+      // test wallet: b8a42c69-97b9-4ba7-ad51-b183165c23f4
       // throw new Error('Number of addresses must be between 1')
       yield put(A.fetchDataSuccess(btcData))
     } catch (e) {

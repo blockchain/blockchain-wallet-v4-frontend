@@ -75,16 +75,18 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 
 // fromAccount :: Network -> ReduxState -> Object
 
-export const fromAccount = (network, state, index, coin) => {
+export const fromAccount = (network, state, index, coin, isSweep) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
 
   let changeIndex = equals(coin, 'BTC')
     ? S.data.btc.getChangeIndex(account.xpub, state)
     : S.data.bch.getChangeIndex(account.xpub, state)
-  let changeAddress = changeIndex
-    .map(index => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail('missing_change_address')
+  let changeAddress = isSweep
+    ? ''
+    : changeIndex
+        .map(index => HDAccount.getChangeAddress(account, index, network))
+        .getOrFail('missing_change_address')
 
   return {
     fromType: ADDRESS_TYPES.ACCOUNT,
@@ -139,16 +141,23 @@ export const fromPrivateKey = (network, wallet, key) => {
 }
 
 // toOutputAccount :: Coin -> String -> ReduxState -> Integer -> Object
-export const toOutputAccount = (coin, network, state, accountIndex) => {
+export const toOutputAccount = (
+  coin,
+  network,
+  state,
+  accountIndex,
+  isSweep
+) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
   const receiveIndexR =
     coin === 'BTC'
       ? S.data.btc.getReceiveIndex(account.xpub, state)
       : S.data.bch.getReceiveIndex(account.xpub, state)
-  const receiveIndex = receiveIndexR.getOrFail(
-    new Error('missing_receive_address')
-  )
+  const receiveIndex = isSweep
+    ? receiveIndexR.getOrElse(0)
+    : receiveIndexR.getOrFail(new Error('missing_receive_address'))
+
   const address = HDAccount.getReceiveAddress(account, receiveIndex, network)
   return {
     type: ADDRESS_TYPES.ACCOUNT,

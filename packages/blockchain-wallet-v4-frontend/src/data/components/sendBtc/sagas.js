@@ -66,10 +66,38 @@ export default ({ api, coreSagas, networks }) => {
         const defaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
-        // Set payment.from with special request for unspents, so that request will work
-        // Figure out how to bypass missing_change_address issue
-        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.to(to, ADDRESS_TYPES.ACCOUNT)
+        const isSweep = true
+        // Set payment.from, payment.to with special request
+        // for unspents so that request will work
+        const password = yield call(promptForSecondPassword)
+        payment = yield payment.from(
+          defaultIndex,
+          ADDRESS_TYPES.ACCOUNT,
+          isSweep
+        )
+        payment = yield payment.to(to, ADDRESS_TYPES.ACCOUNT, isSweep)
+        const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+        try {
+          payment = yield payment.fee(defaultFeePerByte)
+          payment = yield payment.buildSweep()
+          payment = yield payment.sign(password)
+          payment = yield payment.publish()
+          yield put(actions.router.push('/btc/transactions'))
+          yield put(
+            actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+              coinName: 'Bitcoin'
+            })
+          )
+        } catch (e) {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Bitcoin'
+            })
+          )
+        }
+        yield put(A.destroyed())
+        yield put(actions.modals.closeAllModals())
+        return
       } else {
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
@@ -140,10 +168,9 @@ export default ({ api, coreSagas, networks }) => {
   const handleAddressLimitError = function * () {
     // Generate new account
     let accounts = yield select(selectors.core.wallet.getHDAccounts)
-    yield call(
-      askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount),
-      `My Bitcoin Wallet ${accounts.length}`
-    )
+    yield call(askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount), {
+      label: `My Bitcoin Wallet ${accounts.length}`
+    })
     yield put(actions.core.kvStore.bch.fetchMetadataBch())
     yield put(actions.alerts.displaySuccess(C.NEW_WALLET_CREATE_SUCCESS))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
