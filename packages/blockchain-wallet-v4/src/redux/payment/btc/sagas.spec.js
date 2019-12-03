@@ -95,7 +95,7 @@ describe('createPayment', () => {
     it('should call calculateTo', () => {
       let gen = payment.to(TO_ADDRESS, STUB_TYPE)
       expect(gen.next().value).toEqual(
-        call(__calculateTo, TO_ADDRESS, STUB_TYPE, network)
+        call(__calculateTo, TO_ADDRESS, STUB_TYPE, undefined, network)
       )
       expect(gen.next().done).toEqual(true)
     })
@@ -113,7 +113,13 @@ describe('createPayment', () => {
     it('should set from', () => {
       let gen = payment.from(ADDRESS_TYPES_INDEX, STUB_TYPE)
       expect(gen.next().value).toEqual(
-        call(__calculateFrom, ADDRESS_TYPES_INDEX, STUB_TYPE, network)
+        call(
+          __calculateFrom,
+          ADDRESS_TYPES_INDEX,
+          STUB_TYPE,
+          undefined,
+          network
+        )
       )
       expect(gen.next(ADDRESS_TYPES_DATA).value).toEqual(
         call(__getWalletUnspent, network, ADDRESS_TYPES_DATA)
