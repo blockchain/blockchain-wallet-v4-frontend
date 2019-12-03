@@ -1,7 +1,7 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
 
 import { actions, model } from 'data'
 import { Button, Text, TextGroup } from 'blockchain-info-components'
@@ -21,7 +21,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
     this.setState({ warningDisplayed: !this.state.warningDisplayed })
     // Register BTC links
     window.navigator.registerProtocolHandler(
-      'web+bitcoin',
+      'bitcoin',
       '/#/open/%s',
       'Blockchain'
     )
