@@ -130,9 +130,12 @@ export default ({ api, coreSagas, networks }) => {
     })
     if (canceled) return
     yield put(actions.modals.closeAllModals())
-    const r = pathOr({}, ['options', 'r'], bip21Payload)
-    const data = { r }
-    yield put(actions.goals.saveGoal('paymentProtocol', data))
+    yield put(
+      actions.goals.saveGoal('paymentProtocol', {
+        coin: 'BTC',
+        r: pathOr({}, ['options', 'r'], bip21Payload)
+      })
+    )
     return yield put(actions.goals.runGoals())
   }
 
