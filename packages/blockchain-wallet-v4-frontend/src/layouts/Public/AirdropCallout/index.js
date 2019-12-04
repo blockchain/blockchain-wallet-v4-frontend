@@ -1,5 +1,8 @@
+import { connect } from 'react-redux'
+import { find, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'
@@ -18,7 +21,9 @@ const Copy = styled.div`
 `
 
 const AirdropCallout = props => {
-  return props.path === '/login' || props.path === '/signup' ? (
+  const isLinkAccountGoal = find(propEq('name', 'linkAccount'), props.goals)
+  return (props.path === '/login' || props.path === '/signup') &&
+    !isLinkAccountGoal ? (
     <PublicWrapper>
       <Container>
         <Icon name='parachute' color='green600' size='32px' />
@@ -53,4 +58,8 @@ const AirdropCallout = props => {
   ) : null
 }
 
-export default AirdropCallout
+const mapStateToProps = state => ({
+  goals: selectors.goals.getGoals(state)
+})
+
+export default connect(mapStateToProps)(AirdropCallout)
