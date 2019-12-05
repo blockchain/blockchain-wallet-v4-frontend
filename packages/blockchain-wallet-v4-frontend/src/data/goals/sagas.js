@@ -330,7 +330,7 @@ export default ({ api }) => {
     const xlmRates = yield select(selectors.core.data.xlm.getRates)
     const fiat = Exchange.convertXlmToFiat({
       value: amount,
-      fromUnit: 'BTC',
+      fromUnit: 'XLM',
       toCurrency: currency.getOrElse(null),
       rates: xlmRates.getOrElse(null)
     }).value
