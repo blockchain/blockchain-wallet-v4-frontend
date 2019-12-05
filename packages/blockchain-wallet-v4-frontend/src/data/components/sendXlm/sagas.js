@@ -28,6 +28,7 @@ export default ({ api, coreSagas }) => {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
+      const to = path(['payload', 'to'], action)
       yield put(A.paymentUpdatedLoading())
       yield put(actions.components.send.fetchPaymentsAccountPit('XLM'))
       let payment = coreSagas.payment.xlm.create()
@@ -43,11 +44,18 @@ export default ({ api, coreSagas }) => {
       ))
         .map(head)
         .getOrElse({})
+      if (to) {
+        payment = yield payment.to(to)
+      }
+      const prepareTo = to => {
+        return to ? { value: { value: to, label: to } } : null
+      }
       const initialValues = {
         coin: 'XLM',
         fee: defaultFee,
         from: defaultAccount,
-        memoType: INITIAL_MEMO_TYPE
+        memoType: INITIAL_MEMO_TYPE,
+        to: prepareTo(to)
       }
       yield put(initialize(FORM, initialValues))
       yield put(touch(FORM, 'memo', 'memoType'))
