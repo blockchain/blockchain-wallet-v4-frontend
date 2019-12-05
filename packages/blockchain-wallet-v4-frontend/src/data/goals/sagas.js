@@ -92,8 +92,9 @@ export default ({ api }) => {
     const params = new URLSearchParams(search)
     const address = params.get('address')
     const amount = params.get('amount')
+    const memo = params.get('memo')
 
-    yield put(actions.goals.saveGoal('xlmPayment', { address, amount }))
+    yield put(actions.goals.saveGoal('xlmPayment', { address, amount, memo }))
     yield put(actions.router.push('/wallet'))
     yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
@@ -325,7 +326,7 @@ export default ({ api }) => {
 
     yield call(getXlmBalance)
 
-    const { amount, address } = data
+    const { amount, address, memo } = data
     const currency = yield select(selectors.core.settings.getCurrency)
     const xlmRates = yield select(selectors.core.data.xlm.getRates)
     const fiat = Exchange.convertXlmToFiat({
@@ -341,7 +342,8 @@ export default ({ api }) => {
         model.components.sendXlm.MODAL,
         {
           to: address,
-          amount: { coin: amount, fiat }
+          amount: { coin: amount, fiat },
+          memo
         }
       )
     )
