@@ -20,7 +20,7 @@ const AnimationWrapper = styled.div`
   height: calc(100vh - 60px);
   transition: right 0.4s linear;
   box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
-  z-index: 20;
+  z-index: 1;
 
   @media (max-width: 991px) {
     width: calc(50%);
