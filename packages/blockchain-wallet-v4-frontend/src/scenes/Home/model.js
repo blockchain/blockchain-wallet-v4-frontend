@@ -4,7 +4,6 @@ import { Button } from 'blockchain-info-components'
 import {
   CloseTourIcon,
   StepContent,
-  StepIcon,
   StepImg,
   StepTitle,
   TooltipBody,
@@ -54,24 +53,12 @@ const TourTooltipComponent = ({
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
         break
       case 4:
-        setFooterButtonDataE2e('showWalletTourThePit')
+        setFooterButtonDataE2e('closeWalletTour')
         setTourTooltipDataE2e('walletTourBuySell')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
         break
-      case 5:
-        setFooterButtonDataE2e('showWalletTourAirdrops')
-        setTourTooltipDataE2e('walletTourThePit')
-        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_THE_PIT_VIEWED)
-        break
-      case 6:
-        setFooterButtonDataE2e('closeWalletTour')
-        setTourTooltipDataE2e('walletTourAirdrops')
-        analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_AIRDROPS)
-        break
     }
   }, [index])
-
-  const isAirdropStep = index === 6
 
   return (
     <TooltipBody {...tooltipProps} data-e2e={tourTooltipDataE2e}>
@@ -85,40 +72,20 @@ const TourTooltipComponent = ({
       />
       {step.content && <TooltipContent>{step.content}</TooltipContent>}
       <TooltipFooter isLastStep={isLastStep}>
-        {isAirdropStep ? (
-          <Button
-            data-e2e={footerButtonDataE2e}
-            width='110px'
-            height='48px'
-            nature='green'
-            fullwidth
-            {...primaryProps}
-            onClick={() => routerActions.push('/airdrops')}
-          >
-            <FormattedMessage
-              id='wallet.tour.checkitout'
-              defaultMessage='Check It Out'
-            />
-          </Button>
-        ) : (
-          <Button
-            data-e2e={footerButtonDataE2e}
-            width='110px'
-            height='48px'
-            nature='primary'
-            fullwidth
-            {...primaryProps}
-          >
-            {isLastStep ? (
-              <FormattedMessage
-                id='wallet.tour.finish'
-                defaultMessage='Close'
-              />
-            ) : (
-              <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
-            )}
-          </Button>
-        )}
+        <Button
+          data-e2e={footerButtonDataE2e}
+          width='110px'
+          height='48px'
+          nature='primary'
+          fullwidth
+          {...primaryProps}
+        >
+          {isLastStep ? (
+            <FormattedMessage id='wallet.tour.finish' defaultMessage='Close' />
+          ) : (
+            <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
+          )}
+        </Button>
       </TooltipFooter>
     </TooltipBody>
   )
@@ -205,7 +172,7 @@ export const TOUR_STEPS = [
         <StepContent size='14px' weight={500}>
           <FormattedMessage
             id='wallet.tour.stepfour.content'
-            defaultMessage='Trade crypto with low fees and  quick settlement.'
+            defaultMessage='Trade crypto with low fees and quick settlement.'
           />
         </StepContent>
       </>
@@ -234,50 +201,6 @@ export const TOUR_STEPS = [
     ),
     placement: 'right',
     disableBeacon: true
-  },
-  {
-    target: '.the-pit-tooltip',
-    content: (
-      <>
-        <StepIcon name='the-pit' size='56px' color='pitBlue' />
-        <StepTitle size='20px' weight={600}>
-          <FormattedMessage
-            id='the.pit.tooltip.title'
-            defaultMessage='Trade in The PIT.'
-          />
-        </StepTitle>
-        <StepContent color='grey600' size='14px' weight={500}>
-          <FormattedMessage
-            id='wallettour.pit.tooltip.content'
-            defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
-          />
-        </StepContent>
-      </>
-    ),
-    disableBeacon: true,
-    placement: 'right'
-  },
-  {
-    target: '.airdrop-tooltip',
-    content: (
-      <>
-        <StepIcon name='parachute' size='56px' color='green600' />
-        <StepTitle size='20px' weight={600}>
-          <FormattedMessage
-            id='the.airdrop.tooltip.title'
-            defaultMessage='Our Latest Airdrop is Here!'
-          />
-        </StepTitle>
-        <StepContent color='grey600' size='14px' weight={500}>
-          <FormattedMessage
-            id='wallettour.airdrop.tooltip.stx'
-            defaultMessage='Our latest airdrop with Blockstack is here. Secure your free Stacks (STX) today.'
-          />
-        </StepContent>
-      </>
-    ),
-    disableBeacon: true,
-    placement: 'right'
   }
 ]
 

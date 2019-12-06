@@ -69,6 +69,14 @@ export default ({
     })
   }
 
+  const getUserCampaigns = currency => {
+    return authorizedGet({
+      url: nabuUrl,
+      endPoint: '/users/user-campaigns',
+      contentType: 'application/json'
+    })
+  }
+
   const shareWalletDepositAddresses = addresses => {
     return authorizedPost({
       url: nabuUrl,
@@ -161,6 +169,7 @@ export default ({
     generateSession,
     getPaymentsAccountPit,
     getUser,
+    getUserCampaigns,
     linkAccount,
     recoverUser,
     registerUserCampaign,

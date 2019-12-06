@@ -6,6 +6,7 @@ export default ({ api, coreSagas, networks }) => {
   const {
     clearSession,
     fetchUser,
+    fetchUserCampaigns,
     linkFromPitAccount,
     linkToPitAccount,
     shareWalletAddressesWithPit,
@@ -20,6 +21,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SIGN_IN, signIn)
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.FETCH_USER, fetchUser)
+    yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
     yield takeLatest(AT.LINK_FROM_PIT_ACCOUNT, linkFromPitAccount)
     yield takeLatest(AT.LINK_TO_PIT_ACCOUNT, linkToPitAccount)
     yield takeLatest(
