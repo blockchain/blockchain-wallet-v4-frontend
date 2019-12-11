@@ -28,9 +28,18 @@ export default (state = INITIAL_STATE, action) => {
         KVStoreEntry.value
       )
       const setAccountLabel = assocPath(
-        ['addresses', accountIdx, 'label'],
+        ['accounts', accountIdx, 'label'],
         label
       )
+      return over(valueLens, setAccountLabel, state)
+    }
+    case AT.SET_LEGACY_ADDR_LABEL: {
+      const { address, label } = action.payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setAccountLabel = assocPath(['addresses', address, 'label'], label)
       return over(valueLens, setAccountLabel, state)
     }
     case AT.SET_BCH_ACCOUNT_ARCHIVED: {

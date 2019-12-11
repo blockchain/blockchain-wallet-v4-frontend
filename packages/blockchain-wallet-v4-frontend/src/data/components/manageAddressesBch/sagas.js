@@ -20,7 +20,7 @@ export default ({ api, networks }) => {
 
       // update label
       yield put(
-        actions.core.kvStore.bch.setAccountLabel(address.addr, newLabel)
+        actions.core.kvStore.bch.setLegacyAddressLabel(address.addr, newLabel)
       )
 
       yield put(A.editImportedAddressLabelSuccesss(address))

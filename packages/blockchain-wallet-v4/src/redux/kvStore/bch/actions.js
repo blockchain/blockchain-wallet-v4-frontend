@@ -35,6 +35,11 @@ export const setAccountLabel = (accountIdx, label) => ({
   payload: { accountIdx, label }
 })
 
+export const setLegacyAddressLabel = (address, label) => ({
+  type: AT.SET_LEGACY_ADDR_LABEL,
+  payload: { address, label }
+})
+
 export const setAccountArchived = (accountIdx, archived) => ({
   type: AT.SET_BCH_ACCOUNT_ARCHIVED,
   payload: { accountIdx, archived }
