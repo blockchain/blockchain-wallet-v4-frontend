@@ -39,6 +39,16 @@ export default () => {
         case contains('/lockbox/', pathname):
           yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
           break
+        case contains('profile', pathname):
+        case contains('/airdrops', pathname):
+          yield put(actions.modules.profile.fetchUserDataLoading())
+          yield put(actions.modules.profile.fetchUser())
+          yield put(actions.modules.profile.fetchUserCampaigns())
+          break
+        case contains('/swap/history', pathname):
+          yield put(actions.components.exchangeHistory.clearTrades())
+          yield put(actions.components.exchangeHistory.fetchNextPage())
+          break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.btc.fetchTransactions('', true))

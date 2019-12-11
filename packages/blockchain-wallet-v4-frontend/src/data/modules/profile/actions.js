@@ -15,6 +15,21 @@ export const fetchUser = () => ({
   type: AT.FETCH_USER
 })
 
+export const fetchUserCampaignsSuccess = userCampaigns => ({
+  type: AT.FETCH_USER_CAMPAIGNS_SUCCESS,
+  payload: { userCampaigns }
+})
+export const fetchUserCampaignsLoading = () => ({
+  type: AT.FETCH_USER_CAMPAIGNS_LOADING
+})
+export const fetchUserCampaignsFailure = error => ({
+  type: AT.FETCH_USER_CAMPAIGNS_FAILURE,
+  payload: { error }
+})
+export const fetchUserCampaigns = () => ({
+  type: AT.FETCH_USER_CAMPAIGNS
+})
+
 export const fetchTiersSuccess = userTiers => ({
   type: AT.FETCH_TIERS_SUCCESS,
   payload: { userTiers }
