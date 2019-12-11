@@ -2,9 +2,9 @@ import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import BchImportedAddresses from './template'
 import React from 'react'
 
@@ -15,6 +15,10 @@ class ImportedAddressesContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
+  handleClickImport = () => {
+    this.props.modalActions.showModal('ImportBchAddress')
+  }
+
   handleTransferAll = () => {
     this.props.actions.showModal(model.components.sendBch.MODAL, {
       from: 'allImportedAddresses',
@@ -23,24 +27,25 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleShowPriv = address => {
-    const btcAddr = fromCashAddr(address.addr)
+    const bchAddr = toCashAddr(address.addr)
     this.props.modalActions.showModal('ShowBchPrivateKey', {
-      addr: btcAddr,
-      bchAddr: address.addr,
+      privkey: address.priv,
+      addr: address.addr,
+      bchAddr: bchAddr,
       balance: address.info.final_balance
     })
   }
 
   handleEditLabel = address => {
-    const btcAddr = fromCashAddr(address.addr)
-    this.props.componentActions.editImportedAddressLabel(btcAddr)
+    this.props.componentActions.editImportedAddressLabel(address)
   }
 
   handleSignMessage = address => {
-    const btcAddr = fromCashAddr(address.addr)
+    const bchAddr = toCashAddr(address.addr)
     this.props.modalActions.showModal('SignMessageBch', {
-      address: btcAddr,
-      bchAddr: address.addr
+      address: address.addr,
+      bchAddr: bchAddr,
+      privKey: address.priv
     })
   }
 
@@ -52,18 +57,18 @@ class ImportedAddressesContainer extends React.Component {
     const { data, ...rest } = this.props
     return data.cata({
       Success: addresses => {
-        return addresses.length ? (
+        const addressList = Object.values(addresses)
+        return (
           <BchImportedAddresses
-            importedAddresses={addresses}
+            importedAddresses={addressList}
             onTransferAll={this.handleTransferAll}
             onEditLabel={this.handleEditLabel}
             handleShowPriv={this.handleShowPriv}
             handleSignMessage={this.handleSignMessage}
+            handleClickImport={this.handleClickImport}
             onClickVerify={this.handleClickVerify}
             {...rest}
           />
-        ) : (
-          <div />
         )
       },
       Failure: message => <div>{message}</div>,
@@ -77,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modals, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   componentActions: bindActionCreators(
-    actions.components.manageAddresses,
+    actions.components.manageAddressesBch,
     dispatch
   )
 })

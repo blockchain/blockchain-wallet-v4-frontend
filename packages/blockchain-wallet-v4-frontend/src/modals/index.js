@@ -51,6 +51,14 @@ import {
 } from './Addresses'
 import { EditTxDescription, TransactionReport } from './Transactions'
 import {
+  ImportBchAddress,
+  RequestBch,
+  SendBch,
+  ShowBchPrivateKey,
+  SignMessageBch,
+  VerifyMessageBch
+} from './Bch'
+import {
   LockboxAppManager,
   LockboxConnectionPrompt,
   LockboxFirmware,
@@ -66,13 +74,6 @@ import {
   ShowEthPrivateKey,
   TransferEth
 } from './Eth'
-import {
-  RequestBch,
-  SendBch,
-  ShowBchPrivateKey,
-  SignMessageBch,
-  VerifyMessageBch
-} from './Bch'
 import {
   RequestXlm,
   SendXlm,
@@ -165,6 +166,7 @@ const Modals = () => (
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
     <VerifyMessageBch />
+    <ImportBchAddress />
   </div>
 )
 

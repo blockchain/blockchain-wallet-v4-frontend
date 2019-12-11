@@ -14,7 +14,10 @@ import {
   split,
   values
 } from 'ramda'
-import { getAccountsList } from '../../kvStore/bch/selectors'
+import {
+  getAccountsList,
+  getLegacyAddrsList
+} from '../../kvStore/bch/selectors'
 import {
   getAddresses,
   getChangeIndex,
@@ -77,14 +80,11 @@ export const getActiveAddresses = state => {
     balancesRD
       .map(prop(prop('addr', address)))
       .map(x => assoc('info', x, address))
-  const convertToCashAddr = address =>
-    assoc('addr', toCashAddr(address.addr, true), address)
 
   const objectOfRemotes = compose(
-    map(lift(convertToCashAddr)),
     map(addInfo),
     values,
-    walletSelectors.getActiveAddresses
+    getLegacyAddrsList
   )(state)
 
   return sequence(Remote.of, objectOfRemotes)

@@ -74,7 +74,6 @@ export const getData = (state, ownProps) => {
     state
   )
   const hasPitAddress = Remote.Success.is(pitAddress)
-
   const getAddressesData = () => {
     return sequence(Remote.of, [
       selectors.core.common.bch
@@ -123,6 +122,5 @@ export const getData = (state, ownProps) => {
       }
     })
   }
-
   return getAddressesData()
 }

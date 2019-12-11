@@ -15,6 +15,7 @@ import sendBtc from './sendBtc/reducers'
 import sendEth from './sendEth/reducers'
 import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
+import signMessageBch from './signMessageBch/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 
@@ -35,6 +36,7 @@ export default combineReducers({
   sendEth,
   sendXlm,
   signMessage,
+  signMessageBch,
   uploadDocuments,
   veriff
 })

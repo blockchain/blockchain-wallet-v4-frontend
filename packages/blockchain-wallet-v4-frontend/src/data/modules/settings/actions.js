@@ -110,9 +110,9 @@ export const showBtcPrivateKey = addr => ({
   payload: { addr }
 })
 
-export const showBchPrivateKey = (addr, bchAddr) => ({
+export const showBchPrivateKey = (addr, bchAddr, priv) => ({
   type: AT.SHOW_BCH_PRIV_KEY,
-  payload: { addr, bchAddr }
+  payload: { addr, bchAddr, priv }
 })
 export const showEthPrivateKey = isLegacy => ({
   type: AT.SHOW_ETH_PRIV_KEY,

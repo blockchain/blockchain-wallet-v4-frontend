@@ -30,7 +30,11 @@ class ShowBchPrivateKeyContainer extends Component {
   render () {
     let step = this.props.priv == null ? 0 : 1
     let nextStep = () =>
-      this.props.actions.showBchPrivateKey(this.props.addr, this.props.bchAddr)
+      this.props.actions.showBchPrivateKey(
+        this.props.addr,
+        this.props.bchAddr,
+        this.props.privkey
+      )
     return (
       <ShowBchPrivateKeyTemplate
         {...this.props}

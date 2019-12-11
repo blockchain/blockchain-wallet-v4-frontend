@@ -1,9 +1,11 @@
 import * as walletSelectors from '../../wallet/selectors'
 import { BCH } from '../config'
 import {
+  compose,
   concat,
   curry,
   filter,
+  isNil,
   lift,
   map,
   not,
@@ -62,5 +64,28 @@ export const getBchTxNotes = state =>
 export const getBchTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
 
-export const getLegacyAddrs = state =>
-  getMetadata(state).map(path(['value', 'addresses']))
+export const getLegacyAddrs = state => {
+  return getMetadata(state).map(path(['value', 'addresses']))
+}
+
+export const getLegecyAddrsBalances = state =>
+  map(map(digestAddress), getLegacyAddrs(state))
+
+export const getLegacyAddrsList = state =>
+  extract(getMetadata(state).map(path(['value', 'addresses'])))
+
+const extract = addrs => {
+  return Object.values(addrs.data)
+}
+
+const digestAddress = acc => ({
+  coin: 'BCH',
+  label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
+  balance: path(['info', 'final_balance'], acc),
+  address: prop('addr', acc),
+  watchOnly: compose(
+    isNil,
+    prop('priv')
+  )(acc),
+  type: 'LEGACY'
+})

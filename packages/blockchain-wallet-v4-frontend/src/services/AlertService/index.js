@@ -4,6 +4,8 @@ export const ADDRESS_DELETE_ERROR = 'address_delete_error'
 export const ADDRESS_DOES_NOT_EXIST_ERROR = 'address_does_not_exist_error'
 export const ADDRESS_FORMAT_NOT_SUPPORTED_ERROR =
   'address_format_not_supported_error'
+export const LABEL_ALREADY_EXISTS = 'label_already_exists'
+export const PRIVATE_KEY_ALREADY_EXISTS = 'private_key_already_exists'
 export const ADDRESS_LABEL_MAXIMUM_ERROR = 'address_label_maximum_error'
 export const AUTHORIZATION_REQUIRED_INFO = 'authorization_required_info'
 export const AUTOLOGOUT_UPDATE_ERROR = 'autologout_update_error'

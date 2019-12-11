@@ -15,6 +15,7 @@ import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
+import * as signMessageBch from './signMessageBch/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as veriff from './veriff/selectors'
 
@@ -36,6 +37,7 @@ export {
   sendEth,
   sendXlm,
   signMessage,
+  signMessageBch,
   uploadDocuments,
   veriff
 }

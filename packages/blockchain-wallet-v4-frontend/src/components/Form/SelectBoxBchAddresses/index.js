@@ -7,7 +7,6 @@ import SelectBoxBCH from './template'
 class SelectBoxBchAddresses extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
-
     return data.cata({
       Success: value => {
         return (

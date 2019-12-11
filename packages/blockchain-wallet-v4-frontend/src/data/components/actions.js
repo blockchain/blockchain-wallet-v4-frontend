@@ -6,10 +6,12 @@ import * as ethTransactions from './ethTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
 import * as identityVerification from './identityVerification/actions'
+import * as importBchAddress from './importBchAddress/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import * as layoutWallet from './layoutWallet/actions'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
+import * as manageAddressesBch from './manageAddressesBch/actions'
 import * as onboarding from './onboarding/actions'
 import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
@@ -26,6 +28,7 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
+import * as signMessageBch from './signMessageBch/actions'
 import * as stxTransactions from './stxTransactions/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
@@ -42,8 +45,10 @@ export {
   exchange,
   exchangeHistory,
   identityVerification,
+  importBchAddress,
   importBtcAddress,
   manageAddresses,
+  manageAddressesBch,
   onboarding,
   onfido,
   layoutWallet,
@@ -62,6 +67,7 @@ export {
   sendXlm,
   settings,
   signMessage,
+  signMessageBch,
   stxTransactions,
   transactionReport,
   uploadDocuments,

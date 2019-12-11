@@ -6,8 +6,10 @@ import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas'
+import importBchAddress from './importBchAddress/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import manageAddresses from './manageAddresses/sagas'
+import manageAddressesBch from './manageAddressesBch/sagas'
 import onboarding from './onboarding/sagas'
 import onfido from './onfido/sagas'
 import priceChart from './priceChart/sagas'
@@ -24,6 +26,7 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
+import signMessageBch from './signMessageBch/sagas'
 import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
@@ -39,8 +42,10 @@ export default ({ api, coreSagas, networks }) => ({
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),
+  importBchAddress: importBchAddress({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
+  manageAddressesBch: manageAddressesBch({ api, networks }),
   onboarding: onboarding(),
   onfido: onfido({ api }),
   priceChart: priceChart({ coreSagas }),
@@ -57,6 +62,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ api, coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
+  signMessageBch: signMessageBch({ coreSagas }),
   transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas })

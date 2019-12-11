@@ -37,13 +37,13 @@ SignMessageContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  step: selectors.components.signMessage.getStep(state)
+  step: selectors.components.signMessageBch.getStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   signMessageActions: bindActionCreators(
-    actions.components.signMessage,
+    actions.components.signMessageBch,
     dispatch
   )
 })

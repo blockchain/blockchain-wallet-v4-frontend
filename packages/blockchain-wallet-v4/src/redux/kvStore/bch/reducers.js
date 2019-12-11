@@ -28,7 +28,7 @@ export default (state = INITIAL_STATE, action) => {
         KVStoreEntry.value
       )
       const setAccountLabel = assocPath(
-        ['accounts', accountIdx, 'label'],
+        ['addresses', accountIdx, 'label'],
         label
       )
       return over(valueLens, setAccountLabel, state)

@@ -7,9 +7,11 @@ import ethTransactions from './ethTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
 import exchangeHistory from './exchangeHistory/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
+import importBchAddress from './importBchAddress/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
+import manageAddressesBch from './manageAddressesBch/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import onfido from './onfido/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
@@ -26,6 +28,7 @@ import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
+import signMessageBch from './signMessageBch/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
@@ -43,8 +46,10 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(lockbox({ api, coreSagas }))
+    yield fork(importBchAddress({ api, coreSagas, networks }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
+    yield fork(manageAddressesBch({ api, networks }))
     yield fork(onboarding())
     yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart({ coreSagas }))
@@ -61,6 +66,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(sendXlm({ api, coreSagas }))
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
+    yield fork(signMessageBch({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
     yield fork(veriff({ api, coreSagas }))

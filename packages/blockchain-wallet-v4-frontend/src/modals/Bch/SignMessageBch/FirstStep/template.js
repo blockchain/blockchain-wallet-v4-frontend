@@ -99,6 +99,6 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'signMessage', destroyOnUnmount: false })(
+export default reduxForm({ form: 'signMessageBch', destroyOnUnmount: false })(
   FirstStep
 )

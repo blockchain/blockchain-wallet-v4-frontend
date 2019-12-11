@@ -2,26 +2,22 @@ import * as walletSelectors from '../../wallet/selectors'
 import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
 import { createDeepEqualSelector } from '../../../utils'
 import { dataPath } from '../../paths'
-import { getAccounts } from '../../kvStore/bch/selectors'
+import { getAccounts, getLegacyAddrs } from '../../kvStore/bch/selectors'
 import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
 
 export const getWalletContext = createDeepEqualSelector(
-  [
-    walletSelectors.getHDAccounts,
-    walletSelectors.getActiveAddresses,
-    getAccounts
-  ],
+  [walletSelectors.getHDAccounts, getLegacyAddrs, getAccounts],
   (btcHDAccounts, activeAddresses, metadataAccountsR) => {
     const transform = metadataAccounts => {
       const activeAccounts = filter(account => {
         const index = prop('index', account)
-        const metadataAccount = metadataAccounts[index]
+        const metadataAccount = metadataAccountsR.data[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
       return map(prop('xpub'), activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const addresses = keysIn(activeAddresses)
+    const addresses = keysIn(activeAddresses.data)
     return concat(activeAccounts, addresses)
   }
 )

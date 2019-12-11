@@ -13,7 +13,7 @@ import {
   stopSubmit
 } from 'redux-form'
 import { equals, identity, includes, is, nth, path, pathOr, prop } from 'ramda'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
@@ -41,11 +41,9 @@ export default ({ coreSagas, networks }) => {
         const addressesR = yield select(
           selectors.core.common.bch.getActiveAddresses
         )
-        const addresses = addressesR
-          .getOrElse([])
-          .filter(prop('priv'))
-          .map(prop('addr'))
-          .map(utils.bch.fromCashAddr)
+
+        const addresses = addressesR.getOrElse([]).filter(prop('priv'))
+
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else {
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)

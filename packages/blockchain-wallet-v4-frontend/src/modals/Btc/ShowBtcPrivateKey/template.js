@@ -76,7 +76,7 @@ const SecondStep = ({
 }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
-      <QRCodeWrapper value={priv} size={120} />
+      <QRCodeWrapper value={privKeyString(priv, format, addr)} size={120} />
     </div>
     <DetailTable>
       <DetailRow>
@@ -197,5 +197,10 @@ const ShowBtcPrivateKeyTemplate = ({
     </ModalFooter>
   </Modal>
 )
+
+const privKeyString = (priv, format, addr) =>
+  utils.btc
+    .formatPrivateKeyString(priv, format, addr)
+    .fold(error => error.message, keyString => keyString)
 
 export default ShowBtcPrivateKeyTemplate

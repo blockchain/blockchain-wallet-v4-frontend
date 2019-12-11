@@ -1,6 +1,7 @@
 import {
   Button,
   Icon,
+  IconButton,
   Table,
   TableCell,
   TableHeader,
@@ -9,6 +10,7 @@ import {
 import { filter } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
+import { spacing } from 'services/StyleService'
 import AddressRow from '../../Btc/AddressRow'
 import React from 'react'
 import styled from 'styled-components'
@@ -45,6 +47,7 @@ const BchImportedAddresses = props => {
     onTransferAll,
     search,
     onEditLabel,
+    handleClickImport,
     handleShowPriv,
     handleSignMessage,
     onClickVerify
@@ -69,7 +72,7 @@ const BchImportedAddresses = props => {
                 data-e2e='bchImportedAddressEditLabel'
               >
                 <FormattedMessage
-                  id='scenes.settings.addresses.edit_name'
+                  id='scenes.settings.addresses.bch.edit_name'
                   defaultMessage='Edit Label'
                 />
               </ClickableText>
@@ -83,7 +86,7 @@ const BchImportedAddresses = props => {
                       data-e2e='bchImportedAddressShowPriv'
                     >
                       <FormattedMessage
-                        id='scenes.settings.addresses.edit_label'
+                        id='scenes.settings.addresses.bch.edit_label'
                         defaultMessage='Private Key'
                       />
                     </ClickableText>,
@@ -93,7 +96,7 @@ const BchImportedAddresses = props => {
                       data-e2e='bchImportedAddressSignMessage'
                     >
                       <FormattedMessage
-                        id='scenes.settings.addresses.sign_message'
+                        id='scenes.settings.addresses.bch.sign_message'
                         defaultMessage='Sign Message'
                       />
                     </ClickableText>
@@ -134,7 +137,7 @@ const BchImportedAddresses = props => {
             data-e2e='btcVerifyMessageImportedAddressLink'
           >
             <FormattedMessage
-              id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
+              id='scenes.settings.addresses.bch.importedaddresses.success.verifymessage'
               defaultMessage='Verify Message'
             />
           </Button>
@@ -155,7 +158,7 @@ const BchImportedAddresses = props => {
       {importedAddressesTableRows.length > 0 && (
         <Table dataE2e='bchImportedAddressesTable'>
           <TableHeader>
-            <TableCell width='50%'>
+            <TableCell width='40%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bch.importedaddresses.address'
@@ -163,7 +166,7 @@ const BchImportedAddresses = props => {
                 />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
+            <TableCell width='30%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bch.importedaddresses.success.label'
@@ -171,7 +174,7 @@ const BchImportedAddresses = props => {
                 />
               </Text>
             </TableCell>
-            <TableCell width='10%'>
+            <TableCell width='15%'>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bch.importedaddresses.balance'
@@ -183,6 +186,18 @@ const BchImportedAddresses = props => {
           {importedAddressesTableRows}
         </Table>
       )}
+      <div style={spacing('mt-10')}>
+        <IconButton
+          name='plus'
+          onClick={handleClickImport}
+          data-e2e='bchImportedAddressLink'
+        >
+          <FormattedMessage
+            id='scenes.settings.addresses.bch.importedaddresses.success.importbitcoinaddress'
+            defaultMessage='Import Bitcoin Cash Address'
+          />
+        </IconButton>
+      </div>
     </Wrapper>
   )
 }

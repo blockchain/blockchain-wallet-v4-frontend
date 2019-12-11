@@ -1,3 +1,4 @@
+import ImportBchAddress from './ImportBchAddress'
 import RequestBch from './RequestBch'
 import SendBch from './SendBch'
 import ShowBchPrivateKey from './ShowBchPrivateKey'
@@ -9,5 +10,6 @@ export {
   SendBch,
   ShowBchPrivateKey,
   SignMessageBch,
-  VerifyMessageBch
+  VerifyMessageBch,
+  ImportBchAddress
 }

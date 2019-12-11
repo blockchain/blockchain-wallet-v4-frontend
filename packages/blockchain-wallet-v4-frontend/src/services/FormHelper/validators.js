@@ -172,6 +172,14 @@ export const validBtcAddressOrPrivateKey = (value, allValues, props) =>
     <M.InvalidBtcAddressAndPrivateKeyMessage />
   )
 
+export const validBchAddressOrPrivateKey = (value, allValues, props) =>
+  utils.btc.isValidBtcPrivateKey(value, props.network) ||
+  utils.bch.isCashAddr(value) ? (
+    undefined
+  ) : (
+    <M.InvalidBchAddressandPrivateKeyMessage />
+  )
+
 export const isSegwitAddress = value =>
   utils.btc.isSegwitAddress(value) ? <M.SegwitAddressMessage /> : undefined
 

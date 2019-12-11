@@ -101,6 +101,20 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage='This address already exists in your wallet.'
         />
       )
+    case C.LABEL_ALREADY_EXISTS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.label_already_exists'
+          defaultMessage='This label already exists in your wallet.'
+        />
+      )
+    case C.PRIVATE_KEY_ALREADY_EXISTS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.address_does_not_exist_error'
+          defaultMessage='This address already exists in your wallet.'
+        />
+      )
     case C.ADDRESS_FORMAT_NOT_SUPPORTED_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
