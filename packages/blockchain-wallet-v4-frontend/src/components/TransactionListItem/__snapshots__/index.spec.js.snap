@@ -38,6 +38,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setAccountLabel": [Function],
         "setDefaultAccountIdx": [Function],
         "setLegacyAddress": [Function],
+        "setLegacyAddressLabel": [Function],
         "setTxNotesBch": [Function],
       }
     }
