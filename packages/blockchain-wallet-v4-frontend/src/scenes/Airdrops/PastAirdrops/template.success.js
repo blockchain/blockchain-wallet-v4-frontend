@@ -21,7 +21,7 @@ const getQuantity = (amt, currency) => {
   }
 }
 
-export default function Success ({ userCampaignsInfoResponseList }) {
+export default function Success ({ userCampaignsInfoResponseList = [] }) {
   const completedCampaigns = userCampaignsInfoResponseList.filter(
     campaign => campaign.campaignState === 'ENDED'
   )

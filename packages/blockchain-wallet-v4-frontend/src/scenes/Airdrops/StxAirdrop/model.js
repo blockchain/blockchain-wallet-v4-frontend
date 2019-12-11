@@ -27,7 +27,7 @@ const BlueCartridge = styled(CustomCartridge)`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 export const StxStatus = ({
-  userCampaignsInfoResponseList,
+  userCampaignsInfoResponseList = [],
   kycState,
   identityVerificationActions
 }) => {
