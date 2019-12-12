@@ -76,6 +76,13 @@ export const isSilverOrAbove = compose(
   lift(path(['tiers'])),
   getUserData
 )
+
+export const getCurrentTier = compose(
+  path(['data', 'current']),
+  lift(path(['tiers'])),
+  getUserData
+)
+
 export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData

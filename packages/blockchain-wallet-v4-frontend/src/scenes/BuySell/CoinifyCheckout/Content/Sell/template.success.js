@@ -9,6 +9,7 @@ import AddBankDetails from './AddBankDetails'
 import AddCustomerDetails from './AddCustomerDetails'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
+import LaunchPit from '../../../BuySellBuckets/LaunchPit'
 import OrderCheckout from '../OrderCheckout'
 import SelectAccounts from './SelectAccounts'
 import SellUnavailable from './SellUnavailable'
@@ -98,7 +99,10 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-            {!canTrade && <SellUnavailable />}
+
+            <LaunchPit noMargin />
+
+            {!canTrade && false && <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>

@@ -123,97 +123,94 @@ const PitLogo = styled(Image)`
   height: 40px;
 `
 
-const ThePit = props => {
-  const { onSignup } = props
-  return (
-    <Wrapper>
-      <Container>
-        <Row>
-          <Column>
-            <TitleTextGroup>
-              <TitleContent size='40px' weight={800} color='brand-primary'>
-                <FormattedMessage
-                  id='scenes.thepit.title'
-                  defaultMessage='Level Up Your Trading'
-                />
-              </TitleContent>
-              <Content weight={500} size='16px'>
-                <FormattedMessage
-                  id='scenes.thepit.subtitle1-1'
-                  defaultMessage='We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.'
-                />
-              </Content>
-            </TitleTextGroup>
-          </Column>
-          <StarfieldColumn>
-            <StarfieldTextGroup>
-              <PitLogo name='the-pit-text' />
-              <StarfieldText weight={600}>
-                <FormattedMessage
-                  id='scenes.thepit.image.subtitle'
-                  defaultMessage='A next generation exchange from the most trusted crypto company'
-                />
-              </StarfieldText>
-            </StarfieldTextGroup>
-          </StarfieldColumn>
-        </Row>
-        <Row>
-          <SubTextGroup>
-            <SubContent size='15px' weight={550} color='brand-primary'>
+const ThePit = ({ onSignup }) => (
+  <Wrapper>
+    <Container>
+      <Row>
+        <Column>
+          <TitleTextGroup>
+            <TitleContent size='40px' weight={800} color='brand-primary'>
               <FormattedMessage
-                id='scenes.thepit.point1.title-1'
-                defaultMessage='Access More Assets'
+                id='scenes.thepit.title'
+                defaultMessage='Level Up Your Trading'
               />
-            </SubContent>
-            <SubContent size='14px' weight={500}>
+            </TitleContent>
+            <Content weight={500} size='16px'>
               <FormattedMessage
-                id='scenes.thepit.point1.subtitle1-1'
-                defaultMessage='Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.'
+                id='scenes.thepit.subtitle1-1'
+                defaultMessage='We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.'
               />
-            </SubContent>
-          </SubTextGroup>
-          <SubTextGroup>
-            <SubContent size='15px' weight={550} color='brand-primary'>
+            </Content>
+          </TitleTextGroup>
+        </Column>
+        <StarfieldColumn>
+          <StarfieldTextGroup>
+            <PitLogo name='the-pit-text' />
+            <StarfieldText weight={600}>
               <FormattedMessage
-                id='scenes.thepit.point2.title-1'
-                defaultMessage='Unlock Unlimited Trading'
+                id='scenes.thepit.image.subtitle'
+                defaultMessage='A next generation exchange from the most trusted crypto company'
               />
-            </SubContent>
-            <SubContent size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.thepit.point2.subtitle1-1'
-                defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.'
-              />
-            </SubContent>
-          </SubTextGroup>
-          <ThirdSubTextGroup>
-            <SubContent size='15px' weight={550} color='brand-primary'>
-              <FormattedMessage
-                id='scenes.thepit.point3.title-1'
-                defaultMessage='Seamlessly Transfer Crypto'
-              />
-            </SubContent>
-            <SubContent size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.thepit.point3.subtitle1-1'
-                defaultMessage="Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
-              />
-            </SubContent>
-          </ThirdSubTextGroup>
-        </Row>
-        <Row>
-          <Column style={{ paddingRight: '25px' }}>
-            <FooterButton nature='primary' fullwidth onClick={onSignup}>
-              <FormattedMessage
-                id='scenes.thepit.connectnow'
-                defaultMessage='Connect Now'
-              />
-            </FooterButton>
-          </Column>
-        </Row>
-      </Container>
-    </Wrapper>
-  )
-}
+            </StarfieldText>
+          </StarfieldTextGroup>
+        </StarfieldColumn>
+      </Row>
+      <Row>
+        <SubTextGroup>
+          <SubContent size='15px' weight={550} color='brand-primary'>
+            <FormattedMessage
+              id='scenes.thepit.point1.title-1'
+              defaultMessage='Access More Assets'
+            />
+          </SubContent>
+          <SubContent size='14px' weight={500}>
+            <FormattedMessage
+              id='scenes.thepit.point1.subtitle1-1'
+              defaultMessage='Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.'
+            />
+          </SubContent>
+        </SubTextGroup>
+        <SubTextGroup>
+          <SubContent size='15px' weight={550} color='brand-primary'>
+            <FormattedMessage
+              id='scenes.thepit.point2.title-1'
+              defaultMessage='Unlock Unlimited Trading'
+            />
+          </SubContent>
+          <SubContent size='14px' weight={500}>
+            <FormattedMessage
+              id='scenes.thepit.point2.subtitle1-1'
+              defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.'
+            />
+          </SubContent>
+        </SubTextGroup>
+        <ThirdSubTextGroup>
+          <SubContent size='15px' weight={550} color='brand-primary'>
+            <FormattedMessage
+              id='scenes.thepit.point3.title-1'
+              defaultMessage='Seamlessly Transfer Crypto'
+            />
+          </SubContent>
+          <SubContent size='14px' weight={500}>
+            <FormattedMessage
+              id='scenes.thepit.point3.subtitle1-1'
+              defaultMessage="Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
+            />
+          </SubContent>
+        </ThirdSubTextGroup>
+      </Row>
+      <Row>
+        <Column style={{ paddingRight: '25px' }}>
+          <FooterButton nature='primary' fullwidth onClick={onSignup}>
+            <FormattedMessage
+              id='scenes.thepit.connectnow'
+              defaultMessage='Connect Now'
+            />
+          </FooterButton>
+        </Column>
+      </Row>
+    </Container>
+  </Wrapper>
+)
 
 export default ThePit
