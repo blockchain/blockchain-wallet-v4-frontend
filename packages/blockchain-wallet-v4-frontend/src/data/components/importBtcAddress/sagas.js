@@ -10,42 +10,38 @@ export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
   const importBtcAddressSubmitClicked = function * () {
-    try {
-      const form = yield select(
-        selectors.form.getFormValues('importBtcAddress')
-      )
-      const value = prop('addrOrPriv', form)
-      const to = prop('to', form)
-      const label = prop('label', form)
+    const form = yield select(selectors.form.getFormValues('importBtcAddress'))
+    const value = prop('addrOrPriv', form)
+    const to = prop('to', form)
+    const label = prop('label', form)
 
-      // private key handling
-      if (value && utils.btc.isValidBtcPrivateKey(value, networks.btc)) {
-        let address
-        const format = utils.btc.detectPrivateKeyFormat(value)
+    // private key handling
+    if (value && utils.btc.isValidBtcPrivateKey(value, networks.btc)) {
+      let address
+      const format = utils.btc.detectPrivateKeyFormat(value)
+      try {
         const key = utils.btc.privateKeyStringToKey(value, format)
         address = key.getAddress()
-        // convert to cash addr format
-        const bchAddr = utils.bch.toCashAddr(address)
-        yield call(importLegacyAddress, bchAddr, value, null, null, to, label)
-        return
+      } catch (error) {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'importBtcAddressSubmitClicked',
+            error
+          )
+        )
       }
 
-      // address handling (watch-only)
-      if (
-        value &&
-        utils.btc.isValidBtcAddress(value, networks.btc) &&
-        !utils.btc.isSegwitAddress(value)
-      ) {
-        yield call(importLegacyAddress, value, null, null, null, null, label)
-      }
-    } catch (error) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'importBtcAddressSubmitClicked',
-          error
-        )
-      )
+      yield call(importLegacyAddress, address, value, null, null, to, label)
+      return
+    }
+    // address handling (watch-only)
+    if (
+      value &&
+      utils.btc.isValidBtcAddress(value, networks.btc) &&
+      !utils.btc.isSegwitAddress(value)
+    ) {
+      yield call(importLegacyAddress, value, null, null, null, null, label)
     }
   }
 

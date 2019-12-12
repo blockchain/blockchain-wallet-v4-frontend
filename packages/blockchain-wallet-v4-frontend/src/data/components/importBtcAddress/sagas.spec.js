@@ -7,7 +7,7 @@ import sagas from './sagas.js'
 const api = {}
 const networks = { btc: Bitcoin.networks['bitcoin'] }
 const coreSagas = coreSagasFactory({ api })
-const { importBtcAddressSubmitClicked } = sagas({
+const { importLegacyAddress, importBtcAddressSubmitClicked } = sagas({
   api,
   coreSagas,
   networks
@@ -24,20 +24,19 @@ describe('importBtcAddress sagas', () => {
         saga.next()
       })
       it('should get addrOrPriv and importLegacyAddress', () => {
-        saga.next({
-          addrOrPriv: 'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB'
-        })
-        // Fail
-        // .call(
-        //   importLegacyAddress,
-        //   '1LM9wuwviAApr9y2nUrWaBadEZXJucsxLB',
-        //   'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB',
-        //   null,
-        //   null,
-        //   undefined,
-        //   undefined,
-        //   null
-        // )
+        saga
+          .next({
+            addrOrPriv: 'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB'
+          })
+          .call(
+            importLegacyAddress,
+            '1LM9wuwviAApr9y2nUrWaBadEZXJucsxLB',
+            'L1srees8FHP8v2yAv1b5JuZfCvqhVf37JUp5oHpFj1QtnPRyNRaB',
+            null,
+            null,
+            undefined,
+            undefined
+          )
       })
     })
 
@@ -63,16 +62,17 @@ describe('importBtcAddress sagas', () => {
           )
       })
       it('should attempt import', () => {
-        saga.next()
-        // .call(
-        //   importLegacyAddress,
-        //   undefined,
-        //   '6PYKXJ9yisUdA8Qxv3H1bzrsxhMABYNgLTKvpvEFqMRYA1oyAmn9gvzF3W',
-        //   null,
-        //   null,
-        //   undefined,
-        //   undefined
-        // )
+        saga
+          .next()
+          .call(
+            importLegacyAddress,
+            undefined,
+            '6PYKXJ9yisUdA8Qxv3H1bzrsxhMABYNgLTKvpvEFqMRYA1oyAmn9gvzF3W',
+            null,
+            null,
+            undefined,
+            undefined
+          )
       })
     })
   })
