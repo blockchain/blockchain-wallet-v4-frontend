@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, /* Link, */ Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,12 +16,12 @@ const InfoBox = styled(Box)`
   background-repeat: no-repeat;
 `
 
-const LearnMoreLink = styled(Link)`
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  display: flex;
-  align-self: flex-start;
-`
+// const LearnMoreLink = styled(Link)`
+//   margin-top: 2rem;
+//   margin-bottom: 1rem;
+//   display: flex;
+//   align-self: flex-start;
+// `
 
 const LearnMore = () => (
   <InfoBox>
@@ -51,14 +51,14 @@ const LearnMore = () => (
       />
     </Text>
 
-    <LearnMoreLink href='' target='_blank'>
+    {/* <LearnMoreLink href='' target='_blank'>
       <Text color='blue600' weight={600}>
         <FormattedMessage
           id='scenes.buysell.info.learn-more-link'
           defaultMessage='Learn More'
         />
       </Text>
-    </LearnMoreLink>
+    </LearnMoreLink> */}
   </InfoBox>
 )
 
