@@ -80,6 +80,7 @@ import {
   SfoxTradeDetails
 } from './Sfox'
 import BitPayExpired from './BitPayExpired'
+import BitPayInfo from './BitPayInfo'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
@@ -90,6 +91,7 @@ const Modals = () => (
     <AirdropClaim />
     <AirdropSuccess />
     <BitPayExpired />
+    <BitPayInfo />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />
