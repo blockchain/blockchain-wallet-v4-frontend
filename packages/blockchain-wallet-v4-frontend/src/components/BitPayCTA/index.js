@@ -1,3 +1,6 @@
+import { actions } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import React from 'react'
@@ -27,7 +30,11 @@ const ArrowIcon = styled(Icon)`
   margin-left: 16px;
 `
 
-const BitPayCTA = ({ coin }) => {
+const BitPayCTA = ({ coin, modalActions }) => {
+  const handleClick = () => {
+    modalActions.showModal('BitPayInfo')
+  }
+
   return (
     <Wrapper>
       <TextGroup size='12px' weight={500} color='grey600'>
@@ -38,7 +45,7 @@ const BitPayCTA = ({ coin }) => {
         />{' '}
         <BitPayIcon size='12px' name='bitpay' color='#2A3F90' /> <>urls.</>
       </TextGroup>
-      <CustomLink size='12px' weight={500}>
+      <CustomLink size='12px' weight={500} onClick={handleClick}>
         <FormattedMessage
           id='bitpaycta.learnmore'
           defaultMessage='Learn more'
@@ -54,4 +61,11 @@ const BitPayCTA = ({ coin }) => {
   )
 }
 
-export default BitPayCTA
+const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(BitPayCTA)
