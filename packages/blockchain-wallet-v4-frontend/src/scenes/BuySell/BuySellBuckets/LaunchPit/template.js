@@ -37,14 +37,14 @@ const LaunchPit = props => {
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage
-            id='scenes.buysell.launch-pit.title1'
+            id='scenes.buysell.launch-pit.title-1'
             defaultMessage='Instantly Buy'
           />
         </Text>
         <Text size='20px' color='grey800' weight={600}>
           <FormattedMessage
-            id='scenes.buysell.launch-pit.title2'
-            defaultMessage='& Sell in The PIT'
+            id='scenes.buysell.launch-pit.title-2'
+            defaultMessage='& Sell in The PIT.'
           />
         </Text>
         <Text
@@ -56,7 +56,7 @@ const LaunchPit = props => {
         >
           <FormattedMessage
             id='scenes.buysell.launch-pit-desc'
-            defaultMessage='Launch the PIT to buy and sell, BTC, ETH, BCH, USD PAX and many more.'
+            defaultMessage='Link your account to buy or sell crypto from your Wallet or explore new tokens.'
           />
         </Text>
 

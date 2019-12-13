@@ -40,7 +40,7 @@ const LearnMore = () => (
     >
       <FormattedMessage
         id='scenes.buysell.info.learn-more-desc'
-        defaultMessage='Blockchain is the fastest way to buy and sell crypto currencies. Trade in our exchange The PIT.'
+        defaultMessage='Blockchain is the fastest way to buy and sell cryptocurrencies. Trade in our exchange The PIT.'
       />
     </Text>
   </InfoBox>
