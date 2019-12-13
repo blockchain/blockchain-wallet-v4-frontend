@@ -27,7 +27,7 @@ const LearnMore = () => (
     >
       <FormattedMessage
         id='scenes.buysell.info.learn-more-title'
-        defaultMessage={`How do you want{break} to get Crypto`}
+        defaultMessage={`How do you want{break} to get Crypto?`}
         values={{ break: <br /> }}
       />
     </Text>

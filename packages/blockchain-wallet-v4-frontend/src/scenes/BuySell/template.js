@@ -63,7 +63,8 @@ const SelectPartner = props => {
     // handleSubmit,
     // options,
     // showRejectedNotification,
-    showCoinify
+    hasTokenOrTrades,
+    handleShowCoinify
   } = props
   // const { country } = fields
 
@@ -112,7 +113,11 @@ const SelectPartner = props => {
       <BucketWrapper>
         <LearnMore />
         <LaunchPit />
-        <ContinueCoinify currentTier={currentTier} showCoinify={showCoinify} />
+        <ContinueCoinify
+          currentTier={currentTier}
+          handleShowCoinify={handleShowCoinify}
+          hasTokenOrTrades={hasTokenOrTrades}
+        />
       </BucketWrapper>
       {/* <GetStartedContainer
         url={getPartner().url}
