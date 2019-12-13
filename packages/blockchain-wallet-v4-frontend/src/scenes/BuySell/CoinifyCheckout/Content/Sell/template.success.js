@@ -99,10 +99,7 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-
-            <LaunchPit noMargin />
-
-            {!canTrade && false && <SellUnavailable />}
+            {canTrade ? <LaunchPit noMargin /> : <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
