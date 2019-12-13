@@ -1,4 +1,4 @@
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
@@ -42,7 +42,8 @@ const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
   state = {
-    countrySelection: null
+    countrySelection: null,
+    showCoinifyView: false
   }
 
   componentDidMount () {
@@ -82,6 +83,10 @@ class BuySellContainer extends React.PureComponent {
     }
   }
 
+  showCoinify = () => {
+    this.setState({ showCoinifyView: true })
+  }
+
   /**
    * The idea here is that we will call .cata which passes a metadata value to a selectPartner method.
    * If there is a token (evidence of signup), show the Checkout view.
@@ -100,7 +105,10 @@ class BuySellContainer extends React.PureComponent {
     const showSFOXTrades =
       type === 'order_history' && length(path(['sfox', 'trades'], buySell))
 
-    if (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) {
+    if (
+      (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) &&
+      this.state.showCoinifyView
+    ) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
@@ -111,10 +119,12 @@ class BuySellContainer extends React.PureComponent {
     return {
       component: (
         <SelectPartner
+          currentTier={this.props.currentTier}
           type={type}
           options={options}
           value={buySell}
           onSubmit={this.onSubmit}
+          showCoinify={this.showCoinify}
           triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
           {...this.props}
           {...value}
@@ -142,7 +152,8 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        {hasAccount(path(['component', 'props', 'value'], view)) ? (
+        {hasAccount(path(['component', 'props', 'value'], view)) &&
+        this.state.showCoinifyView ? (
           <Menu>
             <Field
               name='status'
@@ -158,6 +169,7 @@ class BuySellContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  currentTier: selectors.modules.profile.getCurrentTier(state),
   data: getData(state),
   fields: getFields(state)
 })
