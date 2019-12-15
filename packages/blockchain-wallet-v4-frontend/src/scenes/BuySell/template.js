@@ -63,7 +63,8 @@ const SelectPartner = props => {
     // handleSubmit,
     // options,
     // showRejectedNotification,
-    showCoinify
+    hasTokenOrTrades,
+    handleShowCoinify
   } = props
   // const { country } = fields
 
@@ -105,14 +106,18 @@ const SelectPartner = props => {
       <Text weight={500} color='grey400'>
         <FormattedMessage
           id='scenes.buysell.subtitle.buy_sell_crypto'
-          defaultMessage="Start buying and selling today's top crypto."
+          defaultMessage="The quickest way to get today's top crypto."
         />
       </Text>
 
       <BucketWrapper>
         <LearnMore />
         <LaunchPit />
-        <ContinueCoinify currentTier={currentTier} showCoinify={showCoinify} />
+        <ContinueCoinify
+          currentTier={currentTier}
+          handleShowCoinify={handleShowCoinify}
+          hasTokenOrTrades={hasTokenOrTrades}
+        />
       </BucketWrapper>
       {/* <GetStartedContainer
         url={getPartner().url}

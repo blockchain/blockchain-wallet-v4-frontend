@@ -24,7 +24,12 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `
 
-const ContinueCoinify = ({ currentTier, showCoinify }) =>
+const ContinueCoinify = ({
+  currentTier,
+  handleShowCoinify,
+  hasTokenOrTrades
+}) =>
+  hasTokenOrTrades &&
   gte(currentTier, 2) && (
     <BoxWrapper>
       <Box>
@@ -43,9 +48,14 @@ const ContinueCoinify = ({ currentTier, showCoinify }) =>
           style={{ marginTop: '16px', width: '265px' }}
         >
           <FormattedMessage
-            id='scenes.buysell.coinify-title'
-            defaultMessage='Buy Bitcoin.{break} Pay Your Way'
-            values={{ break: <br /> }}
+            id='scenes.buysell.coinify-title-1'
+            defaultMessage='Buy Bitcoin.'
+          />
+        </Text>
+        <Text size='20px' color='grey800' weight={600}>
+          <FormattedMessage
+            id='scenes.buysell.coinify-title-2'
+            defaultMessage='Pay Your Way'
           />
         </Text>
         <Text
@@ -57,15 +67,7 @@ const ContinueCoinify = ({ currentTier, showCoinify }) =>
         >
           <FormattedMessage
             id='scenes.buysell.coinify-desc'
-            defaultMessage={`Buy and sell using your bank card or making a bank transfer.{break}`}
-            values={{
-              break: (
-                <>
-                  <br />
-                  <br />
-                </>
-              )
-            }}
+            defaultMessage='Buy and sell using your bank card or making a bank transfer.'
           />
         </Text>
 
@@ -73,8 +75,8 @@ const ContinueCoinify = ({ currentTier, showCoinify }) =>
           fullwidth
           height='3rem'
           nature='primary'
-          onClick={showCoinify}
-          style={{ marginTop: '32px' }}
+          onClick={handleShowCoinify}
+          style={{ marginTop: '48px' }}
         >
           <Text color='white' weight={500}>
             <FormattedMessage

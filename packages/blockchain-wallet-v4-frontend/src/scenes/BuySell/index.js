@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { getData, getFields } from './selectors'
 import { hasAccount } from 'services/ExchangeService'
-import { length, path, prop } from 'ramda'
+import { isNil, length, path, prop } from 'ramda'
 import { TabMenuBuySellStatus } from 'components/Form'
 import CoinifyCheckout from './CoinifyCheckout'
 import HorizontalMenu from 'components/HorizontalMenu'
@@ -83,7 +83,7 @@ class BuySellContainer extends React.PureComponent {
     }
   }
 
-  showCoinify = () => {
+  handleShowCoinify = () => {
     this.setState({ showCoinifyView: true })
   }
 
@@ -105,10 +105,10 @@ class BuySellContainer extends React.PureComponent {
     const showSFOXTrades =
       type === 'order_history' && length(path(['sfox', 'trades'], buySell))
 
-    if (
-      (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) &&
-      this.state.showCoinifyView
-    ) {
+    const hasTokenOrTrades =
+      !isNil(path(['coinify', 'offline_token'], buySell)) || showSFOXTrades
+
+    if (hasTokenOrTrades && this.state.showCoinifyView) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
@@ -120,12 +120,13 @@ class BuySellContainer extends React.PureComponent {
       component: (
         <SelectPartner
           currentTier={this.props.currentTier}
-          type={type}
-          options={options}
-          value={buySell}
+          handleShowCoinify={this.handleShowCoinify}
+          hasTokenOrTrades={hasTokenOrTrades}
           onSubmit={this.onSubmit}
-          showCoinify={this.showCoinify}
+          options={options}
           triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
+          type={type}
+          value={buySell}
           {...this.props}
           {...value}
         />
