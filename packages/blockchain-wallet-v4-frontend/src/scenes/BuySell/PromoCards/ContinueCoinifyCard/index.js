@@ -68,24 +68,24 @@ const ContinueCoinifyCard = ({
           size='20px'
           color='grey800'
           weight={600}
-          style={{ marginTop: '16px', width: '265px' }}
+          style={{ marginTop: '14px', width: '265px' }}
         >
           <FormattedMessage
-            id='scenes.buysell.coinify-title-1'
+            id='scenes.buysell.continue-title1'
             defaultMessage='Buy Bitcoin.'
           />
         </Text>
         <Text size='20px' color='grey800' weight={600}>
           <FormattedMessage
-            id='scenes.buysell.coinify-title-2'
-            defaultMessage='Pay Your Way'
+            id='scenes.buysell.continue-title2'
+            defaultMessage='Pay Your Way.'
           />
         </Text>
         <Text
           color='grey600'
           lineHeight='1.5'
           size='14px'
-          style={{ marginTop: '8px' }}
+          style={{ margin: '8px 0 5px' }}
           weight={500}
         >
           <FormattedMessage
@@ -96,7 +96,7 @@ const ContinueCoinifyCard = ({
 
         <Button
           fullwidth
-          height='3rem'
+          height='50px'
           nature='primary'
           onClick={handleShowCoinify}
           style={{ marginTop: '48px' }}

@@ -39,7 +39,7 @@ const LaunchPitCard = props => {
   return (
     <BoxWrapper>
       <StyledBox noMargin={props.noMargin}>
-        <Icon name='the-pit' size='30px' />
+        <Icon name='the-pit' size='30px' color='black' />
         <Text
           size='20px'
           color='grey800'
@@ -61,7 +61,7 @@ const LaunchPitCard = props => {
           color='grey600'
           lineHeight='1.5'
           size='14px'
-          style={{ marginTop: '8px', width: '265px' }}
+          style={{ margin: '8px 0 -4px', width: '265px' }}
           weight={500}
         >
           <FormattedMessage
@@ -78,7 +78,7 @@ const LaunchPitCard = props => {
         >
           <Button
             fullwidth
-            height='3rem'
+            height='50px'
             onClick={isPitAccountLinked ? null : handleSignup}
             nature='primary'
           >
