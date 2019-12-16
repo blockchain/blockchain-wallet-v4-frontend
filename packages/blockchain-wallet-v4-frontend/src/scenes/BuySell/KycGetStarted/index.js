@@ -2,20 +2,56 @@ import { Button, Image, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, SelectBoxCountry } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import {
-  GetStartedContainer,
-  GetStartedContent,
-  GetStartedHeader,
-  GetStartedText,
-  Wrapper
-} from 'components/FeatureLandingPage'
 import { onPartnerCountryWhitelist, required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
-import BuySellAnimation from './BuySellAnimation'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 90%;
+  padding: 0;
+  box-sizing: border-box;
+`
+const GetStartedContainer = styled.div`
+  position: relative;
+  margin: 0 auto 25px;
+  padding: 25px;
+  width: 650px;
+  box-sizing: border-box;
+  height: ${props => props.height};
+  border: 1px solid ${props => props.theme['brand-quaternary']};
+  border-radius: 3px;
+  background-image: ${props => props.url};
+  background-repeat: no-repeat;
+  background-size: ${props => props.backgroundSize || 'auto 100%'};
+  background-position: ${props => props.backgroundPosition || 'right'};
+  ${media.mobile`
+    width: 100%;
+    background-image: none;
+  `};
+`
+const GetStartedContent = styled.div`
+  width: 300px;
+  ${media.mobile`
+    width: 100%;
+  `};
+`
+const GetStartedHeader = styled(Text)`
+  width: ${props => props.width};
+  margin-bottom: 25px;
+  ${media.mobile`
+    width: 100%;
+  `};
+`
+const GetStartedText = styled(Text)`
+  width: 350px;
+  margin-bottom: 25px;
+  ${media.mobile`
+    width: 100%;
+  `};
+`
 const CountryFAQText = styled.div`
   padding-top: 25px;
   width: 70%;
@@ -38,35 +74,38 @@ const FieldWrapper = styled(Intro)`
   margin-top: 5px;
   width: 75%;
 `
-
-const SelectPartner = props => {
+const BuySellAnimationWrapper = styled.div`
+  overflow: hidden;
+  position: absolute;
+  top: 105px;
+  right: 20px;
+`
+const BuySellBaseImage = styled(Image)`
+  width: 280px;
+  height: auto;
+`
+const BuySellBaseColor = styled(Image)`
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.5s;
+  &.active {
+    opacity: 1;
+  }
+`
+const KycGetStarted = props => {
   const {
+    coinifyCountries,
     invalid,
     pristine,
     fields,
-    // sfoxStates,
     handleSubmit,
-    options,
     showRejectedNotification
   } = props
-  const { country } = fields
 
-  // const onSfoxWhitelist = usState =>
-  //   country === 'US' &&
-  //   prop('code', usState) &&
-  //   sfoxStates.includes(usState.code)
-  const isCoinifyCountry = country => props.coinifyCountries.includes(country)
+  const isCoinifyCountry = country => coinifyCountries.includes(country)
   const getPartner = () => {
-    // if (onSfoxWhitelist(stateSelection)) {
-    //   return {
-    //     name: 'SFOX',
-    //     url: 'url(/img/sfox-landing.png)',
-    //     logo: 'powered-by-sfox',
-    //     backgroundSize: 'auto 80%',
-    //     backgroundPosition: 'right 70px bottom 0%'
-    //   }
-    // }
-    if (isCoinifyCountry(country)) {
+    if (isCoinifyCountry(fields.country)) {
       return {
         name: 'COINIFY',
         url: 'url(/img/coinify-landing.svg)',
@@ -79,7 +118,7 @@ const SelectPartner = props => {
   }
 
   return (
-    <Wrapper noPadding>
+    <Wrapper>
       <GetStartedContainer
         url={getPartner().url}
         backgroundSize={getPartner().backgroundSize}
@@ -160,16 +199,20 @@ const SelectPartner = props => {
           </CountryFAQText>
         </GetStartedContent>
         {!getPartner().name ? (
-          <BuySellAnimation country={country} options={options} />
-        ) : null}
-        {getPartner().name ? (
+          <BuySellAnimationWrapper>
+            <BuySellBaseImage name='buy-sell-grey' />
+            <BuySellBaseColor name='buy-sell-color' className={'active'} />
+          </BuySellAnimationWrapper>
+        ) : (
           <PoweredByContainer>
             <Image width='100%' name={getPartner().logo} />
           </PoweredByContainer>
-        ) : null}
+        )}
       </GetStartedContainer>
     </Wrapper>
   )
 }
 
-export default reduxForm({ form: 'selectPartner' })(SelectPartner)
+export default reduxForm({
+  form: 'selectPartner'
+})(KycGetStarted)

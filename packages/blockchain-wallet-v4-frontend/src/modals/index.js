@@ -74,11 +74,7 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import {
-  SfoxEnterMicroDeposits,
-  SfoxExchangeData,
-  SfoxTradeDetails
-} from './Sfox'
+import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
 import BitPayExpired from './BitPayExpired'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
@@ -137,7 +133,6 @@ const Modals = () => (
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
-    <SfoxEnterMicroDeposits />
     <AirdropError />
     <Support />
     <SwapGetStarted />

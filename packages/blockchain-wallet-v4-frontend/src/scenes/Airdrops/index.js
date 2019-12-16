@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
 import { Text } from 'blockchain-info-components'
+import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
 import React from 'react'
@@ -33,13 +34,16 @@ class Airdrops extends React.PureComponent {
   }
 
   render () {
-    const { data } = this.props
+    const { data, hasEmail } = this.props
     const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Failure: () => (
-        <Text>Oops. Something went wrong and we don't know why</Text>
+      Failure: e => (
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong and we don't know why.{' '}
+          <b>Here's the error: {e.type}</b>
+        </Text>
       )
     })
     const PastAirdrops = data.cata({
@@ -47,9 +51,12 @@ class Airdrops extends React.PureComponent {
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,
       Failure: () => (
-        <Text>Oops. Something went wrong and we don't know why</Text>
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong and we don't know why.
+        </Text>
       )
     })
+    if (!hasEmail) return <EmailRequired />
     return (
       <Wrapper>
         <Header>
@@ -88,7 +95,11 @@ const mapStateToProps = state => ({
   }))(
     selectors.modules.profile.getUserData(state),
     selectors.modules.profile.getUserCampaigns(state)
-  )
+  ),
+  hasEmail: selectors.core.settings
+    .getEmail(state)
+    .map(Boolean)
+    .getOrElse(false)
 })
 
 const mapDispatchToProps = dispatch => ({

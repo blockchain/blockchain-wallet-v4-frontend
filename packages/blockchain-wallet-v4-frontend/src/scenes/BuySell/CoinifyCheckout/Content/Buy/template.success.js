@@ -11,6 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
+import LaunchPit from '../../../PromoCards/LaunchPitCard'
 import media from 'services/ResponsiveService'
 import NextSubscription from '../NextSubscription'
 import OrderCheckout from '../OrderCheckout'
@@ -125,6 +126,7 @@ const CoinifyBuy = props => {
                   kycState={kycState}
                 />
               ) : null}
+              <LaunchPit noMargin />
             </RightContainer>
           </CheckoutWrapper>
         </StepView>
@@ -163,11 +165,11 @@ const CoinifyBuy = props => {
         <BankTransferDetails trade={trade} />
         <Button
           nature='primary'
-          width='85%'
           onClick={() => {
             changeTab('order_history')
             coinifyNextCheckoutStep('checkout')
           }}
+          width='85%'
         >
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.buy.close'

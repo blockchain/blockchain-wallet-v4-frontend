@@ -31,3 +31,6 @@ export const sendBchSecondStepSubmitClicked = () => ({
 export const sendBchSecondStepCancelClicked = () => ({
   type: AT.SEND_BCH_SECOND_STEP_CANCEL_CLICKED
 })
+export const sendBchBitPayInvoiceExpired = () => ({
+  type: AT.SEND_BCH_BITPAY_INVOICE_EXPIRED
+})

@@ -56,7 +56,7 @@ export const filterAnnouncements = (
   return Announcements.map(announcement => ({
     content: prop('content', announcement),
     restricted: isRestricted(announcement),
-    display: isAvailableToView(announcement, 30),
+    display: true,
     alert: isAvailableToView(announcement, 0)
   }))
 }
