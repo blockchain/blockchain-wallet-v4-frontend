@@ -1,35 +1,45 @@
 import * as React from 'react'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { BaseIcon, Box, BoxWrapper, RoundButton } from './../components'
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${props => props.theme['grey000']};
+  width: 17.5rem;
+  height: 15.5rem;
+  margin-top: 2rem;
 
-const PitIcon = styled(BaseIcon)`
-  background-image: url('/img/the-pit-logo-basic.svg');
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
 `
-
+const BoxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 const ButtonLink = styled(Link)`
   width: 100%;
   margin-top: 3rem;
 `
-
 const ButtonWrapper = styled.div`
   width: 100%;
   margin-top: 3rem;
 `
-
 const StyledBox = styled(Box)`
   margin-top: ${props => (props.noMargin ? '0' : '2rem')};
 `
-
 const LaunchPitCard = props => {
   const { isPitAccountLinked, handleLinkedWallet, handleSignup, pitUrl } = props
   const Wrapper = isPitAccountLinked ? ButtonLink : ButtonWrapper
   return (
     <BoxWrapper>
       <StyledBox noMargin={props.noMargin}>
-        <PitIcon />
+        <Icon name='the-pit' size='30px' />
         <Text
           size='20px'
           color='grey800'
@@ -66,7 +76,7 @@ const LaunchPitCard = props => {
           target='_blank'
           onClick={isPitAccountLinked ? handleLinkedWallet : null}
         >
-          <RoundButton
+          <Button
             fullwidth
             height='3rem'
             onClick={isPitAccountLinked ? null : handleSignup}
@@ -78,7 +88,7 @@ const LaunchPitCard = props => {
                 defaultMessage='Launch The PIT'
               />
             </Text>
-          </RoundButton>
+          </Button>
         </Wrapper>
       </StyledBox>
       <Text

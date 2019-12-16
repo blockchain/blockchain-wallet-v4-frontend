@@ -155,7 +155,8 @@ class BuySellContainer extends React.PureComponent {
         partner: 'coinify'
       }
     }
-    if (!includes(prop('countryCode', value), pitFunnelCountries)) {
+
+    if (includes(prop('countryCode', value), pitFunnelCountries)) {
       return {
         component: (
           <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />

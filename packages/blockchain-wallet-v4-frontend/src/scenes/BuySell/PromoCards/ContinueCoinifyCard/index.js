@@ -1,11 +1,34 @@
+import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { gte } from 'ramda'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BaseIcon, Box, BoxWrapper, RoundButton } from './../components'
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${props => props.theme['grey000']};
+  width: 17.5rem;
+  height: 15.5rem;
+  margin-top: 2rem;
 
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+`
+const BoxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const BaseIcon = styled.div`
+  background-repeat: no-repeat;
+  height: 2rem;
+  min-height: 2rem;
+  width: 2rem;
+`
 const BlankCard = styled(BaseIcon)`
   background-image: url('/img/blank-card.svg');
 `
@@ -71,7 +94,7 @@ const ContinueCoinifyCard = ({
           />
         </Text>
 
-        <RoundButton
+        <Button
           fullwidth
           height='3rem'
           nature='primary'
@@ -84,7 +107,7 @@ const ContinueCoinifyCard = ({
               defaultMessage='Continue with Coinify'
             />
           </Text>
-        </RoundButton>
+        </Button>
       </Box>
       <Text
         size='14px'

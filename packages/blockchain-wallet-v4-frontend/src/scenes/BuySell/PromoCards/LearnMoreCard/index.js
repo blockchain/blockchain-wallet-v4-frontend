@@ -3,8 +3,21 @@ import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Box } from './../components'
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid ${props => props.theme['grey000']};
+  width: 17.5rem;
+  height: 15.5rem;
+  margin-top: 2rem;
 
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+`
 const InfoBox = styled(Box)`
   background-image: url('/img/buy-sell-learn-more.png');
   /* stylelint-disable */
@@ -15,7 +28,6 @@ const InfoBox = styled(Box)`
   /* stylelint-enable */
   background-repeat: no-repeat;
 `
-
 const LearnMoreCard = () => (
   <InfoBox>
     <Icon name='cart-filled' color='blue600' size='32px' />
