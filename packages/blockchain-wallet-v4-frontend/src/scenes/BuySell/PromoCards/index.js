@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl'
+import { gte } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -25,7 +26,7 @@ const CardsWrapper = styled.div`
 `
 
 const PromoCardContainer = props => {
-  const { currentTier, hasTokenOrTrades, handleShowCoinify } = props
+  const { currentTier, handleShowCoinify } = props
 
   return (
     <Wrapper>
@@ -44,11 +45,9 @@ const PromoCardContainer = props => {
       <CardsWrapper>
         <LearnMoreCard />
         <LaunchPitCard />
-        <ContinueCoinifyCard
-          currentTier={currentTier}
-          handleShowCoinify={handleShowCoinify}
-          hasTokenOrTrades={hasTokenOrTrades}
-        />
+        {gte(currentTier, 2) && (
+          <ContinueCoinifyCard handleShowCoinify={handleShowCoinify} />
+        )}
       </CardsWrapper>
     </Wrapper>
   )

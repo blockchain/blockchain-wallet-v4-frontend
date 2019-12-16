@@ -1,6 +1,5 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { gte } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -47,80 +46,74 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `
 
-const ContinueCoinifyCard = ({
-  currentTier,
-  handleShowCoinify,
-  hasTokenOrTrades
-}) =>
-  hasTokenOrTrades &&
-  gte(currentTier, 2) && (
-    <BoxWrapper>
-      <Box>
+const ContinueCoinifyCard = ({ handleShowCoinify }) => (
+  <BoxWrapper>
+    <Box>
+      <LogoWrapper>
+        <BlankCard />
         <LogoWrapper>
-          <BlankCard />
-          <LogoWrapper>
-            <VisaLogo />
-            <MastercardLogo />
-          </LogoWrapper>
+          <VisaLogo />
+          <MastercardLogo />
         </LogoWrapper>
+      </LogoWrapper>
 
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginTop: '14px', width: '265px' }}
-        >
-          <FormattedMessage
-            id='scenes.buysell.continue-title1'
-            defaultMessage='Buy Bitcoin.'
-          />
-        </Text>
-        <Text size='20px' color='grey800' weight={600}>
-          <FormattedMessage
-            id='scenes.buysell.continue-title2'
-            defaultMessage='Pay Your Way.'
-          />
-        </Text>
-        <Text
-          color='grey600'
-          lineHeight='1.5'
-          size='14px'
-          style={{ margin: '8px 0 5px' }}
-          weight={500}
-        >
-          <FormattedMessage
-            id='scenes.buysell.coinify-desc'
-            defaultMessage='Buy and sell using your bank card or making a bank transfer.'
-          />
-        </Text>
-
-        <Button
-          fullwidth
-          height='50px'
-          nature='primary'
-          onClick={handleShowCoinify}
-          style={{ marginTop: '48px' }}
-        >
-          <Text color='white' weight={500}>
-            <FormattedMessage
-              id='scenes.buysell.coinify.button'
-              defaultMessage='Continue with Coinify'
-            />
-          </Text>
-        </Button>
-      </Box>
       <Text
-        size='14px'
-        color='grey600'
-        weight={500}
-        style={{ marginTop: '16px', paddingLeft: '32px' }}
+        size='20px'
+        color='grey800'
+        weight={600}
+        style={{ marginTop: '14px', width: '265px' }}
       >
         <FormattedMessage
-          id='scenes.buysell.coinify.powered-by-coinify'
-          defaultMessage='Powered by Coinify'
+          id='scenes.buysell.continue-title1'
+          defaultMessage='Buy Bitcoin.'
         />
       </Text>
-    </BoxWrapper>
-  )
+      <Text size='20px' color='grey800' weight={600}>
+        <FormattedMessage
+          id='scenes.buysell.continue-title2'
+          defaultMessage='Pay Your Way.'
+        />
+      </Text>
+      <Text
+        color='grey600'
+        lineHeight='1.5'
+        size='14px'
+        style={{ margin: '8px 0 5px' }}
+        weight={500}
+      >
+        <FormattedMessage
+          id='scenes.buysell.coinify-desc'
+          defaultMessage='Buy and sell using your bank card or making a bank transfer.'
+        />
+      </Text>
+
+      <Button
+        fullwidth
+        height='50px'
+        nature='primary'
+        onClick={handleShowCoinify}
+        style={{ marginTop: '48px' }}
+      >
+        <Text color='white' weight={500}>
+          <FormattedMessage
+            id='scenes.buysell.coinify.button'
+            defaultMessage='Continue with Coinify'
+          />
+        </Text>
+      </Button>
+    </Box>
+    <Text
+      size='14px'
+      color='grey600'
+      weight={500}
+      style={{ marginTop: '16px', paddingLeft: '32px' }}
+    >
+      <FormattedMessage
+        id='scenes.buysell.coinify.powered-by-coinify'
+        defaultMessage='Powered by Coinify'
+      />
+    </Text>
+  </BoxWrapper>
+)
 
 export default ContinueCoinifyCard
