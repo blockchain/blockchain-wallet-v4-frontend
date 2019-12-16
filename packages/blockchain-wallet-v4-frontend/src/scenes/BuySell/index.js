@@ -157,7 +157,7 @@ class BuySellContainer extends React.PureComponent {
     }
 
     if (
-      includes(prop('countryCode', value), pitFunnelCountries) ||
+      !includes(prop('countryCode', value), pitFunnelCountries) ||
       this.state.showCoinifyView
     ) {
       return {
