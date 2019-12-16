@@ -7,7 +7,7 @@ import LaunchPit from './template'
 
 const { PIT_EVENTS } = model.analytics
 
-class LaunchPitContainer extends React.Component {
+class LaunchPitCardContainer extends React.Component {
   handleSignup = () => {
     this.props.showModal()
     this.props.logEvent(PIT_EVENTS.CONNECT_NOW)
@@ -45,4 +45,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LaunchPitContainer)
+)(LaunchPitCardContainer)

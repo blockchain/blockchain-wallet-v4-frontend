@@ -3,7 +3,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Box } from '../.'
+import { Box } from './../components'
 
 const InfoBox = styled(Box)`
   background-image: url('/img/buy-sell-learn-more.png');
@@ -16,7 +16,7 @@ const InfoBox = styled(Box)`
   background-repeat: no-repeat;
 `
 
-const LearnMore = () => (
+const LearnMoreCard = () => (
   <InfoBox>
     <Icon name='cart-filled' color='blue600' size='32px' />
     <Text
@@ -46,4 +46,4 @@ const LearnMore = () => (
   </InfoBox>
 )
 
-export default LearnMore
+export default LearnMoreCard

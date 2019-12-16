@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import { BaseIcon, Box, BoxWrapper, RoundButton } from '../.'
+import { BaseIcon, Box, BoxWrapper, RoundButton } from './../components'
 
 const PitIcon = styled(BaseIcon)`
   background-image: url('/img/the-pit-logo-basic.svg');
@@ -23,7 +23,7 @@ const StyledBox = styled(Box)`
   margin-top: ${props => (props.noMargin ? '0' : '2rem')};
 `
 
-const LaunchPit = props => {
+const LaunchPitCard = props => {
   const { isPitAccountLinked, handleLinkedWallet, handleSignup, pitUrl } = props
   const Wrapper = isPitAccountLinked ? ButtonLink : ButtonWrapper
   return (
@@ -96,4 +96,4 @@ const LaunchPit = props => {
   )
 }
 
-export default LaunchPit
+export default LaunchPitCard

@@ -4,7 +4,7 @@ import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BaseIcon, Box, BoxWrapper, RoundButton } from '../.'
+import { BaseIcon, Box, BoxWrapper, RoundButton } from './../components'
 
 const BlankCard = styled(BaseIcon)`
   background-image: url('/img/blank-card.svg');
@@ -24,7 +24,7 @@ const LogoWrapper = styled.div`
   justify-content: space-between;
 `
 
-const ContinueCoinify = ({
+const ContinueCoinifyCard = ({
   currentTier,
   handleShowCoinify,
   hasTokenOrTrades
@@ -100,4 +100,4 @@ const ContinueCoinify = ({
     </BoxWrapper>
   )
 
-export default ContinueCoinify
+export default ContinueCoinifyCard
