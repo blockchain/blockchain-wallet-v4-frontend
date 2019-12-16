@@ -69,16 +69,12 @@ import pitMacbookGold from './img/pit-macbook-gold.png'
 import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
 import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import poweredByCoinify from './img/powered_by_coinify.svg'
-import poweredBySfox from './img/powered_by_sfox.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
 import rocket from './img/rocket.gif'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
-import sfoxLanding from './img/sfox-landing.png'
-import sfoxLogo from './img/sfox-logo.png'
-import shapeshiftLogo from './img/shapeshift-logo.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
@@ -244,12 +240,9 @@ export default {
   'pit-macbook-gold2': pitMacbookGold2,
   'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
-  'powered-by-sfox': poweredBySfox,
   'qr-code': qrCode,
   'restore-lockbox-icon': restoreLockboxIcon,
   'select-arrow': selectArrow,
-  'sfox-landing': sfoxLanding,
-  'sfox-logo': sfoxLogo,
   'silver-approved': silverApproved,
   'starfield-banner-bg': starfieldBannerBg,
   starfield2: starfield2,
@@ -283,7 +276,6 @@ export default {
   printer: printer,
   rocket: rocket,
   search: search,
-  shapeshiftLogo: shapeshiftLogo,
   smartphone: smartphone,
   sophisticated: sophisticated,
   yubikey: yubikey

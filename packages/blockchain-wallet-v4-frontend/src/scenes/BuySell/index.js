@@ -4,14 +4,16 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { getData, getFields } from './selectors'
 import { hasAccount } from 'services/ExchangeService'
-import { isNil, length, path, prop } from 'ramda'
+import { includes, isNil, length, path, prop } from 'ramda'
 import { TabMenuBuySellStatus } from 'components/Form'
 import CoinifyCheckout from './CoinifyCheckout'
 import HorizontalMenu from 'components/HorizontalMenu'
 import Loading from 'components/BuySell/Loading'
 import React from 'react'
-import SelectPartner from './template'
 import styled from 'styled-components'
+
+import KycGetStarted from './KycGetStarted'
+import PromoCards from './PromoCards'
 
 const { KYC_MODAL } = model.components.identityVerification
 
@@ -39,6 +41,55 @@ const CheckoutWrapper = styled.div`
   }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
+
+// Temp list of EU countries to funnel to PIT
+const pitFunnelCountries = [
+  'AT',
+  'BE',
+  'BG',
+  'CH',
+  'CY',
+  'CZ',
+  'DE',
+  'DK',
+  'EE',
+  'ES',
+  'FI',
+  'FR',
+  'GB',
+  'GF',
+  'GG',
+  'GI',
+  'GP',
+  'GR',
+  'HR',
+  'HU',
+  'IE',
+  'IM',
+  'IS',
+  'IT',
+  'JE',
+  'LI',
+  'LT',
+  'LU',
+  'LV',
+  'MC',
+  'MF',
+  'MQ',
+  'MT',
+  'NL',
+  'NO',
+  'PL',
+  'PM',
+  'PT',
+  'RE',
+  'RO',
+  'SE',
+  'SI',
+  'SK',
+  'SM',
+  'YT'
+]
 
 class BuySellContainer extends React.PureComponent {
   state = {
@@ -71,9 +122,6 @@ class BuySellContainer extends React.PureComponent {
     const { country } = fields
     const { coinifyCountries } = data.getOrFail('Missing partner countries.')
 
-    // if (sfoxCountries.indexOf(country) >= 0) {
-    //   showModal('SfoxExchangeData', { step: 'account' })
-    // }
     if (coinifyCountries.includes(country)) {
       // set country in redux so we can skip KYC country selection
       setCountry(country)
@@ -92,16 +140,7 @@ class BuySellContainer extends React.PureComponent {
    * If there is a token (evidence of signup), show the Checkout view.
    * If not, open the tray and send user through the signup flow.
    */
-
   selectPartner = (buySell, options, type, value) => {
-    // if (path(['sfox', 'account_token'], buySell)) {
-    //   return {
-    //     component: (
-    //       <SfoxCheckout type={type} options={options} value={buySell} />
-    //     ),
-    //     partner: 'sfox'
-    //   }
-    // }
     const showSFOXTrades =
       type === 'order_history' && length(path(['sfox', 'trades'], buySell))
 
@@ -116,19 +155,22 @@ class BuySellContainer extends React.PureComponent {
         partner: 'coinify'
       }
     }
+
+    if (includes(prop('countryCode', value), pitFunnelCountries)) {
+      return {
+        component: (
+          <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />
+        ),
+        partner: ''
+      }
+    }
+
     return {
       component: (
-        <SelectPartner
+        <PromoCards
           currentTier={this.props.currentTier}
           handleShowCoinify={this.handleShowCoinify}
           hasTokenOrTrades={hasTokenOrTrades}
-          onSubmit={this.onSubmit}
-          options={options}
-          triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
-          type={type}
-          value={buySell}
-          {...this.props}
-          {...value}
         />
       ),
       partner: ''
