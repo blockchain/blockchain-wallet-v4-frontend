@@ -24,11 +24,11 @@ const BoxWrapper = styled.div`
 `
 const ButtonLink = styled(Link)`
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 36px;
 `
 const ButtonWrapper = styled.div`
   width: 100%;
-  margin-top: 3rem;
+  margin-top: 36px;
 `
 const StyledBox = styled(Box)`
   margin-top: ${props => (props.noMargin ? '0' : '2rem')};

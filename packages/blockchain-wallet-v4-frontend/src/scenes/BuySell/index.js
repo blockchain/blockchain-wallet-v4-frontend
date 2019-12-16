@@ -156,12 +156,15 @@ class BuySellContainer extends React.PureComponent {
       }
     }
 
-    if (includes(prop('countryCode', value), pitFunnelCountries)) {
+    if (
+      includes(prop('countryCode', value), pitFunnelCountries) ||
+      this.state.showCoinifyView
+    ) {
       return {
         component: (
           <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />
         ),
-        partner: ''
+        partner: 'coinify'
       }
     }
 
@@ -170,7 +173,6 @@ class BuySellContainer extends React.PureComponent {
         <PromoCards
           currentTier={this.props.currentTier}
           handleShowCoinify={this.handleShowCoinify}
-          hasTokenOrTrades={hasTokenOrTrades}
         />
       ),
       partner: ''
