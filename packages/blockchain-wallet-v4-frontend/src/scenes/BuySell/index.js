@@ -88,8 +88,7 @@ const pitFunnelCountries = [
   'SI',
   'SK',
   'SM',
-  'YT',
-  'US' // temp for testing
+  'YT'
 ]
 
 class BuySellContainer extends React.PureComponent {
