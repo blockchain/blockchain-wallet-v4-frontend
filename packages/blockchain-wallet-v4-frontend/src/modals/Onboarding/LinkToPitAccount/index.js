@@ -22,7 +22,8 @@ class LinkToPitAccountContainer extends React.PureComponent {
   }
 
   onConnectStart = () => {
-    this.props.actions.linkToPitAccount()
+    const { utmCampaign } = this.props
+    this.props.actions.linkToPitAccount(utmCampaign)
   }
 
   onResendEmail = () => {

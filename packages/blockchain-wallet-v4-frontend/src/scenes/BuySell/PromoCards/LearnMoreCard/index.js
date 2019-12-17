@@ -51,7 +51,7 @@ const LearnMoreCard = () => (
       weight={500}
     >
       <FormattedMessage
-        id='scenes.buysell.info.learn-more-desc'
+        id='scenes.buysell.info.learn-more1'
         defaultMessage='Blockchain is the fastest way to buy and sell cryptocurrencies. Trade in our exchange The PIT.'
       />
     </Text>
