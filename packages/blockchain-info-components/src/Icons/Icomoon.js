@@ -39,6 +39,7 @@ export default {
   eth: '\\e97b',
   'eth-circle': '\\e989',
   'eth-circle-filled': '\\e907',
+  'exchange-logo': '\\e933',
   facebook: '\\e918',
   forbidden: '\\e904',
   'hamburger-menu': '\\e91b',
