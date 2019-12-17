@@ -1,7 +1,7 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import {
   call,
   cancel,
@@ -27,8 +27,6 @@ import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4'
 import moment from 'moment'
-
-const { AB_TESTS } = model.analytics
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -403,8 +401,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToPitAccount = function * () {
+  const linkToPitAccount = function * ({ payload }) {
     try {
+      const { utmCampaign } = payload
       yield put(A.linkToPitAccountLoading())
       // check if wallet is already linked
       const isPitAccountLinked = (yield select(
@@ -431,12 +430,10 @@ export default ({ api, coreSagas, networks }) => {
       const data = yield call(api.createLinkAccountId)
       const pitLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const variant = (yield select(
-        selectors.analytics.selectAbTest(AB_TESTS.PIT_CONNECT_TEST)
-      )).getOrElse('original')
       const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
         email
-      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${variant}`
+      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
+        'wallet_pit_page'}`
       // share addresses
       yield put(A.shareWalletAddressesWithPit())
       // simulate wait while allowing user to read modal

@@ -84,8 +84,9 @@ export const linkFromPitAccountFailure = e => ({
   payload: { e }
 })
 
-export const linkToPitAccount = () => ({
-  type: AT.LINK_TO_PIT_ACCOUNT
+export const linkToPitAccount = utmCampaign => ({
+  type: AT.LINK_TO_PIT_ACCOUNT,
+  payload: { utmCampaign }
 })
 export const linkToPitAccountLoading = () => ({
   type: AT.LINK_TO_PIT_ACCOUNT_LOADING

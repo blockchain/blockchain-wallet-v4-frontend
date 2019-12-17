@@ -65,7 +65,7 @@ const LaunchPitCard = props => {
           weight={500}
         >
           <FormattedMessage
-            id='scenes.buysell.launch-pit-desc'
+            id='scenes.buysell.launch-pit-desc1'
             defaultMessage='Link your account to buy or sell crypto from your Wallet or explore new tokens.'
           />
         </Text>
