@@ -37,6 +37,7 @@ import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
+import exchangeLogo from './img/exchange-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -179,6 +180,7 @@ export default {
   'empty-tx': emptyTx,
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
+  'exchange-logo': exchangeLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,

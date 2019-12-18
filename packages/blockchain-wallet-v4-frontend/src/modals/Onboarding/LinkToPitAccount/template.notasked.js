@@ -115,7 +115,7 @@ const EmailRequiredContent = styled.div`
     margin-bottom: 12px;
   }
 `
-const PitLogo = styled(Image)`
+const ExchangeLogo = styled(Image)`
   margin-bottom: 5px;
 `
 
@@ -132,7 +132,7 @@ const LinkToPitNotAsked = ({
         <ContentWrapper>
           <LeftColumn>
             <div>
-              <PitLogo name='the-pit-word' height='50px' />
+              <ExchangeLogo name='exchange-logo' height='24px' />
               <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
                   id='modals.onboarding.linktopitaccount.na.subtitle-1'
@@ -196,8 +196,8 @@ const LinkToPitNotAsked = ({
                   <RightPointRow>
                     <Text size='16px' weight={500} color='green400'>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.totitle'
-                        defaultMessage='The PIT will be able to:'
+                        id='modals.onboarding.linktopitaccount.na.right.totitle-1'
+                        defaultMessage='The Exchange will be able to:'
                       />
                     </Text>
                   </RightPointRow>
@@ -224,8 +224,8 @@ const LinkToPitNotAsked = ({
                   <RightPointRow>
                     <Text size='16px' weight={500} color='red500'>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.nottitle'
-                        defaultMessage='The PIT will not be able to:'
+                        id='modals.onboarding.linktopitaccount.na.right.nottitle-1'
+                        defaultMessage='The Exchange will not be able to:'
                       />
                     </Text>
                   </RightPointRow>
@@ -255,8 +255,8 @@ const LinkToPitNotAsked = ({
                 <Icon name='alert-filled' color='error' size='62px' />
                 <Text size='15px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.right.verifyemailrequired'
-                    defaultMessage='A verified email address is required to connect your wallet to The PIT.'
+                    id='modals.onboarding.linktopitaccount.na.right.verifyemailrequired-1'
+                    defaultMessage='A verified email address is required to connect your wallet to the Exchange.'
                   />
                 </Text>
                 <Text size='15px' weight={500}>
