@@ -31,11 +31,11 @@ const HelperTip = styled(TooltipHost)`
 const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
   <>
     <JoyrideSpotlight className='the-pit-tooltip' />
-    <MenuIcon name='the-pit' style={{ paddingLeft: '2px' }} size='24px' />
+    <MenuIcon name='exchange-logo' style={{ paddingLeft: '2px' }} size='24px' />
     <Destination>
       <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.thepitexchange'
-        defaultMessage='The PIT Exchange'
+        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
+        defaultMessage='Exchange'
       />
     </Destination>
     {isPitAccountLinked && (
