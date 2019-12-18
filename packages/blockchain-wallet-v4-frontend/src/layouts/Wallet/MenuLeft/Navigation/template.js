@@ -45,7 +45,7 @@ export const NewCartridge = styled(Cartridge)`
 `
 
 const ExchangeNavItem = props => (
-  <MenuItem data-e2e='thePitLink'>
+  <>
     <MenuIcon name='exchange-logo' style={{ paddingLeft: '2px' }} size='24px' />
     <Destination>
       <FormattedMessage
@@ -60,7 +60,7 @@ const ExchangeNavItem = props => (
         </HelperTip>
       </HelperTipContainer>
     )}
-  </MenuItem>
+  </>
 )
 
 const Navigation = props => {
@@ -146,7 +146,9 @@ const Navigation = props => {
         </Link>
       ) : (
         <LinkContainer to='/thepit' activeClassName='active'>
-          <ExchangeNavItem {...props} />
+          <MenuItem data-e2e='thePitLink'>
+            <ExchangeNavItem {...props} />
+          </MenuItem>
         </LinkContainer>
       )}
 

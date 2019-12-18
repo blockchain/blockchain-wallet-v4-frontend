@@ -157,7 +157,7 @@ const Exchange = ({ onSignup }) => (
         </ThirdSubTextGroup>
       </Row>
       <Row>
-        <Column style={{ paddingRight: '25px' }}>
+        <Column>
           <FooterButton nature='primary' fullwidth onClick={onSignup}>
             <FormattedMessage
               id='scenes.exchange.connectnow'
