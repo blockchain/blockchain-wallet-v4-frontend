@@ -39,7 +39,7 @@ const LaunchPitCard = props => {
   return (
     <BoxWrapper>
       <StyledBox noMargin={props.noMargin}>
-        <Icon name='the-pit' size='30px' color='black' />
+        <Icon name='exchange-logo' size='30px' color='black' />
         <Text
           size='20px'
           color='grey800'
@@ -53,8 +53,8 @@ const LaunchPitCard = props => {
         </Text>
         <Text size='20px' color='grey800' weight={600}>
           <FormattedMessage
-            id='scenes.buysell.launch-pit.title-2'
-            defaultMessage='& Sell in The PIT.'
+            id='scenes.buysell.launch-exchange.title'
+            defaultMessage='& Sell in the Exchange.'
           />
         </Text>
         <Text
@@ -84,8 +84,8 @@ const LaunchPitCard = props => {
           >
             <Text color='white' weight={500}>
               <FormattedMessage
-                id='scenes.buysell.launch-pit.button'
-                defaultMessage='Launch The PIT'
+                id='scenes.buysell.launch-exchange.button'
+                defaultMessage='Launch the Exchange'
               />
             </Text>
           </Button>
@@ -98,8 +98,8 @@ const LaunchPitCard = props => {
         style={{ marginTop: '16px', paddingLeft: '24px' }}
       >
         <FormattedMessage
-          id='scenes.buysell.launch-pit.powered-by-blockchain'
-          defaultMessage='Powered by Blockchain'
+          id='scenes.buysell.launch-pit.powered-by-blockchain-1'
+          defaultMessage='Powered by Blockchain.com'
         />
       </Text>
     </BoxWrapper>
