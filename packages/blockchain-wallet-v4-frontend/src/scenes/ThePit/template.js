@@ -1,4 +1,4 @@
-import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Text, TextGroup } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -55,16 +55,6 @@ const SubContent = styled(Text)`
   width: 100%;
 `
 
-const StarfieldText = styled(Text)`
-  margin-top: 10px;
-  color: white;
-  text-align: center;
-  line-height: 1.4;
-  z-index: 1;
-  max-width: 260px;
-  width: 100%;
-`
-
 const Column = styled.div`
   display: flex;
   flex-direction: row;
@@ -76,16 +66,6 @@ const Column = styled.div`
   }
 `
 
-const StarfieldColumn = styled(Column)`
-  background-image: url('/img/starfield2.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 15px;
-  height: 180px;
-  ${media.tablet`
-    padding: 20px 0;
-  `}
-`
 const SubTextGroup = styled(TextGroup)`
   padding-right: 30px;
   ${media.tablet`
@@ -104,23 +84,11 @@ const TitleTextGroup = styled(TextGroup)`
   `};
 `
 
-const StarfieldTextGroup = styled(TextGroup)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
 const FooterButton = styled(Button)`
   height: 56px;
   width: 100%;
   font-size: 16px;
   font-weight: 700;
-`
-const PitLogo = styled(Image)`
-  margin-bottom: 10px;
-  filter: invert(0);
-  height: 40px;
 `
 
 const ThePit = ({ onSignup }) => (
@@ -143,17 +111,6 @@ const ThePit = ({ onSignup }) => (
             </Content>
           </TitleTextGroup>
         </Column>
-        <StarfieldColumn>
-          <StarfieldTextGroup>
-            <PitLogo name='the-pit-text' />
-            <StarfieldText weight={600}>
-              <FormattedMessage
-                id='scenes.thepit.image.subtitle'
-                defaultMessage='A next generation exchange from the most trusted crypto company'
-              />
-            </StarfieldText>
-          </StarfieldTextGroup>
-        </StarfieldColumn>
       </Row>
       <Row>
         <SubTextGroup>
@@ -179,8 +136,8 @@ const ThePit = ({ onSignup }) => (
           </SubContent>
           <SubContent size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.thepit.point2.subtitle1-1'
-              defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on The PIT immediately.'
+              id='scenes.thepit.point2.subtitle1-2'
+              defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on the Exchange immediately.'
             />
           </SubContent>
         </SubTextGroup>
@@ -193,8 +150,8 @@ const ThePit = ({ onSignup }) => (
           </SubContent>
           <SubContent size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.thepit.point3.subtitle1-1'
-              defaultMessage="Link your Wallet to The PIT to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
+              id='scenes.thepit.point3.subtitle1-2'
+              defaultMessage="Link your Wallet to the Exchange to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
             />
           </SubContent>
         </ThirdSubTextGroup>
