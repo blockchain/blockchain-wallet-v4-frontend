@@ -119,14 +119,14 @@ const ExchangeLogo = styled(Image)`
   margin-bottom: 5px;
 `
 
-const LinkToPitNotAsked = ({
+const LinkToExchangeAccountNotAsked = ({
   close,
   isEmailVerified,
   onConnectStart,
   onResendEmail
 }) => {
   return (
-    <Modal size='large' data-e2e='infoModalLinkToPitAccountNotAsked'>
+    <Modal size='large' data-e2e='infoModalLinkToExchangeAccountNotAsked'>
       <ModalHeaderStyled onClose={close} />
       <ModalBodyStyled>
         <ContentWrapper>
@@ -135,7 +135,7 @@ const LinkToPitNotAsked = ({
               <ExchangeLogo name='exchange-logo' height='24px' />
               <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.na.subtitle-1'
+                  id='modals.onboarding.linktoexchangeaccount.na.subtitle-1'
                   defaultMessage="There's a new way to trade. Link your Wallet for instant access. "
                 />
               </LeftContent>
@@ -145,7 +145,7 @@ const LinkToPitNotAsked = ({
                 <Image name='coins' width='24px' height='24px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point1-2'
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point1-2'
                     defaultMessage='Access More Cryptos'
                   />
                 </Text>
@@ -154,7 +154,7 @@ const LinkToPitNotAsked = ({
                 <Image name='money' width='26px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point2-1'
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point2-1'
                     defaultMessage='Deposit & Withdraw Euros/Dollars'
                   />
                 </Text>
@@ -173,7 +173,7 @@ const LinkToPitNotAsked = ({
                   style={{ marginLeft: '3px' }}
                 >
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point3-1'
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point3-1'
                     defaultMessage='Lightning Fast Trading'
                   />
                 </Text>
@@ -182,7 +182,7 @@ const LinkToPitNotAsked = ({
                 <Icon name='users' color='white' size='23px' />
                 <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.left.point4-1'
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point4-1'
                     defaultMessage='Built by the Pros'
                   />
                 </Text>
@@ -196,7 +196,7 @@ const LinkToPitNotAsked = ({
                   <RightPointRow>
                     <Text size='16px' weight={500} color='green400'>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.totitle-1'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.totitle-1'
                         defaultMessage='The Exchange will be able to:'
                       />
                     </Text>
@@ -205,7 +205,7 @@ const LinkToPitNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.topoint'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint'
                         defaultMessage='Share your Gold or Silver Level status'
                       />
                     </Text>
@@ -214,7 +214,7 @@ const LinkToPitNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.topoint2-2'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint2-2'
                         defaultMessage='Sync addresses with your Wallet so you can securely sweep crypto between accounts'
                       />
                     </Text>
@@ -224,7 +224,7 @@ const LinkToPitNotAsked = ({
                   <RightPointRow>
                     <Text size='16px' weight={500} color='red500'>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.nottitle-1'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.nottitle-1'
                         defaultMessage='The Exchange will not be able to:'
                       />
                     </Text>
@@ -233,7 +233,7 @@ const LinkToPitNotAsked = ({
                     <Circle />
                     <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id='modals.onboarding.linktopitaccount.na.right.notpoint1-3'
+                        id='modals.onboarding.linktoexchangeaccount.na.right.notpoint1-3'
                         defaultMessage='Access the crypto in your wallet, access your keys, or view your password'
                       />
                     </Text>
@@ -243,7 +243,7 @@ const LinkToPitNotAsked = ({
               <ConnectNowButton nature='purple' onClick={onConnectStart}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.connectnow'
+                    id='modals.onboarding.linktoexchangeaccount.na.connectnow'
                     defaultMessage='Connect Now'
                   />
                 </Text>
@@ -255,13 +255,13 @@ const LinkToPitNotAsked = ({
                 <Icon name='alert-filled' color='error' size='62px' />
                 <Text size='15px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.right.verifyemailrequired-1'
+                    id='modals.onboarding.linktoexchangeaccount.na.right.verifyemailrequired-1'
                     defaultMessage='A verified email address is required to connect your wallet to the Exchange.'
                   />
                 </Text>
                 <Text size='15px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.right.checkemail'
+                    id='modals.onboarding.linktoexchangeaccount.na.right.checkemail'
                     defaultMessage='Please verify your email address to continue with the signup process.'
                   />
                 </Text>
@@ -269,7 +269,7 @@ const LinkToPitNotAsked = ({
               <ConnectNowButton nature='purple' onClick={onResendEmail}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linktopitaccount.na.resendemail'
+                    id='modals.onboarding.linktoexchangeaccount.na.resendemail'
                     defaultMessage='Resend Email'
                   />
                 </Text>
@@ -282,4 +282,4 @@ const LinkToPitNotAsked = ({
   )
 }
 
-export default LinkToPitNotAsked
+export default LinkToExchangeAccountNotAsked

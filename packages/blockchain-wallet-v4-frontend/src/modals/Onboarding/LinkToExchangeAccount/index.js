@@ -4,12 +4,12 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import LinkToPitError from './template.error'
-import LinkToPitLoading from './template.loading'
-import LinkToPitNotAsked from './template.notasked'
-import LinkToPitSuccess from './template.success'
+import LinkToExchangeAccountError from './template.error'
+import LinkToExchangeAccountLoading from './template.loading'
+import LinkToExchangeAccountNotAsked from './template.notasked'
+import LinkToExchangeAccountSuccess from './template.success'
 
-class LinkToPitAccountContainer extends React.PureComponent {
+class LinkToExchangeAccountContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.actions.linkToPitAccountReset()
     this.props.actions.hideThePitPulse()
@@ -34,15 +34,17 @@ class LinkToPitAccountContainer extends React.PureComponent {
   render () {
     return this.props.linkToPitStatus.cata({
       Success: () => (
-        <LinkToPitSuccess
+        <LinkToExchangeAccountSuccess
           {...this.props}
           onAccountLinkComplete={this.onAccountLinkComplete}
         />
       ),
-      Failure: error => <LinkToPitError {...this.props} error={error} />,
-      Loading: () => <LinkToPitLoading {...this.props} />,
+      Failure: error => (
+        <LinkToExchangeAccountError {...this.props} error={error} />
+      ),
+      Loading: () => <LinkToExchangeAccountLoading {...this.props} />,
       NotAsked: () => (
-        <LinkToPitNotAsked
+        <LinkToExchangeAccountNotAsked
           {...this.props}
           onConnectStart={this.onConnectStart}
           onResendEmail={this.onResendEmail}
@@ -53,7 +55,9 @@ class LinkToPitAccountContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  deeplinkToPit: selectors.modules.profile.getLinkToPitAccountDeeplink(state),
+  deeplinkToExchange: selectors.modules.profile.getLinkToPitAccountDeeplink(
+    state
+  ),
   email: selectors.core.settings.getEmail(state).getOrElse(false),
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
@@ -76,11 +80,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LinkToPitAccount'),
+  modalEnhancer('LinkToExchangeAccount'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(LinkToPitAccountContainer)
+export default enhance(LinkToExchangeAccountContainer)

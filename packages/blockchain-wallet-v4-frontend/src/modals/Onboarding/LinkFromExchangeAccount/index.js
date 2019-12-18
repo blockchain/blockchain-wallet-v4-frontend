@@ -4,16 +4,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import LinkFromPitAccount from './template'
+import LinkFromExchangeAccount from './template'
 
-class LinkFromPitAccountContainer extends React.PureComponent {
+class LinkFromExchangeAccountContainer extends React.PureComponent {
   componentDidMount () {
     const { linkId } = this.props
     this.props.actions.linkFromPitAccount(linkId)
   }
 
   render () {
-    return <LinkFromPitAccount {...this.props} />
+    return <LinkFromExchangeAccount {...this.props} />
   }
 }
 
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   emailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(true),
-  linkFromPitAccountStatus: selectors.modules.profile.getLinkFromPitAccountStatus(
+  linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromPitAccountStatus(
     state
   ),
   userTiers: selectors.modules.profile.getUserTiers(state)
@@ -39,11 +39,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LinkFromPitAccount'),
+  modalEnhancer('LinkFromExchangeAccount'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(LinkFromPitAccountContainer)
+export default enhance(LinkFromExchangeAccountContainer)

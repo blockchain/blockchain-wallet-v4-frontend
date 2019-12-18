@@ -12,8 +12,8 @@ import {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkFromPitAccount,
-  LinkToPitAccount,
+  LinkFromExchangeAccount,
+  LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   WalletTour
@@ -106,8 +106,8 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
-    <LinkFromPitAccount disableOutsideClose />
-    <LinkToPitAccount disableOutsideClose />
+    <LinkFromExchangeAccount disableOutsideClose />
+    <LinkToExchangeAccount disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
