@@ -20,6 +20,16 @@ const Container = styled.div`
   height: ${props => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
+
+const ServiceBadge = styled(Banner)`
+  margin-left: 0;
+
+  > div {
+    font-weight: 600;
+    font-size: 12px;
+  }
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -38,7 +48,7 @@ const Title = styled.div`
   flex-direction: row;
   align-items: center;
   & > :first-child {
-    margin-right: 8px;
+    margin-right: 16px;
   }
 `
 const ActionIcon = styled(Icon)`
@@ -48,9 +58,16 @@ const ActionIcon = styled(Icon)`
   }
 `
 const ActionButton = styled(Button)`
-  height: 35px;
+  height: 32px;
   margin-right: 20px;
   padding: 0;
+  min-width: auto;
+
+  > a {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 12px;
+  }
 `
 
 const selectStyle = type => {
@@ -87,9 +104,9 @@ const Announcement = props => {
         <Content>
           <Title>
             {id === 'blockchain-rebrand' && (
-              <Banner type='white' inline>
+              <ServiceBadge type='white' inline>
                 Update
-              </Banner>
+              </ServiceBadge>
             )}
             {icon && <Icon name={icon} size='20px' color={textColor} />}
             <Text size='16px' color='white' uppercase={uppercase} weight={500}>
