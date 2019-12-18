@@ -100,7 +100,7 @@ const ThePitBanner = ({ analyticsActions }) => {
         </Column>
       </Row>
       <LinkContainer
-        to='/thepit'
+        to='/exchange'
         rel='noopener noreferrer'
         onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
       >

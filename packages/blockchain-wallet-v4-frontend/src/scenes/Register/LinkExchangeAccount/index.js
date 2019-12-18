@@ -44,26 +44,22 @@ const ListItem = styled.li`
   margin-top: 8px;
 `
 
-const PitLogo = styled(Image)`
-  margin-right: 16px;
-`
-
-const LinkAccount = () => {
+const LinkExchangeAccount = () => {
   return (
     <InfoWrapper>
       <InnerWrapper>
         <Header>
           <Text size='20px' color='brand-primary' weight={700}>
             <FormattedMessage
-              id='scenes.linkaccount.authorize'
-              defaultMessage='Authorize The PIT to connect to your Blockchain Wallet'
+              id='scenes.linkaccount.authorize1'
+              defaultMessage='Authorize Exchange to connect to your Blockchain Wallet'
             />
           </Text>
         </Header>
         <ListHeader color='green500'>
           <FormattedMessage
-            id='scenes.linkaccount.pit_will_be_able_to'
-            defaultMessage='The PIT will be able to:'
+            id='scenes.linkaccount.able_to'
+            defaultMessage='The Exchange will be able to:'
           />
         </ListHeader>
         <List>
@@ -78,16 +74,16 @@ const LinkAccount = () => {
           <ListItem>
             <Text weight={500} color='gray-6' size='14px'>
               <FormattedMessage
-                id='scenes.linkaccount.share_addresses'
-                defaultMessage='Exchange crypto addresses so you don’t have to copy and paste'
+                id='scenes.linkaccount.share_addresses1'
+                defaultMessage='Share crypto addresses so you don’t have to copy and paste'
               />
             </Text>
           </ListItem>
         </List>
         <ListHeader color='red500'>
           <FormattedMessage
-            id='scenes.linkaccount.pit_will_not_be_able_to'
-            defaultMessage='The PIT will not be able to:'
+            id='scenes.linkaccount.can_not_do'
+            defaultMessage='The Exchange will not be able to:'
           />
         </ListHeader>
         <List>
@@ -102,10 +98,10 @@ const LinkAccount = () => {
         </List>
       </InnerWrapper>
       <Footer>
-        <PitLogo name='the-pit-logo' height='42px' />
+        <Image name='blue-logo' height='42px' />
         <div style={{ marginLeft: '16px' }}>
           <Text size='20px' color='brand-primary' weight={600}>
-            The PIT
+            Exchange
           </Text>
           <Text
             weight={500}
@@ -114,8 +110,8 @@ const LinkAccount = () => {
             style={{ marginTop: '4px' }}
           >
             <FormattedMessage
-              id='scenes.linkaccount.by_blockchain'
-              defaultMessage='Brought to you by Blockchain'
+              id='scenes.linkaccount.by_blockchaincom'
+              defaultMessage='Brought to you by Blockchain.com'
             />
           </Text>
         </div>
@@ -124,4 +120,4 @@ const LinkAccount = () => {
   )
 }
 
-export default LinkAccount
+export default LinkExchangeAccount
