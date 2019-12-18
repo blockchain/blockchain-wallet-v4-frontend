@@ -34,8 +34,8 @@ const ThePitSidenavItem = (showSpotlight, isPitAccountLinked) => (
     <MenuIcon name='exchange-logo' style={{ paddingLeft: '2px' }} size='24px' />
     <Destination>
       <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.blockchain-exchange'
-        defaultMessage='Blockchain Exchange'
+        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
+        defaultMessage='Exchange'
       />
     </Destination>
     {isPitAccountLinked && (
