@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 
 const Container = styled.div`
@@ -41,21 +41,16 @@ const Title = styled.div`
     margin-right: 8px;
   }
 `
-const ActionLink = styled(Link)`
-  white-space: nowrap;
-  text-decoration: underline;
-  & > :first-child {
-    margin: 10px 0 6px;
-  }
-  ${media.mobile`
-    margin: 0px;
-  `};
-`
 const ActionIcon = styled(Icon)`
   margin-left: 10px;
   &:hover {
     cursor: pointer;
   }
+`
+const ActionButton = styled(Button)`
+  height: 35px;
+  margin-right: 20px;
+  padding: 0;
 `
 
 const selectStyle = type => {
@@ -68,7 +63,7 @@ const selectStyle = type => {
       }
     case 'info':
       return {
-        backgroundColor: 'info',
+        backgroundColor: 'marketing-primary',
         textColor: 'white',
         uppercase: false
       }
@@ -91,8 +86,13 @@ const Announcement = props => {
       <Wrapper>
         <Content>
           <Title>
+            {id === 'blockchain-rebrand' && (
+              <Banner type='white' inline>
+                Update
+              </Banner>
+            )}
             {icon && <Icon name={icon} size='20px' color={textColor} />}
-            <Text size='14px' color='white' uppercase={uppercase}>
+            <Text size='16px' color='white' uppercase={uppercase} weight={500}>
               {header[lang] ? header[lang] : header.en}
             </Text>
           </Title>
@@ -110,17 +110,17 @@ const Announcement = props => {
                   </Text>
                 )
               })}
-            {action && action.title && (
-              <ActionLink href={action.link} color={textColor} target='_blank'>
-                <Text weight={500} color={textColor} size='14px'>
-                  {action.title[lang] ? action.title[lang] : action.title.en}
-                </Text>
-              </ActionLink>
-            )}
           </div>
         </Content>
       </Wrapper>
-      <div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {action && action.title && (
+          <ActionButton nature='empty-secondary'>
+            <Link href={action.link} target='_blank'>
+              {action.title[lang] ? action.title[lang] : action.title.en}
+            </Link>
+          </ActionButton>
+        )}
         {hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'down-arrow' : 'up-arrow'}
