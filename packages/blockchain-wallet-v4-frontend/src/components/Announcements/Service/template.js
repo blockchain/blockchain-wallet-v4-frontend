@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Banner, Button, Icon, Link, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 
 const Container = styled.div`
@@ -20,6 +20,16 @@ const Container = styled.div`
   height: ${props => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
+
+const ServiceBadge = styled(Banner)`
+  margin-left: 0;
+
+  > div {
+    font-weight: 600;
+    font-size: 12px;
+  }
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -38,23 +48,25 @@ const Title = styled.div`
   flex-direction: row;
   align-items: center;
   & > :first-child {
-    margin-right: 8px;
+    margin-right: 16px;
   }
-`
-const ActionLink = styled(Link)`
-  white-space: nowrap;
-  text-decoration: underline;
-  & > :first-child {
-    margin: 10px 0 6px;
-  }
-  ${media.mobile`
-    margin: 0px;
-  `};
 `
 const ActionIcon = styled(Icon)`
   margin-left: 10px;
   &:hover {
     cursor: pointer;
+  }
+`
+const ActionButton = styled(Button)`
+  height: 32px;
+  margin-right: 20px;
+  padding: 0;
+  min-width: auto;
+
+  > a {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 12px;
   }
 `
 
@@ -68,7 +80,7 @@ const selectStyle = type => {
       }
     case 'info':
       return {
-        backgroundColor: 'info',
+        backgroundColor: 'marketing-primary',
         textColor: 'white',
         uppercase: false
       }
@@ -91,8 +103,13 @@ const Announcement = props => {
       <Wrapper>
         <Content>
           <Title>
+            {id === 'blockchain-rebrand' && (
+              <ServiceBadge type='white' inline>
+                Update
+              </ServiceBadge>
+            )}
             {icon && <Icon name={icon} size='20px' color={textColor} />}
-            <Text size='14px' color='white' uppercase={uppercase}>
+            <Text size='16px' color='white' uppercase={uppercase} weight={500}>
               {header[lang] ? header[lang] : header.en}
             </Text>
           </Title>
@@ -110,17 +127,17 @@ const Announcement = props => {
                   </Text>
                 )
               })}
-            {action && action.title && (
-              <ActionLink href={action.link} color={textColor} target='_blank'>
-                <Text weight={500} color={textColor} size='14px'>
-                  {action.title[lang] ? action.title[lang] : action.title.en}
-                </Text>
-              </ActionLink>
-            )}
           </div>
         </Content>
       </Wrapper>
-      <div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {action && action.title && (
+          <ActionButton nature='empty-secondary'>
+            <Link href={action.link} target='_blank'>
+              {action.title[lang] ? action.title[lang] : action.title.en}
+            </Link>
+          </ActionButton>
+        )}
         {hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'down-arrow' : 'up-arrow'}
