@@ -91,7 +91,7 @@ const FooterButton = styled(Button)`
   font-weight: 700;
 `
 
-const ThePit = ({ onSignup }) => (
+const Exchange = ({ onSignup }) => (
   <Wrapper>
     <Container>
       <Row>
@@ -99,13 +99,13 @@ const ThePit = ({ onSignup }) => (
           <TitleTextGroup>
             <TitleContent size='40px' weight={800} color='brand-primary'>
               <FormattedMessage
-                id='scenes.thepit.title'
+                id='scenes.exchange.title'
                 defaultMessage='Level Up Your Trading'
               />
             </TitleContent>
             <Content weight={500} size='16px'>
               <FormattedMessage
-                id='scenes.thepit.subtitle1-1'
+                id='scenes.exchange.subtitle1-1'
                 defaultMessage='We built our own exchange that redefines speed, reliability, and liquidity so you can upgrade your trading experience.'
               />
             </Content>
@@ -116,13 +116,13 @@ const ThePit = ({ onSignup }) => (
         <SubTextGroup>
           <SubContent size='15px' weight={550} color='brand-primary'>
             <FormattedMessage
-              id='scenes.thepit.point1.title-1'
+              id='scenes.exchange.point1.title-1'
               defaultMessage='Access More Assets'
             />
           </SubContent>
           <SubContent size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.thepit.point1.subtitle1-1'
+              id='scenes.exchange.point1.subtitle1-1'
               defaultMessage='Expand your crypto portfolio. Easily deposit and withdraw dollars, euros, and trade top cryptos. Also gain access to exclusive and emerging digital assets.'
             />
           </SubContent>
@@ -130,13 +130,13 @@ const ThePit = ({ onSignup }) => (
         <SubTextGroup>
           <SubContent size='15px' weight={550} color='brand-primary'>
             <FormattedMessage
-              id='scenes.thepit.point2.title-1'
+              id='scenes.exchange.point2.title-1'
               defaultMessage='Unlock Unlimited Trading'
             />
           </SubContent>
           <SubContent size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.thepit.point2.subtitle1-2'
+              id='scenes.exchange.point2.subtitle1-2'
               defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on the Exchange immediately.'
             />
           </SubContent>
@@ -144,13 +144,13 @@ const ThePit = ({ onSignup }) => (
         <ThirdSubTextGroup>
           <SubContent size='15px' weight={550} color='brand-primary'>
             <FormattedMessage
-              id='scenes.thepit.point3.title-1'
+              id='scenes.exchange.point3.title-1'
               defaultMessage='Seamlessly Transfer Crypto'
             />
           </SubContent>
           <SubContent size='14px' weight={500}>
             <FormattedMessage
-              id='scenes.thepit.point3.subtitle1-2'
+              id='scenes.exchange.point3.subtitle1-2'
               defaultMessage="Link your Wallet to the Exchange to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
             />
           </SubContent>
@@ -160,7 +160,7 @@ const ThePit = ({ onSignup }) => (
         <Column style={{ paddingRight: '25px' }}>
           <FooterButton nature='primary' fullwidth onClick={onSignup}>
             <FormattedMessage
-              id='scenes.thepit.connectnow'
+              id='scenes.exchange.connectnow'
               defaultMessage='Connect Now'
             />
           </FooterButton>
@@ -170,4 +170,4 @@ const ThePit = ({ onSignup }) => (
   </Wrapper>
 )
 
-export default ThePit
+export default Exchange

@@ -1,12 +1,12 @@
 import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Exchange from './template'
 import React from 'react'
-import ThePit from './template'
 
 const { PIT_EVENTS } = model.analytics
 
-class ThePitContainer extends React.PureComponent {
+class ExchangeContainer extends React.PureComponent {
   componentDidMount () {
     this.props.preferencesActions.hideThePitPulse()
   }
@@ -22,7 +22,7 @@ class ThePitContainer extends React.PureComponent {
 
   render () {
     return (
-      <ThePit
+      <Exchange
         onSignup={this.onSignup}
         onLearnMore={this.onLearnMore}
         {...this.props}
@@ -40,4 +40,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(ThePitContainer)
+)(ExchangeContainer)
