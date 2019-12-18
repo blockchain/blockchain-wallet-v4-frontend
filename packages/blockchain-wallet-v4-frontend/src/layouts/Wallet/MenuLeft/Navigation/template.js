@@ -145,7 +145,7 @@ const Navigation = props => {
           </MenuItem>
         </Link>
       ) : (
-        <LinkContainer to='/thepit' activeClassName='active'>
+        <LinkContainer to='/exchange' activeClassName='active'>
           <MenuItem data-e2e='thePitLink'>
             <ExchangeNavItem {...props} />
           </MenuItem>
