@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   showModal: () =>
     dispatch(
-      actions.modals.showModal('LinkToPitAccount', {
+      actions.modals.showModal('LinkToExchangeAccount', {
         utmCampaign: 'buy_sell_linked'
       })
     ),

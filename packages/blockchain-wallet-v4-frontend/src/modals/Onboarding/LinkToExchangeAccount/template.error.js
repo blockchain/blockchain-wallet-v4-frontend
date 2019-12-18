@@ -42,9 +42,9 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitError = ({ close, error }) => {
+const LinkToExchangeAccountError = ({ close, error }) => {
   return (
-    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountError'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountError'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
@@ -52,7 +52,7 @@ const LinkToPitError = ({ close, error }) => {
           <Status>
             <Text color='white' size='28px' weight={600}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.error.title'
+                id='modals.onboarding.linktoexchangeaccount.error.title'
                 defaultMessage='Linking Error'
               />
             </Text>
@@ -63,7 +63,7 @@ const LinkToPitError = ({ close, error }) => {
           <Button nature='purple' height='56px' fullwidth onClick={close}>
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.error.done'
+                id='modals.onboarding.linktoexchangeaccount.error.done'
                 defaultMessage='Done'
               />
             </Text>
@@ -74,4 +74,4 @@ const LinkToPitError = ({ close, error }) => {
   )
 }
 
-export default LinkToPitError
+export default LinkToExchangeAccountError

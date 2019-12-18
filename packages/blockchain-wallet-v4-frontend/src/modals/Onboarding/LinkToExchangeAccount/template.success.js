@@ -42,9 +42,9 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
+const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
   return (
-    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountSuccess'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountSuccess'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
@@ -52,14 +52,14 @@ const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
           <Status>
             <Text color='white' size='34px' weight={600}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.title'
+                id='modals.onboarding.linktoexchangeaccount.success.title'
                 defaultMessage='Success!'
               />
             </Text>
             <Text color='white' size='18px' weight={500}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.subtitle-1'
-                defaultMessage='Your Blockchain Wallet is now connected to the Exchange!'
+                id='modals.onboarding.linktoexchangeaccount.success.subtitle-1'
+                defaultMessage='Your Blockchain Wallet is now connected to Exchange!'
               />
             </Text>
           </Status>
@@ -71,7 +71,7 @@ const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
           >
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.done'
+                id='modals.onboarding.linktoexchangeaccount.success.done'
                 defaultMessage='Done'
               />
             </Text>
@@ -82,4 +82,4 @@ const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
   )
 }
 
-export default LinkToPitSuccess
+export default LinkToExchangeAccountSuccess

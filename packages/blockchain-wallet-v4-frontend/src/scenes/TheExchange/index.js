@@ -12,7 +12,7 @@ class ExchangeContainer extends React.PureComponent {
   }
 
   onSignup = () => {
-    this.props.modalActions.showModal('LinkToPitAccount')
+    this.props.modalActions.showModal('LinkToExchangeAccount')
     this.props.analyticsActions.logEvent(PIT_EVENTS.CONNECT_NOW)
   }
 
