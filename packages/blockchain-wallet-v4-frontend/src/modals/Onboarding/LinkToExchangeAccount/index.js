@@ -12,7 +12,6 @@ import LinkToExchangeAccountSuccess from './template.success'
 class LinkToExchangeAccountContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.actions.linkToPitAccountReset()
-    this.props.actions.hideThePitPulse()
   }
 
   onAccountLinkComplete = () => {
@@ -32,7 +31,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
   }
 
   render () {
-    return this.props.linkToPitStatus.cata({
+    return this.props.linkToExchangeStatus.cata({
       Success: () => (
         <LinkToExchangeAccountSuccess
           {...this.props}
@@ -62,7 +61,9 @@ const mapStateToProps = state => ({
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(true),
-  linkToPitStatus: selectors.modules.profile.getLinkToPitAccountStatus(state)
+  linkToExchangeStatus: selectors.modules.profile.getLinkToPitAccountStatus(
+    state
+  )
 })
 
 const mapDispatchToProps = dispatch => ({
