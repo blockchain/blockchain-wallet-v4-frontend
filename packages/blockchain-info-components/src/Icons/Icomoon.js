@@ -78,7 +78,6 @@ export default {
   stx: '\\e932',
   switch: '\\e9b6',
   'sync-regular': '\\e93d',
-  'the-pit': '\\e919',
   'thick-arrow-right': '\\e91c',
   'thick-arrow-switch': '\\e922',
   transactions: '\\e976',

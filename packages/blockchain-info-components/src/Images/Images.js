@@ -96,10 +96,6 @@ import swapIntro2 from './img/swap-intro@2x.png'
 import swapIntro3 from './img/swap-intro@3x.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import swapModalCoins from './img/swap-modal-coins.png'
-import thePitLogo from './img/the-pit-logo.svg'
-import thePitLogoBasic from './img/the-pit-logo-basic.svg'
-import thePitText from './img/the-pit-text.svg'
-import thePitWord from './img/the-pit-word.svg'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import visaLogo from './img/visa-logo.svg'
@@ -263,10 +259,7 @@ export default {
   'swap-intro2': swapIntro2,
   'swap-intro3': swapIntro3,
   'swap-modal-coins': swapModalCoins,
-  'the-pit-logo-basic': thePitLogoBasic,
-  'the-pit-logo': thePitLogo,
-  'the-pit-text': thePitText,
-  'the-pit-word': thePitWord,
+
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
   'visa-logo': visaLogo,
