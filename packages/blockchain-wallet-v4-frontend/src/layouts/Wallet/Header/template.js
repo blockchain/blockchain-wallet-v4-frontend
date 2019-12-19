@@ -34,11 +34,11 @@ const NavbarNavItemSpacer = styled(NavbarNavItem)`
   margin-right: 12px;
 `
 const NavbarNavItemWithText = styled(NavbarNavItem)`
-  padding: 0 24px;
-  margin: 0px;
+  padding: 0 26px;
+  margin: 0;
   border-left: 1px solid ${props => transparentize(0.9, props.theme['white'])};
   &:last-child {
-    padding-right: 0px;
+    padding-right: 0;
   }
   ${media.tablet`
     padding: 0px;
