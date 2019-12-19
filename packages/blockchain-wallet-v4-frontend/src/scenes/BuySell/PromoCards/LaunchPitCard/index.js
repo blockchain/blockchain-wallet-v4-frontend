@@ -38,7 +38,12 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  showModal: () => dispatch(actions.modals.showModal('LinkToPitAccount')),
+  showModal: () =>
+    dispatch(
+      actions.modals.showModal('LinkToExchangeAccount', {
+        utmCampaign: 'buy_sell_linked'
+      })
+    ),
   logEvent: event => dispatch(actions.analytics.logEvent(event))
 })
 

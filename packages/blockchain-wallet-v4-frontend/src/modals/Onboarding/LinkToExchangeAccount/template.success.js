@@ -42,28 +42,36 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitError = ({ close, error }) => {
+const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
   return (
-    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountError'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountSuccess'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <Icon name='alert-filled' color='error' size='72px' />
+          <Icon name='checkmark-in-circle-filled' color='success' size='62px' />
           <Status>
-            <Text color='white' size='28px' weight={600}>
+            <Text color='white' size='34px' weight={600}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.error.title'
-                defaultMessage='Linking Error'
+                id='modals.onboarding.linktoexchangeaccount.success.title'
+                defaultMessage='Success!'
               />
             </Text>
             <Text color='white' size='18px' weight={500}>
-              {error}
+              <FormattedMessage
+                id='modals.onboarding.linktoexchangeaccount.success.subtitle-1'
+                defaultMessage='Your Blockchain Wallet is now connected to Exchange!'
+              />
             </Text>
           </Status>
-          <Button nature='purple' height='56px' fullwidth onClick={close}>
+          <Button
+            nature='purple'
+            height='56px'
+            fullwidth
+            onClick={onAccountLinkComplete}
+          >
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.error.done'
+                id='modals.onboarding.linktoexchangeaccount.success.done'
                 defaultMessage='Done'
               />
             </Text>
@@ -74,4 +82,4 @@ const LinkToPitError = ({ close, error }) => {
   )
 }
 
-export default LinkToPitError
+export default LinkToExchangeAccountSuccess

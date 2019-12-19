@@ -42,36 +42,28 @@ const Status = styled.div`
   }
 `
 
-const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
+const LinkToExchangeAccountError = ({ close, error }) => {
   return (
-    <ModalStyled size='xsmall' dataE2e='infoModalLinkToPitAccountSuccess'>
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountError'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <Icon name='checkmark-in-circle-filled' color='success' size='62px' />
+          <Icon name='alert-filled' color='error' size='72px' />
           <Status>
-            <Text color='white' size='34px' weight={600}>
+            <Text color='white' size='28px' weight={600}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.title'
-                defaultMessage='Success!'
+                id='modals.onboarding.linktoexchangeaccount.error.title'
+                defaultMessage='Linking Error'
               />
             </Text>
             <Text color='white' size='18px' weight={500}>
-              <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.subtitle'
-                defaultMessage='Your Blockchain Wallet is now connected to The PIT!'
-              />
+              {error}
             </Text>
           </Status>
-          <Button
-            nature='purple'
-            height='56px'
-            fullwidth
-            onClick={onAccountLinkComplete}
-          >
+          <Button nature='purple' height='56px' fullwidth onClick={close}>
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
-                id='modals.onboarding.linktopitaccount.success.done'
+                id='modals.onboarding.linktoexchangeaccount.error.done'
                 defaultMessage='Done'
               />
             </Text>
@@ -82,4 +74,4 @@ const LinkToPitSuccess = ({ close, onAccountLinkComplete }) => {
   )
 }
 
-export default LinkToPitSuccess
+export default LinkToExchangeAccountError

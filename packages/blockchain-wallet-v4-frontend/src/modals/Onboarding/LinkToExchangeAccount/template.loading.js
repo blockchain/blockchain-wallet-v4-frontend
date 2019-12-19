@@ -46,37 +46,37 @@ const OpenNowButton = styled(Button)`
   margin-top: 30px;
 `
 
-const LinkToPitLoading = ({ close, deeplinkToPit }) => {
+const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
   return (
-    <ModalStyled size='small' dataE2e='infoModalLinkToPitAccountLoading'>
+    <ModalStyled size='small' dataE2e='infoModalLinkToExchangeAccountLoading'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
           <BlockchainLoader height='100px' width='100px' />
-          {deeplinkToPit ? (
+          {deeplinkToExchange ? (
             <Status style={{ marginTop: '40px ' }}>
               <Text color='white' size='26px' weight={600}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.loading.waiting'
+                  id='modals.onboarding.linktoexchangeaccount.loading.waiting'
                   defaultMessage='Waiting for account link'
                 />
               </Text>
               <Text color='white' size='18px' weight={500}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.loading.waitingbody'
+                  id='modals.onboarding.linktoexchangeaccount.loading.waitingbody'
                   defaultMessage='If a new browser tab did not open, try clicking the button below.'
                 />
               </Text>
               <OpenNowButton nature='purple' height='56px' fullwidth>
                 <Link
-                  href={deeplinkToPit}
+                  href={deeplinkToExchange}
                   target='_blank'
                   rel='noopener noreferrer'
                 >
                   <Text color='white' size='16px' weight={500}>
                     <FormattedMessage
-                      id='modals.onboarding.linktopitaccount.loading.openhere'
-                      defaultMessage='Open The PIT'
+                      id='modals.onboarding.linktoexchangeaccount.loading.openhere-1'
+                      defaultMessage='Open the Exchange'
                     />
                   </Text>
                 </Link>
@@ -86,13 +86,13 @@ const LinkToPitLoading = ({ close, deeplinkToPit }) => {
             <Status>
               <Text color='white' size='26px' weight={600}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.loading.title'
-                  defaultMessage='Taking you to The PIT'
+                  id='modals.onboarding.linktoexchangeaccount.loading.title-1'
+                  defaultMessage='Taking you to the Exchange'
                 />
               </Text>
               <Text color='white' size='18px' weight={500}>
                 <FormattedMessage
-                  id='modals.onboarding.linktopitaccount.loading.subtitle'
+                  id='modals.onboarding.linktoexchangeaccount.loading.subtitle'
                   defaultMessage='A new browser tab will open shortly where you can complete accounting linking.'
                 />
               </Text>
@@ -104,4 +104,4 @@ const LinkToPitLoading = ({ close, deeplinkToPit }) => {
   )
 }
 
-export default LinkToPitLoading
+export default LinkToExchangeAccountLoading

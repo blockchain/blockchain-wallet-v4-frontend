@@ -46,6 +46,8 @@ const selectStyle = type => {
       return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
     case 'caution':
       return { color: 'brand-yellow', uppercase: false, icon: 'alert-filled' }
+    case 'white':
+      return { color: 'white', uppercase: true, icon: null }
     case 'informational':
       return { color: 'gray-5', uppercase: false, icon: null }
     default:

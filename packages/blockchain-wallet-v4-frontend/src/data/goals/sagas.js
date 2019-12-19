@@ -309,7 +309,11 @@ export default ({ api }) => {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
-      actions.goals.addInitialModal('linkAccount', 'LinkFromPitAccount', data)
+      actions.goals.addInitialModal(
+        'linkAccount',
+        'LinkFromExchangeAccount',
+        data
+      )
     )
   }
 

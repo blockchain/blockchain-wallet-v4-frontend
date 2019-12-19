@@ -23,8 +23,7 @@ import {
 } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
-import LinkAccount from '../LinkAccount'
-import PitCallout from './PitCallout'
+import LinkExchangeAccount from './LinkExchangeAccount'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
@@ -91,7 +90,7 @@ const Register = props => {
 
   return (
     <SignupWrapper>
-      {isLinkAccountGoal && <LinkAccount />}
+      {isLinkAccountGoal && <LinkExchangeAccount />}
       <PublicWrapper>
         <Header>
           <Text
@@ -232,7 +231,6 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
-      <PitCallout {...props} />
     </SignupWrapper>
   )
 }
