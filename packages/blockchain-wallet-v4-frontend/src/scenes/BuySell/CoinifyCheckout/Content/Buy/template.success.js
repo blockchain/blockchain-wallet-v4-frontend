@@ -1,4 +1,4 @@
-import { contains, prop } from 'ramda'
+import { includes, prop } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
-import LaunchPit from '../../../PromoCards/LaunchPitCard'
+import LaunchExchangeCard from '../../../PromoCards/LaunchExchangeCard'
 import media from 'services/ResponsiveService'
 import NextSubscription from '../NextSubscription'
 import OrderCheckout from '../OrderCheckout'
@@ -80,7 +80,7 @@ const CoinifyBuy = props => {
     _level: { currency: 'EUR' }
   })
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
-  const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
+  const defaultCurrency = includes(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const activeSubscriptions = subscriptions.filter(s => s.isActive)
   const limits = service.getLimits(profile._limits, defaultCurrency)
@@ -126,7 +126,7 @@ const CoinifyBuy = props => {
                   kycState={kycState}
                 />
               ) : null}
-              <LaunchPit noMargin />
+              <LaunchExchangeCard noMargin />
             </RightContainer>
           </CheckoutWrapper>
         </StepView>
