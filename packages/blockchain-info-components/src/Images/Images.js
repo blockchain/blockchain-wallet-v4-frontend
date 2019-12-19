@@ -66,9 +66,6 @@ import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
-import pitMacbookGold from './img/pit-macbook-gold.png'
-import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
-import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
@@ -234,9 +231,6 @@ export default {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
-  'pit-macbook-gold': pitMacbookGold,
-  'pit-macbook-gold2': pitMacbookGold2,
-  'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
   'qr-code': qrCode,
   'restore-lockbox-icon': restoreLockboxIcon,
