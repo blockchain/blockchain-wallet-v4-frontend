@@ -7,10 +7,6 @@ import React from 'react'
 const { PIT_EVENTS } = model.analytics
 
 class ExchangeContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.preferencesActions.hideThePitPulse()
-  }
-
   onSignup = () => {
     this.props.modalActions.showModal('LinkToExchangeAccount')
     this.props.analyticsActions.logEvent(PIT_EVENTS.CONNECT_NOW)

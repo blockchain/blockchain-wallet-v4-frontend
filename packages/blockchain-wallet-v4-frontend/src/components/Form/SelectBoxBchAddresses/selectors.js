@@ -56,7 +56,7 @@ export const getData = (state, ownProps) => {
     excludeLockbox,
     excludeWatchOnly,
     includeAll = true,
-    includePitAddress
+    includeExchangeAddress
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -75,13 +75,13 @@ export const getData = (state, ownProps) => {
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toPit = x => [{ label: `My PIT BCH Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange BCH Address`, value: x }]
 
-  const pitAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountPit(
     'BCH',
     state
   )
-  const hasPitAddress = Remote.Success.is(pitAddress)
+  const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
   const formatAddress = addressData => {
     const formattedAddress = {}
@@ -148,8 +148,8 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox')),
-      includePitAddress && hasPitAddress
-        ? pitAddress.map(toPit).map(toGroup('The PIT'))
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange()).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])
