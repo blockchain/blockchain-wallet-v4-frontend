@@ -29,7 +29,7 @@ class NavigationContainer extends React.PureComponent {
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
   isExchangeAccountLinked: selectors.modules.profile
-    .isPitAccountLinked(state)
+    .isExchangeAccountLinked(state)
     .getOrElse(false),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)

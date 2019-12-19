@@ -82,11 +82,6 @@ export const GENERAL_EVENTS = {
     'wallet_intro_tour',
     'step_view_buysell'
   ],
-  WALLET_INTRO_THE_PIT_VIEWED: [
-    'general',
-    'wallet_intro_tour',
-    'step_view_the_pit'
-  ],
   WALLET_INTRO_AIRDROPS: ['general', 'wallet_intro_tour', 'step_view_airdrops']
 }
 

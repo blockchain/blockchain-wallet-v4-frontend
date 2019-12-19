@@ -9,7 +9,7 @@ import LinkFromExchangeAccount from './template'
 class LinkFromExchangeAccountContainer extends React.PureComponent {
   componentDidMount () {
     const { linkId } = this.props
-    this.props.actions.linkFromPitAccount(linkId)
+    this.props.actions.linkFromExchangeAccount(linkId)
   }
 
   render () {
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   emailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(true),
-  linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromPitAccountStatus(
+  linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromExchangeAccountStatus(
     state
   ),
   userTiers: selectors.modules.profile.getUserTiers(state)

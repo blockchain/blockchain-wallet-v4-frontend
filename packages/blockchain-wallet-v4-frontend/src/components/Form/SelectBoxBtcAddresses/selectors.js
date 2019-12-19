@@ -67,7 +67,7 @@ export const getData = (state, ownProps) => {
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
 
-  const exchangeAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BTC',
     state
   )

@@ -7,7 +7,7 @@ export const getData = createDeepEqualSelector(
   [
     selectors.core.common.xlm.getAccountBalances,
     selectors.core.common.xlm.getLockboxXlmBalances,
-    selectors.components.send.getPaymentsAccountPit('XLM'),
+    selectors.components.send.getPaymentsAccountExchange('XLM'),
     (state, { includeExchangeAddress }) => includeExchangeAddress,
     (state, { exclude }) => exclude,
     (state, { excludeLockbox }) => excludeLockbox

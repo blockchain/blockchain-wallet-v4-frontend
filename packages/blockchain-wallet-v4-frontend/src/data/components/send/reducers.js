@@ -3,7 +3,7 @@ import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
-  pitPaymentsAccount: {
+  exchangePaymentsAccount: {
     BTC: Remote.NotAsked,
     BCH: Remote.NotAsked,
     ETH: Remote.NotAsked,
@@ -16,22 +16,26 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.FETCH_PAYMENTS_ACCOUNT_PIT_SUCCESS: {
+    case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS: {
       const { currency, data } = payload
       return assocPath(
-        ['pitPaymentsAccount', currency],
+        ['exchangePaymentsAccount', currency],
         Remote.Success(data),
         state
       )
     }
-    case AT.FETCH_PAYMENTS_ACCOUNT_PIT_LOADING: {
+    case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_LOADING: {
       const { currency } = payload
-      return assocPath(['pitPaymentsAccount', currency], Remote.Loading, state)
+      return assocPath(
+        ['exchangePaymentsAccount', currency],
+        Remote.Loading,
+        state
+      )
     }
-    case AT.FETCH_PAYMENTS_ACCOUNT_PIT_FAILURE: {
+    case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_FAILURE: {
       const { currency, e } = payload
       return assocPath(
-        ['pitPaymentsAccount', currency],
+        ['exchangePaymentsAccount', currency],
         Remote.Failure(e),
         state
       )

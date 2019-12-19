@@ -34,7 +34,7 @@ class LaunchExchangeCardContainer extends React.Component {
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
   isExchangeAccountLinked: selectors.modules.profile
-    .isPitAccountLinked(state)
+    .isExchangeAccountLinked(state)
     .getOrElse(false)
 })
 

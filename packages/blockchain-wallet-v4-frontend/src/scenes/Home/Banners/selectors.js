@@ -15,7 +15,7 @@ export const getData = state => {
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
   const isExchangeAccountLinked = selectors.modules.profile
-    .isPitAccountLinked(state)
+    .isExchangeAccountLinked(state)
     .getOrElse(true)
 
   let bannerToShow

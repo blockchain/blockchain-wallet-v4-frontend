@@ -28,7 +28,7 @@ export const getEthData = (state, ownProps) => {
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
   const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
 
-  const exchangeAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'ETH',
     state
   )
@@ -84,7 +84,7 @@ export const getErc20Data = (state, ownProps) => {
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange ${coin} Address`, value: x }]
 
-  const exchangeAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     coin,
     state
   )

@@ -330,9 +330,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareWalletAddressesWithPit = function * () {
+  const shareWalletAddressesWithExchange = function * () {
     try {
-      yield put(A.shareWalletAddressesWithPitLoading())
+      yield put(A.shareWalletAddressesWithExchangeLoading())
       // TODO: move to goal and pass remaining coins to saga
       // Only run saga if remainingCoins is !empty
       const supportedCoinsList = (yield select(
@@ -370,16 +370,16 @@ export default ({ api, coreSagas, networks }) => {
         api.shareWalletDepositAddresses,
         remainingAddresses
       )
-      yield put(A.shareWalletAddressesWithPitSuccess(data))
+      yield put(A.shareWalletAddressesWithExchangeSuccess(data))
     } catch (e) {
-      yield put(A.shareWalletAddressesWithPitFailure(e))
+      yield put(A.shareWalletAddressesWithExchangeFailure(e))
     }
   }
 
-  const linkFromPitAccount = function * ({ payload }) {
+  const linkFromExchangeAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
-      yield put(A.linkFromPitAccountLoading())
+      yield put(A.linkFromExchangeAccountLoading())
       // ensure email is verified else wait
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
@@ -392,24 +392,24 @@ export default ({ api, coreSagas, networks }) => {
       // link Account
       const data = yield call(api.linkAccount, linkId)
       // share addresses
-      yield put(A.shareWalletAddressesWithPit())
-      yield put(A.linkFromPitAccountSuccess(data))
+      yield put(A.shareWalletAddressesWithExchange())
+      yield put(A.linkFromExchangeAccountSuccess(data))
       // update user
       yield call(fetchUser)
     } catch (e) {
-      yield put(A.linkFromPitAccountFailure(e))
+      yield put(A.linkFromExchangeAccountFailure(e))
     }
   }
 
-  const linkToPitAccount = function * ({ payload }) {
+  const linkToExchangeAccount = function * ({ payload }) {
     try {
       const { utmCampaign } = payload
-      yield put(A.linkToPitAccountLoading())
+      yield put(A.linkToExchangeAccountLoading())
       // check if wallet is already linked
-      const isPitAccountLinked = (yield select(
-        S.isPitAccountLinked
+      const isExchangeAccountLinked = (yield select(
+        S.isExchangeAccountLinked
       )).getOrFail()
-      if (isPitAccountLinked) {
+      if (isExchangeAccountLinked) {
         throw new Error('Account has already been linked.')
       }
       // ensure email address is verified
@@ -422,36 +422,36 @@ export default ({ api, coreSagas, networks }) => {
       // get or create nabu user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
       if (isUserStateNone) yield call(createUser)
-      // get pit linkId, pit domain and user email
+      // get exchange linkId, exchange domain and user email
       const domains = (yield select(
         selectors.core.walletOptions.getDomains
       )).getOrFail()
-      const pitDomain = prop('thePit', domains)
+      const exchangeDomain = prop('thePit', domains)
       const data = yield call(api.createLinkAccountId)
-      const pitLinkId = prop('linkId', data)
+      const exchangeLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const accountDeeplinkUrl = `${pitDomain}/trade/link/${pitLinkId}?email=${encodeURIComponent(
+      const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
         email
       )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-        'wallet_pit_page'}`
+        'wallet_exchange_page'}`
       // share addresses
-      yield put(A.shareWalletAddressesWithPit())
+      yield put(A.shareWalletAddressesWithExchange())
       // simulate wait while allowing user to read modal
       yield delay(2000)
       // attempt to open url for user
       window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
-      yield put(A.setLinkToPitAccountDeepLink(accountDeeplinkUrl))
+      yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
       // poll for account link
       yield race({
         task: call(pollForAccountLinkSuccess, 0),
         cancel: take([
-          AT.LINK_TO_PIT_ACCOUNT_FAILURE,
-          AT.LINK_TO_PIT_ACCOUNT_SUCCESS,
+          AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
+          AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
           actionTypes.modals.CLOSE_MODAL
         ])
       })
     } catch (e) {
-      yield put(A.linkToPitAccountFailure(e.message))
+      yield put(A.linkToExchangeAccountFailure(e.message))
     }
   }
 
@@ -463,24 +463,26 @@ export default ({ api, coreSagas, networks }) => {
       // if 5 minutes has passed, cancel poll and mark as timeout
       if (equals(30, attemptCount)) {
         yield put(
-          A.linkToPitAccountFailure(
+          A.linkToExchangeAccountFailure(
             'Timeout waiting for account connection status.'
           )
         )
         return
       }
       yield call(fetchUser)
-      const isPitAccountLinked = (yield select(S.isPitAccountLinked)).getOrElse(
-        false
-      )
-      if (isPitAccountLinked) {
-        yield put(A.linkToPitAccountSuccess())
+      const isExchangeAccountLinked = (yield select(
+        S.isExchangeAccountLinked
+      )).getOrElse(false)
+      if (isExchangeAccountLinked) {
+        yield put(A.linkToExchangeAccountSuccess())
       } else {
         yield call(pollForAccountLinkSuccess, attemptCount)
       }
     } catch (e) {
       yield put(
-        A.linkToPitAccountFailure('Unable to check current account status.')
+        A.linkToExchangeAccountFailure(
+          'Unable to check current account status.'
+        )
       )
     }
   }
@@ -494,14 +496,14 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
-    linkFromPitAccount,
-    linkToPitAccount,
+    linkFromExchangeAccount,
+    linkToExchangeAccount,
     recoverUser,
     renewApiSockets,
     renewSession,
     renewUser,
     setSession,
-    shareWalletAddressesWithPit,
+    shareWalletAddressesWithExchange,
     signIn,
     syncUserWithWallet,
     updateUser,
