@@ -5,7 +5,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import ContinueCoinifyCard from './ContinueCoinifyCard'
-import LaunchPitCard from './LaunchPitCard'
+import LaunchExchangeCard from './LaunchExchangeCard'
 import LearnMoreCard from './LearnMoreCard'
 
 const Wrapper = styled.div`
@@ -44,7 +44,7 @@ const PromoCardContainer = props => {
       </Text>
       <CardsWrapper>
         <LearnMoreCard />
-        <LaunchPitCard />
+        <LaunchExchangeCard />
         {gte(currentTier, 2) && (
           <ContinueCoinifyCard handleShowCoinify={handleShowCoinify} />
         )}

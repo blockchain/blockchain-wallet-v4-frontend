@@ -100,6 +100,12 @@ export const ADS_EVENTS = {
 
 export const PIT_EVENTS = {
   BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
+  BUY_SELL_LINKOUT_CLICKED: ['pit', 'buy_sell_page', 'linkout_click'],
+  BUY_SELL_CONNECT_WALLET_CLICKED: [
+    'pit',
+    'buy_sell_page',
+    'connect_wallet_click'
+  ],
   CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
   LEARN_MORE: ['pit', 'link_page', 'learn_more_click'],
   LINKED_WALLET_LINKOUT_CLICKED: [

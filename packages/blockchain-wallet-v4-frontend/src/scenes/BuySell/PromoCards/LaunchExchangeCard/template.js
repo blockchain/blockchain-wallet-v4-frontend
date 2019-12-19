@@ -33,12 +33,18 @@ const ButtonWrapper = styled.div`
 const StyledBox = styled(Box)`
   margin-top: ${props => (props.noMargin ? '0' : '2rem')};
 `
-const LaunchPitCard = props => {
-  const { isPitAccountLinked, handleLinkedWallet, handleSignup, pitUrl } = props
-  const Wrapper = isPitAccountLinked ? ButtonLink : ButtonWrapper
+const LaunchExchangeCard = props => {
+  const {
+    isExchangeAccountLinked,
+    handleLinkedWallet,
+    handleSignup,
+    exchangeUrl,
+    noMargin
+  } = props
+  const Wrapper = isExchangeAccountLinked ? ButtonLink : ButtonWrapper
   return (
     <BoxWrapper>
-      <StyledBox noMargin={props.noMargin}>
+      <StyledBox noMargin={noMargin}>
         <Icon name='exchange-logo' size='30px' color='black' />
         <Text
           size='20px'
@@ -47,13 +53,13 @@ const LaunchPitCard = props => {
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage
-            id='scenes.buysell.launch-pit.title-1'
+            id='scenes.buysell.launchexchangecard.title'
             defaultMessage='Instantly Buy'
           />
         </Text>
         <Text size='20px' color='grey800' weight={600}>
           <FormattedMessage
-            id='scenes.buysell.launch-exchange.title'
+            id='scenes.buysell.launchexchangecard.title'
             defaultMessage='& Sell in the Exchange.'
           />
         </Text>
@@ -65,26 +71,26 @@ const LaunchPitCard = props => {
           weight={500}
         >
           <FormattedMessage
-            id='scenes.buysell.launch-pit-desc1'
+            id='scenes.buysell.launchexchangecard.desc'
             defaultMessage='Link your account to buy or sell crypto from your Wallet or explore new tokens.'
           />
         </Text>
 
         <Wrapper
-          href={`${pitUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
+          href={`${exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
           rel='noopener noreferrer'
           target='_blank'
-          onClick={isPitAccountLinked ? handleLinkedWallet : null}
+          onClick={isExchangeAccountLinked ? handleLinkedWallet : null}
         >
           <Button
             fullwidth
             height='50px'
-            onClick={isPitAccountLinked ? null : handleSignup}
+            onClick={isExchangeAccountLinked ? null : handleSignup}
             nature='primary'
           >
             <Text color='white' weight={500}>
               <FormattedMessage
-                id='scenes.buysell.launch-exchange.button'
+                id='scenes.buysell.launchexchangecard.launch'
                 defaultMessage='Launch the Exchange'
               />
             </Text>
@@ -98,7 +104,7 @@ const LaunchPitCard = props => {
         style={{ marginTop: '16px', paddingLeft: '24px' }}
       >
         <FormattedMessage
-          id='scenes.buysell.launch-pit.powered-by-blockchain-1'
+          id='scenes.buysell.launchexchangecard.poweredby'
           defaultMessage='Powered by Blockchain.com'
         />
       </Text>
@@ -106,4 +112,4 @@ const LaunchPitCard = props => {
   )
 }
 
-export default LaunchPitCard
+export default LaunchExchangeCard

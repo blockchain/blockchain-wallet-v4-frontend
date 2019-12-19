@@ -42,8 +42,8 @@ const CheckoutWrapper = styled.div`
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
-// Temp list of EU countries to funnel to PIT
-const pitFunnelCountries = [
+// Temp list of EU countries to funnel to Exchange
+const exchangeFunnelCountries = [
   'AT',
   'BE',
   'BG',
@@ -157,7 +157,7 @@ class BuySellContainer extends React.PureComponent {
     }
 
     if (
-      !includes(prop('countryCode', value), pitFunnelCountries) ||
+      !includes(prop('countryCode', value), exchangeFunnelCountries) ||
       this.state.showCoinifyView
     ) {
       return {
