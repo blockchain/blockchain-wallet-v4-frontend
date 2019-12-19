@@ -4,13 +4,13 @@ import { formValueSelector } from 'redux-form'
 import React from 'react'
 
 import { actions } from 'data'
+import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import FirstStep from './template'
 
 class FirstStepContainer extends React.PureComponent {
   render () {
     const {
       address,
-      bchAddr,
       closeAll,
       message,
       signMessageActions,
@@ -19,11 +19,15 @@ class FirstStepContainer extends React.PureComponent {
 
     return (
       <FirstStep
-        address={bchAddr}
+        address={address}
         closeAll={closeAll}
         handleSubmit={e => {
           e.preventDefault()
-          signMessageActions.signMessageSubmitted(address, message, privKey)
+          signMessageActions.signMessageSubmitted(
+            fromCashAddr(address),
+            message,
+            privKey
+          )
         }}
       />
     )

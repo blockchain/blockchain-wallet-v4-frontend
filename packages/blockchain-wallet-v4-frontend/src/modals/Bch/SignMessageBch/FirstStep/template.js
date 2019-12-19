@@ -31,6 +31,7 @@ const ClickableText = styled(Text)`
 
 const FirstStep = props => {
   const { address, closeAll, submitting, invalid, handleSubmit } = props
+
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>

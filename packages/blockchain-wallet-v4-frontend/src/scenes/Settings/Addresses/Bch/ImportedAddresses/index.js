@@ -53,11 +53,17 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalActions.showModal('VerifyMessage')
   }
 
+  convert = addrList =>
+    addrList.map(addr => {
+      addr.addr = toCashAddr(addr.addr).split(':')[1]
+      return addr
+    })
+
   render () {
     const { data, ...rest } = this.props
     return data.cata({
       Success: addresses => {
-        const addressList = Object.values(addresses)
+        const addressList = this.convert(Object.values(addresses))
         return (
           <BchImportedAddresses
             importedAddresses={addressList}

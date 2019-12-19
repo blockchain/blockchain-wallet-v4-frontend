@@ -9,7 +9,7 @@ import SecondStep from './template'
 class SecondStepContainer extends React.PureComponent {
   render () {
     const {
-      bchAddr,
+      address,
       signedMessage,
       closeAll,
       message,
@@ -18,7 +18,7 @@ class SecondStepContainer extends React.PureComponent {
 
     return (
       <SecondStep
-        address={bchAddr}
+        address={address}
         message={message}
         signedMessage={signedMessage}
         closeAll={closeAll}
