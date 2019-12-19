@@ -149,7 +149,7 @@ export const getData = (state, ownProps) => {
             .map(toDropdown)
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange()).map(toGroup('Exchange'))
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])
