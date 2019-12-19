@@ -15,11 +15,7 @@ export const CUSTOM_VARIABLES = {
 //
 // AB TESTS
 //
-export const AB_TESTS = {
-  PIT_CONNECT_TEST: 'PitConnectTest',
-  WALLET_PIT_SIGNUP: 'WalletPitSignup'
-}
-
+export const AB_TESTS = {}
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]

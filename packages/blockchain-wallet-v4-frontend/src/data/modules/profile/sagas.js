@@ -336,7 +336,7 @@ export default ({ api, coreSagas, networks }) => {
       // TODO: move to goal and pass remaining coins to saga
       // Only run saga if remainingCoins is !empty
       const supportedCoinsList = (yield select(
-        selectors.core.walletOptions.getSyncToPitList
+        selectors.core.walletOptions.getSyncToExchangeList
       )).getOrFail('no_supported_coins')
       const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'

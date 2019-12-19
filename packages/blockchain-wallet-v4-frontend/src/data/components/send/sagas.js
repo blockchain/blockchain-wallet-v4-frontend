@@ -18,10 +18,11 @@ export default ({ api }) => {
     const { currency } = action.payload
     try {
       yield call(waitForUserData)
-      const isPitAccountLinked = (yield select(
+      const isExchangeAccountLinked = (yield select(
         selectors.modules.profile.isPitAccountLinked
       )).getOrElse(false)
-      if (!isPitAccountLinked) throw new Error('Wallet is not linked to PIT')
+      if (!isExchangeAccountLinked)
+        throw new Error('Wallet is not linked to Exchange')
       yield put(A.fetchPaymentsAccountPitLoading(currency))
       const data = yield call(api.getPaymentsAccountPit, currency)
       yield put(A.fetchPaymentsAccountPitSuccess(currency, data))

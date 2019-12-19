@@ -43,8 +43,7 @@ export const getSupportedCoins = createDeepEqualSelector(
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
 )
-export const getSupportedCoinsList = state => getSupportedCoins(state).map(keys)
-export const getSyncToPitList = state =>
+export const getSyncToExchangeList = state =>
   getSupportedCoins(state)
     .map(filter(path(['availability', 'syncToPit'])))
     .map(keys)

@@ -100,7 +100,7 @@ export default ({ api, coreSagas }) => {
           yield put(A.sendXlmCheckDestinationAccountExists(address))
           // check if destination is an exchange
           yield put(A.sendXlmCheckIfDestinationIsExchange(address))
-          // PIT address split on : is [address, memo]
+          // Exchange address split on : is [address, memo]
           if (splitValue.length > 1) {
             const memo = last(splitValue)
             yield put(actions.form.change(FORM, 'memo', memo))
