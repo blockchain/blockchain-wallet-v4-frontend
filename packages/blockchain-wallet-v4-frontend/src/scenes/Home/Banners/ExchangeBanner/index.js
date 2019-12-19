@@ -74,26 +74,26 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const ThePitBanner = ({ analyticsActions }) => {
+const ExchangeBanner = ({ analyticsActions }) => {
   return (
     <Wrapper>
       <Row>
         <NewCartridge>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.new'
+            id='scenes.home.banners.exchangebanner.new'
             defaultMessage='New'
           />
         </NewCartridge>
         <Column>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
-              id='scenes.home.banners.pitbanner.content1'
+              id='scenes.home.banners.exchangebanner.content1'
               defaultMessage='We built our own exchange that links to your Wallet.'
             />
           </Copy>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
-              id='scenes.home.banners.pitbanner.content3'
+              id='scenes.home.banners.exchangebanner.content3'
               defaultMessage='Instantly access more cryptos and deposit/withdraw cash.'
             />
           </Copy>
@@ -106,7 +106,7 @@ const ThePitBanner = ({ analyticsActions }) => {
       >
         <BannerButton jumbo nature='pitTurquoise'>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.getstarted'
+            id='scenes.home.banners.exchangebanner.getstarted'
             defaultMessage='Get Started'
           />
         </BannerButton>
@@ -122,4 +122,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(ThePitBanner)
+)(ExchangeBanner)

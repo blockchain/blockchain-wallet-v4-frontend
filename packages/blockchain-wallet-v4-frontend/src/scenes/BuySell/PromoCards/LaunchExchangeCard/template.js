@@ -59,7 +59,7 @@ const LaunchExchangeCard = props => {
         </Text>
         <Text size='20px' color='grey800' weight={600}>
           <FormattedMessage
-            id='scenes.buysell.launchexchangecard.title'
+            id='scenes.buysell.launchexchangecard.title2'
             defaultMessage='& Sell in the Exchange.'
           />
         </Text>
