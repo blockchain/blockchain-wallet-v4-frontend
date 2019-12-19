@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   background: ${props => props.theme['blue500']};
   overflow: hidden;
-  ${media.mobile`
+  ${media.tablet`
     display: none;
   `};
 `
