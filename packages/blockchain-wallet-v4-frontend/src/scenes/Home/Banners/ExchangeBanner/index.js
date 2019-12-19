@@ -46,9 +46,9 @@ const Column = styled.div`
   }
 `
 const NewCartridge = styled(Cartridge)`
-  border: 1px solid ${props => props.theme['pitTurquoise']};
+  border: 1px solid ${props => props.theme['exchangeTurquoise']};
   background: ${props => props.theme['green900']};
-  color: ${props => props.theme['pitTurquoise']};
+  color: ${props => props.theme['exchangeTurquoise']};
   margin-left: 0px;
   margin-right: 20px;
   border-radius: 4px;
@@ -104,7 +104,7 @@ const ExchangeBanner = ({ analyticsActions }) => {
         rel='noopener noreferrer'
         onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
       >
-        <BannerButton jumbo nature='pitTurquoise'>
+        <BannerButton jumbo nature='exchangeTurquoise'>
           <FormattedMessage
             id='scenes.home.banners.exchangebanner.getstarted'
             defaultMessage='Get Started'

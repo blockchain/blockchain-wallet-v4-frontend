@@ -74,10 +74,9 @@ export default {
   'logo-tertiary': '#3558A8',
   'logo-quaternary': '#B2D5E5',
   'logo-quinary': '#10ADE4',
-  // PIT
-  pitBlue: '#2219CC',
-  pitNight: '#0A0D10',
-  pitTurquoise: '#42F1B8',
+  // EXCHANGE
+  exchangeNight: '#0A0D10',
+  exchangeTurquoise: '#42F1B8',
   // Action
   sent: '#F26C57',
   received: '#00BABC',
