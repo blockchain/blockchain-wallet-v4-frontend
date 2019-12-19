@@ -9,7 +9,7 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   display: flex;
@@ -102,7 +102,9 @@ const ExchangeBanner = ({ analyticsActions }) => {
       <LinkContainer
         to='/exchange'
         rel='noopener noreferrer'
-        onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
+        onClick={() =>
+          analyticsActions.logEvent(EXCHANGE_EVENTS.BANNER_GET_STARTED)
+        }
       >
         <BannerButton jumbo nature='exchangeTurquoise'>
           <FormattedMessage

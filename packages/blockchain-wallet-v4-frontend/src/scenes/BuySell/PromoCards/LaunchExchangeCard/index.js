@@ -5,15 +5,15 @@ import React from 'react'
 
 import LaunchExchange from './template'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
 class LaunchExchangeCardContainer extends React.Component {
   handleSignup = () => {
     this.props.showModal()
-    this.props.logEvent(PIT_EVENTS.BUY_SELL_CONNECT_WALLET_CLICKED)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_CONNECT_WALLET_CLICKED)
   }
   handleLinkedWalletLinkout = () => {
-    this.props.logEvent(PIT_EVENTS.BUY_SELL_LINKOUT_CLICKED)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_LINKOUT_CLICKED)
   }
 
   render = () => {

@@ -4,16 +4,16 @@ import { connect } from 'react-redux'
 import Exchange from './template'
 import React from 'react'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
 class ExchangeContainer extends React.PureComponent {
   onSignup = () => {
     this.props.modalActions.showModal('LinkToExchangeAccount')
-    this.props.analyticsActions.logEvent(PIT_EVENTS.CONNECT_NOW)
+    this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.CONNECT_NOW)
   }
 
   onLearnMore = () => {
-    this.props.analyticsActions.logEvent(PIT_EVENTS.LEARN_MORE)
+    this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.LEARN_MORE)
   }
 
   render () {
