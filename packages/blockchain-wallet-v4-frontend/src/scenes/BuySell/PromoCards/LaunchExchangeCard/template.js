@@ -36,7 +36,7 @@ const StyledBox = styled(Box)`
 const LaunchExchangeCard = props => {
   const {
     isExchangeAccountLinked,
-    handleLinkedWallet,
+    handleLinkedWalletLinkout,
     handleSignup,
     exchangeUrl,
     noMargin
@@ -80,7 +80,7 @@ const LaunchExchangeCard = props => {
           href={`${exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
           rel='noopener noreferrer'
           target='_blank'
-          onClick={isExchangeAccountLinked ? handleLinkedWallet : null}
+          onClick={isExchangeAccountLinked ? handleLinkedWalletLinkout : null}
         >
           <Button
             fullwidth
