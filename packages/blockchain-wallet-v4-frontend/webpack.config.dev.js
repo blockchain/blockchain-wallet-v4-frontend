@@ -231,11 +231,11 @@ module.exports = {
           coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
+          exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           root: envConfig.ROOT_URL,
-          thePit: envConfig.THE_PIT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL

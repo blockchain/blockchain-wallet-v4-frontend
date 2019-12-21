@@ -11,8 +11,7 @@ import LinkToExchangeAccountSuccess from './template.success'
 
 class LinkToExchangeAccountContainer extends React.PureComponent {
   componentWillUnmount () {
-    this.props.actions.linkToPitAccountReset()
-    this.props.actions.hideThePitPulse()
+    this.props.actions.linkToExchangeAccountReset()
   }
 
   onAccountLinkComplete = () => {
@@ -23,7 +22,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
 
   onConnectStart = () => {
     const { utmCampaign } = this.props
-    this.props.actions.linkToPitAccount(utmCampaign)
+    this.props.actions.linkToExchangeAccount(utmCampaign)
   }
 
   onResendEmail = () => {
@@ -32,7 +31,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
   }
 
   render () {
-    return this.props.linkToPitStatus.cata({
+    return this.props.linkToExchangeStatus.cata({
       Success: () => (
         <LinkToExchangeAccountSuccess
           {...this.props}
@@ -55,14 +54,16 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  deeplinkToExchange: selectors.modules.profile.getLinkToPitAccountDeeplink(
+  deeplinkToExchange: selectors.modules.profile.getLinkToExchangeAccountDeeplink(
     state
   ),
   email: selectors.core.settings.getEmail(state).getOrElse(false),
   isEmailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(true),
-  linkToPitStatus: selectors.modules.profile.getLinkToPitAccountStatus(state)
+  linkToExchangeStatus: selectors.modules.profile.getLinkToExchangeAccountStatus(
+    state
+  )
 })
 
 const mapDispatchToProps = dispatch => ({

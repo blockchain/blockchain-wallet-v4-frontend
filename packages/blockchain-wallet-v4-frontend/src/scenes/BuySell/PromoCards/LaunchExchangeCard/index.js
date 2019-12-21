@@ -3,28 +3,29 @@ import { concat, prop } from 'ramda'
 import { connect } from 'react-redux'
 import React from 'react'
 
-import LaunchPit from './template'
+import LaunchExchange from './template'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
-class LaunchPitCardContainer extends React.Component {
+class LaunchExchangeCardContainer extends React.Component {
   handleSignup = () => {
     this.props.showModal()
-    this.props.logEvent(PIT_EVENTS.CONNECT_NOW)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_CONNECT_WALLET_CLICKED)
   }
-
   handleLinkedWalletLinkout = () => {
-    this.props.logEvent(PIT_EVENTS.LINKED_WALLET_LINKOUT_CLICKED)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_LINKOUT_CLICKED)
   }
 
   render = () => {
+    const { isExchangeAccountLinked, noMargin } = this.props
+
     return (
-      <LaunchPit
+      <LaunchExchange
         handleSignup={this.handleSignup}
         handleLinkedWalletLinkout={this.handleLinkedWalletLinkout}
-        isPitAccountLinked={this.props.isPitAccountLinked}
-        noMargin={this.props.noMargin}
-        pitUrl={concat(prop('thePit', this.props.domains), '/trade')}
+        isExchangeAccountLinked={isExchangeAccountLinked}
+        noMargin={noMargin}
+        exchangeUrl={concat(prop('exchange', this.props.domains), '/trade')}
       />
     )
   }
@@ -32,8 +33,8 @@ class LaunchPitCardContainer extends React.Component {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isPitAccountLinked: selectors.modules.profile
-    .isPitAccountLinked(state)
+  isExchangeAccountLinked: selectors.modules.profile
+    .isExchangeAccountLinked(state)
     .getOrElse(false)
 })
 
@@ -50,4 +51,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LaunchPitCardContainer)
+)(LaunchExchangeCardContainer)

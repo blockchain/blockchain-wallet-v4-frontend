@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const BaseBrand = styled.div`
   display: flex;
-  padding-left: 25px;
+  padding-left: 28px;
   align-items: center;
   > span {
     cursor: pointer;

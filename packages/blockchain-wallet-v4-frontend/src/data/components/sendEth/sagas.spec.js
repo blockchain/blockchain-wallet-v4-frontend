@@ -89,8 +89,10 @@ describe('sendEth sagas', () => {
       saga.next(Remote.of([])).put(A.sendEthPaymentUpdatedLoading())
     })
 
-    it('should fetch pit addresses', () => {
-      saga.next().put(actions.components.send.fetchPaymentsAccountPit('ETH'))
+    it('should fetch exchange addresses', () => {
+      saga
+        .next()
+        .put(actions.components.send.fetchPaymentsAccountExchange('ETH'))
     })
 
     it('should create payment', () => {

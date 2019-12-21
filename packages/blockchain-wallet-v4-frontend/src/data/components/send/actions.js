@@ -1,18 +1,18 @@
 import * as AT from './actionTypes'
 
-export const fetchPaymentsAccountPit = currency => ({
-  type: AT.FETCH_PAYMENTS_ACCOUNT_PIT,
+export const fetchPaymentsAccountExchange = currency => ({
+  type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
   payload: { currency }
 })
-export const fetchPaymentsAccountPitLoading = currency => ({
-  type: AT.FETCH_PAYMENTS_ACCOUNT_PIT_LOADING,
+export const fetchPaymentsAccountExchangeLoading = currency => ({
+  type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_LOADING,
   payload: { currency }
 })
-export const fetchPaymentsAccountPitFailure = (currency, e) => ({
-  type: AT.FETCH_PAYMENTS_ACCOUNT_PIT_FAILURE,
+export const fetchPaymentsAccountExchangeFailure = (currency, e) => ({
+  type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_FAILURE,
   payload: { currency, e }
 })
-export const fetchPaymentsAccountPitSuccess = (currency, data) => ({
-  type: AT.FETCH_PAYMENTS_ACCOUNT_PIT_SUCCESS,
+export const fetchPaymentsAccountExchangeSuccess = (currency, data) => ({
+  type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS,
   payload: { currency, data }
 })
