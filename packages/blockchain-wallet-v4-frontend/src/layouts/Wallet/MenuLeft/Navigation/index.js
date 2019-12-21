@@ -20,7 +20,7 @@ class NavigationContainer extends React.PureComponent {
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
-        exchangeUrl={concat(prop('thePit', domains), '/trade')}
+        exchangeUrl={concat(prop('exchange', domains), '/trade')}
       />
     )
   }

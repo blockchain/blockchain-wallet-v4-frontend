@@ -426,7 +426,7 @@ export default ({ api, coreSagas, networks }) => {
       const domains = (yield select(
         selectors.core.walletOptions.getDomains
       )).getOrFail()
-      const exchangeDomain = prop('thePit', domains)
+      const exchangeDomain = prop('exchange', domains)
       const data = yield call(api.createLinkAccountId)
       const exchangeLinkId = prop('linkId', data)
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail()

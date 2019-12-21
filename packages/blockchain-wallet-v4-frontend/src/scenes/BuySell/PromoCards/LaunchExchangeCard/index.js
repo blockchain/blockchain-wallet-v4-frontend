@@ -25,7 +25,7 @@ class LaunchExchangeCardContainer extends React.Component {
         handleLinkedWalletLinkout={this.handleLinkedWalletLinkout}
         isExchangeAccountLinked={isExchangeAccountLinked}
         noMargin={noMargin}
-        exchangeUrl={concat(prop('thePit', this.props.domains), '/trade')}
+        exchangeUrl={concat(prop('exchange', this.props.domains), '/trade')}
       />
     )
   }
