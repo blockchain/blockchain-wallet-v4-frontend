@@ -32,8 +32,8 @@ import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
 import SecurityCenter from './SecurityCenter'
+import TheExchange from './TheExchange'
 import ThemeProvider from 'providers/ThemeProvider'
-import ThePit from './ThePit'
 import Transactions from './Transactions'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import UploadDocuments from './UploadDocuments'
@@ -117,7 +117,7 @@ class App extends React.PureComponent {
                     />
                     <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout path='/swap' component={Exchange} exact />
-                    <WalletLayout path='/thepit' component={ThePit} />
+                    <WalletLayout path='/exchange' component={TheExchange} />
                     <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
                       path='/security-center'

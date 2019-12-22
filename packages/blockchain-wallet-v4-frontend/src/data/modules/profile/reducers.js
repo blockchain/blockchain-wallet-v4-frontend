@@ -7,13 +7,14 @@ import { INITIAL_TIERS } from './model'
 const INITIAL_STATE = {
   apiToken: Remote.NotAsked,
   campaign: {},
-  pitOnboarding: {
-    linkFromPitAccountStatus: Remote.NotAsked,
-    linkToPitAccountDeeplink: null,
-    linkToPitAccountStatus: Remote.NotAsked,
-    shareWalletAddressesWithPit: Remote.NotAsked
+  exchangeOnboarding: {
+    linkFromExchangeAccountStatus: Remote.NotAsked,
+    linkToExchangeAccountDeeplink: null,
+    linkToExchangeAccountStatus: Remote.NotAsked,
+    shareWalletAddressesWithExchange: Remote.NotAsked
   },
   userData: Remote.NotAsked,
+  userCampaigns: Remote.NotAsked,
   userTiers: Remote.of(INITIAL_TIERS)
 }
 
@@ -32,6 +33,16 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('userData', Remote.Loading, state)
     case AT.FETCH_USER_DATA_FAILURE:
       return assoc('userData', Remote.Failure(payload.error), state)
+    case AT.FETCH_USER_CAMPAIGNS_SUCCESS:
+      return assoc(
+        'userCampaigns',
+        Remote.Success(payload.userCampaigns),
+        state
+      )
+    case AT.FETCH_USER_CAMPAIGNS_LOADING:
+      return assoc('userCampaigns', Remote.Loading, state)
+    case AT.FETCH_USER_CAMPAIGNS_FAILURE:
+      return assoc('userCampaigns', Remote.Failure(payload.error), state)
     case AT.FETCH_TIERS_SUCCESS:
       return assoc('userTiers', Remote.Success(payload.userTiers), state)
     case AT.FETCH_TIERS_LOADING:
@@ -46,68 +57,71 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('apiToken', Remote.Loading, state)
     case AT.SET_API_TOKEN_FAILURE:
       return assoc('apiToken', Remote.Failure(payload.e), state)
-    case AT.LINK_FROM_PIT_ACCOUNT_SUCCESS:
+    case AT.LINK_FROM_EXCHANGE_ACCOUNT_SUCCESS:
       return assocPath(
-        ['pitOnboarding', 'linkFromPitAccountStatus'],
+        ['exchangeOnboarding', 'linkFromExchangeAccountStatus'],
         Remote.Success(payload.data),
         state
       )
-    case AT.LINK_FROM_PIT_ACCOUNT_LOADING:
+    case AT.LINK_FROM_EXCHANGE_ACCOUNT_LOADING:
       return assocPath(
-        ['pitOnboarding', 'linkFromPitAccountStatus'],
+        ['exchangeOnboarding', 'linkFromExchangeAccountStatus'],
         Remote.Loading,
         state
       )
-    case AT.LINK_FROM_PIT_ACCOUNT_FAILURE:
+    case AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE:
       return assocPath(
-        ['pitOnboarding', 'linkFromPitAccountStatus'],
+        ['exchangeOnboarding', 'linkFromExchangeAccountStatus'],
         Remote.Failure(payload.e),
         state
       )
-    case AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK:
+    case AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK:
       return assocPath(
-        ['pitOnboarding', 'linkToPitAccountDeeplink'],
+        ['exchangeOnboarding', 'linkToExchangeAccountDeeplink'],
         payload.deeplink,
         state
       )
-    case AT.LINK_TO_PIT_ACCOUNT_RESET:
+    case AT.LINK_TO_EXCHANGE_ACCOUNT_RESET:
       return compose(
-        assocPath(['pitOnboarding', 'linkToPitAccountStatus'], Remote.NotAsked),
-        assocPath(['pitOnboarding', 'linkToPitAccountDeeplink'], null)
+        assocPath(
+          ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
+          Remote.NotAsked
+        ),
+        assocPath(['exchangeOnboarding', 'linkToExchangeAccountDeeplink'], null)
       )(state)
-    case AT.LINK_TO_PIT_ACCOUNT_LOADING:
+    case AT.LINK_TO_EXCHANGE_ACCOUNT_LOADING:
       return assocPath(
-        ['pitOnboarding', 'linkToPitAccountStatus'],
+        ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
         Remote.Loading,
         state
       )
-    case AT.LINK_TO_PIT_ACCOUNT_SUCCESS:
+    case AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS:
       return assocPath(
-        ['pitOnboarding', 'linkToPitAccountStatus'],
+        ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
         Remote.Success(payload),
         state
       )
-    case AT.LINK_TO_PIT_ACCOUNT_FAILURE:
+    case AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE:
       return assocPath(
-        ['pitOnboarding', 'linkToPitAccountStatus'],
+        ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
         Remote.Failure(payload.e),
         state
       )
-    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_SUCCESS:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS:
       return assocPath(
-        ['pitOnboarding', 'shareWalletAddressesWithPit'],
+        ['exchangeOnboarding', 'shareWalletAddressesWithExchange'],
         Remote.Success(payload.data),
         state
       )
-    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_LOADING:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_LOADING:
       return assocPath(
-        ['pitOnboarding', 'shareWalletAddressesWithPit'],
+        ['exchangeOnboarding', 'shareWalletAddressesWithExchange'],
         Remote.Loading,
         state
       )
-    case AT.SHARE_WALLET_ADDRESSES_WITH_PIT_FAILURE:
+    case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE:
       return assocPath(
-        ['pitOnboarding', 'shareWalletAddressesWithPit'],
+        ['exchangeOnboarding', 'shareWalletAddressesWithExchange'],
         Remote.Failure(payload.e),
         state
       )

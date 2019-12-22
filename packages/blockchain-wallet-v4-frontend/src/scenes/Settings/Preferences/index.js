@@ -1,5 +1,5 @@
 import AutoLogout from './AutoLogout'
-import BtcLinkHandling from './BtcLinkHandling'
+import CryptoLinkHandling from './CryptoLinkHandling'
 import LocalCurrency from './LocalCurrency'
 import MobileNumber from './MobileNumber'
 import Notifications from './Notifications'
@@ -21,7 +21,7 @@ const Preferences = () => {
       <WalletLanguage />
       <LocalCurrency />
       <Notifications />
-      <BtcLinkHandling />
+      <CryptoLinkHandling />
       <AutoLogout />
       <Themes />
     </Wrapper>

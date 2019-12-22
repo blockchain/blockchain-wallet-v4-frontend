@@ -94,11 +94,11 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
-    case 'pitTurquoise':
+    case 'exchangeTurquoise':
       return {
-        color: 'pitNight',
-        backgroundColor: 'pitTurquoise',
-        borderColor: 'pitTurquoise'
+        color: 'exchangeNight',
+        backgroundColor: 'exchangeTurquoise',
+        borderColor: 'exchangeTurquoise'
       }
     case 'primary':
       return {

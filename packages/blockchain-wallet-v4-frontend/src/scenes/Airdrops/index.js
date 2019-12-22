@@ -2,8 +2,11 @@ import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { lift } from 'ramda'
 import { Text } from 'blockchain-info-components'
+import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
+import PastAirdropsSuccess from './PastAirdrops/template.success'
 import React from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
@@ -17,22 +20,43 @@ export const Wrapper = styled.div`
 export const Header = styled.div`
   margin-bottom: 40px;
 `
+export const History = styled.div`
+  margin-top: 120px;
+`
 
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
 
 class Airdrops extends React.PureComponent {
+  componentDidMount () {
+    this.props.profileActions.fetchUserCampaigns()
+  }
+
   render () {
-    const { data } = this.props
-    const Templates = data.cata({
+    const { data, hasEmail } = this.props
+    const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Failure: () => (
-        <Text>Oops. Something went wrong and we don't know why</Text>
+      Failure: e => (
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong and we don't know why.{' '}
+          <b>Here's the error: {e.type}</b>
+        </Text>
       )
     })
+    const PastAirdrops = data.cata({
+      Success: val => <PastAirdropsSuccess {...val} />,
+      Loading: () => <Text weight={500}>Loading...</Text>,
+      NotAsked: () => <Text weight={500}>Loading...</Text>,
+      Failure: () => (
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong and we don't know why.
+        </Text>
+      )
+    })
+    if (!hasEmail) return <EmailRequired />
     return (
       <Wrapper>
         <Header>
@@ -49,21 +73,41 @@ class Airdrops extends React.PureComponent {
             />
           </Text>
         </Header>
-        {Templates}
+        {AirdropCards}
+        <History>
+          <MainTitle size='24px' color='grey800' weight={600}>
+            <FormattedMessage
+              id='scenes.airdrops.pastairdrops'
+              defaultMessage='Past Airdrops'
+            />
+          </MainTitle>
+        </History>
+        {PastAirdrops}
       </Wrapper>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  data: selectors.modules.profile.getUserData(state)
+  data: lift((userData, campaignData) => ({
+    ...userData,
+    ...campaignData
+  }))(
+    selectors.modules.profile.getUserData(state),
+    selectors.modules.profile.getUserCampaigns(state)
+  ),
+  hasEmail: selectors.core.settings
+    .getEmail(state)
+    .map(Boolean)
+    .getOrElse(false)
 })
 
 const mapDispatchToProps = dispatch => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 export default connect(

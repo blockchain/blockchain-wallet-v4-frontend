@@ -74,13 +74,11 @@ const TimerContainer = styled.div`
   display: inline-block;
   float: right;
 `
-
 const CustomMerchantInput = styled(Field)`
   & > input {
     padding-right: 84px;
   }
 `
-
 const ImageInInputContainer = styled.div`
   position: absolute;
   margin-top: -35px;
@@ -225,7 +223,7 @@ const FirstStep = props => {
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}
-                  includePitAddress
+                  includeExchangeAddress
                   isCreatable
                   noOptionsMessage={() => null}
                   isValidNewOption={() => false}

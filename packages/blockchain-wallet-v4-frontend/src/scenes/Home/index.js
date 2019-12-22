@@ -95,15 +95,11 @@ const GlobalJoyrideStyles = createGlobalStyle`
 `
 
 const Home = props => {
-  const { onboardingActions, preferencesActions, showWalletTour } = props
+  const { onboardingActions, showWalletTour } = props
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
-    }
-    // PIT tooltip seen
-    if (data.index === 5) {
-      preferencesActions.hideThePitPulse()
     }
   }
   return (

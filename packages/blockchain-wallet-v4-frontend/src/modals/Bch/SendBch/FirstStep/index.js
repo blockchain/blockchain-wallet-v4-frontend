@@ -10,19 +10,21 @@ import Success from './template.success'
 
 class FirstStep extends React.Component {
   render () {
-    const { data, actions } = this.props
+    const { actions, data, excludeHDWallets, payPro } = this.props
 
     return data.cata({
       Success: value => (
         <Success
-          from={value.from}
-          network={value.network}
           destination={value.destination}
           effectiveBalance={value.effectiveBalance}
-          totalFee={value.totalFee}
-          onSubmit={actions.sendBchFirstStepSubmitClicked}
           excludeLockbox={value.excludeLockbox}
-          excludeHDWallets={this.props.excludeHDWallets}
+          excludeHDWallets={excludeHDWallets}
+          from={value.from}
+          handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
+          network={value.network}
+          onSubmit={actions.sendBchFirstStepSubmitClicked}
+          payPro={payPro}
+          totalFee={value.totalFee}
         />
       ),
       Failure: message => <Error>{message}</Error>,
