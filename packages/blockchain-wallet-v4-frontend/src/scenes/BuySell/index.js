@@ -15,6 +15,7 @@ import styled from 'styled-components'
 import KycGetStarted from './KycGetStarted'
 import PromoCards from './PromoCards'
 
+const { COINIFY_EVENTS } = model.analytics
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
@@ -133,6 +134,7 @@ class BuySellContainer extends React.PureComponent {
 
   handleShowCoinify = () => {
     this.setState({ showCoinifyView: true })
+    this.props.analyticsActions.logEvent(COINIFY_EVENTS.CONTINUE_COINIFY_CLICK)
   }
 
   /**
@@ -220,13 +222,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
