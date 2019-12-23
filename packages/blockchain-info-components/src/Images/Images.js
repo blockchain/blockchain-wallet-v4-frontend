@@ -10,8 +10,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
-import blockchainBlue from './img/blockchain-blue.svg'
-import blockchainVector from './img/blockchain-vector.svg'
+import blockchainLogo from './img/bc-logo.svg'
 import blueLogo from './img/blue-logo.svg'
 import buySellBuyBch from './img/buy-sell-buy-bch.svg'
 import buySellBuyBtc from './img/buy-sell-buy-btc.svg'
@@ -146,8 +145,7 @@ export default {
   'bitcoin-network': bitcoinNetwork,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
-  'blockchain-blue': blockchainBlue,
-  'blockchain-vector': blockchainVector,
+  'blockchain-logo': blockchainLogo,
   'blue-logo': blueLogo,
   'buy-sell-buy-bch': buySellBuyBch,
   'buy-sell-buy-btc': buySellBuyBtc,
