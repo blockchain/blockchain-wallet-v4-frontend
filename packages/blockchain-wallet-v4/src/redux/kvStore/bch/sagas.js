@@ -1,23 +1,23 @@
+import * as A from './actions'
+import * as bchActions from '../../data/bch/actions'
+import { Address, KVStoreEntry } from '../../../types'
+import { BCH, derivationMap } from '../config'
 import { call, put, select } from 'redux-saga/effects'
+import { callTask } from '../../../utils/functional'
 import {
   concat,
   gt,
+  isEmpty,
   isNil,
   length,
   map,
   pathOr,
   propOr,
-  range,
-  isEmpty
+  range
 } from 'ramda'
-import { set } from 'ramda-lens'
-import * as A from './actions'
-import * as bchActions from '../../data/bch/actions'
-import { KVStoreEntry } from '../../../types'
-import { derivationMap, BCH } from '../config'
-import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
-import { callTask } from '../../../utils/functional'
+import { getMetadataXpriv } from '../root/selectors'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
   const createBch = function * (kv, hdAccounts, bchAccounts) {
@@ -31,12 +31,34 @@ export default ({ api, networks }) => {
       accounts: concat(
         bchAccounts,
         map(createAccountEntry, range(length(bchAccounts), hdAccounts.length))
-      )
+      ),
+      addresses: {}
     }
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
     yield put(A.createMetadataBch(newkv))
     yield put(bchActions.fetchData())
+  }
+
+  const createBchAddresses = function * (kv) {
+    const newBchEntry = {
+      ...kv.value,
+      addresses: {}
+    }
+    const newkv = set(KVStoreEntry.value, newBchEntry, kv)
+    yield put(A.createMetadataBch(newkv))
+  }
+
+  const importLegacyAddress = function * (action) {
+    const { payload } = action
+    const { key, label } = payload
+    const addr = Address.importAddress(
+      key,
+      new Date(),
+      label,
+      networks.bch
+    ).toJS()
+    yield put(A.setLegacyAddress(addr))
   }
 
   const fetchMetadataBch = function * () {
@@ -54,6 +76,8 @@ export default ({ api, networks }) => {
         gt(length(hdAccounts), length(bchAccounts))
       ) {
         return yield call(createBch, newkv, hdAccounts, bchAccounts)
+      } else if (isNil(newkv.value.addresses)) {
+        return yield call(createBchAddresses, newkv)
       }
       yield put(A.fetchMetadataBchSuccess(newkv))
     } catch (e) {
@@ -63,6 +87,7 @@ export default ({ api, networks }) => {
 
   return {
     createBch,
-    fetchMetadataBch
+    fetchMetadataBch,
+    importLegacyAddress
   }
 }

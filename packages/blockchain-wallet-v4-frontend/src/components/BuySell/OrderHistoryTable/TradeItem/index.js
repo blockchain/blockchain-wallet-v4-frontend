@@ -1,22 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { canCancelTrade } from 'services/CoinifyService'
 import { equals, prop } from 'ramda'
-import moment from 'moment'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FormattedMessage } from 'react-intl'
 import {
+  HeartbeatLoader,
+  Icon,
+  Link,
   TableCell,
   TableRow,
-  Text,
-  Link,
-  Icon,
-  HeartbeatLoader
+  Text
 } from 'blockchain-info-components'
-import OrderStatus from '../OrderStatus'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import media from 'services/ResponsiveService'
+import moment from 'moment'
+import OrderStatus from '../OrderStatus'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;

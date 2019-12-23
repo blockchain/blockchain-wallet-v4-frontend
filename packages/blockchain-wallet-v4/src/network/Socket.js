@@ -1,4 +1,4 @@
-import { compose, concat, prop, propEq, identity } from 'ramda'
+import { compose, concat, identity, prop, propEq } from 'ramda'
 
 const WebSocket = global.WebSocket || global.MozWebSocket
 

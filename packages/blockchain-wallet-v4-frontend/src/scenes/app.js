@@ -1,21 +1,15 @@
-import React from 'react'
-import { Redirect, Switch } from 'react-router-dom'
 import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { PersistGate } from 'redux-persist/integration/react'
-import { map, values } from 'ramda'
 import { createGlobalStyle } from 'styled-components'
-
-import { selectors } from 'data'
-import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
+import { map, values } from 'ramda'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
-import TranslationsProvider from 'providers/TranslationsProvider'
-import PublicLayout from 'layouts/Public'
-import ThemeProvider from 'providers/ThemeProvider'
-import WalletLayout from 'layouts/Wallet'
-
+import { PersistGate } from 'redux-persist/integration/react'
+import { Redirect, Switch } from 'react-router-dom'
+import { selectors } from 'data'
 import Addresses from './Settings/Addresses'
+import Airdrops from './Airdrops'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
@@ -30,17 +24,22 @@ import Logout from './Logout'
 import MobileLogin from './MobileLogin'
 import Preferences from './Settings/Preferences'
 import Profile from './Settings/Profile'
+import PublicLayout from 'layouts/Public'
+import React from 'react'
 import Recover from './Recover'
 import Register from './Register'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
 import SecurityCenter from './SecurityCenter'
-import ThePit from './ThePit'
+import TheExchange from './TheExchange'
+import ThemeProvider from 'providers/ThemeProvider'
 import Transactions from './Transactions'
+import TranslationsProvider from 'providers/TranslationsProvider'
 import UploadDocuments from './UploadDocuments'
 import UploadDocumentsSuccess from './UploadDocuments/Success'
 import VerifyEmailToken from './VerifyEmailToken'
+import WalletLayout from 'layouts/Wallet'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
@@ -116,8 +115,10 @@ class App extends React.PureComponent {
                       path='/swap/profile'
                       component={ExchangeProfile}
                     />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout path='/swap' component={Exchange} exact />
-                    <WalletLayout path='/thepit' component={ThePit} />
+                    <WalletLayout path='/exchange' component={TheExchange} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}

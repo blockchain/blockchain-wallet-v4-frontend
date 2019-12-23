@@ -1,11 +1,10 @@
-import { equals } from 'ramda'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
-
 import * as bch from './bch'
 import * as btc from './btc'
+import * as checks from './checks'
 import * as eth from './eth'
 import * as xlm from './xlm'
-import * as checks from './checks'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
+import { equals } from 'ramda'
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, equals)
 

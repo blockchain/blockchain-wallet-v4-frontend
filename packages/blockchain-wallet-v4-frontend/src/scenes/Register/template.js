@@ -1,15 +1,3 @@
-import React from 'react'
-import styled from 'styled-components'
-import Bowser from 'bowser'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { find, has, propEq } from 'ramda'
-
-import {
-  validPasswordConfirmation,
-  required,
-  validEmail
-} from 'services/FormHelper'
 import {
   Banner,
   Button,
@@ -25,10 +13,20 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { find, has, propEq } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import {
+  required,
+  validEmail,
+  validPasswordConfirmation
+} from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
+import Bowser from 'bowser'
+import LinkExchangeAccount from './LinkExchangeAccount'
+import React from 'react'
+import styled from 'styled-components'
 import Terms from 'components/Terms'
-import PitCallout from './PitCallout'
-import LinkAccount from '../LinkAccount'
 
 // load zxcvbn dependency async and set on window
 require.ensure(
@@ -92,7 +90,7 @@ const Register = props => {
 
   return (
     <SignupWrapper>
-      {isLinkAccountGoal && <LinkAccount />}
+      {isLinkAccountGoal && <LinkExchangeAccount />}
       <PublicWrapper>
         <Header>
           <Text
@@ -233,7 +231,6 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
-      <PitCallout {...props} />
     </SignupWrapper>
   )
 }

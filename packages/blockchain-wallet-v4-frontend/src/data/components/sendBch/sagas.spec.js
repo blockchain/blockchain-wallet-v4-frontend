@@ -1,20 +1,20 @@
-import { select } from 'redux-saga/effects'
+import { call } from 'redux-saga-test-plan/matchers'
+import { combineReducers } from 'redux'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
 import { path, prop } from 'ramda'
-import { call } from 'redux-saga-test-plan/matchers'
-import { combineReducers } from 'redux'
+import { select } from 'redux-saga/effects'
 
-import rootReducer from '../../rootReducer'
-import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
 import * as C from 'services/AlertService'
+import * as S from './selectors'
 import { actions, model, selectors } from 'data'
-import sendBchSagas, { logLocation } from './sagas'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
+import rootReducer from '../../rootReducer'
+import sendBchSagas, { logLocation } from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -80,7 +80,7 @@ describe('sendBch sagas', () => {
   })
 
   describe('bch send form initialize', () => {
-    const to = 'bchaddress'
+    const to = null
     const description = 'message'
     const amount = {
       coin: 1,
@@ -92,8 +92,12 @@ describe('sendBch sagas', () => {
     const defaultAccount = 'account1'
     const accountsRStub = Remote.of([defaultAccount, 'account2'])
     const initialValues = {
+      amount,
       coin: 'BCH',
-      from: defaultAccount
+      to,
+      description,
+      from: defaultAccount,
+      payPro: undefined
     }
     const beforeEnd = 'beforeEnd'
 
@@ -101,8 +105,10 @@ describe('sendBch sagas', () => {
       saga.next().put(A.sendBchPaymentUpdatedLoading())
     })
 
-    it('should fetch pit addresses', () => {
-      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BCH'))
+    it('should fetch exchange addresses', () => {
+      saga
+        .next()
+        .put(actions.components.send.fetchPaymentsAccountExchange('BCH'))
     })
 
     it('should create payment', () => {
@@ -131,6 +137,20 @@ describe('sendBch sagas', () => {
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
       expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
+    })
+
+    it('should update payment amount from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(amount.coin * 100000000)
+    })
+
+    it('should update payment description from value', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith(description)
     })
 
     it('should update payment fee from value', () => {
@@ -216,8 +236,12 @@ describe('sendBch sagas', () => {
         const form = path(FORM.split('.'), resultingState.form)
         expect(form.initial).toEqual(form.values)
         expect(form.initial).toEqual({
+          amount: { coin: 1, fiat: 10000 },
           coin: 'BCH',
-          from: defaultAccount
+          from: defaultAccount,
+          description: 'message',
+          payPro: undefined,
+          to: null
         })
       })
 

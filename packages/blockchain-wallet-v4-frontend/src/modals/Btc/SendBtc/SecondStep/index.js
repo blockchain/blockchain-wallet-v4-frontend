@@ -1,9 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { getData } from './selectors'
 import { actions } from 'data'
+import { getData } from './selectors'
 
 import Error from './template.error'
 import Loading from './template.loading'
@@ -20,9 +20,7 @@ class SecondStepContainer extends React.PureComponent {
           coin='BTC'
           handleSubmit={actions.sendBtcSecondStepSubmitClicked}
           handleBack={actions.sendBtcSecondStepCancelClicked}
-          handleBitPayInvoiceExpiration={
-            actions.sendBtcFirstStepBitPayInvoiceExpired
-          }
+          handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
         />
       ),
       Failure: message => <Error>{message}</Error>,

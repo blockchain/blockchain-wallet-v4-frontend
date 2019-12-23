@@ -1,6 +1,6 @@
-import { lift, pathOr, take, takeWhile } from 'ramda'
-import { formValueSelector } from 'redux-form'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { formValueSelector } from 'redux-form'
+import { lift, pathOr, take, takeWhile } from 'ramda'
 import { model, selectors } from 'data'
 
 const {

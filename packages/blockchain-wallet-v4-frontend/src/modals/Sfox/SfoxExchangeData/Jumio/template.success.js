@@ -1,6 +1,6 @@
+import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
 
 const Container = styled.div`
   width: 100%;

@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { formValueSelector } from 'redux-form'
 import { actions, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
 import MobileNumberVerify from './template.js'
+import modalEnhancer from 'providers/ModalEnhancer'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 class MobileNumberVerifyContainer extends React.PureComponent {
   constructor (props) {

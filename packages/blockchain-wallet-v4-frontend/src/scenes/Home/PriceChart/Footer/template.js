@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-
 import { model } from 'data'
-import { Button } from 'blockchain-info-components'
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   z-index: 2;
-  margin-bottom: 26px;
+  margin-bottom: 24px;
   width: 100%;
 `
 
@@ -19,11 +18,11 @@ const BuyTradeButton = styled(Button)`
   width: 100%;
 
   &:first-child {
-    margin: 0 4px;
+    margin: 0 12px;
   }
 
   &:last-child {
-    margin-right: 4px;
+    margin: 0 12px;
   }
 `
 
@@ -47,8 +46,8 @@ const Footer = ({
       {isCoinifySupported && isSilverOrAbove && coinName === 'Bitcoin' && (
         <LinkContainer to='/buy-sell' data-e2e='buyAndSellLink'>
           <BuyTradeButton
-            nature='primary'
             height='48px'
+            nature='primary'
             onClick={() =>
               analyticsActions.logEvent(PRICE_CHART_EVENTS.CLICK_BUY_BITCOIN)
             }
@@ -75,8 +74,8 @@ const Footer = ({
           data-e2e='exchangeLink'
         >
           <BuyTradeButton
-            nature='primary'
             height='48px'
+            nature='primary'
             onClick={() =>
               analyticsActions.logEvent(PRICE_CHART_EVENTS.CLICK_SWAP_COIN)
             }

@@ -1,10 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
-import { actions, selectors, model } from 'data'
-import ArchivedAddresses from './template'
-import { Types } from 'blockchain-wallet-v4/src'
+import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import { Types } from 'blockchain-wallet-v4/src'
+import ArchivedAddresses from './template'
+import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
 class ArchivedAddressesContainer extends React.PureComponent {

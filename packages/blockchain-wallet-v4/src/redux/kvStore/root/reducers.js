@@ -1,7 +1,7 @@
-import { set, mapped } from 'ramda-lens'
+import * as AT from './actionTypes.js'
 import { compose } from 'ramda'
 import { KVStoreEntry } from '../../../types'
-import * as AT from './actionTypes.js'
+import { mapped, set } from 'ramda-lens'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = Remote.NotAsked

@@ -1,8 +1,8 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Image } from 'blockchain-info-components'
-import styled from 'styled-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Choice = styled.div`
   display: flex;

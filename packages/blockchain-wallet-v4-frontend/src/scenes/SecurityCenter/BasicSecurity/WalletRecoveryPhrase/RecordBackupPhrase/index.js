@@ -1,12 +1,12 @@
-import React from 'react'
-import { compose, bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import wizardProvider from 'providers/WizardProvider'
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import { path } from 'ramda'
 import FirstStep from './FirstStep'
+import React from 'react'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
+import wizardProvider from 'providers/WizardProvider'
 
 class RecoveryPhraseContainer extends React.PureComponent {
   componentDidMount () {

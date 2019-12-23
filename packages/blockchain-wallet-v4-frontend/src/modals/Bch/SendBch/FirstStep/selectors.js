@@ -1,6 +1,6 @@
-import { prop, path } from 'ramda'
-import { model, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
+import { model, selectors } from 'data'
+import { path, prop } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {

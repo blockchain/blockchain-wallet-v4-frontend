@@ -1,22 +1,21 @@
-import React from 'react'
-import styled from 'styled-components'
+import { Button, Link, Text } from 'blockchain-info-components'
+import { flex } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, Link } from 'blockchain-info-components'
-import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
+import React from 'react'
+import styled from 'styled-components'
 
-import CameraContainer from './camera'
-import TitleStrings from './strings'
 import {
-  Row,
   ColLeft,
-  ColRight,
   ColLeftInner,
-  PartnerHeader
+  ColRight,
+  PartnerHeader,
+  Row
 } from 'components/IdentityVerification'
-
+import CameraContainer from './camera'
 import media from 'services/ResponsiveService'
+import TitleStrings from './strings'
 
 const InputContainer = styled.div``
 

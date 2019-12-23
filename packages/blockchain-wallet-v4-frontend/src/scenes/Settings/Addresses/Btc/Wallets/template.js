@@ -1,21 +1,21 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
-import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  Text,
   IconButton,
-  Link
+  Link,
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
+  Text
 } from 'blockchain-info-components'
-import { take, filter } from 'ramda'
+import { filter, take } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.section`
   box-sizing: border-box;

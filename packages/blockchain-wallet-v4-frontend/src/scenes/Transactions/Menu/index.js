@@ -1,8 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { isNil } from 'ramda'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'

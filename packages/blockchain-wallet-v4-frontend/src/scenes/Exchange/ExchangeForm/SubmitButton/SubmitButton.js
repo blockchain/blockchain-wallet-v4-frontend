@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import { connect } from 'react-redux'
-
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Row } from '../Layout'
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
 
 const ButtonRow = styled(Row)`
   padding: 0 32px 23px;

@@ -15,6 +15,21 @@ export const fetchUser = () => ({
   type: AT.FETCH_USER
 })
 
+export const fetchUserCampaignsSuccess = userCampaigns => ({
+  type: AT.FETCH_USER_CAMPAIGNS_SUCCESS,
+  payload: { userCampaigns }
+})
+export const fetchUserCampaignsLoading = () => ({
+  type: AT.FETCH_USER_CAMPAIGNS_LOADING
+})
+export const fetchUserCampaignsFailure = error => ({
+  type: AT.FETCH_USER_CAMPAIGNS_FAILURE,
+  payload: { error }
+})
+export const fetchUserCampaigns = () => ({
+  type: AT.FETCH_USER_CAMPAIGNS
+})
+
 export const fetchTiersSuccess = userTiers => ({
   type: AT.FETCH_TIERS_SUCCESS,
   payload: { userTiers }
@@ -53,54 +68,55 @@ export const setCampaign = campaign => ({
   payload: { campaign }
 })
 
-export const linkFromPitAccount = linkId => ({
-  type: AT.LINK_FROM_PIT_ACCOUNT,
+export const linkFromExchangeAccount = linkId => ({
+  type: AT.LINK_FROM_EXCHANGE_ACCOUNT,
   payload: { linkId }
 })
-export const linkFromPitAccountLoading = () => ({
-  type: AT.LINK_FROM_PIT_ACCOUNT_LOADING
+export const linkFromExchangeAccountLoading = () => ({
+  type: AT.LINK_FROM_EXCHANGE_ACCOUNT_LOADING
 })
-export const linkFromPitAccountSuccess = data => ({
-  type: AT.LINK_FROM_PIT_ACCOUNT_SUCCESS,
+export const linkFromExchangeAccountSuccess = data => ({
+  type: AT.LINK_FROM_EXCHANGE_ACCOUNT_SUCCESS,
   payload: { data }
 })
-export const linkFromPitAccountFailure = e => ({
-  type: AT.LINK_FROM_PIT_ACCOUNT_FAILURE,
+export const linkFromExchangeAccountFailure = e => ({
+  type: AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE,
   payload: { e }
 })
 
-export const linkToPitAccount = () => ({
-  type: AT.LINK_TO_PIT_ACCOUNT
+export const linkToExchangeAccount = utmCampaign => ({
+  type: AT.LINK_TO_EXCHANGE_ACCOUNT,
+  payload: { utmCampaign }
 })
-export const linkToPitAccountLoading = () => ({
-  type: AT.LINK_TO_PIT_ACCOUNT_LOADING
+export const linkToExchangeAccountLoading = () => ({
+  type: AT.LINK_TO_EXCHANGE_ACCOUNT_LOADING
 })
-export const linkToPitAccountSuccess = () => ({
-  type: AT.LINK_TO_PIT_ACCOUNT_SUCCESS
+export const linkToExchangeAccountSuccess = () => ({
+  type: AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS
 })
-export const linkToPitAccountFailure = e => ({
-  type: AT.LINK_TO_PIT_ACCOUNT_FAILURE,
+export const linkToExchangeAccountFailure = e => ({
+  type: AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
   payload: { e }
 })
-export const linkToPitAccountReset = () => ({
-  type: AT.LINK_TO_PIT_ACCOUNT_RESET
+export const linkToExchangeAccountReset = () => ({
+  type: AT.LINK_TO_EXCHANGE_ACCOUNT_RESET
 })
-export const setLinkToPitAccountDeepLink = deeplink => ({
-  type: AT.SET_LINK_TO_PIT_ACCOUNT_DEEPLINK,
+export const setLinkToExchangeAccountDeepLink = deeplink => ({
+  type: AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK,
   payload: { deeplink }
 })
 
-export const shareWalletAddressesWithPit = () => ({
-  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT
+export const shareWalletAddressesWithExchange = () => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE
 })
-export const shareWalletAddressesWithPitLoading = () => ({
-  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_LOADING
+export const shareWalletAddressesWithExchangeLoading = () => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_LOADING
 })
-export const shareWalletAddressesWithPitSuccess = data => ({
-  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_SUCCESS,
+export const shareWalletAddressesWithExchangeSuccess = data => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS,
   payload: { data }
 })
-export const shareWalletAddressesWithPitFailure = e => ({
-  type: AT.SHARE_WALLET_ADDRESSES_WITH_PIT_FAILURE,
+export const shareWalletAddressesWithExchangeFailure = e => ({
+  type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE,
   payload: { e }
 })

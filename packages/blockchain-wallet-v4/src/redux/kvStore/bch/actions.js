@@ -20,6 +20,16 @@ export const createMetadataBch = data => ({
   payload: data
 })
 
+export const importLegacyAddress = (key, label) => ({
+  type: AT.IMPORT_LEGACY_ADDR_BCH,
+  payload: { key, label }
+})
+
+export const setLegacyAddress = addr => ({
+  type: AT.SET_LEGACY_ADDR_BCH,
+  payload: { addr }
+})
+
 export const setAccountLabel = (accountIdx, label) => ({
   type: AT.SET_BCH_ACCOUNT_LABEL,
   payload: { accountIdx, label }

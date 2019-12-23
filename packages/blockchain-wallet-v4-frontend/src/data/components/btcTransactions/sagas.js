@@ -1,6 +1,6 @@
-import { select, put } from 'redux-saga/effects'
+import { actions, model, selectors } from 'data'
 import { equals, path, prop } from 'ramda'
-import { actions, selectors, model } from 'data'
+import { put, select } from 'redux-saga/effects'
 
 export const logLocation = 'components/btcTransactions/sagas'
 

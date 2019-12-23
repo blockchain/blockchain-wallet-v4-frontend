@@ -1,11 +1,10 @@
-import React from 'react'
-import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
-import { mount } from 'enzyme'
-
 import { actions } from 'data'
+import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
+import { mount } from 'enzyme'
 import { TIERS_STATES } from 'data/modules/profile/model'
-import profileReducer from 'data/modules/profile/reducers'
 import LimitInfo from './index'
+import profileReducer from 'data/modules/profile/reducers'
+import React from 'react'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 

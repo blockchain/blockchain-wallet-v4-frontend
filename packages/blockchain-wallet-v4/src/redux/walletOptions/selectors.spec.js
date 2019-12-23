@@ -1,6 +1,6 @@
-import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import * as selectors from './selectors'
 import { getInvitations } from '../settings/selectors'
+import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import Remote from '../../remote'
 
 jest.mock('../settings/selectors')
@@ -17,18 +17,6 @@ describe('walletOptions selectors', () => {
 
   it('getEthTxFuse should return correct lastTxFuse', () => {
     expect(selectors.getEthTxFuse(successState)).toEqual(Remote.of(600))
-  })
-
-  it('getAnnouncements should return correct announcements', () => {
-    const expected = {
-      public: {},
-      wallet: {},
-      lockbox: {},
-      swap: {}
-    }
-    expect(selectors.getAnnouncements(successState)).toEqual(
-      Remote.of(expected)
-    )
   })
 
   it('getCoinAvailability should return correct btc availability', () => {

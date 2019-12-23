@@ -23,6 +23,7 @@ exports[`EmailRequired component renders correctly 1`] = `
       color="gray-5"
       cursor="inherit"
       italic={false}
+      lineHeight="inherit"
       opacity={1}
       size="18px"
       uppercase={false}

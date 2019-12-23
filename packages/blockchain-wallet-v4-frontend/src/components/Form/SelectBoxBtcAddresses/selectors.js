@@ -1,6 +1,7 @@
+import { collapse } from 'utils/helpers'
 import {
-  concat,
   compose,
+  concat,
   curry,
   descend,
   filter,
@@ -13,13 +14,12 @@ import {
   prepend,
   prop,
   reduce,
-  set,
   sequence,
+  set,
   sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
@@ -48,7 +48,7 @@ export const getData = (state, ownProps) => {
     excludeImported,
     excludeLockbox,
     includeAll = true,
-    includePitAddress
+    includeExchangeAddress
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -65,13 +65,13 @@ export const getData = (state, ownProps) => {
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toPit = x => [{ label: `My PIT BTC Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
 
-  const pitAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BTC',
     state
   )
-  const hasPitAddress = Remote.Success.is(pitAddress)
+  const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
@@ -106,8 +106,8 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox')),
-      includePitAddress && hasPitAddress
-        ? pitAddress.map(toPit).map(toGroup('The PIT'))
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])

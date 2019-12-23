@@ -1,5 +1,5 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import React from 'react'
 import styled from 'styled-components'
 
 import { actions, model } from 'data'
@@ -9,12 +9,12 @@ import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 12px 25px 12px 24px;
+  padding: 12px 25px 12px 26px;
   align-items: center;
   justify-content: space-between;
-  background: ${props => props.theme['marketing-primary']};
+  background: ${props => props.theme['blue500']};
   overflow: hidden;
-  ${media.mobile`
+  ${media.tablet`
     display: none;
   `};
 `

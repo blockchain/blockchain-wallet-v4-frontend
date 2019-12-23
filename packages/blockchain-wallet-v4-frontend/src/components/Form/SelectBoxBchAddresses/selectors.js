@@ -1,8 +1,9 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
-  concat,
   compose,
+  concat,
   curry,
   descend,
   filter,
@@ -12,20 +13,19 @@ import {
   lensIndex,
   lensProp,
   lift,
-  not,
   map,
+  not,
   path,
   prepend,
   prop,
   reduce,
-  set,
   sequence,
+  set,
   sort
 } from 'ramda'
+import { collapse } from 'utils/helpers'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
@@ -56,7 +56,7 @@ export const getData = (state, ownProps) => {
     excludeLockbox,
     excludeWatchOnly,
     includeAll = true,
-    includePitAddress
+    includeExchangeAddress
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -75,13 +75,13 @@ export const getData = (state, ownProps) => {
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toPit = x => [{ label: `My PIT BCH Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange BCH Address`, value: x }]
 
-  const pitAddress = selectors.components.send.getPaymentsAccountPit(
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BCH',
     state
   )
-  const hasPitAddress = Remote.Success.is(pitAddress)
+  const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
   const formatAddress = addressData => {
     const formattedAddress = {}
@@ -91,7 +91,12 @@ export const getData = (state, ownProps) => {
           ? assoc('label', prop('addr', addressData), a)
           : assoc('label', prop('label', addressData), a),
       a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
-      a => assoc('balance', path(['info', 'final_balance'], addressData), a),
+      a =>
+        assocPath(
+          ['value', 'balance'],
+          path(['info', 'final_balance'], addressData),
+          a
+        ),
       a => assocPath(['value', 'coin'], coin, a),
       a => assocPath(['value', 'address'], prop('addr', addressData), a),
       a => assoc('value', prop('info', addressData), a)
@@ -122,7 +127,6 @@ export const getData = (state, ownProps) => {
       excludeImported
         ? Remote.of([])
         : lift(formatImportedAddressesData)(relevantAddresses)
-            .map(toDropdown)
             .map(toGroup('Imported Addresses'))
             .map(x =>
               set(
@@ -144,8 +148,8 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox')),
-      includePitAddress && hasPitAddress
-        ? pitAddress.map(toPit).map(toGroup('The PIT'))
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const data = reduce(concat, [], [b1, b2, b3, b4])

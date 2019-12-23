@@ -1,15 +1,15 @@
-import { call, put, select } from 'redux-saga/effects'
 import * as T from 'services/AlertService'
 import {
   append,
-  includes,
   compose,
+  includes,
   intersection,
   isEmpty,
   map,
   path,
   test
 } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { transactions } from 'blockchain-wallet-v4/src'
@@ -25,12 +25,8 @@ export default () => {
     )(tx)
 
   const addWalletTransaction = function * (tx) {
-    const defaultAccountId = (yield select(
-      selectors.core.kvStore.xlm.getDefaultAccountId
-    )).getOrElse('')
-    const txAccountIds = getAccountIds(tx)
-    if (includes(defaultAccountId, txAccountIds))
-      yield put(actions.core.data.xlm.addNewTransactions([tx]))
+    // refresh transaction list
+    yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
   const addLockboxTransaction = function * (tx, deviceIndex) {

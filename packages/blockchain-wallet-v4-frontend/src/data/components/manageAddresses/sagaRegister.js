@@ -1,5 +1,5 @@
-import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, networks }) => {
@@ -13,6 +13,10 @@ export default ({ api, networks }) => {
     yield takeLatest(
       AT.EDIT_ADDRESS_LABEL,
       manageAddressesSagas.editAddressLabel
+    )
+    yield takeLatest(
+      AT.EDIT_IMPORTED_ADDRESS_LABEL,
+      manageAddressesSagas.editImportedAddressLabel
     )
     yield takeLatest(
       AT.GENERATE_NEXT_RECEIVE_ADDRESS,

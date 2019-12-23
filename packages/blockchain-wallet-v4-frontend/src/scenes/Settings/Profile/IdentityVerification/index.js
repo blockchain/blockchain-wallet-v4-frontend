@@ -1,20 +1,18 @@
-import React from 'react'
-import { pathOr, propEq } from 'ramda'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import styled from 'styled-components'
-
-import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   Image,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import TierCard from 'components/IdentityVerification/TierCard'
-import media from 'services/ResponsiveService'
-
 import { KYC_STATES } from 'data/modules/profile/model'
+import { pathOr, propEq } from 'ramda'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
+import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,10 +76,6 @@ const SwapText = styled(Text)`
     color: ${props => props.theme['brand-secondary']};
     text-decoration: none;
   }
-`
-
-const SwapTextAirdropContent = styled(SwapText)`
-  margin-top: 20px;
 `
 
 const TierWrapper = styled.div`
@@ -159,17 +153,11 @@ const IdentityVerification = ({ userData, userTiers }) => {
                   </SwapText>
                   <SwapText size='14px'>
                     <FormattedMessage
-                      id='scenes.profile.idv.swaplimit.airdropdisclaimer'
-                      defaultMessage="Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}."
+                      id='scenes.profile.idv.swaplimit.airdropdisclaimer1'
+                      defaultMessage="Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
                       values={{ tier2Limit: formattedTier2Limit }}
                     />
                   </SwapText>
-                  <SwapTextAirdropContent size='14px'>
-                    <FormattedHTMLMessage
-                      id='scenes.profile.idv.swaplimit.future.airdrops'
-                      defaultMessage="Our <a href='https://blog.blockchain.com/2019/07/15/airdrops-adoption-whats-ahead/' target='_blank'>Stellar (XLM) airdrop</a> is currently winding down. Get gold verified to be eligible for future crypto airdrops!"
-                    />
-                  </SwapTextAirdropContent>
                 </>
               )}
             </LearnMoreContainer>

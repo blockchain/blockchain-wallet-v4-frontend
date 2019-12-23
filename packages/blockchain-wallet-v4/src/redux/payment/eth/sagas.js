@@ -1,28 +1,27 @@
-import { call, select } from 'redux-saga/effects'
-import {
-  isNil,
-  mergeRight,
-  prop,
-  path,
-  identity,
-  indexOf,
-  toLower
-} from 'ramda'
-import EthUtil from 'ethereumjs-util'
-
 import * as S from '../../selectors'
-import { isValidIndex } from './utils'
-import { eth } from '../../../signer'
-import { isString, isPositiveInteger } from '../../../utils/checks'
-import settingsSagaFactory from '../../../redux/settings/sagas'
+import { ADDRESS_TYPES } from '../btc/utils'
 import {
   calculateEffectiveBalance,
-  isValidAddress,
+  calculateFee,
   convertGweiToWei,
-  calculateFee
+  isValidAddress
 } from '../../../utils/eth'
-import { ADDRESS_TYPES } from '../btc/utils'
+import { call, select } from 'redux-saga/effects'
+import { eth } from '../../../signer'
 import { FETCH_FEES_FAILURE } from '../model'
+import {
+  identity,
+  indexOf,
+  isNil,
+  mergeRight,
+  path,
+  prop,
+  toLower
+} from 'ramda'
+import { isPositiveInteger, isString } from '../../../utils/checks'
+import { isValidIndex } from './utils'
+import EthUtil from 'ethereumjs-util'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -219,9 +218,10 @@ export default ({ api }) => {
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
 
-        const gasLimit = p.isErc20
-          ? path(['fees', 'gasLimitContract'], p)
-          : path(['fees', 'gasLimit'], p)
+        const gasLimit =
+          p.isErc20 || p.isContract
+            ? path(['fees', 'gasLimitContract'], p)
+            : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
 
         const data = p.isErc20
@@ -248,9 +248,10 @@ export default ({ api }) => {
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
-        const gasLimit = p.isErc20
-          ? path(['fees', 'gasLimitContract'], p)
-          : path(['fees', 'gasLimit'], p)
+        const gasLimit =
+          p.isErc20 || p.isContract
+            ? path(['fees', 'gasLimitContract'], p)
+            : path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', fromData)
         const from = prop('address', fromData)
         const fromType = prop('type', fromData)
@@ -355,6 +356,8 @@ export default ({ api }) => {
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
           setIsErc20: val => chain(gen, payment => payment.setIsErc20(val)),
+          setIsContract: val =>
+            chain(gen, payment => payment.setIsContract(val)),
           setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
           description: message =>
             chain(gen, payment => payment.description(message)),

@@ -1,9 +1,8 @@
-import { prop, take } from 'ramda'
-
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { Remote } from 'blockchain-wallet-v4'
 import { getCurrentPairAmounts } from '../selectors'
-import { selectors, model } from 'data'
+import { model, selectors } from 'data'
+import { prop, take } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4'
 
 const { EXCHANGE_FORM } = model.components.exchange
 const {

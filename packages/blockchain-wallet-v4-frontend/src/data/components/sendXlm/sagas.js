@@ -1,20 +1,20 @@
 import { call, delay, put, select } from 'redux-saga/effects'
-import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
-  initialize,
   change,
-  touch,
+  destroy,
+  initialize,
   startSubmit,
   stopSubmit,
-  destroy
+  touch
 } from 'redux-form'
+import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 
-import { actions, model, selectors } from 'data'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
 import * as A from './actions'
 import * as S from './selectors'
@@ -29,7 +29,7 @@ export default ({ api, coreSagas }) => {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
       yield put(A.paymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('XLM'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('XLM'))
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
@@ -100,7 +100,7 @@ export default ({ api, coreSagas }) => {
           yield put(A.sendXlmCheckDestinationAccountExists(address))
           // check if destination is an exchange
           yield put(A.sendXlmCheckIfDestinationIsExchange(address))
-          // PIT address split on : is [address, memo]
+          // Exchange address split on : is [address, memo]
           if (splitValue.length > 1) {
             const memo = last(splitValue)
             yield put(actions.form.change(FORM, 'memo', memo))

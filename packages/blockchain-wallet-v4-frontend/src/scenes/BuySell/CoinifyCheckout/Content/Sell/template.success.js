@@ -1,18 +1,19 @@
+import { includes, path, prop } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { includes, path, prop } from 'ramda'
 
 import * as service from 'services/CoinifyService'
-import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
+import { CheckoutWrapper } from '../Buy/template.success'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import AddBankDetails from './AddBankDetails'
 import AddCustomerDetails from './AddCustomerDetails'
-import SelectAccounts from './SelectAccounts'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
+import LaunchExchangeCard from '../../../PromoCards/LaunchExchangeCard'
+import OrderCheckout from '../OrderCheckout'
+import SelectAccounts from './SelectAccounts'
 import SellUnavailable from './SellUnavailable'
-import { CheckoutWrapper } from '../Buy/template.success'
+import Stepper, { StepView } from 'components/Utilities/Stepper'
 
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -98,7 +99,7 @@ const Sell = props => {
                 kycState={kycState}
               />
             )}
-            {!canTrade && <SellUnavailable />}
+            {canTrade ? <LaunchExchangeCard noMargin /> : <SellUnavailable />}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>

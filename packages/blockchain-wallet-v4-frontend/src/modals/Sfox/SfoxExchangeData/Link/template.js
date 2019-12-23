@@ -1,25 +1,24 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import BankAccounts from './BankAccounts'
-import AddManually from './AddManually'
-import MicroDeposits from './MicroDeposits'
-import PlaidFrame from './iframe.js'
-import AwaitingDeposits from './AwaitingDeposits'
-import { Remote } from 'blockchain-wallet-v4/src'
-
-import renderFaq from 'components/FaqDropdown'
 import {
   ColLeft,
   ColRight,
+  ColRightInner,
   PartnerHeader,
-  PartnerSubHeader,
-  ColRightInner
+  PartnerSubHeader
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
 import { equals } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
+import AddManually from './AddManually'
+import AwaitingDeposits from './AwaitingDeposits'
+import BankAccounts from './BankAccounts'
+import media from 'services/ResponsiveService'
+import MicroDeposits from './MicroDeposits'
+import PlaidFrame from './iframe.js'
+import React, { Fragment } from 'react'
+import renderFaq from 'components/FaqDropdown'
+import styled from 'styled-components'
 
 const Form = styled.form`
   width: 100%;

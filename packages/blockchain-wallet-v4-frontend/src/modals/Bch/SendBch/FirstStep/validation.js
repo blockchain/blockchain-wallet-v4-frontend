@@ -1,11 +1,11 @@
-import React from 'react'
-import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
+  InsufficientFundsMessage,
   InvalidAmountMessage,
-  MaximumAmountMessage,
-  InsufficientFundsMessage
+  MaximumAmountMessage
 } from './validationMessages'
+import { prop } from 'ramda'
+import React from 'react'
 
 export const insufficientFunds = (value, allValues, props) => {
   return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />

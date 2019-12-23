@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import Link from './template'
 import { actions } from 'data'
-import { merge, path, prop, head } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { head, merge, path, prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Link from './template'
+import React, { PureComponent } from 'react'
 
 class LinkContainer extends PureComponent {
   state = {

@@ -1,5 +1,5 @@
-import { put, delay, take } from 'redux-saga/effects'
 import { actions, actionTypes, model } from 'data'
+import { delay, put, take } from 'redux-saga/effects'
 
 import * as C from '/services/AlertService'
 const { GENERAL_EVENTS } = model.analytics
@@ -8,6 +8,7 @@ export const logLocation = 'components/onboarding/sagas'
 
 export default () => {
   const airdropClaimSubmitClicked = function * ({ payload }) {
+    // TODO: REFACTOR TO USE claimCampaignClicked
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit('airdropClaim'))

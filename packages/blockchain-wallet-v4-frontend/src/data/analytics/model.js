@@ -15,11 +15,7 @@ export const CUSTOM_VARIABLES = {
 //
 // AB TESTS
 //
-export const AB_TESTS = {
-  PIT_CONNECT_TEST: 'PitConnectTest',
-  WALLET_PIT_SIGNUP: 'WalletPitSignup'
-}
-
+export const AB_TESTS = {}
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
@@ -85,20 +81,32 @@ export const GENERAL_EVENTS = {
     'general',
     'wallet_intro_tour',
     'step_view_buysell'
-  ]
+  ],
+  WALLET_INTRO_AIRDROPS: ['general', 'wallet_intro_tour', 'step_view_airdrops']
 }
 
 export const ADS_EVENTS = {
   CLICK_AD: ['navigation', 'click_ad']
 }
 
-export const PIT_EVENTS = {
-  BANNER_GET_STARTED: ['pit', 'homepage', 'homepage_banner_click'],
-  CONNECT_NOW: ['pit', 'link_page', 'connect_now_click'],
-  LEARN_MORE: ['pit', 'link_page', 'learn_more_click'],
+export const EXCHANGE_EVENTS = {
+  BANNER_GET_STARTED: ['exchange', 'homepage', 'homepage_banner_click'],
+  BUY_SELL_LINKOUT_CLICKED: ['exchange', 'buy_sell_page', 'linkout_click'],
+  BUY_SELL_CONNECT_WALLET_CLICKED: [
+    'exchange',
+    'buy_sell_page',
+    'connect_wallet_click'
+  ],
+  CONNECT_NOW: ['exchange', 'link_page', 'connect_now_click'],
+  LEARN_MORE: ['exchange', 'link_page', 'learn_more_click'],
   LINKED_WALLET_LINKOUT_CLICKED: [
-    'pit',
+    'exchange',
     'homepage',
     'linked_wallet_linkout_clicked'
   ]
+}
+
+export const PRICE_CHART_EVENTS = {
+  CLICK_BUY_BITCOIN: ['price_chart', 'footer_button', 'buy_bitcoin'],
+  CLICK_SWAP_COIN: ['price_chart', 'footer_button', 'swap_coin']
 }

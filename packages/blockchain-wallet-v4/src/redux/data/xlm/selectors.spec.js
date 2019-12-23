@@ -1,7 +1,7 @@
-import { getContext, getBalance, getTotalBalance } from './selectors'
-import { Remote } from 'blockchain-wallet-v4'
 import { dataPath, kvStorePath } from '../../paths'
+import { getBalance, getContext, getTotalBalance } from './selectors'
 import { LOCKBOX, XLM } from '../../kvStore/config'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const id1 = 'GDXM5GK655MW2LGM6RV5DAYPO6U6RQ5KHR5Z43KBZAE265WGZGNFCD75'
 const id2 = 'GAIVP73R2Z7F6XIAUH7L6M2U4BCOMHILYNPAJYQBJYA5K87LQIJD6DSP'

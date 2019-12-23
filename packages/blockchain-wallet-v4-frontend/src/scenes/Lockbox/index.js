@@ -1,14 +1,13 @@
-import React from 'react'
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
+import { TOUR_STEPS, TourTooltip } from './model'
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
-
-import { actions, selectors } from 'data'
-import { TourTooltip, TOUR_STEPS } from './model'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

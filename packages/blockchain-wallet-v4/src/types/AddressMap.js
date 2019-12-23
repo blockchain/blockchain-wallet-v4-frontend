@@ -1,18 +1,18 @@
+import * as Address from './Address'
 import {
-  indexBy,
-  map,
-  prop,
   compose,
-  is,
-  pipe,
   curry,
   filter,
+  indexBy,
+  is,
+  map,
+  pipe,
+  prop,
   reject
 } from 'ramda'
+import { iLensProp } from './util'
 import { view } from 'ramda-lens'
 import Type from './Type'
-import * as Address from './Address'
-import { iLensProp } from './util'
 
 export class AddressMap extends Type {}
 

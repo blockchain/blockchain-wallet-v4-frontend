@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
+import { getBtcData, getData } from './selectors'
+import DataError from 'components/DataError'
 import Loading from './template.loading'
 import Success from './template.success'
-import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {
@@ -14,34 +14,31 @@ class FirstStep extends React.Component {
   }
 
   render () {
-    const { data, actions } = this.props
-    const autofilled = !!(this.props.amount && this.props.to)
+    const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
       Success: value => (
         <Success
-          from={value.from}
-          network={value.network}
-          watchOnly={value.watchOnly}
-          enableToggle={value.enableToggle}
+          autofilled={!!(amount && to)}
           destination={value.destination}
-          feePerByte={value.feePerByte}
-          feePerByteToggled={value.feePerByteToggled}
-          feePerByteElements={value.feePerByteElements}
           effectiveBalance={value.effectiveBalance}
-          minFeePerByte={value.minFeePerByte}
-          maxFeePerByte={value.maxFeePerByte}
-          regularFeePerByte={value.regularFeePerByte}
-          priorityFeePerByte={value.priorityFeePerByte}
-          totalFee={value.totalFee}
-          onSubmit={actions.sendBtcFirstStepSubmitClicked}
-          handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
+          enableToggle={value.enableToggle}
           excludeLockbox={value.excludeLockbox}
-          excludeHDWallets={this.props.excludeHDWallets}
-          payPro={this.props.payPro}
-          handleBitPayInvoiceExpiration={
-            actions.sendBtcFirstStepBitPayInvoiceExpired
-          }
-          autofilled={autofilled}
+          excludeHDWallets={excludeHDWallets}
+          feePerByte={value.feePerByte}
+          feePerByteElements={value.feePerByteElements}
+          feePerByteToggled={value.feePerByteToggled}
+          from={value.from}
+          handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
+          handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
+          maxFeePerByte={value.maxFeePerByte}
+          minFeePerByte={value.minFeePerByte}
+          network={value.network}
+          onSubmit={actions.sendBtcFirstStepSubmitClicked}
+          payPro={payPro}
+          priorityFeePerByte={value.priorityFeePerByte}
+          regularFeePerByte={value.regularFeePerByte}
+          totalFee={value.totalFee}
+          watchOnly={value.watchOnly}
         />
       ),
       Failure: message => (

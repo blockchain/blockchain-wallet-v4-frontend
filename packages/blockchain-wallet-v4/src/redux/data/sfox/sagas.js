@@ -1,14 +1,13 @@
-import { apply, fork, call, put, select, take } from 'redux-saga/effects'
-import { path, prepend } from 'ramda'
-
-import ExchangeDelegate from '../../../exchange/delegate'
-import * as S from './selectors'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { sfoxService } from '../../../exchange/service'
+import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import * as S from './selectors'
 import * as walletActions from '../../wallet/actions'
+import { apply, call, fork, put, select, take } from 'redux-saga/effects'
+import { path, prepend } from 'ramda'
+import { sfoxService } from '../../../exchange/service'
+import ExchangeDelegate from '../../../exchange/delegate'
 import settingsSagaFactory from '../../settings/sagas'
 
 let sfox

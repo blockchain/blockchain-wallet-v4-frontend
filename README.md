@@ -18,7 +18,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 is installed.
+1. Ensure Node version >= 10.15 is installed.
 2. From the project root, run the following command to install dependencies: `./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
@@ -58,6 +58,8 @@ Notes:
 
 
 ## Code Quality
+ * `yarn vet` Runs Prettier, lint JS, lint CSS and finally all unit tests
+
 ### Linting
 We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specific rules.
 
@@ -118,8 +120,6 @@ which will give you a list of available node instances you can connect to. Click
 We are snapshot testing UI some components. Here are the commands to update them when necessary:
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
-
-### Broken (https://linear.app/issue/WEB-150)
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages
@@ -134,7 +134,7 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-wallet-v4-frontend/index.html`
 Simply open the `index.html` file in your browser to view.
 
-### Bundle Reports
+## Code Bundle Analysis/Reports
 To visualize and interact with the tree of the production code bundles files:
  * `yarn analyze`
 Once completed, a browser will automatically open with the results.

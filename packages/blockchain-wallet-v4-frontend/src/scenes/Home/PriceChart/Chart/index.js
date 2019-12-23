@@ -1,12 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { pathOr, toUpper } from 'ramda'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
-
+import { pathOr, toUpper } from 'ramda'
 import Error from './template.error'
 import Loading from './template.loading'
+import React from 'react'
 import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {

@@ -1,7 +1,9 @@
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { CountdownTimer } from 'components/Form'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -9,13 +11,11 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import { CountdownTimer } from 'components/Form'
-import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 const ConfirmWrapper = styled(Wrapper)`
-  padding: 0px;
+  padding: 0;
 `
 const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
@@ -51,10 +51,10 @@ const Success = props => {
     handleBitPayInvoiceExpiration,
     handleSubmit,
     handleBack,
+    payPro,
     submitting,
     toAddress,
-    total,
-    payPro
+    total
   } = props
   return (
     <React.Fragment>
@@ -85,15 +85,9 @@ const Success = props => {
               defaultMessage='To:'
             />
           </Text>
-          {!payPro ? (
-            <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
-              {toAddress}
-            </TextTo>
-          ) : (
-            <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
-              {`BitPay[${payPro.merchant}]`}
-            </TextTo>
-          )}
+          <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
+            {payPro ? `BitPay[${payPro.merchant}]` : toAddress}
+          </TextTo>
         </LargeTableRow>
         {description && (
           <LargeTableRow>

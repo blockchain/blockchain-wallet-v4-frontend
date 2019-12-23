@@ -1,6 +1,6 @@
-import { selectors } from 'data'
-import { head, last, lift, prop } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { head, last, lift, prop } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [

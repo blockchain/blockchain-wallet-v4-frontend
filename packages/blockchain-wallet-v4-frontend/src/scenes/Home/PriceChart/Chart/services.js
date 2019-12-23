@@ -1,11 +1,19 @@
-import { Color } from 'blockchain-info-components'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import ReactHighcharts from 'react-highcharts'
+import { Color } from 'blockchain-info-components'
 import { head, last, map, sort } from 'ramda'
+import ReactHighcharts from 'react-highcharts'
 
-export const getConfig = (start, interval, coin, currency, data, decimals) => ({
+export const getConfig = (
+  coin,
+  currency,
+  data,
+  decimals,
+  interval,
+  isSilverOrAbove,
+  start
+) => ({
   chart: {
-    height: 295,
+    height: isSilverOrAbove ? 400 : 295,
     type: 'area',
     spacing: [25, 0, 0, 0],
     data: {
@@ -17,7 +25,7 @@ export const getConfig = (start, interval, coin, currency, data, decimals) => ({
   },
   yAxis: {
     visible: false,
-    minPadding: 0.1,
+    minPadding: isSilverOrAbove ? 0.5 : 0.1,
     maxPadding: 0,
     gridLineColor: 'transparent'
   },

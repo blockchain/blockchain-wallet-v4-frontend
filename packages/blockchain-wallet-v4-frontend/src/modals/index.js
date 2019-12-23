@@ -1,13 +1,6 @@
 import React from 'react'
 
 import {
-  DeleteAddressLabel,
-  ShowUsedAddresses,
-  UpgradeAddressLabels
-} from './Addresses'
-import BitPayExpired from './BitPayExpired'
-import { RequestBch, SendBch } from './Bch'
-import {
   AddBtcWallet,
   ImportBtcAddress,
   RequestBtc,
@@ -16,56 +9,26 @@ import {
   VerifyMessage
 } from './Btc'
 import {
-  CoinifyBuyViaCard,
-  CoinifyDeleteBank,
-  CoinifyTradeDetails
-} from './Coinify'
-import {
-  PaxWelcome,
-  RequestEth,
-  SendEth,
-  ShowEthPrivateKey,
-  TransferEth
-} from './Eth'
-import {
-  EthAirdrop,
-  ExchangeConfirm,
-  ExchangeResults,
-  KycDocResubmit,
-  IdentityVerification,
-  ShapeshiftTradeDetails,
-  SunRiverLinkError,
-  SwapUpgrade,
-  UserExists
-} from './Exchange'
-import { Confirm, PromptInput, Support } from './Generic'
-import {
-  LockboxAppManager,
-  LockboxFirmware,
-  LockboxSetup,
-  LockboxConnectionPrompt,
-  LockboxShowXPubs
-} from './Lockbox'
-import { MobileNumberChange, MobileNumberVerify } from './Mobile'
-import {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkFromPitAccount,
-  LinkToPitAccount,
+  LinkFromExchangeAccount,
+  LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   WalletTour
 } from './Onboarding'
-import Onfido from './Onfido'
-import QRCode from './QRCode'
 import {
-  SfoxEnterMicroDeposits,
-  SfoxExchangeData,
-  SfoxTradeDetails
-} from './Sfox'
-import SignMessage from './SignMessage'
-import { EditTxDescription, TransactionReport } from './Transactions'
+  AirdropError,
+  EthAirdrop,
+  ExchangeConfirm,
+  ExchangeResults,
+  IdentityVerification,
+  KycDocResubmit,
+  ShapeshiftTradeDetails,
+  SwapUpgrade,
+  UserExists
+} from './Exchange'
 import {
   AutoDisconnection,
   ConfirmDisable2FA,
@@ -74,7 +37,35 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
+import {
+  CoinifyBuyViaCard,
+  CoinifyDeleteBank,
+  CoinifyTradeDetails
+} from './Coinify'
+import { Confirm, PromptInput, Support } from './Generic'
+import {
+  DeleteAddressLabel,
+  ShowUsedAddresses,
+  UpgradeAddressLabels
+} from './Addresses'
+import { EditTxDescription, TransactionReport } from './Transactions'
+import {
+  LockboxAppManager,
+  LockboxConnectionPrompt,
+  LockboxFirmware,
+  LockboxSetup,
+  LockboxShowXPubs
+} from './Lockbox'
+import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import { PairingCode, ShowXPub, UpgradeWallet } from './Wallet'
+import {
+  PaxWelcome,
+  RequestEth,
+  SendEth,
+  ShowEthPrivateKey,
+  TransferEth
+} from './Eth'
+import { RequestBch, SendBch } from './Bch'
 import {
   RequestXlm,
   SendXlm,
@@ -83,6 +74,11 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
+import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
+import BitPayExpired from './BitPayExpired'
+import Onfido from './Onfido'
+import QRCode from './QRCode'
+import SignMessage from './SignMessage'
 
 const Modals = () => (
   <div>
@@ -110,8 +106,8 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
-    <LinkFromPitAccount disableOutsideClose />
-    <LinkToPitAccount disableOutsideClose />
+    <LinkFromExchangeAccount disableOutsideClose />
+    <LinkToExchangeAccount disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
@@ -137,8 +133,7 @@ const Modals = () => (
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
-    <SfoxEnterMicroDeposits />
-    <SunRiverLinkError />
+    <AirdropError />
     <Support />
     <SwapGetStarted />
     <SwapUpgrade />

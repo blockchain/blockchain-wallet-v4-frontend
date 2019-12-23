@@ -33,9 +33,11 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataBchFailure": [Function],
         "fetchMetadataBchLoading": [Function],
         "fetchMetadataBchSuccess": [Function],
+        "importLegacyAddress": [Function],
         "setAccountArchived": [Function],
         "setAccountLabel": [Function],
         "setDefaultAccountIdx": [Function],
+        "setLegacyAddress": [Function],
         "setTxNotesBch": [Function],
       }
     }
@@ -126,7 +128,6 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideLockboxSoftwareDownload": [Function],
         "hideSwapBanner": [Function],
         "hideSwapUpgradeModal": [Function],
-        "hideThePitPulse": [Function],
         "hideUpgradeForAirdropModal": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],

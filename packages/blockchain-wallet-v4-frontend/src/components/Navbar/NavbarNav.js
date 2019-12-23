@@ -1,6 +1,6 @@
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 
 const BaseNav = styled.ul`
   display: flex;
@@ -8,7 +8,7 @@ const BaseNav = styled.ul`
   justify-content: flex-start;
   align-items: center;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 26px;
   box-sizing: border-box;
   list-style-type: none;
   ${media.tablet`

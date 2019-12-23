@@ -1,15 +1,14 @@
-import React from 'react'
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
-
-import { actions } from 'data'
-import Menu from './Menu'
 import { getData } from './selectors'
-import SecurityCenter from './template'
-import BasicSecurity from './BasicSecurity'
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import AdvancedSecurity from './AdvancedSecurity'
+import BasicSecurity from './BasicSecurity'
+import Menu from './Menu'
+import React from 'react'
+import SecurityCenter from './template'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;

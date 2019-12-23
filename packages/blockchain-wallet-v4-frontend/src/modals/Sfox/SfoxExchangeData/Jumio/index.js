@@ -1,8 +1,8 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { path } from 'ramda'
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import { path } from 'ramda'
+import React from 'react'
 
 import { getData } from './selectors'
 import Success from './template.success'

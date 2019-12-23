@@ -1,6 +1,6 @@
-import { takeLatest, takeEvery } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }) => {
       sendBtcSagas.secondStepSubmitClicked
     )
     yield takeLatest(
-      AT.SEND_BTC_FIRST_STEP_BITPAY_INVOICE_EXPIRED,
+      AT.SEND_BTC_BITPAY_INVOICE_EXPIRED,
       sendBtcSagas.bitpayInvoiceExpired
     )
     yield takeEvery(actionTypes.CHANGE, sendBtcSagas.formChanged)

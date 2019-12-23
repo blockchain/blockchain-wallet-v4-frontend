@@ -1,8 +1,7 @@
-import React from 'react'
 import { equals, includes, prop, propOr } from 'ramda'
-import moment from 'moment'
-
 import ExchangeByBlockchain from './ExchangeByBlockchain'
+import moment from 'moment'
+import React from 'react'
 import USDPax from './USDPax'
 import WalletTour from './WalletTour'
 
@@ -57,7 +56,7 @@ export const filterAnnouncements = (
   return Announcements.map(announcement => ({
     content: prop('content', announcement),
     restricted: isRestricted(announcement),
-    display: isAvailableToView(announcement, 30),
+    display: true,
     alert: isAvailableToView(announcement, 0)
   }))
 }

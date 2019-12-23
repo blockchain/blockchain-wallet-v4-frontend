@@ -1,27 +1,38 @@
-import { equals, path, pathOr, prop, nth, is, identity, includes } from 'ramda'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
-import bip21 from 'bip21'
 import * as A from './actions'
-import * as S from './selectors'
-import { FORM } from './model'
-import { actions, actionTypes, model, selectors } from 'data'
-import {
-  initialize,
-  change,
-  startSubmit,
-  stopSubmit,
-  destroy
-} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import * as Lockbox from 'services/LockboxService'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import * as S from './selectors'
+import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
+import {
+  equals,
+  identity,
+  includes,
+  is,
+  isNil,
+  nth,
+  path,
+  pathOr,
+  prop
+} from 'ramda'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FORM } from './model'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import bip21 from 'bip21'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
 const { TRANSACTION_EVENTS } = model.analytics
+
 export const logLocation = 'components/sendBtc/sagas'
 export default ({ api, coreSagas, networks }) => {
   const initialized = function * (action) {
@@ -36,7 +47,7 @@ export default ({ api, coreSagas, networks }) => {
         payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
@@ -130,9 +141,12 @@ export default ({ api, coreSagas, networks }) => {
     })
     if (canceled) return
     yield put(actions.modals.closeAllModals())
-    const r = pathOr({}, ['options', 'r'], bip21Payload)
-    const data = { r }
-    yield put(actions.goals.saveGoal('paymentProtocol', data))
+    yield put(
+      actions.goals.saveGoal('paymentProtocol', {
+        coin: 'BTC',
+        r: pathOr({}, ['options', 'r'], bip21Payload)
+      })
+    )
     return yield put(actions.goals.runGoals())
   }
 
@@ -215,25 +229,28 @@ export default ({ api, coreSagas, networks }) => {
         case 'to':
           const value = pathOr({}, ['value', 'value'], payload)
           const toType = prop('type', value)
-          switch (toType) {
-            case ADDRESS_TYPES.ACCOUNT:
+          const address = prop('address', value) || value
+          let payProInvoice
+          const tryParsePayPro = () => {
+            try {
+              payProInvoice = bip21.decode(address)
+              return payProInvoice
+            } catch (e) {
+              return null
+            }
+          }
+          switch (true) {
+            case equals(toType, ADDRESS_TYPES.ACCOUNT):
               payment = yield payment.to(value.index, toType)
               break
-            case ADDRESS_TYPES.LOCKBOX:
+            case equals(toType, ADDRESS_TYPES.LOCKBOX):
               payment = yield payment.to(value.xpub, toType)
               break
+            case !isNil(tryParsePayPro()):
+              yield call(bitPayInvoiceEntered, payProInvoice)
+              break
             default:
-              const address = prop('address', value) || value
-              // Special case to handle bitcoin bip21
-              try {
-                const bip21Payload = bip21.decode(address)
-                if (path(['options', 'r'], bip21Payload)) {
-                  yield call(bitPayInvoiceEntered, bip21Payload)
-                }
-              } catch (e) {
-                // Default address entry
-                payment = yield payment.to(address, toType)
-              }
+              payment = yield payment.to(address, toType)
           }
           break
         case 'amount':

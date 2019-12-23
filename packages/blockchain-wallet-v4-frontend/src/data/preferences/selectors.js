@@ -21,8 +21,11 @@ export const getShowUpgradeForAirdropModal = path([
   'preferences',
   'showUpgradeForAirdropModal'
 ])
+export const getShowUpgradeForStxAirdropModal = path([
+  'preferences',
+  'showUpgradeForStxAirdropModal'
+])
 export const getShowLockboxSoftwareDownload = path([
   'preferences',
   'showLockboxSoftwareDownload'
 ])
-export const getShowThePitPulse = path(['preferences', 'showThePitPulse'])

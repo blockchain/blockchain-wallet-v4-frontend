@@ -1,11 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
+import React from 'react'
 
-import { actions, selectors } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 import * as Lockbox from 'services/LockboxService'
+import { actions, selectors } from 'data'
 import LockboxConnectionPrompt from './template'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 class LockboxConnectionPromptContainer extends React.PureComponent {
   componentWillUnmount () {

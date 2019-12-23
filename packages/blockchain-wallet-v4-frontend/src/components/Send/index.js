@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import media from 'services/ResponsiveService'
-import { FormGroup, FormLabel } from 'components/Form'
 import { Banner } from 'blockchain-info-components'
+import { FormGroup, FormLabel } from 'components/Form'
+import media from 'services/ResponsiveService'
+import styled from 'styled-components'
 
 export const Row = styled.div`
   display: flex;

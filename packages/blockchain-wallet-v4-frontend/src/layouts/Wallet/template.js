@@ -1,21 +1,20 @@
+import { replace } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { replace } from 'ramda'
 
-import Modals from 'modals'
 import Alerts from 'components/Alerts'
-import Tooltips from 'components/Tooltips'
-import Header from './Header'
-import MenuLeft from './MenuLeft'
-import MenuTop from './MenuTop'
-import TrayRight from './TrayRight'
-import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-
-import Menu from 'scenes/Transactions/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
+import Header from './Header'
+import Menu from 'scenes/Transactions/Menu'
+import MenuLeft from './MenuLeft'
+import MenuTop from './MenuTop'
+import Modals from 'modals'
+import Page from './Page'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
+import Tooltips from 'components/Tooltips'
+import TrayRight from './TrayRight'
 
 const Wrapper = styled.div`
   display: flex;

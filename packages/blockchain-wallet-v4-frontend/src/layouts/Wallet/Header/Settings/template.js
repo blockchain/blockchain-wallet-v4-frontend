@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import onClickOutside from 'react-onclickoutside'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { triangle } from 'polished'
 
-import {
-  NavbarNavItemTextLink,
-  NavbarNavItemTextHeader,
-  NavbarNavItemTextIcon
-} from 'components/Navbar'
 import { Destination, MenuItem } from 'components/MenuLeft'
+import {
+  NavbarNavItemTextHeader,
+  NavbarNavItemTextIcon,
+  NavbarNavItemTextLink
+} from 'components/Navbar'
 import media from 'services/ResponsiveService'
 
 const DropdownMenu = styled.div`
@@ -21,7 +21,7 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: 40px;
   right: 0;
-  z-index: 3;
+  z-index: 4;
   padding: 8px;
   border-radius: 4px;
   background: ${props => props.theme['white']};

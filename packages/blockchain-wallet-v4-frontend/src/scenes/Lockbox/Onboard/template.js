@@ -1,9 +1,3 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-
-import { model } from 'data'
 import {
   Banner,
   Button,
@@ -12,7 +6,12 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { model } from 'data'
+import Bowser from 'bowser'
 import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const containerWidth = '650px'
 const containerPadding = '25px'

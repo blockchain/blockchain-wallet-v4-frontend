@@ -1,20 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
+import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { required, validBchAddress } from 'services/FormHelper'
 import {
   Banner,
   Button,
+  Image,
   Text,
-  TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
+  CountdownTimer,
   FiatConverter,
   Form,
   FormGroup,
@@ -22,16 +22,19 @@ import {
   FormLabel,
   SelectBoxBchAddresses,
   SelectBoxCoin,
-  TextAreaDebounced
+  TextAreaDebounced,
+  TextBox
 } from 'components/Form'
-import ComboDisplay from 'components/Display/ComboDisplay'
 import {
-  shouldError,
   insufficientFunds,
+  invalidAmount,
   maximumAmount,
-  invalidAmount
+  shouldError
 } from './validation'
+import { model } from 'data'
+import { required, validBchAddress } from 'services/FormHelper'
 import { Row } from 'components/Send'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const WarningBanners = styled(Banner)`
@@ -41,18 +44,36 @@ const WarningBanners = styled(Banner)`
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
+const TimerContainer = styled.div`
+  width: 66%;
+  display: inline-block;
+  float: right;
+`
+const CustomMerchantInput = styled(Field)`
+  & > input {
+    padding-right: 84px;
+  }
+`
+const ImageInInputContainer = styled.div`
+  position: absolute;
+  margin-top: -35px;
+  right: 10px;
+`
 
 const FirstStep = props => {
   const {
-    from,
-    invalid,
-    submitting,
-    handleSubmit,
-    totalFee,
-    pristine,
+    excludeHDWallets,
     excludeLockbox,
-    excludeHDWallets
+    from,
+    handleBitPayInvoiceExpiration,
+    handleSubmit,
+    invalid,
+    payPro,
+    pristine,
+    submitting,
+    totalFee
   } = props
+  const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
@@ -123,26 +144,47 @@ const FirstStep = props => {
               id='modals.sendBch.firststep.towallet'
               defaultMessage='To'
             />
+            {isPayPro && (
+              <TimerContainer>
+                <CountdownTimer
+                  expiryDate={payPro.expiration}
+                  handleExpiry={handleBitPayInvoiceExpiration}
+                  hideTooltip
+                  payProInvoice
+                />
+              </TimerContainer>
+            )}
           </FormLabel>
           <Row>
-            <Field
-              name='to'
-              placeholder='Paste, scan, or select destination'
-              component={SelectBoxBchAddresses}
-              dataE2e='sendBchAddressInput'
-              validate={[required, validBchAddress]}
-              exclude={[from.label]}
-              openMenuOnClick={false}
-              includeAll={false}
-              includePitAddress
-              isCreatable
-              noOptionsMessage={() => null}
-              isValidNewOption={() => false}
-            />
-            <QRCodeCapture
-              scanType='bchAddress'
-              border={['top', 'bottom', 'right']}
-            />
+            {!isPayPro ? (
+              <>
+                <Field
+                  name='to'
+                  placeholder='Paste, scan, or select destination'
+                  component={SelectBoxBchAddresses}
+                  dataE2e='sendBchAddressInput'
+                  validate={[required, validBchAddress]}
+                  exclude={[from.label]}
+                  openMenuOnClick={false}
+                  includeAll={false}
+                  includeExchangeAddress
+                  isCreatable
+                  noOptionsMessage={() => null}
+                  isValidNewOption={() => false}
+                />
+                <QRCodeCapture
+                  scanType='bchAddress'
+                  border={['top', 'bottom', 'right']}
+                />
+              </>
+            ) : (
+              <Field
+                name='to'
+                component={TextBox}
+                input={{ value: `web+bitcoincash:?r=${payPro.paymentUrl}` }}
+                disabled={true}
+              />
+            )}
           </Row>
         </FormItem>
       </FormGroup>
@@ -164,7 +206,9 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BCH'
+            marginTop='8px'
             data-e2e='sendBch'
+            disabled={isPayPro}
           />
         </FormItem>
       </FormGroup>
@@ -179,16 +223,31 @@ const FirstStep = props => {
               <TooltipIcon name='question-in-circle' size='12px' />
             </TooltipHost>
           </FormLabel>
-          <Field
-            name='description'
-            component={TextAreaDebounced}
-            placeholder="What's this transaction for? (optional)"
-            data-e2e='sendBchDescription'
-            fullwidth
-          />
+          {!isPayPro ? (
+            <Field
+              name='description'
+              component={TextAreaDebounced}
+              placeholder="What's this transaction for? (optional)"
+              data-e2e='sendBchDescription'
+              fullwidth
+            />
+          ) : (
+            <>
+              <CustomMerchantInput
+                name='description'
+                component={TextBox}
+                placeholder="What's this transaction for? (optional)"
+                rows={3}
+                data-e2e='sendBtcDescription'
+              />
+              <ImageInInputContainer>
+                <Image name='bitpay-logo' height='24px' />
+              </ImageInInputContainer>
+            </>
+          )}
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'30px'}>
+      <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -201,13 +260,31 @@ const FirstStep = props => {
           </ComboDisplay>
         </FormItem>
       </FormGroup>
+      {isPayPro && invalid && (
+        <Text
+          size='13px'
+          color='error'
+          weight={500}
+          style={{ textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='modals.sendBch.firststep.bitpay.insufficientfunds'
+            defaultMessage='Insufficient funds to complete BitPay transaction'
+          />
+        </Text>
+      )}
       <SubmitFormGroup>
         <Button
           type='submit'
           nature='primary'
           height='56px'
           size='18px'
-          disabled={submitting || invalid || pristine || disableLockboxSend}
+          disabled={
+            submitting ||
+            invalid ||
+            (!isPayPro && pristine) ||
+            disableLockboxSend
+          }
           data-e2e='bchSendContinue'
         >
           <FormattedMessage

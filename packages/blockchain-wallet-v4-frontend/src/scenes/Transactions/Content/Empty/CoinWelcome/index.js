@@ -1,16 +1,19 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import PropTypes from 'prop-types'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import {
   currentUserTier,
   getAvailability,
   getCanBuyBtc,
-  getDomains
+  getCurrentKYCState,
+  getDomains,
+  getTags
 } from './selectors'
+import PropTypes from 'prop-types'
+import React from 'react'
 import Welcome from './template'
 import WelcomePax from './template.pax'
+import WelcomeStx from './template.stx'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
@@ -27,6 +30,9 @@ class CoinWelcomeContainer extends React.PureComponent {
     const currentCoin = supportedCoins[coin]
 
     switch (currentCoin.coinCode) {
+      case 'STX': {
+        return <WelcomeStx currentCoin={currentCoin} {...rest} />
+      }
       case 'PAX': {
         return (
           <WelcomePax
@@ -57,6 +63,8 @@ const mapStateToProps = (state, ownProps) => ({
   domains: getDomains(state),
   availability: getAvailability(state, ownProps),
   currentUserTier: currentUserTier(state),
+  currentTags: getTags(state),
+  currentKYCState: getCurrentKYCState(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

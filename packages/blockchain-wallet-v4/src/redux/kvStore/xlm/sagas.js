@@ -1,13 +1,13 @@
-import { call, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty } from 'ramda'
-import { set } from 'ramda-lens'
 import * as A from './actions'
-import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
-import { derivationMap, XLM } from '../config'
-import { getMnemonic } from '../../wallet/selectors'
-import { getKeyPair } from '../../../utils/xlm'
+import { call, put, select } from 'redux-saga/effects'
 import { callTask } from '../../../utils/functional'
+import { derivationMap, XLM } from '../config'
+import { getKeyPair } from '../../../utils/xlm'
+import { getMetadataXpriv } from '../root/selectors'
+import { getMnemonic } from '../../wallet/selectors'
+import { isEmpty, isNil } from 'ramda'
+import { KVStoreEntry } from '../../../types'
+import { set } from 'ramda-lens'
 
 export default ({ api, networks } = {}) => {
   const createXlm = function * ({ kv, password }) {

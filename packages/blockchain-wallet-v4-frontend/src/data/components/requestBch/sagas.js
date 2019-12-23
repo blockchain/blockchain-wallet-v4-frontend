@@ -1,9 +1,9 @@
-import { put, select, take } from 'redux-saga/effects'
-import { identity, prop } from 'ramda'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import * as Lockbox from 'services/LockboxService'
+import * as selectors from '../../selectors'
+import { identity, prop } from 'ramda'
+import { put, select, take } from 'redux-saga/effects'
 import Btc from '@ledgerhq/hw-app-btc'
 
 export default ({ networks }) => {

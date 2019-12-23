@@ -1,6 +1,6 @@
-import { assoc, assocPath } from 'ramda'
 import * as AT from './actionTypes'
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
+import { assoc, assocPath } from 'ramda'
 
 const INITIAL_STATE = {
   language: 'en',
@@ -14,8 +14,7 @@ const INITIAL_STATE = {
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showAirdropClaimModal: true,
-  showUpgradeForAirdropModal: true,
-  showThePitPulse: true,
+  showUpgradeForStxAirdropModal: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -64,7 +63,7 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showAirdropClaimModal', false, state)
     }
     case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
-      return assoc('showUpgradeForAirdropModal', false, state)
+      return assoc('showUpgradeForStxAirdropModal', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)
@@ -74,9 +73,6 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_SWAP_UPGRADE_MODAL: {
       return assoc('showSwapUpgradeModal', false, state)
-    }
-    case AT.HIDE_THE_PIT_PULSE: {
-      return assoc('showThePitPulse', false, state)
     }
     default:
       return state

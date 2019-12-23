@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { HeartbeatLoader, Text, Link } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
+import React from 'react'
+import styled from 'styled-components'
 
 import { CenteredWrapper } from 'components/IdentityVerification'
-import { SubmitButton } from 'components/BuySell/styled'
 import { CheckBox } from 'components/Form'
 import { required } from 'services/FormHelper'
+import { SubmitButton } from 'components/BuySell/styled'
 import media from 'services/ResponsiveService'
 
 const OrderSubmitForm = styled.form`

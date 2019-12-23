@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled, { css, keyframes } from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 const revealFrames = keyframes`
   0% { top: 30px; }
@@ -12,7 +12,7 @@ const revealFrames = keyframes`
   50% { top: 0; }
   75% { top: 0; }
   85% { top: 0; }
-  100% { top: -30px; }
+  100% { top: -100px; }
 `
 const revealAnimation = css`
   animation: ${revealFrames} 3s 1;
@@ -24,6 +24,7 @@ const ItemWrapper = styled.div`
 `
 const Action = styled(Text)`
   cursor: pointer;
+  font-weight: 500;
   &:hover {
     text-decoration: underline;
   }
@@ -33,7 +34,7 @@ const EmailSentNotification = styled(Text)`
     ${revealAnimation};
   }
   position: relative;
-  top: -30px;
+  top: -100px;
   @media (max-width: 1023px) {
     display: none;
   }
@@ -45,11 +46,12 @@ const EmailReminder = props => {
   return (
     <React.Fragment>
       <ItemWrapper>
-        <Icon name='email' color='white' weight={600} />
+        <Icon name='email' color='white' size='24px' />
         <Text
           style={{ marginLeft: '12px', marginBottom: '1px' }}
           color='white'
           size='14px'
+          weight={500}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder'
@@ -61,6 +63,7 @@ const EmailReminder = props => {
           color='white'
           size='14px'
           className={emailReminded ? 'active' : ''}
+          weight={500}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.emailsent'

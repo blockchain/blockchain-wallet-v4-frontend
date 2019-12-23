@@ -1,25 +1,24 @@
+import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { Button } from 'blockchain-info-components'
-
 import {
   CloseTourIcon,
-  StepImg,
-  StepIcon,
-  StepTitle,
   StepContent,
+  StepImg,
+  StepTitle,
   TooltipBody,
   TooltipContent,
   TooltipFooter
 } from 'components/Tour'
-import { actions, model } from 'data'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React, { useEffect, useState } from 'react'
 
 const { GENERAL_EVENTS } = model.analytics
 
 const TourTooltipComponent = ({
   analyticsActions,
+  routerActions,
   index,
   isLastStep,
   primaryProps,
@@ -54,13 +53,9 @@ const TourTooltipComponent = ({
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_SWAP_VIEWED)
         break
       case 4:
-        setFooterButtonDataE2e('showWalletTourThePit')
+        setFooterButtonDataE2e('closeWalletTour')
         setTourTooltipDataE2e('walletTourBuySell')
         analyticsActions.logEvent(GENERAL_EVENTS.WALLET_INTRO_BUYSELL_VIEWED)
-        break
-      case 5:
-        setFooterButtonDataE2e('closeWalletTour')
-        setTourTooltipDataE2e('walletTourThePit')
         break
     }
   }, [index])
@@ -177,7 +172,7 @@ export const TOUR_STEPS = [
         <StepContent size='14px' weight={500}>
           <FormattedMessage
             id='wallet.tour.stepfour.content'
-            defaultMessage='Trade crypto with low fees and  quick settlement.'
+            defaultMessage='Trade crypto with low fees and quick settlement.'
           />
         </StepContent>
       </>
@@ -206,33 +201,12 @@ export const TOUR_STEPS = [
     ),
     placement: 'right',
     disableBeacon: true
-  },
-  {
-    target: '.the-pit-tooltip',
-    content: (
-      <>
-        <StepIcon name='the-pit' size='56px' color='pitBlue' />
-        <StepTitle size='20px' weight={600}>
-          <FormattedMessage
-            id='the.pit.tooltip.title'
-            defaultMessage='Trade in The PIT.'
-          />
-        </StepTitle>
-        <StepContent color='grey600' size='14px' weight={500}>
-          <FormattedMessage
-            id='wallettour.pit.tooltip.content'
-            defaultMessage="Now that you have a Wallet, link and exchange over 26 pairs in The PIT - Blockchain's own lightning fast crypto exchange."
-          />
-        </StepContent>
-      </>
-    ),
-    disableBeacon: true,
-    placement: 'right'
   }
 ]
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export const TourTooltip = connect(

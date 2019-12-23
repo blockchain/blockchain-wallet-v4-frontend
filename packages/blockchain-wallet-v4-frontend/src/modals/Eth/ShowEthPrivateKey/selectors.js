@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { getEthBalance } from 'components/Balances/wallet/selectors'
+import { selectors } from 'data'
 
 export const getData = (state, props) => {
   const ethKvStoreSelectors = selectors.core.kvStore.eth

@@ -1,25 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
-import { defaultTo, replace } from 'ramda'
-
 import {
   ageOverEighteen,
-  countryUsesZipcode,
   countryUsesPostalcode,
+  countryUsesZipcode,
   required,
   requiredDOB,
   requiredZipCode,
   validEmail
 } from 'services/FormHelper'
-import { model } from 'data'
-import media from 'services/ResponsiveService'
-import { getElementsPropType } from 'utils/proptypes'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { SCROLL_REF_ID } from './index'
-
 import {
   Banner,
   Button,
@@ -31,24 +18,38 @@ import {
 } from 'blockchain-info-components'
 import {
   DateInputBox,
+  EmailVerification,
   FooterShadowWrapper,
   FormItem,
-  EmailVerification,
   SelectBox,
   TextBox
 } from 'components/Form'
+import { defaultTo, replace } from 'ramda'
 import {
   EmailHelper,
-  IdentityVerificationForm,
-  InputWrapper,
-  IdentityVerificationHeader,
+  FaqFormGroup,
   FaqFormMessage,
   FaqHeaderHelper,
-  FaqFormGroup,
-  Label,
-  Footer
+  Footer,
+  IdentityVerificationForm,
+  IdentityVerificationHeader,
+  InputWrapper,
+  Label
 } from 'components/IdentityVerification'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { getElementsPropType } from 'utils/proptypes'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { model } from 'data'
+import { SCROLL_REF_ID } from './index'
+import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 import Terms from 'components/Terms'
+
+const STICKY_HEADER_HEIGHT = 57
+const PADDING = 20
 
 const FormContainer = styled.div`
   margin-top: 24px;
@@ -171,6 +172,13 @@ const Personal = ({
   editEmail,
   updateEmail
 }) => {
+  const scrollToId = id => {
+    const element = document.getElementById(id)
+    const parent = document.getElementById(SCROLL_REF_ID)
+    const { y } = element.getBoundingClientRect()
+    parent.scrollTo(0, parent.scrollTop + y - STICKY_HEADER_HEIGHT - PADDING)
+  }
+
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalcode(countryCode)
 
@@ -242,6 +250,7 @@ const Personal = ({
                           />
                         </Label>
                         <Field
+                          data-e2e='selectCountryDropdown'
                           name='country'
                           validate={required}
                           elements={supportedCountries}
@@ -267,6 +276,7 @@ const Personal = ({
                             />
                           </Label>
                           <Field
+                            data-e2e='selectStateDropdown'
                             name='state'
                             validate={[required]}
                             elements={states}
@@ -301,17 +311,19 @@ const Personal = ({
                         <FaqFormGroup>
                           <PersonalItem>
                             <PersonalField>
-                              <Label htmlFor='firstName'>
+                              <Label htmlFor='firstName' id='firstName'>
                                 <FormattedMessage
                                   id='identityverification.personal.firstnamerequired'
                                   defaultMessage='First Name *'
                                 />
                               </Label>
                               <Field
+                                date-e2e='personalInformationFirstName'
                                 name='firstName'
                                 validate={required}
                                 component={TextBox}
                                 errorBottom
+                                onFocus={() => scrollToId('firstName')}
                               />
                             </PersonalField>
                             <PersonalField>
@@ -397,7 +409,7 @@ const Personal = ({
                         <KycSeparator />
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='line1'>
+                            <Label htmlFor='line1' id='line1'>
                               {countryIsUS ? (
                                 <FormattedMessage
                                   id='identityverification.personal.address_line1required'
@@ -415,6 +427,7 @@ const Personal = ({
                               errorBottom
                               validate={required}
                               component={TextBox}
+                              onFocus={() => scrollToId('line1')}
                             />
                           </FormItem>
                         </FaqFormGroup>
@@ -529,6 +542,7 @@ const Personal = ({
               </EmailHelper>
             )}
             <Button
+              data-e2e='submitSilverVerification'
               type='submit'
               nature='primary'
               disabled={invalid || submitting || showStateError}

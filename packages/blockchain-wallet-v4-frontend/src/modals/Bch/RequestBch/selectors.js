@@ -1,8 +1,8 @@
-import { formValueSelector } from 'redux-form'
-import { prop, propOr, lift, head, nth } from 'ramda'
-import { selectors } from 'data'
-import { Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { formValueSelector } from 'redux-form'
+import { head, lift, nth, prop, propOr } from 'ramda'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 import BitcoinCash from 'bitcoinforksjs-lib'
 const { fromCashAddr, isCashAddr, toCashAddr } = utils.bch
 

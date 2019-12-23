@@ -1,21 +1,22 @@
+import { includes, prop } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-import { contains, prop } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
-import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import Payment from 'components/BuySell/Coinify/Payment'
+import { Remote } from 'blockchain-wallet-v4/src'
+import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
-import NextSubscription from '../NextSubscription'
-import BankTransferDetails from 'components/BuySell/BankTransferDetails'
+import LaunchExchangeCard from '../../../PromoCards/LaunchExchangeCard'
 import media from 'services/ResponsiveService'
+import NextSubscription from '../NextSubscription'
+import OrderCheckout from '../OrderCheckout'
+import Payment from 'components/BuySell/Coinify/Payment'
+import Stepper, { StepView } from 'components/Utilities/Stepper'
 
 export const CheckoutWrapper = styled.div`
   display: grid;
@@ -79,7 +80,7 @@ const CoinifyBuy = props => {
     _level: { currency: 'EUR' }
   })
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
-  const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
+  const defaultCurrency = includes(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const activeSubscriptions = subscriptions.filter(s => s.isActive)
   const limits = service.getLimits(profile._limits, defaultCurrency)
@@ -125,6 +126,7 @@ const CoinifyBuy = props => {
                   kycState={kycState}
                 />
               ) : null}
+              <LaunchExchangeCard noMargin />
             </RightContainer>
           </CheckoutWrapper>
         </StepView>
@@ -163,11 +165,11 @@ const CoinifyBuy = props => {
         <BankTransferDetails trade={trade} />
         <Button
           nature='primary'
-          width='85%'
           onClick={() => {
             changeTab('order_history')
             coinifyNextCheckoutStep('checkout')
           }}
+          width='85%'
         >
           <FormattedMessage
             id='scenes.buysell.coinifycheckout.content.buy.close'

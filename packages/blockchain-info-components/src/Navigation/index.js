@@ -1,20 +1,17 @@
-import React, { PureComponent } from 'react'
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
-import { IntlProvider, FormattedMessage } from 'react-intl'
-
+import { Color } from '../Colors'
+import { FormattedMessage, IntlProvider } from 'react-intl'
+import { Image } from '../Images'
+import { trackEvent } from './Events'
 import Button from './Button'
 import ButtonGroup from './ButtonGroup'
 import Cookies from 'universal-cookie'
-import MenuButton from './MenuButton'
-import { Color } from '../Colors'
-import { trackEvent } from './Events'
-import Logomark from './Logomark'
-import { Image } from '../Images'
 import Link from './Link'
-import Normalize8 from '../Normalize.js'
-
+import Logomark from './Logomark'
+import MenuButton from './MenuButton'
 import MenuDropdown from './MenuDropdown'
-
+import Normalize8 from '../Normalize.js'
+import React, { PureComponent } from 'react'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import throttle from './throttle.js'
 
 const publicRuntimeConfig = {

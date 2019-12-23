@@ -1,4 +1,4 @@
-import { compose, prop, path } from 'ramda'
+import { compose, path, prop } from 'ramda'
 export const getCoinifyData = path(['components', 'coinify'])
 export const getCoinifyBusy = compose(
   prop('coinifyBusy'),

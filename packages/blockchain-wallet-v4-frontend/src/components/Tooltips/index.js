@@ -1,7 +1,7 @@
+import { FormattedMessage } from 'react-intl'
+import { Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Link, Text, Tooltip, TextGroup } from 'blockchain-info-components'
 
 // TODO: remove this
 // Hide tooltips on IE Edge because of a CSP issue
@@ -321,14 +321,14 @@ class Tooltips extends React.PureComponent {
           </TextGroup>
         </Tooltip>
         <Tooltip
-          id='pitSideNavConnected'
+          id='exchangeSideNavConnected'
           bgColor='grey800'
           padding='13px 20px'
           opacity='1'
         >
           <Text color='green400' weight={700} uppercase size='12px'>
             <FormattedMessage
-              id='pit-side-nav-tooltip-connected'
+              id='exchange-side-nav-tooltip-connected'
               defaultMessage='connected'
             />
           </Text>

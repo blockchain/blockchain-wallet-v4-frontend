@@ -1,10 +1,10 @@
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 
 const BaseBrand = styled.div`
   display: flex;
-  padding-left: 25px;
+  padding-left: 28px;
   align-items: center;
   > span {
     cursor: pointer;

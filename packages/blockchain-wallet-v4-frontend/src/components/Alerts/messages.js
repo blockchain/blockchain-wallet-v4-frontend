@@ -1,10 +1,10 @@
-import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import * as C from 'services/AlertService'
+import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Content = styled.div`
   display: flex;
@@ -567,8 +567,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.NEW_ADDRESS_GENERATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.new_address_generate_error'
-          defaultMessage='Failed to generate new address.'
+          id='components.alerts.address_generate_error'
+          defaultMessage='Failed to generate new address'
         />
       )
     case C.NEW_WALLET_CREATE_SUCCESS:
@@ -581,8 +581,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.PAYMENT_RECEIVED_BCH:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.payment_received_bch'
-          defaultMessage="You've just received a Bitcoin cash payment"
+          id='components.alerts.payment_bch_received'
+          defaultMessage="You've just received a Bitcoin Cash payment"
         />
       )
     case C.PAYMENT_RECEIVED_BTC:
@@ -609,8 +609,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.PAYMENT_RECEIVED_XLM:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.payment_received_xlm'
-          defaultMessage="You've just received a stellar payment"
+          id='components.alerts.payment_xlm_received'
+          defaultMessage="You've just received a Stellar payment"
         />
       )
     case C.PBKDF2_UPDATE_SUCCESS:
@@ -1005,7 +1005,21 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.update_address_label_error'
-          defaultMessage='Failed to update address label.'
+          defaultMessage='Failed to update address label'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_success'
+          defaultMessage='Address label updated'
+        />
+      )
+    case C.UPDATE_IMPORTED_ADDRESS_LABEL_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_error'
+          defaultMessage='Failed to update imported address label'
         />
       )
     case C.VERIFY_EMAIL_SENT:

@@ -1,10 +1,10 @@
-import React from 'react'
-import { gt, prop } from 'ramda'
-import Template from './template'
-import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { getBtcWatchOnlyBalance, getBchWatchOnlyBalance } from './selectors'
+import { connect } from 'react-redux'
+import { getBchWatchOnlyBalance, getBtcWatchOnlyBalance } from './selectors'
+import { gt, prop } from 'ramda'
+import React from 'react'
+import Template from './template'
 
 const key = 'watchOnly'
 

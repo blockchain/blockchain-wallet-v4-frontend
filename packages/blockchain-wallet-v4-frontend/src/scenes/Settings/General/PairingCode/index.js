@@ -1,8 +1,8 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { Badge, Button, Text } from 'blockchain-info-components'

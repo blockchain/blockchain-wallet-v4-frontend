@@ -1,5 +1,5 @@
-import { selectors } from 'data'
 import { getCoinFromPair } from 'services/ShapeshiftService'
+import { selectors } from 'data'
 
 export const getData = (depositAddress, state) => {
   const tradeR = selectors.core.kvStore.shapeShift.getTrade(

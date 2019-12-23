@@ -1,16 +1,15 @@
-import { call, select, put } from 'redux-saga/effects'
-import { concat, equals, prop } from 'ramda'
-import { selectors } from 'data'
-import * as actions from '../../../actions'
 import * as T from 'services/AlertService'
-import { WALLET_TX_SEARCH } from '../../../form/model'
+import { actions, selectors } from 'data'
 import {
-  header,
-  ethSentConfirmed,
-  ethReceivedPending,
+  btcTransaction,
   ethReceivedConfirmed,
-  btcTransaction
+  ethReceivedPending,
+  ethSentConfirmed,
+  header
 } from './messageTypes'
+import { call, put, select } from 'redux-saga/effects'
+import { concat, equals, prop } from 'ramda'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -81,6 +80,20 @@ export default ({ api, socket }) => {
           })
         )
       })
+
+      // 5. subsribe wallet guid to get email verification updates
+      const subscribeInfo = yield select(
+        selectors.core.wallet.getInitialSocketContext
+      )
+      const guid = prop('guid', subscribeInfo)
+      yield call(
+        send,
+        JSON.stringify({
+          command: 'subscribe',
+          entity: 'wallet',
+          param: { guid }
+        })
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -94,7 +107,6 @@ export default ({ api, socket }) => {
 
   const onMessage = function * (action) {
     const message = prop('payload', action)
-
     try {
       switch (message.coin) {
         case 'btc':
@@ -167,6 +179,11 @@ export default ({ api, socket }) => {
           break
 
         default:
+          // check if message is an email verification update
+          if (!!message.email && message.isVerified) {
+            yield put(actions.core.settings.setEmailVerified())
+            yield put(actions.alerts.displaySuccess(T.EMAIL_VERIFY_SUCCESS))
+          }
           break
       }
     } catch (e) {

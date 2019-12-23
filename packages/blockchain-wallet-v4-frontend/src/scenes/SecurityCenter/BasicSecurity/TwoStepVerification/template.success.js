@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { Button, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button, Link } from 'blockchain-info-components'
-import styled, { css, keyframes } from 'styled-components'
-import { reduxForm } from 'redux-form'
 import {
+  IconContainer,
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecurityIcon,
   SecuritySummary,
-  SecurityTip,
-  IconContainer
+  SecurityTip
 } from 'components/Security'
-import GoogleAuth from './GoogleAuth'
-import Yubikey from './Yubikey'
-import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
-import Choices from './Choices'
+import { reduxForm } from 'redux-form'
 import { spacing } from 'services/StyleService'
+import Choices from './Choices'
+import GoogleAuth from './GoogleAuth'
 import media from 'services/ResponsiveService'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
+import SmsAuth from './SMS'
+import styled, { css, keyframes } from 'styled-components'
+import Yubikey from './Yubikey'
 
 const pulseFrames = keyframes`${pulse}`
 const pulseAnimation = css`

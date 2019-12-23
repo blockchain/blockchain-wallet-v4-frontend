@@ -1,9 +1,9 @@
-import { BigNumber } from 'bignumber.js'
-import * as StellarSdk from 'stellar-sdk'
-import queryString from 'query-string'
-import { assoc } from 'ramda'
-import BIP39 from 'bip39'
 import * as ed25519 from 'ed25519-hd-key'
+import * as StellarSdk from 'stellar-sdk'
+import { assoc } from 'ramda'
+import { BigNumber } from 'bignumber.js'
+import BIP39 from 'bip39'
+import queryString from 'query-string'
 
 export const calculateEffectiveBalance = (balance, reserve, fee) =>
   new BigNumber(balance)
@@ -27,7 +27,7 @@ export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
   new BigNumber(effectiveBalance).isLessThan(amount)
 
 export const isValidAddress = value => {
-  // PIT address split on : is [address, memo]
+  // Exchange address split on : is [address, memo]
   const address = value.split(':')[0]
   return StellarSdk.StrKey.isValidEd25519PublicKey(address)
 }

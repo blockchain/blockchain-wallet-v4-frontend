@@ -1,8 +1,8 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { testPropTypes } from 'utils/test.utils'
+import React from 'react'
 import TimeFilters from './template'
+import toJson from 'enzyme-to-json'
 
 jest.mock('react-intl')
 jest.mock('blockchain-info-components', () => ({ Text: 'text' }))

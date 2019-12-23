@@ -1,8 +1,8 @@
-import React from 'react'
 import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
 import { testPropTypes } from 'utils/test.utils'
 import { TimeFiltersContainer } from './index'
+import React from 'react'
+import toJson from 'enzyme-to-json'
 
 jest.mock('./template', () => 'template.na.js')
 jest.mock('data', () => ({

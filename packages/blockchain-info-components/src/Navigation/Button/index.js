@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
 import { Color } from '../../Colors'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
+import React from 'react'
+import styled from 'styled-components'
 
 const DefaultButton = styled('button', 'input[type=submit]')`
   display: inline-block;

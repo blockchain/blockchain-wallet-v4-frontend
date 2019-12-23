@@ -1,6 +1,6 @@
-import { takeLatest } from 'redux-saga/effects'
-import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes'
+import * as AT from './actionTypes'
+import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, options }) => {

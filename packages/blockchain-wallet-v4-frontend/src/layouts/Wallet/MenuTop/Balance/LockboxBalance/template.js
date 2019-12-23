@@ -1,17 +1,17 @@
 import React from 'react'
 
-import BtcLockboxBalance from './BtcLockboxBalance'
-import EthLockboxBalance from './EthLockboxBalance'
-import BchLockboxBalance from './BchLockboxBalance'
-import XlmLockboxBalance from './XlmLockboxBalance'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import {
-  Wrapper,
   BalancesWrapper,
   Header,
-  HeaderText
+  HeaderText,
+  Wrapper
 } from 'components/Balances'
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import BchLockboxBalance from './BchLockboxBalance'
+import BtcLockboxBalance from './BtcLockboxBalance'
+import EthLockboxBalance from './EthLockboxBalance'
+import XlmLockboxBalance from './XlmLockboxBalance'
 
 const Template = props => (
   <Wrapper>

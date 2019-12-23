@@ -1,23 +1,23 @@
-import React from 'react'
-import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
 
-import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { actions, model } from 'data'
-import { getData } from './selectors'
+import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import {
   Button,
   Image,
   Modal,
-  ModalHeader,
   ModalBody,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { getData } from './selectors'
 
 const { TIERS } = model.profile
 

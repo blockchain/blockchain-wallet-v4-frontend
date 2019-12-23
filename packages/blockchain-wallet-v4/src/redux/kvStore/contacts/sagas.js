@@ -1,10 +1,10 @@
-import { call, put, select } from 'redux-saga/effects'
-import { isNil, isEmpty } from 'ramda'
 import * as A from './actions'
-import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
-import { derivationMap, CONTACTS } from '../config'
+import { call, put, select } from 'redux-saga/effects'
 import { callTask } from '../../../utils/functional'
+import { CONTACTS, derivationMap } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { isEmpty, isNil } from 'ramda'
+import { KVStoreEntry } from '../../../types'
 
 export default ({ api, networks }) => {
   const createContacts = function * (kv) {

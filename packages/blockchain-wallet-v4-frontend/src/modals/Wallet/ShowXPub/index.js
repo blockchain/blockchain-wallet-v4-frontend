@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import {
   Banner,
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
   Text
 } from 'blockchain-info-components'
 import modalEnhancer from 'providers/ModalEnhancer'

@@ -1,7 +1,7 @@
+import { FormattedHTMLMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Text } from 'blockchain-info-components'
-import { FormattedHTMLMessage } from 'react-intl'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,8 +26,8 @@ const Error = props => {
         style={{ 'margin-top': '25px' }}
       >
         <FormattedHTMLMessage
-          id='scenes.reset2fatoken.error'
-          defaultMessage='<span>Uh Oh. Something went wrong. Error: </span> {error}'
+          id='scenes.reset2fatoken.error1'
+          defaultMessage='Uh Oh. Something went wrong. Error: {error}'
           values={{ error: props.value }}
         />
       </ErrorText>

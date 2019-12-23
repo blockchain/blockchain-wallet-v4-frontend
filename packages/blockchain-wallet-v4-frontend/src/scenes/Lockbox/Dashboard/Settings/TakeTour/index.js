@@ -1,9 +1,8 @@
-import React from 'react'
 import { actions, selectors } from 'data'
-import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Button } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-
 import {
   SettingComponent,
   SettingContainer,
@@ -11,7 +10,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import { Button } from 'blockchain-info-components'
+import React from 'react'
 
 class TakeTourContainer extends React.PureComponent {
   onStartTour = () => {

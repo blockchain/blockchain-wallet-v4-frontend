@@ -1,22 +1,22 @@
-import { select } from 'redux-saga/effects'
+import { call, fork } from 'redux-saga-test-plan/matchers'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import { fork, call } from 'redux-saga-test-plan/matchers'
+import { select } from 'redux-saga/effects'
 
+import * as actions from '../actions'
+import * as C from 'services/AlertService'
+import * as selectors from '../selectors'
 import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
-import * as selectors from '../selectors'
-import * as actions from '../actions'
 import authSagas, {
   defaultLoginErrorMessage,
-  logLocation,
-  wrongWalletPassErrorMessage,
-  wrongAuthCodeErrorMessage,
-  guidNotFound2faErrorMessage,
-  notEnabled2faErrorMessage,
   emailMismatch2faErrorMessage,
-  wrongCaptcha2faErrorMessage
+  guidNotFound2faErrorMessage,
+  logLocation,
+  notEnabled2faErrorMessage,
+  wrongAuthCodeErrorMessage,
+  wrongCaptcha2faErrorMessage,
+  wrongWalletPassErrorMessage
 } from './sagas'
-import * as C from 'services/AlertService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory({ api: {} })
@@ -950,6 +950,8 @@ describe('authSagas', () => {
         it('should display error alert', () => {
           saga
             .next()
+            .put(actions.core.data.misc.fetchCaptcha())
+            .next()
             .put(actions.alerts.displayError(C.GUID_SENT_ERROR))
             .next()
             .isDone()
@@ -958,7 +960,7 @@ describe('authSagas', () => {
 
       describe('Captcha error', () => {
         const captchaError = {
-          message: 'Captcha Code Incorrect'
+          message: 'Wrong captcha'
         }
         beforeAll(() => {
           saga.restart().next()

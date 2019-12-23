@@ -1,10 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
-import { NavbarIcon } from 'components/Navbar'
 import { Link, TooltipHost } from 'blockchain-info-components'
+import { NavbarIcon } from 'components/Navbar'
+import media from 'services/ResponsiveService'
 
 const FaqLink = styled(Link)`
   position: relative;

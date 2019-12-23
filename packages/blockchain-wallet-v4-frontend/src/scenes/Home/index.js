@@ -1,15 +1,14 @@
+import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { TOUR_STEPS, TourTooltip } from './model'
+import Balances from './Balances'
+import Banners from './Banners'
 import Joyride, { STATUS } from 'react-joyride/lib'
+import PriceChart from './PriceChart'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled, { createGlobalStyle, keyframes } from 'styled-components'
-import { actions, selectors } from 'data'
-
-import { TourTooltip, TOUR_STEPS } from './model'
-import Balances from './Balances'
-import Banners from './Banners'
-import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -96,15 +95,11 @@ const GlobalJoyrideStyles = createGlobalStyle`
 `
 
 const Home = props => {
-  const { onboardingActions, preferencesActions, showWalletTour } = props
+  const { onboardingActions, showWalletTour } = props
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
-    }
-    // PIT tooltip seen
-    if (data.index === 5) {
-      preferencesActions.hideThePitPulse()
     }
   }
   return (

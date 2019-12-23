@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Image, Text } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,15 +20,15 @@ const Success = props => {
       {declined ? (
         <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
-            id='scenes.reset2fatoken.declined'
-            defaultMessage="You've succesfully declined this Two-Step Verification reset request."
+            id='scenes.reset2fatoken.declined1'
+            defaultMessage="You've successfully declined this Two-Step Verification reset request."
           />
         </Text>
       ) : (
         <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
-            id='scenes.reset2fatoken.approved'
-            defaultMessage="You've sucessfully approved this Two-Step Verification reset request. This will speed up the process of resetting your Two-Step Verification."
+            id='scenes.reset2fatoken.approved1'
+            defaultMessage="You've successfully approved this Two-Step Verification reset request. This will speed up the process of resetting your Two-Step Verification."
           />
         </Text>
       )}

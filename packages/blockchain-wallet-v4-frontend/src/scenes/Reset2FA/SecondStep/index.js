@@ -1,10 +1,9 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-
-import SecondStep from './template'
 import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
+import React from 'react'
+import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
   constructor (props) {

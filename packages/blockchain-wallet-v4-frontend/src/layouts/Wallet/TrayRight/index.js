@@ -1,17 +1,18 @@
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { contains } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import onClickOutside from 'react-onclickoutside'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
-import { contains } from 'ramda'
 
-import { Icon, Text } from 'blockchain-info-components'
-import Faq from './Faq'
-import WhatsNew from './WhatsNew'
 import { actions } from 'data'
 import { getData } from './selectors'
+import { Icon, Text } from 'blockchain-info-components'
+import Faq from './Faq'
 import media from 'services/ResponsiveService'
+import WhatsNew from './WhatsNew'
 
 const AnimationWrapper = styled.div`
   position: absolute;
@@ -20,7 +21,7 @@ const AnimationWrapper = styled.div`
   height: calc(100vh - 60px);
   transition: right 0.4s linear;
   box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
-  z-index: 20;
+  z-index: 3;
 
   @media (max-width: 991px) {
     width: calc(50%);
@@ -119,7 +120,11 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
+const clickOutsideConfig = {
+  handleClickOutside: () => TrayRightContainer.handleClose
+}
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TrayRightContainer)
+)(onClickOutside(TrayRightContainer), clickOutsideConfig)

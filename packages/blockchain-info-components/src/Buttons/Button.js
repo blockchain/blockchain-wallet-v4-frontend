@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { darken } from 'polished'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseButton = styled.button.attrs({
   type: props => (props.type ? props.type : 'button')
@@ -92,13 +92,13 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'brand-secondary',
         backgroundColor: 'white',
-        borderColor: 'brand-secondary'
+        borderColor: 'grey000'
       }
-    case 'pitTurquoise':
+    case 'exchangeTurquoise':
       return {
-        color: 'pitNight',
-        backgroundColor: 'pitTurquoise',
-        borderColor: 'pitTurquoise'
+        color: 'exchangeNight',
+        backgroundColor: 'exchangeTurquoise',
+        borderColor: 'exchangeTurquoise'
       }
     case 'primary':
       return {
@@ -144,6 +144,12 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'white',
         borderColor: 'white'
+      }
+    case 'green':
+      return {
+        color: 'white',
+        backgroundColor: 'green600',
+        borderColor: 'green600'
       }
     default:
       return {

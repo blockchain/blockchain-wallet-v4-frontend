@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Container } from './template.success'
-import { Wrapper, MenuItem } from 'components/MenuLeft'
 import {
   BlockchainLoader,
-  SkeletonRectangle,
-  SkeletonCircle
+  SkeletonCircle,
+  SkeletonRectangle
 } from 'blockchain-info-components'
+import { Container } from './template.success'
+import { MenuItem, Wrapper } from 'components/MenuLeft'
+import React from 'react'
+import styled from 'styled-components'
 
 const SkeletonMenuItem = styled(MenuItem)`
   margin-top: 12px;

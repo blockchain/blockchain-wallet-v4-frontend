@@ -1,13 +1,13 @@
-import configureStore from './index'
-import * as Redux from 'redux'
+import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
 import * as Middleware from '../middleware'
+import * as Redux from 'redux'
 import {
-  createWalletApi,
   ApiSocket,
+  createWalletApi,
   Socket
 } from 'blockchain-wallet-v4/src/network'
 import { persistStore } from 'redux-persist'
-import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
+import configureStore from './index'
 // setup mocks
 jest.mock('redux-saga', () => () => ({
   run: () => jest.fn()

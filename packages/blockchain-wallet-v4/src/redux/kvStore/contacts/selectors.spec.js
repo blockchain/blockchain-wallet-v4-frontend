@@ -1,6 +1,6 @@
+import * as selectors from './selectors'
 import { assocPath } from 'ramda'
 import Remote from '../../../remote'
-import * as selectors from './selectors'
 
 describe('kvstore contacts selectors', () => {
   const contactsMetadata = {}
