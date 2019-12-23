@@ -93,8 +93,8 @@ module.exports = {
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
-    namedModules: true,
     concatenateModules: true,
+    namedModules: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
