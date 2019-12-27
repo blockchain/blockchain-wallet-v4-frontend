@@ -182,6 +182,7 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.7.0",
     "thread-loader": "2.1.3",
+    "uglifyjs-webpack-plugin": "2.2.0",
     "unused-files-webpack-plugin": "3.4.0",
     "webpack": "4.41.0",
     "webpack-bundle-analyzer": "3.5.2",
