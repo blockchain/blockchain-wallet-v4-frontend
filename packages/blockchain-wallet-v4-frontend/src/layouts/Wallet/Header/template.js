@@ -60,7 +60,7 @@ const Header = props => {
               onClick={handleToggle}
             />
             <NavLink to='/home' data-e2e='homeLink'>
-              <BlockchainLogoImage name='blockchain-vector' />
+              <BlockchainLogoImage name='blockchain-logo' />
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>

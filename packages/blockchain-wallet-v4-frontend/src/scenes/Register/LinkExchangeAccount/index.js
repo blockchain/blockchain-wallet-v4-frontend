@@ -98,7 +98,7 @@ const LinkExchangeAccount = () => {
         </List>
       </InnerWrapper>
       <Footer>
-        <Image name='blue-logo' height='42px' />
+        <Image name='blockchain-icon' height='42px' />
         <div style={{ marginLeft: '16px' }}>
           <Text size='20px' color='brand-primary' weight={600}>
             Exchange

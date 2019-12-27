@@ -33,7 +33,7 @@ const Header = () => {
         <NavbarBrand>
           <PublicBrand>
             <Link href='https://www.blockchain.com'>
-              <Image name='blockchain-vector' height='20px' />
+              <Image name='blockchain-logo' height='20px' />
             </Link>
             <VersionWrapper>
               <Link

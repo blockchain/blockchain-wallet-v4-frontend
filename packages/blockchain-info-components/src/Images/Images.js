@@ -9,8 +9,8 @@ import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
+import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
-import blueLogo from './img/blue-logo.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -116,7 +116,7 @@ export default {
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,
-  'blue-logo': blueLogo,
+  'blockchain-icon': blockchainIcon,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
