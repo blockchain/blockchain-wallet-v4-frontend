@@ -91,7 +91,7 @@ const StepIndicator = props => {
 
   return (
     <Wrapper className={className} flexEnd={flexEnd}>
-      <Logo name='blue-logo' height='50px' />
+      <Logo name='blockchain-icon' height='50px' />
       <Steps width={width} horizontalMobile={horizontalMobile}>
         {steps.map(step => (
           <Step
