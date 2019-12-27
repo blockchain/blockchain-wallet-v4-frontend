@@ -149,7 +149,15 @@ class BuySellContainer extends React.PureComponent {
     const hasTokenOrTrades =
       !isNil(path(['coinify', 'offline_token'], buySell)) || showSFOXTrades
 
-    if (hasTokenOrTrades && this.state.showCoinifyView) {
+    // show checkout if user has coinify api token AND has either
+    // 1) clicked through Exchange promotion cards as an EU user
+    // OR
+    // 2) is not an EU user
+    if (
+      hasTokenOrTrades &&
+      (this.state.showCoinifyView ||
+        !includes(prop('countryCode', value), exchangeFunnelCountries))
+    ) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
