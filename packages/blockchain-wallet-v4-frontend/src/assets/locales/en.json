@@ -852,7 +852,7 @@
   "modals.onboarding.linktoexchangeaccount.error.done": "Done",
   "modals.onboarding.linktoexchangeaccount.error.title": "Linking Error",
   "modals.onboarding.linktoexchangeaccount.loading.openhere-1": "Open the Exchange",
-  "modals.onboarding.linktoexchangeaccount.loading.subtitle": "A new browser tab will open shortly where you can complete accounting linking.",
+  "modals.onboarding.linktoexchangeaccount.loading.sub": "A new browser tab will open shortly where you can complete account linking.",
   "modals.onboarding.linktoexchangeaccount.loading.title-1": "Taking you to the Exchange",
   "modals.onboarding.linktoexchangeaccount.loading.waiting": "Waiting for account link",
   "modals.onboarding.linktoexchangeaccount.loading.waitingbody": "If a new browser tab did not open, try clicking the button below.",
