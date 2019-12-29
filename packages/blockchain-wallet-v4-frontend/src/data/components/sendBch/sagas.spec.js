@@ -105,8 +105,10 @@ describe('sendBch sagas', () => {
       saga.next().put(A.sendBchPaymentUpdatedLoading())
     })
 
-    it('should fetch pit addresses', () => {
-      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BCH'))
+    it('should fetch exchange addresses', () => {
+      saga
+        .next()
+        .put(actions.components.send.fetchPaymentsAccountExchange('BCH'))
     })
 
     it('should create payment', () => {

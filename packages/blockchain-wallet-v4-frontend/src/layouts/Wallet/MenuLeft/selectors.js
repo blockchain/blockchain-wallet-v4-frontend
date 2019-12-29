@@ -5,7 +5,6 @@ import { STATUS } from 'react-joyride/lib'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.preferences.getShowThePitPulse,
     selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getLockboxOpened,
     selectors.components.onboarding.getWalletTourVisibility,
@@ -20,7 +19,6 @@ export const getData = createDeepEqualSelector(
     selectors.modules.profile.getUserKYCState
   ],
   (
-    showThePitPulse,
     menuOpened,
     lockboxOpened,
     walletTourVisibility,
@@ -47,7 +45,6 @@ export const getData = createDeepEqualSelector(
         lockboxOpened,
         menuOpened,
         pathname,
-        showThePitPulse,
         userKYCState: userKYCState.getOrElse(null)
       }
     }

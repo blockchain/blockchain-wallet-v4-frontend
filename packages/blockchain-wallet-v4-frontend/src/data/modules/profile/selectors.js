@@ -7,7 +7,6 @@ import {
   find,
   findLast,
   hasPath,
-  includes,
   isNil,
   lift,
   lte,
@@ -76,6 +75,13 @@ export const isSilverOrAbove = compose(
   lift(path(['tiers'])),
   getUserData
 )
+
+export const getCurrentTier = compose(
+  path(['data', 'current']),
+  lift(path(['tiers'])),
+  getUserData
+)
+
 export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
@@ -113,39 +119,6 @@ export const isInvitedToKyc = state =>
 
 export const userFlowSupported = isInvitedToKyc
 
-export const isInvitedToPitSidenav = state => {
-  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
-  const userCountry = selectors.core.settings.getCountryCode(state)
-
-  const transform = (pitCountries, userCountry) => {
-    const isCountryWhitelisted =
-      pitCountries &&
-      (pitCountries === '*' || includes(userCountry, pitCountries))
-
-    return isCountryWhitelisted
-  }
-
-  return lift(transform)(pitCountries, userCountry)
-}
-
-export const isInvitedToPitHomeBanner = state => {
-  const pitCountries = selectors.core.walletOptions.getPitCountryList(state)
-  const userCountry = selectors.core.settings.getCountryCode(state)
-  const isInvited = selectors.core.settings
-    .getInvitations(state)
-    .map(prop('pitHomeBanner'))
-
-  const transform = (pitCountries, userCountry, isInvited) => {
-    const isCountryWhitelisted =
-      pitCountries &&
-      (pitCountries === '*' || includes(userCountry, pitCountries))
-
-    return isCountryWhitelisted || isInvited
-  }
-
-  return lift(transform)(pitCountries, userCountry, isInvited)
-}
-
 export const getApiToken = path(['profile', 'apiToken'])
 
 export const isAuthenticated = state => getApiToken(state).map(prop('isActive'))
@@ -169,21 +142,21 @@ export const closeToTier1Limit = state =>
         pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
 
-export const getLinkFromPitAccountStatus = path([
+export const getLinkFromExchangeAccountStatus = path([
   'profile',
-  'pitOnboarding',
-  'linkFromPitAccountStatus'
+  'exchangeOnboarding',
+  'linkFromExchangeAccountStatus'
 ])
-export const getLinkToPitAccountStatus = path([
+export const getLinkToExchangeAccountStatus = path([
   'profile',
-  'pitOnboarding',
-  'linkToPitAccountStatus'
+  'exchangeOnboarding',
+  'linkToExchangeAccountStatus'
 ])
-export const getLinkToPitAccountDeeplink = path([
+export const getLinkToExchangeAccountDeeplink = path([
   'profile',
-  'pitOnboarding',
-  'linkToPitAccountDeeplink'
+  'exchangeOnboarding',
+  'linkToExchangeAccountDeeplink'
 ])
 
-export const isPitAccountLinked = state =>
+export const isExchangeAccountLinked = state =>
   lift(user => not(isNil(prop('settings', user))))(getUserData(state))

@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import BlockstackBanner from './BlockstackBanner'
+import ExchangeBanner from './ExchangeBanner'
 import KycResubmit from './KycResubmit'
 import React from 'react'
 import styled from 'styled-components'
-import ThePitBanner from './ThePitBanner'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -28,10 +28,10 @@ class Banners extends React.PureComponent {
             <BlockstackBanner />
           </BannerWrapper>
         )
-      case 'thepit':
+      case 'exchange':
         return (
           <BannerWrapper>
-            <ThePitBanner />
+            <ExchangeBanner />
           </BannerWrapper>
         )
       default:

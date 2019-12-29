@@ -1,6 +1,6 @@
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import styled, { createGlobalStyle, keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 export const Scale = () => {
   return keyframes`
@@ -77,14 +77,6 @@ export const CloseTourIcon = styled(Icon)`
 
   &:active {
     color: ${({ theme }) => theme['grey800']};
-  }
-`
-
-export const PitJoyrideStyles = createGlobalStyle`
-  .__floater__open {
-    transition: none !important;
-    filter: none !important;
-    margin-left: 170px !important;
   }
 `
 

@@ -27,7 +27,7 @@ export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
   new BigNumber(effectiveBalance).isLessThan(amount)
 
 export const isValidAddress = value => {
-  // PIT address split on : is [address, memo]
+  // Exchange address split on : is [address, memo]
   const address = value.split(':')[0]
   return StellarSdk.StrKey.isValidEd25519PublicKey(address)
 }

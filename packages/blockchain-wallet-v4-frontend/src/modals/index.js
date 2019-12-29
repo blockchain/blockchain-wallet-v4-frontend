@@ -12,8 +12,8 @@ import {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkFromPitAccount,
-  LinkToPitAccount,
+  LinkFromExchangeAccount,
+  LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   WalletTour
@@ -74,11 +74,7 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import {
-  SfoxEnterMicroDeposits,
-  SfoxExchangeData,
-  SfoxTradeDetails
-} from './Sfox'
+import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
 import BitPayExpired from './BitPayExpired'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
@@ -110,8 +106,8 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
-    <LinkFromPitAccount disableOutsideClose />
-    <LinkToPitAccount disableOutsideClose />
+    <LinkFromExchangeAccount disableOutsideClose />
+    <LinkToExchangeAccount disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
@@ -137,7 +133,6 @@ const Modals = () => (
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
-    <SfoxEnterMicroDeposits />
     <AirdropError />
     <Support />
     <SwapGetStarted />

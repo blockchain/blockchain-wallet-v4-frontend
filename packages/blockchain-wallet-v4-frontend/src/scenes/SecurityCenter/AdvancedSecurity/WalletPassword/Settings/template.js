@@ -27,14 +27,14 @@ require.ensure(
   'zxcvbn'
 )
 const validStrongPassword = password => {
-  return password !== undefined && window.zxcvbn(password).score > 1
-    ? undefined
-    : () => (
-        <FormattedMessage
-          id='scenes.securitysettings.advanced.walletpassword.invalidstrongpassword'
-          defaultMessage='Your password is not strong enough'
-        />
-      )
+  return password !== undefined && window.zxcvbn(password).score > 1 ? (
+    undefined
+  ) : (
+    <FormattedMessage
+      id='scenes.securitysettings.advanced.walletpassword.weakpassword'
+      defaultMessage='Your password is too weak'
+    />
+  )
 }
 
 const ButtonWrapper = styled.div`

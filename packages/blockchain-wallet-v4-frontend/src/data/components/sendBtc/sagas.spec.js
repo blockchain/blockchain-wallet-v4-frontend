@@ -102,8 +102,10 @@ describe('sendBtc sagas', () => {
       saga.next().put(A.sendBtcPaymentUpdatedLoading())
     })
 
-    it('should fetch pit addresses', () => {
-      saga.next().put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+    it('should fetch exchange addresses', () => {
+      saga
+        .next()
+        .put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
     })
 
     it('should create payment', () => {

@@ -8,7 +8,21 @@
           "lockbox": {},
           "public": {},
           "swap": {},
-          "wallet": {}
+          "wallet": {
+            "id": "blockchain-rebrand",
+            "type": "info",
+            "icon": "",
+            "hideType": "dismiss",
+            "header": {
+              "en": "We're now Blockchain.com"
+            },
+            "action": {
+              "title": {
+                "en": "Learn more"
+              },
+              "link": "https://medium.com/blockchain/ushering-in-a-new-era-with-a-new-name-blockchain-com-17101e1bc198"
+            }
+          }
         }
       },
       "ads": {

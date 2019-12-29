@@ -1,18 +1,21 @@
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { getData, getFields } from './selectors'
 import { hasAccount } from 'services/ExchangeService'
-import { length, path, prop } from 'ramda'
+import { includes, isNil, length, path, prop } from 'ramda'
 import { TabMenuBuySellStatus } from 'components/Form'
 import CoinifyCheckout from './CoinifyCheckout'
 import HorizontalMenu from 'components/HorizontalMenu'
 import Loading from 'components/BuySell/Loading'
 import React from 'react'
-import SelectPartner from './template'
 import styled from 'styled-components'
 
+import KycGetStarted from './KycGetStarted'
+import PromoCards from './PromoCards'
+
+const { COINIFY_EVENTS } = model.analytics
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
@@ -40,9 +43,59 @@ const CheckoutWrapper = styled.div`
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
+// Temp list of EU countries to funnel to Exchange
+const exchangeFunnelCountries = [
+  'AT',
+  'BE',
+  'BG',
+  'CH',
+  'CY',
+  'CZ',
+  'DE',
+  'DK',
+  'EE',
+  'ES',
+  'FI',
+  'FR',
+  'GB',
+  'GF',
+  'GG',
+  'GI',
+  'GP',
+  'GR',
+  'HR',
+  'HU',
+  'IE',
+  'IM',
+  'IS',
+  'IT',
+  'JE',
+  'LI',
+  'LT',
+  'LU',
+  'LV',
+  'MC',
+  'MF',
+  'MQ',
+  'MT',
+  'NL',
+  'NO',
+  'PL',
+  'PM',
+  'PT',
+  'RE',
+  'RO',
+  'SE',
+  'SI',
+  'SK',
+  'SM',
+  'YT'
+]
+
 class BuySellContainer extends React.PureComponent {
   state = {
-    countrySelection: null
+    countrySelection: null,
+    showCoinifyView: false
   }
 
   componentDidMount () {
@@ -70,9 +123,6 @@ class BuySellContainer extends React.PureComponent {
     const { country } = fields
     const { coinifyCountries } = data.getOrFail('Missing partner countries.')
 
-    // if (sfoxCountries.indexOf(country) >= 0) {
-    //   showModal('SfoxExchangeData', { step: 'account' })
-    // }
     if (coinifyCountries.includes(country)) {
       // set country in redux so we can skip KYC country selection
       setCountry(country)
@@ -82,25 +132,32 @@ class BuySellContainer extends React.PureComponent {
     }
   }
 
+  handleShowCoinify = () => {
+    this.setState({ showCoinifyView: true })
+    this.props.analyticsActions.logEvent(COINIFY_EVENTS.CONTINUE_COINIFY_CLICK)
+  }
+
   /**
    * The idea here is that we will call .cata which passes a metadata value to a selectPartner method.
    * If there is a token (evidence of signup), show the Checkout view.
    * If not, open the tray and send user through the signup flow.
    */
-
   selectPartner = (buySell, options, type, value) => {
-    // if (path(['sfox', 'account_token'], buySell)) {
-    //   return {
-    //     component: (
-    //       <SfoxCheckout type={type} options={options} value={buySell} />
-    //     ),
-    //     partner: 'sfox'
-    //   }
-    // }
     const showSFOXTrades =
       type === 'order_history' && length(path(['sfox', 'trades'], buySell))
 
-    if (path(['coinify', 'offline_token'], buySell) || showSFOXTrades) {
+    const hasTokenOrTrades =
+      !isNil(path(['coinify', 'offline_token'], buySell)) || showSFOXTrades
+
+    // show checkout if user has coinify api token AND has either
+    // 1) clicked through Exchange promotion cards as an EU user
+    // OR
+    // 2) is not an EU user
+    if (
+      hasTokenOrTrades &&
+      (this.state.showCoinifyView ||
+        !includes(prop('countryCode', value), exchangeFunnelCountries))
+    ) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
@@ -108,16 +165,24 @@ class BuySellContainer extends React.PureComponent {
         partner: 'coinify'
       }
     }
+
+    if (
+      !includes(prop('countryCode', value), exchangeFunnelCountries) ||
+      this.state.showCoinifyView
+    ) {
+      return {
+        component: (
+          <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />
+        ),
+        partner: 'coinify'
+      }
+    }
+
     return {
       component: (
-        <SelectPartner
-          type={type}
-          options={options}
-          value={buySell}
-          onSubmit={this.onSubmit}
-          triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
-          {...this.props}
-          {...value}
+        <PromoCards
+          currentTier={this.props.currentTier}
+          handleShowCoinify={this.handleShowCoinify}
         />
       ),
       partner: ''
@@ -142,7 +207,8 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        {hasAccount(path(['component', 'props', 'value'], view)) ? (
+        {hasAccount(path(['component', 'props', 'value'], view)) &&
+        this.state.showCoinifyView ? (
           <Menu>
             <Field
               name='status'
@@ -158,18 +224,20 @@ class BuySellContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
+  currentTier: selectors.modules.profile.getCurrentTier(state),
   data: getData(state),
   fields: getFields(state)
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
