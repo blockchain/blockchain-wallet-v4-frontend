@@ -9,6 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
 import styled from 'styled-components'
+import { CampaignType, KycStatesType } from '../types'
 
 const { KYC_STATES } = model.profile
 
@@ -27,10 +28,10 @@ const BlueCartridge = styled(CustomCartridge)`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 export const StxStatus = ({
-  userCampaignsInfoResponseList = [],
+  userCampaignsInfoResponseList,
   kycState,
   identityVerificationActions
-}) => {
+}: { userCampaignsInfoResponseList: Array<CampaignType>, kycState: KycStatesType, identityVerificationActions: any }) => {
   const blockstackCampaign = userCampaignsInfoResponseList.find(
     campaign => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -57,58 +58,61 @@ export const StxStatus = ({
         </GreyCartridge>
       )
     case KYC_STATES.VERIFIED:
-      switch (blockstackCampaign.userCampaignState) {
-        case 'FAILED':
-          return (
-            <ErrorCartridge>
-              <FormattedMessage
-                id='scenes.airdrop.stx.failed'
-                defaultMessage='Failed'
-              />
-            </ErrorCartridge>
-          )
-        case 'REWARD_RECEIVED':
-          return (
-            <SuccessCartridge>
-              <FormattedMessage
-                id='scenes.airdrop.stx.received'
-                defaultMessage='Received'
-              />
-            </SuccessCartridge>
-          )
-        case 'TASK_FINISHED':
-        case 'REWARD_SEND':
-        case 'REGISTERED':
-          return blockstackCampaign.attributes['x-campaign-reject-reason'] ? (
-            <ErrorCartridge>
-              <FormattedMessage
-                id='scenes.airdrop.stx.ineligible'
-                defaultMessage='Ineligible'
-              />
-            </ErrorCartridge>
-          ) : (
-            <SuccessCartridge>
-              <FormattedMessage
-                id='scenes.airdrop.stx.claimed'
-                defaultMessage='Claimed'
-              />
-            </SuccessCartridge>
-          )
-        case 'NONE':
-          return (
-            <BlueCartridge
-              onClick={() =>
-                identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
-              }
-            >
-              <FormattedMessage
-                id='scenes.airdrop.stx.claim'
-                defaultMessage='Claim'
-              />
-            </BlueCartridge>
-          )
+      if (blockstackCampaign) {
+        switch (blockstackCampaign.userCampaignState) {
+          case 'FAILED':
+            return (
+              <ErrorCartridge>
+                <FormattedMessage
+                  id='scenes.airdrop.stx.failed'
+                  defaultMessage='Failed'
+                />
+              </ErrorCartridge>
+            )
+          case 'REWARD_RECEIVED':
+            return (
+              <SuccessCartridge>
+                <FormattedMessage
+                  id='scenes.airdrop.stx.received'
+                  defaultMessage='Received'
+                />
+              </SuccessCartridge>
+            )
+          case 'TASK_FINISHED':
+          case 'REWARD_SEND':
+          case 'REGISTERED':
+            return blockstackCampaign.attributes['x-campaign-reject-reason'] ? (
+              <ErrorCartridge>
+                <FormattedMessage
+                  id='scenes.airdrop.stx.ineligible'
+                  defaultMessage='Ineligible'
+                />
+              </ErrorCartridge>
+            ) : (
+                <SuccessCartridge>
+                  <FormattedMessage
+                    id='scenes.airdrop.stx.claimed'
+                    defaultMessage='Claimed'
+                  />
+                </SuccessCartridge>
+              )
+          case 'NONE':
+            return (
+              <BlueCartridge
+                onClick={() =>
+                  identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
+                }
+              >
+                <FormattedMessage
+                  id='scenes.airdrop.stx.claim'
+                  defaultMessage='Claim'
+                />
+              </BlueCartridge>
+            )
+        }
+      } else {
+        return null
       }
-      return null
     case KYC_STATES.NONE:
       return (
         <BlueCartridge
@@ -125,7 +129,7 @@ export const StxStatus = ({
   }
 }
 
-export const StxShare = ({ tags, kycState }) => {
+export const StxShare = ({ tags, kycState }: { tags: any, kycState: KycStatesType }) => {
   switch (kycState) {
     case KYC_STATES.REJECTED:
     case KYC_STATES.EXPIRED:
@@ -153,7 +157,7 @@ export const StxShare = ({ tags, kycState }) => {
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button nature='light' fullwidth>
+          <Button nature='light' fullwidth >
             <FormattedMessage
               id='scenes.airdrop.stx.share'
               defaultMessage='Share'
@@ -161,19 +165,19 @@ export const StxShare = ({ tags, kycState }) => {
           </Button>
         </Link>
       ) : (
-        <Link
-          href='https://blockstack.org/try-blockstack'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Button nature='light' fullwidth>
-            <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
-              defaultMessage='Learn More'
-            />
-          </Button>
-        </Link>
-      )
+          <Link
+            href='https://blockstack.org/try-blockstack'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Button nature='light' fullwidth >
+              <FormattedMessage
+                id='scenes.airdrop.stx.learnmore'
+                defaultMessage='Learn More'
+              />
+            </Button>
+          </Link>
+        )
     default:
       return null
   }

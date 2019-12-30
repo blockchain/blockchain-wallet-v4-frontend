@@ -1,7 +1,7 @@
 import { Box } from '../AirdropInfo'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { StxShare, StxStatus } from './model'
+import { StxShare, StxStatus } from './model.tsx'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'

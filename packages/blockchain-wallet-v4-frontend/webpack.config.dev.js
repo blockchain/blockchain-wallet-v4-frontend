@@ -68,6 +68,12 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      data: path.resolve(__dirname, 'src/data/')
+    }
+  },
   module: {
     rules: [
       {
@@ -78,6 +84,7 @@ module.exports = {
           'babel-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
