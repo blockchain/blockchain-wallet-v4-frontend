@@ -71,7 +71,8 @@
       "<rootDir>/../../node_modules/enzyme-to-json/serializer"
     ],
     "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(blockchain-info-components|@blockchain-com/components|blockchain-wallet-v4)/)"
