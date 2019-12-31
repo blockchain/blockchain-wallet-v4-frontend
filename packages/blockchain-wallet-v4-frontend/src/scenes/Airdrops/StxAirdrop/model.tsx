@@ -1,4 +1,5 @@
 import { Button, Link } from 'blockchain-info-components'
+import { CampaignType, KycStatesType } from '../types'
 import {
   CustomCartridge,
   ErrorCartridge,
@@ -9,7 +10,6 @@ import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
 import styled from 'styled-components'
-import { CampaignType, KycStatesType } from '../types'
 
 const { KYC_STATES } = model.profile
 
@@ -113,6 +113,7 @@ export const StxStatus = ({
       } else {
         return null
       }
+      break
     case KYC_STATES.NONE:
       return (
         <BlueCartridge
