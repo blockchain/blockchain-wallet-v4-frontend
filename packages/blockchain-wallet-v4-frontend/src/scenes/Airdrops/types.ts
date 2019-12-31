@@ -1,4 +1,4 @@
-export type Campaigns = 'BLOCKSTACK'
+export type Campaigns = 'BLOCKSTACK' | 'SUNRIVER' | 'POWER_PAX'
 
 export type UserCampaignState =
   | 'FAILED'

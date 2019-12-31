@@ -1,3 +1,4 @@
+import { Campaigns } from '../types'
 import { FormattedMessage } from 'react-intl'
 import { GreyCartridge, SuccessCartridge } from '../AirdropInfo/model'
 import { Icon, Text } from 'blockchain-info-components'
@@ -17,7 +18,7 @@ const TypeWrapper = styled.div`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 
-export const Type = ({ campaignName }) => {
+export const Type = ({ campaignName }: { campaignName: Campaigns }) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return (
@@ -84,8 +85,8 @@ export const To = ({ campaignName, userCampaignState }) => {
           My Stellar Wallet
         </Text>
       ) : (
-        <Text>-</Text>
-      )
+          <Text>-</Text>
+        )
     default:
       return <Text>-</Text>
   }

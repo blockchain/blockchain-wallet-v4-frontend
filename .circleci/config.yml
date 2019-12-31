@@ -67,6 +67,13 @@ jobs:
       - run:
           name: Test Code
           command: yarn ci:test:build && yarn ci:test:core:components && yarn ci:test:frontend
+  codechecks:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Run Codechecks
+          command: yarn codechecks
 workflows:
   version: 2
 
@@ -79,6 +86,6 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - test:
+      - codechecks:
           requires:
             - npm_install

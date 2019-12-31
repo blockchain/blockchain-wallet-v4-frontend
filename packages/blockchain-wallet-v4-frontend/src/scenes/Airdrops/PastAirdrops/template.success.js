@@ -1,6 +1,6 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
-import { Status, To, Type } from './model'
+import { Status, To, Type } from './model.tsx'
 import {
   Table,
   TableCell,
