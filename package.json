@@ -117,7 +117,7 @@
     "@babel/polyfill": "7.6.0",
     "@babel/preset-env": "7.6.2",
     "@babel/preset-react": "7.0.0",
-    "@codechecks/client": "^0.1.10",
+    "@codechecks/client": "0.1.10",
     "@storybook/addon-actions": "4.1.9",
     "@storybook/addon-info": "4.1.9",
     "@storybook/addon-links": "4.1.9",
