@@ -1,4 +1,4 @@
-import { Campaigns } from '../types'
+import { CampaignType } from '../types'
 import { FormattedMessage } from 'react-intl'
 import { GreyCartridge, SuccessCartridge } from '../AirdropInfo/model'
 import { Icon, Text } from 'blockchain-info-components'
@@ -18,7 +18,7 @@ const TypeWrapper = styled.div`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 
-export const Type = ({ campaignName }: { campaignName: Campaigns }) => {
+export const Type = ({ campaignName }: CampaignType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return (
@@ -48,7 +48,7 @@ export const Type = ({ campaignName }: { campaignName: Campaigns }) => {
   }
 }
 
-export const Status = ({ campaignState, userCampaignState }) => {
+export const Status = ({ campaignState, userCampaignState }: CampaignType) => {
   switch (true) {
     case campaignState === 'ENDED' && userCampaignState === 'REWARD_RECEIVED':
       return (
@@ -77,7 +77,7 @@ export const Status = ({ campaignState, userCampaignState }) => {
   }
 }
 
-export const To = ({ campaignName, userCampaignState }) => {
+export const To = ({ campaignName, userCampaignState }: CampaignType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (

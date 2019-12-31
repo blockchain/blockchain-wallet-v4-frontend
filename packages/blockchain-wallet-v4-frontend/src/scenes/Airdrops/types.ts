@@ -8,11 +8,14 @@ export type UserCampaignState =
   | 'REGISTERED'
   | 'NONE'
 
+export type CampaignState = 'NONE' | 'STARTED' | 'ENDED'
+
 export interface CampaignType {
   attributes: {
     'x-campaign-reject-reason': string
   }
   campaignName: Campaigns
+  campaignState: CampaignState
   userCampaignState: UserCampaignState
 }
 
