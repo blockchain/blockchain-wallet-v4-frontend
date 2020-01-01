@@ -1,5 +1,5 @@
 import { Button, Link } from 'blockchain-info-components'
-import { CampaignType, KycStatesType } from '../types'
+import { CampaignType, KycStatesType, TagsType } from '../types'
 import {
   CustomCartridge,
   ErrorCartridge,
@@ -10,12 +10,13 @@ import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
 import styled from 'styled-components'
+import Theme from 'types/theme'
 
 const { KYC_STATES } = model.profile
 
 const BlueCartridge = styled(CustomCartridge)`
   cursor: pointer;
-  background-color: ${props => props.theme['blue600']};
+  background-color: ${(props: { theme: Theme }) => props.theme['blue600']};
   font-weight: 600;
 `
 
@@ -33,7 +34,7 @@ export const StxStatus = ({
   identityVerificationActions
 }: { userCampaignsInfoResponseList: Array<CampaignType>, kycState: KycStatesType, identityVerificationActions: any }) => {
   const blockstackCampaign = userCampaignsInfoResponseList.find(
-    campaign => campaign.campaignName === 'BLOCKSTACK'
+    (campaign: CampaignType) => campaign.campaignName === 'BLOCKSTACK'
   )
 
   switch (kycState) {
@@ -130,7 +131,7 @@ export const StxStatus = ({
   }
 }
 
-export const StxShare = ({ tags, kycState }: { tags: any, kycState: KycStatesType }) => {
+export const StxShare = ({ tags, kycState }: { tags: TagsType, kycState: KycStatesType }) => {
   switch (kycState) {
     case KYC_STATES.REJECTED:
     case KYC_STATES.EXPIRED:
@@ -152,7 +153,7 @@ export const StxShare = ({ tags, kycState }: { tags: any, kycState: KycStatesTyp
         </Link>
       )
     case KYC_STATES.VERIFIED:
-      return tags['BLOCKSTACK'] ? (
+      return tags.BLOCKSTACK ? (
         <Link
           href='https://blockchain.com/getcrypto'
           target='_blank'

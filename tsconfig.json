@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./packages/",
+    "baseUrl": "./packages",
     "jsx": "react",
     "module": "es6",
     "moduleResolution": "node",
@@ -13,7 +13,8 @@
     "strict": true,
     "target": "es6",
     "paths": {
-      "data": ["blockchain-wallet-v4-frontend/src/data/index.js"]
+      "data": ["blockchain-wallet-v4-frontend/src/data/index.js"],
+      "types/*": ["blockchain-wallet-v4-frontend/src/types/*"]
     }
   },
   "include": [

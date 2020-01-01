@@ -19,7 +19,7 @@ export interface CampaignType {
   userCampaignState: UserCampaignState
 }
 
-// Move this somewhere more generic
+// Move these somewhere more generic
 export type KycStatesType =
   | 'NONE'
   | 'PENDING'
@@ -27,3 +27,9 @@ export type KycStatesType =
   | 'REJECTED'
   | 'VERIFIED'
   | 'EXPIRED'
+
+export type TagsType = {
+  [key in Campaigns]: {
+    'x-campaign-address': string
+  }
+}
