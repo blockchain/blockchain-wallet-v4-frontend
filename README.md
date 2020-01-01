@@ -121,6 +121,7 @@ which will give you a list of available node instances you can connect to. Click
 We are snapshot testing UI some components. Here are the commands to update them when necessary:
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages
@@ -134,6 +135,16 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-wallet-v4/index.html`
  * `coverage/blockchain-wallet-v4-frontend/index.html`
 Simply open the `index.html` file in your browser to view.
+
+## TypeScript
+TypeScript is supported and should be used when adding new code. It's also recommended to replace legacy JS with TS when time allows.
+
+### TS Coverage
+We are using [Codechecks](https://www.codechecks.io/) and [Typecov](https://github.com/codechecks/typecov) for coverage reporting. Coverage is automatically analyzed for PRs and the following command is available.
+* `yarn codechecks`
+
+### Typecov
+It is recommended that you install the VSCode plugin for Typecov reporting so you can see any (no pun intended) errors inline. You can find that [here](https://marketplace.visualstudio.com/items?itemName=york-yao.vscode-type-coverage)
 
 ## Code Bundle Analysis/Reports
 To visualize and interact with the tree of the production code bundles files:
