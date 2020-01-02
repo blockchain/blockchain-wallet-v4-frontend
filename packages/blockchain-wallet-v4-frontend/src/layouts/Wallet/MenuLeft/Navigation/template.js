@@ -135,7 +135,7 @@ const Navigation = props => {
       </SpotlightLinkContainer>
       {props.isExchangeAccountLinked ? (
         <Link
-          href={`${props.exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
+          href={`${props.exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
           rel='noopener noreferrer'
           target='_blank'
           style={{ width: '100%' }}
