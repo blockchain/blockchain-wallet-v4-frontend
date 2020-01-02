@@ -1,3 +1,5 @@
+import { isNil } from 'ramda'
+
 export const debounce = (func, wait) => {
   let timeout
   return (...args) => {
@@ -9,11 +11,45 @@ export const debounce = (func, wait) => {
   }
 }
 
-export const hasWebcam =
-  (navigator.getUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.msGetUserMedia) !== void 0
+export const hasWebcam = () => {
+  if (isNil(navigator.mediaDevices)) {
+    navigator.mediaDevices = {}
+  }
+
+  if (isNil(navigator.mediaDevices.getUserMedia)) {
+    navigator.mediaDevices.getUserMedia = constraints => {
+      var getUserMedia =
+        navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+
+      if (!getUserMedia) {
+        return Promise.reject(
+          new Error('getUserMedia is not implemented in this browser')
+        )
+      }
+
+      return new Promise((resolve, reject) =>
+        getUserMedia.call(navigator, constraints, resolve, reject)
+      )
+    }
+  }
+
+  navigator.mediaDevices
+    .getUserMedia({ video: true })
+    .then(stream => {
+      var video = document.querySelector('video')
+
+      if ('srcObject' in video) {
+        video.srcObject = stream
+      } else {
+        video.src = window.URL.createObjectURL(stream)
+      }
+
+      video.onloadedmetadata = () => {
+        video.play()
+      }
+    })
+    .catch(error => error.message)
+}
 
 export const getMedia =
   navigator.getUserMedia ||
