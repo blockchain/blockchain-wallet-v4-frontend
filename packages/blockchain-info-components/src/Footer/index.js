@@ -125,7 +125,7 @@ const Column = styled.div`
 
 const NavBadge = styled.span`
   color: white;
-  background-color: ${Color('brand-secondary')};
+  background-color: ${Color('blue600')};
   padding: 0.25rem;
   margin-left: 0.75rem;
   font-size: 0.625rem;

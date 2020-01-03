@@ -299,7 +299,7 @@ class ISignThisContainer extends PureComponent {
               fullwidth
               onClick={coinifyActions.cancelISX}
             >
-              <Text size='13px' weight={400} color='brand-secondary'>
+              <Text size='13px' weight={400} color='blue600'>
                 <FormattedMessage
                   id='scenes.buysell.coinify.isx.finishlater'
                   defaultMessage='Finish later'

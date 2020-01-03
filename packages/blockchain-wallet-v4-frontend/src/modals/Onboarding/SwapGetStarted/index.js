@@ -14,8 +14,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   height: 204px;
-  background: ${props => props.theme['brand-primary']}
-    url(/img/swap-modal-bg.svg);
+  background: ${props => props.theme.blue900} url(/img/swap-modal-bg.svg);
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -57,7 +56,7 @@ const LaterButton = styled(FooterButton)`
 const CenteredText = styled(Text)`
   padding: 0 36px;
   text-align: center;
-  text-shadow: 0px 0px 1px ${props => props.theme['brand-primary']};
+  text-shadow: 0px 0px 1px ${props => props.theme.blue900};
 `
 
 class SwapGetStarted extends React.PureComponent {

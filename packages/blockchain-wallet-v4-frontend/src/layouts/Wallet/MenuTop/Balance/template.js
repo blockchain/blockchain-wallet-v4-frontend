@@ -41,7 +41,7 @@ const BalanceDropdown = styled.div`
   }
   > div > div > div > div {
     font-weight: 400;
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
   > div > div > span:last-child {
     top: 0;

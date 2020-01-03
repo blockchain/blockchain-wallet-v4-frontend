@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './favicons'
-import App from 'scenes/app.js'
+import App from 'scenes/app.tsx'
 import configureStore from 'store'
 import Error from './index.error'
 

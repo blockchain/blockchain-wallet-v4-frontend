@@ -97,7 +97,7 @@ const Exchange = ({ onSignup }) => (
       <Row>
         <Column>
           <TitleTextGroup>
-            <TitleContent size='40px' weight={800} color='brand-primary'>
+            <TitleContent size='40px' weight={800} color='blue900'>
               <FormattedMessage
                 id='scenes.exchange.title'
                 defaultMessage='Level Up Your Trading'
@@ -114,7 +114,7 @@ const Exchange = ({ onSignup }) => (
       </Row>
       <Row>
         <SubTextGroup>
-          <SubContent size='15px' weight={550} color='brand-primary'>
+          <SubContent size='15px' weight={550} color='blue900'>
             <FormattedMessage
               id='scenes.exchange.point1.title-1'
               defaultMessage='Access More Assets'
@@ -128,7 +128,7 @@ const Exchange = ({ onSignup }) => (
           </SubContent>
         </SubTextGroup>
         <SubTextGroup>
-          <SubContent size='15px' weight={550} color='brand-primary'>
+          <SubContent size='15px' weight={550} color='blue900'>
             <FormattedMessage
               id='scenes.exchange.point2.title-1'
               defaultMessage='Unlock Unlimited Trading'
@@ -142,7 +142,7 @@ const Exchange = ({ onSignup }) => (
           </SubContent>
         </SubTextGroup>
         <ThirdSubTextGroup>
-          <SubContent size='15px' weight={550} color='brand-primary'>
+          <SubContent size='15px' weight={550} color='blue900'>
             <FormattedMessage
               id='scenes.exchange.point3.title-1'
               defaultMessage='Seamlessly Transfer Crypto'

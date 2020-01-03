@@ -19,13 +19,13 @@ const FilterContainer = styled(Text).attrs({
   weight: 300
 })`
   color: ${props =>
-    props.selected ? props.theme['white'] : props.theme['gray-3']};
+    props.selected ? props.theme.white : props.theme['gray-3']};
   border: ${props =>
     props.selected
-      ? `1px solid ${props.theme['brand-secondary']}`
+      ? `1px solid ${props.theme.blue600}`
       : `1px solid ${props.theme['gray-3']}`};
   background: ${props =>
-    props.selected ? props.theme['brand-secondary'] : props.theme['white']};
+    props.selected ? props.theme.blue600 : props.theme.white};
   letter-spacing: 1px;
   border-radius: 6px;
   cursor: pointer;
@@ -33,8 +33,8 @@ const FilterContainer = styled(Text).attrs({
   padding: 4px 6px;
   transition: color 0.3s, border 0.3s, background 0.3s;
   &:hover {
-    color: ${props => !props.selected && props.theme['brand-secondary']};
-    border: ${props => `1px solid ${props.theme['brand-secondary']}`};
+    color: ${props => !props.selected && props.theme.blue600};
+    border: ${props => `1px solid ${props.theme.blue600}`};
   }
 `
 

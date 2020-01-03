@@ -20,7 +20,7 @@ const FileContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  border: 1px solid ${props => props.theme['brand-tertiary']};
+  border: 1px solid ${props => props.theme.blue200};
   border-radius: 4px;
   padding: 4px;
   width: 100%;
@@ -41,7 +41,7 @@ const Icons = styled.div`
   justify-content: space-around;
   width: 100%;
   & > * {
-    fill: ${props => props.theme['brand-primary']};
+    fill: ${props => props.theme.blue900};
   }
 `
 const IdContainer = styled.div`
@@ -68,14 +68,14 @@ const UploadZone = styled(Dropzone)`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['brand-tertiary']};
+  background-color: ${props => props.theme.white};
+  border: 1px solid ${props => props.theme.blue200};
   border-radius: 8px;
   padding: 8px;
 `
 const UploadZoneContainer = styled.div`
   padding: 16px;
-  border: 1px dashed ${props => props.theme['brand-tertiary']};
+  border: 1px dashed ${props => props.theme.blue200};
   border-radius: 8px;
 `
 const Wrapper = styled.div`
@@ -107,24 +107,24 @@ const UploadDocuments = ({
   <Wrapper>
     <TextContainer>
       <TextGroup inline>
-        <Text color='brand-primary' size='16px' weight={400}>
+        <Text color='blue900' size='16px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.hello'
             defaultMessage='Hello '
           />
         </Text>
-        <Text color='brand-primary' size='16px' weight={400}>
+        <Text color='blue900' size='16px' weight={400}>
           {prop('firstName', data)},
         </Text>
       </TextGroup>
-      <Text color='brand-primary' size='16px' weight={400}>
+      <Text color='blue900' size='16px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.verify'
           defaultMessage='We need to verify your identity in order to allow buys,
           sells or exchanges.'
         />
       </Text>
-      <Text color='brand-primary' size='16px' weight={400}>
+      <Text color='blue900' size='16px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.docs'
           defaultMessage='Please upload the following documents: '
@@ -132,7 +132,7 @@ const UploadDocuments = ({
       </Text>
       {prop('documentsTypes', data) &&
         data.documentsTypes.map((type, index) => (
-          <Text color='brand-primary' key={index} size='24px' weight={600}>
+          <Text color='blue900' key={index} size='24px' weight={600}>
             {type}
           </Text>
         ))}
@@ -162,14 +162,14 @@ const UploadDocuments = ({
               </Link>
             ) : (
               <Fragment>
-                <Text color='brand-primary' size='20px' weight={400}>
+                <Text color='blue900' size='20px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.dragdrop'
                     defaultMessage='Drag &amp; Drop'
                   />
                 </Text>
                 <TextGroup inline>
-                  <Text color='brand-primary' weight={400}>
+                  <Text color='blue900' weight={400}>
                     <FormattedMessage
                       id='scenes.uploaddoc.placefiles'
                       defaultMessage='Place your files here, '
@@ -187,7 +187,7 @@ const UploadDocuments = ({
             <Icons>
               <IdContainer>
                 <FasPassport />
-                <Text color='brand-primary' size='12px' weight={400}>
+                <Text color='blue900' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.passport'
                     defaultMessage='Passport'
@@ -196,7 +196,7 @@ const UploadDocuments = ({
               </IdContainer>
               <IdContainer>
                 <FasIdBadge />
-                <Text color='brand-primary' size='12px' weight={400}>
+                <Text color='blue900' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.drivinglicense'
                     defaultMessage='Driving license'
@@ -205,7 +205,7 @@ const UploadDocuments = ({
               </IdContainer>
               <IdContainer>
                 <FasIdCard />
-                <Text color='brand-primary' size='12px' weight={400}>
+                <Text color='blue900' size='12px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.idcard'
                     defaultMessage='ID Card'
@@ -220,10 +220,10 @@ const UploadDocuments = ({
               {files.map((file, index) => (
                 <FileContainer key={index}>
                   <FileInfo>
-                    <Text color='brand-primary' size='12px' weight={400}>
+                    <Text color='blue900' size='12px' weight={400}>
                       {file.name}
                     </Text>
-                    <Text color='brand-primary' size='12px' weight={400}>
+                    <Text color='blue900' size='12px' weight={400}>
                       {`${(file.size / 1024 / 1024).toFixed(2)} MB`}
                     </Text>
                   </FileInfo>

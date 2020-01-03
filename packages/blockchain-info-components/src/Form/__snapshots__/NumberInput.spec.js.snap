@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NumberInput component default renders correctly 1`] = `
-<NumberInput__BaseNumberInput
-  borderColor="red"
+<styled.input
+  borderColor="grey100"
+  bordercolor="red600"
   disabled={false}
   height="48px"
   minHeight="48px"

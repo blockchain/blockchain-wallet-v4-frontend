@@ -58,7 +58,7 @@ const IconContainer = styled.div`
   height: 55px;
   width: 55px;
   min-width: 55px;
-  background: ${props => props.theme['blue100']};
+  background: ${props => props.theme.blue100};
   border-radius: 50%;
 `
 const DownloadIcon = styled(Icon)`
@@ -110,11 +110,7 @@ class UpdateRequiredNotice extends React.PureComponent {
         <Wrapper>
           <LeftColumn>
             <IconContainer>
-              <DownloadIcon
-                name='request'
-                color='brand-secondary'
-                size='30px'
-              />
+              <DownloadIcon name='request' color='blue600' size='30px' />
             </IconContainer>
             <HeaderText>
               <Text size='18px' weight={700}>
@@ -162,7 +158,7 @@ class UpdateRequiredNotice extends React.PureComponent {
             </Link>
             <DismissDownloadText
               size='11px'
-              color='blue'
+              color='blue600'
               weight={500}
               onClick={() => preferencesActions.hideLockboxSoftwareDownload()}
             >

@@ -103,17 +103,17 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: ${props => props.theme['gray-5']};
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
   }
 `
 const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['brand-primary']};
+    props.disabled ? props.theme['gray-1'] : props.theme.blue900};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
+      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
   }
 `
 const ActiveCurrencyButton = styled.div`
@@ -140,7 +140,7 @@ const CurrencyBox = styled(Text)`
   font-size: 72px;
   font-weight: 400;
   background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['white']};
+    props.disabled ? props.theme['gray-1'] : props.theme.white};
 `
 const ClickableText = styled(Text)`
   cursor: pointer;

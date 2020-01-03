@@ -96,26 +96,26 @@ export const LimitAction = ({
   if (upgradeRequired)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color='brand-secondary'>
+        <LimitText color='blue600'>
           <FormattedMessage
             id='scenes.exchange.exchangeform.limit_info.continue'
             defaultMessage='Continue'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+        <TierIcon name='down-arrow-filled' color='blue600' />
       </TierLink>
     )
 
   if (nextTierAvailable)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color='brand-secondary'>
+        <LimitText color='blue600'>
           <FormattedMessage
             id='scenes.exchange.exchangeform.limit_info.upgrade'
             defaultMessage='Upgrade'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+        <TierIcon name='down-arrow-filled' color='blue600' />
       </TierLink>
     )
   if (lastTierInReview)
@@ -161,7 +161,7 @@ export class LimitInfo extends React.PureComponent {
     return (
       <LimitRow>
         <Group>
-          <LimitText color='brand-primary'>
+          <LimitText color='blue900'>
             <FormattedMessage
               id='scenes.exchange.exchangeform.limit_info.level'
               defaultMessage='{level}'

@@ -190,7 +190,7 @@ const EmailAddress = props => {
               />
             </EmailButton>
             <ChangeEmailText
-              color='brand-secondary'
+              color='blue600'
               weight={400}
               onClick={props.handleChangeEmailView}
             >
@@ -203,7 +203,7 @@ const EmailAddress = props => {
         ) : null}
         {uiHelper() && verified ? (
           <Text
-            color='brand-secondary'
+            color='blue600'
             size='13px'
             style={{ cursor: 'pointer' }}
             onClick={props.handleChangeEmailView}

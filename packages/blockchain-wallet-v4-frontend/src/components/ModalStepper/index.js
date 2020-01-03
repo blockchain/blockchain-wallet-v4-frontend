@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 
 const StepHeader = styled.div`
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   justify-content: space-evenly;
   padding: 30px 30px 0px 30px;
   border-radius: 4px 4px 0 0;
@@ -30,7 +30,7 @@ const Line = styled.div`
     height: 4px;
     bottom: 0px;
     position: absolute;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme.blue600};
     transition: width 0.5s 0.3s;
   }
   &.complete {
@@ -53,10 +53,10 @@ const Circle = styled.div`
   transition: border 0.3s, background-color 0.2s;
   &.active,
   &.complete {
-    border: 2px solid ${props => props.theme['brand-secondary']};
+    border: 2px solid ${props => props.theme.blue600};
   }
   &.complete {
-    background-color: ${props => props.theme['brand-secondary']};
+    background-color: ${props => props.theme.blue600};
   }
 `
 const CircleContent = styled.div`
@@ -89,13 +89,7 @@ class ModalStepper extends React.PureComponent {
                   <CircleContent className={active + ' ' + complete}>
                     <Text
                       size='13px'
-                      color={
-                        active
-                          ? 'brand-secondary'
-                          : complete
-                          ? 'white'
-                          : 'gray-1'
-                      }
+                      color={active ? 'blue600' : complete ? 'white' : 'gray-1'}
                     >
                       {i}
                     </Text>

@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 30%;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 
   & > :first-child {
     margin-bottom: 20px;
@@ -33,7 +33,7 @@ const Circle = styled.div`
     ${props =>
       props.status === 'disabled'
         ? props.theme['gray-2']
-        : props.theme['brand-primary']};
+        : props.theme.blue900};
   box-sizing: border-box;
   overflow: hidden;
 `
@@ -45,7 +45,7 @@ const SmallCircle = styled(Circle)`
   height: 20px;
   margin-left: -10px;
   margin-top: -10px;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border: none;
 `
 
@@ -55,13 +55,13 @@ const Step2 = props => (
       <Icon
         name='thick-arrow-switch'
         size='50px'
-        color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
+        color={props.status === 'disabled' ? 'gray-2' : 'blue900'}
         status={props.status}
       />
       <SmallCircle>
         <Icon
           name='stack-of-coins'
-          color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
+          color={props.status === 'disabled' ? 'gray-2' : 'blue900'}
         />
       </SmallCircle>
     </Circle>

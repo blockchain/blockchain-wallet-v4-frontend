@@ -34,7 +34,7 @@ const CoinIconTitle = styled(Title)`
     width: 30px;
     height: 30px;
     border-radius: 15px;
-    background: ${props => props.theme['white']};
+    background: ${props => props.theme.white};
     justify-content: center;
     align-items: center;
     margin: 0px -6px;
@@ -112,7 +112,7 @@ const OrderInfoBox = styled.div`
   `}
   &:hover {
     * {
-      color: ${props => props.theme['brand-secondary']};
+      color: ${props => props.theme.blue600};
     }
   }
 `
@@ -160,7 +160,7 @@ const ExchangeConfirm = ({
         <TargetFiatAmount
           targetAmount={Remote.of(targetAmount)}
           targetCoin={prop('coinCode', targetCoinModel)}
-          color='brand-primary'
+          color='blue900'
           weight={400}
           size='42px'
         />

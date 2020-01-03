@@ -12,7 +12,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme.blue600};
     cursor: pointer;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
@@ -21,7 +21,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme.blue600};
     cursor: pointer;
   }
 
@@ -29,7 +29,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme.blue600};
     cursor: pointer;
   }
 

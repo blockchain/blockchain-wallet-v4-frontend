@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;
-  background-color: ${props => props.theme['brand-primary']};
+  background-color: ${props => props.theme.blue900};
 `
 
 const BaseNavbar = styled.div`

@@ -14,7 +14,7 @@ const Template = props => (
   <Wrapper>
     <Text
       size='11px'
-      color='brand-secondary'
+      color='blue600'
       onClick={props.toggleCoinDisplayed}
       data-e2e='balanceDropdown-currency-switch'
     >

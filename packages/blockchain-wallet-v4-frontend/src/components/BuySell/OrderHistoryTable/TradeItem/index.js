@@ -132,7 +132,7 @@ const TradeItem = props => {
         </TableCell>
         <TableCell width='20%'>
           {canCancel && status && cancelTradeId === trade.id ? (
-            <HeartbeatLoader color='red' height='15px' width='15px' />
+            <HeartbeatLoader color='red600' height='15px' width='15px' />
           ) : canCancel && cancelTradeId !== trade.id ? (
             <Icon
               cursor

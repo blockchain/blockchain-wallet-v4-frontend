@@ -33,10 +33,10 @@ const SelectBoxCoin = styled(SelectBox)`
   }
   .bc__dropdown-indicator {
     padding-left: 0px;
-    color: ${props => props.theme['black']};
+    color: ${props => props.theme.black};
   }
   .bc__single-value {
-    color: ${props => props.theme['black']};
+    color: ${props => props.theme.black};
     transform: initial;
     position: relative;
     max-width: none;

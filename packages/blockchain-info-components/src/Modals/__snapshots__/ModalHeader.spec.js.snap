@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalHeader component default renders correctly 1`] = `
-<ModalHeader__Wrapper
+<styled.div
   closeButton={true}
   icon="x"
   onClose={[Function]}
 >
-  <ModalHeader__Header>
-    <ModalHeader__HeaderIcon
+  <styled.div>
+    <Styled(Icon)
       color="gray-5"
       name="x"
       size="28px"
@@ -27,7 +27,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       uppercase={false}
       weight={400}
     />
-  </ModalHeader__Header>
+  </styled.div>
   <Icon
     color="gray-5"
     cursor={true}
@@ -37,5 +37,5 @@ exports[`ModalHeader component default renders correctly 1`] = `
     size="16px"
     weight={400}
   />
-</ModalHeader__Wrapper>
+</styled.div>
 `;

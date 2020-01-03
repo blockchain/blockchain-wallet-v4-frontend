@@ -14,13 +14,17 @@
     "target": "es6",
     "paths": {
       "data": ["blockchain-wallet-v4-frontend/src/data/index.js"],
-      "types/*": ["blockchain-wallet-v4-frontend/src/types/*"]
+      "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
+      "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
+      "providers/*": ["blockchain-wallet-v4-frontend/src/providers/*"],
+      "services/*": ["blockchain-wallet-v4-frontend/src/services/*"]
     }
   },
   "include": [
     "packages/blockchain-wallet-v4-frontend/src/",
     "packages/blockchain-wallet-v4/src/",
-    "index.d.ts"
+    "index.d.ts",
+    "styled.d.ts"
   ],
   "exclude": ["node_modules"]
 }

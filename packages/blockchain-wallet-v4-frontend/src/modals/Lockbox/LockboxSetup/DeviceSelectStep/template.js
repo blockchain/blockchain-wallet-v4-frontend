@@ -35,8 +35,8 @@ const DeviceWrapper = styled.div`
   border-radius: 3px;
   &:hover {
     cursor: pointer;
-    border-color: ${props => props.theme['brand-tertiary']};
-    box-shadow: 0 0 2px 0 ${props => props.theme['brand-secondary']} inset;
+    border-color: ${props => props.theme.blue200};
+    box-shadow: 0 0 2px 0 ${props => props.theme.blue600} inset;
   }
 `
 const RestoreDeviceWrapper = styled.div`
@@ -51,8 +51,8 @@ const RestoreDeviceWrapper = styled.div`
   background-color: ${props => props.theme['gray-1']};
   &:hover {
     cursor: pointer;
-    border-color: ${props => props.theme['brand-tertiary']};
-    box-shadow: 0 0 2px 0 ${props => props.theme['brand-secondary']} inset;
+    border-color: ${props => props.theme.blue200};
+    box-shadow: 0 0 2px 0 ${props => props.theme.blue600} inset;
   }
 `
 const LearnHowLink = styled(Link)`
@@ -60,7 +60,7 @@ const LearnHowLink = styled(Link)`
 `
 const LearnHowText = styled(Text)`
   margin-right: 6px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
 `
 
 const DeviceSelectStep = props => {
@@ -131,7 +131,7 @@ const DeviceSelectStep = props => {
           </LearnHowText>
           <Icon
             name='short-right-arrow'
-            color='brand-secondary'
+            color='blue600'
             size='16px'
             style={{ marginTop: '1px' }}
           />

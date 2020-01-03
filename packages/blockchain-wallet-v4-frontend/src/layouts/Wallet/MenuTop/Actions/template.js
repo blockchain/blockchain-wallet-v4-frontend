@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 const ActionButton = styled(IconButton)`
   position: relative;
   > span {
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
   ${media.mobile`
     padding: 10px 10px;
@@ -66,7 +66,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       height='48px'
     >
       <SendSpotlight className='wallet-intro-tour-step-3' />
-      <ButtonText size='16px' weight={600} color='brand-primary'>
+      <ButtonText size='16px' weight={600} color='blue900'>
         <FormattedMessage
           id='layouts.wallet.menutop.send'
           defaultMessage='Send'
@@ -83,7 +83,7 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
       height='48px'
     >
       <RequestSpotlight className='wallet-intro-tour-step-2' />
-      <ButtonText size='16px' weight={600} color='brand-primary'>
+      <ButtonText size='16px' weight={600} color='blue900'>
         <FormattedMessage
           id='layouts.wallet.menutop.request'
           defaultMessage='Request'

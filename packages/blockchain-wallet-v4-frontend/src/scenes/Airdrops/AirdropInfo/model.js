@@ -21,16 +21,16 @@ export const CustomCartridge = styled(Cartridge)`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 export const GreyCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme['grey000']};
-  color: ${props => props.theme['grey600']};
+  background-color: ${props => props.theme.grey000};
+  color: ${props => props.theme.grey600};
 `
 export const ErrorCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme['red000']};
-  color: ${props => props.theme['red600']};
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red600};
 `
 export const SuccessCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme['green000']};
-  color: ${props => props.theme['green600']};
+  background-color: ${props => props.theme.green000};
+  color: ${props => props.theme.green600};
 `
 
 export const AirdropInfoHeader = ({ kycState }) => {

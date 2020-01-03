@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   overflow: hidden;
   padding: 20px;
-  border: 1px solid ${props => props.theme['grey000']};
+  border: 1px solid ${props => props.theme.grey000};
 
   @media (min-width: 1200px) {
     height: 80px;
@@ -53,12 +53,12 @@ const Content = styled.div`
 `
 const CompleteProfileButton = styled(Button)`
   border-radius: 8px;
-  background-color: ${props => props.theme['green600']};
+  background-color: ${props => props.theme.green600};
   color: white;
   min-width: 200px;
   border: none;
   &:hover {
-    background-color: ${props => props.theme['green700']};
+    background-color: ${props => props.theme.green700};
   }
   ${media.tablet`
     margin-top: 8px;

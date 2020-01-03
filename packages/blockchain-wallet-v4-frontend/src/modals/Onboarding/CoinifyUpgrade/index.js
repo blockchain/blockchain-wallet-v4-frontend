@@ -63,7 +63,7 @@ class CoinifyUpgrade extends React.PureComponent {
       >
         <AbsoluteModalHeader onClick={close} />
         <Body>
-          <Icon name='cart-filled' color='brand-secondary' size='72px' />
+          <Icon name='cart-filled' color='blue600' size='72px' />
           <Header>
             <FormattedMessage
               id='modals.coinifyupgrade.header'

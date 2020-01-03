@@ -67,7 +67,7 @@ const KYCNotification = props => {
         {equals(NONE, kycState) ? (
           <Fragment>
             <CompleteButton onClick={onTrigger} nature='empty-secondary'>
-              <Text size='13px' color='brand-secondary'>
+              <Text size='13px' color='blue600'>
                 <FormattedMessage
                   id='scenes.buy_sell.kyc_notification.complete'
                   defaultMessage='Complete Verification'

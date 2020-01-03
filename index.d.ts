@@ -1,6 +1,18 @@
 declare module 'blockchain-info-components' {
-  export function Icon(): any
-  export function Text(): any
-  export function Button(): any
-  export function Link(): any
+  import { DefaultTheme } from 'styled-components'
+  // type-coverage:ignore-next-line
+  export function Icon(...args: any): any
+  // type-coverage:ignore-next-line
+  export function Text(...args: any): any
+  // type-coverage:ignore-next-line
+  export function Button(...args: any): any
+  // type-coverage:ignore-next-line
+  export function Link(...args: any): any
+
+  // type-coverage:ignore-next-line
+  export function FontGlobalStyles(...args: any): any
+  // type-coverage:ignore-next-line
+  export function IconGlobalStyles(...args: any): any
+
+  export function Palette(theme: string): DefaultTheme
 }

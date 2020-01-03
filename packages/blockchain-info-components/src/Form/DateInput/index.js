@@ -19,7 +19,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-size: 16px;
     font-weight: 400;
     color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
     background-image: none;
     outline-width: 0;
     user-select: text;
@@ -35,7 +35,7 @@ const BaseDateInput = styled(ReactDatetime)`
     z-index: 99999 !important;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid ${props => props.theme['grey100']};
+    border: 1px solid ${props => props.theme.grey100};
     border-radius: 4px;
   }
 
@@ -98,15 +98,15 @@ const BaseDateInput = styled(ReactDatetime)`
   }
   .rdtPicker td.rdtActive,
   .rdtPicker td.rdtActive:hover {
-    background-color: ${props => props.theme['brand-secondary']};
-    color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.blue600};
+    color: ${props => props.theme.white};
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border: 1px solid ${props => props.theme['brand-secondary']};
+    border: 1px solid ${props => props.theme.blue600};
     border-radius: 5px;
     box-sizing: border-box;
   }
   .rdtPicker td.rdtActive.rdtToday:before {
-    border-bottom-color: ${props => props.theme['white']};
+    border-bottom-color: ${props => props.theme.white};
   }
   .rdtPicker td.rdtDisabled,
   .rdtPicker td.rdtDisabled:hover {

@@ -22,7 +22,7 @@ const StatusContainer = styled.div`
 const Date = styled.div`
   height: 100%;
   padding-left: 20px;
-  border-left: 1px solid ${props => props.theme['grey000']};
+  border-left: 1px solid ${props => props.theme.grey000};
 
   > div:first-child {
     margin-bottom: 4px;

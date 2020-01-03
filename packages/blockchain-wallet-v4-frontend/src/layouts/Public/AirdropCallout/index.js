@@ -14,7 +14,7 @@ const PublicWrapper = styled(Wrapper)`
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
 `
 const Copy = styled.div`
   margin-left: 16px;

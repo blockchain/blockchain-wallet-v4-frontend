@@ -6,7 +6,7 @@ export const OrderDetailsTable = styled.div`
   flex-direction: column;
   border-radius: 6px;
   border: 1px solid ${props => props.theme['gray-1']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   padding: ${props => props.padding || '0px'};
   margin: 20px 0px 15px 0px;
   width: ${props => props.width || 'auto'};

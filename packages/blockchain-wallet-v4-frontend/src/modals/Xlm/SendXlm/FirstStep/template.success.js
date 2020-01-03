@@ -250,7 +250,7 @@ const FirstStep = props => {
                     size='11px'
                     weight={700}
                     altFont
-                    color='red'
+                    color='red600'
                   >
                     <FormattedMessage
                       id='modals.sendxlm.firststep.sendtoexchangelearn'

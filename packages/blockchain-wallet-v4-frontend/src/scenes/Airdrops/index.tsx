@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   width: 100%;
   margin: 12px 30px;
   padding-top: 24px;
-  border-top: 1px solid ${props => props.theme['grey000']};
+  border-top: 1px solid ${(props) => props.theme.blue100};
 `
 export const Header = styled.div`
   margin-bottom: 40px;
@@ -28,7 +28,15 @@ export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
 
-class Airdrops extends React.PureComponent {
+type IProps = {
+  data: any,
+  hasEmail: boolean,
+  profileActions: {
+    fetchUserCampaigns: () => void
+  }
+}
+
+class Airdrops extends React.PureComponent<IProps> {
   componentDidMount () {
     this.props.profileActions.fetchUserCampaigns()
   }

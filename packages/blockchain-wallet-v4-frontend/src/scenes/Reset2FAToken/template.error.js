@@ -18,11 +18,11 @@ const ErrorText = styled(Text)`
 const Error = props => {
   return (
     <Wrapper>
-      <Icon name='alert-filled' color='red' size='40px' />
+      <Icon name='alert-filled' color='red600' size='40px' />
       <ErrorText
         size='16px'
         weight={400}
-        color='red'
+        color='red600'
         style={{ 'margin-top': '25px' }}
       >
         <FormattedHTMLMessage

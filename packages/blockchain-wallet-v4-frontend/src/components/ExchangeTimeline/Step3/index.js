@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 30%;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 
   & > :first-child {
     margin-bottom: 20px;
@@ -40,7 +40,7 @@ const getColor = status => {
     case 'refunded':
       return Color('error')
     default:
-      return Color('brand-primary')
+      return Color('blue900')
   }
 }
 
@@ -56,7 +56,7 @@ const Step3 = props => {
           <Icon
             name='checkmark'
             size='40px'
-            color={status === 'disabled' ? 'gray-2' : 'brand-primary'}
+            color={status === 'disabled' ? 'gray-2' : 'blue900'}
           />
         )}
       </Circle>

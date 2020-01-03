@@ -16,7 +16,7 @@ export const Container = styled.div`
   padding: 8px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   transition: left 0.3s ease-in-out;
   z-index: 11;
   ::-webkit-scrollbar {

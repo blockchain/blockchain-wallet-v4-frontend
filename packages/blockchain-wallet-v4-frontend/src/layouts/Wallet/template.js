@@ -29,7 +29,7 @@ const Container = styled.div`
 `
 const Nav = styled.div`
   flex: 0 0 60px;
-  background-color: ${props => props.theme['brand-primary']};
+  background-color: ${props => props.theme.blue900};
 `
 const Content = styled.div`
   position: relative;
@@ -38,7 +38,7 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: calc(100% - 250px);
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 
   @media (max-width: 768px) {
     width: 100%;

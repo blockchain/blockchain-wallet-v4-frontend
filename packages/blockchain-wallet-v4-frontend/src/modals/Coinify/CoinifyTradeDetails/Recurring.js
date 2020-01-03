@@ -13,9 +13,9 @@ const RecurringTradeWrapper = styled.div`
   margin-top: 15px;
 `
 const RecurringBox = styled.div`
-  border: 1px solid ${props => props.theme['brand-tertiary']};
+  border: 1px solid ${props => props.theme.blue200};
   padding: 8px;
-  background: ${props => props.theme['brand-quaternary']};
+  background: ${props => props.theme.blue000};
   margin-top: 5px;
 `
 const RecurringRow = styled.div`
@@ -45,7 +45,7 @@ const Recurring = ({ trade, subscription }) => {
   return (
     <RecurringTradeWrapper>
       <HeaderWrapper>
-        <Text color='brand-secondary' weight={500} size='14px'>
+        <Text color='blue600' weight={500} size='14px'>
           <FormattedMessage
             id='orderdetails.recurring.thisisrecurring'
             defaultMessage='This is a Recurring Order'
@@ -58,7 +58,7 @@ const Recurring = ({ trade, subscription }) => {
       <RecurringBox>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={400} size='13px'>
+            <Text color='blue600' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.amount'
                 defaultMessage='Amount:'
@@ -76,7 +76,7 @@ const Recurring = ({ trade, subscription }) => {
         </RecurringRow>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={400} size='13px'>
+            <Text color='blue600' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.frequency'
                 defaultMessage='Frequency:'
@@ -97,7 +97,7 @@ const Recurring = ({ trade, subscription }) => {
         </RecurringRow>
         <RecurringRow>
           <RecurringKey>
-            <Text color='brand-secondary' weight={400} size='13px'>
+            <Text color='blue600' weight={400} size='13px'>
               <FormattedMessage
                 id='orderdetails.recurring.duration'
                 defaultMessage='Duration:'

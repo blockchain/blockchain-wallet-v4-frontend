@@ -20,9 +20,9 @@ const NotificationBadge = styled.div`
   border-radius: 50%;
   width: 15px;
   height: 15px;
-  border: 1px solid ${props => props.theme['brand-secondary']};
+  border: 1px solid ${props => props.theme.blue600};
   text-align: center;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   position: absolute;
   bottom: 15px;
   left: 14px;

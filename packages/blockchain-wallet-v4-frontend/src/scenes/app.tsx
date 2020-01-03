@@ -33,7 +33,7 @@ import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
 import SecurityCenter from './SecurityCenter'
 import TheExchange from './TheExchange'
-import ThemeProvider from 'providers/ThemeProvider'
+import ThemeProvider from 'providers/ThemeProvider/index.tsx'
 import Transactions from './Transactions'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import UploadDocuments from './UploadDocuments'
@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-class App extends React.PureComponent {
+class App extends React.PureComponent<{ store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any }> {
   render () {
     const {
       store,
@@ -63,7 +63,7 @@ class App extends React.PureComponent {
       persistor,
       isAuthenticated,
       supportedCoins
-    } = this.props
+    }: { store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any } = this.props
     return (
       <Provider store={store}>
         <TranslationsProvider>
@@ -157,8 +157,8 @@ class App extends React.PureComponent {
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
-                      <Redirect from='/' to='/login' />
-                    )}
+                        <Redirect from='/' to='/login' />
+                      )}
                   </Switch>
                 </ConnectedRouter>
                 <AnalyticsTracker />

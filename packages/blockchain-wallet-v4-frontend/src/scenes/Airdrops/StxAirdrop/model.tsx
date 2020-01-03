@@ -10,13 +10,12 @@ import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
 import styled from 'styled-components'
-import Theme from 'types/theme'
 
 const { KYC_STATES } = model.profile
 
 const BlueCartridge = styled(CustomCartridge)`
   cursor: pointer;
-  background-color: ${(props: { theme: Theme }) => props.theme['blue600']};
+  background-color: ${(props) => props.theme.blue600};
   font-weight: 600;
 `
 

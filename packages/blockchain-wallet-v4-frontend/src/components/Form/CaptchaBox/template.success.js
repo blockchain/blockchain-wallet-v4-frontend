@@ -56,12 +56,7 @@ const CaptchaBox = field => {
     <Wrapper>
       <Image src={field.captchaUrl} />
       <RefreshLink onClick={field.fetchNewCaptcha} size='11px' weight={400}>
-        <RefreshIcon
-          name='refresh'
-          color='brand-secondary'
-          size='11px'
-          weight={600}
-        />
+        <RefreshIcon name='refresh' color='blue600' size='11px' weight={600} />
         <FormattedMessage
           id='scenes.reset2fa.thirdstep.newCaptcha'
           defaultMessage='Refresh'

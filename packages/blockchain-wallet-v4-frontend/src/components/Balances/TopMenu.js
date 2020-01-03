@@ -30,7 +30,7 @@ const CoinBalanceMain = styled.div`
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme['brand-primary']};
+      color: ${props => props.theme.blue900};
     }
   }
 `

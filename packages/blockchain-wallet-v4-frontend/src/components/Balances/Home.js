@@ -70,7 +70,7 @@ export const HomeCoinBalanceCell = props => {
           size='16px'
           cursor='pointer'
           mobileSize='16px'
-          color='brand-primary'
+          color='blue900'
           weight={400}
           data-e2e={coin + 'FiatBalance'}
         >

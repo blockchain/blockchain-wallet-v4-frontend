@@ -34,7 +34,7 @@ const GetStartedContainer = styled.div`
   width: ${containerWidth};
   box-sizing: border-box;
   height: 325px;
-  border: 1px solid ${props => props.theme['brand-quaternary']};
+  border: 1px solid ${props => props.theme.blue000};
   border-radius: 3px;
   background-image: url('/img/lockbox@2x.png');
   background-repeat: no-repeat;
@@ -109,11 +109,11 @@ const LearnMoreLink = styled(Link)`
 `
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
 `
 const SetupGuideText = styled(Text)`
   margin: 0 4px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
 `
 const BrowserWarning = styled(Banner)``
 const browser = Bowser.getParser(window.navigator.userAgent)
@@ -132,7 +132,7 @@ const Onboard = props => {
             <GetStartedHeader
               size='26px'
               weight={500}
-              color='brand-primary'
+              color='blue900'
               width='200px'
             >
               <FormattedMessage
@@ -179,7 +179,7 @@ const Onboard = props => {
             </SetupGuideContainer>
           </GetStartedContent>
           <PoweredByContainer>
-            <PoweredByText size='11px' weight={400} color='brand-primary'>
+            <PoweredByText size='11px' weight={400} color='blue900'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.poweredby'
                 defaultMessage='Powered By'
@@ -212,11 +212,7 @@ const Onboard = props => {
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
-            <Icon
-              name='short-right-arrow'
-              color='brand-secondary'
-              size='18px'
-            />
+            <Icon name='short-right-arrow' color='blue600' size='18px' />
           </LearnMoreLink>
         </LearnMoreContainer>
         <WarningContent>

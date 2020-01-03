@@ -62,7 +62,7 @@ const FeeText = styled(Text)`
 `
 
 const FONT_SIZE = '16px'
-const FONT_COLOR = 'brand-primary'
+const FONT_COLOR = 'blue900'
 
 const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`)
 
@@ -70,7 +70,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Wrapper>
     <OrderReviewContainer>
       <StepTransition restart Component={BackButton}>
-        <Icon name='left-arrow' size='20px' color='brand-secondary' cursor />
+        <Icon name='left-arrow' size='20px' color='blue600' cursor />
       </StepTransition>
       <Header color={FONT_COLOR}>
         <FormattedMessage
