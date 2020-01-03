@@ -87,6 +87,7 @@
     "@ledgerhq/hw-app-btc": "4.33.7",
     "@ledgerhq/hw-app-str": "4.32.0",
     "@ledgerhq/hw-transport-u2f": "4.32.0",
+    "@veriff/incontext-sdk": "0.3.4",
     "awesome-phonenumber": "2.10.0",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",

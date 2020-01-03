@@ -1,20 +1,11 @@
+import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import React from 'react'
-import styled from 'styled-components'
-
-import { actions } from 'data'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
-
-const VeriffIframe = styled.iframe.attrs({
-  allow: 'camera; microphone'
-})`
-  width: 100%;
-  height: 100%;
-  border: none;
-`
+import React from 'react'
+import Success from './template.success'
 
 class Veriff extends React.PureComponent {
   state = {
@@ -30,12 +21,11 @@ class Veriff extends React.PureComponent {
     window.removeEventListener('message', this.handleVeriffMessage)
   }
 
-  handleVeriffMessage = ({ data, origin }) => {
-    const { veriffDomain, actions } = this.props
-    if (origin !== veriffDomain) return
-    if (data.status !== 'finished') return
-    this.setState({ loading: true })
-    actions.syncVeriff()
+  handleVeriffMessage = event => {
+    if (event === 'FINISHED') {
+      this.setState({ loading: true })
+      actions.syncVeriff()
+    }
   }
 
   render () {
@@ -45,7 +35,7 @@ class Veriff extends React.PureComponent {
 
     return veriffUrl.cata({
       Success: url => (
-        <VeriffIframe data-e2e='veriffIframe' src={url} id='veriff-iframe' />
+        <Success url={url} handleVeriffMessage={this.handleVeriffMessage} />
       ),
       Loading: () => <Loading />,
       Failure: message => (
