@@ -42,6 +42,20 @@ export const Type = ({ campaignName }) => {
           </Text>
         </TypeWrapper>
       )
+    case 'BLOCKSTACK':
+      return (
+        <TypeWrapper>
+          <Icon
+            name='stx'
+            color='stx'
+            size='24px'
+            style={{ marginRight: '8px' }}
+          />
+          <Text size='14px' weight={500}>
+            Blockstack
+          </Text>
+        </TypeWrapper>
+      )
     default:
       return <Text>-</Text>
   }
