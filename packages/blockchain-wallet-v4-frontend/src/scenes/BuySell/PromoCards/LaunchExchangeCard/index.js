@@ -5,15 +5,15 @@ import React from 'react'
 
 import LaunchExchange from './template'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
 class LaunchExchangeCardContainer extends React.Component {
   handleSignup = () => {
     this.props.showModal()
-    this.props.logEvent(PIT_EVENTS.BUY_SELL_CONNECT_WALLET_CLICKED)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_CONNECT_WALLET_CLICKED)
   }
   handleLinkedWalletLinkout = () => {
-    this.props.logEvent(PIT_EVENTS.BUY_SELL_LINKOUT_CLICKED)
+    this.props.logEvent(EXCHANGE_EVENTS.BUY_SELL_LINKOUT_CLICKED)
   }
 
   render = () => {
@@ -25,7 +25,7 @@ class LaunchExchangeCardContainer extends React.Component {
         handleLinkedWalletLinkout={this.handleLinkedWalletLinkout}
         isExchangeAccountLinked={isExchangeAccountLinked}
         noMargin={noMargin}
-        exchangeUrl={concat(prop('thePit', this.props.domains), '/trade')}
+        exchangeUrl={concat(prop('exchange', this.props.domains), '/trade')}
       />
     )
   }
@@ -34,7 +34,7 @@ class LaunchExchangeCardContainer extends React.Component {
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
   isExchangeAccountLinked: selectors.modules.profile
-    .isPitAccountLinked(state)
+    .isExchangeAccountLinked(state)
     .getOrElse(false)
 })
 

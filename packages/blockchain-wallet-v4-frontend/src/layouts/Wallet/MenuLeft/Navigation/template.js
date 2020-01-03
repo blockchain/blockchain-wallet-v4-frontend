@@ -55,7 +55,7 @@ const ExchangeNavItem = props => (
     </Destination>
     {props.isExchangeAccountLinked && (
       <HelperTipContainer>
-        <HelperTip id='pitSideNavConnected'>
+        <HelperTip id='exchangeSideNavConnected'>
           <TooltipIcon color='blue' name='info' />
         </HelperTip>
       </HelperTipContainer>
@@ -135,18 +135,18 @@ const Navigation = props => {
       </SpotlightLinkContainer>
       {props.isExchangeAccountLinked ? (
         <Link
-          href={`${props.exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_pit_linked`}
+          href={`${props.exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
           rel='noopener noreferrer'
           target='_blank'
           style={{ width: '100%' }}
         >
-          <MenuItem data-e2e='thePitLink'>
+          <MenuItem data-e2e='exchangeLink'>
             <ExchangeNavItem {...props} />
           </MenuItem>
         </Link>
       ) : (
         <LinkContainer to='/exchange' activeClassName='active'>
-          <MenuItem data-e2e='thePitLink'>
+          <MenuItem data-e2e='exchangeLink'>
             <ExchangeNavItem {...props} />
           </MenuItem>
         </LinkContainer>

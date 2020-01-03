@@ -58,7 +58,7 @@ export default ({
     })
   }
 
-  const getPaymentsAccountPit = currency => {
+  const getPaymentsAccountExchange = currency => {
     return authorizedPut({
       url: nabuUrl,
       endPoint: '/payments/accounts/linked',
@@ -167,7 +167,7 @@ export default ({
     createLinkAccountId,
     generateRetailToken,
     generateSession,
-    getPaymentsAccountPit,
+    getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
     linkAccount,

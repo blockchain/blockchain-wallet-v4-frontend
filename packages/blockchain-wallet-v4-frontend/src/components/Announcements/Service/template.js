@@ -80,7 +80,7 @@ const selectStyle = type => {
       }
     case 'info':
       return {
-        backgroundColor: 'marketing-primary',
+        backgroundColor: 'blue600',
         textColor: 'white',
         uppercase: false
       }
@@ -151,7 +151,7 @@ const Announcement = props => {
           <ActionIcon
             name='close'
             size='14px'
-            weight={600}
+            weight={700}
             color='white'
             onClick={() => handleDismiss(id)}
           />

@@ -15,6 +15,7 @@ import styled from 'styled-components'
 import KycGetStarted from './KycGetStarted'
 import PromoCards from './PromoCards'
 
+const { COINIFY_EVENTS } = model.analytics
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
@@ -133,6 +134,7 @@ class BuySellContainer extends React.PureComponent {
 
   handleShowCoinify = () => {
     this.setState({ showCoinifyView: true })
+    this.props.analyticsActions.logEvent(COINIFY_EVENTS.CONTINUE_COINIFY_CLICK)
   }
 
   /**
@@ -147,7 +149,15 @@ class BuySellContainer extends React.PureComponent {
     const hasTokenOrTrades =
       !isNil(path(['coinify', 'offline_token'], buySell)) || showSFOXTrades
 
-    if (hasTokenOrTrades && this.state.showCoinifyView) {
+    // show checkout if user has coinify api token AND has either
+    // 1) clicked through Exchange promotion cards as an EU user
+    // OR
+    // 2) is not an EU user
+    if (
+      hasTokenOrTrades &&
+      (this.state.showCoinifyView ||
+        !includes(prop('countryCode', value), exchangeFunnelCountries))
+    ) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
@@ -220,13 +230,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

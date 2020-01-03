@@ -7,8 +7,8 @@ export default ({ api }) => {
 
   return function * sendSaga () {
     yield takeLatest(
-      AT.FETCH_PAYMENTS_ACCOUNT_PIT,
-      sendSagas.fetchPaymentsAccountPit
+      AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
+      sendSagas.fetchPaymentsAccountExchange
     )
   }
 }

@@ -46,7 +46,7 @@ const EmailReminder = props => {
   return (
     <React.Fragment>
       <ItemWrapper>
-        <Icon name='email' color='white' weight={700} />
+        <Icon name='email' color='white' size='24px' />
         <Text
           style={{ marginLeft: '12px', marginBottom: '1px' }}
           color='white'
