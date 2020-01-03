@@ -100,6 +100,14 @@ export const To = ({ campaignName, userCampaignState }) => {
       ) : (
         <Text>-</Text>
       )
+    case 'BLOCKSTACK':
+      return userCampaignState === 'REWARD_RECEIVED' ? (
+        <Text size='14px' weight={500}>
+          My Blockstack Wallet
+        </Text>
+      ) : (
+        <Text>-</Text>
+      )
     default:
       return <Text>-</Text>
   }
