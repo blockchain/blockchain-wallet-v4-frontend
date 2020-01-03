@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { IDefaultTheme } from "blockchain-info-components/src/Colors/Default";
 import { merge } from 'ramda'
 import { Palette } from 'blockchain-info-components'
 import { selectors } from 'data'
@@ -10,9 +9,9 @@ import React from 'react'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],
-  (themeName: string) => {
+  themeName => {
     const oldTheme = Palette(themeName)
-    const newTheme: IDefaultTheme = merge(theme, oldTheme)
+    const newTheme = merge(theme, oldTheme)
     return { theme: newTheme }
   }
 )

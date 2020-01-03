@@ -52,7 +52,8 @@
       "./lib"
     ],
     "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     }
   },
   "dependencies": {
@@ -66,7 +67,7 @@
     "react-onclickoutside": "6.8.0",
     "react-select": "2.4.3",
     "react-transition-group": "2.5.3",
-    "styled-components": "4.4.1",
+    "styled-components": "4.2.0",
     "universal-cookie": "4.0.0"
   }
 }

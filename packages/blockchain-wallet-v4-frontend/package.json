@@ -78,6 +78,7 @@
       "node_modules/(?!(blockchain-info-components|@blockchain-com/components|blockchain-wallet-v4)/)"
     ],
     "moduleNameMapper": {
+      "services/(.*)": "<rootDir>/src/services/$1",
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     }
@@ -144,7 +145,7 @@
     "rxjs": "6.5.2",
     "sanitize-html": "1.20.1",
     "slick-carousel": "1.8.1",
-    "styled-components": "4.4.1",
+    "styled-components": "4.2.0",
     "zxcvbn": "4.4.2"
   }
 }

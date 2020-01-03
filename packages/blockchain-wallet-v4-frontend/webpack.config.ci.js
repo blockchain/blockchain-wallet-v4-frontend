@@ -25,6 +25,16 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/')
+    }
+  },
   stats: 'verbose',
   module: {
     rules: [
@@ -35,6 +45,7 @@ module.exports = {
           'babel-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {

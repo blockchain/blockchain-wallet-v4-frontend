@@ -33,7 +33,7 @@ describe('TierCard', () => {
         verifyIdentity={verifyIdentity}
       />
     )
-    const button = component.find('TierCard__ActionButton')
+    const button = component.find('.actionButton')
     expect(button).toHaveLength(1)
     expect(button.children().prop('defaultMessage')).toBe('Continue')
   })
@@ -48,7 +48,7 @@ describe('TierCard', () => {
         verifyIdentity={verifyIdentity}
       />
     )
-    const button = component.find('TierCard__ActionButton')
+    const button = component.find('.actionButton')
     expect(button).toHaveLength(1)
     expect(
       button
@@ -64,7 +64,7 @@ describe('TierCard', () => {
     const component = shallow(
       <TierCard tier={1} userTiers={tiers} goToSwap={goToSwap} />
     )
-    const button = component.find('TierCard__ActionButton')
+    const button = component.find('.actionButton')
     expect(button).toHaveLength(1)
     expect(button.children().prop('defaultMessage')).toBe('Swap Now')
     button.simulate('click')
@@ -74,6 +74,6 @@ describe('TierCard', () => {
   it('should no button if tier state is neither none nor verified', () => {
     const tiers = assocPath([1, 'state'], TIERS_STATES.PENDING, userTiers)
     const component = shallow(<TierCard tier={1} userTiers={tiers} />)
-    expect(component.find('TierCard__ActionButton')).toHaveLength(0)
+    expect(component.find('.actionButton')).toHaveLength(0)
   })
 })

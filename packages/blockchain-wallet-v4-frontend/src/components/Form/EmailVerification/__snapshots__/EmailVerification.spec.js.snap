@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EmailVerification component rendering should render edit loading state correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
-  <EmailVerification__InputRow>
+  <Styled(styled.div)>
     <TextBox
       height="48px"
       input={
@@ -31,12 +31,12 @@ exports[`EmailVerification component rendering should render edit loading state 
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render edit loading with label correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
   <label
@@ -48,7 +48,7 @@ exports[`EmailVerification component rendering should render edit loading with l
       values={Object {}}
     />
   </label>
-  <EmailVerification__InputRow>
+  <Styled(styled.div)>
     <TextBox
       height="48px"
       input={
@@ -75,15 +75,15 @@ exports[`EmailVerification component rendering should render edit loading with l
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render edit state correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
-  <EmailVerification__InputRow>
+  <Styled(styled.div)>
     <TextBox
       height="48px"
       input={
@@ -109,12 +109,12 @@ exports[`EmailVerification component rendering should render edit state correctl
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render edit with label correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
   <label
@@ -126,7 +126,7 @@ exports[`EmailVerification component rendering should render edit with label cor
       values={Object {}}
     />
   </label>
-  <EmailVerification__InputRow>
+  <Styled(styled.div)>
     <TextBox
       height="48px"
       input={
@@ -152,12 +152,12 @@ exports[`EmailVerification component rendering should render edit with label cor
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render verificationSent loading state correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
   <Text
@@ -178,13 +178,13 @@ exports[`EmailVerification component rendering should render verificationSent lo
       values={Object {}}
     />
   </Text>
-  <EmailVerification__EmailLabel
+  <Styled(Text)
     weight="400"
   >
     f@ke.mail
-  </EmailVerification__EmailLabel>
-  <EmailVerification__InputRow>
-    <EmailVerification__ChangeButton
+  </Styled(Text)>
+  <Styled(styled.div)>
+    <Styled(LoadingButton)
       loading={true}
       nature="primary"
       onClick={[Function]}
@@ -194,7 +194,7 @@ exports[`EmailVerification component rendering should render verificationSent lo
         id="components.EmailVerification.changeemail"
         values={Object {}}
       />
-    </EmailVerification__ChangeButton>
+    </Styled(LoadingButton)>
     <LoadingButton
       loading={true}
       nature="primary"
@@ -206,12 +206,12 @@ exports[`EmailVerification component rendering should render verificationSent lo
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render verificationSent state correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
   <Text
@@ -232,13 +232,13 @@ exports[`EmailVerification component rendering should render verificationSent st
       values={Object {}}
     />
   </Text>
-  <EmailVerification__EmailLabel
+  <Styled(Text)
     weight="400"
   >
     f@ke.mail
-  </EmailVerification__EmailLabel>
-  <EmailVerification__InputRow>
-    <EmailVerification__ChangeButton
+  </Styled(Text)>
+  <Styled(styled.div)>
+    <Styled(LoadingButton)
       nature="primary"
       onClick={[Function]}
     >
@@ -247,7 +247,7 @@ exports[`EmailVerification component rendering should render verificationSent st
         id="components.EmailVerification.changeemail"
         values={Object {}}
       />
-    </EmailVerification__ChangeButton>
+    </Styled(LoadingButton)>
     <LoadingButton
       nature="primary"
       onClick={[Function]}
@@ -258,15 +258,15 @@ exports[`EmailVerification component rendering should render verificationSent st
         values={Object {}}
       />
     </LoadingButton>
-  </EmailVerification__InputRow>
-</EmailVerification__Container>
+  </Styled(styled.div)>
+</styled.div>
 `;
 
 exports[`EmailVerification component rendering should render verified state correctly 1`] = `
-<EmailVerification__Container
+<styled.div
   className="cn"
 >
-  <EmailVerification__SuccessLabel
+  <Styled(Text)
     color="success"
   >
     <FormattedMessage
@@ -281,11 +281,11 @@ exports[`EmailVerification component rendering should render verified state corr
       size="13px"
       weight="400"
     />
-  </EmailVerification__SuccessLabel>
-  <EmailVerification__EmailLabel
+  </Styled(Text)>
+  <Styled(Text)
     weight="400"
   >
     f@ke.mail
-  </EmailVerification__EmailLabel>
-</EmailVerification__Container>
+  </Styled(Text)>
+</styled.div>
 `;

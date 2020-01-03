@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NumberBox renders correctly 1`] = `
-<NumberBox__Container>
+<styled.div>
   <mockConstructor
     errorState="initial"
   />
-</NumberBox__Container>
+</styled.div>
 `;

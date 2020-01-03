@@ -194,6 +194,7 @@ export const TierCard = ({
         {tierData.state === TIERS_STATES.NONE && (
           <ActionButton
             jumbo
+            className='actionButton'
             fullwidth
             nature='primary'
             onClick={verifyIdentity}
@@ -209,7 +210,13 @@ export const TierCard = ({
           </ActionButton>
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (
-          <ActionButton jumbo fullwidth nature='primary' onClick={goToSwap}>
+          <ActionButton
+            jumbo
+            className='actionButton'
+            fullwidth
+            nature='primary'
+            onClick={goToSwap}
+          >
             <FormattedMessage
               id='components.identityverification.tiercard.swap_now'
               defaultMessage='Swap Now'

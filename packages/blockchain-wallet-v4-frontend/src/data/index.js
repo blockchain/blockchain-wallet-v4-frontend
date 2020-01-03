@@ -6,6 +6,4 @@ import * as selectors from './selectors'
 import rootReducer from './rootReducer'
 import rootSaga from './rootSaga'
 
-export type RootAction = ReturnType<typeof actions>
-
 export { actions, actionTypes, model, rootReducer, rootSaga, selectors, sagas }
