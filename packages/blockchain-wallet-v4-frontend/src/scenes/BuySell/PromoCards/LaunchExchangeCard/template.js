@@ -77,7 +77,7 @@ const LaunchExchangeCard = props => {
         </Text>
 
         <Wrapper
-          href={`${exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
+          href={`${exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
           rel='noopener noreferrer'
           target='_blank'
           onClick={isExchangeAccountLinked ? handleLinkedWalletLinkout : null}

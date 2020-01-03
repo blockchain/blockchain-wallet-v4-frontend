@@ -7,24 +7,15 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
-import bitcoinNetwork from './img/bitcoin-network.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
-import blockchainBlue from './img/blockchain-blue.svg'
-import blockchainVector from './img/blockchain-vector.svg'
-import blueLogo from './img/blue-logo.svg'
-import buySellBuyBch from './img/buy-sell-buy-bch.svg'
-import buySellBuyBtc from './img/buy-sell-buy-btc.svg'
-import buySellBuyEth from './img/buy-sell-buy-eth.svg'
+import blockchainIcon from './img/bc-icon.svg'
+import blockchainLogo from './img/bc-logo.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
-import buySellSellBch from './img/buy-sell-sell-bch.svg'
-import buySellSellBtc from './img/buy-sell-sell-btc.svg'
-import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
-import checkHelper from './img/check-helper.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
 import closeError from './img/close-error.svg'
 import coinifyLanding from './img/coinify-landing.svg'
@@ -47,12 +38,8 @@ import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
-import halfBitcoin from './img/half-bitcoin.svg'
-import halfBitcoincash from './img/half-bitcoincash.svg'
-import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
 import introBankGif from './img/intro-bank.gif'
-import introCart from './img/intro-cart.png'
 import introCartGif from './img/intro-cart.gif'
 import introHand from './img/intro-hand.png'
 import introLock from './img/intro-lock.png'
@@ -62,46 +49,24 @@ import introSendGif from './img/intro-send.gif'
 import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
-import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
-import pitMacbookGold from './img/pit-macbook-gold.png'
-import pitMacbookGold2 from './img/pit-macbook-gold@2x.png'
-import pitMacbookGold3 from './img/pit-macbook-gold@3x.png'
 import poweredByCoinify from './img/powered_by_coinify.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
-import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
-import rocket from './img/rocket.gif'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
-import sophisticated from './img/sophisticated.svg'
-import starfield2 from './img/starfield2.png'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
-import stellarPlanet from './img/stellar-planet.png'
-import stellarPlanet2 from './img/stellar-planet@2x.png'
-import stellarPlanet3 from './img/stellar-planet@3x.png'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
 import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
-import swapDashboardLeft from './img/swap-dashboard-left.png'
-import swapDashboardRight from './img/swap-dashboard-right.png'
-import swapIntro from './img/swap-intro.png'
-import swapIntro2 from './img/swap-intro@2x.png'
-import swapIntro3 from './img/swap-intro@3x.png'
 import swapModalBg from './img/swap-modal-bg.svg'
-import swapModalCoins from './img/swap-modal-coins.png'
-import thePitLogo from './img/the-pit-logo.svg'
-import thePitLogoBasic from './img/the-pit-logo-basic.svg'
-import thePitText from './img/the-pit-text.svg'
-import thePitWord from './img/the-pit-word.svg'
 import twitterWhite from './img/twitter-white.svg'
-import v4Welcome from './img/v4-welcome.jpg'
 import visaLogo from './img/visa-logo.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
@@ -127,8 +92,6 @@ import lockboxFailed3 from './img/lockbox/firmware-bad@3x.png'
 import lockboxSuccess from './img/lockbox/send-confirmed.png'
 import lockboxSuccess2 from './img/lockbox/send-confirmed@2x.png'
 import lockboxSuccess3 from './img/lockbox/send-confirmed@3x.png'
-import lockboxUsb from './img/lockbox-usb.svg'
-import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import onboardComplete from './img/lockbox/onboarding_complete.gif'
 import onboardConnect from './img/lockbox/onboarding_connect.gif'
 import onboardCustomize from './img/lockbox/onboarding_customize.gif'
@@ -150,24 +113,15 @@ export default {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
-  'bitcoin-network': bitcoinNetwork,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
-  'blockchain-blue': blockchainBlue,
-  'blockchain-vector': blockchainVector,
-  'blue-logo': blueLogo,
-  'buy-sell-buy-bch': buySellBuyBch,
-  'buy-sell-buy-btc': buySellBuyBtc,
-  'buy-sell-buy-eth': buySellBuyEth,
+  'blockchain-logo': blockchainLogo,
+  'blockchain-icon': blockchainIcon,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
-  'buy-sell-sell-bch': buySellSellBch,
-  'buy-sell-sell-btc': buySellSellBtc,
-  'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
-  'check-helper': checkHelper,
   'checkmark-green': checkmarkGreen,
   coins: coins,
   'coin-pax': coinPax,
@@ -193,12 +147,8 @@ export default {
   'gold-verified': goldVerified,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
-  'half-bitcoin': halfBitcoin,
-  'half-bitcoincash': halfBitcoincash,
-  'half-ether': halfEther,
   'identity-verification': identityVerification,
   'intro-bank-gif': introBankGif,
-  'intro-cart': introCart,
   'intro-cart-gif': introCartGif,
   'intro-hand': introHand,
   'intro-lock': introLock,
@@ -214,7 +164,6 @@ export default {
   'ledger-logo2': ledgerLogo2,
   'ledger-logo3': ledgerLogo3,
   'ledger-nano-s': deviceNanoS,
-  'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
   'lockbox-device': deviceLockbox,
   'lockbox-failed': lockboxFailed,
@@ -233,52 +182,29 @@ export default {
   'lockbox-success': lockboxSuccess,
   'lockbox-success2': lockboxSuccess2,
   'lockbox-success3': lockboxSuccess3,
-  'lockbox-usb': lockboxUsb,
-  'lockbox-welcome-safe': lockboxWelcomeSafe,
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
-  'pit-macbook-gold': pitMacbookGold,
-  'pit-macbook-gold2': pitMacbookGold2,
-  'pit-macbook-gold3': pitMacbookGold3,
   'powered-by-coinify': poweredByCoinify,
+  printer: printer,
   'qr-code': qrCode,
-  'restore-lockbox-icon': restoreLockboxIcon,
+  search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
+  smartphone: smartphone,
   'starfield-banner-bg': starfieldBannerBg,
-  starfield2: starfield2,
-  'stellar-planet': stellarPlanet,
-  'stellar-planet2': stellarPlanet2,
-  'stellar-planet3': stellarPlanet3,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
-  'swap-dashboard-left': swapDashboardLeft,
-  'swap-dashboard-right': swapDashboardRight,
   'swap-modal-bg': swapModalBg,
-  'swap-intro': swapIntro,
-  'swap-intro2': swapIntro2,
-  'swap-intro3': swapIntro3,
-  'swap-modal-coins': swapModalCoins,
-  'the-pit-logo-basic': thePitLogoBasic,
-  'the-pit-logo': thePitLogo,
-  'the-pit-text': thePitText,
-  'the-pit-word': thePitWord,
   'twitter-white': twitterWhite,
-  'v4-welcome': v4Welcome,
   'visa-logo': visaLogo,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
-  printer: printer,
-  rocket: rocket,
-  search: search,
-  smartphone: smartphone,
-  sophisticated: sophisticated,
   yubikey: yubikey
 }

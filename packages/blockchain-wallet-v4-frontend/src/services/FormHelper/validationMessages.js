@@ -132,7 +132,7 @@ export const ExchangeRequires2FAMessage = () => (
       defaultMessage='The Exchange requires 2FA for deposits.'
     />
     <Link
-      href='https://pit.blockchain.com/trade/login'
+      href='https://exchange.blockchain.com/trade/login'
       target='_blank'
       rel='noopener noreferrer'
       size='12px'

@@ -167,7 +167,7 @@ const FirstStep = props => {
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}
-                  includePitAddress
+                  includeExchangeAddress
                   isCreatable
                   noOptionsMessage={() => null}
                   isValidNewOption={() => false}

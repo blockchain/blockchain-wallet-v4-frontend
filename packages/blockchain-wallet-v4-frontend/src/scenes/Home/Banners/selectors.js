@@ -14,20 +14,17 @@ export const getData = state => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-  const isPitAccountLinked = selectors.modules.profile
-    .isPitAccountLinked(state)
+  const isExchangeAccountLinked = selectors.modules.profile
+    .isExchangeAccountLinked(state)
     .getOrElse(true)
-  const isInvitedToPitHomeBanner = selectors.modules.profile
-    .isInvitedToPitHomeBanner(state)
-    .getOrElse(false)
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
   } else if (kycNotFinished && !prop('BLOCKSTACK', tags)) {
     bannerToShow = 'blockstack'
-  } else if (isInvitedToPitHomeBanner && !isPitAccountLinked) {
-    bannerToShow = 'thepit'
+  } else if (!isExchangeAccountLinked) {
+    bannerToShow = 'exchange'
   } else {
     bannerToShow = null
   }

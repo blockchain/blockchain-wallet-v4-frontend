@@ -9,7 +9,7 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const { PIT_EVENTS } = model.analytics
+const { EXCHANGE_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,9 +46,9 @@ const Column = styled.div`
   }
 `
 const NewCartridge = styled(Cartridge)`
-  border: 1px solid ${props => props.theme['pitTurquoise']};
+  border: 1px solid ${props => props.theme['exchangeTurquoise']};
   background: ${props => props.theme['green900']};
-  color: ${props => props.theme['pitTurquoise']};
+  color: ${props => props.theme['exchangeTurquoise']};
   margin-left: 0px;
   margin-right: 20px;
   border-radius: 4px;
@@ -74,26 +74,26 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const ThePitBanner = ({ analyticsActions }) => {
+const ExchangeBanner = ({ analyticsActions }) => {
   return (
     <Wrapper>
       <Row>
         <NewCartridge>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.new'
+            id='scenes.home.banners.exchangebanner.new'
             defaultMessage='New'
           />
         </NewCartridge>
         <Column>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
-              id='scenes.home.banners.pitbanner.content1'
+              id='scenes.home.banners.exchangebanner.content1'
               defaultMessage='We built our own exchange that links to your Wallet.'
             />
           </Copy>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
-              id='scenes.home.banners.pitbanner.content3'
+              id='scenes.home.banners.exchangebanner.content3'
               defaultMessage='Instantly access more cryptos and deposit/withdraw cash.'
             />
           </Copy>
@@ -102,11 +102,13 @@ const ThePitBanner = ({ analyticsActions }) => {
       <LinkContainer
         to='/exchange'
         rel='noopener noreferrer'
-        onClick={() => analyticsActions.logEvent(PIT_EVENTS.BANNER_GET_STARTED)}
+        onClick={() =>
+          analyticsActions.logEvent(EXCHANGE_EVENTS.BANNER_GET_STARTED)
+        }
       >
-        <BannerButton jumbo nature='pitTurquoise'>
+        <BannerButton jumbo nature='exchangeTurquoise'>
           <FormattedMessage
-            id='scenes.home.banners.pitbanner.getstarted'
+            id='scenes.home.banners.exchangebanner.getstarted'
             defaultMessage='Get Started'
           />
         </BannerButton>
@@ -122,4 +124,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(ThePitBanner)
+)(ExchangeBanner)
