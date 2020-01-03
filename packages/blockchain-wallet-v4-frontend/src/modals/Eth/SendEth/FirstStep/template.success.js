@@ -162,6 +162,8 @@ const FirstStep = props => {
               validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
               dataE2e='sendEthAddressInput'
+              errorDoubleLine
+              errorWidth='90%'
               exclude={[from.label]}
               openMenuOnClick={false}
               includeAll={false}

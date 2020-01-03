@@ -168,7 +168,8 @@ const FirstStep = props => {
                   placeholder='Paste, scan, or select destination'
                   component={SelectBoxXlmAddresses}
                   dataE2e='sendXlmAddressInput'
-                  validate={[required, validXlmAddress]}
+                  errorDoubleLine
+                  errorWidth='90%'
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}
@@ -176,6 +177,7 @@ const FirstStep = props => {
                   isCreatable
                   noOptionsMessage={() => null}
                   isValidNewOption={() => false}
+                  validate={[required, validXlmAddress]}
                 />
                 <QRCodeCapture
                   scanType='xlmAddress'

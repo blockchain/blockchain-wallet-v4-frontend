@@ -164,6 +164,8 @@ const FirstStep = props => {
                   component={SelectBoxBchAddresses}
                   dataE2e='sendBchAddressInput'
                   validate={[required, validBchAddress]}
+                  errorDoubleLine
+                  errorWidth='90%'
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}

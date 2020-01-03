@@ -125,26 +125,27 @@ export const PasswordsDoNotMatch = () => (
     defaultMessage='Passwords do not match'
   />
 )
-export const ExchangeRequires2FAMessage = () => (
+export const ExchangeRequires2FAMessage = ({ coin }) => (
   <>
     <FormattedMessage
-      id='formhelper.exchange.requires2fa'
-      defaultMessage='The Exchange requires 2FA for deposits.'
-    />
+      id='formhelper.exchange.enable2fa'
+      defaultMessage='Enable 2FA to send {coin} to the Exchange.'
+      values={{ coin }}
+    />{' '}
     <Link
       href='https://exchange.blockchain.com/trade/login'
       target='_blank'
       rel='noopener noreferrer'
       size='12px'
     >
-      {' '}
       <FormattedMessage
-        id='formhelper.exchange.gotoexchange'
-        defaultMessage='Take me to the Exchange.'
+        id='formhelper.exchange.learnmore'
+        defaultMessage='Learn more.'
       />
     </Link>
   </>
 )
+
 export const IncorrectPassword = () => (
   <FormattedMessage
     id='formhelper.incorrectpassword'
