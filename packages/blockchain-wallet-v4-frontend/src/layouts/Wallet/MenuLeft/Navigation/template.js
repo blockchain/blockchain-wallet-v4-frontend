@@ -46,8 +46,12 @@ export const NewCartridge = styled(Cartridge)`
 
 const ExchangeNavItem = props => (
   <>
-    <MenuIcon name='exchange-logo' style={{ paddingLeft: '2px' }} size='24px' />
-    <Destination>
+    <MenuIcon
+      name='blockchain-logo'
+      style={{ marginLeft: '-2px' }}
+      size='26px'
+    />
+    <Destination style={{ marginLeft: '2px' }}>
       <FormattedMessage
         id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
         defaultMessage='Exchange'
@@ -159,7 +163,7 @@ const Navigation = props => {
             style={{ paddingLeft: '2px' }}
             size='24px'
           />
-          <Destination>
+          <Destination style={{ marginLeft: '-2px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'
