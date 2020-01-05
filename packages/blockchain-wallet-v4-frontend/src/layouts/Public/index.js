@@ -1,5 +1,4 @@
 import { Route } from 'react-router-dom'
-import AirdropCallout from './AirdropCallout'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import ExternalLinks from './ExternalLinks'
@@ -63,7 +62,6 @@ class PublicLayoutContainer extends React.PureComponent {
                 <ContentContainer>
                   <Spacer />
                   <ComponentContainer>
-                    <AirdropCallout {...rest} />
                     <Component {...matchProps} />
                     <ExternalLinks />
                   </ComponentContainer>
