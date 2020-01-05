@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import BlockstackBanner from './BlockstackBanner'
 import ExchangeBanner from './ExchangeBanner'
 import KycResubmit from './KycResubmit'
 import React from 'react'
@@ -20,12 +19,6 @@ class Banners extends React.PureComponent {
         return (
           <BannerWrapper>
             <KycResubmit />
-          </BannerWrapper>
-        )
-      case 'blockstack':
-        return (
-          <BannerWrapper>
-            <BlockstackBanner />
           </BannerWrapper>
         )
       case 'exchange':
