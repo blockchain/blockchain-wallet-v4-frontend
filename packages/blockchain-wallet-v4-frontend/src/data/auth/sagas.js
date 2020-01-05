@@ -83,7 +83,6 @@ export default ({ api, coreSagas }) => {
 
   const saveGoals = function * (firstLogin) {
     yield put(actions.goals.saveGoal('walletTour', { firstLogin }))
-    yield put(actions.goals.saveGoal('registerForBlockstackAirdrop'))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
