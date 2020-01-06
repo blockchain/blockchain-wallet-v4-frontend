@@ -128,8 +128,8 @@ export const PasswordsDoNotMatch = () => (
 export const ExchangeRequires2FAMessage = () => (
   <>
     <FormattedMessage
-      id='formhelper.exchange.requires2fa'
-      defaultMessage='The Exchange requires 2FA for deposits.'
+      id='formhelper.exchange.require2fa'
+      defaultMessage='Exchange deposits require 2FA.'
     />
     <Link
       href='https://exchange.blockchain.com/trade/login'
@@ -139,8 +139,8 @@ export const ExchangeRequires2FAMessage = () => (
     >
       {' '}
       <FormattedMessage
-        id='formhelper.exchange.gotoexchange'
-        defaultMessage='Take me to the Exchange.'
+        id='formhelper.exchange.learnmore'
+        defaultMessage='Learn more.'
       />
     </Link>
   </>
