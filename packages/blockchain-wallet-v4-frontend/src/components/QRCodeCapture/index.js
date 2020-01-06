@@ -138,10 +138,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanEthAddress (data) {
-    if (
-      utils.eth.isValidAddress(data) ||
-      includes('https://bitpay.com', data)
-    ) {
+    if (utils.eth.isValidAddress(data)) {
       this.props.formActions.change(ETH_FORM, 'to', this.createNewValue(data))
     } else {
       this.props.alertActions.displayError(C.ETH_ADDRESS_INVALID)
