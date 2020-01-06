@@ -43,6 +43,20 @@ export const Type = ({ campaignName }: CampaignType) => {
           </Text>
         </TypeWrapper>
       )
+    case 'BLOCKSTACK':
+      return (
+        <TypeWrapper>
+          <Icon
+            name='stx'
+            color='stx'
+            size='24px'
+            style={{ marginRight: '8px' }}
+          />
+          <Text size='14px' weight={500}>
+            Blockstack
+          </Text>
+        </TypeWrapper>
+      )
     default:
       return <Text>-</Text>
   }
@@ -83,6 +97,14 @@ export const To = ({ campaignName, userCampaignState }: CampaignType) => {
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
           My Stellar Wallet
+        </Text>
+      ) : (
+          <Text>-</Text>
+        )
+    case 'BLOCKSTACK':
+      return userCampaignState === 'REWARD_RECEIVED' ? (
+        <Text size='14px' weight={500}>
+          My Blockstack Wallet
         </Text>
       ) : (
           <Text>-</Text>

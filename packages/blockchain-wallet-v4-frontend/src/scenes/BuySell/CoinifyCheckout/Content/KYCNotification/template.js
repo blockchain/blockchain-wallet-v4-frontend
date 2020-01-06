@@ -13,9 +13,10 @@ import styled from 'styled-components'
 const { NONE } = model.profile.KYC_STATES
 
 const Wrapper = styled.div`
-  padding: 30px;
+  padding: 20px;
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 10px;
+  margin-bottom: 15px;
 `
 const KycContainer = styled.div`
   display: flex;
@@ -50,13 +51,13 @@ const KYCNotification = props => {
     <Wrapper>
       <KycContainer>
         <Header>
-          <Text size='14px'>
+          <Text size='16px' weight={600}>
             <FormattedMessage
               id='scenes.buy_sell.kyc_notification.header'
               defaultMessage='Identity Verification'
             />
           </Text>
-          <Text size='13px' color={prop('color', header)} weight={500}>
+          <Text size='14px' color={prop('color', header)} weight={500}>
             {prop('text', header)}
           </Text>
         </Header>
@@ -67,7 +68,7 @@ const KYCNotification = props => {
         {equals(NONE, kycState) ? (
           <Fragment>
             <CompleteButton onClick={onTrigger} nature='empty-secondary'>
-              <Text size='13px' color='blue600'>
+              <Text size='14px' color='blue600'>
                 <FormattedMessage
                   id='scenes.buy_sell.kyc_notification.complete'
                   defaultMessage='Complete Verification'

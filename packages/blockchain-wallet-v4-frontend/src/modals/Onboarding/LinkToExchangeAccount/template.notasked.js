@@ -132,7 +132,7 @@ const LinkToExchangeAccountNotAsked = ({
         <ContentWrapper>
           <LeftColumn>
             <div>
-              <ExchangeLogo name='exchange-logo' height='24px' />
+              <ExchangeLogo name='blockchain-logo' height='24px' />
               <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
                   id='modals.onboarding.linktoexchangeaccount.na.subtitle-1'
