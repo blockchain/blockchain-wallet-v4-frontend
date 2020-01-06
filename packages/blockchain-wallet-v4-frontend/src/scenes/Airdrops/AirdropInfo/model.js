@@ -24,6 +24,10 @@ export const GreyCartridge = styled(CustomCartridge)`
   background-color: ${props => props.theme.grey000};
   color: ${props => props.theme.grey600};
 `
+export const BlueCartridge = styled(CustomCartridge)`
+  background-color: ${props => props.theme['blue000']};
+  color: ${props => props.theme['blue600']};
+`
 export const ErrorCartridge = styled(CustomCartridge)`
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red600};

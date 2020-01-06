@@ -1,6 +1,10 @@
+import {
+  BlueCartridge,
+  GreyCartridge,
+  SuccessCartridge
+} from '../AirdropInfo/model'
 import { CampaignType } from '../types'
 import { FormattedMessage } from 'react-intl'
-import { GreyCartridge, SuccessCartridge } from '../AirdropInfo/model'
 import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -62,7 +66,24 @@ export const Type = ({ campaignName }: CampaignType) => {
   }
 }
 
-export const Status = ({ campaignState, userCampaignState }: CampaignType) => {
+export const Status = ({ campaignName, campaignState, userCampaignState }: CampaignType) => {
+  // Special case for BLOCKSTACK campaign
+  // See convo: https://blockc.slack.com/archives/GSAK5CKD5/p1578309118000200
+  if (campaignName === 'BLOCKSTACK') {
+    switch (true) {
+      case campaignState === 'ENDED' && userCampaignState === 'TASK_FINISHED':
+        return (
+          <BlueCartridge>
+            <Text size='14px' weight={700} color='blue600'>
+              <FormattedMessage
+                id='scenes.pastairdrops.pending'
+                defaultMessage='Reward Pending'
+              />
+            </Text>
+          </BlueCartridge>
+        )
+    }
+  }
   switch (true) {
     case campaignState === 'ENDED' && userCampaignState === 'REWARD_RECEIVED':
       return (
