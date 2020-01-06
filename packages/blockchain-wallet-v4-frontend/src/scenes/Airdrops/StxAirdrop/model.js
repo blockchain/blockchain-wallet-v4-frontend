@@ -23,8 +23,8 @@ const Ended = () => {
   return (
     <GreyCartridge>
       <FormattedMessage
-        id='scenes.airdrop.stx.ended'
-        defaultMessage='Campaign Ended'
+        id='scenes.airdrop.stx.expired'
+        defaultMessage='Offer Expired'
       />
     </GreyCartridge>
   )
@@ -141,6 +141,9 @@ export const StxStatus = ({
       }
       return null
     case KYC_STATES.NONE:
+      if (blockstackCampaign.campaignState === 'ENDED') {
+        return <Ended />
+      }
       return (
         <BlueCartridge
           onClick={() => identityVerificationActions.verifyIdentity(2)}
