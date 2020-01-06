@@ -140,7 +140,7 @@ export const ExchangeRequires2FAMessage = () => (
       {' '}
       <FormattedMessage
         id='formhelper.exchange.learnmore'
-        defaultMessage='Learn more'
+        defaultMessage='Learn more.'
       />
     </Link>
   </>
