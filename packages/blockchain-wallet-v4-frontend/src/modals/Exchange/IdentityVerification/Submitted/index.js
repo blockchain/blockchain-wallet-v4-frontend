@@ -67,13 +67,7 @@ class Submitted extends React.PureComponent {
   }
 
   render () {
-    const { onClose, submitting, error } = this.props
-    const parsedError =
-      typeof error === 'object'
-        ? error.message
-        : typeof error === 'string'
-        ? error
-        : 'Unknown Error'
+    const { onClose, submitting } = this.props
 
     return (
       <SubmittedIdentityVerificationForm>
@@ -112,16 +106,14 @@ class Submitted extends React.PureComponent {
             </NextStepsSubHeader>
           </NextSteps>
           <Form>
-            {submitting ? (
+            {submitting && (
               <HeartbeatLoader
                 height='32px'
                 width='32px'
                 color='blue500'
                 style={{ margin: '0 auto' }}
               />
-            ) : error ? (
-              parsedError
-            ) : null}
+            )}
             <CloseButton
               nature='empty-secondary'
               disabled={submitting}
