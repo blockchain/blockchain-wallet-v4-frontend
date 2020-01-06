@@ -1,5 +1,5 @@
 import * as Exchange from '../exchange'
-import { includes, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
@@ -9,8 +9,7 @@ import EthUtil from 'ethereumjs-util'
 /**
  * @param {string} address - The ethereum address
  */
-export const isValidAddress = address =>
-  /^0x[a-fA-F0-9]{40}$/.test(address) || includes('https://bitpay.com', address)
+export const isValidAddress = address => /^0x[a-fA-F0-9]{40}$/.test(address)
 
 /**
  * @param {string} mnemonic
