@@ -24,8 +24,9 @@ class Veriff extends React.PureComponent {
   handleVeriffMessage = event => {
     if (event === 'FINISHED') {
       this.setState({ loading: true })
-      actions.syncVeriff()
+      this.props.actions.syncVeriff()
     }
+    this.props.onClose()
   }
 
   render () {
