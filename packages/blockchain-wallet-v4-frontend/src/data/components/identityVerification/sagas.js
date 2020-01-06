@@ -1,5 +1,5 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
+import * as A from './actions.ts'
+import * as AT from './actionTypes.ts'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'

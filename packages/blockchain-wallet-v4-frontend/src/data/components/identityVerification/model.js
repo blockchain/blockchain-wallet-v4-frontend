@@ -30,6 +30,7 @@ export const SMS_STEPS = {
   verify: 'verify'
 }
 
+// Moved to types.ts
 export const EMAIL_STEPS = {
   edit: 'edit',
   verify: 'verify'

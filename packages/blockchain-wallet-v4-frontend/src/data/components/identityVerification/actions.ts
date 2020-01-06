@@ -1,11 +1,12 @@
 import * as AT from './actionTypes'
+import { IdentityVerificationActionTypes } from './types'
 import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
   tier = TIERS[2],
   isCoinify = false,
   needMoreInfo = false
-) => ({
+): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
   payload: { tier, isCoinify, needMoreInfo }
 })
