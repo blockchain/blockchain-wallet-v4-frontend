@@ -45,7 +45,7 @@ const LaunchExchangeCard = props => {
   return (
     <BoxWrapper>
       <StyledBox noMargin={noMargin}>
-        <Icon name='exchange-logo' size='30px' color='black' />
+        <Icon name='blockchain-logo' size='30px' color='black' />
         <Text
           size='20px'
           color='grey800'

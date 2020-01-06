@@ -473,37 +473,6 @@ export default ({ api }) => {
     }
   }
 
-  const runRegisterForBlockstackAirdropGoal = function * (goal) {
-    try {
-      const { id } = goal
-      yield put(actions.goals.deleteGoal(id))
-      yield call(waitForUserData)
-      const { current } = (yield select(
-        selectors.modules.profile.getUserTiers
-      )).getOrElse({ current: 0 }) || { current: 0 }
-      const blockstackTag = (yield select(
-        selectors.modules.profile.getBlockstackTag
-      )).getOrElse(false)
-      if (!blockstackTag && current === TIERS[2]) {
-        const campaign = (yield select(
-          selectors.core.walletOptions.getStxCampaign
-        )).getOrElse('BLOCKSTACK')
-        yield put(actions.modules.profile.setCampaign({ name: campaign }))
-        yield put(
-          actions.components.identityVerification.registerUserCampaign()
-        )
-      }
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'runRegisterForBlockstackAirdropGoal',
-          e
-        )
-      )
-    }
-  }
-
   const runWalletTour = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -649,8 +618,6 @@ export default ({ api }) => {
         case 'walletTour':
           yield call(runWalletTour, goal)
           break
-        case 'registerForBlockstackAirdrop':
-          yield call(runRegisterForBlockstackAirdropGoal, goal)
       }
       yield put(actions.goals.initialModalDisplayed)
     } catch (error) {
