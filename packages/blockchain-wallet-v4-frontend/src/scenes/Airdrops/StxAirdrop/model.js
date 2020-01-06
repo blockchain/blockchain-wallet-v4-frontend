@@ -141,9 +141,6 @@ export const StxStatus = ({
       }
       return null
     case KYC_STATES.NONE:
-      if (blockstackCampaign.campaignState === 'ENDED') {
-        return <Ended />
-      }
       return (
         <BlueCartridge
           onClick={() => identityVerificationActions.verifyIdentity(2)}
