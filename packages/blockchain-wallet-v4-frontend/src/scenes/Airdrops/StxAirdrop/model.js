@@ -1,10 +1,11 @@
-import { Button, Link } from 'blockchain-info-components'
 import {
+  BlueCartridge,
   CustomCartridge,
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
+import { Button, Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
@@ -12,11 +13,22 @@ import styled from 'styled-components'
 
 const { KYC_STATES } = model.profile
 
-const BlueCartridge = styled(CustomCartridge)`
+const BlueCartridgeCTA = styled(CustomCartridge)`
   cursor: pointer;
   background-color: ${props => props.theme['blue600']};
   font-weight: 600;
 `
+
+const Ended = () => {
+  return (
+    <GreyCartridge>
+      <FormattedMessage
+        id='scenes.airdrop.stx.ended'
+        defaultMessage='Campaign Ended'
+      />
+    </GreyCartridge>
+  )
+}
 
 // TypeScript🔮
 // attributes: {'x-campaign-reject-reason': string}
@@ -34,6 +46,13 @@ export const StxStatus = ({
   const blockstackCampaign = userCampaignsInfoResponseList.find(
     campaign => campaign.campaignName === 'BLOCKSTACK'
   )
+
+  if (
+    kycState !== KYC_STATES.VERIFIED &&
+    blockstackCampaign.campaignState === 'ENDED'
+  ) {
+    return <Ended />
+  }
 
   switch (kycState) {
     case KYC_STATES.REJECTED:
@@ -76,7 +95,32 @@ export const StxStatus = ({
               />
             </SuccessCartridge>
           )
+        case 'NONE':
+          if (blockstackCampaign.campaignState === 'ENDED') {
+            return <Ended />
+          }
+
+          return (
+            <BlueCartridgeCTA
+              onClick={() =>
+                identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
+              }
+            >
+              <FormattedMessage
+                id='scenes.airdrop.stx.claim'
+                defaultMessage='Claim'
+              />
+            </BlueCartridgeCTA>
+          )
         case 'TASK_FINISHED':
+          return (
+            <BlueCartridge>
+              <FormattedMessage
+                id='scenes.airdrop.stx.reward_pending'
+                defaultMessage='Reward Pending'
+              />
+            </BlueCartridge>
+          )
         case 'REWARD_SEND':
         case 'REGISTERED':
           return blockstackCampaign.attributes['x-campaign-reject-reason'] ? (
@@ -93,19 +137,6 @@ export const StxStatus = ({
                 defaultMessage='Claimed'
               />
             </SuccessCartridge>
-          )
-        case 'NONE':
-          return (
-            <BlueCartridge
-              onClick={() =>
-                identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
-              }
-            >
-              <FormattedMessage
-                id='scenes.airdrop.stx.claim'
-                defaultMessage='Claim'
-              />
-            </BlueCartridge>
           )
       }
       return null
