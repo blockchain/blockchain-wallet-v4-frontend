@@ -220,8 +220,6 @@ const FirstStep = props => {
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
                   validate={[required, validBtcAddress]}
-                  errorDoubleLine
-                  errorWidth='90%'
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}

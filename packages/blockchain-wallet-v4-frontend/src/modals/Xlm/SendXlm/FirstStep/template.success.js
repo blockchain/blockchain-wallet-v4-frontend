@@ -168,8 +168,6 @@ const FirstStep = props => {
                   placeholder='Paste, scan, or select destination'
                   component={SelectBoxXlmAddresses}
                   dataE2e='sendXlmAddressInput'
-                  errorDoubleLine
-                  errorWidth='90%'
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}

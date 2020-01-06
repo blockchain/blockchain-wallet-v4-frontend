@@ -85,12 +85,12 @@ export const validPasswordStretchingNumber = value =>
     <M.InvalidPasswordStretchingNumberMessage />
   )
 
-export const validEthAddress = ({ value: dropdownValue }, allValues) => {
+export const validEthAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue
   const address = propOr(value, ['address'], value)
   if (address === BAD_2FA) {
-    return <M.ExchangeRequires2FAMessage coin={prop('coin', allValues)} />
+    return <M.ExchangeRequires2FAMessage />
   }
   return utils.eth.isValidAddress(address) ? (
     undefined
@@ -99,12 +99,12 @@ export const validEthAddress = ({ value: dropdownValue }, allValues) => {
   )
 }
 
-export const validXlmAddress = ({ value: dropdownValue }, allValues) => {
+export const validXlmAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue
   const address = propOr(value, ['address'], value)
   if (address === BAD_2FA) {
-    return <M.ExchangeRequires2FAMessage coin={prop('coin', allValues)} />
+    return <M.ExchangeRequires2FAMessage />
   }
   return utils.xlm.isValidAddress(address) ? (
     undefined
@@ -124,7 +124,7 @@ export const validBtcAddress = (value, allValues, props) => {
   }
 
   if (address === BAD_2FA) {
-    return <M.ExchangeRequires2FAMessage coin={prop('coin', allValues)} />
+    return <M.ExchangeRequires2FAMessage />
   }
 
   return utils.btc.isValidBtcAddress(address, props.network) ? (
@@ -144,7 +144,7 @@ export const validBchAddress = (value, allValues, props) => {
     if (prop('value', dropdownValue)) address = prop('value', dropdownValue)
   }
   if (address === BAD_2FA) {
-    return <M.ExchangeRequires2FAMessage coin={prop('coin', allValues)} />
+    return <M.ExchangeRequires2FAMessage />
   }
   return utils.btc.isValidBtcAddress(address, props.network) ||
     utils.bch.isCashAddr(address) ? (
