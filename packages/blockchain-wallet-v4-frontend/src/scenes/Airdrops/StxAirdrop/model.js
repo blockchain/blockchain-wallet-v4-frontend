@@ -23,8 +23,8 @@ const Ended = () => {
   return (
     <GreyCartridge>
       <FormattedMessage
-        id='scenes.airdrop.stx.ended'
-        defaultMessage='Campaign Ended'
+        id='scenes.airdrop.stx.expired'
+        defaultMessage='Offer Expired'
       />
     </GreyCartridge>
   )
