@@ -3,46 +3,47 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { actions } from 'data'
-import { getData } from './selectors.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 import modalEnhancer from 'providers/ModalEnhancer'
-import Success from './template.success.js'
+
+import { getData } from './selectors'
+import TransferEth from './template'
 
 class TransferEthContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
   componentDidMount () {
     this.props.sendEthActions.initialized({
-      from: this.props.addr,
+      from: this.props.legacyEthAddr,
       type: 'LEGACY'
     })
   }
 
   componentDidUpdate (prevProps) {
     if (Remote.Success.is(this.props.data)) {
-      const { fee, effectiveBalance } = this.props.data.getOrElse({})
-      if (parseFloat(fee) > parseFloat(effectiveBalance)) {
+      const { txFee, ethBalance } = this.props.data.getOrElse({})
+      if (parseFloat(txFee) > parseFloat(ethBalance)) {
         this.props.modalActions.closeAllModals()
       }
     }
   }
 
-  handleSubmit () {
-    const { to, effectiveBalance } = this.props.data.getOrElse({})
-    this.props.transferEthActions.confirmTransferEth({ to, effectiveBalance })
+  handleSubmit = () => {
+    const { ethAddr, ethBalance } = this.props.data.getOrElse({})
+    this.props.transferEthActions.confirmTransferEth({
+      to: ethAddr,
+      effectiveBalance: ethBalance
+    })
   }
 
   render () {
-    const { addr, data } = this.props
+    const { data, legacyEthAddr } = this.props
     return data.cata({
       Success: val => (
-        <Success
+        <TransferEth
+          ethAddr={val.ethAddr}
+          ethBalance={val.ethBalance}
           handleSubmit={this.handleSubmit}
-          from={addr}
-          val={val}
+          legacyEthAddr={legacyEthAddr}
+          txFee={val.txFee}
           {...this.props}
         />
       ),
@@ -53,11 +54,9 @@ class TransferEthContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    data: getData(state)
-  }
-}
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
