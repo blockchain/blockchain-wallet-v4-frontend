@@ -18,7 +18,7 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin: 10px 0;
+  margin: 20px 0 10px;
   background-color: ${props => props.theme['gray-1']};
   border: 1px solid ${props => props.theme['gray-2']};
 `
@@ -32,89 +32,95 @@ const Row = styled.div`
   box-sizing: border-box;
 `
 
-const Success = props => {
-  const { position, total, loading, ...rest } = props
-  const { handleSubmit, from, val } = rest
+const TransferEth = props => {
+  const {
+    ethAddr,
+    ethBalance,
+    handleSubmit,
+    legacyEthAddr,
+    loading,
+    txFee
+  } = props
 
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size='large'>
       <ModalHeader closeButton={false}>
         <FormattedMessage
-          id='modals.transfereth.title'
-          defaultMessage='Your Ether Address'
+          id='modals.transfereth.title1'
+          defaultMessage='Updating Ethereum Address'
         />
       </ModalHeader>
       <ModalBody loading={loading}>
         <TextGroup inline>
           <Text size='14px' weight={400}>
             <FormattedMessage
-              id='modals.transfereth.beta'
-              defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.'
+              id='modals.transfereth.para1'
+              defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other Ethereum wallets.'
             />
           </Text>
           <Text size='14px' weight={400}>
             <FormattedMessage
-              id='modals.transfereth.updated'
-              defaultMessage="Because of this, we've updated your ether address and are requiring a transfer of your funds."
+              id='modals.transfereth.para2'
+              defaultMessage="Because of this, we've updated your Ethereum address and are requiring a transfer of your funds."
             />
           </Text>
           <Text size='14px' weight={400}>
             <FormattedMessage
-              id='modals.transfereth.old'
+              id='modals.transfereth.para3'
               defaultMessage="Don't worry, your old address is still valid."
             />
           </Text>
         </TextGroup>
         <Container>
           <Row>
-            <Text size='14px' weight={500}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id='modals.transfereth.label1'
-                defaultMessage='Send ETH From:'
+                id='modals.transfereth.from'
+                defaultMessage='From:'
               />
             </Text>
             <Text size='14px' weight={400}>
-              {from}
+              {legacyEthAddr}
             </Text>
           </Row>
           <Row>
-            <Text size='14px' weight={500}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id='modals.transfereth.label2'
+                id='modals.transfereth.to'
                 defaultMessage='To:'
               />
             </Text>
             <Text size='14px' weight={400}>
-              {val.to}
+              {ethAddr}
             </Text>
           </Row>
           <Row>
-            <Text size='14px' weight={500}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id='modals.transfereth.label3'
+                id='modals.transfereth.amount'
                 defaultMessage='Amount:'
               />
             </Text>
-            <CoinDisplay size='14px' coin='ETH'>
-              {val.effectiveBalance}
+            <CoinDisplay size='14px' coin='ETH' weight={400}>
+              {ethBalance}
             </CoinDisplay>
           </Row>
           <Row>
-            <Text size='14px' weight={500}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id='modals.transfereth.label4'
+                id='modals.transfereth.txfee'
                 defaultMessage='Transaction Fee:'
               />
             </Text>
-            <CoinDisplay size='14px' coin='ETH'>
-              {val.fee}
+            <CoinDisplay size='14px' coin='ETH' weight={400}>
+              {txFee}
             </CoinDisplay>
           </Row>
         </Container>
         <Button nature='primary' fullwidth onClick={handleSubmit}>
           <FormattedMessage
-            id='modals.transfereth.confirm'
-            defaultMessage='Confirm'
+            id='modals.transfereth.confirm1'
+            defaultMessage='Transfer Funds'
           />
         </Button>
       </ModalBody>
@@ -122,4 +128,4 @@ const Success = props => {
   )
 }
 
-export default Success
+export default TransferEth
