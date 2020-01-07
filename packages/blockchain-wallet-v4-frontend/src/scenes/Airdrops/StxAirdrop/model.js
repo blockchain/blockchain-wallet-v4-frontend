@@ -139,20 +139,11 @@ export const StxStatus = ({
             </SuccessCartridge>
           )
       }
-      return null
+      return <Ended />
     case KYC_STATES.NONE:
-      return (
-        <BlueCartridge
-          onClick={() => identityVerificationActions.verifyIdentity(2)}
-        >
-          <FormattedMessage
-            id='scenes.airdrop.stx.upgrade'
-            defaultMessage='Upgrade'
-          />
-        </BlueCartridge>
-      )
+      return <Ended />
     default:
-      return null
+      return <Ended />
   }
 }
 
