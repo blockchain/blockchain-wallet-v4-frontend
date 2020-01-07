@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import {
   DocumentType,
-  EmailSmsTypes,
   IdentityVerificationActionTypes,
   StepsType
 } from './types'
@@ -36,25 +35,27 @@ export const setVerificationStep = (
 export const fetchSupportedCountries = () => ({
   type: AT.FETCH_SUPPORTED_COUNTRIES
 })
-export const setSupportedCountriesLoading = () => ({
+export const setSupportedCountriesLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_COUNTRIES_LOADING
 })
-export const setSupportedCountriesSuccess = countries => ({
+export const setSupportedCountriesSuccess = (
+  countries
+): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_COUNTRIES_SUCCESS,
   payload: { countries }
 })
-export const setSupportedCountriesFailure = e => ({
+export const setSupportedCountriesFailure = (
+  e
+): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_COUNTRIES_FAILURE,
   payload: { e }
 })
 
-export const fetchSupportedDocuments = (
-  countryCode: string
-): IdentityVerificationActionTypes => ({
+export const fetchSupportedDocuments = (countryCode: string) => ({
   type: AT.FETCH_SUPPORTED_DOCUMENTS,
   payload: { countryCode }
 })
-export const setSupportedDocumentsLoading = () => ({
+export const setSupportedDocumentsLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_DOCUMENTS_LOADING
 })
 export const setSupportedDocumentsSuccess = (
@@ -63,7 +64,9 @@ export const setSupportedDocumentsSuccess = (
   type: AT.SET_SUPPORTED_DOCUMENTS_SUCCESS,
   payload: { documentTypes }
 })
-export const setSupportedDocumentsFailure = e => ({
+export const setSupportedDocumentsFailure = (
+  e
+): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_DOCUMENTS_FAILURE,
   payload: { e }
 })
@@ -74,12 +77,14 @@ export const fetchStates = isCoinify => ({
     isCoinify
   }
 })
-export const setStatesLoading = () => ({ type: AT.SET_STATES_LOADING })
-export const setStatesSuccess = states => ({
+export const setStatesLoading = (): IdentityVerificationActionTypes => ({
+  type: AT.SET_STATES_LOADING
+})
+export const setStatesSuccess = (states): IdentityVerificationActionTypes => ({
   type: AT.SET_STATES_SUCCESS,
   payload: { states }
 })
-export const setStatesFailure = e => ({
+export const setStatesFailure = (e): IdentityVerificationActionTypes => ({
   type: AT.SET_STATES_FAILURE,
   payload: { e }
 })
@@ -108,14 +113,16 @@ export const claimCampaignClicked = campaign => ({
 export const checkKycFlow = () => ({
   type: AT.CHECK_KYC_FLOW
 })
-export const setKycFlowLoading = () => ({
+export const setKycFlowLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_KYC_FLOW_LOADING
 })
-export const setKycFlowSuccess = flowType => ({
+export const setKycFlowSuccess = (
+  flowConfig
+): IdentityVerificationActionTypes => ({
   type: AT.SET_KYC_FLOW_SUCCESS,
-  payload: { flowType }
+  payload: { flowConfig }
 })
-export const setKycFlowFailure = e => ({
+export const setKycFlowFailure = (e): IdentityVerificationActionTypes => ({
   type: AT.SET_KYC_FLOW_FAILURE,
   payload: { e }
 })
@@ -126,14 +133,16 @@ export const sendDeeplink = () => ({
 export const getPreIdvData = () => ({
   type: AT.GET_PRE_IDV_DATA
 })
-export const setPreIdvDataLoading = () => ({
+export const setPreIdvDataLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_PRE_IDV_DATA_LOADING
 })
-export const setPreIdvDataSuccess = preIdvData => ({
+export const setPreIdvDataSuccess = (
+  preIdvData
+): IdentityVerificationActionTypes => ({
   type: AT.SET_PRE_IDV_DATA_SUCCESS,
   payload: { preIdvData }
 })
-export const setPreIdvDataFailure = e => ({
+export const setPreIdvDataFailure = (e): IdentityVerificationActionTypes => ({
   type: AT.SET_PRE_IDV_DATA_FAILURE,
   payload: { e }
 })
@@ -141,14 +150,14 @@ export const preIdvCheckFinished = () => ({
   type: AT.PRE_IDV_CHECK_FINISHED
 })
 
-export const setStepsLoading = () => ({
+export const setStepsLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_STEPS_LOADING
 })
-export const setStepsFailure = error => ({
+export const setStepsFailure = (e): IdentityVerificationActionTypes => ({
   type: AT.SET_STEPS_FAILURE,
-  payload: { error }
+  payload: { e }
 })
-export const setStepsSuccess = steps => ({
+export const setStepsSuccess = (steps): IdentityVerificationActionTypes => ({
   type: AT.SET_STEPS_SUCCESS,
   payload: { steps }
 })

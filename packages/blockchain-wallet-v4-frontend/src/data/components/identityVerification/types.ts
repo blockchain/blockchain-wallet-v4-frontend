@@ -1,9 +1,4 @@
-import {
-  FETCH_SUPPORTED_DOCUMENTS,
-  SET_SUPPORTED_DOCUMENTS_SUCCESS,
-  SET_VERIFICATION_STEP,
-  VERIFY_IDENTITY
-} from './actionTypes'
+import * as AT from './actionTypes'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 
 export const STEPS = {
@@ -15,11 +10,11 @@ export const STEPS = {
   submitted: 'submitted'
 }
 
-export type EmailSmsTypes = { edit: 'edit'; verify: 'verify' }
+export type EmailSmsStepTypes = { edit: 'edit'; verify: 'verify' }
 
 export type StepsType = typeof STEPS
 
-export const EMAIL_STEPS: EmailSmsTypes = {
+export const EMAIL_STEPS: EmailSmsStepTypes = {
   edit: 'edit',
   verify: 'verify'
 }
@@ -58,10 +53,10 @@ export type CountryType = {
 // State
 export interface IdentityVerificationState {
   addressRefetchVisible: boolean
-  emailStep: keyof EmailSmsTypes
+  emailStep: keyof EmailSmsStepTypes
   flowConfig: RemoteData<string, any>
   preIdvData: RemoteData<string, PreIdvDataType>
-  smsStep: RemoteData<string, keyof EmailSmsTypes>
+  smsStep: RemoteData<string, keyof EmailSmsStepTypes>
   states: RemoteData<string, StateType>
   steps: RemoteData<string, any>
   supportedCountries: RemoteData<string, Array<CountryType>>
@@ -75,21 +70,142 @@ interface FetchSupportedDocumentAction {
   payload: {
     countryCode: string
   }
-  type: typeof FETCH_SUPPORTED_DOCUMENTS
+  type: typeof AT.FETCH_SUPPORTED_DOCUMENTS
+}
+
+interface SetEmailStepAction {
+  payload: {
+    step: keyof EmailSmsStepTypes
+  }
+  type: typeof AT.SET_EMAIL_STEP
+}
+
+interface SetKycFlowFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_KYC_FLOW_FAILURE
+}
+
+interface SetKycFlowLoadingAction {
+  type: typeof AT.SET_KYC_FLOW_LOADING
+}
+
+interface SetKycFlowSuccessAction {
+  // FIXME: TypeScript flowConfig: ?
+  payload: {
+    flowConfig: any
+  }
+  type: typeof AT.SET_KYC_FLOW_SUCCESS
+}
+
+interface SetPreIdvFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_PRE_IDV_DATA_FAILURE
+}
+
+interface SetPreIdvLoadingAction {
+  type: typeof AT.SET_PRE_IDV_DATA_LOADING
+}
+
+interface SetPreIdvSuccessAction {
+  payload: {
+    preIdvData: PreIdvDataType
+  }
+  type: typeof AT.SET_PRE_IDV_DATA_SUCCESS
+}
+
+interface SetSmsStepAction {
+  payload: {
+    step: keyof EmailSmsStepTypes
+  }
+  type: typeof AT.SET_SMS_STEP
+}
+
+interface SetStepsFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_STEPS_FAILURE
+}
+
+interface SetStepsLoadingAction {
+  type: typeof AT.SET_STEPS_LOADING
+}
+
+interface SetStepsSuccessAction {
+  payload: {
+    steps: StepsType
+  }
+  type: typeof AT.SET_STEPS_SUCCESS
+}
+
+interface SetSupportedCountriesFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_SUPPORTED_COUNTRIES_FAILURE
+}
+
+interface SetSupportedCountriesLoadingAction {
+  type: typeof AT.SET_SUPPORTED_COUNTRIES_LOADING
+}
+
+interface SetStatesFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_STATES_FAILURE
+}
+
+interface SetStatesLoadingAction {
+  type: typeof AT.SET_STATES_LOADING
+}
+
+interface SetStatesSuccessAction {
+  payload: {
+    states: StateType
+  }
+  type: typeof AT.SET_STATES_SUCCESS
+}
+
+interface SetSupportedCountriesSuccessAction {
+  payload: {
+    countries: Array<CountryType>
+  }
+  type: typeof AT.SET_SUPPORTED_COUNTRIES_SUCCESS
+}
+
+interface SetSupportedDocumentFailureAction {
+  // FIXME: TypeScript e: Error?
+  payload: {
+    e: string
+  }
+  type: typeof AT.SET_SUPPORTED_DOCUMENTS_FAILURE
+}
+interface SetSupportedDocumentLoadingAction {
+  type: typeof AT.SET_SUPPORTED_DOCUMENTS_LOADING
 }
 
 interface SetSupportedDocumentSuccessAction {
   payload: {
     documentTypes: Array<DocumentType>
   }
-  type: typeof SET_SUPPORTED_DOCUMENTS_SUCCESS
+  type: typeof AT.SET_SUPPORTED_DOCUMENTS_SUCCESS
 }
 
 interface SetVerificationStepAction {
   payload: {
     step: keyof StepsType
   }
-  type: typeof SET_VERIFICATION_STEP
+  type: typeof AT.SET_VERIFICATION_STEP
 }
 
 interface VerifyIdentityAction {
@@ -98,11 +214,30 @@ interface VerifyIdentityAction {
     needMoreInfo?: boolean
     tier: number
   }
-  type: typeof VERIFY_IDENTITY
+  type: typeof AT.VERIFY_IDENTITY
 }
 
 export type IdentityVerificationActionTypes =
   | FetchSupportedDocumentAction
+  | SetEmailStepAction
+  | SetKycFlowFailureAction
+  | SetKycFlowLoadingAction
+  | SetKycFlowSuccessAction
+  | SetPreIdvFailureAction
+  | SetPreIdvLoadingAction
+  | SetPreIdvSuccessAction
+  | SetStepsFailureAction
+  | SetStepsLoadingAction
+  | SetStepsSuccessAction
+  | SetSmsStepAction
+  | SetStatesFailureAction
+  | SetStatesLoadingAction
+  | SetStatesSuccessAction
+  | SetSupportedCountriesFailureAction
+  | SetSupportedCountriesLoadingAction
+  | SetSupportedCountriesSuccessAction
+  | SetSupportedDocumentFailureAction
+  | SetSupportedDocumentLoadingAction
   | SetSupportedDocumentSuccessAction
   | SetVerificationStepAction
   | VerifyIdentityAction
