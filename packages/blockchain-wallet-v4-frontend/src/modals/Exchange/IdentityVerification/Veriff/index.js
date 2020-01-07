@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import React from 'react'
@@ -12,6 +13,7 @@ class Veriff extends React.PureComponent {
     loading: false
   }
   componentDidMount () {
+    if (Remote.Success.is(this.props.veriffUrl)) return
     this.props.actions.fetchVeriffUrl()
     window.addEventListener('message', this.handleVeriffMessage, false)
   }
@@ -26,7 +28,9 @@ class Veriff extends React.PureComponent {
       this.setState({ loading: true })
       this.props.actions.syncVeriff()
     }
-    this.props.onClose()
+    if (event === 'CANCELED') {
+      this.props.onClose()
+    }
   }
 
   render () {
