@@ -1,5 +1,10 @@
 import * as AT from './actionTypes'
-import { IdentityVerificationActionTypes } from './types'
+import {
+  DocumentType,
+  EmailSmsTypes,
+  IdentityVerificationActionTypes,
+  StepsType
+} from './types'
 import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
@@ -21,7 +26,9 @@ export const goToPrevStep = () => ({
 export const goToNextStep = () => ({
   type: AT.GO_TO_NEXT_STEP
 })
-export const setVerificationStep = step => ({
+export const setVerificationStep = (
+  step: keyof StepsType
+): IdentityVerificationActionTypes => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }
 })
@@ -41,14 +48,18 @@ export const setSupportedCountriesFailure = e => ({
   payload: { e }
 })
 
-export const fetchSupportedDocuments = countryCode => ({
+export const fetchSupportedDocuments = (
+  countryCode: string
+): IdentityVerificationActionTypes => ({
   type: AT.FETCH_SUPPORTED_DOCUMENTS,
   payload: { countryCode }
 })
 export const setSupportedDocumentsLoading = () => ({
   type: AT.SET_SUPPORTED_DOCUMENTS_LOADING
 })
-export const setSupportedDocumentsSuccess = documentTypes => ({
+export const setSupportedDocumentsSuccess = (
+  documentTypes: Array<DocumentType>
+): IdentityVerificationActionTypes => ({
   type: AT.SET_SUPPORTED_DOCUMENTS_SUCCESS,
   payload: { documentTypes }
 })

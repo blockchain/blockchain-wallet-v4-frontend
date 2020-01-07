@@ -16,3 +16,31 @@ declare module 'blockchain-info-components' {
 
   export function Palette(theme: string): DefaultTheme
 }
+declare module 'daggy' {
+  import {
+    RemoteFailure,
+    RemoteLoading,
+    RemoteNotAsked,
+    RemoteSuccess
+  } from 'blockchain-wallet-v4/src/remote/types'
+  interface IConstructor {
+    Failure: ['error']
+    Loading: []
+    NotAsked: []
+    Success: ['data']
+  }
+
+  export function taggedSum(
+    typename: string,
+    constructor: IConstructor
+  ): {
+    '@@type': 'Remote'
+    Failure: <E>(error: E) => RemoteFailure<E>
+    Loading: RemoteLoading
+    NotAsked: RemoteNotAsked
+    Success: <A>(data: A) => RemoteSuccess<A>
+    is: () => boolean
+    prototype: any
+    toString: () => void
+  }
+}
