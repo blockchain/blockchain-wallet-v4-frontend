@@ -15,12 +15,10 @@ class Veriff extends React.PureComponent {
   componentDidMount () {
     if (Remote.Success.is(this.props.veriffUrl)) return
     this.props.actions.fetchVeriffUrl()
-    window.addEventListener('message', this.handleVeriffMessage, false)
   }
 
   componentWillUnmount () {
     this.setState({ loading: false })
-    window.removeEventListener('message', this.handleVeriffMessage)
   }
 
   handleVeriffMessage = event => {
