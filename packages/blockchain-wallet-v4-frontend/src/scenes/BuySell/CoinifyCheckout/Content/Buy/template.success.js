@@ -20,7 +20,7 @@ import Stepper, { StepView } from 'components/Utilities/Stepper'
 
 export const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 450px 300px;
+  grid-template-columns: 450px 325px;
   grid-gap: 5%;
   grid-auto-rows: 1fr;
   ${media.laptop`

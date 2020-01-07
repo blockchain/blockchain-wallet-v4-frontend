@@ -9,16 +9,11 @@ export const getData = state => {
     .getAccounts(state)
     .map(extractAddress)
 
-  const transform = (defaultAccount, payment) => {
-    const effectiveBalance = propOr('0', 'effectiveBalance', payment)
-    const fee = propOr('0', 'fee', payment)
-
-    return {
-      to: defaultAccount,
-      effectiveBalance,
-      fee
-    }
-  }
+  const transform = (ethAddr, payment) => ({
+    ethAddr,
+    ethBalance: propOr('0', 'effectiveBalance', payment),
+    txFee: propOr('0', 'fee', payment)
+  })
 
   return lift(transform)(defaultAccountR, paymentR)
 }

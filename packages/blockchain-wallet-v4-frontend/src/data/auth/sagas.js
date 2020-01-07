@@ -1,5 +1,6 @@
 import { assoc, is, path, prop } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import BigNumber from 'bignumber.js'
 
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
@@ -64,26 +65,34 @@ export default ({ api, coreSagas }) => {
       selectors.core.kvStore.eth.getLegacyAccount
     )
     const legacyAccount = legacyAccountR.getOrElse(null)
-    const { addr, correct } = legacyAccount || {}
+    if (!legacyAccount) return
+
+    const { addr, correct } = legacyAccount
     const fees = yield call(api.getEthFees)
     const feeAmount = yield call(
       utils.eth.calculateFee,
       fees.regular,
       fees.gasLimit
     )
-    // If needed, get the eth legacy account balance and prompt sweep
+    // if not swept, get the legacy eth account balance and prompt sweep
     if (!correct && addr) {
-      const balances = yield call(api.getEthBalances, addr)
-      const balance = path([addr, 'balance'], balances)
-      if (balance > feeAmount) {
-        yield put(actions.modals.showModal('TransferEth', { balance, addr }))
+      const ethBalances = yield call(api.getEthBalances, addr)
+      const legacyEthBalance = path([addr, 'balance'], ethBalances)
+      const legacyEthBalanceBigInt = new BigNumber(legacyEthBalance)
+      const feeAmountBigInt = new BigNumber(feeAmount)
+      if (legacyEthBalanceBigInt.isGreaterThan(feeAmountBigInt)) {
+        yield put(
+          actions.modals.showModal('TransferEth', {
+            legacyEthBalance,
+            legacyEthAddr: addr
+          })
+        )
       }
     }
   }
 
   const saveGoals = function * (firstLogin) {
     yield put(actions.goals.saveGoal('walletTour', { firstLogin }))
-    yield put(actions.goals.saveGoal('registerForBlockstackAirdrop'))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
     yield put(actions.goals.saveGoal('upgradeForAirdrop'))
