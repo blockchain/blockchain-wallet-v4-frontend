@@ -198,7 +198,7 @@ export default ({ api }) => {
       const { instructions } = paymentRequest
 
       if (new Date() > new Date(paymentRequest.expires)) {
-        return yield put(actions.modals.showModal('BitPayExpired'))
+        return yield put(actions.modals.showModal('BitPayInvoiceExpired'))
       }
 
       const tx = path([0, 'outputs', 0], instructions)

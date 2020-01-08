@@ -44,7 +44,7 @@ const FooterButton = styled(Button)`
   padding: 16px 0;
 `
 
-export const BitPayExpired = ({ position, total, close }) => (
+export const BitPayInvoiceExpired = ({ position, total, close }) => (
   <Modal size='small' position={position} total={total}>
     <ModalHeader onClose={close} />
     <Body data-e2e='bitpayInvoiceExpired'>
@@ -71,4 +71,4 @@ export const BitPayExpired = ({ position, total, close }) => (
   </Modal>
 )
 
-export default BitPayExpired
+export default BitPayInvoiceExpired

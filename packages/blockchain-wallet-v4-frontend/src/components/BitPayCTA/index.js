@@ -34,7 +34,7 @@ const ArrowIcon = styled(Icon)`
 
 const BitPayCTA = ({ coin, modalActions }) => {
   const handleClick = () => {
-    modalActions.showModal('BitPayInfo')
+    modalActions.showModal('BitPayInformational')
   }
 
   return (

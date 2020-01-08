@@ -40,7 +40,7 @@ const ExampleInvoice = styled.div`
   margin-top: 1px;
 `
 
-function BitPayInfo ({ close }) {
+function BitPayInformational ({ close }) {
   return (
     <Modal>
       <ModalHeader closeButton={false}>
@@ -145,11 +145,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('BitPayInfo'),
+  modalEnhancer('BitPayInformational'),
   connect(
     undefined,
     mapDispatchToProps
   )
 )
 
-export default enhance(BitPayInfo)
+export default enhance(BitPayInformational)
