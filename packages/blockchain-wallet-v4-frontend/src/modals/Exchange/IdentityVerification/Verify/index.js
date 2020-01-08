@@ -30,6 +30,10 @@ class VerifyContainer extends React.PureComponent {
     })
   }
 
+  hideKycProvider = () => {
+    this.setState({ showVeriff: false })
+  }
+
   showKycProvider = kycProvider => {
     switch (kycProvider) {
       case KYC_PROVIDERS.VERIFF:
@@ -85,6 +89,7 @@ class VerifyContainer extends React.PureComponent {
                 <LowFlow
                   supportedDocuments={docTypes}
                   showVeriff={this.state.showVeriff}
+                  hideKycProvider={this.hideKycProvider}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
                   needsDocResubmit={needsDocResubmit}
                   onClose={onClose}
