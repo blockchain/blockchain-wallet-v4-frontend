@@ -43,7 +43,7 @@ const BitPayCTA = ({ coin, modalActions }) => {
           defaultMessage='Your {coin} wallet now supports'
           values={{ coin }}
         />{' '}
-        <BitPayIcon size='12px' name='bitpay' color='#2A3F90' /> <>urls.</>
+        <BitPayIcon size='12px' name='bitpay-logo' color='#2A3F90' /> <>urls.</>
       </TextGroup>
       <CustomLink size='12px' weight={500} onClick={handleClick}>
         <FormattedMessage
