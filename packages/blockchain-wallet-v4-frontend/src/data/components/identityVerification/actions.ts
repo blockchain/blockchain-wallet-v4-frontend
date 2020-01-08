@@ -91,14 +91,17 @@ export const setStatesFailure = (e): IdentityVerificationActionTypes => ({
 
 export const savePersonalData = () => ({ type: AT.SAVE_PERSONAL_DATA })
 
-export const setSmsStep = step => ({ type: AT.SET_SMS_STEP, payload: { step } })
+export const setSmsStep = (step): IdentityVerificationActionTypes => ({
+  type: AT.SET_SMS_STEP,
+  payload: { step }
+})
 
 export const updateSmsStep = () => ({ type: AT.UPDATE_SMS_STEP })
 export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
 
-export const registerUserCampaign = newUser => ({
+export const registerUserCampaign = (newUser: boolean) => ({
   type: AT.REGISTER_USER_CAMPAIGN,
   newUser
 })
@@ -170,7 +173,7 @@ export const sendEmailVerification = email => ({
   type: AT.SEND_EMAIL_VERIFICATION,
   payload: { email }
 })
-export const setEmailStep = step => ({
+export const setEmailStep = (step): IdentityVerificationActionTypes => ({
   type: AT.SET_EMAIL_STEP,
   payload: { step }
 })

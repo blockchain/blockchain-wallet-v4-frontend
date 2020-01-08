@@ -20,10 +20,10 @@ const INITIAL_STATE: IdentityVerificationState = {
   steps: Remote.NotAsked
 }
 
-export default (
+export function identityVerificationReducer (
   state = INITIAL_STATE,
   action: IdentityVerificationActionTypes
-): IdentityVerificationState => {
+): IdentityVerificationState {
   switch (action.type) {
     case AT.SET_VERIFICATION_STEP: {
       return {

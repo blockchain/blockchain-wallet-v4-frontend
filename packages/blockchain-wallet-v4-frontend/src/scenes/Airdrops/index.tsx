@@ -1,5 +1,5 @@
 import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
@@ -110,7 +110,7 @@ const mapStateToProps = state => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
