@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: -8px;
 `
 const TextGroup = styled(Text)`
   display: flex;
