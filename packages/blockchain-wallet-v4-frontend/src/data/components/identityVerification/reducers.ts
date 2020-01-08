@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-import { assoc } from 'ramda'
 import {
   EMAIL_STEPS,
   IdentityVerificationActionTypes,

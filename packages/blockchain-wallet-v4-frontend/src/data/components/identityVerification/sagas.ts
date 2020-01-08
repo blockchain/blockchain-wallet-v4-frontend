@@ -2,9 +2,9 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-import { actions, actionTypes, model, selectors } from 'data'
+// from 'data' not working with jest
+import { actions, actionTypes, model, selectors } from '../../../data'
 import {
-  // AIRDROP_ERROR_MODAL,
   BAD_CODE_ERROR,
   EMAIL_STEPS,
   FLOW_TYPES,
@@ -19,7 +19,7 @@ import {
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
-import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
 import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4'
 import profileSagas from '../../modules/profile/sagas'

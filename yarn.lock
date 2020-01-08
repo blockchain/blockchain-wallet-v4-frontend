@@ -3068,7 +3068,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-<<<<<<< HEAD
 "@typescript-eslint/eslint-plugin@2.13.0":
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.13.0.tgz#57e933fe16a2fc66dbac059af0d6d85d921d748e"
@@ -3111,7 +3110,7 @@
     lodash.unescape "4.0.1"
     semver "^6.3.0"
     tsutils "^3.17.1"
-=======
+
 "@veriff/incontext-sdk@0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@veriff/incontext-sdk/-/incontext-sdk-0.2.1.tgz#ed7dcf1810f859e0299d67dd928a637961894b77"
@@ -3119,7 +3118,6 @@
   dependencies:
     body-scroll-lock "^2.6.4"
     dom-focus-lock "^1.0.4"
->>>>>>> development
 
 "@webassemblyjs/ast@1.7.10":
   version "1.7.10"
