@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import {
+  Icon,
   Link,
   Modal,
   ModalBody,
@@ -13,43 +14,59 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Group = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+`
+const GroupHeader = styled(Text)`
+  font-size: 16px;
+  font-weight: 600;
+`
+const GroupContent = styled(Text)`
+  font-size: 13px;
+  font-weight: 500;
+`
+
+const HeaderLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 function BitPayInfo ({ coin, modalActions, previousModal, close }) {
   return (
     <Modal>
-      <ModalHeader>
-        <Link size='20px' color='brand-primary' onClick={close}>
+      <ModalHeader closeButton={false}>
+        <HeaderLink size='20px' color='brand-primary' onClick={close}>
+          <Icon name='left-arrow' />
           Back
-        </Link>
+        </HeaderLink>
       </ModalHeader>
       <ModalBody>
         <Group>
-          <Text weight={600} size='18px'>
+          <GroupHeader>What is BitPay?</GroupHeader>
+          <GroupContent>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Text>
+          </GroupContent>
         </Group>
         <Group>
-          <Text weight={600}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Text>
-          <Text weight={500} size='14px'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Text>
+          <GroupHeader>How does it work?</GroupHeader>
+          <GroupContent>
+            Simply copy the address provided by the merchant and paste it in the
+            To field in the previous screen. Amount, Description and Network
+            fees will be auto populated for you.
+          </GroupContent>
         </Group>
         <Group>
-          <Text weight={600}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Text>
-          <Text weight={500} size='14px'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </Text>
+          <GroupHeader>What do invoices look like?</GroupHeader>
+          <GroupContent>
+            Addresses for BitPay payments always start with this prefix:
+            bitcoincash:?r=https://bitpay.com Always double check you are using
+            a bitcoin cash address, and not a bitcoin one.
+          </GroupContent>
         </Group>
         <Group>
-          <Text weight={600}>Where can I get more information?</Text>
-          <Text weight={500} size='14px'>
-            You can find more information{' '}
+          <GroupHeader>Where can I get more information?</GroupHeader>
+          <GroupContent>
+            More information is available{' '}
             <Link
               size='14px'
               weight={500}
@@ -59,7 +76,7 @@ function BitPayInfo ({ coin, modalActions, previousModal, close }) {
             >
               here.
             </Link>
-          </Text>
+          </GroupContent>
         </Group>
       </ModalBody>
     </Modal>

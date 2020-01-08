@@ -27,7 +27,8 @@ const BitPayIcon = styled(Icon)`
 `
 const ArrowIcon = styled(Icon)`
   transform: rotate(-90deg);
-  margin-left: 16px;
+  margin-left: 8px;
+  margin-top: 1px;
 `
 
 const BitPayCTA = ({ coin, modalActions }) => {
@@ -45,13 +46,13 @@ const BitPayCTA = ({ coin, modalActions }) => {
         />{' '}
         <BitPayIcon size='12px' name='bitpay-logo' color='#2A3F90' /> <>urls.</>
       </TextGroup>
-      <CustomLink size='12px' weight={500} onClick={handleClick}>
+      <CustomLink size='12px' weight={600} onClick={handleClick}>
         <FormattedMessage
           id='bitpaycta.learnmore'
           defaultMessage='Learn more'
         />
         <ArrowIcon
-          size='8px'
+          size='10px'
           weight={800}
           color='blue'
           name='down-arrow-filled'
