@@ -47,7 +47,7 @@ export default ({ api, coreSagas, networks }) => {
         payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })

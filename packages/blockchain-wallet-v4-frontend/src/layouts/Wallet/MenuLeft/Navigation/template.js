@@ -15,9 +15,12 @@ import {
   Wrapper
 } from 'components/MenuLeft'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-
-import ThePitLink from '../ThePitLink'
+import {
+  Link,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 
 const HelperTipContainer = styled.div`
   position: relative;
@@ -40,6 +43,29 @@ export const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
+
+const ExchangeNavItem = props => (
+  <>
+    <MenuIcon
+      name='blockchain-logo'
+      style={{ marginLeft: '-2px' }}
+      size='26px'
+    />
+    <Destination style={{ marginLeft: '2px' }}>
+      <FormattedMessage
+        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
+        defaultMessage='Exchange'
+      />
+    </Destination>
+    {props.isExchangeAccountLinked && (
+      <HelperTipContainer>
+        <HelperTip id='exchangeSideNavConnected'>
+          <TooltipIcon color='blue' name='info' />
+        </HelperTip>
+      </HelperTipContainer>
+    )}
+  </>
+)
 
 const Navigation = props => {
   const { ...rest } = props
@@ -111,7 +137,25 @@ const Navigation = props => {
           </NewCartridge>
         </MenuItem>
       </SpotlightLinkContainer>
-      <ThePitLink {...props} />
+      {props.isExchangeAccountLinked ? (
+        <Link
+          href={`${props.exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
+          rel='noopener noreferrer'
+          target='_blank'
+          style={{ width: '100%' }}
+        >
+          <MenuItem data-e2e='exchangeLink'>
+            <ExchangeNavItem {...props} />
+          </MenuItem>
+        </Link>
+      ) : (
+        <LinkContainer to='/exchange' activeClassName='active'>
+          <MenuItem data-e2e='exchangeLink'>
+            <ExchangeNavItem {...props} />
+          </MenuItem>
+        </LinkContainer>
+      )}
+
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon
@@ -119,7 +163,7 @@ const Navigation = props => {
             style={{ paddingLeft: '2px' }}
             size='24px'
           />
-          <Destination>
+          <Destination style={{ marginLeft: '-2px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'

@@ -1,5 +1,9 @@
+import {
+  BlueCartridge,
+  GreyCartridge,
+  SuccessCartridge
+} from '../AirdropInfo/model'
 import { FormattedMessage } from 'react-intl'
-import { GreyCartridge, SuccessCartridge } from '../AirdropInfo/model'
 import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -42,12 +46,43 @@ export const Type = ({ campaignName }) => {
           </Text>
         </TypeWrapper>
       )
+    case 'BLOCKSTACK':
+      return (
+        <TypeWrapper>
+          <Icon
+            name='stx'
+            color='stx'
+            size='24px'
+            style={{ marginRight: '8px' }}
+          />
+          <Text size='14px' weight={500}>
+            Blockstack
+          </Text>
+        </TypeWrapper>
+      )
     default:
       return <Text>-</Text>
   }
 }
 
-export const Status = ({ campaignState, userCampaignState }) => {
+export const Status = ({ campaignName, campaignState, userCampaignState }) => {
+  // Special case for BLOCKSTACK campaign
+  // See convo: https://blockc.slack.com/archives/GSAK5CKD5/p1578309118000200
+  if (campaignName === 'BLOCKSTACK') {
+    switch (true) {
+      case campaignState === 'ENDED' && userCampaignState === 'TASK_FINISHED':
+        return (
+          <BlueCartridge>
+            <Text size='14px' weight={700} color='blue600'>
+              <FormattedMessage
+                id='scenes.pastairdrops.pending'
+                defaultMessage='Reward Pending'
+              />
+            </Text>
+          </BlueCartridge>
+        )
+    }
+  }
   switch (true) {
     case campaignState === 'ENDED' && userCampaignState === 'REWARD_RECEIVED':
       return (
@@ -82,6 +117,14 @@ export const To = ({ campaignName, userCampaignState }) => {
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
           My Stellar Wallet
+        </Text>
+      ) : (
+        <Text>-</Text>
+      )
+    case 'BLOCKSTACK':
+      return userCampaignState === 'REWARD_RECEIVED' ? (
+        <Text size='14px' weight={500}>
+          My Blockstack Wallet
         </Text>
       ) : (
         <Text>-</Text>

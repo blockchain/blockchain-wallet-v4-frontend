@@ -398,7 +398,7 @@ class Footer extends PureComponent {
               </Column>
 
               <Column>
-                <BlueLogo name='blue-logo' height='44px' />
+                <BlueLogo name='blockchain-icon' height='44px' />
                 <Copyright>
                   © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
                 </Copyright>

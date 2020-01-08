@@ -71,7 +71,7 @@ const Success = props => {
     <Wrapper>
       {props.value.device_change_reason ? (
         <Fragment>
-          <Image name='blue-logo' width='50px' height='50px' />
+          <Image name='blockchain-icon' width='50px' height='50px' />
           <InfoWrapper>
             <Text
               size='24px'
