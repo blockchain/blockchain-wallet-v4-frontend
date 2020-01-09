@@ -20,6 +20,7 @@ import styled from 'styled-components'
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
   transition: transform 0.3s;
+  font-size: 16px;
   ${media.mobile`
     display: none;
   `};

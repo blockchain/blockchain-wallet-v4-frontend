@@ -16,9 +16,8 @@ import TargetFiatAmount from '../../../scenes/Exchange/ExchangeForm/Summary/Targ
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  border: 0px;
-  padding: 0px;
-  padding-bottom: 0px;
+  border: 0;
+  padding: 0;
   > :last-child {
     margin-bottom: 0;
   }
@@ -149,7 +148,7 @@ const ExchangeConfirm = ({
           color={prop('colorCode', sourceCoinModel)}
           name={path(['icons', 'circleFilled'], sourceCoinModel)}
         />
-        <Icon size='12px' name='arrow-right' />
+        <Icon size='14px' name='arrow-right' />
         <Icon
           size='42px'
           color={prop('colorCode', targetCoinModel)}
@@ -187,7 +186,7 @@ const ExchangeConfirm = ({
             defaultMessage='Order Info'
           />
         </Text>
-        <Icon name='chevron-down' weight={600} size='14px' color='gray-3' />
+        <Icon name='chevron-down' weight={600} size='20px' color='gray-3' />
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary

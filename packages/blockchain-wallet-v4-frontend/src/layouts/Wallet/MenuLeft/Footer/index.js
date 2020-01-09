@@ -32,6 +32,7 @@ const ButtonText = styled(Text)`
 `
 const ArrowIcon = styled(Icon)`
   margin-left: 4px;
+  margin-top: 2px;
   font-size: 16px;
 `
 const SpadeIcon = styled(Icon)`
