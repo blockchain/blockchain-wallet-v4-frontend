@@ -41,11 +41,12 @@
       "!src/favicons.js",
       "!src/index*.js",
       "!src/create-nonce.js",
-      "!src/data/actions.js",
+      "!src/data/actions.ts",
       "!src/data/actionTypes.js",
       "!src/data/index.js",
       "!src/data/model.js",
-      "!src/data/rootReducer.js",
+      "!src/data/rootReducer.ts",
+      "!src/data/types.ts",
       "!src/data/sagas.js",
       "!src/data/selectors.js",
       "!src/data/components/sagas.js",
@@ -76,6 +77,9 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(blockchain-info-components|@blockchain-com/components|blockchain-wallet-v4)/)"
+    ],
+    "modulePaths": [
+      "src"
     ],
     "moduleNameMapper": {
       "services/(.*)": "<rootDir>/src/services/$1",

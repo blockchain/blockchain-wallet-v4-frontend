@@ -13,7 +13,7 @@
     "strict": true,
     "target": "es6",
     "paths": {
-      "data": ["blockchain-wallet-v4-frontend/src/data/index.ts"],
+      "data": ["blockchain-wallet-v4-frontend/src/data/"],
       "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
       "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
       "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
