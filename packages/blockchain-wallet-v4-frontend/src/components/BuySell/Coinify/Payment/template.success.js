@@ -63,7 +63,7 @@ const Payment = props => {
     <PaymentForm>
       <PaymentContainer>
         <StepTransition prev Component={BackButton}>
-          <Icon name='arrow-left' size='20px' color='brand-secondary' cursor />
+          <Icon name='arrow-left' size='24px' color='brand-secondary' cursor />
         </StepTransition>
         <PaymentHeaderContainer>
           <HeaderText weight={500} color='brand-primary'>

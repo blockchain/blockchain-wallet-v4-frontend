@@ -100,7 +100,7 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
-        <DropdownIcon name='chevron-down-large' size='8px' />
+        <DropdownIcon name='chevron-down-large' size='12px' />
       </ButtonContainer>
     </Wrapper>
   )

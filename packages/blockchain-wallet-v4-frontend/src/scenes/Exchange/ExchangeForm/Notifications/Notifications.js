@@ -17,7 +17,7 @@ const InfoLink = styled(Link)`
 const InfoIcon = styled(Icon)`
   display: inline-block;
   margin-left: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
 `
 const InfoImage = styled(Image)`

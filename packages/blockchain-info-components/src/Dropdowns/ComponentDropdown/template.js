@@ -93,7 +93,7 @@ const Dropdown = props => {
         <Button>{selectedComponent}</Button>
         <DropdownIcon
           name='chevron-down'
-          size='12px'
+          size='18px'
           data-e2e='dropdownToggleButton'
         />
       </ButtonContainer>

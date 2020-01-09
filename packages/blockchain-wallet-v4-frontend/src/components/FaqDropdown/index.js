@@ -43,6 +43,7 @@ export class FaqDropdown extends React.PureComponent {
           {this.props.question}
           <ToggleIcon
             name={this.state.open ? 'chevron-up-large' : 'chevron-down-large'}
+            size='10px'
             toggled={this.state.open}
           />
         </Question>

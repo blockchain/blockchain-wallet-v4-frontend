@@ -31,7 +31,7 @@ const TierLink = styled(Link)`
 `
 const TierIcon = styled(Icon)`
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
 `
 

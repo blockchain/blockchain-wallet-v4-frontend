@@ -123,7 +123,11 @@ const FirstStep = props => {
                   component={DateBoxDebounced}
                   isValidDate={isValidStartDate}
                 />
-                <Icon name='arrow-right' size='30px' />
+                <Icon
+                  name='arrow-right'
+                  size='26px'
+                  style={{ marginTop: '-6px' }}
+                />
                 <Field
                   name='end'
                   validate={[required, validEndDate]}

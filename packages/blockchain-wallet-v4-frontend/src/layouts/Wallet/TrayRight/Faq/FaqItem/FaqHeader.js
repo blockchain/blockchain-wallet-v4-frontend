@@ -29,7 +29,7 @@ const FaqHeader = props => (
     {props.children}
     <Toggler
       name={props.toggled ? 'chevron-up' : 'chevron-down'}
-      size='16px'
+      size='20px'
       cursor
       toggled={props.toggled}
     />
