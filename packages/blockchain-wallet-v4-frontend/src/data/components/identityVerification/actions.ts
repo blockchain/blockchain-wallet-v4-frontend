@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  CampaignsType,
   DocumentType,
   IdentityVerificationActionTypes,
   StepsType
@@ -108,7 +109,7 @@ export const registerUserCampaign = (newUser: boolean) => ({
 export const createRegisterUserCampaign = () => ({
   type: AT.CREATE_REGISTER_USER_CAMPAIGN
 })
-export const claimCampaignClicked = campaign => ({
+export const claimCampaignClicked = (campaign: CampaignsType) => ({
   type: AT.CLAIM_CAMPAIGN_CLICKED,
   payload: { campaign }
 })

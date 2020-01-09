@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
+import { EMAIL_STEPS } from './model'
 import {
-  EMAIL_STEPS,
   IdentityVerificationActionTypes,
   IdentityVerificationState
 } from './types'

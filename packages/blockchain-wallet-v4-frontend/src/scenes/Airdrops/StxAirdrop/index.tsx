@@ -1,7 +1,10 @@
 import { Box } from '../AirdropInfo'
+import { CampaignType, TagsType } from 'data/types'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { StxShare, StxStatus } from './model.tsx'
+import { KycStatesType } from 'data/components/identityVerification/types'
+import { LinkDispatchPropsType } from '..'
+import { StxShare, StxStatus } from './model'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
@@ -40,7 +43,13 @@ const OverflowFooterText = styled(Text)`
   `};
 `
 
-const StxAirdrop = props => {
+export type Props = {
+  userCampaignsInfoResponseList: Array<CampaignType>,
+  kycState: KycStatesType,
+  tags: TagsType
+}
+
+const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
   return (
     <Box>
       <div>

@@ -6,7 +6,6 @@ export const KYC_MODAL = '@KYC.IdentityVerification'
 export const USER_EXISTS_MODAL = '@KYC.UserExists'
 export const AIRDROP_ERROR_MODAL = '@KYC.AirdropError'
 
-// Moved to types.ts
 export const STEPS = {
   coinify: 'coinify',
   personal: 'personal',
@@ -26,13 +25,11 @@ export const STEP_TIERS = {
 
 export const COINIFY_STEP = 'coinify'
 
-// Moved to types.ts
 export const SMS_STEPS = {
   edit: 'edit',
   verify: 'verify'
 }
 
-// Moved to types.ts
 export const EMAIL_STEPS = {
   edit: 'edit',
   verify: 'verify'

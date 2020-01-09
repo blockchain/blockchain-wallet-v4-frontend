@@ -1,28 +1,52 @@
 import * as AT from './actionTypes'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { STEPS } from './model'
 
-export const STEPS = {
-  coinify: 'coinify',
-  personal: 'personal',
-  moreInfo: 'moreInfo',
-  mobile: 'mobile',
-  verify: 'verify',
-  submitted: 'submitted'
+export type UserCampaignState =
+  | 'FAILED'
+  | 'REWARD_RECEIVED'
+  | 'TASK_FINISHED'
+  | 'REWARD_SEND'
+  | 'REGISTERED'
+  | 'NONE'
+
+export type CampaignState = 'NONE' | 'STARTED' | 'ENDED'
+
+export type TagsType = {
+  [key in CampaignsType]: {
+    'x-campaign-address': string
+  }
+}
+
+export type CampaignTransaction = {
+  fiatCurrency: string
+  fiatValue: number
+  withdrawalCurrency: string
+  withdrawalQuantity: number
+}
+
+export interface CampaignType {
+  attributes: {
+    'x-campaign-reject-reason': string
+  }
+  campaignName: CampaignsType
+  campaignState: CampaignState
+  updatedAt?: string
+  userCampaignState: UserCampaignState
+  userCampaignTransactionResponseList: Array<CampaignTransaction>
 }
 
 export type EmailSmsStepTypes = { edit: 'edit'; verify: 'verify' }
 
 export type StepsType = typeof STEPS
 
-export const EMAIL_STEPS: EmailSmsStepTypes = {
-  edit: 'edit',
-  verify: 'verify'
-}
-
-export const SMS_STEPS = {
-  edit: 'edit',
-  verify: 'verify'
-}
+export type KycStatesType =
+  | 'NONE'
+  | 'PENDING'
+  | 'UNDER_REVIEW'
+  | 'REJECTED'
+  | 'VERIFIED'
+  | 'EXPIRED'
 
 export type DocumentType =
   | 'PASSPORT'
@@ -36,6 +60,8 @@ export type PreIdvDataType = {
 }
 
 export type ScopesType = Array<'KYC' | 'Mercury'>
+
+export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER'
 
 export type StateType = {
   name: string

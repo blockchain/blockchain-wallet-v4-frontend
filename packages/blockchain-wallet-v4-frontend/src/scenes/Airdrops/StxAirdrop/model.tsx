@@ -6,9 +6,11 @@ import {
   SuccessCartridge
 } from '../AirdropInfo/model'
 import { Button, Link } from 'blockchain-info-components'
-import { CampaignType, KycStatesType, TagsType } from '../types'
+import { CampaignType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
+import { LinkDispatchPropsType } from '..'
 import { model } from 'data'
+import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -43,7 +45,7 @@ export const StxStatus = ({
   userCampaignsInfoResponseList,
   kycState,
   identityVerificationActions
-}: { userCampaignsInfoResponseList: Array<CampaignType>, kycState: KycStatesType, identityVerificationActions: any }) => {
+}: Props & LinkDispatchPropsType) => {
   const blockstackCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -152,7 +154,7 @@ export const StxStatus = ({
   }
 }
 
-export const StxShare = ({ tags, kycState }: { tags: TagsType, kycState: KycStatesType }) => {
+export const StxShare = ({ tags, kycState }: Props) => {
   switch (kycState) {
     case KYC_STATES.REJECTED:
     case KYC_STATES.EXPIRED:

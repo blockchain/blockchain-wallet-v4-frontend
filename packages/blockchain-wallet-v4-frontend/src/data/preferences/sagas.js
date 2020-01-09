@@ -1,5 +1,5 @@
-import * as actions from '../actions.js'
 import * as C from 'services/AlertService'
+import { actions } from 'data'
 import { addLanguageToUrl } from 'services/LocalesService'
 import { put } from 'redux-saga/effects'
 

@@ -1,6 +1,7 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
-import { Status, To, Type } from './model.tsx'
+import { Props } from '../StxAirdrop'
+import { Status, To, Type } from './model'
 import {
   Table,
   TableCell,
@@ -21,7 +22,7 @@ const getQuantity = (amt, currency) => {
   }
 }
 
-export default function Success ({ userCampaignsInfoResponseList = [] }) {
+export default function Success ({ userCampaignsInfoResponseList }: Props) {
   const completedCampaigns = userCampaignsInfoResponseList.filter(
     campaign => campaign.campaignState === 'ENDED'
   )
@@ -110,27 +111,27 @@ export default function Success ({ userCampaignsInfoResponseList = [] }) {
               }
             )
           ) : (
-            // No campaign transactions but show some info anyway
-            <TableRow>
-              <TableCell width='18%'>
-                <Type {...campaign} />
-              </TableCell>
-              <TableCell width='18%'>
-                <Status {...campaign} />
-              </TableCell>
-              <TableCell width='18%'>
-                <Text size='14px' weight={500}>
-                  -
+              // No campaign transactions but show some info anyway
+              <TableRow>
+                <TableCell width='18%'>
+                  <Type {...campaign} />
+                </TableCell>
+                <TableCell width='18%'>
+                  <Status {...campaign} />
+                </TableCell>
+                <TableCell width='18%'>
+                  <Text size='14px' weight={500}>
+                    -
                 </Text>
-              </TableCell>
-              <TableCell width='18%'>
-                <To {...campaign} />
-              </TableCell>
-              <TableCell width='28%'>
-                <Text>-</Text>
-              </TableCell>
-            </TableRow>
-          )
+                </TableCell>
+                <TableCell width='18%'>
+                  <To {...campaign} />
+                </TableCell>
+                <TableCell width='28%'>
+                  <Text>-</Text>
+                </TableCell>
+              </TableRow>
+            )
         })}
       </Table>
     </div>

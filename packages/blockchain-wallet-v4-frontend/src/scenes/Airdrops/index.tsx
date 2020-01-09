@@ -1,4 +1,5 @@
 import { actions, selectors } from 'data'
+import { AppActionTypes } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
@@ -28,15 +29,19 @@ export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
 
-type IProps = {
+type LinkStatePropsType = {
   data: any,
-  hasEmail: boolean,
-  profileActions: {
-    fetchUserCampaigns: () => void
-  }
+  hasEmail: boolean
 }
 
-class Airdrops extends React.PureComponent<IProps> {
+export type LinkDispatchPropsType = {
+  identityVerificationActions: typeof actions.components.identityVerification,
+  profileActions: typeof actions.modules.profileActions
+}
+
+export type Props = LinkStatePropsType & LinkDispatchPropsType
+
+class Airdrops extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.profileActions.fetchUserCampaigns()
   }
@@ -110,7 +115,7 @@ const mapStateToProps = state => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>): LinkDispatchPropsType => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
