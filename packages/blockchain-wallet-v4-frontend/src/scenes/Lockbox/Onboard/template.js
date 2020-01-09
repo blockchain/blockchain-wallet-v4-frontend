@@ -212,11 +212,7 @@ const Onboard = props => {
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
-            <Icon
-              name='short-right-arrow'
-              color='brand-secondary'
-              size='18px'
-            />
+            <Icon name='arrow-right' color='brand-secondary' size='18px' />
           </LearnMoreLink>
         </LearnMoreContainer>
         <WarningContent>

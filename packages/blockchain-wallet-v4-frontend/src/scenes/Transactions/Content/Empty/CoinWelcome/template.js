@@ -199,7 +199,7 @@ const Welcome = props => {
                     />
                   </LearnMoreText>
                   <Icon
-                    name='short-right-arrow'
+                    name='arrow-right'
                     color='brand-secondary'
                     size='18px'
                   />

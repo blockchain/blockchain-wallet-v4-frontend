@@ -149,7 +149,7 @@ const ExchangeConfirm = ({
           color={prop('colorCode', sourceCoinModel)}
           name={path(['icons', 'circleFilled'], sourceCoinModel)}
         />
-        <Icon size='12px' name='thick-arrow-right' />
+        <Icon size='12px' name='arrow-right' />
         <Icon
           size='42px'
           color={prop('colorCode', targetCoinModel)}
@@ -172,7 +172,7 @@ const ExchangeConfirm = ({
         >
           {`${sourceAmount} ${prop('coinTicker', sourceCoinModel)}`}
         </CoinButton>
-        <FromToIcon name='short-right-arrow' />
+        <FromToIcon name='arrow-right' />
         <CoinButton
           coin={prop('colorCode', targetCoinModel)}
           data-e2e='exchangeConfirmTargetValue'

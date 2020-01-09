@@ -45,7 +45,7 @@ function BitPayInformational ({ close }) {
     <Modal>
       <ModalHeader closeButton={false}>
         <HeaderLink size='20px' color='brand-primary' onClick={close}>
-          <Icon name='left-arrow' style={{ marginRight: '8px' }} />
+          <Icon name='arrow-left' style={{ marginRight: '8px' }} />
           <FormattedMessage
             id='modals.bitpay.info.back'
             defaultMessage='Back'

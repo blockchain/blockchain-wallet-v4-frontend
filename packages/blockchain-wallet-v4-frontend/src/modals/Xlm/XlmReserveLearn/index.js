@@ -78,7 +78,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
       >
         <ModalHeader onClose={close}>
           <Header onClick={close}>
-            <BackIcon name='left-arrow' data-e2e='xlmMinimumModalBack' />
+            <BackIcon name='arrow-left' data-e2e='xlmMinimumModalBack' />
             <FormattedMessage
               id='modal.reservelearn.back'
               defaultMessage='Back'
