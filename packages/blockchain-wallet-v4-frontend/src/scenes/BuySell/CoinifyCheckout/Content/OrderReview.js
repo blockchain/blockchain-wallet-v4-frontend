@@ -70,7 +70,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Wrapper>
     <OrderReviewContainer>
       <StepTransition restart Component={BackButton}>
-        <Icon name='left-arrow' size='20px' color='brand-secondary' cursor />
+        <Icon name='arrow-left' size='20px' color='brand-secondary' cursor />
       </StepTransition>
       <Header color={FONT_COLOR}>
         <FormattedMessage

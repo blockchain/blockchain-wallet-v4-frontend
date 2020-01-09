@@ -32,6 +32,7 @@ const ButtonText = styled(Text)`
 `
 const ArrowIcon = styled(Icon)`
   margin-left: 4px;
+  margin-top: 2px;
   font-size: 16px;
 `
 const SpadeIcon = styled(Icon)`
@@ -59,7 +60,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
               id='layouts.wallet.menuleft.footer.bitcoingames2'
               defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
             />
-            <ArrowIcon name='short-right-arrow' color='blue' />
+            <ArrowIcon name='arrow-right' color='blue' />
           </ButtonText>
         </Link>
       </AdsButton>

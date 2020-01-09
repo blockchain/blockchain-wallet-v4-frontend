@@ -130,7 +130,7 @@ const DeviceSelectStep = props => {
             />
           </LearnHowText>
           <Icon
-            name='short-right-arrow'
+            name='arrow-right'
             color='brand-secondary'
             size='16px'
             style={{ marginTop: '1px' }}

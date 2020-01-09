@@ -92,8 +92,8 @@ const Dropdown = props => {
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedComponent}</Button>
         <DropdownIcon
-          name='down-arrow'
-          size='12px'
+          name='chevron-down'
+          size='18px'
           data-e2e='dropdownToggleButton'
         />
       </ButtonContainer>

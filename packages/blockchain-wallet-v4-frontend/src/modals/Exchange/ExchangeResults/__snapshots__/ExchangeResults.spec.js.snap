@@ -19,7 +19,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -168,7 +168,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -317,7 +317,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -463,7 +463,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -608,7 +608,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -753,7 +753,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -867,7 +867,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />
@@ -1012,7 +1012,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
       <Icon
         color="gray-5"
         cursor={false}
-        name="thick-arrow-right"
+        name="arrow-right"
         size="12px"
         weight={400}
       />

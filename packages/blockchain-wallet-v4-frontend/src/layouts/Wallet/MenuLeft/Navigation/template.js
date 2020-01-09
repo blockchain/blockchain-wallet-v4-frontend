@@ -108,7 +108,7 @@ const Navigation = props => {
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />
-          <MenuIcon name='thick-arrow-switch' size='24px' />
+          <MenuIcon name='arrow-switch-thick' size='24px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.swap'

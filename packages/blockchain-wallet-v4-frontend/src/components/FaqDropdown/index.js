@@ -41,7 +41,11 @@ export class FaqDropdown extends React.PureComponent {
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           {this.props.question}
-          <ToggleIcon name='down-arrow-filled' toggled={this.state.open} />
+          <ToggleIcon
+            name={this.state.open ? 'chevron-up-large' : 'chevron-down-large'}
+            size='10px'
+            toggled={this.state.open}
+          />
         </Question>
         {this.state.open ? <Answer> {this.props.answer} </Answer> : null}
       </Container>
