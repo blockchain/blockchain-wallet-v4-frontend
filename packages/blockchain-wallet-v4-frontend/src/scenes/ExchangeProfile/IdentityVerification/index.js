@@ -127,7 +127,7 @@ const IdentityVerification = () => {
     <Wrapper>
       <LinkContainer to='/swap'>
         <GoBackLink>
-          <Icon name='down-arrow-filled' color='brand-secondary' />
+          <Icon name='chevron-down-large' color='brand-secondary' />
         </GoBackLink>
       </LinkContainer>
       <Container>

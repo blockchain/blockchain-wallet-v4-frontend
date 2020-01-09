@@ -27,7 +27,6 @@ const BitPayIcon = styled(Icon)`
   margin: 0 3px;
 `
 const ArrowIcon = styled(Icon)`
-  transform: rotate(-90deg);
   margin-left: 8px;
   margin-top: 1px;
 `
@@ -56,7 +55,7 @@ const BitPayCTA = ({ coin, modalActions }) => {
           size='10px'
           weight={800}
           color='blue'
-          name='down-arrow-filled'
+          name='chevron-right-large'
         />
       </CustomLink>
     </Wrapper>

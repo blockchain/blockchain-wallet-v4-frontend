@@ -45,7 +45,6 @@ export default {
   'credit-card': '\\e941',
   'credit-card-filled': '\\e90e',
   dollars: '\\e942',
-  'down-arrow-filled': '\\e911',
   email: '\\e934',
   eth: '\\e97b',
   'eth-circle': '\\e989',
