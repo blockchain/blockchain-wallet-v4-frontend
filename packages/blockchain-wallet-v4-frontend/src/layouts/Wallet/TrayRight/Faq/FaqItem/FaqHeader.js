@@ -22,13 +22,17 @@ const Wrapper = styled.div`
 const Toggler = styled(Icon)`
   margin-left: 5px;
   margin-right: 10px;
-  transform: ${props => (props.toggled ? 'rotate(-180deg)' : 'none')};
 `
 
 const FaqHeader = props => (
   <Wrapper onClick={props.handleToggle}>
     {props.children}
-    <Toggler name='down-arrow' size='16px' cursor toggled={props.toggled} />
+    <Toggler
+      name={props.toggled ? 'chevron-up' : 'chevron-down'}
+      size='16px'
+      cursor
+      toggled={props.toggled}
+    />
   </Wrapper>
 )
 

@@ -20,7 +20,6 @@ import styled from 'styled-components'
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
   transition: transform 0.3s;
-  transform: ${props => props.toggled && 'rotate(-90deg)'};
   ${media.mobile`
     display: none;
   `};
@@ -30,10 +29,9 @@ const Frequency = styled(Text)`
 `
 const RecurringTableWrapper = styled.div`
   width: calc(100% - 22px);
-  padding: 5px 10px;
+  padding: 5px 10px 30px;
   border-left: 1px solid ${props => props.theme['gray-2']};
   border-right: 1px solid ${props => props.theme['gray-2']};
-  padding-bottom: 30px;
 `
 const RecurringCancelWrapper = styled.div`
   display: flex;
@@ -93,7 +91,9 @@ class RecurringOrder extends React.Component {
             <TableRow>
               <StatusContainer mobileWidth='35%'>
                 <TableCell onClick={this.toggleRow} width='35%'>
-                  <ToggleIcon name='down-arrow' toggled={this.state.toggled} />
+                  <ToggleIcon
+                    name={this.state.toggled ? 'chevron-right' : 'chevron-down'}
+                  />
                   <StatusText
                     color={prop('isActive', subscription) ? 'success' : 'error'}
                     size='13px'

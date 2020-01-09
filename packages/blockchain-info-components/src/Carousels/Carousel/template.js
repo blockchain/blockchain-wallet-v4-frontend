@@ -58,7 +58,7 @@ const Control = styled.div`
   z-index: ;
 `
 const Arrow = styled(Icon).attrs({
-  name: 'down-arrow',
+  name: 'chevron-down',
   size: '24px',
   weight: 700,
   color: 'gray-6'

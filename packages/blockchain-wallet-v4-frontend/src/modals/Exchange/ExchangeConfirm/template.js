@@ -187,7 +187,7 @@ const ExchangeConfirm = ({
             defaultMessage='Order Info'
           />
         </Text>
-        <Icon name='down-arrow' weight={600} size='14px' color='gray-3' />
+        <Icon name='chevron-down' weight={600} size='14px' color='gray-3' />
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary
