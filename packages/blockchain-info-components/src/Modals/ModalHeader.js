@@ -57,7 +57,7 @@ const ModalHeader = props => {
       </Header>
       {closeButton && (
         <Icon
-          name='close-bold'
+          name='close'
           size='16px'
           weight={400}
           color='gray-5'

@@ -129,7 +129,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="13px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -158,7 +158,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="13px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -186,7 +186,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="13px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -234,7 +234,7 @@ const Success = props => {
       ) : (
         <Fragment>
           {requestDenied ? (
-            <Icon name='close-filled' color='error' size='40px' />
+            <Icon name='close' color='error' size='40px' />
           ) : (
             <Image name='checkmark-green' width='56px' height='56px' />
           )}
