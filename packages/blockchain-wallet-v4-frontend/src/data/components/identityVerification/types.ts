@@ -36,9 +36,15 @@ export interface CampaignType {
   userCampaignTransactionResponseList: Array<CampaignTransaction>
 }
 
-export type EmailSmsStepTypes = { edit: 'edit'; verify: 'verify' }
+export type EmailSmsStepType = 'edit' | 'verify'
 
-export type StepsType = typeof STEPS
+export type StepsType =
+  | 'coinify'
+  | 'personal'
+  | 'moreInfo'
+  | 'mobile'
+  | 'verify'
+  | 'submitted'
 
 export type KycStatesType =
   | 'NONE'
@@ -79,15 +85,15 @@ export type CountryType = {
 // State
 export interface IdentityVerificationState {
   addressRefetchVisible: boolean
-  emailStep: keyof EmailSmsStepTypes
+  emailStep: EmailSmsStepType
   flowConfig: RemoteData<string, any>
   preIdvData: RemoteData<string, PreIdvDataType>
-  smsStep: RemoteData<string, keyof EmailSmsStepTypes>
+  smsStep: RemoteData<string, EmailSmsStepType>
   states: RemoteData<string, StateType>
   steps: RemoteData<string, any>
   supportedCountries: RemoteData<string, Array<CountryType>>
   supportedDocuments: RemoteData<string, Array<DocumentType>>
-  verificationStep: keyof StepsType | null
+  verificationStep: StepsType | null
 }
 
 // Actions
@@ -101,7 +107,7 @@ interface FetchSupportedDocumentAction {
 
 interface SetEmailStepAction {
   payload: {
-    step: keyof EmailSmsStepTypes
+    step: EmailSmsStepType
   }
   type: typeof AT.SET_EMAIL_STEP
 }
@@ -147,7 +153,7 @@ interface SetPreIdvSuccessAction {
 
 interface SetSmsStepAction {
   payload: {
-    step: keyof EmailSmsStepTypes
+    step: EmailSmsStepType
   }
   type: typeof AT.SET_SMS_STEP
 }
@@ -166,7 +172,7 @@ interface SetStepsLoadingAction {
 
 interface SetStepsSuccessAction {
   payload: {
-    steps: StepsType
+    steps: Array<StepsType>
   }
   type: typeof AT.SET_STEPS_SUCCESS
 }
@@ -229,7 +235,7 @@ interface SetSupportedDocumentSuccessAction {
 
 interface SetVerificationStepAction {
   payload: {
-    step: keyof StepsType
+    step: StepsType
   }
   type: typeof AT.SET_VERIFICATION_STEP
 }

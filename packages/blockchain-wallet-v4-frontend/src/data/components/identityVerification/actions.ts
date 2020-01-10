@@ -27,7 +27,7 @@ export const goToNextStep = () => ({
   type: AT.GO_TO_NEXT_STEP
 })
 export const setVerificationStep = (
-  step: keyof StepsType
+  step: StepsType
 ): IdentityVerificationActionTypes => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }

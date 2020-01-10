@@ -178,9 +178,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function * () {
-    const steps: Array<keyof StepsType> = (yield select(S.getSteps)).getOrElse(
-      []
-    )
+    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
     return yield put(A.setVerificationStep(steps[0]))
   }
 
