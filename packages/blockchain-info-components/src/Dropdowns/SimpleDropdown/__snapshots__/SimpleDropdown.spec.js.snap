@@ -21,10 +21,10 @@ exports[`SimpleDropdown component default renders correctly 1`] = `
   >
     <styled.div>
       test
-    </styled.div>
-    <Styled(Icon)
-      name="down-arrow-filled"
-      size="8px"
+    </template__Button>
+    <template__DropdownIcon
+      name="chevron-down-large"
+      size="12px"
     />
   </styled.div>
 </styled.div>

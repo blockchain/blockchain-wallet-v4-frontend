@@ -6,14 +6,17 @@ import { actions } from 'data'
 import { Icon } from 'blockchain-info-components'
 
 const ModalIcon = styled(Icon)`
+  margin-top: 4px;
   margin-left: 24px;
   cursor: pointer;
+  font-size: 20px;
+  color: ${props => props.theme['brand-secondary']};
 `
 
 const ModalIconContainer = ({ showModal, className }) => (
   <ModalIcon
     onMouseDown={showModal}
-    name='right-arrow'
+    name='arrow-right'
     className={className}
     data-e2e='sendXlmRightArrow'
   />

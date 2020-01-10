@@ -28,7 +28,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
   )
 
   return (
-    <div style={{ minWidth: '500px' }}>
+    <div style={{ minWidth: '500px', paddingBottom: '45px' }}>
       <Table style={{ minWidth: '500px' }}>
         <TableHeader>
           <TableCell width='18%'>

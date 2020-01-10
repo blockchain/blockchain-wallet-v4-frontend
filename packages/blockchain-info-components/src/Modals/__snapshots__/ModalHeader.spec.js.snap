@@ -32,9 +32,9 @@ exports[`ModalHeader component default renders correctly 1`] = `
     color="gray-5"
     cursor={true}
     data-e2e="modalCloseButton"
-    name="close-bold"
+    name="close"
     onClick={[Function]}
-    size="16px"
+    size="24px"
     weight={400}
   />
 </styled.div>

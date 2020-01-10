@@ -231,12 +231,13 @@ exports[`TierCard renders correctly with column view 1`] = `
     </styled.div>
     <Styled(Button)
       className="actionButton"
+      data-e2e="continueKycTier2Btn"
       fullwidth={true}
       jumbo={true}
       nature="primary"
     >
       <span
-        data-e2e="unlockGold"
+        data-e2e="unlockGoldBtn"
       >
         <FormattedMessage
           defaultMessage="Unlock Gold 🥇"
@@ -467,12 +468,13 @@ exports[`TierCard renders null w/o showBanner 1`] = `
     </styled.div>
     <Styled(Button)
       className="actionButton"
+      data-e2e="continueKycTier1Btn"
       fullwidth={true}
       jumbo={true}
       nature="primary"
     >
       <span
-        data-e2e="unlockSilver"
+        data-e2e="unlockSilverBtn"
       >
         <FormattedMessage
           defaultMessage="Unlock Silver"

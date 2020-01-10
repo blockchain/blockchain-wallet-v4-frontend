@@ -16,9 +16,8 @@ const InfoLink = styled(Link)`
 `
 const InfoIcon = styled(Icon)`
   display: inline-block;
-  transform: rotate(270deg);
   margin-left: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
 `
 const InfoImage = styled(Image)`
@@ -51,7 +50,7 @@ const Notifications = ({
                 id='scenes.exchange.exchangeform.notifications.paxlearnmore'
                 defaultMessage='Learn more'
               />
-              <InfoIcon name='down-arrow-filled' color='blue600' />
+              <InfoIcon name='chevron-right-large' color='blue600' />
             </Text>
           </InfoLink>
         </Note>
@@ -80,7 +79,7 @@ const Notifications = ({
                   id='scenes.exchange.exchangeform.notifications.kyclearnmore'
                   defaultMessage='Learn more'
                 />
-                <InfoIcon name='down-arrow-filled' color='blue600' />
+                <InfoIcon name='chevron-right-large' color='blue600' />
               </ExchangeText>
             </InfoLink>
           </ExchangeText>

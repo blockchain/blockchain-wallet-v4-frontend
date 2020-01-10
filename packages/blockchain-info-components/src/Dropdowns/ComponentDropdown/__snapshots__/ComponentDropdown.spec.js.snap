@@ -22,8 +22,8 @@ exports[`ComponentDropdown component default renders correctly 1`] = `
     <styled.div />
     <Styled(Icon)
       data-e2e="dropdownToggleButton"
-      name="down-arrow"
-      size="12px"
+      name="chevron-down"
+      size="18px"
     />
   </styled.div>
 </styled.div>

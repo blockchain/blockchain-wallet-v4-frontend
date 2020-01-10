@@ -57,6 +57,7 @@ import {
   validBtcAddress,
   validBtcPrivateKey
 } from 'services/FormHelper'
+import BitPayCTA from 'components/BitPayCTA'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import PriorityFeeLink from './PriorityFeeLink'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -243,6 +244,9 @@ const FirstStep = props => {
             )}
           </Row>
         </FormItem>
+      </FormGroup>
+      <FormGroup>
+        <BitPayCTA coin='BTC' />
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>

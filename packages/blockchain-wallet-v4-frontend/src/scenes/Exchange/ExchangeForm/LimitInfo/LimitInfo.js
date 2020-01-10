@@ -28,12 +28,10 @@ const Group = styled.div`
 const TierLink = styled(Link)`
   display: flex;
   flex-direction: row;
-  align-items: cener;
 `
 const TierIcon = styled(Icon)`
-  transform: rotate(270deg);
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
 `
 
@@ -102,7 +100,7 @@ export const LimitAction = ({
             defaultMessage='Continue'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='blue600' />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
 
@@ -115,7 +113,7 @@ export const LimitAction = ({
             defaultMessage='Upgrade'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='blue600' />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
   if (lastTierInReview)
@@ -129,7 +127,7 @@ export const LimitAction = ({
               values={{ level: levelName[path([nextTier, 'level'], TIERS)] }}
             />
           </LimitText>
-          <TierIcon name='down-arrow-filled' color='btc' />
+          <TierIcon name='chevron-right-large' color='btc' />
         </TierLink>
       </LinkContainer>
     )

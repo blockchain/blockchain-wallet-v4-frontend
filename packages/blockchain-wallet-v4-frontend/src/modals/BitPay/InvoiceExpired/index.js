@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { actions } from 'data'
-import BitPayExpiredModal from './template.js'
+import InvoiceExpired from './template'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-class BitPayExpired extends React.PureComponent {
+class BitPayInvoiceExpired extends React.PureComponent {
   render () {
-    return <BitPayExpiredModal {...this.props} />
+    return <InvoiceExpired {...this.props} />
   }
 }
 
@@ -17,11 +17,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('BitPayExpired'),
+  modalEnhancer('BitPayInvoiceExpired'),
   connect(
     undefined,
     mapDispatchToProps
   )
 )
 
-export default enhance(BitPayExpired)
+export default enhance(BitPayInvoiceExpired)

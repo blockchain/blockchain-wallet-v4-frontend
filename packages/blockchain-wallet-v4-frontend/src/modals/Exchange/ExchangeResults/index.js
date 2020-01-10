@@ -235,7 +235,7 @@ export const ExchangeResults = ({
             color={sourceCoinModel.colorCode}
             name={sourceCoinModel.icons.circleFilled}
           />
-          <Icon size='12px' name='thick-arrow-right' />
+          <Icon size='12px' name='arrow-right' />
           <Icon
             size='42px'
             color={targetCoinModel.colorCode}

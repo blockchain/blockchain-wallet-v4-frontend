@@ -198,7 +198,7 @@ const Welcome = props => {
                       defaultMessage='Learn More'
                     />
                   </LearnMoreText>
-                  <Icon name='short-right-arrow' color='blue600' size='18px' />
+                  <Icon name='arrow-right' color='blue600' size='18px' />
                 </LearnMoreLink>
               </LearnMoreContainer>
             )}

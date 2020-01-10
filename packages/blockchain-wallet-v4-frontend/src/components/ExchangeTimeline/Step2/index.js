@@ -53,7 +53,7 @@ const Step2 = props => (
   <Wrapper>
     <Circle status={props.status}>
       <Icon
-        name='thick-arrow-switch'
+        name='arrow-switch-thick'
         size='50px'
         color={props.status === 'disabled' ? 'gray-2' : 'blue900'}
         status={props.status}
